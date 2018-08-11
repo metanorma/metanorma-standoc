@@ -83,7 +83,6 @@ module Asciidoctor
       def metadata_status(node, xml)
         xml.status(**{ format: "plain" }) { |s| s << node.attr("status") }
       end
-    end
 
     def metadata_committee(node, xml)
       xml.editorialgroup do |a|
@@ -124,10 +123,9 @@ module Asciidoctor
       ["en"].each do |lang|
         at = { language: lang, format: "text/plain" }
         xml.title **attr_code(at) do |t|
-          t << asciidoc_sub(node.attr("title")))
+          t << asciidoc_sub(node.attr("title"))
         end
       end
     end
   end
-end
 end

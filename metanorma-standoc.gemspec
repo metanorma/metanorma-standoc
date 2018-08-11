@@ -6,7 +6,7 @@ require "asciidoctor/standoc/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "metanorma-standoc"
-  spec.version       = Asciidoctor::Standoc::VERSION
+  spec.version       = Metanorma::Standoc::VERSION
   spec.authors       = ["Ribose Inc."]
   spec.email         = ["open.source@ribose.com"]
 
