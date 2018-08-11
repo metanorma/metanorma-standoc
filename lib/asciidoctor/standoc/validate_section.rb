@@ -18,6 +18,13 @@ module Asciidoctor
         end
       end
 
+      def style_warning(node, msg, text)
+        return if @novalid
+        w = "ISO style: WARNING (#{Utils::current_location(node)}): #{msg}"
+        w += ": #{text}" if text
+        warn w
+      end
+
       def asset_title_style(root)
         root.xpath("//figure[image][not(title)]").each do |node|
           style_warning(node, "Figure should have title", nil)
