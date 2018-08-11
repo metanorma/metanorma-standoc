@@ -17,6 +17,15 @@ module Asciidoctor
           end
         end
       end
+
+      def asset_title_style(root)
+        root.xpath("//figure[image][not(title)]").each do |node|
+          style_warning(node, "Figure should have title", nil)
+        end
+        root.xpath("//table[not(title)]").each do |node|
+          style_warning(node, "Table should have title", nil)
+        end
+      end
     end
   end
 end
