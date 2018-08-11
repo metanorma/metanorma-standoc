@@ -2,7 +2,7 @@ require "htmlentities"
 require "uri"
 
 module Asciidoctor
-  module ISO
+  module Standoc
     module Section
       @biblio = false
       @term_def = false
@@ -33,8 +33,6 @@ module Asciidoctor
             else
               clause_parse(a, xml, node)
             end
-          when "patent notice" then patent_notice_parse(xml, node)
-          when "scope" then scope_parse(a, xml, node)
           when "normative references" then norm_ref_parse(a, xml, node)
           when "terms and definitions",
             "terms, definitions, symbols and abbreviated terms",
@@ -55,8 +53,6 @@ module Asciidoctor
               bibliography_parse(a, xml, node)
             elsif node.attr("style") == "appendix" && node.level == 1
               annex_parse(a, xml, node)
-            elsif node.option? "appendix"
-              appendix_parse(a, xml, node)
             else
               clause_parse(a, xml, node)
             end
@@ -88,15 +84,6 @@ module Asciidoctor
         attrs["inline-header".to_sym] = node.option? "inline-header"
         set_obligation(attrs, node)
         xml.annex **attr_code(attrs) do |xml_section|
-          xml_section.title { |name| name << node.title }
-          xml_section << node.content
-        end
-      end
-
-      def appendix_parse(attrs, xml, node)
-        attrs["inline-header".to_sym] = node.option? "inline-header"
-        set_obligation(attrs, node)
-        xml.appendix **attr_code(attrs) do |xml_section|
           xml_section.title { |name| name << node.title }
           xml_section << node.content
         end
@@ -163,21 +150,6 @@ module Asciidoctor
       def introduction_parse(attrs, xml, node)
         xml.introduction **attr_code(attrs) do |xml_section|
           xml_section.title = "Introduction"
-          content = node.content
-          xml_section << content
-        end
-      end
-
-      def patent_notice_parse(xml, node)
-        # xml.patent_notice do |xml_section|
-        #  xml_section << node.content
-        # end
-        xml << node.content
-      end
-
-      def scope_parse(attrs, xml, node)
-        xml.clause **attr_code(attrs) do |xml_section|
-          xml_section.title { |t| t << "Scope" }
           content = node.content
           xml_section << content
         end

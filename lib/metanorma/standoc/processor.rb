@@ -1,11 +1,11 @@
 require "metanorma/processor"
 
 module Metanorma
-  module Iso
+  module Standoc
     class Processor < Metanorma::Processor
 
       def initialize
-        @short = :iso
+        @short = :standoc
         @input_format = :asciidoc
         @asciidoctor_backend = :iso
       end
@@ -13,13 +13,12 @@ module Metanorma
       def output_formats
         super.merge(
           html: "html",
-          html_alt: "alt.html",
           doc: "doc"
         )
       end
 
       def version
-        "Asciidoctor::ISO #{Asciidoctor::ISO::VERSION}/IsoDoc #{IsoDoc::VERSION}"
+        "Asciidoctor::Standoc #{Asciidoctor::Standoc::VERSION}/IsoDoc #{IsoDoc::VERSION}"
       end
 
       def input_to_isodoc(file)
@@ -29,16 +28,13 @@ module Metanorma
       def output(isodoc_node, outname, format, options={})
         case format
         when :html
-          IsoDoc::Iso::HtmlConvert.new(options).convert(outname, isodoc_node)
-        when :html_alt
-          IsoDoc::Iso::HtmlConvert.new(options.merge(alt: true)).convert(outname, isodoc_node)
+          IsoDoc::HtmlConvert.new(options).convert(outname, isodoc_node)
         when :doc
-          IsoDoc::Iso::WordConvert.new(options).convert(outname, isodoc_node)
+          IsoDoc::WordConvert.new(options).convert(outname, isodoc_node)
         else
           super
         end
       end
-
     end
   end
 end

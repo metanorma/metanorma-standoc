@@ -8,7 +8,7 @@ require_relative "./cleanup_footnotes.rb"
 require_relative "./cleanup_ref.rb"
 
 module Asciidoctor
-  module ISO
+  module Standoc
     module Cleanup
       def textcleanup(text)
         text.gsub(/\s+<fn /, "<fn ")

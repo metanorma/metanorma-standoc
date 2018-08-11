@@ -1,6 +1,6 @@
 require "asciidoctor/extensions"
 module Asciidoctor
-  module ISO
+  module Standoc
     class AltTermInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :alt

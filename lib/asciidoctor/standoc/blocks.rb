@@ -2,7 +2,7 @@ require "htmlentities"
 require "uri"
 
 module Asciidoctor
-  module ISO
+  module Standoc
     module Blocks
       def id_attr(node = nil)
         { id: Utils::anchor_or_uuid(node) }

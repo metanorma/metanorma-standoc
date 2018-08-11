@@ -10,13 +10,13 @@ require "isodoc"
 require "relaton"
 
 module Asciidoctor
-  module ISO
+  module Standoc
     module Base
       Asciidoctor::Extensions.register do
-        inline_macro Asciidoctor::ISO::AltTermInlineMacro
-        inline_macro Asciidoctor::ISO::DeprecatedTermInlineMacro
-        inline_macro Asciidoctor::ISO::DomainTermInlineMacro
-        block Asciidoctor::ISO::PlantUMLBlockMacro
+        inline_macro Asciidoctor::Standoc::AltTermInlineMacro
+        inline_macro Asciidoctor::Standoc::DeprecatedTermInlineMacro
+        inline_macro Asciidoctor::Standoc::DomainTermInlineMacro
+        block Asciidoctor::Standoc::PlantUMLBlockMacro
       end
 
       def content(node)
@@ -31,28 +31,17 @@ module Asciidoctor
       end
 
       def html_converter(node)
-        IsoDoc::Iso::HtmlConvert.new(
+        IsoDoc::HtmlConvert.new(
           script: node.attr("script"),
           bodyfont: node.attr("body-font"),
           headerfont: node.attr("header-font"),
           monospacefont: node.attr("monospace-font"),
           i18nyaml: node.attr("i18nyaml"),
-        )
-      end
-
-      def html_converter_alt(node)
-        IsoDoc::Iso::HtmlConvert.new(
-          script: node.attr("script"),
-          bodyfont: node.attr("body-font"),
-          headerfont: node.attr("header-font"),
-          monospacefont: node.attr("monospace-font"),
-          i18nyaml: node.attr("i18nyaml"),
-          alt: true,
         )
       end
 
       def doc_converter(node)
-        IsoDoc::Iso::WordConvert.new(
+        IsoDoc::WordConvert.new(
           script: node.attr("script"),
           bodyfont: node.attr("body-font"),
           headerfont: node.attr("header-font"),

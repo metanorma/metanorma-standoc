@@ -1,7 +1,7 @@
 require "pp"
 
 module Asciidoctor
-  module ISO
+  module Standoc
     module Lists
       def li(xml_ul, item)
         xml_ul.li do |xml_li|

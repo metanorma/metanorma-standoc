@@ -7,7 +7,7 @@ require "open-uri"
 require "pp"
 
 module Asciidoctor
-  module ISO
+  module Standoc
     module Cleanup
       def para_cleanup(xmldoc)
         xmldoc.xpath("//p[not(@id)]").each do |x|

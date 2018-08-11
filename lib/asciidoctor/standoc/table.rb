@@ -1,5 +1,5 @@
 module Asciidoctor
-  module ISO
+  module Standoc
     module Table
       def table_attrs(node)
         { id: Utils::anchor_or_uuid(node),

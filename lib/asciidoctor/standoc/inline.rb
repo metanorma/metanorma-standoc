@@ -2,7 +2,7 @@ require "asciidoctor/extensions"
 require "htmlentities"
 
 module Asciidoctor
-  module ISO
+  module Standoc
     module Inline
       def refid?(x)
         @refids.include? x

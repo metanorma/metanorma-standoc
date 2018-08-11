@@ -1,7 +1,7 @@
-require_relative "./iso/processor"
+require_relative "./standoc/processor"
 
 module Metanorma
-  module Iso
+  module Standoc
 
   end
 end

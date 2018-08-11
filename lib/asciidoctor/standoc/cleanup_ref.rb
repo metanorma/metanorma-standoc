@@ -1,5 +1,5 @@
 module Asciidoctor
-  module ISO
+  module Standoc
     module Cleanup
       # extending localities to cover ISO referencing
       LOCALITY_REGEX_STR = <<~REGEXP.freeze

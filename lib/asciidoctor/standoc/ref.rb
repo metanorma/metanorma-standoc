@@ -1,7 +1,7 @@
 require "pp"
 
 module Asciidoctor
-  module ISO
+  module Standoc
     module Lists
       def iso_publisher(t, code)
         code.sub(/ .*$/, "").split(/\//).each do |abbrev|

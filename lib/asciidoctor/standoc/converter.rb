@@ -1,38 +1,38 @@
 require "asciidoctor"
-require "asciidoctor/iso/version"
-require "asciidoctor/iso/base"
-require "asciidoctor/iso/front"
-require "asciidoctor/iso/lists"
-require "asciidoctor/iso/ref"
-require "asciidoctor/iso/inline"
-require "asciidoctor/iso/blocks"
-require "asciidoctor/iso/section"
-require "asciidoctor/iso/table"
-require "asciidoctor/iso/validate"
-require "asciidoctor/iso/utils"
-require "asciidoctor/iso/cleanup"
+require "asciidoctor/standoc/version"
+require "asciidoctor/standoc/base"
+require "asciidoctor/standoc/front"
+require "asciidoctor/standoc/lists"
+require "asciidoctor/standoc/ref"
+require "asciidoctor/standoc/inline"
+require "asciidoctor/standoc/blocks"
+require "asciidoctor/standoc/section"
+require "asciidoctor/standoc/table"
+require "asciidoctor/standoc/validate"
+require "asciidoctor/standoc/utils"
+require "asciidoctor/standoc/cleanup"
 require_relative "./macros.rb"
 
 module Asciidoctor
-  module ISO
-    # A {Converter} implementation that generates ISO output, and a document
+  module Standoc
+    # A {Converter} implementation that generates Standoc output, and a document
     # schema encapsulation of the document for validation
     class Converter
       include ::Asciidoctor::Converter
       include ::Asciidoctor::Writer
 
-      include ::Asciidoctor::ISO::Base
-      include ::Asciidoctor::ISO::Front
-      include ::Asciidoctor::ISO::Lists
-      include ::Asciidoctor::ISO::Inline
-      include ::Asciidoctor::ISO::Blocks
-      include ::Asciidoctor::ISO::Section
-      include ::Asciidoctor::ISO::Table
-      include ::Asciidoctor::ISO::Utils
-      include ::Asciidoctor::ISO::Cleanup
-      include ::Asciidoctor::ISO::Validate
+      include ::Asciidoctor::Standoc::Base
+      include ::Asciidoctor::Standoc::Front
+      include ::Asciidoctor::Standoc::Lists
+      include ::Asciidoctor::Standoc::Inline
+      include ::Asciidoctor::Standoc::Blocks
+      include ::Asciidoctor::Standoc::Section
+      include ::Asciidoctor::Standoc::Table
+      include ::Asciidoctor::Standoc::Utils
+      include ::Asciidoctor::Standoc::Cleanup
+      include ::Asciidoctor::Standoc::Validate
 
-      register_for "iso"
+      register_for "standoc"
 
       $xreftext = {}
 

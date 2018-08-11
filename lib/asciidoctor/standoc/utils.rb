@@ -8,7 +8,7 @@ require "uuidtools"
 require "pp"
 
 module Asciidoctor
-  module ISO
+  module Standoc
     module Utils
       class << self
         def anchor_or_uuid(node = nil)
@@ -96,12 +96,6 @@ module Asciidoctor
         fragment.to_xml(encoding: "US-ASCII").lines.map do |l|
           l.gsub(/\s*\n/, "")
         end
-=begin
-f = fragment.to_xml(encoding: "US-ASCII")
-  byebug if @xxxxxx
-  @xxxxxx = false
-[f]
-=end
       end
 
       def attr_code(attributes)

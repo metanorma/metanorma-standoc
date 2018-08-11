@@ -1,5 +1,5 @@
-module Asciidoctor
-  module ISO
-    VERSION = "0.10.1".freeze
+module Metanorma
+  module Standoc
+    VERSION = "0.0.1".freeze
   end
 end

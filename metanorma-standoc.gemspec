@@ -2,23 +2,22 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "asciidoctor/iso/version"
+require "asciidoctor/standoc/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "asciidoctor-iso"
-  spec.version       = Asciidoctor::ISO::VERSION
+  spec.name          = "metanorma-standoc"
+  spec.version       = Asciidoctor::Standoc::VERSION
   spec.authors       = ["Ribose Inc."]
   spec.email         = ["open.source@ribose.com"]
 
-  spec.summary       = "asciidoctor-iso lets you write ISO standards "\
-    "in AsciiDoc."
+  spec.summary       = "metanorma-standoc realises standards following the Metanorma standoc model"
   spec.description   = <<~DESCRIPTION
-    asciidoctor-iso lets you write ISO standards in AsciiDoc syntax.
+    metanorma-standoc realises standards following the Metanorma standoc model
 
     This gem is in active development.
   DESCRIPTION
 
-  spec.homepage      = "https://github.com/riboseinc/asciidoctor-iso"
+  spec.homepage      = "https://github.com/riboseinc/metanorma-standoc"
   spec.license       = "BSD-2-Clause"
 
   spec.bindir        = "bin"
