@@ -40,7 +40,7 @@ module Asciidoctor
           org.name "International Organization for Standardization"
           org.abbreviation "ISO"
         elsif ["IEC",
-                 "International Electrotechnical Commission"].include? orgname
+               "International Electrotechnical Commission"].include? orgname
           org.name "International Electrotechnical Commission"
           org.abbreviation "IEC"
         else
@@ -84,46 +84,47 @@ module Asciidoctor
         xml.status(**{ format: "plain" }) { |s| s << node.attr("status") }
       end
 
-    def metadata_committee(node, xml)
-      xml.editorialgroup do |a|
-        committee_component("technical-committee", node, a)
-      end
-    end
-
-    def metadata_ics(node, xml)
-      ics = node.attr("library-ics")
-      ics && ics.split(/,\s*/).each do |i|
-        xml.ics do |ics|
-          ics.code i
+      def metadata_committee(node, xml)
+        xml.editorialgroup do |a|
+          committee_component("technical-committee", node, a)
         end
       end
-    end
 
-    def metadata(node, xml)
-      title node, xml
-      metadata_id(node, xml)
-      metadata_author(node, xml)
-      metadata_publisher(node, xml)
-      xml.language (node.attr("language") || "en")
-      xml.script (node.attr("script") || "Latn")
-      metadata_status(node, xml)
-      metadata_copyright(node, xml)
-      metadata_committee(node, xml)
-      metadata_ics(node, xml)
-    end
+      def metadata_ics(node, xml)
+        ics = node.attr("library-ics")
+        ics && ics.split(/,\s*/).each do |i|
+          xml.ics do |ics|
+            ics.code i
+          end
+        end
+      end
 
-    def asciidoc_sub(x)
-      return nil if x.nil?
-      d = Asciidoctor::Document.new(x.lines.entries, {header_footer: false})
-      b = d.parse.blocks.first
-      b.apply_subs(b.source)
-    end
+      def metadata(node, xml)
+        title node, xml
+        metadata_id(node, xml)
+        metadata_author(node, xml)
+        metadata_publisher(node, xml)
+        xml.language (node.attr("language") || "en")
+        xml.script (node.attr("script") || "Latn")
+        metadata_status(node, xml)
+        metadata_copyright(node, xml)
+        metadata_committee(node, xml)
+        metadata_ics(node, xml)
+      end
 
-    def title(node, xml)
-      ["en"].each do |lang|
-        at = { language: lang, format: "text/plain" }
-        xml.title **attr_code(at) do |t|
-          t << asciidoc_sub(node.attr("title"))
+      def asciidoc_sub(x)
+        return nil if x.nil?
+        d = Asciidoctor::Document.new(x.lines.entries, {header_footer: false})
+        b = d.parse.blocks.first
+        b.apply_subs(b.source)
+      end
+
+      def title(node, xml)
+        ["en"].each do |lang|
+          at = { language: lang, format: "text/plain" }
+          xml.title **attr_code(at) do |t|
+            t << asciidoc_sub(node.attr("title"))
+          end
         end
       end
     end
