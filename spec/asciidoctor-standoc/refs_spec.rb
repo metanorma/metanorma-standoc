@@ -1,9 +1,9 @@
 require "spec_helper"
 require "isobib"
 
-RSpec.describe Asciidoctor::ISO do
+RSpec.describe Asciidoctor::Standoc do
     it "processes simple ISO reference" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -20,8 +20,7 @@ RSpec.describe Asciidoctor::ISO do
          <contributor>
            <role type="publisher"/>
            <organization>
-             <name>International Organization for Standardization</name>
-             <abbreviation>ISO</abbreviation>
+             <name>ISO</name>
            </organization>
          </contributor>
        </bibitem>
@@ -32,7 +31,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
   it "processes simple ISO reference with date range" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -53,8 +52,7 @@ RSpec.describe Asciidoctor::ISO do
   <contributor>
     <role type="publisher"/>
     <organization>
-      <name>International Organization for Standardization</name>
-      <abbreviation>ISO</abbreviation>
+      <name>ISO</name>
     </organization>
   </contributor>
        </bibitem>
@@ -67,7 +65,7 @@ RSpec.describe Asciidoctor::ISO do
 
   it "fetches simple ISO reference" do
     mock_isobib_get_123
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ISOBIB_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -127,7 +125,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
   it "processes simple IEC reference" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -144,8 +142,7 @@ RSpec.describe Asciidoctor::ISO do
          <contributor>
            <role type="publisher"/>
            <organization>
-             <name>International Electrotechnical Commission</name>
-             <abbreviation>IEC</abbreviation>
+             <name>IEC</name>
            </organization>
          </contributor>
        </bibitem>
@@ -158,7 +155,7 @@ RSpec.describe Asciidoctor::ISO do
   it "processes dated ISO reference and joint ISO/IEC references" do
     mock_isobib_get_iec12382
     mock_isobib_get_124
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ISOBIB_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -170,8 +167,8 @@ RSpec.describe Asciidoctor::ISO do
       <sections>
 
       </sections><bibliography><references id="_" obligation="informative">
-        <title>Normative References</title>
-        <bibitem type="international-standard" id="iso123">
+         <title>Normative References</title>
+         <bibitem type="international-standard" id="iso123">
          <title format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
          <title format="text/plain" language="fr" script="Latn">Index permuté du vocabulaire des technologies de l'information</title>
          <uri type="src">https://www.iso.org/standard/21071.html</uri>
@@ -217,14 +214,14 @@ RSpec.describe Asciidoctor::ISO do
              <formattedref>ISO/IEC TR 12382:1992</formattedref>
            </bibitem>
          </relation>
-        <ics>
-          <code>35.020</code>
-          <text>Information technology (IT) in general</text>
-        </ics>
-        <ics>
-          <code>01.040.35</code>
-          <text>Information technology (Vocabularies)</text>
-        </ics>
+         <ics>
+           <code>35.020</code>
+           <text>Information technology (IT) in general</text>
+         </ics>
+         <ics>
+           <code>01.040.35</code>
+           <text>Information technology (Vocabularies)</text>
+         </ics>
        </bibitem>
          <bibitem type="international-standard" id="iso124">
          <title format="text/plain" language="en" script="Latn">Latex, rubber -- Determination of total solids content</title>
@@ -264,21 +261,21 @@ RSpec.describe Asciidoctor::ISO do
              <formattedref>ISO 124:2011</formattedref>
            </bibitem>
          </relation>
-        <ics>
-          <code>83.040.10</code>
-          <text>Latex and raw rubber</text>
-        </ics>
-      </bibitem>
-      </references>
-      </bibliography>
-      </iso-standard>
+         <ics>
+           <code>83.040.10</code>
+           <text>Latex and raw rubber</text>
+         </ics>
+       </bibitem>
+       </references></bibliography>
+       </iso-standard>
+
     OUTPUT
   end
 
   it "processes draft ISO reference" do
     #stub_fetch_ref no_year: true, note: "The standard is in press"
 
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -298,11 +295,10 @@ RSpec.describe Asciidoctor::ISO do
          <contributor>
            <role type="publisher"/>
            <organization>
-             <name>International Organization for Standardization</name>
-             <abbreviation>ISO</abbreviation>
+             <name>ISO</name>
            </organization>
          </contributor>
-         <note format="text/plain" reference="1">ISO DATE: The standard is in press</note>
+         <note format="text/plain">ISO DATE: The standard is in press</note>
        </bibitem>
        </references>
        </bibliography>
@@ -313,7 +309,7 @@ RSpec.describe Asciidoctor::ISO do
   it "processes all-parts ISO reference" do
     #stub_fetch_ref(all_parts: true)
 
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -333,8 +329,7 @@ RSpec.describe Asciidoctor::ISO do
          <contributor>
            <role type="publisher"/>
            <organization>
-             <name>International Organization for Standardization</name>
-             <abbreviation>ISO</abbreviation>
+             <name>ISO</name>
            </organization>
          </contributor>
          <allParts>true</allParts>
@@ -347,7 +342,7 @@ RSpec.describe Asciidoctor::ISO do
 
   it "processes RFC reference in Normative References" do
     mock_rfcbib_get_rfc8341
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ISOBIB_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -374,7 +369,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
   it "processes non-ISO reference in Normative References" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -399,7 +394,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
   it "processes non-ISO reference in Bibliography" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Bibliography
@@ -427,7 +422,7 @@ RSpec.describe Asciidoctor::ISO do
     expect(Isobib::IsoBibliography).to receive(:search).with("ISO 123") do
       raise Algolia::AlgoliaProtocolError.new "getaddrinfo", "nodename nor servname provided, or not known (JCL49WV5AR-dsn.algolia.net:443)"
     end.at_least :once
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ISOBIB_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -437,48 +432,17 @@ RSpec.describe Asciidoctor::ISO do
       <?xml version="1.0" encoding="UTF-8"?>
       <iso-standard xmlns="http://riboseinc.com/isoxml">
       <bibdata type="article">
-        <title>
-
-        </title>
-        <title>
-
-        </title>
         <docidentifier>
-          <project-number>ISO </project-number>
+          <project-number> </project-number>
         </docidentifier>
-        <contributor>
-          <role type="author"/>
-          <organization>
-            <name>International Organization for Standardization</name>
-            <abbreviation>ISO</abbreviation>
-          </organization>
-        </contributor>
-        <contributor>
-          <role type="publisher"/>
-          <organization>
-            <name>International Organization for Standardization</name>
-            <abbreviation>ISO</abbreviation>
-          </organization>
-        </contributor>
-
+        <language>en</language>
         <script>Latn</script>
-        <status>
-          <stage>60</stage>
-          <substage>60</substage>
-        </status>
+        <status format="plain">published</status>
         <copyright>
           <from>2018</from>
-          <owner>
-            <organization>
-              <name>International Organization for Standardization</name>
-              <abbreviation>ISO</abbreviation>
-            </organization>
-          </owner>
         </copyright>
         <editorialgroup>
           <technical-committee/>
-          <subcommittee/>
-          <workgroup/>
         </editorialgroup>
       </bibdata>
       <sections>
@@ -491,8 +455,7 @@ RSpec.describe Asciidoctor::ISO do
         <contributor>
           <role type="publisher"/>
           <organization>
-            <name>International Organization for Standardization</name>
-            <abbreviation>ISO</abbreviation>
+            <name>ISO</name>
           </organization>
         </contributor>
       </bibitem>

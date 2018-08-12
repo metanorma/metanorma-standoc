@@ -1,8 +1,8 @@
 require "spec_helper"
 
-RSpec.describe Asciidoctor::ISO do
+RSpec.describe Asciidoctor::Standoc do
   it "removes empty text elements" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       == {blank}
     INPUT
@@ -17,7 +17,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
   it "processes stem-only terms as admitted" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
 
@@ -40,7 +40,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
   it "moves term domains out of the term definition paragraph" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
 
@@ -63,7 +63,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
   it "permits multiple blocks in term definition paragraph" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       = Document title
       Author
       :docfile: test.adoc
@@ -97,7 +97,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
   it "strips any initial boilerplate from terms and definitions" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
 
@@ -123,7 +123,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
   it "moves notes inside preceding blocks, if they are not at clause end, and the blocks are not delimited" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [stem]
       ++++
@@ -149,7 +149,7 @@ r = 1 %</stem>
   end
 
   it "does not move notes inside preceding blocks, if they are at clause end" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [source,ruby]
       [1...x].each do |y|
@@ -170,7 +170,7 @@ r = 1 %</stem>
   end
 
   it "converts xrefs to references into erefs" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       <<iso216>>
 
@@ -196,8 +196,7 @@ r = 1 %</stem>
          <contributor>
            <role type="publisher"/>
            <organization>
-             <name>International Organization for Standardization</name>
-             <abbreviation>ISO</abbreviation>
+             <name>ISO</name>
            </organization>
          </contributor>
        </bibitem>
@@ -208,7 +207,7 @@ r = 1 %</stem>
   end
 
   it "extracts localities from erefs" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       <<iso216,whole,clause=3,example=9-11,locality:prelude=33,locality:entirety:the reference>>
 
@@ -231,8 +230,7 @@ r = 1 %</stem>
          <contributor>
            <role type="publisher"/>
            <organization>
-             <name>International Organization for Standardization</name>
-             <abbreviation>ISO</abbreviation>
+             <name>ISO</name>
            </organization>
          </contributor>
        </bibitem>
@@ -244,7 +242,7 @@ r = 1 %</stem>
 
 
   it "strips type from xrefs" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       <<iso216>>
 
@@ -268,8 +266,7 @@ r = 1 %</stem>
   <contributor>
     <role type="publisher"/>
     <organization>
-      <name>International Organization for Standardization</name>
-      <abbreviation>ISO</abbreviation>
+      <name>ISO</name>
     </organization>
   </contributor>
 </bibitem>
@@ -279,7 +276,7 @@ r = 1 %</stem>
   end
 
   it "processes localities in term sources" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
 
@@ -305,7 +302,7 @@ r = 1 %</stem>
   end
 
   it "removes extraneous material from Normative References" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -323,8 +320,7 @@ r = 1 %</stem>
          <contributor>
            <role type="publisher"/>
            <organization>
-             <name>International Organization for Standardization</name>
-             <abbreviation>ISO</abbreviation>
+             <name>ISO</name>
            </organization>
          </contributor>
        </bibitem>
@@ -335,7 +331,7 @@ r = 1 %</stem>
   end
 
   it "inserts IDs into paragraphs" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       Paragraph
     INPUT
@@ -348,7 +344,7 @@ r = 1 %</stem>
   end
 
   it "inserts IDs into notes" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [example]
       ====
@@ -368,7 +364,7 @@ r = 1 %</stem>
   end
 
   it "moves table key inside table" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       |===
       |a |b |c
@@ -400,7 +396,7 @@ r = 1 %</stem>
   end
 
   it "processes headerrows attribute for table without header rows" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [headerrows=3]
       |===
@@ -439,7 +435,7 @@ r = 1 %</stem>
   end
 
   it "processes headerrows attribute for table with header rows" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [headerrows=3]
       |===
@@ -484,7 +480,7 @@ r = 1 %</stem>
   end
 
   it "moves table notes inside table" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       |===
       |a |b |c
@@ -514,7 +510,7 @@ r = 1 %</stem>
   end
 
   it "moves formula key inside formula" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [stem]
       ++++
@@ -541,7 +537,7 @@ r = 1 %</stem>
   end
 
   it "moves footnotes inside figures" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       image::spec/examples/rice_images/rice_image1.png[]
 
@@ -565,7 +561,7 @@ r = 1 %</stem>
   end
 
   it "moves figure key inside figure" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       image::spec/examples/rice_images/rice_image1.png[]
 
@@ -590,7 +586,7 @@ r = 1 %</stem>
   end
 
   it "processes subfigures" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [[figureC-2]]
       .Stages of gelatinization
@@ -625,7 +621,7 @@ r = 1 %</stem>
   end
 
   it "numbers bibliographic notes and footnotes sequentially" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       footnote:[Footnote]
 
@@ -648,7 +644,7 @@ r = 1 %</stem>
 
       <clause id="_" inline-header="false" obligation="normative">
         <title>Clause</title>
-        <p id="_"><fn reference="3">
+        <p id="_"><fn reference="2">
         <p id="_">Footnote2</p>
       </fn>
       </p>
@@ -663,11 +659,10 @@ r = 1 %</stem>
          <contributor>
            <role type="publisher"/>
            <organization>
-             <name>International Organization for Standardization</name>
-             <abbreviation>ISO</abbreviation>
+             <name>ISO</name>
            </organization>
          </contributor>
-         <note format="text/plain" reference="2">ISO DATE: The standard is in press</note>
+         <note format="text/plain">ISO DATE: The standard is in press</note>
        </bibitem>
       </references>
       </bibliography>
@@ -676,7 +671,7 @@ r = 1 %</stem>
   end
 
   it "defaults section obligations" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
 
       == Clause
@@ -701,7 +696,7 @@ r = 1 %</stem>
   end
 
   it "extends clause levels past 5" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
     #{ASCIIDOC_BLANK_HDR}
 
     == Clause1

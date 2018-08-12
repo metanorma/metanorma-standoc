@@ -1,20 +1,12 @@
 require "spec_helper"
 
-RSpec.describe Asciidoctor::ISO do
+RSpec.describe Asciidoctor::Standoc do
   it "has a version number" do
-    expect(Asciidoctor::ISO::VERSION).not_to be nil
-  end
-
-  it "generates output for the Rice document" do
-    system "cd spec/examples; rm -f rice.xml; rm -f rice.doc; rm -f rice.html; rm -f rice_alt.html; asciidoctor --trace -b iso -r 'asciidoctor-iso' rice.adoc; cd ../.."
-    expect(File.exist?("spec/examples/rice.xml")).to be true
-    expect(File.exist?("spec/examples/rice.doc")).to be true
-    expect(File.exist?("spec/examples/rice.html")).to be true
-    expect(File.exist?("spec/examples/rice_alt.html")).to be true
+    expect(Metanorma::Standoc::VERSION).not_to be nil
   end
 
   it "processes a blank document" do
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)).to be_equivalent_to <<~"OUTPUT"
+    expect(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).to be_equivalent_to <<~"OUTPUT"
     #{ASCIIDOC_BLANK_HDR}
     INPUT
     #{BLANK_HDR}
@@ -25,7 +17,7 @@ RSpec.describe Asciidoctor::ISO do
 
   it "converts a blank document" do
     system "rm -f test.doc"
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)).to be_equivalent_to <<~"OUTPUT"
+    expect(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).to be_equivalent_to <<~"OUTPUT"
       = Document title
       Author
       :docfile: test.adoc
@@ -40,7 +32,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
   it "processes default metadata" do
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)).to be_equivalent_to <<~'OUTPUT'
+    expect(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).to be_equivalent_to <<~'OUTPUT'
       = Document title
       Author
       :docfile: test.adoc
@@ -74,80 +66,44 @@ RSpec.describe Asciidoctor::ISO do
       :title-part-fr: Part du Titre
       :library-ics: 1,2,3
     INPUT
-           <?xml version="1.0" encoding="UTF-8"?>
-       <iso-standard xmlns="http://riboseinc.com/isoxml">
-       <bibdata type="article">
-         <title>
-           <title-intro language="en" format="text/plain">Introduction</title-intro>
-           <title-main language="en" format="text/plain">Main Title — Title</title-main>
-           <title-part language="en" format="text/plain">Title Part</title-part>
-         </title>
-         <title>
-           <title-intro language="fr" format="text/plain">Introduction Française</title-intro>
-           <title-main language="fr" format="text/plain">Titre Principal</title-main>
-           <title-part language="fr" format="text/plain">Part du Titre</title-part>
-         </title>
-         <docidentifier>
-           <project-number part="1">ISO 1000</project-number>
-         </docidentifier>
-         <contributor>
-           <role type="author"/>
-           <organization>
-             <name>International Organization for Standardization</name>
-             <abbreviation>ISO</abbreviation>
-           </organization>
-         </contributor>
-         <contributor>
-           <role type="publisher"/>
-           <organization>
-             <name>International Organization for Standardization</name>
-             <abbreviation>ISO</abbreviation>
-           </organization>
-         </contributor>
-         <language>en</language>
-         <script>Latn</script>
-         <status>
-           <stage>10</stage>
-           <substage>20</substage>
-           <iteration>3</iteration>
-         </status>
-         <copyright>
-           <from>2001</from>
-           <owner>
-             <organization>
-             <name>International Organization for Standardization</name>
-             <abbreviation>ISO</abbreviation>
-             </organization>
-           </owner>
-         </copyright>
-         <editorialgroup>
-           <technical-committee number="1" type="A">TC</technical-committee>
-           <subcommittee number="2" type="B">SC</subcommittee>
-           <workgroup number="3" type="C">WG</workgroup>
-           <secretariat>SECRETARIAT</secretariat>
-         </editorialgroup>
-         <ics>
-  <code>1</code>
-</ics>
-<ics>
-  <code>2</code>
-</ics>
-<ics>
-  <code>3</code>
-</ics>
-       </bibdata><version>
-         <edition>2</edition>
-         <revision-date>2000-01-01</revision-date>
-         <draft>3.4</draft>
-       </version>
-       <sections/>
-       </iso-standard>
+    <?xml version="1.0" encoding="UTF-8"?>
+<iso-standard xmlns="http://riboseinc.com/isoxml">
+<bibdata type="article">
+
+  <docidentifier>
+    <project-number part="1"> 1000</project-number>
+  </docidentifier>
+  <language>en</language>
+  <script>Latn</script>
+  <status format="plain">published</status>
+  <copyright>
+    <from>2001</from>
+  </copyright>
+  <editorialgroup>
+    <technical-committee number="1" type="A">TC</technical-committee>
+  </editorialgroup>
+  <ics>
+    <code>1</code>
+  </ics>
+  <ics>
+    <code>2</code>
+  </ics>
+  <ics>
+    <code>3</code>
+  </ics>
+</bibdata><version>
+  <edition>2</edition>
+  <revision-date>2000-01-01</revision-date>
+  <draft>3.4</draft>
+</version>
+<sections/>
+</iso-standard>
     OUTPUT
   end
 
 
   it "processes complex metadata" do
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)).to be_equivalent_to <<~'OUTPUT'
+    expect(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).to be_equivalent_to <<~'OUTPUT'
       = Document title
       Author
       :docfile: test.adoc
@@ -163,21 +119,14 @@ RSpec.describe Asciidoctor::ISO do
            <?xml version="1.0" encoding="UTF-8"?>
        <iso-standard xmlns="http://riboseinc.com/isoxml">
        <bibdata type="article">
-         <title>
 
-         </title>
-         <title>
-
-         </title>
          <docidentifier>
            <project-number part="1" subpart="1">ISO/IEC/IETF 1000</project-number>
-           <tc-document-number>2000</tc-document-number>
          </docidentifier>
          <contributor>
            <role type="author"/>
            <organization>
-             <name>International Electrotechnical Commission</name>
-             <abbreviation>IEC</abbreviation>
+             <name>IEC</name>
            </organization>
          </contributor>
          <contributor>
@@ -189,15 +138,13 @@ RSpec.describe Asciidoctor::ISO do
          <contributor>
            <role type="author"/>
            <organization>
-             <name>International Organization for Standardization</name>
-             <abbreviation>ISO</abbreviation>
+             <name>ISO</name>
            </organization>
          </contributor>
          <contributor>
            <role type="publisher"/>
            <organization>
-             <name>International Electrotechnical Commission</name>
-             <abbreviation>IEC</abbreviation>
+             <name>IEC</name>
            </organization>
          </contributor>
          <contributor>
@@ -209,22 +156,17 @@ RSpec.describe Asciidoctor::ISO do
          <contributor>
            <role type="publisher"/>
            <organization>
-             <name>International Organization for Standardization</name>
-             <abbreviation>ISO</abbreviation>
+             <name>ISO</name>
            </organization>
          </contributor>
          <language>el</language>
          <script>Grek</script>
-         <status>
-           <stage>60</stage>
-           <substage>60</substage>
-         </status>
+         <status format="plain">published</status>
          <copyright>
            <from>2018</from>
            <owner>
              <organization>
-               <name>International Electrotechnical Commission</name>
-               <abbreviation>IEC</abbreviation>
+               <name>IEC</name>
              </organization>
            </owner>
          </copyright>
@@ -240,15 +182,12 @@ RSpec.describe Asciidoctor::ISO do
            <from>2018</from>
            <owner>
              <organization>
-               <name>International Organization for Standardization</name>
-               <abbreviation>ISO</abbreviation>
+               <name>ISO</name>
              </organization>
            </owner>
          </copyright>
          <editorialgroup>
            <technical-committee/>
-           <subcommittee/>
-           <workgroup/>
          </editorialgroup>
        </bibdata>
        <sections/>
@@ -258,7 +197,7 @@ RSpec.describe Asciidoctor::ISO do
 
   it "reads scripts into blank HTML document" do
     system "rm -f test.html"
-    Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       = Document title
       Author
       :docfile: test.adoc
@@ -270,7 +209,7 @@ RSpec.describe Asciidoctor::ISO do
 
   it "uses default fonts" do
     system "rm -f test.html"
-    Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       = Document title
       Author
       :docfile: test.adoc
@@ -284,7 +223,7 @@ RSpec.describe Asciidoctor::ISO do
 
   it "uses default fonts for alt doc" do
     system "rm -f test_alt.html"
-    Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       = Document title
       Author
       :docfile: test.adoc
@@ -298,7 +237,7 @@ RSpec.describe Asciidoctor::ISO do
 
   it "uses Chinese fonts" do
     system "rm -f test.html"
-    Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       = Document title
       Author
       :docfile: test.adoc
@@ -313,7 +252,7 @@ RSpec.describe Asciidoctor::ISO do
 
   it "uses specified fonts" do
     system "rm -f test.html"
-    Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       = Document title
       Author
       :docfile: test.adoc
@@ -328,21 +267,5 @@ RSpec.describe Asciidoctor::ISO do
     expect(html).to match(%r[blockquote[^{]+\{[^{]+font-family: Zapf Chancery;]m)
     expect(html).to match(%r[\.h2Annex[^{]+\{[^{]+font-family: Comic Sans;]m)
   end
-
-  it "strips MS-specific CSS" do
-    system "rm -f test.html"
-    system "rm -f test.doc"
-    Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)
-      = Document title
-      Author
-      :docfile: test.adoc
-      :novalid:
-    INPUT
-    word = File.read("test.doc", encoding: "utf-8")
-    html = File.read("test.html", encoding: "utf-8")
-    expect(word).to match(%r[mso-style-name: "Intro Title";]m)
-    expect(html).not_to match(%r[mso-style-name: "Intro Title";]m)
-  end
-
 
 end

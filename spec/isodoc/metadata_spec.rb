@@ -1,9 +1,9 @@
 require "spec_helper"
 require "nokogiri"
 
-RSpec.describe IsoDoc::Iso::Metadata do
+RSpec.describe IsoDoc::Metadata do
   it "processes IsoXML metadata" do
-    c = IsoDoc::Iso::HtmlConvert.new({})
+    c = IsoDoc::HtmlConvert.new({})
     arr = c.convert_init(<<~"INPUT", "test", false)
     <iso-standard xmlns="http://riboseinc.com/isoxml">
     INPUT

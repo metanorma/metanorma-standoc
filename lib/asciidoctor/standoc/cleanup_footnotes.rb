@@ -45,8 +45,30 @@ module Asciidoctor
         end
       end
 
+      def other_footnote_renumber1(fn, i, seen)
+        unless fn["table"]
+          if seen[fn.text] then outnum = seen[fn.text]
+          else
+            i += 1
+            outnum = i
+            seen[fn.text] = outnum
+          end
+          fn["reference"] = outnum.to_s
+        end
+        [i, seen]
+      end
+
+      def other_footnote_renumber(xmldoc)
+        seen = {}
+        i = 0
+        xmldoc.xpath("//fn").each do |fn|
+          i, seen = other_footnote_renumber1(fn, i, seen)
+        end
+      end
+
       def footnote_renumber(xmldoc)
         table_footnote_renumber(xmldoc)
+        other_footnote_renumber(xmldoc)
         xmldoc.xpath("//fn").each do |fn|
           fn.delete("table")
         end

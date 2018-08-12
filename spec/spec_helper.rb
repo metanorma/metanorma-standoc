@@ -5,11 +5,11 @@ end
 
 require "bundler/setup"
 require "asciidoctor"
-require "asciidoctor-iso"
+require "metanorma-standoc"
 require "rspec/matchers"
 require "equivalent-xml"
 require "metanorma"
-require "metanorma/iso"
+require "metanorma/standoc"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -89,45 +89,17 @@ BLANK_HDR = <<~"HDR"
 <?xml version="1.0" encoding="UTF-8"?>
 <iso-standard xmlns="http://riboseinc.com/isoxml">
 <bibdata type="article">
-  <title>
-  </title>
-  <title>
-  </title>
   <docidentifier>
-    <project-number>ISO </project-number>
+    <project-number> </project-number>
   </docidentifier>
-  <contributor>
-    <role type="author"/>
-    <organization>
-      <name>International Organization for Standardization</name>
-      <abbreviation>ISO</abbreviation>
-    </organization>
-  </contributor>
-  <contributor>
-    <role type="publisher"/>
-    <organization>
-      <name>International Organization for Standardization</name>
-      <abbreviation>ISO</abbreviation>
-    </organization>
-  </contributor>
+  <language>en</language>
   <script>Latn</script>
-  <status>
-    <stage>60</stage>
-    <substage>60</substage>
-  </status>
+  <status format="plain">published</status>
   <copyright>
     <from>#{Time.new.year}</from>
-    <owner>
-      <organization>
-        <name>International Organization for Standardization</name>
-        <abbreviation>ISO</abbreviation>
-      </organization>
-    </owner>
   </copyright>
   <editorialgroup>
     <technical-committee/>
-    <subcommittee/>
-    <workgroup/>
   </editorialgroup>
 </bibdata>
 HDR

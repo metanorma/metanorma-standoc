@@ -1,8 +1,8 @@
 require "spec_helper"
 
-RSpec.describe Asciidoctor::ISO do
+RSpec.describe Asciidoctor::Standoc do
   it "processes sections" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       .Foreword
 
@@ -11,8 +11,6 @@ RSpec.describe Asciidoctor::ISO do
       == Introduction
 
       === Introduction Subsection
-
-      === Patent Notice
 
       == Scope
 
@@ -45,9 +43,6 @@ RSpec.describe Asciidoctor::ISO do
 
       === Annex A.1
 
-      [%appendix]
-      === Appendix 1
-
       == Bibliography
 
       === Bibliography Subsection
@@ -60,7 +55,7 @@ RSpec.describe Asciidoctor::ISO do
          <title>Introduction Subsection</title>
        </clause>
        </introduction></preface><sections>
-       <clause id="_" obligation="normative">
+       <clause id="_" inline-header="false" obligation="normative">
          <title>Scope</title>
          <p id="_">Text</p>
        </clause>
@@ -91,9 +86,7 @@ RSpec.describe Asciidoctor::ISO do
          <clause id="_" inline-header="false" obligation="normative">
          <title>Annex A.1</title>
        </clause>
-       <appendix id="_" inline-header="false" obligation="normative">
-          <title>Appendix 1</title>
-       </appendix></annex><bibliography><references id="_" obligation="informative">
+       </annex><bibliography><references id="_" obligation="informative">
          <title>Normative References</title>
        </references><clause id="_" obligation="informative">
          <title>Bibliography</title>
@@ -107,7 +100,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
   it "processes sections with title attributes" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       .Foreword
 
@@ -117,13 +110,6 @@ RSpec.describe Asciidoctor::ISO do
       == Εισαγωγή
 
       === Introduction Subsection
-
-      === Patent Notice
-
-      [heading=scope]
-      == Σκοπός
-
-      Text
 
       [heading=normative references]
       == Κανονιστικές Παραπομπές
@@ -157,9 +143,6 @@ RSpec.describe Asciidoctor::ISO do
 
       === Annex A.1
 
-      [%appendix]
-      === Appendx 1
-
       [heading=bibliography]
       == Βιβλιογραφία
 
@@ -177,11 +160,6 @@ RSpec.describe Asciidoctor::ISO do
        </introduction>
        </preface>
        <sections>
-       <clause id="_" obligation="normative">
-         <title>Scope</title>
-         <p id="_">Text</p>
-       </clause>
-     
        <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
          <term id="_">
@@ -208,9 +186,7 @@ RSpec.describe Asciidoctor::ISO do
          <clause id="_" inline-header="false" obligation="normative">
          <title>Annex A.1</title>
        </clause>
-       <appendix id="_" inline-header="false" obligation="normative">
-         <title>Appendx 1</title>
-       </appendix></annex><bibliography><references id="_" obligation="informative">
+       </annex><bibliography><references id="_" obligation="informative">
          <title>Normative References</title>
        </references><clause id="_" obligation="informative">
          <title>Bibliography</title>
@@ -224,7 +200,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
   it "processes section obligations" do
-     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [obligation=informative]
       == Clause 1
@@ -255,7 +231,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
     it "processes inline headers" do
-     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       == Clause 1
 
@@ -286,7 +262,7 @@ RSpec.describe Asciidoctor::ISO do
     end
 
   it "processes blank headers" do
-     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       == Clause 1
 
@@ -306,7 +282,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
     it "processes term document sources" do
-     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
 
       Foreword

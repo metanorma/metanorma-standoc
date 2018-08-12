@@ -1,8 +1,8 @@
 require "spec_helper"
 
-RSpec.describe Asciidoctor::ISO do
+RSpec.describe Asciidoctor::Standoc do
   it "processes open blocks" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       --
       x
@@ -21,7 +21,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
   it "processes stem blocks" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [stem]
       ++++
@@ -51,7 +51,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
     it "ignores review blocks unless document is in draft mode" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [[foreword]]
       .Foreword
@@ -72,7 +72,7 @@ RSpec.describe Asciidoctor::ISO do
     end
 
   it "processes review blocks if document is in draft mode" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       = Document title
       Author
       :docfile: test.adoc
@@ -104,7 +104,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
   it "processes term notes" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
 
@@ -129,7 +129,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
     it "processes notes" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       NOTE: This is a note
       INPUT
@@ -145,7 +145,7 @@ RSpec.describe Asciidoctor::ISO do
     end
 
     it "does nothing in particular with literals" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       ....
       LITERAL
@@ -161,7 +161,7 @@ RSpec.describe Asciidoctor::ISO do
     end
 
     it "processes simple admonitions with Asciidoc names" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       CAUTION: Only use paddy or parboiled rice for the determination of husked rice yield.
       INPUT
@@ -178,7 +178,7 @@ RSpec.describe Asciidoctor::ISO do
 
 
     it "processes complex admonitions with non-Asciidoc names" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [CAUTION,type=Safety Precautions]
       .Safety Precautions
@@ -211,7 +211,7 @@ RSpec.describe Asciidoctor::ISO do
     end
 
     it "processes term examples" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
 
@@ -238,7 +238,7 @@ RSpec.describe Asciidoctor::ISO do
     end
 
     it "processes examples" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [example]
       ====
@@ -257,7 +257,7 @@ RSpec.describe Asciidoctor::ISO do
     end
 
     it "processes preambles" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       This is a preamble
 
@@ -276,7 +276,7 @@ RSpec.describe Asciidoctor::ISO do
     end
 
     it "processes images" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       .Split-it-right sample divider
       image::spec/examples/rice_images/rice_image1.png[]
@@ -294,7 +294,7 @@ RSpec.describe Asciidoctor::ISO do
     end
 
     it "accepts width and height attributes on images" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [height=4,width=3]
       image::spec/examples/rice_images/rice_image1.png[]
@@ -311,7 +311,7 @@ RSpec.describe Asciidoctor::ISO do
     end
 
     it "accepts auto for width and height attributes on images" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [height=4,width=auto]
       image::spec/examples/rice_images/rice_image1.png[]
@@ -328,7 +328,7 @@ RSpec.describe Asciidoctor::ISO do
     end
 
     it "accepts alignment attribute on paragraphs" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [align=right]
       This para is right-aligned.
@@ -342,7 +342,7 @@ RSpec.describe Asciidoctor::ISO do
     end
 
     it "processes blockquotes" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [quote, ISO, "ISO7301,section 1"]
       ____
@@ -362,7 +362,7 @@ RSpec.describe Asciidoctor::ISO do
     end
 
     it "processes source code" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [source,ruby]
       --
@@ -384,7 +384,7 @@ RSpec.describe Asciidoctor::ISO do
     end
 
     it "processes callouts" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [source,ruby]
       --
@@ -411,7 +411,7 @@ RSpec.describe Asciidoctor::ISO do
     end
 
     it "processes unmodified term sources" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
 
@@ -437,7 +437,7 @@ RSpec.describe Asciidoctor::ISO do
     end
 
     it "processes modified term sources" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
 

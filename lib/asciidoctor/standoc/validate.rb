@@ -1,4 +1,4 @@
-require "asciidoctor/iso/utils"
+require "asciidoctor/standoc/utils"
 require_relative "./validate_section.rb"
 require "nokogiri"
 require "jing"

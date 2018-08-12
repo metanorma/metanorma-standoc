@@ -1,8 +1,8 @@
 require "spec_helper"
 
-RSpec.describe Asciidoctor::ISO do
-  it "processes the Asciidoctor::ISO inline macros" do
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)).to be_equivalent_to <<~"OUTPUT"
+RSpec.describe Asciidoctor::Standoc do
+  it "processes the Asciidoctor::Standoc inline macros" do
+    expect(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       alt:[term1]
       deprecated:[term1]
@@ -19,7 +19,7 @@ RSpec.describe Asciidoctor::ISO do
   end
 
   it "processes the PlantUML macro" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       
       [plantuml]
@@ -56,7 +56,7 @@ RSpec.describe Asciidoctor::ISO do
 
   it "processes the PlantUML macro with PlantUML disabled" do
     mock_plantuml_disabled
-    expect { Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true) }.to output(%r{PlantUML not installed}).to_stderr
+    expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to output(%r{PlantUML not installed}).to_stderr
       #{ASCIIDOC_BLANK_HDR}
 
       [plantuml]
@@ -72,7 +72,7 @@ RSpec.describe Asciidoctor::ISO do
     INPUT
 
     mock_plantuml_disabled
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
 
       [plantuml]
@@ -104,7 +104,7 @@ Alice &lt;-- Bob: another authentication Response
   private
 
   def mock_plantuml_disabled
-    expect(Asciidoctor::ISO::PlantUMLBlockMacroBackend).to receive(:plantuml_installed?) do
+    expect(Asciidoctor::Standoc::PlantUMLBlockMacroBackend).to receive(:plantuml_installed?) do
       false
     end
   end

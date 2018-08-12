@@ -1,7 +1,7 @@
 require "spec_helper"
 require "isobib"
 
-RSpec.describe Asciidoctor::ISO do
+RSpec.describe Asciidoctor::Standoc do
 
   ISO_123_SHORT = <<~EOS
 <bibitem type="international-standard" id="ISO123">
@@ -48,7 +48,7 @@ EOS
     system "mv ~/.iev.pstore ~/.iev.pstore1"
     system "rm -f test.relaton.pstore"
     system "rm -f test.iev.pstore"
-    Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -72,7 +72,7 @@ EOS
     system "rm -f test.relaton.pstore"
     system "rm -f test.iev.pstore"
     mock_isobib_get_123
-    Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{ISOBIB_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -98,7 +98,7 @@ EOS
     system "rm ~/.iev.pstore"
 
     mock_isobib_get_123
-    Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{FLUSH_CACHE_ISOBIB_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -123,7 +123,7 @@ EOS
     system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
     system "rm -f test.relaton.pstore"
     mock_isobib_get_123
-    Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{CACHED_ISOBIB_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -145,7 +145,7 @@ EOS
     system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
     system "rm -f test.relaton.pstore"
     mock_isobib_get_123
-    Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -180,7 +180,7 @@ EOS
 
     mock_isobib_get_124
 
-    Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{CACHED_ISOBIB_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -213,7 +213,7 @@ EOS
 
     mock_isobib_get_123_undated
 
-    Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{CACHED_ISOBIB_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -240,7 +240,7 @@ EOS
         }
       )
 
-    Asciidoctor.convert(<<~"INPUT", backend: :iso, header_footer: true)
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{CACHED_ISOBIB_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -304,7 +304,7 @@ EOS
 </iso-standard>
 EOS
 
-    expect(strip_guid(Asciidoctor.convert(input, backend: :iso, header_footer: true))).to be_equivalent_to(output)
+    expect(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))).to be_equivalent_to(output)
 
     expect(db.load_entry("ISO 123:2001")["bib"].to_xml).to be_equivalent_to(ISO_123_SHORT)
     expect(db.load_entry("ISO 124")["bib"].to_xml).to be_equivalent_to(ISO_124_SHORT)

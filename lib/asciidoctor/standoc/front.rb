@@ -14,9 +14,6 @@ module Asciidoctor
         xml.docidentifier do |i|
           i.project_number node.attr("docnumber"),
             **attr_code(part: part, subpart: subpart)
-          if node.attr("tc-docnumber")
-            i.tc_document_number node.attr("tc-docnumber")
-          end
         end
       end
 
@@ -35,17 +32,7 @@ module Asciidoctor
       end
 
       def organization(org, orgname)
-        if ["ISO",
-            "International Organization for Standardization"].include? orgname
-          org.name "International Organization for Standardization"
-          org.abbreviation "ISO"
-        elsif ["IEC",
-               "International Electrotechnical Commission"].include? orgname
-          org.name "International Electrotechnical Commission"
-          org.abbreviation "IEC"
-        else
           org.name orgname
-        end
       end
 
       def metadata_author(node, xml)
@@ -69,11 +56,11 @@ module Asciidoctor
       end
 
       def metadata_copyright(node, xml)
-        publishers = node.attr("publisher") || return
+        publishers = node.attr("publisher") || " "
         publishers.split(/,[ ]?/).each do |p|
           xml.copyright do |c|
             c.from (node.attr("copyright-year") || Date.today.year)
-            c.owner do |owner|
+            p.match(/[A-Za-z]/).nil? or c.owner do |owner|
               owner.organization { |o| organization(o, p) }
             end
           end
@@ -81,7 +68,9 @@ module Asciidoctor
       end
 
       def metadata_status(node, xml)
-        xml.status(**{ format: "plain" }) { |s| s << node.attr("status") }
+        xml.status(**{ format: "plain" }) do |s|
+          s << ( node.attr("status") || "published" )
+        end
       end
 
       def metadata_committee(node, xml)

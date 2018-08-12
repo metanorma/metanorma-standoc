@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe IsoDoc::Iso do
+RSpec.describe IsoDoc do
   system "rm -f test.html"
   it "processes isodoc as ISO: HTML output" do
     IsoDoc::Iso::HtmlConvert.new({}).convert("test", <<~"INPUT", false)

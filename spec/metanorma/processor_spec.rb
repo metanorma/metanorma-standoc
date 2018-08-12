@@ -2,10 +2,10 @@ require "spec_helper"
 require "metanorma"
 
 #RSpec.describe Asciidoctor::Gb do
-RSpec.describe Metanorma::Iso::Processor do
+RSpec.describe Metanorma::Standoc::Processor do
 
   registry = Metanorma::Registry.instance
-  registry.register(Metanorma::Iso::Processor)
+  registry.register(Metanorma::Standoc::Processor)
   processor = registry.find_processor(:iso)
 
   it "registers against metanorma" do
