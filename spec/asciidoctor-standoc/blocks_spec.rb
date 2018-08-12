@@ -132,13 +132,26 @@ RSpec.describe Asciidoctor::Standoc do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       NOTE: This is a note
+
+      == Clause 1
+
+
+      NOTE: This is a note
       INPUT
               #{BLANK_HDR}
-       <sections>
+              <preface><foreword obligation="informative">
+         <title>Foreword</title>
          <note id="_">
          <p id="_">This is a note</p>
        </note>
-       </sections>
+       </foreword></preface><sections>
+       <clause id="_" inline-header="false" obligation="normative">
+         <title>Clause 1</title>
+         <note id="_">
+         <p id="_">This is a note</p>
+       </note>
+       </clause></sections>
+
        </standard-document>
 
       OUTPUT

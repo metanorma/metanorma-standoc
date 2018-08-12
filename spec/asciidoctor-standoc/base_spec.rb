@@ -58,18 +58,13 @@ RSpec.describe Asciidoctor::Standoc do
       :docsubstage: 20
       :iteration: 3
       :language: en
-      :title-intro-en: Introduction
-      :title-main-en: Main Title -- Title
-      :title-part-en: Title Part
-      :title-intro-fr: Introduction Française
-      :title-main-fr: Titre Principal
-      :title-part-fr: Part du Titre
+      :title: Main Title -- Title
       :library-ics: 1,2,3
     INPUT
     <?xml version="1.0" encoding="UTF-8"?>
 <standard-document xmlns="http://riboseinc.com/isoxml">
 <bibdata type="article">
-
+<title language="en" format="text/plain">Main Title — Title</title>
   <docidentifier>
     <project-number part="1"> 1000</project-number>
   </docidentifier>

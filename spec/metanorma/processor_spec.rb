@@ -67,4 +67,37 @@ RSpec.describe Metanorma::Standoc::Processor do
     OUTPUT
   end
 
+    it "generates HTML from IsoDoc XML" do
+    system "rm -f test.doc"
+    processor.output(<<~"INPUT", "test.doc", :doc)
+               <iso-standard xmlns="http://riboseinc.com/isoxml">
+       <sections>
+       <terms id="H" obligation="normative"><title>Terms, Definitions, Symbols and Abbreviated Terms</title>
+         <term id="J">
+         <preferred>Term2</preferred>
+       </term>
+        </terms>
+        </sections>
+        </iso-standard>
+    INPUT
+    expect(File.read("test.doc", encoding: "utf-8")).to match(/Electropedia/)
+    end
+
+    it "generates XML from IsoDoc XML" do
+      system "rm -f test.xml"
+      processor.output(<<~"INPUT", "test.xml", :xml)
+               <iso-standard xmlns="http://riboseinc.com/isoxml">
+       <sections>
+       <terms id="H" obligation="normative"><title>Terms, Definitions, Symbols and Abbreviated Terms</title>
+         <term id="J">
+         <preferred>Term2</preferred>
+       </term>
+        </terms>
+        </sections>
+        </iso-standard>
+      INPUT
+        expect(File.exist?("test.xml")).to be true
+
+    end
+
 end

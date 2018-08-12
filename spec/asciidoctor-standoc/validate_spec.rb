@@ -2,6 +2,14 @@ require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc do
 
+  it "warns that video is a skipped node" do
+  expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to output(/converter missing for video node/).to_stderr
+  #{VALIDATING_BLANK_HDR}
+
+  video::video_file.mp4[]
+  INPUT
+  end
+
 it "warns that figure does not have title" do
   expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to output(/Figure should have title/).to_stderr
   #{VALIDATING_BLANK_HDR}
