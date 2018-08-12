@@ -184,23 +184,6 @@ module Asciidoctor
         end
       end
 
-      ELEMS_ALLOW_NOTES =
-        # %w[p formula quote sourcecode example admonition ul ol dl figure]
-        %w[p formula ul ol dl figure].freeze
-
-      # if a note is at the end of a section, it is left alone
-      # if a note is followed by a non-note block,
-      # it is moved inside its preceding block if it is not delimited
-      # (so there was no way of making that block include the note)
-      def note_cleanup(xmldoc)
-        q = "//note[following-sibling::*[not(local-name() = 'note')]]"
-        xmldoc.xpath(q).each do |n|
-          next unless n.ancestors("table").empty?
-          prev = n.previous_element || next
-          n.parent = prev if ELEMS_ALLOW_NOTES.include? prev.name
-        end
-      end
-
       def empty_text_before_first_element(x)
         x.children.each do |c|
           if c.text?

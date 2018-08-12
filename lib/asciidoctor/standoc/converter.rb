@@ -40,6 +40,12 @@ module Asciidoctor
         super
         basebackend "html"
         outfilesuffix ".xml"
+        @libdir = File.dirname(__FILE__)
+      end
+
+      # path to isodoc assets in child gems
+      def html_doc_path(file)
+        File.join(@libdir, File.join("../../isodoc/html", file))
       end
 
       alias_method :embedded, :content
