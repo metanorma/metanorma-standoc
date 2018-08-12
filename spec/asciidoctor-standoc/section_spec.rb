@@ -95,7 +95,7 @@ RSpec.describe Asciidoctor::Standoc do
        </references>
        </clause>
        </bibliography>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -195,7 +195,7 @@ RSpec.describe Asciidoctor::Standoc do
        </references>
        </clause>
        </bibliography>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -226,7 +226,7 @@ RSpec.describe Asciidoctor::Standoc do
        </sections><annex id="_" inline-header="false" obligation="informative">
          <title>Annex</title>
        </annex>
-       </iso-standard>
+       </standard-document>
      OUTPUT
   end
 
@@ -257,7 +257,7 @@ RSpec.describe Asciidoctor::Standoc do
          <title>Clause Aa</title>
        </clause>
        </annex>
-       </iso-standard>
+       </standard-document>
      OUTPUT
     end
 
@@ -277,7 +277,7 @@ RSpec.describe Asciidoctor::Standoc do
        </clause>
        </clause>
        </sections>
-       </iso-standard>
+       </standard-document>
      OUTPUT
   end
 
@@ -302,7 +302,7 @@ RSpec.describe Asciidoctor::Standoc do
 
 
        </terms></sections>
-       </iso-standard>
+       </standard-document>
 
      OUTPUT
     end

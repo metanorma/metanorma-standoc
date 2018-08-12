@@ -42,6 +42,7 @@ module Asciidoctor
         xmldoc
       end
 
+      # ISO as a prefix goes first
       def docidentifier_cleanup(xmldoc)
         id = xmldoc.at("//bibdata/docidentifier/project-number")
         return unless id

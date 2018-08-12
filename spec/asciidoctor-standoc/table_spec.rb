@@ -31,7 +31,7 @@ RSpec.describe Asciidoctor::Standoc do
          </tbody>
        </table>
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -70,7 +70,7 @@ RSpec.describe Asciidoctor::Standoc do
          </tbody>
        </table>
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -107,7 +107,7 @@ RSpec.describe Asciidoctor::Standoc do
          </tbody>
        </table>
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -300,7 +300,7 @@ RSpec.describe Asciidoctor::Standoc do
          </tfoot>
        </table>
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 end

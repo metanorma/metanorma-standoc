@@ -6,7 +6,7 @@ RSpec.describe Metanorma::Standoc::Processor do
 
   registry = Metanorma::Registry.instance
   registry.register(Metanorma::Standoc::Processor)
-  processor = registry.find_processor(:iso)
+  processor = registry.find_processor(:standoc)
 
   it "registers against metanorma" do
     expect(processor).not_to be nil
@@ -14,12 +14,12 @@ RSpec.describe Metanorma::Standoc::Processor do
 
   it "registers output formats against metanorma" do
     expect(processor.output_formats.sort.to_s).to be_equivalent_to <<~"OUTPUT"
-    [[:doc, "doc"], [:html, "html"], [:html_alt, "alt.html"], [:xml, "xml"]]
+    [[:doc, "doc"], [:html, "html"], [:xml, "xml"]]
     OUTPUT
   end
 
   it "registers version against metanorma" do
-    expect(processor.version.to_s).to match(%r{^Asciidoctor::ISO })
+    expect(processor.version.to_s).to match(%r{^Asciidoctor::Standoc })
     expect(processor.version.to_s).to match(%r{/IsoDoc })
   end
 

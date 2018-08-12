@@ -5,7 +5,7 @@ module Asciidoctor
     module Validate
       def section_validate(doc)
         sourcecode_style(doc.root)
-        asset_title_style(doc.root)
+        asset_style(doc.root)
       end
 
       def sourcecode_style(root)
@@ -32,6 +32,10 @@ module Asciidoctor
         root.xpath("//table[not(title)]").each do |node|
           style_warning(node, "Table should have title", nil)
         end
+      end
+
+      def asset_style(root)
+        asset_title_style(root)
       end
     end
   end

@@ -12,7 +12,7 @@ RSpec.describe Asciidoctor::Standoc do
 
        </clause>
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -35,7 +35,7 @@ RSpec.describe Asciidoctor::Standoc do
        <definition><p id="_">Time</p></definition></term>
        </terms>
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -58,7 +58,7 @@ RSpec.describe Asciidoctor::Standoc do
        </term>
        </terms>
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -92,7 +92,7 @@ RSpec.describe Asciidoctor::Standoc do
        </term>
        </terms>
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -118,7 +118,7 @@ RSpec.describe Asciidoctor::Standoc do
          <definition><p id="_">This paragraph is extraneous</p></definition>
        </term></terms>
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -144,7 +144,7 @@ r = 1 %</stem>
 </note></formula>
 
        <p id="_">Indeed.</p></sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -165,7 +165,7 @@ r = 1 %</stem>
        <note id="_">
          <p id="_">That loop does not do much</p>
        </note></sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -202,7 +202,7 @@ r = 1 %</stem>
        </bibitem>
       </references>
       </bibliography
-      </iso-standard>
+      </standard-document>
     OUTPUT
   end
 
@@ -236,7 +236,7 @@ r = 1 %</stem>
        </bibitem>
       </references>
       </bibliography>
-      </iso-standard>
+      </standard-document>
     OUTPUT
   end
 
@@ -271,7 +271,7 @@ r = 1 %</stem>
   </contributor>
 </bibitem>
 </references></bibliography>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -297,7 +297,7 @@ r = 1 %</stem>
        </term>
        </terms>
        </sections>
-       </iso-standard>
+       </standard-document>
       OUTPUT
   end
 
@@ -326,7 +326,7 @@ r = 1 %</stem>
        </bibitem>
       </references>
       </bibliography>
-      </iso-standard>
+      </standard-document>
     OUTPUT
   end
 
@@ -339,7 +339,7 @@ r = 1 %</stem>
        <sections>
          <p id="_">Paragraph</p>
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -359,7 +359,7 @@ r = 1 %</stem>
        </note>
        </example>
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -391,7 +391,7 @@ r = 1 %</stem>
        </dl></table>
 
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -430,7 +430,7 @@ r = 1 %</stem>
          </tbody>
        </table>
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -475,7 +475,7 @@ r = 1 %</stem>
          </tbody>
        </table>
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -532,7 +532,7 @@ r = 1 %</stem>
        </dl></formula>
 
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -556,7 +556,7 @@ r = 1 %</stem>
 
        </sections>
 
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -581,7 +581,7 @@ r = 1 %</stem>
 
        </sections>
 
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -616,7 +616,7 @@ r = 1 %</stem>
          <image src="spec/examples/rice_images/rice_image3_3.png" id="_" imagetype="PNG" height="auto" width="auto"/>
        </figure></figure>
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -666,7 +666,7 @@ r = 1 %</stem>
        </bibitem>
       </references>
       </bibliography>
-      </iso-standard>
+      </standard-document>
     OUTPUT
   end
 
@@ -691,7 +691,7 @@ r = 1 %</stem>
          <title>Clause</title>
          <p id="_">Text</p>
        </annex>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -754,7 +754,7 @@ r = 1 %</stem>
 </clause>
 </clause>
 </sections>
-</iso-standard>
+</standard-document>
     OUTPUT
   end
 end

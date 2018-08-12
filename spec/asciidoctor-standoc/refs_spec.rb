@@ -26,7 +26,7 @@ RSpec.describe Asciidoctor::Standoc do
        </bibitem>
       </references>
       </bibliography>
-      </iso-standard>
+      </standard-document>
     OUTPUT
   end
 
@@ -58,7 +58,7 @@ RSpec.describe Asciidoctor::Standoc do
        </bibitem>
       </references>
       </bibliography>
-      </iso-standard>
+      </standard-document>
     OUTPUT
   end
 
@@ -120,7 +120,7 @@ RSpec.describe Asciidoctor::Standoc do
          </relation>
        </bibitem>
        </references></bibliography>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -148,7 +148,7 @@ RSpec.describe Asciidoctor::Standoc do
        </bibitem>
        </references>
        </bibliography>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -267,7 +267,7 @@ RSpec.describe Asciidoctor::Standoc do
          </ics>
        </bibitem>
        </references></bibliography>
-       </iso-standard>
+       </standard-document>
 
     OUTPUT
   end
@@ -302,7 +302,7 @@ RSpec.describe Asciidoctor::Standoc do
        </bibitem>
        </references>
        </bibliography>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -336,7 +336,7 @@ RSpec.describe Asciidoctor::Standoc do
        </bibitem>
       </references>
       </bibliography>
-      </iso-standard>
+      </standard-document>
     OUTPUT
   end
 
@@ -364,7 +364,7 @@ RSpec.describe Asciidoctor::Standoc do
 </bibitem>
        </references>
        </bibliography>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -389,7 +389,7 @@ RSpec.describe Asciidoctor::Standoc do
        </bibitem>
        </references>
        </bibliography>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -414,7 +414,7 @@ RSpec.describe Asciidoctor::Standoc do
        </bibitem>
        </references>
        </bibliography>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -430,7 +430,7 @@ RSpec.describe Asciidoctor::Standoc do
       * [[[iso123,ISO 123]]] _Standard_
     INPUT
       <?xml version="1.0" encoding="UTF-8"?>
-      <iso-standard xmlns="http://riboseinc.com/isoxml">
+      <standard-document xmlns="http://riboseinc.com/isoxml">
       <bibdata type="article">
         <docidentifier>
           <project-number> </project-number>
@@ -460,7 +460,7 @@ RSpec.describe Asciidoctor::Standoc do
         </contributor>
       </bibitem>
       </references></bibliography>
-      </iso-standard>
+      </standard-document>
     OUTPUT
   end
 

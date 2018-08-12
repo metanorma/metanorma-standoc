@@ -7,7 +7,7 @@ module Metanorma
       def initialize
         @short = :standoc
         @input_format = :asciidoc
-        @asciidoctor_backend = :iso
+        @asciidoctor_backend = :standoc
       end
 
       def output_formats
@@ -18,7 +18,7 @@ module Metanorma
       end
 
       def version
-        "Asciidoctor::Standoc #{Asciidoctor::Standoc::VERSION}/IsoDoc #{IsoDoc::VERSION}"
+        "Asciidoctor::Standoc #{Metanorma::Standoc::VERSION}/IsoDoc #{IsoDoc::VERSION}"
       end
 
       def input_to_isodoc(file)

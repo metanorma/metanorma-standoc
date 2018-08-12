@@ -52,7 +52,7 @@ RSpec.describe Asciidoctor::Standoc do
          </li>
        </ul>
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -160,7 +160,7 @@ RSpec.describe Asciidoctor::Standoc do
        </ol>
          </li>
        </ol></sections>
-       </iso-standard>
+       </standard-document>
        OUTPUT
     end
 
@@ -183,7 +183,7 @@ RSpec.describe Asciidoctor::Standoc do
          </li>
        </ul>
        </sections>
-       </iso-standard>
+       </standard-document>
      OUTPUT
     end
 

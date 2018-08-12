@@ -116,10 +116,10 @@ module Asciidoctor
       end
 
       def makexml1(node)
-        result = ["<?xml version='1.0' encoding='UTF-8'?>\n<iso-standard>"]
+        result = ["<?xml version='1.0' encoding='UTF-8'?>\n<standard-document>"]
         result << noko { |ixml| front node, ixml }
         result << noko { |ixml| middle node, ixml }
-        result << "</iso-standard>"
+        result << "</standard-document>"
         textcleanup(result.flatten * "\n")
       end
 

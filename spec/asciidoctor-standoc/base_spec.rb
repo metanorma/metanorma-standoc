@@ -11,7 +11,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
     #{BLANK_HDR}
 <sections/>
-</iso-standard>
+</standard-document>
     OUTPUT
   end
 
@@ -25,7 +25,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
     #{BLANK_HDR}
 <sections/>
-</iso-standard>
+</standard-document>
     OUTPUT
     expect(File.exist?("test.doc")).to be true
     expect(File.exist?("htmlstyle.css")).to be false
@@ -67,7 +67,7 @@ RSpec.describe Asciidoctor::Standoc do
       :library-ics: 1,2,3
     INPUT
     <?xml version="1.0" encoding="UTF-8"?>
-<iso-standard xmlns="http://riboseinc.com/isoxml">
+<standard-document xmlns="http://riboseinc.com/isoxml">
 <bibdata type="article">
 
   <docidentifier>
@@ -97,7 +97,7 @@ RSpec.describe Asciidoctor::Standoc do
   <draft>3.4</draft>
 </version>
 <sections/>
-</iso-standard>
+</standard-document>
     OUTPUT
   end
 
@@ -117,7 +117,7 @@ RSpec.describe Asciidoctor::Standoc do
       :publisher: IEC,IETF,ISO
     INPUT
            <?xml version="1.0" encoding="UTF-8"?>
-       <iso-standard xmlns="http://riboseinc.com/isoxml">
+       <standard-document xmlns="http://riboseinc.com/isoxml">
        <bibdata type="article">
 
          <docidentifier>
@@ -191,7 +191,7 @@ RSpec.describe Asciidoctor::Standoc do
          </editorialgroup>
        </bibdata>
        <sections/>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 

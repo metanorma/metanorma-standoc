@@ -14,7 +14,7 @@ RSpec.describe Asciidoctor::Standoc do
        <deprecates>term1</deprecates>
        <domain>term1</domain>
        </sections>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -50,7 +50,7 @@ RSpec.describe Asciidoctor::Standoc do
   <image src="plantuml/29.png" id="_" imagetype="PNG" height="auto" width="auto"/>
 </figure></sections>
 
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 
@@ -96,7 +96,7 @@ Alice -&gt; Bob: Another authentication Request
 Alice &lt;-- Bob: another authentication Response
 @enduml</sourcecode>
         </sourcecode>
-       </iso-standard>
+       </standard-document>
     OUTPUT
   end
 

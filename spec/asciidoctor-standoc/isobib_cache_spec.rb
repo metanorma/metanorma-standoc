@@ -301,7 +301,7 @@ EOS
  #{ISO_123_SHORT}
  #{ISO_124_SHORT_ALT}
 </references></bibliography>
-</iso-standard>
+</standard-document>
 EOS
 
     expect(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))).to be_equivalent_to(output)
