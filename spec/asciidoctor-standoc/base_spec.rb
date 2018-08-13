@@ -96,7 +96,6 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
-
   it "processes complex metadata" do
     expect(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).to be_equivalent_to <<~'OUTPUT'
       = Document title
@@ -197,55 +196,13 @@ RSpec.describe Asciidoctor::Standoc do
       Author
       :docfile: test.adoc
       :novalid:
+      :scripts: spec/assets/scripts.html
     INPUT
     html = File.read("test.html", encoding: "utf-8")
     expect(html).to match(%r{<script>})
   end
 
-  it "uses default fonts" do
-    system "rm -f test.html"
-    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
-      = Document title
-      Author
-      :docfile: test.adoc
-      :novalid:
-    INPUT
-    html = File.read("test.html", encoding: "utf-8")
-    expect(html).to match(%r[\.Sourcecode[^{]+\{[^{]+font-family: "Courier New", monospace;]m)
-    expect(html).to match(%r[blockquote[^{]+\{[^{]+font-family: "Cambria", serif;]m)
-    expect(html).to match(%r[\.h2Annex[^{]+\{[^{]+font-family: "Cambria", serif;]m)
-  end
-
-  it "uses default fonts for alt doc" do
-    system "rm -f test_alt.html"
-    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
-      = Document title
-      Author
-      :docfile: test.adoc
-      :novalid:
-    INPUT
-    html = File.read("test_alt.html", encoding: "utf-8")
-    expect(html).to match(%r[\.Sourcecode[^{]+\{[^{]+font-family: "Space Mono", monospace;]m)
-    expect(html).to match(%r[blockquote[^{]+\{[^{]+font-family: "Lato", sans-serif;]m)
-    expect(html).to match(%r[\.h2Annex[^{]+\{[^{]+font-family: "Lato", sans-serif;]m)
-  end
-
-  it "uses Chinese fonts" do
-    system "rm -f test.html"
-    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
-      = Document title
-      Author
-      :docfile: test.adoc
-      :novalid:
-      :script: Hans
-    INPUT
-    html = File.read("test.html", encoding: "utf-8")
-    expect(html).to match(%r[\.Sourcecode[^{]+\{[^{]+font-family: "Courier New", monospace;]m)
-    expect(html).to match(%r[blockquote[^{]+\{[^{]+font-family: "SimSun", serif;]m)
-    expect(html).to match(%r[\.h2Annex[^{]+\{[^{]+font-family: "SimHei", sans-serif;]m)
-  end
-
-  it "uses specified fonts" do
+  it "uses specified fonts and assets in HTML" do
     system "rm -f test.html"
     Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       = Document title
@@ -256,11 +213,53 @@ RSpec.describe Asciidoctor::Standoc do
       :body-font: Zapf Chancery
       :header-font: Comic Sans
       :monospace-font: Andale Mono
+      :htmlstylesheet: spec/assets/html.css
+      :htmlcoverpage: spec/assets/htmlcover.html
+      :htmlintropage: spec/assets/htmlintro.html
+      :scripts: spec/assets/scripts.html
     INPUT
     html = File.read("test.html", encoding: "utf-8")
-    expect(html).to match(%r[\.Sourcecode[^{]+\{[^{]+font-family: Andale Mono;]m)
-    expect(html).to match(%r[blockquote[^{]+\{[^{]+font-family: Zapf Chancery;]m)
-    expect(html).to match(%r[\.h2Annex[^{]+\{[^{]+font-family: Comic Sans;]m)
+    expect(html).to match(%r[pre[^{]+\{[^{]+font-family: Andale Mono;]m)
+    expect(html).to match(%r[p[^{]+\{[^{]+font-family: Zapf Chancery;]m)
+    expect(html).to match(%r[h1[^{]+\{[^{]+font-family: Comic Sans;]m)
+    expect(html).to match(%r[an empty html cover page])
+    expect(html).to match(%r[an empty html intro page])
+    expect(html).to match(%r[This is > a script])
   end
 
+  it "uses specified fonts and assets in Word" do
+    system "rm -f test.doc"
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :novalid:
+      :script: Hans
+      :body-font: Zapf Chancery
+      :header-font: Comic Sans
+      :monospace-font: Andale Mono
+      :wordstylesheet: spec/assets/word.css
+      :wordcoverpage: spec/assets/wordcover.html
+      :wordintropage: spec/assets/wordintro.html
+      :header: spec/assets/header.html
+    INPUT
+    html = File.read("test.doc", encoding: "utf-8")
+    expect(html).to match(%r[pre[^{]+\{[^{]+font-family: Andale Mono;]m)
+    expect(html).to match(%r[p[^{]+\{[^{]+font-family: Zapf Chancery;]m)
+    expect(html).to match(%r[h1[^{]+\{[^{]+font-family: Comic Sans;]m)
+    expect(html).to match(%r[an empty word cover page])
+    expect(html).to match(%r[an empty word intro page])
+    expect(html).to match(%r[Content-Location: file:///C:/Doc/test_files/header.html
+Content-Transfer-Encoding: base64
+Content-Type: text/html charset="utf-8"
+
+Ci8qIGFuIGVtcHR5IGhlYWRlciAqLwoKU1RBUlQgRE9DIElEOiAgOiBFTkQgRE9DIElECgpGSUxF
+TkFNRTogdGVzdAoK
+])
+  end
+
+
 end
+
+
+

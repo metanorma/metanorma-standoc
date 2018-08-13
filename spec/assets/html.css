@@ -1,2 +1,13 @@
 
-/* another empty stylesheet */
+p {
+  font-family: $bodyfont;
+}
+
+h1 {
+  font-family: $headerfont;
+}
+
+pre {
+  font-family: $monospacefont;
+}
+
