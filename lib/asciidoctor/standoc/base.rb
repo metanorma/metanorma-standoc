@@ -30,8 +30,8 @@ module Asciidoctor
         nil
       end
 
-      def html_converter(node)
-        IsoDoc::HtmlConvert.new(
+      def html_extract_attributes(node)
+        {
           script: node.attr("script"),
           bodyfont: node.attr("body-font"),
           headerfont: node.attr("header-font"),
@@ -42,11 +42,15 @@ module Asciidoctor
           htmlcoverpage: node.attr("htmlcoverpage"),
           htmlintropage: node.attr("htmlintropage"),
           scripts: node.attr("scripts"),
-        )
+        }
       end
 
-      def doc_converter(node)
-        IsoDoc::WordConvert.new(
+      def html_converter(node)
+        IsoDoc::HtmlConvert.new(html_extract_attributes(node))
+      end
+
+      def doc_extract_attributes(node)
+        {
           script: node.attr("script"),
           bodyfont: node.attr("body-font"),
           headerfont: node.attr("header-font"),
@@ -60,7 +64,11 @@ module Asciidoctor
           wordintropage: node.attr("wordintropage"),
           ulstyle: node.attr("ulstyle"),
           olstyle: node.attr("olstyle"),
-        )
+        }
+      end
+
+      def doc_converter(node)
+        IsoDoc::WordConvert.new(doc_extract_attributes(node))
       end
 
       def init(node)
