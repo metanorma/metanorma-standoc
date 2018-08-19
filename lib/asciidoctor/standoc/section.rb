@@ -21,18 +21,19 @@ module Asciidoctor
       end
 
       def sectiontype(node)
-        node&.attr("heading")&.downcase || node.title.downcase
+        ret = node&.attr("heading")&.downcase || node.title.downcase
+        return ret if ret == "symbols and abbreviated terms"
+        return nil unless node.level == 1
+        return nil if @seen_headers.include? ret
+        @seen_headers << ret
+        ret
       end
 
       def section(node)
         a = { id: Utils::anchor_or_uuid(node) }
         noko do |xml|
           case sectiontype(node)
-          when "introduction" then
-            if node.level == 1 then introduction_parse(a, xml, node)
-            else
-              clause_parse(a, xml, node)
-            end
+          when "introduction" then introduction_parse(a, xml, node)
           when "normative references" then norm_ref_parse(a, xml, node)
           when "terms and definitions",
             "terms, definitions, symbols and abbreviated terms",

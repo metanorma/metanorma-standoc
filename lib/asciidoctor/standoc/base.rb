@@ -85,6 +85,7 @@ module Asciidoctor
         @no_isobib_cache = node.attr("no-isobib-cache")
         @no_isobib = node.attr("no-isobib")
         @bibdb = nil
+        @seen_headers = []
         init_bib_caches(node)
         init_iev_caches(node)
       end

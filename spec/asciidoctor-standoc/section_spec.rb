@@ -38,6 +38,8 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Clause 4.2
 
+      == Terms and Definitions
+
       [appendix]
       == Annex
 
@@ -80,6 +82,10 @@ RSpec.describe Asciidoctor::Standoc do
        <clause id="_" inline-header="false" obligation="normative">
          <title>Clause 4.2</title>
        </clause></clause>
+       <clause id="_" inline-header="false" obligation="normative">
+        <title>Terms and Definitions</title>
+        </clause>
+
 
        </sections><annex id="_" inline-header="false" obligation="normative">
          <title>Annex</title>
