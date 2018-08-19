@@ -102,8 +102,7 @@ module Asciidoctor
         return term_example(node) if in_terms?
         noko do |xml|
           xml.example **id_attr(node) do |ex|
-            content = node.content
-            ex << content
+            wrap_in_para(node, ex)
           end
         end.join("\n")
       end
