@@ -764,10 +764,6 @@ r = 1 %</stem>
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
     #{CACHED_ISOBIB_BLANK_HDR}
 
-    = Document title
-    Author
-    :docfile: test.adoc
-
     [bibliography]
     == Normative References
     * [[[iev,IEV]]], _iev_
@@ -788,6 +784,85 @@ r = 1 %</stem>
     [.source]
     <<iev,clause="103-01-02">>
     INPUT
+        #{BLANK_HDR}
+
+        <sections>
+       <terms id="_" obligation="normative"><title>Terms and definitions</title><term id="_">
+         <preferred>Automation1</preferred>
+         <termsource status="identical">
+         <origin bibitemid="iev" type="inline" citeas="IEC 60050-103"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
+       </termsource>
+       </term>
+       <term id="_">
+         <preferred>Automation2</preferred>
+         <termsource status="identical">
+         <origin bibitemid="iev" type="inline" citeas="IEC 60050-102"><locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality></origin>
+       </termsource>
+       </term>
+       <term id="_">
+         <preferred>Automation3</preferred>
+         <termsource status="identical">
+         <origin bibitemid="iev" type="inline" citeas="IEC 60050-103"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
+       </termsource>
+       </term></terms></sections><bibliography><references id="_" obligation="informative">
+         <title>Normative References</title>
+         <bibitem type="international-standard" id="IEC60050-102">
+         <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
+         <docidentifier>IEC 60050-102</docidentifier>
+         <contributor>
+           <role type="publisher"/>
+           <organization>
+             <name>International Electrotechnical Commission</name>
+             <abbreviation>IEC</abbreviation>
+             <uri>www.iec.ch</uri>
+           </organization>
+         </contributor>
+         <language>en</language>
+         <language>fr</language>
+         <script>Latn</script>
+         <status>
+           <stage>60</stage>
+         </status>
+         <copyright>
+           <from>2018</from>
+           <owner>
+             <organization>
+               <name>International Electrotechnical Commission</name>
+               <abbreviation>IEC</abbreviation>
+               <uri>www.iec.ch</uri>
+             </organization>
+           </owner>
+         </copyright>
+       </bibitem><bibitem type="international-standard" id="IEC60050-103">
+         <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
+         <docidentifier>IEC 60050-103</docidentifier>
+         <contributor>
+           <role type="publisher"/>
+           <organization>
+             <name>International Electrotechnical Commission</name>
+             <abbreviation>IEC</abbreviation>
+             <uri>www.iec.ch</uri>
+           </organization>
+         </contributor>
+         <language>en</language>
+         <language>fr</language>
+         <script>Latn</script>
+         <status>
+           <stage>60</stage>
+         </status>
+         <copyright>
+           <from>2018</from>
+           <owner>
+             <organization>
+               <name>International Electrotechnical Commission</name>
+               <abbreviation>IEC</abbreviation>
+               <uri>www.iec.ch</uri>
+             </organization>
+           </owner>
+         </copyright>
+       </bibitem>
+       </references></bibliography>
+       </standard-document>
   OUTPUT
   system "mv ~/.iev.pstore1 ~/.iev.pstore"
   end
