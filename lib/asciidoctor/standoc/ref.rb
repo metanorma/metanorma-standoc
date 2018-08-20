@@ -80,6 +80,7 @@ module Asciidoctor
       end
 
       def fetch_ref(xml, code, year, **opts)
+        #require "byebug"; byebug
         hit = @bibdb&.fetch(code, year, opts) 
         return nil if hit.nil?
         xml.parent.add_child(hit.to_xml)

@@ -1,3 +1,5 @@
+require "set"
+
 module Asciidoctor
   module Standoc
     module Cleanup
@@ -119,6 +121,40 @@ module Asciidoctor
           reference += ":#{date_range(date)}" if date
           @anchors[ref["id"]] = { xref: reference }
         end
+      end
+
+      # converts generic IEV citation to citation of IEC 60050-n
+      # assumes IEV citations are of form 
+      # <eref type="inline" bibitemid="a" citeas="IEC 60050">
+      # <locality type="clause"><referenceFrom>101-01-01</referenceFrom></locality></eref>
+      def linksIev2iec60050part(xmldoc)
+        parts = Set.new()
+        xmldoc.xpath("//eref[@citeas = 'IEC 60050'] | //origin[@citeas = 'IEC 60050']").each do |x|
+          cl = x&.at("./locality[@type = 'clause']/referenceFrom")&.text || next
+          m = /^(\d+)/.match cl || next
+          parts << m[0]
+          x["citeas"] += "-#{m[0]}"
+        end
+        parts
+      end
+
+      # replace generic IEV reference with references to all extracted
+      # IEV parts
+      def refsIev2iec60050part(parts, iev)
+        new_iev = ""
+        parts.sort.each do |p|
+          hit = @bibdb&.fetch("IEC 60050-#{p}", nil, keep_year: true)
+          next if hit.nil?
+          new_iev += hit.to_xml
+        end
+        iev.replace(new_iev)
+      end
+
+      # call after xref_cleanup and origin_cleanup
+      def iev_cleanup(xmldoc)
+        iev = xmldoc.at("//bibitem[docidentifier = 'IEC 60050']") || return
+        parts = linksIev2iec60050part(xmldoc)
+        refsIev2iec60050part(parts, iev)
       end
     end
   end

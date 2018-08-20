@@ -13,7 +13,7 @@ module Asciidoctor
 
       def iev_validate(xmldoc)
         xmldoc.xpath("//term").each do |t|
-          /^IEV($|\s|:)/.match(t&.at(".//origin/@citeas")&.text) or next
+          /^IEC 60050($|\s|:)/.match(t&.at(".//origin/@citeas")&.text) or next
           pref = t.xpath("./preferred").inject([]) { |m, x| m << x&.text&.downcase }
           locality = t.xpath(SOURCELOCALITY)&.text or next
           iev = @iev.fetch(locality, xmldoc&.at("//language")&.text || "en") or next

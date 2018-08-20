@@ -757,4 +757,38 @@ r = 1 %</stem>
 </standard-document>
     OUTPUT
   end
+
+  it "separates IEV citations by top-level clause" do
+    system "mv ~/.iev.pstore ~/.iev.pstore1"
+    system "rm test.iev.pstore"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    #{CACHED_ISOBIB_BLANK_HDR}
+
+    = Document title
+    Author
+    :docfile: test.adoc
+
+    [bibliography]
+    == Normative References
+    * [[[iev,IEV]]], _iev_
+
+    == Terms and definitions
+    === Automation1
+
+    [.source]
+    <<iev,clause="103-01-02">>
+
+    === Automation2
+
+    [.source]
+    <<iev,clause="102-01-02">>
+
+    === Automation3
+
+    [.source]
+    <<iev,clause="103-01-02">>
+    INPUT
+  OUTPUT
+  system "mv ~/.iev.pstore1 ~/.iev.pstore"
+  end
 end
