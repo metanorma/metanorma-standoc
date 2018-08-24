@@ -332,7 +332,7 @@ RSpec.describe Asciidoctor::Standoc do
              <name>ISO</name>
            </organization>
          </contributor>
-         <allParts>true</allParts>
+         <allparts>true</allparts>
        </bibitem>
       </references>
       </bibliography>

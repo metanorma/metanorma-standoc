@@ -117,8 +117,10 @@ module Asciidoctor
           isopub = ref.at(ISO_PUBLISHER_XPATH)
           docid = ref.at("./docidentifier")
           date = ref.at("./date[@type = 'published']")
+          allparts = ref.at("./allparts")
           reference = format_ref(docid.text, isopub)
           reference += ":#{date_range(date)}" if date
+          reference += " (all parts)" if allparts
           @anchors[ref["id"]] = { xref: reference }
         end
       end

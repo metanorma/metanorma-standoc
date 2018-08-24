@@ -58,24 +58,34 @@ module Asciidoctor
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
           t.docidentifier m[:code]
           t.date **{ type: "published" } do |d|
-            d.on "--"
+            d.on "--" 
           end
           iso_publisher(t, m[:code])
           t.note(**plaintxt) { |p| p << "ISO DATE: #{m[:fn]}" }
         end
       end
 
+      def conditional_date(t, m, noyr)
+          m.names.include?("year") and
+            t.date(**{ type: "published" }) do |d|
+            if noyr then d.on "--"
+            else
+              set_date_range(d, m[:year])
+            end
+          end
+      end
+
       def isorefmatches3(xml, m)
         hasyr =  m.names.include?("year") && m[:year] != "--"
-        ref = fetch_ref xml, m[:code], hasyr ? m[:year] : nil, all_parts: true
+        noyr =  m.names.include?("year") && m[:year] == "--"
+        ref = fetch_ref xml, m[:code], hasyr ? m[:year] : nil, all_parts: true, no_year: noyr
         return use_my_anchor(ref, m[:anchor]) if ref
         xml.bibitem(**attr_code(ref_attributes(m))) do |t|
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
           t.docidentifier "#{m[:code]}"
-          hasyr and
-            t.date(**{ type: "published" }) { |d| set_date_range(d, m[:year]) }
+          conditional_date(t, m, noyr)
           iso_publisher(t, m[:code])
-          t.allParts "true"
+          t.allparts "true"
           t.note(**plaintxt) { |p| p << "ISO DATE: #{m[:fn]}" } if m.names.include?("fn")
         end
       end
