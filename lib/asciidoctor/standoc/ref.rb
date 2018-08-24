@@ -76,6 +76,7 @@ module Asciidoctor
             t.date(**{ type: "published" }) { |d| set_date_range(d, m[:year]) }
           iso_publisher(t, m[:code])
           t.allParts "true"
+          t.note(**plaintxt) { |p| p << "ISO DATE: #{m[:fn]}" } if m.names.include?("fn")
         end
       end
 
@@ -137,7 +138,7 @@ module Asciidoctor
       ISO_REF_ALL_PARTS = %r{^<ref\sid="(?<anchor>[^"]+)">
       \[(?<code>(ISO|IEC)[^0-9]*\s[0-9]+)(:(?<year>--|[0-9][0-9-]+))?\s
       \(all\sparts\)\]</ref>,?\s
-      (?<text>.*)$}xm
+      (<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>,?\s?)?(?<text>.*)$}xm
 
       NON_ISO_REF = %r{^<ref\sid="(?<anchor>[^"]+)">
       \[(?<code>[^\]]+?)([:-](?<year>(19|20)[0-9][0-9]))?\]</ref>,?\s
