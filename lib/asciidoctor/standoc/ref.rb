@@ -66,7 +66,7 @@ module Asciidoctor
       end
 
       def isorefmatches3(xml, m)
-        hasyr =  m.names.include?("year") && year != "--"
+        hasyr =  m.names.include?("year") && m[:year] != "--"
         ref = fetch_ref xml, m[:code], hasyr ? m[:year] : nil, all_parts: true
         return use_my_anchor(ref, m[:anchor]) if ref
         xml.bibitem(**attr_code(ref_attributes(m))) do |t|
