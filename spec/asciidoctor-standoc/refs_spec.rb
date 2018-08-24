@@ -347,16 +347,27 @@ RSpec.describe Asciidoctor::Standoc do
       [bibliography]
       == Normative References
 
-      * [[[iso123,IETF RFC 8341]]] _Standard_
+      * [[[iso123,IETF RFC 8341]]], _Standard_
+
+      == Clause 4
+
+      <<iso123>>
     INPUT
        #{BLANK_HDR}
               <sections>
+<clause id="_" inline-header="false" obligation="normative">
+  <title>Clause 4</title>
+  <p id="_">
+  <eref type="inline" bibitemid="iso123" citeas="RFC 8341:2018"/>
+</p>
+</clause>
 
        </sections><bibliography><references id="_" obligation="informative">
          <title>Normative References</title>
                <bibitem type="" id="iso123">
   <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>
-  <docidentifier>8341</docidentifier>
+  <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
+  <docidentifier type="IETF">RFC 8341</docidentifier>
   <date type="published">
     <on>2018</on>
   </date>
@@ -588,19 +599,20 @@ OUTPUT
     end
 end
 
-       def mock_rfcbib_get_rfc8341
+    def mock_rfcbib_get_rfc8341
       expect(RfcBib::RfcBibliography).to receive(:get).with("RFC 8341", nil, {}) do
-      IsoBibItem.from_xml(<<~"OUTPUT")
+        IsoBibItem.from_xml(<<~"OUTPUT")
       <bibitem id="RFC8341">
   <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>
-  <docidentifier>8341</docidentifier>
+  <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
+  <docidentifier type="IETF">RFC 8341</docidentifier>
   <date type="published">
     <on>2018</on>
   </date>
   <status>published</status>
 </bibitem>
-OUTPUT
+        OUTPUT
+      end
     end
-end
 
 end

@@ -115,7 +115,7 @@ module Asciidoctor
       def reference_names(xmldoc)
         xmldoc.xpath("//bibitem[not(ancestor::bibitem)]").each do |ref|
           isopub = ref.at(ISO_PUBLISHER_XPATH)
-          docid = ref.at("./docidentifier")
+          docid = ref.at("./docidentifier[not(@type = 'DOI')]")
           date = ref.at("./date[@type = 'published']")
           allparts = ref.at("./allparts")
           reference = format_ref(docid.text, isopub)

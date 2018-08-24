@@ -86,12 +86,11 @@ module Asciidoctor
           conditional_date(t, m, noyr)
           iso_publisher(t, m[:code])
           t.allparts "true"
-          t.note(**plaintxt) { |p| p << "ISO DATE: #{m[:fn]}" } if m.names.include?("fn")
+          t.note(**plaintxt) { |p| p << "ISO DATE: #{m[:fn]}" } if m.names.include?("fn") && m[:fn]
         end
       end
 
       def fetch_ref(xml, code, year, **opts)
-        #require "byebug"; byebug
         hit = @bibdb&.fetch(code, year, opts) 
         return nil if hit.nil?
         xml.parent.add_child(hit.to_xml)
