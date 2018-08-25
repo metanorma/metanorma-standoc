@@ -131,11 +131,12 @@ module Asciidoctor
       # <locality type="clause"><referenceFrom>101-01-01</referenceFrom></locality></eref>
       def linksIev2iec60050part(xmldoc)
         parts = Set.new()
-        xmldoc.xpath("//eref[@citeas = 'IEC 60050'] | //origin[@citeas = 'IEC 60050']").each do |x|
+        xmldoc.xpath("//eref[@citeas = 'IEC 60050:2011'] | "\
+                     "//origin[@citeas = 'IEC 60050:2011']").each do |x|
           cl = x&.at("./locality[@type = 'clause']/referenceFrom")&.text || next
           m = /^(\d+)/.match cl || next
           parts << m[0]
-          x["citeas"] += "-#{m[0]}"
+          x["citeas"] = x["citeas"].sub(/60050/, "60050-#{m[0]}")
         end
         parts
       end

@@ -790,25 +790,28 @@ r = 1 %</stem>
        <terms id="_" obligation="normative"><title>Terms and definitions</title><term id="_">
          <preferred>Automation1</preferred>
          <termsource status="identical">
-         <origin bibitemid="iev" type="inline" citeas="IEC 60050-103"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
+         <origin bibitemid="iev" type="inline" citeas="IEC 60050-103:2011"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
        </termsource>
        </term>
        <term id="_">
          <preferred>Automation2</preferred>
          <termsource status="identical">
-         <origin bibitemid="iev" type="inline" citeas="IEC 60050-102"><locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality></origin>
+         <origin bibitemid="iev" type="inline" citeas="IEC 60050-102:2011"><locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality></origin>
        </termsource>
        </term>
        <term id="_">
          <preferred>Automation3</preferred>
          <termsource status="identical">
-         <origin bibitemid="iev" type="inline" citeas="IEC 60050-103"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
+         <origin bibitemid="iev" type="inline" citeas="IEC 60050-103:2011"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
        </termsource>
        </term></terms></sections><bibliography><references id="_" obligation="informative">
          <title>Normative References</title>
          <bibitem type="international-standard" id="IEC60050-102">
          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
          <docidentifier>IEC 60050-102</docidentifier>
+         <date type="published">
+           <on>2011</on>
+         </date>
          <contributor>
            <role type="publisher"/>
            <organization>
@@ -836,6 +839,9 @@ r = 1 %</stem>
        </bibitem><bibitem type="international-standard" id="IEC60050-103">
          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
          <docidentifier>IEC 60050-103</docidentifier>
+         <date type="published">
+           <on>2011</on>
+         </date>
          <contributor>
            <role type="publisher"/>
            <organization>

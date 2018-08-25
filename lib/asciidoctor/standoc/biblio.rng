@@ -700,8 +700,12 @@
         <ref name="btitle"/>
         <ref name="formattedref"/>
       </choice>
-      <ref name="bplace"/>
-      <ref name="seriesorganization"/>
+      <optional>
+        <ref name="bplace"/>
+      </optional>
+      <optional>
+        <ref name="seriesorganization"/>
+      </optional>
       <optional>
         <ref name="abbreviation"/>
       </optional>
