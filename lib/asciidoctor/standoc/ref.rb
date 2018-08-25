@@ -85,8 +85,8 @@ module Asciidoctor
           t.docidentifier "#{m[:code]}"
           conditional_date(t, m, noyr)
           iso_publisher(t, m[:code])
-          t.allparts "true"
           t.note(**plaintxt) { |p| p << "ISO DATE: #{m[:fn]}" } if m.names.include?("fn") && m[:fn]
+          t.allparts "true"
         end
       end
 
