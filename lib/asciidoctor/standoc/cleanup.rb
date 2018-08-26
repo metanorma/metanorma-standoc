@@ -169,6 +169,15 @@ module Asciidoctor
         end
       end
 
+      def term_children_cleanup(xmldoc)
+        xmldoc.xpath("//term").each do |t|
+          ex = t.xpath("./termexample")
+          t.xpath("./termnote").each { |n| t << n.remove }
+          t.xpath("./termexample").each { |n| t << n.remove }
+          t.xpath("./termsource").each { |n| t << n.remove }
+        end
+      end
+
       def termdef_cleanup(xmldoc)
         termdef_unnest_cleanup(xmldoc)
         termdef_stem_cleanup(xmldoc)
@@ -176,6 +185,7 @@ module Asciidoctor
         termdefinition_cleanup(xmldoc)
         termdef_boilerplate_cleanup(xmldoc)
         termdef_subclause_cleanup(xmldoc)
+        term_children_cleanup(xmldoc)
         termdocsource_cleanup(xmldoc)
       end
 

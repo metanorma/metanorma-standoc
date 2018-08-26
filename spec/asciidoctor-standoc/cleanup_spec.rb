@@ -695,6 +695,51 @@ r = 1 %</stem>
     OUTPUT
   end
 
+    it "rearranges term note, term example, term source" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Terms and definitions
+
+      === Term
+
+      [.source]
+      <<ISO2191,section=1>>
+
+      NOTE: Note
+
+      [example]
+      Example 1
+
+      NOTE: Note 2
+
+      [example]
+      Example 2
+    INPUT
+       #{BLANK_HDR}
+       <terms id="_" obligation="normative">
+         <title>Terms and definitions</title>
+         <term id="_"><preferred>Term</preferred>
+
+
+
+       <termnote id="_">
+         <p id="_">Note</p>
+       </termnote><termnote id="_">
+         <p id="_">Note 2</p>
+       </termnote><termexample id="_">
+         <p id="_">Example 1</p>
+       </termexample><termexample id="_">
+         <p id="_">Example 2</p>
+       </termexample><termsource status="identical">
+         <origin bibitemid="ISO2191" type="inline" citeas=""><locality type="section"><referenceFrom>1</referenceFrom></locality></origin>
+       </termsource></term>
+       </terms>
+       </sections>
+       </standard-document>
+    OUTPUT
+  end
+
   it "extends clause levels past 5" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
     #{ASCIIDOC_BLANK_HDR}
