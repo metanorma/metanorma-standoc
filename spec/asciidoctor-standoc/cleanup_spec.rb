@@ -717,6 +717,7 @@ r = 1 %</stem>
       Example 2
     INPUT
        #{BLANK_HDR}
+       <sections>
        <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
          <term id="_"><preferred>Term</preferred>
