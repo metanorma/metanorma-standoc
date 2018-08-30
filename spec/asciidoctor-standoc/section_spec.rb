@@ -24,6 +24,9 @@ RSpec.describe Asciidoctor::Standoc do
 
       == Terms, Definitions, Symbols and Abbreviated Terms
 
+      [.nonterm]
+      === Introduction
+
       === Normal Terms
 
       ==== Term2
@@ -53,10 +56,13 @@ RSpec.describe Asciidoctor::Standoc do
        <preface><foreword obligation="informative">
          <title>Foreword</title>
          <p id="_">Text</p>
-       </foreword><introduction id="_" obligation="informative"><title>Introduction</title><clause id="_" inline-header="false" obligation="informative">
+       </foreword><introduction id="_" obligation="informative">
+         <title>Introduction</title>
+         <clause id="_" inline-header="false" obligation="informative">
          <title>Introduction Subsection</title>
        </clause>
        </introduction></preface><sections>
+
        <clause id="_" inline-header="false" obligation="normative">
          <title>Scope</title>
          <p id="_">Text</p>
@@ -68,7 +74,10 @@ RSpec.describe Asciidoctor::Standoc do
          <preferred>Term1</preferred>
        </term>
        </terms>
-       <clause id="_" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title><terms id="_" obligation="normative">
+       <clause id="_" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title><clause id="_" inline-header="false" obligation="normative">
+         <title>Introduction</title>
+       </clause>
+       <terms id="_" obligation="normative">
          <title>Normal Terms</title>
          <term id="_">
          <preferred>Term2</preferred>
@@ -83,9 +92,8 @@ RSpec.describe Asciidoctor::Standoc do
          <title>Clause 4.2</title>
        </clause></clause>
        <clause id="_" inline-header="false" obligation="normative">
-        <title>Terms and Definitions</title>
-        </clause>
-
+         <title>Terms and Definitions</title>
+       </clause>
 
        </sections><annex id="_" inline-header="false" obligation="normative">
          <title>Annex</title>
@@ -99,8 +107,7 @@ RSpec.describe Asciidoctor::Standoc do
          <references id="_" obligation="informative">
          <title>Bibliography Subsection</title>
        </references>
-       </clause>
-       </bibliography>
+       </clause></bibliography>
        </standard-document>
     OUTPUT
   end

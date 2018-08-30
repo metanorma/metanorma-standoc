@@ -110,6 +110,7 @@ module Asciidoctor
 
       # subclause contains subclauses
       def term_def_subclause_parse(attrs, xml, node)
+        return clause_parse(attrs, xml, node) if node.role == "nonterm"
         sub = node.find_by(context: :section) { |s| s.level == node.level + 1 }
         sub.empty? || (return term_def_parse(attrs, xml, node, false))
         node.title.casecmp("symbols and abbreviated terms").zero? &&
