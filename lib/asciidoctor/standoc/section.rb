@@ -22,7 +22,7 @@ module Asciidoctor
 
       def sectiontype(node)
         ret = node&.attr("heading")&.downcase || node.title.downcase
-        return ret if ["symbols and abbreviated terms", "abbrevations",
+        return ret if ["symbols and abbreviated terms", "abbreviations",
                        "abbreviated terms", "symbols"].include? ret
         return nil unless node.level == 1
         return nil if @seen_headers.include? ret
