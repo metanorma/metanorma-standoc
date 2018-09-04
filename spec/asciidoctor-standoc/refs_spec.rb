@@ -44,7 +44,7 @@ RSpec.describe Asciidoctor::Standoc do
         <title>Normative References</title>
         <bibitem id="iso123" type="standard">
           <title format="text/plain">Standard</title>
-  <docidentifier>ISO 123</docidentifier>
+  <docidentifier>ISO 123:1066-1067</docidentifier>
   <date type="published">
     <from>1066</from>
     <to>1067</to>
@@ -288,7 +288,7 @@ RSpec.describe Asciidoctor::Standoc do
          <title>Normative References</title>
          <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
-         <docidentifier>ISO 123</docidentifier>
+         <docidentifier>ISO 123:--</docidentifier>
          <date type="published">
            <on>--</on>
          </date>
@@ -322,7 +322,7 @@ RSpec.describe Asciidoctor::Standoc do
         <title>Normative References</title>
         <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
-         <docidentifier>ISO 123</docidentifier>
+         <docidentifier>ISO 123:1066 (all parts)</docidentifier>
          <date type="published">
            <on>1066</on>
          </date>
@@ -347,7 +347,7 @@ RSpec.describe Asciidoctor::Standoc do
       [bibliography]
       == Normative References
 
-      * [[[iso123,IETF RFC 8341]]], _Standard_
+      * [[[iso123,IETF(RFC 8341)]]], _Standard_
 
       == Clause 4
 
@@ -358,7 +358,7 @@ RSpec.describe Asciidoctor::Standoc do
 <clause id="_" inline-header="false" obligation="normative">
   <title>Clause 4</title>
   <p id="_">
-  <eref type="inline" bibitemid="iso123" citeas="RFC 8341:2018"/>
+  <eref type="inline" bibitemid="iso123" citeas="RFC 8341"/>
 </p>
 </clause>
 

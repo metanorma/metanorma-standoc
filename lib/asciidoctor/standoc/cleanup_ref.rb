@@ -116,11 +116,11 @@ module Asciidoctor
         xmldoc.xpath("//bibitem[not(ancestor::bibitem)]").each do |ref|
           isopub = ref.at(ISO_PUBLISHER_XPATH)
           docid = ref.at("./docidentifier[not(@type = 'DOI')]")
-          date = ref.at("./date[@type = 'published']")
-          allparts = ref.at("./allparts")
+          #date = ref.at("./date[@type = 'published']")
+          #allparts = ref.at("./allparts")
           reference = format_ref(docid.text, isopub)
-          reference += ":#{date_range(date)}" if date
-          reference += " (all parts)" if allparts
+          #reference += ":#{date_range(date)}" if date
+          #reference += " (all parts)" if allparts
           @anchors[ref["id"]] = { xref: reference }
         end
       end
@@ -155,7 +155,7 @@ module Asciidoctor
 
       # call after xref_cleanup and origin_cleanup
       def iev_cleanup(xmldoc)
-        iev = xmldoc.at("//bibitem[docidentifier = 'IEC 60050']") || return
+        iev = xmldoc.at("//bibitem[docidentifier = 'IEC 60050:2011']") || return
         parts = linksIev2iec60050part(xmldoc)
         refsIev2iec60050part(parts, iev)
       end

@@ -38,12 +38,17 @@ module Asciidoctor
         ref
       end
 
+      def id_and_year(id, year)
+        return id unless year
+        "#{id}:#{year}"
+      end
+
       def isorefmatches(xml, m)
         ref = fetch_ref xml, m[:code], m[:year]
         return use_my_anchor(ref, m[:anchor]) if ref
         xml.bibitem **attr_code(ref_attributes(m)) do |t|
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
-          t.docidentifier m[:code]
+          t.docidentifier id_and_year(m[:code], m[:year])
           m[:year] and t.date **{ type: "published" } do |d|
             set_date_range(d, m[:year])
           end
@@ -56,7 +61,7 @@ module Asciidoctor
         return use_my_anchor(ref, m[:anchor]) if ref
         xml.bibitem **attr_code(ref_attributes(m)) do |t|
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
-          t.docidentifier m[:code]
+          t.docidentifier id_and_year(m[:code], "--")
           t.date **{ type: "published" } do |d|
             d.on "--" 
           end
@@ -82,7 +87,7 @@ module Asciidoctor
         return use_my_anchor(ref, m[:anchor]) if ref
         xml.bibitem(**attr_code(ref_attributes(m))) do |t|
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
-          t.docidentifier "#{m[:code]}"
+          t.docidentifier(id_and_year(m[:code], m[:year]) + " (all parts)")
           conditional_date(t, m, noyr)
           iso_publisher(t, m[:code])
           t.note(**plaintxt) { |p| p << "ISO DATE: #{m[:fn]}" } if m.names.include?("fn") && m[:fn]
