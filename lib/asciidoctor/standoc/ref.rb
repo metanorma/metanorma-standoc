@@ -71,13 +71,13 @@ module Asciidoctor
       end
 
       def conditional_date(t, m, noyr)
-          m.names.include?("year") and
-            t.date(**{ type: "published" }) do |d|
-            if noyr then d.on "--"
-            else
-              set_date_range(d, m[:year])
-            end
+        m.names.include?("year") and !m[:year].nil? and
+          t.date(**{ type: "published" }) do |d|
+          if noyr then d.on "--"
+          else
+            set_date_range(d, m[:year])
           end
+        end
       end
 
       def isorefmatches3(xml, m)
