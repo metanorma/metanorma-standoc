@@ -41,6 +41,17 @@ RSpec.describe Asciidoctor::Standoc do
       Alice -> Bob: Another authentication Request
       Alice <-- Bob: another authentication Response
       ....
+
+      [plantuml]
+      ....
+      @startuml filename
+      Alice -> Bob: Authentication Request
+      Bob --> Alice: Authentication Response
+
+      Alice -> Bob: Another authentication Request
+      Alice <-- Bob: another authentication Response
+      @enduml
+      ....
     INPUT
        #{BLANK_HDR}
        <sections><figure id="_">
@@ -48,7 +59,11 @@ RSpec.describe Asciidoctor::Standoc do
 </figure>
 <figure id="_">
   <image src="plantuml/29.png" id="_" imagetype="PNG" height="auto" width="auto"/>
-</figure></sections>
+</figure>
+<figure id="_">
+  <image src="plantuml/filename.png" id="_" imagetype="PNG" height="auto" width="auto"/>
+</figure>
+        </sections>
 
        </standard-document>
     OUTPUT

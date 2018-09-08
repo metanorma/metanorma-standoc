@@ -54,9 +54,10 @@ module Asciidoctor
 
       def self.generate_file parent, reader
         src = reader.source
-        reader.lines.first.sub(/\s+$/, "") != "@startuml" or
+        !reader.lines.first.sub(/\s+$/, "").match /^@startuml($| )/ or
           src = "@startuml\n#{src}\n@enduml\n"
-        filename = parent.document.reader.lineno
+        /^@startuml (?<filename>[^\n]+)\n/ =~ src
+        filename ||= parent.document.reader.lineno
         system "mkdir -p plantuml"
         File.open("plantuml/#{filename}.pml", "w") { |f| f.write src }
         system "plantuml plantuml/#{filename}.pml"
