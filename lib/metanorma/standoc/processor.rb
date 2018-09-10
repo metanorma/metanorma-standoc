@@ -18,7 +18,7 @@ module Metanorma
       end
 
       def version
-        "Asciidoctor::Standoc #{Metanorma::Standoc::VERSION}/IsoDoc #{IsoDoc::VERSION}"
+        "Metanorma::Standoc #{Metanorma::Standoc::VERSION}/IsoDoc #{IsoDoc::VERSION}"
       end
 
       def input_to_isodoc(file)

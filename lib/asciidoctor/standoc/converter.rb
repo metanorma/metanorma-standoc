@@ -1,5 +1,5 @@
 require "asciidoctor"
-require "asciidoctor/standoc/version"
+require "metanorma/standoc/version"
 require "asciidoctor/standoc/base"
 require "asciidoctor/standoc/front"
 require "asciidoctor/standoc/lists"

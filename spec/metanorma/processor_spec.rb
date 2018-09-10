@@ -19,7 +19,7 @@ RSpec.describe Metanorma::Standoc::Processor do
   end
 
   it "registers version against metanorma" do
-    expect(processor.version.to_s).to match(%r{^Asciidoctor::Standoc })
+    expect(processor.version.to_s).to match(%r{^Metanorma::Standoc })
     expect(processor.version.to_s).to match(%r{/IsoDoc })
   end
 

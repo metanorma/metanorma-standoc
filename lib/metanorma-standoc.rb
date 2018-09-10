@@ -1,6 +1,6 @@
 require "asciidoctor" unless defined? Asciidoctor::Converter
 require_relative "asciidoctor/standoc/converter"
-require_relative "asciidoctor/standoc/version"
+require_relative "metanorma/standoc/version"
 require "asciidoctor/extensions"
 
 if defined? Metanorma
