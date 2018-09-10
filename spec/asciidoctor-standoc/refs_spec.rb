@@ -1,5 +1,6 @@
 require "spec_helper"
 require "isobib"
+require "ietfbib"
 
 RSpec.describe Asciidoctor::Standoc do
     it "processes simple ISO reference" do
@@ -462,7 +463,7 @@ RSpec.describe Asciidoctor::Standoc do
         <title>Normative References</title>
         <bibitem id="iso123" type="standard">
         <title format="text/plain">Standard</title>
-        <docidentifier>ISO 123</docidentifier>
+        <docidentifier type="ISO">ISO 123</docidentifier>
         <contributor>
           <role type="publisher"/>
           <organization>
@@ -600,7 +601,7 @@ OUTPUT
 end
 
     def mock_rfcbib_get_rfc8341
-      expect(RfcBib::RfcBibliography).to receive(:get).with("RFC 8341", nil, {}) do
+      expect(IETFBib::RfcBibliography).to receive(:get).with("RFC 8341", nil, {}) do
         IsoBibItem.from_xml(<<~"OUTPUT")
       <bibitem id="RFC8341">
   <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>

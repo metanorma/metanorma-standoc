@@ -43,12 +43,17 @@ module Asciidoctor
         "#{id}:#{year}"
       end
 
+      def docid(t, code)
+        type, code_stripped = @bibdb&.docid_type(code)
+        t.docidentifier (code_stripped || code), **attr_code(type: type)
+      end
+
       def isorefmatches(xml, m)
         ref = fetch_ref xml, m[:code], m[:year]
         return use_my_anchor(ref, m[:anchor]) if ref
         xml.bibitem **attr_code(ref_attributes(m)) do |t|
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
-          t.docidentifier id_and_year(m[:code], m[:year])
+          docid(t, id_and_year(m[:code], m[:year]))
           m[:year] and t.date **{ type: "published" } do |d|
             set_date_range(d, m[:year])
           end
@@ -61,7 +66,7 @@ module Asciidoctor
         return use_my_anchor(ref, m[:anchor]) if ref
         xml.bibitem **attr_code(ref_attributes(m)) do |t|
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
-          t.docidentifier id_and_year(m[:code], "--")
+          docid(t, id_and_year(m[:code], "--"))
           t.date **{ type: "published" } do |d|
             d.on "--" 
           end
@@ -87,7 +92,7 @@ module Asciidoctor
         return use_my_anchor(ref, m[:anchor]) if ref
         xml.bibitem(**attr_code(ref_attributes(m))) do |t|
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
-          t.docidentifier(id_and_year(m[:code], m[:year]) + " (all parts)")
+          docid(t, id_and_year(m[:code], m[:year]) + " (all parts)")
           conditional_date(t, m, noyr)
           iso_publisher(t, m[:code])
           t.note(**plaintxt) { |p| p << "ISO DATE: #{m[:fn]}" } if m.names.include?("fn") && m[:fn]
@@ -109,7 +114,7 @@ module Asciidoctor
           t.formattedref **{ format: "application/x-isodoc+xml" } do |i|
             i << ref_normalise_no_format(m[:text])
           end
-          t.docidentifier(/^\d+$/.match(m[:code]) ? "[#{m[:code]}]" : m[:code])
+          docid(t, /^\d+$/.match(m[:code]) ? "[#{m[:code]}]" : m[:code])
         end
       end
 
