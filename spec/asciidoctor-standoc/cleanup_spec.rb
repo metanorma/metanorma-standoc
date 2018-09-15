@@ -517,7 +517,7 @@ r = 1 %</stem>
       Formula
       ++++
 
-      where
+      Where,
 
       a:: b
     INPUT
@@ -565,7 +565,7 @@ r = 1 %</stem>
       #{ASCIIDOC_BLANK_HDR}
       image::spec/examples/rice_images/rice_image1.png[]
 
-      Key
+      key:
 
       a:: b
     INPUT

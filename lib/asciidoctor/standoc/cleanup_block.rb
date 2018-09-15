@@ -21,10 +21,10 @@ module Asciidoctor
 
       # move Key dl after table footer
       def dl_table_cleanup(xmldoc)
-        q = "//table/following-sibling::*[1]"\
-          "[self::p and normalize-space() = 'Key']"
+        q = "//table/following-sibling::*[1][self::p]"
         xmldoc.xpath(q).each do |s|
-          if !s.next_element.nil? && s.next_element.name == "dl"
+          if s.text =~ /^\s*key[^a-z]*$/i && !s.next_element.nil? && 
+              s.next_element.name == "dl"
             s.previous_element << s.next_element.remove
             s.remove
           end
@@ -73,10 +73,10 @@ module Asciidoctor
 
       # include where definition list inside stem block
       def formula_cleanup(x)
-        q = "//formula/following-sibling::*[1]"\
-          "[self::p and text() = 'where']"
+        q = "//formula/following-sibling::*[1][self::p]"
         x.xpath(q).each do |s|
-          if !s.next_element.nil? && s.next_element.name == "dl"
+          if s.text =~ /^\s*where[^a-z]*$/i && !s.next_element.nil? &&
+              s.next_element.name == "dl"
             s.previous_element << s.next_element.remove
             s.remove
           end
@@ -85,10 +85,10 @@ module Asciidoctor
 
       # include key definition list inside figure
       def figure_dl_cleanup(xmldoc)
-        q = "//figure/following-sibling::*"\
-          "[self::p and normalize-space() = 'Key']"
+        q = "//figure/following-sibling::*[self::p]"
         xmldoc.xpath(q).each do |s|
-          if !s.next_element.nil? && s.next_element.name == "dl"
+          if s.text =~ /^\s*key[^a-z]*$/i && !s.next_element.nil? &&
+              s.next_element.name == "dl"
             s.previous_element << s.next_element.remove
             s.remove
           end
