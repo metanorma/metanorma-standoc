@@ -9,11 +9,11 @@ module Asciidoctor
   module Standoc
     module Validate
 
-      SOURCELOCALITY = ".//locality[@type = 'clause']/referenceFrom".freeze
+      SOURCELOCALITY = "./termsource/origin/locality[@type = 'clause']/referenceFrom".freeze
 
       def iev_validate(xmldoc)
         xmldoc.xpath("//term").each do |t|
-          /^IEC 60050-/.match(t&.at(".//origin/@citeas")&.text) or next
+          /^IEC 60050-/.match(t&.at("./termsource/origin/@citeas")&.text) or next
           pref = t.xpath("./preferred").inject([]) { |m, x| m << x&.text&.downcase }
           locality = t.xpath(SOURCELOCALITY)&.text or next
           iev = @iev.fetch(locality, xmldoc&.at("//language")&.text || "en") or next

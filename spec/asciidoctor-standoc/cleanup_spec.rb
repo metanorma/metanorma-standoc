@@ -852,7 +852,7 @@ r = 1 %</stem>
        </termsource>
        </term></terms></sections><bibliography><references id="_" obligation="informative">
          <title>Normative References</title>
-         <bibitem type="international-standard" id="IEC60050-102-2011">
+         <bibitem type="international-standard" id="IEC60050-102">
          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
          <docidentifier>IEC 60050-102:2011</docidentifier>
          <date type="published">
@@ -882,7 +882,7 @@ r = 1 %</stem>
              </organization>
            </owner>
          </copyright>
-       </bibitem><bibitem type="international-standard" id="IEC60050-103-2011">
+       </bibitem><bibitem type="international-standard" id="IEC60050-103">
          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
          <docidentifier>IEC 60050-103:2011</docidentifier>
          <date type="published">

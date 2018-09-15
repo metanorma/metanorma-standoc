@@ -137,6 +137,7 @@ module Asciidoctor
           m = /^(\d+)/.match cl || next
           parts << m[0]
           x["citeas"] = x["citeas"].sub(/60050/, "60050-#{m[0]}")
+          x["bibitemid"] = x["bibitemid"].sub(/IEV/, "IEC60050-#{m[0]}")
         end
         parts
       end
@@ -148,7 +149,7 @@ module Asciidoctor
         parts.sort.each do |p|
           hit = @bibdb&.fetch("IEC 60050-#{p}", nil, keep_year: true)
           next if hit.nil?
-          new_iev += hit.to_xml
+          new_iev += hit.to_xml.sub(/ id="[^"]+"/, %{ id="IEC60050-#{p}"})
         end
         iev.replace(new_iev)
       end
