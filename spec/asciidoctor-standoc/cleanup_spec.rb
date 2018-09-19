@@ -1,4 +1,5 @@
 require "spec_helper"
+require "iecbib"
 
 RSpec.describe Asciidoctor::Standoc do
   it "removes empty text elements" do
@@ -807,6 +808,11 @@ r = 1 %</stem>
   it "separates IEV citations by top-level clause" do
     system "mv ~/.iev.pstore ~/.iev.pstore1"
     system "rm test.iev.pstore"
+    system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
+    system "rm test.relaton.pstore"
+    mock_iecbib_get_iec60050_102_01
+    mock_iecbib_get_iec60050_103_01
+    mock_iev
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
     #{CACHED_ISOBIB_BLANK_HDR}
 
@@ -836,27 +842,27 @@ r = 1 %</stem>
        <terms id="_" obligation="normative"><title>Terms and definitions</title><term id="_">
          <preferred>Automation1</preferred>
          <termsource status="identical">
-         <origin bibitemid="iev" type="inline" citeas="IEC 60050-103:2011"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
+         <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
        </termsource>
        </term>
        <term id="_">
          <preferred>Automation2</preferred>
          <termsource status="identical">
-         <origin bibitemid="iev" type="inline" citeas="IEC 60050-102:2011"><locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality></origin>
+         <origin bibitemid="IEC60050-102" type="inline" citeas="IEC 60050-102:2007"><locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality></origin>
        </termsource>
        </term>
        <term id="_">
          <preferred>Automation3</preferred>
          <termsource status="identical">
-         <origin bibitemid="iev" type="inline" citeas="IEC 60050-103:2011"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
+         <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
        </termsource>
        </term></terms></sections><bibliography><references id="_" obligation="informative">
          <title>Normative References</title>
          <bibitem type="international-standard" id="IEC60050-102">
          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
-         <docidentifier>IEC 60050-102:2011</docidentifier>
+         <docidentifier>IEC 60050-102:2007</docidentifier>
          <date type="published">
-           <on>2011</on>
+           <on>2007</on>
          </date>
          <contributor>
            <role type="publisher"/>
@@ -884,9 +890,9 @@ r = 1 %</stem>
          </copyright>
        </bibitem><bibitem type="international-standard" id="IEC60050-103">
          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
-         <docidentifier>IEC 60050-103:2011</docidentifier>
+         <docidentifier>IEC 60050-103:2009</docidentifier>
          <date type="published">
-           <on>2011</on>
+           <on>2009</on>
          </date>
          <contributor>
            <role type="publisher"/>
@@ -917,5 +923,126 @@ r = 1 %</stem>
        </standard-document>
   OUTPUT
   system "mv ~/.iev.pstore1 ~/.iev.pstore"
+      system "rm ~/.relaton-bib.pstore"
+    system "mv ~/.relaton-bib.pstore1 ~/.relaton-bib.pstore"
   end
+
+  private
+
+    def mock_iecbib_get_iec60050_103_01
+      expect(Iecbib::IecBibliography).to receive(:get).with("IEC 60050-103", nil, {keep_year: true}) do
+      IsoBibItem.from_xml(<<~"OUTPUT")
+      <bibitem type="international-standard" id="IEC60050-103">
+         <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
+         <docidentifier>IEC 60050-103:2009</docidentifier>
+         <date type="published">
+           <on>2009</on>
+         </date>
+         <contributor>
+           <role type="publisher"/>
+           <organization>
+             <name>International Electrotechnical Commission</name>
+             <abbreviation>IEC</abbreviation>
+             <uri>www.iec.ch</uri>
+           </organization>
+         </contributor>
+         <language>en</language>
+         <language>fr</language>
+         <script>Latn</script>
+         <status>
+           <stage>60</stage>
+         </status>
+         <copyright>
+           <from>2018</from>
+           <owner>
+             <organization>
+               <name>International Electrotechnical Commission</name>
+               <abbreviation>IEC</abbreviation>
+               <uri>www.iec.ch</uri>
+             </organization>
+           </owner>
+         </copyright>
+       </bibitem>
+OUTPUT
+    end
+end
+
+    def mock_iecbib_get_iec60050_102_01
+      expect(Iecbib::IecBibliography).to receive(:get).with("IEC 60050-102", nil, {keep_year: true}) do
+      IsoBibItem.from_xml(<<~"OUTPUT")
+      <bibitem type="international-standard" id="IEC60050-102">
+         <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
+         <docidentifier>IEC 60050-102:2007</docidentifier>
+         <date type="published">
+           <on>2007</on>
+         </date>
+         <contributor>
+           <role type="publisher"/>
+           <organization>
+             <name>International Electrotechnical Commission</name>
+             <abbreviation>IEC</abbreviation>
+             <uri>www.iec.ch</uri>
+           </organization>
+         </contributor>
+         <language>en</language>
+         <language>fr</language>
+         <script>Latn</script>
+         <status>
+           <stage>60</stage>
+         </status>
+         <copyright>
+           <from>2018</from>
+           <owner>
+             <organization>
+               <name>International Electrotechnical Commission</name>
+               <abbreviation>IEC</abbreviation>
+               <uri>www.iec.ch</uri>
+             </organization>
+           </owner>
+         </copyright>
+       </bibitem>
+OUTPUT
+    end
+end
+
+    def mock_iev
+      expect(Iecbib::IecBibliography).to receive(:get).with("IEV", nil, {}) do
+      IsoBibItem.from_xml(<<~"OUTPUT")
+      <bibitem type="international-standard" id="IEC60050:2001">
+         <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
+         <docidentifier>IEC 60050:2011</docidentifier>
+         <date type="published">
+           <on>2007</on>
+         </date>
+         <contributor>
+           <role type="publisher"/>
+           <organization>
+             <name>International Electrotechnical Commission</name>
+             <abbreviation>IEC</abbreviation>
+             <uri>www.iec.ch</uri>
+           </organization>
+         </contributor>
+         <language>en</language>
+         <language>fr</language>
+         <script>Latn</script>
+         <status>
+           <stage>60</stage>
+         </status>
+         <copyright>
+           <from>2018</from>
+           <owner>
+             <organization>
+               <name>International Electrotechnical Commission</name>
+               <abbreviation>IEC</abbreviation>
+               <uri>www.iec.ch</uri>
+             </organization>
+           </owner>
+         </copyright>
+       </bibitem>
+OUTPUT
+    end.at_least :once
+end
+
+
+
 end

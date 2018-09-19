@@ -116,11 +116,7 @@ module Asciidoctor
         xmldoc.xpath("//bibitem[not(ancestor::bibitem)]").each do |ref|
           isopub = ref.at(ISO_PUBLISHER_XPATH)
           docid = ref.at("./docidentifier[not(@type = 'DOI')]")
-          #date = ref.at("./date[@type = 'published']")
-          #allparts = ref.at("./allparts")
           reference = format_ref(docid.text, isopub)
-          #reference += ":#{date_range(date)}" if date
-          #reference += " (all parts)" if allparts
           @anchors[ref["id"]] = { xref: reference }
         end
       end
@@ -137,19 +133,22 @@ module Asciidoctor
           m = /^(\d+)/.match cl || next
           parts << m[0]
           x["citeas"] = x["citeas"].sub(/60050/, "60050-#{m[0]}")
-          x["bibitemid"] = x["bibitemid"].sub(/IEV/, "IEC60050-#{m[0]}")
+          x["bibitemid"] = "IEC60050-#{m[0]}"
         end
         parts
       end
 
       # replace generic IEV reference with references to all extracted
       # IEV parts
-      def refsIev2iec60050part(parts, iev)
+      def refsIev2iec60050part(xmldoc, parts, iev)
         new_iev = ""
         parts.sort.each do |p|
-          hit = @bibdb&.fetch("IEC 60050-#{p}", nil, keep_year: true)
-          next if hit.nil?
+          hit = @bibdb&.fetch("IEC 60050-#{p}", nil, keep_year: true) || next
           new_iev += hit.to_xml.sub(/ id="[^"]+"/, %{ id="IEC60050-#{p}"})
+          date = hit.dates[0].on.year
+          xmldoc.xpath("//*[@citeas = 'IEC 60050-#{p}:2011']").each do |x|
+            x["citeas"] = x["citeas"].sub(/:2011$/, ":#{date}")
+          end
         end
         iev.replace(new_iev)
       end
@@ -158,7 +157,7 @@ module Asciidoctor
       def iev_cleanup(xmldoc)
         iev = xmldoc.at("//bibitem[docidentifier = 'IEC 60050:2011']") || return
         parts = linksIev2iec60050part(xmldoc)
-        refsIev2iec60050part(parts, iev)
+        refsIev2iec60050part(xmldoc, parts, iev)
       end
     end
   end

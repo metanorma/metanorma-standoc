@@ -45,4 +45,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "metanorma", "~> 0.2.6"
   spec.add_development_dependency "isobib", "~> 0.3.0"
   spec.add_development_dependency "ietfbib", "~> 0.4.0"
+  spec.add_development_dependency "iecbib", "~> 0.1.1"
 end
