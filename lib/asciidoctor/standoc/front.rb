@@ -29,10 +29,17 @@ module Asciidoctor
         out.send compname.gsub(/-/, "_"), node.attr(compname),
           **attr_code(number: node.attr("#{compname}-number"),
                       type: node.attr("#{compname}-type"))
+        i = 2
+        while node.attr(compname+"_#{i}") do
+          out.send compname.gsub(/-/, "_"), node.attr(compname+"_#{i}"),
+            **attr_code(number: node.attr("#{compname}-number_#{i}"),
+                        type: node.attr("#{compname}-type_#{i}"))
+          i += 1
+        end
       end
 
       def organization(org, orgname)
-          org.name orgname
+        org.name orgname
       end
 
       def metadata_author(node, xml)

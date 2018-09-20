@@ -1,4 +1,5 @@
 require "spec_helper"
+require "iecbib"
 
 RSpec.describe Asciidoctor::Standoc do
 

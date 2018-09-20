@@ -52,6 +52,15 @@ RSpec.describe Asciidoctor::Standoc do
       :workgroup: WG
       :workgroup-number: 3
       :workgroup-type: C
+      :technical-committee_2: TC1
+      :technical-committee-number_2: 11
+      :technical-committee-type_2: A1
+      :subcommittee_2: SC1
+      :subcommittee-number_2: 21
+      :subcommittee-type_2: B1
+      :workgroup_2: WG1
+      :workgroup-number_2: 31
+      :workgroup-type_2: C1
       :secretariat: SECRETARIAT
       :copyright-year: 2001
       :docstage: 10
@@ -76,6 +85,7 @@ RSpec.describe Asciidoctor::Standoc do
   </copyright>
   <editorialgroup>
     <technical-committee number="1" type="A">TC</technical-committee>
+    <technical-committee number="11" type="A1">TC1</technical-committee>
   </editorialgroup>
   <ics>
     <code>1</code>
