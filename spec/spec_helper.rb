@@ -76,6 +76,16 @@ LOCAL_CACHED_ISOBIB_BLANK_HDR = <<~"HDR"
 
 HDR
 
+LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR = <<~"HDR"
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :local-cache-only:
+
+HDR
+
 VALIDATING_BLANK_HDR = <<~"HDR"
       = Document title
       Author

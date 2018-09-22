@@ -167,6 +167,26 @@ EOS
     system "mv ~/.relaton-bib.pstore1 ~/.relaton-bib.pstore"
   end
 
+  it "activates only local cache" do
+    system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
+    system "rm -f test.relaton.pstore"
+    mock_isobib_get_123
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+      #{LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR}
+      [bibliography]
+      == Normative References
+
+      * [[[iso123,ISO 123:2001]]] _Standard_
+    INPUT
+    expect(File.exist?("#{Dir.home}/.relaton-bib.pstore")).to be false
+    expect(File.exist?("test.relaton.pstore")).to be true
+
+    db = Relaton::Db.new "test.relaton.pstore", nil
+    entry = db.load_entry("ISO(ISO 123:2001)")
+    expect(entry).to_not be nil
+
+    system "mv ~/.relaton-bib.pstore1 ~/.relaton-bib.pstore"
+  end
 
   it "fetches uncached references" do
     system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"

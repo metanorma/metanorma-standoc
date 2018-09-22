@@ -94,8 +94,9 @@ module Asciidoctor
 
       def init_bib_caches(node)
         unless (@no_isobib_cache || @no_isobib)
-          globalname = bibliocache_name(true)
-          localname = bibliocache_name(false) if node.attr("local-cache")
+          globalname = bibliocache_name(true) unless node.attr("local-cache-only")
+          localname = bibliocache_name(false) if node.attr("local-cache") ||
+            node.attr("local-cache-only")
           if node.attr("flush-caches")
             system("rm -f #{globalname}") unless globalname.nil?
             system("rm -f #{localname}") unless localname.nil?
@@ -106,8 +107,9 @@ module Asciidoctor
 
       def init_iev_caches(node)
         unless (@no_isobib_cache || @no_isobib)
-          globalname = ievcache_name(true)
-          localname = ievcache_name(false) if node.attr("local-cache")
+          globalname = ievcache_name(true) unless node.attr("local-cache-only")
+          localname = ievcache_name(false) if node.attr("local-cache") ||
+          node.attr("local-cache-only")
           if node.attr("flush-caches")
             system("rm -f #{globalname}") unless globalname.nil?
             system("rm -f #{localname}") unless localname.nil?
