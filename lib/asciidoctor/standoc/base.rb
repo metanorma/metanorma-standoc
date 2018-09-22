@@ -42,6 +42,8 @@ module Asciidoctor
           htmlcoverpage: node.attr("htmlcoverpage"),
           htmlintropage: node.attr("htmlintropage"),
           scripts: node.attr("scripts"),
+          scripts_pdf: node.attr("scripts-pdf"),
+          datauriimage: node.attr("data-uri-image"),
         }
       end
 
