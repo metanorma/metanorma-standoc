@@ -44,8 +44,8 @@ module Asciidoctor
       end
 
       def docid(t, code)
-        type, code_stripped = @bibdb&.docid_type(code)
-        t.docidentifier (code_stripped || code), **attr_code(type: type)
+        type, code1 = @bibdb&.docid_type(code) unless /^\[\d+\]$/.match(code)
+        t.docidentifier (code1 || code), **attr_code(type: type)
       end
 
       def isorefmatches(xml, m)
