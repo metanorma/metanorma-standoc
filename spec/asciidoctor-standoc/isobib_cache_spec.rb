@@ -119,6 +119,25 @@ EOS
     system "mv ~/.iev.pstore1 ~/.iev.pstore"
   end
 
+  it "does not fetch references for ISO references in preparation" do
+    system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
+    system "rm -f test.relaton.pstore"
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+      #{CACHED_ISOBIB_BLANK_HDR}
+      [bibliography]
+      == Normative References
+
+      * [[[iso123,ISO 123:--]]] footnote:[The standard is in press] _Standard_
+    INPUT
+    expect(File.exist?("#{Dir.home}/.relaton-bib.pstore")).to be true
+    db = Relaton::Db.new "#{Dir.home}/.relaton-bib.pstore", nil
+    entry = db.load_entry("ISO(ISO 123:--)")
+    expect(entry).to be nil
+
+    system "rm ~/.relaton-bib.pstore"
+    system "mv ~/.relaton-bib.pstore1 ~/.relaton-bib.pstore"
+  end
+
   it "activates global cache" do
     system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
     system "rm -f test.relaton.pstore"

@@ -101,6 +101,7 @@ module Asciidoctor
       end
 
       def fetch_ref(xml, code, year, **opts)
+        return nil if opts[:no_year]
         hit = @bibdb&.fetch(code, year, opts) 
         return nil if hit.nil?
         xml.parent.add_child(hit.to_xml)
