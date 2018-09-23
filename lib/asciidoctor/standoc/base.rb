@@ -8,6 +8,7 @@ require "pp"
 require "sass"
 require "isodoc"
 require "relaton"
+require "fileutils"
 
 module Asciidoctor
   module Standoc
@@ -98,8 +99,8 @@ module Asciidoctor
           localname = bibliocache_name(false) if node.attr("local-cache") ||
             node.attr("local-cache-only")
           if node.attr("flush-caches")
-            system("rm -f #{globalname}") unless globalname.nil?
-            system("rm -f #{localname}") unless localname.nil?
+            FileUtils.rm_f globalname unless globalname.nil?
+            FileUtils.rm_f localname unless localname.nil?
           end
         end        
         @bibdb = Relaton::Db.new(globalname, localname) unless @no_isobib
@@ -111,8 +112,8 @@ module Asciidoctor
           localname = ievcache_name(false) if node.attr("local-cache") ||
           node.attr("local-cache-only")
           if node.attr("flush-caches")
-            system("rm -f #{globalname}") unless globalname.nil?
-            system("rm -f #{localname}") unless localname.nil?
+            FileUtils.rm_f globalname unless globalname.nil?
+            FileUtils.rm_f localname unless localname.nil?
           end
         end
         @iev = Iev::Db.new(globalname, localname) unless @no_isobib
@@ -137,7 +138,7 @@ module Asciidoctor
           html_converter(node).convert(@filename + ".xml")
           doc_converter(node).convert(@filename + ".xml")
         end
-        @files_to_delete.each { |f| system "rm #{f}" }
+        @files_to_delete.each { |f| FileUtils.rm f }
         ret
       end
 

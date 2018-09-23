@@ -1,4 +1,6 @@
 require "asciidoctor/extensions"
+require "fileutils"
+
 module Asciidoctor
   module Standoc
     class AltTermInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
@@ -58,7 +60,7 @@ module Asciidoctor
           src = "@startuml\n#{src}\n@enduml\n"
         /^@startuml (?<filename>[^\n]+)\n/ =~ src
         filename ||= parent.document.reader.lineno
-        system "mkdir -p plantuml"
+        FileUtils.mkdir_p "plantuml"
         File.open("plantuml/#{filename}.pml", "w") { |f| f.write src }
         system "plantuml plantuml/#{filename}.pml"
         filename
