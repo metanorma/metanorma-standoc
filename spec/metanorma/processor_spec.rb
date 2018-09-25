@@ -1,7 +1,7 @@
 require "spec_helper"
 require "metanorma"
+require "fileutils"
 
-#RSpec.describe Asciidoctor::Gb do
 RSpec.describe Metanorma::Standoc::Processor do
 
   registry = Metanorma::Registry.instance
@@ -34,7 +34,7 @@ RSpec.describe Metanorma::Standoc::Processor do
   end
 
   it "generates HTML from IsoDoc XML" do
-    system "rm -f test.xml"
+    FileUtils.rm_f "test.html"
     processor.output(<<~"INPUT", "test.html", :html)
                <iso-standard xmlns="http://riboseinc.com/isoxml">
        <sections>
@@ -68,7 +68,7 @@ RSpec.describe Metanorma::Standoc::Processor do
   end
 
     it "generates HTML from IsoDoc XML" do
-    system "rm -f test.doc"
+    FileUtils.rm_f "test.doc"
     processor.output(<<~"INPUT", "test.doc", :doc)
                <iso-standard xmlns="http://riboseinc.com/isoxml">
        <sections>
@@ -84,7 +84,7 @@ RSpec.describe Metanorma::Standoc::Processor do
     end
 
     it "generates XML from IsoDoc XML" do
-      system "rm -f test.xml"
+    FileUtils.rm_f "test.xml"
       processor.output(<<~"INPUT", "test.xml", :xml)
                <iso-standard xmlns="http://riboseinc.com/isoxml">
        <sections>

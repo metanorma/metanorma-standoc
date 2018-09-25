@@ -1,5 +1,6 @@
 require "spec_helper"
 require "iecbib"
+require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
 
@@ -72,8 +73,8 @@ it "validates document against ISO XML schema" do
 end
 
 it "Warning if terms mismatches IEV" do
-  system "mv ~/.iev.pstore ~/.iev.pstore1"
-  system "rm test.iev.pstore"
+  FileUtils.mv File.expand_path("~/.iev.pstore"), File.expand_path("~/.iev.pstore1"), force: true
+  FileUtils.rm_f "test.iev.pstore"
   mock_open_uri('103-01-02')
   expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to output(%r{Term "automation" does not match IEV 103-01-02 "functional"}).to_stderr
   = Document title
@@ -90,12 +91,12 @@ it "Warning if terms mismatches IEV" do
   [.source]
   <<iev,clause="103-01-02">>
   INPUT
-  system "mv ~/.iev.pstore1 ~/.iev.pstore"
+  FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev.pstore"), force: true
 end
 
 it "No warning if English term matches IEV" do
-  system "mv ~/.iev.pstore ~/.iev.pstore1"
-  system "rm test.iev.pstore"
+  FileUtils.mv File.expand_path("~/.iev.pstore"), File.expand_path("~/.iev.pstore1"), force: true
+  FileUtils.rm_f "test.iev.pstore"
   mock_open_uri('103-01-02')
   expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.not_to output(%r{does not match IEV 103-01-02}).to_stderr
   = Document title
@@ -112,12 +113,12 @@ it "No warning if English term matches IEV" do
   [.source]
   <<iev,clause="103-01-02">>
   INPUT
-  system "mv ~/.iev.pstore1 ~/.iev.pstore"
+  FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev.pstore"), force: true
 end
 
 it "No warning if French term matches IEV" do
-  system "mv ~/.iev.pstore ~/.iev.pstore1"
-  system "rm test.iev.pstore"
+  FileUtils.mv File.expand_path("~/.iev.pstore"), File.expand_path("~/.iev.pstore1"), force: true
+  FileUtils.rm_f "test.iev.pstore"
   mock_open_uri('103-01-02')
   expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.not_to output(%r{does not match IEV 103-01-02}).to_stderr
   = Document title
@@ -136,7 +137,7 @@ it "No warning if French term matches IEV" do
   [.source]
   <<iev,clause="103-01-02">>
   INPUT
-  system "mv ~/.iev.pstore1 ~/.iev.pstore"
+  FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev.pstore"), force: true
 end
 
 end

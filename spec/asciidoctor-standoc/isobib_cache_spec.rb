@@ -1,5 +1,6 @@
 require "spec_helper"
 require "isobib"
+require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
 
@@ -44,10 +45,10 @@ EOS
 EOS
 
   it "does not activate biblio caches if isobib disabled" do
-    system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
-    system "mv ~/.iev.pstore ~/.iev.pstore1"
-    system "rm -f test.relaton.pstore"
-    system "rm -f test.iev.pstore"
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore"), File.expand_path("~/.relaton-bib.pstore1"), force: true
+    FileUtils.mv File.expand_path("~/.iev.pstore"), File.expand_path("~/.iev.pstore1"), force: true
+    FileUtils.rm_f "test.relaton.pstore"
+    FileUtils.rm_f "test.iev.pstore"
     Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
@@ -60,17 +61,17 @@ EOS
     expect(File.exist?("test.relaton.pstore")).to be false
     expect(File.exist?("test.iev.pstore")).to be false
 
-    system "rm ~/.relaton-bib.pstore"
-    system "rm ~/.iev.pstore"
-    system "mv ~/.relaton-bib.pstore1 ~/.relaton-bib.pstore"
-    system "mv ~/.iev.pstore1 ~/.iev.pstore"
+    FileUtils.rm_f File.expand_path("~/.relaton-bib.pstore")
+    FileUtils.rm_f File.expand_path("~/.iev.pstore")
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton-bib.pstore"), force: true
+    FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev.pstore"), force: true
   end
 
   it "does not activate biblio caches if isobib caching disabled" do
-    system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
-    system "mv ~/.iev.pstore ~/.iev.pstore1"
-    system "rm -f test.relaton.pstore"
-    system "rm -f test.iev.pstore"
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore"), File.expand_path("~/.relaton-bib.pstore1"), force: true
+    FileUtils.mv File.expand_path("~/.iev.pstore"), File.expand_path("~/.iev.pstore1"), force: true
+    FileUtils.rm_f "test.relaton.pstore"
+    FileUtils.rm_f "test.iev.pstore"
     mock_isobib_get_123
     Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{ISOBIB_BLANK_HDR}
@@ -84,18 +85,18 @@ EOS
     expect(File.exist?("test.relaton.pstore")).to be false
     expect(File.exist?("test.iev.pstore")).to be false
 
-    system "rm ~/.relaton-bib.pstore"
-    system "rm ~/.iev.pstore"
-    system "mv ~/.relaton-bib.pstore1 ~/.relaton-bib.pstore"
-    system "mv ~/.iev.pstore1 ~/.iev.pstore"
+    FileUtils.rm_f File.expand_path("~/.relaton-bib.pstore")
+    FileUtils.rm_f File.expand_path("~/.iev.pstore")
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton-bib.pstore"), force: true
+    FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev.pstore"), force: true
   end
 
   it "flushes biblio caches" do
-    system "cp ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
-    system "cp ~/.iev.pstore ~/.iev.pstore1"
+    FileUtils.cp File.expand_path("~/.relaton-bib.pstore"), File.expand_path("~/.relaton-bib.pstore1")
+    FileUtils.cp File.expand_path("~/.iev.pstore"), File.expand_path("~/.iev.pstore1")
 
     File.open("#{Dir.home}/.relaton-bib.pstore", "w") { |f| f.write "XXX" }
-    system "rm ~/.iev.pstore"
+    FileUtils.rm_f File.expand_path("~/.iev.pstore")
 
     mock_isobib_get_123
     Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
@@ -113,15 +114,15 @@ EOS
     expect(entry["fetched"].to_s).to eq(Date.today.to_s)
     expect(entry["bib"].to_xml).to be_equivalent_to(ISO_123_DATED)
 
-    system "rm ~/.relaton-bib.pstore"
-    system "rm ~/.iev.pstore"
-    system "mv ~/.relaton-bib.pstore1 ~/.relaton-bib.pstore"
-    system "mv ~/.iev.pstore1 ~/.iev.pstore"
+    FileUtils.rm_f File.expand_path("~/.relaton-bib.pstore")
+    FileUtils.rm_f File.expand_path("~/.iev.pstore")
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton-bib.pstore"), force: true
+    FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev.pstore"), force: true
   end
 
   it "does not fetch references for ISO references in preparation" do
-    system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
-    system "rm -f test.relaton.pstore"
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore"), File.expand_path("~/.relaton-bib.pstore1"), force: true
+    FileUtils.rm_f "test.relaton.pstore"
     Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{CACHED_ISOBIB_BLANK_HDR}
       [bibliography]
@@ -134,13 +135,13 @@ EOS
     entry = db.load_entry("ISO(ISO 123:--)")
     expect(entry).to be nil
 
-    system "rm ~/.relaton-bib.pstore"
-    system "mv ~/.relaton-bib.pstore1 ~/.relaton-bib.pstore"
+    FileUtils.rm_f File.expand_path("~/.relaton-bib.pstore")
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton-bib.pstore"), force: true
   end
 
   it "activates global cache" do
-    system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
-    system "rm -f test.relaton.pstore"
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore"), File.expand_path("~/.relaton-bib.pstore1"), force: true
+    FileUtils.rm_f "test.relaton.pstore"
     mock_isobib_get_123
     Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{CACHED_ISOBIB_BLANK_HDR}
@@ -156,13 +157,13 @@ EOS
     entry = db.load_entry("ISO(ISO 123:2001)")
     expect(entry).to_not be nil
 
-    system "rm ~/.relaton-bib.pstore"
-    system "mv ~/.relaton-bib.pstore1 ~/.relaton-bib.pstore"
+    FileUtils.rm_f File.expand_path("~/.relaton-bib.pstore")
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton-bib.pstore"), force: true
   end
 
   it "activates local cache" do
-    system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
-    system "rm -f test.relaton.pstore"
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore"), File.expand_path("~/.relaton-bib.pstore1"), force: true
+    FileUtils.rm_f "test.relaton.pstore"
     mock_isobib_get_123
     Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
@@ -182,13 +183,13 @@ EOS
     entry = db.load_entry("ISO(ISO 123:2001)")
     expect(entry).to_not be nil
 
-    system "rm ~/.relaton-bib.pstore"
-    system "mv ~/.relaton-bib.pstore1 ~/.relaton-bib.pstore"
+    FileUtils.rm_f File.expand_path("~/.relaton-bib.pstore")
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton-bib.pstore"), force: true
   end
 
   it "activates only local cache" do
-    system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
-    system "rm -f test.relaton.pstore"
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore"), File.expand_path("~/.relaton-bib.pstore1"), force: true
+    FileUtils.rm_f "test.relaton.pstore"
     mock_isobib_get_123
     Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR}
@@ -204,11 +205,11 @@ EOS
     entry = db.load_entry("ISO(ISO 123:2001)")
     expect(entry).to_not be nil
 
-    system "mv ~/.relaton-bib.pstore1 ~/.relaton-bib.pstore"
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton-bib.pstore"), force: true
   end
 
   it "fetches uncached references" do
-    system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore"), File.expand_path("~/.relaton-bib.pstore1"), force: true
     db = Relaton::Db.new "#{Dir.home}/.relaton-bib.pstore", nil
     db.save_entry("ISO(ISO 123:2001)",
         {
@@ -235,12 +236,12 @@ EOS
     expect(entry["fetched"].to_s).to eq(Date.today.to_s)
     expect(entry["bib"].to_xml).to be_equivalent_to(ISO_124_DATED)
 
-    system "rm ~/.relaton-bib.pstore"
-    system "mv ~/.relaton-bib.pstore1 ~/.relaton-bib.pstore"
+    FileUtils.rm_f File.expand_path("~/.relaton-bib.pstore")
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton-bib.pstore"), force: true
   end
 
   it "expires stale undated references" do
-    system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore"), File.expand_path("~/.relaton-bib.pstore1"), force: true
 
         db = Relaton::Db.new "#{Dir.home}/.relaton-bib.pstore", nil
         db.save_entry("ISO 123",
@@ -264,12 +265,13 @@ EOS
             expect(entry["fetched"].to_s).to eq(Date.today.to_s)
     expect(entry["bib"].to_xml).to be_equivalent_to(ISO_123_UNDATED)
 
-    system "rm ~/.relaton-bib.pstore"
-    system "mv ~/.relaton-bib.pstore1 ~/.relaton-bib.pstore"
+    FileUtils.rm_f File.expand_path("~/.relaton-bib.pstore")
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton-bib.pstore"), force: true
   end
 
   it "does not expire stale dated references" do
-    system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore"), File.expand_path("~/.relaton-bib.pstore1"), force: true
+
 
             db = Relaton::Db.new "#{Dir.home}/.relaton-bib.pstore", nil
             db.save_entry("ISO(ISO 123:2001)",
@@ -291,13 +293,13 @@ EOS
             expect(entry["fetched"].to_s).to eq((Date.today - 90).to_s)
     expect(entry["bib"].to_xml).to be_equivalent_to(ISO_123_DATED)
 
-    system "rm ~/.relaton-bib.pstore"
-    system "mv ~/.relaton-bib.pstore1 ~/.relaton-bib.pstore"
+    FileUtils.rm_f File.expand_path("~/.relaton-bib.pstore")
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton-bib.pstore"), force: true
   end
 
   it "prioritises local over global cache values" do
-    system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
-    system "rm test.relaton.pstore"
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore"), File.expand_path("~/.relaton-bib.pstore1"), force: true
+    FileUtils.rm_f "test.relaton.pstore"
 
     db = Relaton::Db.new "#{Dir.home}/.relaton-bib.pstore", nil
     db.save_entry("ISO(ISO 123:2001)",
@@ -350,8 +352,8 @@ EOS
     expect(localdb.load_entry("ISO(ISO 123:2001)")["bib"].to_xml).to be_equivalent_to(ISO_123_DATED)
     expect(localdb.load_entry("ISO(ISO 124)")["bib"].to_xml).to be_equivalent_to(ISO_124_SHORT_ALT)
 
-    system "rm ~/.relaton-bib.pstore"
-    system "mv ~/.relaton-bib.pstore1 ~/.relaton-bib.pstore"
+    FileUtils.rm_f File.expand_path("~/.relaton-bib.pstore")
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton-bib.pstore"), force: true
   end
 
 private

@@ -1,4 +1,5 @@
 require "spec_helper"
+require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
   it "has a version number" do
@@ -16,7 +17,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "converts a blank document" do
-    system "rm -f test.doc"
+    FileUtils.rm_f "test.doc"
     expect(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).to be_equivalent_to <<~"OUTPUT"
       = Document title
       Author
@@ -200,7 +201,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "reads scripts into blank HTML document" do
-    system "rm -f test.html"
+    FileUtils.rm_f "test.html"
     Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       = Document title
       Author
@@ -213,7 +214,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "uses specified fonts and assets in HTML" do
-    system "rm -f test.html"
+    FileUtils.rm_f "test.html"
     Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       = Document title
       Author
@@ -238,7 +239,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "uses specified fonts and assets in Word" do
-    system "rm -f test.doc"
+    FileUtils.rm_f "test.doc"
     Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       = Document title
       Author

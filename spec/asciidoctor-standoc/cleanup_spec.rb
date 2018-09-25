@@ -1,5 +1,6 @@
 require "spec_helper"
 require "iecbib"
+require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
   it "removes empty text elements" do
@@ -806,10 +807,10 @@ r = 1 %</stem>
   end
 
   it "separates IEV citations by top-level clause" do
-    system "mv ~/.iev.pstore ~/.iev.pstore1"
-    system "rm test.iev.pstore"
-    system "mv ~/.relaton-bib.pstore ~/.relaton-bib.pstore1"
-    system "rm test.relaton.pstore"
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore"), File.expand_path("~/.relaton-bib.pstore1"), force: true
+    FileUtils.mv File.expand_path("~/.iev.pstore"), File.expand_path("~/.iev.pstore1"), force: true
+    FileUtils.rm_f "test.relaton.pstore"
+    FileUtils.rm_f "test.iev.pstore"
     mock_iecbib_get_iec60050_102_01
     mock_iecbib_get_iec60050_103_01
     mock_iev
@@ -922,9 +923,9 @@ r = 1 %</stem>
        </references></bibliography>
        </standard-document>
   OUTPUT
-  system "mv ~/.iev.pstore1 ~/.iev.pstore"
-      system "rm ~/.relaton-bib.pstore"
-    system "mv ~/.relaton-bib.pstore1 ~/.relaton-bib.pstore"
+    FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev.pstore"), force: true
+    FileUtils.rm_f File.expand_path("~/.relaton-bib.pstore")
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton-bib.pstore"), force: true
   end
 
   private
