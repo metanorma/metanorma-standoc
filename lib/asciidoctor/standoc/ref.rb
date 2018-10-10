@@ -1,5 +1,3 @@
-require "pp"
-
 module Asciidoctor
   module Standoc
     module Lists
@@ -88,7 +86,8 @@ module Asciidoctor
       def isorefmatches3(xml, m)
         hasyr =  m.names.include?("year") && m[:year] != "--"
         noyr =  m.names.include?("year") && m[:year] == "--"
-        ref = fetch_ref xml, m[:code], hasyr ? m[:year] : nil, all_parts: true, no_year: noyr
+        ref = fetch_ref xml, m[:code], hasyr ? m[:year] : nil, 
+          all_parts: true, no_year: noyr
         return use_my_anchor(ref, m[:anchor]) if ref
         xml.bibitem(**attr_code(ref_attributes(m))) do |t|
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
@@ -104,7 +103,7 @@ module Asciidoctor
         return nil if opts[:no_year]
         hit = @bibdb&.fetch(code, year, opts) 
         return nil if hit.nil?
-        xml.parent.add_child(hit.to_xml)
+        xml.parent.add_child(Utils::smart_render_xml(hit.to_xml))
         xml
       rescue Algolia::AlgoliaProtocolError
         nil # Render reference without an Internet connection.

@@ -5,7 +5,7 @@ require "json"
 require "pathname"
 require "open-uri"
 require "uuidtools"
-require "pp"
+require "sterile"
 
 module Asciidoctor
   module Standoc
@@ -30,6 +30,17 @@ module Asciidoctor
               n&.context == :section
           end
           "??"
+        end
+
+        def smart_render_xml(x)
+          xml = Nokogiri::XML(x)
+          xml.traverse do |n|
+            next unless n.text?
+            n.replace(n.text.gsub(/ -- /, "&#8201;&#8212;&#8201;").
+                      gsub(/--/, "&#8212;").gsub(/\.\.\./, "&#8230;").
+                      smart_format)
+          end
+          xml.to_xml.sub(/<\?[^>]+>/, "")
         end
 
         def warning(node, msg, text)
