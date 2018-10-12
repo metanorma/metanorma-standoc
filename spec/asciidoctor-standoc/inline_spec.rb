@@ -147,13 +147,21 @@ RSpec.describe Asciidoctor::Standoc do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       Hello!footnote:[Footnote text]
+
+      == Title.footnote:[Footnote text 2]
     INPUT
             #{BLANK_HDR}
-       <sections>
+              <preface><foreword obligation="informative">
+         <title>Foreword</title>
          <p id="_">Hello!<fn reference="1">
          <p id="_">Footnote text</p>
        </fn></p>
-       </sections>
+       </foreword></preface><sections>
+       <clause id="_" inline-header="false" obligation="normative">
+         <title>Title.<fn reference="2">
+         <p id="_">Footnote text 2</p>
+       </fn></title>
+       </clause></sections>
        </standard-document>
     OUTPUT
   end

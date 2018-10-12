@@ -68,6 +68,7 @@ module Asciidoctor
       end
 
       def inline_footnote(node)
+        @fn_number ||= 0
         noko do |xml|
           @fn_number += 1
           xml.fn **{ reference: @fn_number } do |fn|

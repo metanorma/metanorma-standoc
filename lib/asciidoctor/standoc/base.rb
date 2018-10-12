@@ -75,7 +75,7 @@ module Asciidoctor
       end
 
       def init(node)
-        @fn_number = 0
+        @fn_number ||= 0
         @draft = false
         @refids = Set.new
         @anchors = {}
