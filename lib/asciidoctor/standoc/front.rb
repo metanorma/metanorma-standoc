@@ -95,8 +95,18 @@ module Asciidoctor
         end
       end
 
+      def metadata_source(node, xml)
+        node.attr("uri") && xml.source(node.attr("uri"))
+        node.attr("xml-uri") && xml.source(node.attr("xml-uri"), type: "xml")
+        node.attr("html-uri") && xml.source(node.attr("html-uri"), type: "html")
+        node.attr("pdf-uri") && xml.source(node.attr("pdf-uri"), type: "pdf")
+        node.attr("doc-uri") && xml.source(node.attr("doc-uri"), type: "doc")
+        node.attr("relaton-uri") && xml.source(node.attr("relaton-uri"), type: "relaton")
+      end
+
       def metadata(node, xml)
         title node, xml
+        metadata_source(node, xml)
         metadata_id(node, xml)
         metadata_author(node, xml)
         metadata_publisher(node, xml)

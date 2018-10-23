@@ -120,11 +120,22 @@ RSpec.describe Asciidoctor::Standoc do
       :language: el
       :script: Grek
       :publisher: IEC,IETF,ISO
+      :uri: A
+      :xml-uri: B
+      :html-uri: C
+      :pdf-uri: D
+      :doc-uri: E
+      :relaton-uri: F
     INPUT
            <?xml version="1.0" encoding="UTF-8"?>
        <standard-document xmlns="http://riboseinc.com/isoxml">
        <bibdata type="article">
-
+         <source>A</source>
+         <source type="xml">B</source>
+         <source type="html">C</source>
+         <source type="pdf">D</source>
+         <source type="doc">E</source>
+         <source type="relaton">F</source>
          <docidentifier>
            <project-number part="1" subpart="1">ISO/IEC/IETF 1000</project-number>
          </docidentifier>
