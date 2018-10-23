@@ -66,7 +66,7 @@ module Asciidoctor
         end
       end
 
-      def footnote_renumber(xmldoc)
+      def footnote_cleanup(xmldoc)
         table_footnote_renumber(xmldoc)
         other_footnote_renumber(xmldoc)
         xmldoc.xpath("//fn").each do |fn|

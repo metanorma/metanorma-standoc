@@ -34,7 +34,7 @@ module Asciidoctor
         para_cleanup(xmldoc)
         callout_cleanup(xmldoc)
         element_name_cleanup(xmldoc)
-        footnote_renumber(xmldoc)
+        footnote_cleanup(xmldoc)
         empty_element_cleanup(xmldoc)
         mathml_cleanup(xmldoc)
         script_cleanup(xmldoc)
