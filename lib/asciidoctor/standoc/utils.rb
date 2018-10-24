@@ -33,7 +33,8 @@ module Asciidoctor
         end
 
         def smart_render_xml(x)
-          xml = Nokogiri::XML(x)
+          xstr = x.to_xml if x.respond_to? :to_xml
+          xml = Nokogiri::XML(xstr)
           xml.traverse do |n|
             next unless n.text?
             n.replace(n.text.gsub(/ -- /, "&#8201;&#8212;&#8201;").

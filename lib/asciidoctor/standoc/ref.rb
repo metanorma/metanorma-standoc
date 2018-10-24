@@ -103,7 +103,7 @@ module Asciidoctor
         return nil if opts[:no_year]
         hit = @bibdb&.fetch(code, year, opts) 
         return nil if hit.nil?
-        xml.parent.add_child(Utils::smart_render_xml(hit.to_xml))
+        xml.parent.add_child(Utils::smart_render_xml(hit))
         xml
       rescue Algolia::AlgoliaProtocolError
         nil # Render reference without an Internet connection.
