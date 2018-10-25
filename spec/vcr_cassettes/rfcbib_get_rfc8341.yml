@@ -1,0 +1,129 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://www.rfc-editor.org/refs/bibxml/reference.RFC.8341.xml
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - www.rfc-editor.org
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 25 Oct 2018 08:25:40 GMT
+      Server:
+      - Apache
+      Last-Modified:
+      - Fri, 19 Oct 2018 18:40:08 GMT
+      Etag:
+      - '"46c-578993b90f678-gzip"'
+      Accept-Ranges:
+      - bytes
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Content-Length:
+      - '606'
+      Content-Type:
+      - text/xml
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        <?xml version='1.0' encoding='UTF-8'?>
+
+        <reference  anchor='RFC8341' target='https://www.rfc-editor.org/info/rfc8341'>
+        <front>
+        <title>Network Configuration Access Control Model</title>
+        <author initials='A.' surname='Bierman' fullname='A. Bierman'><organization /></author>
+        <author initials='M.' surname='Bjorklund' fullname='M. Bjorklund'><organization /></author>
+        <date year='2018' month='March' />
+        <abstract><t>The standardization of network configuration interfaces for use with the Network Configuration Protocol (NETCONF) or the RESTCONF protocol requires a structured and secure operating environment that promotes human usability and multi-vendor interoperability.  There is a need for standard mechanisms to restrict NETCONF or RESTCONF protocol access for particular users to a preconfigured subset of all available NETCONF or RESTCONF protocol operations and content.  This document defines such an access control model.</t><t>This document obsoletes RFC 6536.</t></abstract>
+        </front>
+        <seriesInfo name='STD' value='91'/>
+        <seriesInfo name='RFC' value='8341'/>
+        <seriesInfo name='DOI' value='10.17487/RFC8341'/>
+        </reference>
+    http_version: 
+  recorded_at: Thu, 25 Oct 2018 08:25:43 GMT
+- request:
+    method: get
+    uri: https://www.rfc-editor.org/refs/bibxml/reference.RFC.8341.xml
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - www.rfc-editor.org
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 25 Oct 2018 08:25:41 GMT
+      Server:
+      - Apache
+      Last-Modified:
+      - Fri, 19 Oct 2018 18:40:08 GMT
+      Etag:
+      - '"46c-578993b90f678-gzip"'
+      Accept-Ranges:
+      - bytes
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Content-Length:
+      - '606'
+      Content-Type:
+      - text/xml
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        <?xml version='1.0' encoding='UTF-8'?>
+
+        <reference  anchor='RFC8341' target='https://www.rfc-editor.org/info/rfc8341'>
+        <front>
+        <title>Network Configuration Access Control Model</title>
+        <author initials='A.' surname='Bierman' fullname='A. Bierman'><organization /></author>
+        <author initials='M.' surname='Bjorklund' fullname='M. Bjorklund'><organization /></author>
+        <date year='2018' month='March' />
+        <abstract><t>The standardization of network configuration interfaces for use with the Network Configuration Protocol (NETCONF) or the RESTCONF protocol requires a structured and secure operating environment that promotes human usability and multi-vendor interoperability.  There is a need for standard mechanisms to restrict NETCONF or RESTCONF protocol access for particular users to a preconfigured subset of all available NETCONF or RESTCONF protocol operations and content.  This document defines such an access control model.</t><t>This document obsoletes RFC 6536.</t></abstract>
+        </front>
+        <seriesInfo name='STD' value='91'/>
+        <seriesInfo name='RFC' value='8341'/>
+        <seriesInfo name='DOI' value='10.17487/RFC8341'/>
+        </reference>
+    http_version: 
+  recorded_at: Thu, 25 Oct 2018 08:25:43 GMT
+recorded_with: VCR 4.0.0

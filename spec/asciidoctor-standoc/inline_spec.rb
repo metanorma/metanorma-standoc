@@ -148,7 +148,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{ASCIIDOC_BLANK_HDR}
       Hello!footnote:[Footnote text]
 
-      == Title.footnote:[Footnote text 2]
+      == Title footnote:[Footnote text 2]
     INPUT
             #{BLANK_HDR}
               <preface><foreword obligation="informative">
@@ -158,7 +158,7 @@ RSpec.describe Asciidoctor::Standoc do
        </fn></p>
        </foreword></preface><sections>
        <clause id="_" inline-header="false" obligation="normative">
-         <title>Title.<fn reference="2">
+         <title>Title<fn reference="2">
          <p id="_">Footnote text 2</p>
        </fn></title>
        </clause></sections>
