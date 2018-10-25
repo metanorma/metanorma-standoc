@@ -21,7 +21,7 @@ RSpec.describe Asciidoctor::Standoc do
   it "processes the PlantUML macro" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
-      
+
       [plantuml]
       ....
       @startuml
@@ -54,7 +54,7 @@ RSpec.describe Asciidoctor::Standoc do
       ....
     INPUT
        #{BLANK_HDR}
-       <sections><figure id="_">
+       <sections><sourcecode id="_">
   <image src="plantuml/20.png" id="_" imagetype="PNG" height="auto" width="auto"/>
 </figure>
 <figure id="_">

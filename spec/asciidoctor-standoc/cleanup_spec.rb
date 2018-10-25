@@ -807,124 +807,161 @@ r = 1 %</stem>
   end
 
   it "separates IEV citations by top-level clause" do
+    FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore1")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore"), File.expand_path("~/.relaton-bib.pstore1"), force: true
+    FileUtils.rm_rf File.expand_path("~/.iev.pstore1")
     FileUtils.mv File.expand_path("~/.iev.pstore"), File.expand_path("~/.iev.pstore1"), force: true
-    FileUtils.rm_f "test.relaton.pstore"
-    FileUtils.rm_f "test.iev.pstore"
-    mock_iecbib_get_iec60050_102_01
-    mock_iecbib_get_iec60050_103_01
-    mock_iev
+    FileUtils.rm_rf "test.relaton.pstore"
+    FileUtils.rm_rf "test.iev.pstore"
+    # mock_iecbib_get_iec60050_102_01
+    # mock_iecbib_get_iec60050_103_01
+    # mock_iev
+    VCR.use_cassette "separates_iev_citations_by_top_level_clause" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
-    #{CACHED_ISOBIB_BLANK_HDR}
+      #{CACHED_ISOBIB_BLANK_HDR}
 
-    [bibliography]
-    == Normative References
-    * [[[iev,IEV]]], _iev_
+      [bibliography]
+      == Normative References
+      * [[[iev,IEV]]], _iev_
 
-    == Terms and definitions
-    === Automation1
+      == Terms and definitions
+      === Automation1
 
-    [.source]
-    <<iev,clause="103-01-02">>
+      [.source]
+      <<iev,clause="103-01-02">>
 
-    === Automation2
+      === Automation2
 
-    [.source]
-    <<iev,clause="102-01-02">>
+      [.source]
+      <<iev,clause="102-01-02">>
 
-    === Automation3
+      === Automation3
 
-    [.source]
-    <<iev,clause="103-01-02">>
-    INPUT
-        #{BLANK_HDR}
+      [.source]
+      <<iev,clause="103-01-02">>
+      INPUT
+          #{BLANK_HDR}
 
-        <sections>
-       <terms id="_" obligation="normative"><title>Terms and definitions</title><term id="_">
-         <preferred>Automation1</preferred>
-         <termsource status="identical">
-         <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
-       </termsource>
-       </term>
-       <term id="_">
-         <preferred>Automation2</preferred>
-         <termsource status="identical">
-         <origin bibitemid="IEC60050-102" type="inline" citeas="IEC 60050-102:2007"><locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality></origin>
-       </termsource>
-       </term>
-       <term id="_">
-         <preferred>Automation3</preferred>
-         <termsource status="identical">
-         <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
-       </termsource>
-       </term></terms></sections><bibliography><references id="_" obligation="informative">
-         <title>Normative References</title>
-         <bibitem type="international-standard" id="IEC60050-102">
-         <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
-         <docidentifier>IEC 60050-102:2007</docidentifier>
-         <date type="published">
-           <on>2007</on>
-         </date>
-         <contributor>
-           <role type="publisher"/>
-           <organization>
-             <name>International Electrotechnical Commission</name>
-             <abbreviation>IEC</abbreviation>
-             <uri>www.iec.ch</uri>
-           </organization>
-         </contributor>
-         <language>en</language>
-         <language>fr</language>
-         <script>Latn</script>
-         <status>
-           <stage>60</stage>
-         </status>
-         <copyright>
-           <from>2018</from>
-           <owner>
-             <organization>
-               <name>International Electrotechnical Commission</name>
-               <abbreviation>IEC</abbreviation>
-               <uri>www.iec.ch</uri>
-             </organization>
-           </owner>
-         </copyright>
-       </bibitem><bibitem type="international-standard" id="IEC60050-103">
-         <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
-         <docidentifier>IEC 60050-103:2009</docidentifier>
-         <date type="published">
-           <on>2009</on>
-         </date>
-         <contributor>
-           <role type="publisher"/>
-           <organization>
-             <name>International Electrotechnical Commission</name>
-             <abbreviation>IEC</abbreviation>
-             <uri>www.iec.ch</uri>
-           </organization>
-         </contributor>
-         <language>en</language>
-         <language>fr</language>
-         <script>Latn</script>
-         <status>
-           <stage>60</stage>
-         </status>
-         <copyright>
-           <from>2018</from>
-           <owner>
-             <organization>
-               <name>International Electrotechnical Commission</name>
-               <abbreviation>IEC</abbreviation>
-               <uri>www.iec.ch</uri>
-             </organization>
-           </owner>
-         </copyright>
-       </bibitem>
-       </references></bibliography>
-       </standard-document>
+          <sections>
+        <terms id="_" obligation="normative"><title>Terms and definitions</title><term id="_">
+          <preferred>Automation1</preferred>
+          <termsource status="identical">
+          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
+        </termsource>
+        </term>
+        <term id="_">
+          <preferred>Automation2</preferred>
+          <termsource status="identical">
+          <origin bibitemid="IEC60050-102" type="inline" citeas="IEC 60050-102:2007"><locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality></origin>
+        </termsource>
+        </term>
+        <term id="_">
+          <preferred>Automation3</preferred>
+          <termsource status="identical">
+          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
+        </termsource>
+        </term></terms></sections><bibliography><references id="_" obligation="informative">
+          <title>Normative References</title>
+          <bibitem type="international-standard" id="IEC60050-102">
+          <fetched>#{Date.today}</fetched>
+          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary -- Part 102: Mathematics -- General concepts and linear algebra</title>
+          <uri type="src">https://webstore.iec.ch/publication/160</uri>
+          <uri type="obp">/preview/info_iec60050-102%7Bed1.0%7Db.pdf</uri>
+          <docidentifier type="IEC">IEC 60050-102:2007</docidentifier>
+          <date type="published">
+            <on>2007</on>
+          </date>
+          <contributor>
+            <role type="publisher"/>
+            <organization>
+              <name>International Electrotechnical Commission</name>
+              <abbreviation>IEC</abbreviation>
+              <uri>www.iec.ch</uri>
+            </organization>
+          </contributor>
+          <edition>1.0</edition>
+          <language>en</language>
+          <script>Latn</script>
+          <abstract format="plain" language="en" script="Latn">This part of IEC 60050 gives the general mathematical terminology used in the fields of electricity, electronics and telecommunications, together with basic concepts in linear algebra. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Another part will deal with functions. It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
+          <status>
+            <stage>60</stage>
+            <substage>60</substage>
+          </status>
+          <copyright>
+            <from>2007</from>
+            <owner>
+              <organization>
+                <name>International Electrotechnical Commission</name>
+                <abbreviation>IEC</abbreviation>
+                <uri>www.iec.ch</uri>
+              </organization>
+            </owner>
+          </copyright>
+          <editorialgroup>
+            <technical-committee number="1" type="technicalCommittee">TC 1 - Terminology</technical-committee>
+          </editorialgroup>
+          <ics>
+            <code>01.040.07</code>
+            <text>Natural and applied sciences (Vocabularies)</text>
+          </ics>
+          <ics>
+            <code>07.020</code>
+            <text>Mathematics</text>
+          </ics>
+        </bibitem><bibitem type="international-standard" id="IEC60050-103">
+          <fetched>#{Date.today}</fetched>
+          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary -- Part 103: Mathematics -- Functions </title>
+          <uri type="src">https://webstore.iec.ch/publication/161</uri>
+          <uri type="obp">/preview/info_iec60050-103%7Bed1.0%7Db.pdf</uri>
+          <docidentifier type="IEC">IEC 60050-103:2009</docidentifier>
+          <date type="published">
+            <on>2009</on>
+          </date>
+          <contributor>
+            <role type="publisher"/>
+            <organization>
+              <name>International Electrotechnical Commission</name>
+              <abbreviation>IEC</abbreviation>
+              <uri>www.iec.ch</uri>
+            </organization>
+          </contributor>
+          <edition>1.0</edition>
+          <language>en</language>
+          <script>Latn</script>
+          <abstract format="plain" language="en" script="Latn">IEC 60050-103:2009 gives the terminology relative to functions of one or more variables. Together with IEC 60050-102, it covers the mathematical terminology used in the fields of electricity, electronics and telecommunications. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Mathematical symbols are generally in accordance with IEC 60027-1 and ISO 80000-2. This standard cancels and replaces Sections 101-13, 101-14 and 101-15 of International Standard IEC 60050-101:1998. It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
+          <status>
+            <stage>60</stage>
+            <substage>60</substage>
+          </status>
+          <copyright>
+            <from>2009</from>
+            <owner>
+              <organization>
+                <name>International Electrotechnical Commission</name>
+                <abbreviation>IEC</abbreviation>
+                <uri>www.iec.ch</uri>
+              </organization>
+            </owner>
+          </copyright>
+          <editorialgroup>
+            <technical-committee number="1" type="technicalCommittee">TC 1 - Terminology</technical-committee>
+          </editorialgroup>
+          <ics>
+            <code>01.040.07</code>
+            <text>Natural and applied sciences (Vocabularies)</text>
+          </ics>
+          <ics>
+            <code>07.020</code>
+            <text>Mathematics</text>
+          </ics>
+        </bibitem>
+        </references></bibliography>
+        </standard-document>
   OUTPUT
+    end
+    FileUtils.rm_rf File.expand_path("~/.iev.pstore")
     FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev.pstore"), force: true
-    FileUtils.rm_f File.expand_path("~/.relaton-bib.pstore")
+    FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton-bib.pstore"), force: true
   end
 
@@ -970,7 +1007,7 @@ end
 
     def mock_iecbib_get_iec60050_102_01
       expect(Iecbib::IecBibliography).to receive(:get).with("IEC 60050-102", nil, {keep_year: true}) do
-      IsoBibItem.from_xml(<<~"OUTPUT")
+      IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
       <bibitem type="international-standard" id="IEC60050-102">
          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
          <docidentifier>IEC 60050-102:2007</docidentifier>
@@ -1008,7 +1045,7 @@ end
 
     def mock_iev
       expect(Iecbib::IecBibliography).to receive(:get).with("IEV", nil, {}) do
-      IsoBibItem.from_xml(<<~"OUTPUT")
+      IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
       <bibitem type="international-standard" id="IEC60050:2001">
          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
          <docidentifier>IEC 60050:2011</docidentifier>
