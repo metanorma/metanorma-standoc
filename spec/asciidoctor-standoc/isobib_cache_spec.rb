@@ -214,7 +214,7 @@ EOS
     db.save_entry("ISO(ISO 123:2001)",
         {
           "fetched" => Date.today.to_s,
-          "bib" => IsoBibItem.from_xml(ISO_123_DATED)
+          "bib" => IsoBibItem::XMLParser.from_xml(ISO_123_DATED)
         }
       )
 
@@ -247,7 +247,7 @@ EOS
         db.save_entry("ISO 123",
         {
           "fetched" => (Date.today - 90),
-          "bib" => IsoBibItem.from_xml(ISO_123_SHORT)
+          "bib" => IsoBibItem::XMLParser.from_xml(ISO_123_SHORT)
         }
       )
 
@@ -277,7 +277,7 @@ EOS
             db.save_entry("ISO(ISO 123:2001)",
         {
           "fetched" => (Date.today - 90),
-          "bib" => IsoBibItem.from_xml(ISO_123_DATED)
+          "bib" => IsoBibItem::XMLParser.from_xml(ISO_123_DATED)
         }
       )
 
@@ -305,13 +305,13 @@ EOS
     db.save_entry("ISO(ISO 123:2001)",
         {
           "fetched" => Date.today,
-          "bib" => IsoBibItem.from_xml(ISO_123_DATED)
+          "bib" => IsoBibItem::XMLParser.from_xml(ISO_123_DATED)
         }
       )
     db.save_entry("ISO(ISO 124)",
         {
           "fetched" => Date.today,
-          "bib" => IsoBibItem.from_xml(ISO_124_SHORT)
+          "bib" => IsoBibItem::XMLParser.from_xml(ISO_124_SHORT)
         }
       )
 
@@ -319,7 +319,7 @@ EOS
     localdb.save_entry("ISO(ISO 124)",
         {
           "fetched" => Date.today,
-          "bib" => IsoBibItem.from_xml(ISO_124_SHORT_ALT)
+          "bib" => IsoBibItem::XMLParser.from_xml(ISO_124_SHORT_ALT)
         }
       )
 
@@ -360,15 +360,15 @@ EOS
 private
 
   def mock_isobib_get_123
-    expect(Isobib::IsoBibliography).to receive(:get).with("ISO 123", "2001", {}).and_return(IsoBibItem.from_xml(ISO_123_DATED))
+    expect(Isobib::IsoBibliography).to receive(:get).with("ISO 123", "2001", {}).and_return(IsoBibItem::XMLParser.from_xml(ISO_123_DATED))
   end
 
   def mock_isobib_get_123_undated
-    expect(Isobib::IsoBibliography).to receive(:get).with("ISO 123", nil, {}).and_return(IsoBibItem.from_xml(ISO_123_UNDATED))
+    expect(Isobib::IsoBibliography).to receive(:get).with("ISO 123", nil, {}).and_return(IsoBibItem::XMLParser.from_xml(ISO_123_UNDATED))
   end
 
   def mock_isobib_get_124
-    expect(Isobib::IsoBibliography).to receive(:get).with("ISO 124", "2014", {}).and_return(IsoBibItem.from_xml(ISO_124_DATED))
+    expect(Isobib::IsoBibliography).to receive(:get).with("ISO 124", "2014", {}).and_return(IsoBibItem::XMLParser.from_xml(ISO_124_DATED))
   end
 
 end

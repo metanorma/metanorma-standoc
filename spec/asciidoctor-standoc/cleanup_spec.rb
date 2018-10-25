@@ -932,7 +932,7 @@ r = 1 %</stem>
 
     def mock_iecbib_get_iec60050_103_01
       expect(Iecbib::IecBibliography).to receive(:get).with("IEC 60050-103", nil, {keep_year: true}) do
-      IsoBibItem.from_xml(<<~"OUTPUT")
+      IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
       <bibitem type="international-standard" id="IEC60050-103">
          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
          <docidentifier>IEC 60050-103:2009</docidentifier>
