@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    metanorma-standoc (1.0.7)
+    metanorma-standoc (1.0.8)
       asciidoctor (~> 1.5.7)
       iev (~> 0.2.0)
       isodoc (~> 0.9.0)
@@ -208,4 +208,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   1.16.1
+   1.16.6

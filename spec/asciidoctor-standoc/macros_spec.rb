@@ -54,7 +54,7 @@ RSpec.describe Asciidoctor::Standoc do
       ....
     INPUT
        #{BLANK_HDR}
-       <sections><sourcecode id="_">
+       <sections><figure id="_">
   <image src="plantuml/20.png" id="_" imagetype="PNG" height="auto" width="auto"/>
 </figure>
 <figure id="_">
