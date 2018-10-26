@@ -5,7 +5,7 @@ PATH
       asciidoctor (~> 1.5.7)
       iev (~> 0.2.0)
       isodoc (~> 0.9.0)
-      relaton (~> 0.2.6)
+      relaton (~> 0.3.0)
       ruby-jing
       sterile
 
@@ -32,10 +32,10 @@ GEM
     ffi (1.9.25)
     formatador (0.2.5)
     gb-agencies (0.0.3)
-    gbbib (0.4.0)
+    gbbib (0.4.1)
       cnccs (~> 0.1.1)
       gb-agencies (~> 0.0.1)
-      iso-bib-item (~> 0.4.1)
+      iso-bib-item (~> 0.4.2)
     guard (2.14.2)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
@@ -62,29 +62,30 @@ GEM
       uuidtools
     htmlentities (4.3.4)
     httpclient (2.8.3)
-    iecbib (0.2.0)
+    iecbib (0.2.1)
       addressable
-      iso-bib-item (~> 0.4.0)
-    ietfbib (0.4.2)
-      iso-bib-item (~> 0.4.1)
+      iso-bib-item (~> 0.4.2)
+    ietfbib (0.4.3)
+      iso-bib-item (~> 0.4.2)
     iev (0.2.0)
       nokogiri
     image_size (2.0.0)
-    iso-bib-item (0.4.1)
+    iso-bib-item (0.4.2)
       isoics (~> 0.1.6)
       nokogiri (~> 1.8.4)
       ruby_deep_clone (~> 0.8.0)
-    isobib (0.4.0)
+    isobib (0.4.1)
       algoliasearch
-      iecbib (~> 0.2.0)
-      iso-bib-item (~> 0.4.0)
-    isodoc (0.9.4)
+      iecbib (~> 0.2.1)
+      iso-bib-item (~> 0.4.2)
+    isodoc (0.9.5)
       asciimath
       html2doc (~> 0.8.1)
       htmlentities (~> 4.3.4)
       liquid
       metanorma (~> 0.2.7)
       nokogiri
+      rake (~> 12.0)
       roman-numerals
       ruby-xslt
       sassc (~> 1.12.1)
@@ -125,12 +126,12 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
-    relaton (0.2.6)
+    relaton (0.3.0)
       algoliasearch
       gbbib (~> 0.4.0)
       iecbib (~> 0.2.0)
       ietfbib (~> 0.4.2)
-      iso-bib-item (~> 0.4.1)
+      iso-bib-item (~> 0.4.2)
       isobib (~> 0.4.0)
     roman-numerals (0.3.0)
     rspec (3.8.0)

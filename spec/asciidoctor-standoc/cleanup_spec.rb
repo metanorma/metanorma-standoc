@@ -875,8 +875,8 @@ r = 1 %</stem>
             <role type="publisher"/>
             <organization>
               <name>International Electrotechnical Commission</name>
-<abbreviation>IEC</abbreviation>
-<uri>www.iec.ch</uri>
+              <abbreviation>IEC</abbreviation>
+              <uri>www.iec.ch</uri>
             </organization>
           </contributor>
           <edition>1.0</edition>
@@ -891,7 +891,9 @@ r = 1 %</stem>
             <from>2007</from>
             <owner>
               <organization>
-                <name>IEC</name>
+              <name>International Electrotechnical Commission</name>
+              <abbreviation>IEC</abbreviation>
+              <uri>www.iec.ch</uri>
               </organization>
             </owner>
           </copyright>
@@ -935,7 +937,9 @@ r = 1 %</stem>
             <from>2009</from>
             <owner>
               <organization>
-                <name>IEC</name>
+              <name>International Electrotechnical Commission</name>
+<abbreviation>IEC</abbreviation>
+<uri>www.iec.ch</uri>
               </organization>
             </owner>
           </copyright>
