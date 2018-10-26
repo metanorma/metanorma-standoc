@@ -122,7 +122,7 @@ RSpec.describe Asciidoctor::Standoc do
           </relation>
           <relation type="instance">
             <bibitem>
-              <formattedref>ISO 123:1985</formattedref>
+              <formattedref>ISO 123:2001</formattedref>
             </bibitem>
           </relation>
           <editorialgroup>
