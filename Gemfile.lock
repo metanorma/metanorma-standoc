@@ -78,12 +78,12 @@ GEM
       algoliasearch
       iecbib (~> 0.2.1)
       iso-bib-item (~> 0.4.2)
-    isodoc (0.9.5)
+    isodoc (0.9.6)
       asciimath
       html2doc (~> 0.8.1)
       htmlentities (~> 4.3.4)
       liquid
-      metanorma (~> 0.2.7)
+      metanorma (~> 0.3.0)
       nokogiri
       rake (~> 12.0)
       roman-numerals
@@ -100,7 +100,7 @@ GEM
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
     lumberjack (1.0.13)
-    metanorma (0.2.11)
+    metanorma (0.3.0)
     method_source (0.9.0)
     mime-types (3.2.2)
       mime-types-data (~> 3.2015)
@@ -198,7 +198,7 @@ DEPENDENCIES
   equivalent-xml (~> 0.6)
   guard (~> 2.14)
   guard-rspec (~> 4.7)
-  metanorma (~> 0.2.6)
+  metanorma (~> 0.3.0)
   metanorma-standoc!
   rake (~> 12.0)
   rspec (~> 3.6)
