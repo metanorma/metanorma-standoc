@@ -43,6 +43,18 @@ RSpec.describe Asciidoctor::Standoc do
       :partnumber: 1
       :edition: 2
       :revdate: 2000-01-01
+      :published-date: 1000-01-01
+      :accessed-date: 1001-01-01
+      :created-date: 1002-01-01
+      :implemented-date: 1003-01-01
+      :obsoleted-date: 1004-01-01
+      :confirmed-date: 1005-01-01
+      :updated-date: 1006-01-01
+      :issued-date: 1007-01-01
+      :circulated-date: 1008-01-01
+      :unchanged-date: 1009-01-01
+      :date: Fred 1010-01-01
+      :date_2: Jack 1010-01-01
       :draft: 3.4
       :technical-committee: TC
       :technical-committee-number: 1
@@ -78,6 +90,42 @@ RSpec.describe Asciidoctor::Standoc do
   <docidentifier>
     <project-number part="1"> 1000</project-number>
   </docidentifier>
+  <date type="published">
+  <on>1000-01-01</on>
+</date>
+<date type="accessed">
+  <on>1001-01-01</on>
+</date>
+<date type="created">
+  <on>1002-01-01</on>
+</date>
+<date type="implemented">
+  <on>1003-01-01</on>
+</date>
+<date type="obsoleted">
+  <on>1004-01-01</on>
+</date>
+<date type="confirmed">
+  <on>1005-01-01</on>
+</date>
+<date type="updated">
+  <on>1006-01-01</on>
+</date>
+<date type="issued">
+  <on>1007-01-01</on>
+</date>
+<date type="circulated">
+  <on>1008-01-01</on>
+</date>
+<date type="unchanged">
+  <on>1009-01-01</on>
+</date>
+<date type="Fred">
+  <on>1010-01-01</on>
+</date>
+<date type="Jack">
+  <on>1010-01-01</on>
+</date>
   <language>en</language>
   <script>Latn</script>
   <status format="plain">published</status>

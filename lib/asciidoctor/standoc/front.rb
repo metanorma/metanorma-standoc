@@ -104,10 +104,34 @@ module Asciidoctor
         node.attr("relaton-uri") && xml.source(node.attr("relaton-uri"), type: "relaton")
       end
 
+      def metadata_date1(node, xml, type)
+        date = node.attr("#{type}-date")
+        date and xml.date **{ type: type } do |d|
+          d.on date
+        end
+      end
+
+      DATETYPES = %w{ published accessed created implemented obsoleted
+                      confirmed updated issued circulated unchanged
+      }.freeze
+
+      def metadata_date(node, xml)
+        DATETYPES.each { |t| metadata_date1(node, xml, t) }
+        node.attributes.keys.each do |a|
+          next unless a == "date" || /^date_\d+$/.match(a)
+          type, date = node.attr(a).split(/ /, 2)
+          type or next
+          xml.date **{ type: type } do |d|
+            d.on date
+          end
+        end
+      end
+
       def metadata(node, xml)
         title node, xml
         metadata_source(node, xml)
         metadata_id(node, xml)
+        metadata_date(node, xml)
         metadata_author(node, xml)
         metadata_publisher(node, xml)
         xml.language (node.attr("language") || "en")
