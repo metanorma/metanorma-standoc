@@ -8,6 +8,116 @@ WARNING: This gem is still under development.
 
 Gem for serialising the https://github.com/riboseinc/metanorma-model-standoc[Metanorma Standoc] model. 
 
+== Functionality
+
+This gem processes Metanorma documents following a template for generating standards documents, according
+to a range of standards classes. This gem provides underlying generic functionality; behaviour specific
+to each standards class is refined in the gem specific to that standards class (e.g. https://github.com/riboseinc/metanorma-iso).
+The following outputs are generated.
+
+* Metanorma XML representation of the document, intended as a document model for 
+Standards. The Metanorma XML representation is processed in turn, to generate one or more of 
+the following outputs as end deliverables, depending on each standards class gem:
+* Microsoft Word output (`.doc`)
+* HTML output (`.html`)
+* PDF (`.pdf`)
+
+The following input formats are supported:
+
+* http://asciidoctor.org/[Asciidoctor]
+
+This README provides an overview of the functionality of the gem; see also
+https://github.com/riboseinc/metanorma-iso/blob/master/docs/guidance.adoc[Guidance for authoring].
+https://github.com/riboseinc/metanorma-iso/blob/master/docs/quickstart.adoc[Quickstart guide]
+gives a summary overview.
+
+NOTE: http://asciimath.org[AsciiMathML] is used for mathematical formatting.
+The gem uses the https://github.com/asciidoctor/asciimath[Ruby AsciiMath parser],
+which is syntactically stricter than the common MathJax processor;
+if you do not get expected results, try bracketting terms your in AsciiMathML
+expressions.
+
+=== Installation
+
+If you are using a Mac, the https://github.com/riboseinc/metanorma-macos-setup
+repository has instructions on setting up your machine to run Metanorma
+scripts such as this one. You need only run the following in a Terminal console:
+
+[source,console]
+----
+$ bash <(curl -s https://raw.githubusercontent.com/riboseinc/metanorma-macos-setup/master/metanorma-setup)
+$ gem install metanorma-standoc
+$ gem install metanorma-cli 
+----
+
+The metanorma-cli gem is the command-line interface for the Metanorma tool suite
+(incorporating the `metanorma` executable seen above).
+
+== Approach
+=== Document model
+
+The https://github.com/riboseinc/metanorma-model-iso[Metanorma document model] used in document generation
+intends to introduce rigour into the standards authoring process; existing 
+document templates do not support such rigour down to the element level. It also introduces
+flexibility by decoupling the document structure from its presentation.
+
+Formal definitions of standards prescribe the contents of standards to a level
+amenable to an explicit document model. The ISO International Standard format,
+ss prescribed in
+http://www.iec.ch/members_experts/refdocs/iec/isoiecdir-2%7Bed7.0%7Den.pdf[ISO/IEC DIR 2 "Principles and rules for the structure and drafting of ISO and IEC documents"],
+is one of the more detailed such prescriptions available. A formal document
+model would allow checking for consistency in format and content, and expedite
+authoring and quality control of ISO standards. Authoring standards through a
+more abstract formal model also permit enhanced functionality such as  
+cross-reference link checking and auto-numbering of sections, figures, tables and formulas.
+Outputting a document in different languages also becomes straightforward.
+
+=== Asciidoctor
+
+Asciidoctor has been selected as the authoring tool to generate the document
+model representation of standards. It is a document formatting tool like
+Markdown and DocBook, which combines the relative ease of use of the former
+(using relatively lightweight markup), and the rigour and expressively of the
+latter (it has a well-defined syntax, and was in fact initially developed as a
+DocBook document authoring tool). Asciidoctor has built-in capability to output
+Text and HTML; so it can be used to preview the file as it is being
+authored. However the gem natively outputs HTML and Word output, so there should
+not be much need for this.
+
+Asciidoctor has some formatting constraints because of its own document model,
+that users need to be aware. For example, Asciidoc has a strict division between
+inline and block elements, which disallows certain kinds of nesting; so a list
+cannot be embedded within a paragraph, it can only constitute its own paragraph
+(though lists themselves can be nested within each other). Asciidoctor also disallows
+multiple paragraphs in footnotes, 
+http://discuss.asciidoctor.org/footnotes-with-paragraph-breaks-td4130.html[by design].
+(The document model does not impose this constraint, so you could edit the generated
+XML to break up paragraphs within a footnote.)
+
+== Different behaviour from native Asciidoctor
+
+=== Autonumbering
+
+Autonumbering in Metanorma extends to formulas (which are encoded as "stem" blocks) and notes.
+Autonumbering is applied in the conversion from Metanorma XML to output formats (`isodoc`);
+by default it restarts for each annex, but is continuous for the main body of text.
+
+=== Unsupported blocks
+
+Sidebars (`aside`) are not supported, and have been repurposed for reviewer comments.
+Page breaks (`thematic break`) are not supported; ASCII art/preformatted text (`literal`)
+are not supported in most standards classes.
+
+=== Footnotes
+
+Table and figure footnotes are treated diffferently from all other footnotes: they are
+rendered at the bottom of the table or figure, and they are numbered separately.
+
+=== References
+
+References to well-defined standards codes use the document identifiers for citations
+(e.g. `ISO 20483:2013`); generic references in bibliographies use bracketed numbers `[1]`.
+
 [[model_additions]]
 == Asciidoctor model additions
 
@@ -61,8 +171,8 @@ _paddy_ (<<paddy>>) from which the husk only has been removed
 If the Terms and Definitions of a standard are partly or fully sourced from
 another standard, that standard is cited in a `source` attribute to the section,
 which is set to the reference anchor of the standard (given under the Normative
-Referencecs)..
-The boilerplate of the Terms and Definitions section is adjusted accordingly.
+Referencecs).
+Any boilerplate of the Terms and Definitions section is adjusted accordingly.
 
 [source,asciidoctor]
 --
@@ -357,4 +467,207 @@ command line:
 
 If PlantUML is not installed locally, the source PlantUML is incorporated into
 the output document as sourcecode. 
+
+== Bibliography integration
+
+Bibliographic entries for standards are expected to use the standard document
+identifier as the item label; e.g.
+
+[source,asciidoctor]
+--
+* [[[ref1,ISO 712]]], _Cereals and cereal products -- Determination of moisture content -- Reference method_
+--
+
+By default, the https://github.com/riboseinc/relaton[`relaton`] gem is used to look up the reference details for
+standards known to have online bibliographies. For bibliographic standards to be looked up via relaton,
+the standard document identifier needs to be encoded in a format recognised by relaton as a key:
+
+* For ISO: `ISO(identifier)`, or any identifier prefixed with `ISO`
+* For IEC: `IEC(identifier)`, or any identifier prefixed with `IEC`
+* For IETF: `IETF(identifier)` (e.g. `IETF(I-D.-burger-xcon-mmodels)`), or any identifier prefixed with `RFC`
+* For GB: `CN(identifier)` (e.g. `CN(JB/T 13368-2018)`)
+
+The full bibliographic details of the item are screenscraped from the online bibliography and inserted into the XML file 
+(although only the title of the reference is used in rendering).
+
+In addition, if any entries in Terms and Definitions cite the International Electrotechnical Vocabulary (IEV),
+the http://www.electropedia.org[IEV Electropedia] termbank is queried during validation, to confirm
+that the cited entries are the same as what is cited online; those queries are routed through the `iev` gem
+
+TODO: update
+
+[[cache]]
+The results of all `relaton` searches done to date, across all documents,
+are cached in the global cache file `~/.relaton-bib.pstore`,  
+so they do not need to be re-fetched each time a document is processed.
+(The web query takes a few seconds per reference.)
+
+The results of all `relaton` searches done to date in a given directory
+are stored in the same directory as the current document,
+as the file `{filename}.relaton.pstore`. The local cache overrides entries in
+the global cache, and can be manually edited. The local cache is only used
+if the `:local-cache:` or `:local-cache-only:` document attribute is set.
+
+If the document attribute `:no-isobib:` is set, the reference details for
+items are not looked up via `isobib`, and the `isobib` caches are not used.
+If the document attribute `:no-isobib-cache:` is set, the reference details for
+items are still looked up via `isobib`, but the `isobib` caches are not used.
+
+Any entry in the cache that corresponds to an undated ISO reference fetches its details
+from the latest available entry on the ISO web site. If the entry is more than 60
+days old, it is refetched.
+
+The results of all `iev` searches done to date across all documents are cached
+in the global cache fule `~/iev.pstore`, and the results of all `iev` searches
+done to date for the current document are stored in the same directory as the
+current document, in the file `(filename).iev.pstore`.
+
+== Document Attributes
+
+The gem relies on Asciidoctor document attributes to provide necessary
+metadata about the document. These include:
+
+`:nodoc:`:: Do not generate Word and HTML output, only generate XML output.
+Can be used as a command-line option (like all other document attributes):
+`asciidoctor -a nodoc -b iso -r "metanorma-iso" a.adoc`
+
+`:novalid:`:: Suppress validation.
+
+`:flush-caches:`:: If set, delete and reinitialise the <<cache,cache>> of `relaton` searches.
+
+`:no-isobib:`:: If set, do not use the `relaton` or `iev` gem functionality to look up
+ISO and IEV references online, nor the <<cache,cache>> of `relaton` and `iev` searches.
+
+`:no-isobib-cache:`:: If set, use the `relaton` and `iev` gem functionality to look up
+ISO and IEV references online, but do not use the <<cache,cache>> of `relaton` and `iev` searches.
+
+`:local-cache:`:: Use the local relaton and iev search caches to override the global `relaton` and `iev` search
+caches.
+
+`:local-cache-only:`:: Use the local relaton and iev search caches to the exclusion of the global `relaton` and `iev` search
+caches.
+
+`:i18nyaml:`:: Name of YAML file of internationalisation text, to use instead
+of the built-in English, French or Chinese text used to label parts of the document
+(e.g. "Table", "Foreword", boilerplate text for Normative References, etc.)
+Use if you wish to output an standard in a language other than those three.
+A sample YAML file for English, with "Foreword" replaced with "Frontispiece",
+is available at https://github.com/riboseinc/metanorma-iso/blob/master/spec/examples/english.yaml[]
+
+`:docnumber:`:: The numeric component of the document identifier (mandatory). The full identifier is formed by prefixing and suffixing this element with other strings derived from metadata.
+
+`:edition:`:: The document edition
+
+`:revdate:`:: The date the document was last updated
+
+`:copyright-year:`:: The year which will be claimed as when the copyright for
+the document was issued
+
+`:library-ics:` :: The ICS (International Categorization for Standards) number for the standard. There may be more than one ICS for a document; if so, they should be comma-delimited. (The ics identifier is added to the document metadata, but is not output to the current document templates.)
+
+`:title:` :: The title of the document
+
+`:doctype:`:: The document type; e.g. "standard", "guide", "report".
+
+`:status:` :: The status of the document; e.g. "draft", "published".
+
+`:technical-committee:`:: The name of the relevant technical committee
+
+`:draft:`:: The document draft (used in addition to document stage, for multiple iterations: expected format _X.Y_)
+
+`:issued-date:`::
+The date on which the standard was issued (authorised for publication by the issuing authority).
+
+`:published-date:`::
+The date on which the standard was published (distributed by the publisher).
+
+`:implemented-date:`::
+The date on which the standard became active.
+
+`:created-date:`::
+The date on which the first version of the standard was created.
+
+`:updated-date:`::
+The date on which the current version of the standard was updated.
+
+`:obsoleted-date:`::
+The date on which the standard was obsoleted/revoked.
+
+`:confirmed-date:`::
+The date on which the standard was reviewed and approved by the issuing authority.
+
+`:unchanged-date:`::
+The date on which the standard was last renewed without any changes in content.
+
+`:circulated-date:`::
+The date on which the unpublished standard was last circulated officially as a preprint. For standards, this is associated with the latest transition to a formally defined preparation stage, such as Working Draft or Committee Draft.
+
+`:date:`::
+An arbitrary date in the production of the standard. Content of the attribute should be a token, giving the type of date, then space, then the date itself. Multiple dates can be added as `:date_2:`, `date_3`, etc.
+
+`:uri:`:: The URI to which this standard is published.
+`:xml-uri:`:: The URI to which the (Metanorma) XML representation of this standard is published.
+`:html-uri:`:: The URI to which the HTML representation of this standard is published.
+`:pdf-uri:`:: The URI to which the PDF representation of this standard is published.
+`:doc-uri:`:: The URI to which the DOC representation of this standard is published.
+`:relaton-uri:`:: The URI to which the Relaton XML representation of this standard is published.
+
+`:language:` :: The language of the document (`en` or `fr`). Defaults to `en`.
+
+`:script:` :: The script of the document (defaults to `Latn`). Must be supplied as
+`Hans` for Simplified Chinese.
+
+`:publisher:`:: The standards agency publishing the standard; can be multiple
+(comma-delimited). Defaults to `ISO`.
+
+`:body-font:`:: Font for body text; will be inserted into CSS. Defaults to
+Cambria for Latin script, SimSun for Simplified Chinese.
+
+`:header-font:`:: Font for headers; will be inserted into CSS. Defaults to
+Cambria for Latin script, SimHei for Simplified Chinese.
+
+`:monospace-font`:: Font for monospace; will be inserted into CSS. Defaults to
+Courier New.
+
+`:htmlstylesheet`:: SCSS stylesheet to use for HTML output. Defaults to built in stylesheet,
+which adheres with ISO formatting requirements. Recommend against overriding this.
+
+`:htmlcoverpage`:: HTML template for cover page. Defaults to built in template. Recommend against overriding this.
+
+`:htmlintropage`:: HTML template for introductory section. Defaults to built in template. Recommend against overriding this.
+
+`:scripts`:: Javascript scripts for HTML output. Defaults to built in scripts. Recommend against overriding this.
+`:scripts-pdf`:: Javascript scripts for HTML > PDF output. Defaults to built in scripts. Recommend against overriding this.
+
+`:wordstylesheet`:: Primary SCSS stylesheet to use for Word output. Defaults to built in stylesheet,
+which adheres with ISO formatting requirements. Recommend against overriding this.
+
+`:standardstylesheet`:: Secondary SCSS stylesheet use for Word output. Defaults to built in stylesheet,
+which adheres with ISO formatting requirements. Recommend against overriding this.
+
+`:header`:: Header and footer file for Word output. Defaults to built in template. Recommend against overriding this.
+
+`:wordcoverpage`:: Word template for cover page. Defaults to built in template. Recommend against overriding this.
+
+`:wordintropage`:: Word template for introductory section. Defaults to built in template. Recommend against overriding this.
+
+`:ulstyle`:: Word CSS selector for unordered lists in supplied stylesheets. Defaults to value for built in stylesheet. Recommend against overriding this.
+
+`:olstyle`:: Word CSS selector for ordered lists in supplied stylesheets. Defaults to value for built in stylesheet. Recommend against overriding this.
+
+`:data-uri-image`:: Encode all images in HTML output as inline data-URIs.
+
+The attribute `:draft:`, if present, includes review notes in the XML output;
+these are otherwise suppressed.
+
+The document proper can reference the values of document attributes, which is convenient
+for reusability. For example,
+
+[source,asciidoc]
+--
+This document was prepared by Technical Committee ISO/TC {technical-committee-number}, _{technical-committee}_, Subcommittee SC {subcommittee-number}, _{subcommittee}_.
+--
+
+If the corresponding document attributes are not populated in the header, then the references
+themselves will not be populated.
 
