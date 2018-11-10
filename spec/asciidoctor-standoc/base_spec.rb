@@ -87,9 +87,8 @@ RSpec.describe Asciidoctor::Standoc do
 <standard-document xmlns="http://riboseinc.com/isoxml">
 <bibdata type="article">
 <title language="en" format="text/plain">Main Title — Title</title>
-  <docidentifier>
-    <project-number part="1"> 1000</project-number>
-  </docidentifier>
+  <docidentifier>1000-1</docidentifier>
+  <docnumber>1000</docnumber>
   <date type="published">
   <on>1000-01-01</on>
 </date>
@@ -184,9 +183,8 @@ RSpec.describe Asciidoctor::Standoc do
          <source type="pdf">D</source>
          <source type="doc">E</source>
          <source type="relaton">F</source>
-         <docidentifier>
-           <project-number part="1" subpart="1">ISO/IEC/IETF 1000</project-number>
-         </docidentifier>
+         <docidentifier>1000-1-1</docidentifier>
+         <docnumber>1000</docnumber>
          <contributor>
            <role type="author"/>
            <organization>
@@ -319,12 +317,12 @@ RSpec.describe Asciidoctor::Standoc do
     expect(html).to match(%r[h1[^{]+\{[^{]+font-family: Comic Sans;]m)
     expect(html).to match(%r[an empty word cover page])
     expect(html).to match(%r[an empty word intro page])
-    expect(html).to match(%r[Content-Location: file:///C:/Doc/test_files/header.html
+    expect(html).to include(%[Content-Location: file:///C:/Doc/test_files/header.html
 Content-Transfer-Encoding: base64
 Content-Type: text/html charset="utf-8"
 
-Ci8qIGFuIGVtcHR5IGhlYWRlciAqLwoKU1RBUlQgRE9DIElEOiAgOiBFTkQgRE9DIElECgpGSUxF
-TkFNRTogdGVzdAoK
+Ci8qIGFuIGVtcHR5IGhlYWRlciAqLwoKU1RBUlQgRE9DIElEOiA6IEVORCBET0MgSUQKCkZJTEVO
+QU1FOiB0ZXN0Cgo=
 ])
   end
 

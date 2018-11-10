@@ -106,9 +106,6 @@ BLANK_HDR = <<~"HDR"
 <?xml version="1.0" encoding="UTF-8"?>
 <standard-document xmlns="http://riboseinc.com/isoxml">
 <bibdata type="article">
-  <docidentifier>
-    <project-number> </project-number>
-  </docidentifier>
   <language>en</language>
   <script>Latn</script>
   <status format="plain">published</status>

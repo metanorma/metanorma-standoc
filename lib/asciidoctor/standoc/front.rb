@@ -11,10 +11,11 @@ module Asciidoctor
     module Front
       def metadata_id(node, xml)
         part, subpart = node&.attr("partnumber")&.split(/-/)
-        xml.docidentifier do |i|
-          i.project_number node.attr("docnumber"),
-            **attr_code(part: part, subpart: subpart)
-        end
+        id = node.attr("docnumber") || ""
+        id += "-#{part}" if part
+        id += "-#{subpart}" if subpart
+        xml.docidentifier id
+        xml.docnumber node.attr("docnumber")
       end
 
       def metadata_version(node, xml)

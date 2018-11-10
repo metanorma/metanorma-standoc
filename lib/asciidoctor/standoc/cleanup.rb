@@ -43,25 +43,13 @@ module Asciidoctor
         xmldoc
       end
 
-      # ISO as a prefix goes first
       def docidentifier_cleanup(xmldoc)
-        id = xmldoc.at("//bibdata/docidentifier/project-number")
-        return unless id
-
-        prefix = []
-        xmldoc.xpath("//bibdata/contributor[role/@type = 'publisher']"\
-                     "/organization").each do |x|
-          x1 = x.at("abbreviation")&.text || x.at("name")&.text
-          x1 == "ISO" and prefix.unshift("ISO") or prefix << x1
-        end
-
-        id.content = prefix.join("/") + " " + id.text
       end
 
       TEXT_ELEMS =
-        %w{status language script version author name callout phone
-           email street city state country postcode identifier referenceFrom
-           referenceTo docidentifier prefix initial addition surname forename
+        %w{status language script version author name callout phone email 
+           street city state country postcode identifier referenceFrom
+           referenceTo docidentifier docnumber prefix initial addition surname forename
            title draft secretariat title-main title-intro title-part}.freeze
 
       # it seems Nokogiri::XML is treating the content of <script> as cdata,
