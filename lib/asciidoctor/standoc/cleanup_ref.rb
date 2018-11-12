@@ -102,16 +102,6 @@ module Asciidoctor
         "name = 'International Organization for Standardization' or "\
         "name = 'International Electrotechnical Commission']".freeze
 
-      def date_range(date)
-        from = date.at("./from")
-        to = date.at("./to")
-        on = date.at("./on")
-        return on.text if on
-        ret = "#{from.text}&ndash;"
-        ret += to.text if to
-        ret
-      end
-
       def reference_names(xmldoc)
         xmldoc.xpath("//bibitem[not(ancestor::bibitem)]").each do |ref|
           isopub = ref.at(ISO_PUBLISHER_XPATH)
