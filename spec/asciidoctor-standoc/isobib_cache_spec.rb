@@ -241,6 +241,34 @@ EOS
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
   end
 
+  it "renames local cache" do
+    FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
+    FileUtils.rm_f "test/cache"
+    mock_isobib_get_123
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :local-cache: test
+
+      [bibliography]
+      == Normative References
+
+      * [[[iso123,ISO 123:2001]]] _Standard_
+    INPUT
+    expect(File.exist?("#{Dir.home}/.relaton/cache")).to be true
+    expect(File.exist?("test/cache")).to be true
+
+    db = Relaton::Db.new "test/cache", nil
+    entry = db.load_entry("ISO(ISO 123:2001)")
+    expect(entry).to_not be nil
+
+    FileUtils.rm_f File.expand_path("~/.relaton/cache")
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
+  end
+
   it "activates only local cache" do
     relaton_bib_file  = File.expand_path("~/.relaton/cache")
     relaton_bib_file1 = File.expand_path("~/.relaton-bib.pstore1")

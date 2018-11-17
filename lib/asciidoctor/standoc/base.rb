@@ -95,9 +95,8 @@ module Asciidoctor
 
       def init_bib_caches(node)
         unless (@no_isobib_cache || @no_isobib)
-          globalname = bibliocache_name(true) unless node.attr("local-cache-only")
-          localname = bibliocache_name(false) if node.attr("local-cache") ||
-            node.attr("local-cache-only")
+          globalname = global_bibliocache_name unless node.attr("local-cache-only")
+          localname = local_bibliocache_name(node.attr("local-cache") || node.attr("local-cache-only"))
           if node.attr("flush-caches")
             FileUtils.rm_f globalname unless globalname.nil?
             FileUtils.rm_f localname unless localname.nil?

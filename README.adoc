@@ -504,7 +504,8 @@ so they do not need to be re-fetched each time a document is processed.
 
 The results of all `relaton` searches done to date in a given directory
 are stored in the same directory as the current document,
-as the file `relaton/cache`. The local cache overrides entries in
+by default to the file `relaton/cache`. (The filename can be overriden in
+document attributes.) The local cache overrides entries in
 the global cache, and can be manually edited. The local cache is only used
 if the `:local-cache:` or `:local-cache-only:` document attribute is set.
 
@@ -542,10 +543,12 @@ ISO and IEV references online, nor the <<cache,cache>> of `relaton` and `iev` se
 ISO and IEV references online, but do not use the <<cache,cache>> of `relaton` and `iev` searches.
 
 `:local-cache:`:: Use the local relaton and iev search caches to override the global `relaton` and `iev` search
-caches.
+caches. If a directory name is given for the attribute, that name overrides `relaton` as the
+cache name.
 
 `:local-cache-only:`:: Use the local relaton and iev search caches to the exclusion of the global `relaton` and `iev` search
-caches.
+caches. If a directory name is given for the attribute, that name overrides `relaton` as the
+cache name.
 
 `:i18nyaml:`:: Name of YAML file of internationalisation text, to use instead
 of the built-in English, French or Chinese text used to label parts of the document

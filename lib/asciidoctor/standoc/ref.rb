@@ -194,9 +194,14 @@ module Asciidoctor
         end.join("\n")
       end
 
-      def bibliocache_name(global)
-        global ?  "#{Dir.home}/.relaton/cache" :
-          "relaton/cache"
+      def global_bibliocache_name
+        "#{Dir.home}/.relaton/cache"
+      end
+
+      def local_bibliocache_name(cachename)
+        return nil if cachename.nil?
+        cachename = "relaton" if cachename.empty?
+        "#{cachename}/cache"
       end
 
       def ievcache_name(global)
