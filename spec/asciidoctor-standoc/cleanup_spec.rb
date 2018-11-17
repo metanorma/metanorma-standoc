@@ -808,10 +808,10 @@ r = 1 %</stem>
 
   it "separates IEV citations by top-level clause" do
     FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore1")
-    FileUtils.mv File.expand_path("~/.relaton-bib.pstore"), File.expand_path("~/.relaton-bib.pstore1"), force: true
+    FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
     FileUtils.rm_rf File.expand_path("~/.iev.pstore1")
     FileUtils.mv File.expand_path("~/.iev.pstore"), File.expand_path("~/.iev.pstore1"), force: true
-    FileUtils.rm_rf "test.relaton.pstore"
+    FileUtils.rm_rf "relaton/cache"
     FileUtils.rm_rf "test.iev.pstore"
     # mock_iecbib_get_iec60050_102_01
     # mock_iecbib_get_iec60050_103_01
@@ -961,8 +961,8 @@ r = 1 %</stem>
     end
     FileUtils.rm_rf File.expand_path("~/.iev.pstore")
     FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev.pstore"), force: true
-    FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore")
-    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton-bib.pstore"), force: true
+    FileUtils.rm_rf File.expand_path("~/.relaton/cache")
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
   end
 
   private

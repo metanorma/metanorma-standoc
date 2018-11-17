@@ -498,13 +498,13 @@ TODO: update
 
 [[cache]]
 The results of all `relaton` searches done to date, across all documents,
-are cached in the global cache file `~/.relaton-bib.pstore`,  
+are cached in the global cache file `~/.relaton/cache`,  
 so they do not need to be re-fetched each time a document is processed.
 (The web query takes a few seconds per reference.)
 
 The results of all `relaton` searches done to date in a given directory
 are stored in the same directory as the current document,
-as the file `{filename}.relaton.pstore`. The local cache overrides entries in
+as the file `relaton/cache`. The local cache overrides entries in
 the global cache, and can be manually edited. The local cache is only used
 if the `:local-cache:` or `:local-cache-only:` document attribute is set.
 

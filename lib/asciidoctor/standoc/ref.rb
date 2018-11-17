@@ -195,8 +195,8 @@ module Asciidoctor
       end
 
       def bibliocache_name(global)
-        global ?  "#{Dir.home}/.relaton-bib.pstore" :
-          "#{@filename}.relaton.pstore"
+        global ?  "#{Dir.home}/.relaton/cache" :
+          "relaton/cache"
       end
 
       def ievcache_name(global)
