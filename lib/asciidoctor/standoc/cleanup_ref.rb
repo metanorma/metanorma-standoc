@@ -35,7 +35,7 @@ module Asciidoctor
       def xref_to_eref(x)
         x["bibitemid"] = x["target"]
         x["citeas"] = @anchors&.dig(x["target"], :xref) ||
-          warn("ISO: #{x['target']} is not a real reference!")
+          warn("#{x['target']} is not a real reference!")
         x.delete("target")
         extract_localities(x) unless x.children.empty?
       end
@@ -69,7 +69,7 @@ module Asciidoctor
       def origin_cleanup(xmldoc)
         xmldoc.xpath("//origin").each do |x|
           x["citeas"] = @anchors&.dig(x["bibitemid"], :xref) ||
-            warn("ISO: #{x['bibitemid']} is not a real reference!")
+            warn("#{x['bibitemid']} is not a real reference!")
           extract_localities(x) unless x.children.empty?
         end
       end
@@ -90,8 +90,18 @@ module Asciidoctor
         end
       end
 
-      def format_ref(ref, isopub)
-        return ref if isopub
+      def docid_prefix(prefix, docid)
+        docid = "#{prefix} #{docid}" unless omit_docid_prefix(prefix)
+        docid
+      end
+
+      def omit_docid_prefix(prefix)
+        return true if prefix.nil? || prefix.empty?
+        ["ISO", "IEC", "IEV"].include? prefix
+      end
+
+      def format_ref(ref, type, isopub)
+        return docid_prefix(type, ref) if isopub
         return "[#{ref}]" if /^\d+$/.match(ref) && !/^\[.*\]$/.match(ref)
         ref
       end
@@ -106,7 +116,7 @@ module Asciidoctor
         xmldoc.xpath("//bibitem[not(ancestor::bibitem)]").each do |ref|
           isopub = ref.at(ISO_PUBLISHER_XPATH)
           docid = ref.at("./docidentifier[not(@type = 'DOI')]")
-          reference = format_ref(docid.text, isopub)
+          reference = format_ref(docid.text, docid["type"], isopub)
           @anchors[ref["id"]] = { xref: reference }
         end
       end

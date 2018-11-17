@@ -4,6 +4,15 @@ require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
 
+  IETF_123_SHORT = <<~EOS
+<bibitem type="international-standard" id="IETF123">
+  <title format="text/plain" language="en" script="Latn">Rubber latex -- Sampling</title>
+  <docidentifier type="IETF">RFC 123</docidentifier>
+  <contributor>    <role type="publisher"/>    <organization>      <name>International Organization for Standardization</name>      <abbreviation>ISO</abbreviation>      <uri>www.iso.org</uri>    </organization>  </contributor>
+  <status>Published</status>
+</bibitem>
+EOS
+
   ISO_123_SHORT = <<~EOS
 <bibitem type="international-standard" id="ISO123">
   <title format="text/plain" language="en" script="Latn">Rubber latex -- Sampling</title>
@@ -161,6 +170,27 @@ EOS
 
     FileUtils.rm_f File.expand_path("~/.relaton-bib.pstore")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton-bib.pstore"), force: true
+  end
+
+  it "inserts prefixes to fetched reference identifiers other than ISO IEC" do
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore"), File.expand_path("~/.relaton-bib.pstore1"), force: true
+    FileUtils.rm_f "test.relaton.pstore"
+    mock_isobib_get_123
+    mock_ietfbib_get_123
+    out = Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+      #{CACHED_ISOBIB_BLANK_HDR}
+      
+      <<iso123>>
+      <<ietf123>>
+
+      [bibliography]
+      == Normative References
+
+      * [[[iso123,ISO 123:2001]]] _Standard_
+      * [[[ietf123,RFC 123]]] _Standard_
+    INPUT
+      expect(out).to include '<eref type="inline" bibitemid="iso123" citeas="ISO 123:2001"/>'
+      expect(out).to include '<eref type="inline" bibitemid="ietf123" citeas="IETF RFC 123"/>'
   end
 
   it "activates global cache" do
@@ -404,6 +434,10 @@ private
 
   def mock_isobib_get_124
     expect(Isobib::IsoBibliography).to receive(:get).with("ISO 124", "2014", {}).and_return(IsoBibItem::XMLParser.from_xml(ISO_124_DATED))
+  end
+
+  def mock_ietfbib_get_123
+    expect(IETFBib::RfcBibliography).to receive(:get).with("RFC 123", nil, {}).and_return(IsoBibItem::XMLParser.from_xml(IETF_123_SHORT))
   end
 
 end
