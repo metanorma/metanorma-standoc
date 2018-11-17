@@ -155,7 +155,7 @@ EOS
 
   it "does not fetch references for ISO references in preparation" do
     FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
-    FileUtils.rm_f "relaton/cache"
+    FileUtils.rm_rf "relaton/cache"
     Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{CACHED_ISOBIB_BLANK_HDR}
       [bibliography]
@@ -168,13 +168,13 @@ EOS
     entry = db.load_entry("ISO(ISO 123:--)")
     expect(entry).to be nil
 
-    FileUtils.rm_f File.expand_path("~/.relaton/cache")
+    FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
   end
 
   it "inserts prefixes to fetched reference identifiers other than ISO IEC" do
     FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
-    FileUtils.rm_f "relaton/cache"
+    FileUtils.rm_rf "relaton/cache"
     mock_isobib_get_123
     mock_ietfbib_get_123
     out = Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
@@ -195,7 +195,7 @@ EOS
 
   it "activates global cache" do
     FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
-    FileUtils.rm_f "relaton/cache"
+    FileUtils.rm_rf "relaton/cache"
     mock_isobib_get_123
     Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{CACHED_ISOBIB_BLANK_HDR}
@@ -211,13 +211,13 @@ EOS
     entry = db.load_entry("ISO(ISO 123:2001)")
     expect(entry).to_not be nil
 
-    FileUtils.rm_f File.expand_path("~/.relaton/cache")
+    FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
   end
 
   it "activates local cache" do
     FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
-    FileUtils.rm_f "relaton/cache"
+    FileUtils.rm_rf "relaton/cache"
     mock_isobib_get_123
     Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
@@ -237,13 +237,13 @@ EOS
     entry = db.load_entry("ISO(ISO 123:2001)")
     expect(entry).to_not be nil
 
-    FileUtils.rm_f File.expand_path("~/.relaton/cache")
+    FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
   end
 
   it "renames local cache" do
     FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
-    FileUtils.rm_f "test/cache"
+    FileUtils.rm_rf "test/cache"
     mock_isobib_get_123
     Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       = Document title
@@ -258,14 +258,13 @@ EOS
 
       * [[[iso123,ISO 123:2001]]] _Standard_
     INPUT
-    expect(File.exist?("#{Dir.home}/.relaton/cache")).to be true
     expect(File.exist?("test/cache")).to be true
 
     db = Relaton::Db.new "test/cache", nil
     entry = db.load_entry("ISO(ISO 123:2001)")
     expect(entry).to_not be nil
 
-    FileUtils.rm_f File.expand_path("~/.relaton/cache")
+    FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
   end
 
