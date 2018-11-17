@@ -23,7 +23,7 @@ module Asciidoctor
       def dl_table_cleanup(xmldoc)
         q = "//table/following-sibling::*[1][self::p]"
         xmldoc.xpath(q).each do |s|
-          if s.text =~ /^\s*key[^a-z]*$/i && !s.next_element.nil? && 
+          if s.text =~ /^\s*key[^a-z]*$/i && !s.next_element.nil? &&
               s.next_element.name == "dl"
             s.previous_element << s.next_element.remove
             s.remove
@@ -118,6 +118,29 @@ module Asciidoctor
           introduction = x.at("//introduction")
           preface.add_child introduction.remove if introduction
         end
+        make_abstract(x, s)
+      end
+
+      def make_abstract(x, s)
+        if x.at("//abstract[not(ancestor::bibitem)]")
+          preface = s.at("//preface") || s.add_previous_sibling("<preface/>").first
+          abstract = x.at("//abstract[not(ancestor::bibitem)]").remove
+          preface.prepend_child abstract.remove
+          bibabstract = bibabstract_location(x)
+          dupabstract = abstract.dup
+          dupabstract.traverse { |n| n.remove_attribute("id") }
+          bibabstract.next = dupabstract
+        end
+      end
+
+      def bibabstract_location(x)
+        bibabstract = x.at("//bibdata/script") || x.at("//bibdata/language") ||
+          x.at("//bibdata/contributor[not(following-sibling::contributor)]") ||
+          x.at("//bibdata/date[not(following-sibling::date)]") ||
+          x.at("//docnumber") ||
+          x.at("//bibdata/docidentifier[not(following-sibling::docidentifier)]") ||
+          x.at("//bibdata/uri[not(following-sibling::uri)]") ||
+          x.at("//bibdata/title[not(following-sibling::title)]")
       end
 
       def make_bibliography(x, s)

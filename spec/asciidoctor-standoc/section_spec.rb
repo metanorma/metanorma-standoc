@@ -2,9 +2,14 @@ require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc do
   it "processes sections" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).sub(/^.*<preface/m, "<preface")).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       .Foreword
+
+      Text
+
+      [abstract]
+      == Abstract
 
       Text
 
@@ -52,8 +57,9 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Bibliography Subsection
     INPUT
-            #{BLANK_HDR}
-       <preface><foreword obligation="informative">
+       <preface><abstract id="_">
+         <p id="_">Text</p>
+       </abstract><foreword obligation="informative">
          <title>Foreword</title>
          <p id="_">Text</p>
        </foreword><introduction id="_" obligation="informative">
@@ -113,9 +119,14 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes sections with title attributes" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).sub(/^.*<preface/m, "<preface")).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       .Foreword
+
+      Text
+
+      [abstract]
+      == Περίληψη
 
       Text
 
@@ -161,8 +172,9 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Bibliography Subsection
     INPUT
-            #{BLANK_HDR}
-       <preface>     
+       <preface><abstract id="_">
+         <p id="_">Text</p>
+       </abstract>
        <foreword obligation="informative">
          <title>Foreword</title>
          <p id="_">Text</p>

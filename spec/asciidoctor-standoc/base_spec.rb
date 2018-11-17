@@ -155,7 +155,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes complex metadata" do
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).to be_equivalent_to <<~'OUTPUT'
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).sub(%r{</bibdata>.*$}m, "</bibdata>")).to be_equivalent_to <<~'OUTPUT'
       = Document title
       Author
       :docfile: test.adoc
@@ -173,6 +173,12 @@ RSpec.describe Asciidoctor::Standoc do
       :pdf-uri: D
       :doc-uri: E
       :relaton-uri: F
+
+      [abstract]
+      == Abstract
+      This is the abstract of the document
+
+      This is the second paragraph of the abstract of the document.
     INPUT
            <?xml version="1.0" encoding="UTF-8"?>
        <standard-document xmlns="http://riboseinc.com/isoxml">
@@ -223,6 +229,8 @@ RSpec.describe Asciidoctor::Standoc do
          </contributor>
          <language>el</language>
          <script>Grek</script>
+         <abstract><p id="_">This is the abstract of the document</p>
+<p id="_">This is the second paragraph of the abstract of the document.</p></abstract>
          <status format="plain">published</status>
          <copyright>
            <from>2018</from>
@@ -252,8 +260,6 @@ RSpec.describe Asciidoctor::Standoc do
            <technical-committee/>
          </editorialgroup>
        </bibdata>
-       <sections/>
-       </standard-document>
     OUTPUT
   end
 

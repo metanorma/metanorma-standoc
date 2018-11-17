@@ -56,6 +56,8 @@ module Asciidoctor
             elsif @biblio then bibliography_parse(a, xml, node)
             elsif node.attr("style") == "bibliography" && node.level == 1
               bibliography_parse(a, xml, node)
+            elsif node.attr("style") == "abstract" 
+              abstract_parse(a, xml, node)
             elsif node.attr("style") == "appendix" && node.level == 1
               annex_parse(a, xml, node)
             else
@@ -73,6 +75,12 @@ module Asciidoctor
                              else
                                "normative"
                              end
+      end
+
+      def abstract_parse(attrs, xml, node)
+        xml.abstract **attr_code(attrs) do |xml_section|
+          xml_section << node.content
+        end
       end
 
       def clause_parse(attrs, xml, node)
