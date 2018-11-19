@@ -196,14 +196,24 @@ EOS
   it "activates global cache" do
     FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
     FileUtils.rm_rf "relaton/cache"
-    mock_isobib_get_123
-    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
-      #{CACHED_ISOBIB_BLANK_HDR}
-      [bibliography]
-      == Normative References
+        VCR.use_cassette "isobib_get_123" do
+      Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+        #{CACHED_ISOBIB_BLANK_HDR}
+        [bibliography]
+        == Normative References
 
-      * [[[iso123,ISO 123:2001]]] _Standard_
-    INPUT
+        * [[[iso123,ISO 123:2001]]] _Standard_
+      INPUT
+    end
+
+    #mock_isobib_get_123
+    #Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+      ##{CACHED_ISOBIB_BLANK_HDR}
+      #[bibliography]
+      #== Normative References
+#
+      #* [[[iso123,ISO 123:2001]]] _Standard_
+    #INPUT
     expect(File.exist?("#{Dir.home}/.relaton/cache")).to be true
     expect(File.exist?("relaton/cache")).to be false
 
