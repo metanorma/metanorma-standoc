@@ -145,6 +145,7 @@ module Asciidoctor
 
       def asciidoc_sub(x)
         return nil if x.nil?
+        return "" if x.empty?
         d = Asciidoctor::Document.new(x.lines.entries, {header_footer: false})
         b = d.parse.blocks.first
         b.apply_subs(b.source)
