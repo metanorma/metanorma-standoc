@@ -99,6 +99,7 @@ RSpec.describe Asciidoctor::Standoc do
       Footnoted Reference to <<reference,fn>>
       Inline Reference with Text to <<reference,text>>
       Footnoted Reference with Text to <<reference,fn: text>>
+      Anchored Crossreference to other document <<a.adoc#b>>
     INPUT
        #{BLANK_HDR}
         <sections>
@@ -107,7 +108,8 @@ RSpec.describe Asciidoctor::Standoc do
          <p id="_">Inline Reference to <xref target="reference"/>
        Footnoted Reference to <xref target="reference"/>
        Inline Reference with Text to <xref target="reference">text</xref>
-       Footnoted Reference with Text to <xref target="reference">text</xref></p>
+       Footnoted Reference with Text to <xref target="reference">text</xref>
+       Anchored Crossreference to other document <xref target="a#b"/></p>
        </clause>
        </sections>
        </standard-document>

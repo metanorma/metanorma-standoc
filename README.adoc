@@ -373,6 +373,16 @@ The following terms have non-normative effect, and should be ignored by the amet
 metrical foot consisting of a short, a long, and a short
 --
 
+=== Cross-references to external documents
+
+Metanorma Asciidoctor, like normal Asciidoctor, will process cross-references to
+anchors within external documents. So `<<document1.adoc#b>>` will be processed as a link
+to anchor `#b` in document `document1.adoc`. The `.adoc` suffix is presupposed for
+Asciidoctor documents (as in normal Asciidoctor): it is stripped in Metanorma XML,
+and substituted with the extension of the current document type when rendered. So
+`<<document1.adoc#b>>` is rendered in Metanorma XML as `<xref target="document1#b">`,
+in HTML as `<a href="document1.html#b">`, and in PDF as `<a href="document1.pdf#b">`.
+
 === Sections embedded more than 5 levels
 
 Asciidoctor permits only 5 levels of section embedding (not counting the document title).
@@ -493,8 +503,6 @@ The full bibliographic details of the item are screenscraped from the online bib
 In addition, if any entries in Terms and Definitions cite the International Electrotechnical Vocabulary (IEV),
 the http://www.electropedia.org[IEV Electropedia] termbank is queried during validation, to confirm
 that the cited entries are the same as what is cited online; those queries are routed through the `iev` gem
-
-TODO: update
 
 [[cache]]
 The results of all `relaton` searches done to date, across all documents,

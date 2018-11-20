@@ -31,7 +31,7 @@ module Asciidoctor
         matched = /^fn(:\s*(?<text>.*))?$/.match node.text
         f = matched.nil? ? "inline" : "footnote"
         c = matched.nil? ? node.text : matched[:text]
-        t = node.target.gsub(/^#/, "").gsub(%r{(.)(\.xml)?#.*$}, "\\1")
+        t = node.target.gsub(/^#/, "").gsub(%r{(\.xml|\.adoc)(#.*$)}, "\\2")
         noko do |xml|
           xml.xref **attr_code(target: t, type: f) do |x|
             x << c
