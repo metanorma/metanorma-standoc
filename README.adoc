@@ -531,6 +531,7 @@ in the global cache fule `~/iev.pstore`, and the results of all `iev` searches
 done to date for the current document are stored in the same directory as the
 current document, in the file `(filename).iev.pstore`.
 
+[[docattributes]]
 == Document Attributes
 
 The gem relies on Asciidoctor document attributes to provide necessary

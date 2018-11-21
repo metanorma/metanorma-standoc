@@ -5,7 +5,7 @@ PATH
       asciidoctor (~> 1.5.7)
       iev (~> 0.2.0)
       isodoc (~> 0.9.0)
-      relaton (~> 0.3.0)
+      relaton (~> 0.3.1)
       ruby-jing
       sterile
 
@@ -126,7 +126,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
-    relaton (0.3.0)
+    relaton (0.3.1)
       algoliasearch
       gbbib (~> 0.4.0)
       iecbib (~> 0.2.0)
