@@ -18,6 +18,7 @@ RSpec.describe Asciidoctor::Standoc do
       [domain]#domain#
       [strike]#strike#
       [smallcap]#smallcap#
+      [keyword]#keyword#
     INPUT
             #{BLANK_HDR}
        <sections>
@@ -35,6 +36,7 @@ RSpec.describe Asciidoctor::Standoc do
        <domain>domain</domain>
        <strike>strike</strike>
        <smallcap>smallcap</smallcap>
+       <keyword>keyword</keyword>
        </sections>
        </standard-document>
     OUTPUT

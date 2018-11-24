@@ -124,6 +124,7 @@ module Asciidoctor
 
             when "strike" then xml.strike node.text
             when "smallcap" then xml.smallcap node.text
+            when "keyword" then xml.keyword node.text
             else
               xml << node.text
             end
