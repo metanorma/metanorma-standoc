@@ -133,7 +133,7 @@ module Asciidoctor
       end
 
       def metadata_script(node, xml)
-        xml.language (node.attr("script") || "Latn")
+        xml.script (node.attr("script") || "Latn")
       end
 
       def metadata(node, xml)
