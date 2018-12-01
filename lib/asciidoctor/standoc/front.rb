@@ -113,7 +113,7 @@ module Asciidoctor
       end
 
       DATETYPES = %w{ published accessed created implemented obsoleted
-                      confirmed updated issued circulated unchanged
+                      confirmed updated issued circulated unchanged received
       }.freeze
 
       def metadata_date(node, xml)
