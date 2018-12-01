@@ -128,6 +128,14 @@ module Asciidoctor
         end
       end
 
+      def metadata_language(node, xml)
+        xml.language (node.attr("language") || "en")
+      end
+
+      def metadata_script(node, xml)
+        xml.language (node.attr("script") || "Latn")
+      end
+
       def metadata(node, xml)
         title node, xml
         metadata_source(node, xml)
@@ -135,8 +143,8 @@ module Asciidoctor
         metadata_date(node, xml)
         metadata_author(node, xml)
         metadata_publisher(node, xml)
-        xml.language (node.attr("language") || "en")
-        xml.script (node.attr("script") || "Latn")
+        metadata_language(node, xml)
+        metadata_script(node, xml)
         metadata_status(node, xml)
         metadata_copyright(node, xml)
         metadata_committee(node, xml)
