@@ -167,7 +167,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{BLANK_HDR}
        <sections>
            <figure id="_">
-        <pre>&lt;LITERAL&gt;</pre>
+        <pre id="_">&lt;LITERAL&gt;</pre>
         </figure>
        </sections>
        </standard-document>

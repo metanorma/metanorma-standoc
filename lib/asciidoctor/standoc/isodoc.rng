@@ -725,6 +725,7 @@
       </optional>
       <choice>
         <ref name="image"/>
+        <ref name="pre"/>
         <zeroOrMore>
           <ref name="figure"/>
         </zeroOrMore>

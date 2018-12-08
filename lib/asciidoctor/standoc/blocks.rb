@@ -23,7 +23,7 @@ module Asciidoctor
         noko do |xml|
           xml.figure **id_attr(node) do |f|
             figure_title(node, f)
-            f.pre node.lines.join("\n")
+            f.pre node.lines.join("\n"), **{ id: Utils::anchor_or_uuid }
           end
         end
       end
