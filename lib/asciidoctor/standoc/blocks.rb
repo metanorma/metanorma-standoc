@@ -20,7 +20,12 @@ module Asciidoctor
       end
 
       def literal(node)
-        paragraph(node)
+        noko do |xml|
+          xml.figure **id_attr(node) do |f|
+            figure_title(node, f)
+            f.pre node.lines.join("\n")
+          end
+        end
       end
 
       # NOTE: html escaping is performed by Nokogiri

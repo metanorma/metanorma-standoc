@@ -157,16 +157,18 @@ RSpec.describe Asciidoctor::Standoc do
       OUTPUT
     end
 
-    it "does nothing in particular with literals" do
+    it "processes literals" do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       ....
-      LITERAL
+      <LITERAL>
       ....
       INPUT
       #{BLANK_HDR}
        <sections>
-         <p id="_">LITERAL</p>
+           <figure id="_">
+        <pre>&lt;LITERAL&gt;</pre>
+        </figure>
        </sections>
        </standard-document>
 
