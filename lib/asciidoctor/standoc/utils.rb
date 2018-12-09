@@ -32,14 +32,17 @@ module Asciidoctor
           "??"
         end
 
+        def smartformat(n)
+          n.gsub(/ -- /, "&#8201;&#8212;&#8201;").
+                      gsub(/--/, "&#8212;").smart_format
+        end
+
         def smart_render_xml(x)
           xstr = x.to_xml if x.respond_to? :to_xml
           xml = Nokogiri::XML(xstr)
           xml.traverse do |n|
             next unless n.text?
-            n.replace(n.text.gsub(/ -- /, "&#8201;&#8212;&#8201;").
-                      gsub(/--/, "&#8212;").gsub(/\.\.\./, "&#8230;").
-                      smart_format)
+            n.replace(smartformat(n.text))
           end
           xml.to_xml.sub(/<\?[^>]+>/, "")
         end

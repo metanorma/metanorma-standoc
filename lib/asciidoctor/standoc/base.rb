@@ -81,6 +81,7 @@ module Asciidoctor
         @anchors = {}
         @draft = node.attributes.has_key?("draft")
         @novalid = node.attr("novalid")
+        @smartquotes = node.attr("smartquotes") != "false"
         @fontheader = default_fonts(node)
         @files_to_delete = []
         @filename = node.attr("docfile") ?

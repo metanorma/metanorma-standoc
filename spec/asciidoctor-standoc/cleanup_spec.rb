@@ -3,6 +3,100 @@ require "iecbib"
 require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
+  it "applies smartquotes by default" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      == "Quotation"
+    INPUT
+       #{BLANK_HDR}
+              <sections>
+  <clause id="_" inline-header="false" obligation="normative">
+  <title>“Quotation”</title>
+</clause>
+       </sections>
+       </standard-document>
+    OUTPUT
+  end
+
+  it "applies smartquotes when requested" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :smartquotes: true
+
+      == "Quotation"
+    INPUT
+       #{BLANK_HDR}
+              <sections>
+  <clause id="_" inline-header="false" obligation="normative">
+  <title>“Quotation”</title>
+</clause>
+       </sections>
+       </standard-document>
+    OUTPUT
+  end
+
+    it "does not apply smartquotes when requested not to" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :smartquotes: false
+
+      == "Quotation"
+    INPUT
+       #{BLANK_HDR}
+              <sections>
+  <clause id="_" inline-header="false" obligation="normative">
+  <title>"Quotation"</title>
+</clause>
+       </sections>
+       </standard-document>
+    OUTPUT
+  end
+
+  it "does not apply smartquotes to sourcecode, tt, pre" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :smartquotes: true
+
+      == "Quotation"
+
+      "Quotation"
+
+      `"quote"`
+
+      [source]
+      ----
+      "quote"
+      ----
+
+    INPUT
+       #{BLANK_HDR}
+              <sections>
+                <clause id="_" inline-header="false" obligation="normative"><title>“Quotation”</title><p id="_">“Quotation”</p>
+<p id="_">
+  <tt>"quote"</tt>
+</p>
+<sourcecode id="_">"quote"</sourcecode></clause>
+       </sections>
+       </standard-document>
+    OUTPUT
+  end
+
+
   it "removes empty text elements" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
@@ -654,9 +748,9 @@ r = 1 %</stem>
         <title>Normative References</title>
         <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
-         <docidentifier>ISO 123:--</docidentifier>
+         <docidentifier>ISO 123:—</docidentifier>
          <date type="published">
-           <on>--</on>
+           <on>—</on>
          </date>
          <contributor>
            <role type="publisher"/>
@@ -864,7 +958,7 @@ r = 1 %</stem>
           <title>Normative References</title>
           <bibitem type="international-standard" id="IEC60050-102">
           <fetched>#{Date.today}</fetched>
-          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary -- Part 102: Mathematics -- General concepts and linear algebra</title>
+          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary — Part 102: Mathematics — General concepts and linear algebra</title>
           <uri type="src">https://webstore.iec.ch/publication/160</uri>
           <uri type="obp">/preview/info_iec60050-102%7Bed1.0%7Db.pdf</uri>
           <docidentifier type="IEC">IEC 60050-102:2007</docidentifier>
@@ -910,7 +1004,7 @@ r = 1 %</stem>
           </ics>
         </bibitem><bibitem type="international-standard" id="IEC60050-103">
           <fetched>#{Date.today}</fetched>
-          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary -- Part 103: Mathematics -- Functions </title>
+          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary — Part 103: Mathematics — Functions </title>
           <uri type="src">https://webstore.iec.ch/publication/161</uri>
           <uri type="obp">/preview/info_iec60050-103%7Bed1.0%7Db.pdf</uri>
           <docidentifier type="IEC">IEC 60050-103:2009</docidentifier>

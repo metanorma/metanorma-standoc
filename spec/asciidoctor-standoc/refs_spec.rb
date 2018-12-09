@@ -318,9 +318,9 @@ RSpec.describe Asciidoctor::Standoc do
          <title>Normative References</title>
          <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
-         <docidentifier>ISO 123:--</docidentifier>
+         <docidentifier>ISO 123:—</docidentifier>
          <date type="published">
-           <on>--</on>
+           <on>—</on>
          </date>
          <contributor>
            <role type="publisher"/>

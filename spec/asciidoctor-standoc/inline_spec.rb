@@ -3,7 +3,7 @@ require "spec_helper"
 RSpec.describe Asciidoctor::Standoc do
   it "processes inline_quoted formatting" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
-      #{ASCIIDOC_BLANK_HDR}
+      #{DUMBQUOTE_BLANK_HDR}
       _emphasis_
       *strong*
       `monospace`

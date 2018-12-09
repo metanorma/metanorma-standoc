@@ -40,6 +40,17 @@ module Asciidoctor
         script_cleanup(xmldoc)
         docidentifier_cleanup(xmldoc)
         bookmark_cleanup(xmldoc)
+        smartquotes_cleanup(xmldoc)
+        xmldoc
+      end
+
+      def smartquotes_cleanup(xmldoc)
+        return unless @smartquotes
+        xmldoc.traverse do |n|
+          next unless n.text?
+          next unless n.ancestors("pre, tt, sourcecode, bibdata").empty?
+          n.replace(Utils::smartformat(n.text))
+        end
         xmldoc
       end
 
