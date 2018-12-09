@@ -160,11 +160,24 @@ module Asciidoctor
       end
 
       def title(node, xml)
+        title_english(node, xml)
+        title_otherlangs(node, xml)
+      end
+
+      def title_english(node, xml)
         ["en"].each do |lang|
           at = { language: lang, format: "text/plain" }
           xml.title **attr_code(at) do |t|
-            t << asciidoc_sub(node.attr("title"))
+            t << asciidoc_sub(node.attr("title") || node.attr("title-en") || node.title)
           end
+        end
+      end
+
+      def title_otherlangs(node, xml)
+        node.attributes.each do |k, v|
+          next unless /^title-(?<titlelang>.+)$/ =~ k
+          next if titlelang == "en"
+          xml.title v, { language: titlelang, format: "text/plain" }
         end
       end
     end

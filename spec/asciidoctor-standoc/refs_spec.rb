@@ -512,6 +512,7 @@ RSpec.describe Asciidoctor::Standoc do
       <?xml version="1.0" encoding="UTF-8"?>
       <standard-document xmlns="http://riboseinc.com/isoxml">
       <bibdata type="article">
+      <title language="en" format="text/plain">Document title</title>
         <language>en</language>
         <script>Latn</script>
         <status format="plain">published</status>

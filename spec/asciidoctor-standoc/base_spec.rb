@@ -173,6 +173,7 @@ RSpec.describe Asciidoctor::Standoc do
       :pdf-uri: D
       :doc-uri: E
       :relaton-uri: F
+      :title-eo: Dokumenttitolo
 
       [abstract]
       == Abstract
@@ -183,6 +184,8 @@ RSpec.describe Asciidoctor::Standoc do
            <?xml version="1.0" encoding="UTF-8"?>
        <standard-document xmlns="http://riboseinc.com/isoxml">
        <bibdata type="article">
+         <title language="en" format="text/plain">Document title</title>
+         <title language="eo" format="text/plain">Dokumenttitolo</title>
          <source>A</source>
          <source type="xml">B</source>
          <source type="html">C</source>
