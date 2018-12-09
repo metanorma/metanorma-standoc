@@ -673,7 +673,7 @@ which adheres with ISO formatting requirements. Recommend against overriding thi
 (default true). The rules for
 smart formatting follow the https://github.com/pbhogan/sterile[sterile] gem, and are given in 
 https://github.com/pbhogan/sterile/blob/master/lib/sterile/data/smart_format_rules.rb. If `:smartquotes:`
-is set to `false`, then the Asciidoctor default is used to generate smart quotes: `"&#x060; &#x060;`, `'&#x060; &#x060;'`.
+is set to `false`, then the Asciidoctor default is used to generate smart quotes: `"&#x060; &#x060;"`, `'&#x060; &#x060;'`.
 
 
 The attribute `:draft:`, if present, includes review notes in the XML output;
