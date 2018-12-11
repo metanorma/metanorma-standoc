@@ -19,8 +19,8 @@ module Asciidoctor
       end
 
       def metadata_version(node, xml)
+        xml.edition node.attr("edition") if node.attr("edition")
         xml.version do |v|
-          v.edition node.attr("edition") if node.attr("edition")
           v.revision_date node.attr("revdate") if node.attr("revdate")
           v.draft node.attr("draft") if node.attr("draft")
         end
@@ -141,6 +141,7 @@ module Asciidoctor
         metadata_source(node, xml)
         metadata_id(node, xml)
         metadata_date(node, xml)
+        metadata_version(node, xml)
         metadata_author(node, xml)
         metadata_publisher(node, xml)
         metadata_language(node, xml)

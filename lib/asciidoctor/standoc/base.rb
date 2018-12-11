@@ -170,7 +170,6 @@ module Asciidoctor
         xml.bibdata **attr_code(type: doctype(node)) do |b|
           metadata node, b
         end
-        metadata_version(node, xml)
       end
 
       def middle(node, xml)

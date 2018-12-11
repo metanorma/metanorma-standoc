@@ -91,10 +91,24 @@ RSpec.describe Asciidoctor::Standoc do
       For further information on the Foreword, see *ISO/IEC Directives, Part 2, 2016, Clause 12.*
       ****
       INPUT
-              #{BLANK_HDR}
-       <version>
-         <draft>1.2</draft>
-       </version>
+      <standard-document xmlns="http://riboseinc.com/isoxml">
+       <bibdata type="article">
+         <title language="en" format="text/plain">Document title</title>
+
+
+         <version>
+           <draft>1.2</draft>
+         </version>
+         <language>en</language>
+         <script>Latn</script>
+         <status format="plain">published</status>
+         <copyright>
+           <from>2018</from>
+         </copyright>
+         <editorialgroup>
+           <technical-committee/>
+         </editorialgroup>
+       </bibdata>
        <sections><p id="foreword">Foreword</p>
        <review reviewer="ISO" id="_" date="20170101T00:00:00Z" from="foreword" to="foreword"><p id="_">A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.</p>
        <p id="_">For further information on the Foreword, see <strong>ISO/IEC Directives, Part 2, 2016, Clause 12.</strong></p></review></sections>

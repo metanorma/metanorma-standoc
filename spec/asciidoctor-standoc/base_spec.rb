@@ -125,6 +125,11 @@ RSpec.describe Asciidoctor::Standoc do
 <date type="Jack">
   <on>1010-01-01</on>
 </date>
+<edition>2</edition>
+<version>
+  <revision-date>2000-01-01</revision-date>
+  <draft>3.4</draft>
+</version>
   <language>en</language>
   <script>Latn</script>
   <status format="plain">published</status>
@@ -144,11 +149,7 @@ RSpec.describe Asciidoctor::Standoc do
   <ics>
     <code>3</code>
   </ics>
-</bibdata><version>
-  <edition>2</edition>
-  <revision-date>2000-01-01</revision-date>
-  <draft>3.4</draft>
-</version>
+</bibdata>
 <sections/>
 </standard-document>
     OUTPUT
