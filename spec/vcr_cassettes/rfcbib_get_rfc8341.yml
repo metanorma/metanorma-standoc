@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://www.rfc-editor.org/refs/bibxml/reference.RFC.8341.xml
+    uri: https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8341.xml
     body:
       encoding: US-ASCII
       string: ''
@@ -14,38 +14,28 @@ http_interactions:
       User-Agent:
       - Ruby
       Host:
-      - www.rfc-editor.org
+      - xml2rfc.tools.ietf.org
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Thu, 25 Oct 2018 08:25:40 GMT
+      - Tue, 11 Dec 2018 10:44:17 GMT
       Server:
-      - Apache
+      - Apache/2.2.22 (Debian)
       Last-Modified:
-      - Fri, 19 Oct 2018 18:40:08 GMT
+      - Wed, 28 Nov 2018 15:34:16 GMT
       Etag:
-      - '"46c-578993b90f678-gzip"'
+      - '"39e4a91-46c-57bbb4c7e4e00"'
       Accept-Ranges:
       - bytes
-      Vary:
-      - Accept-Encoding
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
       Content-Length:
-      - '606'
+      - '1132'
       Content-Type:
-      - text/xml
+      - application/xml
     body:
-      encoding: ASCII-8BIT
+      encoding: UTF-8
       string: |
         <?xml version='1.0' encoding='UTF-8'?>
 
@@ -62,10 +52,10 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version: 
-  recorded_at: Thu, 25 Oct 2018 08:25:43 GMT
+  recorded_at: Tue, 11 Dec 2018 10:44:17 GMT
 - request:
     method: get
-    uri: https://www.rfc-editor.org/refs/bibxml/reference.RFC.8341.xml
+    uri: https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8341.xml
     body:
       encoding: US-ASCII
       string: ''
@@ -77,38 +67,28 @@ http_interactions:
       User-Agent:
       - Ruby
       Host:
-      - www.rfc-editor.org
+      - xml2rfc.tools.ietf.org
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Thu, 25 Oct 2018 08:25:41 GMT
+      - Tue, 11 Dec 2018 10:44:18 GMT
       Server:
-      - Apache
+      - Apache/2.2.22 (Debian)
       Last-Modified:
-      - Fri, 19 Oct 2018 18:40:08 GMT
+      - Wed, 28 Nov 2018 15:34:16 GMT
       Etag:
-      - '"46c-578993b90f678-gzip"'
+      - '"39e4a91-46c-57bbb4c7e4e00"'
       Accept-Ranges:
       - bytes
-      Vary:
-      - Accept-Encoding
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
       Content-Length:
-      - '606'
+      - '1132'
       Content-Type:
-      - text/xml
+      - application/xml
     body:
-      encoding: ASCII-8BIT
+      encoding: UTF-8
       string: |
         <?xml version='1.0' encoding='UTF-8'?>
 
@@ -125,5 +105,5 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version: 
-  recorded_at: Thu, 25 Oct 2018 08:25:43 GMT
+  recorded_at: Tue, 11 Dec 2018 10:44:18 GMT
 recorded_with: VCR 4.0.0

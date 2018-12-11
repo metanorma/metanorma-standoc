@@ -668,7 +668,7 @@ which adheres with ISO formatting requirements. Recommend against overriding thi
 
 `:olstyle`:: Word CSS selector for ordered lists in supplied stylesheets. Defaults to value for built in stylesheet. Recommend against overriding this.
 
-`:data-uri-image`:: Encode all images in HTML output as inline data-URIs.
+`:data-uri-image`:: Encode all images in HTML output as inline data-URIs. Defaults to true.
 
 `:smartquotes`:: Apply smartquotes and other autoformatting to the XML output (and hence the downstream outputs)
 (default true). The rules for
