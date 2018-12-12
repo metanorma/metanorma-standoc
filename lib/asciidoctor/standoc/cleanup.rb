@@ -48,7 +48,7 @@ module Asciidoctor
         return unless @smartquotes
         xmldoc.traverse do |n|
           next unless n.text?
-          next unless n.ancestors("pre, tt, sourcecode, bibdata").empty?
+          next unless n.ancestors("pre, tt, sourcecode, bibdata, on").empty?
           n.replace(Utils::smartformat(n.text))
         end
         xmldoc

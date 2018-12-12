@@ -356,6 +356,21 @@ RSpec.describe Asciidoctor::Standoc do
       OUTPUT
     end
 
+        it "processes images as datauri" do
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to include '<image src="data:image/png;base64'
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :data-uri-image:
+
+      .Split-it-right sample divider
+      image::spec/examples/rice_images/rice_image1.png[]
+      INPUT
+    end
+
     it "accepts alignment attribute on paragraphs" do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}

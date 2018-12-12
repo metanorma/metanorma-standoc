@@ -1,5 +1,7 @@
 require "htmlentities"
 require "uri"
+require "mime/types"
+require "base64"
 
 module Asciidoctor
   module Standoc
@@ -122,10 +124,18 @@ module Asciidoctor
         end.join("\n")
       end
 
+      def datauri(uri)
+        types = MIME::Types.type_for(@localdir + uri)
+        type = types ? types.first.to_s : 'text/plain; charset="utf-8"'
+        bin = File.read(@localdir + uri, encoding: "utf-8")
+        data = Base64.strict_encode64(bin)
+        "data:#{type};base64,#{data}"
+      end
+
       def image_attributes(node)
         uri = node.image_uri node.attr("target")
         types = MIME::Types.type_for(uri)
-        { src: uri,
+        { src: @datauriimage ? datauri(uri) : uri,
           id: Utils::anchor_or_uuid,
           imagetype: types.first.sub_type.upcase,
           height: node.attr("height") || "auto",

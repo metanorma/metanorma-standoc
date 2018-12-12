@@ -86,10 +86,13 @@ module Asciidoctor
         @files_to_delete = []
         @filename = node.attr("docfile") ?
           node.attr("docfile").gsub(/\.adoc$/, "").gsub(%r{^.*/}, "") : ""
+        @localdir = %r{/}.match(node.attr("docfile")) ?
+          node.attr("docfile").sub(%r{/[^/]+$}, "/") : "./"
         @no_isobib_cache = node.attr("no-isobib-cache")
         @no_isobib = node.attr("no-isobib")
         @bibdb = nil
         @seen_headers = []
+        @datauriimage = node.attr("data-uri-image")
         init_bib_caches(node)
         init_iev_caches(node)
       end
