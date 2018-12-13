@@ -34,7 +34,7 @@ module Asciidoctor
 
         def smartformat(n)
           n.gsub(/ -- /, "&#8201;&#8212;&#8201;").
-                      gsub(/--/, "&#8212;").smart_format
+            gsub(/--/, "&#8212;").smart_format.gsub(/</, "&lt;").gsub(/>/, "&gt;")
         end
 
         def smart_render_xml(x)

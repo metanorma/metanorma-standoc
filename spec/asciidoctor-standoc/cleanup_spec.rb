@@ -96,6 +96,22 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+  it "handles < > &amp; in Asciidoctor correctly" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      == {blank}
+
+      <&amp;>
+    INPUT
+       #{BLANK_HDR}
+              <sections>
+         <clause id="_" inline-header="false" obligation="normative">
+<p id="_">&lt;&amp;&gt;</p>
+       </clause>
+       </sections>
+       </standard-document>
+    OUTPUT
+  end
 
   it "removes empty text elements" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
