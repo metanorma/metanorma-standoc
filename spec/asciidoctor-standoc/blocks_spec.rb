@@ -408,6 +408,7 @@ RSpec.describe Asciidoctor::Standoc do
     it "processes source code" do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
+      .Caption
       [source,ruby]
       --
       puts "Hello, world."
@@ -418,7 +419,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
        <sections>
-         <sourcecode id="_">puts "Hello, world."
+         <sourcecode id="_"><name>Caption</name>puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
        end</sourcecode>

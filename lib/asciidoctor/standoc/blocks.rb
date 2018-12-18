@@ -195,8 +195,10 @@ module Asciidoctor
       def listing(node)
         # NOTE: html escaping is performed by Nokogiri
         noko do |xml|
-          xml.sourcecode(**id_attr(node)) { |s| s << node.content }
-          # xml.sourcecode(**id_attr(node)) { |s| s << node.lines.join("\n") }
+          xml.sourcecode(**id_attr(node)) do |s|
+            figure_title(node, s)
+            s << node.content
+          end
         end
       end
     end
