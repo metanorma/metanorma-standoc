@@ -133,7 +133,7 @@ module Asciidoctor
       end
 
       def image_attributes(node)
-        uri = node.image_uri node.attr("target")
+        uri = node.image_uri (node.attr("target") || node.target)
         types = MIME::Types.type_for(uri)
         { src: @datauriimage ? datauri(uri) : uri,
           id: Utils::anchor_or_uuid,
@@ -156,6 +156,13 @@ module Asciidoctor
           end
         end
       end
+
+      def inline_image(node)
+        noko do |xml|
+          xml.image **attr_code(image_attributes(node))
+        end.join("")
+      end
+
 
       def paragraph(node)
         return termsource(node) if node.role == "source"

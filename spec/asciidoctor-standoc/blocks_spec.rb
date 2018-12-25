@@ -356,6 +356,21 @@ RSpec.describe Asciidoctor::Standoc do
       OUTPUT
     end
 
+        it "processes inline images with width and height attributes on images" do
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      Hello image:spec/examples/rice_images/rice_image1.png[alt, 4, 3], how are you?
+
+      INPUT
+      #{BLANK_HDR}
+              <sections>
+          <p id="_">Hello <image src="spec/examples/rice_images/rice_image1.png" id="_" imagetype="PNG" height="3" width="4"/>, how are you?</p>
+       </figure>
+       </sections>
+       </standard-document>
+      OUTPUT
+    end
+
         it "processes images as datauri" do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to include '<image src="data:image/png;base64'
       = Document title
