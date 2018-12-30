@@ -107,13 +107,13 @@ module Asciidoctor
       def inline_quoted(node)
         noko do |xml|
           case node.type
-          when :emphasis then xml.em node.text
-          when :strong then xml.strong node.text
-          when :monospaced then xml.tt node.text
+          when :emphasis then xml.em { |s| s << node.text }
+          when :strong then xml.strong { |s| s << node.text }
+          when :monospaced then xml.tt { |s| s << node.text }
           when :double then xml << "\"#{node.text}\""
           when :single then xml << "'#{node.text}'"
-          when :superscript then xml.sup node.text
-          when :subscript then xml.sub node.text
+          when :superscript then xml.sup { |s| s << node.text }
+          when :subscript xml.sub { |s| s << node.text }
           when :asciimath then stem_parse(node.text, xml)
           else
             case node.role
@@ -122,9 +122,9 @@ module Asciidoctor
             when "deprecated" then xml.deprecates { |a| a << node.text }
             when "domain" then xml.domain { |a| a << node.text }
 
-            when "strike" then xml.strike node.text
-            when "smallcap" then xml.smallcap node.text
-            when "keyword" then xml.keyword node.text
+            when "strike" then xml.strike { |s| s << node.text }
+            when "smallcap" then xml.smallcap { |s| s << node.text }
+            when "keyword" then xml.keyword { |s| s << node.text }
             else
               xml << node.text
             end
