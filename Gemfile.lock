@@ -52,7 +52,7 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
-    hashdiff (0.3.7)
+    hashdiff (0.3.8)
     html2doc (0.8.6)
       asciimath
       htmlentities (~> 4.3.4)
@@ -185,7 +185,7 @@ GEM
     unicode-display_width (1.4.1)
     uuidtools (2.1.5)
     vcr (4.0.0)
-    webmock (3.4.2)
+    webmock (3.5.1)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
@@ -210,4 +210,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   1.17.2
+   1.17.3

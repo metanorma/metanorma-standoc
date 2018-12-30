@@ -113,7 +113,7 @@ module Asciidoctor
           when :double then xml << "\"#{node.text}\""
           when :single then xml << "'#{node.text}'"
           when :superscript then xml.sup { |s| s << node.text }
-          when :subscript xml.sub { |s| s << node.text }
+          when :subscript then xml.sub { |s| s << node.text }
           when :asciimath then stem_parse(node.text, xml)
           else
             case node.role
