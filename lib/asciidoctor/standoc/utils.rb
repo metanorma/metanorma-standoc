@@ -6,7 +6,7 @@ require "pathname"
 require "open-uri"
 require "uuidtools"
 require "sterile"
-require "lib/hacks/sterile"
+require "hacks/sterile"
 
 module Asciidoctor
   module Standoc
