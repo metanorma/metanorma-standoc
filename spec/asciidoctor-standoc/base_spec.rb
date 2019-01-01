@@ -156,7 +156,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes complex metadata" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).sub(%r{</bibdata>.*$}m, "</bibdata>")).to be_equivalent_to <<~'OUTPUT'
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).sub(%r{</bibdata>.*$}m, "</bibdata>")).to be_equivalent_to <<~"OUTPUT"
       = Document title
       Author
       :docfile: test.adoc
@@ -237,7 +237,7 @@ RSpec.describe Asciidoctor::Standoc do
 <p id="_">This is the second paragraph of the abstract of the document.</p></abstract>
          <status format="plain">published</status>
          <copyright>
-           <from>2018</from>
+           <from>#{Date.today.year}</from>
            <owner>
              <organization>
                <name>IEC</name>
@@ -245,7 +245,7 @@ RSpec.describe Asciidoctor::Standoc do
            </owner>
          </copyright>
          <copyright>
-           <from>2018</from>
+           <from>#{Date.today.year}</from>
            <owner>
              <organization>
                <name>IETF</name>
@@ -253,7 +253,7 @@ RSpec.describe Asciidoctor::Standoc do
            </owner>
          </copyright>
          <copyright>
-           <from>2018</from>
+           <from>#{Date.today.year}</from>
            <owner>
              <organization>
                <name>ISO</name>

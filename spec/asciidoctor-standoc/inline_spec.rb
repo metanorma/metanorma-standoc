@@ -44,6 +44,20 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+  it "generates desired smart quotes for 'dd'" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      '99'.
+
+    INPUT
+            #{BLANK_HDR}
+       <sections><p id="_">‘99’.</p>
+       </sections>
+       </standard-document>
+    OUTPUT
+  end
+
+
   it "processes breaks" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}

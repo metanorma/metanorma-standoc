@@ -103,7 +103,7 @@ RSpec.describe Asciidoctor::Standoc do
          <script>Latn</script>
          <status format="plain">published</status>
          <copyright>
-           <from>2018</from>
+           <from>#{Date.today.year}</from>
          </copyright>
          <editorialgroup>
            <technical-committee/>
