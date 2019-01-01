@@ -44,4 +44,11 @@ module Sterile
       ]
     end
   end
+
+  class << self
+    private
+     def smart_format_rules
+       Data.smart_format_rules
+     end
+  end
 end
