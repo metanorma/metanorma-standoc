@@ -23,7 +23,9 @@ module Asciidoctor
 
       def table_name(node, xml_table)
         if node.title?
-          xml_table.name node.title
+          xml_table.name do |n|
+            n << node.title
+          end
         end
       end
 

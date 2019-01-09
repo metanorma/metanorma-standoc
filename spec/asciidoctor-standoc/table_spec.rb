@@ -115,7 +115,7 @@ RSpec.describe Asciidoctor::Standoc do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [cols="<,^,^,^,^",options="header,footer",headerrows=2]
-      .Maximum permissible mass fraction of defects
+      .Maximum _permissible_ mass fraction of defects
       |===
       .2+|Defect 4+^| Maximum permissible mass fraction of defects in husked rice +
       stem:[w_max]
@@ -145,7 +145,7 @@ RSpec.describe Asciidoctor::Standoc do
             #{BLANK_HDR}
        <sections>
          <table id="_">
-         <name>Maximum permissible mass fraction of defects</name>
+         <name>Maximum <em>permissible</em> mass fraction of defects</name>
          <thead>
            <tr>
              <th rowspan="2" align="left">Defect</th>
