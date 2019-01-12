@@ -82,6 +82,19 @@ RSpec.describe Asciidoctor::Standoc do
       :language: en
       :title: Main Title -- Title
       :library-ics: 1,2,3
+      :fullname: Fred Flintstone
+      :role: author
+      :affiliation: Slate Rock and Gravel Company
+      :address: 6 Rubble Way, Bedrock
+      :contributor-uri: http://slate.example.com
+      :surname_2: Rubble
+      :givenname_2: Barney
+      :initials_2: B. X.
+      :role_2: editor
+      :affiliation_2: Rockhead and Quarry Cave Construction Company
+      :address_2: 6A Rubble Way, Bedrock
+      :email_2: barney@rockhead.example.com
+      :publisher: Hanna Barbera, Cartoon Network
     INPUT
     <?xml version="1.0" encoding="UTF-8"?>
 <standard-document xmlns="http://riboseinc.com/isoxml">
@@ -130,11 +143,90 @@ RSpec.describe Asciidoctor::Standoc do
   <revision-date>2000-01-01</revision-date>
   <draft>3.4</draft>
 </version>
+<contributor>
+  <role type="author"/>
+  <organization>
+    <name>Hanna Barbera</name>
+  </organization>
+</contributor>
+<contributor>
+  <role type="author"/>
+  <organization>
+    <name>Cartoon Network</name>
+  </organization>
+</contributor>
+<contributor>
+  <role type="author"/>
+  <person>
+    <name>
+      <completename>Fred Flintstone</completename>
+    </name>
+     <affiliation>
+   <org>
+     <name>Slate Rock and Gravel Company</name>
+     <contact>
+  <address>
+    <formattedAddress>6 Rubble Way, Bedrock</formattedAddress>
+  </address>
+</contact>
+   </org>
+   </affiliation>
+   <uri>http://slate.example.com</uri>
+  </person>
+</contributor>
+<contributor>
+  <role type="editor"/>
+  <person>
+    <name>
+      <forename>Barney</forename>
+      <initial>B. X.</initial>
+      <surname>Rubble</surname>
+    </name>
+<affiliation>
+  <org>
+    <name>Rockhead and Quarry Cave Construction Company</name>
+    <contact>
+  <address>
+    <formattedAddress>6A Rubble Way, Bedrock</formattedAddress>
+  </address>
+</contact>
+  </org>
+</affiliation>
+ <contact>
+   <email>barney@rockhead.example.com</email>
+ </contact>
+  </person>
+</contributor>
+<contributor>
+  <role type="publisher"/>
+  <organization>
+    <name>Hanna Barbera</name>
+  </organization>
+</contributor>
+<contributor>
+  <role type="publisher"/>
+  <organization>
+    <name>Cartoon Network</name>
+  </organization>
+</contributor>
   <language>en</language>
   <script>Latn</script>
   <status format="plain">published</status>
   <copyright>
     <from>2001</from>
+       <owner>
+     <organization>
+       <name>Hanna Barbera</name>
+     </organization>
+   </owner>
+ </copyright>
+ <copyright>
+   <from>2001</from>
+   <owner>
+     <organization>
+       <name>Cartoon Network</name>
+     </organization>
+   </owner>
   </copyright>
   <editorialgroup>
     <technical-committee number="1" type="A">TC</technical-committee>

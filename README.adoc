@@ -586,6 +586,21 @@ the document was issued
 
 `:technical-committee:`:: The name of the relevant technical committee
 
+`:fullname{_i}:`:: The full name of a person who is a contributor to the document.
+A second person is indicated by using a numeric suffix: `:fullname:`, `:fullname_2:`, `fullname_3:`, &c.
+(This and the other personal name attributes are not displayed in all standards.)
+
+`:surname{_i}:`:: The surname of a person who is a contributor to the document.
+`:givenname{_i}:`:: The given name(s) of a person who is a contributor to the document.
+`:initials{_i}:`:: The initials(s) of a person who is a contributor to the document.
+`:role{_i}:`:: The role of a a person who is a contributor to the document. By default,
+they are coded as an `editor`; they can also be represented as an `author`.
+`:affiliation{_i}:`:: The organisational affiliation of a person who is a contributor to the document.
+`:address{_i}:`:: The organisational address of a person who is a contributor to the document.
+`:contributor-uri{_i}:`:: The URI of a person who is a contributor to the document.
+`:email{_i}:`:: The email of a person who is a contributor to the document.
+
+
 `:draft:`:: The document draft (used in addition to document stage, for multiple iterations: expected format _X.Y_)
 
 `:issued-date:`::

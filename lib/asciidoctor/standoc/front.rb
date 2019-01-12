@@ -44,11 +44,54 @@ module Asciidoctor
       end
 
       def metadata_author(node, xml)
-        publishers = node.attr("publisher") || return
+        publishers = node.attr("publisher") || ""
         publishers.split(/,[ ]?/).each do |p|
           xml.contributor do |c|
             c.role **{ type: "author" }
             c.organization { |a| organization(a, p) }
+          end
+        end
+        personal_author(node, xml)
+      end
+
+      def personal_author(node, xml)
+        if node.attr("fullname") || node.attr("surname")
+          personal_author1(node, xml, "")
+        end
+        i = 2
+        while node.attr("fullname_#{i}") || node.attr("surname_#{i}")
+          personal_author1(node, xml, "_#{i}")
+          i += 1
+        end
+      end
+
+      def personal_author1(node, xml, suffix)
+        xml.contributor do |c|
+          c.role **{ type: node.attr("role#{suffix}")&.downcase || "author" }
+          c.person do |p|
+            p.name do |n|
+              if node.attr("fullname#{suffix}")
+                n.completename node.attr("fullname#{suffix}")
+              else
+                n.forename node.attr("givenname#{suffix}")
+                n.initial node.attr("initials#{suffix}")
+                n.surname node.attr("surname#{suffix}")
+              end
+            end
+            node.attr("affiliation#{suffix}") and p.affiliation do |a|
+              a.org do |o|
+                o.name node.attr("affiliation#{suffix}")
+                node.attr("address#{suffix}") and o.contact do |c|
+                  c.address do |ad|
+                    ad.formattedAddress node.attr("address#{suffix}")
+                  end
+                end
+              end
+            end
+            node.attr("email#{suffix}") and p.contact do |c|
+              c.email node.attr("email#{suffix}")
+            end
+            node.attr("contributor-uri#{suffix}") and p.uri node.attr("contributor-uri#{suffix}")
           end
         end
       end
