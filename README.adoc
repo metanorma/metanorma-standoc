@@ -1,7 +1,7 @@
 = Metanorma-standoc
 
 image:https://img.shields.io/gem/v/metanorma-standoc.svg["Gem Version", link="https://rubygems.org/gems/metanorma-standoc"]
-image:https://img.shields.io/travis/riboseinc/metanorma-standoc/master.svg["Build Status", link="https://travis-ci.org/riboseinc/metanorma-standoc"]
+image:https://img.shields.io/travis/riboseinc/metanorma-standoc/master.svg["Build Status", link="https://travis-ci.com/riboseinc/metanorma-standoc"]
 image:https://codeclimate.com/github/riboseinc/metanorma-standoc/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/riboseinc/metanorma-standoc"]
 
 WARNING: This gem is still under development.
