@@ -127,7 +127,7 @@ module Asciidoctor
       def datauri(uri)
         types = MIME::Types.type_for(@localdir + uri)
         type = types ? types.first.to_s : 'text/plain; charset="utf-8"'
-        bin = File.read(@localdir + uri, encoding: "utf-8")
+        bin = File.open(@localdir + uri, 'rb') {|io| io.read}
         data = Base64.strict_encode64(bin)
         "data:#{type};base64,#{data}"
       end
