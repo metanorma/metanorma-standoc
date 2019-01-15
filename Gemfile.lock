@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    metanorma-standoc (1.0.14)
+    metanorma-standoc (1.1.0)
       asciidoctor (~> 1.5.7)
       concurrent-ruby
       iev (~> 0.2.0)
