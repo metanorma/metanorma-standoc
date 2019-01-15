@@ -14,12 +14,40 @@ module Asciidoctor
       # treated as a single block.
       # We append each contained block to its parent
       def open(node)
+        return requirement_object(node) if node.attr("style") == "object"
+        return requirement_measurementtarget(node) if node.attr("style") == "measurement-target"
+        return requirement_verification(node) if node.attr("style") == "verification"
         result = []
         node.blocks.each do |b|
           result << send(b.context, b)
         end
         result
       end
+
+      def requirement_object(node)
+        noko do |xml|
+          xml.object do |o|
+            o << node.content
+          end
+        end
+      end
+
+      def requirement_measurementtarget(node)
+        noko do |xml|
+          xml.measurementtarget do |o|
+            o << node.content
+          end
+        end
+      end
+
+      def requirement_verification(node)
+        noko do |xml|
+          xml.verification do |o|
+            o << node.content
+          end
+        end
+      end
+
 
       def literal(node)
         noko do |xml|
@@ -107,8 +135,23 @@ module Asciidoctor
 
       def example(node)
         return term_example(node) if in_terms?
+        return requirement(node, "recommendation") if node.attr("style") == "recommendation"
+        return requirement(node, "requirement") if node.attr("style") == "requirement"
+        return requirement(node, "permission") if node.attr("style") == "permission"
         noko do |xml|
           xml.example **id_attr(node) do |ex|
+            wrap_in_para(node, ex)
+          end
+        end.join("\n")
+      end
+
+      def requirement(node, obligation)
+        subject = node.attr("subject")
+        label = node.attr("label")
+        noko do |xml|
+          xml.send obligation, **id_attr(node) do |ex|
+            ex.label label if label
+            ex.subject subject if subject
             wrap_in_para(node, ex)
           end
         end.join("\n")

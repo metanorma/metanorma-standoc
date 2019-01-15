@@ -445,6 +445,87 @@ This generates the following ISO XML:
 </clause>
 --
 
+=== Requirements, Recommendations, and Permissions
+
+Requirements, Recommendations, and Permissions are encoded as Asciidoctor examples,
+with the style attribute value indicating that it is a Requirement, Recommendation, or Permission:
+
+[source,asciidoctor]
+--
+[permission]
+====
+I recommend this
+====
+--
+
+(In the following, "requirement" shall be used as the cover-all term.)
+
+The named attributes `subject` and `label` may be used to indicate the subject of the
+requirement, and the conventional label assigned to the requirement:
+
+[source,asciidoctor]
+--
+[recommendation,label="/ogc/recommendation/wfs/2",subject="user"]
+====
+I recommend this
+====
+--
+
+Requirements can be nested, as is the case with any delimited block in Asciidoctor,
+by adding one more delimiter symbol than its containing block:
+
+[source,asciidoctor]
+--
+[permission]
+====
+I permit this
+=====
+Example 2
+=====
+[permission]
+=====
+I also permit this
+=====
+====
+--
+
+The internal structure of a requirement can also be marked up to make it machine-readable,
+although this is not expected to be reflected in rendering. In particular, the requirement
+object, the measurement target (for quantitative requirements), and verification steps
+can be marked up as open blocks, with the style attribute of the open block identifying them
+as such:
+
+[source,asciidoctor]
+--
+[recommendation,label="/ogc/recommendation/wfs/2",subject="user"]
+====
+I recommend _this_.
+[object]
+--
+This is the object of the recommendation:
+|===
+|Object |Value
+|Mission | Accomplished
+|===
+--
+As for the measurement targets,
+[measurement-target]
+--
+The measurement target shall be measured as:
+[stem]
+++++
+r/1 = 0
+++++
+--
+[verification]
+--
+. We take a measurement
+. The measurement is consistent with the formula above
+.. If the measurement is not consistent with the formula above, then the verification has failed
+--
+====
+--
+
 === PlantUML
 
 The http://plantuml.com[PlantUML] diagramming tool is integrated with Asciidoctor

@@ -525,5 +525,188 @@ RSpec.describe Asciidoctor::Standoc do
       OUTPUT
     end
 
+        it "processes recommendation" do
+    input = <<~"INPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      [recommendation,label="/ogc/recommendation/wfs/2",subject="user"]
+      ====
+      I recommend this
+      ====
+    INPUT
+             output = <<~"OUTPUT"
+            #{BLANK_HDR}
+       <sections>
+  <recommendation id="_">
+  <label>/ogc/recommendation/wfs/2</label>
+<subject>user</subject>
+  <p id="_">I recommend this</p>
+</recommendation>
+       </sections>
+       </standard-document>
+    OUTPUT
+
+    expect(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))).to be_equivalent_to output
+  end
+
+    it "processes requirement" do
+    input = <<~"INPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      [requirement]
+      ====
+      I recommend this
+      ====
+    INPUT
+             output = <<~"OUTPUT"
+            #{BLANK_HDR}
+       <sections>
+  <requirement id="_">
+  <p id="_">I recommend this</p>
+</requirement>
+       </sections>
+       </standard-document>
+    OUTPUT
+
+    expect(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))).to be_equivalent_to output
+  end
+
+        it "processes permission" do
+    input = <<~"INPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      [permission]
+      ====
+      I recommend this
+      ====
+    INPUT
+             output = <<~"OUTPUT"
+            #{BLANK_HDR}
+       <sections>
+  <permission id="_">
+  <p id="_">I recommend this</p>
+</permission>
+       </sections>
+       </standard-document>
+    OUTPUT
+
+    expect(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))).to be_equivalent_to output
+  end
+
+
+       it "processes nested permissions" do
+    input = <<~"INPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      [permission]
+      ====
+      I permit this
+
+      =====
+      Example 2
+      =====
+
+      [permission]
+      =====
+      I also permit this
+      =====
+      ====
+    INPUT
+             output = <<~"OUTPUT"
+            #{BLANK_HDR}
+       <sections>
+         <permission id="_"><p id="_">I permit this</p>
+<example id="_">
+  <p id="_">Example 2</p>
+</example>
+<permission id="_">
+  <p id="_">I also permit this</p>
+</permission></permission>
+</sections>
+</standard-document>
+    OUTPUT
+
+    expect(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))).to be_equivalent_to output
+  end
+
+        it "processes recommendation with internal markup of structure" do
+    input = <<~"INPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      [recommendation,label="/ogc/recommendation/wfs/2",subject="user"]
+      ====
+      I recommend _this_.
+
+      [object]
+      --
+      This is the object of the recommendation:
+
+      |===
+      |Object |Value
+
+      |Mission | Accomplished
+      |===
+      --
+
+      As for the measurement targets,
+
+      [measurement-target]
+      --
+      The measurement target shall be measured as:
+
+      [stem]
+      ++++
+      r/1 = 0
+      ++++
+      --
+
+      [verification]
+      --
+      . We take a measurement
+      . The measurement is consistent with the formula above
+      .. If the measurement is not consistent with the formula above, then the verification has failed
+      --
+      ====
+    INPUT
+             output = <<~"OUTPUT"
+            #{BLANK_HDR}
+       <sections>
+         <recommendation id="_"><label>/ogc/recommendation/wfs/2</label><subject>user</subject><p id="_">I recommend <em>this</em>.</p>
+<object><p id="_">This is the object of the recommendation:</p>
+<table id="_">
+  <thead>
+    <tr>
+      <th align="left">Object</th>
+      <th align="left">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="left">Mission</td>
+      <td align="left">Accomplished</td>
+    </tr>
+  </tbody>
+</table></object>
+<p id="_">As for the measurement targets,</p>
+<measurementtarget><p id="_">The measurement target shall be measured as:</p>
+<formula id="_">
+  <stem type="AsciiMath">r/1 = 0</stem>
+</formula></measurementtarget>
+<verification>
+  <ol id="_" type="arabic">
+  <li>
+    <p id="_">We take a measurement</p>
+  </li>
+  <li>
+    <p id="_">The measurement is consistent with the formula above</p>
+    <ol id="_" type="alphabet">
+  <li>
+    <p id="_">If the measurement is not consistent with the formula above, then the verification has failed</p>
+  </li>
+</ol>
+  </li>
+</ol>
+</verification></recommendation>
+</sections>
+</standard-document>
+    OUTPUT
+
+    expect(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))).to be_equivalent_to output
+  end
 
 end
