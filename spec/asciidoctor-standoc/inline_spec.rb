@@ -4,7 +4,8 @@ RSpec.describe Asciidoctor::Standoc do
   it "processes inline_quoted formatting" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{DUMBQUOTE_BLANK_HDR}
-      _emphasis_
+      _Physical noise
+      sources_
       *strong*
       `monospace`
       "double quote"
@@ -23,7 +24,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
             #{BLANK_HDR}
        <sections>
-         <em>emphasis</em>
+       <em>Physical noise sources</em>
        <strong>strong</strong>
        <tt>monospace</tt>
        "double quote"

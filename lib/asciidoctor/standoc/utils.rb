@@ -110,7 +110,7 @@ module Asciidoctor
         fragment = doc.fragment("")
         ::Nokogiri::XML::Builder.with fragment, &block
         fragment.to_xml(encoding: "US-ASCII").lines.map do |l|
-          l.gsub(/\s*\n/, "")
+          l.gsub(/\s*\n/, " ")
         end
       end
 
