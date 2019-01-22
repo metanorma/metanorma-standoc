@@ -1075,6 +1075,42 @@ r = 1 %</stem>
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
   end
 
+   it "counts footnotes with link-only content as separate footnotes" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      
+      footnote:[http://www.example.com]
+
+      footnote:[http://www.example.com]
+
+      footnote:[http://www.example1.com]
+    INPUT
+       #{BLANK_HDR}
+       <sections><p id="_"><fn reference="1"> 
+  <p id="_"> 
+    <link target="http://www.example.com"/> 
+  </p> 
+</fn> 
+</p> 
+<p id="_"><fn reference="1"> 
+  <p id="_"> 
+    <link target="http://www.example.com"/> 
+  </p> 
+</fn> 
+</p> 
+<p id="_"><fn reference="2"> 
+  <p id="_"> 
+    <link target="http://www.example1.com"/> 
+  </p> 
+</fn> 
+</p></sections>
+
+
+       </standard-document>
+    OUTPUT
+  end
+
+
   private
 
     def mock_iecbib_get_iec60050_103_01

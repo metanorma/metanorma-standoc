@@ -9,6 +9,11 @@ require "pp"
 module Asciidoctor
   module Standoc
     module Cleanup
+      def footnote_content(fn)
+        c = fn.children.respond_to?(:to_xml) ? fn.children.to_xml : fn.children
+        c.gsub(/ id="[^"]+"/, "")
+      end
+
       # include footnotes inside figure
       def figure_footnote_cleanup(xmldoc)
         nomatches = false
@@ -24,11 +29,12 @@ module Asciidoctor
       end
 
       def table_footnote_renumber1(fn, i, seen)
-        if seen[fn.text] then outnum = seen[fn.text]
+        content = footnote_content(fn)
+        if seen[content] then outnum = seen[content]
         else
           i += 1
           outnum = i
-          seen[fn.text] = outnum
+          seen[content] = outnum
         end
         fn["reference"] = (outnum - 1 + "a".ord).chr
         fn["table"] = true
@@ -47,11 +53,12 @@ module Asciidoctor
 
       def other_footnote_renumber1(fn, i, seen)
         unless fn["table"]
-          if seen[fn.text] then outnum = seen[fn.text]
+          content = footnote_content(fn)
+          if seen[content] then outnum = seen[content]
           else
             i += 1
             outnum = i
-            seen[fn.text] = outnum
+            seen[content] = outnum
           end
           fn["reference"] = outnum.to_s
         end
