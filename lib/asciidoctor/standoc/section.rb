@@ -116,16 +116,20 @@ module Asciidoctor
 
       def symbols_parse(attrs, xml, node)
         xml.definitions **attr_code(attrs) do |xml_section|
+          xml_section.title { |t| t << node.title }
           xml_section << node.content
         end
       end
+
+      SYMBOLS_TITLES = ["symbols and abbreviated terms", "symbols",
+                        "abbreviated terms"].freeze
 
       # subclause contains subclauses
       def term_def_subclause_parse(attrs, xml, node)
         return clause_parse(attrs, xml, node) if node.role == "nonterm"
         sub = node.find_by(context: :section) { |s| s.level == node.level + 1 }
         sub.empty? || (return term_def_parse(attrs, xml, node, false))
-        node.title.casecmp("symbols and abbreviated terms").zero? &&
+        SYMBOLS_TITLES.include?(node.title.downcase) and
           (return symbols_parse(attrs, xml, node))
         xml.term **attr_code(attrs) do |xml_section|
           xml_section.preferred { |name| name << node.title }
@@ -136,7 +140,7 @@ module Asciidoctor
       def term_def_title(toplevel, node)
         return node.title unless toplevel
         sub = node.find_by(context: :section) do |s|
-          s.title.casecmp("symbols and abbreviated terms").zero?
+          SYMBOLS_TITLES.include? s.title.downcase
         end
         return "Terms and definitions" if sub.empty?
         "Terms, definitions, symbols and abbreviated terms"
