@@ -2,6 +2,7 @@ require "date"
 require "nokogiri"
 require "pathname"
 require "open-uri"
+require "html2doc"
 require "pp"
 require_relative "./cleanup_block.rb"
 require_relative "./cleanup_footnotes.rb"
@@ -11,6 +12,16 @@ module Asciidoctor
   module Standoc
     module Cleanup
       def textcleanup(text)
+        if !@keepasciimath
+          text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>},
+                           '<amathstem>\1</amathstem>')
+          text = Html2Doc.
+            asciimath_to_mathml(text, ['<amathstem>', "</amathstem>"]).
+            gsub(%r{<math xmlns='http://www.w3.org/1998/Math/MathML'>},
+                 "<stem type='MathML'>"\
+                 "<math xmlns='http://www.w3.org/1998/Math/MathML'>").
+                 gsub(%r{</math>}, %{</math></stem>})
+        end
         text.gsub(/\s+<fn /, "<fn ")
       end
 
@@ -60,7 +71,8 @@ module Asciidoctor
       TEXT_ELEMS =
         %w{status language script version author name callout phone email 
            street city state country postcode identifier referenceFrom
-           referenceTo docidentifier docnumber prefix initial addition surname forename
+           referenceTo docidentifier docnumber prefix initial addition surname
+           forename
            title draft secretariat title-main title-intro title-part}.freeze
 
       # it seems Nokogiri::XML is treating the content of <script> as cdata,
@@ -228,6 +240,7 @@ module Asciidoctor
 
       def mathml_cleanup(xmldoc)
         xmldoc.xpath("//stem[@type = 'MathML']").each do |x|
+          next if x.children.any? { |y| y.element? }
           math = x.text.gsub(/&lt;/, "<").gsub(/&gt;/, ">").gsub(/&quot;/, '"').
             gsub(/&amp;/, "&").gsub(/<[^:\/]+:/, "<").gsub(/<\/[^:]+:/, "</").
             gsub(/ xmlns[^>]+/, "").

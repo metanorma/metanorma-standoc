@@ -209,6 +209,10 @@ module Asciidoctor
           end
         end
       end
+
+      def pass(node)
+        node.content
+      end
     end
   end
 end

@@ -1,6 +1,22 @@
 require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc do
+    it "processes pass blocks" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      
+      ++++
+      <abc>X &gt; Y</abc>
+      ++++
+    INPUT
+        #{BLANK_HDR}
+       <sections>
+       <abc>X &gt; Y</abc>
+       </sections>
+       </standard-document>
+    OUTPUT
+  end
+
   it "processes open blocks" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}

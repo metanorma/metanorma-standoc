@@ -82,6 +82,8 @@ module Asciidoctor
         @draft = node.attributes.has_key?("draft")
         @novalid = node.attr("novalid")
         @smartquotes = node.attr("smartquotes") != "false"
+        @keepasciimath = node.attr("mn-keep-asciimath") &&
+          node.attr("mn-keep-asciimath") != "false"
         @fontheader = default_fonts(node)
         @files_to_delete = []
         @filename = node.attr("docfile") ?
