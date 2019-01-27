@@ -103,7 +103,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
        #{BLANK_HDR}
        <sections>
-         <sourcecode id="_">@startuml
+         <sourcecode id="_" lang="plantuml">@startuml
 Alice -&gt; Bob: Authentication Request
 Bob --&gt; Alice: Authentication Response
 
