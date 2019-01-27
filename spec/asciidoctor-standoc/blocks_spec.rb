@@ -539,7 +539,7 @@ RSpec.describe Asciidoctor::Standoc do
   <recommendation id="_">
   <label>/ogc/recommendation/wfs/2</label>
 <subject>user</subject>
-  <p id="_">I recommend this</p>
+  <description><p id="_">I recommend this</p></description>
 </recommendation>
        </sections>
        </standard-document>
@@ -560,7 +560,7 @@ RSpec.describe Asciidoctor::Standoc do
             #{BLANK_HDR}
        <sections>
   <requirement id="_">
-  <p id="_">I recommend this</p>
+  <description><p id="_">I recommend this</p></description>
 </requirement>
        </sections>
        </standard-document>
@@ -581,7 +581,7 @@ RSpec.describe Asciidoctor::Standoc do
             #{BLANK_HDR}
        <sections>
   <permission id="_">
-  <p id="_">I recommend this</p>
+  <description><p id="_">I recommend this</p></description>
 </permission>
        </sections>
        </standard-document>
@@ -611,12 +611,12 @@ RSpec.describe Asciidoctor::Standoc do
              output = <<~"OUTPUT"
             #{BLANK_HDR}
        <sections>
-         <permission id="_"><p id="_">I permit this</p>
+         <permission id="_"><description><p id="_">I permit this</p>
 <example id="_">
   <p id="_">Example 2</p>
-</example>
+</example></description>
 <permission id="_">
-  <p id="_">I also permit this</p>
+  <description><p id="_">I also permit this</p></description>
 </permission></permission>
 </sections>
 </standard-document>
@@ -632,23 +632,20 @@ RSpec.describe Asciidoctor::Standoc do
       ====
       I recommend _this_.
 
-      [object]
+      [specification,type="tabular"]
       --
       This is the object of the recommendation:
-
       |===
       |Object |Value
-
       |Mission | Accomplished
       |===
-      --
+      -- 
 
       As for the measurement targets,
 
       [measurement-target]
       --
       The measurement target shall be measured as:
-
       [stem]
       ++++
       r/1 = 0
@@ -657,53 +654,37 @@ RSpec.describe Asciidoctor::Standoc do
 
       [verification]
       --
-      . We take a measurement
-      . The measurement is consistent with the formula above
-      .. If the measurement is not consistent with the formula above, then the verification has failed
+      The following code will be run for verification:
+
+      [source,CoreRoot]
+      ----
+      CoreRoot(success): HttpResponse
+      if (success)
+        recommendation(label: success-response)
+      end
+      ----
+      --
+      
+      [import%exclude]
+      --
+      [source,CoreRoot]
+      ----
+      success-response()
+      ----
       --
       ====
     INPUT
              output = <<~"OUTPUT"
             #{BLANK_HDR}
        <sections>
-         <recommendation id="_"><label>/ogc/recommendation/wfs/2</label><subject>user</subject><p id="_">I recommend <em>this</em>.</p>
-<object><p id="_">This is the object of the recommendation:</p>
-<table id="_">
-  <thead>
-    <tr>
-      <th align="left">Object</th>
-      <th align="left">Value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td align="left">Mission</td>
-      <td align="left">Accomplished</td>
-    </tr>
-  </tbody>
-</table></object>
-<p id="_">As for the measurement targets,</p>
-<measurementtarget><p id="_">The measurement target shall be measured as:</p>
-<formula id="_">
-  <stem type="AsciiMath">r/1 = 0</stem>
-</formula></measurementtarget>
-<verification>
-  <ol id="_" type="arabic">
-  <li>
-    <p id="_">We take a measurement</p>
-  </li>
-  <li>
-    <p id="_">The measurement is consistent with the formula above</p>
-    <ol id="_" type="alphabet">
-  <li>
-    <p id="_">If the measurement is not consistent with the formula above, then the verification has failed</p>
-  </li>
-</ol>
-  </li>
-</ol>
-</verification></recommendation>
-</sections>
-</standard-document>
+       <recommendation id="_"><label>/ogc/recommendation/wfs/2</label><subject>user</subject><description><p id="_">I recommend <em>this</em>.</p>
+       </description><specification exclude="false" type="tabular"><p id="_">This is the object of the recommendation:</p><table id="_">  <tbody>    <tr>      <td align="left">Object</td>      <td align="left">Value</td>    </tr>    <tr>      <td align="left">Mission</td>      <td align="left">Accomplished</td>    </tr>  </tbody></table></specification><description>
+       <p id="_">As for the measurement targets,</p>
+       </description><measurement-target exclude="false"><p id="_">The measurement target shall be measured as:</p><formula id="_">  <stem type="AsciiMath">r/1 = 0</stem></formula></measurement-target>
+       <verification exclude="false"><p id="_">The following code will be run for verification:</p><sourcecode id="_">CoreRoot(success): HttpResponseif (success)  recommendation(label: success-response)end</sourcecode></verification>
+       <import exclude="true">  <sourcecode id="_">success-response()</sourcecode></import></recommendation>
+       </sections>
+       </standard-document>
     OUTPUT
 
     expect(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))).to be_equivalent_to output

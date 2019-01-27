@@ -14,9 +14,8 @@ module Asciidoctor
       # treated as a single block.
       # We append each contained block to its parent
       def open(node)
-        return requirement_object(node) if node.attr("style") == "object"
-        return requirement_measurementtarget(node) if node.attr("style") == "measurement-target"
-        return requirement_verification(node) if node.attr("style") == "verification"
+        Utils::reqt_subpart(node.attr("style")) and
+          return requirement_subpart(node)
         result = []
         node.blocks.each do |b|
           result << send(b.context, b)
@@ -24,30 +23,15 @@ module Asciidoctor
         result
       end
 
-      def requirement_object(node)
+      def requirement_subpart(node)
+        name = node.attr("style")
         noko do |xml|
-          xml.object do |o|
+          xml.send name, **attr_code(exclude: node.option?("exclude"),
+                                     type: node.attr("type")) do |o|
             o << node.content
           end
-        end
+        end.join("")
       end
-
-      def requirement_measurementtarget(node)
-        noko do |xml|
-          xml.measurementtarget do |o|
-            o << node.content
-          end
-        end
-      end
-
-      def requirement_verification(node)
-        noko do |xml|
-          xml.verification do |o|
-            o << node.content
-          end
-        end
-      end
-
 
       def literal(node)
         noko do |xml|

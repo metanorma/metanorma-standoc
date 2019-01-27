@@ -153,7 +153,6 @@ module Asciidoctor
       end
 
       ELEMS_ALLOW_NOTES =
-        # %w[p formula quote sourcecode example admonition ul ol dl figure]
         %w[p formula ul ol dl figure].freeze
 
       # if a note is at the end of a section, it is left alone
@@ -226,6 +225,30 @@ module Asciidoctor
         end
         x.xpath(Utils::SUBCLAUSE_XPATH).each do |r|
           r["obligation"] = r.at("./ancestor::*/@obligation").text
+        end
+      end
+
+      def requirement_cleanup(x)
+        x.xpath("//requirement | //recommendation | //permission").each do |r|
+          r.children.each do |e|
+            unless e.element? && (Utils::reqt_subpart(e.name) || 
+                %w(requirement recommnedation permission).include?(e.name))
+              t = Nokogiri::XML::Element.new("description", x)
+              e.before(t)
+              t.children = e.remove
+            end
+          end
+          requirement_cleanup1(r)
+        end
+      end
+
+      def requirement_cleanup1(r)
+        while d = r.at("./description[following-sibling::*[1][self::description]]")
+          n = d.next.remove
+          d << n.children
+        end
+        r.xpath("./description[not(./*) and normalize-space(.)='']").each do |d|
+          d.replace("\n")
         end
       end
     end

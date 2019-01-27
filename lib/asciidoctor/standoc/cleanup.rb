@@ -41,6 +41,7 @@ module Asciidoctor
         docidentifier_cleanup(xmldoc)
         bookmark_cleanup(xmldoc)
         smartquotes_cleanup(xmldoc)
+        requirement_cleanup(xmldoc)
         xmldoc
       end
 

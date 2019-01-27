@@ -84,6 +84,11 @@ module Asciidoctor
           end
           result.reject(&:empty?)
         end
+
+        def reqt_subpart(x)
+          %w(specification measurement-target verification import label
+             subject).include? x
+        end
       end
 
       def convert(node, transform = nil, opts = {})
