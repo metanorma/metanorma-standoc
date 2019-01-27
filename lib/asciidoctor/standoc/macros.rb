@@ -90,6 +90,7 @@ module Asciidoctor
         else
           warn "PlantUML not installed"
           # attrs.delete(1) : remove the style attribute
+          attrs["language"] = "plantuml"
           create_listing_block parent, reader.source, attrs.reject { |k, v| k == 1 }
         end
       end

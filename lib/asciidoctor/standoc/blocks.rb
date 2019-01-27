@@ -200,10 +200,12 @@ module Asciidoctor
         end
       end
 
+      # NOTE: html escaping is performed by Nokogiri
       def listing(node)
-        # NOTE: html escaping is performed by Nokogiri
+        attrs = { lang: node.attr("language"),
+                  id: Utils::anchor_or_uuid(node) }
         noko do |xml|
-          xml.sourcecode(**id_attr(node)) do |s|
+          xml.sourcecode **attr_code(attrs) do |s|
             figure_title(node, s)
             s << node.content
           end

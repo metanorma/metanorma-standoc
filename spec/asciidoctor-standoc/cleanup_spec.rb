@@ -272,7 +272,7 @@ r = 1 %</stem>
       NOTE: That loop does not do much
     INPUT
        #{BLANK_HDR}
-              <sections><sourcecode id="_">[1...x].each do |y|
+              <sections><sourcecode id="_" lang="ruby">[1...x].each do |y|
          puts y
        end</sourcecode>
        <note id="_">

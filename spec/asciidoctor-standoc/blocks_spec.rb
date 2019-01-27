@@ -450,7 +450,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
        <sections>
-         <sourcecode id="_"><name>Caption</name>puts "Hello, world."
+         <sourcecode id="_" lang="ruby"><name>Caption</name>puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
        end</sourcecode>
@@ -473,7 +473,7 @@ RSpec.describe Asciidoctor::Standoc do
       <2> This is another callout
       INPUT
       #{BLANK_HDR}
-              <sections><sourcecode id="_">puts "Hello, world." <callout target="_">1</callout>
+              <sections><sourcecode id="_" lang="ruby">puts "Hello, world." <callout target="_">1</callout>
        %w{a b c}.each do |x|
          puts x <callout target="_">2</callout>
        end<annotation id="_">
