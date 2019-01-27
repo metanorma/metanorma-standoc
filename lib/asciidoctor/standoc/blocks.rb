@@ -132,10 +132,12 @@ module Asciidoctor
       def requirement(node, obligation)
         subject = node.attr("subject")
         label = node.attr("label")
+        inherit = node.attr("inherit")
         noko do |xml|
           xml.send obligation, **id_attr(node) do |ex|
             ex.label label if label
             ex.subject subject if subject
+            ex.inherit inherit if inherit
             wrap_in_para(node, ex)
           end
         end.join("\n")

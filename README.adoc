@@ -461,11 +461,13 @@ I recommend this
 (In the following, "requirement" shall be used as the cover-all term.)
 
 The named attributes `subject` and `label` may be used to indicate the subject of the
-requirement, and the conventional label assigned to the requirement:
+requirement, and the conventional label assigned to the requirement. The `inherit`
+attribute may be used to reference the label of a requirement that is imported or
+presupposed by this requirement:
 
 [source,asciidoctor]
 --
-[recommendation,label="/ogc/recommendation/wfs/2",subject="user"]
+[recommendation,label="/ogc/recommendation/wfs/2",subject="user",inherit="/ss/584/2015/level/1"]
 ====
 I recommend this
 ====

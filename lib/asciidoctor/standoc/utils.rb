@@ -87,7 +87,7 @@ module Asciidoctor
 
         def reqt_subpart(x)
           %w(specification measurement-target verification import label
-             subject).include? x
+             subject inherit).include? x
         end
       end
 

@@ -544,7 +544,7 @@ RSpec.describe Asciidoctor::Standoc do
         it "processes recommendation" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [recommendation,label="/ogc/recommendation/wfs/2",subject="user"]
+      [recommendation,label="/ogc/recommendation/wfs/2",subject="user",inherit="/ss/584/2015/level/1"]
       ====
       I recommend this
       ====
@@ -555,6 +555,7 @@ RSpec.describe Asciidoctor::Standoc do
   <recommendation id="_">
   <label>/ogc/recommendation/wfs/2</label>
 <subject>user</subject>
+<inherit>/ss/584/2015/level/1</inherit>
   <description><p id="_">I recommend this</p></description>
 </recommendation>
        </sections>
