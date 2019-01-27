@@ -696,7 +696,7 @@ RSpec.describe Asciidoctor::Standoc do
        <recommendation id="_"><label>/ogc/recommendation/wfs/2</label><subject>user</subject><description><p id="_">I recommend <em>this</em>.</p>
        </description><specification exclude="false" type="tabular"><p id="_">This is the object of the recommendation:</p><table id="_">  <tbody>    <tr>      <td align="left">Object</td>      <td align="left">Value</td>    </tr>    <tr>      <td align="left">Mission</td>      <td align="left">Accomplished</td>    </tr>  </tbody></table></specification><description>
        <p id="_">As for the measurement targets,</p>
-       </description><measurement-target exclude="false"><p id="_">The measurement target shall be measured as:</p><formula id="_">  <stem type="AsciiMath">r/1 = 0</stem></formula></measurement-target>
+       </description><measurement-target exclude="false"><p id="_">The measurement target shall be measured as:</p><formula id="_">  <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mi>r</mi><mn>1</mn></mfrac><mo>=</mo><mn>0</mn></math></stem></formula></measurement-target>
        <verification exclude="false"><p id="_">The following code will be run for verification:</p><sourcecode id="_">CoreRoot(success): HttpResponseif (success)  recommendation(label: success-response)end</sourcecode></verification>
        <import exclude="true">  <sourcecode id="_">success-response()</sourcecode></import></recommendation>
        </sections>
