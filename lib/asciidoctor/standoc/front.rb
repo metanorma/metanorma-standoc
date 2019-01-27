@@ -140,12 +140,12 @@ module Asciidoctor
       end
 
       def metadata_source(node, xml)
-        node.attr("uri") && xml.source(node.attr("uri"))
-        node.attr("xml-uri") && xml.source(node.attr("xml-uri"), type: "xml")
-        node.attr("html-uri") && xml.source(node.attr("html-uri"), type: "html")
-        node.attr("pdf-uri") && xml.source(node.attr("pdf-uri"), type: "pdf")
-        node.attr("doc-uri") && xml.source(node.attr("doc-uri"), type: "doc")
-        node.attr("relaton-uri") && xml.source(node.attr("relaton-uri"), type: "relaton")
+        node.attr("uri") && xml.uri(node.attr("uri"))
+        node.attr("xml-uri") && xml.uri(node.attr("xml-uri"), type: "xml")
+        node.attr("html-uri") && xml.uri(node.attr("html-uri"), type: "html")
+        node.attr("pdf-uri") && xml.uri(node.attr("pdf-uri"), type: "pdf")
+        node.attr("doc-uri") && xml.uri(node.attr("doc-uri"), type: "doc")
+        node.attr("relaton-uri") && xml.uri(node.attr("relaton-uri"), type: "relaton")
       end
 
       def metadata_date1(node, xml, type)
@@ -184,9 +184,9 @@ module Asciidoctor
         metadata_source(node, xml)
         metadata_id(node, xml)
         metadata_date(node, xml)
-        metadata_version(node, xml)
         metadata_author(node, xml)
         metadata_publisher(node, xml)
+        metadata_version(node, xml)
         metadata_language(node, xml)
         metadata_script(node, xml)
         metadata_status(node, xml)

@@ -279,12 +279,12 @@ RSpec.describe Asciidoctor::Standoc do
        <bibdata type="article">
          <title language="en" format="text/plain">Document title</title>
          <title language="eo" format="text/plain">Dokumenttitolo</title>
-         <source>A</source>
-         <source type="xml">B</source>
-         <source type="html">C</source>
-         <source type="pdf">D</source>
-         <source type="doc">E</source>
-         <source type="relaton">F</source>
+         <uri>A</uri>
+         <uri type="xml">B</uri>
+         <uri type="html">C</uri>
+         <uri type="pdf">D</uri>
+         <uri type="doc">E</uri>
+         <uri type="relaton">F</uri>
          <docidentifier>1000-1-1</docidentifier>
          <docnumber>1000</docnumber>
          <contributor>

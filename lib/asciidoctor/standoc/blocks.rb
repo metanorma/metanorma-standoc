@@ -166,7 +166,8 @@ module Asciidoctor
           id: Utils::anchor_or_uuid,
           imagetype: types.first.sub_type.upcase,
           height: node.attr("height") || "auto",
-          width: node.attr("width") || "auto" }
+          width: node.attr("width") || "auto" ,
+          alt: node.alt == node.attr("default-alt") ? nil : node.alt }
       end
 
       def figure_title(node, f)
@@ -234,6 +235,10 @@ module Asciidoctor
             s << node.content
           end
         end
+      end
+
+      def pass(node)
+        node.content
       end
     end
   end

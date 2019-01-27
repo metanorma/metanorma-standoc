@@ -143,7 +143,7 @@ RSpec.describe Asciidoctor::Standoc do
               <sections>
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
-         <term id="_"><preferred><stem type="AsciiMath">t_90</stem></preferred><admitted><stem type="AsciiMath">t_91</stem></admitted>
+         <term id="_"><preferred><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>t</mi><mn>90</mn></msub></math></stem></preferred><admitted><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>t</mi><mn>91</mn></msub></math></stem></admitted>
        <definition><p id="_">Time</p></definition></term>
        </terms>
        </sections>
@@ -198,9 +198,10 @@ RSpec.describe Asciidoctor::Standoc do
               <sections>
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
-         <term id="_"><preferred><stem type="AsciiMath">t_90</stem></preferred><definition><formula id="_">
-         <stem type="AsciiMath">t_A</stem>
-       </formula><p id="_">This paragraph is extraneous</p></definition>
+         <term id="_"><preferred><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>t</mi><mn>90</mn></msub></math></stem></preferred><definition><formula id="_"> 
+         <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>t</mi><mi>A</mi></msub></math></stem> 
+       </formula>
+       <p id="_">This paragraph is extraneous</p></definition>
        </term>
        </terms>
        </sections>
@@ -635,7 +636,7 @@ r = 1 %</stem>
     INPUT
        #{BLANK_HDR}
        <sections><formula id="_">
-         <stem type="AsciiMath">Formula</stem>
+         <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>F</mi><mtext>or</mtext><mi>μ</mi><mi>l</mi><mi>a</mi></math></stem> 
        <dl id="_">
          <dt>a</dt>
          <dd>
@@ -1074,6 +1075,109 @@ r = 1 %</stem>
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
   end
+
+   it "counts footnotes with link-only content as separate footnotes" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      
+      footnote:[http://www.example.com]
+
+      footnote:[http://www.example.com]
+
+      footnote:[http://www.example1.com]
+    INPUT
+       #{BLANK_HDR}
+       <sections><p id="_"><fn reference="1"> 
+  <p id="_"> 
+    <link target="http://www.example.com"/> 
+  </p> 
+</fn> 
+</p> 
+<p id="_"><fn reference="1"> 
+  <p id="_"> 
+    <link target="http://www.example.com"/> 
+  </p> 
+</fn> 
+</p> 
+<p id="_"><fn reference="2"> 
+  <p id="_"> 
+    <link target="http://www.example1.com"/> 
+  </p> 
+</fn> 
+</p></sections>
+
+
+       </standard-document>
+    OUTPUT
+  end
+
+      it "retains AsciiMath on request" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :mn-keep-asciimath:
+
+      stem:[1/r]
+    INPUT
+       #{BLANK_HDR}
+       <sections>
+  <p id="_">
+  <stem type="AsciiMath">1/r</stem>
+</p>
+</sections>
+</standard-document>
+
+    OUTPUT
+  end
+
+  it "converts AsciiMath to MathML by default" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+
+      stem:[1/r]
+    INPUT
+       #{BLANK_HDR}
+       <sections>
+         <p id="_">
+         <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mi>r</mi></mfrac></math></stem>
+       </p>
+       </sections>
+       </standard-document>
+    OUTPUT
+  end
+
+    it "cleans up text MathML" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+
+      ++++
+      <stem type="MathML">&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;&lt;mfrac&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;/mfrac&gt;&lt;/math&gt;</stem>
+      ++++
+    INPUT
+       #{BLANK_HDR}
+       <sections>
+       <stem type="MathML">/www.w3.org/1998/Math/MathML”&gt;<mfrac><mn>1</mn><mi>r</mi></mfrac></stem>
+</sections>
+
+
+       </standard-document>
+    OUTPUT
+  end
+
 
   private
 

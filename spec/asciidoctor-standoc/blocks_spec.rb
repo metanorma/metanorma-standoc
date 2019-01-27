@@ -1,6 +1,22 @@
 require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc do
+    it "processes pass blocks" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      
+      ++++
+      <abc>X &gt; Y</abc>
+      ++++
+    INPUT
+        #{BLANK_HDR}
+       <sections>
+       <abc>X &gt; Y</abc>
+       </sections>
+       </standard-document>
+    OUTPUT
+  end
+
   it "processes open blocks" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
@@ -308,14 +324,14 @@ RSpec.describe Asciidoctor::Standoc do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       .Split-it-right sample divider
-      image::spec/examples/rice_images/rice_image1.png[]
+      image::spec/examples/rice_images/rice_image1.png[alttext]
 
       INPUT
       #{BLANK_HDR}
               <sections>
          <figure id="_">
          <name>Split-it-right sample divider</name>
-                  <image src="spec/examples/rice_images/rice_image1.png" id="_" imagetype="PNG" height="auto" width="auto"/>
+                  <image src="spec/examples/rice_images/rice_image1.png" id="_" imagetype="PNG" height="auto" width="auto" alt="alttext"/>
        </figure>
        </sections>
        </standard-document>
@@ -364,7 +380,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
               <sections>
-          <p id="_">Hello <image src="spec/examples/rice_images/rice_image1.png" id="_" imagetype="PNG" height="3" width="4"/>, how are you?</p>
+          <p id="_">Hello <image src="spec/examples/rice_images/rice_image1.png" id="_" imagetype="PNG" height="3" width="4" alt="alt"/>, how are you?</p>
        </figure>
        </sections>
        </standard-document>
