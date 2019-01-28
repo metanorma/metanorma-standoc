@@ -202,15 +202,15 @@ module Asciidoctor
 
       # NOTE: html escaping is performed by Nokogiri
       def listing(node)
-        attrs = { lang: node.attr("language"),
-                  id: Utils::anchor_or_uuid(node) }
+        attrs = { lang: node.attr("language"), id: Utils::anchor_or_uuid(node) }
         fragment = ::Nokogiri::XML::Builder.new do |xml|
           xml.sourcecode **attr_code(attrs) do |s|
             figure_title(node, s)
             s << node.content
           end
         end
-        fragment.to_xml(encoding: "US-ASCII")
+        fragment.to_xml(encoding: "US-ASCII", save_with:
+                        Nokogiri::XML::Node::SaveOptions::NO_DECLARATION)
       end
 
       def pass(node)
