@@ -204,12 +204,13 @@ module Asciidoctor
       def listing(node)
         attrs = { lang: node.attr("language"),
                   id: Utils::anchor_or_uuid(node) }
-        noko do |xml|
+        fragment = ::Nokogiri::XML::Builder.new do |xml|
           xml.sourcecode **attr_code(attrs) do |s|
             figure_title(node, s)
             s << node.content
           end
         end
+        fragment.to_xml(encoding: "US-ASCII")
       end
 
       def pass(node)
