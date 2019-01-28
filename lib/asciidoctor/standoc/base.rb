@@ -152,7 +152,7 @@ module Asciidoctor
         result << noko { |ixml| front node, ixml }
         result << noko { |ixml| middle node, ixml }
         result << "</standard-document>"
-        textcleanup(result.flatten * "\n")
+        textcleanup(result)
       end
 
       def makexml(node)

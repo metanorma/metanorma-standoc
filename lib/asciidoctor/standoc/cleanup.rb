@@ -11,7 +11,8 @@ require_relative "./cleanup_ref.rb"
 module Asciidoctor
   module Standoc
     module Cleanup
-      def textcleanup(text)
+      def textcleanup(result)
+        text = result.flatten.map { |l| l.sub(/\n$/, "") }  * "\n"
         if !@keepasciimath
           text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>},
                            '<amathstem>\1</amathstem>')
