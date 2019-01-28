@@ -70,6 +70,11 @@ module Asciidoctor
       end
 
       def note(n)
+        a = noko do |xml|
+          xml.note **id_attr(n) do |c|
+            wrap_in_para(n, c)
+          end
+        end
         noko do |xml|
           xml.note **id_attr(n) do |c|
             wrap_in_para(n, c)
