@@ -30,7 +30,7 @@ module Asciidoctor
                                      type: node.attr("type")) do |o|
             o << node.content
           end
-        end.join("")
+        end.join("\n")
       end
 
       def literal(node)
