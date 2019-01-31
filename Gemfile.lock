@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    metanorma-standoc (1.1.1)
+    metanorma-standoc (1.1.2)
       asciidoctor (~> 1.5.7)
       concurrent-ruby
       html2doc (~> 0.8.0)
@@ -54,7 +54,7 @@ GEM
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
     hashdiff (0.3.8)
-    html2doc (0.8.8)
+    html2doc (0.8.9)
       asciimath (~> 1.0.7)
       htmlentities (~> 4.3.4)
       image_size
