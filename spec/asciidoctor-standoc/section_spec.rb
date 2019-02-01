@@ -32,6 +32,19 @@ RSpec.describe Asciidoctor::Standoc do
       [.nonterm]
       === Introduction
 
+      ==== Intro 1
+
+      === Intro 2
+
+      [.nonterm]
+      ==== Intro 3
+
+      === Intro 4
+
+      ==== Intro 5
+
+      ===== Term1
+
       === Normal Terms
 
       ==== Term2
@@ -57,63 +70,85 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Bibliography Subsection
     INPUT
-       <preface><abstract id="_">
-         <p id="_">Text</p>
-       </abstract><foreword obligation="informative">
-         <title>Foreword</title>
-         <p id="_">Text</p>
-       </foreword><introduction id="_" obligation="informative">
-         <title>Introduction</title>
-         <clause id="_" inline-header="false" obligation="informative">
-         <title>Introduction Subsection</title>
-       </clause>
-       </introduction></preface><sections>
+    <preface><abstract id="_">
+  <p id="_">Text</p>
+</abstract><foreword obligation="informative">
+  <title>Foreword</title>
+  <p id="_">Text</p>
+</foreword><introduction id="_" obligation="informative">
+  <title>Introduction</title>
+  <clause id="_" inline-header="false" obligation="informative">
+  <title>Introduction Subsection</title>
+</clause>
+</introduction></preface><sections>
 
-       <clause id="_" inline-header="false" obligation="normative">
-         <title>Scope</title>
-         <p id="_">Text</p>
-       </clause>
 
-       <terms id="_" obligation="normative">
-         <title>Terms and definitions</title>
-         <term id="_">
-         <preferred>Term1</preferred>
-       </term>
-       </terms>
-       <clause id="_" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title><clause id="_" inline-header="false" obligation="normative">
-         <title>Introduction</title>
-       </clause>
-       <terms id="_" obligation="normative">
-         <title>Normal Terms</title>
-         <term id="_">
-         <preferred>Term2</preferred>
-       </term>
-       </terms>
-       <definitions id="_"><title>Symbols and Abbreviated Terms</title></definitions>
-       </clause>
-       <definitions id="_"><title>Abbreviated Terms</title></definitions>
-       <clause id="_" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="_" inline-header="false" obligation="normative">
-         <title>Introduction</title>
-       </clause>
-       <clause id="_" inline-header="false" obligation="normative">
-         <title>Clause 4.2</title>
-       </clause></clause>
-       <clause id="_" inline-header="false" obligation="normative">
-         <title>Terms and Definitions</title>
-       </clause>
+<clause id="_" inline-header="false" obligation="normative">
+  <title>Scope</title>
+  <p id="_">Text</p>
+</clause>
 
-       </sections><annex id="_" inline-header="false" obligation="normative">
-         <title>Annex</title>
-         <clause id="_" inline-header="false" obligation="normative">
-         <title>Annex A.1</title>
-       </clause>
-       </annex><bibliography><references id="_" obligation="informative">
-         <title>Normative References</title>
-       </references><clause id="_" obligation="informative">
-         <title>Bibliography</title>
-         <references id="_" obligation="informative">
-         <title>Bibliography Subsection</title>
-       </references>
+<terms id="_" obligation="normative">
+  <title>Terms and definitions</title>
+  <term id="_">
+  <preferred>Term1</preferred>
+</term>
+</terms>
+<clause id="_" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title><clause id="_" inline-header="false" obligation="normative">
+  <title>Introduction</title>
+  <clause id="_" inline-header="false" obligation="normative">
+  <title>Intro 1</title>
+</clause>
+</clause>
+<terms id="_" obligation="normative">
+  <title>Intro 2</title>
+  <clause id="_" inline-header="false" obligation="normative">
+  <title>Intro 3</title>
+</clause>
+</terms>
+<clause id="_" obligation="normative">
+  <title>Intro 4</title>
+  <terms id="_" obligation="normative">
+  <title>Intro 5</title>
+  <term id="_">
+  <preferred>Term1</preferred>
+</term>
+</terms>
+</clause>
+<terms id="_" obligation="normative">
+  <title>Normal Terms</title>
+  <term id="_">
+  <preferred>Term2</preferred>
+</term>
+</terms>
+<definitions id="_">
+  <title>Symbols and Abbreviated Terms</title>
+</definitions></clause>
+<definitions id="_">
+  <title>Abbreviated Terms</title>
+</definitions>
+<clause id="_" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="_" inline-header="false" obligation="normative">
+  <title>Introduction</title>
+</clause>
+<clause id="_" inline-header="false" obligation="normative">
+  <title>Clause 4.2</title>
+</clause></clause>
+<clause id="_" inline-header="false" obligation="normative">
+  <title>Terms and Definitions</title>
+</clause>
+
+</sections><annex id="_" inline-header="false" obligation="normative">
+  <title>Annex</title>
+  <clause id="_" inline-header="false" obligation="normative">
+  <title>Annex A.1</title>
+</clause>
+</annex><bibliography><references id="_" obligation="informative">
+  <title>Normative References</title>
+</references><clause id="_" obligation="informative">
+  <title>Bibliography</title>
+  <references id="_" obligation="informative">
+  <title>Bibliography Subsection</title>
+</references>
        </clause></bibliography>
        </standard-document>
     OUTPUT

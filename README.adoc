@@ -373,6 +373,10 @@ The following terms have non-normative effect, and should be ignored by the amet
 metrical foot consisting of a short, a long, and a short
 --
 
+Any clause within a Terms & Definitions section which is a nonterminal subclause (has
+child nodes) is automatically itself a terms (or definitions) section. On the other hand,
+any descendant of a nonterm clause is also a nonterm clause.
+
 === Cross-references to external documents
 
 Metanorma Asciidoctor, like normal Asciidoctor, will process cross-references to
