@@ -117,7 +117,10 @@ module Asciidoctor
       def symbols_parse(attrs, xml, node)
         xml.definitions **attr_code(attrs) do |xml_section|
           xml_section.title { |t| t << node.title }
+          defs = @definitions
+          @definitions = true
           xml_section << node.content
+          @definitions = defs
         end
       end
 
@@ -132,6 +135,7 @@ module Asciidoctor
           @term_def = true
           return
         end
+        return symbols_parse(attrs, xml, node) if @definitions
         sub = node.find_by(context: :section) { |s| s.level == node.level + 1 }
         sub.empty? || (return term_def_parse(attrs, xml, node, false))
         SYMBOLS_TITLES.include?(node.title.downcase) and

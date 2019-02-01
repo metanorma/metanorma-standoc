@@ -51,6 +51,11 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Symbols and Abbreviated Terms
 
+      [.nonterm]
+      ==== General
+
+      ==== Symbols 1
+
       == Abbreviated Terms
 
       == Clause 4
@@ -121,9 +126,12 @@ RSpec.describe Asciidoctor::Standoc do
   <preferred>Term2</preferred>
 </term>
 </terms>
+<definitions id="_"><title>Symbols and Abbreviated Terms</title><clause id="_" inline-header="false" obligation="normative">
+  <title>General</title>
+</clause>
 <definitions id="_">
-  <title>Symbols and Abbreviated Terms</title>
-</definitions></clause>
+  <title>Symbols 1</title>
+</definitions></definitions></clause>
 <definitions id="_">
   <title>Abbreviated Terms</title>
 </definitions>
@@ -149,8 +157,8 @@ RSpec.describe Asciidoctor::Standoc do
   <references id="_" obligation="informative">
   <title>Bibliography Subsection</title>
 </references>
-       </clause></bibliography>
-       </standard-document>
+</clause></bibliography>
+</standard-document>
     OUTPUT
   end
 
