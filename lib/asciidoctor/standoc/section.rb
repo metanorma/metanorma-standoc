@@ -118,9 +118,12 @@ module Asciidoctor
         xml.definitions **attr_code(attrs) do |xml_section|
           xml_section.title { |t| t << node.title }
           defs = @definitions
+          termdefs = @term_def
           @definitions = true
+          @term_def = false
           xml_section << node.content
           @definitions = defs
+          @term_def = termdefs
         end
       end
 
