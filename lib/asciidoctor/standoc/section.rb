@@ -21,7 +21,8 @@ module Asciidoctor
       end
 
       def sectiontype(node)
-        ret = node&.attr("heading")&.downcase || node.title.downcase
+        ret = node&.attr("heading")&.downcase ||
+          node.title.gsub(/<[^>]+>/, "").downcase
         return ret if ["symbols and abbreviated terms", "abbreviations",
                        "abbreviated terms", "symbols"].include? ret
         return nil unless node.level == 1
