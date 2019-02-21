@@ -226,7 +226,7 @@ RSpec.describe Asciidoctor::Standoc do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [CAUTION,type=Safety Precautions]
-      .Safety Precautions
+      .Precautions
       ====
       While werewolves are hardy community members, keep in mind the following dietary concerns:
 
@@ -237,7 +237,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
       <sections>
-         <admonition id="_" type="safety precautions"><p id="_">While werewolves are hardy community members, keep in mind the following dietary concerns:</p>
+         <admonition id="_" type="safety precautions"><name>Precautions</name><p id="_">While werewolves are hardy community members, keep in mind the following dietary concerns:</p>
        <ol id="_" type="arabic">
          <li>
            <p id="_">They are allergic to cinnamon.</p>

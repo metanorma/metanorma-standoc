@@ -109,6 +109,7 @@ module Asciidoctor
         return note(node) if node.attr("name") == "note"
         noko do |xml|
           xml.admonition **admonition_attrs(node) do |a|
+            node.title.nil? or a.name { |name| name << node.title }
             wrap_in_para(node, a)
           end
         end.join("\n")
