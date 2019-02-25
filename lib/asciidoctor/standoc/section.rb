@@ -21,7 +21,8 @@ module Asciidoctor
       end
 
       def sectiontype(node)
-        ret = node&.attr("heading")&.downcase || node.title.downcase
+        ret = node&.attr("heading")&.downcase ||
+          node.title.gsub(/<[^>]+>/, "").downcase
         return ret if ["symbols and abbreviated terms", "abbreviations",
                        "abbreviated terms", "symbols"].include? ret
         return nil unless node.level == 1
@@ -53,8 +54,9 @@ module Asciidoctor
           when "bibliography" then bibliography_parse(a, xml, node)
           else
             if @term_def then term_def_subclause_parse(a, xml, node)
+            elsif @definitions then symbols_parse(a, xml, node)
             elsif @biblio then bibliography_parse(a, xml, node)
-            elsif node.attr("style") == "bibliography" && node.level == 1
+            elsif node.attr("style") == "bibliography"
               bibliography_parse(a, xml, node)
             elsif node.attr("style") == "abstract" 
               abstract_parse(a, xml, node)
@@ -114,19 +116,40 @@ module Asciidoctor
         @biblio = false
       end
 
+      def nonterm_symbols_parse(attrs, xml, node)
+        @definitions = false
+        clause_parse(attrs, xml, node)
+        @definitions = true
+      end
+
       def symbols_parse(attrs, xml, node)
+        node.role == "nonterm" and return nonterm_symbols_parse(attrs, xml, node)
         xml.definitions **attr_code(attrs) do |xml_section|
           xml_section.title { |t| t << node.title }
+          defs = @definitions
+          termdefs = @term_def
+          @definitions = true
+          @term_def = false
           xml_section << node.content
+          @definitions = defs
+          @term_def = termdefs
         end
       end
 
       SYMBOLS_TITLES = ["symbols and abbreviated terms", "symbols",
                         "abbreviated terms"].freeze
 
+      def nonterm_term_def_subclause_parse(attrs, xml, node)
+        @term_def = false
+        clause_parse(attrs, xml, node)
+        @term_def = true
+      end
+
       # subclause contains subclauses
       def term_def_subclause_parse(attrs, xml, node)
-        return clause_parse(attrs, xml, node) if node.role == "nonterm"
+        node.role == "nonterm" and
+          return nonterm_term_def_subclause_parse(attrs, xml, node)
+        return symbols_parse(attrs, xml, node) if @definitions
         sub = node.find_by(context: :section) { |s| s.level == node.level + 1 }
         sub.empty? || (return term_def_parse(attrs, xml, node, false))
         SYMBOLS_TITLES.include?(node.title.downcase) and

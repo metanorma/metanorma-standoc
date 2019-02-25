@@ -158,6 +158,61 @@ RSpec.describe Asciidoctor::Standoc do
       OUTPUT
   end
 
+    it "processes term notes as plain notes in nonterm clauses" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      [.nonterm]
+      === Term1
+
+      NOTE: This is a note
+      INPUT
+              #{BLANK_HDR}
+              <sections>
+  <terms id="_" obligation="normative">
+  <title>Terms and definitions</title>
+  <clause id="_" inline-header="false" obligation="normative">
+  <title>Term1</title>
+  <note id="_">
+  <p id="_">This is a note</p>
+</note>
+</clause>
+</terms>
+</sections>
+</standard-document>
+
+      OUTPUT
+  end
+
+        it "processes term notes as plain notes in definitions subclauses of terms & definitions" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      === Term1
+
+      === Symbols
+
+      NOTE: This is a note
+      INPUT
+              #{BLANK_HDR}
+              <sections>
+  <terms id="_" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title><term id="_">
+  <preferred>Term1</preferred>
+</term>
+<definitions id="_">
+  <title>Symbols</title>
+  <note id="_">
+  <p id="_">This is a note</p>
+</note>
+</definitions></terms>
+</sections>
+</standard-document>
+
+      OUTPUT
+  end
+
     it "processes notes" do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
@@ -266,21 +321,76 @@ RSpec.describe Asciidoctor::Standoc do
       This is an example
       INPUT
       #{BLANK_HDR}
-              <sections>
-         <terms id="_" obligation="normative">
-         <title>Terms and definitions</title>
-         <term id="_">
-         <preferred>Term1</preferred>
-         <termexample id="_">
-         <p id="_">This is an example</p>
-       </termexample>
-       </term>
-       </terms>
-       </sections>
-       </standard-document>
+      <sections>
+  <terms id="_" obligation="normative">
+  <title>Terms and definitions</title>
+  <term id="_">
+  <preferred>Term1</preferred>
 
+<termexample id="_">
+  <p id="_">This is an example</p>
+</termexample></term>
+</terms>
+</sections>
+</standard-document>
       OUTPUT
     end
+
+    it "processes term examples as plain examples in nonterm clauses" do
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      [.nonterm]
+      === Term1
+
+      [example]
+      This is an example
+      INPUT
+      #{BLANK_HDR}
+<sections> 
+  <terms id="_" obligation="normative">  
+  <title>Terms and definitions</title>  
+  <clause id="_" inline-header="false" obligation="normative">   
+  <title>Term1</title>   
+  <example id="_">    
+  <p id="_">This is an example</p>    
+</example>   
+</clause>  
+</terms> 
+</sections>
+</standard-document>
+      OUTPUT
+    end
+
+  it "processes term examples as plain examples in definitions subclauses of terms & definitions" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      === Term1
+
+      === Symbols
+
+      [example]
+      This is an example
+      INPUT
+              #{BLANK_HDR}
+<sections> 
+  <terms id="_" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title><term id="_">   
+  <preferred>Term1</preferred>   
+</term>  
+<definitions id="_">   
+  <title>Symbols</title>   
+  <example id="_">    
+  <p id="_">This is an example</p>    
+</example>   
+</definitions></terms> 
+</sections>
+</standard-document>
+      OUTPUT
+  end
+
 
     it "processes examples" do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
