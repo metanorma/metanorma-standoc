@@ -519,6 +519,8 @@ Often, though not always, the named blocks contain machine-readable code which i
 intended to be included in the document output, but is supplemental to the human-readable
 description. That is signalled through the options attribute `exclude` on the named block.
 
+The label attribute is always rendered if present. The subject attribute is never rendered.
+
 [source,asciidoctor]
 --
 [recommendation,label="/ogc/recommendation/wfs/2",subject="user"]
