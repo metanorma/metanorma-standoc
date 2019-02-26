@@ -7,7 +7,6 @@ PATH
       html2doc (~> 0.8.0)
       iev (~> 0.2.0)
       isodoc (~> 0.9.0)
-      mathematical
       relaton (~> 0.3.1)
       ruby-jing
       sterile (~> 1.0.14)
@@ -66,8 +65,6 @@ GEM
       uuidtools
     htmlentities (4.3.4)
     httpclient (2.8.3)
-    i18n (1.5.3)
-      concurrent-ruby (~> 1.0)
     iecbib (0.2.2)
       addressable
       iso-bib-item (~> 0.4.2)
@@ -105,8 +102,6 @@ GEM
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
     lumberjack (1.0.13)
-    mathematical (1.6.12)
-      ruby-enum (~> 0.4)
     metanorma (0.3.9)
       asciidoctor
       htmlentities
@@ -163,8 +158,6 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
-    ruby-enum (0.7.2)
-      i18n
     ruby-jing (0.0.1)
       optout (>= 0.0.2)
     ruby-progressbar (1.10.0)
