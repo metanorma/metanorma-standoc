@@ -61,6 +61,24 @@ module Asciidoctor
         end
       end
 
+      def todo_attrs(node)
+        date = node.attr("date") || Date.today.iso8601.gsub(/\+.*$/, "")
+        date += "T00:00:00Z" unless /T/.match date
+        {
+          reviewer: node.attr("reviewer") || node.attr("source") || "(Unknown)",
+          id: Utils::anchor_or_uuid(node),
+          date: date,
+        }
+      end
+
+      def todo(node)
+        noko do |xml|
+          xml.review **attr_code(todo_attrs(node)) do |r|
+            wrap_in_para(node, r)
+          end
+        end
+      end
+
       def termnote(n)
         noko do |xml|
           xml.termnote **id_attr(n) do |ex|
@@ -95,6 +113,7 @@ module Asciidoctor
       def admonition(node)
         return termnote(node) if in_terms?
         return note(node) if node.attr("name") == "note"
+        return todo(node) if node.attr("name") == "todo"
         noko do |xml|
           xml.admonition **admonition_attrs(node) do |a|
             node.title.nil? or a.name { |name| name << node.title }
