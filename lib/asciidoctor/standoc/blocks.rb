@@ -35,7 +35,7 @@ module Asciidoctor
         stem_content = node.lines.join("\n")
         noko do |xml|
           xml.formula **id_attr(node) do |s|
-            stem_parse(stem_content, s)
+            stem_parse(stem_content, s, node.style.to_sym)
           end
         end
       end
