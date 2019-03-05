@@ -154,15 +154,37 @@ module Asciidoctor
         end.join("\n")
       end
 
+      def req_classif_parse(classif)
+        ret = []
+        classif.split(/;\s*/).each do |c|
+          c1 = c.split(/:\s*/)
+          next unless c1.size == 2
+          c1[1].split(/,\s*/).each { |v| ret << [ c1[0], v ] }
+        end
+        ret
+      end
+
+      def requirement_classification(classif, ex)
+        req_classif_parse(classif).each do |r|
+          ex.classification do |c|
+            c.tag r[0]
+            c.value r[1]
+          end
+        end
+      end
+
       def requirement(node, obligation)
         subject = node.attr("subject")
         label = node.attr("label")
         inherit = node.attr("inherit")
+        classif= node.attr("classification")
         noko do |xml|
           xml.send obligation, **id_attr(node) do |ex|
+            ex.title node.title if node.title
             ex.label label if label
             ex.subject subject if subject
             ex.inherit inherit if inherit
+            requirement_classification(classif, ex) if classif
             wrap_in_para(node, ex)
           end
         end.join("\n")

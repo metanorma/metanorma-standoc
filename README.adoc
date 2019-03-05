@@ -465,13 +465,17 @@ I recommend this
 (In the following, "requirement" shall be used as the cover-all term.)
 
 The named attributes `subject` and `label` may be used to indicate the subject of the
-requirement, and the conventional label assigned to the requirement. The `inherit`
+requirement, and the conventional label assigned to the requirement. The named attribute
+`classification` may be used to give an arbitrary number of key-value pairs of tags describing
+the requirement; key-value pairs are delimited by semicolon, key and value are delimited by
+colon, multiple values are delimited by comma, 
+and key and value are both intended to be tokens (containing no punctuation). The `inherit`
 attribute may be used to reference the label of a requirement that is imported or
 presupposed by this requirement:
 
 [source,asciidoctor]
 --
-[recommendation,label="/ogc/recommendation/wfs/2",subject="user",inherit="/ss/584/2015/level/1"]
+[recommendation,label="/ogc/recommendation/wfs/2",subject="user",inherit="/ss/584/2015/level/1",classification="control-class:Technical;priority:P0;family:System and Communications Protection,System and Communications Protocols"]
 ====
 I recommend this
 ====
@@ -543,7 +547,7 @@ The measurement target shall be measured as:
 r/1 = 0
 ++++
 ---
-[verification]
+[verification,type="comprehensive"]
 ---
 The following code will be run for verification:
 [source,CoreRoot]
