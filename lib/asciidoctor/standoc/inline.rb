@@ -1,5 +1,6 @@
 require "asciidoctor/extensions"
 require "htmlentities"
+require "unicode2latex"
 
 module Asciidoctor
   module Standoc
@@ -92,13 +93,25 @@ module Asciidoctor
         noko { |xml| xml.hr }.join("\n")
       end
 
-      def stem_parse(text, xml)
+      def xml_encode(text)
+        HTMLEntities.new.encode(text, :basic, :hexadecimal).
+            gsub(/&amp;gt;/, ">").gsub(/\&amp;lt;/, "<").gsub(/&amp;amp;/, "&").
+            gsub(/&gt;/, ">").gsub(/&lt;/, "<").gsub(/&amp;/, "&").
+            gsub(/&quot;/, '"').gsub(/&#xa;/, "\n")
+      end
+
+      def stem_parse(text, xml, style)
         if /&lt;([^:>&]+:)?math(\s+[^>&]+)?&gt; |
           <([^:>&]+:)?math(\s+[^>&]+)?>/x.match text
-          math = HTMLEntities.new.encode(text, :basic, :hexadecimal).
-            gsub(/&amp;gt;/, ">").gsub(/\&amp;lt;/, "<").gsub(/&amp;amp;/, "&").
-            gsub(/&gt;/, ">").gsub(/&lt;/, "<").gsub(/&amp;/, "&")
+          math = xml_encode(text)
           xml.stem math, **{ type: "MathML" }
+        elsif style == :latexmath
+          out = Unicode2LaTeX::unicode2latex(text).gsub(/'/, '\\').gsub(/\n/, " ")
+          File.open(".tex", "w") { |file| file.write(out) }
+          latex = `cat .tex | latexmlmath --preload=amsmath  -- -`
+          xml.stem **{ type: "MathML" } do |s|
+            s << latex.sub(/<\?[^>]+>/, "")
+          end
         else
           xml.stem text, **{ type: "AsciiMath" }
         end
@@ -114,7 +127,8 @@ module Asciidoctor
           when :single then xml << "'#{node.text}'"
           when :superscript then xml.sup { |s| s << node.text }
           when :subscript then xml.sub { |s| s << node.text }
-          when :asciimath then stem_parse(node.text, xml)
+          when :asciimath then stem_parse(node.text, xml, :asciimath)
+          when :latexmath then stem_parse(node.text, xml, :latexmath)
           else
             case node.role
               # the following three are legacy, they are now handled by macros

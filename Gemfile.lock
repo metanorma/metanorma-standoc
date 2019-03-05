@@ -10,6 +10,7 @@ PATH
       relaton (~> 0.3.1)
       ruby-jing
       sterile (~> 1.0.14)
+      unicode2latex (~> 0.0.1)
 
 GEM
   remote: https://rubygems.org/
@@ -185,6 +186,7 @@ GEM
     thread_safe (0.3.6)
     timecop (0.9.1)
     unicode-display_width (1.4.1)
+    unicode2latex (0.0.1)
     uuidtools (2.1.5)
     vcr (4.0.0)
     webmock (3.5.1)

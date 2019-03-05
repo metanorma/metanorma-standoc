@@ -18,6 +18,33 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+  it "processes the TODO custom admonition" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      TODO: Note1
+
+      [TODO]
+      ====
+      Note2
+      ====
+
+      [TODO]
+      Note3
+    INPUT
+            #{BLANK_HDR}
+            <sections><review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z">
+         <p id="_"/>
+       </review>
+       <review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z">
+         <p id="_">Note2</p>
+       </review>
+       <review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z">
+         <p id="_">Note3</p>
+       </review></sections>
+       </standard-document>
+    OUTPUT
+  end
+
   it "processes the PlantUML macro" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
@@ -114,7 +141,6 @@ Alice &lt;-- Bob: another authentication Response
        </standard-document>
     OUTPUT
   end
-
 
   private
 

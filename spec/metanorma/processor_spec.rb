@@ -60,7 +60,7 @@ RSpec.describe Metanorma::Standoc::Processor do
        <li> <p>IEC Electropedia: available at
          <a href="http://www.electropedia.org">http://www.electropedia.org</a>
        </p> </li> </ul>
-       <h2 class="TermNum" id="J">1.1</h2>
+       <h2 class="TermNum" id="J">1.1.</h2>
          <p class="Terms" style="text-align:left;">Term2</p>
        </div>
            </main>
