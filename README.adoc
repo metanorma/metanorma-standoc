@@ -571,6 +571,22 @@ success-response()
 ====
 --
 
+=== TODO expressions
+
+It is a commonplace convention of sourcecode and lightly marked up text
+to prefix comments indicating pending actions with `TODO`. Metanorma Asciidoctor
+treats `TODO` as an admonition label, and converts it into a Reviewer note:
+
+[source,asciidoctor]
+----
+TODO: This is treated as a Reviewer note:
+
+[TODO]
+====
+This is also treated as a Reviwer note
+====
+----
+
 === STEM expressions
 
 Like Asciidoctor proper, Metanorma Asciidoctor accepts mathematical input
@@ -588,6 +604,9 @@ is interpreted as AsciiMath.
 * Any markup tagged as `[latexmath]`
 (`latexmath:[...]`, or `[latexmath]` before a block delimited with `++++`)
 is interpreted as LaTeX.
+
+Any Unicode characters in the LaTeX source are translated into LaTeX escapes, 
+through the https://github.com/metanorma/unicode2latex[unicode2latex] gem.
 
 In addition, stem markup that contains MathML markup (as detected by an initial
 `<math ... >`) is interpreted as MathML.
