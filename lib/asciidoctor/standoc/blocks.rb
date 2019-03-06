@@ -173,17 +173,21 @@ module Asciidoctor
         end
       end
 
+      def reqt_attributes(node)
+        {
+          id: Utils::anchor_or_uuid,
+          obligation: node.attr("obligation")
+        }
+      end
+
       def requirement(node, obligation)
-        subject = node.attr("subject")
-        label = node.attr("label")
-        inherit = node.attr("inherit")
-        classif= node.attr("classification")
+        classif = node.attr("classification")
         noko do |xml|
-          xml.send obligation, **id_attr(node) do |ex|
+          xml.send obligation, **attr_code(reqt_attributes(node)) do |ex|
             ex.title node.title if node.title
-            ex.label label if label
-            ex.subject subject if subject
-            ex.inherit inherit if inherit
+            ex.label node.attr("label") if node.attr("label")
+            ex.subject node.attr("subject") if node.attr("subject")
+            ex.inherit node.attr("inherit") if node.attr("inherit")
             requirement_classification(classif, ex) if classif
             wrap_in_para(node, ex)
           end
