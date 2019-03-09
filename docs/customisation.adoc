@@ -8,12 +8,12 @@ TIP: Copy the RSD schema from https://github.com/metanorma/metanorma-model-iso/b
 
 The Standoc specification is expressed in http://www.relaxng.org[RelaxNG schema for XML], and is intended to be customisable for different types of publication. The customisation of Standoc relies on inheritance, with the following schemas embedded hierarchically:
 
-* https://github.com/riboseinc/relaton-models[Relaton]: bibliography
-* https://github.com/riboseinc/basicdoc-models[BasicDoc]: block-level and inline formatting
+* https://github.com/metanorma/relaton-models[Relaton]: bibliography
+* https://github.com/metanorma/basicdoc-models[BasicDoc]: block-level and inline formatting
 * https://github.com/metanorma/metanorma-model=standoc[StanDoc]: organisation of sections for a generic standards document
 * Models specific to standards
 
-Because of the richness of the ISO standards model, most Standoc standards to date (including the sample gem https://github.com/riboseinc/metanorma-sample) inherit from the ISO Standards model, which itself inherits from Standoc.
+Because of the richness of the ISO standards model, most Standoc standards to date (including the sample gem https://github.com/metanorma/metanorma-sample) inherit from the ISO Standards model, which itself inherits from Standoc.
 
 Specialisation of a model consists of:
 
@@ -33,7 +33,7 @@ To adapt the schema for your publication set,
 
 [TIP]
 ====
-* Clone the asciidoctor-metanorma_sample gem: https://github.com/riboseinc/metanorma-sample.
+* Clone the asciidoctor-metanorma_sample gem: https://github.com/metanorma/metanorma-sample.
 * Change the namespace for RSD documents (`RSD_NAMESPACE = "https://open.ribose.com/standards/rsd"`) to a namespace specific to your organisation's document standard.
 * Change any references to `sample` or `Sample` in the gem to your organisation's document standard.
 * Change the styling of the document outputs (`.../lib/isodoc/XXX/html`).
@@ -78,7 +78,7 @@ The `Isodoc::HtmlConvert` and `Isodoc::WordConvert` overlap substantially, as bo
 
 [TIP]
 ====
-* Clone the asciidoctor-metanorma_sample gem: https://github.com/riboseinc/metanorma-sample.
+* Clone the asciidoctor-metanorma_sample gem: https://github.com/metanorma/metanorma-sample.
 * Edit the `html_sample_titlepage.html` and `html_sample_intro.html` pages to match your organisation's branding.
 ** Leave the Liquid Template instructions alone (`{{`, `{%`) unless you know what you're doing with them: they are how the pages are populated with metadata.
 * Edit the `default_fonts()` method in your `IsoDoc::...::HtmlConvert` class, to match your desired fonts.
@@ -110,7 +110,7 @@ Styling of output is intended to be configurable. HTML stylesheets are in https:
 ====
 * There is no quick way of doing this.
 * Everything you can do in Word, you can do in Word HTML. Save Word documents as Word HTML to see how.
-* Clone the asciidoctor-metanorma_sample gem: https://github.com/riboseinc/metanorma-sample.
+* Clone the asciidoctor-metanorma_sample gem: https://github.com/metanorma/metanorma-sample.
 * Edit the `word_sample_titlepage.html` and `word_sample_intro.html` pages to match your organisation's branding. With lots of iterations of saving Word documents as HTML, for trial and error.
 ** Leave the Liquid Template instructions alone (`{{`, `{%`) unless you know what you're doing with them: they are how the pages are populated with metadata.
 * Edit the `default_fonts()` method in your `IsoDoc::...::WordConvert` class, to match your desired fonts.
