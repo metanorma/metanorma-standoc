@@ -1,18 +1,18 @@
 = Metanorma-standoc
 
 image:https://img.shields.io/gem/v/metanorma-standoc.svg["Gem Version", link="https://rubygems.org/gems/metanorma-standoc"]
-image:https://img.shields.io/travis/riboseinc/metanorma-standoc/master.svg["Build Status", link="https://travis-ci.org/riboseinc/metanorma-standoc"]
-image:https://codeclimate.com/github/riboseinc/metanorma-standoc/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/riboseinc/metanorma-standoc"]
+image:https://img.shields.io/travis/metanorma/metanorma-standoc/master.svg["Build Status", link="https://travis-ci.org/metanorma/metanorma-standoc"]
+image:https://codeclimate.com/github/metanorma/metanorma-standoc/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/metanorma/metanorma-standoc"]
 
 WARNING: This gem is still under development.
 
-Gem for serialising the https://github.com/riboseinc/metanorma-model-standoc[Metanorma Standoc] model. 
+Gem for serialising the https://github.com/metanorma/metanorma-model-standoc[Metanorma Standoc] model. 
 
 == Functionality
 
 This gem processes Metanorma documents following a template for generating standards documents, according
 to a range of standards classes. This gem provides underlying generic functionality; behaviour specific
-to each standards class is refined in the gem specific to that standards class (e.g. https://github.com/riboseinc/metanorma-iso).
+to each standards class is refined in the gem specific to that standards class (e.g. https://github.com/metanorma/metanorma-iso).
 The following outputs are generated.
 
 * Metanorma XML representation of the document, intended as a document model for 
@@ -27,8 +27,8 @@ The following input formats are supported:
 * http://asciidoctor.org/[Asciidoctor]
 
 This README provides an overview of the functionality of the gem; see also
-https://github.com/riboseinc/metanorma-iso/blob/master/docs/guidance.adoc[Guidance for authoring].
-https://github.com/riboseinc/metanorma-iso/blob/master/docs/quickstart.adoc[Quickstart guide]
+https://github.com/metanorma/metanorma-iso/blob/master/docs/guidance.adoc[Guidance for authoring].
+https://github.com/metanorma/metanorma-iso/blob/master/docs/quickstart.adoc[Quickstart guide]
 gives a summary overview.
 
 NOTE: http://asciimath.org[AsciiMathML] is used for mathematical formatting.
@@ -39,13 +39,13 @@ expressions.
 
 === Installation
 
-If you are using a Mac, the https://github.com/riboseinc/metanorma-macos-setup
+If you are using a Mac, the https://github.com/metanorma/metanorma-macos-setup
 repository has instructions on setting up your machine to run Metanorma
 scripts such as this one. You need only run the following in a Terminal console:
 
 [source,console]
 ----
-$ bash <(curl -s https://raw.githubusercontent.com/riboseinc/metanorma-macos-setup/master/metanorma-setup)
+$ bash <(curl -s https://raw.githubusercontent.com/metanorma/metanorma-macos-setup/master/metanorma-setup)
 $ gem install metanorma-standoc
 $ gem install metanorma-cli 
 ----
@@ -56,7 +56,7 @@ The metanorma-cli gem is the command-line interface for the Metanorma tool suite
 == Approach
 === Document model
 
-The https://github.com/riboseinc/metanorma-model-iso[Metanorma document model] used in document generation
+The https://github.com/metanorma/metanorma-model-iso[Metanorma document model] used in document generation
 intends to introduce rigour into the standards authoring process; existing 
 document templates do not support such rigour down to the element level. It also introduces
 flexibility by decoupling the document structure from its presentation.
@@ -739,7 +739,7 @@ of the built-in English, French or Chinese text used to label parts of the docum
 (e.g. "Table", "Foreword", boilerplate text for Normative References, etc.)
 Use if you wish to output an standard in a language other than those three.
 A sample YAML file for English, with "Foreword" replaced with "Frontispiece",
-is available at https://github.com/riboseinc/metanorma-iso/blob/master/spec/examples/english.yaml[]
+is available at https://github.com/metanorma/metanorma-iso/blob/master/spec/examples/english.yaml[]
 
 `:docnumber:`:: The numeric component of the document identifier (mandatory). The full identifier is formed by prefixing and suffixing this element with other strings derived from metadata.
 
