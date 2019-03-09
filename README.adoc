@@ -815,7 +815,7 @@ An arbitrary date in the production of the standard. Content of the attribute sh
 `:doc-uri:`:: The URI to which the DOC representation of this standard is published.
 `:relaton-uri:`:: The URI to which the Relaton XML representation of this standard is published.
 
-`:language:` :: The language of the document (`en` or `fr`). Defaults to `en`.
+`:language:` :: The language of the document. Defaults to `en`.
 
 `:script:` :: The script of the document (defaults to `Latn`). Must be supplied as
 `Hans` for Simplified Chinese.
