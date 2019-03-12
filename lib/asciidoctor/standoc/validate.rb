@@ -11,11 +11,19 @@ module Asciidoctor
 
       SOURCELOCALITY = "./termsource/origin/locality[@type = 'clause']/referenceFrom".freeze
 
+      def init_iev
+        return nil if @no_isobib
+        return @iev if @iev
+        @iev = Iev::Db.new(@iev_globalname, @iev_localname) unless @no_isobib
+        @iev
+      end
+
       def iev_validate(xmldoc)
         xmldoc.xpath("//term").each do |t|
           /^IEC 60050-/.match(t&.at("./termsource/origin/@citeas")&.text) or next
           pref = t.xpath("./preferred").inject([]) { |m, x| m << x&.text&.downcase }
           locality = t.xpath(SOURCELOCALITY)&.text or next
+          @iev = init_iev or return
           iev = @iev.fetch(locality, xmldoc&.at("//language")&.text || "en") or next
           pref.include?(iev.downcase) or
             warn %(Term "#{pref[0]}" does not match IEV #{locality} "#{iev}")

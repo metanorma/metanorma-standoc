@@ -115,15 +115,14 @@ module Asciidoctor
 
       def init_iev_caches(node)
         unless (@no_isobib_cache || @no_isobib)
-          globalname = ievcache_name(true) unless node.attr("local-cache-only")
-          localname = ievcache_name(false) if node.attr("local-cache") ||
-          node.attr("local-cache-only")
+          @iev_globalname = global_ievcache_name unless node.attr("local-cache-only")
+          @iev_localname = local_ievcache_name(node.attr("local-cache") || node.attr("local-cache-only"))
           if node.attr("flush-caches")
-            FileUtils.rm_f globalname unless globalname.nil?
-            FileUtils.rm_f localname unless localname.nil?
+            FileUtils.rm_f @iev_globalname unless @iev_globalname.nil?
+            FileUtils.rm_f @iev_localname unless @iev_localname.nil?
           end
         end
-        @iev = Iev::Db.new(globalname, localname) unless @no_isobib
+        #@iev = Iev::Db.new(globalname, localname) unless @no_isobib
       end
 
       def default_fonts(node)

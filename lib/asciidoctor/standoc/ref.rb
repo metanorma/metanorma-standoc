@@ -204,9 +204,15 @@ module Asciidoctor
         "#{cachename}/cache"
       end
 
-      def ievcache_name(global)
-        global ?  "#{Dir.home}/.iev.pstore" :
-          "#{@filename}.iev.pstore"
+      def global_ievcache_name
+        "#{Dir.home}/.iev/cache"
+      end
+
+      def local_ievcache_name(cachename)
+        return nil if cachename.nil?
+        cachename += "_iev" unless cachename.empty?
+        cachename = "iev" if cachename.empty?
+        "#{cachename}/cache"
       end
     end
   end

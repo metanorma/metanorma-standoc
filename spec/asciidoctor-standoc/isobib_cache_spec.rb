@@ -119,7 +119,7 @@ EOS
   it "flushes biblio caches" do
     relaton_bib_file  = File.expand_path("~/.relaton/cache")
     relaton_bib_file1 = File.expand_path("~/.relaton-bib.pstore1")
-    iev_file          = File.expand_path("~/.iev.pstore")
+    iev_file          = File.expand_path("~/.iev/cache")
     iev_file1         = File.expand_path("~/.iev.pstore1")
     FileUtils.rm_rf relaton_bib_file1 if File.exist? relaton_bib_file1
     FileUtils.mv relaton_bib_file, relaton_bib_file1 if File.exist? relaton_bib_file
@@ -127,7 +127,7 @@ EOS
     FileUtils.mv iev_file, iev_file1 if File.exist? iev_file
 
     File.open("#{Dir.home}/.relaton/cache", "w") { |f| f.write "XXX" }
-    FileUtils.rm_rf File.expand_path("~/.iev.pstore")
+    FileUtils.rm_rf File.expand_path("~/.iev/cache")
 
     # mock_isobib_get_123
     VCR.use_cassette "isobib_get_123" do
@@ -140,7 +140,22 @@ EOS
       INPUT
     end
     expect(File.exist?("#{Dir.home}/.relaton/cache")).to be true
-    expect(File.exist?("#{Dir.home}/.iev.pstore")).to be true
+    expect(File.exist?("#{Dir.home}/.iev/cache")).to be false
+
+    mock_open_uri('103-01-02')
+      Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+    [bibliography]
+    == Normative References
+    * [[[iev,IEV]]], _iev_
+
+    == Terms and definitions
+    === Automation
+
+    [.source]
+    <<iev,clause="103-01-02">>
+    INPUT
+    expect(File.exist?("#{Dir.home}/.iev/cache")).to be true
+
 
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
     entry = db.load_entry("ISO(ISO 123:2001)")
@@ -148,9 +163,9 @@ EOS
     expect(entry).to be_equivalent_to(ISO_123_DATED)
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
-    FileUtils.rm_rf File.expand_path("~/.iev.pstore")
+    FileUtils.rm_rf File.expand_path("~/.iev/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
-    FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev.pstore"), force: true
+    FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev/cache"), force: true
   end
 
   it "does not fetch references for ISO references in preparation" do
