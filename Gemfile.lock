@@ -5,7 +5,7 @@ PATH
       asciidoctor (~> 1.5.7)
       concurrent-ruby
       html2doc (~> 0.8.0)
-      iev (~> 0.2.0)
+      iev (~> 0.2.1)
       isodoc (~> 0.9.0)
       relaton (~> 0.3.1)
       ruby-jing
@@ -71,7 +71,7 @@ GEM
       iso-bib-item (~> 0.4.2)
     ietfbib (0.4.5)
       iso-bib-item (~> 0.4.2)
-    iev (0.2.0)
+    iev (0.2.1)
       nokogiri
     image_size (2.0.0)
     iso-bib-item (0.4.4)
@@ -97,7 +97,7 @@ GEM
       uuidtools
     isoics (0.1.7)
     json (2.2.0)
-    liquid (4.0.1)
+    liquid (4.0.2)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)

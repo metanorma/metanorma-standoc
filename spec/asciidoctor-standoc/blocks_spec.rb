@@ -1,4 +1,5 @@
 require "spec_helper"
+require "open3"
 
 RSpec.describe Asciidoctor::Standoc do
     it "processes pass blocks" do
@@ -37,6 +38,8 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes stem blocks" do
+    stdout, stderr, status = Open3.capture3("latexmlmath --VERSION")
+    expect(stderr).to include "LaTeXML version"
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [stem]
