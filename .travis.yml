@@ -16,7 +16,9 @@ before_install:
   - echo 'exec java -jar /opt/plantuml/plantuml.jar "$@"' >> plantuml.sh
   - sudo install -m 755 -D plantuml.sh /usr/bin/plantuml
   - plantuml -version
-  - sudo apt-get install -y latexml
+  - curl -L http://cpanmin.us | perl - --sudo App::cpanminus
+  - cpanm --sudo LaTeXML@0.8.2
+  - which latexml
 matrix:
   allow_failures:
     - rvm: ruby-head
