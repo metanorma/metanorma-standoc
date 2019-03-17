@@ -12,7 +12,7 @@ module Asciidoctor
   module Standoc
     module Cleanup
       def textcleanup(result)
-        text = result.flatten.map { |l| l.sub(/\n$/, "") }  * "\n"
+        text = result.flatten.map { |l| l.sub(/\s*$/, "") }  * "\n"
         if !@keepasciimath
           text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>},
                            '<amathstem>\1</amathstem>')
