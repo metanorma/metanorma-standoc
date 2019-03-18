@@ -176,7 +176,8 @@ module Asciidoctor
       def reqt_attributes(node)
         {
           id: Utils::anchor_or_uuid,
-          obligation: node.attr("obligation")
+          obligation: node.attr("obligation"),
+          filename: node.attr("filename")
         }
       end
 
@@ -220,6 +221,7 @@ module Asciidoctor
           imagetype: types.first.sub_type.upcase,
           height: node.attr("height") || "auto",
           width: node.attr("width") || "auto" ,
+          filename: node.attr("filename"),
           alt: node.alt == node.attr("default-alt") ? nil : node.alt }
       end
 
@@ -280,11 +282,18 @@ module Asciidoctor
         end
       end
 
+      def listing_attrs(node)
+        {
+          lang: node.attr("language"),
+          id: Utils::anchor_or_uuid(node),
+          filename: node.attr("filename")
+        }
+      end
+
       # NOTE: html escaping is performed by Nokogiri
       def listing(node)
-        attrs = { lang: node.attr("language"), id: Utils::anchor_or_uuid(node) }
         fragment = ::Nokogiri::XML::Builder.new do |xml|
-          xml.sourcecode **attr_code(attrs) do |s|
+          xml.sourcecode **attr_code(listing_attrs(node)) do |s|
             figure_title(node, s)
             s << node.content
           end

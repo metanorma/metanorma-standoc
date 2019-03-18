@@ -617,17 +617,17 @@ RSpec.describe Asciidoctor::Standoc do
       OUTPUT
     end
 
-    it "accepts width and height attributes on images" do
+    it "accepts attributes on images" do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [height=4,width=3]
+      [height=4,width=3,alt="IMAGE",filename="riceimg1.png"]
       image::spec/examples/rice_images/rice_image1.png[]
 
       INPUT
       #{BLANK_HDR}
               <sections>
          <figure id="_">
-         <image src="spec/examples/rice_images/rice_image1.png" id="_" imagetype="PNG" height="4" width="3"/>
+         <image src="spec/examples/rice_images/rice_image1.png" id="_" imagetype="PNG" height="4" width="3" alt="IMAGE" filename="riceimg1.png"/>
        </figure>
        </sections>
        </standard-document>
@@ -719,7 +719,7 @@ RSpec.describe Asciidoctor::Standoc do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       .Caption
-      [source,ruby]
+      [source,ruby,filename=sourcecode1.rb]
       --
       puts "Hello, world."
       %w{a b c}.each do |x|
@@ -729,7 +729,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
        <sections>
-         <sourcecode id="_" lang="ruby"><name>Caption</name>puts "Hello, world."
+         <sourcecode id="_" lang="ruby" filename="sourcecode1.rb"><name>Caption</name>puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
        end</sourcecode>
@@ -925,7 +925,7 @@ RSpec.describe Asciidoctor::Standoc do
         it "processes recommendation with internal markup of structure" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [recommendation,label="/ogc/recommendation/wfs/2",subject="user",classification="control-class:Technical;priority:P0;family:System and Communications Protection,System and Communications Protocols",obligation="permission,recommendation"]
+      [recommendation,label="/ogc/recommendation/wfs/2",subject="user",classification="control-class:Technical;priority:P0;family:System and Communications Protection,System and Communications Protocols",obligation="permission,recommendation",filename="reqt1.rq"]
       ====
       I recommend _this_.
 
@@ -974,7 +974,7 @@ RSpec.describe Asciidoctor::Standoc do
              output = <<~"OUTPUT"
             #{BLANK_HDR}
        <sections>
-       <recommendation id="_"  obligation="permission,recommendation"><label>/ogc/recommendation/wfs/2</label><subject>user</subject>
+       <recommendation id="_"  obligation="permission,recommendation" filename="reqt1.rq"><label>/ogc/recommendation/wfs/2</label><subject>user</subject>
 <classification><tag>control-class</tag><value>Technical</value></classification><classification><tag>priority</tag><value>P0</value></classification><classification><tag>family</tag><value>System and Communications Protection</value></classification><classification><tag>family</tag><value>System and Communications Protocols</value></classification>
         <description><p id="_">I recommend <em>this</em>.</p>
        </description><specification exclude="false" type="tabular"><p id="_">This is the object of the recommendation:</p><table id="_">  <tbody>    <tr>      <td align="left">Object</td>      <td align="left">Value</td>    </tr>    <tr>      <td align="left">Mission</td>      <td align="left">Accomplished</td>    </tr>  </tbody></table></specification><description>
