@@ -599,6 +599,27 @@ RSpec.describe Asciidoctor::Standoc do
       OUTPUT
     end
 
+    it "processes preambles with titles" do
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      .Preamble
+      This is a preamble
+
+      == Section 1
+      INPUT
+      #{BLANK_HDR}
+             <preface><foreword obligation="informative">
+         <title>Preamble</title>
+         <p id="_">This is a preamble</p>
+       </foreword></preface><sections>
+       <clause id="_" inline-header="false" obligation="normative">
+         <title>Section 1</title>
+       </clause></sections>
+       </standard-document>
+      OUTPUT
+    end
+
+
     it "processes images" do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
