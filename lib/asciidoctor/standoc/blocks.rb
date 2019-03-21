@@ -198,7 +198,6 @@ module Asciidoctor
       def preamble(node)
         noko do |xml|
           xml.foreword do |xml_abstract|
-            require "byebug"; byebug
             xml_abstract.title { |t| t << (node.blocks[0].title || "Foreword") }
             content = node.content
             xml_abstract << content
