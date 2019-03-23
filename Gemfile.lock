@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    metanorma-standoc (1.1.4)
+    metanorma-standoc (1.1.5)
       asciidoctor (~> 1.5.7)
       concurrent-ruby
       html2doc (~> 0.8.0)
@@ -23,10 +23,10 @@ GEM
     asciidoctor (1.5.8)
     asciimath (1.0.8)
     ast (2.4.0)
-    byebug (11.0.0)
+    byebug (11.0.1)
     cnccs (0.1.3)
     coderay (1.1.2)
-    concurrent-ruby (1.1.4)
+    concurrent-ruby (1.1.5)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     diff-lcs (1.3)
@@ -82,7 +82,7 @@ GEM
       algoliasearch
       iecbib (~> 0.2.1)
       iso-bib-item (~> 0.4.2)
-    isodoc (0.9.18)
+    isodoc (0.9.19)
       asciimath
       html2doc (~> 0.8.6)
       htmlentities (~> 4.3.4)
@@ -97,7 +97,7 @@ GEM
       uuidtools
     isoics (0.1.7)
     json (2.2.0)
-    liquid (4.0.2)
+    liquid (4.0.3)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -119,7 +119,7 @@ GEM
       shellany (~> 0.0)
     optout (0.0.2)
     parallel (1.14.0)
-    parser (2.6.0.0)
+    parser (2.6.2.0)
       ast (~> 2.4.0)
     powerpack (0.1.2)
     pry (0.12.2)
@@ -131,7 +131,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    relaton (0.3.1)
+    relaton (0.3.2)
       algoliasearch
       gbbib (~> 0.4.0)
       iecbib (~> 0.2.0)
@@ -186,7 +186,7 @@ GEM
     thread_safe (0.3.6)
     timecop (0.9.1)
     unicode-display_width (1.5.0)
-    unicode2latex (0.0.1)
+    unicode2latex (0.0.2)
     uuidtools (2.1.5)
     vcr (4.0.0)
     webmock (3.5.1)
