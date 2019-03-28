@@ -47,6 +47,8 @@ module Asciidoctor
           scripts: node.attr("scripts"),
           scripts_pdf: node.attr("scripts-pdf"),
           datauriimage: node.attr("data-uri-image"),
+          htmltoclevels: node.attr("htmltoclevels") || node.attr("toclevels"),
+          doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
         }
       end
 
@@ -69,6 +71,8 @@ module Asciidoctor
           wordintropage: node.attr("wordintropage"),
           ulstyle: node.attr("ulstyle"),
           olstyle: node.attr("olstyle"),
+          htmltoclevels: node.attr("htmltoclevels") || node.attr("toclevels"),
+          doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
         }
       end
 

@@ -387,6 +387,13 @@ RSpec.describe Asciidoctor::Standoc do
       :htmlcoverpage: spec/assets/htmlcover.html
       :htmlintropage: spec/assets/htmlintro.html
       :scripts: spec/assets/scripts.html
+      :htmltoclevels: 3
+
+      == Level 1
+
+      === Level 2
+
+      ==== Level 3
     INPUT
     html = File.read("test.html", encoding: "utf-8")
     expect(html).to match(%r[pre[^{]+\{[^{]+font-family: Andale Mono;]m)
@@ -412,6 +419,13 @@ RSpec.describe Asciidoctor::Standoc do
       :wordcoverpage: spec/assets/wordcover.html
       :wordintropage: spec/assets/wordintro.html
       :header: spec/assets/header.html
+      :doctoclevels: 3
+
+      == Level 1
+
+      === Level 2
+
+      ==== Level 3
     INPUT
     html = File.read("test.doc", encoding: "utf-8")
     expect(html).to match(%r[pre[^{]+\{[^{]+font-family: Andale Mono;]m)
@@ -419,6 +433,7 @@ RSpec.describe Asciidoctor::Standoc do
     expect(html).to match(%r[h1[^{]+\{[^{]+font-family: Comic Sans;]m)
     expect(html).to match(%r[an empty word cover page])
     expect(html).to match(%r[an empty word intro page])
+    expect(html).to include('\o "1-3"')
     expect(html).to include(%[Content-Location: file:///C:/Doc/test_files/header.html
 Content-Transfer-Encoding: base64
 Content-Type: text/html charset="utf-8"
