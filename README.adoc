@@ -3,6 +3,7 @@
 image:https://img.shields.io/gem/v/metanorma-standoc.svg["Gem Version", link="https://rubygems.org/gems/metanorma-standoc"]
 image:https://img.shields.io/travis/metanorma/metanorma-standoc/master.svg["Build Status", link="https://travis-ci.org/metanorma/metanorma-standoc"]
 image:https://codeclimate.com/github/metanorma/metanorma-standoc/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/metanorma/metanorma-standoc"]
+image:https://ci.appveyor.com/api/projects/status/qdadxv7rqfy33p66?svg=true["Appveyor Build Status", link="https://ci.appveyor.com/project/ribose/metanorma-standoc"]
 
 WARNING: This gem is still under development.
 
