@@ -58,4 +58,3 @@ The metanorma-cli gem is the command-line interface for the Metanorma tool suite
 
 See http://metanorma.com[]
 
-bump

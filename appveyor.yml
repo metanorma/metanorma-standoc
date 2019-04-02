@@ -15,6 +15,10 @@ install:
   - ps: . { iwr -useb https://raw.githubusercontent.com/metanorma/metanorma-build-scripts/master/appveyor.ps1 } | iex
   - choco install latexml
   - refreshenv
+  - set PATH=C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;%PATH%
+  - where latexmlmath
+  - chcp 65001 # change batch terminal codepage to UTF-8
+  - cat .tex | latexmlc --mode=math --preload=amsmath --inputencoding=UTF-8 -- -
 
 build_script:
   - set PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
