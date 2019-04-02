@@ -27,6 +27,7 @@ module Asciidoctor
       end
 
       def cleanup(xmldoc)
+        element_name_cleanup(xmldoc)
         termdef_cleanup(xmldoc)
         sections_cleanup(xmldoc)
         obligations_cleanup(xmldoc)
@@ -41,11 +42,11 @@ module Asciidoctor
         xref_cleanup(xmldoc)
         origin_cleanup(xmldoc)
         iev_cleanup(xmldoc)
+        element_name_cleanup(xmldoc) # cleanup IEV
         bpart_cleanup(xmldoc)
         quotesource_cleanup(xmldoc)
         para_cleanup(xmldoc)
         callout_cleanup(xmldoc)
-        element_name_cleanup(xmldoc)
         footnote_cleanup(xmldoc)
         empty_element_cleanup(xmldoc)
         mathml_cleanup(xmldoc)
