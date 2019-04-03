@@ -106,9 +106,12 @@ module Asciidoctor
           math = xml_encode(text)
           xml.stem math, **{ type: "MathML" }
         elsif style == :latexmath
-          out = Unicode2LaTeX::unicode2latex(text).gsub(/'/, '\\').gsub(/\n/, " ")
-          File.open(".tex", "w") { |file| file.write(out) }
-          latex = `cat .tex | latexmlmath --preload=amsmath  -- -`
+          latexmlmath_input = Unicode2LaTeX::unicode2latex(text).gsub(/'/, '\\').gsub(/\n/, " ")
+          latex = IO.popen('latexmlc --mode=math --preload=amsmath --inputencoding=UTF-8 -- -', 'r+') do |io|
+            io.write(latexmlmath_input)
+            io.close_write
+            io.read
+          end
           xml.stem **{ type: "MathML" } do |s|
             s << latex.sub(/<\?[^>]+>/, "")
           end
