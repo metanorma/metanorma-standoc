@@ -107,7 +107,7 @@ module Asciidoctor
           xml.stem math, **{ type: "MathML" }
         elsif style == :latexmath
           latexmlmath_input = Unicode2LaTeX::unicode2latex(text).gsub(/'/, '\\').gsub(/\n/, " ")
-          latex = IO.popen('latexmlc --mode=math --preload=amsmath --inputencoding=UTF-8 -- -', 'r+') do |io|
+          latex = IO.popen('latexmlc --preload=amsmath --whatsin=math --whatsout=math --pmml --inputencoding=UTF-8 -- -', 'r+') do |io|
             io.write(latexmlmath_input)
             io.close_write
             io.read
