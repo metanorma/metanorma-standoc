@@ -162,14 +162,14 @@ RSpec.describe Asciidoctor::Standoc do
       <completename>Fred Flintstone</completename>
     </name>
      <affiliation>
-   <org>
+   <organization>
      <name>Slate Rock and Gravel Company</name>
      <contact>
   <address>
     <formattedAddress>6 Rubble Way, Bedrock</formattedAddress>
   </address>
 </contact>
-   </org>
+   </organization>
    </affiliation>
    <uri>http://slate.example.com</uri>
   </person>
@@ -183,14 +183,14 @@ RSpec.describe Asciidoctor::Standoc do
       <surname>Rubble</surname>
     </name>
 <affiliation>
-  <org>
+  <organization>
     <name>Rockhead and Quarry Cave Construction Company</name>
     <contact>
   <address>
     <formattedAddress>6A Rubble Way, Bedrock</formattedAddress>
   </address>
 </contact>
-  </org>
+  </organization>
 </affiliation>
  <contact>
    <email>barney@rockhead.example.com</email>
