@@ -79,7 +79,7 @@ module Asciidoctor
               end
             end
             node.attr("affiliation#{suffix}") and p.affiliation do |a|
-              a.org do |o|
+              a.organization do |o|
                 o.name node.attr("affiliation#{suffix}")
                 node.attr("address#{suffix}") and o.contact do |c|
                   c.address do |ad|
