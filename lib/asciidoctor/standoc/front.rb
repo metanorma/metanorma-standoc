@@ -155,12 +155,13 @@ module Asciidoctor
         end
       end
 
-      DATETYPES = %w{ published accessed created implemented obsoleted
-                      confirmed updated issued circulated unchanged received
-      }.freeze
+      def datetypes
+        %w{ published accessed created implemented obsoleted
+            confirmed updated issued circulated unchanged received }
+      end
 
       def metadata_date(node, xml)
-        DATETYPES.each { |t| metadata_date1(node, xml, t) }
+        datetypes.each { |t| metadata_date1(node, xml, t) }
         node.attributes.keys.each do |a|
           next unless a == "date" || /^date_\d+$/.match(a)
           type, date = node.attr(a).split(/ /, 2)
