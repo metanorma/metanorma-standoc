@@ -164,11 +164,9 @@ RSpec.describe Asciidoctor::Standoc do
      <affiliation>
    <organization>
      <name>Slate Rock and Gravel Company</name>
-     <contact>
   <address>
     <formattedAddress>6 Rubble Way, Bedrock</formattedAddress>
   </address>
-</contact>
    </organization>
    </affiliation>
    <uri>http://slate.example.com</uri>
@@ -185,16 +183,12 @@ RSpec.describe Asciidoctor::Standoc do
 <affiliation>
   <organization>
     <name>Rockhead and Quarry Cave Construction Company</name>
-    <contact>
   <address>
     <formattedAddress>6A Rubble Way, Bedrock</formattedAddress>
   </address>
-</contact>
   </organization>
 </affiliation>
- <contact>
    <email>barney@rockhead.example.com</email>
- </contact>
   </person>
 </contributor>
 <contributor>

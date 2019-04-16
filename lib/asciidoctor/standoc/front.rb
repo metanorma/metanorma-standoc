@@ -81,16 +81,12 @@ module Asciidoctor
             node.attr("affiliation#{suffix}") and p.affiliation do |a|
               a.organization do |o|
                 o.name node.attr("affiliation#{suffix}")
-                node.attr("address#{suffix}") and o.contact do |c|
-                  c.address do |ad|
-                    ad.formattedAddress node.attr("address#{suffix}")
-                  end
+                node.attr("address#{suffix}") and o.address do |ad|
+                  ad.formattedAddress node.attr("address#{suffix}")
                 end
               end
             end
-            node.attr("email#{suffix}") and p.contact do |c|
-              c.email node.attr("email#{suffix}")
-            end
+            node.attr("email#{suffix}") and p.email node.attr("email#{suffix}")
             node.attr("contributor-uri#{suffix}") and p.uri node.attr("contributor-uri#{suffix}")
           end
         end
