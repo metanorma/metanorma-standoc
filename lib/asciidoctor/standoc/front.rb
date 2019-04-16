@@ -176,6 +176,28 @@ module Asciidoctor
         xml.script (node.attr("script") || "Latn")
       end
 
+      def relaton_relations
+        %w(part-of)
+      end
+
+      def metadata_relations(node, xml)
+        relaton_relations.each do |t|
+          metadata_getrelation(node, xml, t)
+        end
+      end
+
+      def metadata_getrelation(node, xml, type)
+        docs = node.attr(type) || return
+        docs.split(/,/).each do |d|
+          xml.relation **{ type: type.sub(/-by$/, "By").sub(/-of$/, "Of") } do |r|
+            fetch_ref(r, d, nil, {}) or r.bibitem do |b|
+              b.title "--"
+              b.docidentifier d
+            end
+          end
+        end
+      end
+
       def metadata(node, xml)
         title node, xml
         metadata_source(node, xml)
@@ -188,6 +210,7 @@ module Asciidoctor
         metadata_script(node, xml)
         metadata_status(node, xml)
         metadata_copyright(node, xml)
+        metadata_relations(node, xml)
         metadata_committee(node, xml)
         metadata_ics(node, xml)
       end

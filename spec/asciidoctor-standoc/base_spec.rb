@@ -95,6 +95,7 @@ RSpec.describe Asciidoctor::Standoc do
       :address_2: 6A Rubble Way, Bedrock
       :email_2: barney@rockhead.example.com
       :publisher: Hanna Barbera, Cartoon Network
+      :part-of: ABC
     INPUT
     <?xml version="1.0" encoding="UTF-8"?>
 <standard-document xmlns="http://riboseinc.com/isoxml">
@@ -222,6 +223,10 @@ RSpec.describe Asciidoctor::Standoc do
      </organization>
    </owner>
   </copyright>
+  <relation type="part-of">
+  <title>--</title>
+  <docidentifier>ABC</docidentifier>
+</relation>
   <editorialgroup>
     <technical-committee number="1" type="A">TC</technical-committee>
     <technical-committee number="11" type="A1">TC1</technical-committee>

@@ -10,12 +10,13 @@ module Asciidoctor
   module Standoc
     module Cleanup
       def para_cleanup(xmldoc)
-        xmldoc.xpath("//p[not(@id)]").each do |x|
-          x["id"] = Utils::anchor_or_uuid
-        end
-        xmldoc.xpath("//note[not(@id)][not(ancestor::bibitem)]"\
-                     "[not(ancestor::table)]").each do |x|
-          x["id"] = Utils::anchor_or_uuid
+        inject_id(xmldoc, "//p | //ol | //ul")
+        inject_id(xmldoc, "//note[not(ancestor::bibitem)][not(ancestor::table)]")
+      end
+
+      def inject_id(xmldoc, path)
+        xmldoc.xpath(path).each do |x|
+          x["id"] ||= Utils::anchor_or_uuid
         end
       end
 
