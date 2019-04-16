@@ -186,10 +186,14 @@ module Asciidoctor
         end
       end
 
+      def relation_normalise(type)
+        type.sub(/-by$/, "By").sub(/-of$/, "Of")
+      end
+
       def metadata_getrelation(node, xml, type)
         docs = node.attr(type) || return
         docs.split(/,/).each do |d|
-          xml.relation **{ type: type.sub(/-by$/, "By").sub(/-of$/, "Of") } do |r|
+          xml.relation **{ type: relation_normalise(type) } do |r|
             fetch_ref(r, d, nil, {}) or r.bibitem do |b|
               b.title "--"
               b.docidentifier d
