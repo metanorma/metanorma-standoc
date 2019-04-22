@@ -220,7 +220,7 @@ module Asciidoctor
         metadata_ics(node, xml)
       end
 
-      def metadata_node(x)
+      def metadata_node(node, xml)
       end
 
       def asciidoc_sub(x)
