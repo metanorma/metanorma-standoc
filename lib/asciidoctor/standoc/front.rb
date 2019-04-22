@@ -210,6 +210,7 @@ module Asciidoctor
         metadata_author(node, xml)
         metadata_publisher(node, xml)
         metadata_version(node, xml)
+        metadata_note(node, xml)
         metadata_language(node, xml)
         metadata_script(node, xml)
         metadata_status(node, xml)
@@ -217,6 +218,9 @@ module Asciidoctor
         metadata_relations(node, xml)
         metadata_committee(node, xml)
         metadata_ics(node, xml)
+      end
+
+      def metadata_node(x)
       end
 
       def asciidoc_sub(x)
