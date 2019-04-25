@@ -8,7 +8,7 @@ GIT
 PATH
   remote: .
   specs:
-    metanorma-standoc (1.1.7)
+    metanorma-standoc (1.1.8)
       asciidoctor (~> 1.5.7)
       concurrent-ruby
       html2doc (~> 0.8.0)
@@ -61,7 +61,7 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
-    hashdiff (0.3.8)
+    hashdiff (0.3.9)
     html2doc (0.8.10)
       asciimath (~> 1.0.7)
       htmlentities (~> 4.3.4)
@@ -75,7 +75,7 @@ GEM
     iecbib (0.2.2)
       addressable
       iso-bib-item (~> 0.4.2)
-    ietfbib (0.4.5)
+    ietfbib (0.4.6)
       iso-bib-item (~> 0.4.2)
     iev (0.2.2)
       nokogiri
@@ -88,7 +88,7 @@ GEM
       algoliasearch
       iecbib (~> 0.2.1)
       iso-bib-item (~> 0.4.2)
-    isodoc (0.9.21)
+    isodoc (0.9.22)
       asciimath
       html2doc (~> 0.8.6)
       htmlentities (~> 4.3.4)
@@ -117,7 +117,7 @@ GEM
     mime-types-data (3.2019.0331)
     mini_portile2 (2.3.0)
     nenv (0.3.0)
-    nistbib (0.1.1)
+    nistbib (0.1.2)
       iso-bib-item (~> 0.4.2)
     nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
@@ -153,7 +153,7 @@ GEM
       rspec-mocks (~> 3.8.0)
     rspec-core (3.8.0)
       rspec-support (~> 3.8.0)
-    rspec-expectations (3.8.2)
+    rspec-expectations (3.8.3)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-mocks (3.8.0)

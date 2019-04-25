@@ -401,7 +401,7 @@ RSpec.describe Asciidoctor::Standoc do
     <docidentifier type="IETF">RFC 8341</docidentifier>
     <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
     <date type="published">
-      <on>2018</on>
+      <on>2018-03</on>
     </date>
     <contributor>
       <role type="author"/>
@@ -432,6 +432,7 @@ RSpec.describe Asciidoctor::Standoc do
       </person>
     </contributor>
     <language>en</language>
+    <script>Latn</script>
     <series type="main">
       <title format="plain" language="en" script="Latn">STD</title>
       <number>91</number>

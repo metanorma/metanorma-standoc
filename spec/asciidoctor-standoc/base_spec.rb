@@ -139,11 +139,6 @@ RSpec.describe Asciidoctor::Standoc do
 <date type="Jack">
   <on>1010-01-01</on>
 </date>
-<edition>2</edition>
-<version>
-  <revision-date>2000-01-01</revision-date>
-  <draft>3.4</draft>
-</version>
 <contributor>
   <role type="author"/>
   <organization>
@@ -204,6 +199,11 @@ RSpec.describe Asciidoctor::Standoc do
     <name>Cartoon Network</name>
   </organization>
 </contributor>
+<edition>2</edition>
+<version>
+  <revision-date>2000-01-01</revision-date>
+  <draft>3.4</draft>
+</version>
   <language>en</language>
   <script>Latn</script>
   <status format="plain">published</status>
@@ -223,9 +223,11 @@ RSpec.describe Asciidoctor::Standoc do
      </organization>
    </owner>
   </copyright>
-  <relation type="part-of">
+  <relation type="partOf">
+  <bibitem>
   <title>--</title>
   <docidentifier>ABC</docidentifier>
+  </bibitem>
 </relation>
   <editorialgroup>
     <technical-committee number="1" type="A">TC</technical-committee>
