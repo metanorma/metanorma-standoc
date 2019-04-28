@@ -233,7 +233,7 @@ module Asciidoctor
         x.xpath("//requirement | //recommendation | //permission").each do |r|
           r.children.each do |e|
             unless e.element? && (Utils::reqt_subpart(e.name) || 
-                %w(requirement recommnedation permission).include?(e.name))
+                %w(requirement recommendation permission).include?(e.name))
               t = Nokogiri::XML::Element.new("description", x)
               e.before(t)
               t.children = e.remove
