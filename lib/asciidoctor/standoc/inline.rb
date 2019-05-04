@@ -43,7 +43,7 @@ module Asciidoctor
       def inline_anchor_link(node)
         contents = node.text
         contents = "" if node.target.gsub(%r{^mailto:}, "") == node.text
-        attributes = { "target": node.target }
+        attributes = { "target": node.target, "alt": node.attr("title") }
         noko do |xml|
           xml.link **attr_code(attributes) do |l|
             l << contents

@@ -84,12 +84,14 @@ RSpec.describe Asciidoctor::Standoc do
       mailto:fred@example.com
       http://example.com[]
       http://example.com[Link]
+      http://example.com[Link,title="tip"]
     INPUT
             #{BLANK_HDR}
        <sections>
          <p id="_">mailto:fred@example.com
        <link target="http://example.com"/>
-       <link target="http://example.com">Link</link></p>
+       <link target="http://example.com">Link</link>
+       <link target="http://example.com" alt="tip">Link</link></p>
        </sections>
        </standard-document>
     OUTPUT
