@@ -3,7 +3,8 @@ module Asciidoctor
     module Table
       def table_attrs(node)
         { id: Utils::anchor_or_uuid(node),
-          headerrows: node.attr("headerrows") }
+          headerrows: node.attr("headerrows"),
+          alt: node.attr("alt") }
       end
 
       def table(node)
