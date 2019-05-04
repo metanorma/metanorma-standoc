@@ -51,15 +51,6 @@ RSpec.describe Metanorma::Standoc::Processor do
              <p class="zzSTDTitle1"></p>
              <div id="H"><h1>1.&#xA0; Terms and definitions</h1><p>For the purposes of this document,
            the following terms and definitions apply.</p>
-       <p>ISO and IEC maintain terminological databases for use in
-       standardization at the following addresses:</p>
-
-       <ul>
-       <li> <p>ISO Online browsing platform: available at
-         <a href="http://www.iso.org/obp">http://www.iso.org/obp</a></p> </li>
-       <li> <p>IEC Electropedia: available at
-         <a href="http://www.electropedia.org">http://www.electropedia.org</a>
-       </p> </li> </ul>
        <h2 class="TermNum" id="J">1.1.</h2>
          <p class="Terms" style="text-align:left;">Term2</p>
        </div>
@@ -80,7 +71,7 @@ RSpec.describe Metanorma::Standoc::Processor do
         </sections>
         </iso-standard>
     INPUT
-    expect(File.read("test.doc", encoding: "utf-8")).to match(/Electropedia/)
+    expect(File.read("test.doc", encoding: "utf-8")).to match(/Terms and definitions/)
     end
 
     it "generates XML from IsoDoc XML" do
