@@ -159,6 +159,39 @@ module Asciidoctor
         parts = linksIev2iec60050part(xmldoc)
         refsIev2iec60050part(xmldoc, parts, iev)
       end
+
+      def ref_dl_cleanup(xmldoc)
+        xmldoc.xpath("//clause[@bibitem = 'true']").each do |c|
+          bib = dl_bib_extract(c) or next
+          b = Nokogiri::XML::Node.new('bibitem', xmldoc)
+          b["id"] = bib["ref"]&.text&.strip
+          b["type"] = bib["doctype"]&.text&.strip
+          b << %Q[<title format="text/plain">#{bib['title']}</title>]
+          b << extract_from_p("docidentifier", bib, "docidentifier")
+          bib["publisher"] and b << %Q[<contributor><role type="publisher"/><organization>
+          #{extract_from_p("publisher", bib, "name")}
+          </organization></contributor>]
+          c.replace(b)
+        end
+      end
+
+      def extract_from_p(tag, bib, key)
+        return unless bib[tag]
+        "<#{key}>#{bib[tag].at('p').children}</#{key}>"
+      end
+
+      def dl_bib_extract(c)
+        title = c.at("./title").remove.children
+        dl = c.at("./dl") or return
+        bib = {}
+        key = ""
+        dl.xpath("./dt | ./dd").each do |dtd|
+          key = dtd.text if dtd.name == "dt"
+          bib[key] = dtd.remove.children if dtd.name == "dd"
+        end
+        bib["title"] = title
+        bib
+      end
     end
   end
 end

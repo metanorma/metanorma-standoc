@@ -36,6 +36,7 @@ module Asciidoctor
         figure_cleanup(xmldoc)
         ref_cleanup(xmldoc)
         note_cleanup(xmldoc)
+        ref_dl_cleanup(xmldoc)
         normref_cleanup(xmldoc)
         biblio_cleanup(xmldoc)
         reference_names(xmldoc)
