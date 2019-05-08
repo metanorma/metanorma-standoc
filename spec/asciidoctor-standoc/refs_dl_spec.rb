@@ -14,7 +14,11 @@ RSpec.describe Asciidoctor::Standoc do
       ref:: iso123
       docidentifier:: ISO 123
       doctype:: standard
-      publisher:: ISO
+      contributor_publisher_role::
+      contributor_publisher_organization:: ISO
+      contributor_author_person::
+      ... Fred
+      ... Jack
 
     INPUT
       #{BLANK_HDR}
@@ -22,13 +26,26 @@ RSpec.describe Asciidoctor::Standoc do
       </sections><bibliography><references id="_" obligation="informative">
         <title>Normative References</title>
         <bibitem id="iso123" type="standard">
-         <title format="text/plain">Standard</title>
+        <fetched>#{Date.today}</fetched>
+         <title>Standard</title>
          <docidentifier>ISO 123</docidentifier>
          <contributor>
            <role type="publisher"/>
            <organization>
              <name>ISO</name>
            </organization>
+         </contributor>
+         <contributor>
+           <role type="author"/>
+           <person>
+             <name><completename>Fred</completename></name>
+           </person>
+         </contributor>
+         <contributor>
+           <role type="author"/>
+           <person>
+             <name><completename>Jack</completename></name>
+           </person>
          </contributor>
        </bibitem>
       </references>

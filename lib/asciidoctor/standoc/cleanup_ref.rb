@@ -1,4 +1,5 @@
 require "set"
+require "relaton-cli"
 
 module Asciidoctor
   module Standoc
@@ -164,14 +165,39 @@ module Asciidoctor
         xmldoc.xpath("//clause[@bibitem = 'true']").each do |c|
           bib = dl_bib_extract(c) or next
           b = Nokogiri::XML::Node.new('bibitem', xmldoc)
-          b["id"] = bib["ref"]&.text&.strip
-          b["type"] = bib["doctype"]&.text&.strip
+          b["id"] = bib["ref"]&.strip
+          b["type"] = bib["doctype"]&.strip
           b << %Q[<title format="text/plain">#{bib['title']}</title>]
-          b << extract_from_p("docidentifier", bib, "docidentifier")
-          bib["publisher"] and b << %Q[<contributor><role type="publisher"/><organization>
-          #{extract_from_p("publisher", bib, "name")}
+          #b << extract_from_p("docidentifier", bib, "docidentifier")
+
+          b << %Q[<docidentifier>#{bib['docidentifier']}</docidentifier>]
+
+          Array(bib["publisher"]).each do |name|
+            b << %Q[<contributor><role type="publisher"/><organization>
+          <name>#{name}</name>
           </organization></contributor>]
+            #{extract_from_p("publisher", bib, "name")}
+          end
+
+          Array(bib["author"]).each do |name|
+            b << %Q[<contributor><role type="author"/><person>
+          <name><completename>#{name}</completename></name>
+          </person></contributor>]
+          end
           c.replace(b)
+        end
+      end
+
+      def ref_dl_cleanup(xmldoc)
+        xmldoc.xpath("//clause[@bibitem = 'true']").each do |c|
+          bib = dl_bib_extract(c) or next
+          bibitemxml = Relaton::Bibdata.new(bib).to_xml or next
+          # TODO move this into relaton-cli
+          bibitem = Nokogiri::XML(bibitemxml)
+          bibitem.root.name = "bibitem"
+          bibitem.root["id"] = bib["ref"]&.strip
+          bibitem.root["type"] = bib["doctype"]&.strip
+          c.replace(bibitem.root)
         end
       end
 
@@ -180,16 +206,36 @@ module Asciidoctor
         "<#{key}>#{bib[tag].at('p').children}</#{key}>"
       end
 
+      # if the content is a single paragraph, replace it with its children
+      def p_unwrap(p)
+        elems = p.elements
+        if elems.size == 1 && elems[0].name == "p"
+          elems[0].children.to_xml
+        else
+          p.to_xml
+        end
+      end
+
+      def dd_bib_extract(dtd)
+        elems = dtd.remove.elements
+        return p_unwrap(dtd) unless elems.size == 1 && elems[0].name == "ol"
+        ret = []
+        elems[0].xpath("./li").each do |li|
+          ret << p_unwrap(li)
+        end
+        ret
+      end
+
+      # definition list, with at most one level of unordered lists
       def dl_bib_extract(c)
-        title = c.at("./title").remove.children
         dl = c.at("./dl") or return
         bib = {}
         key = ""
         dl.xpath("./dt | ./dd").each do |dtd|
           key = dtd.text if dtd.name == "dt"
-          bib[key] = dtd.remove.children if dtd.name == "dd"
+          bib[key] = dd_bib_extract(dtd) if dtd.name == "dd"
         end
-        bib["title"] = title
+        bib["title"] = c.at("./title").remove.children
         bib
       end
     end

@@ -15,6 +15,7 @@ PATH
       iev (~> 0.2.1)
       isodoc (~> 0.9.0)
       relaton (~> 0.3.1)
+      relaton-cli
       ruby-jing
       sterile (~> 1.0.14)
       unicode2latex (~> 0.0.1)
@@ -117,7 +118,7 @@ GEM
     mime-types-data (3.2019.0331)
     mini_portile2 (2.3.0)
     nenv (0.3.0)
-    nistbib (0.1.3)
+    nistbib (0.1.5)
       relaton-bib (~> 0.1.0)
     nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
@@ -148,6 +149,10 @@ GEM
       nistbib (~> 0.1.1)
     relaton-bib (0.1.1)
       nokogiri (~> 1.8.4)
+    relaton-cli (0.1.10)
+      liquid
+      relaton (~> 0.3)
+      thor
     roman-numerals (0.3.0)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)

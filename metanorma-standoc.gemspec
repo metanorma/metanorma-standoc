@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "concurrent-ruby"
   spec.add_dependency "html2doc", "~> 0.8.0"
   spec.add_dependency "unicode2latex", "~> 0.0.1"
+  spec.add_dependency "relaton-cli"
 
   spec.add_development_dependency "bundler", "~> 2.0.1"
   spec.add_development_dependency "byebug"

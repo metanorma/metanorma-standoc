@@ -106,15 +106,14 @@ module Asciidoctor
       end
 
       def init_bib_caches(node)
-        unless (@no_isobib_cache || @no_isobib)
-          globalname = global_bibliocache_name unless node.attr("local-cache-only")
-          localname = local_bibliocache_name(node.attr("local-cache") || node.attr("local-cache-only"))
-          if node.attr("flush-caches")
-            FileUtils.rm_f globalname unless globalname.nil?
-            FileUtils.rm_f localname unless localname.nil?
-          end
-        end        
-        @bibdb = Relaton::Db.new(globalname, localname) unless @no_isobib
+        return if @no_isobib
+        global = !@no_isobib_cache && !node.attr("local-cache-only")
+        local = node.attr("local-cache") || node.attr("local-cache-only")
+        local = nil if @no_isobib_cache
+        @bibdb = Relaton::DbCache.init_bib_caches(
+          local_cache: local,
+          flush_caches: node.attr("flush-caches"),
+          global_cache: global)
       end
 
       def init_iev_caches(node)
