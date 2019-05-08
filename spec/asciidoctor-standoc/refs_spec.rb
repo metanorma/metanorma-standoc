@@ -516,7 +516,7 @@ RSpec.describe Asciidoctor::Standoc do
       <title language="en" format="text/plain">Document title</title>
         <language>en</language>
         <script>Latn</script>
-        <status format="plain">published</status>
+        <status><stage>published</stage></status>
         <copyright>
           <from>#{Date.today.year}</from>
         </copyright>

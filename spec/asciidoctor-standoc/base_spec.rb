@@ -206,7 +206,11 @@ RSpec.describe Asciidoctor::Standoc do
 </version>
   <language>en</language>
   <script>Latn</script>
-  <status format="plain">published</status>
+  <status>
+    <stage>10</stage>
+    <substage>20</substage>
+    <iteration>3</iteration>
+  </status>
   <copyright>
     <from>2001</from>
        <owner>
@@ -328,7 +332,7 @@ RSpec.describe Asciidoctor::Standoc do
          <script>Grek</script>
          <abstract><p id="_">This is the abstract of the document</p>
 <p id="_">This is the second paragraph of the abstract of the document.</p></abstract>
-         <status format="plain">published</status>
+         <status><stage>published</stage></status>
          <copyright>
            <from>#{Date.today.year}</from>
            <owner>

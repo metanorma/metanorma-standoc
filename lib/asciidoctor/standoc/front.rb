@@ -115,8 +115,10 @@ module Asciidoctor
       end
 
       def metadata_status(node, xml)
-        xml.status(**{ format: "plain" }) do |s|
-          s << ( node.attr("status") || "published" )
+        xml.status do |s|
+          s.stage ( node.attr("status") || node.attr("docstage") || "published" )
+          node.attr("docsubstage") and s.substage node.attr("docsubstage")
+          node.attr("iteration") and s.iteration node.attr("iteration")
         end
       end
 
