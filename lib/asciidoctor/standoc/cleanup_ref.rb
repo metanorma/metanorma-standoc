@@ -1,5 +1,5 @@
 require "set"
-require "relaton-cli"
+require "relaton"
 
 module Asciidoctor
   module Standoc
@@ -123,7 +123,7 @@ module Asciidoctor
       end
 
       # converts generic IEV citation to citation of IEC 60050-n
-      # assumes IEV citations are of form 
+      # assumes IEV citations are of form
       # <eref type="inline" bibitemid="a" citeas="IEC 60050">
       # <locality type="clause"><referenceFrom>101-01-01</referenceFrom></locality></eref>
       def linksIev2iec60050part(xmldoc)
