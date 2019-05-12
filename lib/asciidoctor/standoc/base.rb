@@ -176,7 +176,7 @@ module Asciidoctor
       end
 
       def front(node, xml)
-        xml.bibdata **attr_code(type: doctype(node)) do |b|
+        xml.bibdata **attr_code(type: "standard") do |b|
           metadata node, b
         end
       end

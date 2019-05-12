@@ -116,7 +116,7 @@ HDR
 BLANK_HDR = <<~"HDR"
 <?xml version="1.0" encoding="UTF-8"?>
 <standard-document xmlns="http://riboseinc.com/isoxml">
-<bibdata type="article">
+<bibdata type="standard">
 <title language="en" format="text/plain">Document title</title>
   <language>en</language>
   <script>Latn</script>
@@ -124,9 +124,9 @@ BLANK_HDR = <<~"HDR"
   <copyright>
     <from>#{Time.new.year}</from>
   </copyright>
-  <editorialgroup>
-    <technical-committee/>
-  </editorialgroup>
+  <ext>
+  <doctype>article</doctype>
+  </ext>
 </bibdata>
 HDR
 

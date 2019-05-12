@@ -99,7 +99,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
     <?xml version="1.0" encoding="UTF-8"?>
 <standard-document xmlns="http://riboseinc.com/isoxml">
-<bibdata type="article">
+<bibdata type="standard">
 <title language="en" format="text/plain">Main Title — Title</title>
   <docidentifier>1000-1</docidentifier>
   <docnumber>1000</docnumber>
@@ -233,6 +233,8 @@ RSpec.describe Asciidoctor::Standoc do
   <docidentifier>ABC</docidentifier>
   </bibitem>
 </relation>
+<ext>
+<doctype>article</doctype>
   <editorialgroup>
     <technical-committee number="1" type="A">TC</technical-committee>
     <technical-committee number="11" type="A1">TC1</technical-committee>
@@ -246,6 +248,7 @@ RSpec.describe Asciidoctor::Standoc do
   <ics>
     <code>3</code>
   </ics>
+  </ext>
 </bibdata>
 <sections/>
 </standard-document>
@@ -281,7 +284,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
            <?xml version="1.0" encoding="UTF-8"?>
        <standard-document xmlns="http://riboseinc.com/isoxml">
-       <bibdata type="article">
+       <bibdata type="standard">
          <title language="en" format="text/plain">Document title</title>
          <title language="eo" format="text/plain">Dokumenttitolo</title>
          <uri>A</uri>
@@ -357,9 +360,9 @@ RSpec.describe Asciidoctor::Standoc do
              </organization>
            </owner>
          </copyright>
-         <editorialgroup>
-           <technical-committee/>
-         </editorialgroup>
+         <ext>
+         <doctype>article</doctype>
+         </ext>
        </bibdata>
     OUTPUT
   end

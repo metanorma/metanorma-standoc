@@ -95,7 +95,10 @@ module Asciidoctor
           conditional_date(t, m, noyr)
           iso_publisher(t, m[:code])
           t.note(**plaintxt) { |p| p << "ISO DATE: #{m[:fn]}" } if m.names.include?("fn") && m[:fn]
-          t.allparts "true"
+          #t.allparts "true"
+          t.extent **{ type: 'part' } do |e|
+            e.referenceFrom "all"
+          end
         end
       end
 

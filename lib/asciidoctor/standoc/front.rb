@@ -123,6 +123,7 @@ module Asciidoctor
       end
 
       def metadata_committee(node, xml)
+        return unless node.attr("technical-committee")
         xml.editorialgroup do |a|
           committee_component("technical-committee", node, a)
         end
@@ -218,11 +219,26 @@ module Asciidoctor
         metadata_status(node, xml)
         metadata_copyright(node, xml)
         metadata_relations(node, xml)
-        metadata_committee(node, xml)
-        metadata_ics(node, xml)
+        metadata_series(node, xml)
+        xml.ext do |ext|
+        metadata_ext(node, xml)
+        end
+      end
+
+      def metadata_ext(node, ext)
+          metadata_doctype(node, ext)
+          metadata_committee(node, ext)
+          metadata_ics(node, ext)
+      end
+
+      def metadata_doctype(node, xml)
+        xml.doctype doctype(node)
       end
 
       def metadata_note(node, xml)
+      end
+
+      def metadata_series(node, xml)
       end
 
       def asciidoc_sub(x)

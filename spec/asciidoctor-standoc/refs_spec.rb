@@ -362,7 +362,9 @@ RSpec.describe Asciidoctor::Standoc do
              <name>ISO</name>
            </organization>
          </contributor>
-         <allparts>true</allparts>
+         <extent type="part">
+                <referenceFrom>all</referenceFrom>
+        </extent>
        </bibitem>
       </references>
       </bibliography>
@@ -512,7 +514,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
       <?xml version="1.0" encoding="UTF-8"?>
       <standard-document xmlns="http://riboseinc.com/isoxml">
-      <bibdata type="article">
+      <bibdata type="standard">
       <title language="en" format="text/plain">Document title</title>
         <language>en</language>
         <script>Latn</script>
@@ -520,9 +522,9 @@ RSpec.describe Asciidoctor::Standoc do
         <copyright>
           <from>#{Date.today.year}</from>
         </copyright>
-        <editorialgroup>
-          <technical-committee/>
-        </editorialgroup>
+        <ext>
+        <doctype>article</doctype>
+        </ext>
       </bibdata>
       <sections>
 

@@ -277,7 +277,7 @@ RSpec.describe Asciidoctor::Standoc do
       ****
       INPUT
       <standard-document xmlns="http://riboseinc.com/isoxml">
-       <bibdata type="article">
+       <bibdata type="standard">
          <title language="en" format="text/plain">Document title</title>
 
 
@@ -290,9 +290,9 @@ RSpec.describe Asciidoctor::Standoc do
          <copyright>
            <from>#{Date.today.year}</from>
          </copyright>
-         <editorialgroup>
-           <technical-committee/>
-         </editorialgroup>
+         <ext>
+         <doctype>article</doctype>
+         </ext>
        </bibdata>
        <sections><p id="foreword">Foreword</p>
        <review reviewer="ISO" id="_" date="20170101T00:00:00Z" from="foreword" to="foreword"><p id="_">A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.</p>
