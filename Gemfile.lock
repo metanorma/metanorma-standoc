@@ -1,4 +1,17 @@
 GIT
+  remote: https://github.com/metanorma/relaton
+  revision: 1add11961ccd9f140ac6606226ee0c075fbfde92
+  specs:
+    relaton (0.3.4)
+      algoliasearch
+      gbbib (~> 0.4.0)
+      iecbib (~> 0.2.0)
+      ietfbib (~> 0.4.2)
+      iso-bib-item (~> 0.4.2)
+      isobib (~> 0.4.0)
+      nistbib (~> 0.1.1)
+
+GIT
   remote: https://github.com/vcr/vcr.git
   revision: a0bb140184e8518baad640a705e04155911bf31f
   ref: a0bb140184e8518baad640a705e04155911bf31f
@@ -118,8 +131,8 @@ GEM
     mime-types-data (3.2019.0331)
     mini_portile2 (2.3.0)
     nenv (0.3.0)
-    nistbib (0.1.5)
-      relaton-bib (~> 0.1.0)
+    nistbib (0.1.2)
+      iso-bib-item (~> 0.4.2)
     nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
     notiffany (0.1.1)
@@ -139,16 +152,6 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    relaton (0.3.4)
-      algoliasearch
-      gbbib (~> 0.4.0)
-      iecbib (~> 0.2.0)
-      ietfbib (~> 0.4.2)
-      iso-bib-item (~> 0.4.2)
-      isobib (~> 0.4.0)
-      nistbib (~> 0.1.1)
-    relaton-bib (0.1.1)
-      nokogiri (~> 1.8.4)
     relaton-cli (0.1.10)
       liquid
       relaton (~> 0.3)
@@ -199,7 +202,7 @@ GEM
     thor (0.20.3)
     thread_safe (0.3.6)
     timecop (0.9.1)
-    unicode-display_width (1.5.0)
+    unicode-display_width (1.6.0)
     unicode2latex (0.0.2)
     uuidtools (2.1.5)
     webmock (3.5.1)
@@ -219,6 +222,7 @@ DEPENDENCIES
   metanorma (~> 0.3.0)
   metanorma-standoc!
   rake (~> 12.0)
+  relaton!
   rspec (~> 3.6)
   rubocop (= 0.54.0)
   simplecov (~> 0.15)
