@@ -844,7 +844,7 @@ RSpec.describe Asciidoctor::Standoc do
         it "processes recommendation" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [recommendation,label="/ogc/recommendation/wfs/2",subject="user",inherit="/ss/584/2015/level/1"]
+      [.recommendation,label="/ogc/recommendation/wfs/2",subject="user",inherit="/ss/584/2015/level/1"]
       ====
       I recommend this
       ====
@@ -868,7 +868,7 @@ RSpec.describe Asciidoctor::Standoc do
     it "processes requirement" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [requirement]
+      [.requirement]
       .Title
       ====
       I recommend this
@@ -890,7 +890,7 @@ RSpec.describe Asciidoctor::Standoc do
         it "processes permission" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [permission]
+      [.permission]
       ====
       I recommend this
       ====
@@ -912,7 +912,7 @@ RSpec.describe Asciidoctor::Standoc do
        it "processes nested permissions" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [permission]
+      [.permission]
       ====
       I permit this
 
@@ -920,7 +920,7 @@ RSpec.describe Asciidoctor::Standoc do
       Example 2
       =====
 
-      [permission]
+      [.permission]
       =====
       I also permit this
       =====
@@ -946,11 +946,11 @@ RSpec.describe Asciidoctor::Standoc do
         it "processes recommendation with internal markup of structure" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [recommendation,label="/ogc/recommendation/wfs/2",subject="user",classification="control-class:Technical;priority:P0;family:System and Communications Protection,System and Communications Protocols",obligation="permission,recommendation",filename="reqt1.rq"]
+      [.recommendation,label="/ogc/recommendation/wfs/2",subject="user",classification="control-class:Technical;priority:P0;family:System and Communications Protection,System and Communications Protocols",obligation="permission,recommendation",filename="reqt1.rq"]
       ====
       I recommend _this_.
 
-      [specification,type="tabular"]
+      [.specification,type="tabular"]
       --
       This is the object of the recommendation:
       |===
@@ -961,7 +961,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       As for the measurement targets,
 
-      [measurement-target]
+      [.measurement-target]
       --
       The measurement target shall be measured as:
       [stem]
@@ -970,7 +970,7 @@ RSpec.describe Asciidoctor::Standoc do
       ++++
       --
 
-      [verification]
+      [.verification]
       --
       The following code will be run for verification:
 
@@ -983,7 +983,7 @@ RSpec.describe Asciidoctor::Standoc do
       ----
       --
       
-      [import%exclude]
+      [.import%exclude]
       --
       [source,CoreRoot]
       ----

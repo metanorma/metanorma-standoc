@@ -13,7 +13,6 @@ RSpec.describe Asciidoctor::Standoc do
       super^script^
       sub~script~
       sub~__scr__ipt~
-      stem:[a_90]
       stem:[<mml:math><mml:msub xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"> <mml:mrow> <mml:mrow> <mml:mi mathvariant="bold-italic">F</mml:mi> </mml:mrow> </mml:mrow> <mml:mrow> <mml:mrow> <mml:mi mathvariant="bold-italic">&#x391;</mml:mi> </mml:mrow> </mml:mrow> </mml:msub> </mml:math>]
       [alt]#alt#
       [deprecated]#deprecated#
@@ -32,7 +31,6 @@ RSpec.describe Asciidoctor::Standoc do
        super<sup>script</sup>
        sub<sub>script</sub>
        sub<sub><em>scr</em>ipt</sub>
-       <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>a</mi><mn>90</mn></msub></math></stem>
        <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub> <mrow> <mrow> <mi mathvariant="bold-italic">F</mi> </mrow> </mrow> <mrow> <mrow> <mi mathvariant="bold-italic">Α</mi> </mrow> </mrow> </msub> </math></stem>
        <admitted>alt</admitted>
        <deprecates>deprecated</deprecates>

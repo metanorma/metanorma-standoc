@@ -14,7 +14,8 @@ module Asciidoctor
       # treated as a single block.
       # We append each contained block to its parent
       def open(node)
-        Utils::reqt_subpart(node.attr("style")) and
+        role = node.role || node.attr("style")
+        Utils::reqt_subpart(role) and
           return requirement_subpart(node)
         result = []
         node.blocks.each do |b|
@@ -24,7 +25,7 @@ module Asciidoctor
       end
 
       def requirement_subpart(node)
-        name = node.attr("style")
+        name = node.role || node.attr("style")
         noko do |xml|
           xml.send name, **attr_code(exclude: node.option?("exclude"),
                                      type: node.attr("type")) do |o|
@@ -144,9 +145,10 @@ module Asciidoctor
 
       def example(node)
         return term_example(node) if in_terms?
-        return requirement(node, "recommendation") if node.attr("style") == "recommendation"
-        return requirement(node, "requirement") if node.attr("style") == "requirement"
-        return requirement(node, "permission") if node.attr("style") == "permission"
+        role = node.role || node.attr("style")
+        return requirement(node, "recommendation") if role == "recommendation"
+        return requirement(node, "requirement") if role == "requirement"
+        return requirement(node, "permission") if role == "permission"
         noko do |xml|
           xml.example **id_attr(node) do |ex|
             wrap_in_para(node, ex)

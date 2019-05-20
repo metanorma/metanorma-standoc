@@ -1,5 +1,5 @@
 require "set"
-require "relaton"
+require "relaton-cli"
 
 module Asciidoctor
   module Standoc
