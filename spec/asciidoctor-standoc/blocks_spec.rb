@@ -46,7 +46,7 @@ RSpec.describe Asciidoctor::Standoc do
       r = 1 % 
       ++++
 
-      [stem]
+      [stem%unnumbered]
       ++++
       <mml:math><mml:msub xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"> <mml:mrow> <mml:mrow> <mml:mi mathvariant="bold-italic">F</mml:mi> </mml:mrow> </mml:mrow> <mml:mrow> <mml:mrow> <mml:mi mathvariant="bold-italic">&#x0391;</mml:mi> </mml:mrow> </mml:mrow> </mml:msub> </mml:math>
       ++++
@@ -69,7 +69,7 @@ RSpec.describe Asciidoctor::Standoc do
        r = 1 %</stem>
        </formula>
 
-       <formula id="_">
+       <formula id="_" unnumbered="true">
          <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub> <mrow> <mrow> <mi mathvariant="bold-italic">F</mi> </mrow> </mrow> <mrow> <mrow> <mi mathvariant="bold-italic">Α</mi> </mrow> </mrow> </msub> </math></stem>
        </formula>
               <formula id="_">
@@ -570,11 +570,17 @@ RSpec.describe Asciidoctor::Standoc do
 
       Amen
       ====
+
+      [example%unnumbered]
+      ====
+      This is another example
+      ====
       INPUT
       #{BLANK_HDR}
        <sections>
          <example id="_"><p id="_">This is an example</p>
        <p id="_">Amen</p></example>
+         <example id="_" unnumbered="true"><p id="_">This is another example</p></example>
        </sections>
        </standard-document>
       OUTPUT
@@ -623,13 +629,14 @@ RSpec.describe Asciidoctor::Standoc do
     it "processes images" do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
+      [%unnumbered]
       .Split-it-right sample divider
       image::spec/examples/rice_images/rice_image1.png[alttext]
 
       INPUT
       #{BLANK_HDR}
               <sections>
-         <figure id="_">
+         <figure id="_" unnumbered="true">
          <name>Split-it-right sample divider</name>
                   <image src="spec/examples/rice_images/rice_image1.png" id="_" imagetype="PNG" height="auto" width="auto" alt="alttext"/>
        </figure>
@@ -844,7 +851,7 @@ RSpec.describe Asciidoctor::Standoc do
         it "processes recommendation" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [.recommendation,label="/ogc/recommendation/wfs/2",subject="user",inherit="/ss/584/2015/level/1"]
+      [.recommendation,label="/ogc/recommendation/wfs/2",subject="user",inherit="/ss/584/2015/level/1",options="unnumbered"]
       ====
       I recommend this
       ====
@@ -852,7 +859,7 @@ RSpec.describe Asciidoctor::Standoc do
              output = <<~"OUTPUT"
             #{BLANK_HDR}
        <sections>
-  <recommendation id="_">
+  <recommendation id="_" unnumbered="true">
   <label>/ogc/recommendation/wfs/2</label>
 <subject>user</subject>
 <inherit>/ss/584/2015/level/1</inherit>

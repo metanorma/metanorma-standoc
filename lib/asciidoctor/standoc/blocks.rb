@@ -10,6 +10,11 @@ module Asciidoctor
         { id: Utils::anchor_or_uuid(node) }
       end
 
+      def id_unnum_attr(node)
+        attr_code( id: Utils::anchor_or_uuid(node),
+                  unnumbered: node.option?("unnumbered") ? "true" : nil )
+      end
+
       # open block is a container of multiple blocks,
       # treated as a single block.
       # We append each contained block to its parent
@@ -47,7 +52,7 @@ module Asciidoctor
       def stem(node)
         stem_content = node.lines.join("\n")
         noko do |xml|
-          xml.formula **id_attr(node) do |s|
+          xml.formula **id_unnum_attr(node) do |s|
             stem_parse(stem_content, s, node.style.to_sym)
           end
         end
@@ -150,7 +155,7 @@ module Asciidoctor
         return requirement(node, "requirement") if role == "requirement"
         return requirement(node, "permission") if role == "permission"
         noko do |xml|
-          xml.example **id_attr(node) do |ex|
+          xml.example **id_unnum_attr(node) do |ex|
             wrap_in_para(node, ex)
           end
         end.join("\n")
@@ -178,6 +183,7 @@ module Asciidoctor
       def reqt_attributes(node)
         {
           id: Utils::anchor_or_uuid,
+          unnumbered: node.option?("unnumbered") ? "true" : nil,
           obligation: node.attr("obligation"),
           filename: node.attr("filename")
         }
@@ -235,7 +241,7 @@ module Asciidoctor
 
       def image(node)
         noko do |xml|
-          xml.figure **id_attr(node) do |f|
+          xml.figure **id_unnum_attr(node) do |f|
             figure_title(node, f)
             f.image **attr_code(image_attributes(node))
           end
