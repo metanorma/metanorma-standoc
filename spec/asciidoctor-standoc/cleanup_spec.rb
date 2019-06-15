@@ -1,5 +1,5 @@
 require "spec_helper"
-require "iecbib"
+require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
@@ -973,9 +973,11 @@ r = 1 %</stem>
         </termsource>
         </term></terms></sections><bibliography><references id="_" obligation="informative">
           <title>Normative References</title>
-          <bibitem type="international-standard" id="IEC60050-102">
-          <fetched>#{Date.today}</fetched>
-          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary — Part 102: Mathematics — General concepts and linear algebra</title>
+          <bibitem type="standard" id="IEC60050-102">
+          <title type="title-main" format="text/plain" language="en" script="Latn">Part 102: Mathematics</title>
+          <title type="title-intro" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
+          <title type="title-part" format="text/plain" language="en" script="Latn">General concepts and linear algebra</title>
+          <title type="main" format="text/plain" language="en" script="Latn">Part 102: Mathematics - International Electrotechnical Vocabulary - General concepts and linear algebra</title>
           <uri type="src">https://webstore.iec.ch/publication/160</uri>
           <uri type="obp">/preview/info_iec60050-102%7Bed1.0%7Db.pdf</uri>
           <docidentifier type="IEC">IEC 60050-102:2007</docidentifier>
@@ -993,7 +995,7 @@ r = 1 %</stem>
           <edition>1.0</edition>
           <language>en</language>
           <script>Latn</script>
-          <abstract format="plain" language="en" script="Latn">This part of IEC 60050 gives the general mathematical terminology used in the fields of electricity, electronics and telecommunications, together with basic concepts in linear algebra. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Another part will deal with functions. It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
+          <abstract format="text/plain" language="en" script="Latn">This part of IEC 60050 gives the general mathematical terminology used in the fields of electricity, electronics and telecommunications, together with basic concepts in linear algebra. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Another part will deal with functions. It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
           <status>
             <stage>60</stage>
             <substage>60</substage>
@@ -1008,20 +1010,11 @@ r = 1 %</stem>
               </organization>
             </owner>
           </copyright>
-          <editorialgroup>
-            <technical-committee number="1" type="technicalCommittee">TC 1 - Terminology</technical-committee>
-          </editorialgroup>
-          <ics>
-            <code>01.040.07</code>
-            <text>Natural and applied sciences (Vocabularies)</text>
-          </ics>
-          <ics>
-            <code>07.020</code>
-            <text>Mathematics</text>
-          </ics>
-        </bibitem><bibitem type="international-standard" id="IEC60050-103">
-          <fetched>#{Date.today}</fetched>
-          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary — Part 103: Mathematics — Functions </title>
+        </bibitem><bibitem type="standard" id="IEC60050-103">
+          <title type="title-main" format="text/plain" language="en" script="Latn">Part 103: Mathematics</title>        
+         <title type="title-intro" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
+        <title type="title-part" format="text/plain" language="en" script="Latn">Functions </title>
+        <title type="main" format="text/plain" language="en" script="Latn">Part 103: Mathematics - International Electrotechnical Vocabulary - Functions </title>
           <uri type="src">https://webstore.iec.ch/publication/161</uri>
           <uri type="obp">/preview/info_iec60050-103%7Bed1.0%7Db.pdf</uri>
           <docidentifier type="IEC">IEC 60050-103:2009</docidentifier>
@@ -1039,7 +1032,7 @@ r = 1 %</stem>
           <edition>1.0</edition>
           <language>en</language>
           <script>Latn</script>
-          <abstract format="plain" language="en" script="Latn">IEC 60050-103:2009 gives the terminology relative to functions of one or more variables. Together with IEC 60050-102, it covers the mathematical terminology used in the fields of electricity, electronics and telecommunications. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Mathematical symbols are generally in accordance with IEC 60027-1 and ISO 80000-2. This standard cancels and replaces Sections 101-13, 101-14 and 101-15 of International Standard IEC 60050-101:1998. It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
+          <abstract format="text/plain" language="en" script="Latn">IEC 60050-103:2009 gives the terminology relative to functions of one or more variables. Together with IEC 60050-102, it covers the mathematical terminology used in the fields of electricity, electronics and telecommunications. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Mathematical symbols are generally in accordance with IEC 60027-1 and ISO 80000-2. This standard cancels and replaces Sections 101-13, 101-14 and 101-15 of International Standard IEC 60050-101:1998. It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
           <status>
             <stage>60</stage>
             <substage>60</substage>
@@ -1054,17 +1047,6 @@ r = 1 %</stem>
               </organization>
             </owner>
           </copyright>
-          <editorialgroup>
-            <technical-committee number="1" type="technicalCommittee">TC 1 - Terminology</technical-committee>
-          </editorialgroup>
-          <ics>
-            <code>01.040.07</code>
-            <text>Natural and applied sciences (Vocabularies)</text>
-          </ics>
-          <ics>
-            <code>07.020</code>
-            <text>Mathematics</text>
-          </ics>
         </bibitem>
         </references></bibliography>
         </standard-document>

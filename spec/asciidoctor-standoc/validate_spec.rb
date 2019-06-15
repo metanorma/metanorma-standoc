@@ -1,5 +1,5 @@
 require "spec_helper"
-require "iecbib"
+require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do

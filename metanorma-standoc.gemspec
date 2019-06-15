@@ -28,14 +28,14 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "asciidoctor", "~> 1.5.7"
   spec.add_dependency "ruby-jing"
-  spec.add_dependency "isodoc", "~> 0.9.0"
+  spec.add_dependency "isodoc", "~> 0.10.0"
   spec.add_dependency "iev", "~> 0.2.1"
-  spec.add_dependency "relaton", "~> 0.3.1"
+  spec.add_dependency "relaton", "~> 0.4.0"
   spec.add_dependency "sterile", "~> 1.0.14"
   spec.add_dependency "concurrent-ruby"
-  spec.add_dependency "html2doc", "~> 0.8.0"
+  spec.add_dependency "html2doc", "~> 0.8.11"
   spec.add_dependency "unicode2latex", "~> 0.0.1"
-  spec.add_dependency "relaton-cli"
+  spec.add_dependency "relaton-cli", "~> 0.2.0"
 
   spec.add_development_dependency "bundler", "~> 2.0.1"
   spec.add_development_dependency "byebug"
@@ -50,4 +50,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "metanorma", "~> 0.3.0"
   spec.add_development_dependency "vcr", "~> 5.0.0"
   spec.add_development_dependency "webmock"
+  #spec.add_development_dependency "relaton-iec"
+  #spec.add_development_dependency "relaton-iso"
+  #spec.add_development_dependency "relaton-ietf"
 end

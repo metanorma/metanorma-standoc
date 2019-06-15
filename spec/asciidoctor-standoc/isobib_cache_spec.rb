@@ -1,39 +1,39 @@
 require "spec_helper"
-require "isobib"
+require "relaton_iso"
 require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
 
   IETF_123_SHORT = <<~EOS
-<bibitem type="international-standard" id="IETF123">
+<bibitem type="standard" id="IETF123">
   <title format="text/plain" language="en" script="Latn">Rubber latex -- Sampling</title>
   <docidentifier type="IETF">RFC 123</docidentifier>
   <contributor>    <role type="publisher"/>    <organization>      <name>International Organization for Standardization</name>      <abbreviation>ISO</abbreviation>      <uri>www.iso.org</uri>    </organization>  </contributor>
-  <status>Published</status>
+  <status><stage>Published</stage></status>
 </bibitem>
 EOS
 
   ISO_123_SHORT = <<~EOS
-<bibitem type="international-standard" id="ISO123">
+<bibitem type="standard" id="ISO123">
   <title format="text/plain" language="en" script="Latn">Rubber latex -- Sampling</title>
   <docidentifier type="ISO">ISO 123</docidentifier>
   <contributor>    <role type="publisher"/>    <organization>      <name>International Organization for Standardization</name>      <abbreviation>ISO</abbreviation>      <uri>www.iso.org</uri>    </organization>  </contributor>
-  <status>Published</status>
+  <status><stage>Published</stage></status>
 </bibitem>
 EOS
 
   ISO_124_SHORT = <<~EOS
-<bibitem type="international-standard" id="ISO124">
+<bibitem type="standard" id="ISO124">
   <fetched>#{Date.today}</fetched>
   <title format="text/plain" language="en" script="Latn">Latex, rubber -- Determination of total solids content</title>
   <docidentifier type="ISO">ISO 124</docidentifier>
   <contributor>    <role type="publisher"/>    <organization>      <name>International Organization for Standardization</name>      <abbreviation>ISO</abbreviation>      <uri>www.iso.org</uri>    </organization>  </contributor>
-  <status>Published</status>
+  <status><stage>Published</stage></status>
 </bibitem>
 EOS
 
   ISO_124_SHORT_ALT = <<~EOS
-<bibitem type="international-standard" id="ISO124">
+<bibitem type="standard" id="ISO124">
   <fetched>#{Date.today}</fetched>
   <title format="text/plain" language="en" script="Latn">Latex, rubber -- Replacement</title>
   <docidentifier type="ISO">ISO 124</docidentifier>
@@ -42,27 +42,248 @@ EOS
 </bibitem>
 EOS
 
-  ISO_123_DATED = <<~EOS
-<bibitem type="international-standard" id="ISO123-2001"> <fetched>#{Date.today}</fetched> <title format="text/plain" language="en" script="Latn">Rubber latex -- Sampling</title>  <title format="text/plain" language="fr" script="Latn">Latex de caoutchouc -- Échantillonnage</title>  <uri type="src">https://www.iso.org/standard/23281.html</uri>  <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>  <docidentifier type="ISO">ISO 123:2001</docidentifier>  <date type="published">    <on>2001</on>  </date>  <contributor>    <role type="publisher"/>    <organization>      <name>International Organization for Standardization</name>      <abbreviation>ISO</abbreviation>      <uri>www.iso.org</uri>    </organization>  </contributor>  <edition>3</edition>  <language>en</language>  <language>fr</language>  <script>Latn</script>  <status><stage>90</stage><substage>93</substage></status>  <copyright>    <from>2001</from>    <owner>      <organization>        <name>ISO</name>        </organization>    </owner>  </copyright>  <relation type="obsoletes">    <bibitem>      <formattedref>ISO 123:1985</formattedref>      </bibitem>  </relation>  <relation type="updates">    <bibitem>      <formattedref>ISO 123:2001</formattedref> </bibitem>  </relation> <editorialgroup> <technical_committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical_committee> </editorialgroup> <ics><code>83.040.10</code><text>Latex and raw rubber</text></ics> </bibitem>
+  ISO_124_DATED = <<~EOS
+  <bibdata type="standard">
+         <fetched>#{Date.today}</fetched>
+         <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
+         <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
+         <title type="main" format="text/plain" language="en" script="Latn">Determination of total solids content - Latex, rubber</title>
+         <title type="title-main" format="text/plain" language="fr" script="Latn">Détermination des matières solides totales</title>
+         <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
+         <title type="main" format="text/plain" language="fr" script="Latn">Détermination des matières solides totales - Latex de caoutchouc</title>
+         <uri type="src">https://www.iso.org/standard/61884.html</uri>
+         <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
+         <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
+         <docidentifier type="ISO">ISO 124:2014</docidentifier>
+         <date type="published">
+           <on>2014</on>
+         </date>
+         <contributor>
+           <role type="publisher"/>
+           <organization>
+             <name>International Organization for Standardization</name>
+             <abbreviation>ISO</abbreviation>
+             <uri>www.iso.org</uri>
+           </organization>
+         </contributor>
+         <edition>7</edition>
+         <language>en</language>
+         <language>fr</language>
+         <script>Latn</script>
+         <abstract format="text/plain" language="en" script="Latn">ISO 124:2014 specifies methods for the determination of the total solids content of natural rubber field and concentrated latices and synthetic rubber latex. These methods are not necessarily suitable for latex from natural sources other than the Hevea brasiliensis, for vulcanized latex, for compounded latex, or for artificial dispersions of rubber.</abstract>
+         <abstract format="text/plain" language="fr" script="Latn">L'ISO 124:2014 spécifie des méthodes pour la détermination des matières solides totales dans le latex de plantation, le latex de concentré de caoutchouc naturel et le latex de caoutchouc synthétique. Ces méthodes ne conviennent pas nécessairement au latex d'origine naturelle autre que celui de l'Hevea brasiliensis, au latex vulcanisé, aux mélanges de latex, ou aux dispersions artificielles de caoutchouc.</abstract>
+         <status>
+           <stage>60</stage>
+           <substage>60</substage>
+         </status>
+         <copyright>
+           <from>2014</from>
+           <owner>
+             <organization>
+               <name>ISO</name>
+             </organization>
+           </owner>
+         </copyright>
+         <relation type="obsoletes">
+           <bibitem type="standard">
+             <formattedref format="text/plain">ISO 124:2011</formattedref>
+           </bibitem>
+         </relation>
+         <ext>
+           <doctype>international-standard</doctype>
+           <editorialgroup>
+             <technical_committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical_committee>
+           </editorialgroup>
+           <ics>
+             <code>83.040.10</code>
+             <text>Latex and raw rubber</text>
+           </ics>
+           <structuredidentifier type="ISO">
+             <project-number>ISO 124</project-number>
+           </structuredidentifier>
+         </ext>
+       </bibdata>
 EOS
 
   ISO_123_UNDATED = <<~EOS
-<bibitem type="international-standard" id="ISO123"> <fetched>#{Date.today}</fetched>
-  <title format="text/plain" language="en" script="Latn">Rubber latex -- Sampling</title> <title format="text/plain" language="fr" script="Latn">Latex de caoutchouc -- Échantillonnage</title>
-  <uri type="src">https://www.iso.org/standard/23281.html</uri> <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri> <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-  <docidentifier type="ISO">ISO 123</docidentifier>
-  <contributor> <role type="publisher"/> <organization> <name>International Organization for Standardization</name> <abbreviation>ISO</abbreviation> <uri>www.iso.org</uri> </organization> </contributor>
-  <edition>3</edition> <language>en</language> <language>fr</language> <script>Latn</script> <status><stage>90</stage><substage>93</substage></status>
-  <copyright> <from>2001</from> <owner> <organization> <name>ISO</name> </organization> </owner> </copyright>
-  <relation type="obsoletes"> <bibitem> <formattedref>ISO 123:1985</formattedref> </bibitem> </relation>
-  <relation type="updates"> <bibitem> <formattedref>ISO 123:2001</formattedref> </bibitem> </relation>
-  <relation type="instance"> <bibitem type="international-standard"> <fetched>#{Date.today}</fetched> <title format="text/plain" language="en" script="Latn">Rubber latex -- Sampling</title> <title format="text/plain" language="fr" script="Latn">Latex de caoutchouc -- Échantillonnage</title> <uri type="src">https://www.iso.org/standard/23281.html</uri> <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri> <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri> <docidentifier type="ISO">ISO 123:2001</docidentifier> <date type="published"> <on>2001</on> </date> <contributor> <role type="publisher"/> <organization> <name>International Organization for Standardization</name> <abbreviation>ISO</abbreviation> <uri>www.iso.org</uri> </organization> </contributor> <edition>3</edition> <language>en</language> <language>fr</language> <script>Latn</script> <status> <stage>90</stage> <substage>93</substage> </status> <copyright> <from>2001</from> <owner> <organization> <name>ISO</name> </organization> </owner> </copyright> <relation type="obsoletes"> <bibitem> <formattedref>ISO 123:1985</formattedref> </bibitem> </relation> <relation type="updates"> <bibitem> <formattedref>ISO 123:2001</formattedref> </bibitem> </relation> <editorialgroup> <technical_committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical_committee> </editorialgroup> <ics> <code>83.040.10</code> <text>Latex and raw rubber</text> </ics> </bibitem> </relation>
-  <editorialgroup><technical_committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical_committee></editorialgroup>
-  <ics><code>83.040.10</code><text>Latex and raw rubber</text></ics></bibitem>
+   <bibdata type="standard">
+         <fetched>#{Date.today}</fetched>
+         <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
+         <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
+         <title type="main" format="text/plain" language="en" script="Latn">Sampling - Rubber latex</title>
+         <title type="title-main" format="text/plain" language="fr" script="Latn">Échantillonnage</title>
+         <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
+         <title type="main" format="text/plain" language="fr" script="Latn">Échantillonnage - Latex de caoutchouc</title>
+         <uri type="src">https://www.iso.org/standard/23281.html</uri>
+         <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+         <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+         <docidentifier type="ISO">ISO 123</docidentifier>
+         <contributor>
+           <role type="publisher"/>
+           <organization>
+             <name>International Organization for Standardization</name>
+             <abbreviation>ISO</abbreviation>
+             <uri>www.iso.org</uri>
+           </organization>
+         </contributor>
+         <edition>3</edition>
+         <language>en</language>
+         <language>fr</language>
+         <script>Latn</script>
+         <status>
+           <stage>90</stage>
+           <substage>93</substage>
+         </status>
+         <copyright>
+           <from>2001</from>
+           <owner>
+             <organization>
+               <name>ISO</name>
+             </organization>
+           </owner>
+         </copyright>
+         <relation type="obsoletes">
+           <bibitem type="standard">
+             <formattedref format="text/plain">ISO 123:1985</formattedref>
+           </bibitem>
+         </relation>
+         <relation type="updates">
+           <bibitem type="standard">
+             <formattedref format="text/plain">ISO 123:2001</formattedref>
+           </bibitem>
+         </relation>
+         <relation type="instance">
+           <bibitem type="standard">
+             <fetched>#{Date.today}</fetched>
+             <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
+             <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
+             <title type="main" format="text/plain" language="en" script="Latn">Sampling - Rubber latex</title>
+             <title type="title-main" format="text/plain" language="fr" script="Latn">Échantillonnage</title>
+             <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
+             <title type="main" format="text/plain" language="fr" script="Latn">Échantillonnage - Latex de caoutchouc</title>
+             <uri type="src">https://www.iso.org/standard/23281.html</uri>
+             <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+             <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+             <docidentifier type="ISO">ISO 123:2001</docidentifier>
+             <date type="published">
+               <on>2001</on>
+             </date>
+             <contributor>
+               <role type="publisher"/>
+               <organization>
+                 <name>International Organization for Standardization</name>
+                 <abbreviation>ISO</abbreviation>
+                 <uri>www.iso.org</uri>
+               </organization>
+             </contributor>
+             <edition>3</edition>
+             <language>en</language>
+             <language>fr</language>
+             <script>Latn</script>
+             <status>
+               <stage>90</stage>
+               <substage>93</substage>
+             </status>
+             <copyright>
+               <from>2001</from>
+               <owner>
+                 <organization>
+                   <name>ISO</name>
+                 </organization>
+               </owner>
+             </copyright>
+             <relation type="obsoletes">
+               <bibitem type="standard">
+                 <formattedref format="text/plain">ISO 123:1985</formattedref>
+               </bibitem>
+             </relation>
+             <relation type="updates">
+               <bibitem type="standard">
+                 <formattedref format="text/plain">ISO 123:2001</formattedref>
+               </bibitem>
+             </relation>
+           </bibitem>
+         </relation>
+         <ext>
+           <doctype>international-standard</doctype>
+           <editorialgroup>
+             <technical_committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical_committee>
+           </editorialgroup>
+           <ics>
+             <code>83.040.10</code>
+             <text>Latex and raw rubber</text>
+           </ics>
+           <structuredidentifier type="ISO">
+             <project-number>ISO 123</project-number>
+           </structuredidentifier>
+         </ext>
+       </bibdata>
 EOS
 
-  ISO_124_DATED = <<~EOS
-<bibitem type="international-standard" id="ISO124-2014"> <fetched>#{Date.today}</fetched> <title format="text/plain" language="en" script="Latn">Latex, rubber -- Determination of total solids content</title>  <title format="text/plain" language="fr" script="Latn">Latex de caoutchouc -- Détermination des matières solides totales</title>  <uri type="src">https://www.iso.org/standard/61884.html</uri>  <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>  <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>  <docidentifier type="ISO">ISO 124:2014</docidentifier>  <date type="published">    <on>2014</on>  </date>  <contributor>    <role type="publisher"/>    <organization>      <name>International Organization for Standardization</name>      <abbreviation>ISO</abbreviation>      <uri>www.iso.org</uri>    </organization>  </contributor>  <edition>7</edition>  <language>en</language>  <language>fr</language>  <script>Latn</script>  <abstract format="plain" language="en" script="Latn">ISO 124:2014 specifies methods for the determination of the total solids content of natural rubber field and concentrated latices and synthetic rubber latex. These methods are not necessarily suitable for latex from natural sources other than the Hevea brasiliensis, for vulcanized latex, for compounded latex, or for artificial dispersions of rubber.</abstract>  <abstract format="plain" language="fr" script="Latn">L'ISO 124:2014 spécifie des méthodes pour la détermination des matières solides totales dans le latex de plantation, le latex de concentré de caoutchouc naturel et le latex de caoutchouc synthétique. Ces méthodes ne conviennent pas nécessairement au latex d'origine naturelle autre que celui de l'Hevea brasiliensis, au latex vulcanisé, aux mélanges de latex, ou aux dispersions artificielles de caoutchouc.</abstract>  <status><stage>60</stage><substage>60</substage></status>  <copyright>    <from>2014</from>    <owner>      <organization>        <name>ISO</name>        </organization>    </owner>  </copyright>  <relation type="obsoletes">    <bibitem>      <formattedref>ISO 124:2011</formattedref>      </bibitem>  </relation><editorialgroup><technical_committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical_committee></editorialgroup><ics><code>83.040.10</code><text>Latex and raw rubber</text></ics></bibitem>
+  ISO_123_DATED = <<~EOS
+  <bibdata type="standard">
+         <fetched>#{Date.today}</fetched>
+         <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
+         <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
+         <title type="main" format="text/plain" language="en" script="Latn">Sampling - Rubber latex</title>
+         <title type="title-main" format="text/plain" language="fr" script="Latn">Échantillonnage</title>
+         <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
+         <title type="main" format="text/plain" language="fr" script="Latn">Échantillonnage - Latex de caoutchouc</title>
+         <uri type="src">https://www.iso.org/standard/23281.html</uri>
+         <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+         <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+         <docidentifier type="ISO">ISO 123:2001</docidentifier>
+         <date type="published">
+           <on>2001</on>
+         </date>
+         <contributor>
+           <role type="publisher"/>
+           <organization>
+             <name>International Organization for Standardization</name>
+             <abbreviation>ISO</abbreviation>
+             <uri>www.iso.org</uri>
+           </organization>
+         </contributor>
+         <edition>3</edition>
+         <language>en</language>
+         <language>fr</language>
+         <script>Latn</script>
+         <status>
+           <stage>90</stage>
+           <substage>93</substage>
+         </status>
+         <copyright>
+           <from>2001</from>
+           <owner>
+             <organization>
+               <name>ISO</name>
+             </organization>
+           </owner>
+         </copyright>
+         <relation type="obsoletes">
+           <bibitem type="standard">
+             <formattedref format="text/plain">ISO 123:1985</formattedref>
+           </bibitem>
+         </relation>
+         <relation type="updates">
+           <bibitem type="standard">
+             <formattedref format="text/plain">ISO 123:2001</formattedref>
+           </bibitem>
+         </relation>
+         <ext>
+           <doctype>international-standard</doctype>
+           <editorialgroup>
+             <technical_committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical_committee>
+           </editorialgroup>
+           <ics>
+             <code>83.040.10</code>
+             <text>Latex and raw rubber</text>
+           </ics>
+           <structuredidentifier type="ISO">
+             <project-number>ISO 123</project-number>
+           </structuredidentifier>
+         </ext>
+       </bibdata>
 EOS
 
   it "does not activate biblio caches if isobib disabled" do
@@ -159,7 +380,7 @@ EOS
 
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
     entry = db.load_entry("ISO(ISO 123:2001)")
-    expect(db.fetched("ISO(ISO 123:2001)")).to eq(Date.today.to_s)
+    expect(entry).to include("<fetched>#{Date.today.to_s}</fetched>")
     expect(entry).to be_equivalent_to(ISO_123_DATED)
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
@@ -323,7 +544,7 @@ EOS
     db.save_entry("ISO(ISO 123:2001)",
         {
           "fetched" => Date.today.to_s,
-          "bib" => IsoBibItem::XMLParser.from_xml(ISO_123_DATED)
+          "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED)
         }
       )
 
@@ -340,10 +561,12 @@ EOS
     end
 
     entry = db.load_entry("ISO(ISO 123:2001)")
-    expect(db.fetched("ISO(ISO 123:2001)")).to eq(Date.today.to_s)
+    #expect(db.fetched("ISO(ISO 123:2001)")).to eq(Date.today.to_s)
+    expect(entry).to include("<fetched>#{Date.today.to_s}</fetched>")
     expect(entry).to be_equivalent_to(ISO_123_DATED)
     entry = db.load_entry("ISO(ISO 124:2014)")
-    expect(db.fetched("ISO(ISO 124:2014)")).to eq(Date.today.to_s)
+    #expect(db.fetched("ISO(ISO 124:2014)")).to eq(Date.today.to_s)
+    expect(entry).to include("<fetched>#{Date.today.to_s}</fetched>")
     expect(entry).to be_equivalent_to(ISO_124_DATED)
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
@@ -358,7 +581,7 @@ EOS
         db.save_entry("ISO 123",
         {
           "fetched" => (Date.today - 90),
-          "bib" => IsoBibItem::XMLParser.from_xml(ISO_123_SHORT)
+          "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_123_SHORT)
         }
       )
 
@@ -374,7 +597,8 @@ EOS
     end
 
     entry = db.load_entry("ISO(ISO 123)")
-    expect(db.fetched("ISO(ISO 123)")).to eq(Date.today.to_s)
+    #expect(db.fetched("ISO(ISO 123)")).to eq(Date.today.to_s)
+    expect(entry).to include("<fetched>#{Date.today.to_s}</fetched>")
     expect(entry).to be_equivalent_to(ISO_123_UNDATED)
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
@@ -385,14 +609,14 @@ EOS
     FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore1")
     FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
 
-    bibitem = IsoBibItem::XMLParser.from_xml ISO_123_DATED
+    bibitem = RelatonIsoBib::XMLParser.from_xml ISO_123_DATED
     bibitem.instance_variable_set :@fetched, (Date.today - 90)
 
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
     db.save_entry("ISO(ISO 123:2001)", bibitem.to_xml)
     #   {
     #     "fetched" => (Date.today - 90),
-    #     "bib" => IsoBibItem::XMLParser.from_xml(ISO_123_DATED)
+    #     "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED)
     #   }
     # )
 
@@ -405,7 +629,8 @@ EOS
     INPUT
 
     entry = db.load_entry("ISO(ISO 123:2001)")
-    expect(db.fetched("ISO(ISO 123:2001)")).to eq((Date.today - 90).to_s)
+    #expect(db.fetched("ISO(ISO 123:2001)")).to eq((Date.today - 90).to_s)
+    expect(entry).to include("<fetched>#{Date.today - 90}</fetched>")
     # expect(entry).to be_equivalent_to(ISO_123_DATED) It can't be true since fetched date is changed
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
@@ -418,24 +643,24 @@ EOS
     FileUtils.rm_rf "relaton/cache"
 
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
-    db.save_entry("ISO(ISO 123:2001)", IsoBibItem::XMLParser.from_xml(ISO_123_DATED).to_xml)
+    db.save_entry("ISO(ISO 123:2001)", RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED).to_xml)
       #   {
       #     "fetched" => Date.today,
-      #     "bib" => IsoBibItem::XMLParser.from_xml(ISO_123_DATED)
+      #     "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED)
       #   }
       # )
-    db.save_entry("ISO(ISO 124)", IsoBibItem::XMLParser.from_xml(ISO_124_SHORT).to_xml)
+    db.save_entry("ISO(ISO 124)", RelatonIsoBib::XMLParser.from_xml(ISO_124_SHORT).to_xml)
       #   {
       #     "fetched" => Date.today,
-      #     "bib" => IsoBibItem::XMLParser.from_xml(ISO_124_SHORT)
+      #     "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_124_SHORT)
       #   }
       # )
 
     localdb = Relaton::Db.new "relaton/cache", nil
-    localdb.save_entry("ISO(ISO 124)", IsoBibItem::XMLParser.from_xml(ISO_124_SHORT_ALT).to_xml)
+    localdb.save_entry("ISO(ISO 124)", RelatonIsoBib::XMLParser.from_xml(ISO_124_SHORT_ALT).to_xml)
       #   {
       #     "fetched" => Date.today,
-      #     "bib" => IsoBibItem::XMLParser.from_xml(ISO_124_SHORT_ALT)
+      #     "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_124_SHORT_ALT)
       #   }
       # )
 
@@ -448,26 +673,11 @@ EOS
 * [[[ISO124,ISO 124]]] _Standard_
 EOS
 
-    output = <<~EOS
-#{BLANK_HDR}
-<sections>
-</sections>
-<bibliography>
-<references id="_" obligation="informative">
- <title>Normative References</title>
- #{ISO_123_DATED}
- #{ISO_124_SHORT_ALT}
-</references></bibliography>
-</standard-document>
-EOS
-
-    #expect(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))).to be_equivalent_to(output)
     Asciidoctor.convert(input, backend: :standoc, header_footer: true)
-
-    expect(db.load_entry("ISO(ISO 123:2001)")).to be_equivalent_to(ISO_123_DATED)
-    expect(db.load_entry("ISO(ISO 124)")).to be_equivalent_to(ISO_124_SHORT)
-    expect(localdb.load_entry("ISO(ISO 123:2001)")).to be_equivalent_to(ISO_123_DATED)
-    expect(localdb.load_entry("ISO(ISO 124)")).to be_equivalent_to(ISO_124_SHORT_ALT)
+    expect(db.load_entry("ISO(ISO 123:2001)")).to include("Sampling - Rubber latex")
+    expect(db.load_entry("ISO(ISO 124)")).to include("Latex, rubber -- Determination of total solids content")
+    expect(localdb.load_entry("ISO(ISO 123:2001)")).to include("Sampling - Rubber latex")
+    expect(localdb.load_entry("ISO(ISO 124)")).to include("Latex, rubber -- Replacement")
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
@@ -476,19 +686,19 @@ EOS
 private
 
   def mock_isobib_get_123
-    expect(Isobib::IsoBibliography).to receive(:get).with("ISO 123", "2001", {}).and_return(IsoBibItem::XMLParser.from_xml(ISO_123_DATED))
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", "2001", {}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED))
   end
 
   def mock_isobib_get_123_undated
-    expect(Isobib::IsoBibliography).to receive(:get).with("ISO 123", nil, {}).and_return(IsoBibItem::XMLParser.from_xml(ISO_123_UNDATED))
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", nil, {}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_UNDATED))
   end
 
   def mock_isobib_get_124
-    expect(Isobib::IsoBibliography).to receive(:get).with("ISO 124", "2014", {}).and_return(IsoBibItem::XMLParser.from_xml(ISO_124_DATED))
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 124", "2014", {}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_124_DATED))
   end
 
   def mock_ietfbib_get_123
-    expect(IETFBib::RfcBibliography).to receive(:get).with("RFC 123", nil, {}).and_return(IsoBibItem::XMLParser.from_xml(IETF_123_SHORT))
+    expect(RelatonIetf::IetfBibliography).to receive(:get).with("RFC 123", nil, {}).and_return(RelatonIsoBib::XMLParser.from_xml(IETF_123_SHORT))
   end
 
 end

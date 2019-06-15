@@ -1,6 +1,5 @@
 require "spec_helper"
-require "isobib"
-require "ietfbib"
+require "relaton_iso"
 
 RSpec.describe Asciidoctor::Standoc do
     it "processes simple dl reference" do
