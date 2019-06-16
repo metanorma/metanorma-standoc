@@ -79,7 +79,7 @@ RSpec.describe Asciidoctor::Standoc do
 
        </sections><bibliography><references id="_" obligation="informative"><title>Normative References</title>
        <bibitem id="iso123" type="standard">
-         <fetched>2019-06-16</fetched>
+         <fetched>#{Date.today}</fetched>
          <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
          <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
          <title type="main" format="text/plain" language="en" script="Latn">Sampling - Rubber latex</title>
@@ -121,7 +121,7 @@ RSpec.describe Asciidoctor::Standoc do
          </relation>
          <relation type="instance">
            <bibitem type="standard">
-             <fetched>2019-06-16</fetched>
+             <fetched>#{Date.today}</fetched>
              <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
              <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
              <title type="main" format="text/plain" language="en" script="Latn">Sampling - Rubber latex</title>

@@ -147,11 +147,6 @@ EOS
              <formattedref format="text/plain">ISO 123:1985</formattedref>
            </bibitem>
          </relation>
-         <relation type="updates">
-           <bibitem type="standard">
-             <formattedref format="text/plain">ISO 123:2001</formattedref>
-           </bibitem>
-         </relation>
          <relation type="instance">
            <bibitem type="standard">
              <fetched>#{Date.today}</fetched>
@@ -195,11 +190,6 @@ EOS
              <relation type="obsoletes">
                <bibitem type="standard">
                  <formattedref format="text/plain">ISO 123:1985</formattedref>
-               </bibitem>
-             </relation>
-             <relation type="updates">
-               <bibitem type="standard">
-                 <formattedref format="text/plain">ISO 123:2001</formattedref>
                </bibitem>
              </relation>
            </bibitem>
@@ -263,11 +253,6 @@ EOS
          <relation type="obsoletes">
            <bibitem type="standard">
              <formattedref format="text/plain">ISO 123:1985</formattedref>
-           </bibitem>
-         </relation>
-         <relation type="updates">
-           <bibitem type="standard">
-             <formattedref format="text/plain">ISO 123:2001</formattedref>
            </bibitem>
          </relation>
          <ext>
@@ -541,12 +526,15 @@ EOS
   it "fetches uncached references" do
     FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
-    db.save_entry("ISO(ISO 123:2001)",
-        {
-          "fetched" => Date.today.to_s,
-          "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED)
-        }
-      )
+    bibitem = RelatonIsoBib::XMLParser.from_xml ISO_123_DATED
+    bibitem.instance_variable_set :@fetched, (Date.today - 2)
+
+    db.save_entry("ISO(ISO 123:2001)", bibitem.to_xml)
+        #{
+          #"fetched" => (Date.today - 2).to_s,
+          #"bib" => RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED)
+        #}
+      #)
 
     # mock_isobib_get_124
     VCR.use_cassette "isobib_get_124" do
@@ -562,8 +550,8 @@ EOS
 
     entry = db.load_entry("ISO(ISO 123:2001)")
     #expect(db.fetched("ISO(ISO 123:2001)")).to eq(Date.today.to_s)
-    expect(entry).to include("<fetched>#{Date.today.to_s}</fetched>")
-    expect(entry).to be_equivalent_to(ISO_123_DATED)
+    expect(entry).to include("<fetched>#{(Date.today - 2).to_s}</fetched>")
+    #expect(entry).to be_equivalent_to(ISO_123_DATED)
     entry = db.load_entry("ISO(ISO 124:2014)")
     #expect(db.fetched("ISO(ISO 124:2014)")).to eq(Date.today.to_s)
     expect(entry).to include("<fetched>#{Date.today.to_s}</fetched>")
@@ -578,12 +566,14 @@ EOS
     FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
 
         db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
-        db.save_entry("ISO 123",
-        {
-          "fetched" => (Date.today - 90),
-          "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_123_SHORT)
-        }
-      )
+    bibitem = RelatonIsoBib::XMLParser.from_xml ISO_123_SHORT
+    bibitem.instance_variable_set :@fetched, (Date.today - 90)
+    db.save_entry("ISO 123", bibitem.to_xml)
+        #{
+          #"fetched" => (Date.today - 90),
+          #"bib" => RelatonIsoBib::XMLParser.from_xml(ISO_123_SHORT)
+        #}
+      #)
 
     # mock_isobib_get_123_undated
     VCR.use_cassette "isobib_get_123" do
