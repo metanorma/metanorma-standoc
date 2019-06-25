@@ -17,6 +17,11 @@ module Asciidoctor
           node.nil? || node.id.nil? || node.id.empty? ? "_" + uuid : node.id
         end
 
+        def localdir(node)
+          %r{/}.match(node.attr("docfile")) ?
+          node.attr("docfile").sub(%r{/[^/]+$}, "/") : "./"
+        end
+
         def current_location(n)
           return "Line #{n.lineno}" if n.respond_to?(:lineno) &&
             !n.lineno.nil? && !n.lineno.empty?

@@ -93,8 +93,7 @@ module Asciidoctor
         @files_to_delete = []
         @filename = node.attr("docfile") ?
           node.attr("docfile").gsub(/\.adoc$/, "").gsub(%r{^.*/}, "") : ""
-        @localdir = %r{/}.match(node.attr("docfile")) ?
-          node.attr("docfile").sub(%r{/[^/]+$}, "/") : "./"
+        @localdir = Utils::localdir(node)
         @no_isobib_cache = node.attr("no-isobib-cache")
         @no_isobib = node.attr("no-isobib")
         @bibdb = nil

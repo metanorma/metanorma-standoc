@@ -82,14 +82,15 @@ module Asciidoctor
       end
 
       def self.generate_file parent, reader
+        localdir = Utils::localdir(parent.document)
         src = reader.source
         !reader.lines.first.sub(/\s+$/, "").match /^@startuml($| )/ or
           src = "@startuml\n#{src}\n@enduml\n"
         /^@startuml (?<filename>[^\n]+)\n/ =~ src
         filename ||= parent.document.reader.lineno
-        FileUtils.mkdir_p "plantuml"
-        File.open("plantuml/#{filename}.pml", "w") { |f| f.write src }
-        system "plantuml plantuml/#{filename}.pml"
+        FileUtils.mkdir_p "#{localdir}/plantuml"
+        File.open("#{localdir}plantuml/#{filename}.pml", "w") { |f| f.write src }
+        system "plantuml #{localdir}plantuml/#{filename}.pml"
         filename
       end
 
