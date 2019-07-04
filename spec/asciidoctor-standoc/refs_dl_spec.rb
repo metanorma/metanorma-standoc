@@ -10,14 +10,30 @@ RSpec.describe Asciidoctor::Standoc do
 
       [%bibitem]
       === Standard
-      ref:: iso123
-      docidentifier:: ISO 123
-      doctype:: standard
-      contributor_publisher_role::
-      contributor_publisher_organization:: ISO
-      contributor_author_person::
-      ... Fred
-      ... Jack
+      id:: iso123
+      docid:: 
+        type::: ISO
+        id::: ISO 123
+      type:: standard
+      contributors:: 
+        roles::: publisher
+        entity:::
+          name:::: ISO
+      contributors::
+        roles::: author
+        entity:::
+          name::::
+      +
+      --
+      completename::
+        language::: en
+        content::: Fred
+      --
+      contributors::
+        roles::: author
+        entity:::
+        name::::
+          completename::::: Jack
 
     INPUT
       #{BLANK_HDR}
@@ -26,8 +42,8 @@ RSpec.describe Asciidoctor::Standoc do
         <title>Normative References</title>
         <bibitem id="iso123" type="standard">
         <fetched>#{Date.today}</fetched>
-         <title>Standard</title>
-         <docidentifier>ISO 123</docidentifier>
+         <title type="main" format="text/plain" language="en" script="Latn">Standard</title>
+         <docidentifier type="ISO">ISO 123</docidentifier>
          <contributor>
            <role type="publisher"/>
            <organization>
@@ -37,7 +53,7 @@ RSpec.describe Asciidoctor::Standoc do
          <contributor>
            <role type="author"/>
            <person>
-             <name><completename>Fred</completename></name>
+             <name><completename language="en">Fred</completename></name>
            </person>
          </contributor>
          <contributor>

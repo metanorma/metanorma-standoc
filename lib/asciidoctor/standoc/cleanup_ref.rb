@@ -1,5 +1,5 @@
 require "set"
-require "relaton-cli"
+require "relaton_bib"
 
 module Asciidoctor
   module Standoc
@@ -164,39 +164,10 @@ module Asciidoctor
       def ref_dl_cleanup(xmldoc)
         xmldoc.xpath("//clause[@bibitem = 'true']").each do |c|
           bib = dl_bib_extract(c) or next
-          b = Nokogiri::XML::Node.new('bibitem', xmldoc)
-          b["id"] = bib["ref"]&.strip
-          b["type"] = bib["doctype"]&.strip
-          b << %Q[<title format="text/plain">#{bib['title']}</title>]
-          #b << extract_from_p("docidentifier", bib, "docidentifier")
-
-          b << %Q[<docidentifier>#{bib['docidentifier']}</docidentifier>]
-
-          Array(bib["publisher"]).each do |name|
-            b << %Q[<contributor><role type="publisher"/><organization>
-          <name>#{name}</name>
-          </organization></contributor>]
-            #{extract_from_p("publisher", bib, "name")}
-          end
-
-          Array(bib["author"]).each do |name|
-            b << %Q[<contributor><role type="author"/><person>
-          <name><completename>#{name}</completename></name>
-          </person></contributor>]
-          end
-          c.replace(b)
-        end
-      end
-
-      def ref_dl_cleanup(xmldoc)
-        xmldoc.xpath("//clause[@bibitem = 'true']").each do |c|
-          bib = dl_bib_extract(c) or next
-          bibitemxml = Relaton::Bibdata.new(bib).to_xml or next
-          # TODO move this into relaton-cli
+          #bibitemxml = Relaton::Bibdata.new(bib).to_xml or next
+          bibitemxml = RelatonBib::BibliographicItem.new(
+            RelatonBib::hash_to_bib(bib)).to_xml or next
           bibitem = Nokogiri::XML(bibitemxml)
-          bibitem.root.name = "bibitem"
-          bibitem.root["id"] = bib["ref"]&.strip
-          bibitem.root["type"] = bib["doctype"]&.strip
           c.replace(bibitem.root)
         end
       end
@@ -217,13 +188,19 @@ module Asciidoctor
       end
 
       def dd_bib_extract(dtd)
+        dtd.at("./dl") and return dl_bib_extract(dtd)
         elems = dtd.remove.elements
-        return p_unwrap(dtd) unless elems.size == 1 && elems[0].name == "ol"
+        return p_unwrap(dtd) unless elems.size == 1 && %w(ol ul).include?(elems[0].name)
         ret = []
         elems[0].xpath("./li").each do |li|
           ret << p_unwrap(li)
         end
         ret
+      end
+
+      def add_to_hash(bib, key, val)
+        bib[key] = bib[key].is_a?(Array) ?  (bib[key] << val) :
+          bib[key].nil? ?  val : [bib[key], val]
       end
 
       # definition list, with at most one level of unordered lists
@@ -232,10 +209,11 @@ module Asciidoctor
         bib = {}
         key = ""
         dl.xpath("./dt | ./dd").each do |dtd|
-          key = dtd.text if dtd.name == "dt"
-          bib[key] = dd_bib_extract(dtd) if dtd.name == "dd"
+          dtd.name == "dt" and key = dtd.text.sub(/:+$/, "") or
+            add_to_hash(bib, key, dd_bib_extract(dtd))
         end
-        bib["title"] = c.at("./title").remove.children
+        c.at("./title") and
+          bib["titles"] = c.at("./title").remove.children.to_xml
         bib
       end
     end
