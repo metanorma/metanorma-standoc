@@ -18,8 +18,8 @@ module Asciidoctor
         end
 
         def localdir(node)
-          %r{/}.match(node.attr("docfile")) ?
-          node.attr("docfile").sub(%r{/[^/]+$}, "/") : "./"
+          docfile = node.attr("docfile")
+          docfile.nil? ? '/' : Pathname.new(docfile).parent.to_s + '/'
         end
 
         def current_location(n)
