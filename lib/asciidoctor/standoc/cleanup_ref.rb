@@ -168,6 +168,7 @@ module Asciidoctor
           bibitemxml = RelatonBib::BibliographicItem.new(
             RelatonBib::hash_to_bib(bib)).to_xml or next
           bibitem = Nokogiri::XML(bibitemxml)
+          bibitem["id"] = c["id"] if c["id"]
           c.replace(bibitem.root)
         end
       end
@@ -178,16 +179,26 @@ module Asciidoctor
       end
 
       # if the content is a single paragraph, replace it with its children
+      # single links replaced with uri
       def p_unwrap(p)
         elems = p.elements
         if elems.size == 1 && elems[0].name == "p"
-          elems[0].children.to_xml
+          link_unwrap(elems[0]).children.to_xml.strip
         else
-          p.to_xml
+          p.to_xml.strip
         end
       end
 
+      def link_unwrap(p)
+        elems = p.elements
+        if elems.size == 1 && elems[0].name == "link"
+          p.at("./link").replace(elems[0]["target"].strip)
+        end
+        p
+      end
+
       def dd_bib_extract(dtd)
+        return nil if dtd.children.empty?
         dtd.at("./dl") and return dl_bib_extract(dtd)
         elems = dtd.remove.elements
         return p_unwrap(dtd) unless elems.size == 1 && %w(ol ul).include?(elems[0].name)
@@ -204,7 +215,7 @@ module Asciidoctor
       end
 
       # definition list, with at most one level of unordered lists
-      def dl_bib_extract(c)
+      def dl_bib_extract(c, nested = false)
         dl = c.at("./dl") or return
         bib = {}
         key = ""
@@ -212,8 +223,16 @@ module Asciidoctor
           dtd.name == "dt" and key = dtd.text.sub(/:+$/, "") or
             add_to_hash(bib, key, dd_bib_extract(dtd))
         end
-        c.at("./title") and
-          bib["titles"] = c.at("./title").remove.children.to_xml
+        c.xpath("./clause").each do |c1|
+          key = c1&.at("./title")&.text&.downcase&.strip
+          next unless %w(contributors relations series).include? key
+          add_to_hash(bib, key, dl_bib_extract(c1, true))
+        end
+        if !nested and c.at("./title")
+          title = c.at("./title").remove.children.to_xml
+          bib["titles"] = bib["titles"] ? Array(bib["titles"]) : []
+          bib["titles"] << title if !title.empty?
+        end
         bib
       end
     end
