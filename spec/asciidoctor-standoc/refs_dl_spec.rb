@@ -17,11 +17,11 @@ RSpec.describe Asciidoctor::Standoc do
       type:: standard
       contributors:: 
         roles::: publisher
-        entity:::
+        organization:::
           name:::: ISO
       contributors::
         roles::: author
-        entity:::
+        person:::
           name::::
       +
       --
@@ -31,7 +31,7 @@ RSpec.describe Asciidoctor::Standoc do
       --
       contributors::
         roles::: author
-        entity:::
+        person:::
         name::::
           completename::::: Jack
 
@@ -170,7 +170,7 @@ validity::
 
 
 ==== Contributor
-entity::
+organization::
   name::: International Organization for Standardization
   url::: www.iso.org
   abbreviation::: ISO
@@ -181,7 +181,7 @@ role::
   ** Publisher role
 
 ==== Contributor
-entity::
+person::
   name:::
     completename::::
       content::::: A. Bierman
@@ -210,7 +210,7 @@ id:: www.ietf.org
 role:: author
 
 ==== Contributors
-entity::
+organization::
   name::: IETF
   abbreviation::: IETF
   identifiers:::
@@ -219,7 +219,7 @@ entity::
 role:: publisher
 
 ==== Contributors
-entity::
+person::
   name:::
     language:::: en
     initials:::: A.
