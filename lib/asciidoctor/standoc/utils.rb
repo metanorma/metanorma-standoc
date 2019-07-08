@@ -19,7 +19,7 @@ module Asciidoctor
 
         def localdir(node)
           docfile = node.attr("docfile")
-          docfile.nil? ? '/' : Pathname.new(docfile).parent.to_s + '/'
+          docfile.nil? ? './' : Pathname.new(docfile).parent.to_s + '/'
         end
 
         def current_location(n)
