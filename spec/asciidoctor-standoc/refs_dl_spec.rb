@@ -225,13 +225,16 @@ entity::
     initials:::: A.
     surname:::: Bierman
   affiliation:::
-    organization::::
-      name::::: IETF
-      abbreviation::::: IETF
-    description::::
-      content::::: Affiliation description
-      language::::: en
-      script::::: Latn
++
+--
+organization::
+  name::: IETF
+  abbreviation::: IETF
+description::
+  content::: Affiliation description
+  language::: en
+  script::: Latn
+--
   identifiers:::
     type:::: uri
     id:::: www.person.com
@@ -317,9 +320,10 @@ formattedref::
         <surname language="en">Bierman</surname>
       </name>
       <affiliation>
-        <description>{:language=&gt;{:script=&gt;”Latn”}}</description>
+        <description language="en" script="en">Affiliation description</description>
         <organization>
-
+<name>IETF</name>
+<abbreviation>IETF</abbreviation>
         </organization>
       </affiliation>
       <identifier type="uri">www.person.com</identifier>
