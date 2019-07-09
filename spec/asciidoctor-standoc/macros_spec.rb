@@ -46,7 +46,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes the PlantUML macro" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).gsub(%r{plantuml/[^.]{36}\.}, "plantuml/_.")).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
 
       [plantuml]
@@ -82,10 +82,10 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
        #{BLANK_HDR}
        <sections><figure id="_">
-  <image src="plantuml/20.png" id="_" imagetype="PNG" height="auto" width="auto"/>
+  <image src="plantuml/_.png" id="_" imagetype="PNG" height="auto" width="auto"/>
 </figure>
 <figure id="_">
-  <image src="plantuml/29.png" id="_" imagetype="PNG" height="auto" width="auto"/>
+  <image src="plantuml/_.png" id="_" imagetype="PNG" height="auto" width="auto"/>
 </figure>
 <figure id="_">
   <image src="plantuml/filename.png" id="_" imagetype="PNG" height="auto" width="auto"/>
@@ -97,7 +97,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
     it "processes the PlantUML macro with imagesdir" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).gsub(%r{spec/assets/[^.]+\.}, "spec/assets/_.")).to be_equivalent_to <<~"OUTPUT"
       = Document title
       Author
       :docfile: test.adoc
@@ -120,7 +120,7 @@ RSpec.describe Asciidoctor::Standoc do
           #{BLANK_HDR}
           <sections>
   <figure id="_">
-  <image src="spec/assets/19.png" id="_" imagetype="PNG" height="auto" width="auto"/>
+  <image src="spec/assets/_.png" id="_" imagetype="PNG" height="auto" width="auto"/>
 </figure>
 </sections>
 </standard-document>

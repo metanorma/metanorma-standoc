@@ -1,5 +1,6 @@
 require "asciidoctor/extensions"
 require "fileutils"
+require "uuidtools"
 
 module Asciidoctor
   module Standoc
@@ -100,7 +101,7 @@ module Asciidoctor
         reader.lines.first.sub(/\s+$/, "").match /^@startuml($| )/ or
           src = "@startuml\n#{src}\n@enduml\n"
         /^@startuml (?<fn>[^\n]+)\n/ =~ src
-        fn ||= parent.document.reader.lineno
+        fn ||= UUIDTools::UUID.random_create
         FileUtils.mkdir_p "#{localdir}/plantuml"
         File.open("#{localdir}plantuml/#{fn}.pml", "w") { |f| f.write src }
         fn
