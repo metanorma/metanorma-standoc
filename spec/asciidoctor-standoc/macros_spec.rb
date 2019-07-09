@@ -96,6 +96,37 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+    it "processes the PlantUML macro with imagesdir" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :imagesdir: spec/assets
+
+      [plantuml]
+      ....
+      @startuml
+      Alice -> Bob: Authentication Request
+      Bob --> Alice: Authentication Response
+
+      Alice -> Bob: Another authentication Request
+      Alice <-- Bob: another authentication Response
+      @enduml
+      ....
+   INPUT
+          #{BLANK_HDR}
+          <sections>
+  <figure id="_">
+  <image src="spec/assets/19.png" id="_" imagetype="PNG" height="auto" width="auto"/>
+</figure>
+</sections>
+</standard-document>
+OUTPUT
+    end
+
   it "processes the PlantUML macro with PlantUML disabled" do
     mock_plantuml_disabled
     expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to output(%r{PlantUML not installed}).to_stderr

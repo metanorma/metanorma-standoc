@@ -81,17 +81,29 @@ module Asciidoctor
         nil
       end
 
+      # if no :imagesdir: leave image file in plantuml
       def self.generate_file parent, reader
         localdir = Utils::localdir(parent.document)
+        fn = save_plantuml parent, reader, localdir
+        system "plantuml #{localdir}plantuml/#{fn}.pml"
+        outfile = parent.image_uri("#{fn}.png")
+        if outfile == "#{fn}.png" 
+          "plantuml/#{fn}.png" 
+        else
+          FileUtils.mv "#{localdir}plantuml/#{fn}.png", "#{localdir}#{outfile}"
+          "#{fn}.png"
+        end
+      end
+
+      def self.save_plantuml parent, reader, localdir
         src = reader.source
-        !reader.lines.first.sub(/\s+$/, "").match /^@startuml($| )/ or
+        reader.lines.first.sub(/\s+$/, "").match /^@startuml($| )/ or
           src = "@startuml\n#{src}\n@enduml\n"
-        /^@startuml (?<filename>[^\n]+)\n/ =~ src
-        filename ||= parent.document.reader.lineno
+        /^@startuml (?<fn>[^\n]+)\n/ =~ src
+        fn ||= parent.document.reader.lineno
         FileUtils.mkdir_p "#{localdir}/plantuml"
-        File.open("#{localdir}plantuml/#{filename}.pml", "w") { |f| f.write src }
-        system "plantuml #{localdir}plantuml/#{filename}.pml"
-        filename
+        File.open("#{localdir}plantuml/#{fn}.pml", "w") { |f| f.write src }
+        fn
       end
 
       def self.generate_attrs attrs
@@ -113,7 +125,7 @@ module Asciidoctor
         if PlantUMLBlockMacroBackend.plantuml_installed?
           filename = PlantUMLBlockMacroBackend.generate_file parent, reader
           through_attrs = PlantUMLBlockMacroBackend.generate_attrs attrs
-          through_attrs["target"] = "plantuml/#{filename}.png"
+          through_attrs["target"] = filename
           create_image_block parent, through_attrs
         else
           warn "PlantUML not installed"
