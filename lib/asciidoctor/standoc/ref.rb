@@ -94,7 +94,8 @@ module Asciidoctor
           docid(t, id_and_year(m[:code], m[:year]) + " (all parts)")
           conditional_date(t, m, noyr)
           iso_publisher(t, m[:code])
-          t.note(**plaintxt) { |p| p << "ISO DATE: #{m[:fn]}" } if m.names.include?("fn") && m[:fn]
+          m.names.include?("fn") && m[:fn] and
+            t.note(**plaintxt) { |p| p << "ISO DATE: #{m[:fn]}" }
           #t.allparts "true"
           t.extent **{ type: 'part' } do |e|
             e.referenceFrom "all"
@@ -109,7 +110,11 @@ module Asciidoctor
         xml.parent.add_child(Utils::smart_render_xml(hit))
         xml
       rescue Algolia::AlgoliaProtocolError
-        nil # Render reference without an Internet connection.
+        warn "Could not retrieve #{code}: no access to online site"
+        nil
+      rescue RelatonBib::RequestError
+        warn "Could not retrieve #{code}: no access to online site"
+        nil
       end
 
       def refitem_render(xml, m)
