@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    metanorma-standoc (1.2.1)
+    metanorma-standoc (1.2.2)
       asciidoctor (~> 1.5.7)
       concurrent-ruby
       html2doc (~> 0.8.11)
@@ -63,8 +63,8 @@ GEM
     httpclient (2.8.3)
     iev (0.2.2)
       nokogiri
-    image_size (2.0.1)
-    isodoc (0.10.1)
+    image_size (2.0.2)
+    isodoc (0.10.2)
       asciimath
       html2doc (~> 0.8.11)
       htmlentities (~> 4.3.4)
@@ -84,7 +84,7 @@ GEM
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
     lumberjack (1.0.13)
-    metanorma (0.3.13)
+    metanorma (0.3.14)
       asciidoctor
       htmlentities
     method_source (0.9.2)
@@ -112,7 +112,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    relaton (0.4.1)
+    relaton (0.4.3)
       algoliasearch
       relaton-gb (~> 0.5.0)
       relaton-iec (~> 0.3.0)
@@ -121,7 +121,7 @@ GEM
       relaton-iso-bib (~> 0.2.0)
       relaton-itu (~> 0.2.0)
       relaton-nist (~> 0.2.0)
-    relaton-bib (0.2.3)
+    relaton-bib (0.2.4)
       addressable
       nokogiri (~> 1.8.4)
     relaton-gb (0.5.1)
@@ -131,9 +131,9 @@ GEM
     relaton-iec (0.3.1)
       addressable
       relaton-iso-bib (~> 0.2.0)
-    relaton-ietf (0.5.3)
+    relaton-ietf (0.5.4)
       relaton-iso-bib (~> 0.2.0)
-    relaton-iso (0.5.1)
+    relaton-iso (0.5.3)
       algoliasearch
       relaton-iec (~> 0.3.0)
       relaton-iso-bib (~> 0.2.0)
@@ -142,7 +142,7 @@ GEM
       nokogiri (~> 1.8.4)
       relaton-bib (~> 0.2.0)
       ruby_deep_clone (~> 0.8.0)
-    relaton-itu (0.2.1)
+    relaton-itu (0.2.2)
       relaton-iso-bib (~> 0.2.0)
     relaton-nist (0.2.2)
       relaton-bib (~> 0.2.0)
