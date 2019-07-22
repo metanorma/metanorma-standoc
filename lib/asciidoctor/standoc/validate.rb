@@ -40,7 +40,7 @@ module Asciidoctor
         begin
           errors = Jing.new(filename).validate(".tmp.xml")
         rescue Jing::Error => e
-          abort "what what what #{e}"
+          abort "Jing failed with error: #{e}"
         end
         warn "Valid!" if errors.none?
         errors.each do |error|
