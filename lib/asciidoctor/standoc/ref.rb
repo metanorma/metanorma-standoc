@@ -109,9 +109,6 @@ module Asciidoctor
         return nil if hit.nil?
         xml.parent.add_child(Utils::smart_render_xml(hit))
         xml
-      rescue Algolia::AlgoliaProtocolError
-        warn "Could not retrieve #{code}: no access to online site"
-        nil
       rescue RelatonBib::RequestError
         warn "Could not retrieve #{code}: no access to online site"
         nil
