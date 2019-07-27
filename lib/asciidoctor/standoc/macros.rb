@@ -86,13 +86,15 @@ module Asciidoctor
       def self.generate_file parent, reader
         localdir = Utils::localdir(parent.document)
         fn = save_plantuml parent, reader, localdir
-        system "plantuml #{localdir}plantuml/#{fn}.pml"
+        umlfile = Pathname.new(localdir) + "plantuml" + "#{fn}.pml"
+        system "plantuml #{umlfile}"
         outfile = parent.image_uri("#{fn}.png")
         if outfile == "#{fn}.png" 
-          "plantuml/#{fn}.png" 
+          (Pathname.new("plantuml") + "#{fn}.png").to_s
         else
-          FileUtils.mv "#{localdir}plantuml/#{fn}.png", "#{localdir}#{outfile}"
-          "#{fn}.png"
+          FileUtils.mv (Pathname.new(localdir) + "plantuml" + "#{fn}.png").to_s,
+            (Pathname.new(localdir) + outfile).to_s
+          (Pathname.new("#{fn}.png")).to_s
         end
       end
 
@@ -102,8 +104,10 @@ module Asciidoctor
           src = "@startuml\n#{src}\n@enduml\n"
         /^@startuml (?<fn>[^\n]+)\n/ =~ src
         fn ||= UUIDTools::UUID.random_create
-        FileUtils.mkdir_p "#{localdir}/plantuml"
-        File.open("#{localdir}plantuml/#{fn}.pml", "w") { |f| f.write src }
+        path = Pathname.new(localdir) + "plantuml"
+        FileUtils.mkdir_p path.to_s # "#{localdir}/plantuml"
+        #File.open("#{localdir}plantuml/#{fn}.pml", "w") { |f| f.write src }
+        File.open((path + "#{fn}.pml").to_s, "w") { |f| f.write src }
         fn
       end
 
