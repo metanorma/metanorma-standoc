@@ -7,6 +7,7 @@ require "pp"
 require_relative "./cleanup_block.rb"
 require_relative "./cleanup_footnotes.rb"
 require_relative "./cleanup_ref.rb"
+require "relaton_iev"
 
 module Asciidoctor
   module Standoc
@@ -42,8 +43,8 @@ module Asciidoctor
         reference_names(xmldoc)
         xref_cleanup(xmldoc)
         origin_cleanup(xmldoc)
-        iev_cleanup(xmldoc)
-        element_name_cleanup(xmldoc) # cleanup IEV
+        RelatonIev::iev_cleanup(xmldoc, @bibdb)
+        element_name_cleanup(xmldoc)
         bpart_cleanup(xmldoc)
         quotesource_cleanup(xmldoc)
         para_cleanup(xmldoc)

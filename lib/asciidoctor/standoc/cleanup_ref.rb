@@ -122,6 +122,7 @@ module Asciidoctor
         end
       end
 
+=begin
       # converts generic IEV citation to citation of IEC 60050-n
       # assumes IEV citations are of form
       # <eref type="inline" bibitemid="a" citeas="IEC 60050">
@@ -160,6 +161,7 @@ module Asciidoctor
         parts = linksIev2iec60050part(xmldoc)
         refsIev2iec60050part(xmldoc, parts, iev)
       end
+=end
 
       def ref_dl_cleanup(xmldoc)
         xmldoc.xpath("//clause[@bibitem = 'true']").each do |c|

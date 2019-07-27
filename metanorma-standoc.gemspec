@@ -31,6 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "isodoc", "~> 0.10.0"
   spec.add_dependency "iev", "~> 0.2.1"
   spec.add_dependency "relaton", "~> 0.5.0"
+  spec.add_dependency "relaton-iev", "~> 0.1.0"
   spec.add_dependency "sterile", "~> 1.0.14"
   spec.add_dependency "concurrent-ruby"
   spec.add_dependency "html2doc", "~> 0.8.11"

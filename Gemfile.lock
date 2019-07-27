@@ -8,6 +8,7 @@ PATH
       iev (~> 0.2.1)
       isodoc (~> 0.10.0)
       relaton (~> 0.5.0)
+      relaton-iev (~> 0.1.0)
       ruby-jing
       sterile (~> 1.0.14)
       unicode2latex (~> 0.0.1)
@@ -133,6 +134,8 @@ GEM
       relaton-iso-bib (~> 0.3.0)
     relaton-ietf (0.6.0)
       relaton-iso-bib (~> 0.3.0)
+    relaton-iev (0.1.0)
+      relaton (~> 0.5.0)
     relaton-iso (0.6.0)
       relaton-iec (~> 0.4.0)
       relaton-iso-bib (~> 0.3.0)
