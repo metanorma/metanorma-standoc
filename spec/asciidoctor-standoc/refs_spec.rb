@@ -80,15 +80,14 @@ RSpec.describe Asciidoctor::Standoc do
        </sections><bibliography><references id="_" obligation="informative"><title>Normative References</title>
        <bibitem id="iso123" type="standard">
          <fetched>#{Date.today}</fetched>
-         <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
          <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
-         <title type="main" format="text/plain" language="en" script="Latn">Sampling - Rubber latex</title>
+         <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
+         <title type="main" format="text/plain" language="en" script="Latn">Rubber latex - Sampling</title>
+         <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex d’élastomère</title>
          <title type="title-main" format="text/plain" language="fr" script="Latn">Échantillonnage</title>
-         <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
-         <title type="main" format="text/plain" language="fr" script="Latn">Échantillonnage - Latex de caoutchouc</title>
-         <uri type="src">https://www.iso.org/standard/23281.html</uri>
-         <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-         <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+         <title type="main" format="text/plain" language="fr" script="Latn">Latex d’élastomère - Échantillonnage</title>
+         <uri type="src">https://www.iso.org/standard/3925.html</uri>
+         <uri type="rss">https://www.iso.org/contents/data/standard/00/39/3925.detail.rss</uri>
          <docidentifier type="ISO">ISO 123</docidentifier>
          <contributor>
            <role type="publisher"/>
@@ -98,23 +97,23 @@ RSpec.describe Asciidoctor::Standoc do
              <uri>www.iso.org</uri>
            </organization>
          </contributor>
-         <edition>3</edition>
+         <edition>1</edition>
          <language>en</language>
          <language>fr</language>
          <script>Latn</script>
          <status>
-           <stage>90</stage>
-           <substage>93</substage>
+           <stage>95</stage>
+           <substage>99</substage>
          </status>
          <copyright>
-           <from>2001</from>
+           <from>1974</from>
            <owner>
              <organization>
                <name>ISO</name>
              </organization>
            </owner>
          </copyright>
-         <relation type="obsoletes">
+         <relation type="updates">
            <bibitem type="standard">
              <formattedref format="text/plain">ISO 123:1985</formattedref>
            </bibitem>
@@ -263,20 +262,15 @@ RSpec.describe Asciidoctor::Standoc do
               </organization>
             </owner>
           </copyright>
-          <relation type="updates">
-            <bibitem type="standard">
-              <formattedref format="text/plain">ISO/IEC TR 12382:1992</formattedref>
-            </bibitem>
-          </relation>
         </bibitem>
           <bibitem type="standard" id="iso124">
           <fetched>#{Date.today}</fetched>
-          <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
           <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
-          <title type="main" format="text/plain" language="en" script="Latn">Determination of total solids content - Latex, rubber</title>
-          <title type="title-main" format="text/plain" language="fr" script="Latn">Détermination des matières solides totales</title>
+          <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
+          <title type="main" format="text/plain" language="en" script="Latn">Latex, rubber - Determination of total solids content</title>
           <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
-          <title type="main" format="text/plain" language="fr" script="Latn">Détermination des matières solides totales - Latex de caoutchouc</title>
+          <title type="title-main" format="text/plain" language="fr" script="Latn">Détermination des matières solides totales</title>
+          <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc - Détermination des matières solides totales</title>
           <uri type="src">https://www.iso.org/standard/61884.html</uri>
           <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
           <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
@@ -299,8 +293,8 @@ RSpec.describe Asciidoctor::Standoc do
           <abstract format="text/plain" language="en" script="Latn">ISO 124:2014 specifies methods for the determination of the total solids content of natural rubber field and concentrated latices and synthetic rubber latex. These methods are not necessarily suitable for latex from natural sources other than the Hevea brasiliensis, for vulcanized latex, for compounded latex, or for artificial dispersions of rubber.</abstract>
           <abstract format="text/plain" language="fr" script="Latn">L’ISO 124:2014 spécifie des méthodes pour la détermination des matières solides totales dans le latex de plantation, le latex de concentré de caoutchouc naturel et le latex de caoutchouc synthétique. Ces méthodes ne conviennent pas nécessairement au latex d’origine naturelle autre que celui de l’Hevea brasiliensis, au latex vulcanisé, aux mélanges de latex, ou aux dispersions artificielles de caoutchouc.</abstract>
           <status>
-            <stage>60</stage>
-            <substage>60</substage>
+            <stage>90</stage>
+            <substage>93</substage>
           </status>
           <copyright>
             <from>2014</from>
@@ -524,7 +518,7 @@ RSpec.describe Asciidoctor::Standoc do
 
   it "process ISO reference without an Internet connection" do
     expect(RelatonIso::IsoBibliography).to receive(:search).with("ISO 123") do
-      raise Algolia::AlgoliaProtocolError.new "getaddrinfo", "nodename nor servname provided, or not known (JCL49WV5AR-dsn.algolia.net:443)"
+      raise RelatonBib::RequestError.new "getaddrinfo"
     end.at_least :once
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ISOBIB_BLANK_HDR}

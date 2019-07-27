@@ -45,12 +45,12 @@ EOS
   ISO_124_DATED = <<~EOS
   <bibdata type="standard">
          <fetched>#{Date.today}</fetched>
-         <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
          <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
-         <title type="main" format="text/plain" language="en" script="Latn">Determination of total solids content - Latex, rubber</title>
-         <title type="title-main" format="text/plain" language="fr" script="Latn">Détermination des matières solides totales</title>
+         <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
+         <title type="main" format="text/plain" language="en" script="Latn">Latex, rubber - Determination of total solids content</title>
          <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
-         <title type="main" format="text/plain" language="fr" script="Latn">Détermination des matières solides totales - Latex de caoutchouc</title>
+         <title type="title-main" format="text/plain" language="fr" script="Latn">Détermination des matières solides totales</title>
+         <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc - Détermination des matières solides totales</title>
          <uri type="src">https://www.iso.org/standard/61884.html</uri>
          <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
          <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
@@ -73,8 +73,8 @@ EOS
          <abstract format="text/plain" language="en" script="Latn">ISO 124:2014 specifies methods for the determination of the total solids content of natural rubber field and concentrated latices and synthetic rubber latex. These methods are not necessarily suitable for latex from natural sources other than the Hevea brasiliensis, for vulcanized latex, for compounded latex, or for artificial dispersions of rubber.</abstract>
          <abstract format="text/plain" language="fr" script="Latn">L'ISO 124:2014 spécifie des méthodes pour la détermination des matières solides totales dans le latex de plantation, le latex de concentré de caoutchouc naturel et le latex de caoutchouc synthétique. Ces méthodes ne conviennent pas nécessairement au latex d'origine naturelle autre que celui de l'Hevea brasiliensis, au latex vulcanisé, aux mélanges de latex, ou aux dispersions artificielles de caoutchouc.</abstract>
          <status>
-           <stage>60</stage>
-           <substage>60</substage>
+           <stage>90</stage>
+           <substage>93</substage>
          </status>
          <copyright>
            <from>2014</from>
@@ -108,12 +108,12 @@ EOS
   ISO_123_UNDATED = <<~EOS
    <bibdata type="standard">
          <fetched>#{Date.today}</fetched>
-         <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
          <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
-         <title type="main" format="text/plain" language="en" script="Latn">Sampling - Rubber latex</title>
-         <title type="title-main" format="text/plain" language="fr" script="Latn">Échantillonnage</title>
+         <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
+         <title type="main" format="text/plain" language="en" script="Latn">Rubber latex - Sampling</title>
          <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
-         <title type="main" format="text/plain" language="fr" script="Latn">Échantillonnage - Latex de caoutchouc</title>
+         <title type="title-main" format="text/plain" language="fr" script="Latn">Échantillonnage</title>
+         <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc - Échantillonnage</title>
          <uri type="src">https://www.iso.org/standard/23281.html</uri>
          <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -213,12 +213,12 @@ EOS
   ISO_123_DATED = <<~EOS
   <bibdata type="standard">
          <fetched>#{Date.today}</fetched>
-         <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
          <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
-         <title type="main" format="text/plain" language="en" script="Latn">Sampling - Rubber latex</title>
-         <title type="title-main" format="text/plain" language="fr" script="Latn">Échantillonnage</title>
+         <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
+         <title type="main" format="text/plain" language="en" script="Latn">Rubber latex - Sampling</title>
          <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
-         <title type="main" format="text/plain" language="fr" script="Latn">Échantillonnage - Latex de caoutchouc</title>
+         <title type="title-main" format="text/plain" language="fr" script="Latn">Échantillonnage</title>
+         <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc - Échantillonnage</title>
          <uri type="src">https://www.iso.org/standard/23281.html</uri>
          <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -336,7 +336,7 @@ EOS
     FileUtils.rm_rf File.expand_path("~/.iev/cache")
 
     # mock_isobib_get_123
-    VCR.use_cassette "isobib_get_123" do
+    VCR.use_cassette "isobib_get_123_2001" do
       Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
         #{FLUSH_CACHE_ISOBIB_BLANK_HDR}
         [bibliography]
@@ -417,7 +417,7 @@ EOS
   it "activates global cache" do
     FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
     FileUtils.rm_rf "relaton/cache"
-        VCR.use_cassette "isobib_get_123" do
+        VCR.use_cassette "isobib_get_123_2001" do
       Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
         #{CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
@@ -664,9 +664,9 @@ EOS
 EOS
 
     Asciidoctor.convert(input, backend: :standoc, header_footer: true)
-    expect(db.load_entry("ISO(ISO 123:2001)")).to include("Sampling - Rubber latex")
+    expect(db.load_entry("ISO(ISO 123:2001)")).to include("Rubber latex - Sampling")
     expect(db.load_entry("ISO(ISO 124)")).to include("Latex, rubber -- Determination of total solids content")
-    expect(localdb.load_entry("ISO(ISO 123:2001)")).to include("Sampling - Rubber latex")
+    expect(localdb.load_entry("ISO(ISO 123:2001)")).to include("Rubber latex - Sampling")
     expect(localdb.load_entry("ISO(ISO 124)")).to include("Latex, rubber -- Replacement")
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")

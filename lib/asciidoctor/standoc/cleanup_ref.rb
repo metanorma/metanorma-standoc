@@ -146,7 +146,7 @@ module Asciidoctor
         parts.sort.each do |p|
           hit = @bibdb&.fetch("IEC 60050-#{p}", nil, keep_year: true) || next
           new_iev += hit.to_xml.sub(/ id="[^"]+"/, %{ id="IEC60050-#{p}"})
-          date = hit.dates[0].on.year
+          date = hit.date[0].on.year
           xmldoc.xpath("//*[@citeas = 'IEC 60050-#{p}:2011']").each do |x|
             x["citeas"] = x["citeas"].sub(/:2011$/, ":#{date}")
           end
@@ -164,7 +164,6 @@ module Asciidoctor
       def ref_dl_cleanup(xmldoc)
         xmldoc.xpath("//clause[@bibitem = 'true']").each do |c|
           bib = dl_bib_extract(c) or next
-          #bibitemxml = Relaton::Bibdata.new(bib).to_xml or next
           bibitemxml = RelatonBib::BibliographicItem.new(
             RelatonBib::hash_to_bib(bib)).to_xml or next
           bibitem = Nokogiri::XML(bibitemxml)
@@ -225,13 +224,13 @@ module Asciidoctor
         end
         c.xpath("./clause").each do |c1|
           key = c1&.at("./title")&.text&.downcase&.strip
-          next unless %w(contributors relations series).include? key
+          next unless %w(contributor relation series).include? key
           add_to_hash(bib, key, dl_bib_extract(c1, true))
         end
         if !nested and c.at("./title")
           title = c.at("./title").remove.children.to_xml
-          bib["titles"] = bib["titles"] ? Array(bib["titles"]) : []
-          bib["titles"] << title if !title.empty?
+          bib["title"] = bib["title"] ? Array(bib["title"]) : []
+          bib["title"] << title if !title.empty?
         end
         bib
       end

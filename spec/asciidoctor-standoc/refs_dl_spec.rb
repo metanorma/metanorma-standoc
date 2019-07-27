@@ -15,12 +15,12 @@ RSpec.describe Asciidoctor::Standoc do
         type::: ISO
         id::: ISO 123
       type:: standard
-      contributors:: 
-        roles::: publisher
+      contributor:: 
+        role::: publisher
         organization:::
           name:::: ISO
-      contributors::
-        roles::: author
+      contributor::
+        role::: author
         person:::
           name::::
       +
@@ -29,8 +29,8 @@ RSpec.describe Asciidoctor::Standoc do
         language::: en
         content::: Fred
       --
-      contributors::
-        roles::: author
+      contributor::
+        role::: author
         person:::
         name::::
           completename::::: Jack
@@ -79,10 +79,10 @@ RSpec.describe Asciidoctor::Standoc do
 [%bibitem]
 === {blank}
 fetched:: 2019-06-30
-titles::
+title::
   type::: main
   content::: Geographic information
-titles::
+title::
   type::: subtitle
   content::: Geographic information subtitle
   language::: en
@@ -113,14 +113,14 @@ docstatus::
   stage::: stage
   substage::: substage
   iteration::: iteration
-dates::
+date::
   type::: issued
   value::: 2014
-dates::
+date::
   type::: published
   from::: 2014-04
   to::: 2014-05
-dates::
+date::
   type::: accessed
   value::: 2015-05-20
 abstract::
@@ -175,54 +175,57 @@ organization::
   url::: www.iso.org
   abbreviation::: ISO
   subdivision::: division
-role::
-  * publisher
-  * 
-  ** Publisher role
+role:: 
+//. {blank}
+//.. publisher
+//.. Publisher role
 
 ==== Contributor
 person::
   name:::
     completename::::
-      content::::: A. Bierman
-      language::::: en
++
+--
+content:: A. Bierman
+language:: en
+--
   affiliation:::
     organization::::
-      name::::: IETF
-      abbreviation::::: IETF
-      identifiers:::::
 +
----
-type:: uri
-id:: www.ietf.org
----
+--
+name:: IETF
+abbreviation:: IETF
+identifier::
+type::: uri
+id::: www.ietf.org
+--
     description:::: Affiliation description
-  contacts:::
+  contact:::
     street::::
-      * 8 Street St
+      . 8 Street St
     city:::: City
     postcode:::: 123456
     country:::: Country
     state:::: State
-  contacts:::
+  contact:::
     type:::: phone
     value:::: 223322
 role:: author
 
-==== Contributors
+==== Contributor
 organization::
   name::: IETF
   abbreviation::: IETF
-  identifiers:::
+  identifier:::
     type:::: uri
     id:::: www.ietf.org
 role:: publisher
 
-==== Contributors
+==== Contributor
 person::
   name:::
     language:::: en
-    initials:::: A.
+    initial:::: A.
     surname:::: Bierman
   affiliation:::
 +
@@ -235,12 +238,12 @@ description::
   language::: en
   script::: Latn
 --
-  identifiers:::
+  identifier:::
     type:::: uri
     id:::: www.person.com
-roles:: author
+role:: author
 
-==== Relations
+==== Relation
 type:: updates
 bibitem::
   formattedref::: ISO 19115:2003
@@ -249,7 +252,7 @@ bibitem::
     reference_from:::: 7
     reference_to:::: 10
 
-==== Relations
+==== Relation
 type:: updates
 bibitem::
   type::: standard
@@ -306,6 +309,40 @@ formattedref::
     <on>2015</on>
   </date>
   <contributor>
+    <!--<role type="publisher">Publisher role</role>-->
+    <organization>
+      <name>International Organization for Standardization</name>
+      <subdivision>division</subdivision>
+      <abbreviation>ISO</abbreviation>
+      <uri>www.iso.org</uri>
+    </organization>
+  </contributor>
+  <contributor>
+    <role type="author"/>
+    <person>
+      <name>
+        <completename language="en">A. Bierman</completename>
+      </name>
+      <affiliation>
+        <description format="text/plain">Affiliation description</description>
+        <organization>
+          <name>IETF</name>
+          <abbreviation>IETF</abbreviation>
+          <identifier type="uri">www.ietf.org</identifier>
+        </organization>
+      </affiliation>
+       <address>
+   <street>8 Street St</street>
+   <city>City</city>
+   <state>State</state>
+   <country>Country</country>
+   <postcode>123456</postcode>
+ </address>
+ <phone>223322</phone>
+    </person>
+  </contributor>
+  <contributor>
+   <role type="publisher"/>
     <organization>
       <name>IETF</name>
       <abbreviation>IETF</abbreviation>
@@ -320,10 +357,10 @@ formattedref::
         <surname language="en">Bierman</surname>
       </name>
       <affiliation>
-        <description language="en" script="en">Affiliation description</description>
+        <description language="en" script="Latn">Affiliation description</description>
         <organization>
-<name>IETF</name>
-<abbreviation>IETF</abbreviation>
+          <name>IETF</name>
+          <abbreviation>IETF</abbreviation>
         </organization>
       </affiliation>
       <identifier type="uri">www.person.com</identifier>

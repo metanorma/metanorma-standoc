@@ -974,10 +974,9 @@ r = 1 %</stem>
         </term></terms></sections><bibliography><references id="_" obligation="informative">
           <title>Normative References</title>
           <bibitem type="standard" id="IEC60050-102">
-          <title type="title-main" format="text/plain" language="en" script="Latn">Part 102: Mathematics</title>
-          <title type="title-intro" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
-          <title type="title-part" format="text/plain" language="en" script="Latn">General concepts and linear algebra</title>
-          <title type="main" format="text/plain" language="en" script="Latn">Part 102: Mathematics - International Electrotechnical Vocabulary - General concepts and linear algebra</title>
+          <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
+          <title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics - General concepts and linear algebra</title>
+          <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) - Part 102: Mathematics - General concepts and linear algebra</title>
           <uri type="src">https://webstore.iec.ch/publication/160</uri>
           <uri type="obp">/preview/info_iec60050-102%7Bed1.0%7Db.pdf</uri>
           <docidentifier type="IEC">IEC 60050-102:2007</docidentifier>
@@ -1011,10 +1010,9 @@ r = 1 %</stem>
             </owner>
           </copyright>
         </bibitem><bibitem type="standard" id="IEC60050-103">
-          <title type="title-main" format="text/plain" language="en" script="Latn">Part 103: Mathematics</title>        
-         <title type="title-intro" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
-        <title type="title-part" format="text/plain" language="en" script="Latn">Functions </title>
-        <title type="main" format="text/plain" language="en" script="Latn">Part 103: Mathematics - International Electrotechnical Vocabulary - Functions </title>
+         <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
+        <title type="title-part" format="text/plain" language="en" script="Latn">Part 103: Mathematics - Functions</title>
+        <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) - Part 103: Mathematics - Functions </title>
           <uri type="src">https://webstore.iec.ch/publication/161</uri>
           <uri type="obp">/preview/info_iec60050-103%7Bed1.0%7Db.pdf</uri>
           <docidentifier type="IEC">IEC 60050-103:2009</docidentifier>
