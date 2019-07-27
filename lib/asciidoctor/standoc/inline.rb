@@ -106,7 +106,7 @@ module Asciidoctor
           math = xml_encode(text)
           xml.stem math, **{ type: "MathML" }
         elsif style == :latexmath
-          latex_cmd = build_latexml_cmd
+          latex_cmd = Metanorma::Standoc::Requirements[:latexml].cmd
           latexmlmath_input = Unicode2LaTeX::unicode2latex(text).gsub(/'/, '\\').gsub(/\n/, " ")
           latex = IO.popen(latex_cmd, "r+", external_encoding: "UTF-8") do |io|
             io.write(latexmlmath_input)
@@ -148,28 +148,6 @@ module Asciidoctor
             end
           end
         end.join
-      end
-
-      def build_latexml_cmd
-        recommended_version = Metanorma::Standoc::RECOMMENDED_LATEXML_VERSION
-        version_output, = Open3.capture2e("latexml --VERSION")
-        version = version_output&.match(%r{\d+(.\d+)*})
-
-        if version.to_s.empty? || Gem::Version.new(version) < Gem::Version.new(recommended_version)
-          version = "unknown" if version.to_s.empty?
-          header_msg = "WARNING latexmlmath version #{version} below 0.8.4!"
-          suggestion = if Gem.win_platform?
-                         "cmd encoding is set to UTF-8 with `chcp 65001`"
-                       else
-                         "terminal encoding is set to UTF-8 with `export LANG=en_US.UTF-8`"
-                       end
-
-          warn "#{header_msg} Please sure that #{suggestion} command"
-
-          "latexmlmath --preload=amsmath -- -"
-        else
-          "latexmlmath --preload=amsmath --inputencoding=UTF-8 -- -"
-        end
       end
     end
   end
