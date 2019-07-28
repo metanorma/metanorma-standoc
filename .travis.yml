@@ -4,6 +4,7 @@ os:
 - linux
 - osx
 rvm:
+- 2.6
 - 2.5
 - 2.4
 - ruby-head
@@ -17,6 +18,8 @@ before_install:
 - plantuml -version
 - gem install bundler -v 2.0.1
 - bundle update
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash -c "apt-get update && curl -L https://raw.githubusercontent.com/metanorma/metanorma-linux-setup/master/ubuntu.sh | bash" ; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then travis_wait brew install --HEAD https://raw.githubusercontent.com/metanorma/homebrew-metanorma/master/Formula/metanorma.rb ; fi
 matrix:
   allow_failures:
     - rvm: ruby-head
