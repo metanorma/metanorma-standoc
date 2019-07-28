@@ -95,9 +95,9 @@ module Asciidoctor
 
       def xml_encode(text)
         HTMLEntities.new.encode(text, :basic, :hexadecimal).
-            gsub(/&amp;gt;/, ">").gsub(/\&amp;lt;/, "<").gsub(/&amp;amp;/, "&").
-            gsub(/&gt;/, ">").gsub(/&lt;/, "<").gsub(/&amp;/, "&").
-            gsub(/&quot;/, '"').gsub(/&#xa;/, "\n")
+          gsub(/&amp;gt;/, ">").gsub(/\&amp;lt;/, "<").gsub(/&amp;amp;/, "&").
+          gsub(/&gt;/, ">").gsub(/&lt;/, "<").gsub(/&amp;/, "&").
+          gsub(/&quot;/, '"').gsub(/&#xa;/, "\n")
       end
 
       def stem_parse(text, xml, style)
@@ -106,8 +106,9 @@ module Asciidoctor
           math = xml_encode(text)
           xml.stem math, **{ type: "MathML" }
         elsif style == :latexmath
+          latex_cmd = Metanorma::Standoc::Requirements[:latexml].cmd
           latexmlmath_input = Unicode2LaTeX::unicode2latex(text).gsub(/'/, '\\').gsub(/\n/, " ")
-          latex = IO.popen('latexmlmath --preload=amsmath  -- -', 'r+', :external_encoding=>'UTF-8') do |io|
+          latex = IO.popen(latex_cmd, "r+", external_encoding: "UTF-8") do |io|
             io.write(latexmlmath_input)
             io.close_write
             io.read

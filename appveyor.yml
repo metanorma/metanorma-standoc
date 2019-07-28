@@ -17,7 +17,6 @@ install:
   - refreshenv
   - set PATH=C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;%PATH%
   - where latexmlmath
-  - chcp 65001
 
 build_script:
   - set PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
