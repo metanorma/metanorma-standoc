@@ -226,7 +226,7 @@ module Asciidoctor
         types = MIME::Types.type_for(uri)
         { src: @datauriimage ? datauri(uri) : uri,
           id: Utils::anchor_or_uuid,
-          imagetype: types.first.sub_type.upcase,
+          mimetype: types.first.to_s,
           height: node.attr("height") || "auto",
           width: node.attr("width") || "auto" ,
           filename: node.attr("filename"),

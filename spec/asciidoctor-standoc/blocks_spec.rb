@@ -638,7 +638,7 @@ RSpec.describe Asciidoctor::Standoc do
               <sections>
          <figure id="_" unnumbered="true">
          <name>Split-it-right sample divider</name>
-                  <image src="spec/examples/rice_images/rice_image1.png" id="_" imagetype="PNG" height="auto" width="auto" alt="alttext"/>
+                  <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto" alt="alttext"/>
        </figure>
        </sections>
        </standard-document>
@@ -655,7 +655,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{BLANK_HDR}
               <sections>
          <figure id="_">
-         <image src="spec/examples/rice_images/rice_image1.png" id="_" imagetype="PNG" height="4" width="3" alt="IMAGE" filename="riceimg1.png"/>
+         <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="4" width="3" alt="IMAGE" filename="riceimg1.png"/>
        </figure>
        </sections>
        </standard-document>
@@ -672,7 +672,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{BLANK_HDR}
               <sections>
          <figure id="_">
-         <image src="spec/examples/rice_images/rice_image1.png" id="_" imagetype="PNG" height="4" width="auto"/>
+         <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="4" width="auto"/>
        </figure>
        </sections>
        </standard-document>
@@ -687,7 +687,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
               <sections>
-          <p id="_">Hello <image src="spec/examples/rice_images/rice_image1.png" id="_" imagetype="PNG" height="3" width="4" alt="alt"/>, how are you?</p>
+          <p id="_">Hello <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="3" width="4" alt="alt"/>, how are you?</p>
        </figure>
        </sections>
        </standard-document>

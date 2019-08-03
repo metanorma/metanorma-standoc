@@ -82,13 +82,13 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
        #{BLANK_HDR}
        <sections><figure id="_">
-  <image src="plantuml/_.png" id="_" imagetype="PNG" height="auto" width="auto"/>
+  <image src="plantuml/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
 </figure>
 <figure id="_">
-  <image src="plantuml/_.png" id="_" imagetype="PNG" height="auto" width="auto"/>
+  <image src="plantuml/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
 </figure>
 <figure id="_">
-  <image src="plantuml/filename.png" id="_" imagetype="PNG" height="auto" width="auto"/>
+  <image src="plantuml/filename.png" id="_" mimetype="image/png" height="auto" width="auto"/>
 </figure>
         </sections>
 
@@ -120,7 +120,7 @@ RSpec.describe Asciidoctor::Standoc do
           #{BLANK_HDR}
           <sections>
   <figure id="_">
-  <image src="spec/assets/_.png" id="_" imagetype="PNG" height="auto" width="auto"/>
+  <image src="spec/assets/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
 </figure>
 </sections>
 </standard-document>
