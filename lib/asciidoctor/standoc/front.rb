@@ -205,6 +205,13 @@ module Asciidoctor
         end
       end
 
+      def metadata_keywords(node, xml)
+        return unless node.attr("keywords")
+        node.attr("keywords").split(/,[ ]*/).each do |kw|
+          xml.keyword kw
+        end
+      end
+
       def metadata(node, xml)
         title node, xml
         metadata_source(node, xml)
@@ -220,6 +227,7 @@ module Asciidoctor
         metadata_copyright(node, xml)
         metadata_relations(node, xml)
         metadata_series(node, xml)
+        metadata_keywords(node, xml)
         xml.ext do |ext|
         metadata_ext(node, xml)
         end

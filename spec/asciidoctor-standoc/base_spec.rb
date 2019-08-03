@@ -96,6 +96,7 @@ RSpec.describe Asciidoctor::Standoc do
       :email_2: barney@rockhead.example.com
       :publisher: Hanna Barbera, Cartoon Network
       :part-of: ABC
+      :keywords: a, b, c
     INPUT
     <?xml version="1.0" encoding="UTF-8"?>
 <standard-document xmlns="http://riboseinc.com/isoxml">
@@ -233,6 +234,9 @@ RSpec.describe Asciidoctor::Standoc do
   <docidentifier>ABC</docidentifier>
   </bibitem>
 </relation>
+<keyword>a</keyword>
+<keyword>b</keyword>
+<keyword>c</keyword>
 <ext>
 <doctype>article</doctype>
   <editorialgroup>
