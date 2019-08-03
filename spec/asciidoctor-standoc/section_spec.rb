@@ -162,6 +162,190 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+    it "processes sections with language and script attributes" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).sub(/^.*<preface/m, "<preface")).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      .Foreword
+
+      Text
+
+      [abstract,language=en,script=Latn]
+      == Abstract
+
+      Text
+
+      [language=en,script=Latn]
+      == Introduction
+
+      [language=en,script=Latn]
+      === Introduction Subsection
+
+      [language=en,script=Latn]
+      == Scope
+
+      Text
+
+      [language=en,script=Latn]
+      == Normative References
+
+      [language=en,script=Latn]
+      == Terms and Definitions
+
+      [language=en,script=Latn]
+      === Term1
+
+      [language=en,script=Latn]
+      == Terms, Definitions, Symbols and Abbreviated Terms
+
+      [.nonterm]
+      [language=en,script=Latn]
+      === Introduction
+
+      ==== Intro 1
+
+      [language=en,script=Latn]
+      === Intro 2
+
+      [.nonterm]
+      [language=en,script=Latn]
+      ==== Intro 3
+
+      [language=en,script=Latn]
+      === Intro 4
+
+      [language=en,script=Latn]
+      ==== Intro 5
+
+      ===== Term1
+
+      [language=en,script=Latn]
+      === Normal Terms
+
+      ==== Term2
+
+      [language=en,script=Latn]
+      === Symbols and Abbreviated Terms
+
+      [.nonterm]
+      [language=en,script=Latn]
+      ==== General
+
+      ==== Symbols 1
+
+      [language=en,script=Latn]
+      == Abbreviated Terms
+
+      [language=en,script=Latn]
+      == Clause 4
+
+      [language=en,script=Latn]
+      === Introduction
+
+      [language=en,script=Latn]
+      === Clause 4.2
+
+      [language=en,script=Latn]
+      == Terms and Definitions
+
+      [appendix,language=en,script=Latn]
+      == Annex
+
+      [language=en,script=Latn]
+      === Annex A.1
+
+      [language=en,script=Latn]
+      == Bibliography
+
+      [language=en,script=Latn]
+      === Bibliography Subsection
+    INPUT
+     <preface><abstract id="_" language="en" script="Latn">
+         <p id="_">Text</p>
+       </abstract><foreword obligation="informative">
+         <title>Foreword</title>
+         <p id="_">Text</p>
+       </foreword><introduction id="_" language="en" script="Latn" obligation="informative">
+         <title>Introduction</title>
+         <clause id="_" language="en" script="Latn" inline-header="false" obligation="informative">
+         <title>Introduction Subsection</title>
+       </clause>
+       </introduction></preface><sections>
+
+
+       <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+         <title>Scope</title>
+         <p id="_">Text</p>
+       </clause>
+
+       <terms id="_" language="en" script="Latn" obligation="normative">
+         <title>Terms and definitions</title>
+         <term id="_" language="en" script="Latn">
+         <preferred>Term1</preferred>
+       </term>
+       </terms>
+       <clause id="_" language="en" script="Latn" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title><clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+         <title>Introduction</title>
+         <clause id="_" inline-header="false" obligation="normative">
+         <title>Intro 1</title>
+       </clause>
+       </clause>
+       <terms id="_" language="en" script="Latn" obligation="normative">
+         <title>Intro 2</title>
+         <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+         <title>Intro 3</title>
+       </clause>
+       </terms>
+       <clause id="_" language="en" script="Latn" obligation="normative">
+         <title>Intro 4</title>
+         <terms id="_" language="en" script="Latn" obligation="normative">
+         <title>Intro 5</title>
+         <term id="_">
+         <preferred>Term1</preferred>
+       </term>
+       </terms>
+       </clause>
+       <terms id="_" language="en" script="Latn" obligation="normative">
+         <title>Normal Terms</title>
+         <term id="_">
+         <preferred>Term2</preferred>
+       </term>
+       </terms>
+       <definitions id="_" language="en" script="Latn"><title>Symbols and Abbreviated Terms</title><clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+         <title>General</title>
+       </clause>
+       <definitions id="_">
+         <title>Symbols 1</title>
+       </definitions></definitions></clause>
+       <definitions id="_" language="en" script="Latn">
+         <title>Abbreviated Terms</title>
+       </definitions>
+       <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+         <title>Introduction</title>
+       </clause>
+       <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+         <title>Clause 4.2</title>
+       </clause></clause>
+       <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+         <title>Terms and Definitions</title>
+       </clause>
+
+       </sections><annex id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+         <title>Annex</title>
+         <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+         <title>Annex A.1</title>
+       </clause>
+       </annex><bibliography><references id="_" language="en" script="Latn" obligation="informative">
+         <title>Normative References</title>
+       </references><clause id="_" language="en" script="Latn" obligation="informative">
+         <title>Bibliography</title>
+         <references id="_" language="en" script="Latn" obligation="informative">
+         <title>Bibliography Subsection</title>
+       </references>
+       </clause></bibliography>
+       </standard-document>
+    OUTPUT
+    end
+
   it "processes sections with title attributes" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).sub(/^.*<preface/m, "<preface")).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}

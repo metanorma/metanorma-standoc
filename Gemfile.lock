@@ -122,7 +122,7 @@ GEM
       relaton-iso-bib (~> 0.3.0)
       relaton-itu (~> 0.3.0)
       relaton-nist (~> 0.3.0)
-    relaton-bib (0.3.2)
+    relaton-bib (0.3.3)
       addressable
       nokogiri (~> 1.10)
     relaton-gb (0.6.1)

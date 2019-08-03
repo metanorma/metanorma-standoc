@@ -130,6 +130,8 @@ module Asciidoctor
           bibabstract = bibabstract_location(x)
           dupabstract = abstract.dup
           dupabstract.traverse { |n| n.remove_attribute("id") }
+          dupabstract.remove_attribute("language")
+          dupabstract.remove_attribute("script")
           bibabstract.next = dupabstract
         end
       end

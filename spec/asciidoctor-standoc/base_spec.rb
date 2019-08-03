@@ -281,6 +281,9 @@ RSpec.describe Asciidoctor::Standoc do
       This is the abstract of the document
 
       This is the second paragraph of the abstract of the document.
+
+      [language=en]
+      == Clause 1
     INPUT
            <?xml version="1.0" encoding="UTF-8"?>
        <standard-document xmlns="http://riboseinc.com/isoxml">
