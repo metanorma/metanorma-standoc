@@ -167,7 +167,7 @@ module Asciidoctor
         xmldoc.xpath("//clause[@bibitem = 'true']").each do |c|
           bib = dl_bib_extract(c) or next
           bibitemxml = RelatonBib::BibliographicItem.new(
-            RelatonBib::hash_to_bib(bib)).to_xml or next
+            RelatonBib::HashConverter::hash_to_bib(bib)).to_xml or next
           bibitem = Nokogiri::XML(bibitemxml)
           bibitem["id"] = c["id"] if c["id"]
           c.replace(bibitem.root)

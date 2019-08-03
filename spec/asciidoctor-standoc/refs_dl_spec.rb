@@ -176,9 +176,8 @@ organization::
   abbreviation::: ISO
   subdivision::: division
 role:: 
-//. {blank}
-//.. publisher
-//.. Publisher role
+  type::: publisher
+  description::: Publisher role
 
 ==== Contributor
 person::
@@ -309,7 +308,7 @@ formattedref::
     <on>2015</on>
   </date>
   <contributor>
-    <!--<role type="publisher">Publisher role</role>-->
+    <role type="publisher"><description>Publisher role</description></role>
     <organization>
       <name>International Organization for Standardization</name>
       <subdivision>division</subdivision>
