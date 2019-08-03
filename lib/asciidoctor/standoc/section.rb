@@ -33,8 +33,8 @@ module Asciidoctor
 
       def section_attributes(node)
         { id: Utils::anchor_or_uuid(node),
-              language: node.attr("language"),
-              script: node.attr("script") }
+          language: node.attributes["language"],
+          script: node.attributes["script"] }
       end
 
       def section(node)
