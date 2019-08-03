@@ -31,10 +31,14 @@ module Asciidoctor
         ret
       end
 
-      def section(node)
-        a = { id: Utils::anchor_or_uuid(node),
+      def section_attributes(node)
+        { id: Utils::anchor_or_uuid(node),
               language: node.attr("language"),
               script: node.attr("script") }
+      end
+
+      def section(node)
+        a = section_attributes(node)
         noko do |xml|
           case sectiontype(node)
           when "introduction" then introduction_parse(a, xml, node)
