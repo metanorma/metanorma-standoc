@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    metanorma-standoc (1.2.3)
+    metanorma-standoc (1.2.4)
       asciidoctor (~> 1.5.7)
       concurrent-ruby
       html2doc (~> 0.8.11)
@@ -65,7 +65,7 @@ GEM
     iev (0.2.2)
       nokogiri
     image_size (2.0.2)
-    isodoc (0.10.3)
+    isodoc (0.10.4)
       asciimath
       html2doc (~> 0.8.11)
       htmlentities (~> 4.3.4)
@@ -219,4 +219,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   2.0.1
+   2.0.2
