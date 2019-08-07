@@ -122,50 +122,10 @@ module Asciidoctor
         end
       end
 
-=begin
-      # converts generic IEV citation to citation of IEC 60050-n
-      # assumes IEV citations are of form
-      # <eref type="inline" bibitemid="a" citeas="IEC 60050">
-      # <locality type="clause"><referenceFrom>101-01-01</referenceFrom></locality></eref>
-      def linksIev2iec60050part(xmldoc)
-        parts = Set.new()
-        xmldoc.xpath("//eref[@citeas = 'IEC 60050:2011'] | "\
-                     "//origin[@citeas = 'IEC 60050:2011']").each do |x|
-          cl = x&.at("./locality[@type = 'clause']/referenceFrom")&.text || next
-          m = /^(\d+)/.match cl || next
-          parts << m[0]
-          x["citeas"] = x["citeas"].sub(/60050/, "60050-#{m[0]}")
-          x["bibitemid"] = "IEC60050-#{m[0]}"
-        end
-        parts
-      end
-
-      # replace generic IEV reference with references to all extracted
-      # IEV parts
-      def refsIev2iec60050part(xmldoc, parts, iev)
-        new_iev = ""
-        parts.sort.each do |p|
-          hit = @bibdb&.fetch("IEC 60050-#{p}", nil, keep_year: true) || next
-          new_iev += hit.to_xml.sub(/ id="[^"]+"/, %{ id="IEC60050-#{p}"})
-          date = hit.date[0].on.year
-          xmldoc.xpath("//*[@citeas = 'IEC 60050-#{p}:2011']").each do |x|
-            x["citeas"] = x["citeas"].sub(/:2011$/, ":#{date}")
-          end
-        end
-        iev.replace(new_iev)
-      end
-
-      # call after xref_cleanup and origin_cleanup
-      def iev_cleanup(xmldoc)
-        iev = xmldoc.at("//bibitem[docidentifier = 'IEC 60050:2011']") || return
-        parts = linksIev2iec60050part(xmldoc)
-        refsIev2iec60050part(xmldoc, parts, iev)
-      end
-=end
-
       def ref_dl_cleanup(xmldoc)
         xmldoc.xpath("//clause[@bibitem = 'true']").each do |c|
           bib = dl_bib_extract(c) or next
+          warn bib
           bibitemxml = RelatonBib::BibliographicItem.new(
             RelatonBib::HashConverter::hash_to_bib(bib)).to_xml or next
           bibitem = Nokogiri::XML(bibitemxml)
@@ -213,6 +173,34 @@ module Asciidoctor
       def add_to_hash(bib, key, val)
         bib[key] = bib[key].is_a?(Array) ?  (bib[key] << val) :
           bib[key].nil? ?  val : [bib[key], val]
+      end
+
+      # mod from https://stackoverflow.com/a/42425884
+      def set_nested_value(hash, keys, new_val)
+        key = keys[0]
+        if keys.length == 1
+          hash[key] = hash[key].is_a?(Array) ?  (hash[key] << new_val) :
+            hash[key].nil? ?  new_val : [hash[key], new_val]
+          return hash
+        end
+        if hash[key].is_a?(Array)
+          hash[key][-1] = {} if hash[key][-1].nil?
+          set_nested_value(hash[key][-1], keys[1..-1], new_val)
+        elsif hash[key].nil? || hash[key].empty?
+          hash[key] = {}
+          set_nested_value(hash[key], keys[1..-1], new_val)
+        elsif hash[key].is_a?(Hash) && !hash[key][keys[1]]
+          set_nested_value(hash[key], keys[1..-1], new_val)
+        elsif !hash[key][keys[1]]
+          hash[key] = [hash[key], {}]
+          set_nested_value(hash[key][-1], keys[1..-1], new_val)
+        else
+          set_nested_value(hash[key], keys[1..-1], new_val)
+        end
+      end
+
+      def add_to_hash(bib, key, val)
+        set_nested_value(bib, key.split(/\./), val)
       end
 
       # definition list, with at most one level of unordered lists

@@ -69,7 +69,7 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
-       it "processes complex dl reference" do
+it "processes complex dl reference" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
 #{ASCIIDOC_BLANK_HDR}
 [bibliography]
@@ -282,6 +282,323 @@ formattedref::
   content::: serieref
   language::: en
   script::: Latn
+
+    INPUT
+      #{BLANK_HDR}
+      <sections>
+      </sections><bibliography><references id="_" obligation="informative">
+        <title>Normative References</title>
+        <bibitem id="TC211" type="standard">
+  <fetched>2019-06-30</fetched>
+  <title type="main" format="text/plain">Geographic information</title>
+  <title type="subtitle" format="text/plain" language="en" script="Latn">Geographic information subtitle</title>
+  <uri type="src">https://www.iso.org/standard/53798.html</uri>
+  <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:53798:en</uri>
+  <uri type="rss">https://www.iso.org/contents/data/standard/05/37/53798.detail.rss</uri>
+  <docidentifier type="ISO">TC211</docidentifier>
+  <docnumber>211</docnumber>
+  <date type="issued">
+    <on>2014</on>
+  </date>
+  <date type="published">
+    <from>2014</from>
+    <to>2014</to>
+  </date>
+  <date type="accessed">
+    <on>2015</on>
+  </date>
+  <contributor>
+    <role type="publisher"><description>Publisher role</description></role>
+    <organization>
+      <name>International Organization for Standardization</name>
+      <subdivision>division</subdivision>
+      <abbreviation>ISO</abbreviation>
+      <uri>www.iso.org</uri>
+    </organization>
+  </contributor>
+  <contributor>
+    <role type="author"/>
+    <person>
+      <name>
+        <completename language="en">A. Bierman</completename>
+      </name>
+      <affiliation>
+        <description format="text/plain">Affiliation description</description>
+        <organization>
+          <name>IETF</name>
+          <abbreviation>IETF</abbreviation>
+          <identifier type="uri">www.ietf.org</identifier>
+        </organization>
+      </affiliation>
+       <address>
+   <street>8 Street St</street>
+   <city>City</city>
+   <state>State</state>
+   <country>Country</country>
+   <postcode>123456</postcode>
+ </address>
+ <phone>223322</phone>
+    </person>
+  </contributor>
+  <contributor>
+   <role type="publisher"/>
+    <organization>
+      <name>IETF</name>
+      <abbreviation>IETF</abbreviation>
+      <identifier type="uri">www.ietf.org</identifier>
+    </organization>
+  </contributor>
+  <contributor>
+    <role type="author"/>
+    <person>
+      <name>
+        <initial language="en">A.</initial>
+        <surname language="en">Bierman</surname>
+      </name>
+      <affiliation>
+        <description language="en" script="Latn">Affiliation description</description>
+        <organization>
+          <name>IETF</name>
+          <abbreviation>IETF</abbreviation>
+        </organization>
+      </affiliation>
+      <identifier type="uri">www.person.com</identifier>
+    </person>
+  </contributor>
+  <edition>1</edition>
+  <version>
+    <revision-date>2019-04-01</revision-date>
+    <draft>draft</draft>
+  </version>
+  <note type="bibnote">Mark set a major league
+home run record in 1998.</note>
+  <language>en</language>
+  <language>fr</language>
+  <script>Latn</script>
+  <abstract format="text/plain">ISO 19115-1:2014 defines the schema required for …​</abstract>
+  <abstract format="text/plain" language="fr" script="Latn">L’ISO 19115-1:2014 définit le schéma requis pour …​</abstract>
+  <status>
+    <stage>stage</stage>
+    <substage>substage</substage>
+    <iteration>iteration</iteration>
+  </status>
+  <copyright>
+    <from>2014</from>
+    <to>2020</to>
+    <owner>
+      <organization>
+        <name>International Organization for Standardization</name>
+        <abbreviation>ISO</abbreviation>
+        <uri>www.iso.org</uri>
+      </organization>
+    </owner>
+  </copyright>
+  <relation type="updates">
+    <bibitem>
+      <formattedref format="text/plain">ISO 19115:2003</formattedref>
+    </bibitem>
+  </relation>
+  <relation type="updates">
+    <bibitem type="standard">
+      <formattedref format="text/plain">ISO 19115:2003/Cor 1:2006</formattedref>
+    </bibitem>
+  </relation>
+  <series type="main">
+    <title type="original" format="text/plain" language="en" script="Latn">ISO/IEC FDIS 10118-3</title>
+    <place>Serie’s place</place>
+    <organization>Serie’s organization</organization>
+    <abbreviation language="en" script="Latn">ABVR</abbreviation>
+    <from>2009-02-01</from>
+    <to>2010-12-20</to>
+    <number>serie1234</number>
+    <partnumber>part5678</partnumber>
+  </series>
+  <series type="alt">
+    <formattedref format="text/plain" language="en" script="Latn">serieref</formattedref>
+  </series>
+  <medium>
+    <form>medium form</form>
+    <size>medium size</size>
+    <scale>medium scale</scale>
+  </medium>
+  <place>bib place</place>
+  <locality type="section">
+    <referenceFrom>7</referenceFrom>
+  </locality>
+  <accesslocation>accesslocation1</accesslocation>
+  <accesslocation>accesslocation2</accesslocation>
+  <classification type="type">value</classification>
+  <validity>
+    <validityBegins>2010-10-10 12:21</validityBegins>
+    <validityEnds>2011-02-03 18:30</validityEnds>
+  </validity>
+</bibitem></references></bibliography>
+</standard-document>
+OUTPUT
+       end
+       
+       it "processes complex dl reference with dot path keys" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+#{ASCIIDOC_BLANK_HDR}
+[bibliography]
+== Normative References
+
+[[ISO/TC211]]
+[%bibitem]
+=== {blank}
+fetched:: 2019-06-30
+title::
+title.type:: main
+title.content:: Geographic information
+title::
+title.type:: subtitle
+title.content:: Geographic information subtitle
+title.language:: en
+title.script:: Latn
+title.format:: text/plain
+type:: standard
+docid::
+docid.type:: ISO
+docid.id:: TC211
+docnumber:: 211
+edition:: 1
+language:: en
+language:: fr
+script:: Latn
+version.revision_date:: 2019-04-01
+version.draft:: draft
+biblionote.type:: bibnote
+biblionote.content::
++
+--
+Mark set a major league
+home run record in 1998.
+--
+docstatus.stage:: stage
+docstatus.substage:: substage
+docstatus.iteration:: iteration
+date::
+date.type:: issued
+date.value:: 2014
+date::
+date.type:: published
+date.from:: 2014-04
+date.to:: 2014-05
+date::
+date.type:: accessed
+date.value:: 2015-05-20
+abstract::
+abstract.content::
++
+--
+ISO 19115-1:2014 defines the schema required for ...
+--
+abstract::
+abstract.content:: L'ISO 19115-1:2014 définit le schéma requis pour ...
+abstract.language:: fr
+abstract.script:: Latn
+abstract.format:: text/plain
+copyright.owner.name:: International Organization for Standardization
+copyright.owner.abbreviation:: ISO
+copyright.owner.url:: www.iso.org
+copyright.from:: 2014
+copyright.to:: 2020
+link::
+link.type:: src
+link.content:: https://www.iso.org/standard/53798.html
+link::
+link.type:: obp
+link.content:: https://www.iso.org/obp/ui/#!iso:std:53798:en
+link::
+link.type:: rss
+link.content:: https://www.iso.org/contents/data/standard/05/37/53798.detail.rss
+medium::
+medium.form:: medium form
+medium.size:: medium size
+medium.scale:: medium scale
+place:: bib place
+extent.type:: section
+extent.reference_from:: 7
+accesslocation:: accesslocation1
+accesslocation:: accesslocation2
+classification.type:: type
+classification.value:: value
+validity.begins:: 2010-10-10 12:21
+validity.ends:: 2011-02-03 18:30
+contributor::
+contributor.organization.name:: International Organization for Standardization
+contributor.organization.url:: www.iso.org
+contributor.organization.abbreviation:: ISO
+contributor.organization.subdivision:: division
+contributor.role.type:: publisher
+contributor.role.description:: Publisher role
+contributor::
+contributor.person.name.completename.content:: A. Bierman
+contributor.person.name.completename.language:: en
+contributor.person.affiliation.organization.name:: IETF
+contributor.person.affiliation.organization.abbreviation:: IETF
+contributor.person.affiliation.organization.identifier.type:: uri
+contributor.person.affiliation.organization.identifier.id:: www.ietf.org
+contributor.person.affiliation.description:: Affiliation description
+contributor.person.contact::
+contributor.person.contact.street:: 8 Street St
+contributor.person.contact.city:: City
+contributor.person.contact.postcode:: 123456
+contributor.person.contact.country:: Country
+contributor.person.contact.state:: State
+contributor.person.contact::
+contributor.person.contact.type:: phone
+contributor.person.contact.value:: 223322
+contributor.role:: author
+contributor::
+contributor.organization.name:: IETF
+contributor.organization.abbreviation:: IETF
+contributor.organization.identifier.type:: uri
+contributor.organization.identifier.id:: www.ietf.org
+contributor.role:: publisher
+contributor::
+contributor.person.name.language:: en
+contributor.person.name.initial:: A.
+contributor.person.name.surname:: Bierman
+contributor.person.affiliation.organization.name:: IETF
+contributor.person.affiliation.organization.abbreviation:: IETF
+contributor.person.affiliation.description.content:: Affiliation description
+contributor.person.affiliation.description.language:: en
+contributor.person.affiliation.description.script:: Latn
+contributor.person.identifier.type:: uri
+contributor.person.identifier.id:: www.person.com
+contributor.role:: author
+relation::
+relation.type:: updates
+relation.bibitem.formattedref:: ISO 19115:2003
+relation.bibitem.bib_locality.type:: page
+relation.bibitem.bib_locality.reference_from:: 7
+relation.bibitem.bib_locality.reference_to:: 10
+relation::
+relation.type:: updates
+relation.bibitem.type:: standard
+relation.bibitem.formattedref:: ISO 19115:2003/Cor 1:2006
+series::
+series.type:: main
+series.title.type:: original
+series.title.content:: ISO/IEC FDIS 10118-3
+series.title.language:: en
+series.title.script:: Latn
+series.title.format:: text/plain
+series.place:: Serie's place
+series.organization:: Serie's organization
+series.abbreviation.content:: ABVR
+series.abbreviation.language:: en
+series.abbreviation.script:: Latn
+series.from:: 2009-02-01
+series.to:: 2010-12-20
+series.number:: serie1234
+series.partnumber:: part5678
+series::
+series.type:: alt
+series.formattedref.content:: serieref
+series.formattedref.language:: en
+series.formattedref.script:: Latn
 
     INPUT
       #{BLANK_HDR}
