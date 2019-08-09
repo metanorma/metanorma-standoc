@@ -16,10 +16,8 @@ before_install:
 - sudo cpanm --notest LaTeXML@0.8.4
 - curl -L https://raw.githubusercontent.com/metanorma/metanorma-build-scripts/master/travis.sh | bash
 - plantuml -version
-- gem install bundler -v 2.0.1
+- gem install bundler -v "~> 2"
 - bundle update
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash -c "apt-get update && curl -L https://raw.githubusercontent.com/metanorma/metanorma-linux-setup/master/ubuntu.sh | bash" ; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then travis_wait brew install --HEAD https://raw.githubusercontent.com/metanorma/homebrew-metanorma/master/Formula/metanorma.rb ; fi
 matrix:
   allow_failures:
     - rvm: ruby-head
