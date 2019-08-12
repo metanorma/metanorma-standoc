@@ -32,6 +32,7 @@ before_test:
   - ruby -v
   - gem -v
   - bundle -v
+  - plantuml -version
 
 test_script:
   - bundle exec rake
