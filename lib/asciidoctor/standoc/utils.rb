@@ -43,13 +43,21 @@ module Asciidoctor
             gsub(/--/, "&#8212;").smart_format.gsub(/</, "&lt;").gsub(/>/, "&gt;")
         end
 
-        def smart_render_xml(x, code)
-          xstr = x.to_xml if x.respond_to? :to_xml
-          xml = Nokogiri::XML(xstr)
+        def emend_biblio(xml, code, title)
           unless xml.at("//docidentifier[not(@type = 'DOI')]")
             warn "ERROR: No document identifier retrieved for #{code}"
             xml.root << "<docidentifier>#{code}</docidentifier>"
           end
+          unless xml.at("//title")
+            warn "ERROR: No title retrieved for #{code}"
+            xml.root << "<title>#{title || "(MISSING TITLE)"}</title>"
+          end
+        end
+
+        def smart_render_xml(x, code, title)
+          xstr = x.to_xml if x.respond_to? :to_xml
+          xml = Nokogiri::XML(xstr)
+          emend_biblio(xml, code, title)
           xml.traverse do |n|
             n.text? and n.replace(smartformat(n.text))
           end

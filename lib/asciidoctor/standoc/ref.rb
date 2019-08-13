@@ -47,7 +47,7 @@ module Asciidoctor
       end
 
       def isorefmatches(xml, m)
-        ref = fetch_ref xml, m[:code], m[:year]
+        ref = fetch_ref xml, m[:code], m[:year], title: m[:text]
         return use_my_anchor(ref, m[:anchor]) if ref
         xml.bibitem **attr_code(ref_attributes(m)) do |t|
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
@@ -60,7 +60,7 @@ module Asciidoctor
       end
 
       def isorefmatches2(xml, m)
-        ref = fetch_ref xml, m[:code], nil, no_year: true, note: m[:fn]
+        ref = fetch_ref xml, m[:code], nil, no_year: true, note: m[:fn], title: m[:text]
         return use_my_anchor(ref, m[:anchor]) if ref
         xml.bibitem **attr_code(ref_attributes(m)) do |t|
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
@@ -87,7 +87,7 @@ module Asciidoctor
         hasyr =  m.names.include?("year") && m[:year] != "--"
         noyr =  m.names.include?("year") && m[:year] == "--"
         ref = fetch_ref xml, m[:code], hasyr ? m[:year] : nil, 
-          all_parts: true, no_year: noyr
+          all_parts: true, no_year: noyr, text: m[:text]
         return use_my_anchor(ref, m[:anchor]) if ref
         xml.bibitem(**attr_code(ref_attributes(m))) do |t|
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
@@ -107,7 +107,7 @@ module Asciidoctor
         return nil if opts[:no_year]
         hit = @bibdb&.fetch(code, year, opts) 
         return nil if hit.nil?
-        xml.parent.add_child(Utils::smart_render_xml(hit, code))
+        xml.parent.add_child(Utils::smart_render_xml(hit, code, opts[:title]))
         xml
       rescue RelatonBib::RequestError
         warn "Could not retrieve #{code}: no access to online site"
@@ -131,7 +131,7 @@ module Asciidoctor
         end
         unless m[:code] && /^\d+$/.match(m[:code])
           ref = fetch_ref xml, m[:code], 
-            m.names.include?("year") ? m[:year] : nil, {}
+            m.names.include?("year") ? m[:year] : nil, { title: m[:text] }
           return use_my_anchor(ref, m[:anchor]) if ref
         end
         refitem_render(xml, m)
