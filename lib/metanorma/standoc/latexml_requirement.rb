@@ -40,10 +40,6 @@ module Metanorma
       end
 
       def cmd
-        if @cmd.nil?
-          satisfied
-        end
-
         @cmd
       end
     end
