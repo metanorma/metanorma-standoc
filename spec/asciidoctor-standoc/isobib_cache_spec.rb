@@ -676,19 +676,19 @@ EOS
 private
 
   def mock_isobib_get_123
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", "2001", {}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED))
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", "2001", {:title=>"<em>Standard</em>"}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED))
   end
 
   def mock_isobib_get_123_undated
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", nil, {}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_UNDATED))
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", nil, {:title=>"<em>Standard</em>"}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_UNDATED))
   end
 
   def mock_isobib_get_124
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 124", "2014", {}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_124_DATED))
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 124", "2014", {:title=>"<em>Standard</em>"}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_124_DATED))
   end
 
   def mock_ietfbib_get_123
-    expect(RelatonIetf::IetfBibliography).to receive(:get).with("RFC 123", nil, {}).and_return(RelatonIsoBib::XMLParser.from_xml(IETF_123_SHORT))
+    expect(RelatonIetf::IetfBibliography).to receive(:get).with("RFC 123", nil, {:title=>"<em>Standard</em>"}).and_return(RelatonIsoBib::XMLParser.from_xml(IETF_123_SHORT))
   end
 
 end

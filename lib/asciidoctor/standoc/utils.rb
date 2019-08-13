@@ -44,11 +44,11 @@ module Asciidoctor
         end
 
         def emend_biblio(xml, code, title)
-          unless xml.at("//docidentifier[not(@type = 'DOI')]")
+          unless xml.at("/bibitem/docidentifier[not(@type = 'DOI')][text()]")
             warn "ERROR: No document identifier retrieved for #{code}"
             xml.root << "<docidentifier>#{code}</docidentifier>"
           end
-          unless xml.at("//title")
+          unless xml.at("/bibitem/title[text()]")
             warn "ERROR: No title retrieved for #{code}"
             xml.root << "<title>#{title || "(MISSING TITLE)"}</title>"
           end
