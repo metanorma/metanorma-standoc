@@ -43,12 +43,15 @@ module Asciidoctor
             gsub(/--/, "&#8212;").smart_format.gsub(/</, "&lt;").gsub(/>/, "&gt;")
         end
 
-        def smart_render_xml(x)
+        def smart_render_xml(x, code)
           xstr = x.to_xml if x.respond_to? :to_xml
           xml = Nokogiri::XML(xstr)
+          unless xml.at("//docidentifier[not(@type = 'DOI')]")
+            warn "ERROR: No document identifier retrieved for #{code}"
+            xml.root << "<docidentifier>#{code}</docidentifier>"
+          end
           xml.traverse do |n|
-            next unless n.text?
-            n.replace(smartformat(n.text))
+            n.text? and n.replace(smartformat(n.text))
           end
           xml.to_xml.sub(/<\?[^>]+>/, "")
         end

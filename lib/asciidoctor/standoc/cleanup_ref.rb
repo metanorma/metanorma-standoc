@@ -125,7 +125,7 @@ module Asciidoctor
       def ref_dl_cleanup(xmldoc)
         xmldoc.xpath("//clause[@bibitem = 'true']").each do |c|
           bib = dl_bib_extract(c) or next
-          warn bib
+          #warn bib
           bibitemxml = RelatonBib::BibliographicItem.new(
             RelatonBib::HashConverter::hash_to_bib(bib)).to_xml or next
           bibitem = Nokogiri::XML(bibitemxml)
