@@ -106,9 +106,8 @@ module Asciidoctor
         /^@startuml (?<fn>[^\n]+)\n/ =~ src
         fn ||= UUIDTools::UUID.random_create
         path = Pathname.new(localdir) + "plantuml"
-        FileUtils.mkdir_p path.to_s # "#{localdir}/plantuml"
-        #File.open("#{localdir}plantuml/#{fn}.pml", "w") { |f| f.write src }
-        File.open((path + "#{fn}.pml").to_s, "w") { |f| f.write src }
+        path.mkpath()
+        (path + "#{fn}.pml").write(src)
         fn
       end
 

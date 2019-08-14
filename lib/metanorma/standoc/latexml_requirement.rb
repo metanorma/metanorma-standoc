@@ -8,13 +8,15 @@ module Metanorma
         @minimal_version = '0.8.0'
         version_output, = Open3.capture2e("latexml --VERSION")
         @actual_version = version_output&.match(%r{\d+(.\d+)*})
+      rescue
+        warn "LaTeXML not found in PATH, please ensure that LaTeXML is installed."
       end
 
       def satisfied
         version = @actual_version
 
         if version.to_s.empty?
-          abort "LaTeXML not found in PATH, please make sure that you installed LaTeXML"
+          abort "LaTeXML not found in PATH, please ensure that LaTeXML is installed."
         end
 
         if Gem::Version.new(version) < Gem::Version.new(@minimal_version)
@@ -40,7 +42,9 @@ module Metanorma
       end
 
       def cmd
-        @cmd
+        if @cmd.nil?
+          satisfied
+        end
       end
     end
   end
