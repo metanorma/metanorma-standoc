@@ -75,6 +75,38 @@ module Asciidoctor
         end
       end
 
+      def biblio_reorder(xmldoc)
+        xmldoc.xpath("//references[title = 'Bibliography']").each do |r|
+          biblio_reorder1(r)
+        end
+      end
+
+      def biblio_reorder1(refs)
+        bib = sort_biblio(refs.xpath("./bibitem"))
+        refs.xpath("./bibitem").each { |b| b.remove }
+        bib.reverse.each do |b|
+        insert = refs.at("./title") and insert.next = b.to_xml or
+          refs.children.first.add_previous_sibling b.to_xml
+        end
+        refs.xpath("./references").each { |r| biblio_reorder1(r) }
+      end
+
+      def sort_biblio(bib)
+        bib
+      end
+
+      # default presuppose that all citations in biblio numbered
+      # consecutively, but that standards codes are preserved as is:
+      # only numeric references are renumbered
+      def biblio_renumber(xmldoc)
+        r = xmldoc.at("//references[title = 'Bibliography'] | "\
+                      "//clause[title = 'Bibliography'][.//bibitem]") or return
+        r.xpath(".//bibitem[not(ancestor::bibitem)]").each_with_index do |b, i|
+          docid = b.at("./docidentifier[@type = 'metanorma']") and
+            docid.children = "[#{i + 1}]"
+        end
+      end
+
       # move ref before p
       def ref_cleanup(xmldoc)
         xmldoc.xpath("//p/ref").each do |r|
@@ -88,6 +120,14 @@ module Asciidoctor
         r = xmldoc.at(q) || return
         r.elements.each do |n|
           n.remove unless ["title", "bibitem"].include? n.name
+        end
+      end
+
+      def biblio_cleanup(xmldoc)
+        biblio_reorder(xmldoc)
+        biblio_renumber(xmldoc)
+        xmldoc.xpath("//references[references]").each do |t|
+          t.name = "clause"
         end
       end
 
@@ -171,36 +211,7 @@ module Asciidoctor
       end
 
       def add_to_hash(bib, key, val)
-        bib[key] = bib[key].is_a?(Array) ?  (bib[key] << val) :
-          bib[key].nil? ?  val : [bib[key], val]
-      end
-
-      # mod from https://stackoverflow.com/a/42425884
-      def set_nested_value(hash, keys, new_val)
-        key = keys[0]
-        if keys.length == 1
-          hash[key] = hash[key].is_a?(Array) ?  (hash[key] << new_val) :
-            hash[key].nil? ?  new_val : [hash[key], new_val]
-          return hash
-        end
-        if hash[key].is_a?(Array)
-          hash[key][-1] = {} if hash[key][-1].nil?
-          set_nested_value(hash[key][-1], keys[1..-1], new_val)
-        elsif hash[key].nil? || hash[key].empty?
-          hash[key] = {}
-          set_nested_value(hash[key], keys[1..-1], new_val)
-        elsif hash[key].is_a?(Hash) && !hash[key][keys[1]]
-          set_nested_value(hash[key], keys[1..-1], new_val)
-        elsif !hash[key][keys[1]]
-          hash[key] = [hash[key], {}]
-          set_nested_value(hash[key][-1], keys[1..-1], new_val)
-        else
-          set_nested_value(hash[key], keys[1..-1], new_val)
-        end
-      end
-
-      def add_to_hash(bib, key, val)
-        set_nested_value(bib, key.split(/\./), val)
+        Utils::set_nested_value(bib, key.split(/\./), val)
       end
 
       # definition list, with at most one level of unordered lists

@@ -205,12 +205,6 @@ module Asciidoctor
         termdocsource_cleanup(xmldoc)
       end
 
-      def biblio_cleanup(xmldoc)
-        xmldoc.xpath("//references[references]").each do |t|
-          t.name = "clause"
-        end
-      end
-
       def empty_text_before_first_element(x)
         x.children.each do |c|
           if c.text?

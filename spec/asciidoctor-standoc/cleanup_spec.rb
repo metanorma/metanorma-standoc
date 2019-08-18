@@ -1158,6 +1158,122 @@ r = 1 %</stem>
     OUTPUT
   end
 
+        it "renumbers numeric references in Bibliography sequentially" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Clause
+      <<iso123>>
+      <<iso124>>
+
+      [bibliography]
+      == Bibliography
+
+      * [[[iso124,ISO 124]]] _Standard 124_
+      * [[[iso123,1]]] _Standard 123_
+    INPUT
+    #{BLANK_HDR}
+<sections><clause id="_" inline-header="false" obligation="normative">
+  <title>Clause</title>
+  <p id="_"><eref type="inline" bibitemid="iso123" citeas="[2]"/>
+<eref type="inline" bibitemid="iso124" citeas="ISO 124"/></p>
+</clause>
+</sections><bibliography><references id="_" obligation="informative">
+  <title>Bibliography</title>
+  <bibitem id="iso124" type="standard">
+  <title format="text/plain">Standard 124</title>
+  <docidentifier>ISO 124</docidentifier>
+  <contributor>
+    <role type="publisher"/>
+    <organization>
+      <name>ISO</name>
+    </organization>
+  </contributor>
+</bibitem>
+  <bibitem id="iso123">
+  <formattedref format="application/x-isodoc+xml">
+    <em>Standard 123</em>
+  </formattedref>
+  <docidentifier type="metanorma">[2]</docidentifier>
+</bibitem>
+</references></bibliography>
+OUTPUT
+        end
+
+                it "renumbers numeric references in Bibliography subclauses sequentially" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Clause
+      <<iso123>>
+      <<iso124>>
+      <<iso125>>
+      <<iso126>>
+
+      [bibliography]
+      == Bibliography
+
+      [bibliography]
+      === Clause 1
+      * [[[iso124,ISO 124]]] _Standard 124_
+      * [[[iso123,1]]] _Standard 123_
+
+      [bibliography]
+      === {blank}
+      * [[[iso125,ISO 125]]] _Standard 124_
+      * [[[iso126,1]]] _Standard 123_
+
+    INPUT
+    #{BLANK_HDR}
+    <sections><clause id="_" inline-header="false" obligation="normative">
+         <title>Clause</title>
+         <p id="_"><eref type="inline" bibitemid="iso123" citeas="[2]"/>
+       <eref type="inline" bibitemid="iso124" citeas="ISO 124"/>
+       <eref type="inline" bibitemid="iso125" citeas="ISO 125"/>
+       <eref type="inline" bibitemid="iso126" citeas="[4]"/></p>
+       </clause>
+       </sections><bibliography><clause id="_" obligation="informative"><title>Bibliography</title><references id="_" obligation="informative">
+         <title>Clause 1</title>
+         <bibitem id="iso124" type="standard">
+         <title format="text/plain">Standard 124</title>
+         <docidentifier>ISO 124</docidentifier>
+         <contributor>
+           <role type="publisher"/>
+           <organization>
+             <name>ISO</name>
+           </organization>
+         </contributor>
+       </bibitem>
+         <bibitem id="iso123">
+         <formattedref format="application/x-isodoc+xml">
+           <em>Standard 123</em>
+         </formattedref>
+         <docidentifier type="metanorma">[2]</docidentifier>
+       </bibitem>
+       </references>
+       <references id="_" obligation="informative">
+         
+         <bibitem id="iso125" type="standard">
+         <title format="text/plain">Standard 124</title>
+         <docidentifier>ISO 125</docidentifier>
+         <contributor>
+           <role type="publisher"/>
+           <organization>
+             <name>ISO</name>
+           </organization>
+         </contributor>
+       </bibitem>
+         <bibitem id="iso126">
+         <formattedref format="application/x-isodoc+xml">
+           <em>Standard 123</em>
+         </formattedref>
+         <docidentifier type="metanorma">[4]</docidentifier>
+       </bibitem>
+       </references></clause></bibliography>
+       </standard-document>
+OUTPUT
+        end
+
 
   private
 

@@ -42,8 +42,9 @@ module Asciidoctor
       end
 
       def docid(t, code)
-        type, code1 = @bibdb&.docid_type(code) unless /^\[\d+\]$/.match(code)
-        t.docidentifier (code1 || code), **attr_code(type: type)
+        type, code1 = /^\[\d+\]$/.match(code) ? ["metanorma", code] :
+          @bibdb&.docid_type(code) || [nil, code]
+        t.docidentifier code1, **attr_code(type: type)
       end
 
       def isorefmatches(xml, m)
@@ -96,7 +97,6 @@ module Asciidoctor
           iso_publisher(t, m[:code])
           m.names.include?("fn") && m[:fn] and
             t.note(**plaintxt) { |p| p << "ISO DATE: #{m[:fn]}" }
-          #t.allparts "true"
           t.extent **{ type: 'part' } do |e|
             e.referenceFrom "all"
           end
