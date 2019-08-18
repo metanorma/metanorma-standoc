@@ -49,7 +49,8 @@ module Asciidoctor
       def process parent, reader, attrs
         attrs['name'] = 'todo'
         attrs['caption'] = 'TODO'
-        create_block parent, :admonition, reader.lines, attrs, content_model: :compound
+        create_block parent, :admonition, reader.lines, attrs,
+          content_model: :compound
       end
     end
 
@@ -135,7 +136,8 @@ module Asciidoctor
           warn "PlantUML not installed"
           # attrs.delete(1) : remove the style attribute
           attrs["language"] = "plantuml"
-          create_listing_block parent, reader.source, attrs.reject { |k, v| k == 1 }
+          create_listing_block parent, reader.source,
+            attrs.reject { |k, v| k == 1 }
         end
       end
     end

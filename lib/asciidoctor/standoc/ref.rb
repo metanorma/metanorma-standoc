@@ -61,7 +61,8 @@ module Asciidoctor
       end
 
       def isorefmatches2(xml, m)
-        ref = fetch_ref xml, m[:code], nil, no_year: true, note: m[:fn], title: m[:text]
+        ref = fetch_ref xml, m[:code], nil, no_year: true, note: m[:fn],
+          title: m[:text]
         return use_my_anchor(ref, m[:anchor]) if ref
         xml.bibitem **attr_code(ref_attributes(m)) do |t|
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }

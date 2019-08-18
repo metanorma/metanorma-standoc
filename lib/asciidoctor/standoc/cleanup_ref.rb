@@ -202,7 +202,8 @@ module Asciidoctor
         return nil if dtd.children.empty?
         dtd.at("./dl") and return dl_bib_extract(dtd)
         elems = dtd.remove.elements
-        return p_unwrap(dtd) unless elems.size == 1 && %w(ol ul).include?(elems[0].name)
+        return p_unwrap(dtd) unless elems.size == 1 &&
+          %w(ol ul).include?(elems[0].name)
         ret = []
         elems[0].xpath("./li").each do |li|
           ret << p_unwrap(li)

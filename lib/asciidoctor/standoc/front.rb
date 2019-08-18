@@ -87,7 +87,8 @@ module Asciidoctor
               end
             end
             node.attr("email#{suffix}") and p.email node.attr("email#{suffix}")
-            node.attr("contributor-uri#{suffix}") and p.uri node.attr("contributor-uri#{suffix}")
+            node.attr("contributor-uri#{suffix}") and
+              p.uri node.attr("contributor-uri#{suffix}")
           end
         end
       end
@@ -144,7 +145,8 @@ module Asciidoctor
         node.attr("html-uri") && xml.uri(node.attr("html-uri"), type: "html")
         node.attr("pdf-uri") && xml.uri(node.attr("pdf-uri"), type: "pdf")
         node.attr("doc-uri") && xml.uri(node.attr("doc-uri"), type: "doc")
-        node.attr("relaton-uri") && xml.uri(node.attr("relaton-uri"), type: "relaton")
+        node.attr("relaton-uri") && xml.uri(node.attr("relaton-uri"),
+                                            type: "relaton")
       end
 
       def metadata_date1(node, xml, type)
@@ -266,7 +268,8 @@ module Asciidoctor
         ["en"].each do |lang|
           at = { language: lang, format: "text/plain" }
           xml.title **attr_code(at) do |t|
-            t << asciidoc_sub(node.attr("title") || node.attr("title-en") || node.title)
+            t << asciidoc_sub(node.attr("title") || node.attr("title-en") ||
+                              node.title)
           end
         end
       end

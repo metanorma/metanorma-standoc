@@ -43,30 +43,30 @@ module Asciidoctor
             gsub(/--/, "&#8212;").smart_format.gsub(/</, "&lt;").gsub(/>/, "&gt;")
         end
 
-         # Set hash value using keys path
-      # mod from https://stackoverflow.com/a/42425884
-      def set_nested_value(hash, keys, new_val)
-        key = keys[0]
-        if keys.length == 1
-          hash[key] = hash[key].is_a?(Array) ?  (hash[key] << new_val) :
-            hash[key].nil? ?  new_val : [hash[key], new_val]
-          return hash
+        # Set hash value using keys path
+        # mod from https://stackoverflow.com/a/42425884
+        def set_nested_value(hash, keys, new_val)
+          key = keys[0]
+          if keys.length == 1
+            hash[key] = hash[key].is_a?(Array) ?  (hash[key] << new_val) :
+              hash[key].nil? ?  new_val : [hash[key], new_val]
+            return hash
+          end
+          if hash[key].is_a?(Array)
+            hash[key][-1] = {} if hash[key][-1].nil?
+            set_nested_value(hash[key][-1], keys[1..-1], new_val)
+          elsif hash[key].nil? || hash[key].empty?
+            hash[key] = {}
+            set_nested_value(hash[key], keys[1..-1], new_val)
+          elsif hash[key].is_a?(Hash) && !hash[key][keys[1]]
+            set_nested_value(hash[key], keys[1..-1], new_val)
+          elsif !hash[key][keys[1]]
+            hash[key] = [hash[key], {}]
+            set_nested_value(hash[key][-1], keys[1..-1], new_val)
+          else
+            set_nested_value(hash[key], keys[1..-1], new_val)
+          end
         end
-        if hash[key].is_a?(Array)
-          hash[key][-1] = {} if hash[key][-1].nil?
-          set_nested_value(hash[key][-1], keys[1..-1], new_val)
-        elsif hash[key].nil? || hash[key].empty?
-          hash[key] = {}
-          set_nested_value(hash[key], keys[1..-1], new_val)
-        elsif hash[key].is_a?(Hash) && !hash[key][keys[1]]
-          set_nested_value(hash[key], keys[1..-1], new_val)
-        elsif !hash[key][keys[1]]
-          hash[key] = [hash[key], {}]
-          set_nested_value(hash[key][-1], keys[1..-1], new_val)
-        else
-          set_nested_value(hash[key], keys[1..-1], new_val)
-        end
-      end
 
         def emend_biblio(xml, code, title)
           unless xml.at("/bibitem/docidentifier[not(@type = 'DOI')][text()]")
