@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "asciidoctor", "~> 1.5.7"
   spec.add_dependency "ruby-jing"
-  spec.add_dependency "isodoc", "~> 0.10.0"
+  spec.add_dependency "isodoc", "~> 1.0.0"
   spec.add_dependency "iev", "~> 0.2.1"
   spec.add_dependency "relaton", "~> 0.5.0"
   spec.add_dependency "relaton-iev", "~> 0.1.0"

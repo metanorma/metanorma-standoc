@@ -115,7 +115,6 @@ EOS
          <title type="title-main" format="text/plain" language="fr" script="Latn">Échantillonnage</title>
          <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc - Échantillonnage</title>
          <uri type="src">https://www.iso.org/standard/23281.html</uri>
-         <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
          <docidentifier type="ISO">ISO 123</docidentifier>
          <contributor>
@@ -157,7 +156,6 @@ EOS
              <title type="title-main" format="text/plain" language="fr" script="Latn">Échantillonnage</title>
              <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc - Échantillonnage</title>
              <uri type="src">https://www.iso.org/standard/23281.html</uri>
-             <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
              <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
              <docidentifier type="ISO">ISO 123:2001</docidentifier>
              <date type="published">
@@ -220,7 +218,6 @@ EOS
          <title type="title-main" format="text/plain" language="fr" script="Latn">Échantillonnage</title>
          <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc - Échantillonnage</title>
          <uri type="src">https://www.iso.org/standard/23281.html</uri>
-         <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
          <docidentifier type="ISO">ISO 123:2001</docidentifier>
          <date type="published">
