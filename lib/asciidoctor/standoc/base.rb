@@ -19,6 +19,7 @@ module Asciidoctor
         block Asciidoctor::Standoc::ToDoAdmonitionBlock
         treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
         block Asciidoctor::Standoc::PlantUMLBlockMacro
+        block Asciidoctor::Standoc::DataModelBlockMacro
       end
 
       def content(node)

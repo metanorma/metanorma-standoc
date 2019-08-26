@@ -1,6 +1,9 @@
 require "asciidoctor/extensions"
 require "fileutils"
 require "uuidtools"
+require "yaml"
+
+require_relative "./datamodel_block_macro"
 
 module Asciidoctor
   module Standoc
@@ -93,12 +96,13 @@ module Asciidoctor
         # finish erlier then dot, as result png file maybe not created yet after plantuml finish
         sleep(2) if Gem.win_platform?
         outfile = parent.image_uri("#{fn}.png")
-        if outfile == "#{fn}.png" 
-          (Pathname.new("plantuml") + "#{fn}.png").to_s
+        outfile_name = "#{fn}.png"
+        if outfile == outfile_name
+          (Pathname.new("plantuml") + outfile_name).to_s
         else
-          FileUtils.mv (Pathname.new(localdir) + "plantuml" + "#{fn}.png").to_s,
+          FileUtils.mv (Pathname.new(localdir) + "plantuml" + outfile_name).to_s,
             (Pathname.new(localdir) + outfile).to_s
-          (Pathname.new("#{fn}.png")).to_s
+          (Pathname.new(outfile_name)).to_s
         end
       end
 
