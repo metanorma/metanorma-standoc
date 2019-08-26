@@ -24,6 +24,7 @@ module Asciidoctor
       def process(parent, reader, attrs)
         localdir = Utils::localdir(parent.document)
         view_hash = YAML.parse(reader.lines.join("\n")).to_ruby
+        fidelity = view_hash["fidelity"] || {}
 
         view_hash = process_imported_models(localdir, view_hash)
         view_wsd = process_view(localdir, view_hash)
@@ -34,7 +35,7 @@ module Asciidoctor
         # block.blocks.push(section)
 
         view_to_image_figure(block, localdir, view_wsd, view_hash, attrs)
-        models_to_sections(block, view_hash)
+        models_to_sections(block, view_hash) unless fidelity["hideMembers"]
 
         block
       end
