@@ -14,6 +14,7 @@ module Asciidoctor
       end
 
       def term_defs_boilerplate(div, source, term, preface, isodoc)
+        div.next = @term_def_boilerplate
         source.each { |s| @anchors[s["bibitemid"]] or
                       warn "term source #{s['bibitemid']} not referenced" }
         if source.empty? && term.nil?
@@ -21,7 +22,6 @@ module Asciidoctor
         else
           div.next = term_defs_boilerplate_cont(source, term, isodoc)
         end
-        div.next = @term_def_boilerplate
       end
 
       def term_defs_boilerplate_cont(src, term, isodoc)
