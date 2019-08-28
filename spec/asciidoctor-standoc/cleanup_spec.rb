@@ -143,6 +143,7 @@ RSpec.describe Asciidoctor::Standoc do
               <sections>
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
+         <p>For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_"><preferred><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>t</mi><mn>90</mn></msub></math></stem></preferred><admitted><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>t</mi><mn>91</mn></msub></math></stem></admitted>
        <definition><p id="_">Time</p></definition></term>
        </terms>
@@ -164,6 +165,7 @@ RSpec.describe Asciidoctor::Standoc do
               <sections>
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
+         <p>For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_">
          <preferred>Tempus</preferred>
          <domain>relativity</domain><definition><p id="_"> Time</p></definition>
@@ -198,6 +200,7 @@ RSpec.describe Asciidoctor::Standoc do
               <sections>
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
+         <p>For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_"><preferred><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>t</mi><mn>90</mn></msub></math></stem></preferred><definition><formula id="_"> 
          <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>t</mi><mi>A</mi></msub></math></stem> 
        </formula>
@@ -225,6 +228,7 @@ RSpec.describe Asciidoctor::Standoc do
        #{BLANK_HDR}
               <sections>
          <terms id="_" obligation="normative"><title>Terms and definitions</title>
+         <p>For the purposes of this document, the following terms and definitions apply.</p>
 
        <term id="_">
        <preferred>Time</preferred>
@@ -402,6 +406,7 @@ r = 1 %</stem>
        <sections>
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
+         <p>For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_">
          <preferred>Term1</preferred>
          <termsource status="identical">
@@ -833,6 +838,7 @@ r = 1 %</stem>
        <sections>
        <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
+         <p>For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_"><preferred>Term</preferred>
 
 
@@ -954,7 +960,9 @@ r = 1 %</stem>
           #{BLANK_HDR}
 
           <sections>
-        <terms id="_" obligation="normative"><title>Terms and definitions</title><term id="_">
+        <terms id="_" obligation="normative"><title>Terms and definitions</title>
+         <p>For the purposes of this document, the following terms and definitions apply.</p>
+         <term id="_">
           <preferred>Automation1</preferred>
           <termsource status="identical">
           <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>

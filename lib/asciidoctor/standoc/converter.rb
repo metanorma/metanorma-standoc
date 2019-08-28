@@ -11,6 +11,8 @@ require "asciidoctor/standoc/table"
 require "asciidoctor/standoc/validate"
 require "asciidoctor/standoc/utils"
 require "asciidoctor/standoc/cleanup"
+require "asciidoctor/standoc/i18n"
+require "asciidoctor/standoc/reqt"
 require_relative "./macros.rb"
 
 module Asciidoctor
@@ -29,6 +31,7 @@ module Asciidoctor
       include ::Asciidoctor::Standoc::Section
       include ::Asciidoctor::Standoc::Table
       include ::Asciidoctor::Standoc::Utils
+      include ::Asciidoctor::Standoc::I18n
       include ::Asciidoctor::Standoc::Cleanup
       include ::Asciidoctor::Standoc::Validate
 

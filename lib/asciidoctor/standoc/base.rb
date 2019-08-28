@@ -101,6 +101,9 @@ module Asciidoctor
         @datauriimage = node.attr("data-uri-image")
         init_bib_caches(node)
         init_iev_caches(node)
+        lang = (node.attr("language") || "en")
+        script = (node.attr("script") || "en")
+        i18n_init(lang, script)
       end
 
       def init_bib_caches(node)

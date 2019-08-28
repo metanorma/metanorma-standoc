@@ -7,6 +7,7 @@ require "pp"
 require_relative "./cleanup_block.rb"
 require_relative "./cleanup_footnotes.rb"
 require_relative "./cleanup_ref.rb"
+require_relative "./cleanup_boilerplate.rb"
 require "relaton_iev"
 
 module Asciidoctor
@@ -57,6 +58,7 @@ module Asciidoctor
         bookmark_cleanup(xmldoc)
         smartquotes_cleanup(xmldoc)
         requirement_cleanup(xmldoc)
+        boilerplate_cleanup(xmldoc)
         xmldoc
       end
 

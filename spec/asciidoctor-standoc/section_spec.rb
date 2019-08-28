@@ -95,6 +95,8 @@ RSpec.describe Asciidoctor::Standoc do
 
 <terms id="_" obligation="normative">
   <title>Terms and definitions</title>
+  <p>For the purposes of this document,
+       the following terms and definitions apply.</p>
   <term id="_">
   <preferred>Term1</preferred>
 </term>
@@ -279,6 +281,8 @@ RSpec.describe Asciidoctor::Standoc do
 
        <terms id="_" language="en" script="Latn" obligation="normative">
          <title>Terms and definitions</title>
+         <p>For the purposes of this document,
+       the following terms and definitions apply.</p>
          <term id="_" language="en" script="Latn">
          <preferred>Term1</preferred>
        </term>
@@ -415,6 +419,8 @@ RSpec.describe Asciidoctor::Standoc do
        <sections>
        <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
+         <p>For the purposes of this document,
+       the following terms and definitions apply.</p>
          <term id="_">
          <preferred>Term1</preferred>
        </term>
@@ -534,7 +540,61 @@ RSpec.describe Asciidoctor::Standoc do
      OUTPUT
   end
 
-    it "processes term document sources" do
+      it "processes terms & definitions with external source" do
+     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+
+      Foreword
+
+      [source="iso1234,iso5678"]
+      == Terms and Definitions
+
+      === Term1
+
+     INPUT
+             #{BLANK_HDR}
+             <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
+        <preface><foreword obligation="informative">
+         <title>Foreword</title>
+         <p id="_">Foreword</p>
+       </foreword></preface><sections>
+       <terms id="_" obligation="normative">
+          <title>Terms and definitions</title><p>For the purposes of this document, the terms and definitions 
+  given in <eref bibitem="iso1234"/> and <eref bibitem="iso5678"/> and the following apply.</p>
+  <term id="_">
+  <preferred>Term1</preferred>
+</term>
+       </terms></sections>
+       </standard-document>
+
+     OUTPUT
+    end
+
+          it "processes empty terms & definitions" do
+     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+
+      Foreword
+
+      == Terms and Definitions
+
+
+     INPUT
+             #{BLANK_HDR}
+        <preface><foreword obligation="informative">
+         <title>Foreword</title>
+         <p id="_">Foreword</p>
+       </foreword></preface><sections>
+       <terms id="_" obligation="normative">
+          <title>Terms and definitions</title><p>No terms and definitions are listed in this document.</p>
+       </terms></sections>
+       </standard-document>
+
+     OUTPUT
+    end
+
+
+    it "processes empty terms & definitions with external source" do
      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
 
@@ -552,12 +612,89 @@ RSpec.describe Asciidoctor::Standoc do
        </foreword></preface><sections>
        <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
+         <p>For the purposes of this document,
+        the terms and definitions given in <eref bibitem="iso1234"/> and <eref bibitem="iso5678"/> apply.</p>
 
 
        </terms></sections>
        </standard-document>
 
      OUTPUT
+    end
+
+        it "processes term document sources in French" do
+     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :language: fr
+
+      Foreword
+
+      [source="iso1234,iso5678"]
+      == Terms and Definitions
+
+     INPUT
+     #{BLANK_HDR.sub(%r{<language>en</language>}, "<language>fr</language>")}
+             <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
+        <preface><foreword obligation="informative">
+         <title>Foreword</title>
+         <p id="_">Foreword</p>
+       </foreword></preface><sections>
+       <terms id="_" obligation="normative">
+         <title>Terms and definitions</title>
+        <p>Pour les besoins du présent document, les termes et définitions de <eref bibitem="iso1234"/> et <eref bibitem="iso5678"/> s'appliquent.</p>
+
+
+       </terms></sections>
+       </standard-document>
+
+     OUTPUT
+    end
+
+               it "processes term document sources in Chinese" do
+     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :language: zh
+      :script: Hans
+
+      Foreword
+
+      [source="iso1234,iso5678"]
+      == Terms and Definitions
+
+     INPUT
+     #{BLANK_HDR.sub(%r{<language>en</language>}, "<language>zh</language>").sub(%r{<script>Latn</script>}, "<script>Hans</script>")}
+       <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/><preface><foreword obligation="informative">
+         <title>Foreword</title>
+         <p id="_">Foreword</p>
+       </foreword></preface><sections>
+       <terms id="_" obligation="normative">
+         <title>Terms and definitions</title><p><eref bibitem="iso1234"/>和<eref bibitem="iso5678"/>界定的术语和定义适用于本文件。</p>
+     
+         
+         
+       </terms></sections>
+       </standard-document>
+     OUTPUT
+    end
+
+    it "warn about external source for terms & definitions that does not point anywhere" do
+        expect{Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)}.to output(/not referenced/).to_stderr
+        #{ASCIIDOC_BLANK_HDR}
+        
+        [source="iso712"]
+        == Terms and Definitions
+        === Term2
+        INPUT
     end
 
 end
