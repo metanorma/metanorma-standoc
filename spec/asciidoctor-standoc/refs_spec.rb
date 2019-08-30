@@ -15,6 +15,7 @@ RSpec.describe Asciidoctor::Standoc do
       <sections>
       </sections><bibliography><references id="_" obligation="informative">
         <title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
          <docidentifier>ISO 123</docidentifier>
@@ -43,6 +44,7 @@ RSpec.describe Asciidoctor::Standoc do
       <sections>
       </sections><bibliography><references id="_" obligation="informative">
         <title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
           <title format="text/plain">Standard</title>
   <docidentifier>ISO 123:1066-1067</docidentifier>
@@ -76,6 +78,7 @@ RSpec.describe Asciidoctor::Standoc do
        #{BLANK_HDR}
        <sections>
        </sections><bibliography><references id="_" obligation="informative"><title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
 <bibitem type="standard" id="iso123">
   <uri type="src">https://www.iso.org/standard/23281.html</uri>
   <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
@@ -139,6 +142,7 @@ RSpec.describe Asciidoctor::Standoc do
        <sections>
 
        </sections><bibliography><references id="_" obligation="informative"><title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
        <bibitem id="iso123" type="standard">
          <fetched>#{Date.today}</fetched>
          <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
@@ -243,6 +247,7 @@ RSpec.describe Asciidoctor::Standoc do
               <sections>
        </sections><bibliography><references id="_" obligation="informative">
          <title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
          <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
          <docidentifier>IEC 123</docidentifier>
@@ -276,6 +281,7 @@ RSpec.describe Asciidoctor::Standoc do
 
         </sections><bibliography><references id="_" obligation="informative">
           <title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
           <bibitem type="standard" id="iso123">
           <fetched>#{Date.today}</fetched>
           <title type="title-main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
@@ -391,6 +397,7 @@ RSpec.describe Asciidoctor::Standoc do
        <sections>
               </sections><bibliography><references id="_" obligation="informative">
          <title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
          <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
          <docidentifier>ISO 123:—</docidentifier>
@@ -425,6 +432,7 @@ RSpec.describe Asciidoctor::Standoc do
       <sections>
       </sections><bibliography><references id="_" obligation="informative">
         <title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
          <docidentifier>ISO 123:1066 (all parts)</docidentifier>
@@ -471,6 +479,7 @@ RSpec.describe Asciidoctor::Standoc do
   </clause>
   </sections><bibliography><references id="_" obligation="informative">
   <title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
   <bibitem id="iso123">
     <fetched>#{Date.today}</fetched>
     <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>
@@ -540,6 +549,7 @@ RSpec.describe Asciidoctor::Standoc do
 
        </sections><bibliography><references id="_" obligation="informative">
          <title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
          <bibitem id="iso123">
          <formattedref format="application/x-isodoc+xml">
            <em>Standard</em>
@@ -606,6 +616,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       </sections><bibliography><references id="_" obligation="informative">
         <title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
         <title format="text/plain">Standard</title>
         <docidentifier type="ISO">ISO 123</docidentifier>

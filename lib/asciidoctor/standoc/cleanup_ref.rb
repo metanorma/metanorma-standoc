@@ -116,8 +116,7 @@ module Asciidoctor
       end
 
       def normref_cleanup(xmldoc)
-        q = "//references[title = 'Normative References']"
-        r = xmldoc.at(q) || return
+        r = xmldoc.at(NORM_REF) || return
         r.elements.each do |n|
           n.remove unless ["title", "bibitem"].include? n.name
         end

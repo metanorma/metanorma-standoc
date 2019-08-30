@@ -40,6 +40,7 @@ RSpec.describe Asciidoctor::Standoc do
       <sections>
       </sections><bibliography><references id="_" obligation="informative">
         <title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
         <fetched>#{Date.today}</fetched>
          <title type="main" format="text/plain" language="en" script="Latn">Standard</title>
@@ -288,6 +289,7 @@ formattedref::
       <sections>
       </sections><bibliography><references id="_" obligation="informative">
         <title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
         <bibitem id="TC211" type="standard">
   <fetched>2019-06-30</fetched>
   <title type="main" format="text/plain">Geographic information</title>
@@ -605,6 +607,7 @@ series.formattedref.script:: Latn
       <sections>
       </sections><bibliography><references id="_" obligation="informative">
         <title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
         <bibitem id="TC211" type="standard">
   <fetched>2019-06-30</fetched>
   <title type="main" format="text/plain">Geographic information</title>

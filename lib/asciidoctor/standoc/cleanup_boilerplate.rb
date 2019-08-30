@@ -35,19 +35,31 @@ module Asciidoctor
         end
       end
 
+      def norm_ref_preface(f)
+      refs = f.elements.select do |e|
+        ["reference", "bibitem"].include? e.name
+      end
+      f.at("./title").next =
+        "<p>#{(refs.empty? ? @norm_empty_pref : @norm_with_refs_pref)}</p>"
+    end
+
       TERM_CLAUSE = "//sections/terms | "\
         "//sections/clause[descendant::terms]".freeze
+
+      NORM_REF = "//bibliography/references[title = 'Normative References' or "\
+        "title = 'Normative references']".freeze
 
       def boilerplate_cleanup(xmldoc)
         isodoc = IsoDoc::Convert.new({})
         @lang = xmldoc&.at("//bibdata/language")&.text
         @script = xmldoc&.at("//bibdata/script")&.text
         isodoc.i18n_init(@lang, @script)
-        f = xmldoc.at(TERM_CLAUSE) and
+        f = xmldoc.at(self.class::TERM_CLAUSE) and
           term_defs_boilerplate(f.at("./title"),
                                 xmldoc.xpath(".//termdocsource"),
                                 f.at(".//term"), f.at(".//p"), isodoc)
-
+        f = xmldoc.at(self.class::NORM_REF) and
+        norm_ref_preface(f)
       end
     end
   end

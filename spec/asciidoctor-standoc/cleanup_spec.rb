@@ -304,6 +304,7 @@ r = 1 %</stem>
       </foreword></preface><sections>
       </sections><bibliography><references id="_" obligation="informative">
         <title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
         <bibitem id="iso216" type="standard">
          <title format="text/plain">Reference</title>
          <docidentifier>ISO 216:2001</docidentifier>
@@ -341,6 +342,7 @@ r = 1 %</stem>
       </foreword></preface><sections>
       </sections><bibliography><references id="_" obligation="informative">
         <title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
         <bibitem id="iso216" type="standard">
          <title format="text/plain">Reference</title>
          <docidentifier>ISO 216</docidentifier>
@@ -432,6 +434,7 @@ r = 1 %</stem>
       #{BLANK_HDR}
       <sections></sections>
       <bibliography><references id="_" obligation="informative"><title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
              <bibitem id="iso216" type="standard">
          <title format="text/plain">Reference</title>
          <docidentifier>ISO 216</docidentifier>
@@ -768,6 +771,7 @@ r = 1 %</stem>
       </p>
       </clause></sections><bibliography><references id="_" obligation="informative">
         <title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
          <docidentifier>ISO 123:—</docidentifier>
@@ -981,6 +985,7 @@ r = 1 %</stem>
         </termsource>
         </term></terms></sections><bibliography><references id="_" obligation="informative">
           <title>Normative References</title>
+        #{NORM_REF_BOILERPLATE}
           <bibitem type="standard" id="IEC60050-102">
           <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
           <title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics - General concepts and linear algebra</title>
@@ -1281,6 +1286,72 @@ OUTPUT
        </standard-document>
 OUTPUT
         end
+
+ it "inserts boilerplate before empty Normative References" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+
+      [bibliography]
+      == Normative References
+
+      INPUT
+      #{BLANK_HDR}
+      <sections>
+
+</sections><bibliography><references id="_" obligation="informative">
+  <title>Normative References</title><p>There are no normative references in this document.</p>
+</references></bibliography>
+</standard-document>
+      OUTPUT
+      end
+
+ it "inserts boilerplate before non-empty Normative References" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+
+      [bibliography]
+      == Normative References
+      * [[[a,b]]] A
+
+      INPUT
+    #{BLANK_HDR}
+    <sections>
+
+       </sections><bibliography><references id="_" obligation="informative">
+         <title>Normative References</title><p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+         <bibitem id="a">
+         <formattedref format="application/x-isodoc+xml">A</formattedref>
+         <docidentifier>b</docidentifier>
+       </bibitem>
+       </references></bibliography>
+       </standard-document>
+
+      OUTPUT
+      end
+
+it "inserts boilerplate before empty Normative References in French" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    = Document title
+    Author
+    :docfile: test.adoc
+    :nodoc:
+    :novalid:
+    :no-isobib:
+    :language: fr
+
+    [bibliography]
+    == Normative References
+
+    INPUT
+    #{BLANK_HDR.sub(/<language>en/, "<language>fr")}
+    <sections>
+
+</sections><bibliography><references id="_" obligation="informative">
+  <title>Normative References</title><p>Le présent document ne contient aucune référence normative.</p>
+</references></bibliography>
+</standard-document>
+      OUTPUT
+      end
 
 
   private

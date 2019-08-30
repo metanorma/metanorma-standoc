@@ -113,6 +113,10 @@ VALIDATING_BLANK_HDR = <<~"HDR"
 
 HDR
 
+NORM_REF_BOILERPLATE = <<~"HDR"
+<p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+HDR
+
 BLANK_HDR = <<~"HDR"
 <?xml version="1.0" encoding="UTF-8"?>
 <standard-document xmlns="http://riboseinc.com/isoxml">
