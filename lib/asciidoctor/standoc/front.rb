@@ -192,7 +192,7 @@ module Asciidoctor
       end
 
       def relation_normalise(type)
-        type.sub(/-by$/, "By").sub(/-of$/, "Of")
+        type.sub(/-by$/, "By").sub(/-of$/, "Of").sub(/-from$/, "From")
       end
 
       def metadata_getrelation(node, xml, type)
