@@ -21,13 +21,13 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 20 Aug 2019 11:49:07 GMT
+      - Sun, 01 Sep 2019 23:00:33 GMT
       Server:
       - Apache/2.2.22 (Debian)
       Last-Modified:
-      - Sat, 17 Aug 2019 04:56:25 GMT
+      - Thu, 29 Aug 2019 17:11:49 GMT
       Etag:
-      - '"39c1ee2-46c-59048edc97040"'
+      - '"39f0438-46c-5914499e0bf40"'
       Accept-Ranges:
       - bytes
       Content-Length:
@@ -52,5 +52,5 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version: 
-  recorded_at: Tue, 20 Aug 2019 11:49:07 GMT
+  recorded_at: Sun, 01 Sep 2019 23:00:33 GMT
 recorded_with: VCR 5.0.0

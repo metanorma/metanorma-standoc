@@ -55,6 +55,7 @@ EOS
          <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
          <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
          <docidentifier type="ISO">ISO 124:2014</docidentifier>
+         <docnumber>124</docnumber>
          <date type="published">
            <on>2014</on>
          </date>
@@ -117,6 +118,7 @@ EOS
          <uri type="src">https://www.iso.org/standard/23281.html</uri>
          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
          <docidentifier type="ISO">ISO 123</docidentifier>
+         <docnumber>123</docnumber>
          <contributor>
            <role type="publisher"/>
            <organization>
@@ -158,6 +160,7 @@ EOS
              <uri type="src">https://www.iso.org/standard/23281.html</uri>
              <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
              <docidentifier type="ISO">ISO 123:2001</docidentifier>
+             <docnumber>123</docnumber>
              <date type="published">
                <on>2001</on>
              </date>
@@ -220,6 +223,7 @@ EOS
          <uri type="src">https://www.iso.org/standard/23281.html</uri>
          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
          <docidentifier type="ISO">ISO 123:2001</docidentifier>
+         <docnumber>123</docnumber>
          <date type="published">
            <on>2001</on>
          </date>
