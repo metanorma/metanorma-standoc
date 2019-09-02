@@ -182,7 +182,7 @@ module Asciidoctor
       end
 
       def relaton_relations
-        %w(part-of)
+        %w(part-of translated-from)
       end
 
       def metadata_relations(node, xml)

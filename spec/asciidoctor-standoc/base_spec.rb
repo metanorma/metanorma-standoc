@@ -96,6 +96,7 @@ RSpec.describe Asciidoctor::Standoc do
       :email_2: barney@rockhead.example.com
       :publisher: Hanna Barbera, Cartoon Network
       :part-of: ABC
+      :translated-from: DEF
       :keywords: a, b, c
     INPUT
     <?xml version="1.0" encoding="UTF-8"?>
@@ -234,6 +235,12 @@ RSpec.describe Asciidoctor::Standoc do
   <docidentifier>ABC</docidentifier>
   </bibitem>
 </relation>
+ <relation type="translatedFrom">
+   <bibitem>
+     <title>--</title>
+     <docidentifier>DEF</docidentifier>
+   </bibitem>
+ </relation>
 <keyword>a</keyword>
 <keyword>b</keyword>
 <keyword>c</keyword>
