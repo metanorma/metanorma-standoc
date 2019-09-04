@@ -56,6 +56,8 @@ module Asciidoctor
       end
 
       def models_to_sections(block, view_hash)
+
+
         Asciidoctor::DataModel::AsciidocAdaptor.for_each("classes", view_hash) do |class_name, class_hash|
           section = create_section block, class_name, {}
           block.blocks.push(section)
@@ -77,6 +79,20 @@ module Asciidoctor
             Asciidoctor::DataModel::AsciidocAdaptor.class_attributes_to_asciidoc(class_name, class_hash["attributes"]),
             "style" => "abstract"
           )
+        end
+
+        Asciidoctor::DataModel::AsciidocAdaptor.for_each("enums", view_hash) do |enum_name, enum_hash|
+          section = create_section block, enum_name, {}
+          block.blocks.push(section)
+
+          parse_content(
+            block,
+            enum_hash["definition"] || "TODO: enum #{enum_name}'s definition"
+          )
+
+          content = Asciidoctor::DataModel::AsciidocAdaptor.enum_values_to_asciidoc(enum_name, enum_hash["values"])
+
+          parse_content(block, content)
         end
       end
 

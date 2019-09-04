@@ -138,8 +138,6 @@ class #{class_name} {
       end
 
       def self.relations_to_plantuml(class_name, relations)
-        puts "relations???"
-        pp relations
         return "" unless relations
 
         # binding.pry

@@ -49,11 +49,14 @@ include::#{plantuml_path}/#{model_name}.wsd[]
         end
       end
 
-      def self.for_each(key, yml, level=3)
-        classes = yml[key] || {}
+      def self.for_each(keys, yml, level=3)
+        keys = keys.is_a?(Array) ? keys : [keys]
+        keys.each do |key|
+          classes = yml[key] || {}
 
-        classes.each do |(class_name, class_hash)|
-          yield(class_name, class_hash, level)
+          classes.each do |(class_name, class_hash)|
+            yield(class_name, class_hash, level)
+          end
         end
       end
 
