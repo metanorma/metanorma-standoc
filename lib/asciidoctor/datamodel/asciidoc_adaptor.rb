@@ -18,16 +18,16 @@ module Asciidoctor
         class_level = level + 1
 
         <<-asciidoc
-    #{header_to_asciidoc(yml["title"], yml, level)}
+#{header_to_asciidoc(yml["title"], yml, level)}
 
-    .#{yml["title"]} data model
-    [plantuml]
-    ....
-    include::#{plantuml_path}/#{model_name}.wsd[]
-    ....
+.#{yml["title"]} data model
+[plantuml]
+....
+include::#{plantuml_path}/#{model_name}.wsd[]
+....
 
-    #{classes_to_asciidoc(yml["classes"], class_level, yml["fidelity"])}
-    #{enums_to_asciidoc(yml["enums"], class_level, yml["fidelity"])}
+#{classes_to_asciidoc(yml["classes"], class_level, yml["fidelity"])}
+#{enums_to_asciidoc(yml["enums"], class_level, yml["fidelity"])}
         asciidoc
       end
 
@@ -70,10 +70,10 @@ module Asciidoctor
         class_hash ||= {}
 
         <<-asciidoc
-    #{header_to_asciidoc(class_name, class_hash, level)}
-    #{class_hash["definition"] || "TODO: class #{class_name}'s definition"}
+#{header_to_asciidoc(class_name, class_hash, level)}
+#{class_hash["definition"] || "TODO: class #{class_name}'s definition"}
 
-    #{class_attributes_to_asciidoc(class_name, class_hash["attributes"])}
+#{class_attributes_to_asciidoc(class_name, class_hash["attributes"])}
         asciidoc
       end
 
@@ -86,15 +86,15 @@ module Asciidoctor
         max_space_map = compute_max_columns_space(attributes, CLASS_COLUMN_MAP)
 
         <<-asciidoc
-    .#{class_name} attributes
-    |===
-    #{attributes_table_head_asciidoc(max_space_map, CLASS_COLUMN_MAP).strip}
-    #{
-      attributes.map do |(attr_name, attr_hash)|
-        class_attribute_to_asciidoc(attr_name, attr_hash, max_space_map)
-      end.join("").strip
-    }
-    |===
+.#{class_name} attributes
+|===
+#{attributes_table_head_asciidoc(max_space_map, CLASS_COLUMN_MAP).strip}
+#{
+  attributes.map do |(attr_name, attr_hash)|
+    class_attribute_to_asciidoc(attr_name, attr_hash, max_space_map)
+  end.join("").strip
+}
+|===
         asciidoc
       end
 
@@ -203,10 +203,10 @@ module Asciidoctor
 
       def self.enum_to_asciidoc(enum_name, enum_hash, level)
         <<-asciidoc
-    #{header_to_asciidoc(enum_name, enum_hash, level)}
-    #{enum_hash["definition"] || "TODO: enum #{enum_name}'s definition"}
+#{header_to_asciidoc(enum_name, enum_hash, level)}
+#{enum_hash["definition"] || "TODO: enum #{enum_name}'s definition"}
 
-    #{enum_values_to_asciidoc(enum_name, enum_hash["values"])}
+#{enum_values_to_asciidoc(enum_name, enum_hash["values"])}
         asciidoc
       end
 
@@ -218,15 +218,15 @@ module Asciidoctor
         max_space_map = compute_max_columns_space(values, ENUM_COLUMN_MAP)
 
         <<-asciidoc
-    .#{enum_name} values
-    |===
-    #{attributes_table_head_asciidoc(max_space_map, ENUM_COLUMN_MAP).strip}
-    #{
-      values.map do |(val_name, val_hash)|
-        enum_value_to_asciidoc(val_name, val_hash, max_space_map)
-      end.join("").strip
-    }
-    |===
+.#{enum_name} values
+|===
+#{attributes_table_head_asciidoc(max_space_map, ENUM_COLUMN_MAP).strip}
+#{
+  values.map do |(val_name, val_hash)|
+    enum_value_to_asciidoc(val_name, val_hash, max_space_map)
+  end.join("").strip
+}
+|===
         asciidoc
       end
 
@@ -266,7 +266,7 @@ module Asciidoctor
 
       def self.line_to_table_row(line)
         <<-asciidoc
-    |#{line}
+|#{line}
         asciidoc
       end
     end
