@@ -156,7 +156,7 @@ class #{class_name} {
 
         arrow = [
           relationship_type_to_plantuml("source", relationship["source"]["type"]),
-          relation["direction"],
+          "#{relation["direction"]}--",
           relationship_type_to_plantuml("target", relationship["target"]["type"]),
         ].compact.join("-")
 
