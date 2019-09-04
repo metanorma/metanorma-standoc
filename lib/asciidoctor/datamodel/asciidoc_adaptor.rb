@@ -119,6 +119,8 @@ include::#{plantuml_path}/#{model_name}.wsd[]
         max_space_map
       end
 
+      # TODO: make column headers show as "header" either via
+      # "h|" or "options=header"
       def self.attributes_table_head_asciidoc(max_space_map, column_map)
         line = column_map.map do |(column_key, column_name)|
           add_whitespaces_to_table_cell(column_key, column_name, max_space_map)
