@@ -563,7 +563,7 @@ RSpec.describe Asciidoctor::Standoc do
        </foreword></preface><sections>
        <terms id="_" obligation="normative">
           <title>Terms and definitions</title><p>For the purposes of this document, the terms and definitions 
-  given in <eref bibitem="iso1234"/> and <eref bibitem="iso5678"/> and the following apply.</p>
+  given in <eref bibitemid="iso1234"/> and <eref bibitemid="iso5678"/> and the following apply.</p>
   <term id="_">
   <preferred>Term1</preferred>
 </term>
@@ -616,7 +616,7 @@ RSpec.describe Asciidoctor::Standoc do
        <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
          <p>For the purposes of this document,
-        the terms and definitions given in <eref bibitem="iso1234"/> and <eref bibitem="iso5678"/> apply.</p>
+        the terms and definitions given in <eref bibitemid="iso1234"/> and <eref bibitemid="iso5678"/> apply.</p>
 
 
        </terms></sections>
@@ -649,7 +649,7 @@ RSpec.describe Asciidoctor::Standoc do
        </foreword></preface><sections>
        <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
-        <p>Pour les besoins du présent document, les termes et définitions de <eref bibitem="iso1234"/> et <eref bibitem="iso5678"/> s'appliquent.</p>
+        <p>Pour les besoins du présent document, les termes et définitions de <eref bibitemid="iso1234"/> et <eref bibitemid="iso5678"/> s'appliquent.</p>
 
 
        </terms></sections>
@@ -681,7 +681,7 @@ RSpec.describe Asciidoctor::Standoc do
          <p id="_">Foreword</p>
        </foreword></preface><sections>
        <terms id="_" obligation="normative">
-         <title>Terms and definitions</title><p><eref bibitem="iso1234"/>和<eref bibitem="iso5678"/>界定的术语和定义适用于本文件。</p>
+         <title>Terms and definitions</title><p><eref bibitemid="iso1234"/>和<eref bibitemid="iso5678"/>界定的术语和定义适用于本文件。</p>
      
          
          

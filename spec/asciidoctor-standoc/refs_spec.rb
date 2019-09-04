@@ -572,18 +572,36 @@ RSpec.describe Asciidoctor::Standoc do
       [bibliography]
       == Bibliography
 
-      * [[[iso123,1]]] _Standard_
+      * [[[iso123,2]]] _Standard_
+      * [[[iso124,(B)]]] _Standard_
+      * [[[iso125,1]]] _Standard_
+      * [[[iso126,(A)]]] _Standard_
     INPUT
        #{BLANK_HDR}
               <sections>
 
-       </sections><bibliography><references id="_" obligation="informative">
-         <title>Bibliography</title>
-         <bibitem id="iso123">
+       </sections>
+       <bibliography><references id="_" obligation="informative">
+         <title>Bibliography</title><bibitem id="iso123">
          <formattedref format="application/x-isodoc+xml">
            <em>Standard</em>
          </formattedref>
          <docidentifier type="metanorma">[1]</docidentifier>
+       </bibitem><bibitem id="iso124">
+         <formattedref format="application/x-isodoc+xml">
+           <em>Standard</em>
+         </formattedref>
+         <docidentifier type="metanorma">[B]</docidentifier>
+       </bibitem><bibitem id="iso125">
+         <formattedref format="application/x-isodoc+xml">
+           <em>Standard</em>
+         </formattedref>
+         <docidentifier type="metanorma">[3]</docidentifier>
+       </bibitem><bibitem id="iso126">
+         <formattedref format="application/x-isodoc+xml">
+           <em>Standard</em>
+         </formattedref>
+         <docidentifier type="metanorma">[A]</docidentifier>
        </bibitem>
        </references>
        </bibliography>

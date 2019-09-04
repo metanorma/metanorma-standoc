@@ -26,7 +26,7 @@ module Asciidoctor
 
       def term_defs_boilerplate_cont(src, term, isodoc)
         sources = isodoc.sentence_join(src.map do |s|
-          %{<eref bibitem="#{s['bibitemid']}"/>}
+          %{<eref bibitemid="#{s['bibitemid']}"/>}
         end)
         if src.empty? then @internal_terms_boilerplate
         elsif term.nil? then external_terms_boilerplate(sources)

@@ -17,6 +17,14 @@ module Asciidoctor
           node.nil? || node.id.nil? || node.id.empty? ? "_" + uuid : node.id
         end
 
+        def asciidoc_sub(x)
+          return nil if x.nil?
+          return "" if x.empty?
+          d = Asciidoctor::Document.new(x.lines.entries, {header_footer: false})
+          b = d.parse.blocks.first
+          b.apply_subs(b.source)
+        end
+
         def localdir(node)
           docfile = node.attr("docfile")
           docfile.nil? ? './' : Pathname.new(docfile).parent.to_s + '/'

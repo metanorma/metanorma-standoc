@@ -102,8 +102,9 @@ module Asciidoctor
         r = xmldoc.at("//references[title = 'Bibliography'] | "\
                       "//clause[title = 'Bibliography'][.//bibitem]") or return
         r.xpath(".//bibitem[not(ancestor::bibitem)]").each_with_index do |b, i|
-          docid = b.at("./docidentifier[@type = 'metanorma']") and
-            docid.children = "[#{i + 1}]"
+          next unless docid = b.at("./docidentifier[@type = 'metanorma']")
+          next unless  /^\[\d+\]$/.match(docid.text)
+          docid.children = "[#{i + 1}]"
         end
       end
 
@@ -164,7 +165,6 @@ module Asciidoctor
       def ref_dl_cleanup(xmldoc)
         xmldoc.xpath("//clause[@bibitem = 'true']").each do |c|
           bib = dl_bib_extract(c) or next
-          #warn bib
           bibitemxml = RelatonBib::BibliographicItem.new(
             RelatonBib::HashConverter::hash_to_bib(bib)).to_xml or next
           bibitem = Nokogiri::XML(bibitemxml)

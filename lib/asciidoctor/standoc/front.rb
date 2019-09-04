@@ -1,10 +1,8 @@
 require "date"
 require "nokogiri"
 require "htmlentities"
-require "json"
 require "pathname"
 require "open-uri"
-require "pp"
 
 module Asciidoctor
   module Standoc
@@ -251,14 +249,6 @@ module Asciidoctor
       def metadata_series(node, xml)
       end
 
-      def asciidoc_sub(x)
-        return nil if x.nil?
-        return "" if x.empty?
-        d = Asciidoctor::Document.new(x.lines.entries, {header_footer: false})
-        b = d.parse.blocks.first
-        b.apply_subs(b.source)
-      end
-
       def title(node, xml)
         title_english(node, xml)
         title_otherlangs(node, xml)
@@ -268,7 +258,7 @@ module Asciidoctor
         ["en"].each do |lang|
           at = { language: lang, format: "text/plain" }
           xml.title **attr_code(at) do |t|
-            t << asciidoc_sub(node.attr("title") || node.attr("title-en") ||
+            t << Utils::asciidoc_sub(node.attr("title") || node.attr("title-en") ||
                               node.title)
           end
         end
