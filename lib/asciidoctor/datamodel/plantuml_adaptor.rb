@@ -1,6 +1,10 @@
 module Asciidoctor
   module DataModel
     module PlantumlAdaptor
+      def self.join_as_plantuml(*ary)
+        ary.compact.join("\n").sub(/\s+\Z/, "")
+      end
+
       def self.yml_to_plantuml(yml, plantuml_path)
         startuml = <<-plantuml
 @startuml
@@ -10,7 +14,7 @@ module Asciidoctor
 @enduml
         plantuml
 
-        [
+        join_as_plantuml(
           startuml,
           imports_yml_to_plantuml(yml, plantuml_path),
           class_defs_yml_to_plantuml(yml),
@@ -18,7 +22,7 @@ module Asciidoctor
           class_relations_yml_to_plantuml(yml),
           fidelity_yml_to_plantuml(yml),
           enduml,
-        ].compact.join("\n")
+        )
       end
 
       def self.imports_yml_to_plantuml(yml, plantuml_path)
@@ -26,7 +30,11 @@ module Asciidoctor
 
         <<-plantuml
 '******* IMPORTS ******************************************************
-#{import_models_to_plantuml(yml["imports"], plantuml_path)}
+#{
+  join_as_plantuml(
+    import_models_to_plantuml(yml["imports"], plantuml_path)
+  )
+}
         plantuml
       end
 
@@ -35,8 +43,12 @@ module Asciidoctor
 
         <<-plantuml
 '******* CLASS DEFINITIONS ********************************************
-#{classes_to_classes_plantuml(yml["classes"])}
-#{enums_to_enums_plantuml(yml["enums"])}
+#{
+  join_as_plantuml(
+    classes_to_classes_plantuml(yml["classes"]),
+    enums_to_enums_plantuml(yml["enums"])
+  )
+}
         plantuml
       end
 
@@ -45,7 +57,11 @@ module Asciidoctor
 
         <<-plantuml
 '******* CLASS GROUPS *************************************************
-#{groups_to_plantuml(yml["groups"])}
+#{
+  join_as_plantuml(
+    groups_to_plantuml(yml["groups"])
+  )
+}
         plantuml
       end
 
@@ -54,8 +70,12 @@ module Asciidoctor
 
         <<-plantuml
 '******* CLASS RELATIONS **********************************************
-#{classes_to_relations_plantuml(yml["classes"])}
-#{relations_to_plantuml(nil, yml["relations"])}
+#{
+  join_as_plantuml(
+    classes_to_relations_plantuml(yml["classes"]),
+    relations_to_plantuml(nil, yml["relations"])
+  )
+}
         plantuml
       end
 
@@ -64,12 +84,18 @@ module Asciidoctor
 
         <<-plantuml
 '******* FIDELITY *****************************************************
-#{fidelity_to_plantuml(yml["fidelity"])}
+#{
+  join_as_plantuml(
+    fidelity_to_plantuml(yml["fidelity"])
+  )
+}
         plantuml
       end
 
       def self.import_models_to_plantuml(imported_models, plantuml_path)
         imported_models ||= []
+
+        return if imported_models.empty?
 
         output = ""
 
@@ -79,11 +105,13 @@ module Asciidoctor
 
         output += imported_models.map do |(imported_model_path, imported_model_hash)|
           "!include #{plantuml_path}/models/#{imported_model_path}.wsd"
-        end.join("\n")
+        end.join("\n").strip
       end
 
       def self.classes_to_classes_plantuml(classes)
         classes ||= {}
+
+        return if classes.empty?
 
         classes.map do |(class_name, class_hash)|
           class_to_plantuml(class_name, class_hash)
@@ -95,13 +123,18 @@ module Asciidoctor
 
         <<-plantuml
 class #{class_name} {
-#{attributes_to_plantuml(class_hash["attributes"])}
+#{
+  join_as_plantuml(
+    attributes_to_plantuml(class_hash["attributes"]),
+    constraints_to_plantuml(class_hash["constraints"])
+  )
+}
 }
         plantuml
       end
 
       def self.attributes_to_plantuml(attributes)
-        return "" unless attributes
+        return unless attributes
 
         attributes.map do |(attr_name, attr_hash)|
           attribute_to_plantuml(attr_name, attr_hash)
@@ -114,7 +147,7 @@ class #{class_name} {
         plantuml
       end
 
-      def self.attribute_cardinality_plantuml(cardinality, withBracket = true)
+      def self.attribute_cardinality_plantuml(cardinality, with_bracket = true)
         return "" unless cardinality
 
         min_card = cardinality["min"] || 1
@@ -124,27 +157,49 @@ class #{class_name} {
 
         card = "#{min_card}..#{max_card}"
 
-        return card unless withBracket
+        return card unless with_bracket
 
         "[#{card}]"
       end
 
+      def self.constraints_to_plantuml(constraints)
+        constraints ||= []
+
+        return if constraints.empty?
+
+        constraints_output = constraints.map do |constraint|
+          "  {#{constraint}}"
+        end
+
+        <<-plantuml
+  __ constraints __
+#{
+  join_as_plantuml(
+    *constraints_output
+  )
+}
+        plantuml
+      end
+
       def self.classes_to_relations_plantuml(classes)
-        classes.map do |(class_name, class_hash)|
+        output_ary = classes.map do |(class_name, class_hash)|
           class_hash ||= {}
           relations = class_hash["relations"]
           relations_to_plantuml(class_name, relations)
-        end.join("\n").strip
+        end
+
+        join_as_plantuml(*output_ary)
       end
 
       def self.relations_to_plantuml(class_name, relations)
-        return "" unless relations
+        return unless relations
 
-        # binding.pry
-        relations.map do |relation|
+        output_ary = relations.map do |relation|
           source = class_name || relation["source"]
           relation_to_plantuml(source, relation)
-        end.compact.join("\n").strip
+        end
+
+        join_as_plantuml(*output_ary)
       end
 
       def self.relation_to_plantuml(source, relation)
@@ -156,7 +211,7 @@ class #{class_name} {
 
         arrow = [
           relationship_type_to_plantuml("source", relationship["source"]["type"]),
-          "#{relation["direction"]}--",
+          "#{relation["direction"]}-",
           relationship_type_to_plantuml("target", relationship["target"]["type"]),
         ].compact.join("-")
 
@@ -187,8 +242,7 @@ class #{class_name} {
           output_lines.push("(#{source}, #{target}) .. #{relationship["association"]}")
         end
 
-        # binding.pry
-        output_lines.join("\n")
+        join_as_plantuml(*output_lines)
       end
 
       def self.relationship_type_to_plantuml(relation_end, relationship_type)
@@ -242,7 +296,11 @@ class #{class_name} {
 
         <<-plantuml
 enum #{enum_name}#{enum_type_to_plantuml(enum_hash["type"])} {
-#{enum_values_to_plantuml(enum_hash["values"])}
+#{
+  join_as_plantuml(
+    enum_values_to_plantuml(enum_hash["values"])
+  )
+}
 }
         plantuml
       end
@@ -254,14 +312,19 @@ enum #{enum_name}#{enum_type_to_plantuml(enum_hash["type"])} {
       end
 
       def self.enum_values_to_plantuml(enum_values)
-        enum_values.map do |(enum_value, enum_value_hash)|
+        output_ary = enum_values.map do |(enum_value, enum_value_hash)|
           "  #{enum_value}"
-        end.join("\n")
+        end
+
+        join_as_plantuml(*output_ary)
       end
 
       def self.groups_to_plantuml(groups)
-        output = ""
         groups ||= []
+
+        return if groups.empty?
+
+        output = ""
 
         groups.each do |group|
           output += <<-plantuml
@@ -318,7 +381,7 @@ hide members
           plantuml
         end
 
-        output
+        output.empty? ? nil : output
       end
 
       def self.empty?(yml, prop)
