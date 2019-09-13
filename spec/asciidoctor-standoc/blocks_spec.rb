@@ -652,6 +652,25 @@ RSpec.describe Asciidoctor::Standoc do
       OUTPUT
     end
 
+    it "processes data URI images" do
+      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      [%unnumbered]
+      .Split-it-right sample divider
+      image::data:image/*;base64,ABC[alttext]
+
+      INPUT
+      #{BLANK_HDR}
+              <sections>
+         <figure id="_" unnumbered="true">
+         <name>Split-it-right sample divider</name>
+           <image src="data:image/*;base64,ABC" id="_" mimetype="image/*" height="auto" width="auto" alt="alttext"/>
+       </figure>
+       </sections>
+       </standard-document>
+      OUTPUT
+    end
+
     it "accepts attributes on images" do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
