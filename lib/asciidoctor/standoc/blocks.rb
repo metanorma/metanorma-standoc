@@ -51,13 +51,11 @@ module Asciidoctor
       def sidebar_attrs(node)
         date = node.attr("date") || Date.today.iso8601.gsub(/\+.*$/, "")
         date += "T00:00:00Z" unless /T/.match date
-        {
-          reviewer: node.attr("reviewer") || node.attr("source") || "(Unknown)",
+        { reviewer: node.attr("reviewer") || node.attr("source") || "(Unknown)",
           id: Utils::anchor_or_uuid(node),
           date: date,
           from: node.attr("from"),
-          to: node.attr("to") || node.attr("from"),
-        }
+          to: node.attr("to") || node.attr("from") }
       end
 
       def sidebar(node)
@@ -72,11 +70,9 @@ module Asciidoctor
       def todo_attrs(node)
         date = node.attr("date") || Date.today.iso8601.gsub(/\+.*$/, "")
         date += "T00:00:00Z" unless /T/.match date
-        {
-          reviewer: node.attr("reviewer") || node.attr("source") || "(Unknown)",
+        { reviewer: node.attr("reviewer") || node.attr("source") || "(Unknown)",
           id: Utils::anchor_or_uuid(node),
-          date: date,
-        }
+          date: date }
       end
 
       def todo(node)
@@ -141,9 +137,8 @@ module Asciidoctor
       def example(node)
         return term_example(node) if in_terms?
         role = node.role || node.attr("style")
-        return requirement(node, "recommendation") if role == "recommendation"
-        return requirement(node, "requirement") if role == "requirement"
-        return requirement(node, "permission") if role == "permission"
+        %w(recommendation requirement permission).include?(role) and
+          return requirement(node, role)
         noko do |xml|
           xml.example **id_unnum_attr(node) do |ex|
             wrap_in_para(node, ex)
@@ -162,6 +157,7 @@ module Asciidoctor
       end
 
       def datauri(uri)
+        return uri if /^data:/.match(uri)
         types = MIME::Types.type_for(@localdir + uri)
         type = types ? types.first.to_s : 'text/plain; charset="utf-8"'
         bin = File.open(@localdir + uri, 'rb') {|io| io.read}
@@ -171,7 +167,8 @@ module Asciidoctor
 
       def image_attributes(node)
         uri = node.image_uri (node.attr("target") || node.target)
-        types = MIME::Types.type_for(uri)
+        types = /^data:/.match(uri) ? [uri.sub(/^data:/, "").sub(/;.*$/, "")] :
+          MIME::Types.type_for(uri)
         { src: @datauriimage ? datauri(uri) : uri,
           id: Utils::anchor_or_uuid,
           mimetype: types.first.to_s,
@@ -182,9 +179,8 @@ module Asciidoctor
       end
 
       def figure_title(node, f)
-        unless node.title.nil?
-          f.name { |name| name << node.title }
-        end
+        return if node.title.nil?
+        f.name { |name| name << node.title }
       end
 
       def image(node)
@@ -238,11 +234,9 @@ module Asciidoctor
       end
 
       def listing_attrs(node)
-        {
-          lang: node.attr("language"),
+        { lang: node.attr("language"),
           id: Utils::anchor_or_uuid(node),
-          filename: node.attr("filename")
-        }
+          filename: node.attr("filename") }
       end
 
       # NOTE: html escaping is performed by Nokogiri
