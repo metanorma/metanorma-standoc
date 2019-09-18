@@ -1,7 +1,6 @@
 require "asciidoctor/extensions"
 require "fileutils"
 require "uuidtools"
-require 'pry'
 require "yaml"
 
 require File.expand_path("../../datamodel/plantuml_adaptor", __FILE__)
