@@ -194,6 +194,11 @@
           <data type="boolean"/>
         </attribute>
       </optional>
+      <optional>
+        <attribute name="inequality">
+          <data type="boolean"/>
+        </attribute>
+      </optional>
       <ref name="stem"/>
       <optional>
         <ref name="dl"/>

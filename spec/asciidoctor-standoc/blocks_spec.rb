@@ -40,7 +40,7 @@ RSpec.describe Asciidoctor::Standoc do
   it "processes stem blocks" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [stem]
+      [stem%inequality]
       ++++
       r = 1 % 
       r = 1 % 
@@ -64,7 +64,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
             #{BLANK_HDR}
        <sections>
-         <formula id="_">
+         <formula id="_" inequality="true">
          <stem type="AsciiMath">r = 1 %
        r = 1 %</stem>
        </formula>

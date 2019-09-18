@@ -15,6 +15,12 @@ module Asciidoctor
                   unnumbered: node.option?("unnumbered") ? "true" : nil )
       end
 
+      def formula_attr(node)
+        attr_code( id: Utils::anchor_or_uuid(node),
+                  inequality: node.option?("inequality") ? "true" : nil,
+                  unnumbered: node.option?("unnumbered") ? "true" : nil )
+      end
+
       # open block is a container of multiple blocks,
       # treated as a single block.
       # We append each contained block to its parent
@@ -42,7 +48,7 @@ module Asciidoctor
       def stem(node)
         stem_content = node.lines.join("\n")
         noko do |xml|
-          xml.formula **id_unnum_attr(node) do |s|
+          xml.formula **formula_attr(node) do |s|
             stem_parse(stem_content, s, node.style.to_sym)
           end
         end
