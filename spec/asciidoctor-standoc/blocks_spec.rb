@@ -51,7 +51,7 @@ RSpec.describe Asciidoctor::Standoc do
       <mml:math><mml:msub xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"> <mml:mrow> <mml:mrow> <mml:mi mathvariant="bold-italic">F</mml:mi> </mml:mrow> </mml:mrow> <mml:mrow> <mml:mrow> <mml:mi mathvariant="bold-italic">&#x0391;</mml:mi> </mml:mrow> </mml:mrow> </mml:msub> </mml:math>
       ++++
 
-      [latexmath]
+      [latexmath,subsequence=A]
       ++++
       M =
       \\begin{bmatrix}
@@ -72,7 +72,7 @@ RSpec.describe Asciidoctor::Standoc do
        <formula id="_" unnumbered="true">
          <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub> <mrow> <mrow> <mi mathvariant="bold-italic">F</mi> </mrow> </mrow> <mrow> <mrow> <mi mathvariant="bold-italic">Α</mi> </mrow> </mrow> </msub> </math></stem>
        </formula>
-              <formula id="_">
+              <formula id="_" subsequence="A">
          <stem type="MathML">
        <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="M=\\begin{bmatrix}-\\sin\\lambda_{0}&amp;\\cos\\lambda_{0}&amp;0\\\\&#10;-\\sin\\varphi_{0}\\cos\\lambda_{0}&amp;-\\sin\\varphi_{0}\\sin\\lambda_{0}&amp;\\cos\\varphi_{0%&#10;}\\\\&#10;\\cos\\varphi_{0}\\cos\\lambda_{0}&amp;\\cos\\varphi_{0}\\sin\\lambda_{0}&amp;\\sin\\varphi_{0}%&#10;\\end{bmatrix}" display="block">
          <mrow>
@@ -571,7 +571,7 @@ RSpec.describe Asciidoctor::Standoc do
     it "processes examples" do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [example]
+      [example,subsequence=A]
       ====
       This is an example
 
@@ -585,7 +585,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
        <sections>
-         <example id="_"><p id="_">This is an example</p>
+         <example id="_" subsequence="A"><p id="_">This is an example</p>
        <p id="_">Amen</p></example>
          <example id="_" unnumbered="true"><p id="_">This is another example</p></example>
        </sections>
@@ -655,14 +655,14 @@ RSpec.describe Asciidoctor::Standoc do
     it "processes data URI images" do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [%unnumbered]
+      [subsequence=A]
       .Split-it-right sample divider
       image::data:image/*;base64,ABC[alttext]
 
       INPUT
       #{BLANK_HDR}
               <sections>
-         <figure id="_" unnumbered="true">
+         <figure id="_" subsequence="A">
          <name>Split-it-right sample divider</name>
            <image src="data:image/*;base64,ABC" id="_" mimetype="image/*" height="auto" width="auto" alt="alttext"/>
        </figure>
@@ -904,7 +904,7 @@ RSpec.describe Asciidoctor::Standoc do
     it "processes requirement" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [.requirement]
+      [.requirement,subsequence="A"]
       .Title
       ====
       I recommend this
@@ -913,7 +913,7 @@ RSpec.describe Asciidoctor::Standoc do
              output = <<~"OUTPUT"
             #{BLANK_HDR}
        <sections>
-  <requirement id="_"><title>Title</title>
+  <requirement id="_" subsequence="A"><title>Title</title>
   <description><p id="_">I recommend this</p></description>
 </requirement>
        </sections>

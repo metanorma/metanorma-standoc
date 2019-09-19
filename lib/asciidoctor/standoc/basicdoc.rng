@@ -195,6 +195,9 @@
         </attribute>
       </optional>
       <optional>
+        <attribute name="subsequence"/>
+      </optional>
+      <optional>
         <attribute name="inequality">
           <data type="boolean"/>
         </attribute>
@@ -253,6 +256,9 @@
         </attribute>
       </optional>
       <optional>
+        <attribute name="subsequence"/>
+      </optional>
+      <optional>
         <attribute name="lang"/>
       </optional>
       <optional>
@@ -295,6 +301,9 @@
         <attribute name="unnumbered">
           <data type="boolean"/>
         </attribute>
+      </optional>
+      <optional>
+        <attribute name="subsequence"/>
       </optional>
       <optional>
         <attribute name="alt"/>
@@ -428,6 +437,9 @@
           <data type="boolean"/>
         </attribute>
       </optional>
+      <optional>
+        <attribute name="subsequence"/>
+      </optional>
       <oneOrMore>
         <choice>
           <ref name="formula"/>
@@ -490,6 +502,9 @@
         <attribute name="unnumbered">
           <data type="boolean"/>
         </attribute>
+      </optional>
+      <optional>
+        <attribute name="subsequence"/>
       </optional>
       <optional>
         <ref name="source"/>

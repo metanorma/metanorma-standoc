@@ -39,6 +39,7 @@ module Asciidoctor
         {
           id: Utils::anchor_or_uuid,
           unnumbered: node.option?("unnumbered") ? "true" : nil,
+          subsequence: node.attr("subsequence"),
           obligation: node.attr("obligation"),
           filename: node.attr("filename")
         }

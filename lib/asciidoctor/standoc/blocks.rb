@@ -12,13 +12,15 @@ module Asciidoctor
 
       def id_unnum_attr(node)
         attr_code( id: Utils::anchor_or_uuid(node),
-                  unnumbered: node.option?("unnumbered") ? "true" : nil )
+                  unnumbered: node.option?("unnumbered") ? "true" : nil,
+                  subsequence: node.attr("subsequence") )
       end
 
       def formula_attr(node)
         attr_code( id: Utils::anchor_or_uuid(node),
                   inequality: node.option?("inequality") ? "true" : nil,
-                  unnumbered: node.option?("unnumbered") ? "true" : nil )
+                  unnumbered: node.option?("unnumbered") ? "true" : nil,
+                  subsequence: node.attr("subsequence") )
       end
 
       # open block is a container of multiple blocks,
