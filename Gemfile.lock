@@ -1,3 +1,58 @@
+GIT
+  remote: https://github.com//html2doc
+  revision: 908b896490f2a72e6646a9a1fdf225df81e8e5fb
+  branch: test/20190919
+  specs:
+    html2doc (0.8.12)
+      asciimath (~> 1.0.7)
+      htmlentities (~> 4.3.4)
+      image_size
+      mime-types
+      nokogiri (>= 1.10.4)
+      thread_safe
+      uuidtools
+
+GIT
+  remote: https://github.com//isodoc
+  revision: c2e030a2243f97d598d4c1373c1dca0ec947b3d1
+  branch: test/20190919
+  specs:
+    isodoc (1.0.2)
+      asciimath
+      html2doc (~> 0.8.11)
+      htmlentities (~> 4.3.4)
+      liquid
+      metanorma (~> 0.3.0)
+      nokogiri (>= 1.10.4)
+      rake (~> 12.0)
+      roman-numerals
+      sassc (~> 2)
+      thread_safe
+      uuidtools
+
+GIT
+  remote: https://github.com//metanorma
+  revision: 8cceef93bb6c3d43d0c3b04a3d795d7af48bf236
+  branch: test/20190919
+  specs:
+    metanorma (0.3.14)
+      asciidoctor
+      htmlentities
+
+GIT
+  remote: https://github.com//relaton
+  revision: 92b076df1fa0ed40baad3c13f3ab4218bac33f75
+  branch: test/20190919
+  specs:
+    relaton (0.5.3)
+      relaton-gb (~> 0.6.0)
+      relaton-iec (~> 0.4.0)
+      relaton-ietf (~> 0.6.0)
+      relaton-iso (~> 0.6.0)
+      relaton-itu (~> 0.3.0)
+      relaton-nist (~> 0.3.0)
+      relaton-ogc (~> 0.1.0)
+
 PATH
   remote: .
   specs:
@@ -51,30 +106,10 @@ GEM
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
     hashdiff (1.0.0)
-    html2doc (0.8.12)
-      asciimath (~> 1.0.7)
-      htmlentities (~> 4.3.4)
-      image_size
-      mime-types
-      nokogiri
-      thread_safe
-      uuidtools
     htmlentities (4.3.4)
     iev (0.2.2)
       nokogiri
     image_size (2.0.2)
-    isodoc (1.0.2)
-      asciimath
-      html2doc (~> 0.8.11)
-      htmlentities (~> 4.3.4)
-      liquid
-      metanorma (~> 0.3.0)
-      nokogiri (>= 1.10.4)
-      rake (~> 12.0)
-      roman-numerals
-      sassc (~> 2)
-      thread_safe
-      uuidtools
     isoics (0.1.7)
     json (2.2.0)
     liquid (4.0.3)
@@ -83,9 +118,6 @@ GEM
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
     lumberjack (1.0.13)
-    metanorma (0.3.14)
-      asciidoctor
-      htmlentities
     method_source (0.9.2)
     mime-types (3.3)
       mime-types-data (~> 3.2015)
@@ -112,14 +144,6 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    relaton (0.5.4)
-      relaton-gb (~> 0.6.0)
-      relaton-iec (~> 0.4.0)
-      relaton-ietf (~> 0.6.0)
-      relaton-iso (~> 0.6.0)
-      relaton-itu (~> 0.3.0)
-      relaton-nist (~> 0.3.0)
-      relaton-ogc (~> 0.1.0)
     relaton-bib (0.3.6)
       addressable
       nokogiri
@@ -208,9 +232,12 @@ DEPENDENCIES
   equivalent-xml (~> 0.6)
   guard (~> 2.14)
   guard-rspec (~> 4.7)
-  metanorma (~> 0.3.0)
+  html2doc!
+  isodoc!
+  metanorma!
   metanorma-standoc!
   rake (~> 12.0)
+  relaton!
   rspec (~> 3.6)
   rubocop (= 0.54.0)
   simplecov (~> 0.15)
