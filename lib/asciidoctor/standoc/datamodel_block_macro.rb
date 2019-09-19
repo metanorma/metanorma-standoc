@@ -2,6 +2,7 @@ require "asciidoctor/extensions"
 require "fileutils"
 require "uuidtools"
 require "yaml"
+require "logger"
 
 require File.expand_path("../../datamodel/plantuml_adaptor", __FILE__)
 require File.expand_path("../../datamodel/asciidoc_adaptor", __FILE__)
@@ -138,23 +139,33 @@ module Asciidoctor
       end
 
       def process_imported_models(localdir, view_hash)
-        view_hash["imports"].reduce(view_hash) do |acc, (model_path, _)|
-          model_hash = YAML.load_file(Pathname.new(localdir) + "models/models/#{model_path}.yml")
-          model_type = TYPE_MAP[model_hash["modelType"]]
+        view_hash["imports"].reduce(view_hash) do |acc, (model_path, model_fidelity)|
+          begin
+            model_hash = YAML.load_file(Pathname.new(localdir) + "models/models/#{model_path}.yml")
+            model_type = TYPE_MAP[model_hash["modelType"]]
 
-          model_hash = ({ "relations" => [] }).merge(model_hash)
+            model_hash = ({
+              "relations" => [],
+              "fidelity" => model_fidelity
+            }).merge(model_hash)
 
-          model_to_plantuml(localdir, model_path, {
-            model_type => {
-              model_hash["name"] => model_hash
-            }
-          })
+            model_to_plantuml(localdir, model_path, {
+              model_type => {
+                model_hash["name"] => model_hash
+              }
+            })
 
-          acc.merge({
-            model_type => (acc[model_type] || {}).merge(
-              model_hash["name"] => model_hash
-            )
-          })
+            acc.merge({
+              model_type => (acc[model_type] || {}).merge(
+                model_hash["name"] => model_hash
+              )
+            })
+          rescue Exception => err
+            logger = Logger.new(STDOUT)
+            logger.warn("Cannot import #{model_path} from view #{view_hash["name"]}!")
+            logger.warn(err.message)
+            acc
+          end
         end
       end
 
