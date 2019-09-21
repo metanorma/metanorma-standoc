@@ -5,6 +5,7 @@ module Asciidoctor
         { id: Utils::anchor_or_uuid(node),
           headerrows: node.attr("headerrows"),
           unnumbered: node.option?("unnumbered") ? "true" : nil,
+          subsequence: node.attr("subsequence"),
           alt: node.attr("alt") }
       end
 
