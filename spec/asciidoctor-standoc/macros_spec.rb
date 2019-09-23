@@ -45,6 +45,25 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+  it "processes the Ruby markups" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      <ruby>
+      <rb>東京</rb><rp>(</rp>
+      <rt>とうきょう</rt><rp>)</rp>
+      </ruby>
+    INPUT
+            #{BLANK_HDR}
+            <sections>
+              <p id="_">&lt;ruby&gt;
+            &lt;rb&gt;東京&lt;/rb&gt;&lt;rp&gt;(&lt;/rp&gt;
+            &lt;rt&gt;とうきょう&lt;/rt&gt;&lt;rp&gt;)&lt;/rp&gt;
+            &lt;/ruby&gt;</p>
+            </sections>
+       </standard-document>
+    OUTPUT
+  end
+
   it "processes the PlantUML macro" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).gsub(%r{plantuml/[^.]{36}\.}, "plantuml/_.")).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
@@ -96,7 +115,7 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
-    it "processes the PlantUML macro with imagesdir" do
+  it "processes the PlantUML macro with imagesdir" do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).gsub(%r{spec/assets/[^.]+\.}, "spec/assets/_.")).to be_equivalent_to <<~"OUTPUT"
       = Document title
       Author
