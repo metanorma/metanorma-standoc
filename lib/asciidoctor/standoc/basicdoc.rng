@@ -309,6 +309,9 @@
         <attribute name="alt"/>
       </optional>
       <optional>
+        <attribute name="longdesc"/>
+      </optional>
+      <optional>
         <attribute name="uri">
           <data type="anyURI"/>
         </attribute>

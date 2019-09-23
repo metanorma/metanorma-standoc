@@ -6,7 +6,8 @@ module Asciidoctor
           headerrows: node.attr("headerrows"),
           unnumbered: node.option?("unnumbered") ? "true" : nil,
           subsequence: node.attr("subsequence"),
-          alt: node.attr("alt") }
+          alt: node.attr("alt"),
+          longdesc: node.attr("longdesc") }
       end
 
       def table(node)
