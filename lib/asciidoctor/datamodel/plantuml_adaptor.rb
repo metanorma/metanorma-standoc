@@ -122,7 +122,7 @@ module Asciidoctor
         class_hash ||= {}
 
         <<-plantuml
-class #{class_name} {
+class #{class_name}#{model_stereotype_to_plantuml(class_hash["type"])} {
 #{
   join_as_plantuml(
     attributes_to_plantuml(class_hash["attributes"]),
@@ -295,7 +295,7 @@ class #{class_name} {
         enum_hash ||= {}
 
         <<-plantuml
-enum #{enum_name}#{enum_type_to_plantuml(enum_hash["type"])} {
+enum #{enum_name}#{model_stereotype_to_plantuml(enum_hash["type"])} {
 #{
   join_as_plantuml(
     enum_values_to_plantuml(enum_hash["values"])
@@ -305,10 +305,10 @@ enum #{enum_name}#{enum_type_to_plantuml(enum_hash["type"])} {
         plantuml
       end
 
-      def self.enum_type_to_plantuml(enum_type)
-        return "" unless enum_type
+      def self.model_stereotype_to_plantuml(model_stereotype)
+        return "" unless model_stereotype
 
-        " <<#{enum_type}>>"
+        " <<#{model_stereotype}>>"
       end
 
       def self.enum_values_to_plantuml(enum_values)
