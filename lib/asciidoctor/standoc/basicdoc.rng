@@ -309,7 +309,7 @@
         <attribute name="alt"/>
       </optional>
       <optional>
-        <attribute name="longdesc"/>
+        <attribute name="summary"/>
       </optional>
       <optional>
         <attribute name="uri">
