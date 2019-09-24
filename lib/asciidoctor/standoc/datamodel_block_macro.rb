@@ -57,6 +57,9 @@ module Asciidoctor
 
       def models_to_sections(block, view_hash)
         Asciidoctor::DataModel::AsciidocAdaptor.for_each("classes", view_hash) do |class_name, class_hash|
+          class_fidelity = class_hash["fidelity"] || {}
+          next if class_fidelity["skipSection"]
+
           section = create_section block, class_name, {}
           block.blocks.push(section)
 
@@ -143,6 +146,7 @@ module Asciidoctor
           begin
             model_hash = YAML.load_file(Pathname.new(localdir) + "models/models/#{model_path}.yml")
             model_type = TYPE_MAP[model_hash["modelType"]]
+            model_name = model_hash["name"] || model_path.gsub(/\//, "")
 
             model_hash = ({
               "relations" => [],
@@ -151,13 +155,13 @@ module Asciidoctor
 
             model_to_plantuml(localdir, model_path, {
               model_type => {
-                model_hash["name"] => model_hash
+                model_name => model_hash
               }
             })
 
             acc.merge({
               model_type => (acc[model_type] || {}).merge(
-                model_hash["name"] => model_hash
+                model_name => model_hash
               )
             })
           rescue Exception => err

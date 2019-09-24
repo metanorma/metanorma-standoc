@@ -66,11 +66,14 @@ include::#{plantuml_path}/#{model_name}.wsd[]
 
         classes.map do |(class_name, class_hash)|
           class_to_asciidoc(class_name, class_hash, level)
-        end.join("\n")
+        end.compact.join("\n")
       end
 
       def self.class_to_asciidoc(class_name, class_hash, level)
         class_hash ||= {}
+        class_fidelity = class_hash["fidelity"] || {}
+
+        return if class_fidelity["skipDefinition"]
 
         <<-asciidoc
 #{header_to_asciidoc(class_name, class_hash, level)}

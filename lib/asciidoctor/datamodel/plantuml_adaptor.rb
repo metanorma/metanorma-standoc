@@ -267,7 +267,7 @@ class #{class_name} {
 
         return unless attribute_name
 
-        attribute_hash = attribute[attribute_name]
+        attribute_hash = attribute[attribute_name] || {}
         attribute_cardinality = attribute_hash["cardinality"]
         cardinality = ""
 
@@ -362,6 +362,15 @@ together {
                     relation[type] => true
                   })
                 end
+              end
+
+              relationship = relation["relationship"] || {}
+              association = relationship["association"]
+
+              if association && !fidelity_classes.has_key?(association)
+                acc = acc.merge({
+                  association => true
+                })
               end
             end
 
