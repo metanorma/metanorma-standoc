@@ -16,7 +16,7 @@ module Asciidoctor
       def textcleanup(result)
         text = result.flatten.map { |l| l.sub(/\s*$/, "") }  * "\n"
         if !@keepasciimath
-          text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>},
+          text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>}m,
                            '<amathstem>\1</amathstem>')
           text = Html2Doc.
             asciimath_to_mathml(text, ['<amathstem>', "</amathstem>"]).
