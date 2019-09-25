@@ -16,8 +16,7 @@ module Asciidoctor
       end
     end
 
-    class DeprecatedTermInlineMacro <
-      Asciidoctor::Extensions::InlineMacroProcessor
+    class DeprecatedTermInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :deprecated
       parse_content_as :text
@@ -38,6 +37,31 @@ module Asciidoctor
       def process(parent, _target, attrs)
         out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
         %{<domain>#{out}</domain>}
+      end
+    end
+
+    class HTML5RubyMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :ruby
+      parse_content_as :text
+      using_format :short
+
+      option :pos_attrs, %w(rpbegin rt rpend)
+
+      def process(parent, target, attributes)
+        if attributes.size == 2 and attributes.key?(1) and attributes.key?("rpbegin")
+          # for example, html5ruby:楽聖少女[がくせいしょうじょ]
+          rt = attributes[1]
+          rt ||= ""
+          rpbegin = '('
+          rpend = ')'
+        else
+          rpbegin = attributes['rpbegin']
+          rt = attributes['rt']
+          rpend = attributes['rpend']
+        end
+
+        %(<ruby>#{target}<rp>#{rpbegin}</rp><rt>#{rt}</rt><rp>#{rpend}</rp></ruby>)
       end
     end
 
@@ -93,7 +117,7 @@ module Asciidoctor
         # finish erlier then dot, as result png file maybe not created yet after plantuml finish
         sleep(2) if Gem.win_platform?
         outfile = parent.image_uri("#{fn}.png")
-        if outfile == "#{fn}.png" 
+        if outfile == "#{fn}.png"
           (Pathname.new("plantuml") + "#{fn}.png").to_s
         else
           FileUtils.mv (Pathname.new(localdir) + "plantuml" + "#{fn}.png").to_s,
