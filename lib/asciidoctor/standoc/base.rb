@@ -49,7 +49,6 @@ module Asciidoctor
           datauriimage: node.attr("data-uri-image"),
           htmltoclevels: node.attr("htmltoclevels") || node.attr("toclevels"),
           doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
-          ruby: node.attr("ruby") || node.attr("rb") || node.attr("rt") || node.attr("rp") || node.attr("rbc") || node.attr("rtc"),
         }
       end
 
@@ -74,7 +73,6 @@ module Asciidoctor
           olstyle: node.attr("olstyle"),
           htmltoclevels: node.attr("htmltoclevels") || node.attr("toclevels"),
           doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
-          ruby: node.attr("ruby") || node.attr("rb") || node.attr("rt") || node.attr("rp") || node.attr("rbc") || node.attr("rtc"),
         }
       end
 

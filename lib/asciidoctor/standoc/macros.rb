@@ -44,17 +44,18 @@ module Asciidoctor
       use_dsl
       named :ruby
       parse_content_as :text
-      using_format :short
 
       option :pos_attrs, %w(rpbegin rt rpend)
 
       def process(parent, target, attributes)
-        if attributes.size == 2 and attributes.key?(1) and attributes.key?("rpbegin")
+          rpbegin = '('
+          rpend = ')'
+        if attributes.size == 1 and attributes.key?("text")
+          rt = attributes["text"]
+        elsif attributes.size == 2 and attributes.key?(1) and attributes.key?("rpbegin")
           # for example, html5ruby:楽聖少女[がくせいしょうじょ]
           rt = attributes[1]
           rt ||= ""
-          rpbegin = '('
-          rpend = ')'
         else
           rpbegin = attributes['rpbegin']
           rt = attributes['rt']

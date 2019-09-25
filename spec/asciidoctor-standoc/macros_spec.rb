@@ -48,17 +48,14 @@ RSpec.describe Asciidoctor::Standoc do
   it "processes the Ruby markups" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
-      <ruby>
-      <rb>東京</rb><rp>(</rp>
-      <rt>とうきょう</rt><rp>)</rp>
-      </ruby>
+
+      ruby:楽聖少女[がくせいしょうじょ]
     INPUT
             #{BLANK_HDR}
             <sections>
-              <p id="_">&lt;ruby&gt;
-            &lt;rb&gt;東京&lt;/rb&gt;&lt;rp&gt;(&lt;/rp&gt;
-            &lt;rt&gt;とうきょう&lt;/rt&gt;&lt;rp&gt;)&lt;/rp&gt;
-            &lt;/ruby&gt;</p>
+              <p id="_">
+              <ruby>楽聖少女<rp>(</rp><rt>がくせいしょうじょ</rt><rp>)</rp></ruby>
+            </p>
             </sections>
        </standard-document>
     OUTPUT
