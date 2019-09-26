@@ -7,6 +7,7 @@ PATH
       html2doc (~> 0.8.11)
       iev (~> 0.2.1)
       isodoc (~> 1.0.0)
+      mimemagic
       relaton (~> 0.5.0)
       relaton-iev (~> 0.1.0)
       ruby-jing
@@ -90,6 +91,7 @@ GEM
     mime-types (3.3)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2019.0904)
+    mimemagic (0.3.3)
     mini_portile2 (2.4.0)
     multipart-post (2.1.1)
     nenv (0.3.0)
@@ -175,7 +177,7 @@ GEM
     ruby-progressbar (1.10.1)
     ruby_deep_clone (0.8.0)
     ruby_dep (1.5.0)
-    rubyzip (1.2.4)
+    rubyzip (2.0.0)
     safe_yaml (1.0.5)
     sassc (2.2.1)
       ffi (~> 1.9)
