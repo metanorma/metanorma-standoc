@@ -242,6 +242,7 @@ RSpec.describe Asciidoctor::Standoc do
   it "moves notes inside preceding blocks, if they are not at clause end, and the blocks are not delimited" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
+      
       [stem]
       ++++
       r = 1 %
@@ -254,8 +255,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
        #{BLANK_HDR}
     <sections><formula id="_">
-  <stem type="AsciiMath">r = 1 %
-r = 1 %</stem>
+  <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem>
 <note id="_">
   <p id="_">That formula does not do much</p>
 </note></formula>
@@ -1163,7 +1163,7 @@ r = 1 %</stem>
     INPUT
        #{BLANK_HDR}
        <sections>
-       <stem type="MathML">/www.w3.org/1998/Math/MathML”&gt;<mfrac><mn>1</mn><mi>r</mi></mfrac></stem>
+       <stem type="MathML"><math><mfrac><mn>1</mn><mi>r</mi></mfrac></math></stem>
 </sections>
 
 
