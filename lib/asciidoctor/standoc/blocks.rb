@@ -175,11 +175,12 @@ module Asciidoctor
 
       def image_attributes(node)
         uri = node.image_uri (node.attr("target") || node.target)
-        types = /^data:/.match(uri) ? [uri.sub(/^data:/, "").sub(/;.*$/, "")] :
-          MIME::Types.type_for(uri)
+        types = /^data:/.match(uri) ? datauri2mime(uri) : MIME::Types.type_for(uri)
+        type = types.first.to_s
+        uri = uri.sub(%r{^data:image/\*;}, "data:#{type};")
         { src: @datauriimage ? datauri(uri) : uri,
           id: Utils::anchor_or_uuid,
-          mimetype: types.first.to_s,
+          mimetype: type,
           height: node.attr("height") || "auto",
           width: node.attr("width") || "auto" ,
           filename: node.attr("filename"),

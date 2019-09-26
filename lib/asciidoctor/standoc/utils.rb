@@ -6,7 +6,7 @@ require "pathname"
 require "open-uri"
 require "uuidtools"
 require "sterile"
-#require_relative "../../hacks/sterile"
+require "mimemagic"
 
 module Asciidoctor
   module Standoc
@@ -184,6 +184,18 @@ module Asciidoctor
         else
           out.p { |p| p << node.content }
         end
+      end
+
+      def datauri2mime(uri)
+        %r{^data:image/(?<imgtype>[^;]+);base64,(?<imgdata>.+)$} =~ uri
+        file = Tempfile.new(["hello", ".jpg"])
+        file.binmode
+        file.write(Base64.strict_decode64(imgdata))
+        file.rewind
+        type = MimeMagic.by_magic(file)
+        file.close
+        file.unlink 
+        [type]
       end
 
       SUBCLAUSE_XPATH = "//clause[ancestor::clause or ancestor::annex or "\
