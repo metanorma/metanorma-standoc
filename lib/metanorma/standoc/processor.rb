@@ -8,8 +8,6 @@ module Metanorma
         @short = :standoc
         @input_format = :asciidoc
         @asciidoctor_backend = :standoc
-
-        Metanorma::Standoc::Requirements[:latexml].satisfied
       end
 
       def output_formats
