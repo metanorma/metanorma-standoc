@@ -145,15 +145,20 @@ RSpec.describe Asciidoctor::Standoc do
         #{NORM_REF_BOILERPLATE}
        <bibitem id="iso123" type="standard">
          <fetched>#{Date.today}</fetched>
-         <title type="title-main" format="text/plain" language="en" script="Latn">Rubber latex — Sampling</title>
-         <title type="main" format="text/plain" language="en" script="Latn">Rubber latex — Sampling</title>
-         <title type="title-main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc — Échantillonnage</title>
-         <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc — Échantillonnage</title>  
+         <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
+         <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
+         <title type="main" format="text/plain" language="en" script="Latn">Rubber latex – Sampling</title>
+         <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
+         <title type="title-main" format="text/plain" language="fr" script="Latn">Échantillonnage</title>
+         <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc – Échantillonnage</title>
          <uri type="src">https://www.iso.org/standard/23281.html</uri>
          <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-         <docidentifier type="ISO">ISO 123</docidentifier>
+         <docidentifier type="ISO">ISO 123:2001</docidentifier>
          <docnumber>123</docnumber>
+         <date type="published">
+                <on>2001</on>
+         </date>
          <contributor>
            <role type="publisher"/>
            <organization>
@@ -183,13 +188,17 @@ RSpec.describe Asciidoctor::Standoc do
              <formattedref format="text/plain">ISO 123:1985</formattedref>
            </bibitem>
          </relation>
+         </bibitem> </references></bibliography>
+       </standard-document>
+       OUTPUT
+=begin
          <relation type="instance">
            <bibitem type="standard">
              <fetched>#{Date.today}</fetched>
-             <title type="title-main" format="text/plain" language="en" script="Latn">Rubber latex — Sampling</title>
-             <title type="main" format="text/plain" language="en" script="Latn">Rubber latex — Sampling</title>
-             <title type="title-main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc — Échantillonnage</title>
-             <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc — Échantillonnage</title>
+             <title type="title-main" format="text/plain" language="en" script="Latn">Rubber latex – Sampling</title>
+             <title type="main" format="text/plain" language="en" script="Latn">Rubber latex – Sampling</title>
+             <title type="title-main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc – Échantillonnage</title>
+             <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc – Échantillonnage</title>
              <uri type="src">https://www.iso.org/standard/23281.html</uri>
              <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
              <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -232,6 +241,7 @@ RSpec.describe Asciidoctor::Standoc do
        </bibitem> </references></bibliography>
        </standard-document>
       OUTPUT
+=end
     end
   end
 
@@ -332,10 +342,12 @@ RSpec.describe Asciidoctor::Standoc do
         </bibitem>
           <bibitem type="standard" id="iso124">
           <fetched>#{Date.today}</fetched>
-          <title type="title-main" format="text/plain" language="en" script="Latn">Latex, rubber — Determination of total solids content</title>
-          <title type="main" format="text/plain" language="en" script="Latn">Latex, rubber — Determination of total solids content</title>
-          <title type="title-main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc — Détermination des matières solides totales</title>
-          <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc — Détermination des matières solides totales</title>
+          <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
+          <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
+          <title type="main" format="text/plain" language="en" script="Latn">Latex, rubber – Determination of total solids content</title>
+          <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
+<title type="title-main" format="text/plain" language="fr" script="Latn">Détermination des matières solides totales</title
+          <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc – Détermination des matières solides totales</title>
           <uri type="src">https://www.iso.org/standard/61884.html</uri>
           <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
           <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
