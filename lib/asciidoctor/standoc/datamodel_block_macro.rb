@@ -16,6 +16,7 @@ module Asciidoctor
       parse_content_as :raw
 
       PLANTUML_PATH = ".."
+      DATAMODEL_PLANTUML_PATH = "plantuml2"
       TYPE_MAP = {
         "class" => "classes",
         "enum" => "enums",
@@ -34,7 +35,7 @@ module Asciidoctor
         # section = create_section block, view_hash["title"], {}
         # block.blocks.push(section)
 
-        view_to_image_figure(block, localdir, view_wsd, view_hash, attrs)
+        view_to_image_figure(block, parent, view_wsd, view_hash, attrs)
         models_to_sections(block, view_hash) unless fidelity["hideMembers"]
 
         block
@@ -42,10 +43,13 @@ module Asciidoctor
 
       private
 
-      def view_to_image_figure(block, localdir, view_wsd, view_hash, attrs)
-        copy_style_file(localdir)
+      def view_to_image_figure(block, parent, view_wsd, view_hash, attrs)
+        copy_style_file(parent)
 
-        image_filename = generate_image_file(localdir, view_wsd).to_s
+        image_filename = generate_image_file(parent, view_wsd)
+
+        # puts "************ image_filename #{image_filename}"
+        # puts "************ view_wsd #{view_wsd}"
 
         through_attrs = generate_attrs attrs
         through_attrs["target"] = image_filename
@@ -88,19 +92,40 @@ module Asciidoctor
         end
       end
 
-      def generate_image_file(localdir, wsd_file)
+      # if no :imagesdir: leave image file in plantuml
+      def generate_image_file(parent, wsd_file)
+        localdir = Utils::localdir(parent.document)
         system "plantuml #{wsd_file}"
 
         view_name_regexp = /(?<view_name>[^\/]+)\.wsd\Z/
         matched = view_name_regexp.match(wsd_file)
         view_name = matched[:view_name]
-        outfile_name = "#{view_name}.png"
+        outfile_imagesdir = parent.image_uri("#{view_name}.png")
+        outfile_normal = "#{view_name}.png"
+
+        # puts "************ outfile #{outfile_imagesdir}"
+        # puts "************ outfile_name #{outfile_normal}"
 
         path = Pathname.new(wsd_file)
-        source_path = Pathname.pwd + localdir
-        image_path = path.dirname + outfile_name
+        # puts "************ path #{path}"
 
-        image_path.relative_path_from(source_path)
+        # Execution path + source dir of main adoc file
+        parent_path = Pathname.pwd + localdir
+
+        imagesdir_path = parent_path + outfile_imagesdir
+        # puts "************ imagesdir_path #{imagesdir_path}"
+        image_path = path.dirname + outfile_normal
+        # puts "************ image_path #{image_path}"
+
+        if outfile_normal.to_s == outfile_imagesdir.to_s
+          image_path.relative_path_from(parent_path).to_s
+        else
+          FileUtils.mv image_path.to_s, imagesdir_path.to_s
+
+          # We use this path because Asciidoctor automatically appends
+          # ":imagedir:", so we have to give without ":imagedir:"
+          outfile_normal
+        end
       end
 
       def generate_attrs attrs
@@ -111,12 +136,13 @@ module Asciidoctor
         end
       end
 
-      def copy_style_file(localdir)
+      def copy_style_file(parent)
+        localdir = Utils::localdir(parent.document)
         outfile = "style.uml.inc"
 
         FileUtils.cp(
           File.expand_path("models/#{outfile}", localdir),
-          File.expand_path("models/plantuml2/#{outfile}", localdir)
+          File.expand_path("models/#{DATAMODEL_PLANTUML_PATH}/#{outfile}", localdir)
         ).to_s
       end
 
@@ -130,7 +156,7 @@ module Asciidoctor
           }),
         })
 
-        dir_name = File.expand_path("models/plantuml2/views", localdir)
+        dir_name = File.expand_path("models/#{DATAMODEL_PLANTUML_PATH}/views", localdir)
         FileUtils.mkdir_p(dir_name)
 
         view_wsd = "#{dir_name}/#{view_hash["name"]}.wsd"
@@ -181,7 +207,7 @@ module Asciidoctor
         (*model_dirs, model_name) = model_path.split("/")
 
         model_dir = model_dirs.join("/")
-        dir_name = File.expand_path("models/plantuml2/models/#{model_dir}", localdir)
+        dir_name = File.expand_path("models/#{DATAMODEL_PLANTUML_PATH}/models/#{model_dir}", localdir)
         FileUtils.mkdir_p(dir_name)
 
         File.open("#{dir_name}/#{model_name}.wsd", "w") do |file|
