@@ -45,7 +45,7 @@ module Asciidoctor
       def view_to_image_figure(block, localdir, view_wsd, view_hash, attrs)
         copy_style_file(localdir)
 
-        image_filename = generate_image_file(localdir, view_wsd)
+        image_filename = generate_image_file(localdir, view_wsd).to_s
 
         through_attrs = generate_attrs attrs
         through_attrs["target"] = image_filename
@@ -96,7 +96,11 @@ module Asciidoctor
         view_name = matched[:view_name]
         outfile_name = "#{view_name}.png"
 
-        "../models/plantuml2/views/#{outfile_name}"
+        path = Pathname.new(wsd_file)
+        source_path = Pathname.pwd + localdir
+        image_path = path.dirname + outfile_name
+
+        image_path.relative_path_from(source_path)
       end
 
       def generate_attrs attrs
