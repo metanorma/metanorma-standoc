@@ -16,6 +16,7 @@ module Asciidoctor
         inline_macro Asciidoctor::Standoc::AltTermInlineMacro
         inline_macro Asciidoctor::Standoc::DeprecatedTermInlineMacro
         inline_macro Asciidoctor::Standoc::DomainTermInlineMacro
+        inline_macro Asciidoctor::Standoc::HTML5RubyMacro
         block Asciidoctor::Standoc::ToDoAdmonitionBlock
         treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
         block Asciidoctor::Standoc::PlantUMLBlockMacro
@@ -121,7 +122,7 @@ module Asciidoctor
       def init_iev_caches(node)
         unless (@no_isobib_cache || @no_isobib)
           node.attr("local-cache-only") or
-            @iev_globalname = global_ievcache_name 
+            @iev_globalname = global_ievcache_name
           @iev_localname = local_ievcache_name(node.attr("local-cache") ||
                                                node.attr("local-cache-only"))
           if node.attr("flush-caches")

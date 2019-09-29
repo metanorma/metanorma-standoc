@@ -114,7 +114,7 @@ RSpec.describe Asciidoctor::Standoc do
   it "processes complex tables" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [cols="<,^,^,^,^",options="header,footer",headerrows=2,alt="An extensive summary, and illustration, of tables",subsequence="A",options="unnumbered"]
+      [cols="<,^,^,^,^",options="header,footer",headerrows=2,alt="An extensive summary, and illustration, of tables",subsequence="A",options="unnumbered",summary="This is an extremely long, convoluted summary"]
       .Maximum _permissible_ mass fraction of defects
       |===
       .2+|Defect 4+^| Maximum permissible mass fraction of defects in husked rice +
@@ -144,7 +144,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
             #{BLANK_HDR}
        <sections>
-         <table id="_" alt="An extensive summary, and illustration, of tables" unnumbered="true" subsequence="A">
+         <table id="_" alt="An extensive summary, and illustration, of tables" unnumbered="true" subsequence="A" summary="This is an extremely long, convoluted summary">
          <name>Maximum <em>permissible</em> mass fraction of defects</name>
          <thead>
            <tr>

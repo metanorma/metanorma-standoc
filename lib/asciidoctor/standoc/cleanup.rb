@@ -16,7 +16,7 @@ module Asciidoctor
       def textcleanup(result)
         text = result.flatten.map { |l| l.sub(/\s*$/, "") }  * "\n"
         if !@keepasciimath
-          text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>},
+          text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>}m,
                            '<amathstem>\1</amathstem>')
           text = Html2Doc.
             asciimath_to_mathml(text, ['<amathstem>', "</amathstem>"]).
@@ -243,8 +243,11 @@ module Asciidoctor
         xmldoc.xpath("//stem[@type = 'MathML']").each do |x|
           next if x.children.any? { |y| y.element? }
           math = x.text.gsub(/&lt;/, "<").gsub(/&gt;/, ">").gsub(/&quot;/, '"').
-            gsub(/&amp;/, "&").gsub(/<[^:\/]+:/, "<").gsub(/<\/[^:]+:/, "</").
-            gsub(/ xmlns[^>]+/, "").
+            gsub(/&apos;/, "'").gsub(/&amp;/, "&").
+            gsub(/<[^: \r\n\t\/]+:/, "<").
+            gsub(/<\/[^ \r\n\t:]+:/, "</").
+            gsub(/ xmlns[^>"']+/, "").
+            gsub(/<math /, '<math xmlns="http://www.w3.org/1998/Math/MathML" ').
             gsub(/<math>/, '<math xmlns="http://www.w3.org/1998/Math/MathML">')
           x.children = math
         end
