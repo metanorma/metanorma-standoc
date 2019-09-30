@@ -724,7 +724,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
        #{BLANK_HDR}
               <sections>
-         <figure id="figureC-2"><figure id="_">
+         <figure id="figureC-2"><name>Stages of gelatinization</name><figure id="_">
          <name>Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
          <image src="spec/examples/rice_images/rice_image3_1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
        </figure>
