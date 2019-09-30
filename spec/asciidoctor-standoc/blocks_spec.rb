@@ -572,6 +572,7 @@ RSpec.describe Asciidoctor::Standoc do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
       [example,subsequence=A]
+      .Title
       ====
       This is an example
 
@@ -585,7 +586,9 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
        <sections>
-         <example id="_" subsequence="A"><p id="_">This is an example</p>
+         <example id="_" subsequence="A">
+         <name>Title</name>
+        <p id="_">This is an example</p>
        <p id="_">Amen</p></example>
          <example id="_" unnumbered="true"><p id="_">This is another example</p></example>
        </sections>
