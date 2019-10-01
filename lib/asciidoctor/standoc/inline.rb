@@ -108,7 +108,8 @@ module Asciidoctor
         elsif style == :latexmath
           latex_cmd = Metanorma::Standoc::Requirements[:latexml].cmd
           latexmlmath_input =
-            Unicode2LaTeX::unicode2latex(text).gsub(/'/, '\\').gsub(/\n/, " ")
+            Unicode2LaTeX::unicode2latex(HTMLEntities.new.decode(text)).
+            gsub(/'/, '\\').gsub(/\n/, " ")
           latex = IO.popen(latex_cmd, "r+", external_encoding: "UTF-8") do |io|
             io.write(latexmlmath_input)
             io.close_write

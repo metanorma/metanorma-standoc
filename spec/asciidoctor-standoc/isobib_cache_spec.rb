@@ -593,6 +593,7 @@ EOS
     expect(entry).to include("<fetched>#{Date.today.to_s}</fetched>")
     #expect(entry).to be_equivalent_to(ISO_123_UNDATED)  # NN TEMP
 
+
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
   end

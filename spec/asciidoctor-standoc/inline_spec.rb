@@ -43,6 +43,24 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+  it "normalises inline stem" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{DUMBQUOTE_BLANK_HDR}
+
+      stem:[n < 1]
+      latexmath:[n < 1]
+      INPUT
+            #{BLANK_HDR}
+      <sections>
+      <p id="_">
+          <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math></stem>
+          <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="n&lt;1" display="block">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math></stem>
+        </p>
+      </sections>
+       </standard-document>
+      OUTPUT
+  end
+
   it "generates desired smart quotes for 'dd'" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
