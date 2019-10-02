@@ -43,7 +43,7 @@ jobs:
       - name: Install puppeteer
         shell: pwsh
         run: |
-        	npm -g i puppeteer
+          npm -g i puppeteer
       - name: Run specs
         shell: pwsh
         run: |

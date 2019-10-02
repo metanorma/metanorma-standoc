@@ -37,7 +37,7 @@ jobs:
           brew install plantuml
       - name: Install puppeteer
         run: |
-        	npm -g i puppeteer
+          npm -g i puppeteer
       - name: Run specs
         run: |
           bundle exec rake
