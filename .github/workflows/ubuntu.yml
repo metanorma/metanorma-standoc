@@ -9,6 +9,7 @@ jobs:
     name: Test on Ruby ${{ matrix.ruby }} Ubuntu
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         ruby: [ '2.6', '2.5', '2.4' ]
     steps:
@@ -27,6 +28,9 @@ jobs:
           curl -L https://cpanmin.us | perl - --sudo App::cpanminus
           sudo apt-get install -y libxml2-dev libxslt1-dev libicu-dev zlib1g-dev
           sudo cpanm --notest LaTeXML@0.8.4
+      - name: Install PlantUML
+        run: |
+          curl -L https://raw.githubusercontent.com/metanorma/plantuml-install/master/ubuntu.sh | sudo bash
       - name: Run specs
         run: |
           bundle exec rake
