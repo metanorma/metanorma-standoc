@@ -22,6 +22,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '10.x'
+      - name: Install MN Windows dependencies
+        shell: pwsh
+        run: |
+          choco install --no-progress plantuml make sed gnuwin32-coreutils.install grep
       - name: Update gems
         shell: pwsh
         run: |
@@ -30,14 +34,17 @@ jobs:
           bundle update
           bundle install --jobs 4 --retry 3
       - name: Install LaTeXML
+        shell: pwsh
         run: |
           cinst -y latexml
-      - name: Install PlantUML
-        run: |
-          cinst -y plantuml
+          refreshenv
+          set PATH=C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;%PATH%
+          where latexmlmath
       - name: Install puppeteer
+        shell: pwsh
         run: |
         	npm -g i puppeteer
       - name: Run specs
+        shell: pwsh
         run: |
           bundle exec rake
