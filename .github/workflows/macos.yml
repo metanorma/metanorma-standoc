@@ -27,7 +27,7 @@ jobs:
           sudo gem install bundler -v "~> 2" --force
           bundle install --jobs 4 --retry 3
       - name: Brew update
-      	run: |
+        run: |
           brew update
       - name: Install LaTeXML
         run: |
