@@ -34,7 +34,7 @@ jobs:
           bundle update
           bundle install --jobs 4 --retry 3
       - name: Install LaTeXML
-        shell: pwsh
+        shell: cmd
         run: |
           cinst -y latexml
           refreshenv
