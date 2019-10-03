@@ -120,6 +120,10 @@ module Asciidoctor
         if outfile_normal.to_s == outfile_imagesdir.to_s
           image_path.relative_path_from(parent_path).to_s
         else
+          # Create :imagesdir: directory if it doesn't yet exist.
+          FileUtils.mkdir_p imagesdir_path.dirname
+
+          # Move the image into :imagesdir: directory.
           FileUtils.mv image_path.to_s, imagesdir_path.to_s
 
           # We use this path because Asciidoctor automatically appends
