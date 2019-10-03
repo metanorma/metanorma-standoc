@@ -93,6 +93,7 @@ include::#{plantuml_path}/#{model_name}.wsd[]
 
         <<-asciidoc
 .#{class_name} attributes
+[options="header"]
 |===
 #{attributes_table_head_asciidoc(max_space_map, CLASS_COLUMN_MAP).strip}
 #{
@@ -227,6 +228,7 @@ include::#{plantuml_path}/#{model_name}.wsd[]
 
         <<-asciidoc
 .#{enum_name} values
+[options="header"]
 |===
 #{attributes_table_head_asciidoc(max_space_map, ENUM_COLUMN_MAP).strip}
 #{
