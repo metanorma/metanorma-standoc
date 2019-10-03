@@ -16,10 +16,13 @@ module Asciidoctor
       def textcleanup(result)
         text = result.flatten.map { |l| l.sub(/\s*$/, "") }  * "\n"
         if !@keepasciimath
-          text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>}m,
-                           '<amathstem>\1</amathstem>')
+          #text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>}m,
+                           #'<amathstem>\1</amathstem>')
+          text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>}m) do |m|
+            "<amathstem>#{HTMLEntities.new.decode($1)}</amathstem>"
+          end
           text = Html2Doc.
-            asciimath_to_mathml(text, ['<amathstem>', "</amathstem>"]).
+            asciimath_to_mathml(text, ["<amathstem>", "</amathstem>"]).
             gsub(%r{<math xmlns='http://www.w3.org/1998/Math/MathML'>},
                  "<stem type='MathML'>"\
                  "<math xmlns='http://www.w3.org/1998/Math/MathML'>").

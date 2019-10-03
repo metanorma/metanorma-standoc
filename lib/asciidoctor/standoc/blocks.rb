@@ -149,6 +149,7 @@ module Asciidoctor
           return requirement(node, role)
         noko do |xml|
           xml.example **id_unnum_attr(node) do |ex|
+            node.title.nil? or ex.name { |name| name << node.title }
             wrap_in_para(node, ex)
           end
         end.join("\n")
