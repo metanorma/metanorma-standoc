@@ -17,6 +17,7 @@ For each model, the YAML file path is:
 
 ==== Attributes
 
+[options="header"]
 |===
 |Attribute  |Type                        |Mandatory?  |Description
 |name       |String                      |false       |If the attribute is not
@@ -26,7 +27,7 @@ specify the type of model.
 |type       |String                      |false       |If the attribute is
 specified, it will become the stereotype of the model in UML.
 
-Example: class System <<Singleton>>, Singleton is the stereotype of the class,
+Example: class System \<<Singleton>>, Singleton is the stereotype of the class,
 i.e. the value of this attribute.
 |definition |AsciiDoc                    |false       |The value of this
 attribute is the textual definition to be rendered to the metanorma-standoc
@@ -44,6 +45,7 @@ collection to specify the association of a model to another model.
 
 ==== ModelAttribute's attributes
 
+[options="header"]
 |===
 |Attribute   |Type                        |Mandatory? |Description
 |definition  |AsciiDoc                    |false      |If it is NOT specified,
@@ -60,6 +62,7 @@ the min/max occurrences of the attribute.
 
 ==== AttributeCardinality's attributes
 
+[options="header"]
 |===
 |Attribute    |Type           |Mandatory? |Description
 |min          |Integer/String |false      |Its value is to specify the minimum
@@ -72,6 +75,7 @@ String value of "*" denotes infinity occurrences.
 
 ==== Relation's attributes
 
+[options="header"]
 |===
 |Attribute    |Type                        |Mandatory? |Description
 |target       |String                      |true       |The value of this
@@ -86,6 +90,7 @@ specify the label on relations in UML.
 
 ==== Relationship's attributes
 
+[options="header"]
 |===
 |Attribute    |Type                        |Mandatory? |Description
 |source       |RelationshipEnd             |false       |Its value is to
@@ -98,6 +103,7 @@ of the intermediate model between the source model and the target model.
 
 ==== RelationshipEnd's attributes
 
+[options="header"]
 |===
 |Attribute    |Type                                  |Mandatory? |Description
 |type         |Enum{"inheritance", "aggregation", "composition",
@@ -110,6 +116,7 @@ the attribute. It specifies the attribute of association in UML.
 
 ==== RelationshipEndAttribute's attributes
 
+[options="header"]
 |===
 |Attribute   |Type                        |Mandatory? |Description
 |cardinality |AttributeCardinality        |false      |Its value is to specify
@@ -118,6 +125,7 @@ the min/max occurrences of the attribute.
 
 ==== RelationAction's attributes
 
+[options="header"]
 |===
 |Attribute   |Type                     |Mandatory? |Description
 |verb        |String                   |true       |Its value is to specify the
@@ -136,6 +144,7 @@ For each view, the YAML file path is:
 
 ==== Attributes
 
+[options="header"]
 |===
 |Attribute |Type                       |Mandatory? |Description
 |name      |String                     |true       |It is to uniquely
@@ -157,6 +166,7 @@ what details to be rendered in the UML diagram and document.
 
 ==== ModelFidelity's attributes
 
+[options="header"]
 |===
 |Attribute    |Type                    |Mandatory? |Description
 |skipSection  |Boolean                 |false      |Its value is to specify
@@ -165,6 +175,7 @@ whether the section about the model in the document should be rendered.
 
 ==== RelationAction's attributes
 
+[options="header"]
 |===
 |Attribute    |Type                        |Mandatory? |Description
 |target       |String                      |true       |The value of this
@@ -179,6 +190,7 @@ specify the label on relations in UML.
 
 ==== ViewFidelity's attributes
 
+[options="header"]
 |===
 |Attribute        |Type                 |Mandatory? |Description
 |hideMembers      |Boolean              |false      |Its value is to specify
@@ -192,7 +204,11 @@ the UML diagram and the corresponding section in the document.
 === Import a datamodel from metanorma-standoc
 
 Syntax:
-[datamodel]
-....
-include::<datamodels_views_root>/<view_name>.yml[]
-....
+
+{startsb}datamodel{endsb}
+
+\....
+
+\include::<datamodels_views_root>/<view_name>.yml[]
+
+\....
