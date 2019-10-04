@@ -205,10 +205,8 @@ the UML diagram and the corresponding section in the document.
 
 Syntax:
 
+[%hardbreaks]
 {startsb}datamodel{endsb}
-
 \....
-
 \include::<datamodels_views_root>/<view_name>.yml[]
-
 \....
