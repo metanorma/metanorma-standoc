@@ -22,22 +22,21 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '10.x'
-      - name: Update gems
-        run: |
-          sudo gem install bundler -v "~> 2" --force
-          bundle install --jobs 4 --retry 3
-      - name: Brew update
-        run: |
-          brew update
       - name: Install LaTeXML
         run: |
-          brew install latexml
+          # https://github.com/Homebrew/homebrew-core/issues/44950
+          curl -L https://cpanmin.us | perl - --sudo App::cpanminus
+          env PATH=$(brew --prefix perl)/bin:$PATH cpanm --sudo --notest LaTeXML@0.8.4
       - name: Install PlantUML
         run: |
           brew install plantuml
       - name: Install puppeteer
         run: |
           npm -g i puppeteer
+      - name: Update gems
+        run: |
+          sudo gem install bundler -v "~> 2" --force
+          bundle install --jobs 4 --retry 3
       - name: Run specs
         run: |
-          bundle exec rake
+          env PATH=$(brew --prefix perl)/bin:$PATH bundle exec rake
