@@ -47,4 +47,5 @@ jobs:
       - name: Run specs
         shell: pwsh
         run: |
+          $env:Path = "C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;$env:Path"
           bundle exec rake
