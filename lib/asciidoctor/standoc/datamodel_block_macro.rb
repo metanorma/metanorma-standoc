@@ -177,7 +177,8 @@ module Asciidoctor
       end
 
       def process_imported_models(localdir, view_hash)
-        view_hash["imports"].reduce(view_hash) do |acc, (model_path, model_fidelity)|
+        imports = view_hash["imports"] || {}
+        imports.reduce(view_hash) do |acc, (model_path, model_fidelity)|
           begin
             model_hash = YAML.load_file(Pathname.new(localdir) + "models/models/#{model_path}.yml")
             model_type = TYPE_MAP[model_hash["modelType"]]
