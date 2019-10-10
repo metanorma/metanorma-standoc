@@ -1,3 +1,5 @@
+require "uuidtools"
+
 module Asciidoctor
   module DataModel
     module AsciidocAdaptor
@@ -269,9 +271,11 @@ include::#{plantuml_path}/#{model_name}.wsd[]
         ].compact.join("\n")
       end
 
+      # introduce UUID suffix, cannot use classname natively because it clashes
       def self.directive_to_asciidoc(hash)
         directive = (hash || {})["directive"]
-        directive ? "[[#{directive}]]" : nil
+        #directive ? "[[#{directive}]]" : nil
+        "[[#{UUIDTools::UUID.random_create}]]"
       end
 
       def self.line_to_table_row(line)
