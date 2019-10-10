@@ -271,7 +271,8 @@ include::#{plantuml_path}/#{model_name}.wsd[]
         ].compact.join("\n")
       end
 
-      # introduce UUID suffix, cannot use classname natively because it clashes
+      # introduce UUID suffix, cannot use classname natively because it potentially 
+      # clashes with other headers with same text in the document
       def self.directive_to_asciidoc(hash)
         directive = (hash || {})["directive"]
         #directive ? "[[#{directive}]]" : nil
