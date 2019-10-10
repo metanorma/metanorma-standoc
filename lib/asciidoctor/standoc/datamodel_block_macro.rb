@@ -65,7 +65,7 @@ module Asciidoctor
           next if class_fidelity["skipSection"]
 
           # cannot trust id generation not to clash with existing titles
-          section = create_section block, class_name, {"id" => UUIDTools::UUID.random_create}
+          section = create_section block, class_name, {"id" => UUIDTools::UUID.random_create.to_s}
           block.blocks.push(section)
 
           parse_content(
