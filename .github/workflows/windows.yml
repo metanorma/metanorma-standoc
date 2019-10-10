@@ -1,0 +1,51 @@
+# Auto-generated !!! Do not edit it manually
+# use ci-master https://github.com/metanorma/metanorma-build-scripts
+name: windows
+
+on: [push]
+
+jobs:
+  test-windows:
+    name: Test on Ruby ${{ matrix.ruby }} Windows
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: [ '2.6', '2.5', '2.4' ]
+    steps:
+      - uses: actions/checkout@master
+      - name: Use Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          architecture: 'x64'
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - name: Install MN Windows dependencies
+        shell: pwsh
+        run: |
+          choco install --no-progress plantuml make sed gnuwin32-coreutils.install grep
+      - name: Update gems
+        shell: pwsh
+        run: |
+          gem install bundler -v "~> 2"
+          bundle config --local path vendor/bundle
+          bundle update
+          bundle install --jobs 4 --retry 3
+      - name: Install LaTeXML
+        shell: cmd
+        run: |
+          cinst -y latexml
+          refreshenv
+          set PATH=C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;%PATH%
+          where latexmlmath
+      - name: Install puppeteer
+        shell: pwsh
+        run: |
+          npm -g i puppeteer
+      - name: Run specs
+        shell: pwsh
+        run: |
+          $env:Path = "C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;$env:Path"
+          bundle exec rake
