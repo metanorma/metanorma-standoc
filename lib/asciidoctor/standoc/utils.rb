@@ -159,14 +159,14 @@ module Asciidoctor
 
       # block for processing XML document fragments as XHTML,
       # to allow for HTMLentities
+      # Unescape special chars used in Asciidoctor substitution processing
       def noko(&block)
         doc = ::Nokogiri::XML.parse(NOKOHEAD)
         fragment = doc.fragment("")
         ::Nokogiri::XML::Builder.with fragment, &block
         fragment.to_xml(encoding: "US-ASCII").lines.map do |l|
-          #l.gsub(/(?<!\s)\n/, " ")
-          #l.sub(/\n$/, " ")
-          l.sub(/\s*\n$/, " ")
+          l.gsub(/\s*\n$/m, " ").gsub("&#150;", "\u0096").
+            gsub("&#151;", "\u0097")
         end
       end
 
