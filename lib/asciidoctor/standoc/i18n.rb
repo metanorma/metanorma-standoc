@@ -32,6 +32,7 @@ module Asciidoctor
           @external_terms_boilerplate = y["external_terms_boilerplate"] || ""
           @internal_external_terms_boilerplate =
             y["internal_external_terms_boilerplate"] || ""
+          @labels = y
         end
       end
     end
