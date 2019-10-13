@@ -121,7 +121,7 @@ GEM
       relaton-itu (~> 0.3.0)
       relaton-nist (~> 0.3.0)
       relaton-ogc (~> 0.1.0)
-    relaton-bib (0.3.8)
+    relaton-bib (0.3.9)
       addressable
       nokogiri
     relaton-gb (0.6.4)
@@ -138,7 +138,7 @@ GEM
     relaton-iso (0.6.6)
       relaton-iec (~> 0.4.0)
       relaton-iso-bib (~> 0.3.0)
-    relaton-iso-bib (0.3.7)
+    relaton-iso-bib (0.3.8)
       isoics (~> 0.1.6)
       relaton-bib (~> 0.3.0)
       ruby_deep_clone (~> 0.8.0)

@@ -143,7 +143,7 @@ RSpec.describe Asciidoctor::Standoc do
 
        </sections><bibliography><references id="_" obligation="informative"><title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
-       <bibitem id="iso123" type="standard">
+       <bibitem id="iso123" type="international-standard">
          <fetched>#{Date.today}</fetched>
          <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
          <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
@@ -292,7 +292,7 @@ RSpec.describe Asciidoctor::Standoc do
         </sections><bibliography><references id="_" obligation="informative">
           <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
-          <bibitem type="standard" id="iso123">
+          <bibitem type="technical-report" id="iso123">
           <fetched>#{Date.today}</fetched>
           <title type="title-main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
           <title type="main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
@@ -340,13 +340,13 @@ RSpec.describe Asciidoctor::Standoc do
             </owner>
           </copyright>
         </bibitem>
-          <bibitem type="standard" id="iso124">
+          <bibitem type="international-standard" id="iso124">
           <fetched>#{Date.today}</fetched>
           <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
           <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
           <title type="main" format="text/plain" language="en" script="Latn">Latex, rubber – Determination of total solids content</title>
           <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
-<title type="title-main" format="text/plain" language="fr" script="Latn">Détermination des matières solides totales</title
+<title type="title-main" format="text/plain" language="fr" script="Latn">Détermination des matières solides totales</title>
           <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc – Détermination des matières solides totales</title>
           <uri type="src">https://www.iso.org/standard/61884.html</uri>
           <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>

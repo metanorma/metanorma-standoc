@@ -43,7 +43,7 @@ EOS
 EOS
 
   ISO_124_DATED = <<~EOS
-  <bibdata type="standard">
+  <bibdata type="international-standard">
          <fetched>#{Date.today}</fetched>
          <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
          <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
@@ -93,7 +93,7 @@ EOS
          <ext>
            <doctype>international-standard</doctype>
            <editorialgroup>
-             <technical_committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical_committee>
+             <technical-committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical-committee>
            </editorialgroup>
            <ics>
              <code>83.040.10</code>
@@ -198,7 +198,7 @@ EOS
          <ext>
            <doctype>international-standard</doctype>
            <editorialgroup>
-             <technical_committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical_committee>
+             <technical-committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical-committee>
            </editorialgroup>
            <ics>
              <code>83.040.10</code>
@@ -212,7 +212,7 @@ EOS
 EOS
 
   ISO_123_DATED = <<~EOS
-  <bibdata type="standard">
+  <bibdata type="international-standard">
          <fetched>#{Date.today}</fetched>
          <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
          <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
@@ -260,7 +260,7 @@ EOS
          <ext>
            <doctype>international-standard</doctype>
            <editorialgroup>
-             <technical_committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical_committee>
+             <technical-committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical-committee>
            </editorialgroup>
            <ics>
              <code>83.040.10</code>
