@@ -750,14 +750,15 @@ RSpec.describe Asciidoctor::Standoc do
     it "accepts attributes on images" do
       expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [height=4,width=3,alt="IMAGE",filename="riceimg1.png"]
+      [height=4,width=3,alt="IMAGE",filename="riceimg1.png",titleattr="TITLE"]
+      .Caption
       image::spec/examples/rice_images/rice_image1.png[]
 
       INPUT
       #{BLANK_HDR}
               <sections>
-         <figure id="_">
-         <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="4" width="3" alt="IMAGE" filename="riceimg1.png"/>
+         <figure id="_"><name>Caption</name>
+         <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="4" width="3" title="TITLE" alt="IMAGE" filename="riceimg1.png"/>
        </figure>
        </sections>
        </standard-document>
