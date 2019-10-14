@@ -185,6 +185,7 @@ module Asciidoctor
           height: node.attr("height") || "auto",
           width: node.attr("width") || "auto" ,
           filename: node.attr("filename"),
+          title: node.attr("titleattr"),
           alt: node.alt == node.attr("default-alt") ? nil : node.alt }
       end
 
