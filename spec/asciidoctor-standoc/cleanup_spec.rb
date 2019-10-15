@@ -986,7 +986,8 @@ RSpec.describe Asciidoctor::Standoc do
         </term></terms></sections><bibliography><references id="_" obligation="informative">
           <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
-          <bibitem type="international-standard" id="IEC60050-102">
+          <bibitem type="standard" id="IEC60050-102">
+          <fetched>#{Date.today}</fetched>
           <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
           <title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics – General concepts and linear algebra</title>
           <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) – Part 102: Mathematics – General concepts and linear algebra</title>
@@ -1022,7 +1023,8 @@ RSpec.describe Asciidoctor::Standoc do
               </organization>
             </owner>
           </copyright>
-        </bibitem><bibitem type="international-standard" id="IEC60050-103">
+        </bibitem><bibitem type="standard" id="IEC60050-103">
+          <fetched>#{Date.today}</fetched>
           <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
           <title type="title-part" format="text/plain" language="en" script="Latn">Part 103: Mathematics – Functions</title>
           <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) – Part 103: Mathematics – Functions</title>
@@ -1359,7 +1361,7 @@ it "inserts boilerplate before empty Normative References in French" do
     def mock_iecbib_get_iec60050_103_01
       expect(Iecbib::IecBibliography).to receive(:get).with("IEC 60050-103", nil, {keep_year: true}) do
       IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
-      <bibitem type="international-standard" id="IEC60050-103">
+      <bibitem type="standard" id="IEC60050-103">
          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
          <docidentifier>IEC 60050-103:2009</docidentifier>
          <date type="published">
@@ -1397,7 +1399,7 @@ end
     def mock_iecbib_get_iec60050_102_01
       expect(Iecbib::IecBibliography).to receive(:get).with("IEC 60050-102", nil, {keep_year: true}) do
       IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
-      <bibitem type="international-standard" id="IEC60050-102">
+      <bibitem type="standard" id="IEC60050-102">
          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
          <docidentifier>IEC 60050-102:2007</docidentifier>
          <date type="published">
@@ -1435,7 +1437,7 @@ end
     def mock_iev
       expect(Iecbib::IecBibliography).to receive(:get).with("IEV", nil, {}) do
       IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
-      <bibitem type="international-standard" id="IEC60050:2001">
+      <bibitem type="standard" id="IEC60050:2001">
          <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
          <docidentifier>IEC 60050:2011</docidentifier>
          <date type="published">

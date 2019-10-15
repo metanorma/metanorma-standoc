@@ -43,7 +43,7 @@ EOS
 EOS
 
   ISO_124_DATED = <<~EOS
-  <bibdata type="international-standard">
+  <bibdata type="standard">
          <fetched>#{Date.today}</fetched>
          <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
          <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
@@ -212,7 +212,7 @@ EOS
 EOS
 
   ISO_123_DATED = <<~EOS
-  <bibdata type="international-standard">
+  <bibdata type="standard">
          <fetched>#{Date.today}</fetched>
          <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
          <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
