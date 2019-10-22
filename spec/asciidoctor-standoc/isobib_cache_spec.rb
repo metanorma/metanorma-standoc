@@ -599,6 +599,7 @@ EOS
   end
 
   it "does not expire stale dated references" do
+        VCR.use_cassette "isobib_get_123_2001" do
     FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore1")
     FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
 
@@ -628,9 +629,12 @@ EOS
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
+        end
   end
 
   it "prioritises local over global cache values" do
+        VCR.use_cassette "isobib_get_123_2001" do
+    VCR.use_cassette "isobib_get_124" do
     FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore1")
     FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
     FileUtils.rm_rf "relaton/cache"
@@ -674,6 +678,8 @@ EOS
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
+  end
+  end
   end
 
 private
