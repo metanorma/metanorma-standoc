@@ -1,10 +1,10 @@
 PATH
   remote: .
   specs:
-    metanorma-standoc (1.3.5)
+    metanorma-standoc (1.3.6)
       asciidoctor (~> 1.5.7)
       concurrent-ruby
-      html2doc (~> 0.8.11)
+      html2doc (~> 0.9.0)
       iev (~> 0.2.1)
       isodoc (~> 1.0.0)
       mimemagic
@@ -20,7 +20,7 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     asciidoctor (1.5.8)
-    asciimath (1.0.8)
+    asciimath (1.0.9)
     ast (2.4.0)
     byebug (11.0.1)
     cnccs (0.1.5)
@@ -52,8 +52,8 @@ GEM
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
     hashdiff (1.0.0)
-    html2doc (0.8.14)
-      asciimath (~> 1.0.7)
+    html2doc (0.9.0)
+      asciimath (~> 1.0.9)
       htmlentities (~> 4.3.4)
       image_size
       mime-types
@@ -64,9 +64,9 @@ GEM
     iev (0.2.3)
       nokogiri (>= 1.10.4)
     image_size (2.0.2)
-    isodoc (1.0.5)
+    isodoc (1.0.6)
       asciimath
-      html2doc (~> 0.8.11)
+      html2doc (~> 0.9.0)
       htmlentities (~> 4.3.4)
       liquid
       metanorma (~> 0.3.0)
@@ -113,7 +113,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    relaton (0.5.6)
+    relaton (0.5.9)
       relaton-gb (~> 0.6.0)
       relaton-iec (~> 0.4.0)
       relaton-ietf (~> 0.6.0)
@@ -121,33 +121,33 @@ GEM
       relaton-itu (~> 0.3.0)
       relaton-nist (~> 0.3.0)
       relaton-ogc (~> 0.1.0)
-    relaton-bib (0.3.9)
+    relaton-bib (0.3.11)
       addressable
       nokogiri
-    relaton-gb (0.6.5)
+    relaton-gb (0.6.6)
       cnccs (~> 0.1.1)
       gb-agencies (~> 0.0.1)
       relaton-iso-bib (~> 0.3.0)
-    relaton-iec (0.4.8)
+    relaton-iec (0.4.9)
       addressable
       relaton-iso-bib (~> 0.3.0)
-    relaton-ietf (0.6.6)
+    relaton-ietf (0.6.7)
       relaton-bib (~> 0.3.0)
     relaton-iev (0.1.1)
       relaton (~> 0.5.0)
-    relaton-iso (0.6.7)
+    relaton-iso (0.6.8)
       relaton-iec (~> 0.4.0)
       relaton-iso-bib (~> 0.3.0)
-    relaton-iso-bib (0.3.9)
+    relaton-iso-bib (0.3.11)
       isoics (~> 0.1.6)
       relaton-bib (~> 0.3.0)
       ruby_deep_clone (~> 0.8.0)
-    relaton-itu (0.3.5)
+    relaton-itu (0.3.6)
       relaton-iso-bib (~> 0.3.0)
-    relaton-nist (0.3.6)
+    relaton-nist (0.3.7)
       relaton-bib (~> 0.3.0)
       rubyzip
-    relaton-ogc (0.1.2)
+    relaton-ogc (0.1.3)
       faraday
       relaton-iso-bib (~> 0.3.0)
     roman-numerals (0.3.0)
