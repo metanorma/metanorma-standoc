@@ -29,7 +29,6 @@ jobs:
       - name: Install LaTeXML
         run: |
           sudo snap install latexml
-          sudo snap alias latexml.math latexmlmath
       - name: Install PlantUML
         run: |
           curl -L https://raw.githubusercontent.com/metanorma/plantuml-install/master/ubuntu.sh | sudo bash
