@@ -45,6 +45,29 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+  it "generates pseudocode examples, with formatting and initial indentation" do
+        expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+        #{ASCIIDOC_BLANK_HDR}
+
+        [pseudocode]
+        ====
+          *A* +
+                [smallcap]#B#
+
+          _C_
+        ====
+        INPUT
+        #{BLANK_HDR}
+        <sections>
+  <figure id="_" type="pseudocode"><p id="_">  <strong>A</strong><br/>
+        <smallcap>B</smallcap></p>
+<p id="_">  <em>C</em></p></figure>
+</sections>
+</standard-document>
+     OUTPUT
+    end
+
+
   it "processes the Ruby markups" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}

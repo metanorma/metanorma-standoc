@@ -37,7 +37,6 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
-=begin
   it "processes stem blocks" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
@@ -234,7 +233,7 @@ RSpec.describe Asciidoctor::Standoc do
        </standard-document>
     OUTPUT
   end
-=end
+  
     it "ignores review blocks unless document is in draft mode" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
