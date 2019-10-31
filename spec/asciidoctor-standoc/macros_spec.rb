@@ -59,7 +59,7 @@ RSpec.describe Asciidoctor::Standoc do
         INPUT
         #{BLANK_HDR}
         <sections>
-  <figure id="_" type="pseudocode"><p id="_">  <strong>A</strong><br/>
+  <figure id="_" class="pseudocode"><p id="_">  <strong>A</strong><br/>
         <smallcap>B</smallcap></p>
 <p id="_">  <em>C</em></p></figure>
 </sections>
