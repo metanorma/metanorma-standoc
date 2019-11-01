@@ -52,9 +52,10 @@ module Asciidoctor
       end
 
       def inline_anchor_bibref(node)
-        eref_contents = node.target == node.text ? nil : node.text
-        eref_attributes = { id: node.target }
-        @refids << node.target
+        eref_contents = (node.text || node.target || node.id)&.
+          sub(/^\[?([^\[\]]+?)\]?$/, "[\\1]")
+        eref_attributes = { id: node.target || node.id }
+        @refids << (node.target || node.id)
         noko do |xml|
           xml.ref **attr_code(eref_attributes) do |r|
             r << eref_contents
