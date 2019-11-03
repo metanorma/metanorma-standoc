@@ -6,12 +6,12 @@ RSpec.describe Asciidoctor::Standoc do
   it "applies smartquotes by default" do
     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
       #{ASCIIDOC_BLANK_HDR}
-      == "Quotation"
+      == "Quotation" A's
     INPUT
        #{BLANK_HDR}
               <sections>
   <clause id="_" inline-header="false" obligation="normative">
-  <title>“Quotation”</title>
+  <title>“Quotation” A’s</title>
 </clause>
        </sections>
        </standard-document>
@@ -28,12 +28,12 @@ RSpec.describe Asciidoctor::Standoc do
       :no-isobib:
       :smartquotes: true
 
-      == "Quotation"
+      == "Quotation" A's
     INPUT
        #{BLANK_HDR}
               <sections>
   <clause id="_" inline-header="false" obligation="normative">
-  <title>“Quotation”</title>
+  <title>“Quotation” A’s</title>
 </clause>
        </sections>
        </standard-document>
@@ -50,12 +50,17 @@ RSpec.describe Asciidoctor::Standoc do
       :no-isobib:
       :smartquotes: false
 
-      == "Quotation"
+      == "Quotation" A's
+
+      `"quote" A's`
     INPUT
        #{BLANK_HDR}
               <sections>
   <clause id="_" inline-header="false" obligation="normative">
-  <title>"Quotation"</title>
+  <title>"Quotation" A's</title>
+<p id="_">
+  <tt>"quote" A's</tt>
+</p>
 </clause>
        </sections>
        </standard-document>
@@ -72,25 +77,25 @@ RSpec.describe Asciidoctor::Standoc do
       :no-isobib:
       :smartquotes: true
 
-      == "Quotation"
+      == "Quotation" A's
 
-      "Quotation"
+      "Quotation" A's
 
-      `"quote"`
+      `"quote" A's`
 
       [source]
       ----
-      "quote"
+      "quote" A's
       ----
 
     INPUT
        #{BLANK_HDR}
               <sections>
-                <clause id="_" inline-header="false" obligation="normative"><title>“Quotation”</title><p id="_">“Quotation”</p>
+                <clause id="_" inline-header="false" obligation="normative"><title>“Quotation” A’s</title><p id="_">“Quotation” A’s</p>
 <p id="_">
-  <tt>"quote"</tt>
+  <tt>"quote" A’s</tt>
 </p>
-<sourcecode id="_">"quote"</sourcecode></clause>
+<sourcecode id="_">"quote" A's</sourcecode></clause>
        </sections>
        </standard-document>
     OUTPUT
