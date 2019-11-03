@@ -18,7 +18,7 @@ RSpec.describe Asciidoctor::Standoc do
 
   it "converts a blank document" do
     FileUtils.rm_f "test.doc"
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -33,7 +33,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes default metadata" do
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).to be_equivalent_to <<~'OUTPUT'
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~'OUTPUT')
       = Document title
       Author
       :docfile: test.adoc
@@ -273,7 +273,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes complex metadata" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).sub(%r{</bibdata>.*$}m, "</bibdata>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -384,6 +384,18 @@ RSpec.describe Asciidoctor::Standoc do
          <doctype>article</doctype>
          </ext>
        </bibdata>
+         <preface>
+    <abstract id='_'>
+      <p id='_'>This is the abstract of the document</p>
+      <p id='_'>This is the second paragraph of the abstract of the document.</p>
+    </abstract>
+  </preface>
+  <sections>
+    <clause id='_' language='en' inline-header='false' obligation='normative'>
+      <title>Clause 1</title>
+    </clause>
+  </sections>
+</standard-document>
     OUTPUT
   end
 

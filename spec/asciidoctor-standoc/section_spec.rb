@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc do
   it "processes sections" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).sub(/^.*<preface/m, "<preface")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       .Foreword
 
@@ -75,6 +75,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Bibliography Subsection
     INPUT
+             #{BLANK_HDR.sub(/<status>/, "<abstract> <p id='_'>Text</p> </abstract><status>")}
     <preface><abstract id="_">
   <p id="_">Text</p>
 </abstract><foreword obligation="informative">
@@ -166,7 +167,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
     it "processes sections with language and script attributes" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).sub(/^.*<preface/m, "<preface")).to be_equivalent_to <<~"OUTPUT"
+      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       .Foreword
 
@@ -262,6 +263,7 @@ RSpec.describe Asciidoctor::Standoc do
       [language=en,script=Latn]
       === Bibliography Subsection
     INPUT
+             #{BLANK_HDR.sub(/<status>/, "<abstract> <p id='_'>Text</p> </abstract><status>")}
      <preface><abstract id="_" language="en" script="Latn">
          <p id="_">Text</p>
        </abstract><foreword obligation="informative">
@@ -353,7 +355,7 @@ RSpec.describe Asciidoctor::Standoc do
     end
 
   it "processes sections with title attributes" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).sub(/^.*<preface/m, "<preface")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       .Foreword
 
@@ -406,63 +408,79 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Bibliography Subsection
     INPUT
-       <preface><abstract id="_">
-         <p id="_">Text</p>
-       </abstract>
-       <foreword obligation="informative">
-         <title>Foreword</title>
-         <p id="_">Text</p>
-       </foreword>
-       <introduction id="_" obligation="informative"><title>Introduction</title><clause id="_" inline-header="false" obligation="informative">
-         <title>Introduction Subsection</title>
-       </clause>
-       </introduction>
-       </preface>
-       <sections>
-       <terms id="_" obligation="normative">
-         <title>Terms and definitions</title>
-         <p>For the purposes of this document,
-       the following terms and definitions apply.</p>
-         <term id="_">
-         <preferred>Term1</preferred>
-       </term>
-       </terms>
-       <clause id="_" obligation="normative"><title>Terms and definitions</title><terms id="_" obligation="normative">
-         <title>Normal Terms</title>
-         <term id="_">
-         <preferred>Term2</preferred>
-       </term>
-       </clause>
-       <definitions id="_"><title>Σύμβολα και Συντομογραφίες</title> </definitions></terms>
-       <definitions id="_"><title>Σύμβολα και Συντομογραφίες</title> </definitions>
-       <clause id="_" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="_" inline-header="false" obligation="normative">
-         <title>Introduction</title>
-       </clause>
-       <clause id="_" inline-header="false" obligation="normative">
-         <title>Clause 4.2</title>
-       </clause></clause>
-     
-       </sections><annex id="_" inline-header="false" obligation="normative">
-         <title>Annex</title>
-         <clause id="_" inline-header="false" obligation="normative">
-         <title>Annex A.1</title>
-       </clause>
-       </annex><bibliography><references id="_" obligation="informative">
-         <title>Normative References</title>
-         <p>There are no normative references in this document.</p>
-       </references><clause id="_" obligation="informative">
-         <title>Bibliography</title>
-         <references id="_" obligation="informative">
-         <title>Bibliography Subsection</title>
-       </references>
-       </clause>
-       </bibliography>
-       </standard-document>
+             #{BLANK_HDR.sub(/<status>/, "<abstract> <p id='_'>Text</p> </abstract><status>")}
+      <preface>
+    <abstract id='_'>
+      <p id='_'>Text</p>
+    </abstract>
+    <foreword obligation='informative'>
+      <title>Foreword</title>
+      <p id='_'>Text</p>
+    </foreword>
+    <introduction id='_' obligation='informative'>
+      <title>Introduction</title>
+      <clause id='_' inline-header='false' obligation='informative'>
+        <title>Introduction Subsection</title>
+      </clause>
+    </introduction>
+  </preface>
+  <sections>
+    <terms id='_' obligation='normative'>
+      <title>Terms and definitions</title>
+      <p>For the purposes of this document, the following terms and definitions apply.</p>
+      <term id='_'>
+        <preferred>Term1</preferred>
+      </term>
+    </terms>
+    <clause id='_' obligation='normative'>
+      <title>Terms and definitions</title>
+      <terms id='_' obligation='normative'>
+        <title>Normal Terms</title>
+        <term id='_'>
+          <preferred>Term2</preferred>
+        </term>
+      </terms>
+      <definitions id='_'>
+        <title>Σύμβολα και Συντομογραφίες</title>
+      </definitions>
+    </clause>
+    <definitions id='_'>
+      <title>Σύμβολα και Συντομογραφίες</title>
+    </definitions>
+    <clause id='_' inline-header='false' obligation='normative'>
+      <title>Clause 4</title>
+      <clause id='_' inline-header='false' obligation='normative'>
+        <title>Introduction</title>
+      </clause>
+      <clause id='_' inline-header='false' obligation='normative'>
+        <title>Clause 4.2</title>
+      </clause>
+    </clause>
+  </sections>
+  <annex id='_' inline-header='false' obligation='normative'>
+    <title>Annex</title>
+    <clause id='_' inline-header='false' obligation='normative'>
+      <title>Annex A.1</title>
+    </clause>
+  </annex>
+  <bibliography>
+    <references id='_' obligation='informative'>
+      <title>Normative References</title>
+      <p>There are no normative references in this document.</p>
+    </references>
+    <clause id='_' obligation='informative'>
+      <title>Bibliography</title>
+      <references id='_' obligation='informative'>
+        <title>Bibliography Subsection</title>
+      </references>
+    </clause>
+  </bibliography>
+</standard-document>
     OUTPUT
   end
 
   it "processes section obligations" do
-     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [obligation=informative]
       == Clause 1
@@ -493,7 +511,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
     it "processes inline headers" do
-     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       == Clause 1
 
@@ -524,7 +542,7 @@ RSpec.describe Asciidoctor::Standoc do
     end
 
   it "processes blank headers" do
-     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       == Clause 1
 
@@ -544,7 +562,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
       it "processes terms & definitions with external source" do
-     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       Foreword
@@ -574,7 +592,7 @@ RSpec.describe Asciidoctor::Standoc do
     end
 
           it "processes empty terms & definitions" do
-     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       Foreword
@@ -598,7 +616,7 @@ RSpec.describe Asciidoctor::Standoc do
 
 
     it "processes empty terms & definitions with external source" do
-     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       Foreword
@@ -626,7 +644,7 @@ RSpec.describe Asciidoctor::Standoc do
     end
 
         it "processes term document sources in French" do
-     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -659,7 +677,7 @@ RSpec.describe Asciidoctor::Standoc do
     end
 
                it "processes term document sources in Chinese" do
-     expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc

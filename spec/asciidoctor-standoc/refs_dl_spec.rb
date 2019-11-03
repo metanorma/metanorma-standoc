@@ -3,7 +3,7 @@ require "relaton_iso"
 
 RSpec.describe Asciidoctor::Standoc do
     it "processes simple dl reference" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -71,7 +71,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
 it "processes complex dl reference" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
 #{ASCIIDOC_BLANK_HDR}
 [bibliography]
 == Normative References
@@ -440,7 +440,7 @@ OUTPUT
        end
        
        it "processes complex dl reference with dot path keys" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
 #{ASCIIDOC_BLANK_HDR}
 [bibliography]
 == Normative References
