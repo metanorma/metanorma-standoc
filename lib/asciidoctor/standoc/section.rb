@@ -197,7 +197,7 @@ module Asciidoctor
 
       def introduction_parse(attrs, xml, node)
         xml.introduction **attr_code(attrs) do |xml_section|
-          xml_section.title = "Introduction"
+          xml_section.title { |t| t << "Introduction" }
           content = node.content
           xml_section << content
         end
