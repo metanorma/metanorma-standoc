@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc do
   it "processes the Asciidoctor::Standoc inline macros" do
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       alt:[term1]
       deprecated:[term1]
@@ -19,7 +19,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes the TODO custom admonition" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       TODO: Note1
 
@@ -45,8 +45,31 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+  it "generates pseudocode examples, with formatting and initial indentation" do
+        expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+        #{ASCIIDOC_BLANK_HDR}
+
+        [pseudocode]
+        ====
+          *A* +
+                [smallcap]#B#
+
+          _C_
+        ====
+        INPUT
+        #{BLANK_HDR}
+        <sections>
+  <figure id="_" class="pseudocode"><p id="_">  <strong>A</strong><br/>
+        <smallcap>B</smallcap></p>
+<p id="_">  <em>C</em></p></figure>
+</sections>
+</standard-document>
+     OUTPUT
+    end
+
+
   it "processes the Ruby markups" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       ruby:楽聖少女[がくせいしょうじょ]
@@ -62,7 +85,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes the PlantUML macro" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).gsub(%r{plantuml/[^.]{36}\.}, "plantuml/_.")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).gsub(%r{plantuml/[^.]{36}\.}, "plantuml/_."))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       [plantuml]
@@ -113,7 +136,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes the PlantUML macro with imagesdir" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).gsub(%r{spec/assets/[^.]+\.}, "spec/assets/_.")).to be_equivalent_to <<~"OUTPUT"
+      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).gsub(%r{spec/assets/[^.]+\.}, "spec/assets/_."))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -161,7 +184,7 @@ OUTPUT
     INPUT
 
     mock_plantuml_disabled
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       [plantuml]
@@ -184,7 +207,7 @@ Bob --&gt; Alice: Authentication Response
 Alice -&gt; Bob: Another authentication Request
 Alice &lt;-- Bob: another authentication Response
 @enduml</sourcecode>
-        </sourcecode>
+        </sections>
        </standard-document>
     OUTPUT
   end

@@ -93,7 +93,7 @@ EOS
          <ext>
            <doctype>international-standard</doctype>
            <editorialgroup>
-             <technical_committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical_committee>
+             <technical-committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical-committee>
            </editorialgroup>
            <ics>
              <code>83.040.10</code>
@@ -198,7 +198,7 @@ EOS
          <ext>
            <doctype>international-standard</doctype>
            <editorialgroup>
-             <technical_committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical_committee>
+             <technical-committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical-committee>
            </editorialgroup>
            <ics>
              <code>83.040.10</code>
@@ -260,7 +260,7 @@ EOS
          <ext>
            <doctype>international-standard</doctype>
            <editorialgroup>
-             <technical_committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical_committee>
+             <technical-committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical-committee>
            </editorialgroup>
            <ics>
              <code>83.040.10</code>
@@ -599,6 +599,7 @@ EOS
   end
 
   it "does not expire stale dated references" do
+        VCR.use_cassette "isobib_get_123_2001" do
     FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore1")
     FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
 
@@ -628,9 +629,12 @@ EOS
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
+        end
   end
 
   it "prioritises local over global cache values" do
+        VCR.use_cassette "isobib_get_123_2001" do
+    VCR.use_cassette "isobib_get_124" do
     FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore1")
     FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
     FileUtils.rm_rf "relaton/cache"
@@ -674,6 +678,8 @@ EOS
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
+  end
+  end
   end
 
 private

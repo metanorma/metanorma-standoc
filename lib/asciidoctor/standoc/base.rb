@@ -20,6 +20,7 @@ module Asciidoctor
         block Asciidoctor::Standoc::ToDoAdmonitionBlock
         treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
         block Asciidoctor::Standoc::PlantUMLBlockMacro
+        block Asciidoctor::Standoc::PseudocodeBlockMacro
         block Asciidoctor::Standoc::DataModelBlockMacro
       end
 
@@ -94,7 +95,7 @@ module Asciidoctor
         @fontheader = default_fonts(node)
         @files_to_delete = []
         @filename = node.attr("docfile") ?
-          node.attr("docfile").gsub(/\.adoc$/, "").gsub(%r{^.*/}, "") : ""
+            node.attr("docfile").gsub(/\.adoc$/, "").gsub(%r{^.*/}, "") : ""
         @localdir = Utils::localdir(node)
         @no_isobib_cache = node.attr("no-isobib-cache")
         @no_isobib = node.attr("no-isobib")

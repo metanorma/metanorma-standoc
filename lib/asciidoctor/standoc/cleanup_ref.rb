@@ -138,7 +138,7 @@ module Asciidoctor
 
       def omit_docid_prefix(prefix)
         return true if prefix.nil? || prefix.empty?
-        ["ISO", "IEC", "IEV"].include? prefix
+        %(ISO IEC IEV ITU).include? prefix
       end
 
       def format_ref(ref, type, isopub)

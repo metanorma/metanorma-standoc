@@ -105,6 +105,14 @@ module Asciidoctor
         end
       end
 
+      def subfigure_cleanup(xmldoc)
+        xmldoc.xpath("//example[figure]").each do |e|
+          next unless e.elements.map { |m| m.name }.
+            reject { |m| %w(name figure).include? m }.empty?
+          e.name = "figure"
+        end
+      end
+
       def figure_cleanup(xmldoc)
         figure_footnote_cleanup(xmldoc)
         figure_dl_cleanup(xmldoc)

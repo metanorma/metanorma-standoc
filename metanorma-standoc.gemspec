@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = `git ls-files -- {spec}/*`.split("\n")
   spec.required_ruby_version = Gem::Requirement.new(">= 2.4.0")
 
-  spec.add_dependency "asciidoctor", "~> 1.5.7"
+  spec.add_dependency "asciidoctor", "~> 2.0.0"
   spec.add_dependency "ruby-jing"
   spec.add_dependency "isodoc", "~> 1.0.0"
   spec.add_dependency "iev", "~> 0.2.1"
@@ -34,7 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "relaton-iev", "~> 0.1.0"
   spec.add_dependency "sterile", "~> 1.0.14"
   spec.add_dependency "concurrent-ruby"
-  spec.add_dependency "html2doc", "~> 0.8.11"
+  spec.add_dependency "html2doc", "~> 0.9.0"
   spec.add_dependency "unicode2latex", "~> 0.0.1"
   spec.add_dependency "mimemagic"
 

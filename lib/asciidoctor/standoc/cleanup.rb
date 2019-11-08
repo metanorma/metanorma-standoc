@@ -1,9 +1,7 @@
-require "date"
 require "nokogiri"
 require "pathname"
 require "open-uri"
 require "html2doc"
-require "pp"
 require_relative "./cleanup_block.rb"
 require_relative "./cleanup_footnotes.rb"
 require_relative "./cleanup_ref.rb"
@@ -16,8 +14,6 @@ module Asciidoctor
       def textcleanup(result)
         text = result.flatten.map { |l| l.sub(/\s*$/, "") }  * "\n"
         if !@keepasciimath
-          #text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>}m,
-                           #'<amathstem>\1</amathstem>')
           text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>}m) do |m|
             "<amathstem>#{HTMLEntities.new.decode($1)}</amathstem>"
           end
@@ -66,11 +62,14 @@ module Asciidoctor
       end
 
       def smartquotes_cleanup(xmldoc)
-        return unless @smartquotes
         xmldoc.traverse do |n|
           next unless n.text?
-          next unless n.ancestors("pre, tt, sourcecode, bibdata, on").empty?
-          n.replace(Utils::smartformat(n.text))
+          if @smartquotes
+            next unless n.ancestors("pre, tt, sourcecode, bibdata, on").empty?
+            n.replace(Utils::smartformat(n.text))
+          else
+            n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'"))
+          end
         end
         xmldoc
       end
@@ -89,9 +88,7 @@ module Asciidoctor
       # because of its use in HTML. Bad nokogiri. Undoing that, since we use
       # script as a normal tag
       def script_cleanup(xmldoc)
-        xmldoc.xpath("//script").each do |x|
-          x.content = x.to_str
-        end
+        xmldoc.xpath("//script").each { |x| x.content = x.to_str }
       end
 
       def empty_element_cleanup(xmldoc)
@@ -177,9 +174,7 @@ module Asciidoctor
       end
 
       def termdef_subclause_cleanup(xmldoc)
-        xmldoc.xpath("//terms[terms]").each do |t|
-          t.name = "clause"
-        end
+        xmldoc.xpath("//terms[terms]").each { |t| t.name = "clause" }
       end
 
       def termdocsource_cleanup(xmldoc)
@@ -212,9 +207,7 @@ module Asciidoctor
 
       def empty_text_before_first_element(x)
         x.children.each do |c|
-          if c.text?
-            return false if /\S/.match(c.text)
-          end
+          return false if c.text? and /\S/.match(c.text)
           return true if c.element?
         end
         true

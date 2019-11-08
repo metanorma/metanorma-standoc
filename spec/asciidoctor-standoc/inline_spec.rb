@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc do
   it "processes inline_quoted formatting" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{DUMBQUOTE_BLANK_HDR}
       _Physical noise
       sources_
@@ -43,8 +43,26 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+  it "properly handles inline substitution" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{DUMBQUOTE_BLANK_HDR}
+
+      stem:[n < 1] +
+      latexmath:[n < 1]
+      INPUT
+            #{BLANK_HDR}
+      <sections>
+      <p id="_">
+          <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math></stem><br/>
+          <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="n&lt;1" display="block">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math></stem>
+        </p>
+      </sections>
+       </standard-document>
+      OUTPUT
+  end
+
   it "normalises inline stem" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{DUMBQUOTE_BLANK_HDR}
 
       stem:[n < 1]
@@ -62,7 +80,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "generates desired smart quotes for 'dd'" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       '99'.
 
@@ -76,7 +94,7 @@ RSpec.describe Asciidoctor::Standoc do
 
 
   it "processes breaks" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       Line break +
       line break
@@ -95,7 +113,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes links" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       mailto:fred@example.com
       http://example.com[]
@@ -114,7 +132,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
     it "processes bookmarks" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       Text [[bookmark]] Text
     INPUT
@@ -127,7 +145,7 @@ RSpec.describe Asciidoctor::Standoc do
     end
 
     it "processes crossreferences" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [[reference]]
       == Section
@@ -154,7 +172,7 @@ RSpec.describe Asciidoctor::Standoc do
     end
 
     it "processes bibliographic anchors" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -184,7 +202,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes footnotes" do
-      expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       Hello!footnote:[Footnote text]
 

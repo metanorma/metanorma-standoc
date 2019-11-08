@@ -147,6 +147,21 @@ module Asciidoctor
         role = node.role || node.attr("style")
         %w(recommendation requirement permission).include?(role) and
           return requirement(node, role)
+        return pseudocode_example(node) if role == "pseudocode"
+        example_proper(node)
+      end
+
+      def pseudocode_example(node)
+        noko do |xml|
+          xml.figure **{id: Asciidoctor::Standoc::Utils::anchor_or_uuid(node),
+                        class: "pseudocode"} do |ex|
+            figure_title(node, ex)
+            wrap_in_para(node, ex)
+          end
+        end.join("\n")
+      end
+
+      def example_proper(node)
         noko do |xml|
           xml.example **id_unnum_attr(node) do |ex|
             node.title.nil? or ex.name { |name| name << node.title }
@@ -185,6 +200,7 @@ module Asciidoctor
           height: node.attr("height") || "auto",
           width: node.attr("width") || "auto" ,
           filename: node.attr("filename"),
+          title: node.attr("titleattr"),
           alt: node.alt == node.attr("default-alt") ? nil : node.alt }
       end
 
