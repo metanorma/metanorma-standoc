@@ -403,7 +403,9 @@ RSpec.describe Asciidoctor::Standoc do
       [bibliography]
       == Normative References
 
-      * [[[iso123,ISO 123:--]]] footnote:[The standard is in press] _Standard_
+      * [[[iso123,ISO 123:--]]] _Standard_
+      * [[[iso124,ISO 124:—]]]{blank}footnote:[The standard is in press] _Standard_
+      * [[[iso125,ISO 125:&ndash;]]], footnote:[The standard is in press] _Standard_
     INPUT
        #{BLANK_HDR}
        <sections>
@@ -413,6 +415,33 @@ RSpec.describe Asciidoctor::Standoc do
          <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
          <docidentifier>ISO 123:–</docidentifier>
+         <date type="published">
+           <on>--</on>
+         </date>
+         <contributor>
+           <role type="publisher"/>
+           <organization>
+             <name>ISO</name>
+           </organization>
+         </contributor>
+       </bibitem>
+         <bibitem id="iso124" type="standard">
+         <title format="text/plain">Standard</title>
+         <docidentifier>ISO 124:–</docidentifier>
+         <date type="published">
+           <on>--</on>
+         </date>
+         <contributor>
+           <role type="publisher"/>
+           <organization>
+             <name>ISO</name>
+           </organization>
+         </contributor>
+         <note format="text/plain">ISO DATE: The standard is in press</note>
+       </bibitem>
+         <bibitem id="iso125" type="standard">
+         <title format="text/plain">Standard</title>
+         <docidentifier>ISO 125:–</docidentifier>
          <date type="published">
            <on>--</on>
          </date>
