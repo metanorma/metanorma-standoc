@@ -132,10 +132,15 @@ module Asciidoctor
         end
       end
 
+      MALFORMED_REF = 
+        "no anchor on reference, markup may be malformed: "\
+        "see https://www.metanorma.com/author/topics/document-format/bibliography/ , "\
+        "https://www.metanorma.com/author/iso/topics/markup/#bibliographies".freeze
+
       # TODO: alternative where only title is available
       def refitem(xml, item, node)
         unless m = NON_ISO_REF.match(item)
-          Utils::warning(node, "no anchor on reference", item)
+          Utils::warning(node, MALFORMED_REF, item)
           return
         end
         unless m[:code] && /^\d+$/.match(m[:code])
@@ -162,62 +167,62 @@ module Asciidoctor
       ISO_REF = %r{^<ref\sid="(?<anchor>[^"]+)">
       \[(?<code>(ISO|IEC)[^0-9]*\s[0-9-]+|IEV)
       (:(?<year>[0-9][0-9-]+))?\]</ref>,?\s*
-      (?<text>.*)$}xm
+        (?<text>.*)$}xm
 
-      ISO_REF_NO_YEAR = %r{^<ref\sid="(?<anchor>[^"]+)">
+        ISO_REF_NO_YEAR = %r{^<ref\sid="(?<anchor>[^"]+)">
       \[(?<code>(ISO|IEC)[^0-9]*\s[0-9-]+):(--|\&\#821[12]\;)\]</ref>,?\s*
-      (<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>)?,?\s?(?<text>.*)$}xm
+        (<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>)?,?\s?(?<text>.*)$}xm
 
-      ISO_REF_ALL_PARTS = %r{^<ref\sid="(?<anchor>[^"]+)">
-      \[(?<code>(ISO|IEC)[^0-9]*\s[0-9]+)(:(?<year>--|\&\#821[12]\;|[0-9][0-9-]+))?\s
-      \(all\sparts\)\]</ref>,?\s*
-      (<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>,?\s?)?(?<text>.*)$}xm
+        ISO_REF_ALL_PARTS = %r{^<ref\sid="(?<anchor>[^"]+)">
+        \[(?<code>(ISO|IEC)[^0-9]*\s[0-9]+)(:(?<year>--|\&\#821[12]\;|[0-9][0-9-]+))?\s
+        \(all\sparts\)\]</ref>,?\s*
+          (<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>,?\s?)?(?<text>.*)$}xm
 
-      NON_ISO_REF = %r{^<ref\sid="(?<anchor>[^"]+)">
-      \[(?<code>[^\]]+?)([:-](?<year>(19|20)[0-9][0-9]))?\]</ref>,?\s*
-      (?<text>.*)$}xm
+          NON_ISO_REF = %r{^<ref\sid="(?<anchor>[^"]+)">
+        \[(?<code>[^\]]+?)([:-](?<year>(19|20)[0-9][0-9]))?\]</ref>,?\s*
+          (?<text>.*)$}xm
 
-      # @param item [String]
-      # @return [Array<MatchData>]
-      def reference1_matches(item)
-        matched = ISO_REF.match item
-        matched2 = ISO_REF_NO_YEAR.match item
-        matched3 = ISO_REF_ALL_PARTS.match item
-        [matched, matched2, matched3]
-      end
-
-      # @param node [Asciidoctor::List]
-      # @param item [String]
-      # @param xml [Nokogiri::XML::Builder]
-      def reference1(node, item, xml)
-        matched, matched2, matched3 = reference1_matches(item)
-        if matched3.nil? && matched2.nil? && matched.nil?
-          refitem(xml, item, node)
-          # elsif fetch_ref(matched3 || matched2 || matched, xml)
-        elsif !matched.nil? then isorefmatches(xml, matched)
-        elsif !matched2.nil? then isorefmatches2(xml, matched2)
-        elsif !matched3.nil? then isorefmatches3(xml, matched3)
+          # @param item [String]
+          # @return [Array<MatchData>]
+          def reference1_matches(item)
+            matched = ISO_REF.match item
+            matched2 = ISO_REF_NO_YEAR.match item
+            matched3 = ISO_REF_ALL_PARTS.match item
+            [matched, matched2, matched3]
         end
-      end
 
-      def reference(node)
-        noko do |xml|
-          node.items.each do |item|
-            reference1(node, item.text, xml)
+        # @param node [Asciidoctor::List]
+        # @param item [String]
+        # @param xml [Nokogiri::XML::Builder]
+        def reference1(node, item, xml)
+          matched, matched2, matched3 = reference1_matches(item)
+          if matched3.nil? && matched2.nil? && matched.nil?
+            refitem(xml, item, node)
+            # elsif fetch_ref(matched3 || matched2 || matched, xml)
+          elsif !matched.nil? then isorefmatches(xml, matched)
+          elsif !matched2.nil? then isorefmatches2(xml, matched2)
+          elsif !matched3.nil? then isorefmatches3(xml, matched3)
           end
-        end.join("\n")
-      end
+        end
 
-      def global_ievcache_name
-        "#{Dir.home}/.iev/cache"
-      end
+        def reference(node)
+          noko do |xml|
+            node.items.each do |item|
+              reference1(node, item.text, xml)
+            end
+          end.join("\n")
+        end
 
-      def local_ievcache_name(cachename)
-        return nil if cachename.nil?
-        cachename += "_iev" unless cachename.empty?
-        cachename = "iev" if cachename.empty?
-        "#{cachename}/cache"
-      end
+        def global_ievcache_name
+          "#{Dir.home}/.iev/cache"
+        end
+
+        def local_ievcache_name(cachename)
+          return nil if cachename.nil?
+          cachename += "_iev" unless cachename.empty?
+          cachename = "iev" if cachename.empty?
+          "#{cachename}/cache"
+        end
     end
   end
 end
