@@ -188,13 +188,15 @@ module Asciidoctor
 
       def datauri2mime(uri)
         %r{^data:image/(?<imgtype>[^;]+);base64,(?<imgdata>.+)$} =~ uri
-        file = Tempfile.new(["hello", ".jpg"])
-        file.binmode
-        file.write(Base64.strict_decode64(imgdata))
-        file.rewind
-        type = MimeMagic.by_magic(file)
-        file.close
-        file.unlink 
+        type = nil
+        Tempfile.open(["imageuri", ".#{imgtype}"]) do |file|
+          file.binmode
+          file.write(Base64.strict_decode64(imgdata))
+          file.rewind
+          type = MimeMagic.by_magic(file)
+        ensure
+          file.close!
+        end
         [type]
       end
 
