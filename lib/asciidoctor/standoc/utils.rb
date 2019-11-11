@@ -189,7 +189,8 @@ module Asciidoctor
       def datauri2mime(uri)
         %r{^data:image/(?<imgtype>[^;]+);base64,(?<imgdata>.+)$} =~ uri
         type = nil
-        Tempfile.open(["imageuri", ".#{imgtype || "png"}"]) do |file|
+        imgtype = "png" unless /^[a-z0-9]+$/.match imgtype
+        Tempfile.open(["imageuri", ".#{imgtype}"]) do |file|
           type = datauri2mime1(file, imgdata)
         end
         [type]
