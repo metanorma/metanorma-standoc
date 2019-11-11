@@ -45,6 +45,7 @@ module Asciidoctor
         type, code1 = /^\[\d+\]$|^\(.+\)$/.match(code) ?
           ["metanorma", code.sub(/^\(/, "[").sub(/\)$/, "]")] :
           @bibdb&.docid_type(code) || [nil, code]
+        code1.sub!(/^nofetch\((.+)\)$/, "\\1")
         t.docidentifier code1, **attr_code(type: type)
       end
 
