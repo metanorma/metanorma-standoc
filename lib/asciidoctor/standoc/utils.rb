@@ -190,6 +190,14 @@ module Asciidoctor
         %r{^data:image/(?<imgtype>[^;]+);base64,(?<imgdata>.+)$} =~ uri
         type = nil
         Tempfile.open(["imageuri", ".#{imgtype}"]) do |file|
+          type = datauri2mime1(file, imgdata)
+        end
+        [type]
+      end
+
+      def datauri2mime1(file, imgdata)
+        type = nil
+        begin
           file.binmode
           file.write(Base64.strict_decode64(imgdata))
           file.rewind
@@ -197,7 +205,7 @@ module Asciidoctor
         ensure
           file.close!
         end
-        [type]
+        type
       end
 
       SUBCLAUSE_XPATH = "//clause[ancestor::clause or ancestor::annex or "\
