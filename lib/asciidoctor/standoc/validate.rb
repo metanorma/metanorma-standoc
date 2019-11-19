@@ -35,7 +35,7 @@ module Asciidoctor
       end
 
       def schema_validate(doc, schema)
-        Tempfile.open(["tmp", ".xml"]) do |f|
+        Tempfile.open(["tmp", ".xml"], :encoding => 'UTF-8') do |f|
           begin
             f.write(doc.to_xml) 
             f.close
