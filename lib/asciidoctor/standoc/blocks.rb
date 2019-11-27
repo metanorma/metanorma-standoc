@@ -1,7 +1,5 @@
 require "htmlentities"
 require "uri"
-require "mime/types"
-require "base64"
 
 module Asciidoctor
   module Standoc
@@ -23,8 +21,6 @@ module Asciidoctor
                   subsequence: node.attr("subsequence") )
       end
 
-      # open block is a container of multiple blocks,
-      # treated as a single block.
       # We append each contained block to its parent
       def open(node)
         role = node.role || node.attr("style")
@@ -37,9 +33,13 @@ module Asciidoctor
         result
       end
 
+      def literal_attrs(node)
+        attr_code(id_attr(node))
+      end
+
       def literal(node)
         noko do |xml|
-          xml.figure **id_attr(node) do |f|
+          xml.figure **literal_attrs(node) do |f|
             figure_title(node, f)
             f.pre node.lines.join("\n"), **{ id: Utils::anchor_or_uuid }
           end
@@ -57,19 +57,15 @@ module Asciidoctor
       end
 
       def sidebar_attrs(node)
-        date = node.attr("date") || Date.today.iso8601.gsub(/\+.*$/, "")
-        date += "T00:00:00Z" unless /T/.match date
-        { reviewer: node.attr("reviewer") || node.attr("source") || "(Unknown)",
-          id: Utils::anchor_or_uuid(node),
-          date: date,
+        todo_attrs(node).merge(attr_code(
           from: node.attr("from"),
-          to: node.attr("to") || node.attr("from") }
+          to: node.attr("to") || node.attr("from") ))
       end
 
       def sidebar(node)
         return unless draft?
         noko do |xml|
-          xml.review **attr_code(sidebar_attrs(node)) do |r|
+          xml.review **(sidebar_attrs(node)) do |r|
             wrap_in_para(node, r)
           end
         end
@@ -78,14 +74,15 @@ module Asciidoctor
       def todo_attrs(node)
         date = node.attr("date") || Date.today.iso8601.gsub(/\+.*$/, "")
         date += "T00:00:00Z" unless /T/.match date
-        { reviewer: node.attr("reviewer") || node.attr("source") || "(Unknown)",
+        attr_code(
           id: Utils::anchor_or_uuid(node),
-          date: date }
+          reviewer: node.attr("reviewer") || node.attr("source") || "(Unknown)",
+          date: date )
       end
 
       def todo(node)
         noko do |xml|
-          xml.review **attr_code(todo_attrs(node)) do |r|
+          xml.review **(todo_attrs(node)) do |r|
             wrap_in_para(node, r)
           end
         end
@@ -100,11 +97,6 @@ module Asciidoctor
       end
 
       def note(n)
-        a = noko do |xml|
-          xml.note **id_attr(n) do |c|
-            wrap_in_para(n, c)
-          end
-        end
         noko do |xml|
           xml.note **id_attr(n) do |c|
             wrap_in_para(n, c)
@@ -119,7 +111,7 @@ module Asciidoctor
             name = t if type.casecmp(t).zero?
           end
         end
-        { id: Utils::anchor_or_uuid(node), type: name }
+        attr_code(id: Utils::anchor_or_uuid(node), type: name)
       end
 
       def admonition(node)
@@ -161,47 +153,17 @@ module Asciidoctor
         end.join("\n")
       end
 
+      def example_attrs(node)
+        attr_code(id_unnum_attr(node))
+      end
+
       def example_proper(node)
         noko do |xml|
-          xml.example **id_unnum_attr(node) do |ex|
+          xml.example **example_attrs(node) do |ex|
             node.title.nil? or ex.name { |name| name << node.title }
             wrap_in_para(node, ex)
           end
         end.join("\n")
-      end
-
-      def preamble(node)
-        noko do |xml|
-          xml.foreword do |xml_abstract|
-            xml_abstract.title { |t| t << (node.blocks[0].title || "Foreword") }
-            content = node.content
-            xml_abstract << content
-          end
-        end.join("\n")
-      end
-
-      def datauri(uri)
-        return uri if /^data:/.match(uri)
-        types = MIME::Types.type_for(@localdir + uri)
-        type = types ? types.first.to_s : 'text/plain; charset="utf-8"'
-        bin = File.open(@localdir + uri, 'rb') {|io| io.read}
-        data = Base64.strict_encode64(bin)
-        "data:#{type};base64,#{data}"
-      end
-
-      def image_attributes(node)
-        uri = node.image_uri (node.attr("target") || node.target)
-        types = /^data:/.match(uri) ? datauri2mime(uri) : MIME::Types.type_for(uri)
-        type = types.first.to_s
-        uri = uri.sub(%r{^data:image/\*;}, "data:#{type};")
-        { src: @datauriimage ? datauri(uri) : uri,
-          id: Utils::anchor_or_uuid,
-          mimetype: type,
-          height: node.attr("height") || "auto",
-          width: node.attr("width") || "auto" ,
-          filename: node.attr("filename"),
-          title: node.attr("titleattr"),
-          alt: node.alt == node.attr("default-alt") ? nil : node.alt }
       end
 
       def figure_title(node, f)
@@ -209,34 +171,35 @@ module Asciidoctor
         f.name { |name| name << node.title }
       end
 
+      def figure_attrs(node)
+        attr_code(id_unnum_attr(node))
+      end
+
       def image(node)
         noko do |xml|
-          xml.figure **id_unnum_attr(node) do |f|
+          xml.figure **figure_attrs(node) do |f|
             figure_title(node, f)
-            f.image **attr_code(image_attributes(node))
+            f.image **(image_attributes(node))
           end
         end
       end
 
-      def inline_image(node)
-        noko do |xml|
-          xml.image **attr_code(image_attributes(node))
-        end.join("")
+      def para_attrs(node)
+        attr_code(align: node.attr("align"),
+                  id: Utils::anchor_or_uuid(node))
       end
 
       def paragraph(node)
         return termsource(node) if node.role == "source"
-        attrs = { align: node.attr("align"),
-                  id: Utils::anchor_or_uuid(node) }
         noko do |xml|
-          xml.p **attr_code(attrs) do |xml_t|
+          xml.p **para_attrs(node) do |xml_t|
             xml_t << node.content
           end
         end.join("\n")
       end
 
       def quote_attrs(node)
-        { id: Utils::anchor_or_uuid(node), align: node.attr("align") }
+        attr_code(id: Utils::anchor_or_uuid(node), align: node.attr("align"))
       end
 
       def quote_attribution(node, out)
@@ -252,7 +215,7 @@ module Asciidoctor
 
       def quote(node)
         noko do |xml|
-          xml.quote **attr_code(quote_attrs(node)) do |q|
+          xml.quote **(quote_attrs(node)) do |q|
             quote_attribution(node, q)
             wrap_in_para(node, q)
           end
@@ -260,15 +223,15 @@ module Asciidoctor
       end
 
       def listing_attrs(node)
-        { lang: node.attr("language"),
-          id: Utils::anchor_or_uuid(node),
-          filename: node.attr("filename") }
+        attr_code(lang: node.attr("language"),
+                  id: Utils::anchor_or_uuid(node),
+                  filename: node.attr("filename"))
       end
 
       # NOTE: html escaping is performed by Nokogiri
       def listing(node)
         fragment = ::Nokogiri::XML::Builder.new do |xml|
-          xml.sourcecode **attr_code(listing_attrs(node)) do |s|
+          xml.sourcecode **(listing_attrs(node)) do |s|
             figure_title(node, s)
             s << node.content
           end

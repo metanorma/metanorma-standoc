@@ -1,5 +1,3 @@
-require "pp"
-
 module Asciidoctor
   module Standoc
     module Lists
@@ -14,10 +12,14 @@ module Asciidoctor
         end
       end
 
+      def ul_attr(node)
+        attr_code(id_attr(node))
+      end
+
       def ulist(node)
         return reference(node) if in_norm_ref? || in_biblio?
         noko do |xml|
-          xml.ul **id_attr(node) do |xml_ul|
+          xml.ul **ul_attr(node) do |xml_ul|
             node.items.each do |item|
               li(xml_ul, item)
             end
@@ -33,10 +35,14 @@ module Asciidoctor
         style
       end
 
+      def ol_attr(node)
+        attr_code(id: Utils::anchor_or_uuid(node),
+                             type: olist_style(node.style))
+      end
+
       def olist(node)
         noko do |xml|
-          xml.ol **attr_code(id: Utils::anchor_or_uuid(node),
-                             type: olist_style(node.style)) do |xml_ol|
+          xml.ol **ol_attr(node) do |xml_ol|
             node.items.each { |item| li(xml_ol, item) }
           end
         end.join("\n")
@@ -62,9 +68,13 @@ module Asciidoctor
         end
       end
 
+      def dl_attr(node)
+        attr_code(id_attr(node))
+      end
+
       def dlist(node)
         noko do |xml|
-          xml.dl **id_attr(node) do |xml_dl|
+          xml.dl **dl_attr(node) do |xml_dl|
             node.items.each do |terms, dd|
               dt(terms, xml_dl)
               dd(dd, xml_dl)

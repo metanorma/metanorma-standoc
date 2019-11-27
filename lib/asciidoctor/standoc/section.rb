@@ -85,6 +85,16 @@ module Asciidoctor
                              end
       end
 
+      def preamble(node)
+        noko do |xml|
+          xml.foreword do |xml_abstract|
+            xml_abstract.title { |t| t << (node.blocks[0].title || "Foreword") }
+            content = node.content
+            xml_abstract << content
+          end
+        end.join("\n")
+      end
+
       def abstract_parse(attrs, xml, node)
         xml.abstract **attr_code(attrs) do |xml_section|
           xml_section << node.content
