@@ -2,7 +2,6 @@ require "asciidoctor/standoc/utils"
 require_relative "./validate_section.rb"
 require "nokogiri"
 require "jing"
-require "pp"
 require "iev"
 
 module Asciidoctor
@@ -35,16 +34,22 @@ module Asciidoctor
         iev_validate(doc.root)
       end
 
-      def schema_validate(doc, filename)
-        File.open(".tmp.xml", "w:UTF-8") { |f| f.write(doc.to_xml) }
-        begin
-          errors = Jing.new(filename).validate(".tmp.xml")
-        rescue Jing::Error => e
-          abort "Jing failed with error: #{e}"
-        end
-        warn "Valid!" if errors.none?
-        errors.each do |error|
-          warn "#{error[:message]} @ #{error[:line]}:#{error[:column]}"
+      def schema_validate(doc, schema)
+        Tempfile.open(["tmp", ".xml"], :encoding => 'UTF-8') do |f|
+          begin
+            f.write(doc.to_xml) 
+            f.close
+            #File.open(".tmp.xml", "w:UTF-8") { |f| f.write(doc.to_xml) }
+            errors = Jing.new(schema).validate(f.path)
+            warn "Valid!" if errors.none?
+            errors.each do |error|
+              warn "#{error[:message]} @ #{error[:line]}:#{error[:column]}"
+            end
+          rescue Jing::Error => e
+            abort "Jing failed with error: #{e}"
+          ensure
+            f.close!
+          end
         end
       end
 

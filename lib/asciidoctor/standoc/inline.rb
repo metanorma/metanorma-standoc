@@ -1,6 +1,8 @@
 require "asciidoctor/extensions"
 require "htmlentities"
 require "unicode2latex"
+require "mime/types"
+require "base64"
 
 module Asciidoctor
   module Standoc
@@ -151,6 +153,36 @@ module Asciidoctor
             end
           end
         end.join
+      end
+
+      def datauri(uri)
+        return uri if /^data:/.match(uri)
+        types = MIME::Types.type_for(@localdir + uri)
+        type = types ? types.first.to_s : 'text/plain; charset="utf-8"'
+        bin = File.open(@localdir + uri, 'rb') {|io| io.read}
+        data = Base64.strict_encode64(bin)
+        "data:#{type};base64,#{data}"
+      end
+
+      def image_attributes(node)
+        uri = node.image_uri (node.attr("target") || node.target)
+        types = /^data:/.match(uri) ? datauri2mime(uri) : MIME::Types.type_for(uri)
+        type = types.first.to_s
+        uri = uri.sub(%r{^data:image/\*;}, "data:#{type};")
+        attr_code(src: @datauriimage ? datauri(uri) : uri,
+          id: Utils::anchor_or_uuid,
+          mimetype: type,
+          height: node.attr("height") || "auto",
+          width: node.attr("width") || "auto" ,
+          filename: node.attr("filename"),
+          title: node.attr("titleattr"),
+          alt: node.alt == node.attr("default-alt") ? nil : node.alt)
+      end
+
+      def inline_image(node)
+        noko do |xml|
+          xml.image **(image_attributes(node))
+        end.join("")
       end
     end
   end

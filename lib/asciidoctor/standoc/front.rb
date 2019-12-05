@@ -67,26 +67,37 @@ module Asciidoctor
         xml.contributor do |c|
           c.role **{ type: node.attr("role#{suffix}")&.downcase || "author" }
           c.person do |p|
-            p.name do |n|
-              if node.attr("fullname#{suffix}")
-                n.completename node.attr("fullname#{suffix}")
-              else
-                n.forename node.attr("givenname#{suffix}")
-                n.initial node.attr("initials#{suffix}")
-                n.surname node.attr("surname#{suffix}")
-              end
-            end
-            node.attr("affiliation#{suffix}") and p.affiliation do |a|
-              a.organization do |o|
-                o.name node.attr("affiliation#{suffix}")
-                node.attr("address#{suffix}") and o.address do |ad|
-                  ad.formattedAddress node.attr("address#{suffix}")
-                end
-              end
-            end
+            person_name(node, xml, suffix, p)
+            person_affiliation(node, xml, suffix, p)
+            node.attr("phone#{suffix}") and p.phone node.attr("phone#{suffix}")
+            node.attr("fax#{suffix}") and
+              p.phone node.attr("fax#{suffix}"), **{type: "fax"}
             node.attr("email#{suffix}") and p.email node.attr("email#{suffix}")
             node.attr("contributor-uri#{suffix}") and
               p.uri node.attr("contributor-uri#{suffix}")
+          end
+        end
+      end
+
+      def person_name(node, xml, suffix, p)
+        p.name do |n|
+          if node.attr("fullname#{suffix}")
+            n.completename node.attr("fullname#{suffix}")
+          else
+            n.forename node.attr("givenname#{suffix}")
+            n.initial node.attr("initials#{suffix}")
+            n.surname node.attr("surname#{suffix}")
+          end
+        end
+      end
+
+      def person_affiliation(node, xml, suffix, p)
+        node.attr("affiliation#{suffix}") and p.affiliation do |a|
+          a.organization do |o|
+            o.name node.attr("affiliation#{suffix}")
+            node.attr("address#{suffix}") and o.address do |ad|
+              ad.formattedAddress node.attr("address#{suffix}")
+            end
           end
         end
       end
@@ -190,7 +201,8 @@ module Asciidoctor
       end
 
       def relation_normalise(type)
-        type.sub(/-by$/, "By").sub(/-of$/, "Of").sub(/-from$/, "From")
+        type.sub(/-by$/, "By").sub(/-of$/, "Of").sub(/-from$/, "From").
+          sub(/-in$/, "In")
       end
 
       def metadata_getrelation(node, xml, type)
@@ -230,14 +242,14 @@ module Asciidoctor
         metadata_series(node, xml)
         metadata_keywords(node, xml)
         xml.ext do |ext|
-        metadata_ext(node, xml)
+          metadata_ext(node, xml)
         end
       end
 
       def metadata_ext(node, ext)
-          metadata_doctype(node, ext)
-          metadata_committee(node, ext)
-          metadata_ics(node, ext)
+        metadata_doctype(node, ext)
+        metadata_committee(node, ext)
+        metadata_ics(node, ext)
       end
 
       def metadata_doctype(node, xml)
@@ -260,7 +272,7 @@ module Asciidoctor
           at = { language: lang, format: "text/plain" }
           xml.title **attr_code(at) do |t|
             t << Utils::asciidoc_sub(node.attr("title") || node.attr("title-en") ||
-                              node.title)
+                                     node.title)
           end
         end
       end

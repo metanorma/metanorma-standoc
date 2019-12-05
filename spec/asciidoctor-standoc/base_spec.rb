@@ -87,6 +87,8 @@ RSpec.describe Asciidoctor::Standoc do
       :affiliation: Slate Rock and Gravel Company
       :address: 6 Rubble Way, Bedrock
       :contributor-uri: http://slate.example.com
+      :phone: 123
+      :fax: 456
       :surname_2: Rubble
       :givenname_2: Barney
       :initials_2: B. X.
@@ -94,6 +96,8 @@ RSpec.describe Asciidoctor::Standoc do
       :affiliation_2: Rockhead and Quarry Cave Construction Company
       :address_2: 6A Rubble Way, Bedrock
       :email_2: barney@rockhead.example.com
+      :phone_2: 789
+      :fax_2: 012
       :publisher: Hanna Barbera, Cartoon Network
       :part-of: ABC
       :translated-from: DEF,GHI;JKL MNO,PQR
@@ -167,6 +171,8 @@ RSpec.describe Asciidoctor::Standoc do
   </address>
    </organization>
    </affiliation>
+   <phone>123</phone>
+<phone type='fax'>456</phone>
    <uri>http://slate.example.com</uri>
   </person>
 </contributor>
@@ -186,6 +192,8 @@ RSpec.describe Asciidoctor::Standoc do
   </address>
   </organization>
 </affiliation>
+<phone>789</phone>
+<phone type='fax'>012</phone>
    <email>barney@rockhead.example.com</email>
   </person>
 </contributor>

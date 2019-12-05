@@ -418,7 +418,7 @@ RSpec.describe Asciidoctor::Standoc do
                <docidentifier>ISO/IEC TR 12382:1992</docidentifier>
              </bibitem>
              <bibitem id='iso124' type='standard'>
-               <fetched>2019-11-11</fetched>
+               <fetched>#{Date.today}</fetched>
                <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
                <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber – Determination of total solids content</title>
