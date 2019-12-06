@@ -41,7 +41,8 @@ module Asciidoctor
         noko do |xml|
           xml.figure **literal_attrs(node) do |f|
             figure_title(node, f)
-            f.pre node.lines.join("\n"), **{ id: Utils::anchor_or_uuid }
+            f.pre node.lines.join("\n"), **attr_code(id: Utils::anchor_or_uuid,
+                                                     alt: node.attr("alt"))
           end
         end
       end

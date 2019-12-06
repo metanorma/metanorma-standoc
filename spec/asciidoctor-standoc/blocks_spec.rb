@@ -413,16 +413,21 @@ RSpec.describe Asciidoctor::Standoc do
     end
 
     it "processes literals" do
-      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      expect((strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to (<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
+
+      [alt=Literal]
       ....
       <LITERAL>
+      FIGURATIVE
       ....
       INPUT
       #{BLANK_HDR}
        <sections>
            <figure id="_">
-        <pre id="_">&lt;LITERAL&gt;</pre>
+        <pre alt="Literal" id="_">&lt;LITERAL&gt;
+        FIGURATIVE
+        </pre>
         </figure>
        </sections>
        </standard-document>
