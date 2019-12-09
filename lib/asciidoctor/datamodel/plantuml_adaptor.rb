@@ -16,11 +16,13 @@ module Asciidoctor
 
         join_as_plantuml(
           startuml,
+          diagram_options_yml_to_plantuml(yml),
+          class_groups_yml_to_plantuml(yml),
           imports_yml_to_plantuml(yml, plantuml_path),
           class_defs_yml_to_plantuml(yml),
-          class_groups_yml_to_plantuml(yml),
           class_relations_yml_to_plantuml(yml),
           fidelity_yml_to_plantuml(yml),
+          bottom_yml_to_plantuml(yml),
           enduml,
         )
       end
@@ -74,6 +76,32 @@ module Asciidoctor
   join_as_plantuml(
     classes_to_relations_plantuml(yml["classes"]),
     relations_to_plantuml(nil, yml["relations"])
+  )
+}
+        plantuml
+      end
+
+      def self.diagram_options_yml_to_plantuml(yml)
+        return if empty?(yml, "diagram_options")
+
+        <<-plantuml
+'******* DIAGRAM SPECIFIC CONFIG **************************************
+#{
+  join_as_plantuml(
+    diagram_options_to_plantuml(yml["diagram_options"])
+  )
+}
+        plantuml
+      end
+
+      def self.bottom_yml_to_plantuml(yml)
+        return if empty?(yml, "bottom")
+
+        <<-plantuml
+'******* BOTTOM OVERRIDE CONFIG **************************************
+#{
+  join_as_plantuml(
+    bottom_to_plantuml(yml["bottom"])
   )
 }
         plantuml
@@ -211,7 +239,7 @@ class #{class_name}#{model_stereotype_to_plantuml(class_hash["type"])} {
 
         arrow = [
           relationship_type_to_plantuml("source", relationship["source"]["type"]),
-          "#{relation["direction"]}-",
+          "#{relation["direction"]}",
           relationship_type_to_plantuml("target", relationship["target"]["type"]),
         ].compact.join("-")
 
@@ -239,7 +267,7 @@ class #{class_name}#{model_stereotype_to_plantuml(class_hash["type"])} {
         output_lines = ["#{source_arrow_end} #{arrow} #{target_arrow_end}#{label}"]
 
         if relationship["association"]
-          output_lines.push("(#{source}, #{target}) .. #{relationship["association"]}")
+          output_lines.push("(#{source}, #{target}) . #{relationship["association"]}")
         end
 
         join_as_plantuml(*output_lines)
@@ -344,6 +372,21 @@ together {
 
         output
       end
+
+      def self.diagram_options_to_plantuml(diagram_options)
+        diagram_options ||= []
+        return if diagram_options.empty?
+
+        "#{diagram_options.join("\n")}\n"
+      end
+
+      def self.bottom_to_plantuml(bottom)
+        bottom ||= []
+        return if bottom.empty?
+
+        "#{bottom.join("\n")}\n"
+      end
+
 
       def self.fidelity_to_plantuml(fidelity)
         output = "";
