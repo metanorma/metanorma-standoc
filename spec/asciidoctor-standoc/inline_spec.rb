@@ -207,6 +207,10 @@ RSpec.describe Asciidoctor::Standoc do
       Hello!footnote:[Footnote text]
 
       == Title footnote:[Footnote text 2]
+
+      Hello.footnote:abc[This is a repeated footnote]
+
+      Repetition.footnote:abc[]     
     INPUT
             #{BLANK_HDR}
               <preface><foreword obligation="informative">
@@ -219,6 +223,18 @@ RSpec.describe Asciidoctor::Standoc do
          <title>Title<fn reference="2">
          <p id="_">Footnote text 2</p>
        </fn></title>
+       <p id='_'>
+  Hello.
+  <fn reference='3'>
+    <p id='_'>This is a repeated footnote</p>
+  </fn>
+</p>
+<p id='_'>
+  Repetition.
+  <fn reference='3'>
+    <p id='_'>This is a repeated footnote</p>
+  </fn>
+</p>
        </clause></sections>
        </standard-document>
     OUTPUT
