@@ -42,8 +42,7 @@ module Asciidoctor
       end
 
       def metadata_author(node, xml)
-        publishers = node.attr("publisher") || ""
-        publishers.split(/,[ ]?/).each do |p|
+        (node.attr("publisher") || "").split(/,[ ]?/).each do |p|
           xml.contributor do |c|
             c.role **{ type: "author" }
             c.organization { |a| organization(a, p) }
@@ -53,9 +52,8 @@ module Asciidoctor
       end
 
       def personal_author(node, xml)
-        if node.attr("fullname") || node.attr("surname")
+        (node.attr("fullname") || node.attr("surname")) and
           personal_author1(node, xml, "")
-        end
         i = 2
         while node.attr("fullname_#{i}") || node.attr("surname_#{i}")
           personal_author1(node, xml, "_#{i}")
@@ -142,9 +140,7 @@ module Asciidoctor
       def metadata_ics(node, xml)
         ics = node.attr("library-ics")
         ics && ics.split(/,\s*/).each do |i|
-          xml.ics do |ics|
-            ics.code i
-          end
+          xml.ics { |ics| ics.code i }
         end
       end
 

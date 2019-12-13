@@ -184,6 +184,17 @@ module Asciidoctor
           xml.image **(image_attributes(node))
         end.join("")
       end
+
+      def inline_indexterm(node)
+        noko do |xml|
+          node.type == :visible and xml << node.text
+          terms = node.attr("terms") ||
+            [Nokogiri::XML("<a>#{node.text}</a>").xpath("//text()").text]
+          xml.index nil, **attr_code(primary: terms[0],
+                                     secondary: terms.dig(1),
+                                     tertiary: terms.dig(2))
+        end.join
+      end
     end
   end
 end

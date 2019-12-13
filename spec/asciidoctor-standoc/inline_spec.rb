@@ -240,5 +240,21 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+  it "processes index terms" do 
+          expect((strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to (<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      ((See)) Index ((_term_)) and(((A, B, C))).
+   INPUT
+   #{BLANK_HDR}
+  <sections>
+    <p id='_'>
+      See
+      <index primary='See'/> Index <em>term</em> <index primary='term'/> and<index primary='A' secondary='B' tertiary='C'/>.
+    </p>
+  </sections>
+</standard-document>
+   OUTPUT
+  end
+
 
 end
