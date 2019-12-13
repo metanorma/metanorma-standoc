@@ -13,7 +13,7 @@ module Asciidoctor
                                      type: node.attr("type")) do |o|
             o << node.content
           end
-        end.join("\n")
+        end
       end
 
       def req_classif_parse(classif)
