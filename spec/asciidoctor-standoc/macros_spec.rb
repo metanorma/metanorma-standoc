@@ -67,6 +67,37 @@ RSpec.describe Asciidoctor::Standoc do
      OUTPUT
     end
 
+    it "supplies line breaks in pseudocode" do
+        expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+        #{ASCIIDOC_BLANK_HDR}
+
+        [pseudocode]
+        ====
+        A
+        B
+
+        D
+        E
+        ====
+        INPUT
+        #{BLANK_HDR}
+        <sections>
+<figure id='_' class='pseudocode'>
+             <p id='_'>
+               A
+               <br/>
+               B
+             </p>
+             <p id='_'>
+               D
+               <br/>
+               E
+             </p>
+           </figure>
+</sections>
+</standard-document>
+     OUTPUT
+    end
 
   it "processes the Ruby markups" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")

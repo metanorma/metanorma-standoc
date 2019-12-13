@@ -51,10 +51,23 @@ module Asciidoctor
         prefix + suffix
       end
 
+      def supply_br(lines)
+        lines.each_with_index do |l, i|
+          next if l.empty?
+          next if l.match(/ \+$/)
+          next if i == lines.size - 1
+          next if i < lines.size - 1 && lines[i+1].empty?
+          lines[i] += " +"
+        end
+        lines
+      end
+
       def process parent, reader, attrs
         attrs['role'] = 'pseudocode'
-        create_block parent, :example, reader.lines.map { |m| init_indent(m) }, attrs,
-          content_model: :compound
+        lines = reader.lines.map { |m| init_indent(m) }
+        create_block(parent, :example, 
+                     supply_br(lines),
+                     attrs, content_model: :compound)
       end
     end
 
