@@ -211,7 +211,7 @@ module Asciidoctor
             node.items.each do |item|
               reference1(node, item.text, xml)
             end
-          end.join("\n")
+          end.join
         end
 
         def global_ievcache_name

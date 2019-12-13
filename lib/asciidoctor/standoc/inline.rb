@@ -78,22 +78,22 @@ module Asciidoctor
           xml.fn **{ reference: @fn_number } do |fn|
             fn.p { |p| p << node.text }
           end
-        end.join("\n")
+        end.join
       end
 
       def inline_break(node)
         noko do |xml|
           xml << node.text
           xml.br
-        end.join("\n")
+        end.join
       end
 
       def page_break(_node)
-        noko { |xml| xml.pagebreak }.join("\n")
+        noko { |xml| xml.pagebreak }.join
       end
 
       def thematic_break(_node)
-        noko { |xml| xml.hr }.join("\n")
+        noko { |xml| xml.hr }.join
       end
 
       def xml_encode(text)

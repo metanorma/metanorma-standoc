@@ -94,7 +94,7 @@ module Asciidoctor
           xml.termnote **id_attr(n) do |ex|
             wrap_in_para(n, ex)
           end
-        end.join("\n")
+        end.join
       end
 
       def note(n)
@@ -102,7 +102,7 @@ module Asciidoctor
           xml.note **id_attr(n) do |c|
             wrap_in_para(n, c)
           end
-        end.join("\n")
+        end.join
       end
 
       def admonition_attrs(node)
@@ -124,7 +124,7 @@ module Asciidoctor
             node.title.nil? or a.name { |name| name << node.title }
             wrap_in_para(node, a)
           end
-        end.join("\n")
+        end.join
       end
 
       def term_example(node)
@@ -132,7 +132,7 @@ module Asciidoctor
           xml.termexample **id_attr(node) do |ex|
             wrap_in_para(node, ex)
           end
-        end.join("\n")
+        end.join
       end
 
       def example(node)
@@ -151,7 +151,7 @@ module Asciidoctor
             figure_title(node, ex)
             wrap_in_para(node, ex)
           end
-        end.join("\n")
+        end.join
       end
 
       def example_attrs(node)
@@ -164,7 +164,7 @@ module Asciidoctor
             node.title.nil? or ex.name { |name| name << node.title }
             wrap_in_para(node, ex)
           end
-        end.join("\n")
+        end.join
       end
 
       def figure_title(node, f)
@@ -196,7 +196,7 @@ module Asciidoctor
           xml.p **para_attrs(node) do |xml_t|
             xml_t << node.content
           end
-        end.join("\n")
+        end.join
       end
 
       def quote_attrs(node)
@@ -220,7 +220,7 @@ module Asciidoctor
             quote_attribution(node, q)
             wrap_in_para(node, q)
           end
-        end
+        end.join
       end
 
       def listing_attrs(node)
