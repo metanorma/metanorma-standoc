@@ -67,7 +67,7 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
-  it "does not apply smartquotes to sourcecode, tt, pre" do
+  it "does not apply smartquotes to sourcecode, tt, pre, pseudocode" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
@@ -88,6 +88,11 @@ RSpec.describe Asciidoctor::Standoc do
       "quote" A's
       ----
 
+      [pseudocode]
+      ====
+      "quote" A's
+      ====
+
     INPUT
        #{BLANK_HDR}
               <sections>
@@ -96,6 +101,9 @@ RSpec.describe Asciidoctor::Standoc do
   <tt>"quote" A’s</tt>
 </p>
 <sourcecode id="_">"quote" A's</sourcecode></clause>
+<figure id='_' class='pseudocode'>
+  <p id='_'>"quote" A's</p>
+</figure>
        </sections>
        </standard-document>
     OUTPUT

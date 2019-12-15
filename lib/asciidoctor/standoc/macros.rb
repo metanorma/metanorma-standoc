@@ -62,9 +62,13 @@ module Asciidoctor
         lines
       end
 
+      def prevent_smart_quotes(m)
+        m.gsub(/'/, "&#x27;").gsub(/"/, "&#x22;")
+      end
+
       def process parent, reader, attrs
         attrs['role'] = 'pseudocode'
-        lines = reader.lines.map { |m| init_indent(m) }
+        lines = reader.lines.map { |m| prevent_smart_quotes(init_indent(m)) }
         create_block(parent, :example, 
                      supply_br(lines),
                      attrs, content_model: :compound)
