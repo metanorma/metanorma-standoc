@@ -151,7 +151,9 @@ module Asciidoctor
         system "plantuml #{umlfile}"
         # sleep need for windows because dot works in separate process and plantuml process may
         # finish erlier then dot, as result png file maybe not created yet after plantuml finish
-        sleep(2) if Gem.win_platform?
+        until !Gem.win_platform? || File.exist?(Pathname.new(localdir) + "plantuml" + "#{fn}.png")
+          sleep(1)
+        end
         outfile = parent.image_uri("#{fn}.png")
         if outfile == "#{fn}.png"
           (Pathname.new("plantuml") + "#{fn}.png").to_s
