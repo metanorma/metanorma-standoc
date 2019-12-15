@@ -100,10 +100,11 @@ RSpec.describe Asciidoctor::Standoc do
 <p id="_">
   <tt>"quote" A’s</tt>
 </p>
-<sourcecode id="_">"quote" A's</sourcecode></clause>
+<sourcecode id="_">"quote" A's</sourcecode>
 <figure id='_' class='pseudocode'>
   <p id='_'>"quote" A's</p>
 </figure>
+</clause>
        </sections>
        </standard-document>
     OUTPUT
