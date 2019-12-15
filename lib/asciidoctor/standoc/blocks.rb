@@ -226,6 +226,7 @@ module Asciidoctor
       def listing_attrs(node)
         attr_code(lang: node.attr("language"),
                   id: Utils::anchor_or_uuid(node),
+                  unnumbered: node.option?("unnumbered") ? "true" : nil,
                   filename: node.attr("filename"))
       end
 

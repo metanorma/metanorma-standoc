@@ -851,7 +851,7 @@ RSpec.describe Asciidoctor::Standoc do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       .Caption
-      [source,ruby,filename=sourcecode1.rb]
+      [source%unnumbered,ruby,filename=sourcecode1.rb]
       --
       puts "Hello, world."
       %w{a b c}.each do |x|
@@ -861,7 +861,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
        <sections>
-         <sourcecode id="_" lang="ruby" filename="sourcecode1.rb"><name>Caption</name>puts "Hello, world."
+         <sourcecode id="_" lang="ruby" filename="sourcecode1.rb" unnumbered="true"><name>Caption</name>puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
        end</sourcecode>
