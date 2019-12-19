@@ -1,6 +1,40 @@
 require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc do
+    it "handles spacing around markup" do
+    expect((strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to (<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      This is
+      a paragraph with <<x>>
+      markup _for_
+      text, including **__nest__**ed markup.
+      INPUT
+      <?xml version="1.0" encoding="UTF-8"?>
+<standard-document xmlns="http://riboseinc.com/isoxml">
+<bibdata type="standard">
+<title language="en" format="text/plain">Document title</title>
+<language>en</language>
+<script>Latn</script>
+<status>
+<stage>published</stage>
+</status>
+<copyright>
+<from>2019</from>
+</copyright>
+<ext>
+<doctype>article</doctype>
+</ext>
+</bibdata>
+<sections>
+<p id="_">This is
+a paragraph with <xref target="x"/>
+markup <em>for</em>
+text, including <strong><em>nest</em></strong>ed markup.</p>
+</sections>
+</standard-document>
+      OUTPUT
+  end
+
   it "processes inline_quoted formatting" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{DUMBQUOTE_BLANK_HDR}
