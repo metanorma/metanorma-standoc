@@ -92,7 +92,7 @@ module Asciidoctor
             content = node.content
             xml_abstract << content
           end
-        end.join
+        end.join("\n")
       end
 
       def abstract_parse(attrs, xml, node)
