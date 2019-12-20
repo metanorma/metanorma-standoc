@@ -61,6 +61,12 @@ module Asciidoctor
         f = xmldoc.at(self.class::NORM_REF) and
         norm_ref_preface(f)
       end
+
+      def bibdata_cleanup(xmldoc)
+        xmldoc.xpath("//bibdata//bibitem").each do |b|
+          b.delete("id")
+        end
+      end
     end
   end
 end

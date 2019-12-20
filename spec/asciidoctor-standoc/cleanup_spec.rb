@@ -1371,6 +1371,53 @@ it "inserts boilerplate before empty Normative References in French" do
       OUTPUT
       end
 
+it "removes bibdata bibitem IDs" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    = Document title
+    Author
+    :docfile: test.adoc
+    :nodoc:
+    :novalid:
+    :no-isobib:
+    :translated-from: IEC 60050-102
+
+    [bibliography]
+    == Normative References
+
+    INPUT
+    <?xml version='1.0' encoding='UTF-8'?>
+<standard-document xmlns='http://riboseinc.com/isoxml'>
+  <bibdata type='standard'>
+    <title language='en' format='text/plain'>Document title</title>
+    <language>en</language>
+    <script>Latn</script>
+    <status>
+      <stage>published</stage>
+    </status>
+    <copyright>
+      <from>2019</from>
+    </copyright>
+    <relation type='translatedFrom'>
+      <bibitem>
+        <title>--</title>
+        <docidentifier>IEC 60050-102</docidentifier>
+      </bibitem>
+    </relation>
+    <ext>
+      <doctype>article</doctype>
+    </ext>
+  </bibdata>
+  <sections> </sections>
+  <bibliography>
+    <references id='_' obligation='informative'>
+      <title>Normative References</title>
+      <p>There are no normative references in this document.</p>
+    </references>
+  </bibliography>
+</standard-document>
+OUTPUT
+end
+
 
   private
 

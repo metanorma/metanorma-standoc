@@ -57,6 +57,7 @@ module Asciidoctor
         bookmark_cleanup(xmldoc)
         smartquotes_cleanup(xmldoc)
         requirement_cleanup(xmldoc)
+        bibdata_cleanup(xmldoc)
         boilerplate_cleanup(xmldoc)
         xmldoc
       end
@@ -65,7 +66,8 @@ module Asciidoctor
         xmldoc.traverse do |n|
           next unless n.text?
           if @smartquotes
-            next unless n.ancestors("pre, tt, sourcecode, bibdata, on, figure[@class = 'pseudocode']").empty?
+            next unless n.ancestors("pre, tt, sourcecode, bibdata, on, "\
+                                    "figure[@class = 'pseudocode']").empty?
             n.replace(Utils::smartformat(n.text))
           else
             n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'"))
@@ -79,9 +81,8 @@ module Asciidoctor
 
       TEXT_ELEMS =
         %w{status language script version author name callout phone email 
-           street city state country postcode identifier referenceFrom
-           referenceTo docidentifier docnumber prefix initial addition surname
-           forename
+           street city state country postcode identifier referenceFrom surname
+           referenceTo docidentifier docnumber prefix initial addition forename
            title draft secretariat title-main title-intro title-part}.freeze
 
       # it seems Nokogiri::XML is treating the content of <script> as cdata,
@@ -112,9 +113,8 @@ module Asciidoctor
         xmldoc.xpath("//sourcecode").each do |x|
           callouts = x.elements.select { |e| e.name == "callout" }
           annotations = x.elements.select { |e| e.name == "annotation" }
-          if callouts.size == annotations.size
+          callouts.size == annotations.size and
             link_callouts_to_annotations(callouts, annotations)
-          end
         end
       end
 
@@ -133,8 +133,7 @@ module Asciidoctor
 
       def termdef_stem_cleanup(xmldoc)
         xmldoc.xpath("//term/p/stem").each do |a|
-          if a.parent.elements.size == 1
-            # para containing just a stem expression
+          if a.parent.elements.size == 1 # para contains just a stem expression
             t = Nokogiri::XML::Element.new("admitted", xmldoc)
             parent = a.parent
             t.children = a.remove
@@ -179,15 +178,13 @@ module Asciidoctor
 
       def termdocsource_cleanup(xmldoc)
         f = xmldoc.at("//preface | //sections")
-        xmldoc.xpath("//terms/termdocsource | "\
-                     "//clause/termdocsource").each do |s|
+        xmldoc.xpath("//termdocsource").each do |s|
           f.previous = s.remove
         end
       end
 
       def term_children_cleanup(xmldoc)
         xmldoc.xpath("//term").each do |t|
-          ex = t.xpath("./termexample")
           t.xpath("./termnote").each { |n| t << n.remove }
           t.xpath("./termexample").each { |n| t << n.remove }
           t.xpath("./termsource").each { |n| t << n.remove }
@@ -240,8 +237,7 @@ module Asciidoctor
           next if x.children.any? { |y| y.element? }
           math = x.text.gsub(/&lt;/, "<").gsub(/&gt;/, ">").gsub(/&quot;/, '"').
             gsub(/&apos;/, "'").gsub(/&amp;/, "&").
-            gsub(/<[^: \r\n\t\/]+:/, "<").
-            gsub(/<\/[^ \r\n\t:]+:/, "</").
+            gsub(/<[^: \r\n\t\/]+:/, "<").gsub(/<\/[^ \r\n\t:]+:/, "</").
             gsub(/ xmlns[^>"']+/, "").
             gsub(/<math /, '<math xmlns="http://www.w3.org/1998/Math/MathML" ').
             gsub(/<math>/, '<math xmlns="http://www.w3.org/1998/Math/MathML">')
