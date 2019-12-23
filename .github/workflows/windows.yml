@@ -2,7 +2,7 @@
 # use ci-master https://github.com/metanorma/metanorma-build-scripts
 name: windows
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   test-windows:
@@ -29,7 +29,7 @@ jobs:
       - name: Update gems
         shell: pwsh
         run: |
-          gem install bundler -v "~> 2"
+          gem install bundler -v "2.0.1"
           bundle config --local path vendor/bundle
           bundle update
           bundle install --jobs 4 --retry 3
