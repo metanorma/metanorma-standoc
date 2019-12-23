@@ -38,7 +38,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "unicode2latex", "~> 0.0.1"
   spec.add_dependency "mimemagic"
 
-  spec.add_development_dependency "bundler"
   spec.add_development_dependency "byebug"
   spec.add_development_dependency "equivalent-xml", "~> 0.6"
   spec.add_development_dependency "guard", "~> 2.14"
