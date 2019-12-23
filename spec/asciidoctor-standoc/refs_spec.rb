@@ -596,7 +596,7 @@ OUTPUT
   </sections><bibliography><references id="_" obligation="informative">
   <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
-  <bibitem id="iso123">
+  <bibitem id="iso123" type="standard">
     <fetched>#{Date.today}</fetched>
     <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>
     <uri type='xml'>https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8341.xml</uri>
