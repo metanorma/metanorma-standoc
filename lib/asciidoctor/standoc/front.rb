@@ -93,6 +93,8 @@ module Asciidoctor
         node.attr("affiliation#{suffix}") and p.affiliation do |a|
           a.organization do |o|
             o.name node.attr("affiliation#{suffix}")
+            abbr = node.attr("affiliation_abbrev#{suffix}") and
+              o.abbreviation abbr
             node.attr("address#{suffix}") and o.address do |ad|
               ad.formattedAddress node.attr("address#{suffix}")
             end

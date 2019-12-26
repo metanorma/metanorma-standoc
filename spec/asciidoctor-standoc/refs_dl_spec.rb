@@ -398,7 +398,7 @@ home run record in 1998.</note>
   <relation type="updates">
     <bibitem>
       <formattedref format="text/plain">ISO 19115:2003</formattedref>
-    </bibitem>
+      </bibitem>
   </relation>
   <relation type="updates">
     <bibitem type="standard">

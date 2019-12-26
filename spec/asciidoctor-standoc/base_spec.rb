@@ -85,6 +85,7 @@ RSpec.describe Asciidoctor::Standoc do
       :fullname: Fred Flintstone
       :role: author
       :affiliation: Slate Rock and Gravel Company
+      :affiliation_abbrev: SRG
       :address: 6 Rubble Way, Bedrock
       :contributor-uri: http://slate.example.com
       :phone: 123
@@ -94,6 +95,7 @@ RSpec.describe Asciidoctor::Standoc do
       :initials_2: B. X.
       :role_2: editor
       :affiliation_2: Rockhead and Quarry Cave Construction Company
+      :affiliation_abbrev_2: RQCCC
       :address_2: 6A Rubble Way, Bedrock
       :email_2: barney@rockhead.example.com
       :phone_2: 789
@@ -166,6 +168,7 @@ RSpec.describe Asciidoctor::Standoc do
      <affiliation>
    <organization>
      <name>Slate Rock and Gravel Company</name>
+     <abbreviation>SRG</abbreviation>
   <address>
     <formattedAddress>6 Rubble Way, Bedrock</formattedAddress>
   </address>
@@ -187,6 +190,7 @@ RSpec.describe Asciidoctor::Standoc do
 <affiliation>
   <organization>
     <name>Rockhead and Quarry Cave Construction Company</name>
+    <abbreviation>RQCCC</abbreviation>
   <address>
     <formattedAddress>6A Rubble Way, Bedrock</formattedAddress>
   </address>
