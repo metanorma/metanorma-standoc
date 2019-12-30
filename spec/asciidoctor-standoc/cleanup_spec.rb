@@ -174,6 +174,12 @@ RSpec.describe Asciidoctor::Standoc do
       === Tempus
 
       domain:[relativity] Time
+
+      === Tempus1
+
+      Time2
+
+      domain:[relativity2]
     INPUT
        #{BLANK_HDR}
               <sections>
@@ -184,6 +190,14 @@ RSpec.describe Asciidoctor::Standoc do
          <preferred>Tempus</preferred>
          <domain>relativity</domain><definition><p id="_"> Time</p></definition>
        </term>
+       <term id='_'>
+  <preferred>Tempus1</preferred>
+  <domain>relativity2</domain>
+  <definition>
+    <p id='_'>Time2</p>
+    <p id='_'> </p>
+  </definition>
+</term>
        </terms>
        </sections>
        </standard-document>

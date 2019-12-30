@@ -149,6 +149,13 @@ module Asciidoctor
         end
       end
 
+      def termdomain1_cleanup(xmldoc)
+        xmldoc.xpath("//domain").each do |d|
+          defn = d.at("../definition") and
+            defn.previous = d.remove
+        end
+      end
+
       def termdefinition_cleanup(xmldoc)
         xmldoc.xpath("//term").each do |d|
           first_child = d.at("./p | ./figure | ./formula") || return
@@ -196,6 +203,7 @@ module Asciidoctor
         termdef_stem_cleanup(xmldoc)
         termdomain_cleanup(xmldoc)
         termdefinition_cleanup(xmldoc)
+        termdomain1_cleanup(xmldoc)
         termdef_boilerplate_cleanup(xmldoc)
         termdef_subclause_cleanup(xmldoc)
         term_children_cleanup(xmldoc)
