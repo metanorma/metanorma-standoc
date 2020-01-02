@@ -1409,7 +1409,7 @@ it "removes bibdata bibitem IDs" do
       <stage>published</stage>
     </status>
     <copyright>
-      <from>2019</from>
+      <from>#{Date.today.year}</from>
     </copyright>
     <relation type='translatedFrom'>
       <bibitem>

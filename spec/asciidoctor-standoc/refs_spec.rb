@@ -602,6 +602,7 @@ OUTPUT
     <uri type='xml'>https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8341.xml</uri>
     <uri type="src">https://www.rfc-editor.org/info/rfc8341</uri>
     <docidentifier type="IETF">RFC 8341</docidentifier>
+    <docidentifier type='rfc-anchor'>RFC8341</docidentifier>
     <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
     <date type="published">
       <on>2018-03</on>
@@ -645,6 +646,7 @@ OUTPUT
       <title format="text/plain" language="en" script="Latn">RFC</title>
       <number>8341</number>
     </series>
+    <place>Fremont, CA</place>
   </bibitem>
         </references>
         </bibliography>

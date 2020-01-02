@@ -19,7 +19,7 @@ RSpec.describe Asciidoctor::Standoc do
 <stage>published</stage>
 </status>
 <copyright>
-<from>2019</from>
+<from>#{Date.today.year}</from>
 </copyright>
 <ext>
 <doctype>article</doctype>
