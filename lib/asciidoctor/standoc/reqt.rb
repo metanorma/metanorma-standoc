@@ -41,7 +41,9 @@ module Asciidoctor
           unnumbered: node.option?("unnumbered") ? "true" : nil,
           subsequence: node.attr("subsequence"),
           obligation: node.attr("obligation"),
-          filename: node.attr("filename")
+          filename: node.attr("filename"),
+          type: node.attr("type"),
+          model: node.attr("model"),
         }
       end
 

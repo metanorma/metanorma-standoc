@@ -958,7 +958,7 @@ RSpec.describe Asciidoctor::Standoc do
         it "processes recommendation" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [.recommendation,label="/ogc/recommendation/wfs/2",subject="user",inherit="/ss/584/2015/level/1",options="unnumbered"]
+      [.recommendation,label="/ogc/recommendation/wfs/2",subject="user",inherit="/ss/584/2015/level/1",options="unnumbered",type=verification,model=ogc]
       ====
       I recommend this
       ====
@@ -966,7 +966,7 @@ RSpec.describe Asciidoctor::Standoc do
              output = <<~"OUTPUT"
             #{BLANK_HDR}
        <sections>
-  <recommendation id="_" unnumbered="true">
+  <recommendation id="_" unnumbered="true" type="verification" model="ogc">
   <label>/ogc/recommendation/wfs/2</label>
 <subject>user</subject>
 <inherit>/ss/584/2015/level/1</inherit>
