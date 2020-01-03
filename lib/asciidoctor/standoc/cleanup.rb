@@ -63,6 +63,7 @@ module Asciidoctor
       end
 
       def smartquotes_cleanup(xmldoc)
+        xmldoc.xpath("//date").each { |d| Utils::endash_date(d) }
         xmldoc.traverse do |n|
           next unless n.text?
           if @smartquotes
@@ -73,7 +74,6 @@ module Asciidoctor
             n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'"))
           end
         end
-        xmldoc
       end
 
       def docidentifier_cleanup(xmldoc)

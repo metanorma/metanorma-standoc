@@ -491,7 +491,7 @@ OUTPUT
          <title format="text/plain">Standard</title>
          <docidentifier>ISO 123:—</docidentifier>
          <date type="published">
-           <on>--</on>
+           <on>–</on>
          </date>
          <contributor>
            <role type="publisher"/>
@@ -504,7 +504,7 @@ OUTPUT
          <title format="text/plain">Standard</title>
          <docidentifier>ISO 124:—</docidentifier>
          <date type="published">
-           <on>--</on>
+           <on>–</on>
          </date>
          <contributor>
            <role type="publisher"/>
@@ -518,7 +518,7 @@ OUTPUT
          <title format="text/plain">Standard</title>
          <docidentifier>ISO 125:—</docidentifier>
          <date type="published">
-           <on>--</on>
+           <on>–</on>
          </date>
          <contributor>
            <role type="publisher"/>

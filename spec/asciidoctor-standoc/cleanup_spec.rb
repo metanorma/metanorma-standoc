@@ -805,7 +805,7 @@ RSpec.describe Asciidoctor::Standoc do
          <title format="text/plain">Standard</title>
          <docidentifier>ISO 123:—</docidentifier>
          <date type="published">
-           <on>--</on>
+           <on>–</on>
          </date>
          <contributor>
            <role type="publisher"/>

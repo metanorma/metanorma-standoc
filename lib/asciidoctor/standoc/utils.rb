@@ -87,10 +87,17 @@ module Asciidoctor
           end
         end
 
+        def endash_date(elem)
+          elem.traverse do |n|
+            n.text? and n.replace(n.text.gsub(/\s+--?\s+/, "&#8211;").gsub(/--/, "&#8211;"))
+          end
+        end
+
         def smart_render_xml(x, code, title)
           xstr = x.to_xml if x.respond_to? :to_xml
           xml = Nokogiri::XML(xstr)
           emend_biblio(xml, code, title)
+          xml.xpath("//date").each { |d| endash_date(d) }
           xml.traverse do |n|
             n.text? and n.replace(smartformat(n.text))
           end
