@@ -47,8 +47,8 @@ module Asciidoctor
         end
 
         def smartformat(n)
-          n.gsub(/ --? /, "&#8201;&#8211;&#8201;").
-            gsub(/--/, "&#8211;").smart_format.gsub(/</, "&lt;").gsub(/>/, "&gt;")
+          n.gsub(/ --? /, "&#8201;&#8212;&#8201;").
+            gsub(/--/, "&#8212;").smart_format.gsub(/</, "&lt;").gsub(/>/, "&gt;")
         end
 
         # Set hash value using keys path

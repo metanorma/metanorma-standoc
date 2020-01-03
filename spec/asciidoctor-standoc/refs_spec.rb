@@ -326,7 +326,7 @@ RSpec.describe Asciidoctor::Standoc do
           <language>en</language>
           <language>fr</language>
           <script>Latn</script>
-          <abstract format="text/plain" language="en" script="Latn">Contains a permuted index of all terms included in the parts 1 – 28 of ISO 2382. If any of these parts has been revised, the present TR refers to the revision.</abstract>
+          <abstract format="text/plain" language="en" script="Latn">Contains a permuted index of all terms included in the parts 1 — 28 of ISO 2382. If any of these parts has been revised, the present TR refers to the revision.</abstract>
           <status>
             <stage>90</stage>
             <substage>93</substage>
@@ -489,7 +489,7 @@ OUTPUT
         #{NORM_REF_BOILERPLATE}
          <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
-         <docidentifier>ISO 123:–</docidentifier>
+         <docidentifier>ISO 123:—</docidentifier>
          <date type="published">
            <on>--</on>
          </date>
@@ -502,7 +502,7 @@ OUTPUT
        </bibitem>
          <bibitem id="iso124" type="standard">
          <title format="text/plain">Standard</title>
-         <docidentifier>ISO 124:–</docidentifier>
+         <docidentifier>ISO 124:—</docidentifier>
          <date type="published">
            <on>--</on>
          </date>
@@ -516,7 +516,7 @@ OUTPUT
        </bibitem>
          <bibitem id="iso125" type="standard">
          <title format="text/plain">Standard</title>
-         <docidentifier>ISO 125:–</docidentifier>
+         <docidentifier>ISO 125:—</docidentifier>
          <date type="published">
            <on>--</on>
          </date>
@@ -872,7 +872,7 @@ OUTPUT
          <language>en</language>
          <language>fr</language>
          <script>Latn</script>
-         <abstract format="text/plain" language="en" script="Latn">Contains a permuted index of all terms included in the parts 1 – 28 of ISO 2382. If any of these parts has been revised, the present TR refers to the revision.</abstract>
+         <abstract format="text/plain" language="en" script="Latn">Contains a permuted index of all terms included in the parts 1 — 28 of ISO 2382. If any of these parts has been revised, the present TR refers to the revision.</abstract>
          <status>Published</status>
          <copyright>
            <from>1992</from>

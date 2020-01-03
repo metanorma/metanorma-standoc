@@ -803,7 +803,7 @@ RSpec.describe Asciidoctor::Standoc do
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
-         <docidentifier>ISO 123:–</docidentifier>
+         <docidentifier>ISO 123:—</docidentifier>
          <date type="published">
            <on>--</on>
          </date>
@@ -1018,8 +1018,8 @@ RSpec.describe Asciidoctor::Standoc do
           <bibitem type="standard" id="IEC60050-102">
           <fetched>#{Date.today}</fetched>
           <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
-          <title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics – General concepts and linear algebra</title>
-          <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) – Part 102: Mathematics – General concepts and linear algebra</title>
+          <title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics — General concepts and linear algebra</title>
+          <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) – Part 102: Mathematics — General concepts and linear algebra</title>
           <uri type="src">https://webstore.iec.ch/publication/160</uri>
           <uri type="obp">/preview/info_iec60050-102%7Bed1.0%7Db.pdf</uri>
           <docidentifier type="IEC">IEC 60050-102:2007</docidentifier>
@@ -1055,8 +1055,8 @@ RSpec.describe Asciidoctor::Standoc do
         </bibitem><bibitem type="standard" id="IEC60050-103">
           <fetched>#{Date.today}</fetched>
           <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
-          <title type="title-part" format="text/plain" language="en" script="Latn">Part 103: Mathematics – Functions</title>
-          <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) – Part 103: Mathematics – Functions</title>
+          <title type="title-part" format="text/plain" language="en" script="Latn">Part 103: Mathematics — Functions</title>
+          <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) – Part 103: Mathematics — Functions</title>
           <uri type="src">https://webstore.iec.ch/publication/161</uri>
           <uri type="obp">/preview/info_iec60050-103%7Bed1.0%7Db.pdf</uri>
           <docidentifier type="IEC">IEC 60050-103:2009</docidentifier>
