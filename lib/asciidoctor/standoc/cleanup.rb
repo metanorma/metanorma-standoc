@@ -67,8 +67,9 @@ module Asciidoctor
         xmldoc.traverse do |n|
           next unless n.text?
           if @smartquotes
+            next unless /[-'"(<>]|\.\.|\dx/.match(n)
             next unless n.ancestors("pre, tt, sourcecode, bibdata, on, "\
-                                    "figure[@class = 'pseudocode']").empty?
+                                    "stem, figure[@class = 'pseudocode']").empty?
             n.replace(Utils::smartformat(n.text))
           else
             n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'"))
