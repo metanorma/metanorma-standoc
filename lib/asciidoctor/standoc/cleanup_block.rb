@@ -258,7 +258,7 @@ module Asciidoctor
           n = d.next.remove
           d << n.children
         end
-        r.xpath("./description[not(./*) and normalize-space(.)='']").each do |d|
+        r.xpath("./description[normalize-space(.)='']").each do |d|
           d.replace("\n")
         end
       end
