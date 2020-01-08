@@ -54,7 +54,9 @@ module Asciidoctor
             ex.title node.title if node.title
             ex.label node.attr("label") if node.attr("label")
             ex.subject node.attr("subject") if node.attr("subject")
-            ex.inherit node.attr("inherit") if node.attr("inherit")
+            node&.attr("inherit")&.split(/;\s*/)&.each do |i|
+              ex.inherit i
+            end
             requirement_classification(classif, ex) if classif
             wrap_in_para(node, ex)
           end
