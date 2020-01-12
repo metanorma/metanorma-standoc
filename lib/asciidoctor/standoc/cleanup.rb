@@ -6,6 +6,7 @@ require_relative "./cleanup_block.rb"
 require_relative "./cleanup_footnotes.rb"
 require_relative "./cleanup_ref.rb"
 require_relative "./cleanup_boilerplate.rb"
+require_relative "./cleanup_section.rb"
 require "relaton_iev"
 
 module Asciidoctor
@@ -47,7 +48,6 @@ module Asciidoctor
         element_name_cleanup(xmldoc)
         bpart_cleanup(xmldoc)
         quotesource_cleanup(xmldoc)
-        para_cleanup(xmldoc)
         callout_cleanup(xmldoc)
         footnote_cleanup(xmldoc)
         empty_element_cleanup(xmldoc)
@@ -59,6 +59,7 @@ module Asciidoctor
         requirement_cleanup(xmldoc)
         bibdata_cleanup(xmldoc)
         boilerplate_cleanup(xmldoc)
+        para_cleanup(xmldoc)
         xmldoc
       end
 
