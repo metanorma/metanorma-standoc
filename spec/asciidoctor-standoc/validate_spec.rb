@@ -140,4 +140,13 @@ it "No warning if French term matches IEV" do
   FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev/cache"), force: true
 end
 
+it "No warning if attributes on formatted strong or stem extraneous to Metanomra XML" do
+  expect { Asciidoctor::Standoc::Converter.new(nil,nil).validate(Nokogiri::XML(<<~INPUT)) }.not_to output('found attribute "close", but no attributes allowed here').to_stderr
+  <standard-document>
+  <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfenced open="(" close=")"><mi>r</mi></mfenced></stem>
+  </standard-document>
+INPUT
+
+end
+
 end

@@ -65,6 +65,21 @@
         </zeroOrMore>
       </element>
     </define>
+    <define name="note">
+      <element name="note">
+        <attribute name="id">
+          <data type="ID"/>
+        </attribute>
+        <oneOrMore>
+          <choice>
+            <ref name="paragraph"/>
+            <ref name="ul"/>
+            <ref name="ol"/>
+            <ref name="dl"/>
+          </choice>
+        </oneOrMore>
+      </element>
+    </define>
   </include>
   <define name="standard-document">
     <element name="standard-document">

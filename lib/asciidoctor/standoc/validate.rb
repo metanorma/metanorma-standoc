@@ -39,7 +39,6 @@ module Asciidoctor
           begin
             f.write(doc.to_xml) 
             f.close
-            #File.open(".tmp.xml", "w:UTF-8") { |f| f.write(doc.to_xml) }
             errors = Jing.new(schema).validate(f.path)
             warn "Valid!" if errors.none?
             errors.each do |error|
@@ -57,7 +56,7 @@ module Asciidoctor
       # any attributes from FormattedString instances (which can contain
       # xs:any markup, and are signalled with @format) before validation.
       def formattedstr_strip(doc)
-        doc.xpath("//*[@format]").each do |n|
+        doc.xpath("//*[@format] | //stem").each do |n|
           n.elements.each do |e|
             e.traverse do |e1|
               next unless e1.element?
