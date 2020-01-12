@@ -57,7 +57,8 @@ module Asciidoctor
       # xs:any markup, and are signalled with @format) before validation.
       def formattedstr_strip(doc)
         doc.xpath("//*[@format] | //stem | //bibdata//description | "\
-                  "//formattedref | //bibdata//note | //abstract").each do |n|
+                  "//formattedref | //bibdata//note | //bibdata/abstract | "\
+                  "//bibitem/abstract | //bibitem/note").each do |n|
           n.elements.each do |e|
             e.traverse do |e1|
               e1.element? and e1.each { |k, _v| e1.delete(k) }
