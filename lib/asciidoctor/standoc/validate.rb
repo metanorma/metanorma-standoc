@@ -60,7 +60,7 @@ module Asciidoctor
           n.elements.each do |e|
             e.traverse do |e1|
               next unless e1.element?
-              e1.each { |k, _v| e.delete(k) }
+              e1.each { |k, _v| e1.delete(k) }
             end
           end
         end
