@@ -63,7 +63,7 @@ module Asciidoctor
       end
 
       def bibdata_cleanup(xmldoc)
-        xmldoc.xpath("//bibdata//bibitem | //bibdata/note").each do |b|
+        xmldoc.xpath("//bibdata//bibitem | //bibdata//note").each do |b|
           b.delete("id")
         end
       end

@@ -9,8 +9,10 @@ module Asciidoctor
   module Standoc
     module Cleanup
       def para_cleanup(xmldoc)
-        inject_id(xmldoc, "//p | //ol | //ul")
-        inject_id(xmldoc, "//note[not(ancestor::bibitem)][not(ancestor::table)]")
+        ["//p[not(ancestor::bibdata)]", "//ol[not(ancestor::bibdata)]",
+         "//ul[not(ancestor::bibdata)]",
+         "//note[not(ancestor::bibitem or ancestor::table or ancestor::bibdata)]"
+        ].each { |w| inject_id(xmldoc, w) }
       end
 
       def inject_id(xmldoc, path)
