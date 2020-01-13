@@ -157,7 +157,7 @@ RSpec.describe Asciidoctor::Standoc do
               <sections>
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
-         <p>For the purposes of this document, the following terms and definitions apply.</p>
+         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_"><preferred><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>t</mi><mn>90</mn></msub></math></stem></preferred><admitted><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>t</mi><mn>91</mn></msub></math></stem></admitted>
        <definition><p id="_">Time</p></definition></term>
        </terms>
@@ -185,7 +185,7 @@ RSpec.describe Asciidoctor::Standoc do
               <sections>
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
-         <p>For the purposes of this document, the following terms and definitions apply.</p>
+         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_">
          <preferred>Tempus</preferred>
          <domain>relativity</domain><definition><p id="_"> Time</p></definition>
@@ -228,7 +228,7 @@ RSpec.describe Asciidoctor::Standoc do
               <sections>
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
-         <p>For the purposes of this document, the following terms and definitions apply.</p>
+         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_"><preferred><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>t</mi><mn>90</mn></msub></math></stem></preferred><definition><formula id="_"> 
          <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>t</mi><mi>A</mi></msub></math></stem> 
        </formula>
@@ -256,7 +256,7 @@ RSpec.describe Asciidoctor::Standoc do
        #{BLANK_HDR}
               <sections>
          <terms id="_" obligation="normative"><title>Terms and definitions</title>
-         <p>For the purposes of this document, the following terms and definitions apply.</p>
+         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
 
        <term id="_">
        <preferred>Time</preferred>
@@ -436,7 +436,7 @@ RSpec.describe Asciidoctor::Standoc do
        <sections>
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
-         <p>For the purposes of this document, the following terms and definitions apply.</p>
+         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_">
          <preferred>Term1</preferred>
          <termsource status="identical">
@@ -871,7 +871,7 @@ RSpec.describe Asciidoctor::Standoc do
        <sections>
        <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
-         <p>For the purposes of this document, the following terms and definitions apply.</p>
+         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_"><preferred>Term</preferred>
 
 
@@ -994,7 +994,7 @@ RSpec.describe Asciidoctor::Standoc do
 
           <sections>
         <terms id="_" obligation="normative"><title>Terms and definitions</title>
-         <p>For the purposes of this document, the following terms and definitions apply.</p>
+         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_">
           <preferred>Automation1</preferred>
           <termsource status="identical">
@@ -1052,6 +1052,7 @@ RSpec.describe Asciidoctor::Standoc do
               </organization>
             </owner>
           </copyright>
+          <place>Geneva</place>
         </bibitem><bibitem type="standard" id="IEC60050-103">
           <fetched>#{Date.today}</fetched>
           <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
@@ -1089,6 +1090,7 @@ RSpec.describe Asciidoctor::Standoc do
               </organization>
             </owner>
           </copyright>
+          <place>Geneva</place>
         </bibitem>
         </references></bibliography>
         </standard-document>
@@ -1331,7 +1333,7 @@ OUTPUT
       <sections>
 
 </sections><bibliography><references id="_" obligation="informative">
-  <title>Normative References</title><p>There are no normative references in this document.</p>
+  <title>Normative References</title><p id="_">There are no normative references in this document.</p>
 </references></bibliography>
 </standard-document>
       OUTPUT
@@ -1350,7 +1352,7 @@ OUTPUT
     <sections>
 
        </sections><bibliography><references id="_" obligation="informative">
-         <title>Normative References</title><p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+         <title>Normative References</title><p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
          <bibitem id="a">
          <formattedref format="application/x-isodoc+xml">A</formattedref>
          <docidentifier>b</docidentifier>
@@ -1379,7 +1381,7 @@ it "inserts boilerplate before empty Normative References in French" do
     <sections>
 
 </sections><bibliography><references id="_" obligation="informative">
-  <title>Normative References</title><p>Le présent document ne contient aucune référence normative.</p>
+  <title>Normative References</title><p id="_">Le présent document ne contient aucune référence normative.</p>
 </references></bibliography>
 </standard-document>
       OUTPUT
@@ -1425,7 +1427,7 @@ it "removes bibdata bibitem IDs" do
   <bibliography>
     <references id='_' obligation='informative'>
       <title>Normative References</title>
-      <p>There are no normative references in this document.</p>
+      <p id="_">There are no normative references in this document.</p>
     </references>
   </bibliography>
 </standard-document>

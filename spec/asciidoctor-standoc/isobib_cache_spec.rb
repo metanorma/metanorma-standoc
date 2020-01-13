@@ -90,6 +90,7 @@ EOS
              <formattedref format="text/plain">ISO 124:2011</formattedref>
            </bibitem>
          </relation>
+         <place>Geneva</place>
          <ext>
            <doctype>international-standard</doctype>
            <editorialgroup>
@@ -257,6 +258,7 @@ EOS
              <formattedref format="text/plain">ISO 123:1985</formattedref>
            </bibitem>
          </relation>
+         <place>Geneva</place>
          <ext>
            <doctype>international-standard</doctype>
            <editorialgroup>
@@ -368,7 +370,7 @@ EOS
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
     entry = db.load_entry("ISO(ISO 123:2001)")
     expect(entry).to include("<fetched>#{Date.today.to_s}</fetched>")
-    expect(entry).to be_equivalent_to(ISO_123_DATED)  
+    expect(xmlpp(entry)).to be_equivalent_to(xmlpp(ISO_123_DATED))
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.rm_rf File.expand_path("~/.iev/cache")
@@ -557,7 +559,7 @@ EOS
     entry = db.load_entry("ISO(ISO 124:2014)")
     #expect(db.fetched("ISO(ISO 124:2014)")).to eq(Date.today.to_s)
     expect(entry).to include("<fetched>#{Date.today.to_s}</fetched>")
-    expect(entry).to be_equivalent_to(ISO_124_DATED) 
+    expect(xmlpp(entry)).to be_equivalent_to(xmlpp(ISO_124_DATED))
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true

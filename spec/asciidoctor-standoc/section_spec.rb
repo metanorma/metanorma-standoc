@@ -96,7 +96,7 @@ RSpec.describe Asciidoctor::Standoc do
 
 <terms id="_" obligation="normative">
   <title>Terms and definitions</title>
-  <p>For the purposes of this document,
+  <p id="_">For the purposes of this document,
        the following terms and definitions apply.</p>
   <term id="_">
   <preferred>Term1</preferred>
@@ -155,7 +155,7 @@ RSpec.describe Asciidoctor::Standoc do
 </clause>
 </annex><bibliography><references id="_" obligation="informative">
   <title>Normative References</title>
-  <p>There are no normative references in this document.</p>
+  <p id="_">There are no normative references in this document.</p>
 </references><clause id="_" obligation="informative">
   <title>Bibliography</title>
   <references id="_" obligation="informative">
@@ -284,7 +284,7 @@ RSpec.describe Asciidoctor::Standoc do
 
        <terms id="_" language="en" script="Latn" obligation="normative">
          <title>Terms and definitions</title>
-         <p>For the purposes of this document,
+         <p id="_">For the purposes of this document,
        the following terms and definitions apply.</p>
          <term id="_" language="en" script="Latn">
          <preferred>Term1</preferred>
@@ -343,7 +343,7 @@ RSpec.describe Asciidoctor::Standoc do
        </clause>
        </annex><bibliography><references id="_" language="en" script="Latn" obligation="informative">
          <title>Normative References</title>
-         <p>There are no normative references in this document.</p>
+         <p id="_">There are no normative references in this document.</p>
        </references><clause id="_" language="en" script="Latn" obligation="informative">
          <title>Bibliography</title>
          <references id="_" language="en" script="Latn" obligation="informative">
@@ -427,7 +427,7 @@ RSpec.describe Asciidoctor::Standoc do
   <sections>
     <terms id='_' obligation='normative'>
       <title>Terms and definitions</title>
-      <p>For the purposes of this document, the following terms and definitions apply.</p>
+      <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
       <term id='_'>
         <preferred>Term1</preferred>
       </term>
@@ -466,7 +466,7 @@ RSpec.describe Asciidoctor::Standoc do
   <bibliography>
     <references id='_' obligation='informative'>
       <title>Normative References</title>
-      <p>There are no normative references in this document.</p>
+      <p id="_">There are no normative references in this document.</p>
     </references>
     <clause id='_' obligation='informative'>
       <title>Bibliography</title>
@@ -580,7 +580,7 @@ RSpec.describe Asciidoctor::Standoc do
          <p id="_">Foreword</p>
        </foreword></preface><sections>
        <terms id="_" obligation="normative">
-          <title>Terms and definitions</title><p>For the purposes of this document, the terms and definitions 
+          <title>Terms and definitions</title><p id="_">For the purposes of this document, the terms and definitions 
   given in <eref bibitemid="iso1234"/> and <eref bibitemid="iso5678"/> and the following apply.</p>
   <term id="_">
   <preferred>Term1</preferred>
@@ -607,7 +607,7 @@ RSpec.describe Asciidoctor::Standoc do
          <p id="_">Foreword</p>
        </foreword></preface><sections>
        <terms id="_" obligation="normative">
-          <title>Terms and definitions</title><p>No terms and definitions are listed in this document.</p>
+          <title>Terms and definitions</title><p id="_">No terms and definitions are listed in this document.</p>
        </terms></sections>
        </standard-document>
 
@@ -633,7 +633,7 @@ RSpec.describe Asciidoctor::Standoc do
        </foreword></preface><sections>
        <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
-         <p>For the purposes of this document,
+         <p id="_">For the purposes of this document,
         the terms and definitions given in <eref bibitemid="iso1234"/> and <eref bibitemid="iso5678"/> apply.</p>
 
 
@@ -667,7 +667,7 @@ RSpec.describe Asciidoctor::Standoc do
        </foreword></preface><sections>
        <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
-        <p>Pour les besoins du présent document, les termes et définitions de <eref bibitemid="iso1234"/> et <eref bibitemid="iso5678"/> s'appliquent.</p>
+        <p id="_">Pour les besoins du présent document, les termes et définitions de <eref bibitemid="iso1234"/> et <eref bibitemid="iso5678"/> s'appliquent.</p>
 
 
        </terms></sections>
@@ -699,7 +699,7 @@ RSpec.describe Asciidoctor::Standoc do
          <p id="_">Foreword</p>
        </foreword></preface><sections>
        <terms id="_" obligation="normative">
-         <title>Terms and definitions</title><p><eref bibitemid="iso1234"/>和<eref bibitemid="iso5678"/>界定的术语和定义适用于本文件。</p>
+         <title>Terms and definitions</title><p id="_"><eref bibitemid="iso1234"/>和<eref bibitemid="iso5678"/>界定的术语和定义适用于本文件。</p>
      
          
          

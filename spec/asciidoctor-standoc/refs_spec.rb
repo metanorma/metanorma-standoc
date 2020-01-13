@@ -188,6 +188,7 @@ RSpec.describe Asciidoctor::Standoc do
              <formattedref format="text/plain">ISO 123:1985</formattedref>
            </bibitem>
          </relation>
+         <place>Geneva</place>
          </bibitem> </references></bibliography>
        </standard-document>
        OUTPUT
@@ -339,6 +340,7 @@ RSpec.describe Asciidoctor::Standoc do
               </organization>
             </owner>
           </copyright>
+          <place>Geneva</place>
         </bibitem>
           <bibitem type="standard" id="iso124">
           <fetched>#{Date.today}</fetched>
@@ -387,6 +389,7 @@ RSpec.describe Asciidoctor::Standoc do
               <formattedref format="text/plain">ISO 124:2011</formattedref>
             </bibitem>
           </relation>
+          <place>Geneva</place>
         </bibitem>
         </references></bibliography>
         </standard-document>
@@ -464,6 +467,7 @@ RSpec.describe Asciidoctor::Standoc do
                    <formattedref format='text/plain'>ISO 124:2011</formattedref>
                  </bibitem>
                </relation>
+                 <place>Geneva</place>
              </bibitem>
         </references></bibliography></standard-document>
 OUTPUT
