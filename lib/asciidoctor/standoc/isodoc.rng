@@ -307,6 +307,13 @@
     </define>
   </include>
   <!-- end overrides -->
+  <define name="BasicBlock" combine="choice">
+    <choice>
+      <ref name="requirement"/>
+      <ref name="recommendation"/>
+      <ref name="permission"/>
+    </choice>
+  </define>
   <define name="bibliography">
     <element name="bibliography">
       <oneOrMore>
@@ -543,6 +550,11 @@
       <attribute name="script"/>
     </optional>
     <optional>
+      <attribute name="inline-header">
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
       <attribute name="obligation">
         <choice>
           <value>normative</value>
@@ -586,6 +598,11 @@
     </optional>
     <optional>
       <attribute name="script"/>
+    </optional>
+    <optional>
+      <attribute name="inline-header">
+        <data type="boolean"/>
+      </attribute>
     </optional>
     <optional>
       <attribute name="obligation">
@@ -705,7 +722,12 @@
           </zeroOrMore>
         </group>
         <zeroOrMore>
-          <ref name="annex-subsection"/>
+          <choice>
+            <ref name="annex-subsection"/>
+            <ref name="terms"/>
+            <ref name="definitions"/>
+            <ref name="references"/>
+          </choice>
         </zeroOrMore>
       </group>
     </element>
