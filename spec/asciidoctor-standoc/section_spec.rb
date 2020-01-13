@@ -75,7 +75,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Bibliography Subsection
     INPUT
-             #{BLANK_HDR.sub(/<status>/, "<abstract> <p id='_'>Text</p> </abstract><status>")}
+             #{BLANK_HDR.sub(/<status>/, "<abstract> <p>Text</p> </abstract><status>")}
     <preface><abstract id="_">
   <p id="_">Text</p>
 </abstract><foreword obligation="informative">
@@ -263,7 +263,7 @@ RSpec.describe Asciidoctor::Standoc do
       [language=en,script=Latn]
       === Bibliography Subsection
     INPUT
-             #{BLANK_HDR.sub(/<status>/, "<abstract> <p id='_'>Text</p> </abstract><status>")}
+             #{BLANK_HDR.sub(/<status>/, "<abstract> <p>Text</p> </abstract><status>")}
      <preface><abstract id="_" language="en" script="Latn">
          <p id="_">Text</p>
        </abstract><foreword obligation="informative">
@@ -408,7 +408,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Bibliography Subsection
     INPUT
-             #{BLANK_HDR.sub(/<status>/, "<abstract> <p id='_'>Text</p> </abstract><status>")}
+             #{BLANK_HDR.sub(/<status>/, "<abstract> <p>Text</p> </abstract><status>")}
       <preface>
     <abstract id='_'>
       <p id='_'>Text</p>

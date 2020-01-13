@@ -365,8 +365,8 @@ RSpec.describe Asciidoctor::Standoc do
          </contributor>
          <language>el</language>
          <script>Grek</script>
-         <abstract><p id="_">This is the abstract of the document</p>
-<p id="_">This is the second paragraph of the abstract of the document.</p></abstract>
+         <abstract><p>This is the abstract of the document</p>
+         <p>This is the second paragraph of the abstract of the document.</p></abstract>
          <status><stage>published</stage></status>
          <copyright>
            <from>#{Date.today.year}</from>
