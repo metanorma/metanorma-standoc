@@ -18,6 +18,144 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+    it "processes the Asciidoctor::Standoc concept macros" do
+          expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      concept:[clause1]
+      concept:[clause1,w\[o\]rd]
+      concept:[clause1,w\[o\]rd,term]
+      concept:[blah]
+      concept:[blah,word]
+      concept:[blah,word,term]
+      concept:[blah,clause=3.1]
+      concept:[blah,clause=3.1,word]
+      concept:[blah,clause=3.1,word,term]
+      concept:[blah,clause=3.1,figure=a]
+      concept:[blah,clause=3.1,figure=a,word]
+      concept:[blah,clause=3.1,figure=a,word,term]
+      concept:IEV[135-13-13]
+      concept:IEV[135-13-13,word]
+      concept:IEV[135-13-13,word,term]
+
+      [[clause1]]
+      == Clause
+      Terms are defined here
+
+      [bibliography]
+      == Bibliography
+      * [[[blah,blah]]] _Blah_
+INPUT
+#{BLANK_HDR}
+<preface>
+  <foreword obligation='informative'>
+    <title>Foreword</title>
+    <p id='_'>
+      <concept>
+        <xref target='clause1'/>
+      </concept>
+      <concept>
+        <xref target='clause1'>w[o]rd</xref>
+      </concept>
+      <concept term='term'>
+        <xref target='clause1'>w[o]rd</xref>
+      </concept>
+      <concept>
+        <eref/>
+      </concept>
+      <concept>
+        <eref>word</eref>
+      </concept>
+      <concept term='term'>
+        <eref>word</eref>
+      </concept>
+      <concept>
+        <eref>
+          <locality type='clause'>
+            <referenceFrom>3.1</referenceFrom>
+          </locality>
+        </eref>
+      </concept>
+      <concept>
+        <eref>
+          <locality type='clause'>
+            <referenceFrom>3.1</referenceFrom>
+          </locality>
+          word
+        </eref>
+      </concept>
+      <concept term='term'>
+        <eref>
+          <locality type='clause'>
+            <referenceFrom>3.1</referenceFrom>
+          </locality>
+          word
+        </eref>
+      </concept>
+      <concept>
+        <eref>
+          <locality type='clause'>
+            <referenceFrom>3.1</referenceFrom>
+          </locality>
+          <locality type='figure'>
+            <referenceFrom>a</referenceFrom>
+          </locality>
+        </eref>
+      </concept>
+      <concept>
+        <eref>
+          <locality type='clause'>
+            <referenceFrom>3.1</referenceFrom>
+          </locality>
+          <locality type='figure'>
+            <referenceFrom>a</referenceFrom>
+          </locality>
+          word
+        </eref>
+      </concept>
+      <concept term='term'>
+        <eref>
+          <locality type='clause'>
+            <referenceFrom>3.1</referenceFrom>
+          </locality>
+          <locality type='figure'>
+            <referenceFrom>a</referenceFrom>
+          </locality>
+          word
+        </eref>
+      </concept>
+      <concept>
+        <termref base='IEV' target='135-13-13'/>
+      </concept>
+      <concept>
+        <termref base='IEV' target='135-13-13'>word</termref>
+      </concept>
+      <concept term='term'>
+        <termref base='IEV' target='135-13-13'>word</termref>
+      </concept>
+    </p>
+  </foreword>
+</preface>
+<sections>
+  <clause id='clause1' inline-header='false' obligation='normative'>
+    <title>Clause</title>
+    <p id='_'>Terms are defined here</p>
+  </clause>
+</sections>
+<bibliography>
+  <references id='_' obligation='informative'>
+    <title>Bibliography</title>
+    <bibitem id='blah'>
+      <formattedref format='application/x-isodoc+xml'>
+        <em>Blah</em>
+      </formattedref>
+      <docidentifier>blah</docidentifier>
+    </bibitem>
+  </references>
+</bibliography>
+</standard-document>
+OUTPUT
+    end
+
   it "processes the TODO custom admonition" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
@@ -114,7 +252,7 @@ RSpec.describe Asciidoctor::Standoc do
        </standard-document>
     OUTPUT
   end
-
+  
   it "processes the PlantUML macro" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).gsub(%r{plantuml/[^.]{36}\.}, "plantuml/_."))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}

@@ -44,6 +44,7 @@ module Asciidoctor
         reference_names(xmldoc)
         xref_cleanup(xmldoc)
         origin_cleanup(xmldoc)
+        concept_cleanup(xmldoc)
         RelatonIev::iev_cleanup(xmldoc, @bibdb)
         element_name_cleanup(xmldoc)
         bpart_cleanup(xmldoc)
@@ -133,85 +134,6 @@ module Asciidoctor
         align_callouts_to_annotations(xmldoc)
       end
 
-      def termdef_stem_cleanup(xmldoc)
-        xmldoc.xpath("//term/p/stem").each do |a|
-          if a.parent.elements.size == 1 # para contains just a stem expression
-            t = Nokogiri::XML::Element.new("admitted", xmldoc)
-            parent = a.parent
-            t.children = a.remove
-            parent.replace(t)
-          end
-        end
-      end
-
-      def termdomain_cleanup(xmldoc)
-        xmldoc.xpath("//p/domain").each do |a|
-          prev = a.parent.previous
-          prev.next = a.remove
-        end
-      end
-
-      def termdomain1_cleanup(xmldoc)
-        xmldoc.xpath("//domain").each do |d|
-          defn = d.at("../definition") and
-            defn.previous = d.remove
-        end
-      end
-
-      def termdefinition_cleanup(xmldoc)
-        xmldoc.xpath("//term").each do |d|
-          first_child = d.at("./p | ./figure | ./formula") || next
-          t = Nokogiri::XML::Element.new("definition", xmldoc)
-          first_child.replace(t)
-          t << first_child.remove
-          d.xpath("./p | ./figure | ./formula").each { |n| t << n.remove }
-        end
-      end
-
-      def termdef_unnest_cleanup(xmldoc)
-        # release termdef tags from surrounding paras
-        nodes = xmldoc.xpath("//p/admitted | //p/deprecates")
-        while !nodes.empty?
-          nodes[0].parent.replace(nodes[0].parent.children)
-          nodes = xmldoc.xpath("//p/admitted | //p/deprecates")
-        end
-      end
-
-      def termdef_boilerplate_cleanup(xmldoc)
-        xmldoc.xpath("//terms/p | //terms/ul").each(&:remove)
-      end
-
-      def termdef_subclause_cleanup(xmldoc)
-        xmldoc.xpath("//terms[terms]").each { |t| t.name = "clause" }
-      end
-
-      def termdocsource_cleanup(xmldoc)
-        f = xmldoc.at("//preface | //sections")
-        xmldoc.xpath("//termdocsource").each do |s|
-          f.previous = s.remove
-        end
-      end
-
-      def term_children_cleanup(xmldoc)
-        xmldoc.xpath("//term").each do |t|
-          t.xpath("./termnote").each { |n| t << n.remove }
-          t.xpath("./termexample").each { |n| t << n.remove }
-          t.xpath("./termsource").each { |n| t << n.remove }
-        end
-      end
-
-      def termdef_cleanup(xmldoc)
-        termdef_unnest_cleanup(xmldoc)
-        termdef_stem_cleanup(xmldoc)
-        termdomain_cleanup(xmldoc)
-        termdefinition_cleanup(xmldoc)
-        termdomain1_cleanup(xmldoc)
-        termdef_boilerplate_cleanup(xmldoc)
-        termdef_subclause_cleanup(xmldoc)
-        term_children_cleanup(xmldoc)
-        termdocsource_cleanup(xmldoc)
-      end
-
       def empty_text_before_first_element(x)
         x.children.each do |c|
           return false if c.text? and /\S/.match(c.text)
@@ -252,6 +174,15 @@ module Asciidoctor
             gsub(/<math /, '<math xmlns="http://www.w3.org/1998/Math/MathML" ').
             gsub(/<math>/, '<math xmlns="http://www.w3.org/1998/Math/MathML">')
           x.children = math
+        end
+      end
+
+      # allows us to deal with doc relation localities,
+      # temporarily stashed to "bpart"
+      def bpart_cleanup(xmldoc)
+        xmldoc.xpath("//relation/bpart").each do |x|
+          extract_localities(x)
+          x.replace(x.children)
         end
       end
     end

@@ -40,6 +40,33 @@ module Asciidoctor
       end
     end
 
+    class ConceptInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :concept
+      name_positional_attributes "id", "word", "term"
+      match %r{concept:(?<target>[^\[]*)\[(?<content>|.*?[^\\])\]$}
+
+      # deal with locality attributes and their disruption of positional attributes
+      def preprocess_attrs(attrs)
+        attrs.delete("term") if attrs["term"] and !attrs["word"]
+        attrs.delete(3) if attrs[3] == attrs["term"]
+        a = attrs.keys.reject { |k| k.is_a? String or [1, 2].include? k }
+        attrs["word"] ||= attrs[a[0]] if a.length() > 0
+        attrs["term"] ||= attrs[a[1]] if a.length() > 1
+        attrs
+      end
+
+      def process(parent, target, attrs)
+        termbase = target.empty? ? "" : " termbase=#{target}"
+        attrs = preprocess_attrs(attrs)
+        localities = attrs.keys.reject { |k| %w(id word term).include? k }.
+          reject { |k| k.is_a? Numeric }.map { |k| "#{k}=#{attrs[k]}" }.join(",")
+        text = [localities, attrs["word"]].reject{ |k| k.nil? || k.empty? }.join(",")
+        out = Asciidoctor::Inline.new(parent, :quoted, text).convert
+        %{<concept#{termbase} key="#{attrs['id']}" term="#{attrs['term']}">#{out}</concept>}
+      end
+    end
+
     class PseudocodeBlockMacro < Asciidoctor::Extensions::BlockProcessor
       use_dsl
       named :pseudocode

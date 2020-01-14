@@ -22,7 +22,7 @@ module Asciidoctor
       end
 
       def extract_localities(x)
-        text = x.children.first.remove.text
+        text = x&.children&.first&.remove&.text
         while (m = LOCALITY_RE.match text)
           ref = m[:ref] ? "<referenceFrom>#{tq m[:ref]}</referenceFrom>" : ""
           refto = m[:to] ? "<referenceTo>#{tq m[:to]}</referenceTo>" : ""
@@ -30,7 +30,7 @@ module Asciidoctor
           x.add_child("<locality type='#{loc}'>#{ref}#{refto}</locality>")
           text = m[:text]
         end
-        x.add_child(text)
+        x.add_child(text) if text
       end
 
       def xref_to_eref(x)
@@ -52,15 +52,6 @@ module Asciidoctor
         end
       end
 
-      # allows us to deal with doc relation localities,
-      # temporarily stashed to "bpart"
-      def bpart_cleanup(xmldoc)
-        xmldoc.xpath("//relation/bpart").each do |x|
-          extract_localities(x)
-          x.replace(x.children)
-        end
-      end
-
       def quotesource_cleanup(xmldoc)
         xmldoc.xpath("//quote/source | //terms/source").each do |x|
           xref_to_eref(x)
@@ -75,6 +66,35 @@ module Asciidoctor
         end
       end
 
+      def concept_cleanup(xmldoc)
+        xmldoc.xpath("//concept").each do |x|
+          x.delete("term") if x["term"].empty?
+          if x["termbase"] then concept_termbase_cleanup(x)
+          elsif refid? x["key"] then concept_eref_cleanup(x)
+          else
+            concept_xref_cleanup(x)
+          end
+          x.delete("key")
+        end
+      end
+
+      def concept_termbase_cleanup(x)
+          text = x&.children&.first&.remove&.text
+        x.add_child(%(<termref base="#{x['termbase']}" target="#{x['key']}">#{text}</termref>))
+        x.delete("termbase")
+      end
+
+      def concept_xref_cleanup(x)
+          text = x&.children&.first&.remove&.text
+        x.add_child(%(<xref target="#{x['key']}">#{text}</xref>))
+      end
+
+      def concept_eref_cleanup(x)
+        #require "byebug"; byebug
+        x.children = "<eref>#{x.children.to_xml}</eref>"
+        extract_localities(x.first_element_child)
+      end
+
       def biblio_reorder(xmldoc)
         xmldoc.xpath("//references[title = 'Bibliography']").each do |r|
           biblio_reorder1(r)
@@ -85,8 +105,8 @@ module Asciidoctor
         bib = sort_biblio(refs.xpath("./bibitem"))
         refs.xpath("./bibitem").each { |b| b.remove }
         bib.reverse.each do |b|
-        insert = refs.at("./title") and insert.next = b.to_xml or
-          refs.children.first.add_previous_sibling b.to_xml
+          insert = refs.at("./title") and insert.next = b.to_xml or
+            refs.children.first.add_previous_sibling b.to_xml
         end
         refs.xpath("./references").each { |r| biblio_reorder1(r) }
       end

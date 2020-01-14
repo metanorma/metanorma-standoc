@@ -17,6 +17,7 @@ module Asciidoctor
         inline_macro Asciidoctor::Standoc::DeprecatedTermInlineMacro
         inline_macro Asciidoctor::Standoc::DomainTermInlineMacro
         inline_macro Asciidoctor::Standoc::HTML5RubyMacro
+        inline_macro Asciidoctor::Standoc::ConceptInlineMacro
         block Asciidoctor::Standoc::ToDoAdmonitionBlock
         treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
         block Asciidoctor::Standoc::PlantUMLBlockMacro
