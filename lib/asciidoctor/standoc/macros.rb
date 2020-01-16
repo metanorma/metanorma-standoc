@@ -48,7 +48,7 @@ module Asciidoctor
       match /\{\{(?<content>|.*?[^\\])\}\}$/
       using_format :short
 
-      # deal with locality attributes and their disruption of positional attributes
+      # deal with locality attrs and their disruption of positional attrs
       def preprocess_attrs(attrs)
         attrs.delete("term") if attrs["term"] and !attrs["word"]
         attrs.delete(3) if attrs[3] == attrs["term"]
@@ -58,13 +58,15 @@ module Asciidoctor
         attrs
       end
 
-      def process(parent, _target, attrs)
-        attrs = preprocess_attrs(attrs)
-        localities = attrs.keys.reject { |k| %w(id word term).include? k }.
-          reject { |k| k.is_a? Numeric }.map { |k| "#{k}=#{attrs[k]}" }.join(",")
-        text = [localities, attrs["word"]].reject{ |k| k.nil? || k.empty? }.join(",")
+      def process(parent, _target, attr)
+        attr = preprocess_attrs(attr)
+        localities = attr.keys.reject { |k| %w(id word term).include? k }.
+          reject { |k| k.is_a? Numeric }.
+          map { |k| "#{k}=#{attr[k]}" }.join(",")
+        text = [localities, attr["word"]].reject{ |k| k.nil? || k.empty? }.
+          join(",")
         out = Asciidoctor::Inline.new(parent, :quoted, text).convert
-        %{<concept key="#{attrs['id']}" term="#{attrs['term']}">#{out}</concept>}
+        %{<concept key="#{attr['id']}" term="#{attr['term']}">#{out}</concept>}
       end
     end
 
@@ -75,16 +77,15 @@ module Asciidoctor
 
       def init_indent(s)
         /^(?<prefix>[ \t]*)(?<suffix>.*)$/ =~ s
-        prefix = prefix.gsub(/\t/, "\u00a0\u00a0\u00a0\u00a0").gsub(/ /, "\u00a0")
+        prefix = prefix.gsub(/\t/, "\u00a0\u00a0\u00a0\u00a0").
+          gsub(/ /, "\u00a0")
         prefix + suffix
       end
 
       def supply_br(lines)
         lines.each_with_index do |l, i|
-          next if l.empty?
-          next if l.match(/ \+$/)
-          next if i == lines.size - 1
-          next if i < lines.size - 1 && lines[i+1].empty?
+          next if l.empty? || l.match(/ \+$/)
+          next if i == lines.size - 1 || i < lines.size - 1 && lines[i+1].empty?
           lines[i] += " +"
         end
         lines
@@ -97,8 +98,7 @@ module Asciidoctor
       def process parent, reader, attrs
         attrs['role'] = 'pseudocode'
         lines = reader.lines.map { |m| prevent_smart_quotes(init_indent(m)) }
-        create_block(parent, :example, 
-                     supply_br(lines),
+        create_block(parent, :example, supply_br(lines),
                      attrs, content_model: :compound)
       end
     end
@@ -107,7 +107,6 @@ module Asciidoctor
       use_dsl
       named :ruby
       parse_content_as :text
-
       option :pos_attrs, %w(rpbegin rt rpend)
 
       def process(parent, target, attributes)
@@ -115,17 +114,18 @@ module Asciidoctor
         rpend = ')'
         if attributes.size == 1 and attributes.key?("text")
           rt = attributes["text"]
-        elsif attributes.size == 2 and attributes.key?(1) and attributes.key?("rpbegin")
+        elsif attributes.size == 2 and attributes.key?(1) and
+          attributes.key?("rpbegin")
           # for example, html5ruby:楽聖少女[がくせいしょうじょ]
-          rt = attributes[1]
-          rt ||= ""
+          rt = attributes[1] || ""
         else
           rpbegin = attributes['rpbegin']
           rt = attributes['rt']
           rpend = attributes['rpend']
         end
 
-        %(<ruby>#{target}<rp>#{rpbegin}</rp><rt>#{rt}</rt><rp>#{rpend}</rp></ruby>)
+        "<ruby>#{target}<rp>#{rpbegin}</rp><rt>#{rt}</rt>"\
+          "<rp>#{rpend}</rp></ruby>"
       end
     end
 
@@ -171,25 +171,30 @@ module Asciidoctor
         nil
       end
 
+      def self.run umlfile, outfile
+        system "plantuml #{umlfile.path}" or (warn $? and return false)
+        i = 0
+        until !Gem.win_platform? || File.exist?(outfile) || i == 15
+          sleep(1)
+          i += 1
+        end
+        File.exist?(outfile)
+      end
+
       # if no :imagesdir: leave image file in plantuml
+      # sleep need for windows because dot works in separate process and 
+      # plantuml process may finish earlier then dot, as result png file 
+      # maybe not created yet after plantuml finish
       def self.generate_file parent, reader
         localdir = Utils::localdir(parent.document)
-        fn = save_plantuml parent, reader, localdir
-        umlfile = Pathname.new(localdir) + "plantuml" + "#{fn}.pml"
-        system "plantuml #{umlfile}"
-        # sleep need for windows because dot works in separate process and plantuml process may
-        # finish erlier then dot, as result png file maybe not created yet after plantuml finish
-        until !Gem.win_platform? || File.exist?(Pathname.new(localdir) + "plantuml" + "#{fn}.png")
-          sleep(1)
-        end
-        outfile = parent.image_uri("#{fn}.png")
-        if outfile == "#{fn}.png"
-          (Pathname.new("plantuml") + "#{fn}.png").to_s
-        else
-          FileUtils.mv (Pathname.new(localdir) + "plantuml" + "#{fn}.png").to_s,
-            (Pathname.new(localdir) + outfile).to_s
-          (Pathname.new("#{fn}.png")).to_s
-        end
+        umlfile, outfile = save_plantuml parent, reader, localdir
+        run(umlfile, outfile) or return
+        path = Pathname.new(localdir) + "plantuml"
+        path.mkpath()
+        File.exist?(path) && File.writable?(path) or return
+        FileUtils.cp outfile, path
+        umlfile.unlink
+        File.join(path,File.basename(outfile))
       end
 
       def self.save_plantuml parent, reader, localdir
@@ -197,11 +202,11 @@ module Asciidoctor
         reader.lines.first.sub(/\s+$/, "").match /^@startuml($| )/ or
           src = "@startuml\n#{src}\n@enduml\n"
         /^@startuml (?<fn>[^\n]+)\n/ =~ src
-        fn ||= UUIDTools::UUID.random_create
-        path = Pathname.new(localdir) + "plantuml"
-        path.mkpath()
-        (path + "#{fn}.pml").write(src)
-        fn
+        Tempfile.open(["plantuml", ".pml"], :encoding => "utf-8") do |f|
+          f.write(src)
+          [f, File.join(File.dirname(f.path),
+                        (fn || File.basename(f.path, ".pml")) + ".png")]
+        end
       end
 
       def self.generate_attrs attrs
@@ -219,19 +224,20 @@ module Asciidoctor
       on_context :literal
       parse_content_as :raw
 
+      def abort(parent, reader, attrs, msg)
+        warn msg
+        attrs["language"] = "plantuml"
+        create_listing_block parent, reader.source, attrs.reject { |k, v| k == 1 }
+      end
+
       def process(parent, reader, attrs)
-        if PlantUMLBlockMacroBackend.plantuml_installed?
-          filename = PlantUMLBlockMacroBackend.generate_file parent, reader
-          through_attrs = PlantUMLBlockMacroBackend.generate_attrs attrs
-          through_attrs["target"] = filename
-          create_image_block parent, through_attrs
-        else
-          warn "PlantUML not installed"
-          # attrs.delete(1) : remove the style attribute
-          attrs["language"] = "plantuml"
-          create_listing_block parent, reader.source,
-            attrs.reject { |k, v| k == 1 }
-        end
+        PlantUMLBlockMacroBackend.plantuml_installed? or
+          return abort(parent, reader, attrs, "PlantUML not installed")
+        filename = PlantUMLBlockMacroBackend.generate_file(parent, reader) or
+          return abort(parent, reader, attrs, "Failed to process PlantUML")
+        through_attrs = PlantUMLBlockMacroBackend.generate_attrs attrs
+        through_attrs["target"] = filename
+        create_image_block parent, through_attrs
       end
     end
   end
