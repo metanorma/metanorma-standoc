@@ -44,7 +44,9 @@ module Asciidoctor
       use_dsl
       named :concept
       name_positional_attributes "id", "word", "term"
-      match %r{concept:(?<target>[^\[]*)\[(?<content>|.*?[^\\])\]$}
+      #match %r{concept:(?<target>[^\[]*)\[(?<content>|.*?[^\\])\]$}
+      match /\{\{(?<content>|.*?[^\\])\}\}$/
+      using_format :short
 
       # deal with locality attributes and their disruption of positional attributes
       def preprocess_attrs(attrs)
@@ -56,14 +58,13 @@ module Asciidoctor
         attrs
       end
 
-      def process(parent, target, attrs)
-        termbase = target.empty? ? "" : " termbase=#{target}"
+      def process(parent, _target, attrs)
         attrs = preprocess_attrs(attrs)
         localities = attrs.keys.reject { |k| %w(id word term).include? k }.
           reject { |k| k.is_a? Numeric }.map { |k| "#{k}=#{attrs[k]}" }.join(",")
         text = [localities, attrs["word"]].reject{ |k| k.nil? || k.empty? }.join(",")
         out = Asciidoctor::Inline.new(parent, :quoted, text).convert
-        %{<concept#{termbase} key="#{attrs['id']}" term="#{attrs['term']}">#{out}</concept>}
+        %{<concept key="#{attrs['id']}" term="#{attrs['term']}">#{out}</concept>}
       end
     end
 

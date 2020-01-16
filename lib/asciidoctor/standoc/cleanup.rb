@@ -7,6 +7,7 @@ require_relative "./cleanup_footnotes.rb"
 require_relative "./cleanup_ref.rb"
 require_relative "./cleanup_boilerplate.rb"
 require_relative "./cleanup_section.rb"
+require_relative "./cleanup_inline.rb"
 require "relaton_iev"
 
 module Asciidoctor
@@ -132,36 +133,6 @@ module Asciidoctor
       def callout_cleanup(xmldoc)
         merge_annotations_into_sourcecode(xmldoc)
         align_callouts_to_annotations(xmldoc)
-      end
-
-      def empty_text_before_first_element(x)
-        x.children.each do |c|
-          return false if c.text? and /\S/.match(c.text)
-          return true if c.element?
-        end
-        true
-      end
-
-      def strip_initial_space(x)
-        if x.children[0].text?
-          if !/\S/.match(x.children[0].text)
-            x.children[0].remove
-          else
-            x.children[0].content = x.children[0].text.gsub(/^ /, "")
-          end
-        end
-      end
-
-      def bookmark_cleanup(xmldoc)
-        xmldoc.xpath("//li[descendant::bookmark]").each do |x|
-          if x&.elements&.first&.name == "p" &&
-              x&.elements&.first&.elements&.first&.name == "bookmark"
-            if empty_text_before_first_element(x.elements[0])
-              x["id"] = x.elements[0].elements[0].remove["id"]
-              strip_initial_space(x.elements[0])
-            end
-          end
-        end
       end
 
       def mathml_cleanup(xmldoc)

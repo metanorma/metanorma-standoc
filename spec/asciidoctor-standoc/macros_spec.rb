@@ -21,21 +21,21 @@ RSpec.describe Asciidoctor::Standoc do
     it "processes the Asciidoctor::Standoc concept macros" do
           expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
-      concept:[clause1]
-      concept:[clause1,w\[o\]rd]
-      concept:[clause1,w\[o\]rd,term]
-      concept:[blah]
-      concept:[blah,word]
-      concept:[blah,word,term]
-      concept:[blah,clause=3.1]
-      concept:[blah,clause=3.1,word]
-      concept:[blah,clause=3.1,word,term]
-      concept:[blah,clause=3.1,figure=a]
-      concept:[blah,clause=3.1,figure=a,word]
-      concept:[blah,clause=3.1,figure=a,word,term]
-      concept:IEV[135-13-13]
-      concept:IEV[135-13-13,word]
-      concept:IEV[135-13-13,word,term]
+      {{clause1}}
+      {{clause1,w\[o\]rd}}
+      {{clause1,w\[o\]rd,term}}
+      {{blah}}
+      {{blah,word}}
+      {{blah,word,term}}
+      {{blah,clause=3.1}}
+      {{blah,clause=3.1,word}}
+      {{blah,clause=3.1,word,term}}
+      {{blah,clause=3.1,figure=a}}
+      {{blah,clause=3.1,figure=a,word}}
+      {{blah,clause=3.1,figure=a,word,term}}
+      {{IEV:135-13-13}}
+      {{IEV:135-13-13,word}}
+      {{IEV:135-13-13,word,term}}
 
       [[clause1]]
       == Clause
