@@ -76,7 +76,11 @@ module Asciidoctor
           end
         end
 
-        def emend_biblio(xml, code, title)
+        def mn_code(code)
+        code.sub(/^\(/, "[").sub(/\).*$/, "]").sub(/^nofetch\((.+)\)$/, "\\1")
+      end
+
+        def emend_biblio(xml, code, title, usrlbl)
           unless xml.at("/bibitem/docidentifier[not(@type = 'DOI')][text()]")
             warn "ERROR: No document identifier retrieved for #{code}"
             xml.root << "<docidentifier>#{code}</docidentifier>"
@@ -85,6 +89,8 @@ module Asciidoctor
             warn "ERROR: No title retrieved for #{code}"
             xml.root << "<title>#{title || "(MISSING TITLE)"}</title>"
           end
+          usrlbl and xml.at("/bibitem/docidentifier").next = 
+            "<docidentifier type='metanorma'>#{mn_code(usrlbl)}</docidentifier>"
         end
 
         def endash_date(elem)
@@ -93,10 +99,10 @@ module Asciidoctor
           end
         end
 
-        def smart_render_xml(x, code, title)
+        def smart_render_xml(x, code, title, usrlbl)
           xstr = x.to_xml if x.respond_to? :to_xml
           xml = Nokogiri::XML(xstr)
-          emend_biblio(xml, code, title)
+          emend_biblio(xml, code, title, usrlbl)
           xml.xpath("//date").each { |d| endash_date(d) }
           xml.traverse do |n|
             n.text? and n.replace(smartformat(n.text))
