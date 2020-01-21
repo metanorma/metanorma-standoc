@@ -43,7 +43,16 @@ module Asciidoctor
         super
         basebackend "html"
         outfilesuffix ".xml"
-        @libdir = File.dirname(__FILE__)
+        #@libdir = File.dirname(__FILE__)
+        @libdir = File.dirname(self.class::_file || __FILE__)
+      end
+
+      class << self
+        attr_accessor :_file
+      end
+
+      def self.inherited( k )
+        k._file = caller.first[/^[^:]+/]
       end
 
       # path to isodoc assets in child gems

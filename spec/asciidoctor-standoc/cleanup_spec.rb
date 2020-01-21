@@ -1434,6 +1434,47 @@ it "removes bibdata bibitem IDs" do
 OUTPUT
 end
 
+it "imports boilerplate file" do
+  expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    = Document title
+    Author
+    :docfile: test.adoc
+    :nodoc:
+    :novalid:
+    :no-isobib:
+    :docstage: 10
+    :boilerplate-authority: spec/assets/boilerplate.xml
+
+    == Clause 1
+
+    INPUT
+    <standard-document xmlns='http://riboseinc.com/isoxml'>
+  <bibdata type='standard'>
+    <title language='en' format='text/plain'>Document title</title>
+    <language>en</language>
+    <script>Latn</script>
+    <status>
+      <stage>10</stage>
+    </status>
+    <copyright>
+      <from>#{Date.today.year}</from>
+    </copyright>
+    <ext>
+      <doctype>article</doctype>
+    </ext>
+  </bibdata>
+  <boilerplate>
+    <text>10</text>
+  </boilerplate>
+  <sections>
+    <clause id='_' inline-header='false' obligation='normative'>
+      <title>Clause 1</title>
+    </clause>
+  </sections>
+</standard-document>
+    OUTPUT
+end
+
 
   private
 

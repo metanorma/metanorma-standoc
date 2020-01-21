@@ -102,6 +102,7 @@ module Asciidoctor
         @bibdb = nil
         @seen_headers = []
         @datauriimage = node.attr("data-uri-image")
+        @boilerplateauthority = node.attr("boilerplate-authority")
         init_bib_caches(node)
         init_iev_caches(node)
         lang = (node.attr("language") || "en")
