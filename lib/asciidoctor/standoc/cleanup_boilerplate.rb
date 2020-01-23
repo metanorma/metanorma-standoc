@@ -82,17 +82,23 @@ module Asciidoctor
         end
       end
 
-      def boilerplate(x_orig)
-        file = @boilerplateauthority ? "#{@localdir}/#{@boilerplateauthority}" :
+      def boilerplate_file(xmldoc)
+        file = @boilerplateauthority ? 
+          File.join(@localdir,@boilerplateauthority) :
           File.join(@libdir, "boilerplate.xml")
-        File.exists?(file) or return
+      end
+
+      def boilerplate(x_orig)
+        file = boilerplate_file(x_orig)
+        !file.nil? and File.exists?(file) or return
         x = x_orig.dup
         # TODO variable
         x.root.add_namespace(nil, "http://riboseinc.com/isoxml")
-        x = Nokogiri::XML(x.to_xml)
+        xml = Nokogiri::XML(x.to_xml)
         conv = html_converter(EmptyAttr.new)
+        conv.i18n_init("en", "Latn")
         conv.metadata_init("en", "Latn", {})
-        conv.info(x, nil)
+        conv.info(xml, nil)
           conv.populate_template((File.read(file, encoding: "UTF-8")), nil)
       end
 
