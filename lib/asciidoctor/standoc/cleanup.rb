@@ -57,10 +57,10 @@ module Asciidoctor
         script_cleanup(xmldoc)
         docidentifier_cleanup(xmldoc)
         bookmark_cleanup(xmldoc)
-        smartquotes_cleanup(xmldoc)
         requirement_cleanup(xmldoc)
         bibdata_cleanup(xmldoc)
         boilerplate_cleanup(xmldoc)
+        smartquotes_cleanup(xmldoc)
         para_cleanup(xmldoc)
         xmldoc
       end
