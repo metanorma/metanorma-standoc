@@ -86,6 +86,9 @@ module Asciidoctor
         def attr(_x)
           nil
         end
+        def attributes
+          {}
+        end
       end
 
       def boilerplate_file(xmldoc)
