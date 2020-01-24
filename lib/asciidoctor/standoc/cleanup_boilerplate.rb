@@ -50,11 +50,17 @@ module Asciidoctor
         "title = 'Normative references']".freeze
 
       def boilerplate_isodoc(xmldoc)
-        isodoc = IsoDoc::Convert.new({})
+        x = xmldoc.dup
+        # TODO variable
+        x.root.add_namespace(nil, "http://riboseinc.com/isoxml")
+        xml = Nokogiri::XML(x.to_xml)
+        conv = html_converter(EmptyAttr.new)
         @lang = xmldoc&.at("//bibdata/language")&.text
         @script = xmldoc&.at("//bibdata/script")&.text
-        isodoc.i18n_init(@lang, @script)
-        isodoc
+        conv.i18n_init(@lang, @script)
+        conv.metadata_init(@lang, @script, {})
+        conv.info(xml, nil)
+        conv
       end
 
       def boilerplate_cleanup(xmldoc)
@@ -65,14 +71,14 @@ module Asciidoctor
                                 f.at(".//term"), f.at(".//p"), isodoc)
         f = xmldoc.at(self.class::NORM_REF) and
           norm_ref_preface(f)
-        initial_boilerplate(xmldoc)
+        initial_boilerplate(xmldoc, isodoc)
       end
 
-      def initial_boilerplate(x)
+      def initial_boilerplate(x, isodoc)
         return if x.at("//boilerplate")
         preface = x.at("//preface") || x.at("//sections") || x.at("//annex") ||
           x.at("//references") || return
-        b = boilerplate(x) or return
+        b = boilerplate(x, isodoc) or return
         preface.previous = b
       end
 
@@ -83,22 +89,13 @@ module Asciidoctor
       end
 
       def boilerplate_file(xmldoc)
-        file = @boilerplateauthority ? 
-          File.join(@localdir,@boilerplateauthority) :
           File.join(@libdir, "boilerplate.xml")
       end
 
-      def boilerplate(x_orig)
-        file = boilerplate_file(x_orig)
+      def boilerplate(xml, conv)
+        file = boilerplate_file(xml)
+        file = File.join(@localdir, @boilerplateauthority) if @boilerplateauthority
         !file.nil? and File.exists?(file) or return
-        x = x_orig.dup
-        # TODO variable
-        x.root.add_namespace(nil, "http://riboseinc.com/isoxml")
-        xml = Nokogiri::XML(x.to_xml)
-        conv = html_converter(EmptyAttr.new)
-        conv.i18n_init("en", "Latn")
-        conv.metadata_init("en", "Latn", {})
-        conv.info(xml, nil)
           conv.populate_template((File.read(file, encoding: "UTF-8")), nil)
       end
 
