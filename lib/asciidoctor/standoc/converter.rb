@@ -52,7 +52,8 @@ module Asciidoctor
       end
 
       def self.inherited( k )
-        k._file = caller.first[/^[^:]+/]
+        #k._file = caller.first[/^[^:]+/]
+        k._file = caller_locations.first.absolute_path
       end
 
       # path to isodoc assets in child gems
