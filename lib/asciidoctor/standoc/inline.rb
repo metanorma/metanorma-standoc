@@ -88,8 +88,11 @@ module Asciidoctor
         end.join
       end
 
-      def page_break(_node)
-        noko { |xml| xml.pagebreak }.join
+      def page_break(node)
+        attrs = {}
+        node.option?("landscape") and attrs[:orientation] = "landscape"
+        node.option?("portrait") and attrs[:orientation] = "portrait"
+        noko { |xml| xml.pagebreak **attr_code(attrs)}.join
       end
 
       def thematic_break(_node)

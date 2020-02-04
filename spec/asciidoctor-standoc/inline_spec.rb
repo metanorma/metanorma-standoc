@@ -136,12 +136,21 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
       '''
 
       <<<
+
+      [%landscape]
+      <<<
+
+      [%portrait]
+      <<<
     INPUT
             #{BLANK_HDR}
        <sections><p id="_">Line break<br/>
        line break</p>
        <hr/>
-       <pagebreak/></sections>
+       <pagebreak/>
+       <pagebreak orientation="landscape"/>
+       <pagebreak orientation="portrait"/>
+        </sections>
        </standard-document>
     OUTPUT
   end
