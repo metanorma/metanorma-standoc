@@ -20,15 +20,34 @@ module Asciidoctor
         @norm_ref
       end
 
-      def sectiontype(node)
+      def sectiontype(node, level = true)
         ret = node&.attr("heading")&.downcase ||
           node.title.gsub(/<[^>]+>/, "").downcase
-        return ret if ["symbols and abbreviated terms", "abbreviations",
-                       "abbreviated terms", "symbols"].include? ret
-        return nil unless node.level == 1
+        ret1 = sectiontype_streamline(ret)
+        return ret1 if "symbols and abbreviated terms" == ret1
+        return nil unless !level || node.level == 1
         return nil if @seen_headers.include? ret
         @seen_headers << ret
-        ret
+        ret1
+      end
+
+      def sectiontype_streamline(ret)
+        case ret
+        when "terms and definitions",
+          "terms, definitions, symbols and abbreviated terms",
+          "terms, definitions, symbols and abbreviations",
+          "terms, definitions and symbols",
+          "terms, definitions and abbreviations",
+          "terms, definitions and abbreviated terms"
+          "terms and definitions"
+        when "symbols and abbreviated terms",
+          "symbols",
+          "abbreviated terms",
+          "abbreviations"
+          "symbols and abbreviated terms"
+        else
+          ret
+        end
       end
 
       def section_attributes(node)
@@ -43,19 +62,11 @@ module Asciidoctor
           case sectiontype(node)
           when "introduction" then introduction_parse(a, xml, node)
           when "normative references" then norm_ref_parse(a, xml, node)
-          when "terms and definitions",
-            "terms, definitions, symbols and abbreviated terms",
-            "terms, definitions, symbols and abbreviations",
-            "terms, definitions and symbols",
-            "terms, definitions and abbreviations",
-            "terms, definitions and abbreviated terms"
+          when "terms and definitions"
             @term_def = true
             term_def_parse(a, xml, node, true)
             @term_def = false
-          when "symbols and abbreviated terms",
-            "symbols",
-            "abbreviated terms",
-            "abbreviations"
+          when "symbols and abbreviated terms"
             symbols_parse(a, xml, node)
           when "bibliography" then bibliography_parse(a, xml, node)
           else
@@ -139,9 +150,9 @@ module Asciidoctor
         @definitions = true
       end
 
-      def symbols_parse(attrs, xml, node)
-        node.role == "nonterm" and return nonterm_symbols_parse(attrs, xml, node)
-        xml.definitions **attr_code(attrs) do |xml_section|
+      def symbols_parse(attr, xml, node)
+        node.role == "nonterm" and return nonterm_symbols_parse(attr, xml, node)
+        xml.definitions **attr_code(attr) do |xml_section|
           xml_section.title { |t| t << node.title }
           defs = @definitions
           termdefs = @term_def
@@ -164,13 +175,18 @@ module Asciidoctor
 
       # subclause contains subclauses
       def term_def_subclause_parse(attrs, xml, node)
-        node.role == "nonterm" and
+        node.role == "nonterm" ||
+          sectiontype(node, false) == "terms and definitions" and
           return nonterm_term_def_subclause_parse(attrs, xml, node)
         return symbols_parse(attrs, xml, node) if @definitions
         sub = node.find_by(context: :section) { |s| s.level == node.level + 1 }
         sub.empty? || (return term_def_parse(attrs, xml, node, false))
-        SYMBOLS_TITLES.include?(node.title.downcase) and
+        sectiontype(node, false) == "symbols and abbreviated terms" and
           (return symbols_parse(attrs, xml, node))
+        term_def_subclause_parse1(attrs, xml, node)
+      end
+
+      def term_def_subclause_parse1(attrs, xml, node)
         xml.term **attr_code(attrs) do |xml_section|
           xml_section.preferred { |name| name << node.title }
           xml_section << node.content

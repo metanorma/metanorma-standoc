@@ -561,6 +561,34 @@ RSpec.describe Asciidoctor::Standoc do
      OUTPUT
   end
 
+        it "processes terminal nodes in terms with term subsection names" do
+     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Terms, definitions, symbols and abbreviated terms
+
+      === Terms and definitions
+
+      === Symbols
+
+     INPUT
+             #{BLANK_HDR}
+             <sections>
+  <terms id='_' obligation='normative'>
+    <title>Terms, definitions, symbols and abbreviated terms</title>
+    <p id='_'>No terms and definitions are listed in this document.</p>
+    <clause id='_' inline-header='false' obligation='normative'>
+      <title>Terms and definitions</title>
+    </clause>
+    <definitions id='_'>
+      <title>Symbols</title>
+    </definitions>
+  </terms>
+</sections>
+     OUTPUT
+    end
+
+
       it "processes terms & definitions with external source" do
      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
