@@ -585,6 +585,7 @@ RSpec.describe Asciidoctor::Standoc do
     </definitions>
   </terms>
 </sections>
+       </standard-document>
      OUTPUT
     end
 

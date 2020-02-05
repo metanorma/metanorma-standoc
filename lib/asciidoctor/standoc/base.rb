@@ -12,6 +12,9 @@ require "fileutils"
 module Asciidoctor
   module Standoc
     module Base
+      XML_ROOT_TAG = "standard-document".freeze
+      XML_NAMESPACE = "http://riboseinc.com/isoxml".freeze
+
       Asciidoctor::Extensions.register do
         inline_macro Asciidoctor::Standoc::AltTermInlineMacro
         inline_macro Asciidoctor::Standoc::DeprecatedTermInlineMacro
@@ -159,17 +162,18 @@ module Asciidoctor
       end
 
       def makexml1(node)
-        result = ["<?xml version='1.0' encoding='UTF-8'?>\n<standard-document>"]
+        result = ["<?xml version='1.0' encoding='UTF-8'?>",
+                  "<#{self.class::XML_ROOT_TAG}>"]
         result << noko { |ixml| front node, ixml }
         result << noko { |ixml| middle node, ixml }
-        result << "</standard-document>"
+        result << "</#{self.class::XML_ROOT_TAG}>"
         textcleanup(result)
       end
 
       def makexml(node)
         result = makexml1(node)
         ret1 = cleanup(Nokogiri::XML(result))
-        ret1.root.add_namespace(nil, "http://riboseinc.com/isoxml")
+        ret1.root.add_namespace(nil, self.class::XML_NAMESPACE)
         validate(ret1) unless @novalid
         ret1
       end
@@ -219,9 +223,8 @@ module Asciidoctor
 
       def extract_termsource_refs(text, node)
         matched = TERM_REFERENCE_RE.match text
-        if matched.nil?
+        matched.nil? and
           Utils::warning(node, "term reference not in expected format", text)
-        end
         matched
       end
 
