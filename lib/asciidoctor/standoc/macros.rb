@@ -187,14 +187,15 @@ module Asciidoctor
       # maybe not created yet after plantuml finish
       def self.generate_file parent, reader
         localdir = Utils::localdir(parent.document)
+        imagesdir = parent.document.attr('imagesdir')
         umlfile, outfile = save_plantuml parent, reader, localdir
         run(umlfile, outfile) or return
-        path = Pathname.new(localdir) + "plantuml"
+        path = Pathname.new(localdir) + (imagesdir || "plantuml")
         path.mkpath()
         File.exist?(path) && File.writable?(path) or return
         FileUtils.cp outfile, path
         umlfile.unlink
-        File.join(path,File.basename(outfile))
+        imagesdir ? File.basename(outfile) : File.join(path, File.basename(outfile))
       end
 
       def self.save_plantuml parent, reader, localdir
