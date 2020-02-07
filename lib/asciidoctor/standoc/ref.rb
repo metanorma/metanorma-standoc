@@ -42,8 +42,8 @@ module Asciidoctor
       end
 
       def docid(t, code)
-        type, code1 = /^\[\d+\]$|^\(.+\)$/.match(code) ?
-          ["metanorma", code.sub(/^\(/, "[").sub(/\)$/, "]")] :
+        type, code1 = /^\[\d+\]$|^\([^)]+\).*$/.match(code) ?
+          ["metanorma", Utils::mn_code(code)] :
           @bibdb&.docid_type(code) || [nil, code]
         code1.sub!(/^nofetch\((.+)\)$/, "\\1")
         t.docidentifier code1, **attr_code(type: type)
@@ -56,10 +56,11 @@ module Asciidoctor
 
       def isorefmatches(xml, m)
         yr = norm_year(m[:year])
-        ref = fetch_ref xml, m[:code], yr, title: m[:text]
+        ref = fetch_ref xml, m[:code], yr, title: m[:text], usrlbl: m[:usrlbl]
         return use_my_anchor(ref, m[:anchor]) if ref
         xml.bibitem **attr_code(ref_attributes(m)) do |t|
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
+          docid(t, m[:usrlbl]) if m[:usrlbl]
           docid(t, id_and_year(m[:code], yr))
           yr and t.date **{ type: "published" } do |d|
             set_date_range(d, yr)
@@ -70,10 +71,12 @@ module Asciidoctor
 
       def isorefmatches2(xml, m)
         ref = fetch_ref xml, m[:code], nil, no_year: true, note: m[:fn],
-          title: m[:text]
+          title: m[:text], usrlbl: m[:usrlbl]
         return use_my_anchor(ref, m[:anchor]) if ref
+
         xml.bibitem **attr_code(ref_attributes(m)) do |t|
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
+          docid(t, m[:usrlbl]) if m[:usrlbl]
           docid(t, id_and_year(m[:code], "--"))
           t.date **{ type: "published" } do |d|
             d.on "--"
@@ -98,10 +101,12 @@ module Asciidoctor
         hasyr =  m.names.include?("year") && yr != "--"
         noyr =  m.names.include?("year") && yr == "--"
         ref = fetch_ref xml, m[:code], hasyr ? yr : nil,
-          all_parts: true, no_year: noyr, text: m[:text]
+          all_parts: true, no_year: noyr, text: m[:text], usrlbl: m[:usrlbl]
         return use_my_anchor(ref, m[:anchor]) if ref
+
         xml.bibitem(**attr_code(ref_attributes(m))) do |t|
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
+          docid(t, m[:usrlbl]) if m[:usrlbl]
           docid(t, id_and_year(m[:code], yr) + " (all parts)")
           conditional_date(t, m, noyr)
           iso_publisher(t, m[:code])
@@ -115,9 +120,10 @@ module Asciidoctor
 
       def fetch_ref(xml, code, year, **opts)
         return nil if opts[:no_year]
+        code = code.sub(/^\([^)]+\)/, "")
         hit = @bibdb&.fetch(code, year, opts)
         return nil if hit.nil?
-        xml.parent.add_child(Utils::smart_render_xml(hit, code, opts[:title]))
+        xml.parent.add_child(Utils::smart_render_xml(hit, code, opts[:title], opts[:usrlbl]))
         xml
       rescue RelatonBib::RequestError
         warn "Could not retrieve #{code}: no access to online site"
@@ -129,6 +135,7 @@ module Asciidoctor
           t.formattedref **{ format: "application/x-isodoc+xml" } do |i|
             i << ref_normalise_no_format(m[:text])
           end
+          docid(t, m[:usrlbl]) if m[:usrlbl]
           docid(t, /^\d+$/.match(m[:code]) ? "[#{m[:code]}]" : m[:code])
         end
       end
@@ -146,7 +153,7 @@ module Asciidoctor
         end
         unless m[:code] && /^\d+$/.match(m[:code])
           ref = fetch_ref xml, m[:code],
-            m.names.include?("year") ? m[:year] : nil, { title: m[:text] }
+            m.names.include?("year") ? m[:year] : nil, title: m[:text], usrlbl: m[:usrlbl]
           return use_my_anchor(ref, m[:anchor]) if ref
         end
         refitem_render(xml, m)
@@ -154,33 +161,31 @@ module Asciidoctor
 
       def ref_normalise(ref)
         ref.
-          # gsub(/&#8201;&#8212;&#8201;/, " -- ").
           gsub(/&amp;amp;/, "&amp;").
           gsub(%r{^<em>(.*)</em>}, "\\1")
       end
 
       def ref_normalise_no_format(ref)
         ref.
-          # gsub(/&#8201;&#8212;&#8201;/, " -- ").
           gsub(/&amp;amp;/, "&amp;")
       end
 
       ISO_REF = %r{^<ref\sid="(?<anchor>[^"]+)">
-      \[(?<code>(ISO|IEC)[^0-9]*\s[0-9-]+|IEV)
+      \[(?<usrlbl>\([^)]+\))?(?<code>(ISO|IEC)[^0-9]*\s[0-9-]+|IEV)
       (:(?<year>[0-9][0-9-]+))?\]</ref>,?\s*
         (?<text>.*)$}xm
 
         ISO_REF_NO_YEAR = %r{^<ref\sid="(?<anchor>[^"]+)">
-      \[(?<code>(ISO|IEC)[^0-9]*\s[0-9-]+):(--|\&\#821[12]\;)\]</ref>,?\s*
+      \[(?<usrlbl>\([^)]+\))?(?<code>(ISO|IEC)[^0-9]*\s[0-9-]+):(--|\&\#821[12]\;)\]</ref>,?\s*
         (<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>)?,?\s?(?<text>.*)$}xm
 
         ISO_REF_ALL_PARTS = %r{^<ref\sid="(?<anchor>[^"]+)">
-        \[(?<code>(ISO|IEC)[^0-9]*\s[0-9]+)(:(?<year>--|\&\#821[12]\;|[0-9][0-9-]+))?\s
+        \[(?<usrlbl>\([^)]+\))?(?<code>(ISO|IEC)[^0-9]*\s[0-9]+)(:(?<year>--|\&\#821[12]\;|[0-9][0-9-]+))?\s
         \(all\sparts\)\]</ref>,?\s*
           (<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>,?\s?)?(?<text>.*)$}xm
 
           NON_ISO_REF = %r{^<ref\sid="(?<anchor>[^"]+)">
-        \[(?<code>[^\]]+?)([:-](?<year>(19|20)[0-9][0-9]))?\]</ref>,?\s*
+        \[(?<usrlbl>\([^)]+\))?(?<code>[^\]]+?)([:-](?<year>(19|20)[0-9][0-9]))?\]</ref>,?\s*
           (?<text>.*)$}xm
 
           # @param item [String]
@@ -199,7 +204,6 @@ module Asciidoctor
           matched, matched2, matched3 = reference1_matches(item)
           if matched3.nil? && matched2.nil? && matched.nil?
             refitem(xml, item, node)
-            # elsif fetch_ref(matched3 || matched2 || matched, xml)
           elsif !matched.nil? then isorefmatches(xml, matched)
           elsif !matched2.nil? then isorefmatches2(xml, matched2)
           elsif !matched3.nil? then isorefmatches3(xml, matched3)
@@ -211,7 +215,7 @@ module Asciidoctor
             node.items.each do |item|
               reference1(node, item.text, xml)
             end
-          end.join("\n")
+          end.join
         end
 
         def global_ievcache_name

@@ -52,11 +52,8 @@
     <optional>
       <ref name="section-title"/>
     </optional>
-    <optional>
-      <ref name="BasicBlock"/>
-    </optional>
     <zeroOrMore>
-      <ref name="note"/>
+      <ref name="BasicBlock"/>
     </zeroOrMore>
   </define>
   <define name="references">
@@ -99,6 +96,10 @@
       <ref name="example"/>
       <ref name="review"/>
       <ref name="pre"/>
+      <ref name="note"/>
+      <ref name="pagebreak"/>
+      <ref name="hr"/>
+      <ref name="bookmark"/>
     </choice>
   </define>
   <define name="paragraph">
@@ -285,6 +286,9 @@
         <data type="ID"/>
       </attribute>
       <optional>
+        <attribute name="alt"/>
+      </optional>
+      <optional>
         <ref name="tname"/>
       </optional>
       <text/>
@@ -338,7 +342,14 @@
   <define name="tname">
     <element name="name">
       <oneOrMore>
-        <ref name="PureTextElement"/>
+        <choice>
+          <ref name="PureTextElement"/>
+          <ref name="eref"/>
+          <ref name="stem"/>
+          <ref name="keyword"/>
+          <ref name="xref"/>
+          <ref name="hyperlink"/>
+        </choice>
       </oneOrMore>
     </element>
   </define>
@@ -564,6 +575,7 @@
       <ref name="pagebreak"/>
       <ref name="bookmark"/>
       <ref name="image"/>
+      <ref name="index"/>
     </choice>
   </define>
   <define name="PureTextElement">
@@ -588,14 +600,20 @@
   <define name="em">
     <element name="em">
       <zeroOrMore>
-        <ref name="PureTextElement"/>
+        <choice>
+          <ref name="PureTextElement"/>
+          <ref name="stem"/>
+        </choice>
       </zeroOrMore>
     </element>
   </define>
   <define name="strong">
     <element name="strong">
       <zeroOrMore>
-        <ref name="PureTextElement"/>
+        <choice>
+          <ref name="PureTextElement"/>
+          <ref name="stem"/>
+        </choice>
       </zeroOrMore>
     </element>
   </define>
@@ -686,6 +704,17 @@
   <define name="pagebreak">
     <element name="pagebreak">
       <empty/>
+    </element>
+  </define>
+  <define name="index">
+    <element name="index">
+      <attribute name="primary"/>
+      <optional>
+        <attribute name="secondary"/>
+      </optional>
+      <optional>
+        <attribute name="tertiary"/>
+      </optional>
     </element>
   </define>
   <!-- bare ID element, used for referencing arbitrary spans of text -->

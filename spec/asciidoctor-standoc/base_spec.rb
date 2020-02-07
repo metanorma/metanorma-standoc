@@ -85,6 +85,7 @@ RSpec.describe Asciidoctor::Standoc do
       :fullname: Fred Flintstone
       :role: author
       :affiliation: Slate Rock and Gravel Company
+      :affiliation_abbrev: SRG
       :address: 6 Rubble Way, Bedrock
       :contributor-uri: http://slate.example.com
       :phone: 123
@@ -94,6 +95,7 @@ RSpec.describe Asciidoctor::Standoc do
       :initials_2: B. X.
       :role_2: editor
       :affiliation_2: Rockhead and Quarry Cave Construction Company
+      :affiliation_abbrev_2: RQCCC
       :address_2: 6A Rubble Way, Bedrock
       :email_2: barney@rockhead.example.com
       :phone_2: 789
@@ -104,7 +106,7 @@ RSpec.describe Asciidoctor::Standoc do
       :keywords: a, b, c
     INPUT
     <?xml version="1.0" encoding="UTF-8"?>
-<standard-document xmlns="http://riboseinc.com/isoxml">
+<standard-document xmlns="https://www.metanorma.com/ns/standoc">
 <bibdata type="standard">
 <title language="en" format="text/plain">Main Title — Title</title>
   <docidentifier>1000-1</docidentifier>
@@ -166,6 +168,7 @@ RSpec.describe Asciidoctor::Standoc do
      <affiliation>
    <organization>
      <name>Slate Rock and Gravel Company</name>
+     <abbreviation>SRG</abbreviation>
   <address>
     <formattedAddress>6 Rubble Way, Bedrock</formattedAddress>
   </address>
@@ -187,6 +190,7 @@ RSpec.describe Asciidoctor::Standoc do
 <affiliation>
   <organization>
     <name>Rockhead and Quarry Cave Construction Company</name>
+    <abbreviation>RQCCC</abbreviation>
   <address>
     <formattedAddress>6A Rubble Way, Bedrock</formattedAddress>
   </address>
@@ -311,7 +315,7 @@ RSpec.describe Asciidoctor::Standoc do
       == Clause 1
     INPUT
            <?xml version="1.0" encoding="UTF-8"?>
-       <standard-document xmlns="http://riboseinc.com/isoxml">
+       <standard-document xmlns="https://www.metanorma.com/ns/standoc">
        <bibdata type="standard">
          <title language="en" format="text/plain">Document title</title>
          <title language="eo" format="text/plain">Dokumenttitolo</title>
@@ -361,8 +365,8 @@ RSpec.describe Asciidoctor::Standoc do
          </contributor>
          <language>el</language>
          <script>Grek</script>
-         <abstract><p id="_">This is the abstract of the document</p>
-<p id="_">This is the second paragraph of the abstract of the document.</p></abstract>
+         <abstract><p>This is the abstract of the document</p>
+         <p>This is the second paragraph of the abstract of the document.</p></abstract>
          <status><stage>published</stage></status>
          <copyright>
            <from>#{Date.today.year}</from>

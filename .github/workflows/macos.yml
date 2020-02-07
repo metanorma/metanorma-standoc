@@ -2,7 +2,11 @@
 # use ci-master https://github.com/metanorma/metanorma-build-scripts
 name: macos
 
-on: [push]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ '**' ]
 
 jobs:
   test-macos:
@@ -35,7 +39,7 @@ jobs:
           npm -g i puppeteer
       - name: Update gems
         run: |
-          sudo gem install bundler -v "~> 2" --force
+          sudo gem install bundler --force
           bundle install --jobs 4 --retry 3
       - name: Run specs
         run: |

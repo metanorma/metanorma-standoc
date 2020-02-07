@@ -2,7 +2,11 @@
 # use ci-master https://github.com/metanorma/metanorma-build-scripts
 name: ubuntu
 
-on: [push]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ '**' ]
 
 jobs:
   test-linux:
@@ -24,11 +28,12 @@ jobs:
           node-version: '10.x'
       - name: Update gems
         run: |
-          gem install bundler -v "~> 2"
+          gem install bundler 
           bundle install --jobs 4 --retry 3
       - name: Install LaTeXML
         run: |
           sudo snap install latexml
+          sudo snap alias latexml.math latexmlmath
       - name: Install PlantUML
         run: |
           curl -L https://raw.githubusercontent.com/metanorma/plantuml-install/master/ubuntu.sh | sudo bash

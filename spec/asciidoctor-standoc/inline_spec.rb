@@ -1,6 +1,40 @@
 require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc do
+    it "handles spacing around markup" do
+    expect((strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to (<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      This is
+      a paragraph with <<x>>
+      markup _for_
+      text, including **__nest__**ed markup.
+      INPUT
+      <?xml version="1.0" encoding="UTF-8"?>
+<standard-document xmlns="https://www.metanorma.com/ns/standoc">
+<bibdata type="standard">
+<title language="en" format="text/plain">Document title</title>
+<language>en</language>
+<script>Latn</script>
+<status>
+<stage>published</stage>
+</status>
+<copyright>
+<from>#{Date.today.year}</from>
+</copyright>
+<ext>
+<doctype>article</doctype>
+</ext>
+</bibdata>
+<sections>
+<p id="_">This is
+a paragraph with <xref target="x"/>
+markup <em>for</em>
+text, including <strong><em>nest</em></strong>ed markup.</p>
+</sections>
+</standard-document>
+      OUTPUT
+  end
+
   it "processes inline_quoted formatting" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{DUMBQUOTE_BLANK_HDR}
@@ -102,12 +136,21 @@ RSpec.describe Asciidoctor::Standoc do
       '''
 
       <<<
+
+      [%landscape]
+      <<<
+
+      [%portrait]
+      <<<
     INPUT
             #{BLANK_HDR}
        <sections><p id="_">Line break<br/>
        line break</p>
        <hr/>
-       <pagebreak/></sections>
+       <pagebreak/>
+       <pagebreak orientation="landscape"/>
+       <pagebreak orientation="portrait"/>
+        </sections>
        </standard-document>
     OUTPUT
   end
@@ -186,7 +229,7 @@ RSpec.describe Asciidoctor::Standoc do
 
        </sections><bibliography><references id="_" obligation="informative">
          <title>Normative References</title>
-         <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+         <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
          <bibitem id="ISO712">
          <formattedref format="application/x-isodoc+xml">Reference</formattedref>
          <docidentifier>x</docidentifier>
@@ -207,6 +250,10 @@ RSpec.describe Asciidoctor::Standoc do
       Hello!footnote:[Footnote text]
 
       == Title footnote:[Footnote text 2]
+
+      Hello.footnote:abc[This is a repeated footnote]
+
+      Repetition.footnote:abc[]     
     INPUT
             #{BLANK_HDR}
               <preface><foreword obligation="informative">
@@ -219,9 +266,37 @@ RSpec.describe Asciidoctor::Standoc do
          <title>Title<fn reference="2">
          <p id="_">Footnote text 2</p>
        </fn></title>
+       <p id='_'>
+  Hello.
+  <fn reference='3'>
+    <p id='_'>This is a repeated footnote</p>
+  </fn>
+</p>
+<p id='_'>
+  Repetition.
+  <fn reference='3'>
+    <p id='_'>This is a repeated footnote</p>
+  </fn>
+</p>
        </clause></sections>
        </standard-document>
     OUTPUT
+  end
+
+  it "processes index terms" do 
+          expect((strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to (<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      ((See)) Index ((_term_)) and(((A, B, C))).
+   INPUT
+   #{BLANK_HDR}
+  <sections>
+    <p id='_'>
+      See
+      <index primary='See'/> Index <em>term</em> <index primary='term'/> and<index primary='A' secondary='B' tertiary='C'/>.
+    </p>
+  </sections>
+</standard-document>
+   OUTPUT
   end
 
 

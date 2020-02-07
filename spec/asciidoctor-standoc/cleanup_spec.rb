@@ -67,7 +67,7 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
-  it "does not apply smartquotes to sourcecode, tt, pre" do
+  it "does not apply smartquotes to sourcecode, tt, pre, pseudocode" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
@@ -88,6 +88,11 @@ RSpec.describe Asciidoctor::Standoc do
       "quote" A's
       ----
 
+      [pseudocode]
+      ====
+      "quote" A's
+      ====
+
     INPUT
        #{BLANK_HDR}
               <sections>
@@ -95,7 +100,11 @@ RSpec.describe Asciidoctor::Standoc do
 <p id="_">
   <tt>"quote" A’s</tt>
 </p>
-<sourcecode id="_">"quote" A's</sourcecode></clause>
+<sourcecode id="_">"quote" A's</sourcecode>
+<figure id='_' class='pseudocode'>
+  <p id='_'>"quote" A's</p>
+</figure>
+</clause>
        </sections>
        </standard-document>
     OUTPUT
@@ -148,7 +157,7 @@ RSpec.describe Asciidoctor::Standoc do
               <sections>
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
-         <p>For the purposes of this document, the following terms and definitions apply.</p>
+         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_"><preferred><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>t</mi><mn>90</mn></msub></math></stem></preferred><admitted><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>t</mi><mn>91</mn></msub></math></stem></admitted>
        <definition><p id="_">Time</p></definition></term>
        </terms>
@@ -165,16 +174,30 @@ RSpec.describe Asciidoctor::Standoc do
       === Tempus
 
       domain:[relativity] Time
+
+      === Tempus1
+
+      Time2
+
+      domain:[relativity2]
     INPUT
        #{BLANK_HDR}
               <sections>
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
-         <p>For the purposes of this document, the following terms and definitions apply.</p>
+         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_">
          <preferred>Tempus</preferred>
          <domain>relativity</domain><definition><p id="_"> Time</p></definition>
        </term>
+       <term id='_'>
+  <preferred>Tempus1</preferred>
+  <domain>relativity2</domain>
+  <definition>
+    <p id='_'>Time2</p>
+    <p id='_'> </p>
+  </definition>
+</term>
        </terms>
        </sections>
        </standard-document>
@@ -205,7 +228,7 @@ RSpec.describe Asciidoctor::Standoc do
               <sections>
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
-         <p>For the purposes of this document, the following terms and definitions apply.</p>
+         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_"><preferred><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>t</mi><mn>90</mn></msub></math></stem></preferred><definition><formula id="_"> 
          <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>t</mi><mi>A</mi></msub></math></stem> 
        </formula>
@@ -233,7 +256,7 @@ RSpec.describe Asciidoctor::Standoc do
        #{BLANK_HDR}
               <sections>
          <terms id="_" obligation="normative"><title>Terms and definitions</title>
-         <p>For the purposes of this document, the following terms and definitions apply.</p>
+         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
 
        <term id="_">
        <preferred>Time</preferred>
@@ -413,7 +436,7 @@ RSpec.describe Asciidoctor::Standoc do
        <sections>
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
-         <p>For the purposes of this document, the following terms and definitions apply.</p>
+         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_">
          <preferred>Term1</preferred>
          <termsource status="identical">
@@ -780,9 +803,9 @@ RSpec.describe Asciidoctor::Standoc do
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
-         <docidentifier>ISO 123:–</docidentifier>
+         <docidentifier>ISO 123:—</docidentifier>
          <date type="published">
-           <on>--</on>
+           <on>–</on>
          </date>
          <contributor>
            <role type="publisher"/>
@@ -848,7 +871,7 @@ RSpec.describe Asciidoctor::Standoc do
        <sections>
        <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
-         <p>For the purposes of this document, the following terms and definitions apply.</p>
+         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_"><preferred>Term</preferred>
 
 
@@ -971,7 +994,7 @@ RSpec.describe Asciidoctor::Standoc do
 
           <sections>
         <terms id="_" obligation="normative"><title>Terms and definitions</title>
-         <p>For the purposes of this document, the following terms and definitions apply.</p>
+         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_">
           <preferred>Automation1</preferred>
           <termsource status="identical">
@@ -995,8 +1018,8 @@ RSpec.describe Asciidoctor::Standoc do
           <bibitem type="standard" id="IEC60050-102">
           <fetched>#{Date.today}</fetched>
           <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
-          <title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics – General concepts and linear algebra</title>
-          <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) – Part 102: Mathematics – General concepts and linear algebra</title>
+          <title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics — General concepts and linear algebra</title>
+          <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) – Part 102: Mathematics — General concepts and linear algebra</title>
           <uri type="src">https://webstore.iec.ch/publication/160</uri>
           <uri type="obp">/preview/info_iec60050-102%7Bed1.0%7Db.pdf</uri>
           <docidentifier type="IEC">IEC 60050-102:2007</docidentifier>
@@ -1029,11 +1052,12 @@ RSpec.describe Asciidoctor::Standoc do
               </organization>
             </owner>
           </copyright>
+          <place>Geneva</place>
         </bibitem><bibitem type="standard" id="IEC60050-103">
           <fetched>#{Date.today}</fetched>
           <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
-          <title type="title-part" format="text/plain" language="en" script="Latn">Part 103: Mathematics – Functions</title>
-          <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) – Part 103: Mathematics – Functions</title>
+          <title type="title-part" format="text/plain" language="en" script="Latn">Part 103: Mathematics — Functions</title>
+          <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) – Part 103: Mathematics — Functions</title>
           <uri type="src">https://webstore.iec.ch/publication/161</uri>
           <uri type="obp">/preview/info_iec60050-103%7Bed1.0%7Db.pdf</uri>
           <docidentifier type="IEC">IEC 60050-103:2009</docidentifier>
@@ -1066,6 +1090,7 @@ RSpec.describe Asciidoctor::Standoc do
               </organization>
             </owner>
           </copyright>
+          <place>Geneva</place>
         </bibitem>
         </references></bibliography>
         </standard-document>
@@ -1308,7 +1333,7 @@ OUTPUT
       <sections>
 
 </sections><bibliography><references id="_" obligation="informative">
-  <title>Normative References</title><p>There are no normative references in this document.</p>
+  <title>Normative References</title><p id="_">There are no normative references in this document.</p>
 </references></bibliography>
 </standard-document>
       OUTPUT
@@ -1327,7 +1352,7 @@ OUTPUT
     <sections>
 
        </sections><bibliography><references id="_" obligation="informative">
-         <title>Normative References</title><p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+         <title>Normative References</title><p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
          <bibitem id="a">
          <formattedref format="application/x-isodoc+xml">A</formattedref>
          <docidentifier>b</docidentifier>
@@ -1356,11 +1381,99 @@ it "inserts boilerplate before empty Normative References in French" do
     <sections>
 
 </sections><bibliography><references id="_" obligation="informative">
-  <title>Normative References</title><p>Le présent document ne contient aucune référence normative.</p>
+  <title>Normative References</title><p id="_">Le présent document ne contient aucune référence normative.</p>
 </references></bibliography>
 </standard-document>
       OUTPUT
       end
+
+it "removes bibdata bibitem IDs" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    = Document title
+    Author
+    :docfile: test.adoc
+    :nodoc:
+    :novalid:
+    :no-isobib:
+    :translated-from: IEC 60050-102
+
+    [bibliography]
+    == Normative References
+
+    INPUT
+    <?xml version='1.0' encoding='UTF-8'?>
+<standard-document xmlns='https://www.metanorma.com/ns/standoc'>
+  <bibdata type='standard'>
+    <title language='en' format='text/plain'>Document title</title>
+    <language>en</language>
+    <script>Latn</script>
+    <status>
+      <stage>published</stage>
+    </status>
+    <copyright>
+      <from>#{Date.today.year}</from>
+    </copyright>
+    <relation type='translatedFrom'>
+      <bibitem>
+        <title>--</title>
+        <docidentifier>IEC 60050-102</docidentifier>
+      </bibitem>
+    </relation>
+    <ext>
+      <doctype>article</doctype>
+    </ext>
+  </bibdata>
+  <sections> </sections>
+  <bibliography>
+    <references id='_' obligation='informative'>
+      <title>Normative References</title>
+      <p id="_">There are no normative references in this document.</p>
+    </references>
+  </bibliography>
+</standard-document>
+OUTPUT
+end
+
+it "imports boilerplate file" do
+  expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    = Document title
+    Author
+    :docfile: test.adoc
+    :nodoc:
+    :novalid:
+    :no-isobib:
+    :docstage: 10
+    :boilerplate-authority: spec/assets/boilerplate.xml
+
+    == Clause 1
+
+    INPUT
+    <standard-document xmlns='https://www.metanorma.com/ns/standoc'>
+  <bibdata type='standard'>
+    <title language='en' format='text/plain'>Document title</title>
+    <language>en</language>
+    <script>Latn</script>
+    <status>
+      <stage>10</stage>
+    </status>
+    <copyright>
+      <from>#{Date.today.year}</from>
+    </copyright>
+    <ext>
+      <doctype>article</doctype>
+    </ext>
+  </bibdata>
+  <boilerplate>
+    <text>10</text>
+  </boilerplate>
+  <sections>
+    <clause id='_' inline-header='false' obligation='normative'>
+      <title>Clause 1</title>
+    </clause>
+  </sections>
+</standard-document>
+    OUTPUT
+end
 
 
   private

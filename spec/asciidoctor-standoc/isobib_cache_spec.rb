@@ -90,6 +90,7 @@ EOS
              <formattedref format="text/plain">ISO 124:2011</formattedref>
            </bibitem>
          </relation>
+         <place>Geneva</place>
          <ext>
            <doctype>international-standard</doctype>
            <editorialgroup>
@@ -257,6 +258,7 @@ EOS
              <formattedref format="text/plain">ISO 123:1985</formattedref>
            </bibitem>
          </relation>
+         <place>Geneva</place>
          <ext>
            <doctype>international-standard</doctype>
            <editorialgroup>
@@ -368,7 +370,7 @@ EOS
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
     entry = db.load_entry("ISO(ISO 123:2001)")
     expect(entry).to include("<fetched>#{Date.today.to_s}</fetched>")
-    expect(entry).to be_equivalent_to(ISO_123_DATED)  
+    expect(xmlpp(entry)).to be_equivalent_to(xmlpp(ISO_123_DATED))
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.rm_rf File.expand_path("~/.iev/cache")
@@ -557,7 +559,7 @@ EOS
     entry = db.load_entry("ISO(ISO 124:2014)")
     #expect(db.fetched("ISO(ISO 124:2014)")).to eq(Date.today.to_s)
     expect(entry).to include("<fetched>#{Date.today.to_s}</fetched>")
-    expect(entry).to be_equivalent_to(ISO_124_DATED) 
+    expect(xmlpp(entry)).to be_equivalent_to(xmlpp(ISO_124_DATED))
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
@@ -685,19 +687,19 @@ EOS
 private
 
   def mock_isobib_get_123
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", "2001", {:title=>"<em>Standard</em>"}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED))
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", "2001", {:title=>"<em>Standard</em>", :usrlbl=>nil}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED))
   end
 
   def mock_isobib_get_123_undated
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", nil, {:title=>"<em>Standard</em>"}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_UNDATED))
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", nil, {:title=>"<em>Standard</em>", :usrlbl=>nil}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_UNDATED))
   end
 
   def mock_isobib_get_124
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 124", "2014", {:title=>"<em>Standard</em>"}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_124_DATED))
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 124", "2014", {:title=>"<em>Standard</em>", :usrlbl=>nil}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_124_DATED))
   end
 
   def mock_ietfbib_get_123
-    expect(RelatonIetf::IetfBibliography).to receive(:get).with("RFC 123", nil, {:title=>"<em>Standard</em>"}).and_return(RelatonIsoBib::XMLParser.from_xml(IETF_123_SHORT))
+    expect(RelatonIetf::IetfBibliography).to receive(:get).with("RFC 123", nil, {:title=>"<em>Standard</em>", :usrlbl=>nil}).and_return(RelatonIsoBib::XMLParser.from_xml(IETF_123_SHORT))
   end
 
 end

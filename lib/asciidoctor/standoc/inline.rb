@@ -78,22 +78,25 @@ module Asciidoctor
           xml.fn **{ reference: @fn_number } do |fn|
             fn.p { |p| p << node.text }
           end
-        end.join("\n")
+        end.join
       end
 
       def inline_break(node)
         noko do |xml|
           xml << node.text
           xml.br
-        end.join("\n")
+        end.join
       end
 
-      def page_break(_node)
-        noko { |xml| xml.pagebreak }.join("\n")
+      def page_break(node)
+        attrs = {}
+        node.option?("landscape") and attrs[:orientation] = "landscape"
+        node.option?("portrait") and attrs[:orientation] = "portrait"
+        noko { |xml| xml.pagebreak **attr_code(attrs)}.join
       end
 
       def thematic_break(_node)
-        noko { |xml| xml.hr }.join("\n")
+        noko { |xml| xml.hr }.join
       end
 
       def xml_encode(text)
@@ -183,6 +186,17 @@ module Asciidoctor
         noko do |xml|
           xml.image **(image_attributes(node))
         end.join("")
+      end
+
+      def inline_indexterm(node)
+        noko do |xml|
+          node.type == :visible and xml << node.text
+          terms = node.attr("terms") ||
+            [Nokogiri::XML("<a>#{node.text}</a>").xpath("//text()").text]
+          xml.index nil, **attr_code(primary: terms[0],
+                                     secondary: terms.dig(1),
+                                     tertiary: terms.dig(2))
+        end.join
       end
     end
   end

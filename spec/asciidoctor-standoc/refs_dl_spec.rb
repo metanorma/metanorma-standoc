@@ -398,7 +398,7 @@ home run record in 1998.</note>
   <relation type="updates">
     <bibitem>
       <formattedref format="text/plain">ISO 19115:2003</formattedref>
-    </bibitem>
+      </bibitem>
   </relation>
   <relation type="updates">
     <bibitem type="standard">
@@ -424,9 +424,9 @@ home run record in 1998.</note>
     <scale>medium scale</scale>
   </medium>
   <place>bib place</place>
-  <locality type="section">
+  <extent type="section">
     <referenceFrom>7</referenceFrom>
-  </locality>
+  </extent>
   <accesslocation>accesslocation1</accesslocation>
   <accesslocation>accesslocation2</accesslocation>
   <classification type="type">value</classification>
@@ -742,9 +742,9 @@ home run record in 1998.</note>
     <scale>medium scale</scale>
   </medium>
   <place>bib place</place>
-  <locality type="section">
+  <extent type="section">
     <referenceFrom>7</referenceFrom>
-  </locality>
+  </extent>
   <accesslocation>accesslocation1</accesslocation>
   <accesslocation>accesslocation2</accesslocation>
   <classification type="type">value</classification>

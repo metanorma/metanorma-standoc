@@ -47,8 +47,8 @@ module Asciidoctor
         end
 
         def smartformat(n)
-          n.gsub(/ --? /, "&#8201;&#8211;&#8201;").
-            gsub(/--/, "&#8211;").smart_format.gsub(/</, "&lt;").gsub(/>/, "&gt;")
+          n.gsub(/ --? /, "&#8201;&#8212;&#8201;").
+            gsub(/--/, "&#8212;").smart_format.gsub(/</, "&lt;").gsub(/>/, "&gt;")
         end
 
         # Set hash value using keys path
@@ -76,7 +76,11 @@ module Asciidoctor
           end
         end
 
-        def emend_biblio(xml, code, title)
+        def mn_code(code)
+        code.sub(/^\(/, "[").sub(/\).*$/, "]").sub(/^nofetch\((.+)\)$/, "\\1")
+      end
+
+        def emend_biblio(xml, code, title, usrlbl)
           unless xml.at("/bibitem/docidentifier[not(@type = 'DOI')][text()]")
             warn "ERROR: No document identifier retrieved for #{code}"
             xml.root << "<docidentifier>#{code}</docidentifier>"
@@ -85,12 +89,21 @@ module Asciidoctor
             warn "ERROR: No title retrieved for #{code}"
             xml.root << "<title>#{title || "(MISSING TITLE)"}</title>"
           end
+          usrlbl and xml.at("/bibitem/docidentifier").next = 
+            "<docidentifier type='metanorma'>#{mn_code(usrlbl)}</docidentifier>"
         end
 
-        def smart_render_xml(x, code, title)
+        def endash_date(elem)
+          elem.traverse do |n|
+            n.text? and n.replace(n.text.gsub(/\s+--?\s+/, "&#8211;").gsub(/--/, "&#8211;"))
+          end
+        end
+
+        def smart_render_xml(x, code, title, usrlbl)
           xstr = x.to_xml if x.respond_to? :to_xml
           xml = Nokogiri::XML(xstr)
-          emend_biblio(xml, code, title)
+          emend_biblio(xml, code, title, usrlbl)
+          xml.xpath("//date").each { |d| endash_date(d) }
           xml.traverse do |n|
             n.text? and n.replace(smartformat(n.text))
           end
@@ -164,8 +177,8 @@ module Asciidoctor
         doc = ::Nokogiri::XML.parse(NOKOHEAD)
         fragment = doc.fragment("")
         ::Nokogiri::XML::Builder.with fragment, &block
-        fragment.to_xml(encoding: "US-ASCII").lines.map do |l|
-          l.gsub(/\s*\n$/m, " ").gsub("&#150;", "\u0096").
+        fragment.to_xml(encoding: "US-ASCII", indent: 0).lines.map do |l|
+          l.gsub(/>\n$/, ">").gsub(/\s*\n$/m, " ").gsub("&#150;", "\u0096").
             gsub("&#151;", "\u0097")
         end
       end

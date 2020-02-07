@@ -41,7 +41,8 @@ module Asciidoctor
         noko do |xml|
           xml.figure **literal_attrs(node) do |f|
             figure_title(node, f)
-            f.pre node.lines.join("\n"), **{ id: Utils::anchor_or_uuid }
+            f.pre node.lines.join("\n"), **attr_code(id: Utils::anchor_or_uuid,
+                                                     alt: node.attr("alt"))
           end
         end
       end
@@ -219,12 +220,13 @@ module Asciidoctor
             quote_attribution(node, q)
             wrap_in_para(node, q)
           end
-        end
+        end.join("\n")
       end
 
       def listing_attrs(node)
         attr_code(lang: node.attr("language"),
                   id: Utils::anchor_or_uuid(node),
+                  unnumbered: node.option?("unnumbered") ? "true" : nil,
                   filename: node.attr("filename"))
       end
 

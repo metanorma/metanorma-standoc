@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "ruby-jing"
   spec.add_dependency "isodoc", "~> 1.0.0"
   spec.add_dependency "iev", "~> 0.2.1"
-  spec.add_dependency "relaton", "~> 0.5.0"
+  spec.add_dependency "relaton", "~> 0.7.0"
   spec.add_dependency "relaton-iev", "~> 0.1.0"
   spec.add_dependency "sterile", "~> 1.0.14"
   spec.add_dependency "concurrent-ruby"
@@ -38,7 +38,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "unicode2latex", "~> 0.0.1"
   spec.add_dependency "mimemagic"
 
-  spec.add_development_dependency "bundler", "~> 2.0.1"
   spec.add_development_dependency "byebug"
   spec.add_development_dependency "equivalent-xml", "~> 0.6"
   spec.add_development_dependency "guard", "~> 2.14"

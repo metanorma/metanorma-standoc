@@ -273,7 +273,7 @@ RSpec.describe Asciidoctor::Standoc do
       For further information on the Foreword, see *ISO/IEC Directives, Part 2, 2016, Clause 12.*
       ****
       INPUT
-      <standard-document xmlns="http://riboseinc.com/isoxml">
+      <standard-document xmlns="https://www.metanorma.com/ns/standoc">
        <bibdata type="standard">
          <title language="en" format="text/plain">Document title</title>
 
@@ -312,7 +312,7 @@ RSpec.describe Asciidoctor::Standoc do
        <sections>
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
-         <p>For the purposes of this document, the following terms and definitions apply.</p>
+         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
          <term id="_">
          <preferred>Term1</preferred>
          <termnote id="_">
@@ -339,7 +339,7 @@ RSpec.describe Asciidoctor::Standoc do
               <sections>
   <terms id="_" obligation="normative">
   <title>Terms and definitions</title>
-         <p>No terms and definitions are listed in this document.</p>
+         <p id="_">No terms and definitions are listed in this document.</p>
   <clause id="_" inline-header="false" obligation="normative">
   <title>Term1</title>
   <note id="_">
@@ -367,7 +367,7 @@ RSpec.describe Asciidoctor::Standoc do
               #{BLANK_HDR}
               <sections>
   <terms id="_" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title>
-<p>For the purposes of this document, the following terms and definitions apply.</p>
+<p id="_">For the purposes of this document, the following terms and definitions apply.</p>
 <term id="_">
   <preferred>Term1</preferred>
 </term>
@@ -413,16 +413,21 @@ RSpec.describe Asciidoctor::Standoc do
     end
 
     it "processes literals" do
-      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      expect((strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to (<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
+
+      [alt=Literal]
       ....
       <LITERAL>
+      FIGURATIVE
       ....
       INPUT
       #{BLANK_HDR}
        <sections>
            <figure id="_">
-        <pre id="_">&lt;LITERAL&gt;</pre>
+        <pre alt="Literal" id="_">&lt;LITERAL&gt;
+        FIGURATIVE
+        </pre>
         </figure>
        </sections>
        </standard-document>
@@ -494,7 +499,7 @@ RSpec.describe Asciidoctor::Standoc do
       <sections>
   <terms id="_" obligation="normative">
   <title>Terms and definitions</title>
-<p>For the purposes of this document, the following terms and definitions apply.</p>
+<p id="_">For the purposes of this document, the following terms and definitions apply.</p>
   <term id="_">
   <preferred>Term1</preferred>
 
@@ -522,7 +527,7 @@ RSpec.describe Asciidoctor::Standoc do
 <sections> 
   <terms id="_" obligation="normative">  
   <title>Terms and definitions</title>  
-<p>No terms and definitions are listed in this document.</p>
+<p id="_">No terms and definitions are listed in this document.</p>
   <clause id="_" inline-header="false" obligation="normative">   
   <title>Term1</title>   
   <example id="_">    
@@ -550,7 +555,7 @@ RSpec.describe Asciidoctor::Standoc do
               #{BLANK_HDR}
 <sections> 
   <terms id="_" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title>
-<p>For the purposes of this document, the following terms and definitions apply.</p><term id="_">   
+<p id="_">For the purposes of this document, the following terms and definitions apply.</p><term id="_">   
   <preferred>Term1</preferred>   
 </term>  
 <definitions id="_">   
@@ -846,7 +851,7 @@ RSpec.describe Asciidoctor::Standoc do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       .Caption
-      [source,ruby,filename=sourcecode1.rb]
+      [source%unnumbered,ruby,filename=sourcecode1.rb]
       --
       puts "Hello, world."
       %w{a b c}.each do |x|
@@ -856,7 +861,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
        <sections>
-         <sourcecode id="_" lang="ruby" filename="sourcecode1.rb"><name>Caption</name>puts "Hello, world."
+         <sourcecode id="_" lang="ruby" filename="sourcecode1.rb" unnumbered="true"><name>Caption</name>puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
        end</sourcecode>
@@ -905,7 +910,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{BLANK_HDR}
        <sections>
          <terms id="_" obligation="normative">
-         <title>Terms and definitions</title><p>For the purposes of this document,
+         <title>Terms and definitions</title><p id="_">For the purposes of this document,
        the following terms and definitions apply.</p>
          <term id="_">
          <preferred>Term1</preferred>
@@ -933,7 +938,7 @@ RSpec.describe Asciidoctor::Standoc do
             <sections>
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
-         <p>For the purposes of this document,
+         <p id="_">For the purposes of this document,
        the following terms and definitions apply.</p>
          <term id="_">
          <preferred>Term1</preferred>
@@ -953,7 +958,7 @@ RSpec.describe Asciidoctor::Standoc do
         it "processes recommendation" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [.recommendation,label="/ogc/recommendation/wfs/2",subject="user",inherit="/ss/584/2015/level/1",options="unnumbered"]
+      [.recommendation,label="/ogc/recommendation/wfs/2",subject="user",inherit="/ss/584/2015/level/1; /ss/584/2015/level/2",options="unnumbered",type=verification,model=ogc]
       ====
       I recommend this
       ====
@@ -961,10 +966,11 @@ RSpec.describe Asciidoctor::Standoc do
              output = <<~"OUTPUT"
             #{BLANK_HDR}
        <sections>
-  <recommendation id="_" unnumbered="true">
+  <recommendation id="_" unnumbered="true" type="verification" model="ogc">
   <label>/ogc/recommendation/wfs/2</label>
 <subject>user</subject>
 <inherit>/ss/584/2015/level/1</inherit>
+<inherit>/ss/584/2015/level/2</inherit>
   <description><p id="_">I recommend this</p></description>
 </recommendation>
        </sections>
