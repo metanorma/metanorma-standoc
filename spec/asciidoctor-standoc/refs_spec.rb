@@ -1085,7 +1085,7 @@ OUTPUT
       * [[[iso124,(1)ISO 123]]] _Standard_
     INPUT
       <?xml version="1.0" encoding="UTF-8"?>
-      <standard-document xmlns="http://riboseinc.com/isoxml">
+      <standard-document xmlns="https://www.metanorma.com/ns/standoc">
       <bibdata type="standard">
       <title language="en" format="text/plain">Document title</title>
         <language>en</language>

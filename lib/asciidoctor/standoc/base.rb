@@ -4,7 +4,6 @@ require "htmlentities"
 require "json"
 require "pathname"
 require "open-uri"
-require "pp"
 require "isodoc"
 require "relaton"
 require "fileutils"
@@ -13,7 +12,7 @@ module Asciidoctor
   module Standoc
     module Base
       XML_ROOT_TAG = "standard-document".freeze
-      XML_NAMESPACE = "http://riboseinc.com/isoxml".freeze
+      XML_NAMESPACE = "https://www.metanorma.com/ns/standoc".freeze
 
       Asciidoctor::Extensions.register do
         inline_macro Asciidoctor::Standoc::AltTermInlineMacro

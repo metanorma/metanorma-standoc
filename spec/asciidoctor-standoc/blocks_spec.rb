@@ -273,7 +273,7 @@ RSpec.describe Asciidoctor::Standoc do
       For further information on the Foreword, see *ISO/IEC Directives, Part 2, 2016, Clause 12.*
       ****
       INPUT
-      <standard-document xmlns="http://riboseinc.com/isoxml">
+      <standard-document xmlns="https://www.metanorma.com/ns/standoc">
        <bibdata type="standard">
          <title language="en" format="text/plain">Document title</title>
 
