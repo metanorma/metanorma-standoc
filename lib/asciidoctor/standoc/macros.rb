@@ -239,6 +239,7 @@ module Asciidoctor
       parse_content_as :raw
 
       def abort(parent, reader, attrs, msg)
+        # TODO: Abort should really raise an error
         warn msg
         attrs["language"] = "plantuml"
         create_listing_block parent, reader.source, attrs.reject { |k, v| k == 1 }
