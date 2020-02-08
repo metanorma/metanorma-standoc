@@ -204,11 +204,13 @@ module Asciidoctor
         # TODO: this should raise failure if the destination path is not writable!
         File.writable?(path) or return
 
-        FileUtils.mv outfile, path
+        # Warning for Heisenbug: metanorma/metanorma-standoc#187
+        # Windows Ruby 2.4 will crash if a Tempfile is "mv"ed.
+        # This is why we need to copy and then unlink.
+        filename = File.basename(outfile.to_s)
+        FileUtils.cp(outfile, path) && outfile.unlink
 
-        imagesdir ?
-          File.basename(outfile) :
-          File.join(path, File.basename(outfile))
+        imagesdir ? filename : File.join(path, filename)
       end
 
       def self.save_plantuml parent, reader, localdir
