@@ -182,20 +182,33 @@ module Asciidoctor
       end
 
       # if no :imagesdir: leave image file in plantuml
-      # sleep need for windows because dot works in separate process and 
-      # plantuml process may finish earlier then dot, as result png file 
+      # sleep need for windows because dot works in separate process and
+      # plantuml process may finish earlier then dot, as result png file
       # maybe not created yet after plantuml finish
       def self.generate_file parent, reader
         localdir = Utils::localdir(parent.document)
+
         imagesdir = parent.document.attr('imagesdir')
         umlfile, outfile = save_plantuml parent, reader, localdir
+
+        # TODO: this should raise failure if there is no image output!!
         run(umlfile, outfile) or return
-        path = Pathname.new(localdir) + (imagesdir || "plantuml")
-        path.mkpath()
-        File.exist?(path) && File.writable?(path) or return
-        FileUtils.cp outfile, path
         umlfile.unlink
-        imagesdir ? File.basename(outfile) : File.join(path, File.basename(outfile))
+
+        path = Pathname.new(localdir) + (imagesdir || "plantuml")
+        path.mkpath
+
+        # TODO: this should raise failure if the destination path already exists!
+        File.exist?(path) or return
+
+        # TODO: this should raise failure if the destination path is not writable!
+        File.writable?(path) or return
+
+        FileUtils.mv outfile, path
+
+        imagesdir ?
+          File.basename(outfile) :
+          File.join(path, File.basename(outfile))
       end
 
       def self.save_plantuml parent, reader, localdir
