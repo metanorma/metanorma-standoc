@@ -28,7 +28,7 @@ jobs:
           node-version: '10.x'
       - name: Update gems
         run: |
-          gem install bundler 
+          gem install bundler
           bundle install --jobs 4 --retry 3
       - name: Install LaTeXML
         run: |

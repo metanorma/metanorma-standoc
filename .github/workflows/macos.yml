@@ -29,8 +29,8 @@ jobs:
       - name: Install LaTeXML
         run: |
           # https://github.com/Homebrew/homebrew-core/issues/44950
-          curl -L https://cpanmin.us | perl - --sudo App::cpanminus
-          env PATH=$(brew --prefix perl)/bin:$PATH cpanm --sudo --notest LaTeXML@0.8.4
+          brew install cpanminus
+          cpanm --notest XML::LibXSLT@1.96 LaTeXML@0.8.4
       - name: Install PlantUML
         run: |
           brew install plantuml
