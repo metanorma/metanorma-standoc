@@ -381,11 +381,65 @@ Alice &lt;-- Bob: another authentication Response
     OUTPUT
   end
 
+  it "processes the PlantUML macro with localdir unwritable" do
+    mock_localdir_unwritable
+    expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to output(%r{not writable for PlantUML}).to_stderr
+      #{ASCIIDOC_BLANK_HDR}
+
+      [plantuml]
+      ....
+      @startuml
+      Alice -> Bob: Authentication Request
+      Bob --> Alice: Authentication Response
+
+      Alice -> Bob: Another authentication Request
+      Alice <-- Bob: another authentication Response
+      @enduml
+      ....
+    INPUT
+
+    mock_localdir_unwritable
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+
+      [plantuml]
+      ....
+      @startuml
+      Alice -> Bob: Authentication Request
+      Bob --> Alice: Authentication Response
+
+      Alice -> Bob: Another authentication Request
+      Alice <-- Bob: another authentication Response
+      @enduml
+      ....
+    INPUT
+       #{BLANK_HDR}
+       <sections>
+         <sourcecode id="_" lang="plantuml">@startuml
+Alice -&gt; Bob: Authentication Request
+Bob --&gt; Alice: Authentication Response
+
+Alice -&gt; Bob: Another authentication Request
+Alice &lt;-- Bob: another authentication Response
+@enduml</sourcecode>
+        </sections>
+       </standard-document>
+    OUTPUT
+  end
+
+
   private
 
   def mock_plantuml_disabled
     expect(Asciidoctor::Standoc::PlantUMLBlockMacroBackend).to receive(:plantuml_installed?) do
+      raise "PlantUML not installed"
       false
     end
+  end
+  
+  def mock_localdir_unwritable
+    expect(Asciidoctor::Standoc::Utils).to receive(:localdir) do
+      "/"
+    end.exactly(2).times
   end
 end
