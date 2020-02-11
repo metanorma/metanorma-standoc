@@ -80,7 +80,7 @@ module Asciidoctor
       def abort(parent, reader, attrs, msg)
         warn msg
         attrs["language"] = "plantuml"
-        create_listing_block parent, reader.source, attrs.reject { |k, v| k == 1 }
+        create_listing_block parent, msg + reader.source, attrs.reject { |k, v| k == 1 }
       end
 
       def process(parent, reader, attrs)
