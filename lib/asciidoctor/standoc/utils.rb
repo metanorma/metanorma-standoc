@@ -77,8 +77,8 @@ module Asciidoctor
         end
 
         def mn_code(code)
-        code.sub(/^\(/, "[").sub(/\).*$/, "]").sub(/^nofetch\((.+)\)$/, "\\1")
-      end
+          code.sub(/^\(/, "[").sub(/\).*$/, "]").sub(/^nofetch\((.+)\)$/, "\\1")
+        end
 
         def emend_biblio(xml, code, title, usrlbl)
           unless xml.at("/bibitem/docidentifier[not(@type = 'DOI')][text()]")

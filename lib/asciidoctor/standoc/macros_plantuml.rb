@@ -37,9 +37,10 @@ module Asciidoctor
         umlfile.unlink
 
         path = Pathname.new(localdir) + (imagesdir || "plantuml")
-        File.writable?(path) or raise "Destination path #{path} not writable for PlantUML!"
+        File.writable?(localdir) or raise "Destination path #{path} not writable for PlantUML!"
         path.mkpath
-        File.exist?(path) or raise "Destination path #{path} already exists for PlantUML!"
+        File.writable?(path) or raise "Destination path #{path} not writable for PlantUML!"
+        #File.exist?(path) or raise "Destination path #{path} already exists for PlantUML!"
 
         # Warning: metanorma/metanorma-standoc#187
         # Windows Ruby 2.4 will crash if a Tempfile is "mv"ed.
@@ -80,7 +81,7 @@ module Asciidoctor
       def abort(parent, reader, attrs, msg)
         warn msg
         attrs["language"] = "plantuml"
-        create_listing_block parent, msg + reader.source, attrs.reject { |k, v| k == 1 }
+        create_listing_block parent, reader.source, attrs.reject { |k, v| k == 1 }
       end
 
       def process(parent, reader, attrs)
