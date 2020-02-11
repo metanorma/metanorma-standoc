@@ -442,4 +442,10 @@ Alice &lt;-- Bob: another authentication Response
       "/"
     end.exactly(2).times
   end
+  
+  def mock_localdir_unwritable
+    expect(File).to receive(:writable?) do
+      false
+    end
+  end
 end
