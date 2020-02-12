@@ -4,6 +4,20 @@ require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
 
+  it "warns about hanging paragraphs" do
+  expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to output(/Hanging paragraph in clause/).to_stderr
+  #{VALIDATING_BLANK_HDR}
+
+  == Clause 1
+
+  Paragraph
+
+  === Clause 1.1
+
+  Subclause
+  INPUT
+  end
+
   it "warns that video is a skipped node" do
   expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to output(/converter missing for video node/).to_stderr
   #{VALIDATING_BLANK_HDR}
