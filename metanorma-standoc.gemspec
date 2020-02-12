@@ -37,6 +37,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "html2doc", "~> 0.9.0"
   spec.add_dependency "unicode2latex", "~> 0.0.1"
   spec.add_dependency "mimemagic"
+  spec.add_dependency "mathml2asciimath"
 
   spec.add_development_dependency "byebug"
   spec.add_development_dependency "equivalent-xml", "~> 0.6"

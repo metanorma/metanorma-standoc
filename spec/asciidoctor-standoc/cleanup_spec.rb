@@ -1475,6 +1475,102 @@ it "imports boilerplate file" do
     OUTPUT
 end
 
+it "sorts symbols lists" do
+  expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+  #{ASCIIDOC_BLANK_HDR}
+  
+  [[L]]
+  == Symbols and abbreviated terms
+
+  α:: Definition 1
+  xa:: Definition 2
+  x_1_:: Definition 3
+  x_m_:: Definition 4
+  x:: Definition 5
+  INPUT
+  #{BLANK_HDR}
+  <sections>
+    <definitions id='L'>
+      <title>Symbols and abbreviated terms</title>
+      <dl id='_'>
+        <dt>x</dt>
+        <dd>
+          <p id='_'>Definition 5</p>
+        </dd>
+        <dt>x_m_</dt>
+        <dd>
+          <p id='_'>Definition 4</p>
+        </dd>
+        <dt>x_1_</dt>
+        <dd>
+          <p id='_'>Definition 3</p>
+        </dd>
+        <dt>xa</dt>
+        <dd>
+          <p id='_'>Definition 2</p>
+        </dd>
+        <dt>α</dt>
+        <dd>
+          <p id='_'>Definition 1</p>
+        </dd>
+      </dl>
+    </definitions>
+  </sections>
+</standard-document>
+  OUTPUT
+end
+
+it "sorts symbols lists" do
+  expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+  #{ASCIIDOC_BLANK_HDR}
+  
+  [[L]]
+  == Symbols and abbreviated terms
+
+  stem:[alpha]:: Definition 1
+  xa:: Definition 2
+  stem:[x_1]:: Definition 3
+  stem:[x_m]:: Definition 4
+  x:: Definition 5
+  INPUT
+  #{BLANK_HDR}
+  <sections>
+    <definitions id='L'>
+      <title>Symbols and abbreviated terms</title>
+      <dl id='_'>
+        <dt>x</dt>
+        <dd>
+          <p id='_'>Definition 5</p>
+        </dd>
+        <dt><stem type='MathML'>x_m</stem></dt>
+        <dd>
+          <p id='_'>Definition 4</p>
+        </dd>
+        <dt><stem type='MathML'>x_1</stem></dt>
+        <dd>
+          <p id='_'>Definition 3</p>
+        </dd>
+        <dt>xa</dt>
+        <dd>
+          <p id='_'>Definition 2</p>
+        </dd>
+        <dt>
+        <stem type='MathML'>
+  <math xmlns='http://www.w3.org/1998/Math/MathML'>
+    <mi>α</mi>
+  </math>
+</stem>
+        </dt>
+        <dd>
+          <p id='_'>Definition 1</p>
+        </dd>
+      </dl>
+    </definitions>
+  </sections>
+</standard-document>
+  OUTPUT
+end
+
 
   private
 

@@ -4,6 +4,7 @@ require "htmlentities"
 require "json"
 require "pathname"
 require "open-uri"
+require "mathml2asciimath"
 
 module Asciidoctor
   module Standoc
@@ -189,6 +190,41 @@ module Asciidoctor
         termdef_subclause_cleanup(xmldoc)
         term_children_cleanup(xmldoc)
         termdocsource_cleanup(xmldoc)
+      end
+
+      # Indices sort after letter but before any following
+      # letter (x, x_m, x_1, xa); we use colon to force that sort order.
+      # Numbers sort *after* letters; we use thorn to force that sort order.
+      def symbol_key(x)
+        key = x.dup
+        key.xpath("//*[local-name() = 'math']").each do |m|
+          m.replace(MathML2AsciiMath.m2a(m.to_xml))
+        end
+        ret = Nokogiri::XML(MathML2AsciiMath.m2a(key.to_xml))
+        HTMLEntities.new.decode(ret.text).strip.
+          gsub(/[[:punct]]|[_^]/, ":\\0").gsub(/`/, "").
+          gsub(/[0-9]+/, "þ\\0")
+      end
+
+      def extract_symbols_list(dl)
+        dl_out = []
+        dl.xpath("./dt | ./dd").each do |dtd|
+          if dtd.name == "dt"
+            dl_out << { dt: dtd.remove, key: symbol_key(dtd) }
+          else
+            dl_out.last[:dd] = dtd.remove
+          end
+        end
+        dl_out
+      end
+
+      def symbols_cleanup(docxml)
+        docxml.xpath("//definitions/dl").each do |dl|
+          dl_out = extract_symbols_list(dl)
+          dl_out.sort! { |a, b| a[:key] <=> b[:key] }
+          dl.children = dl_out.map { |d| d[:dt].to_s + d[:dd].to_s }.join("\n")
+        end
+        docxml
       end
     end
   end
