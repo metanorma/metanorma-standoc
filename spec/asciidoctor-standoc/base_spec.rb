@@ -106,7 +106,7 @@ RSpec.describe Asciidoctor::Standoc do
       :keywords: a, b, c
     INPUT
     <?xml version="1.0" encoding="UTF-8"?>
-<standard-document xmlns="https://www.metanorma.com/ns/standoc">
+<standard-document xmlns="https://www.metanorma.org/ns/standoc">
 <bibdata type="standard">
 <title language="en" format="text/plain">Main Title — Title</title>
   <docidentifier>1000-1</docidentifier>
@@ -315,7 +315,7 @@ RSpec.describe Asciidoctor::Standoc do
       == Clause 1
     INPUT
            <?xml version="1.0" encoding="UTF-8"?>
-       <standard-document xmlns="https://www.metanorma.com/ns/standoc">
+       <standard-document xmlns="https://www.metanorma.org/ns/standoc">
        <bibdata type="standard">
          <title language="en" format="text/plain">Document title</title>
          <title language="eo" format="text/plain">Dokumenttitolo</title>

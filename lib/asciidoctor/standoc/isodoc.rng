@@ -17,7 +17,7 @@
   these elements; we just want one namespace for any child grammars
   of this.
 -->
-<grammar ns="https://www.metanorma.com/ns/standoc" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+<grammar ns="https://www.metanorma.org/ns/standoc" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
   <include href="reqt.rng"/>
   <!-- include "biblio.rnc" { } -->
   <include href="basicdoc.rng">

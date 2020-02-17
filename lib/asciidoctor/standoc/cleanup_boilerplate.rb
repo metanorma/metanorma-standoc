@@ -51,8 +51,7 @@ module Asciidoctor
 
       def boilerplate_isodoc(xmldoc)
         x = xmldoc.dup
-        # TODO variable
-        x.root.add_namespace(nil, "http://riboseinc.com/isoxml")
+        x.root.add_namespace(nil, self.class::XML_NAMESPACE)
         xml = Nokogiri::XML(x.to_xml)
         conv = html_converter(EmptyAttr.new)
         @lang = xmldoc&.at("//bibdata/language")&.text

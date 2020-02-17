@@ -12,7 +12,7 @@ module Asciidoctor
   module Standoc
     module Base
       XML_ROOT_TAG = "standard-document".freeze
-      XML_NAMESPACE = "https://www.metanorma.com/ns/standoc".freeze
+      XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
 
       Asciidoctor::Extensions.register do
         inline_macro Asciidoctor::Standoc::AltTermInlineMacro
