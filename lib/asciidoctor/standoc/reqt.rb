@@ -29,8 +29,8 @@ module Asciidoctor
       def requirement_classification(classif, ex)
         req_classif_parse(classif).each do |r|
           ex.classification do |c|
-            c.tag r[0]
-            c.value r[1]
+            c.tag { |t| t << r[0] }
+            c.value { |v| v << r[1] }
           end
         end
       end
@@ -51,11 +51,11 @@ module Asciidoctor
         classif = node.attr("classification")
         noko do |xml|
           xml.send obligation, **attr_code(reqt_attributes(node)) do |ex|
-            ex.title node.title if node.title
-            ex.label node.attr("label") if node.attr("label")
-            ex.subject node.attr("subject") if node.attr("subject")
+            node.title and ex.title { |t| t << node.title }
+            node.attr("label") and ex.label { |l| l << node.attr("label") }
+            node.attr("subject") and ex.subject { |s| s << node.attr("subject") }
             node&.attr("inherit")&.split(/;\s*/)&.each do |i|
-              ex.inherit i
+              ex.inherit { |inh| inh << i }
             end
             requirement_classification(classif, ex) if classif
             wrap_in_para(node, ex)
