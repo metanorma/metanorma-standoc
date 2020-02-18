@@ -112,7 +112,7 @@ module Asciidoctor
           r["obligation"] = "normative" unless r["obligation"]
         end
         x.xpath(Utils::SUBCLAUSE_XPATH).each do |r|
-          o = r.at("./ancestor::*/@obligation").text and r["obligation"] = o
+          o = r&.at("./ancestor::*/@obligation")&.text and r["obligation"] = o
         end
       end
 
