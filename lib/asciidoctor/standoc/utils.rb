@@ -222,8 +222,7 @@ module Asciidoctor
         type
       end
 
-      SUBCLAUSE_XPATH = "//clause[ancestor::clause or ancestor::annex or "\
-        "ancestor::introduction]".freeze
+      SUBCLAUSE_XPATH = "//clause[not(parent::sections)]".freeze
     end
   end
 end

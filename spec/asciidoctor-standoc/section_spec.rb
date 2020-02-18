@@ -17,6 +17,8 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Introduction Subsection
 
+      == Acknowledgements
+
       == Scope
 
       Text
@@ -86,7 +88,11 @@ RSpec.describe Asciidoctor::Standoc do
   <clause id="_" inline-header="false" obligation="informative">
   <title>Introduction Subsection</title>
 </clause>
-</introduction></preface><sections>
+</introduction>
+ <acknowledgements id='_' obligation='informative'>
+   <title>Acknowledgements</title>
+ </acknowledgements>
+</preface><sections>
 
 
 <clause id="_" inline-header="false" obligation="normative">
@@ -185,6 +191,9 @@ RSpec.describe Asciidoctor::Standoc do
       === Introduction Subsection
 
       [language=en,script=Latn]
+      == Acknowledgements
+
+      [language=en,script=Latn]
       == Scope
 
       Text
@@ -274,7 +283,11 @@ RSpec.describe Asciidoctor::Standoc do
          <clause id="_" language="en" script="Latn" inline-header="false" obligation="informative">
          <title>Introduction Subsection</title>
        </clause>
-       </introduction></preface><sections>
+       </introduction>
+       <acknowledgements id='_' language='en' script='Latn' obligation='informative'>
+  <title>Acknowledgements</title>
+</acknowledgements>
+</preface><sections>
 
 
        <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
@@ -371,6 +384,9 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Introduction Subsection
 
+      [heading=acknowledgements]
+      == Ευχαριστίες
+
       [heading=normative references]
       == Κανονιστικές Παραπομπές
 
@@ -423,6 +439,9 @@ RSpec.describe Asciidoctor::Standoc do
         <title>Introduction Subsection</title>
       </clause>
     </introduction>
+    <acknowledgements id='_' obligation='informative'>
+  <title>Ευχαριστίες</title>
+</acknowledgements>
   </preface>
   <sections>
     <terms id='_' obligation='normative'>

@@ -10,12 +10,14 @@ module Asciidoctor
   module Standoc
     module Cleanup
        def make_preface(x, s)
-        if x.at("//foreword | //introduction")
+        if x.at("//foreword | //introduction | //acknowledgements")
           preface = s.add_previous_sibling("<preface/>").first
           foreword = x.at("//foreword")
           preface.add_child foreword.remove if foreword
           introduction = x.at("//introduction")
           preface.add_child introduction.remove if introduction
+          acknowledgements = x.at("//acknowledgements")
+          preface.add_child acknowledgements.remove if acknowledgements
         end
         make_abstract(x, s)
       end
@@ -93,6 +95,7 @@ module Asciidoctor
       def obligations_cleanup_info(x)
         (s = x.at("//foreword")) && s["obligation"] = "informative"
         (s = x.at("//introduction")) && s["obligation"] = "informative"
+        (s = x.at("//acknowledgements")) && s["obligation"] = "informative"
         x.xpath("//references").each { |r| r["obligation"] = "informative" }
       end
 

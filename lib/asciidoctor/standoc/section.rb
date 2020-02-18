@@ -68,6 +68,8 @@ module Asciidoctor
             @term_def = false
           when "symbols and abbreviated terms"
             symbols_parse(a, xml, node)
+          when "acknowledgements"
+            acknowledgements_parse(a, xml, node)
           when "bibliography" then bibliography_parse(a, xml, node)
           else
             if @term_def then term_def_subclause_parse(a, xml, node)
@@ -224,6 +226,14 @@ module Asciidoctor
       def introduction_parse(attrs, xml, node)
         xml.introduction **attr_code(attrs) do |xml_section|
           xml_section.title { |t| t << "Introduction" }
+          content = node.content
+          xml_section << content
+        end
+      end
+
+      def acknowledgements_parse(attrs, xml, node)
+        xml.acknowledgements **attr_code(attrs) do |xml_section|
+          xml_section.title { |t| t << node.title || "Acknowledgements" }
           content = node.content
           xml_section << content
         end
