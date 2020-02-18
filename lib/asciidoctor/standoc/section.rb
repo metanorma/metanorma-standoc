@@ -117,6 +117,7 @@ module Asciidoctor
       def clause_parse(attrs, xml, node)
         attrs["inline-header".to_sym] = node.option? "inline-header"
         attrs[:bibitem] = true if node.option? "bibitem"
+        attrs[:preface] = true if node.role == "preface" || node.attr("style") == "preface"
         attrs[:level] = node.attr("level")
         set_obligation(attrs, node)
         xml.send "clause", **attr_code(attrs) do |xml_section|

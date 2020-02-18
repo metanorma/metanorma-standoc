@@ -18,6 +18,9 @@ RSpec.describe Asciidoctor::Standoc do
       === Introduction Subsection
 
       == Acknowledgements
+      
+      [.preface]
+      == Dedication
 
       == Scope
 
@@ -89,6 +92,9 @@ RSpec.describe Asciidoctor::Standoc do
   <title>Introduction Subsection</title>
 </clause>
 </introduction>
+<clause id='_' inline-header='false' obligation='informative'>
+  <title>Dedication</title>
+</clause>
  <acknowledgements id='_' obligation='informative'>
    <title>Acknowledgements</title>
  </acknowledgements>
@@ -193,6 +199,10 @@ RSpec.describe Asciidoctor::Standoc do
       [language=en,script=Latn]
       == Acknowledgements
 
+      [.preface]
+      [language=en,script=Latn]
+      == Dedication
+
       [language=en,script=Latn]
       == Scope
 
@@ -284,6 +294,9 @@ RSpec.describe Asciidoctor::Standoc do
          <title>Introduction Subsection</title>
        </clause>
        </introduction>
+       <clause id='_' language='en' script='Latn' inline-header='false' obligation='informative'>
+  <title>Dedication</title>
+</clause>
        <acknowledgements id='_' language='en' script='Latn' obligation='informative'>
   <title>Acknowledgements</title>
 </acknowledgements>

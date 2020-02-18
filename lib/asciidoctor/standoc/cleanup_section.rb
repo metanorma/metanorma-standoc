@@ -9,22 +9,29 @@ require "mathml2asciimath"
 module Asciidoctor
   module Standoc
     module Cleanup
-       def make_preface(x, s)
-        if x.at("//foreword | //introduction | //acknowledgements")
+      def make_preface(x, s)
+        if x.at("//foreword | //introduction | //acknowledgements | "\
+            "//clause[@preface]")
           preface = s.add_previous_sibling("<preface/>").first
-          foreword = x.at("//foreword")
-          preface.add_child foreword.remove if foreword
-          introduction = x.at("//introduction")
-          preface.add_child introduction.remove if introduction
-          acknowledgements = x.at("//acknowledgements")
-          preface.add_child acknowledgements.remove if acknowledgements
+          f = x.at("//foreword") and preface.add_child f.remove
+          f = x.at("//introduction") and preface.add_child f.remove
+          move_clauses_into_preface(x, preface)
+          f = x.at("//acknowledgements") and preface.add_child f.remove
         end
         make_abstract(x, s)
       end
 
+      def move_clauses_into_preface(x, preface)
+        x.xpath("//clause[@preface]").each do |c|
+          c.delete("preface")
+          preface.add_child c.remove
+        end
+      end
+
       def make_abstract(x, s)
         if x.at("//abstract[not(ancestor::bibitem)]")
-          preface = s.at("//preface") || s.add_previous_sibling("<preface/>").first
+          preface = s.at("//preface") ||
+            s.add_previous_sibling("<preface/>").first
           abstract = x.at("//abstract[not(ancestor::bibitem)]").remove
           preface.prepend_child abstract.remove
           bibabstract = bibabstract_location(x)
@@ -41,9 +48,10 @@ module Asciidoctor
           x.at("//bibdata/contributor[not(following-sibling::contributor)]") ||
           x.at("//bibdata/date[not(following-sibling::date)]") ||
           x.at("//docnumber") ||
-          x.at("//bibdata/docidentifier[not(following-sibling::docidentifier)]") ||
-          x.at("//bibdata/uri[not(following-sibling::uri)]") ||
-          x.at("//bibdata/title[not(following-sibling::title)]")
+          x.at("//bibdata/docidentifier"\
+               "[not(following-sibling::docidentifier)]") ||
+        x.at("//bibdata/uri[not(following-sibling::uri)]") ||
+        x.at("//bibdata/title[not(following-sibling::title)]")
       end
 
       def make_bibliography(x, s)
@@ -97,6 +105,7 @@ module Asciidoctor
         (s = x.at("//introduction")) && s["obligation"] = "informative"
         (s = x.at("//acknowledgements")) && s["obligation"] = "informative"
         x.xpath("//references").each { |r| r["obligation"] = "informative" }
+        x.xpath("//preface//clause").each { |r| r["obligation"] = "informative" }
       end
 
       def obligations_cleanup_norm(x)
