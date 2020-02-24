@@ -61,6 +61,7 @@ module Asciidoctor
         noko do |xml|
           case sectiontype(node)
           when "introduction" then introduction_parse(a, xml, node)
+          when "foreword" then foreword_parse(a, xml, node)
           when "normative references" then norm_ref_parse(a, xml, node)
           when "terms and definitions"
             @term_def = true
@@ -227,6 +228,14 @@ module Asciidoctor
       def introduction_parse(attrs, xml, node)
         xml.introduction **attr_code(attrs) do |xml_section|
           xml_section.title { |t| t << "Introduction" }
+          content = node.content
+          xml_section << content
+        end
+      end
+
+      def foreword_parse(attrs, xml, node)
+        xml.foreword **attr_code(attrs) do |xml_section|
+          xml_section.title { |t| t << node.title }
           content = node.content
           xml_section << content
         end

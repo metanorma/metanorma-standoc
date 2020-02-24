@@ -183,7 +183,8 @@ RSpec.describe Asciidoctor::Standoc do
     it "processes sections with language and script attributes" do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
-      .Foreword
+      [language=en,script=Latn]
+      == Foreword
 
       Text
 
@@ -287,7 +288,7 @@ RSpec.describe Asciidoctor::Standoc do
              #{BLANK_HDR.sub(/<status>/, "<abstract> <p>Text</p> </abstract><status>")}
      <preface><abstract id="_" language="en" script="Latn">
          <p id="_">Text</p>
-       </abstract><foreword obligation="informative">
+       </abstract><foreword id='_' language='en' script='Latn' obligation='informative'>
          <title>Foreword</title>
          <p id="_">Text</p>
        </foreword><introduction id="_" language="en" script="Latn" obligation="informative">
