@@ -694,6 +694,8 @@ RSpec.describe Asciidoctor::Standoc do
       footnote:[This is a footnote to a figure]
 
       footnote:[This is another footnote to a figure]
+
+      A footnote:[This is a third footnote]
     INPUT
        #{BLANK_HDR}
        <sections><figure id="_">
@@ -703,6 +705,12 @@ RSpec.describe Asciidoctor::Standoc do
        </fn><fn reference="b">
          <p id="_">This is another footnote to a figure</p>
        </fn></figure>
+       <p id='_'>
+  A
+  <fn reference='1'>
+    <p id='_'>This is a third footnote</p>
+  </fn>
+</p>
 
        </sections>
 
