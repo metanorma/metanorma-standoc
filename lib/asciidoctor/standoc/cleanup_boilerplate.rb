@@ -64,10 +64,11 @@ module Asciidoctor
 
       def boilerplate_cleanup(xmldoc)
         isodoc = boilerplate_isodoc(xmldoc)
-        f = xmldoc.at(self.class::TERM_CLAUSE) and
+        xmldoc.xpath(self.class::TERM_CLAUSE).each do |f|
           term_defs_boilerplate(f.at("./title"),
                                 xmldoc.xpath(".//termdocsource"),
                                 f.at(".//term"), f.at(".//p"), isodoc)
+        end
         f = xmldoc.at(self.class::NORM_REF) and
           norm_ref_preface(f)
         initial_boilerplate(xmldoc, isodoc)
@@ -91,14 +92,14 @@ module Asciidoctor
       end
 
       def boilerplate_file(xmldoc)
-          File.join(@libdir, "boilerplate.xml")
+        File.join(@libdir, "boilerplate.xml")
       end
 
       def boilerplate(xml, conv)
         file = boilerplate_file(xml)
         file = File.join(@localdir, @boilerplateauthority) if @boilerplateauthority
         !file.nil? and File.exists?(file) or return
-          conv.populate_template((File.read(file, encoding: "UTF-8")), nil)
+        conv.populate_template((File.read(file, encoding: "UTF-8")), nil)
       end
 
       def bibdata_cleanup(xmldoc)
