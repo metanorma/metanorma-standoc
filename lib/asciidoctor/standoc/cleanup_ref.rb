@@ -67,7 +67,7 @@ module Asciidoctor
 
       def omit_docid_prefix(prefix)
         return true if prefix.nil? || prefix.empty?
-        %(ISO IEC IEV ITU).include? prefix
+        %(ISO IEC IEV ITU metanorma).include? prefix
       end
 
       def format_ref(ref, type, isopub)
@@ -85,7 +85,8 @@ module Asciidoctor
       def reference_names(xmldoc)
         xmldoc.xpath("//bibitem[not(ancestor::bibitem)]").each do |ref|
           isopub = ref.at(ISO_PUBLISHER_XPATH)
-          docid = ref.at("./docidentifier[not(@type = 'DOI')]") or next
+          docid = ref.at("./docidentifier[@type = 'metanorma']") ||
+            ref.at("./docidentifier[not(@type = 'DOI')]") or next
           reference = format_ref(docid.text, docid["type"], isopub)
           @anchors[ref["id"]] = { xref: reference }
         end
