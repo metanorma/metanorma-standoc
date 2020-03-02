@@ -47,7 +47,7 @@ RSpec.describe Asciidoctor::Standoc do
 INPUT
 #{BLANK_HDR}
 <preface>
-  <foreword obligation='informative'>
+  <foreword id='_' obligation='informative'>
     <title>Foreword</title>
     <p id='_'>
       <concept>

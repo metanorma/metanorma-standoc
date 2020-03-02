@@ -83,7 +83,7 @@ RSpec.describe Asciidoctor::Standoc do
              #{BLANK_HDR.sub(/<status>/, "<abstract> <p>Text</p> </abstract><status>")}
     <preface><abstract id="_">
   <p id="_">Text</p>
-</abstract><foreword obligation="informative">
+</abstract><foreword id='_' obligation="informative">
   <title>Foreword</title>
   <p id="_">Text</p>
 </foreword><introduction id="_" obligation="informative">
@@ -447,7 +447,7 @@ RSpec.describe Asciidoctor::Standoc do
     <abstract id='_'>
       <p id='_'>Text</p>
     </abstract>
-    <foreword obligation='informative'>
+    <foreword id='_' obligation='informative'>
       <title>Foreword</title>
       <p id='_'>Text</p>
     </foreword>
@@ -642,7 +642,7 @@ RSpec.describe Asciidoctor::Standoc do
      INPUT
              #{BLANK_HDR}
              <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
-        <preface><foreword obligation="informative">
+        <preface><foreword id='_' obligation="informative">
          <title>Foreword</title>
          <p id="_">Foreword</p>
        </foreword></preface><sections>
@@ -669,7 +669,7 @@ RSpec.describe Asciidoctor::Standoc do
 
      INPUT
              #{BLANK_HDR}
-        <preface><foreword obligation="informative">
+        <preface><foreword id='_' obligation="informative">
          <title>Foreword</title>
          <p id="_">Foreword</p>
        </foreword></preface><sections>
@@ -694,7 +694,7 @@ RSpec.describe Asciidoctor::Standoc do
      INPUT
              #{BLANK_HDR}
              <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
-        <preface><foreword obligation="informative">
+        <preface><foreword id='_' obligation="informative">
          <title>Foreword</title>
          <p id="_">Foreword</p>
        </foreword></preface><sections>
@@ -728,7 +728,7 @@ RSpec.describe Asciidoctor::Standoc do
      INPUT
      #{BLANK_HDR.sub(%r{<language>en</language>}, "<language>fr</language>")}
              <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
-        <preface><foreword obligation="informative">
+        <preface><foreword id='_' obligation="informative">
          <title>Foreword</title>
          <p id="_">Foreword</p>
        </foreword></preface><sections>
@@ -761,7 +761,7 @@ RSpec.describe Asciidoctor::Standoc do
 
      INPUT
      #{BLANK_HDR.sub(%r{<language>en</language>}, "<language>zh</language>").sub(%r{<script>Latn</script>}, "<script>Hans</script>")}
-       <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/><preface><foreword obligation="informative">
+       <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/><preface><foreword id='_' obligation="informative">
          <title>Foreword</title>
          <p id="_">Foreword</p>
        </foreword></preface><sections>

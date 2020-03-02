@@ -394,7 +394,7 @@ RSpec.describe Asciidoctor::Standoc do
       NOTE: This is a note
       INPUT
               #{BLANK_HDR}
-              <preface><foreword obligation="informative">
+              <preface><foreword id="_" obligation="informative">
          <title>Foreword</title>
          <note id="_">
          <p id="_">This is a note</p>
@@ -606,7 +606,7 @@ RSpec.describe Asciidoctor::Standoc do
       == Section 1
       INPUT
       #{BLANK_HDR}
-             <preface><foreword obligation="informative">
+             <preface><foreword id="_" obligation="informative">
          <title>Foreword</title>
          <p id="_">This is a preamble</p>
        </foreword></preface><sections>
@@ -626,7 +626,7 @@ RSpec.describe Asciidoctor::Standoc do
       == Section 1
       INPUT
       #{BLANK_HDR}
-             <preface><foreword obligation="informative">
+             <preface><foreword id="_" obligation="informative">
          <title>Preamble</title>
          <p id="_">This is a preamble</p>
        </foreword></preface><sections>

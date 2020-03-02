@@ -101,7 +101,7 @@ module Asciidoctor
 
       def preamble(node)
         noko do |xml|
-          xml.foreword do |xml_abstract|
+          xml.foreword **attr_code(section_attributes(node)) do |xml_abstract|
             xml_abstract.title { |t| t << (node.blocks[0].title || "Foreword") }
             content = node.content
             xml_abstract << content

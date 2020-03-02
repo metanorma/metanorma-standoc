@@ -112,7 +112,7 @@ RSpec.describe Asciidoctor::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
        #{BLANK_HDR}
        <preface>
-  <foreword obligation='informative'>
+  <foreword id='_' obligation='informative'>
     <title>Foreword</title>
     <p id='_'>
       <eref type='inline' bibitemid='iso123' citeas='ISO 123'/>
