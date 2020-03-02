@@ -118,7 +118,7 @@ module Asciidoctor
 
       def metadata_getrelation(node, xml, type)
         docs = node.attr(type) || return
-        docs.split(/;\s*/).each do |d|
+        HTMLEntities.new.decode(docs).split(/;\s*/).each do |d|
           id = d.split(/,\s*/)
           xml.relation **{ type: relation_normalise(type) } do |r|
             fetch_ref(r, d, nil, {}) or r.bibitem do |b|

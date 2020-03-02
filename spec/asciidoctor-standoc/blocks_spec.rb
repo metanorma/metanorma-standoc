@@ -983,7 +983,7 @@ RSpec.describe Asciidoctor::Standoc do
     it "processes requirement" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [.requirement,subsequence="A"]
+      [.requirement,subsequence="A",inherit="/ss/584/2015/level/1 &amp; /ss/584/2015/level/2"]
       .Title
       ====
       I recommend this
@@ -993,6 +993,7 @@ RSpec.describe Asciidoctor::Standoc do
             #{BLANK_HDR}
        <sections>
   <requirement id="_" subsequence="A"><title>Title</title>
+  <inherit>/ss/584/2015/level/1 &amp; /ss/584/2015/level/2</inherit>
   <description><p id="_">I recommend this</p></description>
 </requirement>
        </sections>
@@ -1061,7 +1062,7 @@ RSpec.describe Asciidoctor::Standoc do
         it "processes recommendation with internal markup of structure" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [.recommendation,label="/ogc/recommendation/wfs/2",subject="user",classification="control-class:Technical;priority:P0;family:System and Communications Protection,System and Communications Protocols",obligation="permission,recommendation",filename="reqt1.rq"]
+      [.recommendation,label="/ogc/recommendation/wfs/2",subject="user",classification="control-class:Technical;priority:P0;family:System &amp; Communications Protection,System and Communications Protocols",obligation="permission,recommendation",filename="reqt1.rq"]
       ====
       I recommend _this_.
 
@@ -1111,7 +1112,7 @@ RSpec.describe Asciidoctor::Standoc do
             #{BLANK_HDR}
        <sections>
        <recommendation id="_"  obligation="permission,recommendation" filename="reqt1.rq"><label>/ogc/recommendation/wfs/2</label><subject>user</subject>
-<classification><tag>control-class</tag><value>Technical</value></classification><classification><tag>priority</tag><value>P0</value></classification><classification><tag>family</tag><value>System and Communications Protection</value></classification><classification><tag>family</tag><value>System and Communications Protocols</value></classification>
+<classification><tag>control-class</tag><value>Technical</value></classification><classification><tag>priority</tag><value>P0</value></classification><classification><tag>family</tag><value>System &amp; Communications Protection</value></classification><classification><tag>family</tag><value>System and Communications Protocols</value></classification>
         <description><p id="_">I recommend <em>this</em>.</p>
        </description><specification exclude="false" type="tabular"><p id="_">This is the object of the recommendation:</p><table id="_">  <tbody>    <tr>      <td align="left">Object</td>      <td align="left">Value</td>    </tr>    <tr>      <td align="left">Mission</td>      <td align="left">Accomplished</td>    </tr>  </tbody></table></specification><description>
        <p id="_">As for the measurement targets,</p>

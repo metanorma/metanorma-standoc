@@ -18,7 +18,7 @@ module Asciidoctor
 
       def req_classif_parse(classif)
         ret = []
-        classif.split(/;\s*/).each do |c|
+        HTMLEntities.new.decode(classif).split(/;\s*/).each do |c|
           c1 = c.split(/:\s*/)
           next unless c1.size == 2
           c1[1].split(/,\s*/).each { |v| ret << [ c1[0], v ] }
@@ -54,7 +54,8 @@ module Asciidoctor
             node.title and ex.title { |t| t << node.title }
             node.attr("label") and ex.label { |l| l << node.attr("label") }
             node.attr("subject") and ex.subject { |s| s << node.attr("subject") }
-            node&.attr("inherit")&.split(/;\s*/)&.each do |i|
+            i = HTMLEntities.new.decode(node.attr("inherit"))
+            i&.split(/;\s*/)&.each do |i|
               ex.inherit { |inh| inh << i }
             end
             requirement_classification(classif, ex) if classif
