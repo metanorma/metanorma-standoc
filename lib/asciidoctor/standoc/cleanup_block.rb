@@ -50,6 +50,7 @@ module Asciidoctor
             row = s.at("./tbody/tr")
             row.parent = thead
           end
+          thead.xpath(".//td").each { |n| n.name = "th" }
           s.delete("headerrows")
         end
       end

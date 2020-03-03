@@ -558,17 +558,17 @@ RSpec.describe Asciidoctor::Standoc do
        #{BLANK_HDR}
        <sections>
              <table id="_"><thead><tr>
-             <td align="left">a</td>
-             <td align="left">b</td>
-             <td align="left">c</td>
+             <th align="left">a</th>
+             <th align="left">b</th>
+             <th align="left">c</th>
            </tr><tr>
-             <td align="left">a</td>
-             <td align="left">b</td>
-             <td align="left">c</td>
+             <th align="left">a</th>
+             <th align="left">b</th>
+             <th align="left">c</th>
            </tr><tr>
-             <td align="left">a</td>
-             <td align="left">b</td>
-             <td align="left">c</td>
+             <th align="left">a</th>
+             <th align="left">b</th>
+             <th align="left">c</th>
            </tr></thead>
          <tbody>
            <tr>
@@ -605,13 +605,13 @@ RSpec.describe Asciidoctor::Standoc do
              <th align="left">c</th>
            </tr>
          <tr>
-             <td align="left">a</td>
-             <td align="left">b</td>
-             <td align="left">c</td>
+             <th align="left">a</th>
+             <th align="left">b</th>
+             <th align="left">c</th>
            </tr><tr>
-             <td align="left">a</td>
-             <td align="left">b</td>
-             <td align="left">c</td>
+             <th align="left">a</th>
+             <th align="left">b</th>
+             <th align="left">c</th>
            </tr></thead>
          <tbody>
 
