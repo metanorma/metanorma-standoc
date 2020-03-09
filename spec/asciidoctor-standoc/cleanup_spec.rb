@@ -689,6 +689,7 @@ RSpec.describe Asciidoctor::Standoc do
   it "moves footnotes inside figures" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
+      .Figuretitle.footnote:[xyz]
       image::spec/examples/rice_images/rice_image1.png[]
 
       footnote:[This is a footnote to a figure]
@@ -699,6 +700,12 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
        #{BLANK_HDR}
        <sections><figure id="_">
+       <name>
+  Figuretitle.
+  <fn reference='1'>
+    <p id='_'>xyz</p>
+  </fn>
+</name>
          <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
        <fn reference="a">
          <p id="_">This is a footnote to a figure</p>
@@ -707,7 +714,7 @@ RSpec.describe Asciidoctor::Standoc do
        </fn></figure>
        <p id='_'>
   A
-  <fn reference='1'>
+  <fn reference='2'>
     <p id='_'>This is a third footnote</p>
   </fn>
 </p>
