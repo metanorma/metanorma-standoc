@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "asciidoctor", "~> 2.0.0"
   spec.add_dependency "ruby-jing"
-  spec.add_dependency "isodoc", "~> 1.0.0"
+  spec.add_dependency "isodoc", "~> 1.0.20"
   spec.add_dependency "iev", "~> 0.2.1"
   spec.add_dependency "relaton", "~> 0.10.0"
   spec.add_dependency "relaton-iev", "~> 0.1.0"
@@ -47,7 +47,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop", "= 0.54.0"
   spec.add_development_dependency "simplecov", "~> 0.15"
   spec.add_development_dependency "timecop", "~> 0.9"
-  spec.add_development_dependency "metanorma", "~> 0.3.0"
   spec.add_development_dependency "vcr", "~> 5.0.0"
   spec.add_development_dependency "webmock"
   #spec.add_development_dependency "relaton-iec"
