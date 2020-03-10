@@ -449,7 +449,7 @@ RSpec.describe Asciidoctor::Standoc do
       OUTPUT
   end
 
-  it "removes extraneous material from Normative References" do
+  it "removes initial extraneous material from Normative References" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
@@ -458,6 +458,8 @@ RSpec.describe Asciidoctor::Standoc do
       This is extraneous information
 
       * [[[iso216,ISO 216]]], _Reference_
+
+      This is also extraneous information
     INPUT
       #{BLANK_HDR}
       <sections></sections>
@@ -473,11 +475,84 @@ RSpec.describe Asciidoctor::Standoc do
            </organization>
          </contributor>
        </bibitem>
+       <p id='_'>This is also extraneous information</p>
       </references>
       </bibliography>
       </standard-document>
     OUTPUT
   end
+
+    it "sorts references with their notes in Bibliography" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      [bibliography]
+      == Bibliography
+
+      This is extraneous information
+
+      * [[[iso216,ISO 216]]], _Reference_
+
+      NOTE: ABC
+
+      NOTE: DEF
+
+      This is further extraneous information
+
+      NOTE: GHI
+
+      * [[[iso216,ISO 215]]], _Reference_
+
+      NOTE: JKL
+
+      This is also extraneous information
+    INPUT
+      #{BLANK_HDR}
+      <sections> </sections>
+         <bibliography>
+           <references id='_' obligation='informative'>
+             <title>Bibliography</title>
+             <p id='_'>This is extraneous information</p>
+             <bibitem id='iso216' type='standard'>
+               <title format='text/plain'>Reference</title>
+               <docidentifier>ISO 216</docidentifier>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>ISO</name>
+                 </organization>
+               </contributor>
+             </bibitem>
+             <note id='_'>
+               <p id='_'>ABC</p>
+             </note>
+             <note id='_'>
+               <p id='_'>DEF</p>
+             </note>
+             <bibitem id='iso216' type='standard'>
+               <title format='text/plain'>Reference</title>
+               <docidentifier>ISO 215</docidentifier>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>ISO</name>
+                 </organization>
+               </contributor>
+             </bibitem>
+             <note id='_'>
+               <p id='_'>JKL</p>
+             </note>
+             <p id='_'>
+               This is further extraneous information
+               <note id='_'>
+                 <p id='_'>GHI</p>
+               </note>
+             </p>
+             <p id='_'>This is also extraneous information</p>
+           </references>
+         </bibliography>
+       </standard-document>
+    OUTPUT
+end
 
   it "inserts IDs into paragraphs" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
