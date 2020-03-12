@@ -6,7 +6,7 @@ module Asciidoctor
       end
 
       def add(category, loc, msg)
-        return unless @novalid
+        return if @novalid
         @log[category] = [] unless @log[category]
         @log[category] << { location: current_location(loc), message: msg }
         loc = loc.nil? ? "" : "(#{current_location(loc)}): "
