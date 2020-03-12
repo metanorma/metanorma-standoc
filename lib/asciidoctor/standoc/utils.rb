@@ -180,7 +180,8 @@ module Asciidoctor
         type
       end
 
-      SUBCLAUSE_XPATH = "//clause[not(parent::sections)]".freeze
+      SUBCLAUSE_XPATH = "//clause[not(parent::sections)]"\
+        "[not(ancestor::boilerplate)]".freeze
     end
   end
 end
