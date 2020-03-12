@@ -14,6 +14,7 @@ require "asciidoctor/standoc/cleanup"
 require "asciidoctor/standoc/i18n"
 require "asciidoctor/standoc/reqt"
 require_relative "./macros.rb"
+require_relative "./log.rb"
 
 module Asciidoctor
   module Standoc
@@ -43,7 +44,6 @@ module Asciidoctor
         super
         basebackend "html"
         outfilesuffix ".xml"
-        #@libdir = File.dirname(__FILE__)
         @libdir = File.dirname(self.class::_file || __FILE__)
       end
 

@@ -15,8 +15,11 @@ module Asciidoctor
 
       def term_defs_boilerplate(div, source, term, preface, isodoc)
         div.next = @term_def_boilerplate
-        source.each { |s| @anchors[s["bibitemid"]] or
-                      warn "term source #{s['bibitemid']} not referenced" }
+        source.each do |s|
+          @anchors[s["bibitemid"]] or
+            @log.add("Crossreferences", nil, "term source #{s['bibitemid']} not referenced")
+                      #warn "term source #{s['bibitemid']} not referenced" 
+        end
         if source.empty? && term.nil?
           div.next = @no_terms_boilerplate
         else

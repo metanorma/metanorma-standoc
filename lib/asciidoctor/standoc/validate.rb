@@ -25,7 +25,8 @@ module Asciidoctor
           @iev = init_iev or return
           iev = @iev.fetch(locality, xmldoc&.at("//language")&.text || "en") or next
           pref.include?(iev.downcase) or
-            warn %(Term "#{pref[0]}" does not match IEV #{locality} "#{iev}")
+            #warn %(Term "#{pref[0]}" does not match IEV #{locality} "#{iev}")
+          @log.add("Bibliography", t, %(Term "#{pref[0]}" does not match IEV #{locality} "#{iev}"))
         end
       end
 
@@ -40,9 +41,10 @@ module Asciidoctor
             f.write(doc.to_xml) 
             f.close
             errors = Jing.new(schema).validate(f.path)
-            warn "Valid!" if errors.none?
+            warn "Syntax Valid!" if errors.none?
             errors.each do |error|
-              warn "#{error[:message]} @ #{error[:line]}:#{error[:column]}"
+              #warn "#{error[:message]} @ #{error[:line]}:#{error[:column]}"
+              @log.add("Syntax", "XML Line #{"%06d" % error[:line]}:#{error[:column]}", error[:message])
             end
           rescue Jing::Error => e
             abort "Jing failed with error: #{e}"

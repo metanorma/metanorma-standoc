@@ -126,7 +126,8 @@ module Asciidoctor
         xml.parent.add_child(Utils::smart_render_xml(hit, code, opts[:title], opts[:usrlbl]))
         xml
       rescue RelatonBib::RequestError
-        warn "Could not retrieve #{code}: no access to online site"
+        #warn "Could not retrieve #{code}: no access to online site"
+        @log.add("Bibliography", nil, "Could not retrieve #{code}: no access to online site")
         nil
       end
 
@@ -148,7 +149,8 @@ module Asciidoctor
       # TODO: alternative where only title is available
       def refitem(xml, item, node)
         unless m = NON_ISO_REF.match(item)
-          Utils::warning(node, MALFORMED_REF, item)
+          #Utils::warning(node, MALFORMED_REF, item)
+          @log.add("Asciidoctor Input", node, "#{MALFORMED_REF}: #{item}")
           return
         end
         unless m[:code] && /^\d+$/.match(m[:code])

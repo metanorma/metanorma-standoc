@@ -30,22 +30,6 @@ module Asciidoctor
           docfile.nil? ? './' : Pathname.new(docfile).parent.to_s + '/'
         end
 
-        def current_location(n)
-          return "Line #{n.lineno}" if n.respond_to?(:lineno) &&
-            !n.lineno.nil? && !n.lineno.empty?
-          return "Line #{n.line}" if n.respond_to?(:line) &&
-            !n.line.nil?
-          return "ID #{n.id}" if n.respond_to?(:id) && !n.id.nil?
-          while !n.nil? &&
-              (!n.respond_to?(:level) || n.level.positive?) &&
-              (!n.respond_to?(:context) || n.context != :section)
-            n = n.parent
-            return "Section: #{n.title}" if n&.respond_to?(:context) &&
-              n&.context == :section
-          end
-          "??"
-        end
-
         def smartformat(n)
           n.gsub(/ --? /, "&#8201;&#8212;&#8201;").
             gsub(/--/, "&#8212;").smart_format.gsub(/</, "&lt;").gsub(/>/, "&gt;")
@@ -82,11 +66,13 @@ module Asciidoctor
 
         def emend_biblio(xml, code, title, usrlbl)
           unless xml.at("/bibitem/docidentifier[not(@type = 'DOI')][text()]")
-            warn "ERROR: No document identifier retrieved for #{code}"
+            #warn "ERROR: No document identifier retrieved for #{code}"
+            @log.add("Bibliography", nil, "ERROR: No document identifier retrieved for #{code}")
             xml.root << "<docidentifier>#{code}</docidentifier>"
           end
           unless xml.at("/bibitem/title[text()]")
-            warn "ERROR: No title retrieved for #{code}"
+            #warn "ERROR: No title retrieved for #{code}"
+            @log.add("Bibliography", nil, "ERROR: No title retrieved for #{code}")
             xml.root << "<title>#{title || "(MISSING TITLE)"}</title>"
           end
           usrlbl and xml.at("/bibitem/docidentifier").next = 
@@ -110,6 +96,7 @@ module Asciidoctor
           xml.to_xml.sub(/<\?[^>]+>/, "")
         end
 
+=begin
         def warning(node, msg, text)
           return if @novalid
           warntext = "asciidoctor: WARNING"\
@@ -117,6 +104,7 @@ module Asciidoctor
           warntext += ": #{text}" if text
           warn warntext
         end
+=end
 
         def flatten_rawtext_lines(node, result)
           node.lines.each do |x|
