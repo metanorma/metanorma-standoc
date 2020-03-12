@@ -43,7 +43,6 @@ module Asciidoctor
             errors = Jing.new(schema).validate(f.path)
             warn "Syntax Valid!" if errors.none?
             errors.each do |error|
-              #warn "#{error[:message]} @ #{error[:line]}:#{error[:column]}"
               @log.add("Syntax", "XML Line #{"%06d" % error[:line]}:#{error[:column]}", error[:message])
             end
           rescue Jing::Error => e

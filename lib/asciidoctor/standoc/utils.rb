@@ -35,6 +35,12 @@ module Asciidoctor
             gsub(/--/, "&#8212;").smart_format.gsub(/</, "&lt;").gsub(/>/, "&gt;")
         end
 
+        def endash_date(elem)
+          elem.traverse do |n|
+            n.text? and n.replace(n.text.gsub(/\s+--?\s+/, "&#8211;").gsub(/--/, "&#8211;"))
+          end
+        end
+
         # Set hash value using keys path
         # mod from https://stackoverflow.com/a/42425884
         def set_nested_value(hash, keys, new_val)
@@ -58,42 +64,6 @@ module Asciidoctor
           else
             set_nested_value(hash[key], keys[1..-1], new_val)
           end
-        end
-
-        def mn_code(code)
-          code.sub(/^\(/, "[").sub(/\).*$/, "]").sub(/^nofetch\((.+)\)$/, "\\1")
-        end
-
-        def emend_biblio(xml, code, title, usrlbl)
-          unless xml.at("/bibitem/docidentifier[not(@type = 'DOI')][text()]")
-            #warn "ERROR: No document identifier retrieved for #{code}"
-            @log.add("Bibliography", nil, "ERROR: No document identifier retrieved for #{code}")
-            xml.root << "<docidentifier>#{code}</docidentifier>"
-          end
-          unless xml.at("/bibitem/title[text()]")
-            #warn "ERROR: No title retrieved for #{code}"
-            @log.add("Bibliography", nil, "ERROR: No title retrieved for #{code}")
-            xml.root << "<title>#{title || "(MISSING TITLE)"}</title>"
-          end
-          usrlbl and xml.at("/bibitem/docidentifier").next = 
-            "<docidentifier type='metanorma'>#{mn_code(usrlbl)}</docidentifier>"
-        end
-
-        def endash_date(elem)
-          elem.traverse do |n|
-            n.text? and n.replace(n.text.gsub(/\s+--?\s+/, "&#8211;").gsub(/--/, "&#8211;"))
-          end
-        end
-
-        def smart_render_xml(x, code, title, usrlbl)
-          xstr = x.to_xml if x.respond_to? :to_xml
-          xml = Nokogiri::XML(xstr)
-          emend_biblio(xml, code, title, usrlbl)
-          xml.xpath("//date").each { |d| endash_date(d) }
-          xml.traverse do |n|
-            n.text? and n.replace(smartformat(n.text))
-          end
-          xml.to_xml.sub(/<\?[^>]+>/, "")
         end
 
 =begin
