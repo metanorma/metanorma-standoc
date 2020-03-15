@@ -8,6 +8,10 @@ RSpec.describe Asciidoctor::Standoc do
       * List 2
       * List 3
 
+      * [*] checked
+      * [x] also checked
+      * [ ] not checked
+
       . List A
       . List B
       . List C
@@ -28,6 +32,14 @@ RSpec.describe Asciidoctor::Standoc do
          </li>
          <li>
            <p id="_">List 3</p>
+            <li>
+   <p id='_' uncheckedcheckbox='false' checkedcheckbox='true'>checked</p>
+ </li>
+ <li>
+   <p id='_' uncheckedcheckbox='false' checkedcheckbox='true'>also checked</p>
+ </li>
+ <li>
+   <p id='_' uncheckedcheckbox='true' checkedcheckbox='false'>not checked</p>
            <ol id="_" type="arabic">
          <li>
            <p id="_">List A</p>
