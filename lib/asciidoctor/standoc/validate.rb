@@ -32,8 +32,20 @@ module Asciidoctor
 
       def content_validate(doc)
         section_validate(doc)
+        repeat_id_validate(doc.root)
         iev_validate(doc.root)
       end
+
+      def repeat_id_validate(doc)
+        ids = {}
+        doc.xpath("//*[@id]").each do |x|
+          if ids[x["id"]]
+          @log.add("Anchors", x, "Anchor #{x['id']} has already been used at line #{ids[x['id']]}")
+          else
+            ids[x["id"]] = x.line
+          end
+        end
+        end
 
       def schema_validate(doc, schema)
         Tempfile.open(["tmp", ".xml"], :encoding => 'UTF-8') do |f|

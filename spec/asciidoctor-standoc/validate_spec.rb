@@ -186,4 +186,22 @@ INPUT
 end
 =end
 
+it "warns if id used twice" do
+  FileUtils.rm_f "test.err"
+  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+  = Document title
+  Author
+  :docfile: test.adoc
+  :nodoc:
+
+  [[abc]]
+  == Clause 1
+
+  [[abc]]
+  == Clause 2
+  INPUT
+  expect(File.read("test.err")).to include "Anchor abc has already been used at line"
+end
+
+
 end
