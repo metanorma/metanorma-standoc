@@ -41,6 +41,18 @@ module Asciidoctor
       end
     end
 
+    class InheritInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :inherit
+      parse_content_as :text
+      using_format :short
+
+      def process(parent, _target, attrs)
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        %{<inherit>#{out}</inherit>}
+      end
+    end
+
     class ConceptInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :concept

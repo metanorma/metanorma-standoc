@@ -7,13 +7,36 @@ RSpec.describe Asciidoctor::Standoc do
       alt:[term1]
       deprecated:[term1]
       domain:[term1]
+      inherit:[<<ref1>>]
+
+      [bibliography]
+      == Bibliography
+      * [[[ref1,XYZ 123]]] _Title_
     INPUT
             #{BLANK_HDR}
-       <sections>
-         <admitted>term1</admitted>
-       <deprecates>term1</deprecates>
-       <domain>term1</domain>
-       </sections>
+         <preface>
+  <foreword id='_a5d5c887-8c6f-4cf5-aa4f-236fec503e23' obligation='informative'>
+    <title>Foreword</title>
+    <admitted>term1</admitted>
+    <deprecates>term1</deprecates>
+    <domain>term1</domain>
+    <inherit>
+      <eref type='inline' bibitemid='ref1' citeas='XYZ 123'/>
+    </inherit>
+  </foreword>
+</preface>
+<sections> </sections>
+<bibliography>
+  <references id='_bibliography' obligation='informative'>
+    <title>Bibliography</title>
+    <bibitem id='ref1'>
+      <formattedref format='application/x-isodoc+xml'>
+        <em>Title</em>
+      </formattedref>
+      <docidentifier>XYZ 123</docidentifier>
+    </bibitem>
+  </references>
+</bibliography>
        </standard-document>
     OUTPUT
   end

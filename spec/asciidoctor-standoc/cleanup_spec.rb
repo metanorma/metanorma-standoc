@@ -1661,6 +1661,86 @@ it "sorts symbols lists" do
   OUTPUT
 end
 
+it "moves inherit macros to correct location" do
+  expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+  #{ASCIIDOC_BLANK_HDR}
+
+  == Clause
+
+  [.requirement,subsequence="A",inherit="/ss/584/2015/level/1 &amp; /ss/584/2015/level/2"]
+  .Title
+  ====
+  inherit:[A]
+  inherit:[B]
+  I recommend this
+  ====
+
+  [.requirement,subsequence="A",classification="X:Y"]
+  .Title
+  ====
+  inherit:[A]
+  I recommend this
+  ====
+
+  [.requirement,subsequence="A"]
+  .Title
+  ====
+  inherit:[A]
+  I recommend this
+  ====
+
+  [.requirement,subsequence="A"]
+  .Title
+  ====
+  inherit:[A]
+  ====
+
+
+  INPUT
+  #{BLANK_HDR}
+  <sections>
+    <clause id='_' inline-header='false' obligation='normative'>
+      <title>Clause</title>
+      <requirement id='_' subsequence='A'>
+        <title>Title</title>
+        <inherit>/ss/584/2015/level/1 &amp; /ss/584/2015/level/2</inherit>
+        <inherit>A</inherit>
+        <inherit>B</inherit>
+        <description>
+          <p id='_'> I recommend this</p>
+        </description>
+      </requirement>
+      <requirement id='_' subsequence='A'>
+        <title>Title</title>
+        <inherit>A</inherit>
+        <classification>
+          <tag>X</tag>
+          <value>Y</value>
+        </classification>
+        <description>
+          <p id='_'> I recommend this</p>
+        </description>
+      </requirement>
+      <requirement id='_' subsequence='A'>
+        <title>Title</title>
+        <inherit>A</inherit>
+        <description>
+          <p id='_'> I recommend this</p>
+        </description>
+      </requirement>
+      <requirement id='_' subsequence='A'>
+        <title>Title</title>
+        <inherit>A</inherit>
+        <description>
+          <p id='_'> </p>
+        </description>
+      </requirement>
+    </clause>
+  </sections>
+</standard-document>
+OUTPUT
+end
+
 
   private
 
