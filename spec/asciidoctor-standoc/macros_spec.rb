@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc do
   it "processes the Asciidoctor::Standoc inline macros" do
-    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       alt:[term1]
       deprecated:[term1]
@@ -15,7 +15,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
             #{BLANK_HDR}
          <preface>
-  <foreword id='_a5d5c887-8c6f-4cf5-aa4f-236fec503e23' obligation='informative'>
+  <foreword id='_' obligation='informative'>
     <title>Foreword</title>
     <admitted>term1</admitted>
     <deprecates>term1</deprecates>
@@ -27,7 +27,7 @@ RSpec.describe Asciidoctor::Standoc do
 </preface>
 <sections> </sections>
 <bibliography>
-  <references id='_bibliography' obligation='informative'>
+  <references id='_' obligation='informative'>
     <title>Bibliography</title>
     <bibitem id='ref1'>
       <formattedref format='application/x-isodoc+xml'>
