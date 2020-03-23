@@ -291,6 +291,8 @@ RSpec.describe Asciidoctor::Standoc do
       :docfile: test.adoc
       :nodoc:
       :novalid:
+      :revdate: 2000-01
+      :published-date: 1000-01
       :docnumber: 1000
       :partnumber: 1-1
       :tc-docnumber: 2000
@@ -327,6 +329,9 @@ RSpec.describe Asciidoctor::Standoc do
          <uri type="relaton">F</uri>
          <docidentifier>1000-1-1</docidentifier>
          <docnumber>1000</docnumber>
+         <date type='published'>
+  <on>1000-01</on>
+</date>
          <contributor>
            <role type="author"/>
            <organization>
@@ -363,6 +368,9 @@ RSpec.describe Asciidoctor::Standoc do
              <name>ISO</name>
            </organization>
          </contributor>
+         <version>
+  <revision-date>2000-01</revision-date>
+</version>
          <language>el</language>
          <script>Grek</script>
          <abstract><p>This is the abstract of the document</p>
