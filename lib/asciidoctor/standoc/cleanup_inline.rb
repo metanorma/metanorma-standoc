@@ -63,8 +63,9 @@ module Asciidoctor
       def xref_to_eref(x)
         x["bibitemid"] = x["target"]
         x["citeas"] = @anchors&.dig(x["target"], :xref) ||
-          #warn("#{x['target']} is not a real reference!")
-        @log.add("Crossreferences", nil, "#{x['target']} is not a real reference!")
+          @log.add("Crossreferences", x,
+                   "#{x['target']} does not have a corresponding anchor ID "\
+                   "in the bibliography!")
         x.delete("target")
         extract_localities(x) unless x.children.empty?
       end
@@ -89,8 +90,9 @@ module Asciidoctor
       def origin_cleanup(xmldoc)
         xmldoc.xpath("//origin").each do |x|
           x["citeas"] = @anchors&.dig(x["bibitemid"], :xref) ||
-        #    warn("#{x['bibitemid']} is not a real reference!")
-        @log.add("Crossreferences", nil, "#{x['bibitemid']} is not a real reference!")
+            @log.add("Crossreferences", x,
+                     "#{x['bibitemid']} does not have a corresponding anchor "\
+                     "ID in the bibliography!")
           extract_localities(x) unless x.children.empty?
         end
       end
