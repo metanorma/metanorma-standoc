@@ -40,6 +40,8 @@ RSpec.describe Asciidoctor::Standoc do
   it "processes stem blocks" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
+
+      [[ABC]]
       [stem%inequality]
       ++++
       r = 1 % 
@@ -64,7 +66,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
             #{BLANK_HDR}
        <sections>
-         <formula id="_" inequality="true">
+         <formula id="ABC" inequality="true">
          <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem>
        </formula>
 
@@ -390,7 +392,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       == Clause 1
 
-
+      [[ABC]]
       NOTE: This is a note
       INPUT
               #{BLANK_HDR}
@@ -402,7 +404,7 @@ RSpec.describe Asciidoctor::Standoc do
        </foreword></preface><sections>
        <clause id="_" inline-header="false" obligation="normative">
          <title>Clause 1</title>
-         <note id="_">
+         <note id="ABC">
          <p id="_">This is a note</p>
        </note>
        </clause></sections>
@@ -416,6 +418,7 @@ RSpec.describe Asciidoctor::Standoc do
       expect((strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to (<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
+      [[ABC]]
       [alt=Literal]
       ....
       <LITERAL>
@@ -424,7 +427,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
        <sections>
-           <figure id="_">
+           <figure id="ABC">
         <pre alt="Literal" id="_">&lt;LITERAL&gt;
         FIGURATIVE
         </pre>
@@ -455,6 +458,8 @@ RSpec.describe Asciidoctor::Standoc do
     it "processes complex admonitions with non-Asciidoc names" do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
+      
+      [[ABC]]
       [CAUTION,type=Safety Precautions]
       .Precautions
       ====
@@ -467,7 +472,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
       <sections>
-         <admonition id="_" type="safety precautions"><name>Precautions</name><p id="_">While werewolves are hardy community members, keep in mind the following dietary concerns:</p>
+         <admonition id="ABC" type="safety precautions"><name>Precautions</name><p id="_">While werewolves are hardy community members, keep in mind the following dietary concerns:</p>
        <ol id="_" type="arabic">
          <li>
            <p id="_">They are allergic to cinnamon.</p>
@@ -492,6 +497,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Term1
 
+      [[ABC]]
       [example]
       This is an example
       INPUT
@@ -503,7 +509,7 @@ RSpec.describe Asciidoctor::Standoc do
   <term id="_">
   <preferred>Term1</preferred>
 
-<termexample id="_">
+<termexample id="ABC">
   <p id="_">This is an example</p>
 </termexample></term>
 </terms>
@@ -573,6 +579,8 @@ RSpec.describe Asciidoctor::Standoc do
     it "processes examples" do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
+
+      [[ABC]]
       [example,subsequence=A]
       .Title
       ====
@@ -588,7 +596,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
        <sections>
-         <example id="_" subsequence="A">
+         <example id="ABC" subsequence="A">
          <name>Title</name>
         <p id="_">This is an example</p>
        <p id="_">Amen</p></example>
@@ -714,6 +722,8 @@ RSpec.describe Asciidoctor::Standoc do
     it "processes images" do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
+
+      [[ABC]]
       [%unnumbered]
       .Split-it-right sample divider
       image::spec/examples/rice_images/rice_image1.png[alttext]
@@ -721,7 +731,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
               <sections>
-         <figure id="_" unnumbered="true">
+         <figure id="ABC" unnumbered="true">
          <name>Split-it-right sample divider</name>
                   <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto" alt="alttext"/>
        </figure>
@@ -830,6 +840,8 @@ RSpec.describe Asciidoctor::Standoc do
     it "processes blockquotes" do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
+
+      [[ABC]]
       [quote, ISO, "ISO7301,section 1"]
       ____
       Block quotation
@@ -837,7 +849,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
        <sections>
-         <quote id="_">
+         <quote id="ABC">
          <source type="inline" bibitemid="ISO7301" citeas=""><locality type="section"><referenceFrom>1</referenceFrom></locality></source>
          <author>ISO</author>
          <p id="_">Block quotation</p>
@@ -850,6 +862,8 @@ RSpec.describe Asciidoctor::Standoc do
     it "processes source code" do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
+      
+      [[ABC]]
       .Caption
       [source%unnumbered,ruby,filename=sourcecode1.rb]
       --
@@ -861,7 +875,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
        <sections>
-         <sourcecode id="_" lang="ruby" filename="sourcecode1.rb" unnumbered="true"><name>Caption</name>puts "Hello, world."
+         <sourcecode id="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true"><name>Caption</name>puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
        end</sourcecode>
@@ -983,6 +997,7 @@ RSpec.describe Asciidoctor::Standoc do
     it "processes requirement" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
+      [[ABC]]
       [.requirement,subsequence="A",inherit="/ss/584/2015/level/1 &amp; /ss/584/2015/level/2"]
       .Title
       ====
@@ -992,7 +1007,7 @@ RSpec.describe Asciidoctor::Standoc do
              output = <<~"OUTPUT"
             #{BLANK_HDR}
        <sections>
-  <requirement id="_" subsequence="A"><title>Title</title>
+  <requirement id="ABC" subsequence="A"><title>Title</title>
   <inherit>/ss/584/2015/level/1 &amp; /ss/584/2015/level/2</inherit>
   <description><p id="_">I recommend this</p></description>
 </requirement>
@@ -1006,6 +1021,8 @@ RSpec.describe Asciidoctor::Standoc do
         it "processes permission" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
+
+      [[ABC]]
       [.permission]
       ====
       I recommend this
@@ -1014,7 +1031,7 @@ RSpec.describe Asciidoctor::Standoc do
              output = <<~"OUTPUT"
             #{BLANK_HDR}
        <sections>
-  <permission id="_">
+  <permission id="ABC">
   <description><p id="_">I recommend this</p></description>
 </permission>
        </sections>
@@ -1062,6 +1079,8 @@ RSpec.describe Asciidoctor::Standoc do
         it "processes recommendation with internal markup of structure" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
+
+      [[ABC]]
       [.recommendation,label="/ogc/recommendation/wfs/2",subject="user",classification="control-class:Technical;priority:P0;family:System &amp; Communications Protection,System and Communications Protocols",obligation="permission,recommendation",filename="reqt1.rq"]
       ====
       I recommend _this_.
@@ -1111,7 +1130,7 @@ RSpec.describe Asciidoctor::Standoc do
              output = <<~"OUTPUT"
             #{BLANK_HDR}
        <sections>
-       <recommendation id="_"  obligation="permission,recommendation" filename="reqt1.rq"><label>/ogc/recommendation/wfs/2</label><subject>user</subject>
+       <recommendation id="ABC"  obligation="permission,recommendation" filename="reqt1.rq"><label>/ogc/recommendation/wfs/2</label><subject>user</subject>
 <classification><tag>control-class</tag><value>Technical</value></classification><classification><tag>priority</tag><value>P0</value></classification><classification><tag>family</tag><value>System &amp; Communications Protection</value></classification><classification><tag>family</tag><value>System and Communications Protocols</value></classification>
         <description><p id="_">I recommend <em>this</em>.</p>
        </description><specification exclude="false" type="tabular"><p id="_">This is the object of the recommendation:</p><table id="_">  <tbody>    <tr>      <td align="left">Object</td>      <td align="left">Value</td>    </tr>    <tr>      <td align="left">Mission</td>      <td align="left">Accomplished</td>    </tr>  </tbody></table></specification><description>

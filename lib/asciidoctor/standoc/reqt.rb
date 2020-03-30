@@ -37,7 +37,7 @@ module Asciidoctor
 
       def reqt_attributes(node)
         {
-          id: Utils::anchor_or_uuid,
+          id: Utils::anchor_or_uuid(node),
           unnumbered: node.option?("unnumbered") ? "true" : nil,
           subsequence: node.attr("subsequence"),
           obligation: node.attr("obligation"),
