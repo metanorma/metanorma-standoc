@@ -60,7 +60,7 @@ module Asciidoctor
         @lang = xmldoc&.at("//bibdata/language")&.text
         @script = xmldoc&.at("//bibdata/script")&.text
         conv.i18n_init(@lang, @script)
-        conv.metadata_init(@lang, @script, {})
+        conv.metadata_init(@lang, @script, conv.labels)
         conv.info(xml, nil)
         conv
       end
