@@ -275,7 +275,7 @@ OUTPUT
        </standard-document>
     OUTPUT
   end
-  
+
   it "processes the PlantUML macro" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).gsub(%r{plantuml/plantuml[^./]+\.}, "plantuml/_."))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
@@ -450,6 +450,52 @@ Alice &lt;-- Bob: another authentication Response
     OUTPUT
   end
 
+  context 'yaml2text preprocess macro' do
+    let(:example_yaml_content) do
+      <<~TEXT
+      ---
+      - name: spaghetti
+        desc: wheat noodles of 9mm diameter
+        symbol: SPAG
+        symbol: the situation is message like spaghetti at a kid's meal
+      TEXT
+    end
+    let(:example_file) { 'example.yml' }
+    let(:input) do
+      <<~TEXT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+        :novalid:
+        :no-isobib:
+        :imagesdir: spec/assets
+
+        [yaml2text,#{example_file},my_context]
+        ----
+        === {my_context.name}
+        {my_context.desc}
+
+        {my_context.symbol}:: {my_context.symbol_def}
+        ----
+      TEXT
+    end
+
+    before do
+      File.new(example_file, 'w').tap { |n| n.puts(example_yaml_content) }.close
+    end
+
+    after do
+      FileUtils.rm_rf(example_file)
+    end
+
+    it 'reads the file' do
+      expect do
+        xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))
+      end.to_not raise_error
+    end
+  end
+
 
   private
 
@@ -459,13 +505,13 @@ Alice &lt;-- Bob: another authentication Response
       false
     end
   end
-  
+
   def mock_localdir_unwritable
     expect(Asciidoctor::Standoc::Utils).to receive(:localdir) do
       "/"
     end.exactly(2).times
   end
-  
+
   def mock_localdir_unwritable
     expect(File).to receive(:writable?) do
       false

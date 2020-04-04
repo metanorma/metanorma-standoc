@@ -169,5 +169,83 @@ module Asciidoctor
         end
       end
     end
+
+    class Yaml2TextPreprocessor < Asciidoctor::Extensions::Preprocessor
+      BLOCK_IDENTIFIER = '----'.freeze
+      # serch document for block `yaml2text`
+      #   after that take template from block and read file into this template
+      #   example:
+      #     [yaml2text,foobar.yaml]
+      #     ----
+      #     === {item.name}
+      #     {item.desc}
+      #
+      #     {item.symbol}:: {item.symbol_def}
+      #     ----
+      #
+      #   with content of `foobar.yaml` file equal to:
+      #     - name: spaghetti
+      #       desc: wheat noodles of 9mm diameter
+      #       symbol: SPAG
+      #       symbol: the situation is message like spaghetti at a kid's meal
+      #
+      #   will produce:
+      #     === spaghetti
+      #     wheat noodles of 9mm diameter
+      #
+      #     SPAG:: the situation is message like spaghetti at a kid's meal
+      def process(document, reader)
+        input_lines = reader.readlines
+        processed_lines = []
+        current_yaml_block = []
+        in_yaml_2_text_block = false
+        open_block_mark = false
+        doc_attrs = document.attributes
+        current_yaml_file = nil
+        current_yaml_context = nil
+
+        input_lines.each do |line|
+          yaml_block_match = line.match(/^\[yaml2text,(.+?),(.+?)\]/)
+          if yaml_block_match
+            in_yaml_2_text_block = true
+            current_yaml_context = yaml_block_match[2]
+            current_yaml_file = YAML.load(File.read(yaml_block_match[1]))
+            next
+          end
+
+          if in_yaml_2_text_block && line.strip == BLOCK_IDENTIFIER
+            if open_block_mark && current_yaml_block.length > 0
+              result = current_yaml_file.map.with_index do |item,i|
+                         item.each_pair do |attr_name, attr_value|
+                           doc_attrs["#{current_yaml_context}.#{attr_name}.#{i}"] = attr_value
+                         end
+                         current_yaml_block.map do |template_line|
+                           item.keys.each do |attr_name|
+                             template_line.gsub!(/{#{current_yaml_context}.#{attr_name}}/, "#{current_yaml_context}.#{attr_name}.#{i}")
+                           end
+                           template_line
+                         end
+                       end.flatten
+              processed_lines.push(*result)
+              current_yaml_block = []
+              in_yaml_2_text_block = false
+              open_block_mark = false
+              next
+            end
+
+            open_block_mark = true
+            next
+          end
+
+          if in_yaml_2_text_block && line.strip != BLOCK_IDENTIFIER
+            current_yaml_block << line
+            next
+          end
+
+          processed_lines.push(line)
+        end
+        Reader.new(processed_lines)
+      end
+    end
   end
 end
