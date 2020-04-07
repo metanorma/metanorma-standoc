@@ -27,9 +27,8 @@ jobs:
           node-version: '10.x'
       - name: Install LaTeXML
         run: |
-          # https://github.com/Homebrew/homebrew-core/issues/44950
-          brew install cpanminus
-          cpanm --notest XML::LibXSLT@1.96 LaTeXML@0.8.4
+          brew install libxml2 cpanminus
+          env PATH=$(brew --prefix libxml2)/bin:$PATH cpanm --notest XML::LibXSLT@1.96 git://github.com/brucemiller/LaTeXML.git@9a0e7dc5
       - name: Install PlantUML
         run: |
           brew install plantuml
