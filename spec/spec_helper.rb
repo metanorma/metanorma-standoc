@@ -18,6 +18,7 @@ require "equivalent-xml"
 require "metanorma"
 require "metanorma/standoc"
 require "rexml/document"
+require 'byebug'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

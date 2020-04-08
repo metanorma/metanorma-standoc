@@ -457,7 +457,7 @@ Alice &lt;-- Bob: another authentication Response
       - name: spaghetti
         desc: wheat noodles of 9mm diameter
         symbol: SPAG
-        symbol: the situation is message like spaghetti at a kid's meal
+        symbol_def: the situation is message like spaghetti at a kid's meal
       TEXT
     end
     let(:example_file) { 'example.yml' }
@@ -480,6 +480,21 @@ Alice &lt;-- Bob: another authentication Response
         ----
       TEXT
     end
+    let(:output) do
+      <<~TEXT
+        #{BLANK_HDR}
+        <sections>
+        <clause id="_" inline-header="false" obligation="normative"><title>spaghetti</title><p id="_">wheat noodles of 9mm diameter</p>
+        <dl id="_">
+        <dt>SPAG</dt>
+        <dd>
+        <p id="_">the situation is message like spaghetti at a kid’s meal</p>
+        </dd>
+        </dl></clause>
+        </sections>
+        </standard-document>
+      TEXT
+    end
 
     before do
       File.new(example_file, 'w').tap { |n| n.puts(example_yaml_content) }.close
@@ -490,9 +505,7 @@ Alice &lt;-- Bob: another authentication Response
     end
 
     it 'reads the file' do
-      expect do
-        xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))
-      end.to_not raise_error
+      expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to(be_equivalent_to xmlpp(output))
     end
   end
 

@@ -171,7 +171,6 @@ module Asciidoctor
     end
 
     class Yaml2TextPreprocessor < Asciidoctor::Extensions::Preprocessor
-      BLOCK_IDENTIFIER = '----'.freeze
       # serch document for block `yaml2text`
       #   after that take template from block and read file into this template
       #   example:
@@ -195,56 +194,44 @@ module Asciidoctor
       #
       #     SPAG:: the situation is message like spaghetti at a kid's meal
       def process(document, reader)
-        input_lines = reader.readlines
-        processed_lines = []
-        current_yaml_block = []
-        in_yaml_2_text_block = false
-        open_block_mark = false
+        input_lines = reader.readlines.to_enum
         doc_attrs = document.attributes
-        current_yaml_file = nil
-        current_yaml_context = nil
+        Reader.new(processed_lines(doc_attrs, input_lines))
+      end
 
-        input_lines.each do |line|
-          yaml_block_match = line.match(/^\[yaml2text,(.+?),(.+?)\]/)
-          if yaml_block_match
-            in_yaml_2_text_block = true
-            current_yaml_context = yaml_block_match[2]
-            current_yaml_file = YAML.load(File.read(yaml_block_match[1]))
-            next
-          end
+      private
 
-          if in_yaml_2_text_block && line.strip == BLOCK_IDENTIFIER
-            if open_block_mark && current_yaml_block.length > 0
-              result = current_yaml_file.map.with_index do |item,i|
-                         item.each_pair do |attr_name, attr_value|
-                           doc_attrs["#{current_yaml_context}.#{attr_name}.#{i}"] = attr_value
-                         end
-                         current_yaml_block.map do |template_line|
-                           item.keys.each do |attr_name|
-                             template_line.gsub!(/{#{current_yaml_context}.#{attr_name}}/, "#{current_yaml_context}.#{attr_name}.#{i}")
-                           end
-                           template_line
-                         end
-                       end.flatten
-              processed_lines.push(*result)
-              current_yaml_block = []
-              in_yaml_2_text_block = false
-              open_block_mark = false
-              next
+      def processed_lines(doc_attrs, input_lines)
+        result = []
+        loop do
+          line = input_lines.next
+          if yaml_block_match = line.match(/^\[yaml2text,(.+?),(.+?)\]/)
+            mark = input_lines.next
+            current_yaml_block = []
+            while (yaml_block_line = input_lines.next) != mark do
+              current_yaml_block.push(yaml_block_line)
             end
-
-            open_block_mark = true
-            next
+            result.push(*generate_block_from_yaml(current_yaml_block, doc_attrs, yaml_block_match[1], yaml_block_match[2]))
+          else
+            result.push(line)
           end
-
-          if in_yaml_2_text_block && line.strip != BLOCK_IDENTIFIER
-            current_yaml_block << line
-            next
-          end
-
-          processed_lines.push(line)
         end
-        Reader.new(processed_lines)
+        result
+      end
+
+      def generate_block_from_yaml(current_yaml_block, doc_attrs, yaml_file, context)
+        yaml_mappings = YAML.load(File.read(yaml_file))
+        yaml_mappings.map.with_index do |item,i|
+          item.each_pair do |attr_name, attr_value|
+            doc_attrs["#{context}_#{attr_name}_#{i}"] = attr_value
+          end
+          current_yaml_block.map do |template_line|
+            item.keys.each do |attr_name|
+              template_line.gsub!(/{#{context}.#{attr_name}}/, "{#{context}_#{attr_name}_#{i}}")
+            end
+            template_line
+          end
+        end.flatten
       end
     end
   end
