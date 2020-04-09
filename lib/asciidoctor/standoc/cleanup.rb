@@ -47,7 +47,6 @@ module Asciidoctor
         xref_cleanup(xmldoc)
         origin_cleanup(xmldoc)
         concept_cleanup(xmldoc)
-        require "byebug"; byebug
         RelatonIev::iev_cleanup(xmldoc, @bibdb)
         element_name_cleanup(xmldoc)
         bpart_cleanup(xmldoc)
