@@ -35,7 +35,6 @@ module Asciidoctor
         name = name || node.node_name
         w = "converter missing for #{name} node in Metanorma backend"
         @log.add("Asciidoctor Input", node, w)
-        #Utils::warning(node, w, nil)
         nil
       end
 

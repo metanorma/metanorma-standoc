@@ -93,56 +93,68 @@ INPUT
       </concept>
       <concept>
         <eref>
+        <localityStack>
           <locality type='clause'>
             <referenceFrom>3.1</referenceFrom>
           </locality>
+        </localityStack>
         </eref>
       </concept>
       <concept>
         <eref>
+        <localityStack>
           <locality type='clause'>
             <referenceFrom>3.1</referenceFrom>
           </locality>
+        </localityStack>
           word
         </eref>
       </concept>
       <concept term='term'>
         <eref>
+        <localityStack>
           <locality type='clause'>
             <referenceFrom>3.1</referenceFrom>
           </locality>
+        </localityStack>
           word
         </eref>
       </concept>
       <concept>
         <eref>
+        <localityStack>
           <locality type='clause'>
             <referenceFrom>3.1</referenceFrom>
           </locality>
           <locality type='figure'>
             <referenceFrom>a</referenceFrom>
           </locality>
+        </localityStack>
         </eref>
       </concept>
       <concept>
         <eref>
+        <localityStack>
           <locality type='clause'>
             <referenceFrom>3.1</referenceFrom>
           </locality>
           <locality type='figure'>
             <referenceFrom>a</referenceFrom>
           </locality>
+        </localityStack>
           word
         </eref>
       </concept>
       <concept term='term'>
         <eref>
+        <localityStack>
           <locality type='clause'>
             <referenceFrom>3.1</referenceFrom>
           </locality>
           <locality type='figure'>
             <referenceFrom>a</referenceFrom>
           </locality>
+        </localityStack>
           word
         </eref>
       </concept>

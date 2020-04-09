@@ -355,7 +355,8 @@ RSpec.describe Asciidoctor::Standoc do
   it "extracts localities from erefs" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
-      <<iso216,whole,clause=3,example=9-11,locality:prelude=33,locality:entirety:the reference>>
+      <<iso216,whole,clause=3,example=9-11,locality:prelude="33 a",locality:entirety:the reference,xyz>>
+      <<iso216,whole,clause=3,example=9-11,locality:prelude=33,locality:entirety="the reference";whole,clause=3,example=9-11,locality:prelude=33,locality:entirety:the reference,xyz>>
 
       [bibliography]
       == Normative References
@@ -365,7 +366,45 @@ RSpec.describe Asciidoctor::Standoc do
       <preface><foreword id="_" obligation="informative">
         <title>Foreword</title>
         <p id="_">
-        <eref type="inline" bibitemid="iso216" citeas="ISO 216"><locality type="whole"/><locality type="clause"><referenceFrom>3</referenceFrom></locality><locality type="example"><referenceFrom>9</referenceFrom><referenceTo>11</referenceTo></locality><locality type="locality:prelude"><referenceFrom>33</referenceFrom></locality><locality type="locality:entirety"/>the reference</eref>
+        <eref type="inline" bibitemid="iso216" citeas="ISO 216">
+        <localityStack>
+        <locality type="whole"/><locality type="clause"><referenceFrom>3</referenceFrom></locality><locality type="example"><referenceFrom>9</referenceFrom><referenceTo>11</referenceTo></locality><locality type="locality:prelude"><referenceFrom>33 a</referenceFrom></locality><locality type="locality:entirety"/>
+        </localityStack>
+        the reference,xyz</eref>
+ <eref type='inline' bibitemid='iso216' citeas='ISO 216'>
+   <localityStack>
+     <locality type='whole'/>
+     <locality type='clause'>
+       <referenceFrom>3</referenceFrom>
+     </locality>
+     <locality type='example'>
+       <referenceFrom>9</referenceFrom>
+       <referenceTo>11</referenceTo>
+     </locality>
+     <locality type='locality:prelude'>
+       <referenceFrom>33</referenceFrom>
+     </locality>
+     <locality type='locality:entirety'>
+     <referenceFrom>the reference</referenceFrom>
+     </locality>
+   </localityStack>
+   <localityStack>
+     <locality type='whole'/>
+     <locality type='clause'>
+       <referenceFrom>3</referenceFrom>
+     </locality>
+     <locality type='example'>
+       <referenceFrom>9</referenceFrom>
+       <referenceTo>11</referenceTo>
+     </locality>
+     <locality type='locality:prelude'>
+       <referenceFrom>33</referenceFrom>
+     </locality>
+     <locality type='locality:entirety'/>
+   </localityStack>
+   the reference,xyz
+ </eref>
+
         </p>
       </foreword></preface><sections>
       </sections><bibliography><references id="_" obligation="informative">
@@ -440,7 +479,11 @@ RSpec.describe Asciidoctor::Standoc do
          <term id="_">
          <preferred>Term1</preferred>
          <termsource status="identical">
-         <origin bibitemid="ISO2191" type="inline" citeas=""><locality type="section"><referenceFrom>1</referenceFrom></locality></origin>
+         <origin bibitemid="ISO2191" type="inline" citeas="">
+         <localityStack>
+        <locality type="section"><referenceFrom>1</referenceFrom></locality>
+        </localityStack>
+        </origin>
        </termsource>
        </term>
        </terms>
@@ -975,7 +1018,11 @@ end
        </termexample><termexample id="_">
          <p id="_">Example 2</p>
        </termexample><termsource status="identical">
-         <origin bibitemid="ISO2191" type="inline" citeas=""><locality type="section"><referenceFrom>1</referenceFrom></locality></origin>
+         <origin bibitemid="ISO2191" type="inline" citeas="">
+         <localityStack>
+        <locality type="section"><referenceFrom>1</referenceFrom></locality>
+         </localityStack>
+        </origin>
        </termsource></term>
        </terms>
        </sections>
@@ -1088,19 +1135,31 @@ end
          <term id="_">
           <preferred>Automation1</preferred>
           <termsource status="identical">
-          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
+          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">
+          <localityStack>
+        <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
+          </localityStack>
+        </origin>
         </termsource>
         </term>
         <term id="_">
           <preferred>Automation2</preferred>
           <termsource status="identical">
-          <origin bibitemid="IEC60050-102" type="inline" citeas="IEC 60050-102:2007"><locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality></origin>
+          <origin bibitemid="IEC60050-102" type="inline" citeas="IEC 60050-102:2007">
+          <localityStack>
+        <locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality>
+          </localityStack>
+        </origin>
         </termsource>
         </term>
         <term id="_">
           <preferred>Automation3</preferred>
           <termsource status="identical">
-          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
+          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">
+          <localityStack>
+        <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
+          </localityStack>
+        </origin>
         </termsource>
         </term></terms></sections><bibliography><references id="_" obligation="informative">
           <title>Normative References</title>
