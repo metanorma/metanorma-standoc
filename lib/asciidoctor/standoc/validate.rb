@@ -8,7 +8,7 @@ module Asciidoctor
   module Standoc
     module Validate
 
-      SOURCELOCALITY = "./termsource/origin/locality[@type = 'clause']/referenceFrom".freeze
+      SOURCELOCALITY = "./termsource/origin//locality[@type = 'clause']/referenceFrom".freeze
 
       def init_iev
         return nil if @no_isobib
