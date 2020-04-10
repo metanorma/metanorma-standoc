@@ -114,7 +114,7 @@ module Asciidoctor
           metadata_getrelation(node, xml, t)
         end
         relaton_relation_descriptions.each do |k, v|
-          metadata_getrelation(node, xml, k, v)
+          metadata_getrelation(node, xml, v, k)
         end
       end
 
