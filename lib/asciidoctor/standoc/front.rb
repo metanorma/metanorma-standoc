@@ -124,11 +124,11 @@ module Asciidoctor
       end
 
       def metadata_getrelation(node, xml, type, desc = nil)
-        docs = node.attr(type) || return
+        docs = node.attr(desc || type) || return
         HTMLEntities.new.decode(docs).split(/;\s*/).each do |d|
           id = d.split(/,\s*/)
           xml.relation **{ type: relation_normalise(type) } do |r|
-            desc.nil? or r.description desc
+            desc.nil? or r.description relation_normalise(desc)
             fetch_ref(r, d, nil, {}) or r.bibitem do |b|
               b.title id[1] ? id[1] : "--"
               b.docidentifier id[0]
