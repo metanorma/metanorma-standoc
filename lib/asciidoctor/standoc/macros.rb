@@ -199,6 +199,46 @@ module Asciidoctor
         Reader.new(processed_lines(doc_attrs, input_lines))
       end
 
+      require 'ostruct'
+
+      class YamlContext
+        attr_reader :context_object, :context_name, :parent_context, :__iter_id__
+
+        def initialize(context_object:, context_name:, parent_context: nil, __iter_id__: nil)
+          @context_object = context_object.is_a?(Hash) ? OpenStruct.new(context_object) : context_object
+          @context_name = context_name
+          @parent_context = parent_context
+          @__iter_id__ = __iter_id__
+        end
+
+        def to_s
+          context_object
+        end
+
+        def method_missing(name, *args)
+          context_object.send(name, *args)
+        end
+      end
+
+      class YamlContextRenderer
+        attr_reader :context_object, :context_name
+
+        def initialize(context_object:)
+          @context_object = context_object
+        end
+
+        def method_missing(name, *args)
+          return context_object if name.to_s == context_object.context_name
+          return context_object.parent_context if context_object.parent_context && name.to_s == context_object.parent_context.context_name
+
+          name
+        end
+
+        def render(template)
+          ERB.new(template).result(binding)
+        end
+      end
+
       private
 
       def processed_lines(doc_attrs, input_lines)
@@ -219,19 +259,54 @@ module Asciidoctor
         result
       end
 
-      def generate_block_from_yaml(current_yaml_block, doc_attrs, yaml_file, context)
-        yaml_mappings = YAML.load(File.read(yaml_file))
-        yaml_mappings.map.with_index do |item,i|
-          item.each_pair do |attr_name, attr_value|
-            doc_attrs["#{context}_#{attr_name}_#{i}"] = attr_value
-          end
-          current_yaml_block.map do |template_line|
-            item.keys.each do |attr_name|
-              template_line.gsub!(/{#{context}.#{attr_name}}/, "{#{context}_#{attr_name}_#{i}}")
+      def generate_block_from_yaml(context_lines, doc_attrs, yaml_file, context)
+        context_items = YAML.load(File.read(yaml_file))
+        context_line_enum = context_lines.to_enum
+        result = []
+        loop do
+          line = context_line_enum.next
+          context_block_match = line.match(/^\{#{context}.?(?<nested_context>.*)\.\*,(?<nexted_context_name>.+),(?<block_mark>.+)\}/)
+          if context_block_match
+            mark = context_block_match[:block_mark]
+            current_context_block = []
+            variable_identifier = context_block_match[:nested_context].split('.')
+            if variable_identifier.length.zero?
+              current_context_items = context_items.is_a?(Hash) ? context_items.keys : context_items
+            else
+              current_context_items = context_items.dig(*variable_identifier)
             end
-            template_line
+            while (context_block_line = context_line_enum.next) != "{#{mark}}" do
+              current_context_block.push(context_block_line)
+            end
+            parent_context = YamlContext.new(context_object: context_items, context_name: context)
+            result.push(*parse_context_block(current_context_block, current_context_items, doc_attrs, context_block_match[:nexted_context_name], parent_context))
+          else
+            result.push(line)
+          end
+        end
+        result
+      end
+
+      def parse_context_block(context_lines, context_items, doc_attrs, context_name, parent_context=nil)
+        wrap_array(context_items).map.with_index do |attributes, index|
+          context = YamlContextRenderer.new(context_object: YamlContext.new(context_object: attributes,
+                                                                            context_name: context_name,
+                                                                            __iter_id__: index,
+                                                                            parent_context: parent_context))
+          context_lines.map do |line|
+            context.render(line.gsub(/(?<=\.)\#(?=\]|})/, '__iter_id__').gsub(/{(.+?[^}]*)}/, '<%= \1 %>'))
           end
         end.flatten
+      end
+
+      def wrap_array(object)
+        if object.nil?
+          []
+        elsif object.respond_to?(:to_ary)
+          object.to_ary || [object]
+        else
+          [object]
+        end
       end
     end
   end

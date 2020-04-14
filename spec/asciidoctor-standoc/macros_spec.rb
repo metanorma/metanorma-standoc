@@ -450,66 +450,6 @@ Alice &lt;-- Bob: another authentication Response
     OUTPUT
   end
 
-  context 'yaml2text preprocess macro' do
-    let(:example_yaml_content) do
-      <<~TEXT
-      ---
-      - name: spaghetti
-        desc: wheat noodles of 9mm diameter
-        symbol: SPAG
-        symbol_def: the situation is message like spaghetti at a kid's meal
-      TEXT
-    end
-    let(:example_file) { 'example.yml' }
-    let(:input) do
-      <<~TEXT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
-        :novalid:
-        :no-isobib:
-        :imagesdir: spec/assets
-
-        [yaml2text,#{example_file},my_context]
-        ----
-        === {my_context.name}
-        {my_context.desc}
-
-        {my_context.symbol}:: {my_context.symbol_def}
-        ----
-      TEXT
-    end
-    let(:output) do
-      <<~TEXT
-        #{BLANK_HDR}
-        <sections>
-        <clause id="_" inline-header="false" obligation="normative"><title>spaghetti</title><p id="_">wheat noodles of 9mm diameter</p>
-        <dl id="_">
-        <dt>SPAG</dt>
-        <dd>
-        <p id="_">the situation is message like spaghetti at a kid’s meal</p>
-        </dd>
-        </dl></clause>
-        </sections>
-        </standard-document>
-      TEXT
-    end
-
-    before do
-      File.new(example_file, 'w').tap { |n| n.puts(example_yaml_content) }.close
-    end
-
-    after do
-      FileUtils.rm_rf(example_file)
-    end
-
-    it 'reads the file' do
-      expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to(be_equivalent_to xmlpp(output))
-    end
-  end
-
-
   private
 
   def mock_plantuml_disabled
