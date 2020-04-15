@@ -7,7 +7,9 @@ module Asciidoctor
           unnumbered: node.option?("unnumbered") ? "true" : nil,
           subsequence: node.attr("subsequence"),
           alt: node.attr("alt"),
-          summary: node.attr("summary") }
+          summary: node.attr("summary"),
+          width: node.attr("width"),
+        }
       end
 
       def table(node)

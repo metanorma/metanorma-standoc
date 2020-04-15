@@ -105,9 +105,16 @@ module Asciidoctor
         %w(part-of translated-from)
       end
 
+      def relaton_relation_descriptions
+        {}
+      end
+
       def metadata_relations(node, xml)
         relaton_relations.each do |t|
           metadata_getrelation(node, xml, t)
+        end
+        relaton_relation_descriptions.each do |k, v|
+          metadata_getrelation(node, xml, v, k)
         end
       end
 
@@ -116,11 +123,12 @@ module Asciidoctor
           sub(/-in$/, "In")
       end
 
-      def metadata_getrelation(node, xml, type)
-        docs = node.attr(type) || return
-        docs.split(/;\s*/).each do |d|
+      def metadata_getrelation(node, xml, type, desc = nil)
+        docs = node.attr(desc || type) || return
+        HTMLEntities.new.decode(docs).split(/;\s*/).each do |d|
           id = d.split(/,\s*/)
           xml.relation **{ type: relation_normalise(type) } do |r|
+            desc.nil? or r.description relation_normalise(desc)
             fetch_ref(r, d, nil, {}) or r.bibitem do |b|
               b.title id[1] ? id[1] : "--"
               b.docidentifier id[0]

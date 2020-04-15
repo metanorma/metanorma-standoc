@@ -4,24 +4,34 @@ require "htmlentities"
 require "json"
 require "pathname"
 require "open-uri"
+require "mathml2asciimath"
 
 module Asciidoctor
   module Standoc
     module Cleanup
-       def make_preface(x, s)
-        if x.at("//foreword | //introduction")
+      def make_preface(x, s)
+        if x.at("//foreword | //introduction | //acknowledgements | "\
+            "//clause[@preface]")
           preface = s.add_previous_sibling("<preface/>").first
-          foreword = x.at("//foreword")
-          preface.add_child foreword.remove if foreword
-          introduction = x.at("//introduction")
-          preface.add_child introduction.remove if introduction
+          f = x.at("//foreword") and preface.add_child f.remove
+          f = x.at("//introduction") and preface.add_child f.remove
+          move_clauses_into_preface(x, preface)
+          f = x.at("//acknowledgements") and preface.add_child f.remove
         end
         make_abstract(x, s)
       end
 
+      def move_clauses_into_preface(x, preface)
+        x.xpath("//clause[@preface]").each do |c|
+          c.delete("preface")
+          preface.add_child c.remove
+        end
+      end
+
       def make_abstract(x, s)
         if x.at("//abstract[not(ancestor::bibitem)]")
-          preface = s.at("//preface") || s.add_previous_sibling("<preface/>").first
+          preface = s.at("//preface") ||
+            s.add_previous_sibling("<preface/>").first
           abstract = x.at("//abstract[not(ancestor::bibitem)]").remove
           preface.prepend_child abstract.remove
           bibabstract = bibabstract_location(x)
@@ -38,9 +48,10 @@ module Asciidoctor
           x.at("//bibdata/contributor[not(following-sibling::contributor)]") ||
           x.at("//bibdata/date[not(following-sibling::date)]") ||
           x.at("//docnumber") ||
-          x.at("//bibdata/docidentifier[not(following-sibling::docidentifier)]") ||
-          x.at("//bibdata/uri[not(following-sibling::uri)]") ||
-          x.at("//bibdata/title[not(following-sibling::title)]")
+          x.at("//bibdata/docidentifier"\
+               "[not(following-sibling::docidentifier)]") ||
+        x.at("//bibdata/uri[not(following-sibling::uri)]") ||
+        x.at("//bibdata/title[not(following-sibling::title)]")
       end
 
       def make_bibliography(x, s)
@@ -92,7 +103,9 @@ module Asciidoctor
       def obligations_cleanup_info(x)
         (s = x.at("//foreword")) && s["obligation"] = "informative"
         (s = x.at("//introduction")) && s["obligation"] = "informative"
+        (s = x.at("//acknowledgements")) && s["obligation"] = "informative"
         x.xpath("//references").each { |r| r["obligation"] = "informative" }
+        x.xpath("//preface//clause").each { |r| r["obligation"] = "informative" }
       end
 
       def obligations_cleanup_norm(x)
@@ -108,7 +121,7 @@ module Asciidoctor
           r["obligation"] = "normative" unless r["obligation"]
         end
         x.xpath(Utils::SUBCLAUSE_XPATH).each do |r|
-          r["obligation"] = r.at("./ancestor::*/@obligation").text
+          o = r&.at("./ancestor::*/@obligation")&.text and r["obligation"] = o
         end
       end
 
@@ -189,6 +202,41 @@ module Asciidoctor
         termdef_subclause_cleanup(xmldoc)
         term_children_cleanup(xmldoc)
         termdocsource_cleanup(xmldoc)
+      end
+
+      # Indices sort after letter but before any following
+      # letter (x, x_m, x_1, xa); we use colon to force that sort order.
+      # Numbers sort *after* letters; we use thorn to force that sort order.
+      def symbol_key(x)
+        key = x.dup
+        key.xpath("//*[local-name() = 'math']").each do |m|
+          m.replace(MathML2AsciiMath.m2a(m.to_xml))
+        end
+        ret = Nokogiri::XML(MathML2AsciiMath.m2a(key.to_xml))
+        HTMLEntities.new.decode(ret.text).strip.
+          gsub(/[[:punct]]|[_^]/, ":\\0").gsub(/`/, "").
+          gsub(/[0-9]+/, "þ\\0")
+      end
+
+      def extract_symbols_list(dl)
+        dl_out = []
+        dl.xpath("./dt | ./dd").each do |dtd|
+          if dtd.name == "dt"
+            dl_out << { dt: dtd.remove, key: symbol_key(dtd) }
+          else
+            dl_out.last[:dd] = dtd.remove
+          end
+        end
+        dl_out
+      end
+
+      def symbols_cleanup(docxml)
+        docxml.xpath("//definitions/dl").each do |dl|
+          dl_out = extract_symbols_list(dl)
+          dl_out.sort! { |a, b| a[:key] <=> b[:key] }
+          dl.children = dl_out.map { |d| d[:dt].to_s + d[:dd].to_s }.join("\n")
+        end
+        docxml
       end
     end
   end

@@ -17,7 +17,7 @@
   these elements; we just want one namespace for any child grammars
   of this.
 -->
-<grammar ns="https://www.metanorma.com/ns/standoc" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+<grammar ns="https://www.metanorma.org/ns/standoc" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
   <include href="reqt.rng"/>
   <!-- include "biblio.rnc" { } -->
   <include href="basicdoc.rng">
@@ -101,9 +101,7 @@
         <ref name="structuredidentifier"/>
       </zeroOrMore>
     </define>
-    <define name="TitleType">
-      <text/>
-    </define>
+    <!-- TitleType = text -->
     <define name="sections">
       <element name="sections">
         <oneOrMore>
@@ -644,6 +642,11 @@
     </optional>
     <optional>
       <attribute name="script"/>
+    </optional>
+    <optional>
+      <attribute name="inline-header">
+        <data type="boolean"/>
+      </attribute>
     </optional>
     <optional>
       <attribute name="obligation">

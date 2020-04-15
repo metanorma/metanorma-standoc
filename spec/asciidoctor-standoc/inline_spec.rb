@@ -10,7 +10,7 @@ RSpec.describe Asciidoctor::Standoc do
       text, including **__nest__**ed markup.
       INPUT
       <?xml version="1.0" encoding="UTF-8"?>
-<standard-document xmlns="https://www.metanorma.com/ns/standoc">
+<standard-document xmlns="https://www.metanorma.org/ns/standoc">
 <bibdata type="standard">
 <title language="en" format="text/plain">Document title</title>
 <language>en</language>
@@ -256,7 +256,7 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
       Repetition.footnote:abc[]     
     INPUT
             #{BLANK_HDR}
-              <preface><foreword obligation="informative">
+              <preface><foreword id="_" obligation="informative">
          <title>Foreword</title>
          <p id="_">Hello!<fn reference="1">
          <p id="_">Footnote text</p>

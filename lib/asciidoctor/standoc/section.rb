@@ -61,6 +61,7 @@ module Asciidoctor
         noko do |xml|
           case sectiontype(node)
           when "introduction" then introduction_parse(a, xml, node)
+          when "foreword" then foreword_parse(a, xml, node)
           when "normative references" then norm_ref_parse(a, xml, node)
           when "terms and definitions"
             @term_def = true
@@ -68,6 +69,8 @@ module Asciidoctor
             @term_def = false
           when "symbols and abbreviated terms"
             symbols_parse(a, xml, node)
+          when "acknowledgements"
+            acknowledgements_parse(a, xml, node)
           when "bibliography" then bibliography_parse(a, xml, node)
           else
             if @term_def then term_def_subclause_parse(a, xml, node)
@@ -98,7 +101,7 @@ module Asciidoctor
 
       def preamble(node)
         noko do |xml|
-          xml.foreword do |xml_abstract|
+          xml.foreword **attr_code(section_attributes(node)) do |xml_abstract|
             xml_abstract.title { |t| t << (node.blocks[0].title || "Foreword") }
             content = node.content
             xml_abstract << content
@@ -115,6 +118,7 @@ module Asciidoctor
       def clause_parse(attrs, xml, node)
         attrs["inline-header".to_sym] = node.option? "inline-header"
         attrs[:bibitem] = true if node.option? "bibitem"
+        attrs[:preface] = true if node.role == "preface" || node.attr("style") == "preface"
         attrs[:level] = node.attr("level")
         set_obligation(attrs, node)
         xml.send "clause", **attr_code(attrs) do |xml_section|
@@ -134,7 +138,8 @@ module Asciidoctor
 
       def bibliography_parse(attrs, xml, node)
         node.attr("style") == "bibliography" or
-          warn "Section not marked up as [bibliography]!"
+          #warn "Section not marked up as [bibliography]!"
+          @log.add("Asciidoctor Input", node, "Section not marked up as [bibliography]!")
         @biblio = true
         xml.references **attr_code(attrs) do |xml_section|
           title = node.level == 1 ? "Bibliography" : node.title
@@ -224,6 +229,22 @@ module Asciidoctor
       def introduction_parse(attrs, xml, node)
         xml.introduction **attr_code(attrs) do |xml_section|
           xml_section.title { |t| t << "Introduction" }
+          content = node.content
+          xml_section << content
+        end
+      end
+
+      def foreword_parse(attrs, xml, node)
+        xml.foreword **attr_code(attrs) do |xml_section|
+          xml_section.title { |t| t << node.title }
+          content = node.content
+          xml_section << content
+        end
+      end
+
+      def acknowledgements_parse(attrs, xml, node)
+        xml.acknowledgements **attr_code(attrs) do |xml_section|
+          xml_section.title { |t| t << node.title || "Acknowledgements" }
           content = node.content
           xml_section << content
         end

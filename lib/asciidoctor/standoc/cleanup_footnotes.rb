@@ -14,13 +14,15 @@ module Asciidoctor
         c.gsub(/ id="[^"]+"/, "")
       end
 
-      # include footnotes inside figure
+      # include footnotes inside figure if they are the only content 
+      # of the paras following
       def figure_footnote_cleanup(xmldoc)
         nomatches = false
         until nomatches
           q = "//figure/following-sibling::*[1][self::p and *[1][self::fn]]"
           nomatches = true
           xmldoc.xpath(q).each do |s|
+            next if s.children.map { |c| c.text? && /[[:alpha:]]/.match(c.text) }.any?
             s.previous_element << s.first_element_child.remove
             s.remove
             nomatches = false
@@ -45,7 +47,7 @@ module Asciidoctor
         xmldoc.xpath("//table | //figure").each do |t|
           seen = {}
           i = 0
-          t.xpath(".//fn").each do |fn|
+          t.xpath(".//fn[not(ancestor::name)]").each do |fn|
             i, seen = table_footnote_renumber1(fn, i, seen)
           end
         end

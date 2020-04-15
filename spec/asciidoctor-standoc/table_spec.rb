@@ -51,13 +51,13 @@ RSpec.describe Asciidoctor::Standoc do
          <table id="_">
          <name>Table Name</name>
          <thead><tr>
-             <td align="left">A</td>
-             <td align="left">B</td>
-             <td align="left">C</td>
+             <th align="left">A</th>
+             <th align="left">B</th>
+             <th align="left">C</th>
            </tr><tr>
              <th align="left">1</th>
-             <td align="left">2</td>
-             <td align="left">3</td>
+             <th align="left">2</th>
+             <th align="left">3</th>
            </tr></thead>
          <tbody>
 
@@ -88,13 +88,13 @@ RSpec.describe Asciidoctor::Standoc do
     #{BLANK_HDR}
            <sections>
          <table id="_"><thead><tr>
-             <td align="left">A</td>
-             <td align="left">B</td>
-             <td align="left">C</td>
+             <th align="left">A</th>
+             <th align="left">B</th>
+             <th align="left">C</th>
            </tr><tr>
              <th align="left">1</th>
-             <td align="left">2</td>
-             <td align="left">3</td>
+             <th align="left">2</th>
+             <th align="left">3</th>
            </tr></thead>
          <tbody>
 
@@ -114,7 +114,7 @@ RSpec.describe Asciidoctor::Standoc do
   it "processes complex tables" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
-      [cols="<,^,^,^,^",options="header,footer",headerrows=2,alt="An extensive summary, and illustration, of tables",subsequence="A",options="unnumbered",summary="This is an extremely long, convoluted summary"]
+      [cols="<,^,^,^,^",options="header,footer",headerrows=2,alt="An extensive summary, and illustration, of tables",subsequence="A",options="unnumbered",summary="This is an extremely long, convoluted summary",width=70%]
       .Maximum _permissible_ mass fraction of defects
       |===
       .2+|Defect 4+^| Maximum permissible mass fraction of defects in husked rice +
@@ -144,7 +144,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
             #{BLANK_HDR}
        <sections>
-         <table id="_" alt="An extensive summary, and illustration, of tables" unnumbered="true" subsequence="A" summary="This is an extremely long, convoluted summary">
+         <table id="_" alt="An extensive summary, and illustration, of tables" unnumbered="true" subsequence="A" summary="This is an extremely long, convoluted summary" width="70%">
          <name>Maximum <em>permissible</em> mass fraction of defects</name>
          <thead>
            <tr>
@@ -153,10 +153,10 @@ RSpec.describe Asciidoctor::Standoc do
              <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>w</mi><mi>max</mi></msub></math></stem></th>
            </tr>
          <tr>
-             <td align="left">in husked rice</td>
-             <td align="center">in milled rice (non-glutinous)</td>
-             <td align="center">in husked parboiled rice</td>
-             <td align="center">in milled parboiled rice</td>
+             <th align="left">in husked rice</th>
+             <th align="center">in milled rice (non-glutinous)</th>
+             <th align="center">in husked parboiled rice</th>
+             <th align="center">in milled parboiled rice</th>
            </tr></thead>
          <tbody>
 

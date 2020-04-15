@@ -12,8 +12,26 @@ module Asciidoctor
         end
       end
 
+      def ul_li(xml_ul, item)
+        xml_ul.li **ul_li_attr(item) do |xml_li|
+          if item.blocks?
+            xml_li.p(**id_attr(item)) { |t| t << item.text }
+            xml_li << item.content
+          else
+            xml_li.p(**id_attr(item)) { |p| p << item.text }
+          end
+        end
+      end
+
       def ul_attr(node)
         attr_code(id_attr(node))
+      end
+
+      def ul_li_attr(node)
+        attr_code(
+          uncheckedcheckbox: node.attr?("checkbox") ? !node.attr?("checked") : nil,
+          checkedcheckbox: node.attr?("checkbox") ? node.attr?("checked") : nil,
+        )
       end
 
       def ulist(node)
@@ -21,7 +39,7 @@ module Asciidoctor
         noko do |xml|
           xml.ul **ul_attr(node) do |xml_ul|
             node.items.each do |item|
-              li(xml_ul, item)
+              ul_li(xml_ul, item)
             end
           end
         end.join("\n")
@@ -37,7 +55,7 @@ module Asciidoctor
 
       def ol_attr(node)
         attr_code(id: Utils::anchor_or_uuid(node),
-                             type: olist_style(node.style))
+                  type: olist_style(node.style))
       end
 
       def olist(node)

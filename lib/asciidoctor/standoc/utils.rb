@@ -30,25 +30,15 @@ module Asciidoctor
           docfile.nil? ? './' : Pathname.new(docfile).parent.to_s + '/'
         end
 
-        def current_location(n)
-          return "Line #{n.lineno}" if n.respond_to?(:lineno) &&
-            !n.lineno.nil? && !n.lineno.empty?
-          return "Line #{n.line}" if n.respond_to?(:line) &&
-            !n.line.nil?
-          return "ID #{n.id}" if n.respond_to?(:id) && !n.id.nil?
-          while !n.nil? &&
-              (!n.respond_to?(:level) || n.level.positive?) &&
-              (!n.respond_to?(:context) || n.context != :section)
-            n = n.parent
-            return "Section: #{n.title}" if n&.respond_to?(:context) &&
-              n&.context == :section
-          end
-          "??"
-        end
-
         def smartformat(n)
           n.gsub(/ --? /, "&#8201;&#8212;&#8201;").
             gsub(/--/, "&#8212;").smart_format.gsub(/</, "&lt;").gsub(/>/, "&gt;")
+        end
+
+        def endash_date(elem)
+          elem.traverse do |n|
+            n.text? and n.replace(n.text.gsub(/\s+--?\s+/, "&#8211;").gsub(/--/, "&#8211;"))
+          end
         end
 
         # Set hash value using keys path
@@ -76,40 +66,7 @@ module Asciidoctor
           end
         end
 
-        def mn_code(code)
-        code.sub(/^\(/, "[").sub(/\).*$/, "]").sub(/^nofetch\((.+)\)$/, "\\1")
-      end
-
-        def emend_biblio(xml, code, title, usrlbl)
-          unless xml.at("/bibitem/docidentifier[not(@type = 'DOI')][text()]")
-            warn "ERROR: No document identifier retrieved for #{code}"
-            xml.root << "<docidentifier>#{code}</docidentifier>"
-          end
-          unless xml.at("/bibitem/title[text()]")
-            warn "ERROR: No title retrieved for #{code}"
-            xml.root << "<title>#{title || "(MISSING TITLE)"}</title>"
-          end
-          usrlbl and xml.at("/bibitem/docidentifier").next = 
-            "<docidentifier type='metanorma'>#{mn_code(usrlbl)}</docidentifier>"
-        end
-
-        def endash_date(elem)
-          elem.traverse do |n|
-            n.text? and n.replace(n.text.gsub(/\s+--?\s+/, "&#8211;").gsub(/--/, "&#8211;"))
-          end
-        end
-
-        def smart_render_xml(x, code, title, usrlbl)
-          xstr = x.to_xml if x.respond_to? :to_xml
-          xml = Nokogiri::XML(xstr)
-          emend_biblio(xml, code, title, usrlbl)
-          xml.xpath("//date").each { |d| endash_date(d) }
-          xml.traverse do |n|
-            n.text? and n.replace(smartformat(n.text))
-          end
-          xml.to_xml.sub(/<\?[^>]+>/, "")
-        end
-
+=begin
         def warning(node, msg, text)
           return if @novalid
           warntext = "asciidoctor: WARNING"\
@@ -117,6 +74,7 @@ module Asciidoctor
           warntext += ": #{text}" if text
           warn warntext
         end
+=end
 
         def flatten_rawtext_lines(node, result)
           node.lines.each do |x|
@@ -222,8 +180,8 @@ module Asciidoctor
         type
       end
 
-      SUBCLAUSE_XPATH = "//clause[ancestor::clause or ancestor::annex or "\
-        "ancestor::introduction]".freeze
+      SUBCLAUSE_XPATH = "//clause[not(parent::sections)]"\
+        "[not(ancestor::boilerplate)]".freeze
     end
   end
 end

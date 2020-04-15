@@ -2,18 +2,41 @@ require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc do
   it "processes the Asciidoctor::Standoc inline macros" do
-    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       alt:[term1]
       deprecated:[term1]
       domain:[term1]
+      inherit:[<<ref1>>]
+
+      [bibliography]
+      == Bibliography
+      * [[[ref1,XYZ 123]]] _Title_
     INPUT
             #{BLANK_HDR}
-       <sections>
-         <admitted>term1</admitted>
-       <deprecates>term1</deprecates>
-       <domain>term1</domain>
-       </sections>
+         <preface>
+  <foreword id='_' obligation='informative'>
+    <title>Foreword</title>
+    <admitted>term1</admitted>
+    <deprecates>term1</deprecates>
+    <domain>term1</domain>
+    <inherit>
+      <eref type='inline' bibitemid='ref1' citeas='XYZ 123'/>
+    </inherit>
+  </foreword>
+</preface>
+<sections> </sections>
+<bibliography>
+  <references id='_' obligation='informative'>
+    <title>Bibliography</title>
+    <bibitem id='ref1'>
+      <formattedref format='application/x-isodoc+xml'>
+        <em>Title</em>
+      </formattedref>
+      <docidentifier>XYZ 123</docidentifier>
+    </bibitem>
+  </references>
+</bibliography>
        </standard-document>
     OUTPUT
   end
@@ -47,7 +70,7 @@ RSpec.describe Asciidoctor::Standoc do
 INPUT
 #{BLANK_HDR}
 <preface>
-  <foreword obligation='informative'>
+  <foreword id='_' obligation='informative'>
     <title>Foreword</title>
     <p id='_'>
       <concept>
@@ -70,56 +93,68 @@ INPUT
       </concept>
       <concept>
         <eref>
+        <localityStack>
           <locality type='clause'>
             <referenceFrom>3.1</referenceFrom>
           </locality>
+        </localityStack>
         </eref>
       </concept>
       <concept>
         <eref>
+        <localityStack>
           <locality type='clause'>
             <referenceFrom>3.1</referenceFrom>
           </locality>
+        </localityStack>
           word
         </eref>
       </concept>
       <concept term='term'>
         <eref>
+        <localityStack>
           <locality type='clause'>
             <referenceFrom>3.1</referenceFrom>
           </locality>
+        </localityStack>
           word
         </eref>
       </concept>
       <concept>
         <eref>
+        <localityStack>
           <locality type='clause'>
             <referenceFrom>3.1</referenceFrom>
           </locality>
           <locality type='figure'>
             <referenceFrom>a</referenceFrom>
           </locality>
+        </localityStack>
         </eref>
       </concept>
       <concept>
         <eref>
+        <localityStack>
           <locality type='clause'>
             <referenceFrom>3.1</referenceFrom>
           </locality>
           <locality type='figure'>
             <referenceFrom>a</referenceFrom>
           </locality>
+        </localityStack>
           word
         </eref>
       </concept>
       <concept term='term'>
         <eref>
+        <localityStack>
           <locality type='clause'>
             <referenceFrom>3.1</referenceFrom>
           </locality>
           <locality type='figure'>
             <referenceFrom>a</referenceFrom>
           </locality>
+        </localityStack>
           word
         </eref>
       </concept>
@@ -381,10 +416,70 @@ Alice &lt;-- Bob: another authentication Response
     OUTPUT
   end
 
+  it "processes the PlantUML macro with localdir unwritable" do
+    mock_localdir_unwritable
+    expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to output(%r{not writable for PlantUML}).to_stderr
+      #{ASCIIDOC_BLANK_HDR}
+
+      [plantuml]
+      ....
+      @startuml
+      Alice -> Bob: Authentication Request
+      Bob --> Alice: Authentication Response
+
+      Alice -> Bob: Another authentication Request
+      Alice <-- Bob: another authentication Response
+      @enduml
+      ....
+    INPUT
+
+    mock_localdir_unwritable
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+
+      [plantuml]
+      ....
+      @startuml
+      Alice -> Bob: Authentication Request
+      Bob --> Alice: Authentication Response
+
+      Alice -> Bob: Another authentication Request
+      Alice <-- Bob: another authentication Response
+      @enduml
+      ....
+    INPUT
+       #{BLANK_HDR}
+       <sections>
+         <sourcecode id="_" lang="plantuml">@startuml
+Alice -&gt; Bob: Authentication Request
+Bob --&gt; Alice: Authentication Response
+
+Alice -&gt; Bob: Another authentication Request
+Alice &lt;-- Bob: another authentication Response
+@enduml</sourcecode>
+        </sections>
+       </standard-document>
+    OUTPUT
+  end
+
+
   private
 
   def mock_plantuml_disabled
     expect(Asciidoctor::Standoc::PlantUMLBlockMacroBackend).to receive(:plantuml_installed?) do
+      raise "PlantUML not installed"
+      false
+    end
+  end
+  
+  def mock_localdir_unwritable
+    expect(Asciidoctor::Standoc::Utils).to receive(:localdir) do
+      "/"
+    end.exactly(2).times
+  end
+  
+  def mock_localdir_unwritable
+    expect(File).to receive(:writable?) do
       false
     end
   end

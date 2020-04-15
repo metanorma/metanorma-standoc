@@ -8,7 +8,7 @@ module Asciidoctor
   module Standoc
     module Validate
 
-      SOURCELOCALITY = "./termsource/origin/locality[@type = 'clause']/referenceFrom".freeze
+      SOURCELOCALITY = "./termsource/origin//locality[@type = 'clause']/referenceFrom".freeze
 
       def init_iev
         return nil if @no_isobib
@@ -25,14 +25,27 @@ module Asciidoctor
           @iev = init_iev or return
           iev = @iev.fetch(locality, xmldoc&.at("//language")&.text || "en") or next
           pref.include?(iev.downcase) or
-            warn %(Term "#{pref[0]}" does not match IEV #{locality} "#{iev}")
+            #warn %(Term "#{pref[0]}" does not match IEV #{locality} "#{iev}")
+          @log.add("Bibliography", t, %(Term "#{pref[0]}" does not match IEV #{locality} "#{iev}"))
         end
       end
 
       def content_validate(doc)
         section_validate(doc)
+        repeat_id_validate(doc.root)
         iev_validate(doc.root)
       end
+
+      def repeat_id_validate(doc)
+        ids = {}
+        doc.xpath("//*[@id]").each do |x|
+          if ids[x["id"]]
+          @log.add("Anchors", x, "Anchor #{x['id']} has already been used at line #{ids[x['id']]}")
+          else
+            ids[x["id"]] = x.line
+          end
+        end
+        end
 
       def schema_validate(doc, schema)
         Tempfile.open(["tmp", ".xml"], :encoding => 'UTF-8') do |f|
@@ -40,9 +53,9 @@ module Asciidoctor
             f.write(doc.to_xml) 
             f.close
             errors = Jing.new(schema).validate(f.path)
-            warn "Valid!" if errors.none?
+            warn "Syntax Valid!" if errors.none?
             errors.each do |error|
-              warn "#{error[:message]} @ #{error[:line]}:#{error[:column]}"
+              @log.add("Syntax", "XML Line #{"%06d" % error[:line]}:#{error[:column]}", error[:message])
             end
           rescue Jing::Error => e
             abort "Jing failed with error: #{e}"

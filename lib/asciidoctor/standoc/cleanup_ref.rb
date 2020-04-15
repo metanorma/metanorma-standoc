@@ -11,13 +11,34 @@ module Asciidoctor
       end
 
       def biblio_reorder1(refs)
+        fold_notes_into_biblio(refs)
         bib = sort_biblio(refs.xpath("./bibitem"))
+        insert = refs&.at("./bibitem")&.previous_element
         refs.xpath("./bibitem").each { |b| b.remove }
         bib.reverse.each do |b|
-          insert = refs.at("./title") and insert.next = b.to_xml or
+          insert and insert.next = b.to_xml or
             refs.children.first.add_previous_sibling b.to_xml
         end
+        extract_notes_from_biblio(refs)
         refs.xpath("./references").each { |r| biblio_reorder1(r) }
+      end
+
+      def fold_notes_into_biblio(refs)
+        refs.xpath("./bibitem").each do |r|
+          while r&.next_element&.name == "note" do
+            r.next_element["appended"] = true
+            r << r.next_element.remove
+          end
+        end
+      end
+
+      def extract_notes_from_biblio(refs)
+        refs.xpath("./bibitem").each do |r|
+          r.xpath("./note[@appended]").reverse.each do |n|
+            n.delete("appended")
+            r.next = n
+          end
+        end
       end
 
       def sort_biblio(bib)
@@ -47,9 +68,10 @@ module Asciidoctor
 
       def normref_cleanup(xmldoc)
         r = xmldoc.at(NORM_REF) || return
-        r.elements.each do |n|
-          n.remove unless ["title", "bibitem"].include? n.name
-        end
+        #return if r.at("./bibitem[1]/preceding-sibling::*[1][local-name()='title']")
+        preface = r.xpath("./title/following-sibling::*") &
+          r.xpath("./bibitem[1]/preceding-sibling::*")
+        preface.each { |n| n.remove }
       end
 
       def biblio_cleanup(xmldoc)
@@ -67,7 +89,7 @@ module Asciidoctor
 
       def omit_docid_prefix(prefix)
         return true if prefix.nil? || prefix.empty?
-        %(ISO IEC IEV ITU).include? prefix
+        %(ISO IEC IEV ITU metanorma).include? prefix
       end
 
       def format_ref(ref, type, isopub)
@@ -85,7 +107,8 @@ module Asciidoctor
       def reference_names(xmldoc)
         xmldoc.xpath("//bibitem[not(ancestor::bibitem)]").each do |ref|
           isopub = ref.at(ISO_PUBLISHER_XPATH)
-          docid = ref.at("./docidentifier[not(@type = 'DOI')]") or next
+          docid = ref.at("./docidentifier[@type = 'metanorma']") ||
+            ref.at("./docidentifier[not(@type = 'DOI')]") or next
           reference = format_ref(docid.text, docid["type"], isopub)
           @anchors[ref["id"]] = { xref: reference }
         end

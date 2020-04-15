@@ -35,10 +35,10 @@ module Asciidoctor
       LOCALITY_REGEX_STR = <<~REGEXP.freeze
         ^((?<locality>section|clause|part|paragraph|chapter|page|
                       table|annex|figure|example|note|formula|list|
-                      locality:[^ \\t\\n\\r:,]+)(\\s+|=)
+                      locality:[^ \\t\\n\\r:,;=]+)(\\s+|=)
                (?<ref>[^"][^ \\t\\n,:-]*|"[^"]+")
                  (-(?<to>[^"][^ \\t\\n,:-]*|"[^"]"))?|
-          (?<locality2>whole|locality:[^ \\t\\n\\r:,]+))[,:]?\\s*
+          (?<locality2>whole|locality:[^ \\t\\n\\r:,;=]+))(?<punct>[,:;]?)\\s*
          (?<text>.*)$
       REGEXP
       LOCALITY_RE = Regexp.new(LOCALITY_REGEX_STR.gsub(/\s/, ""),
@@ -50,12 +50,14 @@ module Asciidoctor
 
       def extract_localities(x)
         text = x&.children&.first&.remove&.text
+        b = x.add_child("<localityStack/>").first if LOCALITY_RE.match text
         while (m = LOCALITY_RE.match text)
           ref = m[:ref] ? "<referenceFrom>#{tq m[:ref]}</referenceFrom>" : ""
           refto = m[:to] ? "<referenceTo>#{tq m[:to]}</referenceTo>" : ""
           loc = m[:locality]&.downcase || m[:locality2]&.downcase
-          x.add_child("<locality type='#{loc}'>#{ref}#{refto}</locality>")
+          b.add_child("<locality type='#{loc}'>#{ref}#{refto}</locality>")
           text = m[:text]
+          b = x.add_child("<localityStack/>").first if m[:punct] == ";"
         end
         x.add_child(text) if text
       end
@@ -63,7 +65,9 @@ module Asciidoctor
       def xref_to_eref(x)
         x["bibitemid"] = x["target"]
         x["citeas"] = @anchors&.dig(x["target"], :xref) ||
-          warn("#{x['target']} is not a real reference!")
+          @log.add("Crossreferences", x,
+                   "#{x['target']} does not have a corresponding anchor ID "\
+                   "in the bibliography!")
         x.delete("target")
         extract_localities(x) unless x.children.empty?
       end
@@ -88,7 +92,9 @@ module Asciidoctor
       def origin_cleanup(xmldoc)
         xmldoc.xpath("//origin").each do |x|
           x["citeas"] = @anchors&.dig(x["bibitemid"], :xref) ||
-            warn("#{x['bibitemid']} is not a real reference!")
+            @log.add("Crossreferences", x,
+                     "#{x['bibitemid']} does not have a corresponding anchor "\
+                     "ID in the bibliography!")
           extract_localities(x) unless x.children.empty?
         end
       end

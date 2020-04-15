@@ -15,8 +15,11 @@ module Asciidoctor
 
       def term_defs_boilerplate(div, source, term, preface, isodoc)
         div.next = @term_def_boilerplate
-        source.each { |s| @anchors[s["bibitemid"]] or
-                      warn "term source #{s['bibitemid']} not referenced" }
+        source.each do |s|
+          @anchors[s["bibitemid"]] or
+            @log.add("Crossreferences", nil, "term source #{s['bibitemid']} not referenced")
+                      #warn "term source #{s['bibitemid']} not referenced" 
+        end
         if source.empty? && term.nil?
           div.next = @no_terms_boilerplate
         else
@@ -51,24 +54,24 @@ module Asciidoctor
 
       def boilerplate_isodoc(xmldoc)
         x = xmldoc.dup
-        # TODO variable
-        x.root.add_namespace(nil, "http://riboseinc.com/isoxml")
+        x.root.add_namespace(nil, self.class::XML_NAMESPACE)
         xml = Nokogiri::XML(x.to_xml)
         conv = html_converter(EmptyAttr.new)
         @lang = xmldoc&.at("//bibdata/language")&.text
         @script = xmldoc&.at("//bibdata/script")&.text
         conv.i18n_init(@lang, @script)
-        conv.metadata_init(@lang, @script, {})
+        conv.metadata_init(@lang, @script, conv.labels)
         conv.info(xml, nil)
         conv
       end
 
       def boilerplate_cleanup(xmldoc)
         isodoc = boilerplate_isodoc(xmldoc)
-        f = xmldoc.at(self.class::TERM_CLAUSE) and
+        xmldoc.xpath(self.class::TERM_CLAUSE).each do |f|
           term_defs_boilerplate(f.at("./title"),
                                 xmldoc.xpath(".//termdocsource"),
                                 f.at(".//term"), f.at(".//p"), isodoc)
+        end
         f = xmldoc.at(self.class::NORM_REF) and
           norm_ref_preface(f)
         initial_boilerplate(xmldoc, isodoc)
@@ -92,14 +95,14 @@ module Asciidoctor
       end
 
       def boilerplate_file(xmldoc)
-          File.join(@libdir, "boilerplate.xml")
+        File.join(@libdir, "boilerplate.xml")
       end
 
       def boilerplate(xml, conv)
         file = boilerplate_file(xml)
         file = File.join(@localdir, @boilerplateauthority) if @boilerplateauthority
         !file.nil? and File.exists?(file) or return
-          conv.populate_template((File.read(file, encoding: "UTF-8")), nil)
+        conv.populate_template((File.read(file, encoding: "UTF-8")), nil)
       end
 
       def bibdata_cleanup(xmldoc)

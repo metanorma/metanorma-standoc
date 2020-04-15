@@ -324,7 +324,7 @@ RSpec.describe Asciidoctor::Standoc do
       * [[[iso216,ISO 216:2001]]], _Reference_
     INPUT
       #{BLANK_HDR}
-        <preface><foreword obligation="informative">
+        <preface><foreword id="_" obligation="informative">
         <title>Foreword</title>
         <p id="_">
         <eref type="inline" bibitemid="iso216" citeas="ISO 216:2001"/>
@@ -355,17 +355,56 @@ RSpec.describe Asciidoctor::Standoc do
   it "extracts localities from erefs" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
-      <<iso216,whole,clause=3,example=9-11,locality:prelude=33,locality:entirety:the reference>>
+      <<iso216,whole,clause=3,example=9-11,locality:prelude="33 a",locality:entirety:the reference,xyz>>
+      <<iso216,whole,clause=3,example=9-11,locality:prelude=33,locality:entirety="the reference";whole,clause=3,example=9-11,locality:prelude=33,locality:entirety:the reference,xyz>>
 
       [bibliography]
       == Normative References
       * [[[iso216,ISO 216]]], _Reference_
     INPUT
       #{BLANK_HDR}
-      <preface><foreword obligation="informative">
+      <preface><foreword id="_" obligation="informative">
         <title>Foreword</title>
         <p id="_">
-        <eref type="inline" bibitemid="iso216" citeas="ISO 216"><locality type="whole"/><locality type="clause"><referenceFrom>3</referenceFrom></locality><locality type="example"><referenceFrom>9</referenceFrom><referenceTo>11</referenceTo></locality><locality type="locality:prelude"><referenceFrom>33</referenceFrom></locality><locality type="locality:entirety"/>the reference</eref>
+        <eref type="inline" bibitemid="iso216" citeas="ISO 216">
+        <localityStack>
+        <locality type="whole"/><locality type="clause"><referenceFrom>3</referenceFrom></locality><locality type="example"><referenceFrom>9</referenceFrom><referenceTo>11</referenceTo></locality><locality type="locality:prelude"><referenceFrom>33 a</referenceFrom></locality><locality type="locality:entirety"/>
+        </localityStack>
+        the reference,xyz</eref>
+ <eref type='inline' bibitemid='iso216' citeas='ISO 216'>
+   <localityStack>
+     <locality type='whole'/>
+     <locality type='clause'>
+       <referenceFrom>3</referenceFrom>
+     </locality>
+     <locality type='example'>
+       <referenceFrom>9</referenceFrom>
+       <referenceTo>11</referenceTo>
+     </locality>
+     <locality type='locality:prelude'>
+       <referenceFrom>33</referenceFrom>
+     </locality>
+     <locality type='locality:entirety'>
+     <referenceFrom>the reference</referenceFrom>
+     </locality>
+   </localityStack>
+   <localityStack>
+     <locality type='whole'/>
+     <locality type='clause'>
+       <referenceFrom>3</referenceFrom>
+     </locality>
+     <locality type='example'>
+       <referenceFrom>9</referenceFrom>
+       <referenceTo>11</referenceTo>
+     </locality>
+     <locality type='locality:prelude'>
+       <referenceFrom>33</referenceFrom>
+     </locality>
+     <locality type='locality:entirety'/>
+   </localityStack>
+   the reference,xyz
+ </eref>
+
         </p>
       </foreword></preface><sections>
       </sections><bibliography><references id="_" obligation="informative">
@@ -399,7 +438,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
        #{BLANK_HDR}
        <preface>
-       <foreword obligation="informative">
+       <foreword id="_" obligation="informative">
          <title>Foreword</title>
          <p id="_">
          <eref type="inline" bibitemid="iso216" citeas="ISO 216"/>
@@ -440,7 +479,11 @@ RSpec.describe Asciidoctor::Standoc do
          <term id="_">
          <preferred>Term1</preferred>
          <termsource status="identical">
-         <origin bibitemid="ISO2191" type="inline" citeas=""><locality type="section"><referenceFrom>1</referenceFrom></locality></origin>
+         <origin bibitemid="ISO2191" type="inline" citeas="">
+         <localityStack>
+        <locality type="section"><referenceFrom>1</referenceFrom></locality>
+        </localityStack>
+        </origin>
        </termsource>
        </term>
        </terms>
@@ -449,7 +492,7 @@ RSpec.describe Asciidoctor::Standoc do
       OUTPUT
   end
 
-  it "removes extraneous material from Normative References" do
+  it "removes initial extraneous material from Normative References" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
@@ -458,6 +501,8 @@ RSpec.describe Asciidoctor::Standoc do
       This is extraneous information
 
       * [[[iso216,ISO 216]]], _Reference_
+
+      This is also extraneous information
     INPUT
       #{BLANK_HDR}
       <sections></sections>
@@ -473,11 +518,84 @@ RSpec.describe Asciidoctor::Standoc do
            </organization>
          </contributor>
        </bibitem>
+       <p id='_'>This is also extraneous information</p>
       </references>
       </bibliography>
       </standard-document>
     OUTPUT
   end
+
+    it "sorts references with their notes in Bibliography" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      [bibliography]
+      == Bibliography
+
+      This is extraneous information
+
+      * [[[iso216,ISO 216]]], _Reference_
+
+      NOTE: ABC
+
+      NOTE: DEF
+
+      This is further extraneous information
+
+      NOTE: GHI
+
+      * [[[iso216,ISO 215]]], _Reference_
+
+      NOTE: JKL
+
+      This is also extraneous information
+    INPUT
+      #{BLANK_HDR}
+      <sections> </sections>
+         <bibliography>
+           <references id='_' obligation='informative'>
+             <title>Bibliography</title>
+             <p id='_'>This is extraneous information</p>
+             <bibitem id='iso216' type='standard'>
+               <title format='text/plain'>Reference</title>
+               <docidentifier>ISO 216</docidentifier>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>ISO</name>
+                 </organization>
+               </contributor>
+             </bibitem>
+             <note id='_'>
+               <p id='_'>ABC</p>
+             </note>
+             <note id='_'>
+               <p id='_'>DEF</p>
+             </note>
+             <bibitem id='iso216' type='standard'>
+               <title format='text/plain'>Reference</title>
+               <docidentifier>ISO 215</docidentifier>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>ISO</name>
+                 </organization>
+               </contributor>
+             </bibitem>
+             <note id='_'>
+               <p id='_'>JKL</p>
+             </note>
+             <p id='_'>
+               This is further extraneous information
+               <note id='_'>
+                 <p id='_'>GHI</p>
+               </note>
+             </p>
+             <p id='_'>This is also extraneous information</p>
+           </references>
+         </bibliography>
+       </standard-document>
+    OUTPUT
+end
 
   it "inserts IDs into paragraphs" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
@@ -558,17 +676,17 @@ RSpec.describe Asciidoctor::Standoc do
        #{BLANK_HDR}
        <sections>
              <table id="_"><thead><tr>
-             <td align="left">a</td>
-             <td align="left">b</td>
-             <td align="left">c</td>
+             <th align="left">a</th>
+             <th align="left">b</th>
+             <th align="left">c</th>
            </tr><tr>
-             <td align="left">a</td>
-             <td align="left">b</td>
-             <td align="left">c</td>
+             <th align="left">a</th>
+             <th align="left">b</th>
+             <th align="left">c</th>
            </tr><tr>
-             <td align="left">a</td>
-             <td align="left">b</td>
-             <td align="left">c</td>
+             <th align="left">a</th>
+             <th align="left">b</th>
+             <th align="left">c</th>
            </tr></thead>
          <tbody>
            <tr>
@@ -605,13 +723,13 @@ RSpec.describe Asciidoctor::Standoc do
              <th align="left">c</th>
            </tr>
          <tr>
-             <td align="left">a</td>
-             <td align="left">b</td>
-             <td align="left">c</td>
+             <th align="left">a</th>
+             <th align="left">b</th>
+             <th align="left">c</th>
            </tr><tr>
-             <td align="left">a</td>
-             <td align="left">b</td>
-             <td align="left">c</td>
+             <th align="left">a</th>
+             <th align="left">b</th>
+             <th align="left">c</th>
            </tr></thead>
          <tbody>
 
@@ -689,20 +807,35 @@ RSpec.describe Asciidoctor::Standoc do
   it "moves footnotes inside figures" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
+      .Figuretitle.footnote:[xyz]
       image::spec/examples/rice_images/rice_image1.png[]
 
       footnote:[This is a footnote to a figure]
 
       footnote:[This is another footnote to a figure]
+
+      A footnote:[This is a third footnote]
     INPUT
        #{BLANK_HDR}
        <sections><figure id="_">
+       <name>
+  Figuretitle.
+  <fn reference='1'>
+    <p id='_'>xyz</p>
+  </fn>
+</name>
          <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
        <fn reference="a">
          <p id="_">This is a footnote to a figure</p>
        </fn><fn reference="b">
          <p id="_">This is another footnote to a figure</p>
        </fn></figure>
+       <p id='_'>
+  A
+  <fn reference='2'>
+    <p id='_'>This is a third footnote</p>
+  </fn>
+</p>
 
        </sections>
 
@@ -784,7 +917,7 @@ RSpec.describe Asciidoctor::Standoc do
       footnote:[Footnote2]
     INPUT
       #{BLANK_HDR}
-      <preface><foreword obligation="informative">
+      <preface><foreword id="_" obligation="informative">
         <title>Foreword</title>
         <p id="_"><fn reference="1">
         <p id="_">Footnote</p>
@@ -885,7 +1018,11 @@ RSpec.describe Asciidoctor::Standoc do
        </termexample><termexample id="_">
          <p id="_">Example 2</p>
        </termexample><termsource status="identical">
-         <origin bibitemid="ISO2191" type="inline" citeas=""><locality type="section"><referenceFrom>1</referenceFrom></locality></origin>
+         <origin bibitemid="ISO2191" type="inline" citeas="">
+         <localityStack>
+        <locality type="section"><referenceFrom>1</referenceFrom></locality>
+         </localityStack>
+        </origin>
        </termsource></term>
        </terms>
        </sections>
@@ -998,19 +1135,31 @@ RSpec.describe Asciidoctor::Standoc do
          <term id="_">
           <preferred>Automation1</preferred>
           <termsource status="identical">
-          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
+          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">
+          <localityStack>
+        <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
+          </localityStack>
+        </origin>
         </termsource>
         </term>
         <term id="_">
           <preferred>Automation2</preferred>
           <termsource status="identical">
-          <origin bibitemid="IEC60050-102" type="inline" citeas="IEC 60050-102:2007"><locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality></origin>
+          <origin bibitemid="IEC60050-102" type="inline" citeas="IEC 60050-102:2007">
+          <localityStack>
+        <locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality>
+          </localityStack>
+        </origin>
         </termsource>
         </term>
         <term id="_">
           <preferred>Automation3</preferred>
           <termsource status="identical">
-          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009"><locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality></origin>
+          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">
+          <localityStack>
+        <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
+          </localityStack>
+        </origin>
         </termsource>
         </term></terms></sections><bibliography><references id="_" obligation="informative">
           <title>Normative References</title>
@@ -1402,7 +1551,7 @@ it "removes bibdata bibitem IDs" do
 
     INPUT
     <?xml version='1.0' encoding='UTF-8'?>
-<standard-document xmlns='https://www.metanorma.com/ns/standoc'>
+<standard-document xmlns='https://www.metanorma.org/ns/standoc'>
   <bibdata type='standard'>
     <title language='en' format='text/plain'>Document title</title>
     <language>en</language>
@@ -1448,7 +1597,7 @@ it "imports boilerplate file" do
     == Clause 1
 
     INPUT
-    <standard-document xmlns='https://www.metanorma.com/ns/standoc'>
+    <standard-document xmlns='https://www.metanorma.org/ns/standoc'>
   <bibdata type='standard'>
     <title language='en' format='text/plain'>Document title</title>
     <language>en</language>
@@ -1473,6 +1622,182 @@ it "imports boilerplate file" do
   </sections>
 </standard-document>
     OUTPUT
+end
+
+it "sorts symbols lists" do
+  expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+  #{ASCIIDOC_BLANK_HDR}
+  
+  [[L]]
+  == Symbols and abbreviated terms
+
+  α:: Definition 1
+  xa:: Definition 2
+  x_1_:: Definition 3
+  x_m_:: Definition 4
+  x:: Definition 5
+  INPUT
+  #{BLANK_HDR}
+  <sections>
+    <definitions id='L'>
+      <title>Symbols and abbreviated terms</title>
+      <dl id='_'>
+        <dt>x</dt>
+        <dd>
+          <p id='_'>Definition 5</p>
+        </dd>
+        <dt>x_m_</dt>
+        <dd>
+          <p id='_'>Definition 4</p>
+        </dd>
+        <dt>x_1_</dt>
+        <dd>
+          <p id='_'>Definition 3</p>
+        </dd>
+        <dt>xa</dt>
+        <dd>
+          <p id='_'>Definition 2</p>
+        </dd>
+        <dt>α</dt>
+        <dd>
+          <p id='_'>Definition 1</p>
+        </dd>
+      </dl>
+    </definitions>
+  </sections>
+</standard-document>
+  OUTPUT
+end
+
+it "sorts symbols lists" do
+  expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+  #{ASCIIDOC_BLANK_HDR}
+  
+  [[L]]
+  == Symbols and abbreviated terms
+
+  stem:[alpha]:: Definition 1
+  xa:: Definition 2
+  stem:[x_1]:: Definition 3
+  stem:[x_m]:: Definition 4
+  x:: Definition 5
+  INPUT
+  #{BLANK_HDR}
+  <sections>
+    <definitions id='L'>
+      <title>Symbols and abbreviated terms</title>
+      <dl id='_'>
+        <dt>x</dt>
+        <dd>
+          <p id='_'>Definition 5</p>
+        </dd>
+        <dt><stem type='MathML'>x_m</stem></dt>
+        <dd>
+          <p id='_'>Definition 4</p>
+        </dd>
+        <dt><stem type='MathML'>x_1</stem></dt>
+        <dd>
+          <p id='_'>Definition 3</p>
+        </dd>
+        <dt>xa</dt>
+        <dd>
+          <p id='_'>Definition 2</p>
+        </dd>
+        <dt>
+        <stem type='MathML'>
+  <math xmlns='http://www.w3.org/1998/Math/MathML'>
+    <mi>α</mi>
+  </math>
+</stem>
+        </dt>
+        <dd>
+          <p id='_'>Definition 1</p>
+        </dd>
+      </dl>
+    </definitions>
+  </sections>
+</standard-document>
+  OUTPUT
+end
+
+it "moves inherit macros to correct location" do
+  expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+  #{ASCIIDOC_BLANK_HDR}
+
+  == Clause
+
+  [.requirement,subsequence="A",inherit="/ss/584/2015/level/1 &amp; /ss/584/2015/level/2"]
+  .Title
+  ====
+  inherit:[A]
+  inherit:[B]
+  I recommend this
+  ====
+
+  [.requirement,subsequence="A",classification="X:Y"]
+  .Title
+  ====
+  inherit:[A]
+  I recommend this
+  ====
+
+  [.requirement,subsequence="A"]
+  .Title
+  ====
+  inherit:[A]
+  I recommend this
+  ====
+
+  [.requirement,subsequence="A"]
+  .Title
+  ====
+  inherit:[A]
+  ====
+
+
+  INPUT
+  #{BLANK_HDR}
+  <sections>
+    <clause id='_' inline-header='false' obligation='normative'>
+      <title>Clause</title>
+      <requirement id='_' subsequence='A'>
+        <title>Title</title>
+        <inherit>/ss/584/2015/level/1 &amp; /ss/584/2015/level/2</inherit>
+        <inherit>A</inherit>
+        <inherit>B</inherit>
+        <description>
+          <p id='_'> I recommend this</p>
+        </description>
+      </requirement>
+      <requirement id='_' subsequence='A'>
+        <title>Title</title>
+        <inherit>A</inherit>
+        <classification>
+          <tag>X</tag>
+          <value>Y</value>
+        </classification>
+        <description>
+          <p id='_'> I recommend this</p>
+        </description>
+      </requirement>
+      <requirement id='_' subsequence='A'>
+        <title>Title</title>
+        <inherit>A</inherit>
+        <description>
+          <p id='_'> I recommend this</p>
+        </description>
+      </requirement>
+      <requirement id='_' subsequence='A'>
+        <title>Title</title>
+        <inherit>A</inherit>
+        <description>
+          <p id='_'> </p>
+        </description>
+      </requirement>
+    </clause>
+  </sections>
+</standard-document>
+OUTPUT
 end
 
 

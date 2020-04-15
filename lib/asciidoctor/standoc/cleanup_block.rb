@@ -50,6 +50,7 @@ module Asciidoctor
             row = s.at("./tbody/tr")
             row.parent = thead
           end
+          thead.xpath(".//td").each { |n| n.name = "th" }
           s.delete("headerrows")
         end
       end
@@ -137,6 +138,21 @@ module Asciidoctor
       end
 
       def requirement_cleanup(x)
+        requirement_descriptions(x)
+        requirement_inherit(x)
+      end
+
+      def requirement_inherit(x)
+        x.xpath("//requirement | //recommendation | //permission").each do |r|
+          ins = r.at("./classification") || 
+            r.at("./description | ./measurementtarget | ./specification | "\
+                 "./verification | ./import | ./description | ./requirement | "\
+                 "./recommendation | ./permission")
+          r.xpath("./*//inherit").each { |i| ins.previous = i }
+        end
+      end
+
+      def requirement_descriptions(x)
         x.xpath("//requirement | //recommendation | //permission").each do |r|
           r.children.each do |e|
             unless e.element? && (Utils::reqt_subpart(e.name) || 

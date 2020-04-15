@@ -43,7 +43,7 @@ module Asciidoctor
 
       def docid(t, code)
         type, code1 = /^\[\d+\]$|^\([^)]+\).*$/.match(code) ?
-          ["metanorma", Utils::mn_code(code)] :
+          ["metanorma", mn_code(code)] :
           @bibdb&.docid_type(code) || [nil, code]
         code1.sub!(/^nofetch\((.+)\)$/, "\\1")
         t.docidentifier code1, **attr_code(type: type)
@@ -123,10 +123,12 @@ module Asciidoctor
         code = code.sub(/^\([^)]+\)/, "")
         hit = @bibdb&.fetch(code, year, opts)
         return nil if hit.nil?
-        xml.parent.add_child(Utils::smart_render_xml(hit, code, opts[:title], opts[:usrlbl]))
+        xml.parent.add_child(smart_render_xml(hit, code, opts[:title],
+                                              opts[:usrlbl]))
         xml
       rescue RelatonBib::RequestError
-        warn "Could not retrieve #{code}: no access to online site"
+        @log.add("Bibliography", nil, "Could not retrieve #{code}: "\
+                 "no access to online site")
         nil
       end
 
@@ -140,34 +142,31 @@ module Asciidoctor
         end
       end
 
-      MALFORMED_REF = 
-        "no anchor on reference, markup may be malformed: "\
-        "see https://www.metanorma.com/author/topics/document-format/bibliography/ , "\
+      MALFORMED_REF = "no anchor on reference, markup may be malformed: see "\
+        "https://www.metanorma.com/author/topics/document-format/bibliography/ , "\
         "https://www.metanorma.com/author/iso/topics/markup/#bibliographies".freeze
 
       # TODO: alternative where only title is available
       def refitem(xml, item, node)
         unless m = NON_ISO_REF.match(item)
-          Utils::warning(node, MALFORMED_REF, item)
+          @log.add("Asciidoctor Input", node, "#{MALFORMED_REF}: #{item}")
           return
         end
         unless m[:code] && /^\d+$/.match(m[:code])
           ref = fetch_ref xml, m[:code],
-            m.names.include?("year") ? m[:year] : nil, title: m[:text], usrlbl: m[:usrlbl]
+            m.names.include?("year") ? m[:year] : nil, title: m[:text],
+            usrlbl: m[:usrlbl]
           return use_my_anchor(ref, m[:anchor]) if ref
         end
         refitem_render(xml, m)
       end
 
       def ref_normalise(ref)
-        ref.
-          gsub(/&amp;amp;/, "&amp;").
-          gsub(%r{^<em>(.*)</em>}, "\\1")
+        ref.gsub(/&amp;amp;/, "&amp;").gsub(%r{^<em>(.*)</em>}, "\\1")
       end
 
       def ref_normalise_no_format(ref)
-        ref.
-          gsub(/&amp;amp;/, "&amp;")
+        ref.gsub(/&amp;amp;/, "&amp;")
       end
 
       ISO_REF = %r{^<ref\sid="(?<anchor>[^"]+)">
@@ -188,8 +187,6 @@ module Asciidoctor
         \[(?<usrlbl>\([^)]+\))?(?<code>[^\]]+?)([:-](?<year>(19|20)[0-9][0-9]))?\]</ref>,?\s*
           (?<text>.*)$}xm
 
-          # @param item [String]
-          # @return [Array<MatchData>]
           def reference1_matches(item)
             matched = ISO_REF.match item
             matched2 = ISO_REF_NO_YEAR.match item
@@ -197,9 +194,6 @@ module Asciidoctor
             [matched, matched2, matched3]
         end
 
-        # @param node [Asciidoctor::List]
-        # @param item [String]
-        # @param xml [Nokogiri::XML::Builder]
         def reference1(node, item, xml)
           matched, matched2, matched3 = reference1_matches(item)
           if matched3.nil? && matched2.nil? && matched.nil?
@@ -227,6 +221,36 @@ module Asciidoctor
           cachename += "_iev" unless cachename.empty?
           cachename = "iev" if cachename.empty?
           "#{cachename}/cache"
+        end
+
+        def mn_code(code)
+          code.sub(/^\(/, "[").sub(/\).*$/, "]").sub(/^nofetch\((.+)\)$/, "\\1")
+        end
+
+        def emend_biblio(xml, code, title, usrlbl)
+          unless xml.at("/bibitem/docidentifier[not(@type = 'DOI')][text()]")
+            @log.add("Bibliography", nil,
+                     "ERROR: No document identifier retrieved for #{code}")
+            xml.root << "<docidentifier>#{code}</docidentifier>"
+          end
+          unless xml.at("/bibitem/title[text()]")
+            @log.add("Bibliography", nil,
+                     "ERROR: No title retrieved for #{code}")
+            xml.root << "<title>#{title || "(MISSING TITLE)"}</title>"
+          end
+          usrlbl and xml.at("/bibitem/docidentifier").next =
+            "<docidentifier type='metanorma'>#{mn_code(usrlbl)}</docidentifier>"
+        end
+
+        def smart_render_xml(x, code, title, usrlbl)
+          xstr = x.to_xml if x.respond_to? :to_xml
+          xml = Nokogiri::XML(xstr)
+          emend_biblio(xml, code, title, usrlbl)
+          xml.xpath("//date").each { |d| Utils::endash_date(d) }
+          xml.traverse do |n|
+            n.text? and n.replace(Utils::smartformat(n.text))
+          end
+          xml.to_xml.sub(/<\?[^>]+>/, "")
         end
     end
   end

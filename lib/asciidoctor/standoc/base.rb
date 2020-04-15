@@ -12,12 +12,13 @@ module Asciidoctor
   module Standoc
     module Base
       XML_ROOT_TAG = "standard-document".freeze
-      XML_NAMESPACE = "https://www.metanorma.com/ns/standoc".freeze
+      XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
 
       Asciidoctor::Extensions.register do
         inline_macro Asciidoctor::Standoc::AltTermInlineMacro
         inline_macro Asciidoctor::Standoc::DeprecatedTermInlineMacro
         inline_macro Asciidoctor::Standoc::DomainTermInlineMacro
+        inline_macro Asciidoctor::Standoc::InheritInlineMacro
         inline_macro Asciidoctor::Standoc::HTML5RubyMacro
         inline_macro Asciidoctor::Standoc::ConceptInlineMacro
         block Asciidoctor::Standoc::ToDoAdmonitionBlock
@@ -33,8 +34,8 @@ module Asciidoctor
 
       def skip(node, name = nil)
         name = name || node.node_name
-        w = "converter missing for #{name} node in ISO backend"
-        Utils::warning(node, w, nil)
+        w = "converter missing for #{name} node in Metanorma backend"
+        @log.add("Asciidoctor Input", node, w)
         nil
       end
 
@@ -106,6 +107,7 @@ module Asciidoctor
         @seen_headers = []
         @datauriimage = node.attr("data-uri-image")
         @boilerplateauthority = node.attr("boilerplate-authority")
+        @log = Asciidoctor::Standoc::Log.new
         init_bib_caches(node)
         init_iev_caches(node)
         lang = (node.attr("language") || "en")
@@ -157,6 +159,7 @@ module Asciidoctor
           html_converter(node).convert(@filename + ".xml")
           doc_converter(node).convert(@filename + ".xml")
         end
+        @log.write(@localdir + @filename + ".err") unless @novalid
         @files_to_delete.each { |f| FileUtils.rm f }
         ret
       end
@@ -224,7 +227,8 @@ module Asciidoctor
       def extract_termsource_refs(text, node)
         matched = TERM_REFERENCE_RE.match text
         matched.nil? and
-          Utils::warning(node, "term reference not in expected format", text)
+          #Utils::warning(node, "term reference not in expected format", text)
+        @log.add("Asciidoctor Input", node, "term reference not in expected format: #{text}")
         matched
       end
 

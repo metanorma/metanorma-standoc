@@ -17,6 +17,11 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Introduction Subsection
 
+      == Acknowledgements
+      
+      [.preface]
+      == Dedication
+
       == Scope
 
       Text
@@ -78,7 +83,7 @@ RSpec.describe Asciidoctor::Standoc do
              #{BLANK_HDR.sub(/<status>/, "<abstract> <p>Text</p> </abstract><status>")}
     <preface><abstract id="_">
   <p id="_">Text</p>
-</abstract><foreword obligation="informative">
+</abstract><foreword id='_' obligation="informative">
   <title>Foreword</title>
   <p id="_">Text</p>
 </foreword><introduction id="_" obligation="informative">
@@ -86,7 +91,14 @@ RSpec.describe Asciidoctor::Standoc do
   <clause id="_" inline-header="false" obligation="informative">
   <title>Introduction Subsection</title>
 </clause>
-</introduction></preface><sections>
+</introduction>
+<clause id='_' inline-header='false' obligation='informative'>
+  <title>Dedication</title>
+</clause>
+ <acknowledgements id='_' obligation='informative'>
+   <title>Acknowledgements</title>
+ </acknowledgements>
+</preface><sections>
 
 
 <clause id="_" inline-header="false" obligation="normative">
@@ -102,7 +114,9 @@ RSpec.describe Asciidoctor::Standoc do
   <preferred>Term1</preferred>
 </term>
 </terms>
-<clause id="_" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title><clause id="_" inline-header="false" obligation="normative">
+<clause id="_" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title>
+  <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+<clause id="_" inline-header="false" obligation="normative">
   <title>Introduction</title>
   <clause id="_" inline-header="false" obligation="normative">
   <title>Intro 1</title>
@@ -169,7 +183,8 @@ RSpec.describe Asciidoctor::Standoc do
     it "processes sections with language and script attributes" do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
-      .Foreword
+      [language=en,script=Latn]
+      == Foreword
 
       Text
 
@@ -183,6 +198,13 @@ RSpec.describe Asciidoctor::Standoc do
 
       [language=en,script=Latn]
       === Introduction Subsection
+
+      [language=en,script=Latn]
+      == Acknowledgements
+
+      [.preface]
+      [language=en,script=Latn]
+      == Dedication
 
       [language=en,script=Latn]
       == Scope
@@ -266,7 +288,7 @@ RSpec.describe Asciidoctor::Standoc do
              #{BLANK_HDR.sub(/<status>/, "<abstract> <p>Text</p> </abstract><status>")}
      <preface><abstract id="_" language="en" script="Latn">
          <p id="_">Text</p>
-       </abstract><foreword obligation="informative">
+       </abstract><foreword id='_' language='en' script='Latn' obligation='informative'>
          <title>Foreword</title>
          <p id="_">Text</p>
        </foreword><introduction id="_" language="en" script="Latn" obligation="informative">
@@ -274,7 +296,14 @@ RSpec.describe Asciidoctor::Standoc do
          <clause id="_" language="en" script="Latn" inline-header="false" obligation="informative">
          <title>Introduction Subsection</title>
        </clause>
-       </introduction></preface><sections>
+       </introduction>
+       <clause id='_' language='en' script='Latn' inline-header='false' obligation='informative'>
+  <title>Dedication</title>
+</clause>
+       <acknowledgements id='_' language='en' script='Latn' obligation='informative'>
+  <title>Acknowledgements</title>
+</acknowledgements>
+</preface><sections>
 
 
        <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
@@ -290,7 +319,9 @@ RSpec.describe Asciidoctor::Standoc do
          <preferred>Term1</preferred>
        </term>
        </terms>
-       <clause id="_" language="en" script="Latn" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title><clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+       <clause id="_" language="en" script="Latn" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title>
+  <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+<clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
          <title>Introduction</title>
          <clause id="_" inline-header="false" obligation="normative">
          <title>Intro 1</title>
@@ -371,6 +402,9 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Introduction Subsection
 
+      [heading=acknowledgements]
+      == Ευχαριστίες
+
       [heading=normative references]
       == Κανονιστικές Παραπομπές
 
@@ -413,7 +447,7 @@ RSpec.describe Asciidoctor::Standoc do
     <abstract id='_'>
       <p id='_'>Text</p>
     </abstract>
-    <foreword obligation='informative'>
+    <foreword id='_' obligation='informative'>
       <title>Foreword</title>
       <p id='_'>Text</p>
     </foreword>
@@ -423,6 +457,9 @@ RSpec.describe Asciidoctor::Standoc do
         <title>Introduction Subsection</title>
       </clause>
     </introduction>
+    <acknowledgements id='_' obligation='informative'>
+  <title>Ευχαριστίες</title>
+</acknowledgements>
   </preface>
   <sections>
     <terms id='_' obligation='normative'>
@@ -434,6 +471,7 @@ RSpec.describe Asciidoctor::Standoc do
     </terms>
     <clause id='_' obligation='normative'>
       <title>Terms and definitions</title>
+  <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
       <terms id='_' obligation='normative'>
         <title>Normal Terms</title>
         <term id='_'>
@@ -604,7 +642,7 @@ RSpec.describe Asciidoctor::Standoc do
      INPUT
              #{BLANK_HDR}
              <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
-        <preface><foreword obligation="informative">
+        <preface><foreword id='_' obligation="informative">
          <title>Foreword</title>
          <p id="_">Foreword</p>
        </foreword></preface><sections>
@@ -631,7 +669,7 @@ RSpec.describe Asciidoctor::Standoc do
 
      INPUT
              #{BLANK_HDR}
-        <preface><foreword obligation="informative">
+        <preface><foreword id='_' obligation="informative">
          <title>Foreword</title>
          <p id="_">Foreword</p>
        </foreword></preface><sections>
@@ -656,7 +694,7 @@ RSpec.describe Asciidoctor::Standoc do
      INPUT
              #{BLANK_HDR}
              <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
-        <preface><foreword obligation="informative">
+        <preface><foreword id='_' obligation="informative">
          <title>Foreword</title>
          <p id="_">Foreword</p>
        </foreword></preface><sections>
@@ -690,7 +728,7 @@ RSpec.describe Asciidoctor::Standoc do
      INPUT
      #{BLANK_HDR.sub(%r{<language>en</language>}, "<language>fr</language>")}
              <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
-        <preface><foreword obligation="informative">
+        <preface><foreword id='_' obligation="informative">
          <title>Foreword</title>
          <p id="_">Foreword</p>
        </foreword></preface><sections>
@@ -723,7 +761,7 @@ RSpec.describe Asciidoctor::Standoc do
 
      INPUT
      #{BLANK_HDR.sub(%r{<language>en</language>}, "<language>zh</language>").sub(%r{<script>Latn</script>}, "<script>Hans</script>")}
-       <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/><preface><foreword obligation="informative">
+       <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/><preface><foreword id='_' obligation="informative">
          <title>Foreword</title>
          <p id="_">Foreword</p>
        </foreword></preface><sections>

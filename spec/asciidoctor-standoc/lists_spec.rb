@@ -8,6 +8,10 @@ RSpec.describe Asciidoctor::Standoc do
       * List 2
       * List 3
 
+      * [*] checked
+      * [x] also checked
+      * [ ] not checked
+
       . List A
       . List B
       . List C
@@ -17,42 +21,51 @@ RSpec.describe Asciidoctor::Standoc do
 
     INPUT
     expect(xmlpp(strip_guid(output))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-            #{BLANK_HDR}
-       <sections>
-         <ul id="_">
-         <li>
-           <p id="_">List 1</p>
-         </li>
-         <li>
-           <p id="_">List 2</p>
-         </li>
-         <li>
-           <p id="_">List 3</p>
-           <ol id="_" type="arabic">
-         <li>
-           <p id="_">List A</p>
-         </li>
-         <li>
-           <p id="_">List B</p>
-         </li>
-         <li>
-           <p id="_">List C</p>
-           <dl id="_">
-         <dt>List D</dt>
-         <dd>
-           <p id="_">List E</p>
-         </dd>
-         <dt>List F</dt>
-         <dd>
-           <p id="_">List G</p>
-         </dd>
-       </dl>
-         </li>
-       </ol>
-         </li>
-       </ul>
-       </sections>
-       </standard-document>
+  #{BLANK_HDR}
+  <sections>
+    <ul id='_'>
+      <li>
+        <p id='_'>List 1</p>
+      </li>
+      <li>
+        <p id='_'>List 2</p>
+      </li>
+      <li>
+        <p id='_'>List 3</p>
+      </li>
+      <li uncheckedcheckbox='false' checkedcheckbox='true'>
+        <p id='_'>checked</p>
+      </li>
+      <li uncheckedcheckbox='false' checkedcheckbox='true'>
+        <p id='_'>also checked</p>
+      </li>
+      <li uncheckedcheckbox='true' checkedcheckbox='false'>
+        <p id='_'>not checked</p>
+        <ol id='_' type='arabic'>
+          <li>
+            <p id='_'>List A</p>
+          </li>
+          <li>
+            <p id='_'>List B</p>
+          </li>
+          <li>
+            <p id='_'>List C</p>
+            <dl id='_'>
+              <dt>List D</dt>
+              <dd>
+                <p id='_'>List E</p>
+              </dd>
+              <dt>List F</dt>
+              <dd>
+                <p id='_'>List G</p>
+              </dd>
+            </dl>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </sections>
+</standard-document>
     OUTPUT
   end
 

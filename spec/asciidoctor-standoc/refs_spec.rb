@@ -99,6 +99,10 @@ RSpec.describe Asciidoctor::Standoc do
     mock_isobib_get_123_no_docid_lbl
     input = <<~"INPUT"
         #{ISOBIB_BLANK_HDR}
+        
+        <<iso123>>
+        <<iso124>>
+
         [bibliography]
         == Normative References
 
@@ -107,6 +111,15 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
        #{BLANK_HDR}
+       <preface>
+  <foreword id='_' obligation='informative'>
+    <title>Foreword</title>
+    <p id='_'>
+      <eref type='inline' bibitemid='iso123' citeas='ISO 123'/>
+      <eref type='inline' bibitemid='iso124' citeas='[1]'/>
+    </p>
+  </foreword>
+</preface>
        <sections>
        </sections><bibliography><references id="_" obligation="informative"><title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
@@ -1085,7 +1098,7 @@ OUTPUT
       * [[[iso124,(1)ISO 123]]] _Standard_
     INPUT
       <?xml version="1.0" encoding="UTF-8"?>
-      <standard-document xmlns="https://www.metanorma.com/ns/standoc">
+      <standard-document xmlns="https://www.metanorma.org/ns/standoc">
       <bibdata type="standard">
       <title language="en" format="text/plain">Document title</title>
         <language>en</language>

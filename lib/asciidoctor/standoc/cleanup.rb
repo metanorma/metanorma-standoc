@@ -43,6 +43,7 @@ module Asciidoctor
         normref_cleanup(xmldoc)
         biblio_cleanup(xmldoc)
         reference_names(xmldoc)
+        symbols_cleanup(xmldoc)
         xref_cleanup(xmldoc)
         origin_cleanup(xmldoc)
         concept_cleanup(xmldoc)

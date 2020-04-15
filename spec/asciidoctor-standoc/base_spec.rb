@@ -106,7 +106,7 @@ RSpec.describe Asciidoctor::Standoc do
       :keywords: a, b, c
     INPUT
     <?xml version="1.0" encoding="UTF-8"?>
-<standard-document xmlns="https://www.metanorma.com/ns/standoc">
+<standard-document xmlns="https://www.metanorma.org/ns/standoc">
 <bibdata type="standard">
 <title language="en" format="text/plain">Main Title — Title</title>
   <docidentifier>1000-1</docidentifier>
@@ -291,6 +291,8 @@ RSpec.describe Asciidoctor::Standoc do
       :docfile: test.adoc
       :nodoc:
       :novalid:
+      :revdate: 2000-01
+      :published-date: 1000-01
       :docnumber: 1000
       :partnumber: 1-1
       :tc-docnumber: 2000
@@ -315,7 +317,7 @@ RSpec.describe Asciidoctor::Standoc do
       == Clause 1
     INPUT
            <?xml version="1.0" encoding="UTF-8"?>
-       <standard-document xmlns="https://www.metanorma.com/ns/standoc">
+       <standard-document xmlns="https://www.metanorma.org/ns/standoc">
        <bibdata type="standard">
          <title language="en" format="text/plain">Document title</title>
          <title language="eo" format="text/plain">Dokumenttitolo</title>
@@ -327,6 +329,9 @@ RSpec.describe Asciidoctor::Standoc do
          <uri type="relaton">F</uri>
          <docidentifier>1000-1-1</docidentifier>
          <docnumber>1000</docnumber>
+         <date type='published'>
+  <on>1000-01</on>
+</date>
          <contributor>
            <role type="author"/>
            <organization>
@@ -363,6 +368,9 @@ RSpec.describe Asciidoctor::Standoc do
              <name>ISO</name>
            </organization>
          </contributor>
+         <version>
+  <revision-date>2000-01</revision-date>
+</version>
          <language>el</language>
          <script>Grek</script>
          <abstract><p>This is the abstract of the document</p>
