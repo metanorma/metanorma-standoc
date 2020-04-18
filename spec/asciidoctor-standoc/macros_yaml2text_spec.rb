@@ -5,7 +5,9 @@ RSpec.describe Asciidoctor::Standoc::Yaml2TextPreprocessor do
     let(:example_file) { 'example.yml' }
 
     before do
-      File.new(example_file, 'w').tap { |n| n.puts(example_yaml_content) }.close
+      if defined?(example_yaml_content)
+        File.new(example_file, 'w').tap { |n| n.puts(example_yaml_content) }.close
+      end
     end
 
     after do
@@ -395,6 +397,55 @@ RSpec.describe Asciidoctor::Standoc::Yaml2TextPreprocessor do
                 <title>2 → 3 dolor == dolor</title>
                 <sourcecode lang='ruby' id='_'>link:doc-2.rb[]</sourcecode>
               </clause>
+            </sections>
+          </standard-document>
+        TEXT
+      end
+
+      it 'correctly renders input yaml' do
+        expect(
+          xmlpp(
+            strip_guid(
+              Asciidoctor.convert(input,
+                                  backend: :standoc,
+                                  header_footer: true),
+            ),
+          ),
+        ).to(be_equivalent_to(xmlpp(output)))
+      end
+    end
+
+    context "Array of language codes" do
+      let(:input) do
+        <<~TEXT
+          = Document title
+          Author
+          :docfile: test.adoc
+          :nodoc:
+          :novalid:
+          :no-isobib:
+          :imagesdir: spec/assets
+
+          [yaml2text,#{File.expand_path('../assets/codes.yml', __dir__)},ar]
+          ----
+          {ar.*,item,EOF}
+          .{item.values[1]}
+          [%noheader,cols="h,1"]
+          |===
+          {item.*,key,EOK}
+          | {key} | {item[key]}
+
+          {EOK}
+          |===
+          {EOF}
+          ----
+        TEXT
+      end
+      let(:output) do
+        <<~TEXT
+          #{BLANK_HDR}
+            <sections>
+              #{File.read(File.expand_path('../examples/codes_table.html', __dir__))}
             </sections>
           </standard-document>
         TEXT

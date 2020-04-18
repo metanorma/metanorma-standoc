@@ -37,6 +37,9 @@ module Asciidoctor
         args = args.map do |argument|
           argument.is_a?(YamlContext) ? argument.context_object : argument
         end
+        if name == :values
+          return context_object.to_h.values
+        end
         if context_object.respond_to?(name) &&
             (context_object.is_a?(OpenStruct) || context_object.is_a?(Array))
           return context_object.send(name, *args)
