@@ -114,12 +114,17 @@ module Asciidoctor
         elsif style == :latexmath
           latex_cmd = Metanorma::Standoc::Requirements[:latexml].cmd
           latexmlmath_input =
-            Unicode2LaTeX::unicode2latex(HTMLEntities.new.decode(text)).
-            gsub(/'/, '\\').gsub(/\n/, " ")
+            Unicode2LaTeX::unicode2latex(HTMLEntities.new.decode(text))
           latex = IO.popen(latex_cmd, "r+", external_encoding: "UTF-8") do |io|
             io.write(latexmlmath_input)
             io.close_write
-            io.read
+            results = io.read
+            io.close
+            if $?.to_i != 0
+              @log.add("Math", nil,
+                       "ERROR: latexmlmath failed to process this equation:\n#{latexmlmath_input}")
+            end
+            results
           end
           xml.stem **{ type: "MathML" } do |s|
             s << latex.sub(/<\?[^>]+>/, "")
