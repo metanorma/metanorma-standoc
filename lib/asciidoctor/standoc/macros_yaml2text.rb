@@ -88,7 +88,7 @@ module Asciidoctor
       #     - name: spaghetti
       #       desc: wheat noodles of 9mm diameter
       #       symbol: SPAG
-      #       symbol: the situation is message like spaghetti at a kid's meal
+      #       symbol_def: the situation is message like spaghetti at a kid's meal
       #
       #   will produce:
       #     === spaghetti
