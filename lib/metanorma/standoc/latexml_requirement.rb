@@ -29,9 +29,9 @@ module Metanorma
 
           @error_message = "WARNING #{header_msg} Please sure that #{suggestion} command"
 
-          @cmd = "latexmlmath --strict --preload=amsmath -- -"
+          @cmd = 'latexmlmath --strict --preload=amsmath -- -'
         else
-          @cmd = "latexmlmath --strict --preload=amsmath --inputencoding=UTF-8 -- -"
+          @cmd = 'latexmlmath --strict --preload=amsmath --inputencoding=UTF-8 -- -'
         end
       rescue
         @error_message = "LaTeXML not installed (or don't works properly)."\
