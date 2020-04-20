@@ -73,7 +73,7 @@ module Asciidoctor
 
     class Yaml2TextPreprocessor < Asciidoctor::Extensions::Preprocessor
       BLOCK_START_REGEXP = '^\{%s.?(?<nested_context>.*)\.\*,(?<name>.+),(?<block_mark>.+)\}'.freeze
-      # serch document for block `yaml2text`
+      # search document for block `yaml2text`
       #   after that take template from block and read file into this template
       #   example:
       #     [yaml2text,foobar.yaml]
