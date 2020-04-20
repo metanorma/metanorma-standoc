@@ -107,31 +107,28 @@ module Asciidoctor
           gsub(/&quot;/, '"').gsub(/&#xa;/, "\n")
       end
 
+      def latex_parse(text)
+        lxm_input = Unicode2LaTeX.unicode2latex(HTMLEntities.new.decode(text))
+        IO.popen(Metanorma::Standoc::Requirements[:latexml].cmd,
+                 "r+", external_encoding: "UTF-8") do |io|
+          io.write(lxm_input)
+          io.close_write
+          results = io.read
+          io.close
+          !$CHILD_STATUS.to_i.zero? or
+            @log.add('Math', nil,
+                     "latexmlmath failed to process equation:\n#{lxm_input}")
+          results
+        end
+      end
+
       def stem_parse(text, xml, style)
         if /&lt;([^:>&]+:)?math(\s+[^>&]+)?&gt; |
           <([^:>&]+:)?math(\s+[^>&]+)?>/x.match text
           math = xml_encode(text)
           xml.stem math, **{ type: "MathML" }
         elsif style == :latexmath
-          latex_cmd = Metanorma::Standoc::Requirements[:latexml].cmd
-          lxm_input =
-            Unicode2LaTeX.unicode2latex(HTMLEntities.new.decode(text))
-          latex = IO.popen(latex_cmd, "r+", external_encoding: "UTF-8") do |io|
-            io.write(lxm_input)
-            io.close_write
-            results = io.read
-            io.close
-
-            unless $CHILD_STATUS.to_i.zero?
-              @log.add(
-                'Math',
-                nil,
-                "ERROR: latexmlmath failed to process equation:\n#{lxm_input}"
-              )
-            end
-
-            results
-          end
+          latex = latex_parse(text)
           xml.stem **{ type: "MathML" } do |s|
             s << latex.sub(/<\?[^>]+>/, "")
           end
@@ -184,13 +181,13 @@ module Asciidoctor
         type = types.first.to_s
         uri = uri.sub(%r{^data:image/\*;}, "data:#{type};")
         attr_code(src: @datauriimage ? datauri(uri) : uri,
-          id: Utils::anchor_or_uuid,
-          mimetype: type,
-          height: node.attr("height") || "auto",
-          width: node.attr("width") || "auto" ,
-          filename: node.attr("filename"),
-          title: node.attr("titleattr"),
-          alt: node.alt == node.attr("default-alt") ? nil : node.alt)
+                  id: Utils::anchor_or_uuid,
+                  mimetype: type,
+                  height: node.attr("height") || "auto",
+                  width: node.attr("width") || "auto" ,
+                  filename: node.attr("filename"),
+                  title: node.attr("titleattr"),
+                  alt: node.alt == node.attr("default-alt") ? nil : node.alt)
       end
 
       def inline_image(node)

@@ -3,6 +3,21 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
+  it "warns about malformed LaTeX" do
+  FileUtils.rm_f "test.err"
+  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
+  #{VALIDATING_BLANK_HDR}
+
+  == Clause 1
+
+  latexmath:[< > <]
+
+  === Clause 1.1
+
+  Subclause
+  INPUT
+  expect(File.read("test.err")).to include "latexmlmath failed to process equation"
+  end
 
   it "warns about hanging paragraphs" do
   FileUtils.rm_f "test.err"
