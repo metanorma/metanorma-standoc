@@ -2,6 +2,7 @@ require "asciidoctor/extensions"
 require "fileutils"
 require "uuidtools"
 require_relative "./macros_plantuml.rb"
+require_relative "./macros_yaml2text.rb"
 
 module Asciidoctor
   module Standoc

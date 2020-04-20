@@ -287,7 +287,7 @@ OUTPUT
        </standard-document>
     OUTPUT
   end
-  
+
   it "processes the PlantUML macro" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).gsub(%r{plantuml/plantuml[^./]+\.}, "plantuml/_."))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
@@ -462,7 +462,6 @@ Alice &lt;-- Bob: another authentication Response
     OUTPUT
   end
 
-
   private
 
   def mock_plantuml_disabled
@@ -471,13 +470,13 @@ Alice &lt;-- Bob: another authentication Response
       false
     end
   end
-  
+
   def mock_localdir_unwritable
     expect(Asciidoctor::Standoc::Utils).to receive(:localdir) do
       "/"
     end.exactly(2).times
   end
-  
+
   def mock_localdir_unwritable
     expect(File).to receive(:writable?) do
       false
