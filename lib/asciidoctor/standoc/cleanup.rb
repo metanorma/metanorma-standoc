@@ -31,7 +31,6 @@ module Asciidoctor
 
       def cleanup(xmldoc)
         element_name_cleanup(xmldoc)
-        termdef_cleanup(xmldoc)
         sections_cleanup(xmldoc)
         obligations_cleanup(xmldoc)
         table_cleanup(xmldoc)
@@ -45,8 +44,9 @@ module Asciidoctor
         reference_names(xmldoc)
         symbols_cleanup(xmldoc)
         xref_cleanup(xmldoc)
-        origin_cleanup(xmldoc)
         concept_cleanup(xmldoc)
+        origin_cleanup(xmldoc)
+        termdef_cleanup(xmldoc)
         RelatonIev::iev_cleanup(xmldoc, @bibdb)
         element_name_cleanup(xmldoc)
         bpart_cleanup(xmldoc)

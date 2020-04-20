@@ -192,7 +192,16 @@ module Asciidoctor
         end
       end
 
+      def termdef_from_termbase(xmldoc)
+        xmldoc.xpath("//term").each do |x|
+          if c = x.at("./origin/termref") and !x.at("./definition")
+            x.at("./origin").previous = fetch_termbase(c["base"], c.text)
+          end
+        end
+      end
+
       def termdef_cleanup(xmldoc)
+        termdef_from_termbase(xmldoc)
         termdef_unnest_cleanup(xmldoc)
         termdef_stem_cleanup(xmldoc)
         termdomain_cleanup(xmldoc)

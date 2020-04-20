@@ -924,6 +924,19 @@ RSpec.describe Asciidoctor::Standoc do
 
       [.source]
       <<ISO2191,section=1>>
+
+      === Term2
+
+      Definition
+
+      [.source]
+      {{IEV:xyz}}
+
+      [.source]
+      {{IEV:xyz,t1}}
+
+      [.source]
+      {{IEV:xyz,t1,t2}}
       INPUT
       #{BLANK_HDR}
        <sections>
@@ -940,6 +953,27 @@ RSpec.describe Asciidoctor::Standoc do
         </origin>
        </termsource>
        </term>
+       <term id='_'>
+  <preferred>Term2</preferred>
+  <definition>
+    <p id='_'>Definition</p>
+  </definition>
+  <termsource status='identical'>
+    <origin citeas=''>
+      <termref base='IEV' target='xyz'/>
+    </origin>
+  </termsource>
+  <termsource status='identical'>
+    <origin citeas=''>
+      <termref base='IEV' target='xyz'>t1</termref>
+    </origin>
+  </termsource>
+  <termsource status='identical'>
+    <origin citeas=''>
+      <termref base='IEV' target='xyz'>t1</termref>
+    </origin>
+  </termsource>
+</term>
        </terms>
        </sections>
        </standard-document>
@@ -955,6 +989,13 @@ RSpec.describe Asciidoctor::Standoc do
 
       [.source]
       <<ISO2191,section=1>>, with adjustments
+
+      === Term2
+
+      Definition
+
+      [.source]
+      {{IEV:xyz}}, with adjustments
       INPUT
       #{BLANK_HDR}
             <sections>
@@ -975,6 +1016,20 @@ RSpec.describe Asciidoctor::Standoc do
          </modification>
        </termsource>
        </term>
+       <term id='_'>
+  <preferred>Term2</preferred>
+  <definition>
+    <p id='_'>Definition</p>
+  </definition>
+  <termsource status='modified'>
+    <origin citeas=''>
+      <termref base='IEV' target='xyz'/>
+    </origin>
+    <modification>
+      <p id='_'>with adjustments</p>
+    </modification>
+  </termsource>
+</term>
        </terms>
        </sections>
        </standard-document>

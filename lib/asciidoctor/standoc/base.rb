@@ -207,15 +207,19 @@ module Asciidoctor
       end
 
       def add_term_source(xml_t, seen_xref, m)
+        if seen_xref.children[0].name == "concept"
+          xml_t.origin { |o| o << seen_xref.children[0].to_xml }
+        else
         xml_t.origin seen_xref.children[0].content,
           **attr_code(term_source_attr(seen_xref))
+        end
         m[:text] && xml_t.modification do |mod|
           mod.p { |p| p << m[:text].sub(/^\s+/, "") }
         end
       end
 
       TERM_REFERENCE_RE_STR = <<~REGEXP.freeze
-        ^(?<xref><xref[^>]+>([^<]*</xref>)?)
+        ^(?<xref><(xref|concept)[^>]+>([^<]*</(xref|concept)>)?)
                (,\s(?<text>.*))?
         $
       REGEXP
@@ -226,8 +230,7 @@ module Asciidoctor
       def extract_termsource_refs(text, node)
         matched = TERM_REFERENCE_RE.match text
         matched.nil? and
-          #Utils::warning(node, "term reference not in expected format", text)
-        @log.add("Asciidoctor Input", node, "term reference not in expected format: #{text}")
+          @log.add("Asciidoctor Input", node, "term reference not in expected format: #{text}")
         matched
       end
 

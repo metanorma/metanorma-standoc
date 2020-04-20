@@ -58,7 +58,7 @@ module Asciidoctor
       named :concept
       name_positional_attributes "id", "word", "term"
       #match %r{concept:(?<target>[^\[]*)\[(?<content>|.*?[^\\])\]$}
-      match /\{\{(?<content>|.*?[^\\])\}\}$/
+      match /\{\{(?<content>|.*?[^\\])\}\}/
       using_format :short
 
       # deal with locality attrs and their disruption of positional attrs

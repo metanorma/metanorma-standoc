@@ -187,6 +187,10 @@ module Asciidoctor
         end
         bib
       end
+
+      def fetch_termbase(termbase, id)
+        ""
+      end
     end
   end
 end
