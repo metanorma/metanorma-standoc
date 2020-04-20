@@ -3,6 +3,7 @@ require "htmlentities"
 require "unicode2latex"
 require "mime/types"
 require "base64"
+require 'English'
 
 module Asciidoctor
   module Standoc
@@ -113,13 +114,23 @@ module Asciidoctor
           xml.stem math, **{ type: "MathML" }
         elsif style == :latexmath
           latex_cmd = Metanorma::Standoc::Requirements[:latexml].cmd
-          latexmlmath_input =
-            Unicode2LaTeX::unicode2latex(HTMLEntities.new.decode(text)).
-            gsub(/'/, '\\').gsub(/\n/, " ")
+          lxm_input =
+            Unicode2LaTeX.unicode2latex(HTMLEntities.new.decode(text))
           latex = IO.popen(latex_cmd, "r+", external_encoding: "UTF-8") do |io|
-            io.write(latexmlmath_input)
+            io.write(lxm_input)
             io.close_write
-            io.read
+            results = io.read
+            io.close
+
+            unless $CHILD_STATUS.to_i.zero?
+              @log.add(
+                'Math',
+                nil,
+                "ERROR: latexmlmath failed to process equation:\n#{lxm_input}"
+              )
+            end
+
+            results
           end
           xml.stem **{ type: "MathML" } do |s|
             s << latex.sub(/<\?[^>]+>/, "")
