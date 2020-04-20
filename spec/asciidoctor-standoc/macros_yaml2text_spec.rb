@@ -6,7 +6,7 @@ RSpec.describe Asciidoctor::Standoc::Yaml2TextPreprocessor do
 
     before do
       if defined?(example_yaml_content)
-        File.new(example_file, 'w').tap { |n| n.puts(example_yaml_content) }.close
+        File.open(example_file, 'w') { |n| n.puts(example_yaml_content) }
       end
     end
 
