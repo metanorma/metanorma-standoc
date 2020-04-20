@@ -11,31 +11,31 @@ module Metanorma
         version = version_output&.match(%r{\d+(.\d+)*})
 
         if version.to_s.empty?
-          @error_message = "LaTeXML not installed (or don't works properly)."\
-              " You must upgrade/install LaTeXML to #{@recommended_version} version"
+          @error_message = "LaTeXML is not available. (Or is PATH not setup properly?)"\
+            " You must upgrade/install LaTeXML to a version higher than `#{@recommended_version}`"
 
         elsif Gem::Version.new(version) < Gem::Version.new(@minimal_version)
-          @error_message = "Minimal supported LaTeXML version is #{@minimal_version} "\
-              "found #{version}, recommended version is #{@recommended_version}"
+          @error_message = "Minimal supported LaTeXML version is `#{@minimal_version}` "\
+              "Version `#{version}` found; recommended version is `#{@recommended_version}`"
 
         elsif Gem::Version.new(version) < Gem::Version.new(@recommended_version)
           version = "unknown" if version.to_s.empty?
-          header_msg = "latexmlmath version #{version} below #{@recommended_version}!"
+          header_msg = "latexmlmath version `#{version}` below `#{@recommended_version}`!"
           suggestion = if Gem.win_platform?
                          "cmd encoding is set to UTF-8 with `chcp 65001`"
                        else
                          "terminal encoding is set to UTF-8 with `export LANG=en_US.UTF-8`"
                        end
 
-          @error_message = "WARNING #{header_msg} Please sure that #{suggestion} command"
+          @error_message = "WARNING #{header_msg} Please sure that #{suggestion} command."
 
           @cmd = 'latexmlmath --strict --preload=amsmath -- -'
         else
           @cmd = 'latexmlmath --strict --preload=amsmath --inputencoding=UTF-8 -- -'
         end
       rescue
-        @error_message = "LaTeXML not installed (or don't works properly)."\
-            " You must upgrade/install LaTeXML to #{@recommended_version} version"
+        @error_message = "LaTeXML is not available. (Or is PATH not setup properly?)"\
+            " You must upgrade/install LaTeXML to a version higher than `#{@recommended_version}`"
       end
 
       def satisfied(abort = false)
