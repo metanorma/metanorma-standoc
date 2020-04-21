@@ -1691,11 +1691,25 @@ it "sorts symbols lists" do
         <dd>
           <p id='_'>Definition 5</p>
         </dd>
-        <dt><stem type='MathML'>x_m</stem></dt>
+        <dt><stem type='MathML'>
+        <math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <msub>
+    <mi>x</mi>
+    <mi>m</mi>
+  </msub>
+</math>
+        </stem></dt>
         <dd>
           <p id='_'>Definition 4</p>
         </dd>
-        <dt><stem type='MathML'>x_1</stem></dt>
+        <dt><stem type='MathML'>
+         <math xmlns='http://www.w3.org/1998/Math/MathML'>
+   <msub>
+     <mi>x</mi>
+     <mn>1</mn>
+   </msub>
+ </math>
+        </stem></dt>
         <dd>
           <p id='_'>Definition 3</p>
         </dd>

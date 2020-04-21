@@ -218,13 +218,19 @@ module Asciidoctor
       # Numbers sort *after* letters; we use thorn to force that sort order.
       def symbol_key(x)
         key = x.dup
-        key.xpath("//*[local-name() = 'math']").each do |m|
-          m.replace(MathML2AsciiMath.m2a(m.to_xml))
+        key.traverse do |n|
+          next unless n.name == "math"
+          n.replace(grkletters(MathML2AsciiMath.m2a(n.to_xml)))
         end
-        ret = Nokogiri::XML(MathML2AsciiMath.m2a(key.to_xml))
-        HTMLEntities.new.decode(ret.text).strip.
+        ret = Nokogiri::XML(key.to_xml)
+        HTMLEntities.new.decode(ret.text).
+          gsub(/[\[\]\{\}<>\(\)]/, "").strip.
           gsub(/[[:punct]]|[_^]/, ":\\0").gsub(/`/, "").
           gsub(/[0-9]+/, "þ\\0")
+      end
+
+      def grkletters(x)
+        x.gsub(/\b(alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|nu|xi|omicron|pi|rho|sigma|tau|upsilon|phi|chi|psi|omega)\b/i, "&\\1;")
       end
 
       def extract_symbols_list(dl)
@@ -242,7 +248,7 @@ module Asciidoctor
       def symbols_cleanup(docxml)
         docxml.xpath("//definitions/dl").each do |dl|
           dl_out = extract_symbols_list(dl)
-          dl_out.sort! { |a, b| a[:key] <=> b[:key] }
+          dl_out.sort! { |a, b| a[:key] <=> b[:key] || a[:dt] <=> b[:dt] }
           dl.children = dl_out.map { |d| d[:dt].to_s + d[:dd].to_s }.join("\n")
         end
         docxml
