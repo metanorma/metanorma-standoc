@@ -28,7 +28,8 @@ jobs:
       - name: Install LaTeXML
         run: |
           brew install libxml2 cpanminus
-          env PATH=$(brew --prefix libxml2)/bin:$PATH cpanm --notest XML::LibXSLT@1.96 git://github.com/brucemiller/LaTeXML.git@9a0e7dc5
+          env PATH=$(brew --prefix libxml2)/bin:$PATH \
+            cpanm --notest XML::LibXSLT@1.96 git://github.com/brucemiller/LaTeXML.git@9a0e7dc5
       - name: Install PlantUML
         run: |
           brew install plantuml

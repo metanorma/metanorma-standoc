@@ -31,8 +31,8 @@ jobs:
           bundle install --jobs 4 --retry 3
       - name: Install LaTeXML
         run: |
-          sudo snap install latexml
-          sudo snap alias latexml.math latexmlmath
+          sudo snap install latexml --edge
+          echo "::add-path::/snap/bin"
       - name: Install PlantUML
         run: |
           curl -L https://raw.githubusercontent.com/metanorma/plantuml-install/master/ubuntu.sh | sudo bash
