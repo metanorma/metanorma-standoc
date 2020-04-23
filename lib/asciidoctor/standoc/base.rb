@@ -55,6 +55,7 @@ module Asciidoctor
           datauriimage: node.attr("data-uri-image"),
           htmltoclevels: node.attr("htmltoclevels") || node.attr("toclevels"),
           doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
+          break_up_urls_in_tables: node.attr("break-up-urls-in-tables"),
         }
       end
 
@@ -79,6 +80,7 @@ module Asciidoctor
           olstyle: node.attr("olstyle"),
           htmltoclevels: node.attr("htmltoclevels") || node.attr("toclevels"),
           doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
+          break_up_urls_in_tables: node.attr("break-up-urls-in-tables"),
         }
       end
 
