@@ -78,7 +78,9 @@ module Asciidoctor
 
       def datetypes
         %w{ published accessed created implemented obsoleted
-            confirmed updated issued circulated unchanged received }
+            confirmed updated issued circulated unchanged received 
+            vote-started vote-ended
+        }
       end
 
       def metadata_date(node, xml)

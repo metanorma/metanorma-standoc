@@ -206,9 +206,7 @@ module Asciidoctor
 
         def reference(node)
           noko do |xml|
-            node.items.each do |item|
-              reference1(node, item.text, xml)
-            end
+            node.items.each { |item| reference1(node, item.text, xml) }
           end.join
         end
 

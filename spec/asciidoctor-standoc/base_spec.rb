@@ -53,6 +53,8 @@ RSpec.describe Asciidoctor::Standoc do
       :issued-date: 1007-01-01
       :circulated-date: 1008-01-01
       :unchanged-date: 1009-01-01
+      :vote-started-date: 1011-01-01
+      :vote-ended-date: 1012-01-01
       :date: Fred 1010-01-01
       :date_2: Jack 1010-01-01
       :draft: 3.4
@@ -141,6 +143,12 @@ RSpec.describe Asciidoctor::Standoc do
 <date type="unchanged">
   <on>1009-01-01</on>
 </date>
+ <date type='vote-started'>
+   <on>1011-01-01</on>
+ </date>
+ <date type='vote-ended'>
+   <on>1012-01-01</on>
+ </date>
 <date type="Fred">
   <on>1010-01-01</on>
 </date>
