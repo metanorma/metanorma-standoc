@@ -20,7 +20,8 @@ module Asciidoctor
         def asciidoc_sub(x)
           return nil if x.nil?
           return "" if x.empty?
-          d = Asciidoctor::Document.new(x.lines.entries, {header_footer: false})
+          d = Asciidoctor::Document.new(x.lines.entries, { header_footer: false,
+                                                           backend: :standoc })
           b = d.parse.blocks.first
           b.apply_subs(b.source)
         end
@@ -65,16 +66,6 @@ module Asciidoctor
             set_nested_value(hash[key], keys[1..-1], new_val)
           end
         end
-
-=begin
-        def warning(node, msg, text)
-          return if @novalid
-          warntext = "asciidoctor: WARNING"\
-            "(#{current_location(node)}): #{msg}"
-          warntext += ": #{text}" if text
-          warn warntext
-        end
-=end
 
         def flatten_rawtext_lines(node, result)
           node.lines.each do |x|
