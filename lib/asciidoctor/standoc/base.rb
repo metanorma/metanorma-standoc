@@ -28,6 +28,14 @@ module Asciidoctor
         block Asciidoctor::Standoc::PseudocodeBlockMacro
       end
 
+      def xml_root_tag
+        self.class::XML_ROOT_TAG
+      end
+
+      def xml_namespace
+        self.class::XML_NAMESPACE
+      end
+
       def content(node)
         node.content
       end
@@ -168,17 +176,17 @@ module Asciidoctor
 
       def makexml1(node)
         result = ["<?xml version='1.0' encoding='UTF-8'?>",
-                  "<#{self.class::XML_ROOT_TAG}>"]
+                  "<#{xml_root_tag}>"]
         result << noko { |ixml| front node, ixml }
         result << noko { |ixml| middle node, ixml }
-        result << "</#{self.class::XML_ROOT_TAG}>"
+        result << "</#{xml_root_tag}>"
         textcleanup(result)
       end
 
       def makexml(node)
         result = makexml1(node)
         ret1 = cleanup(Nokogiri::XML(result))
-        ret1.root.add_namespace(nil, self.class::XML_NAMESPACE)
+        ret1.root.add_namespace(nil, xml_namespace)
         validate(ret1) unless @novalid
         ret1
       end
@@ -213,8 +221,8 @@ module Asciidoctor
         if seen_xref.children[0].name == "concept"
           xml_t.origin { |o| o << seen_xref.children[0].to_xml }
         else
-        xml_t.origin seen_xref.children[0].content,
-          **attr_code(term_source_attr(seen_xref))
+          xml_t.origin seen_xref.children[0].content,
+            **attr_code(term_source_attr(seen_xref))
         end
         m[:text] && xml_t.modification do |mod|
           mod.p { |p| p << m[:text].sub(/^\s+/, "") }
