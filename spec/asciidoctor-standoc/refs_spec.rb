@@ -234,155 +234,223 @@ RSpec.describe Asciidoctor::Standoc do
 
        </sections><bibliography><references id="_" obligation="informative"><title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
-       <bibitem id="iso123" type="standard">
-         <fetched>#{Date.today}</fetched>
-         <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
-         <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
-         <title type="main" format="text/plain" language="en" script="Latn">Rubber latex – Sampling</title>
-         <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
-         <title type="title-main" format="text/plain" language="fr" script="Latn">Échantillonnage</title>
-         <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc – Échantillonnage</title>
-         <uri type="src">https://www.iso.org/standard/23281.html</uri>
-         <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-         <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-         <docidentifier type="ISO">ISO 123:2001</docidentifier>
-         <docnumber>123</docnumber>
-         <date type="published">
-                <on>2001</on>
-         </date>
-         <contributor>
-           <role type="publisher"/>
-           <organization>
-             <name>International Organization for Standardization</name>
-             <abbreviation>ISO</abbreviation>
-             <uri>www.iso.org</uri>
-           </organization>
-         </contributor>
-         <edition>3</edition>
-         <language>en</language>
-         <language>fr</language>
-         <script>Latn</script>
-         <status>
-           <stage>90</stage>
-           <substage>93</substage>
-         </status>
-         <copyright>
-           <from>2001</from>
-           <owner>
-             <organization>
-               <name>ISO</name>
-             </organization>
-           </owner>
-         </copyright>
-         <relation type="obsoletes">
-           <bibitem type="standard">
-             <formattedref format="text/plain">ISO 123:1985</formattedref>
-           </bibitem>
-         </relation>
-         <place>Geneva</place>
-         </bibitem> 
-         <bibitem id="iso123" type="standard">
-         <fetched>#{Date.today}</fetched>
-         <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
-         <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
-         <title type="main" format="text/plain" language="en" script="Latn">Rubber latex – Sampling</title>
-         <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
-         <title type="title-main" format="text/plain" language="fr" script="Latn">Échantillonnage</title>
-         <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc – Échantillonnage</title>
-         <uri type="src">https://www.iso.org/standard/23281.html</uri>
-         <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-         <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-         <docidentifier type="ISO">ISO 123:2001</docidentifier>
-         <docidentifier type='metanorma'>[1]</docidentifier>
-         <docnumber>123</docnumber>
-         <date type="published">
-                <on>2001</on>
-         </date>
-         <contributor>
-           <role type="publisher"/>
-           <organization>
-             <name>International Organization for Standardization</name>
-             <abbreviation>ISO</abbreviation>
-             <uri>www.iso.org</uri>
-           </organization>
-         </contributor>
-         <edition>3</edition>
-         <language>en</language>
-         <language>fr</language>
-         <script>Latn</script>
-         <status>
-           <stage>90</stage>
-           <substage>93</substage>
-         </status>
-         <copyright>
-           <from>2001</from>
-           <owner>
-             <organization>
-               <name>ISO</name>
-             </organization>
-           </owner>
-         </copyright>
-         <relation type="obsoletes">
-           <bibitem type="standard">
-             <formattedref format="text/plain">ISO 123:1985</formattedref>
-           </bibitem>
-         </relation>
-         <place>Geneva</place>
-         </bibitem>
-        </references></bibliography>
+         <bibitem id='iso123' type='standard'>
+               <fetched>#{Date.today}</fetched>
+               <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
+               <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
+               <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex – Sampling</title>
+               <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
+               <title type='title-main' format='text/plain' language='fr' script='Latn'>Échantillonnage</title>
+               <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc – Échantillonnage</title>
+               <uri type='src'>https://www.iso.org/standard/23281.html</uri>
+               <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+               <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+               <docidentifier type='ISO'>ISO 123 (all parts)</docidentifier>
+               <docnumber>123</docnumber>
+               <date type='published'>
+                 <on>2001</on>
+               </date>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <edition>3</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <status>
+                 <stage>90</stage>
+                 <substage>93</substage>
+               </status>
+               <copyright>
+                 <from>2001</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type='obsoletes'>
+                 <bibitem type='standard'>
+                   <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                 </bibitem>
+               </relation>
+               <relation type='instance'>
+                 <bibitem type='standard'>
+                   <fetched>2020-04-27</fetched>
+                   <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
+                   <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
+                   <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex – Sampling</title>
+                   <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
+                   <title type='title-main' format='text/plain' language='fr' script='Latn'>Échantillonnage</title>
+                   <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc – Échantillonnage</title>
+                   <uri type='src'>https://www.iso.org/standard/23281.html</uri>
+                   <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+                   <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <docidentifier type='ISO'>ISO 123:2001</docidentifier>
+                   <docnumber>123</docnumber>
+                   <date type='published'>
+                     <on>2001</on>
+                   </date>
+                   <contributor>
+                     <role type='publisher'/>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <abbreviation>ISO</abbreviation>
+                       <uri>www.iso.org</uri>
+                     </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <status>
+                     <stage>90</stage>
+                     <substage>93</substage>
+                   </status>
+                   <copyright>
+                     <from>2001</from>
+                     <owner>
+                       <organization>
+                         <name>ISO</name>
+                       </organization>
+                     </owner>
+                   </copyright>
+                   <relation type='obsoletes'>
+                     <bibitem type='standard'>
+                       <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                     </bibitem>
+                   </relation>
+                   <place>Geneva</place>
+                 </bibitem>
+               </relation>
+               <relation type='instance'>
+                 <bibitem type='standard'>
+                   <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                 </bibitem>
+               </relation>
+               <relation type='instance'>
+                 <bibitem type='standard'>
+                   <formattedref format='text/plain'>ISO 123:1974</formattedref>
+                 </bibitem>
+               </relation>
+               <place>Geneva</place>
+             </bibitem>
+             <bibitem id='iso123' type='standard'>
+               <fetched>2020-04-27</fetched>
+               <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
+               <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
+               <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex – Sampling</title>
+               <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
+               <title type='title-main' format='text/plain' language='fr' script='Latn'>Échantillonnage</title>
+               <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc – Échantillonnage</title>
+               <uri type='src'>https://www.iso.org/standard/23281.html</uri>
+               <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+               <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+               <docidentifier type='ISO'>ISO 123 (all parts)</docidentifier>
+               <docidentifier type='metanorma'>[1]</docidentifier>
+               <docnumber>123</docnumber>
+               <date type='published'>
+                 <on>2001</on>
+               </date>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <edition>3</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <status>
+                 <stage>90</stage>
+                 <substage>93</substage>
+               </status>
+               <copyright>
+                 <from>2001</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type='obsoletes'>
+                 <bibitem type='standard'>
+                   <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                 </bibitem>
+               </relation>
+               <relation type='instance'>
+                 <bibitem type='standard'>
+                   <fetched>#{Date.today}</fetched>
+                   <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
+                   <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
+                   <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex – Sampling</title>
+                   <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
+                   <title type='title-main' format='text/plain' language='fr' script='Latn'>Échantillonnage</title>
+                   <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc – Échantillonnage</title>
+                   <uri type='src'>https://www.iso.org/standard/23281.html</uri>
+                   <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+                   <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <docidentifier type='ISO'>ISO 123:2001</docidentifier>
+                   <docnumber>123</docnumber>
+                   <date type='published'>
+                     <on>2001</on>
+                   </date>
+                   <contributor>
+                     <role type='publisher'/>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <abbreviation>ISO</abbreviation>
+                       <uri>www.iso.org</uri>
+                     </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <status>
+                     <stage>90</stage>
+                     <substage>93</substage>
+                   </status>
+                   <copyright>
+                     <from>2001</from>
+                     <owner>
+                       <organization>
+                         <name>ISO</name>
+                       </organization>
+                     </owner>
+                   </copyright>
+                   <relation type='obsoletes'>
+                     <bibitem type='standard'>
+                       <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                     </bibitem>
+                   </relation>
+                   <place>Geneva</place>
+                 </bibitem>
+               </relation>
+               <relation type='instance'>
+                 <bibitem type='standard'>
+                   <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                 </bibitem>
+               </relation>
+               <relation type='instance'>
+                 <bibitem type='standard'>
+                   <formattedref format='text/plain'>ISO 123:1974</formattedref>
+                 </bibitem>
+               </relation>
+               <place>Geneva</place>
+             </bibitem>
+           </references>
+         </bibliography>
        </standard-document>
        OUTPUT
-=begin
-         <relation type="instance">
-           <bibitem type="standard">
-             <fetched>#{Date.today}</fetched>
-             <title type="title-main" format="text/plain" language="en" script="Latn">Rubber latex – Sampling</title>
-             <title type="main" format="text/plain" language="en" script="Latn">Rubber latex – Sampling</title>
-             <title type="title-main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc – Échantillonnage</title>
-             <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc – Échantillonnage</title>
-             <uri type="src">https://www.iso.org/standard/23281.html</uri>
-             <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-             <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-             <docidentifier type="ISO">ISO 123:2001</docidentifier>
-             <docnumber>123</docnumber>
-             <date type="published">
-               <on>2001</on>
-             </date>
-             <contributor>
-               <role type="publisher"/>
-               <organization>
-                 <name>International Organization for Standardization</name>
-                 <abbreviation>ISO</abbreviation>
-                 <uri>www.iso.org</uri>
-               </organization>
-             </contributor>
-             <edition>3</edition>
-             <language>en</language>
-             <language>fr</language>
-             <script>Latn</script>
-             <status>
-               <stage>90</stage>
-               <substage>93</substage>
-             </status>
-             <copyright>
-               <from>2001</from>
-               <owner>
-                 <organization>
-                   <name>ISO</name>
-                 </organization>
-               </owner>
-             </copyright>
-             <relation type="obsoletes">
-               <bibitem type="standard">
-                 <formattedref format="text/plain">ISO 123:1985</formattedref>
-               </bibitem>
-             </relation>
-           </bibitem>
-         </relation>
-       </bibitem> </references></bibliography>
-       </standard-document>
-      OUTPUT
-=end
     end
   end
 
@@ -482,6 +550,7 @@ RSpec.describe Asciidoctor::Standoc do
           <language>fr</language>
           <script>Latn</script>
           <abstract format="text/plain" language="en" script="Latn">Contains a permuted index of all terms included in the parts 1 — 28 of ISO 2382. If any of these parts has been revised, the present TR refers to the revision.</abstract>
+          <abstract format="text/plain" language="fr" script="Latn">Contains a permuted index of all terms included in the parts 1 — 28 of ISO 2382. If any of these parts has been revised, the present TR refers to the revision.</abstract>
           <status>
             <stage>90</stage>
             <substage>93</substage>
@@ -581,6 +650,7 @@ RSpec.describe Asciidoctor::Standoc do
           <language>fr</language>
           <script>Latn</script>
           <abstract format="text/plain" language="en" script="Latn">Contains a permuted index of all terms included in the parts 1 — 28 of ISO 2382. If any of these parts has been revised, the present TR refers to the revision.</abstract>
+          <abstract format="text/plain" language="fr" script="Latn">Contains a permuted index of all terms included in the parts 1 — 28 of ISO 2382. If any of these parts has been revised, the present TR refers to the revision.</abstract>
           <status>
             <stage>90</stage>
             <substage>93</substage>
