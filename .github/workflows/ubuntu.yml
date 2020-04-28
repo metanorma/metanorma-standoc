@@ -38,7 +38,9 @@ jobs:
           curl -L https://raw.githubusercontent.com/metanorma/plantuml-install/master/ubuntu.sh | sudo bash
       - name: Install puppeteer
         run: |
-          npm -g i puppeteer
+          sudo apt-get update
+          sudo apt-get install -y libgbm1
+          npm install -g puppeteer@3.0.1
       - name: Run specs
         run: |
           bundle exec rake
