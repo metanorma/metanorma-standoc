@@ -109,15 +109,17 @@ module Asciidoctor
 
       def latex_parse(text)
         lxm_input = Unicode2LaTeX.unicode2latex(HTMLEntities.new.decode(text))
-        IO.popen(Metanorma::Standoc::Requirements[:latexml].cmd,
+        results = IO.popen(Metanorma::Standoc::Requirements[:latexml].cmd,
                  "r+", external_encoding: "UTF-8") do |io|
           io.write(lxm_input)
           io.close_write
-          results = io.read
-          io.close
-          !$CHILD_STATUS.to_i.zero? or
-            @log.add('Math', nil,
-                     "latexmlmath failed to process equation:\n#{lxm_input}")
+          io.read
+        end
+        if !$CHILD_STATUS.to_i.zero?
+          @log.add('Math', nil,
+                   "latexmlmath failed to process equation:\n#{lxm_input}")
+          nil
+        else
           results
         end
       end
@@ -128,9 +130,11 @@ module Asciidoctor
           math = xml_encode(text)
           xml.stem math, **{ type: "MathML" }
         elsif style == :latexmath
-          latex = latex_parse(text)
+          latex = latex_parse(text) or return
           xml.stem **{ type: "MathML" } do |s|
-            s << latex.sub(/<\?[^>]+>/, "")
+            math = Nokogiri::XML.fragment(latex.sub(/<\?[^>]+>/, "")).elements[0]
+            math.delete("alttext")
+            s.parent.children = math
           end
         else
           xml.stem text, **{ type: "AsciiMath" }

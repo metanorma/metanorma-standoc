@@ -281,7 +281,7 @@ RSpec.describe Asciidoctor::Standoc do
                </relation>
                <relation type='instance'>
                  <bibitem type='standard'>
-                   <fetched>2020-04-27</fetched>
+                   <fetched>#{Date.today}</fetched>
                    <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                    <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
                    <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex – Sampling</title>
@@ -341,7 +341,7 @@ RSpec.describe Asciidoctor::Standoc do
                <place>Geneva</place>
              </bibitem>
              <bibitem id='iso123' type='standard'>
-               <fetched>2020-04-27</fetched>
+               <fetched>#{Date.today}</fetched>
                <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
                <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex – Sampling</title>

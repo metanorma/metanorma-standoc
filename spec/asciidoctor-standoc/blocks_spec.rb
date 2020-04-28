@@ -75,7 +75,7 @@ RSpec.describe Asciidoctor::Standoc do
        </formula>
               <formula id="_" subsequence="A">
          <stem type="MathML">
-       <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="M=\\begin{bmatrix}-\\sin\\lambda_{0}&amp;\\cos\\lambda_{0}&amp;0\\\\&#10;-\\sin\\varphi_{0}\\cos\\lambda_{0}&amp;-\\sin\\varphi_{0}\\sin\\lambda_{0}&amp;\\cos\\varphi_{0%&#10;}\\\\&#10;\\cos\\varphi_{0}\\cos\\lambda_{0}&amp;\\cos\\varphi_{0}\\sin\\lambda_{0}&amp;\\sin\\varphi_{0}%&#10;\\end{bmatrix}" display="block">
+       <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
          <mrow>
            <mi>M</mi>
            <mo>=</mo>

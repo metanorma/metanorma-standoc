@@ -20,11 +20,12 @@ module Asciidoctor
             "<amathstem>#{HTMLEntities.new.decode($1)}</amathstem>"
           end
           text = Html2Doc.
-            asciimath_to_mathml(text, ["<amathstem>", "</amathstem>"]).
-            gsub(%r{<math xmlns='http://www.w3.org/1998/Math/MathML'>},
-                 "<stem type='MathML'>"\
-                 "<math xmlns='http://www.w3.org/1998/Math/MathML'>").
-                 gsub(%r{</math>}, %{</math></stem>})
+            asciimath_to_mathml(text, ["<amathstem>", "</amathstem>"])
+          x =  Nokogiri::XML(text)
+          x.xpath("//*[local-name() = 'math'][not(parent::stem)]").each do |y|
+            y.wrap("<stem type='MathML'></stem>")
+          end
+          text = x.to_xml
         end
         text.gsub(/\s+<fn /, "<fn ")
       end

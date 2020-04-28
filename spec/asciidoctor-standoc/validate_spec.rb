@@ -10,7 +10,7 @@ RSpec.describe Asciidoctor::Standoc do
 
   == Clause 1
 
-  latexmath:[< > <]
+  latexmath:[\\begin{}]
 
   === Clause 1.1
 

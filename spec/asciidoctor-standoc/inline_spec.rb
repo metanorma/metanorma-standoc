@@ -88,7 +88,7 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
       <sections>
       <p id="_">
           <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math></stem><br/>
-          <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="n&lt;1" display="block">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math></stem>
+          <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math></stem>
         </p>
       </sections>
        </standard-document>
@@ -106,7 +106,7 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
       <sections>
       <p id="_">
           <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math></stem>
-          <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="n&lt;1" display="block">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math></stem>
+          <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math></stem>
         </p>
       </sections>
        </standard-document>
