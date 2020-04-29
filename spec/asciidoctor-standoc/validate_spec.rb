@@ -19,6 +19,25 @@ RSpec.describe Asciidoctor::Standoc do
   expect(File.read("test.err")).to include "latexmlmath failed to process equation"
   end
 
+  it "warns about reparsing LaTeX" do
+    FileUtils.rm_f "test.err"
+    expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to output(/Retrying/).to_stderr
+  #{VALIDATING_BLANK_HDR}
+
+  == Clause 1
+
+  [latexmath]
+  ++++
+  \\pmatrix{ \\hat{e}_{\\xi} \\cr \\hat{e}_{\\eta}
+  \\cr \\hat{e}_{\\zeta} } = {\\bf T} \\pmatrix{ \\hat{e}_x \\cr \\hat{e}_y \\cr  \\hat{e}_z },
+  ++++
+
+  === Clause 1.1
+
+  Subclause
+  INPUT
+  end
+
   it "warns about hanging paragraphs" do
   FileUtils.rm_f "test.err"
   Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
