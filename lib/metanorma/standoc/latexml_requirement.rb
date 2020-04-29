@@ -30,8 +30,10 @@ module Metanorma
           @error_message = "WARNING #{header_msg} Please sure that #{suggestion} command."
 
           @cmd = 'latexmlmath --strict --preload=amsmath -- -'
+          @cmd2 = 'latexmlmath --strict -- -'
         else
           @cmd = 'latexmlmath --strict --preload=amsmath --inputencoding=UTF-8 -- -'
+          @cmd2 = 'latexmlmath --strict --inputencoding=UTF-8 -- -'
         end
       rescue
         @error_message = "LaTeXML is not available. (Or is PATH not setup properly?)"\
@@ -53,7 +55,7 @@ module Metanorma
       def cmd
         abort @error_message unless @error_message.nil?
 
-        @cmd
+        [@cmd, @cmd2]
       end
     end
   end

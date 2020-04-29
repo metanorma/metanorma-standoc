@@ -107,21 +107,26 @@ module Asciidoctor
           gsub(/&quot;/, '"').gsub(/&#xa;/, "\n")
       end
 
+      def latex_run(lxm_input)
+        results = nil
+        Metanorma::Standoc::Requirements[:latexml].cmd.each do |cmd|
+          results = IO.popen(cmd, "r+", external_encoding: "UTF-8") do |io|
+            io.write(lxm_input)
+            io.close_write
+            io.read
+          end
+          break if $CHILD_STATUS.to_i.zero?
+        end
+        $CHILD_STATUS.to_i.zero? ? results : nil
+      end
+
       def latex_parse(text)
         lxm_input = Unicode2LaTeX.unicode2latex(HTMLEntities.new.decode(text))
-        results = IO.popen(Metanorma::Standoc::Requirements[:latexml].cmd,
-                 "r+", external_encoding: "UTF-8") do |io|
-          io.write(lxm_input)
-          io.close_write
-          io.read
-        end
-        if !$CHILD_STATUS.to_i.zero?
+        results = latex_run(lxm_input)
+        results.nil? and
           @log.add('Math', nil,
                    "latexmlmath failed to process equation:\n#{lxm_input}")
-          nil
-        else
-          results
-        end
+        results
       end
 
       def stem_parse(text, xml, style)
@@ -130,7 +135,7 @@ module Asciidoctor
           math = xml_encode(text)
           xml.stem math, **{ type: "MathML" }
         elsif style == :latexmath
-          latex = latex_parse(text) or return
+          latex = latex_parse(text) or return xml.stem **{ type: "MathML" }
           xml.stem **{ type: "MathML" } do |s|
             math = Nokogiri::XML.fragment(latex.sub(/<\?[^>]+>/, "")).elements[0]
             math.delete("alttext")
