@@ -2,21 +2,33 @@ require 'ostruct'
 
 module Asciidoctor
   module Standoc
+    class YamlBlockStruct < OpenStruct
+      def to_a
+        @table.to_h.keys
+      end
+
+      def values
+        @table.to_h.values
+      end
+
+      def each
+        return to_a.each unless block_given?
+
+        to_a.each do |key|
+          yield(key)
+        end
+      end
+    end
+
     class YamlContext
-      attr_reader :context_object, :context_name, :parent_context, :__iter_id__
+      attr_reader :context_object, :context_name, :parent_context
 
       def initialize(context_object:,
                     context_name:,
-                    parent_context: nil,
-                    __iter_id__: nil)
-        @context_object = if context_object.is_a?(Hash)
-                            OpenStruct.new(context_object)
-                          else
-                            context_object
-                          end
+                    parent_context: nil)
+        @context_object = context_object
         @context_name = context_name
         @parent_context = parent_context
-        @__iter_id__ = __iter_id__
       end
 
       def to_s
@@ -34,15 +46,15 @@ module Asciidoctor
       end
 
       def method_missing(name, *args)
-        args = args.map do |argument|
-          argument.is_a?(YamlContext) ? argument.context_object : argument
-        end
-        if name == :values
-          return context_object.to_h.values
-        end
+        # args = args.map do |argument|
+        #   argument.is_a?(YamlContext) ? argument.context_object : argument
+        # end
+        # if name == :values
+        #   return context_object.to_h.values
+        # end
         if context_object.respond_to?(name) &&
             (context_object.is_a?(OpenStruct) || context_object.is_a?(Array))
-          return context_object.send(name, *args)
+          return block_given? ? context_object.send(name, *args, &block) : context_object.send(name, *args)
         end
 
         parent_context.send(name, *args)
@@ -52,8 +64,9 @@ module Asciidoctor
     class YamlContextRenderer
       attr_reader :context_object, :context_name
 
-      def initialize(context_object:)
+      def initialize(context_object:, context_name:)
         @context_object = context_object
+        @context_name = context_name
       end
 
       def respond_to_missing?(name)
@@ -61,9 +74,9 @@ module Asciidoctor
       end
 
       def method_missing(name, *_args)
-        return context_object if context_object.respond_to?(name)
+        return context_object if name.to_s == context_name
 
-        name
+        super
       end
 
       def render(template)
@@ -72,7 +85,8 @@ module Asciidoctor
     end
 
     class Yaml2TextPreprocessor < Asciidoctor::Extensions::Preprocessor
-      BLOCK_START_REGEXP = '^\{%s.?(?<nested_context>.*)\.\*,(?<name>.+),(?<block_mark>.+)\}'.freeze
+      BLOCK_START_REGEXP = /\{(.+?)\.\*,(.+),(.+)\}/.freeze
+      BLOCK_END_REGEXP = /\A\{[A-Z]+\}\z/.freeze
       # search document for block `yaml2text`
       #   after that take template from block and read file into this template
       #   example:
@@ -97,13 +111,12 @@ module Asciidoctor
       #     SPAG:: the situation is message like spaghetti at a kid's meal
       def process(document, reader)
         input_lines = reader.readlines.to_enum
-        doc_attrs = document.attributes
-        Reader.new(processed_lines(doc_attrs, input_lines))
+        Reader.new(processed_lines(document, input_lines))
       end
 
       private
 
-      def processed_lines(_doc_attrs, input_lines)
+      def processed_lines(document, input_lines)
         result = []
         loop do
           line = input_lines.next
@@ -113,7 +126,7 @@ module Asciidoctor
             while (yaml_block_line = input_lines.next) != mark
               current_yaml_block.push(yaml_block_line)
             end
-            content = YAML.safe_load(File.read(yaml_block_match[1]))
+            content = nested_open_struct_from_yaml(yaml_block_match[1], document)
             result.push(*
               parse_blocks_recursively(lines: current_yaml_block,
                                        attributes: content,
@@ -125,101 +138,45 @@ module Asciidoctor
         result
       end
 
+      def nested_open_struct_from_yaml(file_path, document)
+        docfile_directory = File.dirname(document.attributes['docfile'] || '.')
+        yaml_file_path = document.path_resolver.system_path(file_path, docfile_directory)
+        content = YAML.safe_load(File.read(yaml_file_path))
+        # Load content as json, then parse with JSON as nested open_struct
+        JSON.parse(content.to_json, object_class: YamlBlockStruct)
+      end
+
       def parse_blocks_recursively(lines:,
                                    attributes:,
                                    context_name:,
-                                   parent_context: nil,
-                                   __iter_id__: nil)
+                                   parent_context: nil)
         lines = lines.to_enum
         result = []
-        block_start_regexp = BLOCK_START_REGEXP % context_name
-
         loop do
           line = lines.next
-          if (match = line.match(block_start_regexp))
-            result.push(*read_and_parse_context_block(lines,
-                                                      attributes,
-                                                      match,
-                                                      context_name))
+          if line.match(BLOCK_START_REGEXP)
+            line.gsub!(BLOCK_START_REGEXP, '<% \1.each.with_index do |\2,index| %>')
           end
-          result.push(line) unless line.match(block_start_regexp)
+
+          if line.match(BLOCK_END_REGEXP)
+            line.gsub!(BLOCK_END_REGEXP, '<% end %>')
+          end
+          line = line.gsub(/{(.+?[^}]*)}/, '<%= \1 %>').gsub(/[a-z\.]+\#/, 'index')
+          result.push(line)
         end
         result = parse_context_block(context_lines: result,
                                      context_items: attributes,
                                      context_name: context_name,
-                                     parent_context: parent_context,
-                                     __iter_id__: __iter_id__)
-        result
-      end
-
-      def read_and_parse_context_block(lines,
-                                       attributes,
-                                       match,
-                                       context_name)
-        result = []
-        mark = match[:block_mark]
-        block_lines = []
-        variable_identifier = match[:nested_context].split('.')
-        block_attrs = if variable_identifier.length.zero?
-                        attributes.is_a?(Hash) ? attributes.keys : attributes
-                      else
-                        attributes.dig(*variable_identifier)
-                      end
-        while (context_block_line = lines.next) != "{#{mark}}"
-          block_lines.push(context_block_line)
-        end
-        new_parent_context = YamlContext.new(context_object: attributes,
-                                             context_name: context_name)
-        if block_attrs.is_a?(Array)
-          block_attrs.each.with_index do |current_block_attrs, index|
-            result.push(
-              *parse_blocks_recursively(lines: block_lines,
-                                        attributes: current_block_attrs,
-                                        context_name: match[:name],
-                                        parent_context: new_parent_context,
-                                        __iter_id__: index),
-            )
-          end
-        else
-          result.push(
-            *parse_blocks_recursively(lines: block_lines,
-                                      attributes: current_block_attrs,
-                                      context_name: match[:name],
-                                      parent_context: new_parent_context),
-          )
-        end
+                                     parent_context: parent_context)
         result
       end
 
       def parse_context_block(context_lines:,
                               context_items:,
                               context_name:,
-                              parent_context: nil,
-                              __iter_id__: nil)
-        if context_items.is_a?(Array) && parent_context.nil?
-          return context_lines
-        end
-
-        context = YamlContext.new(context_object: context_items,
-                                  context_name: context_name,
-                                  __iter_id__: __iter_id__,
-                                  parent_context: parent_context)
-        renderer = YamlContextRenderer.new(context_object: context)
-        context_lines.map do |line|
-          renderer.render(line.
-                          gsub(/(?<=\.)\#(?=\]|}|\s)/, '__iter_id__').
-                          gsub(/{(.+?[^}]*)}/, '<%= \1 %>'))
-        end
-      end
-
-      def wrap_array(object)
-        if object.nil?
-          []
-        elsif object.respond_to?(:to_ary)
-          object.to_ary || [object]
-        else
-          [object]
-        end
+                              parent_context: nil)
+        renderer = YamlContextRenderer.new(context_object: context_items, context_name: context_name)
+        renderer.render(context_lines.join('\n')).split('\n')
       end
     end
   end
