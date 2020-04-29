@@ -20,47 +20,6 @@ module Asciidoctor
       end
     end
 
-    class YamlContext
-      attr_reader :context_object, :context_name, :parent_context
-
-      def initialize(context_object:,
-                    context_name:,
-                    parent_context: nil)
-        @context_object = context_object
-        @context_name = context_name
-        @parent_context = parent_context
-      end
-
-      def to_s
-        context_object.to_s
-      end
-
-      def respond_to?(name)
-        return true if context_name.to_s == name.to_s
-
-        parent_context.respond_to?(name)
-      end
-
-      def respond_to_missing?(name)
-        respond_to?(name)
-      end
-
-      def method_missing(name, *args)
-        # args = args.map do |argument|
-        #   argument.is_a?(YamlContext) ? argument.context_object : argument
-        # end
-        # if name == :values
-        #   return context_object.to_h.values
-        # end
-        if context_object.respond_to?(name) &&
-            (context_object.is_a?(OpenStruct) || context_object.is_a?(Array))
-          return block_given? ? context_object.send(name, *args, &block) : context_object.send(name, *args)
-        end
-
-        parent_context.send(name, *args)
-      end
-    end
-
     class YamlContextRenderer
       attr_reader :context_object, :context_name
 
