@@ -107,15 +107,23 @@ module Asciidoctor
           gsub(/&quot;/, '"').gsub(/&#xa;/, "\n")
       end
 
+      def latex_run1(lxm_input, cmd)
+        IO.popen(cmd, "r+", external_encoding: "UTF-8") do |io|
+          io.write(lxm_input)
+          io.close_write
+          io.read
+        end
+      end
+
       def latex_run(lxm_input)
         results = nil
-        Metanorma::Standoc::Requirements[:latexml].cmd.each do |cmd|
-          results = IO.popen(cmd, "r+", external_encoding: "UTF-8") do |io|
-            io.write(lxm_input)
-            io.close_write
-            io.read
+        Metanorma::Standoc::Requirements[:latexml].cmd.each_with_index do |cmd, i|
+          warn "Retrying with #{cmd}" if i > 0
+          results = latex_run1(lxm_input, cmd)
+          if $CHILD_STATUS.to_i.zero?
+            warn "Success!" if i > 0
+            break
           end
-          break if $CHILD_STATUS.to_i.zero?
         end
         $CHILD_STATUS.to_i.zero? ? results : nil
       end
