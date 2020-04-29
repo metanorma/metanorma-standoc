@@ -117,7 +117,7 @@ module Asciidoctor
       end
 
       def obligations_cleanup_inherit(x)
-        x.xpath("//annex | //clause").each do |r|
+        x.xpath("//annex | //clause[not(ancestor::boilerplate)]").each do |r|
           r["obligation"] = "normative" unless r["obligation"]
         end
         x.xpath(Utils::SUBCLAUSE_XPATH).each do |r|
