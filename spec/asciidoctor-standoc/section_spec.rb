@@ -517,6 +517,64 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+
+  it "varies terms & symbols title" do
+     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      [heading="terms, definitions, symbols and abbreviated terms"]
+      == Terms, Definitions, Symbols Section
+
+      === Term
+
+      === Symbols
+
+      INPUT
+       #{BLANK_HDR}
+        <sections>
+    <terms id='_' obligation='normative'>
+      <title>Terms, definitions and symbols</title>
+      <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+      <term id='_'>
+        <preferred>Term</preferred>
+      </term>
+      <definitions id='_'>
+        <title>Symbols</title>
+      </definitions>
+    </terms>
+  </sections>
+</standard-document>
+      OUTPUT
+      end
+
+  it "varies terms & abbreviated terms title" do
+     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      [heading="terms, definitions, symbols and abbreviated terms"]
+      == Terms, Definitions, Abbreviated Terms Section
+
+      === Term
+      
+      === Symbols
+
+      INPUT
+      #{BLANK_HDR}
+  <sections>
+    <terms id='_' obligation='normative'>
+      <title>Terms, definitions and abbreviated terms</title>
+      <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+      <term id='_'>
+        <preferred>Term</preferred>
+      </term>
+      <definitions id='_'>
+        <title>Symbols</title>
+      </definitions>
+    </terms>
+  </sections>
+</standard-document>
+      OUTPUT
+      end
+
+
   it "processes section obligations" do
      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}

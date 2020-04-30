@@ -204,6 +204,11 @@ module Asciidoctor
           SYMBOLS_TITLES.include? s.title.downcase
         end
         return "Terms and definitions" if sub.empty?
+        sym = /symbol/i.match(node.title)
+        abbrev = /abbreviat/i.match(node.title)
+        sym && abbrev and return "Terms, definitions, symbols and abbreviated terms"
+        sym and return "Terms, definitions and symbols"
+        abbrev and return "Terms, definitions and abbreviated terms"
         "Terms, definitions, symbols and abbreviated terms"
       end
 
