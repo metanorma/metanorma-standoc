@@ -1128,7 +1128,7 @@ OUTPUT
       * [[[iso123,2]]] _Standard_
       * [[[iso124,(B)]]] _Standard_
       * [[[iso125,1]]] _Standard_
-      * [[[iso126,(A)]]] _Standard_
+      * [[[iso126,(A1)]]] _Standard_
       * [[[iso127,(4)XYZ 123:1066 (all parts)]]] _Standard_
     INPUT
        #{BLANK_HDR}
@@ -1155,7 +1155,7 @@ OUTPUT
          <formattedref format="application/x-isodoc+xml">
            <em>Standard</em>
          </formattedref>
-         <docidentifier type="metanorma">[A]</docidentifier>
+         <docidentifier type="metanorma">[A1]</docidentifier>
        </bibitem>
 <bibitem id='iso127'>
   <formattedref format='application/x-isodoc+xml'>

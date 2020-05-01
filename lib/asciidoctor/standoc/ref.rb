@@ -142,7 +142,7 @@ module Asciidoctor
           end
           docid(t, m[:usrlbl]) if m[:usrlbl]
           docid(t, /^\d+$/.match(m[:code]) ? "[#{m[:code]}]" : m[:code])
-          t.docnumber m[:code].sub(/^[^\d]*/, "") unless /^\d+$/.match(m[:code])
+          t.docnumber m[:code].sub(/^[^\d]*/, "") unless /^\d+$|^\(.+\)$/.match(m[:code])
         end
       end
 
