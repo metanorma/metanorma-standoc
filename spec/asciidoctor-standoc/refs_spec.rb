@@ -20,6 +20,7 @@ RSpec.describe Asciidoctor::Standoc do
         <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
          <docidentifier>ISO 123</docidentifier>
+         <docnumber>123</docnumber>
          <contributor>
            <role type="publisher"/>
            <organization>
@@ -31,6 +32,7 @@ RSpec.describe Asciidoctor::Standoc do
   <title format='text/plain'>Standard</title>
   <docidentifier type='metanorma'>[1]</docidentifier>
   <docidentifier>ISO 123</docidentifier>
+         <docnumber>123</docnumber>
   <contributor>
     <role type='publisher'/>
     <organization>
@@ -61,6 +63,7 @@ RSpec.describe Asciidoctor::Standoc do
         <bibitem id="iso123" type="standard">
           <title format="text/plain">Standard</title>
   <docidentifier>ISO 123:1066-1067</docidentifier>
+         <docnumber>123</docnumber>
   <date type="published">
     <from>1066</from>
     <to>1067</to>
@@ -76,6 +79,7 @@ RSpec.describe Asciidoctor::Standoc do
           <title format="text/plain">Standard</title>
           <docidentifier type='metanorma'>[1]</docidentifier>
   <docidentifier>ISO 123:1066-1067</docidentifier>
+         <docnumber>123</docnumber>
   <date type="published">
     <from>1066</from>
     <to>1067</to>
@@ -471,6 +475,7 @@ RSpec.describe Asciidoctor::Standoc do
          <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
          <docidentifier>IEC 123</docidentifier>
+         <docnumber>123</docnumber>
          <contributor>
            <role type="publisher"/>
            <organization>
@@ -482,6 +487,7 @@ RSpec.describe Asciidoctor::Standoc do
   <title format='text/plain'>Standard</title>
   <docidentifier type='metanorma'>[1]</docidentifier>
   <docidentifier>IEC 123</docidentifier>
+  <docnumber>123</docnumber>
   <contributor>
     <role type='publisher'/>
     <organization>
@@ -743,6 +749,7 @@ RSpec.describe Asciidoctor::Standoc do
                  <em>Standard</em>
                </formattedref>
                <docidentifier>ISO/IEC TR 12382:1992</docidentifier>
+               <docnumber>12382:1992)</docnumber>
              </bibitem>
              <bibitem id='iso124' type='standard'>
                <fetched>#{Date.today}</fetched>
@@ -819,6 +826,7 @@ OUTPUT
          <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
          <docidentifier>ISO 123:—</docidentifier>
+         <docnumber>123</docnumber>
          <date type="published">
            <on>–</on>
          </date>
@@ -832,6 +840,7 @@ OUTPUT
          <bibitem id="iso124" type="standard">
          <title format="text/plain">Standard</title>
          <docidentifier>ISO 124:—</docidentifier>
+         <docnumber>124</docnumber>
          <date type="published">
            <on>–</on>
          </date>
@@ -846,6 +855,7 @@ OUTPUT
          <bibitem id="iso125" type="standard">
          <title format="text/plain">Standard</title>
          <docidentifier>ISO 125:—</docidentifier>
+         <docnumber>125</docnumber>
          <date type="published">
            <on>–</on>
          </date>
@@ -861,6 +871,7 @@ OUTPUT
   <title format='text/plain'>Standard</title>
   <docidentifier type='metanorma'>[1]</docidentifier>
   <docidentifier>ISO 123:—</docidentifier>
+         <docnumber>123</docnumber>
   <date type='published'>
     <on>–</on>
   </date>
@@ -896,6 +907,7 @@ OUTPUT
         <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
          <docidentifier>ISO 123:1066 (all parts)</docidentifier>
+         <docnumber>123</docnumber>
          <date type="published">
            <on>1066</on>
          </date>
@@ -913,6 +925,7 @@ OUTPUT
   <title format='text/plain'>Standard</title>
   <docidentifier type='metanorma'>[1]</docidentifier>
   <docidentifier>ISO 123:1066 (all parts)</docidentifier>
+         <docnumber>123</docnumber>
   <date type='published'>
     <on>1066</on>
   </date>
@@ -1090,6 +1103,7 @@ OUTPUT
            <em>Standard</em>
          </formattedref>
          <docidentifier>XYZ 123:1066 (all parts)</docidentifier>
+         <docnumber>123:1066 (all parts)</docnumber>
        </bibitem>
        <bibitem id='iso124'>
   <formattedref format='application/x-isodoc+xml'>
@@ -1097,6 +1111,7 @@ OUTPUT
   </formattedref>
   <docidentifier type='metanorma'>[1]</docidentifier>
   <docidentifier>XYZ 123:1066 (all parts)</docidentifier>
+         <docnumber>123:1066 (all parts)</docnumber>
 </bibitem>
        </references>
        </bibliography>
@@ -1148,6 +1163,7 @@ OUTPUT
   </formattedref>
   <docidentifier type='metanorma'>[5]</docidentifier>
   <docidentifier>XYZ 123:1066 (all parts)</docidentifier>
+  <docnumber>123:1066 (all parts)</docnumber>
 </bibitem>
        </references>
        </bibliography>
@@ -1189,6 +1205,7 @@ OUTPUT
         <bibitem id="iso123" type="standard">
         <title format="text/plain">Standard</title>
         <docidentifier type="ISO">ISO 123</docidentifier>
+  <docnumber>123</docnumber>
         <contributor>
           <role type="publisher"/>
           <organization>
@@ -1200,6 +1217,7 @@ OUTPUT
   <title format='text/plain'>Standard</title>
   <docidentifier type='metanorma'>[1]</docidentifier>
   <docidentifier type='ISO'>ISO 123</docidentifier>
+  <docnumber>123</docnumber>
   <contributor>
     <role type='publisher'/>
     <organization>

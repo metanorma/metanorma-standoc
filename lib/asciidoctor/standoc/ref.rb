@@ -62,6 +62,7 @@ module Asciidoctor
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
           docid(t, m[:usrlbl]) if m[:usrlbl]
           docid(t, id_and_year(m[:code], yr))
+          t.docnumber m[:code].sub(/^[^\d]*/, "")
           yr and t.date **{ type: "published" } do |d|
             set_date_range(d, yr)
           end
@@ -78,6 +79,7 @@ module Asciidoctor
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
           docid(t, m[:usrlbl]) if m[:usrlbl]
           docid(t, id_and_year(m[:code], "--"))
+          t.docnumber m[:code].sub(/^[^\d]*/, "")
           t.date **{ type: "published" } do |d|
             d.on "--"
           end
@@ -108,6 +110,7 @@ module Asciidoctor
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
           docid(t, m[:usrlbl]) if m[:usrlbl]
           docid(t, id_and_year(m[:code], yr) + " (all parts)")
+          t.docnumber m[:code].sub(/^[^\d]*/, "")
           conditional_date(t, m, noyr)
           iso_publisher(t, m[:code])
           m.names.include?("fn") && m[:fn] and
@@ -139,6 +142,7 @@ module Asciidoctor
           end
           docid(t, m[:usrlbl]) if m[:usrlbl]
           docid(t, /^\d+$/.match(m[:code]) ? "[#{m[:code]}]" : m[:code])
+          t.docnumber m[:code].sub(/^[^\d]*/, "") unless /^\d+$/.match(m[:code])
         end
       end
 

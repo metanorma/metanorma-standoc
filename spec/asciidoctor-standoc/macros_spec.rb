@@ -34,6 +34,7 @@ RSpec.describe Asciidoctor::Standoc do
         <em>Title</em>
       </formattedref>
       <docidentifier>XYZ 123</docidentifier>
+      <docnumber>123</docnumber>
     </bibitem>
   </references>
 </bibliography>
