@@ -463,5 +463,102 @@ RSpec.describe Asciidoctor::Standoc::Yaml2TextPreprocessor do
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
+
+    context "Nested hash dot notation" do
+      let(:example_yaml_content) do
+        <<~TEXT
+          data:
+            acadsin-zho-hani-latn-2002:
+              code: acadsin-zho-hani-latn-2002
+              name:
+                en: Academica Sinica -- Chinese Tongyong Pinyin (2002)
+              authority: acadsin
+              lang:
+                system: iso-639-2
+                code: zho
+              source_script: Hani
+              target_script: Latn
+              system:
+                id: '2002'
+                specification: Academica Sinica -- Chinese Tongyong Pinyin (2002)
+              notes: 'NOTE: OGC 11-122r1 code `zho_Hani2Latn_AcadSin_2002`'
+        TEXT
+      end
+      let(:input) do
+        <<~TEXT
+          = Document title
+          Author
+          :docfile: test.adoc
+          :nodoc:
+          :novalid:
+          :no-isobib:
+          :imagesdir: spec/assets
+
+          [yaml2text,#{example_file},authorities]
+          ----
+          [cols="a,a,a,a",options="header"]
+          |===
+          | Script conversion system authority code | Name in English | Notes | Name en
+
+          {authorities.data.*,key,EOI}
+          | {key} | {authorities.data[key]['code']} | {authorities.data[key]['notes']} | {authorities.data[key].name.en}
+          {EOI}
+
+          |===
+          ----
+        TEXT
+      end
+      let(:output) do
+        <<~TEXT
+          #{BLANK_HDR}
+            <sections>
+              <table id='_'>
+                <thead>
+                  <tr>
+                    <th align='left'>Script conversion system authority code</th>
+                    <th align='left'>Name in English</th>
+                    <th align='left'>Notes</th>
+                    <th align='left'>Name en</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td align='left'>
+                      <p id='_'>acadsin-zho-hani-latn-2002</p>
+                    </td>
+                    <td align='left'>
+                      <p id='_'>acadsin-zho-hani-latn-2002</p>
+                    </td>
+                    <td align='left'>
+                      <note id='_'>
+                        <p id='_'>
+                          OGC 11-122r1 code
+                          <tt>zho_Hani2Latn_AcadSin_2002</tt>
+                        </p>
+                      </note>
+                    </td>
+                    <td align='left'>
+                      <p id='_'>Academica Sinica — Chinese Tongyong Pinyin (2002)</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </sections>
+          </standard-document>
+        TEXT
+      end
+
+      it 'correctly renders input yaml' do
+        expect(
+          xmlpp(
+            strip_guid(
+              Asciidoctor.convert(input,
+                                  backend: :standoc,
+                                  header_footer: true),
+            ),
+          ),
+        ).to(be_equivalent_to(xmlpp(output)))
+      end
+    end
   end
 end
