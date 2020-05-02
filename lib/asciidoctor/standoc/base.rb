@@ -109,7 +109,7 @@ module Asciidoctor
         @fontheader = default_fonts(node)
         @files_to_delete = []
         @filename = node.attr("docfile") ?
-          node.attr("docfile").gsub(/\.adoc$/, "").gsub(%r{^.*/}, "") : ""
+          File.basename(node.attr("docfile")).gsub(/\.adoc$/, "") : ""
         @localdir = Utils::localdir(node)
         @no_isobib_cache = node.attr("no-isobib-cache")
         @no_isobib = node.attr("no-isobib")

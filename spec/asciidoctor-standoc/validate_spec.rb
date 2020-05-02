@@ -237,5 +237,22 @@ it "warns if id used twice" do
   expect(File.read("test.err")).to include "Anchor abc has already been used at line"
 end
 
+it "err file succesfully created for docfile path" do
+  FileUtils.rm_rf "test"
+  FileUtils.mkdir_p "test"
+  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+  = Document title
+  Author
+  :docfile: test#{File::ALT_SEPARATOR || File::SEPARATOR}test.adoc
+  :nodoc:
+
+  [[abc]]
+  == Clause 1
+
+  [[abc]]
+  == Clause 2
+  INPUT
+  expect(File.read("test/test.err")).to include "Anchor abc has already been used at line"
+end
 
 end
