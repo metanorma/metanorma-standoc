@@ -64,6 +64,7 @@ module Asciidoctor
         boilerplate_cleanup(xmldoc)
         smartquotes_cleanup(xmldoc)
         para_cleanup(xmldoc)
+        img_cleanup(xmldoc)
         xmldoc
       end
 
@@ -156,6 +157,13 @@ module Asciidoctor
         xmldoc.xpath("//relation/bpart").each do |x|
           extract_localities(x)
           x.replace(x.children)
+        end
+      end
+
+      def img_cleanup(xmldoc)
+        return xmldoc unless @datauriimage
+        xmldoc.xpath("//image").each do |i|
+          i["src"] = datauri(i["src"])
         end
       end
     end

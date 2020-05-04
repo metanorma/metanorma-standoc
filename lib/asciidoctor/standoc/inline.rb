@@ -197,7 +197,7 @@ module Asciidoctor
         types = /^data:/.match(uri) ? datauri2mime(uri) : MIME::Types.type_for(uri)
         type = types.first.to_s
         uri = uri.sub(%r{^data:image/\*;}, "data:#{type};")
-        attr_code(src: @datauriimage ? datauri(uri) : uri,
+        attr_code(src: uri, #@datauriimage ? datauri(uri) : uri,
                   id: Utils::anchor_or_uuid,
                   mimetype: type,
                   height: node.attr("height") || "auto",
