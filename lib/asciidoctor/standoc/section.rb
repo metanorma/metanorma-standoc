@@ -180,14 +180,16 @@ module Asciidoctor
 
       # subclause contains subclauses
       def term_def_subclause_parse(attrs, xml, node)
-        node.role == "nonterm" ||
-          sectiontype(node, false) == "terms and definitions" and
+        node.role == "nonterm"  and
           return nonterm_term_def_subclause_parse(attrs, xml, node)
+        st = sectiontype(node, false)
         return symbols_parse(attrs, xml, node) if @definitions
         sub = node.find_by(context: :section) { |s| s.level == node.level + 1 }
         sub.empty? || (return term_def_parse(attrs, xml, node, false))
-        sectiontype(node, false) == "symbols and abbreviated terms" and
+        st == "symbols and abbreviated terms" and
           (return symbols_parse(attrs, xml, node))
+        st == "terms and definitions" and
+          return clause_parse(attrs, xml, node)
         term_def_subclause_parse1(attrs, xml, node)
       end
 

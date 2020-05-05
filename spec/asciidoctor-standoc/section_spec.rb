@@ -843,4 +843,93 @@ RSpec.describe Asciidoctor::Standoc do
         INPUT
     end
 
+    it "treats terminal terms subclause named as terms clause as a normal clause" do
+           expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+#{ASCIIDOC_BLANK_HDR}
+[[tda]]
+== Terms, definitions, symbols and abbreviations
+
+[[terms]]
+=== Terms and definitions
+
+=== Symbols
+
+INPUT
+#{BLANK_HDR}
+  <sections>
+    <terms id='tda' obligation='normative'>
+      <title>Terms, definitions, symbols and abbreviated terms</title>
+      <p id='_'>No terms and definitions are listed in this document.</p>
+      <clause id='terms' inline-header='false' obligation='normative'>
+        <title>Terms and definitions</title>
+      </clause>
+      <definitions id='_'>
+        <title>Symbols</title>
+      </definitions>
+    </terms>
+  </sections>
+</standard-document>
+
+OUTPUT
+    end
+
+    it "treats non-terminal terms subclause named as terms clause as a terms clause" do
+           expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+#{ASCIIDOC_BLANK_HDR}
+== Scope
+
+[[tda]]
+== Terms, definitions, symbols and abbreviations
+
+[[terms]]
+=== Terms and definitions
+
+[[terms-concepts]]
+==== Basic concepts
+
+[[term-date]]
+===== date
+
+_time_ (<<term-time>>) on the _calendar_ (<<term-calendar>>) _time scale_ (<<term-time-scale>>)
+
+INPUT
+#{BLANK_HDR}
+ <sections>
+   <clause id='_' inline-header='false' obligation='normative'>
+     <title>Scope</title>
+   </clause>
+   <clause id='tda' obligation='normative'>
+     <title>Terms and definitions</title>
+     <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+     <clause id='terms' obligation='normative'>
+       <title>Terms and definitions</title>
+       <terms id='terms-concepts' obligation='normative'>
+         <title>Basic concepts</title>
+         <term id='term-date'>
+           <preferred>date</preferred>
+           <definition>
+             <p id='_'>
+               <em>time</em>
+                (
+               <xref target='term-time'/>
+               ) on the
+               <em>calendar</em>
+                (
+               <xref target='term-calendar'/>
+               )
+               <em>time scale</em>
+                (
+               <xref target='term-time-scale'/>
+               )
+             </p>
+           </definition>
+         </term>
+       </terms>
+     </clause>
+   </clause>
+ </sections>
+</standard-document>
+OUTPUT
+    end
+
 end
