@@ -153,7 +153,7 @@ module Asciidoctor
       # TODO: alternative where only title is available
       def refitem(xml, item, node)
         unless m = NON_ISO_REF.match(item)
-          @log.add("Asciidoctor Input", node, "#{MALFORMED_REF}: #{item}")
+          @log.add("AsciiDoc Input", node, "#{MALFORMED_REF}: #{item}")
           return
         end
         unless m[:code] && /^\d+$/.match(m[:code])

@@ -43,7 +43,7 @@ module Asciidoctor
       def skip(node, name = nil)
         name = name || node.node_name
         w = "converter missing for #{name} node in Metanorma backend"
-        @log.add("Asciidoctor Input", node, w)
+        @log.add("AsciiDoc Input", node, w)
         nil
       end
 
@@ -241,7 +241,7 @@ module Asciidoctor
       def extract_termsource_refs(text, node)
         matched = TERM_REFERENCE_RE.match text
         matched.nil? and
-          @log.add("Asciidoctor Input", node, "term reference not in expected format: #{text}")
+          @log.add("AsciiDoc Input", node, "term reference not in expected format: #{text}")
         matched
       end
 
