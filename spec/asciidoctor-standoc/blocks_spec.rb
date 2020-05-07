@@ -6,13 +6,14 @@ RSpec.describe Asciidoctor::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       
+      [format="rfc,html"]
       ++++
       <abc>X &gt; Y</abc>
       ++++
     INPUT
         #{BLANK_HDR}
        <sections>
-       <abc>X &gt; Y</abc>
+       <passthrough formats='rfc,html'>&lt;abc&gt;X &gt; Y&lt;/abc&gt;</passthrough>
        </sections>
        </standard-document>
     OUTPUT

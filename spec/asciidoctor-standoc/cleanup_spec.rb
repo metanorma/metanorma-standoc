@@ -1338,21 +1338,16 @@ end
   end
 
     it "cleans up text MathML" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :no-isobib:
-
-      ++++
+      expect(Asciidoctor::Standoc::Converter.new(nil, backend: :standoc, header_footer: true).cleanup(Nokogiri::XML(<<~"INPUT")).to_xml).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{BLANK_HDR}
+      <sections>
       <stem type="MathML">&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;&lt;mfrac&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;/mfrac&gt;&lt;/math&gt;</stem>
-      ++++
+      </sections>
+      </standard-document>
     INPUT
        #{BLANK_HDR}
        <sections>
-       <stem type="MathML"><math><mfrac><mn>1</mn><mi>r</mi></mfrac></math></stem>
+       <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mi>r</mi></mfrac></math></stem>
 </sections>
 
 
