@@ -144,8 +144,8 @@ module Asciidoctor
       end
 
       def bibliography_parse(attrs, xml, node)
+        node.option? "bibitem" and return clause_parse(attrs, xml, node)
         node.attr("style") == "bibliography" or
-          #warn "Section not marked up as [bibliography]!"
           @log.add("AsciiDoc Input", node, "Section not marked up as [bibliography]!")
         @biblio = true
         xml.references **attr_code(attrs) do |xml_section|
