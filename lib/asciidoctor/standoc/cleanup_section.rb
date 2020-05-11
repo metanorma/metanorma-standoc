@@ -11,7 +11,7 @@ module Asciidoctor
     module Cleanup
       def make_preface(x, s)
         if x.at("//foreword | //introduction | //acknowledgements | "\
-            "//clause[@preface]")
+            "//*[@preface]")
           preface = s.add_previous_sibling("<preface/>").first
           f = x.at("//foreword") and preface.add_child f.remove
           f = x.at("//introduction") and preface.add_child f.remove
@@ -22,7 +22,7 @@ module Asciidoctor
       end
 
       def move_clauses_into_preface(x, preface)
-        x.xpath("//clause[@preface]").each do |c|
+        x.xpath("//*[@preface]").each do |c|
           c.delete("preface")
           preface.add_child c.remove
         end
@@ -66,8 +66,21 @@ module Asciidoctor
       def sections_order_cleanup(x)
         s = x.at("//sections")
         make_preface(x, s)
+        make_annexes(x)
         make_bibliography(x, s)
         x.xpath("//sections/annex").reverse_each { |r| s.next = r.remove }
+      end
+      
+      def make_annexes(x)
+        x.xpath("//*[@annex]").each do |y|
+          y.delete("annex")
+          next if y.name == "annex"
+          y.wrap("<annex/>")
+          y.parent["id"] = "_#{UUIDTools::UUID.random_create}"
+          y.parent["obligation"] = y["obligation"]
+          y.parent["language"] = y["language"]
+          y.parent["script"] = y["script"]
+        end
       end
 
       def maxlevel(x)

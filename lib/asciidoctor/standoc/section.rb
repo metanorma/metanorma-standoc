@@ -53,7 +53,15 @@ module Asciidoctor
       def section_attributes(node)
         { id: Utils::anchor_or_uuid(node),
           language: node.attributes["language"],
-          script: node.attributes["script"] }
+          script: node.attributes["script"],
+          annex: (
+            ((node.attr("style") == "appendix" || node.role == "appendix") && 
+             node.level == 1) ? true : nil
+          ),
+          preface: (
+            (node.role == "preface" || node.attr("style") == "preface") ?
+            true : nil),
+        }
       end
 
       def section(node)
@@ -118,7 +126,6 @@ module Asciidoctor
       def clause_parse(attrs, xml, node)
         attrs["inline-header".to_sym] = node.option? "inline-header"
         attrs[:bibitem] = true if node.option? "bibitem"
-        attrs[:preface] = true if node.role == "preface" || node.attr("style") == "preface"
         attrs[:level] = node.attr("level")
         set_obligation(attrs, node)
         xml.send "clause", **attr_code(attrs) do |xml_section|

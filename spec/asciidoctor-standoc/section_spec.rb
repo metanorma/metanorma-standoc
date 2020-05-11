@@ -932,4 +932,48 @@ INPUT
 OUTPUT
     end
 
+    it "leaves alone special titles in preface or appendix" do
+      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(strip_guid(<<~"OUTPUT"))
+#{ASCIIDOC_BLANK_HDR}
+
+[.preface]
+[[t1]]
+== Terms and definitions
+
+[[t2]]
+=== Term1
+
+[appendix,language=fr]
+[[sym]]
+== Symbols and abbreviated terms
+
+[.appendix]
+[[app]]
+[bibliography]
+== Normative Reference
+INPUT
+#{BLANK_HDR}
+  <preface>
+    <terms id='t1' obligation='normative'>
+      <title>Terms and definitions</title>
+      <term id='t2'>
+        <preferred>Term1</preferred>
+      </term>
+    </terms>
+  </preface>
+  <sections> </sections>
+  <annex id='_' obligation='' language='fr' script=''>
+    <definitions id='sym' language='fr'>
+      <title>Symbols and abbreviated terms</title>
+    </definitions>
+  </annex>
+  <annex id='_' obligation='' language='' script=''>
+    <references id='app' obligation='informative'>
+      <title>Bibliography</title>
+    </references>
+  </annex>
+</standard-document>
+OUTPUT
+    end
+
 end
