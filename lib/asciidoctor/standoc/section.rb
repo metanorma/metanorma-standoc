@@ -83,7 +83,12 @@ module Asciidoctor
           else
             if @term_def then term_def_subclause_parse(a, xml, node)
             elsif @definitions then symbols_parse(a, xml, node)
+            elsif @norm_ref then norm_ref_parse(a, xml, node)
             elsif @biblio then bibliography_parse(a, xml, node)
+            elsif node.attr("style") == "bibliography" && sectiontype(node, false) == "normative references"
+              norm_ref_parse(a, xml, node)
+            elsif node.attr("style") == "bibliography" && sectiontype(node, false) == "bibliography"
+              bibliography_parse(a, xml, node)
             elsif node.attr("style") == "bibliography"
               bibliography_parse(a, xml, node)
             elsif node.attr("style") == "abstract" 
@@ -144,11 +149,11 @@ module Asciidoctor
       end
 
       def bibliography_parse(attrs, xml, node)
-        node.option? "bibitem" and return clause_parse(attrs, xml, node)
+        node.option? "bibitem" and return bibitem_parse(attrs, xml, node)
         node.attr("style") == "bibliography" or
           @log.add("AsciiDoc Input", node, "Section not marked up as [bibliography]!")
         @biblio = true
-        xml.references **attr_code(attrs) do |xml_section|
+        xml.references **attr_code(attrs.merge(normative: false)) do |xml_section|
           title = node.level == 1 ? "Bibliography" : node.title
           xml_section.title { |t| t << title }
           xml_section << node.content
@@ -231,9 +236,22 @@ module Asciidoctor
         end
       end
 
+      def bibitem_parse(attrs, xml, node)
+        norm_ref = @norm_ref
+        biblio = @biblio
+        @biblio = false
+        @norm_ref = false
+        clause_parse(attrs, xml, node)
+        @biblio = biblio
+        @norm_ref = norm_ref
+      end
+
       def norm_ref_parse(attrs, xml, node)
+        node.option? "bibitem" and return bibitem_parse(attrs, xml, node)
+        node.attr("style") == "bibliography" or
+          @log.add("AsciiDoc Input", node, "Section not marked up as [bibliography]!")
         @norm_ref = true
-        xml.references **attr_code(attrs) do |xml_section|
+        xml.references **attr_code(attrs.merge(normative: true)) do |xml_section|
           xml_section.title { |t| t << "Normative References" }
           xml_section << node.content
         end

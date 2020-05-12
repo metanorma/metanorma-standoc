@@ -167,12 +167,12 @@ RSpec.describe Asciidoctor::Standoc do
   <clause id="_" inline-header="false" obligation="normative">
   <title>Annex A.1</title>
 </clause>
-</annex><bibliography><references id="_" obligation="informative">
+</annex><bibliography><references id="_" obligation="informative" normative="true">
   <title>Normative References</title>
   <p id="_">There are no normative references in this document.</p>
 </references><clause id="_" obligation="informative">
   <title>Bibliography</title>
-  <references id="_" obligation="informative">
+  <references id="_" obligation="informative" normative="false">
   <title>Bibliography Subsection</title>
 </references>
 </clause></bibliography>
@@ -372,12 +372,12 @@ RSpec.describe Asciidoctor::Standoc do
          <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
          <title>Annex A.1</title>
        </clause>
-       </annex><bibliography><references id="_" language="en" script="Latn" obligation="informative">
+       </annex><bibliography><references id="_" language="en" script="Latn" obligation="informative" normative="true">
          <title>Normative References</title>
          <p id="_">There are no normative references in this document.</p>
        </references><clause id="_" language="en" script="Latn" obligation="informative">
          <title>Bibliography</title>
-         <references id="_" language="en" script="Latn" obligation="informative">
+         <references id="_" language="en" script="Latn" obligation="informative" normative="false">
          <title>Bibliography Subsection</title>
        </references>
        </clause></bibliography>
@@ -502,13 +502,13 @@ RSpec.describe Asciidoctor::Standoc do
     </clause>
   </annex>
   <bibliography>
-    <references id='_' obligation='informative'>
+    <references id='_' obligation='informative' normative="true">
       <title>Normative References</title>
       <p id="_">There are no normative references in this document.</p>
     </references>
     <clause id='_' obligation='informative'>
       <title>Bibliography</title>
-      <references id='_' obligation='informative'>
+      <references id='_' obligation='informative' normative="false">
         <title>Bibliography Subsection</title>
       </references>
     </clause>
@@ -968,7 +968,7 @@ INPUT
     </definitions>
   </annex>
   <annex id='_' obligation='' language='' script=''>
-    <references id='app' obligation='informative'>
+    <references id='app' obligation='informative' normative="false">
       <title>Bibliography</title>
     </references>
   </annex>

@@ -5,7 +5,7 @@ module Asciidoctor
   module Standoc
     module Cleanup
       def biblio_reorder(xmldoc)
-        xmldoc.xpath("//references[title = 'Bibliography']").each do |r|
+        xmldoc.xpath("//references[@normative = 'false']").each do |r|
           biblio_reorder1(r)
         end
       end
@@ -49,8 +49,8 @@ module Asciidoctor
       # consecutively, but that standards codes are preserved as is:
       # only numeric references are renumbered
       def biblio_renumber(xmldoc)
-        r = xmldoc.at("//references[title = 'Bibliography'] | "\
-                      "//clause[title = 'Bibliography'][.//bibitem]") or return
+        r = xmldoc.at("//references[@normative = 'false'] | "\
+                      "//clause[.//references[@normative = 'false']]") or return
         r.xpath(".//bibitem[not(ancestor::bibitem)]").each_with_index do |b, i|
           next unless docid = b.at("./docidentifier[@type = 'metanorma']")
           next unless  /^\[\d+\]$/.match(docid.text)
@@ -76,9 +76,15 @@ module Asciidoctor
 
       def biblio_cleanup(xmldoc)
         biblio_reorder(xmldoc)
+        biblio_nested(xmldoc)
         biblio_renumber(xmldoc)
+      end
+
+      def biblio_nested(xmldoc)
         xmldoc.xpath("//references[references]").each do |t|
           t.name = "clause"
+          t.xpath("./references").each { |r| r["normative"] = t["normative"] }
+          t.delete("normative")
         end
       end
 

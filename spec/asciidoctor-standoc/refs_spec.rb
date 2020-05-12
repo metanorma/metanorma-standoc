@@ -14,7 +14,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
       #{BLANK_HDR}
       <sections>
-      </sections><bibliography><references id="_" obligation="informative">
+      </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
@@ -57,7 +57,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
       #{BLANK_HDR}
       <sections>
-      </sections><bibliography><references id="_" obligation="informative">
+      </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
@@ -125,7 +125,7 @@ RSpec.describe Asciidoctor::Standoc do
   </foreword>
 </preface>
        <sections>
-       </sections><bibliography><references id="_" obligation="informative"><title>Normative References</title>
+       </sections><bibliography><references id="_" obligation="informative" normative="true"><title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
 <bibitem type="standard" id="iso123">
   <uri type="src">https://www.iso.org/standard/23281.html</uri>
@@ -236,7 +236,7 @@ RSpec.describe Asciidoctor::Standoc do
         #{BLANK_HDR}
        <sections>
 
-       </sections><bibliography><references id="_" obligation="informative"><title>Normative References</title>
+       </sections><bibliography><references id="_" obligation="informative" normative="true"><title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
          <bibitem id='iso123' type='standard'>
                <fetched>#{Date.today}</fetched>
@@ -469,7 +469,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
        #{BLANK_HDR}
               <sections>
-       </sections><bibliography><references id="_" obligation="informative">
+       </sections><bibliography><references id="_" obligation="informative" normative="true">
          <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
          <bibitem id="iso123" type="standard">
@@ -518,7 +518,7 @@ RSpec.describe Asciidoctor::Standoc do
         #{BLANK_HDR}
         <sections>
 
-        </sections><bibliography><references id="_" obligation="informative">
+        </sections><bibliography><references id="_" obligation="informative" normative="true">
           <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
           <bibitem type="standard" id="iso123">
@@ -741,7 +741,7 @@ RSpec.describe Asciidoctor::Standoc do
         #{BLANK_HDR}
         <sections>
 
-        </sections><bibliography><references id="_" obligation="informative">
+        </sections><bibliography><references id="_" obligation="informative" normative="true">
           <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id='iso123'>
@@ -820,7 +820,7 @@ OUTPUT
     INPUT
        #{BLANK_HDR}
        <sections>
-              </sections><bibliography><references id="_" obligation="informative">
+              </sections><bibliography><references id="_" obligation="informative" normative="true">
          <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
          <bibitem id="iso123" type="standard">
@@ -901,7 +901,7 @@ OUTPUT
     INPUT
       #{BLANK_HDR}
       <sections>
-      </sections><bibliography><references id="_" obligation="informative">
+      </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
@@ -968,7 +968,7 @@ OUTPUT
     <eref type="inline" bibitemid="iso123" citeas="RFC 8341"/>
   </p>
   </clause>
-  </sections><bibliography><references id="_" obligation="informative">
+  </sections><bibliography><references id="_" obligation="informative" normative="true">
   <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
   <bibitem id="iso123" type="standard">
@@ -1095,7 +1095,7 @@ OUTPUT
        #{BLANK_HDR}
               <sections>
 
-       </sections><bibliography><references id="_" obligation="informative">
+       </sections><bibliography><references id="_" obligation="informative" normative="true">
          <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
          <bibitem id="iso123">
@@ -1135,7 +1135,7 @@ OUTPUT
               <sections>
 
        </sections>
-       <bibliography><references id="_" obligation="informative">
+       <bibliography><references id="_" obligation="informative" normative="false">
          <title>Bibliography</title><bibitem id="iso123">
          <formattedref format="application/x-isodoc+xml">
            <em>Standard</em>
@@ -1199,7 +1199,7 @@ OUTPUT
       </bibdata>
       <sections>
 
-      </sections><bibliography><references id="_" obligation="informative">
+      </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">

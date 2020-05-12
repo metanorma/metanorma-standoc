@@ -38,7 +38,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
       #{BLANK_HDR}
       <sections>
-      </sections><bibliography><references id="_" obligation="informative">
+      </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
@@ -287,7 +287,7 @@ formattedref::
     INPUT
       #{BLANK_HDR}
       <sections>
-      </sections><bibliography><references id="_" obligation="informative">
+      </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="TC211" type="standard">
@@ -605,7 +605,7 @@ series.formattedref.script:: Latn
     INPUT
       #{BLANK_HDR}
       <sections>
-      </sections><bibliography><references id="_" obligation="informative">
+      </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="TC211" type="standard">
@@ -757,7 +757,7 @@ home run record in 1998.</note>
 OUTPUT
        end
 
-           it "processes mix of dl and default references" do
+   it "processes mix of dl and default references" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       
@@ -805,7 +805,7 @@ OUTPUT
      <clause id='_' inline-header='false' obligation='normative'>
        <title>Subsection</title>
      </clause>
-     <references id='_' obligation='informative'>
+     <references id='_' obligation='informative'  normative="true">
        <title>Normative References</title>
        <bibitem id='A'>
          <formattedref format='application/x-isodoc+xml'>Title</formattedref>

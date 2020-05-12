@@ -27,7 +27,7 @@ RSpec.describe Asciidoctor::Standoc do
 </preface>
 <sections> </sections>
 <bibliography>
-  <references id='_' obligation='informative'>
+  <references id='_' obligation='informative' normative="false">
     <title>Bibliography</title>
     <bibitem id='ref1'>
       <formattedref format='application/x-isodoc+xml'>
@@ -178,7 +178,7 @@ INPUT
   </clause>
 </sections>
 <bibliography>
-  <references id='_' obligation='informative'>
+  <references id='_' obligation='informative' normative="false">
     <title>Bibliography</title>
     <bibitem id='blah'>
       <formattedref format='application/x-isodoc+xml'>

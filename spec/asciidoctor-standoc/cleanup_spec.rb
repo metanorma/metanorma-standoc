@@ -330,7 +330,7 @@ RSpec.describe Asciidoctor::Standoc do
         <eref type="inline" bibitemid="iso216" citeas="ISO 216:2001"/>
       </p>
       </foreword></preface><sections>
-      </sections><bibliography><references id="_" obligation="informative">
+      </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso216" type="standard">
@@ -408,7 +408,7 @@ RSpec.describe Asciidoctor::Standoc do
 
         </p>
       </foreword></preface><sections>
-      </sections><bibliography><references id="_" obligation="informative">
+      </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso216" type="standard">
@@ -446,7 +446,7 @@ RSpec.describe Asciidoctor::Standoc do
          <eref type="inline" bibitemid="iso216" citeas="ISO 216"/>
        </p>
        </foreword></preface><sections>
-       </sections><bibliography><references id="_" obligation="informative">
+       </sections><bibliography><references id="_" obligation="informative" normative="false">
   <title>Bibliography</title>
   <bibitem id="iso216" type="standard">
   <title format="text/plain">Reference</title>
@@ -509,7 +509,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
       #{BLANK_HDR}
       <sections></sections>
-      <bibliography><references id="_" obligation="informative"><title>Normative References</title>
+      <bibliography><references id="_" obligation="informative" normative="true"><title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
              <bibitem id="iso216" type="standard">
          <title format="text/plain">Reference</title>
@@ -556,7 +556,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{BLANK_HDR}
       <sections> </sections>
          <bibliography>
-           <references id='_' obligation='informative'>
+           <references id='_' obligation='informative' normative="false">
              <title>Bibliography</title>
              <p id='_'>This is extraneous information</p>
              <bibitem id='iso216' type='standard'>
@@ -937,7 +937,7 @@ end
         <p id="_">Footnote2</p>
       </fn>
       </p>
-      </clause></sections><bibliography><references id="_" obligation="informative">
+      </clause></sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
@@ -1168,7 +1168,7 @@ end
           </localityStack>
         </origin>
         </termsource>
-        </term></terms></sections><bibliography><references id="_" obligation="informative">
+        </term></terms></sections><bibliography><references id="_" obligation="informative" normative="true">
           <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
           <bibitem type="standard" id="IEC60050-102">
@@ -1375,7 +1375,7 @@ end
   <p id="_"><eref type="inline" bibitemid="iso123" citeas="[2]"/>
 <eref type="inline" bibitemid="iso124" citeas="ISO 124"/></p>
 </clause>
-</sections><bibliography><references id="_" obligation="informative">
+</sections><bibliography><references id="_" obligation="informative" normative="false">
   <title>Bibliography</title>
   <bibitem id="iso124" type="standard">
   <title format="text/plain">Standard 124</title>
@@ -1431,7 +1431,7 @@ OUTPUT
        <eref type="inline" bibitemid="iso125" citeas="ISO 125"/>
        <eref type="inline" bibitemid="iso126" citeas="[4]"/></p>
        </clause>
-       </sections><bibliography><clause id="_" obligation="informative"><title>Bibliography</title><references id="_" obligation="informative">
+       </sections><bibliography><clause id="_" obligation="informative"><title>Bibliography</title><references id="_" obligation="informative" normative="false">
          <title>Clause 1</title>
          <bibitem id="iso124" type="standard">
          <title format="text/plain">Standard 124</title>
@@ -1451,8 +1451,7 @@ OUTPUT
          <docidentifier type="metanorma">[2]</docidentifier>
        </bibitem>
        </references>
-       <references id="_" obligation="informative">
-         
+       <references id="_" obligation="informative" normative="false">
          <bibitem id="iso125" type="standard">
          <title format="text/plain">Standard 124</title>
          <docidentifier>ISO 125</docidentifier>
@@ -1486,7 +1485,7 @@ OUTPUT
       #{BLANK_HDR}
       <sections>
 
-</sections><bibliography><references id="_" obligation="informative">
+</sections><bibliography><references id="_" obligation="informative" normative="true">
   <title>Normative References</title><p id="_">There are no normative references in this document.</p>
 </references></bibliography>
 </standard-document>
@@ -1505,7 +1504,7 @@ OUTPUT
     #{BLANK_HDR}
     <sections>
 
-       </sections><bibliography><references id="_" obligation="informative">
+       </sections><bibliography><references id="_" obligation="informative" normative="true">
          <title>Normative References</title><p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
          <bibitem id="a">
          <formattedref format="application/x-isodoc+xml">A</formattedref>
@@ -1534,7 +1533,7 @@ it "inserts boilerplate before empty Normative References in French" do
     #{BLANK_HDR.sub(/<language>en/, "<language>fr")}
     <sections>
 
-</sections><bibliography><references id="_" obligation="informative">
+</sections><bibliography><references id="_" obligation="informative" normative="true">
   <title>Normative References</title><p id="_">Le présent document ne contient aucune référence normative.</p>
 </references></bibliography>
 </standard-document>
@@ -1579,7 +1578,7 @@ it "removes bibdata bibitem IDs" do
   </bibdata>
   <sections> </sections>
   <bibliography>
-    <references id='_' obligation='informative'>
+    <references id='_' obligation='informative' normative="true">
       <title>Normative References</title>
       <p id="_">There are no normative references in this document.</p>
     </references>
