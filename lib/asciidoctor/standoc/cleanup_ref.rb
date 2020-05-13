@@ -67,9 +67,8 @@ module Asciidoctor
       end
 
       def normref_cleanup(xmldoc)
-        r = xmldoc.at(NORM_REF) || return
-        #return if r.at("./bibitem[1]/preceding-sibling::*[1][local-name()='title']")
-        preface = r.xpath("./title/following-sibling::*") &
+        r = xmldoc.at(self.class::NORM_REF) || return
+        preface = r.xpath("./title/following-sibling::*") & # intersection
           r.xpath("./bibitem[1]/preceding-sibling::*")
         preface.each { |n| n.remove }
       end
