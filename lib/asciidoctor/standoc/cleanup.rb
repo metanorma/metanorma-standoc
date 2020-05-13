@@ -54,7 +54,6 @@ module Asciidoctor
         quotesource_cleanup(xmldoc)
         callout_cleanup(xmldoc)
         footnote_cleanup(xmldoc)
-        empty_element_cleanup(xmldoc)
         mathml_cleanup(xmldoc)
         script_cleanup(xmldoc)
         docidentifier_cleanup(xmldoc)
@@ -64,6 +63,7 @@ module Asciidoctor
         boilerplate_cleanup(xmldoc)
         smartquotes_cleanup(xmldoc)
         para_cleanup(xmldoc)
+        empty_element_cleanup(xmldoc)
         img_cleanup(xmldoc)
         xmldoc
       end

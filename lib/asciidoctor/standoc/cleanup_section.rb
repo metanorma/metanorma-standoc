@@ -74,7 +74,7 @@ module Asciidoctor
       def make_annexes(x)
         x.xpath("//*[@annex]").each do |y|
           y.delete("annex")
-          next if y.name == "annex"
+          next if y.name == "annex" || !y.ancestors("annex").empty?
           y.wrap("<annex/>")
           y.parent["id"] = "_#{UUIDTools::UUID.random_create}"
           y.parent["obligation"] = y["obligation"]
