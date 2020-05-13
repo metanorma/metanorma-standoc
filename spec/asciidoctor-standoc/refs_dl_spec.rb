@@ -812,7 +812,7 @@ OUTPUT
          <docidentifier>B</docidentifier>
        </bibitem>
        <bibitem id='iso123' type='standard'>
-         <fetched>2020-05-12</fetched>
+         <fetched>#{Date.today.to_s}</fetched>
          <title type='main' format='text/plain' language='en' script='Latn'>Standard</title>
          <docidentifier type='ISO'>ISO 123</docidentifier>
          <contributor>
