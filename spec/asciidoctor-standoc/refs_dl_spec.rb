@@ -38,7 +38,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
       #{BLANK_HDR}
       <sections>
-      </sections><bibliography><references id="_" obligation="informative">
+      </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
@@ -287,7 +287,7 @@ formattedref::
     INPUT
       #{BLANK_HDR}
       <sections>
-      </sections><bibliography><references id="_" obligation="informative">
+      </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="TC211" type="standard">
@@ -605,7 +605,7 @@ series.formattedref.script:: Latn
     INPUT
       #{BLANK_HDR}
       <sections>
-      </sections><bibliography><references id="_" obligation="informative">
+      </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="TC211" type="standard">
@@ -757,4 +757,92 @@ home run record in 1998.</note>
 OUTPUT
        end
 
+   it "processes mix of dl and default references" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      
+      == Section
+
+      === Subsection
+
+      [bibliography]
+      === Normative References
+
+      * [[[A, B]]], Title
+
+      [%bibitem]
+      ==== Standard
+      id:: iso123
+      docid::
+        type::: ISO
+        id::: ISO 123
+      type:: standard
+      contributor::
+        role::: publisher
+        organization:::
+          name:::: ISO
+      contributor::
+        role::: author
+        person:::
+          name::::
+      +
+      --
+      completename::
+        language::: en
+        content::: Fred
+      --
+      contributor::
+        role::: author
+        person:::
+        name::::
+          completename::::: Jack
+
+    INPUT
+          #{BLANK_HDR}
+     <sections>
+   <clause id='_' inline-header='false' obligation='normative'>
+     <title>Section</title>
+     <clause id='_' inline-header='false' obligation='normative'>
+       <title>Subsection</title>
+     </clause>
+     <references id='_' obligation='informative'  normative="true">
+       <title>Normative References</title>
+       <bibitem id='A'>
+         <formattedref format='application/x-isodoc+xml'>Title</formattedref>
+         <docidentifier>B</docidentifier>
+       </bibitem>
+       <bibitem id='iso123' type='standard'>
+         <fetched>#{Date.today.to_s}</fetched>
+         <title type='main' format='text/plain' language='en' script='Latn'>Standard</title>
+         <docidentifier type='ISO'>ISO 123</docidentifier>
+         <contributor>
+           <role type='publisher'/>
+           <organization>
+             <name>ISO</name>
+           </organization>
+         </contributor>
+         <contributor>
+           <role type='author'/>
+           <person>
+             <name>
+               <completename language='en'>Fred</completename>
+             </name>
+           </person>
+         </contributor>
+         <contributor>
+           <role type='author'/>
+           <person>
+             <name>
+               <completename>Jack</completename>
+             </name>
+           </person>
+         </contributor>
+       </bibitem>
+     </references>
+   </clause>
+ </sections>
+</standard-document>
+OUTPUT
+
+end
 end

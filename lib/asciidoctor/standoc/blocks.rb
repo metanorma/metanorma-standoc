@@ -244,7 +244,11 @@ module Asciidoctor
       end
 
       def pass(node)
-        node.content
+        noko do |xml|
+          xml.passthrough **attr_code(formats: node.attr("format")) do |p|
+            p << HTMLEntities.new.encode(node.content, :basic, :hexadecimal)
+          end
+        end
       end
     end
   end

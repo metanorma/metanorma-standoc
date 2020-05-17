@@ -1,0 +1,695 @@
+---
+- Script conversion system code: acadsin-zho-hani-latn-2002
+  Script conversion system name: Academica Sinica -- Chinese Tongyong Pinyin (2002)
+  Script conversion system authority code: acadsin
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: zho
+  Source script code ISO 15924: Hani
+  Target script code ISO 15924: Latn
+  System ID: '2002'
+  System specification: Academica Sinica -- Chinese Tongyong Pinyin (2002)
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `zho_Hani2Latn_AcadSin_2002`'
+- Script conversion system code: ahl-heb-hebr-latn-1957
+  Script conversion system name: 'Academy of the Hebrew Language -- Rules of Transcription:
+    Romanization of Hebrew (1957)'
+  Script conversion system authority code: ahl
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: heb
+  Source script code ISO 15924: Hebr
+  Target script code ISO 15924: Latn
+  System ID: '1957'
+  System specification: 'Academy of the Hebrew Language -- Rules of Transcription:
+    Romanization of Hebrew (1957)'
+  Relationships:
+  Remarks:
+- Script conversion system code: ahl-heb-hebr-latn-2011
+  Script conversion system name: Academy of the Hebrew Language -- Rules of transliteration
+    from Hebrew into Latin letters (2011)
+  Script conversion system authority code: ahl
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: heb
+  Source script code ISO 15924: Hebr
+  Target script code ISO 15924: Latn
+  System ID: '2011'
+  System specification: "<<HebrLatn>>"
+  Relationships:
+  Remarks:
+- Script conversion system code: alalc-amh-ethi-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Amharic (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: amh
+  Source script code ISO 15924: Ethi
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `amh_Ethi2Latn_ALA_1997`'
+- Script conversion system code: alalc-amh-ethi-latn-2011
+  Script conversion system name: ALA-LC Romanization Table -- Amharic (2011)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: amh
+  Source script code ISO 15924: Ethi
+  Target script code ISO 15924: Latn
+  System ID: '2011'
+  System specification: ALA-LC Romanization Table -- Amharic (2011)
+  Relationships:
+  Remarks: '2011'
+- Script conversion system code: alalc-ara-arab-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Arabic (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: ara
+  Source script code ISO 15924: Arab
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `ara_Arab2Latn_ALA_1997`'
+- Script conversion system code: alalc-ara-arab-latn-2012
+  Script conversion system name: ALA-LC Romanization Table -- Arabic (2012)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: ara
+  Source script code ISO 15924: Arab
+  Target script code ISO 15924: Latn
+  System ID: '2012'
+  System specification: ALA-LC Romanization Table -- Arabic (2012)
+  Relationships:
+  Remarks: '2012'
+- Script conversion system code: alalc-arm-armn-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Armenian (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: arm
+  Source script code ISO 15924: Armn
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `hye_Armn2Latn_ALA_1997`'
+- Script conversion system code: alalc-arm-armn-latn-2011
+  Script conversion system name: ALA-LC Romanization Table -- Armenian (2011)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: arm
+  Source script code ISO 15924: Armn
+  Target script code ISO 15924: Latn
+  System ID: '2011'
+  System specification: ALA-LC Romanization Table -- Armenian (2011)
+  Relationships:
+  Remarks: '2011'
+- Script conversion system code: alalc-asm-deva-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Assamese (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: asm
+  Source script code ISO 15924: Deva
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `asm_Deva2Latn_ALA_1997`'
+- Script conversion system code: alalc-asm-deva-latn-2012
+  Script conversion system name: ALA-LC Romanization Table -- Assamese (2012)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: asm
+  Source script code ISO 15924: Deva
+  Target script code ISO 15924: Latn
+  System ID: '2012'
+  System specification: ALA-LC Romanization Table -- Assamese (2012)
+  Relationships:
+  Remarks: '2012'
+- Script conversion system code: alalc-aze-arab-latn-2017
+  Script conversion system name: ALA-LC Romanization Table -- Azerbaijani (2017) --
+    Perso-Arabic Script
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: aze
+  Source script code ISO 15924: Arab
+  Target script code ISO 15924: Latn
+  System ID: '2017'
+  System specification: ALA-LC Romanization Table -- Azerbaijani (2017)
+  Relationships:
+  Remarks: '2017'
+- Script conversion system code: alalc-aze-cyrl-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Azerbaijani (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: aze
+  Source script code ISO 15924: Cyrl
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `aze_Cyrl2Latn_ALA_1997`'
+- Script conversion system code: alalc-aze-cyrl-latn-2017
+  Script conversion system name: ALA-LC Romanization Table -- Azerbaijani (2017) --
+    Cyrillic script
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: aze
+  Source script code ISO 15924: Cyrl
+  Target script code ISO 15924: Latn
+  System ID: '2017'
+  System specification: ALA-LC Romanization Table -- Azerbaijani (2017)
+  Relationships:
+  Remarks:
+- Script conversion system code: alalc-ban-bali-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Balinese (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: ban
+  Source script code ISO 15924: Bali
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: ALA-LC Romanization Table -- Balinese (1997)
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `ban_Bali2Latn_ALA_1997`'
+- Script conversion system code: alalc-ban-bali-latn-2012
+  Script conversion system name: ALA-LC Romanization Table -- Balinese (2012)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: ban
+  Source script code ISO 15924: Bali
+  Target script code ISO 15924: Latn
+  System ID: '2012'
+  System specification: ALA-LC Romanization Table -- Balinese (2012)
+  Relationships:
+  Remarks: '2012'
+- Script conversion system code: alalc-bel-cyrl-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Byelorussian (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: bel
+  Source script code ISO 15924: Cyrl
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `bel_Cyrl2Latn_ALA_1997`'
+- Script conversion system code: alalc-bel-cyrl-latn-2012
+  Script conversion system name: ALA-LC Romanization Table -- Belarusian (2012)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: bel
+  Source script code ISO 15924: Cyrl
+  Target script code ISO 15924: Latn
+  System ID: '2012'
+  System specification: ALA-LC Romanization Table -- Belarusian (2012)
+  Relationships:
+  Remarks: '2012'
+- Script conversion system code: alalc-ben-beng-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Bengali (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: ben
+  Source script code ISO 15924: Beng
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `ben_Beng2Latn_ALA_1997`'
+- Script conversion system code: alalc-ben-beng-latn-2017
+  Script conversion system name: ALA-LC Romanization Table -- Bengali (2017)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: ben
+  Source script code ISO 15924: Beng
+  Target script code ISO 15924: Latn
+  System ID: '2017'
+  System specification: ALA-LC Romanization Table -- Bengali (2017)
+  Relationships:
+  Remarks: '2017'
+- Script conversion system code: alalc-bod-tibt-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Tibetan (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: bod
+  Source script code ISO 15924: Tibt
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `bod_Tibt2Latn_ALA_1997`'
+- Script conversion system code: alalc-bod-tibt-latn-2015
+  Script conversion system name: ALA-LC Romanization Table -- Tibetan (2015)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: bod
+  Source script code ISO 15924: Tibt
+  Target script code ISO 15924: Latn
+  System ID: '2015'
+  System specification: ALA-LC Romanization Table -- Tibetan (2015)
+  Relationships:
+  Remarks: '2015'
+- Script conversion system code: alalc-btk-batk-latn-2012
+  Script conversion system name: ALA-LC Romanization Table -- Batak (2012)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: btk
+  Source script code ISO 15924: Batk
+  Target script code ISO 15924: Latn
+  System ID: '2012'
+  System specification: ALA-LC Romanization Table -- Batak (2012)
+  Relationships:
+  Remarks: '2012'
+- Script conversion system code: alalc-bul-cyrl-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Bulgarian (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: bul
+  Source script code ISO 15924: Cyrl
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `bul_Cyrl2Latn_ALA_1997`'
+- Script conversion system code: alalc-bul-cyrl-latn-2013
+  Script conversion system name: ALA-LC Romanization Table -- Bulgarian (2013)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: bul
+  Source script code ISO 15924: Cyrl
+  Target script code ISO 15924: Latn
+  System ID: '2013'
+  System specification: ALA-LC Romanization Table -- Bulgarian (2013)
+  Relationships:
+  Remarks: '2013'
+- Script conversion system code: alalc-chr-cher-latn-2012
+  Script conversion system name: ALA-LC Romanization Table -- Cherokee (2012)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: chr
+  Source script code ISO 15924: Cher
+  Target script code ISO 15924: Latn
+  System ID: '2012'
+  System specification: ALA-LC Romanization Table -- Cherokee (2012)
+  Relationships:
+  Remarks: '2012'
+- Script conversion system code: alalc-chu-cyrs-latn-2011
+  Script conversion system name: ALA-LC Romanization Table -- Church Slavic (2011
+    rev)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: chu
+  Source script code ISO 15924: Cyrs
+  Target script code ISO 15924: Latn
+  System ID: '2011'
+  System specification: ALA-LC Romanization Table -- Church Slavic (2011 rev)
+  Relationships:
+  Remarks: 2011 rev
+- Script conversion system code: alalc-cmc-cham-latn-2015
+  Script conversion system name: ALA-LC Romanization Table -- Cham (2015)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: cmc
+  Source script code ISO 15924: Cham
+  Target script code ISO 15924: Latn
+  System ID: '2015'
+  System specification: ALA-LC Romanization Table -- Cham (2015)
+  Relationships:
+  Remarks: 2015, the document covers Eastern Cham and Western Cham
+- Script conversion system code: alalc-cop-copt-latn-2014
+  Script conversion system name: ALA-LC Romanization Table -- Coptic (2014)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: cop
+  Source script code ISO 15924: Copt
+  Target script code ISO 15924: Latn
+  System ID: '2014'
+  System specification: ALA-LC Romanization Table -- Coptic (2014)
+  Relationships:
+  Remarks: '2014'
+- Script conversion system code: alalc-div-thaa-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Maldivian (Divehi) (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: div
+  Source script code ISO 15924: Thaa
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `div_Thaa2Latn_ALA_1997`'
+- Script conversion system code: alalc-div-thaa-latn-2012
+  Script conversion system name: ALA-LC Romanization Table -- Divehi (2012)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: div
+  Source script code ISO 15924: Thaa
+  Target script code ISO 15924: Latn
+  System ID: '2012'
+  System specification: ALA-LC Romanization Table -- Divehi (2012)
+  Relationships:
+  Remarks: '2012'
+- Script conversion system code: alalc-dmn-nkoo-latn-2015
+  Script conversion system name: ALA-LC Romanization Table -- Mande languages (in
+    N'ko script) (2015)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-5
+  Language(s) ISO 639-2: dmn
+  Source script code ISO 15924: Nkoo
+  Target script code ISO 15924: Latn
+  System ID: '2015'
+  System specification: ALA-LC Romanization Table -- Mande languages (in N'ko script)
+    (2015)
+  Relationships:
+  Remarks: 2015, dmn from ISO 639-5
+- Script conversion system code: alalc-ell-grek-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Greek (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: ell
+  Source script code ISO 15924: Grek
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `ell_Grek2Latn_ALA_1997`'
+- Script conversion system code: alalc-ell-grek-latn-2010
+  Script conversion system name: ALA-LC Romanization Table -- Greek (2010)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: ell
+  Source script code ISO 15924: Grek
+  Target script code ISO 15924: Latn
+  System ID: '2010'
+  System specification: ALA-LC Romanization Table -- Greek (2010)
+  Relationships:
+  Remarks: '2010'
+- Script conversion system code: alalc-eng-dsrt-latn-2016
+  Script conversion system name: ALA-LC Romanization Table -- Deseret (2016)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: eng
+  Source script code ISO 15924: Dsrt
+  Target script code ISO 15924: Latn
+  System ID: '2016'
+  System specification: ALA-LC Romanization Table -- Deseret (2016)
+  Relationships:
+  Remarks: '2016'
+- Script conversion system code: alalc-guj-gijr-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Gujerati (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: guj
+  Source script code ISO 15924: Gijr
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `guj_Gijr2Latn_ALA_1997`'
+- Script conversion system code: alalc-guj-gujr-latn-2011
+  Script conversion system name: ALA-LC Romanization Table -- Gujarati (2011)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: guj
+  Source script code ISO 15924: Gujr
+  Target script code ISO 15924: Latn
+  System ID: '2011'
+  System specification: ALA-LC Romanization Table -- Gujarati (2011)
+  Relationships:
+  Remarks: '2011'
+- Script conversion system code: alalc-heb-hebr-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Hebrew and Yiddish (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: heb
+  Source script code ISO 15924: Hebr
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `heb_Hebr2Latn_ALA_1997`'
+- Script conversion system code: alalc-heb-hebr-latn-2011
+  Script conversion system name: ALA-LC Romanization Table -- Hebrew and Yiddish (2011)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: heb
+  Source script code ISO 15924: Hebr
+  Target script code ISO 15924: Latn
+  System ID: '2011'
+  System specification: ALA-LC Romanization Table -- Hebrew and Yiddish (2011)
+  Relationships:
+  Remarks: '2011'
+- Script conversion system code: alalc-hin-deva-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Hindi (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: hin
+  Source script code ISO 15924: Deva
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `hin_Deva2Latn_ALA_1997`'
+- Script conversion system code: alalc-hin-deva-latn-2011
+  Script conversion system name: ALA-LC Romanization Table -- Hindi (2011)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: hin
+  Source script code ISO 15924: Deva
+  Target script code ISO 15924: Latn
+  System ID: '2011'
+  System specification: ALA-LC Romanization Table -- Hindi (2011)
+  Relationships:
+  Remarks: '2011'
+- Script conversion system code: alalc-iku-cans-latn-2011
+  Script conversion system name: ALA-LC Romanization Table -- Inuktitut (2011)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: iku
+  Source script code ISO 15924: Cans
+  Target script code ISO 15924: Latn
+  System ID: '2011'
+  System specification: ALA-LC Romanization Table -- Inuktitut (2011)
+  Relationships:
+  Remarks: '2011'
+- Script conversion system code: alalc-jav-arab-latn-jp-2012
+  Script conversion system name: ALA-LC Romanization Table -- Jawi-Pegon (2012)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: jav
+  Source script code ISO 15924: Arab
+  Target script code ISO 15924: Latn
+  System ID: jp-2012
+  System specification: ALA-LC Romanization Table -- Jawi-Pegon (2012)
+  Relationships:
+  Remarks: 2012, need verification on language and script (TODO)
+- Script conversion system code: alalc-jav-java-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Javanese, Sundanese,
+    and Madurese (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: jav
+  Source script code ISO 15924: Java
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `jav_Java2Latn_ALA_1997`'
+- Script conversion system code: alalc-jav-java-latn-2011
+  Script conversion system name: ALA-LC Romanization Table -- Javanese, Sundanese,
+    and Madurese (2011)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: jav
+  Source script code ISO 15924: Java
+  Target script code ISO 15924: Latn
+  System ID: '2011'
+  System specification: ALA-LC Romanization Table -- Javanese, Sundanese, and Madurese
+    (2011)
+  Relationships:
+  Remarks: '2011'
+- Script conversion system code: alalc-jpn-hrkt-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Japanese (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: jpn
+  Source script code ISO 15924: Hrkt
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships: adoptedFrom:var-jpn-hrkt-latn-hepburn-1974, basedOn:ansi-jpn-hrkt-Latn-z39-11-1972
+  Remarks: 'NOTE: OGC 11-122r1 code `jpn_Hrkt2Latn_ALA_1997`'
+- Script conversion system code: alalc-jpn-hrkt-latn-2012
+  Script conversion system name: ALA-LC Romanization Table -- Japanese (2012)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: jpn
+  Source script code ISO 15924: Hrkt
+  Target script code ISO 15924: Latn
+  System ID: '2012'
+  System specification: ALA-LC Romanization Table -- Japanese (2012)
+  Relationships:
+  Remarks: '2012'
+- Script conversion system code: alalc-jrb-hebr-latn-2011
+  Script conversion system name: ALA-LC Romanization Table -- Judeo-Arabic (2011)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: jrb
+  Source script code ISO 15924: Hebr
+  Target script code ISO 15924: Latn
+  System ID: '2011'
+  System specification: ALA-LC Romanization Table -- Judeo-Arabic (2011)
+  Relationships:
+  Remarks: 2011, Hebr does not contain all symbols of jrb
+- Script conversion system code: alalc-kan-knda-latn-2011
+  Script conversion system name: ALA-LC Romanization Table -- Kannada (2011)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: kan
+  Source script code ISO 15924: Knda
+  Target script code ISO 15924: Latn
+  System ID: '2011'
+  System specification: ALA-LC Romanization Table -- Kannada (2011)
+  Relationships:
+  Remarks: '2011'
+- Script conversion system code: alalc-kas-arab-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Kashmiri (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: kas
+  Source script code ISO 15924: Arab
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `kas_Arab2Latn_ALA_1997`'
+- Script conversion system code: alalc-kas-arab-latn-2012
+  Script conversion system name: ALA-LC Romanization Table -- Kashmiri (2012)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: kas
+  Source script code ISO 15924: Arab
+  Target script code ISO 15924: Latn
+  System ID: '2012'
+  System specification: ALA-LC Romanization Table -- Kashmiri (2012)
+  Relationships:
+  Remarks: '2012'
+- Script conversion system code: alalc-kat-geok-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Georgian (1997) (Khutsuri)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: kat
+  Source script code ISO 15924: Geok
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `kat_Geor2Latn_ALA_1997`'
+- Script conversion system code: alalc-kat-geok-latn-2011
+  Script conversion system name: ALA-LC Romanization Table -- Georgian (2011) (Khutsuri)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: kat
+  Source script code ISO 15924: Geok
+  Target script code ISO 15924: Latn
+  System ID: '2011'
+  System specification: ALA-LC Romanization Table -- Georgian (2011)
+  Relationships:
+  Remarks: '2011'
+- Script conversion system code: alalc-kat-geor-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Georgian (1997) (Mkhedruli)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: kat
+  Source script code ISO 15924: Geor
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `kat_Geor2Latn_ALA_1997`'
+- Script conversion system code: alalc-kat-geor-latn-2011
+  Script conversion system name: ALA-LC Romanization Table -- Georgian (2011) (Mkhedruli)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: kat
+  Source script code ISO 15924: Geor
+  Target script code ISO 15924: Latn
+  System ID: '2011'
+  System specification: ALA-LC Romanization Table -- Georgian (2011)
+  Relationships:
+  Remarks: '2011'
+- Script conversion system code: alalc-kaz-arab-latn-2012
+  Script conversion system name: ALA-LC Romanization Table -- Kazakh (2012)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: kaz
+  Source script code ISO 15924: Arab
+  Target script code ISO 15924: Latn
+  System ID: '2012'
+  System specification: ALA-LC Romanization Table -- Kazakh (2012)
+  Relationships:
+  Remarks: '2012'
+- Script conversion system code: alalc-khm-khmr-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Cambodian (Khmer) (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: khm
+  Source script code ISO 15924: Khmr
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `khm_Khmr2Latn_ALA_1997`'
+- Script conversion system code: alalc-khm-khmr-latn-2012
+  Script conversion system name: ALA-LC Romanization Table -- Khmer (2012 rev)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: khm
+  Source script code ISO 15924: Khmr
+  Target script code ISO 15924: Latn
+  System ID: '2012'
+  System specification: ALA-LC Romanization Table -- Khmer (2012 rev)
+  Relationships:
+  Remarks: 2012 rev
+- Script conversion system code: alalc-kor-hang-latn-1997
+  Script conversion system name: ALA-LC Romanization Table -- Korean (1997)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: kor
+  Source script code ISO 15924: Hang
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `kor_Hang2Latn_ALA_1997`'
+- Script conversion system code: alalc-kor-kore-latn-2009
+  Script conversion system name: ALA-LC Romanization Table -- Korean (2009)
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: kor
+  Source script code ISO 15924: Kore
+  Target script code ISO 15924: Latn
+  System ID: '2009'
+  System specification: ALA-LC Romanization Table -- Korean (2009)
+  Relationships:
+  Remarks: '2009'
+- Script conversion system code: alalc-kur-arab-latn-1997
+  Script conversion system name: ALA-LC Standard Kurdish Orthography Table (1997)
+    -- Arabic
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: kur
+  Source script code ISO 15924: Arab
+  Target script code ISO 15924: Latn
+  System ID: '1997'
+  System specification: "<<ALALCTables>>"
+  Relationships:
+  Remarks: 'NOTE: OGC 11-122r1 code `kur_Arab2Latn_ALA_1997`'
+- Script conversion system code: alalc-kur-arab-latn-2012
+  Script conversion system name: ALA-LC Romanization Table -- Kurdish (2012) -- Arabic
+  Script conversion system authority code: alalc
+  Language code type: iso-639-2
+  Language(s) ISO 639-2: kur
+  Source script code ISO 15924: Arab
+  Target script code ISO 15924: Latn
+  System ID: '2012'
+  System specification: ALA-LC Romanization Table -- Kurdish (2012) -- Arabic
+  Relationships:
+  Remarks: '2012'

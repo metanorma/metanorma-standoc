@@ -3,6 +3,7 @@ require "htmlentities"
 require "unicode2latex"
 require "mime/types"
 require "base64"
+require 'English'
 
 module Asciidoctor
   module Standoc
@@ -106,23 +107,47 @@ module Asciidoctor
           gsub(/&quot;/, '"').gsub(/&#xa;/, "\n")
       end
 
+      def latex_run1(lxm_input, cmd)
+        IO.popen(cmd, "r+", external_encoding: "UTF-8") do |io|
+          io.write(lxm_input)
+          io.close_write
+          io.read
+        end
+      end
+
+      def latex_run(lxm_input)
+        results = nil
+        Metanorma::Standoc::Requirements[:latexml].cmd.each_with_index do |cmd, i|
+          warn "Retrying with #{cmd}" if i > 0
+          results = latex_run1(lxm_input, cmd)
+          if $CHILD_STATUS.to_i.zero?
+            warn "Success!" if i > 0
+            break
+          end
+        end
+        $CHILD_STATUS.to_i.zero? ? results : nil
+      end
+
+      def latex_parse(text)
+        lxm_input = Unicode2LaTeX.unicode2latex(HTMLEntities.new.decode(text))
+        results = latex_run(lxm_input)
+        results.nil? and
+          @log.add('Math', nil,
+                   "latexmlmath failed to process equation:\n#{lxm_input}")
+        results
+      end
+
       def stem_parse(text, xml, style)
         if /&lt;([^:>&]+:)?math(\s+[^>&]+)?&gt; |
           <([^:>&]+:)?math(\s+[^>&]+)?>/x.match text
           math = xml_encode(text)
           xml.stem math, **{ type: "MathML" }
         elsif style == :latexmath
-          latex_cmd = Metanorma::Standoc::Requirements[:latexml].cmd
-          latexmlmath_input =
-            Unicode2LaTeX::unicode2latex(HTMLEntities.new.decode(text)).
-            gsub(/'/, '\\').gsub(/\n/, " ")
-          latex = IO.popen(latex_cmd, "r+", external_encoding: "UTF-8") do |io|
-            io.write(latexmlmath_input)
-            io.close_write
-            io.read
-          end
+          latex = latex_parse(text) or return xml.stem **{ type: "MathML" }
           xml.stem **{ type: "MathML" } do |s|
-            s << latex.sub(/<\?[^>]+>/, "")
+            math = Nokogiri::XML.fragment(latex.sub(/<\?[^>]+>/, "")).elements[0]
+            math.delete("alttext")
+            s.parent.children = math
           end
         else
           xml.stem text, **{ type: "AsciiMath" }
@@ -172,14 +197,14 @@ module Asciidoctor
         types = /^data:/.match(uri) ? datauri2mime(uri) : MIME::Types.type_for(uri)
         type = types.first.to_s
         uri = uri.sub(%r{^data:image/\*;}, "data:#{type};")
-        attr_code(src: @datauriimage ? datauri(uri) : uri,
-          id: Utils::anchor_or_uuid,
-          mimetype: type,
-          height: node.attr("height") || "auto",
-          width: node.attr("width") || "auto" ,
-          filename: node.attr("filename"),
-          title: node.attr("titleattr"),
-          alt: node.alt == node.attr("default-alt") ? nil : node.alt)
+        attr_code(src: uri, #@datauriimage ? datauri(uri) : uri,
+                  id: Utils::anchor_or_uuid,
+                  mimetype: type,
+                  height: node.attr("height") || "auto",
+                  width: node.attr("width") || "auto" ,
+                  filename: node.attr("filename"),
+                  title: node.attr("titleattr"),
+                  alt: node.alt == node.attr("default-alt") ? nil : node.alt)
       end
 
       def inline_image(node)

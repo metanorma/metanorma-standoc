@@ -1,10 +1,10 @@
 require "asciidoctor/extensions"
 require "fileutils"
 require "uuidtools"
-require_relative "./macros_plantuml.rb"
 require "yaml"
-
+require_relative "./macros_plantuml.rb"
 require_relative "./datamodel_block_macro"
+require_relative "./macros_yaml2text.rb"
 
 module Asciidoctor
   module Standoc
@@ -61,7 +61,7 @@ module Asciidoctor
       named :concept
       name_positional_attributes "id", "word", "term"
       #match %r{concept:(?<target>[^\[]*)\[(?<content>|.*?[^\\])\]$}
-      match /\{\{(?<content>|.*?[^\\])\}\}$/
+      match /\{\{(?<content>|.*?[^\\])\}\}/
       using_format :short
 
       # deal with locality attrs and their disruption of positional attrs

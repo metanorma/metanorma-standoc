@@ -11,7 +11,7 @@ module Asciidoctor
     module Cleanup
       def make_preface(x, s)
         if x.at("//foreword | //introduction | //acknowledgements | "\
-            "//clause[@preface]")
+            "//*[@preface]")
           preface = s.add_previous_sibling("<preface/>").first
           f = x.at("//foreword") and preface.add_child f.remove
           f = x.at("//introduction") and preface.add_child f.remove
@@ -22,7 +22,7 @@ module Asciidoctor
       end
 
       def move_clauses_into_preface(x, preface)
-        x.xpath("//clause[@preface]").each do |c|
+        x.xpath("//*[@preface]").each do |c|
           c.delete("preface")
           preface.add_child c.remove
         end
@@ -66,8 +66,21 @@ module Asciidoctor
       def sections_order_cleanup(x)
         s = x.at("//sections")
         make_preface(x, s)
+        make_annexes(x)
         make_bibliography(x, s)
         x.xpath("//sections/annex").reverse_each { |r| s.next = r.remove }
+      end
+      
+      def make_annexes(x)
+        x.xpath("//*[@annex]").each do |y|
+          y.delete("annex")
+          next if y.name == "annex" || !y.ancestors("annex").empty?
+          y.wrap("<annex/>")
+          y.parent["id"] = "_#{UUIDTools::UUID.random_create}"
+          y.parent["obligation"] = y["obligation"]
+          y.parent["language"] = y["language"]
+          y.parent["script"] = y["script"]
+        end
       end
 
       def maxlevel(x)
@@ -117,7 +130,7 @@ module Asciidoctor
       end
 
       def obligations_cleanup_inherit(x)
-        x.xpath("//annex | //clause").each do |r|
+        x.xpath("//annex | //clause[not(ancestor::boilerplate)]").each do |r|
           r["obligation"] = "normative" unless r["obligation"]
         end
         x.xpath(Utils::SUBCLAUSE_XPATH).each do |r|
@@ -192,7 +205,16 @@ module Asciidoctor
         end
       end
 
+      def termdef_from_termbase(xmldoc)
+        xmldoc.xpath("//term").each do |x|
+          if c = x.at("./origin/termref") and !x.at("./definition")
+            x.at("./origin").previous = fetch_termbase(c["base"], c.text)
+          end
+        end
+      end
+
       def termdef_cleanup(xmldoc)
+        termdef_from_termbase(xmldoc)
         termdef_unnest_cleanup(xmldoc)
         termdef_stem_cleanup(xmldoc)
         termdomain_cleanup(xmldoc)
@@ -209,13 +231,19 @@ module Asciidoctor
       # Numbers sort *after* letters; we use thorn to force that sort order.
       def symbol_key(x)
         key = x.dup
-        key.xpath("//*[local-name() = 'math']").each do |m|
-          m.replace(MathML2AsciiMath.m2a(m.to_xml))
+        key.traverse do |n|
+          next unless n.name == "math"
+          n.replace(grkletters(MathML2AsciiMath.m2a(n.to_xml)))
         end
-        ret = Nokogiri::XML(MathML2AsciiMath.m2a(key.to_xml))
-        HTMLEntities.new.decode(ret.text).strip.
+        ret = Nokogiri::XML(key.to_xml)
+        HTMLEntities.new.decode(ret.text).
+          gsub(/[\[\]\{\}<>\(\)]/, "").strip.
           gsub(/[[:punct]]|[_^]/, ":\\0").gsub(/`/, "").
           gsub(/[0-9]+/, "þ\\0")
+      end
+
+      def grkletters(x)
+        x.gsub(/\b(alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|nu|xi|omicron|pi|rho|sigma|tau|upsilon|phi|chi|psi|omega)\b/i, "&\\1;")
       end
 
       def extract_symbols_list(dl)
@@ -233,7 +261,7 @@ module Asciidoctor
       def symbols_cleanup(docxml)
         docxml.xpath("//definitions/dl").each do |dl|
           dl_out = extract_symbols_list(dl)
-          dl_out.sort! { |a, b| a[:key] <=> b[:key] }
+          dl_out.sort! { |a, b| a[:key] <=> b[:key] || a[:dt] <=> b[:dt] }
           dl.children = dl_out.map { |d| d[:dt].to_s + d[:dd].to_s }.join("\n")
         end
         docxml

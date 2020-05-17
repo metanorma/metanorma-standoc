@@ -27,13 +27,14 @@ RSpec.describe Asciidoctor::Standoc do
 </preface>
 <sections> </sections>
 <bibliography>
-  <references id='_' obligation='informative'>
+  <references id='_' obligation='informative' normative="false">
     <title>Bibliography</title>
     <bibitem id='ref1'>
       <formattedref format='application/x-isodoc+xml'>
         <em>Title</em>
       </formattedref>
       <docidentifier>XYZ 123</docidentifier>
+      <docnumber>123</docnumber>
     </bibitem>
   </references>
 </bibliography>
@@ -177,7 +178,7 @@ INPUT
   </clause>
 </sections>
 <bibliography>
-  <references id='_' obligation='informative'>
+  <references id='_' obligation='informative' normative="false">
     <title>Bibliography</title>
     <bibitem id='blah'>
       <formattedref format='application/x-isodoc+xml'>
@@ -287,7 +288,7 @@ OUTPUT
        </standard-document>
     OUTPUT
   end
-  
+
   it "processes the PlantUML macro" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).gsub(%r{plantuml/plantuml[^./]+\.}, "plantuml/_."))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
@@ -462,7 +463,6 @@ Alice &lt;-- Bob: another authentication Response
     OUTPUT
   end
 
-
   private
 
   def mock_plantuml_disabled
@@ -471,13 +471,13 @@ Alice &lt;-- Bob: another authentication Response
       false
     end
   end
-  
+
   def mock_localdir_unwritable
     expect(Asciidoctor::Standoc::Utils).to receive(:localdir) do
       "/"
     end.exactly(2).times
   end
-  
+
   def mock_localdir_unwritable
     expect(File).to receive(:writable?) do
       false

@@ -15,7 +15,7 @@ module Asciidoctor
           annotations = x.elements.select { |e| e.name == "annotation" }
           if callouts.size != annotations.size
             #warn "#{x['id']}: mismatch of callouts and annotations"
-        @log.add("Asciidoctor Input", x, "mismatch of callouts and annotations")
+        @log.add("AsciiDoc Input", x, "mismatch of callouts and annotations")
           end
         end
       end

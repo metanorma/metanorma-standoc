@@ -53,7 +53,15 @@ module Asciidoctor
       def section_attributes(node)
         { id: Utils::anchor_or_uuid(node),
           language: node.attributes["language"],
-          script: node.attributes["script"] }
+          script: node.attributes["script"],
+          annex: (
+            ((node.attr("style") == "appendix" || node.role == "appendix") && 
+             node.level == 1) ? true : nil
+          ),
+          preface: (
+            (node.role == "preface" || node.attr("style") == "preface") ?
+            true : nil),
+        }
       end
 
       def section(node)
@@ -75,7 +83,12 @@ module Asciidoctor
           else
             if @term_def then term_def_subclause_parse(a, xml, node)
             elsif @definitions then symbols_parse(a, xml, node)
+            elsif @norm_ref then norm_ref_parse(a, xml, node)
             elsif @biblio then bibliography_parse(a, xml, node)
+            elsif node.attr("style") == "bibliography" && sectiontype(node, false) == "normative references"
+              norm_ref_parse(a, xml, node)
+            elsif node.attr("style") == "bibliography" && sectiontype(node, false) == "bibliography"
+              bibliography_parse(a, xml, node)
             elsif node.attr("style") == "bibliography"
               bibliography_parse(a, xml, node)
             elsif node.attr("style") == "abstract" 
@@ -118,7 +131,6 @@ module Asciidoctor
       def clause_parse(attrs, xml, node)
         attrs["inline-header".to_sym] = node.option? "inline-header"
         attrs[:bibitem] = true if node.option? "bibitem"
-        attrs[:preface] = true if node.role == "preface" || node.attr("style") == "preface"
         attrs[:level] = node.attr("level")
         set_obligation(attrs, node)
         xml.send "clause", **attr_code(attrs) do |xml_section|
@@ -137,11 +149,11 @@ module Asciidoctor
       end
 
       def bibliography_parse(attrs, xml, node)
+        node.option? "bibitem" and return bibitem_parse(attrs, xml, node)
         node.attr("style") == "bibliography" or
-          #warn "Section not marked up as [bibliography]!"
-          @log.add("Asciidoctor Input", node, "Section not marked up as [bibliography]!")
+          @log.add("AsciiDoc Input", node, "Section not marked up as [bibliography]!")
         @biblio = true
-        xml.references **attr_code(attrs) do |xml_section|
+        xml.references **attr_code(attrs.merge(normative: false)) do |xml_section|
           title = node.level == 1 ? "Bibliography" : node.title
           xml_section.title { |t| t << title }
           xml_section << node.content
@@ -180,14 +192,16 @@ module Asciidoctor
 
       # subclause contains subclauses
       def term_def_subclause_parse(attrs, xml, node)
-        node.role == "nonterm" ||
-          sectiontype(node, false) == "terms and definitions" and
+        node.role == "nonterm"  and
           return nonterm_term_def_subclause_parse(attrs, xml, node)
+        st = sectiontype(node, false)
         return symbols_parse(attrs, xml, node) if @definitions
         sub = node.find_by(context: :section) { |s| s.level == node.level + 1 }
         sub.empty? || (return term_def_parse(attrs, xml, node, false))
-        sectiontype(node, false) == "symbols and abbreviated terms" and
+        st == "symbols and abbreviated terms" and
           (return symbols_parse(attrs, xml, node))
+        st == "terms and definitions" and
+          return clause_parse(attrs, xml, node)
         term_def_subclause_parse1(attrs, xml, node)
       end
 
@@ -204,6 +218,11 @@ module Asciidoctor
           SYMBOLS_TITLES.include? s.title.downcase
         end
         return "Terms and definitions" if sub.empty?
+        sym = /symbol/i.match(node.title)
+        abbrev = /abbreviat/i.match(node.title)
+        sym && abbrev and return "Terms, definitions, symbols and abbreviated terms"
+        sym and return "Terms, definitions and symbols"
+        abbrev and return "Terms, definitions and abbreviated terms"
         "Terms, definitions, symbols and abbreviated terms"
       end
 
@@ -217,9 +236,22 @@ module Asciidoctor
         end
       end
 
+      def bibitem_parse(attrs, xml, node)
+        norm_ref = @norm_ref
+        biblio = @biblio
+        @biblio = false
+        @norm_ref = false
+        clause_parse(attrs, xml, node)
+        @biblio = biblio
+        @norm_ref = norm_ref
+      end
+
       def norm_ref_parse(attrs, xml, node)
+        node.option? "bibitem" and return bibitem_parse(attrs, xml, node)
+        node.attr("style") == "bibliography" or
+          @log.add("AsciiDoc Input", node, "Section not marked up as [bibliography]!")
         @norm_ref = true
-        xml.references **attr_code(attrs) do |xml_section|
+        xml.references **attr_code(attrs.merge(normative: true)) do |xml_section|
           xml_section.title { |t| t << "Normative References" }
           xml_section << node.content
         end

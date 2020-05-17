@@ -6,15 +6,23 @@ on:
   push:
     branches: [ master ]
   pull_request:
+    paths-ignore:
+      - .github/workflows/macos.yml
+      - .github/workflows/windows.yml
 
 jobs:
   test-linux:
     name: Test on Ruby ${{ matrix.ruby }} Ubuntu
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
         ruby: [ '2.6', '2.5', '2.4' ]
+        experimental: [false]
+        include:
+          - ruby: '2.7'
+            experimental: true
     steps:
       - uses: actions/checkout@master
       - name: Use Ruby
@@ -31,14 +39,16 @@ jobs:
           bundle install --jobs 4 --retry 3
       - name: Install LaTeXML
         run: |
-          sudo snap install latexml
-          sudo snap alias latexml.math latexmlmath
+          sudo snap install latexml --edge
+          echo "::add-path::/snap/bin"
       - name: Install PlantUML
         run: |
           curl -L https://raw.githubusercontent.com/metanorma/plantuml-install/master/ubuntu.sh | sudo bash
       - name: Install puppeteer
         run: |
-          npm -g i puppeteer
+          sudo apt-get update
+          sudo apt-get install -y libgbm1
+          npm install -g puppeteer@3.0.1
       - name: Run specs
         run: |
           bundle exec rake
