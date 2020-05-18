@@ -223,7 +223,8 @@ OUTPUT
         expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         #{ASCIIDOC_BLANK_HDR}
 
-        [pseudocode]
+        [pseudocode,subsequence="A"]
+        [%unnumbered]
         ====
           *A* +
                 [smallcap]#B#
@@ -233,7 +234,7 @@ OUTPUT
         INPUT
         #{BLANK_HDR}
         <sections>
-  <figure id="_" class="pseudocode"><p id="_">  <strong>A</strong><br/>
+  <figure id="_"  subsequence='A' class="pseudocode" unnumbered="true"><p id="_">  <strong>A</strong><br/>
         <smallcap>B</smallcap></p>
 <p id="_">  <em>C</em></p></figure>
 </sections>
