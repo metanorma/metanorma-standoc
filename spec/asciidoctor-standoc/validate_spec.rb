@@ -220,7 +220,8 @@ INPUT
 end
 =end
 
-it "warns if id used twice" do
+it "warns and aborts if id used twice" do
+  FileUtils.rm_f "test.xml"
   FileUtils.rm_f "test.err"
   Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
   = Document title
@@ -235,6 +236,7 @@ it "warns if id used twice" do
   == Clause 2
   INPUT
   expect(File.read("test.err")).to include "Anchor abc has already been used at line"
+  expect(File.exist?("test.xml")).to be false
 end
 
 it "err file succesfully created for docfile path" do

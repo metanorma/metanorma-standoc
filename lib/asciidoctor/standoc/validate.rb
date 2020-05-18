@@ -25,7 +25,6 @@ module Asciidoctor
           @iev = init_iev or return
           iev = @iev.fetch(locality, xmldoc&.at("//language")&.text || "en") or next
           pref.include?(iev.downcase) or
-            #warn %(Term "#{pref[0]}" does not match IEV #{locality} "#{iev}")
           @log.add("Bibliography", t, %(Term "#{pref[0]}" does not match IEV #{locality} "#{iev}"))
         end
       end
@@ -38,14 +37,17 @@ module Asciidoctor
 
       def repeat_id_validate(doc)
         ids = {}
+        crash = false
         doc.xpath("//*[@id]").each do |x|
           if ids[x["id"]]
-          @log.add("Anchors", x, "Anchor #{x['id']} has already been used at line #{ids[x['id']]}")
+            @log.add("Anchors", x, "Anchor #{x['id']} has already been used at line #{ids[x['id']]}")
+            crash = true
           else
             ids[x["id"]] = x.line
           end
         end
-        end
+        abort("Cannot deal with multiple instances of same ID") if crash
+      end
 
       def schema_validate(doc, schema)
         Tempfile.open(["tmp", ".xml"], :encoding => 'UTF-8') do |f|
