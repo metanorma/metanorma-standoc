@@ -46,7 +46,10 @@ module Asciidoctor
             ids[x["id"]] = x.line
           end
         end
-        abort("Cannot deal with multiple instances of same ID") if crash
+        if crash
+          clean_exit
+          abort("Cannot deal with multiple instances of same ID")
+        end
       end
 
       def schema_validate(doc, schema)
@@ -60,6 +63,7 @@ module Asciidoctor
               @log.add("Syntax", "XML Line #{"%06d" % error[:line]}:#{error[:column]}", error[:message])
             end
           rescue Jing::Error => e
+            clean_exit
             abort "Jing failed with error: #{e}"
           ensure
             f.close!

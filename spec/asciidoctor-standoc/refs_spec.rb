@@ -231,7 +231,7 @@ RSpec.describe Asciidoctor::Standoc do
         == Normative References
 
         * [[[iso123,ISO 123]]] _Standard_
-        * [[[iso123,(1)ISO 123]]] _Standard_
+        * [[[iso124,(1)ISO 123]]] _Standard_
       INPUT
         #{BLANK_HDR}
        <sections>
@@ -344,7 +344,7 @@ RSpec.describe Asciidoctor::Standoc do
                </relation>
                <place>Geneva</place>
              </bibitem>
-             <bibitem id='iso123' type='standard'>
+             <bibitem id='iso124' type='standard'>
                <fetched>#{Date.today}</fetched>
                <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>

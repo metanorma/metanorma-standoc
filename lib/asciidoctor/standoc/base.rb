@@ -169,9 +169,13 @@ module Asciidoctor
           html_converter(node).convert(@filename + ".xml")
           doc_converter(node).convert(@filename + ".xml")
         end
+        clean_exit
+        ret
+      end
+
+      def clean_exit
         @log.write(@localdir + @filename + ".err") unless @novalid
         @files_to_delete.each { |f| FileUtils.rm f }
-        ret
       end
 
       def makexml1(node)
