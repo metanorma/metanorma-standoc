@@ -178,6 +178,13 @@ WORD_HDR = <<~END
            <div class="WordSection3">
 END
 
+def examples_path(path)
+  File.join(File.expand_path('./examples', __dir__), path)
+end
+
+def fixtures_path(path)
+  File.join(File.expand_path('./fixtures', __dir__), path)
+end
 
 def stub_fetch_ref(**opts)
   xml = ""
@@ -215,7 +222,7 @@ private
 def get_xml(search, code, opts)
   c = code.gsub(%r{[\/\s:-]}, "_").sub(%r{_+$}, "").downcase
   o = opts.keys.join "_"
-  file = "spec/examples/#{[c, o].join '_'}.xml"
+  file = examples_path("#{[c, o].join '_'}.xml")
   if File.exist? file
     File.read file
   else
@@ -230,7 +237,7 @@ end
 def mock_open_uri(code)
   expect(OpenURI).to receive(:open_uri).and_wrap_original do |m, *args|
     # expect(args[0]).to be_instance_of String
-    file = "spec/examples/#{code.tr('-', '_')}.html"
+    file = examples_path("#{code.tr('-', '_')}.html")
     File.write file, m.call(*args).read unless File.exist? file
     File.read file, encoding: "utf-8"
   end.at_least :once

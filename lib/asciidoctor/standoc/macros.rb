@@ -5,6 +5,7 @@ require "yaml"
 require_relative "./macros_plantuml.rb"
 require_relative "./datamodel_block_macro"
 require_relative "./macros_yaml2text.rb"
+require_relative "./macros_datamodel.rb"
 
 module Asciidoctor
   module Standoc

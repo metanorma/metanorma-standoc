@@ -15,6 +15,7 @@ module Asciidoctor
       XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
 
       Asciidoctor::Extensions.register do
+        preprocessor Asciidoctor::Standoc::DatamodelPreprocessor
         preprocessor Asciidoctor::Standoc::Yaml2TextPreprocessor
         inline_macro Asciidoctor::Standoc::AltTermInlineMacro
         inline_macro Asciidoctor::Standoc::DeprecatedTermInlineMacro
@@ -26,7 +27,6 @@ module Asciidoctor
         treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
         block Asciidoctor::Standoc::PlantUMLBlockMacro
         block Asciidoctor::Standoc::PseudocodeBlockMacro
-        block Asciidoctor::Standoc::DataModelBlockMacro
       end
 
       def xml_root_tag

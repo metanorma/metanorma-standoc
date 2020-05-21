@@ -1,0 +1,14 @@
+/Users/mitaraskin/Work/Personal/Metanorma/metanorma-standoc/spec/examples/datamodel/example.err errors
+
+
+== Style Warning
+
+(XML Line 000021): Hanging paragraph in clause
+
+
+== Syntax
+
+(XML Line 000015:13): element "copyright" incomplete; missing required element "owner"
+(XML Line 000017:27): character content of element "doctype" invalid; must be equal to "document"
+(XML Line 000023:84): IDREF "ISO19115-1" without matching ID
+(XML Line 000024:26): IDREF "ISO15924" without matching ID

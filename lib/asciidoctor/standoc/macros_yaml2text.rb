@@ -114,12 +114,14 @@ module Asciidoctor
         loop do
           line = lines.next
           if line.match(BLOCK_START_REGEXP)
-            line.gsub!(BLOCK_START_REGEXP, '<% \1.each.with_index do |\2,index| %>')
+            line.gsub!(BLOCK_START_REGEXP, '<% \1.each&.with_index do |\2,index| %>')
           end
 
           if line.match(BLOCK_END_REGEXP)
             line.gsub!(BLOCK_END_REGEXP, '<% end %>')
           end
+          line.gsub!(/{\s*if\s*([^}]+)}/, '<% if \1 %>')
+          line.gsub!(/{\s*?end\s*?}/, '<% end %>')
           line = line.gsub(/{(.+?[^}]*)}/, '<%= \1 %>').gsub(/[a-z\.]+\#/, 'index')
           result.push(line)
         end
