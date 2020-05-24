@@ -3,6 +3,12 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
+  it "generates error file" do
+  FileUtils.rm_f "spec/assets/xref_error.err"
+  Asciidoctor.convert_file "spec/assets/xref_error.adoc", {:attributes=>{"backend"=>"standoc"}, :safe=>0, :header_footer=>true, :requires=>["metanorma-standoc"], :failure_level=>4, :mkdirs=>true, :to_file=>nil}
+  expect(File.exist?("spec/assets/xref_error.err")).to be true
+  end
+
   it "warns about malformed LaTeX" do
   FileUtils.rm_f "test.err"
   Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
