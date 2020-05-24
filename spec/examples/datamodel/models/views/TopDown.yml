@@ -1,0 +1,62 @@
+name: TopDown
+title: Address profile model overview
+caption: Address profile model overview in UML
+imports:
+  iso19160-1/Address:
+  iso19160-1/AddressComponent:
+  ProfileCompliantAddress:
+  ProfileCompliantAddressComponent:
+  AddressProfile:
+  AddressClassProfile:
+  InterchangeAddressClassProfile:
+  AddressComponentProfile:
+  AddressComponentSpecification:
+  AttributeProfile:
+groups:
+  - - AddressProfile
+  - - InterchangeAddressClassProfile
+    - AddressClassProfile
+    - AddressComponentProfile
+  - - AddressComponentSpecification
+  - - ProfileCompliantAddress
+    - ProfileCompliantAddressComponent
+  - - Address
+    - AddressComponent
+relations:
+  - source: InterchangeAddressClassProfile
+    target: AddressClassProfile
+    direction: '[hidden]right'
+  - source: AddressClassProfile
+    target: AddressComponentProfile
+    direction: '[hidden]right'
+
+  - source: ProfileCompliantAddress
+    target: ProfileCompliantAddressComponent
+    direction: '[hidden]right'
+
+  - source: Address
+    target: AddressComponent
+    direction: '[hidden]right'
+
+  - source: AddressProfile
+    target: AddressClassProfile
+    direction: '[hidden]down'
+  - source: AddressClassProfile
+    target: ProfileCompliantAddress
+    direction: '[hidden]down'
+  - source: AddressComponentProfile
+    target: AddressComponentSpecification
+    direction: '[hidden]down'
+  - source: AddressComponentSpecification
+    target: ProfileCompliantAddressComponent
+    direction: '[hidden]down'
+  - source: ProfileCompliantAddress
+    target: Address
+    direction: '[hidden]down'
+  - source: ProfileCompliantAddressComponent
+    target: AddressComponent
+    direction: '[hidden]down'
+
+fidelity:
+  hideMembers: true
+  hideOtherClasses: true

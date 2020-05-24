@@ -1,0 +1,23 @@
+name: Localization
+modelType: class
+definition: |
+  The language and script used within the parent object.
+
+  Represented by the `PT_Locale` object defined in <<ISO19115-1>> and an
+  <<ISO15924>> script code.
+attributes:
+  locale:
+    definition: The locale of the parent object.
+    type: iso19115PT_Locale
+  script:
+    definition: The type of written script used in the parent object.
+    type: iso15924Code
+  textDirection:
+    definition: Indicating in which direction the text of the parent should be read.
+    type: TextDirectionCode
+relations:
+  - target: Validity
+    relationship:
+      target:
+        type: direct
+    direction: "[hidden]"

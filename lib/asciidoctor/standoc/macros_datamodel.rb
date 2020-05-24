@@ -1,3 +1,5 @@
+require 'asciidoctor/datamodel/plantuml_adaptor'
+
 module Asciidoctor
   module Standoc
     class DatamodelPreprocessor < Asciidoctor::Extensions::Preprocessor
@@ -48,9 +50,39 @@ module Asciidoctor
       def parse_datamodel_marco(yaml_path, include_path, document)
         include_path ||= File.join(File.dirname(yaml_path), '..', 'models')
         include_path = yaml_relative_path(include_path, document)
-        view_hash = YAML.safe_load(File.read(yaml_relative_path(yaml_path, document)))
-        [view_representation(yaml_path).split("\n"),
-         models_representations(view_hash['imports'], include_path)].flatten
+        yaml_relative_to_doc_path = yaml_relative_path(yaml_path, document)
+        view_hash = YAML.safe_load(File.read(yaml_relative_to_doc_path))
+        [
+          plantuml(view_hash, File.dirname(yaml_relative_to_doc_path), include_path).split("\n"),
+          view_representation(yaml_path).split("\n"),
+          models_representations(view_hash['imports'], include_path)
+        ].flatten
+      end
+
+      def plantuml(view_hash, yaml_directory, include_path)
+        imports = view_hash['imports']
+                    .keys
+                    .each
+                    .with_object({}) do |import_name, res|
+                      model_content = YAML.safe_load(File.read(File.join(include_path, "#{import_name}.yml")))
+                      res[model_content['name']] = model_content
+                    end
+        imports_classes = imports.select { |_name, import| import['modelType'] == 'class' }
+        imports_enums = imports.select { |_name, import| import['modelType'] == 'enum' }
+        view_hash = view_hash.merge({
+          "classes" => imports_classes,
+          "enums" => imports_enums,
+          "relations" => view_hash["relations"] || [],
+          "fidelity" => (view_hash["fidelity"] || {}).merge({
+            "classes" => view_hash["classes"]
+          }),
+        })
+        <<~TEXT
+        [plantuml]
+        ....
+        #{Asciidoctor::DataModel::PlantumlAdaptor.yml_to_plantuml(view_hash, File.join(yaml_directory, '..'))}
+        ....
+        TEXT
       end
 
       def models_representations(imports, include_path)

@@ -1,0 +1,36 @@
+name: AddressProfile
+modelType: class
+definition:
+attributes:
+  country:
+    definition: The country of which this AddressProfile represents.
+    type: iso3166Code
+    cardinality:
+      min: 0
+      max: "*"
+relations:
+  - target: AddressComponentProfile
+    relationship:
+      source:
+        type: aggregation
+        attribute:
+          componentProfile:
+            cardinality:
+              min: 0
+              max: "*"
+    action:
+      verb: defines
+      direction: target
+
+  - target: AddressClassProfile
+    relationship:
+      source:
+        type: aggregation
+        attribute:
+          addressProfile:
+            cardinality:
+              min: 0
+              max: "*"
+    action:
+      verb: defines
+      direction: target

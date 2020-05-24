@@ -1,0 +1,20 @@
+name: Signature
+modelType: class
+definition: |
+  A cryptographic signature used to determine data integrity and validity of the object it belongs to.
+attributes:
+  algorithm:
+    definition: The public key cryptographic algorithm used for this digital signature.
+    type: iso14888Oid
+  publicKey:
+    definition: A reference to the actual public key used to verify the digital signature, a URI where the public key of the signer used for this signature is found.
+    type: Uri
+  signature:
+    definition: The actual digital signature value encoded in Base64 format.
+    type: CharacterString
+relations:
+  - target: Localization
+    relationship:
+      target:
+        type: direct
+    direction: "[hidden]"

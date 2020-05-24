@@ -131,9 +131,9 @@ module Asciidoctor
           output += "!include #{plantuml_path}/style.uml.inc\n"
         end
 
-        output += imported_models.map do |(imported_model_path, imported_model_hash)|
-          "!include #{plantuml_path}/models/#{imported_model_path}.wsd"
-        end.join("\n").strip
+        # output += imported_models.map do |(imported_model_path, imported_model_hash)|
+        #   "!include #{plantuml_path}/models/#{imported_model_path}.wsd"
+        # end.join("\n").strip
       end
 
       def self.classes_to_classes_plantuml(classes)
@@ -147,6 +147,8 @@ module Asciidoctor
       end
 
       def self.class_to_plantuml(class_name, class_hash)
+        return unless class_name
+
         class_hash ||= {}
 
         <<-plantuml
