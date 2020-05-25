@@ -293,6 +293,35 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+    it "does not move notes inside preceding blocks, if they are marked as keep-separate" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+
+      [stem]
+      ++++
+      r = 1 %
+      r = 1 %
+      ++++
+
+      [NOTE,keep-separate=true]
+      ====
+      That formula does not do much
+      ====
+
+      Indeed.
+    INPUT
+       #{BLANK_HDR}
+    <sections><formula id="_">
+  <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem></formula>
+<note id="_">
+  <p id="_">That formula does not do much</p>
+</note>
+
+       <p id="_">Indeed.</p></sections>
+       </standard-document>
+    OUTPUT
+  end
+
   it "does not move notes inside preceding blocks, if they are at clause end" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}

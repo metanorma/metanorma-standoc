@@ -21,6 +21,10 @@ module Asciidoctor
                   subsequence: node.attr("subsequence") )
       end
 
+      def note_attr(node)
+        attr_code(id_attr(node).merge("keep-separate": node.attr("keep-separate")))
+      end
+
       # We append each contained block to its parent
       def open(node)
         role = node.role || node.attr("style")
@@ -91,7 +95,7 @@ module Asciidoctor
 
       def termnote(n)
         noko do |xml|
-          xml.termnote **id_attr(n) do |ex|
+          xml.termnote **note_attr(n) do |ex|
             wrap_in_para(n, ex)
           end
         end.join("\n")
@@ -99,7 +103,7 @@ module Asciidoctor
 
       def note(n)
         noko do |xml|
-          xml.note **id_attr(n) do |c|
+          xml.note **note_attr(n) do |c|
             wrap_in_para(n, c)
           end
         end.join("\n")

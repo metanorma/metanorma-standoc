@@ -131,10 +131,13 @@ module Asciidoctor
       def note_cleanup(xmldoc)
         q = "//note[following-sibling::*[not(local-name() = 'note')]]"
         xmldoc.xpath(q).each do |n|
+          next if n["keep-separate"] == "true"
           next unless n.ancestors("table").empty?
           prev = n.previous_element || next
           n.parent = prev if ELEMS_ALLOW_NOTES.include? prev.name
         end
+        xmldoc.xpath("//note[@keep-separate]").each { |n| n.delete("keep-separate") }
+        xmldoc.xpath("//termnote[@keep-separate]").each { |n| n.delete("keep-separate") }
       end
 
       def requirement_cleanup(x)
