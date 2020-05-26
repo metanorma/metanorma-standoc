@@ -44,8 +44,8 @@ module Asciidoctor
     end
 
     class Yaml2TextPreprocessor < Asciidoctor::Extensions::Preprocessor
-      BLOCK_START_REGEXP = /\{(.+?)\.\*,(.+),(.+)\}/.freeze
-      BLOCK_END_REGEXP = /\A\{[A-Z]+\}\z/.freeze
+      BLOCK_START_REGEXP = /\{(.+?)\.\*,(.+),(.+)\}/
+      BLOCK_END_REGEXP = /\A\{[A-Z]+\}\z/
       # search document for block `yaml2text`
       #   after that take template from block and read file into this template
       #   example:
@@ -137,7 +137,7 @@ module Asciidoctor
                               context_name:,
                               parent_context: nil)
         renderer = YamlContextRenderer.new(context_object: context_items, context_name: context_name)
-        renderer.render(context_lines.join('\n')).split('\n')
+        renderer.render(context_lines.join("\n")).split("\n")
       end
     end
   end

@@ -52,20 +52,24 @@ module Asciidoctor
         include_path = yaml_relative_path(include_path, document)
         yaml_relative_to_doc_path = yaml_relative_path(yaml_path, document)
         view_hash = YAML.safe_load(File.read(yaml_relative_to_doc_path))
-        [
+        fidelity = view_hash['fidelity'] || {}
+        result = [
           plantuml(view_hash, File.dirname(yaml_relative_to_doc_path), include_path).split("\n"),
-          view_representation(yaml_path).split("\n"),
-          models_representations(view_hash['imports'], include_path)
         ].flatten
+        unless fidelity['hideMembers']
+          result << models_representations(view_hash['imports'], include_path)
+        end
+        result.flatten
       end
 
       def plantuml(view_hash, yaml_directory, include_path)
         imports = view_hash['imports']
-                    .keys
                     .each
-                    .with_object({}) do |import_name, res|
+                    .with_object({}) do |(import_name, values), res|
+                      next if values && values['skipSection']
+
                       model_content = YAML.safe_load(File.read(File.join(include_path, "#{import_name}.yml")))
-                      res[model_content['name']] = model_content
+                      res[model_content['name'] || import_name] = model_content
                     end
         imports_classes = imports.select { |_name, import| import['modelType'] == 'class' }
         imports_enums = imports.select { |_name, import| import['modelType'] == 'enum' }
@@ -95,25 +99,21 @@ module Asciidoctor
           .flatten
       end
 
-      def view_representation(yaml_path)
-        <<~TEMPLATE
-        [yaml2text,#{yaml_path},definition]
-        ----
-        == {definition.title}
-        ----
-        TEMPLATE
-      end
-
       def model_representation(model_path)
         <<~TEMPLATE
+
         [yaml2text,#{model_path},definition]
         ----
+
+        {if definition.name}
         === {definition.name}
+        {end}
         {definition.definition}
 
-
         {if definition.attributes}
+        {if definition.name}
         .{definition.name} attributes
+        {end}
         [cols=5*,options="header"]
         |===
         |Name
@@ -131,11 +131,14 @@ module Asciidoctor
         |{definition.attributes[key].origin ? "<<" + definition.attributes[key].origin + ">>" : ""}`{definition.attributes[key].type}`
 
         {EOK}
+
         |===
         {end}
 
         {if definition['values']}
+        {if definition.name}
         .{definition.name} values
+        {end}
         [cols=2*,options="header"]
         |===
         |Name
@@ -151,6 +154,7 @@ module Asciidoctor
         {end}
 
         ----
+
         TEMPLATE
       end
 
