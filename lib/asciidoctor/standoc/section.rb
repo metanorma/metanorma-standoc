@@ -1,5 +1,6 @@
 require "htmlentities"
 require "uri"
+require_relative "ref_sect"
 
 module Asciidoctor
   module Standoc
@@ -8,16 +9,8 @@ module Asciidoctor
       @term_def = false
       @norm_ref = false
 
-      def in_biblio?
-        @biblio
-      end
-
       def in_terms?
         @term_def
-      end
-
-      def in_norm_ref?
-        @norm_ref
       end
 
       def sectiontype(node, level = true)
@@ -41,9 +34,7 @@ module Asciidoctor
           "terms, definitions and abbreviated terms"
           "terms and definitions"
         when "symbols and abbreviated terms",
-          "symbols",
-          "abbreviated terms",
-          "abbreviations"
+          "symbols", "abbreviated terms", "abbreviations"
           "symbols and abbreviated terms"
         else
           ret
@@ -148,19 +139,6 @@ module Asciidoctor
         end
       end
 
-      def bibliography_parse(attrs, xml, node)
-        node.option? "bibitem" and return bibitem_parse(attrs, xml, node)
-        node.attr("style") == "bibliography" or
-          @log.add("AsciiDoc Input", node, "Section not marked up as [bibliography]!")
-        @biblio = true
-        xml.references **attr_code(attrs.merge(normative: false)) do |xml_section|
-          title = node.level == 1 ? "Bibliography" : node.title
-          xml_section.title { |t| t << title }
-          xml_section << node.content
-        end
-        @biblio = false
-      end
-
       def nonterm_symbols_parse(attrs, xml, node)
         @definitions = false
         clause_parse(attrs, xml, node)
@@ -234,28 +212,6 @@ module Asciidoctor
           end
           section << node.content
         end
-      end
-
-      def bibitem_parse(attrs, xml, node)
-        norm_ref = @norm_ref
-        biblio = @biblio
-        @biblio = false
-        @norm_ref = false
-        clause_parse(attrs, xml, node)
-        @biblio = biblio
-        @norm_ref = norm_ref
-      end
-
-      def norm_ref_parse(attrs, xml, node)
-        node.option? "bibitem" and return bibitem_parse(attrs, xml, node)
-        node.attr("style") == "bibliography" or
-          @log.add("AsciiDoc Input", node, "Section not marked up as [bibliography]!")
-        @norm_ref = true
-        xml.references **attr_code(attrs.merge(normative: true)) do |xml_section|
-          xml_section.title { |t| t << "Normative References" }
-          xml_section << node.content
-        end
-        @norm_ref = false
       end
 
       def introduction_parse(attrs, xml, node)
