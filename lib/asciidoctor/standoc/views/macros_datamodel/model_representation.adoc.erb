@@ -1,0 +1,53 @@
+
+[yaml2text,<%= model_path %>,definition]
+----
+
+{if definition.name}
+=== {definition.name}
+{end}
+{definition.definition}
+
+{if definition.attributes}
+{if definition.name}
+.{definition.name} attributes
+{end}
+[cols=5*,options="header"]
+|===
+|Name
+|Definition
+|Mandatory/ Optional/ Conditional
+|Max Occur
+|Data Type
+
+{definition.attributes&.*,key,EOK}
+
+|{key}
+|{definition.attributes[key].definition || "TODO: enum " + key + "'s definition"}
+|{definition.attributes[key]&.cardinality&.min == 0 ? "O" : "M"}
+|{definition.attributes[key]&.cardinality&.max == "*" ? "N" : "1"}
+|{definition.attributes[key].origin ? "<<" + definition.attributes[key].origin + ">>" : ""}`{definition.attributes[key].type}`
+
+{EOK}
+
+|===
+{end}
+
+{if definition['values']}
+{if definition.name}
+.{definition.name} values
+{end}
+[cols=2*,options="header"]
+|===
+|Name
+|Definition
+
+{definition['values']&.*,key,EOK}
+
+|{key}
+|{definition['values'][key].definition}
+
+{EOK}
+|===
+{end}
+
+----

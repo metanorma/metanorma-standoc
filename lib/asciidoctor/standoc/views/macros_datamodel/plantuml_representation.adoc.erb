@@ -1,0 +1,39 @@
+[plantuml]
+....
+@startuml
+
+'******* IMPORTS ******************************************************
+!include <%= default_styles_path %>
+
+[yaml2text,<%= view_path %>,view_hash]
+-----
+'******* CLASS GROUPS *************************************************
+{view_hash.groups&.*,group,EOK}
+together {
+  {group.*,klass_name,EOD}
+  class {klass_name}
+{EOD}
+}
+{EOK}
+'******* CLASS RELATIONS **********************************************
+{view_hash.relations&.*,relation,EOK}
+{relation.source} -{relation.direction}- {relation.target}
+{EOK}
+-----
+
+'******* CLASS/ENUM DEFINITIONS ********************************************
+<% imports.each do |file_path| %>
+[yaml2text,<%= file_path %>,class_hash]
+-----
+{class_hash.type == 'class' ? 'class' : 'enum'} {class_hash.name || __file_name} {
+
+}
+-----
+<% end %>
+
+'******* FIDELITY *****************************************************
+<%# hide hidden_class_name %>
+<%# hide members %>
+
+@endumlnil
+....

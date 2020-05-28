@@ -21,11 +21,12 @@ module Asciidoctor
     end
 
     class YamlContextRenderer
-      attr_reader :context_object, :context_name
+      attr_reader :context_object, :context_name, :__file_name
 
-      def initialize(context_object:, context_name:)
+      def initialize(context_object:, context_name:, file_name:)
         @context_object = context_object
         @context_name = context_name
+        @__file_name = file_name
       end
 
       def respond_to_missing?(name)
@@ -40,6 +41,10 @@ module Asciidoctor
 
       def render(template)
         ERB.new(template).result(binding)
+      rescue Exception
+        require 'byebug'
+        byebug
+        i = 20
       end
     end
 
@@ -89,7 +94,8 @@ module Asciidoctor
             result.push(*
               parse_blocks_recursively(lines: current_yaml_block,
                                        attributes: content,
-                                       context_name: yaml_block_match[2]))
+                                       context_name: yaml_block_match[2],
+                                       yaml_path: yaml_block_match[1]))
           else
             result.push(line)
           end
@@ -108,7 +114,7 @@ module Asciidoctor
       def parse_blocks_recursively(lines:,
                                    attributes:,
                                    context_name:,
-                                   parent_context: nil)
+                                   yaml_path:)
         lines = lines.to_enum
         result = []
         loop do
@@ -117,7 +123,7 @@ module Asciidoctor
             line.gsub!(BLOCK_START_REGEXP, '<% \1.each&.with_index do |\2,index| %>')
           end
 
-          if line.match(BLOCK_END_REGEXP)
+          if line.strip.match(BLOCK_END_REGEXP)
             line.gsub!(BLOCK_END_REGEXP, '<% end %>')
           end
           line.gsub!(/{\s*if\s*([^}]+)}/, '<% if \1 %>')
@@ -128,15 +134,19 @@ module Asciidoctor
         result = parse_context_block(context_lines: result,
                                      context_items: attributes,
                                      context_name: context_name,
-                                     parent_context: parent_context)
+                                     yaml_path: yaml_path)
         result
       end
 
       def parse_context_block(context_lines:,
                               context_items:,
                               context_name:,
-                              parent_context: nil)
-        renderer = YamlContextRenderer.new(context_object: context_items, context_name: context_name)
+                              yaml_path:)
+        yaml_name = File.basename(yaml_path).gsub(/\.(yaml|yml)/, '')
+        renderer = YamlContextRenderer.new(
+                    context_object: context_items,
+                    context_name: context_name,
+                    file_name: yaml_name)
         renderer.render(context_lines.join("\n")).split("\n")
       end
     end
