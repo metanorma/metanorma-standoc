@@ -126,31 +126,6 @@ module Asciidoctor
         i18n_init(lang, script)
       end
 
-      def init_bib_caches(node)
-        return if @no_isobib
-        global = !@no_isobib_cache && !node.attr("local-cache-only")
-        local = node.attr("local-cache") || node.attr("local-cache-only")
-        local = nil if @no_isobib_cache
-        @bibdb = Relaton::DbCache.init_bib_caches(
-          local_cache: local,
-          flush_caches: node.attr("flush-caches"),
-          global_cache: global)
-      end
-
-      def init_iev_caches(node)
-        unless (@no_isobib_cache || @no_isobib)
-          node.attr("local-cache-only") or
-            @iev_globalname = global_ievcache_name
-          @iev_localname = local_ievcache_name(node.attr("local-cache") ||
-                                               node.attr("local-cache-only"))
-          if node.attr("flush-caches")
-            FileUtils.rm_f @iev_globalname unless @iev_globalname.nil?
-            FileUtils.rm_f @iev_localname unless @iev_localname.nil?
-          end
-        end
-        #@iev = Iev::Db.new(globalname, localname) unless @no_isobib
-      end
-
       def default_fonts(node)
         b = node.attr("body-font") ||
           (node.attr("script") == "Hans" ? '"SimSun",serif' :
@@ -170,9 +145,13 @@ module Asciidoctor
           html_converter(node).convert(@filename + ".xml")
           doc_converter(node).convert(@filename + ".xml")
         end
+        clean_exit
+        ret
+      end
+
+      def clean_exit
         @log.write(@localdir + @filename + ".err") unless @novalid
         @files_to_delete.each { |f| FileUtils.rm f }
-        ret
       end
 
       def makexml1(node)

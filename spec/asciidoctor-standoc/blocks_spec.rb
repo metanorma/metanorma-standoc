@@ -310,6 +310,11 @@ RSpec.describe Asciidoctor::Standoc do
       === Term1
 
       NOTE: This is a note
+
+      [NOTE,keep-separate=true]
+      ====
+      XYZ
+      ====
       INPUT
               #{BLANK_HDR}
        <sections>
@@ -321,6 +326,9 @@ RSpec.describe Asciidoctor::Standoc do
          <termnote id="_">
          <p id="_">This is a note</p>
        </termnote>
+        <termnote id='_'>
+   <p id='_'>XYZ</p>
+ </termnote>
        </term>
        </terms>
        </sections>
@@ -395,6 +403,11 @@ RSpec.describe Asciidoctor::Standoc do
 
       [[ABC]]
       NOTE: This is a note
+
+      [NOTE,keep-separate=true]
+      ====
+      XYZ
+      ====
       INPUT
               #{BLANK_HDR}
               <preface><foreword id="_" obligation="informative">
@@ -408,6 +421,9 @@ RSpec.describe Asciidoctor::Standoc do
          <note id="ABC">
          <p id="_">This is a note</p>
        </note>
+         <note id='_'>
+    <p id='_'>XYZ</p>
+  </note>
        </clause></sections>
 
        </standard-document>

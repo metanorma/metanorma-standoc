@@ -46,7 +46,15 @@ module Asciidoctor
           ["metanorma", mn_code(code)] :
           @bibdb&.docid_type(code) || [nil, code]
         code1.sub!(/^nofetch\((.+)\)$/, "\\1")
-        t.docidentifier code1, **attr_code(type: type)
+        t.docidentifier **attr_code(type: type) do |d|
+          d << code1
+        end
+      end
+
+      def docnumber(t, code)
+        t.docnumber do |d|
+          d << HTMLEntities.new.decode(code).sub(/^[^\d]*/, "")
+        end
       end
 
       def norm_year(yr)
@@ -62,7 +70,7 @@ module Asciidoctor
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
           docid(t, m[:usrlbl]) if m[:usrlbl]
           docid(t, id_and_year(m[:code], yr))
-          t.docnumber m[:code].sub(/^[^\d]*/, "")
+          docnumber(t, m[:code])
           yr and t.date **{ type: "published" } do |d|
             set_date_range(d, yr)
           end
@@ -79,7 +87,7 @@ module Asciidoctor
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
           docid(t, m[:usrlbl]) if m[:usrlbl]
           docid(t, id_and_year(m[:code], "--"))
-          t.docnumber m[:code].sub(/^[^\d]*/, "")
+          docnumber(t, m[:code])
           t.date **{ type: "published" } do |d|
             d.on "--"
           end
@@ -110,7 +118,7 @@ module Asciidoctor
           t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
           docid(t, m[:usrlbl]) if m[:usrlbl]
           docid(t, id_and_year(m[:code], yr) + " (all parts)")
-          t.docnumber m[:code].sub(/^[^\d]*/, "")
+          docnumber(t, m[:code])
           conditional_date(t, m, noyr)
           iso_publisher(t, m[:code])
           m.names.include?("fn") && m[:fn] and
@@ -121,20 +129,6 @@ module Asciidoctor
         end
       end
 
-      def fetch_ref(xml, code, year, **opts)
-        return nil if opts[:no_year]
-        code = code.sub(/^\([^)]+\)/, "")
-        hit = @bibdb&.fetch(code, year, opts)
-        return nil if hit.nil?
-        xml.parent.add_child(smart_render_xml(hit, code, opts[:title],
-                                              opts[:usrlbl]))
-        xml
-      rescue RelatonBib::RequestError
-        @log.add("Bibliography", nil, "Could not retrieve #{code}: "\
-                 "no access to online site")
-        nil
-      end
-
       def refitem_render(xml, m)
         xml.bibitem **attr_code(id: m[:anchor]) do |t|
           t.formattedref **{ format: "application/x-isodoc+xml" } do |i|
@@ -142,7 +136,7 @@ module Asciidoctor
           end
           docid(t, m[:usrlbl]) if m[:usrlbl]
           docid(t, /^\d+$/.match(m[:code]) ? "[#{m[:code]}]" : m[:code])
-          t.docnumber m[:code].sub(/^[^\d]*/, "") unless /^\d+$|^\(.+\)$/.match(m[:code])
+          docnumber(t, m[:code]) unless /^\d+$|^\(.+\)$/.match(m[:code])
         end
       end
 
@@ -214,45 +208,8 @@ module Asciidoctor
           end.join
         end
 
-        def global_ievcache_name
-          "#{Dir.home}/.iev/cache"
-        end
-
-        def local_ievcache_name(cachename)
-          return nil if cachename.nil?
-          cachename += "_iev" unless cachename.empty?
-          cachename = "iev" if cachename.empty?
-          "#{cachename}/cache"
-        end
-
         def mn_code(code)
           code.sub(/^\(/, "[").sub(/\).*$/, "]").sub(/^nofetch\((.+)\)$/, "\\1")
-        end
-
-        def emend_biblio(xml, code, title, usrlbl)
-          unless xml.at("/bibitem/docidentifier[not(@type = 'DOI')][text()]")
-            @log.add("Bibliography", nil,
-                     "ERROR: No document identifier retrieved for #{code}")
-            xml.root << "<docidentifier>#{code}</docidentifier>"
-          end
-          unless xml.at("/bibitem/title[text()]")
-            @log.add("Bibliography", nil,
-                     "ERROR: No title retrieved for #{code}")
-            xml.root << "<title>#{title || "(MISSING TITLE)"}</title>"
-          end
-          usrlbl and xml.at("/bibitem/docidentifier").next =
-            "<docidentifier type='metanorma'>#{mn_code(usrlbl)}</docidentifier>"
-        end
-
-        def smart_render_xml(x, code, title, usrlbl)
-          xstr = x.to_xml if x.respond_to? :to_xml
-          xml = Nokogiri::XML(xstr)
-          emend_biblio(xml, code, title, usrlbl)
-          xml.xpath("//date").each { |d| Utils::endash_date(d) }
-          xml.traverse do |n|
-            n.text? and n.replace(Utils::smartformat(n.text))
-          end
-          xml.to_xml.sub(/<\?[^>]+>/, "")
         end
     end
   end

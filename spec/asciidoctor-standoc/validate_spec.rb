@@ -3,6 +3,12 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
+  it "generates error file" do
+  FileUtils.rm_f "spec/assets/xref_error.err"
+  Asciidoctor.convert_file "spec/assets/xref_error.adoc", {:attributes=>{"backend"=>"standoc"}, :safe=>0, :header_footer=>true, :requires=>["metanorma-standoc"], :failure_level=>4, :mkdirs=>true, :to_file=>nil}
+  expect(File.exist?("spec/assets/xref_error.err")).to be true
+  end
+
   it "warns about malformed LaTeX" do
   FileUtils.rm_f "test.err"
   Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
@@ -220,9 +226,11 @@ INPUT
 end
 =end
 
-it "warns if id used twice" do
+it "warns and aborts if id used twice" do
+  FileUtils.rm_f "test.xml"
   FileUtils.rm_f "test.err"
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+  begin
+  expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to raise_error(SystemExit) 
   = Document title
   Author
   :docfile: test.adoc
@@ -234,7 +242,10 @@ it "warns if id used twice" do
   [[abc]]
   == Clause 2
   INPUT
+  rescue SystemExit
+  end
   expect(File.read("test.err")).to include "Anchor abc has already been used at line"
+  expect(File.exist?("test.xml")).to be false
 end
 
 it "err file succesfully created for docfile path" do
@@ -245,14 +256,17 @@ it "err file succesfully created for docfile path" do
   Author
   :docfile: test#{File::ALT_SEPARATOR || File::SEPARATOR}test.adoc
   :nodoc:
-
-  [[abc]]
+ 
   == Clause 1
 
-  [[abc]]
-  == Clause 2
+  Paragraph
+
+  === Clause 1.1
+
+  Subclause
   INPUT
-  expect(File.read("test/test.err")).to include "Anchor abc has already been used at line"
+
+  expect(File.read("test/test.err")).to include "Hanging paragraph in clause"
 end
 
 end

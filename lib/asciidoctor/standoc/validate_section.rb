@@ -14,7 +14,6 @@ module Asciidoctor
           callouts = x.elements.select { |e| e.name == "callout" }
           annotations = x.elements.select { |e| e.name == "annotation" }
           if callouts.size != annotations.size
-            #warn "#{x['id']}: mismatch of callouts and annotations"
         @log.add("AsciiDoc Input", x, "mismatch of callouts and annotations")
           end
         end
@@ -23,7 +22,6 @@ module Asciidoctor
       def style_warning(node, msg, text = nil)
         w = msg
         w += ": #{text}" if text
-        #warn w
         @log.add("Style Warning", node, w)
       end
 

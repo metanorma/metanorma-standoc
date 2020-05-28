@@ -231,7 +231,7 @@ RSpec.describe Asciidoctor::Standoc do
         == Normative References
 
         * [[[iso123,ISO 123]]] _Standard_
-        * [[[iso123,(1)ISO 123]]] _Standard_
+        * [[[iso124,(1)ISO 123]]] _Standard_
       INPUT
         #{BLANK_HDR}
        <sections>
@@ -344,7 +344,7 @@ RSpec.describe Asciidoctor::Standoc do
                </relation>
                <place>Geneva</place>
              </bibitem>
-             <bibitem id='iso123' type='standard'>
+             <bibitem id='iso124' type='standard'>
                <fetched>#{Date.today}</fetched>
                <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
@@ -543,6 +543,7 @@ RSpec.describe Asciidoctor::Standoc do
               <uri>www.iso.org</uri>
             </organization>
           </contributor>
+          <!--
           <contributor>
             <role type="publisher"/>
             <organization>
@@ -551,6 +552,7 @@ RSpec.describe Asciidoctor::Standoc do
               <uri>www.iec.ch</uri>
             </organization>
           </contributor>
+          -->
           <edition>2</edition>
           <language>en</language>
           <language>fr</language>
@@ -643,6 +645,7 @@ RSpec.describe Asciidoctor::Standoc do
               <uri>www.iso.org</uri>
             </organization>
           </contributor>
+          <!--
           <contributor>
             <role type="publisher"/>
             <organization>
@@ -651,6 +654,7 @@ RSpec.describe Asciidoctor::Standoc do
               <uri>www.iec.ch</uri>
             </organization>
           </contributor>
+          -->
           <edition>2</edition>
           <language>en</language>
           <language>fr</language>
@@ -990,7 +994,7 @@ OUTPUT
         </name>
         <affiliation>
           <organization>
-            <name>IETF</name>
+            <name>Internet Engineering Task Force</name>
             <abbreviation>IETF</abbreviation>
           </organization>
         </affiliation>
@@ -1004,12 +1008,19 @@ OUTPUT
         </name>
         <affiliation>
           <organization>
-            <name>IETF</name>
+            <name>Internet Engineering Task Force</name>
             <abbreviation>IETF</abbreviation>
           </organization>
         </affiliation>
       </person>
     </contributor>
+     <contributor>
+   <role type='publisher'/>
+   <organization>
+     <name>Internet Engineering Task Force</name>
+     <abbreviation>IETF</abbreviation>
+   </organization>
+ </contributor>
     <language>en</language>
     <script>Latn</script>
     <abstract format="text/plain" language="en" script="Latn">The standardization of network configuration interfaces for use with the Network Configuration Protocol (NETCONF) or the RESTCONF protocol requires a structured and secure operating environment that promotes human usability and multi-vendor interoperability.  There is a need for standard mechanisms to restrict NETCONF or RESTCONF protocol access for particular users to a preconfigured subset of all available NETCONF or RESTCONF protocol operations and content.  This document defines such an access control model.This document obsoletes RFC 6536.</abstract>
@@ -1043,7 +1054,7 @@ OUTPUT
         </name>
         <affiliation>
           <organization>
-            <name>IETF</name>
+            <name>Internet Engineering Task Force</name>
             <abbreviation>IETF</abbreviation>
           </organization>
         </affiliation>
@@ -1057,12 +1068,19 @@ OUTPUT
         </name>
         <affiliation>
           <organization>
-            <name>IETF</name>
+            <name>Internet Engineering Task Force</name>
             <abbreviation>IETF</abbreviation>
           </organization>
         </affiliation>
       </person>
     </contributor>
+     <contributor>
+   <role type='publisher'/>
+   <organization>
+     <name>Internet Engineering Task Force</name>
+     <abbreviation>IETF</abbreviation>
+   </organization>
+ </contributor>
     <language>en</language>
     <script>Latn</script>
     <abstract format="text/plain" language="en" script="Latn">The standardization of network configuration interfaces for use with the Network Configuration Protocol (NETCONF) or the RESTCONF protocol requires a structured and secure operating environment that promotes human usability and multi-vendor interoperability.  There is a need for standard mechanisms to restrict NETCONF or RESTCONF protocol access for particular users to a preconfigured subset of all available NETCONF or RESTCONF protocol operations and content.  This document defines such an access control model.This document obsoletes RFC 6536.</abstract>
