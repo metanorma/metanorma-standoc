@@ -274,6 +274,56 @@ OUTPUT
      OUTPUT
     end
 
+    it "skips embedded blocks when supplying line breaks in pseudocode" do
+      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+        #{ASCIIDOC_BLANK_HDR}
+
+        [pseudocode]
+        ====
+        [stem]
+        ++++
+        bar X' = (1)/(v) sum_(i = 1)^(v) t_(i)
+        ++++
+        ====
+        INPUT
+        #{BLANK_HDR}
+        <sections>
+<figure id='_' class='pseudocode'>
+ <formula id='_'>
+   <stem type='MathML'>
+     <math xmlns='http://www.w3.org/1998/Math/MathML'>
+       <mover>
+         <mi>X</mi>
+         <mo>¯</mo>
+       </mover>
+       <mi>'</mi>
+       <mo>=</mo>
+       <mfrac>
+         <mn>1</mn>
+         <mi>v</mi>
+       </mfrac>
+       <munderover>
+         <mo>∑</mo>
+         <mrow>
+           <mi>i</mi>
+           <mo>=</mo>
+           <mn>1</mn>
+         </mrow>
+         <mi>v</mi>
+       </munderover>
+       <msub>
+         <mi>t</mi>
+         <mi>i</mi>
+       </msub>
+     </math>
+   </stem>
+ </formula>
+           </figure>
+</sections>
+</standard-document>
+     OUTPUT
+    end
+
   it "processes the Ruby markups" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}

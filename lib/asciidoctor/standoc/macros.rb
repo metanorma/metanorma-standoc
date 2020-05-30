@@ -97,21 +97,22 @@ module Asciidoctor
       end
 
       def supply_br(lines)
+        ignore = false
         lines.each_with_index do |l, i|
+          /^(--+|====+|\|===|\.\.\.\.+|\*\*\*\*+|\+\+\+\++|\`\`\`\`+|____\+)$/.match(l) and
+            ignore = !ignore
           next if l.empty? || l.match(/ \+$/)
+          next if /^\[.*\]$/.match(l)
+          next if ignore
           next if i == lines.size - 1 || i < lines.size - 1 && lines[i+1].empty?
           lines[i] += " +"
         end
         lines
       end
 
-      def prevent_smart_quotes(m)
-        m.gsub(/'/, "&#x27;").gsub(/"/, "&#x22;")
-      end
-
       def process parent, reader, attrs
         attrs['role'] = 'pseudocode'
-        lines = reader.lines.map { |m| prevent_smart_quotes(init_indent(m)) }
+        lines = reader.lines.map { |m| init_indent(m) }
         create_block(parent, :example, supply_br(lines),
                      attrs, content_model: :compound)
       end
