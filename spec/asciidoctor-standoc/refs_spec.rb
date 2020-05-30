@@ -543,7 +543,6 @@ RSpec.describe Asciidoctor::Standoc do
               <uri>www.iso.org</uri>
             </organization>
           </contributor>
-          <!--
           <contributor>
             <role type="publisher"/>
             <organization>
@@ -552,7 +551,6 @@ RSpec.describe Asciidoctor::Standoc do
               <uri>www.iec.ch</uri>
             </organization>
           </contributor>
-          -->
           <edition>2</edition>
           <language>en</language>
           <language>fr</language>
@@ -645,7 +643,6 @@ RSpec.describe Asciidoctor::Standoc do
               <uri>www.iso.org</uri>
             </organization>
           </contributor>
-          <!--
           <contributor>
             <role type="publisher"/>
             <organization>
@@ -654,7 +651,6 @@ RSpec.describe Asciidoctor::Standoc do
               <uri>www.iec.ch</uri>
             </organization>
           </contributor>
-          -->
           <edition>2</edition>
           <language>en</language>
           <language>fr</language>

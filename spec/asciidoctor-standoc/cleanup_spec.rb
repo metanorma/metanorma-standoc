@@ -1870,6 +1870,30 @@ it "moves %beforeclause admonitions to right position" do
   Notice which is very important
   ====
 INPUT
+  #{BLANK_HDR}
+  <preface>
+    <foreword id='_' obligation='informative'>
+      <title>Foreword</title>
+      <p id='_'>Foreword</p>
+    </foreword>
+    <introduction id='_' obligation='informative'>
+      <title>Introduction</title>
+      <p id='_'>Introduction</p>
+    </introduction>
+  </preface>
+  <sections>
+    <note id='_'>
+      <p id='_'>Note which is very important</p>
+    </note>
+    <admonition id='_' type='important'>
+      <p id='_'>Notice which is very important</p>
+    </admonition>
+    <clause id='_' inline-header='false' obligation='normative'>
+      <title>Scope</title>
+      <p id='_'>Scope statement</p>
+    </clause>
+  </sections>
+</standard-document>
 
 OUTPUT
 end
