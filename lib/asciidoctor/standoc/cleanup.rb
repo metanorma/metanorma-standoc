@@ -7,6 +7,7 @@ require_relative "./cleanup_footnotes.rb"
 require_relative "./cleanup_ref.rb"
 require_relative "./cleanup_boilerplate.rb"
 require_relative "./cleanup_section.rb"
+require_relative "./cleanup_terms.rb"
 require_relative "./cleanup_inline.rb"
 require "relaton_iev"
 
@@ -39,6 +40,7 @@ module Asciidoctor
         figure_cleanup(xmldoc)
         ref_cleanup(xmldoc)
         note_cleanup(xmldoc)
+        clausebefore_cleanup(xmldoc)
         ref_dl_cleanup(xmldoc)
         normref_cleanup(xmldoc)
         biblio_cleanup(xmldoc)

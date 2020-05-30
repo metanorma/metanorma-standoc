@@ -1847,6 +1847,33 @@ it "moves inherit macros to correct location" do
 OUTPUT
 end
 
+it "moves %beforeclause admonitions to right position" do
+  expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+  #{ASCIIDOC_BLANK_HDR}
+  
+  .Foreword
+  Foreword
+
+  [NOTE,beforeclauses=true]
+  ====
+  Note which is very important
+  ====
+
+  == Introduction
+  Introduction
+
+  == Scope
+  Scope statement
+
+  [IMPORTANT,beforeclauses=true]
+  ====
+  Notice which is very important
+  ====
+INPUT
+
+OUTPUT
+end
+
 
   private
 
