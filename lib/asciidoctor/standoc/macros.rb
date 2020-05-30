@@ -113,8 +113,9 @@ module Asciidoctor
       def process parent, reader, attrs
         attrs['role'] = 'pseudocode'
         lines = reader.lines.map { |m| init_indent(m) }
-        create_block(parent, :example, supply_br(lines),
+        ret = create_block(parent, :example, supply_br(lines),
                      attrs, content_model: :compound)
+        ret
       end
     end
 

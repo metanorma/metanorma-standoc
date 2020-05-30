@@ -152,6 +152,8 @@ module Asciidoctor
       end
 
       def pseudocode_example(node)
+        # prevent A's and other subs inappropriate for pseudocode
+        node.blocks.each { |b| b.remove_sub(:replacements) }
         noko do |xml|
           xml.figure **id_unnum_attr(node).merge(class: "pseudocode") do |ex|
             figure_title(node, ex)
