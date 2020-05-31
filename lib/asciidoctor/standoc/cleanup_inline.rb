@@ -90,6 +90,9 @@ module Asciidoctor
       end
 
       def origin_cleanup(xmldoc)
+        xmldoc.xpath("//origin/concept[termref]").each do |x|
+          x.replace(x.children)
+        end
         xmldoc.xpath("//origin").each do |x|
           x["citeas"] = @anchors&.dig(x["bibitemid"], :xref) ||
             @log.add("Crossreferences", x,

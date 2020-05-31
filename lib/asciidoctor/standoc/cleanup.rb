@@ -7,6 +7,7 @@ require_relative "./cleanup_footnotes.rb"
 require_relative "./cleanup_ref.rb"
 require_relative "./cleanup_boilerplate.rb"
 require_relative "./cleanup_section.rb"
+require_relative "./cleanup_terms.rb"
 require_relative "./cleanup_inline.rb"
 require "relaton_iev"
 
@@ -20,18 +21,18 @@ module Asciidoctor
             "<amathstem>#{HTMLEntities.new.decode($1)}</amathstem>"
           end
           text = Html2Doc.
-            asciimath_to_mathml(text, ["<amathstem>", "</amathstem>"]).
-            gsub(%r{<math xmlns='http://www.w3.org/1998/Math/MathML'>},
-                 "<stem type='MathML'>"\
-                 "<math xmlns='http://www.w3.org/1998/Math/MathML'>").
-                 gsub(%r{</math>}, %{</math></stem>})
+            asciimath_to_mathml(text, ["<amathstem>", "</amathstem>"])
+          x =  Nokogiri::XML(text)
+          x.xpath("//*[local-name() = 'math'][not(parent::stem)]").each do |y|
+            y.wrap("<stem type='MathML'></stem>")
+          end
+          text = x.to_xml
         end
         text.gsub(/\s+<fn /, "<fn ")
       end
 
       def cleanup(xmldoc)
         element_name_cleanup(xmldoc)
-        termdef_cleanup(xmldoc)
         sections_cleanup(xmldoc)
         obligations_cleanup(xmldoc)
         table_cleanup(xmldoc)
@@ -39,21 +40,22 @@ module Asciidoctor
         figure_cleanup(xmldoc)
         ref_cleanup(xmldoc)
         note_cleanup(xmldoc)
+        clausebefore_cleanup(xmldoc)
         ref_dl_cleanup(xmldoc)
         normref_cleanup(xmldoc)
         biblio_cleanup(xmldoc)
         reference_names(xmldoc)
         symbols_cleanup(xmldoc)
         xref_cleanup(xmldoc)
-        origin_cleanup(xmldoc)
         concept_cleanup(xmldoc)
+        origin_cleanup(xmldoc)
+        termdef_cleanup(xmldoc)
         RelatonIev::iev_cleanup(xmldoc, @bibdb)
         element_name_cleanup(xmldoc)
         bpart_cleanup(xmldoc)
         quotesource_cleanup(xmldoc)
         callout_cleanup(xmldoc)
         footnote_cleanup(xmldoc)
-        empty_element_cleanup(xmldoc)
         mathml_cleanup(xmldoc)
         script_cleanup(xmldoc)
         docidentifier_cleanup(xmldoc)
@@ -63,6 +65,8 @@ module Asciidoctor
         boilerplate_cleanup(xmldoc)
         smartquotes_cleanup(xmldoc)
         para_cleanup(xmldoc)
+        empty_element_cleanup(xmldoc)
+        img_cleanup(xmldoc)
         xmldoc
       end
 
@@ -155,6 +159,13 @@ module Asciidoctor
         xmldoc.xpath("//relation/bpart").each do |x|
           extract_localities(x)
           x.replace(x.children)
+        end
+      end
+
+      def img_cleanup(xmldoc)
+        return xmldoc unless @datauriimage
+        xmldoc.xpath("//image").each do |i|
+          i["src"] = datauri(i["src"])
         end
       end
     end

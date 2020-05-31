@@ -167,12 +167,12 @@ RSpec.describe Asciidoctor::Standoc do
   <clause id="_" inline-header="false" obligation="normative">
   <title>Annex A.1</title>
 </clause>
-</annex><bibliography><references id="_" obligation="informative">
+</annex><bibliography><references id="_" obligation="informative" normative="true">
   <title>Normative References</title>
   <p id="_">There are no normative references in this document.</p>
 </references><clause id="_" obligation="informative">
   <title>Bibliography</title>
-  <references id="_" obligation="informative">
+  <references id="_" obligation="informative" normative="false">
   <title>Bibliography Subsection</title>
 </references>
 </clause></bibliography>
@@ -372,12 +372,12 @@ RSpec.describe Asciidoctor::Standoc do
          <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
          <title>Annex A.1</title>
        </clause>
-       </annex><bibliography><references id="_" language="en" script="Latn" obligation="informative">
+       </annex><bibliography><references id="_" language="en" script="Latn" obligation="informative" normative="true">
          <title>Normative References</title>
          <p id="_">There are no normative references in this document.</p>
        </references><clause id="_" language="en" script="Latn" obligation="informative">
          <title>Bibliography</title>
-         <references id="_" language="en" script="Latn" obligation="informative">
+         <references id="_" language="en" script="Latn" obligation="informative" normative="false">
          <title>Bibliography Subsection</title>
        </references>
        </clause></bibliography>
@@ -502,13 +502,13 @@ RSpec.describe Asciidoctor::Standoc do
     </clause>
   </annex>
   <bibliography>
-    <references id='_' obligation='informative'>
+    <references id='_' obligation='informative' normative="true">
       <title>Normative References</title>
       <p id="_">There are no normative references in this document.</p>
     </references>
     <clause id='_' obligation='informative'>
       <title>Bibliography</title>
-      <references id='_' obligation='informative'>
+      <references id='_' obligation='informative' normative="false">
         <title>Bibliography Subsection</title>
       </references>
     </clause>
@@ -516,6 +516,64 @@ RSpec.describe Asciidoctor::Standoc do
 </standard-document>
     OUTPUT
   end
+
+
+  it "varies terms & symbols title" do
+     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      [heading="terms, definitions, symbols and abbreviated terms"]
+      == Terms, Definitions, Symbols Section
+
+      === Term
+
+      === Symbols
+
+      INPUT
+       #{BLANK_HDR}
+        <sections>
+    <terms id='_' obligation='normative'>
+      <title>Terms, definitions and symbols</title>
+      <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+      <term id='_'>
+        <preferred>Term</preferred>
+      </term>
+      <definitions id='_'>
+        <title>Symbols</title>
+      </definitions>
+    </terms>
+  </sections>
+</standard-document>
+      OUTPUT
+      end
+
+  it "varies terms & abbreviated terms title" do
+     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      [heading="terms, definitions, symbols and abbreviated terms"]
+      == Terms, Definitions, Abbreviated Terms Section
+
+      === Term
+      
+      === Symbols
+
+      INPUT
+      #{BLANK_HDR}
+  <sections>
+    <terms id='_' obligation='normative'>
+      <title>Terms, definitions and abbreviated terms</title>
+      <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+      <term id='_'>
+        <preferred>Term</preferred>
+      </term>
+      <definitions id='_'>
+        <title>Symbols</title>
+      </definitions>
+    </terms>
+  </sections>
+</standard-document>
+      OUTPUT
+      end
+
 
   it "processes section obligations" do
      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
@@ -783,6 +841,139 @@ RSpec.describe Asciidoctor::Standoc do
         == Terms and Definitions
         === Term2
         INPUT
+    end
+
+    it "treats terminal terms subclause named as terms clause as a normal clause" do
+           expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+#{ASCIIDOC_BLANK_HDR}
+[[tda]]
+== Terms, definitions, symbols and abbreviations
+
+[[terms]]
+=== Terms and definitions
+
+=== Symbols
+
+INPUT
+#{BLANK_HDR}
+  <sections>
+    <terms id='tda' obligation='normative'>
+      <title>Terms, definitions, symbols and abbreviated terms</title>
+      <p id='_'>No terms and definitions are listed in this document.</p>
+      <clause id='terms' inline-header='false' obligation='normative'>
+        <title>Terms and definitions</title>
+      </clause>
+      <definitions id='_'>
+        <title>Symbols</title>
+      </definitions>
+    </terms>
+  </sections>
+</standard-document>
+
+OUTPUT
+    end
+
+    it "treats non-terminal terms subclause named as terms clause as a terms clause" do
+           expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+#{ASCIIDOC_BLANK_HDR}
+== Scope
+
+[[tda]]
+== Terms, definitions, symbols and abbreviations
+
+[[terms]]
+=== Terms and definitions
+
+[[terms-concepts]]
+==== Basic concepts
+
+[[term-date]]
+===== date
+
+_time_ (<<term-time>>) on the _calendar_ (<<term-calendar>>) _time scale_ (<<term-time-scale>>)
+
+INPUT
+#{BLANK_HDR}
+ <sections>
+   <clause id='_' inline-header='false' obligation='normative'>
+     <title>Scope</title>
+   </clause>
+   <clause id='tda' obligation='normative'>
+     <title>Terms and definitions</title>
+     <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+     <clause id='terms' obligation='normative'>
+       <title>Terms and definitions</title>
+       <terms id='terms-concepts' obligation='normative'>
+         <title>Basic concepts</title>
+         <term id='term-date'>
+           <preferred>date</preferred>
+           <definition>
+             <p id='_'>
+               <em>time</em>
+                (
+               <xref target='term-time'/>
+               ) on the
+               <em>calendar</em>
+                (
+               <xref target='term-calendar'/>
+               )
+               <em>time scale</em>
+                (
+               <xref target='term-time-scale'/>
+               )
+             </p>
+           </definition>
+         </term>
+       </terms>
+     </clause>
+   </clause>
+ </sections>
+</standard-document>
+OUTPUT
+    end
+
+    it "leaves alone special titles in preface or appendix" do
+      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(strip_guid(<<~"OUTPUT"))
+#{ASCIIDOC_BLANK_HDR}
+
+[.preface]
+[[t1]]
+== Terms and definitions
+
+[[t2]]
+=== Term1
+
+[appendix,language=fr]
+[[sym]]
+== Symbols and abbreviated terms
+
+[.appendix]
+[[app]]
+[bibliography]
+== Normative Reference
+INPUT
+#{BLANK_HDR}
+  <preface>
+    <terms id='t1' obligation='normative'>
+      <title>Terms and definitions</title>
+      <term id='t2'>
+        <preferred>Term1</preferred>
+      </term>
+    </terms>
+  </preface>
+  <sections> </sections>
+  <annex id='_' obligation='' language='fr' script=''>
+    <definitions id='sym' language='fr'>
+      <title>Symbols and abbreviated terms</title>
+    </definitions>
+  </annex>
+  <annex id='_' obligation='' language='' script=''>
+    <references id='app' obligation='informative' normative="false">
+      <title>Bibliography</title>
+    </references>
+  </annex>
+</standard-document>
+OUTPUT
     end
 
 end

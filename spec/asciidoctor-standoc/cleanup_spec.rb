@@ -293,6 +293,35 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+    it "does not move notes inside preceding blocks, if they are marked as keep-separate" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+
+      [stem]
+      ++++
+      r = 1 %
+      r = 1 %
+      ++++
+
+      [NOTE,keep-separate=true]
+      ====
+      That formula does not do much
+      ====
+
+      Indeed.
+    INPUT
+       #{BLANK_HDR}
+    <sections><formula id="_">
+  <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem></formula>
+<note id="_">
+  <p id="_">That formula does not do much</p>
+</note>
+
+       <p id="_">Indeed.</p></sections>
+       </standard-document>
+    OUTPUT
+  end
+
   it "does not move notes inside preceding blocks, if they are at clause end" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
@@ -330,12 +359,13 @@ RSpec.describe Asciidoctor::Standoc do
         <eref type="inline" bibitemid="iso216" citeas="ISO 216:2001"/>
       </p>
       </foreword></preface><sections>
-      </sections><bibliography><references id="_" obligation="informative">
+      </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso216" type="standard">
          <title format="text/plain">Reference</title>
          <docidentifier>ISO 216:2001</docidentifier>
+         <docnumber>216</docnumber>
          <date type="published">
            <on>2001</on>
          </date>
@@ -407,12 +437,13 @@ RSpec.describe Asciidoctor::Standoc do
 
         </p>
       </foreword></preface><sections>
-      </sections><bibliography><references id="_" obligation="informative">
+      </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso216" type="standard">
          <title format="text/plain">Reference</title>
          <docidentifier>ISO 216</docidentifier>
+         <docnumber>216</docnumber>
          <contributor>
            <role type="publisher"/>
            <organization>
@@ -444,11 +475,12 @@ RSpec.describe Asciidoctor::Standoc do
          <eref type="inline" bibitemid="iso216" citeas="ISO 216"/>
        </p>
        </foreword></preface><sections>
-       </sections><bibliography><references id="_" obligation="informative">
+       </sections><bibliography><references id="_" obligation="informative" normative="false">
   <title>Bibliography</title>
   <bibitem id="iso216" type="standard">
   <title format="text/plain">Reference</title>
   <docidentifier>ISO 216</docidentifier>
+         <docnumber>216</docnumber>
   <contributor>
     <role type="publisher"/>
     <organization>
@@ -506,11 +538,12 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
       #{BLANK_HDR}
       <sections></sections>
-      <bibliography><references id="_" obligation="informative"><title>Normative References</title>
+      <bibliography><references id="_" obligation="informative" normative="true"><title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
              <bibitem id="iso216" type="standard">
          <title format="text/plain">Reference</title>
          <docidentifier>ISO 216</docidentifier>
+         <docnumber>216</docnumber>
          <contributor>
            <role type="publisher"/>
            <organization>
@@ -552,12 +585,13 @@ RSpec.describe Asciidoctor::Standoc do
       #{BLANK_HDR}
       <sections> </sections>
          <bibliography>
-           <references id='_' obligation='informative'>
+           <references id='_' obligation='informative' normative="false">
              <title>Bibliography</title>
              <p id='_'>This is extraneous information</p>
              <bibitem id='iso216' type='standard'>
                <title format='text/plain'>Reference</title>
                <docidentifier>ISO 216</docidentifier>
+               <docnumber>216</docnumber>
                <contributor>
                  <role type='publisher'/>
                  <organization>
@@ -574,6 +608,7 @@ RSpec.describe Asciidoctor::Standoc do
              <bibitem id='iso216' type='standard'>
                <title format='text/plain'>Reference</title>
                <docidentifier>ISO 215</docidentifier>
+               <docnumber>215</docnumber>
                <contributor>
                  <role type='publisher'/>
                  <organization>
@@ -931,12 +966,13 @@ end
         <p id="_">Footnote2</p>
       </fn>
       </p>
-      </clause></sections><bibliography><references id="_" obligation="informative">
+      </clause></sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
          <docidentifier>ISO 123:—</docidentifier>
+         <docnumber>123</docnumber>
          <date type="published">
            <on>–</on>
          </date>
@@ -1161,7 +1197,7 @@ end
           </localityStack>
         </origin>
         </termsource>
-        </term></terms></sections><bibliography><references id="_" obligation="informative">
+        </term></terms></sections><bibliography><references id="_" obligation="informative" normative="true">
           <title>Normative References</title>
         #{NORM_REF_BOILERPLATE}
           <bibitem type="standard" id="IEC60050-102">
@@ -1331,21 +1367,16 @@ end
   end
 
     it "cleans up text MathML" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :no-isobib:
-
-      ++++
+      expect(Asciidoctor::Standoc::Converter.new(nil, backend: :standoc, header_footer: true).cleanup(Nokogiri::XML(<<~"INPUT")).to_xml).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{BLANK_HDR}
+      <sections>
       <stem type="MathML">&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;&lt;mfrac&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;/mfrac&gt;&lt;/math&gt;</stem>
-      ++++
+      </sections>
+      </standard-document>
     INPUT
        #{BLANK_HDR}
        <sections>
-       <stem type="MathML"><math><mfrac><mn>1</mn><mi>r</mi></mfrac></math></stem>
+       <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mi>r</mi></mfrac></math></stem>
 </sections>
 
 
@@ -1373,11 +1404,12 @@ end
   <p id="_"><eref type="inline" bibitemid="iso123" citeas="[2]"/>
 <eref type="inline" bibitemid="iso124" citeas="ISO 124"/></p>
 </clause>
-</sections><bibliography><references id="_" obligation="informative">
+</sections><bibliography><references id="_" obligation="informative" normative="false">
   <title>Bibliography</title>
   <bibitem id="iso124" type="standard">
   <title format="text/plain">Standard 124</title>
   <docidentifier>ISO 124</docidentifier>
+  <docnumber>124</docnumber>
   <contributor>
     <role type="publisher"/>
     <organization>
@@ -1428,11 +1460,12 @@ OUTPUT
        <eref type="inline" bibitemid="iso125" citeas="ISO 125"/>
        <eref type="inline" bibitemid="iso126" citeas="[4]"/></p>
        </clause>
-       </sections><bibliography><clause id="_" obligation="informative"><title>Bibliography</title><references id="_" obligation="informative">
+       </sections><bibliography><clause id="_" obligation="informative"><title>Bibliography</title><references id="_" obligation="informative" normative="false">
          <title>Clause 1</title>
          <bibitem id="iso124" type="standard">
          <title format="text/plain">Standard 124</title>
          <docidentifier>ISO 124</docidentifier>
+         <docnumber>124</docnumber>
          <contributor>
            <role type="publisher"/>
            <organization>
@@ -1447,11 +1480,11 @@ OUTPUT
          <docidentifier type="metanorma">[2]</docidentifier>
        </bibitem>
        </references>
-       <references id="_" obligation="informative">
-         
+       <references id="_" obligation="informative" normative="false">
          <bibitem id="iso125" type="standard">
          <title format="text/plain">Standard 124</title>
          <docidentifier>ISO 125</docidentifier>
+         <docnumber>125</docnumber>
          <contributor>
            <role type="publisher"/>
            <organization>
@@ -1481,7 +1514,7 @@ OUTPUT
       #{BLANK_HDR}
       <sections>
 
-</sections><bibliography><references id="_" obligation="informative">
+</sections><bibliography><references id="_" obligation="informative" normative="true">
   <title>Normative References</title><p id="_">There are no normative references in this document.</p>
 </references></bibliography>
 </standard-document>
@@ -1500,7 +1533,7 @@ OUTPUT
     #{BLANK_HDR}
     <sections>
 
-       </sections><bibliography><references id="_" obligation="informative">
+       </sections><bibliography><references id="_" obligation="informative" normative="true">
          <title>Normative References</title><p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
          <bibitem id="a">
          <formattedref format="application/x-isodoc+xml">A</formattedref>
@@ -1529,7 +1562,7 @@ it "inserts boilerplate before empty Normative References in French" do
     #{BLANK_HDR.sub(/<language>en/, "<language>fr")}
     <sections>
 
-</sections><bibliography><references id="_" obligation="informative">
+</sections><bibliography><references id="_" obligation="informative" normative="true">
   <title>Normative References</title><p id="_">Le présent document ne contient aucune référence normative.</p>
 </references></bibliography>
 </standard-document>
@@ -1574,7 +1607,7 @@ it "removes bibdata bibitem IDs" do
   </bibdata>
   <sections> </sections>
   <bibliography>
-    <references id='_' obligation='informative'>
+    <references id='_' obligation='informative' normative="true">
       <title>Normative References</title>
       <p id="_">There are no normative references in this document.</p>
     </references>
@@ -1691,11 +1724,25 @@ it "sorts symbols lists" do
         <dd>
           <p id='_'>Definition 5</p>
         </dd>
-        <dt><stem type='MathML'>x_m</stem></dt>
+        <dt><stem type='MathML'>
+        <math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <msub>
+    <mi>x</mi>
+    <mi>m</mi>
+  </msub>
+</math>
+        </stem></dt>
         <dd>
           <p id='_'>Definition 4</p>
         </dd>
-        <dt><stem type='MathML'>x_1</stem></dt>
+        <dt><stem type='MathML'>
+         <math xmlns='http://www.w3.org/1998/Math/MathML'>
+   <msub>
+     <mi>x</mi>
+     <mn>1</mn>
+   </msub>
+ </math>
+        </stem></dt>
         <dd>
           <p id='_'>Definition 3</p>
         </dd>
@@ -1797,6 +1844,57 @@ it "moves inherit macros to correct location" do
     </clause>
   </sections>
 </standard-document>
+OUTPUT
+end
+
+it "moves %beforeclause admonitions to right position" do
+  expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+  #{ASCIIDOC_BLANK_HDR}
+  
+  .Foreword
+  Foreword
+
+  [NOTE,beforeclauses=true]
+  ====
+  Note which is very important
+  ====
+
+  == Introduction
+  Introduction
+
+  == Scope
+  Scope statement
+
+  [IMPORTANT,beforeclauses=true]
+  ====
+  Notice which is very important
+  ====
+INPUT
+  #{BLANK_HDR}
+  <preface>
+    <foreword id='_' obligation='informative'>
+      <title>Foreword</title>
+      <p id='_'>Foreword</p>
+    </foreword>
+    <introduction id='_' obligation='informative'>
+      <title>Introduction</title>
+      <p id='_'>Introduction</p>
+    </introduction>
+  </preface>
+  <sections>
+    <note id='_'>
+      <p id='_'>Note which is very important</p>
+    </note>
+    <admonition id='_' type='important'>
+      <p id='_'>Notice which is very important</p>
+    </admonition>
+    <clause id='_' inline-header='false' obligation='normative'>
+      <title>Scope</title>
+      <p id='_'>Scope statement</p>
+    </clause>
+  </sections>
+</standard-document>
+
 OUTPUT
 end
 

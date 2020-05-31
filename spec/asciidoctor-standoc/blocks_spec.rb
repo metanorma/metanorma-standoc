@@ -6,13 +6,14 @@ RSpec.describe Asciidoctor::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       
+      [format="rfc,html"]
       ++++
       <abc>X &gt; Y</abc>
       ++++
     INPUT
         #{BLANK_HDR}
        <sections>
-       <abc>X &gt; Y</abc>
+       <passthrough formats='rfc,html'>&lt;abc&gt;X &gt; Y&lt;/abc&gt;</passthrough>
        </sections>
        </standard-document>
     OUTPUT
@@ -75,7 +76,7 @@ RSpec.describe Asciidoctor::Standoc do
        </formula>
               <formula id="_" subsequence="A">
          <stem type="MathML">
-       <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="M=\\begin{bmatrix}-\\sin\\lambda_{0}&amp;\\cos\\lambda_{0}&amp;0\\\\&#10;-\\sin\\varphi_{0}\\cos\\lambda_{0}&amp;-\\sin\\varphi_{0}\\sin\\lambda_{0}&amp;\\cos\\varphi_{0%&#10;}\\\\&#10;\\cos\\varphi_{0}\\cos\\lambda_{0}&amp;\\cos\\varphi_{0}\\sin\\lambda_{0}&amp;\\sin\\varphi_{0}%&#10;\\end{bmatrix}" display="block">
+       <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
          <mrow>
            <mi>M</mi>
            <mo>=</mo>
@@ -309,6 +310,11 @@ RSpec.describe Asciidoctor::Standoc do
       === Term1
 
       NOTE: This is a note
+
+      [NOTE,keep-separate=true]
+      ====
+      XYZ
+      ====
       INPUT
               #{BLANK_HDR}
        <sections>
@@ -320,6 +326,9 @@ RSpec.describe Asciidoctor::Standoc do
          <termnote id="_">
          <p id="_">This is a note</p>
        </termnote>
+        <termnote id='_'>
+   <p id='_'>XYZ</p>
+ </termnote>
        </term>
        </terms>
        </sections>
@@ -394,6 +403,11 @@ RSpec.describe Asciidoctor::Standoc do
 
       [[ABC]]
       NOTE: This is a note
+
+      [NOTE,keep-separate=true]
+      ====
+      XYZ
+      ====
       INPUT
               #{BLANK_HDR}
               <preface><foreword id="_" obligation="informative">
@@ -407,6 +421,9 @@ RSpec.describe Asciidoctor::Standoc do
          <note id="ABC">
          <p id="_">This is a note</p>
        </note>
+         <note id='_'>
+    <p id='_'>XYZ</p>
+  </note>
        </clause></sections>
 
        </standard-document>
@@ -924,6 +941,19 @@ RSpec.describe Asciidoctor::Standoc do
 
       [.source]
       <<ISO2191,section=1>>
+
+      === Term2
+
+      Definition
+
+      [.source]
+      {{IEV:xyz}}
+
+      [.source]
+      {{IEV:xyz,t1}}
+
+      [.source]
+      {{IEV:xyz,t1,t2}}
       INPUT
       #{BLANK_HDR}
        <sections>
@@ -940,6 +970,27 @@ RSpec.describe Asciidoctor::Standoc do
         </origin>
        </termsource>
        </term>
+       <term id='_'>
+  <preferred>Term2</preferred>
+  <definition>
+    <p id='_'>Definition</p>
+  </definition>
+  <termsource status='identical'>
+    <origin citeas=''>
+      <termref base='IEV' target='xyz'/>
+    </origin>
+  </termsource>
+  <termsource status='identical'>
+    <origin citeas=''>
+      <termref base='IEV' target='xyz'>t1</termref>
+    </origin>
+  </termsource>
+  <termsource status='identical'>
+    <origin citeas=''>
+      <termref base='IEV' target='xyz'>t1</termref>
+    </origin>
+  </termsource>
+</term>
        </terms>
        </sections>
        </standard-document>
@@ -955,6 +1006,13 @@ RSpec.describe Asciidoctor::Standoc do
 
       [.source]
       <<ISO2191,section=1>>, with adjustments
+
+      === Term2
+
+      Definition
+
+      [.source]
+      {{IEV:xyz}}, with adjustments
       INPUT
       #{BLANK_HDR}
             <sections>
@@ -975,6 +1033,20 @@ RSpec.describe Asciidoctor::Standoc do
          </modification>
        </termsource>
        </term>
+       <term id='_'>
+  <preferred>Term2</preferred>
+  <definition>
+    <p id='_'>Definition</p>
+  </definition>
+  <termsource status='modified'>
+    <origin citeas=''>
+      <termref base='IEV' target='xyz'/>
+    </origin>
+    <modification>
+      <p id='_'>with adjustments</p>
+    </modification>
+  </termsource>
+</term>
        </terms>
        </sections>
        </standard-document>

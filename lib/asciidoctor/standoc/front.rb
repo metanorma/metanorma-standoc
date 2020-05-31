@@ -78,7 +78,9 @@ module Asciidoctor
 
       def datetypes
         %w{ published accessed created implemented obsoleted
-            confirmed updated issued circulated unchanged received }
+            confirmed updated issued circulated unchanged received 
+            vote-started vote-ended
+        }
       end
 
       def metadata_date(node, xml)
@@ -190,8 +192,8 @@ module Asciidoctor
         ["en"].each do |lang|
           at = { language: lang, format: "text/plain" }
           xml.title **attr_code(at) do |t|
-            t << Utils::asciidoc_sub(node.attr("title") || node.attr("title-en") ||
-                                     node.title)
+            t << (Utils::asciidoc_sub(node.attr("title") || node.attr("title-en")) ||
+                  node.title)
           end
         end
       end

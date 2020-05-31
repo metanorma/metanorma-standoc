@@ -15,6 +15,7 @@ module Asciidoctor
       XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
 
       Asciidoctor::Extensions.register do
+        preprocessor Asciidoctor::Standoc::Yaml2TextPreprocessor
         inline_macro Asciidoctor::Standoc::AltTermInlineMacro
         inline_macro Asciidoctor::Standoc::DeprecatedTermInlineMacro
         inline_macro Asciidoctor::Standoc::DomainTermInlineMacro
@@ -28,6 +29,14 @@ module Asciidoctor
         block Asciidoctor::Standoc::DataModelBlockMacro
       end
 
+      def xml_root_tag
+        self.class::XML_ROOT_TAG
+      end
+
+      def xml_namespace
+        self.class::XML_NAMESPACE
+      end
+
       def content(node)
         node.content
       end
@@ -35,7 +44,7 @@ module Asciidoctor
       def skip(node, name = nil)
         name = name || node.node_name
         w = "converter missing for #{name} node in Metanorma backend"
-        @log.add("Asciidoctor Input", node, w)
+        @log.add("AsciiDoc Input", node, w)
         nil
       end
 
@@ -55,6 +64,7 @@ module Asciidoctor
           datauriimage: node.attr("data-uri-image"),
           htmltoclevels: node.attr("htmltoclevels") || node.attr("toclevels"),
           doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
+          break_up_urls_in_tables: node.attr("break-up-urls-in-tables"),
         }
       end
 
@@ -79,6 +89,7 @@ module Asciidoctor
           olstyle: node.attr("olstyle"),
           htmltoclevels: node.attr("htmltoclevels") || node.attr("toclevels"),
           doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
+          break_up_urls_in_tables: node.attr("break-up-urls-in-tables"),
         }
       end
 
@@ -99,7 +110,7 @@ module Asciidoctor
         @fontheader = default_fonts(node)
         @files_to_delete = []
         @filename = node.attr("docfile") ?
-            node.attr("docfile").gsub(/\.adoc$/, "").gsub(%r{^.*/}, "") : ""
+          File.basename(node.attr("docfile")).gsub(/\.adoc$/, "") : ""
         @localdir = Utils::localdir(node)
         @no_isobib_cache = node.attr("no-isobib-cache")
         @no_isobib = node.attr("no-isobib")
@@ -113,31 +124,6 @@ module Asciidoctor
         lang = (node.attr("language") || "en")
         script = (node.attr("script") || "en")
         i18n_init(lang, script)
-      end
-
-      def init_bib_caches(node)
-        return if @no_isobib
-        global = !@no_isobib_cache && !node.attr("local-cache-only")
-        local = node.attr("local-cache") || node.attr("local-cache-only")
-        local = nil if @no_isobib_cache
-        @bibdb = Relaton::DbCache.init_bib_caches(
-          local_cache: local,
-          flush_caches: node.attr("flush-caches"),
-          global_cache: global)
-      end
-
-      def init_iev_caches(node)
-        unless (@no_isobib_cache || @no_isobib)
-          node.attr("local-cache-only") or
-            @iev_globalname = global_ievcache_name
-          @iev_localname = local_ievcache_name(node.attr("local-cache") ||
-                                               node.attr("local-cache-only"))
-          if node.attr("flush-caches")
-            FileUtils.rm_f @iev_globalname unless @iev_globalname.nil?
-            FileUtils.rm_f @iev_localname unless @iev_localname.nil?
-          end
-        end
-        #@iev = Iev::Db.new(globalname, localname) unless @no_isobib
       end
 
       def default_fonts(node)
@@ -159,24 +145,28 @@ module Asciidoctor
           html_converter(node).convert(@filename + ".xml")
           doc_converter(node).convert(@filename + ".xml")
         end
+        clean_exit
+        ret
+      end
+
+      def clean_exit
         @log.write(@localdir + @filename + ".err") unless @novalid
         @files_to_delete.each { |f| FileUtils.rm f }
-        ret
       end
 
       def makexml1(node)
         result = ["<?xml version='1.0' encoding='UTF-8'?>",
-                  "<#{self.class::XML_ROOT_TAG}>"]
+                  "<#{xml_root_tag}>"]
         result << noko { |ixml| front node, ixml }
         result << noko { |ixml| middle node, ixml }
-        result << "</#{self.class::XML_ROOT_TAG}>"
+        result << "</#{xml_root_tag}>"
         textcleanup(result)
       end
 
       def makexml(node)
         result = makexml1(node)
         ret1 = cleanup(Nokogiri::XML(result))
-        ret1.root.add_namespace(nil, self.class::XML_NAMESPACE)
+        ret1.root.add_namespace(nil, xml_namespace)
         validate(ret1) unless @novalid
         ret1
       end
@@ -208,15 +198,19 @@ module Asciidoctor
       end
 
       def add_term_source(xml_t, seen_xref, m)
-        xml_t.origin seen_xref.children[0].content,
-          **attr_code(term_source_attr(seen_xref))
+        if seen_xref.children[0].name == "concept"
+          xml_t.origin { |o| o << seen_xref.children[0].to_xml }
+        else
+          xml_t.origin seen_xref.children[0].content,
+            **attr_code(term_source_attr(seen_xref))
+        end
         m[:text] && xml_t.modification do |mod|
           mod.p { |p| p << m[:text].sub(/^\s+/, "") }
         end
       end
 
       TERM_REFERENCE_RE_STR = <<~REGEXP.freeze
-        ^(?<xref><xref[^>]+>([^<]*</xref>)?)
+        ^(?<xref><(xref|concept)[^>]+>([^<]*</(xref|concept)>)?)
                (,\s(?<text>.*))?
         $
       REGEXP
@@ -227,8 +221,7 @@ module Asciidoctor
       def extract_termsource_refs(text, node)
         matched = TERM_REFERENCE_RE.match text
         matched.nil? and
-          #Utils::warning(node, "term reference not in expected format", text)
-        @log.add("Asciidoctor Input", node, "term reference not in expected format: #{text}")
+          @log.add("AsciiDoc Input", node, "term reference not in expected format: #{text}")
         matched
       end
 

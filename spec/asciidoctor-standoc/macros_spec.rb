@@ -27,13 +27,14 @@ RSpec.describe Asciidoctor::Standoc do
 </preface>
 <sections> </sections>
 <bibliography>
-  <references id='_' obligation='informative'>
+  <references id='_' obligation='informative' normative="false">
     <title>Bibliography</title>
     <bibitem id='ref1'>
       <formattedref format='application/x-isodoc+xml'>
         <em>Title</em>
       </formattedref>
       <docidentifier>XYZ 123</docidentifier>
+      <docnumber>123</docnumber>
     </bibitem>
   </references>
 </bibliography>
@@ -177,7 +178,7 @@ INPUT
   </clause>
 </sections>
 <bibliography>
-  <references id='_' obligation='informative'>
+  <references id='_' obligation='informative' normative="false">
     <title>Bibliography</title>
     <bibitem id='blah'>
       <formattedref format='application/x-isodoc+xml'>
@@ -222,7 +223,8 @@ OUTPUT
         expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         #{ASCIIDOC_BLANK_HDR}
 
-        [pseudocode]
+        [pseudocode,subsequence="A"]
+        [%unnumbered]
         ====
           *A* +
                 [smallcap]#B#
@@ -232,7 +234,7 @@ OUTPUT
         INPUT
         #{BLANK_HDR}
         <sections>
-  <figure id="_" class="pseudocode"><p id="_">  <strong>A</strong><br/>
+  <figure id="_"  subsequence='A' class="pseudocode" unnumbered="true"><p id="_">  <strong>A</strong><br/>
         <smallcap>B</smallcap></p>
 <p id="_">  <em>C</em></p></figure>
 </sections>
@@ -272,6 +274,56 @@ OUTPUT
      OUTPUT
     end
 
+    it "skips embedded blocks when supplying line breaks in pseudocode" do
+      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+        #{ASCIIDOC_BLANK_HDR}
+
+        [pseudocode]
+        ====
+        [stem]
+        ++++
+        bar X' = (1)/(v) sum_(i = 1)^(v) t_(i)
+        ++++
+        ====
+        INPUT
+        #{BLANK_HDR}
+        <sections>
+<figure id='_' class='pseudocode'>
+ <formula id='_'>
+   <stem type='MathML'>
+     <math xmlns='http://www.w3.org/1998/Math/MathML'>
+       <mover>
+         <mi>X</mi>
+         <mo>¯</mo>
+       </mover>
+       <mi>'</mi>
+       <mo>=</mo>
+       <mfrac>
+         <mn>1</mn>
+         <mi>v</mi>
+       </mfrac>
+       <munderover>
+         <mo>∑</mo>
+         <mrow>
+           <mi>i</mi>
+           <mo>=</mo>
+           <mn>1</mn>
+         </mrow>
+         <mi>v</mi>
+       </munderover>
+       <msub>
+         <mi>t</mi>
+         <mi>i</mi>
+       </msub>
+     </math>
+   </stem>
+ </formula>
+           </figure>
+</sections>
+</standard-document>
+     OUTPUT
+    end
+
   it "processes the Ruby markups" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
@@ -287,7 +339,7 @@ OUTPUT
        </standard-document>
     OUTPUT
   end
-  
+
   it "processes the PlantUML macro" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).gsub(%r{plantuml/plantuml[^./]+\.}, "plantuml/_."))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
@@ -462,7 +514,6 @@ Alice &lt;-- Bob: another authentication Response
     OUTPUT
   end
 
-
   private
 
   def mock_plantuml_disabled
@@ -471,13 +522,13 @@ Alice &lt;-- Bob: another authentication Response
       false
     end
   end
-  
+
   def mock_localdir_unwritable
     expect(Asciidoctor::Standoc::Utils).to receive(:localdir) do
       "/"
     end.exactly(2).times
   end
-  
+
   def mock_localdir_unwritable
     expect(File).to receive(:writable?) do
       false

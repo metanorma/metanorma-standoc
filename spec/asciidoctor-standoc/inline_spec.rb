@@ -88,7 +88,7 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
       <sections>
       <p id="_">
           <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math></stem><br/>
-          <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="n&lt;1" display="block">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math></stem>
+          <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math></stem>
         </p>
       </sections>
        </standard-document>
@@ -106,7 +106,7 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
       <sections>
       <p id="_">
           <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math></stem>
-          <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="n&lt;1" display="block">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math></stem>
+          <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math></stem>
         </p>
       </sections>
        </standard-document>
@@ -198,6 +198,8 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
       Inline Reference with Text to <<reference,text>>
       Footnoted Reference with Text to <<reference,fn: text>>
       Anchored Crossreference to other document <<a.adoc#b>>
+      Capitalised Reference to <<reference,capital%>>
+      Lowercase Footnoted Reference to <<reference,capital%fn>>
     INPUT
        #{BLANK_HDR}
         <sections>
@@ -207,7 +209,9 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
        Footnoted Reference to <xref target="reference"/>
        Inline Reference with Text to <xref target="reference">text</xref>
        Footnoted Reference with Text to <xref target="reference">text</xref>
-       Anchored Crossreference to other document <xref target="a#b"/></p>
+       Anchored Crossreference to other document <xref target="a#b"/>
+       Capitalised Reference to <xref target='reference' case='capital'></xref>
+       Lowercase Footnoted Reference to <xref target='reference' case='capital'></xref></p>
        </clause>
        </sections>
        </standard-document>
@@ -227,7 +231,7 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
             #{BLANK_HDR}
        <sections>
 
-       </sections><bibliography><references id="_" obligation="informative">
+       </sections><bibliography><references id="_" obligation="informative" normative="true">
          <title>Normative References</title>
          <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
          <bibitem id="ISO712">
@@ -237,6 +241,7 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
          <bibitem id="ISO713">
          <formattedref format="application/x-isodoc+xml">Reference</formattedref>
          <docidentifier>ISO713</docidentifier>
+         <docnumber>713</docnumber>
        </bibitem>
        </references>
        </bibliography>

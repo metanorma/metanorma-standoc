@@ -5,6 +5,7 @@ require_relative "./macros_plantuml.rb"
 require "yaml"
 
 require_relative "./datamodel_block_macro"
+require_relative "./macros_yaml2text.rb"
 
 module Asciidoctor
   module Standoc
@@ -61,7 +62,7 @@ module Asciidoctor
       named :concept
       name_positional_attributes "id", "word", "term"
       #match %r{concept:(?<target>[^\[]*)\[(?<content>|.*?[^\\])\]$}
-      match /\{\{(?<content>|.*?[^\\])\}\}$/
+      match /\{\{(?<content>|.*?[^\\])\}\}/
       using_format :short
 
       # deal with locality attrs and their disruption of positional attrs
@@ -99,23 +100,25 @@ module Asciidoctor
       end
 
       def supply_br(lines)
+        ignore = false
         lines.each_with_index do |l, i|
+          /^(--+|====+|\|===|\.\.\.\.+|\*\*\*\*+|\+\+\+\++|\`\`\`\`+|____\+)$/.match(l) and
+            ignore = !ignore
           next if l.empty? || l.match(/ \+$/)
+          next if /^\[.*\]$/.match(l)
+          next if ignore
           next if i == lines.size - 1 || i < lines.size - 1 && lines[i+1].empty?
           lines[i] += " +"
         end
         lines
       end
 
-      def prevent_smart_quotes(m)
-        m.gsub(/'/, "&#x27;").gsub(/"/, "&#x22;")
-      end
-
       def process parent, reader, attrs
         attrs['role'] = 'pseudocode'
-        lines = reader.lines.map { |m| prevent_smart_quotes(init_indent(m)) }
-        create_block(parent, :example, supply_br(lines),
+        lines = reader.lines.map { |m| init_indent(m) }
+        ret = create_block(parent, :example, supply_br(lines),
                      attrs, content_model: :compound)
+        ret
       end
     end
 

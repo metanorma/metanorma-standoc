@@ -21,11 +21,21 @@ module Asciidoctor
                   subsequence: node.attr("subsequence") )
       end
 
+      def termnote_attr(node)
+        attr_code(id_attr(node).merge(
+          "keep-separate": node.attr("keep-separate")))
+      end
+
+      def note_attr(node)
+        attr_code(id_attr(node).merge(
+          "keep-separate": node.attr("keep-separate"),
+          beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil))
+      end
+
       # We append each contained block to its parent
       def open(node)
         role = node.role || node.attr("style")
-        Utils::reqt_subpart(role) and
-          return requirement_subpart(node)
+        Utils::reqt_subpart(role) and return requirement_subpart(node)
         result = []
         node.blocks.each do |b|
           result << send(b.context, b)
@@ -49,18 +59,16 @@ module Asciidoctor
 
       # NOTE: html escaping is performed by Nokogiri
       def stem(node)
-        stem_content = node.lines.join("\n")
         noko do |xml|
           xml.formula **formula_attr(node) do |s|
-            stem_parse(stem_content, s, node.style.to_sym)
+            stem_parse(node.lines.join("\n"), s, node.style.to_sym)
           end
         end
       end
 
       def sidebar_attrs(node)
         todo_attrs(node).merge(attr_code(
-          from: node.attr("from"),
-          to: node.attr("to") || node.attr("from") ))
+          from: node.attr("from"), to: node.attr("to") || node.attr("from") ))
       end
 
       def sidebar(node)
@@ -91,7 +99,7 @@ module Asciidoctor
 
       def termnote(n)
         noko do |xml|
-          xml.termnote **id_attr(n) do |ex|
+          xml.termnote **termnote_attr(n) do |ex|
             wrap_in_para(n, ex)
           end
         end.join("\n")
@@ -99,7 +107,7 @@ module Asciidoctor
 
       def note(n)
         noko do |xml|
-          xml.note **id_attr(n) do |c|
+          xml.note **note_attr(n) do |c|
             wrap_in_para(n, c)
           end
         end.join("\n")
@@ -107,12 +115,11 @@ module Asciidoctor
 
       def admonition_attrs(node)
         name = node.attr("name")
-        if type = node.attr("type")
-          ["danger", "safety precautions"].each do |t|
-            name = t if type.casecmp(t).zero?
-          end
+        a = node.attr("type") and ["danger", "safety precautions"].each do |t|
+          name = t if a.casecmp(t).zero?
         end
-        attr_code(id: Utils::anchor_or_uuid(node), type: name)
+        attr_code(id: Utils::anchor_or_uuid(node), type: name,
+                  beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil)
       end
 
       def admonition(node)
@@ -145,9 +152,10 @@ module Asciidoctor
       end
 
       def pseudocode_example(node)
+        # prevent A's and other subs inappropriate for pseudocode
+        node.blocks.each { |b| b.remove_sub(:replacements) }
         noko do |xml|
-          xml.figure **{id: Asciidoctor::Standoc::Utils::anchor_or_uuid(node),
-                        class: "pseudocode"} do |ex|
+          xml.figure **id_unnum_attr(node).merge(class: "pseudocode") do |ex|
             figure_title(node, ex)
             wrap_in_para(node, ex)
           end
@@ -186,8 +194,7 @@ module Asciidoctor
       end
 
       def para_attrs(node)
-        attr_code(align: node.attr("align"),
-                  id: Utils::anchor_or_uuid(node))
+        attr_code(align: node.attr("align"), id: Utils::anchor_or_uuid(node))
       end
 
       def paragraph(node)
@@ -210,9 +217,8 @@ module Asciidoctor
             s <<  m[:text]
           end
         end
-        if node.attr("attribution")
+        node.attr("attribution") and
           out.author { |a| a << node.attr("attribution") }
-        end
       end
 
       def quote(node)
@@ -244,7 +250,11 @@ module Asciidoctor
       end
 
       def pass(node)
-        node.content
+        noko do |xml|
+          xml.passthrough **attr_code(formats: node.attr("format")) do |p|
+            p << HTMLEntities.new.encode(node.content, :basic, :hexadecimal)
+          end
+        end
       end
     end
   end

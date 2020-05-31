@@ -49,11 +49,17 @@
   </define>
   <define name="stage">
     <element name="stage">
+      <optional>
+        <attribute name="abbreviation"/>
+      </optional>
       <text/>
     </element>
   </define>
   <define name="substage">
     <element name="substage">
+      <optional>
+        <attribute name="abbreviation"/>
+      </optional>
       <text/>
     </element>
   </define>
@@ -82,7 +88,7 @@
       <text/>
     </element>
   </define>
-  <define name="LocalizedString">
+  <define name="LocalizedString1">
     <optional>
       <!-- multiple languages and scripts possible: comma delimit them if so -->
       <attribute name="language"/>
@@ -91,6 +97,16 @@
       <attribute name="script"/>
     </optional>
     <text/>
+  </define>
+  <define name="LocalizedString">
+    <choice>
+      <ref name="LocalizedString1"/>
+      <oneOrMore>
+        <element name="variant">
+          <ref name="LocalizedString1"/>
+        </element>
+      </oneOrMore>
+    </choice>
   </define>
   <!--
     Unlike UML, change type to format: type is overloaded
@@ -115,7 +131,7 @@
     </optional>
     <ref name="LocalizedStringOrXsAny"/>
   </define>
-  <define name="LocalizedStringOrXsAny">
+  <define name="LocalizedStringOrXsAny1">
     <optional>
       <!-- multiple languages and scripts possible: comma delimit them if so -->
       <attribute name="language"/>
@@ -129,6 +145,16 @@
         <ref name="AnyElement"/>
       </choice>
     </oneOrMore>
+  </define>
+  <define name="LocalizedStringOrXsAny">
+    <choice>
+      <ref name="LocalizedStringOrXsAny1"/>
+      <oneOrMore>
+        <element name="variant">
+          <ref name="LocalizedStringOrXsAny1"/>
+        </element>
+      </oneOrMore>
+    </choice>
   </define>
   <define name="contributor">
     <element name="contributor">
@@ -761,6 +787,8 @@
       <value>unchanged</value>
       <value>circulated</value>
       <value>adapted</value>
+      <value>vote-started</value>
+      <value>vote-ended</value>
     </choice>
   </define>
   <define name="bdate">
@@ -993,7 +1021,9 @@
       <optional>
         <ref name="to"/>
       </optional>
-      <ref name="owner"/>
+      <oneOrMore>
+        <ref name="owner"/>
+      </oneOrMore>
     </element>
   </define>
   <define name="from">
@@ -1013,38 +1043,63 @@
   </define>
   <define name="DocRelationType">
     <choice>
-      <value>obsoletes</value>
-      <value>obsoletedBy</value>
-      <value>supersedes</value>
-      <value>supersededBy</value>
-      <value>updates</value>
-      <value>updatedBy</value>
-      <value>complements</value>
-      <value>derivedFrom</value>
+      <value>includes</value>
+      <value>includedIn</value>
+      <value>hasPart</value>
+      <value>partOf</value>
+      <value>merges</value>
+      <value>mergedInto</value>
+      <value>splits</value>
+      <value>splitInto</value>
+      <value>instance</value>
+      <value>hasInstance</value>
+      <value>exemplarOf</value>
+      <value>hasExemplar</value>
+      <value>manifestationOf</value>
+      <value>hasManifestation</value>
+      <value>reproductionOf</value>
+      <value>hasReproduction</value>
+      <value>reprintOf</value>
+      <value>hasReprint</value>
+      <value>expressionOf</value>
+      <value>hasExpression</value>
       <value>translatedFrom</value>
       <value>hasTranslation</value>
-      <value>adoptedFrom</value>
-      <value>equivalent</value>
-      <value>identical</value>
-      <value>nonequivalent</value>
-      <value>includedIn</value>
-      <value>includes</value>
-      <value>instance</value>
-      <value>instanceOf</value>
-      <value>partOf</value>
-      <value>hasPart</value>
-      <value>hasDraft</value>
+      <value>arrangementOf</value>
+      <value>hasArrangement</value>
+      <value>abridgementOf</value>
+      <value>hasAbridgement</value>
+      <value>annotationOf</value>
+      <value>hasAnnotation</value>
       <value>draftOf</value>
-      <value>merges</value>
-      <value>splits</value>
-      <value>amends</value>
-      <value>amendedBy</value>
-      <value>corrects</value>
-      <value>correctedBy</value>
-      <value>revises</value>
-      <value>revisedBy</value>
+      <value>hasDraft</value>
+      <value>editionOf</value>
+      <value>hasEdition</value>
+      <value>updates</value>
+      <value>updatedBy</value>
+      <value>derivedFrom</value>
+      <value>derives</value>
       <value>describes</value>
       <value>describedBy</value>
+      <value>catalogues</value>
+      <value>cataloguedBy</value>
+      <value>hasSuccessor</value>
+      <value>successorOf</value>
+      <value>adaptedFrom</value>
+      <value>hasAdaptation</value>
+      <value>adoptedFrom</value>
+      <value>adoptedAs</value>
+      <value>reviewOf</value>
+      <value>hasReview</value>
+      <value>commentaryOf</value>
+      <value>hasCommentary</value>
+      <value>related</value>
+      <value>complements</value>
+      <value>complementOf</value>
+      <value>obsoletes</value>
+      <value>obsoletedBy</value>
+      <value>cited</value>
+      <value>isCitedIn</value>
     </choice>
   </define>
   <define name="docrelation">
@@ -1052,9 +1107,11 @@
       <attribute name="type">
         <ref name="DocRelationType"/>
       </attribute>
-      <element name="description">
-        <ref name="FormattedString"/>
-      </element>
+      <optional>
+        <element name="description">
+          <ref name="FormattedString"/>
+        </element>
+      </optional>
       <element name="bibitem">
         <ref name="BibliographicItem"/>
       </element>

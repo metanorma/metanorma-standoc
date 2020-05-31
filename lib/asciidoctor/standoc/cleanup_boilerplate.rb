@@ -18,7 +18,6 @@ module Asciidoctor
         source.each do |s|
           @anchors[s["bibitemid"]] or
             @log.add("Crossreferences", nil, "term source #{s['bibitemid']} not referenced")
-                      #warn "term source #{s['bibitemid']} not referenced" 
         end
         if source.empty? && term.nil?
           div.next = @no_terms_boilerplate
@@ -49,8 +48,7 @@ module Asciidoctor
       TERM_CLAUSE = "//sections/terms | "\
         "//sections/clause[descendant::terms]".freeze
 
-      NORM_REF = "//bibliography/references[title = 'Normative References' or "\
-        "title = 'Normative references']".freeze
+      NORM_REF = "//bibliography/references[@normative = 'true']".freeze
 
       def boilerplate_isodoc(xmldoc)
         x = xmldoc.dup
