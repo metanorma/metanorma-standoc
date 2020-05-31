@@ -32,12 +32,13 @@ module Asciidoctor
       end
 
       def inline_anchor_xref(node)
-        matched = /^fn(:\s*(?<text>.*))?$/.match node.text
-        f = matched.nil? ? "inline" : "footnote"
-        c = matched.nil? ? node.text : matched[:text]
+        m = /^(?<case>capital%|lowercase%)?(?<fn>fn(:\s*(?<text>.*))?)?$/.match node.text
+        casing = m.nil? ? nil : m[:case]&.sub(/%$/, "")
+        f = (m.nil? || m[:fn].nil?) ? "inline" : "footnote"
+        c = (!m.nil? && (!m[:fn].nil? || !m[:case].nil?)) ? m[:text] : node.text
         t = node.target.gsub(/^#/, "").gsub(%r{(\.xml|\.adoc)(#.*$)}, "\\2")
         noko do |xml|
-          xml.xref **attr_code(target: t, type: f) do |x|
+          xml.xref **attr_code(target: t, type: f, case: casing) do |x|
             x << c
           end
         end.join
