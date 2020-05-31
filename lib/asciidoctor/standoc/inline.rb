@@ -162,7 +162,8 @@ module Asciidoctor
         return uri if /^data:/.match(uri)
         types = MIME::Types.type_for(@localdir + uri)
         type = types ? types.first.to_s : 'text/plain; charset="utf-8"'
-        bin = File.open(@localdir + uri, 'rb') {|io| io.read}
+        path = File.file?(uri) ? uri : @localdir + uri
+        bin = File.open(path, 'rb') {|io| io.read}
         data = Base64.strict_encode64(bin)
         "data:#{type};base64,#{data}"
       end
