@@ -2,7 +2,7 @@
 
 The root directory of datamodels (<datamodels_root>) in a metanorma-standoc
 project is:
-<project_root>/sources/models
+`<project_root>/sources/models`
 
 In metanorma-standoc, we define our data models in YAML files. We have two
 types of YAML files to define the data models: models and views.
@@ -10,203 +10,358 @@ types of YAML files to define the data models: models and views.
 === Models
 
 The root directory of models (<datamodels_models_root>) for datamodels is:
-<datamodels_root>/models
+`<datamodels_root>/models`
 
 For each model, the YAML file path is:
-<datamodels_models_root>/**(<model_path>)/<model_name>.yml
+`<datamodels_models_root>/**(<model_path>)/<model_name>.yml`
 
 ==== Attributes
 
 [options="header"]
 |===
-|Attribute  |Type                        |Mandatory?  |Description
-|name       |String                      |false       |If the attribute is not
-specified, <model_name> will be set as the value of the attribute.
-|modelType  |Enum{"class", "enum"}       |true        |An enumeration value to
-specify the type of model.
-|type       |String                      |false       |If the attribute is
-specified, it will become the stereotype of the model in UML.
+|Attribute |Type |Mandatory? |Description
 
-Example: class System \<<Singleton>>, Singleton is the stereotype of the class,
+|name
+|String
+|false
+|
+If the attribute is not specified, <model_name> will be set as the value of the attribute.
+
+|modelType
+|Enum{"class", "enum"}
+|true
+|
+An enumeration value to specify the type of model.
+
+|type
+|String
+|false
+|
+If the attribute is specified, it will become the stereotype of the model in UML.
+
+EXAMPLE: class System \<<Singleton>>, Singleton is the stereotype of the class,
 i.e. the value of this attribute.
-|definition |AsciiDoc                    |false       |The value of this
-attribute is the textual definition to be rendered to the metanorma-standoc
+
+|definition
+|Metanorma AsciiDoc
+|false
+|
+
+The value of this attribute is the textual definition to be rendered to the metanorma-standoc
 document. It can be written in the metanorma-standoc format. If the attribute
 is not specified, empty definition will be rendered to the document.
-|attributes |Map<String, ModelAttribute> |false       |This attribute acts as a
-collection of attributes of a model. The value of this attribute is a map
+
+|attributes
+|Map<String, ModelAttribute>
+|false
+|
+
+This attribute acts as a collection of attributes of a model. The value of this attribute is a map
 between attribute names and "ModelAttribute" objects.
-|values     |Map<String, EnumValue>      |Conditional |This attribute is only
-available for models of "modelType" as "enum". When available, this attribute
+
+|values
+|Map<String, EnumValue>
+|Conditional
+|
+This attribute is only available for models of "modelType" as "enum". When available, this attribute
 is MANDATORY.
-|relations  |Array<Relation>             |false       |This attribute acts as a
-collection to specify the association of a model to another model.
+
+|relations
+|Array<Relation>
+|false
+|
+This attribute acts as a collection to specify the association of a model to another model.
+
 |===
 
 ==== ModelAttribute's attributes
 
 [options="header"]
 |===
-|Attribute   |Type                        |Mandatory? |Description
-|definition  |AsciiDoc                    |false      |If it is NOT specified,
-it will result in a "TODO: <todo_message>" as definition in the attributes
+|Attribute |Type |Mandatory? |Description
+
+|definition
+|AsciiDoc
+|false
+|
+
+If it is NOT specified, it will result in a "TODO: <todo_message>" as definition in the attributes
 table of the metanorma-standoc document. The value of this attribute is the
 textual definition to be rendered to the attributes table of the document. It
 can be written in the metanorma-standoc format.
-|type        |String                      |true       |The value of this
-attribute is the name of another model to specify the data type of this
-ModelAttribute object.
-|cardinality |AttributeCardinality        |false      |Its value is to specify
-the min/max occurrences of the attribute.
+
+|type
+|String
+|true
+|
+The value of this attribute is the name of another model to specify the data type of this ModelAttribute object.
+
+|cardinality
+|AttributeCardinality
+|false
+|
+Its value is to specify the min/max occurrences of the attribute.
+
 |===
 
 ==== AttributeCardinality's attributes
 
 [options="header"]
 |===
-|Attribute    |Type           |Mandatory? |Description
-|min          |Integer/String |false      |Its value is to specify the minimum
-cardinality of the attribute. If it is NOT specified, the value will be 1. The
-String value of "*" denotes infinity occurrences.
-|max          |Integer/String |false      |Its value is to specify the maximum
-cardinality of the attribute. If it is NOT specified, the value will be 1. The
-String value of "*" denotes infinity occurrences.
+|Attribute |Type |Mandatory? |Description
+
+|min
+|Integer/String
+|false
+|
+Its value is to specify the minimum cardinality of the attribute. If it is NOT specified, the value will be 1. The String value of "*" denotes infinity occurrences.
+
+|max
+|Integer/String
+|false
+|
+Its value is to specify the maximum cardinality of the attribute. If it is NOT specified, the value will be 1. The String value of "*" denotes infinity occurrences.
+
 |===
 
 ==== Relation's attributes
 
 [options="header"]
 |===
-|Attribute    |Type                        |Mandatory? |Description
-|target       |String                      |true       |The value of this
-attribute is the name of the associated model. It MUST exact match to the name
+|Attribute |Type |Mandatory? |Description
+
+|target
+|String
+|true
+|
+The value of this attribute is the name of the associated model. It MUST exact match to the name
 of the associated model to associate properly in UML.
-|relationship |Relationship                |false       |The value of this
-attribute is to specify the actual relationship between the source and target
-model.
-|action       |RelationAction              |false       |Its value is to
-specify the label on relations in UML.
+
+|relationship
+|Relationship
+|false
+|
+The value of this attribute is to specify the actual relationship between the source and target model.
+
+|action
+|RelationAction
+|false
+|
+Its value is to specify the label on relations in UML.
+
 |===
 
 ==== Relationship's attributes
 
 [options="header"]
 |===
-|Attribute    |Type                        |Mandatory? |Description
-|source       |RelationshipEnd             |false       |Its value is to
-specify the actual relationship of the source model to the target model.
-|target       |RelationshipEnd             |false       |Its value is to
-specify the actual relationship of the target model to the source model.
-|association  |String                      |false       |Its value is the type
-of the intermediate model between the source model and the target model.
+|Attribute |Type |Mandatory? |Description
+
+|source
+|RelationshipEnd
+|false
+|
+Its value is to specify the actual relationship of the source model to the target model.
+
+|target
+|RelationshipEnd
+|false
+|
+Its value is to specify the actual relationship of the target model to the source model.
+
+|association
+|String
+|false
+|
+Its value is the type of the intermediate model between the source model and the target model.
+
 |===
 
 ==== RelationshipEnd's attributes
 
 [options="header"]
 |===
-|Attribute    |Type                                  |Mandatory? |Description
-|type         |Enum{"inheritance", "aggregation", "composition",
-"direct"}                                            |false      |Its value is to
-specify the type of association in UML.
-|attribute    |Map<String, RelationshipEndAttribute> |false      |Its value is a
-key value pair where the key is the attribute name and the value is the data of
+|Attribute |Type |Mandatory? |Description
+
+|type
+|Enum{"inheritance", "aggregation", "composition", "direct", ""}
+|false
+|
+Specifies the type of association in UML.
+
+|attribute
+|Map<String, RelationshipEndAttribute>
+|false
+|
+Key value pair: the key is the attribute name, the value is the data of
 the attribute. It specifies the attribute of association in UML.
+
 |===
 
 ==== RelationshipEndAttribute's attributes
 
 [options="header"]
 |===
-|Attribute   |Type                        |Mandatory? |Description
-|cardinality |AttributeCardinality        |false      |Its value is to specify
-the min/max occurrences of the attribute.
+|Attribute |Type |Mandatory? |Description
+
+|cardinality
+|AttributeCardinality
+|false
+|
+Its value is to specify the min/max occurrences of the attribute.
+
 |===
 
 ==== RelationAction's attributes
 
 [options="header"]
 |===
-|Attribute   |Type                     |Mandatory? |Description
-|verb        |String                   |true       |Its value is to specify the
-text of the label in UML.
-|direction   |Enum{"source", "target"} |true       |Its value is to specify the
-direction of the arrow of the label in UML.
+|Attribute |Type |Mandatory? |Description
+
+|verb
+|String
+|true
+|
+Its value is to specify the text of the label in UML.
+
+|direction
+|Enum{"source", "target"}
+|true
+|
+Its value is to specify the direction of the arrow of the label in UML.
+
 |===
 
 === Views
 
 The root directory of views (<datamodels_views_root>) for datamodels is:
-<datamodels_root>/views
+`<datamodels_root>/views`
 
 For each view, the YAML file path is:
-<datamodels_views_root>/<view_name>.yml
+`<datamodels_views_root>/<view_name>.yml`
 
 ==== Attributes
 
 [options="header"]
 |===
-|Attribute |Type                       |Mandatory? |Description
-|name      |String                     |true       |It is to uniquely
-identify among the views for the internal processing of the datamodels.
-|caption   |AsciiDoc                   |false      |Its value is to specify
-the caption under the image of the data model in the document.
-|imports   |Map<String, ModelFidelity> |false      |Its value is a map
-between "<model_path>/<model_name>" strings and "Model Fidelity" objects. By
-specifying the key "<model_path>/<model_name>" in the map, the corresponding
+|Attribute |Type |Mandatory? |Description
+
+|name
+|String
+|true
+|
+It is to uniquely identify among the views for the internal processing of the datamodels.
+
+|caption
+|AsciiDoc
+|false
+|
+Its value is to specify the caption under the image of the data model in the document.
+
+|imports
+|Map<String, ModelFidelity>
+|false
+|
+
+Its value is a map
+between `<model_path>/<model_name>` strings and ModelFidelity objects. By
+specifying the key `<model_path>/<model_name>` in the map, the corresponding
 model will be imported into the UML diagram and the section about the model in
 the document.
-|relations |Array<Relation>            |false      |The "Relation" objects in
+
+|relations
+|Array<Relation>
+|false
+|
+The "Relation" objects in
 this attribute are the same as that of the attribute "relations" of a model.
 The  purpose of this attribute is to aid the rendering of the models by
 specifying hidden lines with direction.
-|fidelity  |ViewFidelity               |false      |Its value is to specify
-what details to be rendered in the UML diagram and document.
+
+|fidelity
+|ViewFidelity
+|false
+|
+Its value is to specify what details to be rendered in the UML diagram and document.
+
 |===
 
 ==== ModelFidelity's attributes
 
 [options="header"]
 |===
-|Attribute    |Type                    |Mandatory? |Description
-|skipSection  |Boolean                 |false      |Its value is to specify
-whether the section about the model in the document should be rendered.
+|Attribute |Type |Mandatory? |Description
+
+|skipSection
+|Boolean
+|false
+|
+Its value is to specify whether the section about the model in the document should be rendered.
+
 |===
 
 ==== RelationAction's attributes
 
 [options="header"]
 |===
-|Attribute    |Type                        |Mandatory? |Description
-|target       |String                      |true       |The value of this
+|Attribute |Type |Mandatory? |Description
+
+|target
+|String
+|true
+|
+The value of this
 attribute is the name of the associated model. It MUST exact match to the name
 of the associated model to associate properly in UML.
-|relationship |Relationship                |false       |The value of this
+
+|relationship
+|Relationship
+|false
+|
+The value of this
 attribute is to specify the actual relationship between the source and target
 model.
-|action       |RelationAction              |false       |Its value is to
-specify the label on relations in UML.
+
+|action
+|RelationAction
+|false
+|
+Its value is to specify the label on relations in UML.
+
 |===
 
 ==== ViewFidelity's attributes
 
 [options="header"]
 |===
-|Attribute        |Type                 |Mandatory? |Description
-|hideMembers      |Boolean              |false      |Its value is to specify
-whether the attributes of models and their definitions should be rendered in
+|Attribute |Type |Mandatory? |Description
+
+|hideMembers
+|Boolean
+|false
+|
+Its value is to specify whether the attributes of models and their definitions should be rendered in
 the UML diagram and the document.
-|hideOtherClasses |Boolean              |false      |Its value is to specify
+
+|hideOtherClasses
+|Boolean
+|false
+|
+Its value is to specify
 whether the related models other than the imported ones should be rendered in
 the UML diagram and the corresponding section in the document.
+
 |===
 
 === Import a datamodel from metanorma-standoc
 
 Syntax:
 
-[%hardbreaks]
-{startsb}datamodel{endsb}
-\....
+[source,adoc]
+----
+[datamodel]
+....
 \include::<datamodels_views_root>/<view_name>.yml[]
-\....
+....
+----
+
