@@ -21,12 +21,11 @@ module Asciidoctor
     end
 
     class YamlContextRenderer
-      attr_reader :context_object, :context_name, :__file_name
+      attr_reader :context_object, :context_name
 
-      def initialize(context_object:, context_name:, file_name:)
+      def initialize(context_object:, context_name:)
         @context_object = context_object
         @context_name = context_name
-        @__file_name = file_name
       end
 
       def respond_to_missing?(name)
@@ -41,10 +40,6 @@ module Asciidoctor
 
       def render(template)
         ERB.new(template).result(binding)
-      rescue Exception
-        require 'byebug'
-        byebug
-        i = 20
       end
     end
 
@@ -94,8 +89,7 @@ module Asciidoctor
             result.push(*
               parse_blocks_recursively(lines: current_yaml_block,
                                        attributes: content,
-                                       context_name: yaml_block_match[2],
-                                       yaml_path: yaml_block_match[1]))
+                                       context_name: yaml_block_match[2]))
           else
             result.push(line)
           end
@@ -113,14 +107,14 @@ module Asciidoctor
 
       def parse_blocks_recursively(lines:,
                                    attributes:,
-                                   context_name:,
-                                   yaml_path:)
+                                   context_name:)
         lines = lines.to_enum
         result = []
         loop do
           line = lines.next
           if line.match(BLOCK_START_REGEXP)
-            line.gsub!(BLOCK_START_REGEXP, '<% \1.each&.with_index do |\2,index| %>')
+            line.gsub!(BLOCK_START_REGEXP,
+                       '<% \1.each&.with_index do |\2,index| %>')
           end
 
           if line.strip.match(BLOCK_END_REGEXP)
@@ -128,25 +122,25 @@ module Asciidoctor
           end
           line.gsub!(/{\s*if\s*([^}]+)}/, '<% if \1 %>')
           line.gsub!(/{\s*?end\s*?}/, '<% end %>')
-          line = line.gsub(/{(.+?[^}]*)}/, '<%= \1 %>').gsub(/[a-z\.]+\#/, 'index')
+          line = line
+                    .gsub(/{(.+?[^}]*)}/, '<%= \1 %>')
+                    .gsub(/[a-z\.]+\#/, 'index')
           result.push(line)
         end
         result = parse_context_block(context_lines: result,
                                      context_items: attributes,
-                                     context_name: context_name,
-                                     yaml_path: yaml_path)
+                                     context_name: context_name)
         result
       end
 
       def parse_context_block(context_lines:,
                               context_items:,
-                              context_name:,
-                              yaml_path:)
-        yaml_name = File.basename(yaml_path).gsub(/\.(yaml|yml)/, '')
-        renderer = YamlContextRenderer.new(
-                    context_object: context_items,
-                    context_name: context_name,
-                    file_name: yaml_name)
+                              context_name:)
+        renderer = YamlContextRenderer
+                    .new(
+                      context_object: context_items,
+                      context_name: context_name
+                    )
         renderer.render(context_lines.join("\n")).split("\n")
       end
     end

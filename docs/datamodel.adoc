@@ -7,6 +7,7 @@ project is:
 In metanorma-standoc, we define our data models in YAML files. We have two
 types of YAML files to define the data models: models and views.
 
+[[model]]
 === Models
 
 The root directory of models (<datamodels_models_root>) for datamodels is:
@@ -134,6 +135,7 @@ text of the label in UML.
 direction of the arrow of the label in UML.
 |===
 
+[[view]]
 === Views
 
 The root directory of views (<datamodels_views_root>) for datamodels is:
@@ -154,14 +156,13 @@ the caption under the image of the data model in the document.
 |imports   |Map<String, ModelFidelity> |false      |Its value is a map
 between "<model_path>/<model_name>" strings and "Model Fidelity" objects. By
 specifying the key "<model_path>/<model_name>" in the map, the corresponding
-model will be imported into the UML diagram and the section about the model in
-the document.
+model will be imported into the UML diagram.
 |relations |Array<Relation>            |false      |The "Relation" objects in
 this attribute are the same as that of the attribute "relations" of a model.
 The  purpose of this attribute is to aid the rendering of the models by
 specifying hidden lines with direction.
 |fidelity  |ViewFidelity               |false      |Its value is to specify
-what details to be rendered in the UML diagram and document.
+what details to be rendered in the UML diagram
 |===
 
 ==== ModelFidelity's attributes
@@ -169,8 +170,6 @@ what details to be rendered in the UML diagram and document.
 [options="header"]
 |===
 |Attribute    |Type                    |Mandatory? |Description
-|skipSection  |Boolean                 |false      |Its value is to specify
-whether the section about the model in the document should be rendered.
 |===
 
 ==== RelationAction's attributes
@@ -195,18 +194,33 @@ specify the label on relations in UML.
 |Attribute        |Type                 |Mandatory? |Description
 |hideMembers      |Boolean              |false      |Its value is to specify
 whether the attributes of models and their definitions should be rendered in
-the UML diagram and the document.
+the UML diagram.
 |hideOtherClasses |Boolean              |false      |Its value is to specify
 whether the related models other than the imported ones should be rendered in
-the UML diagram and the corresponding section in the document.
+the UML diagram.
 |===
 
-=== Import a datamodel from metanorma-standoc
+=== Generate <<model, model>> representation from supplied model file
 
 Syntax:
 
-[%hardbreaks]
-{startsb}datamodel{endsb}
-\....
-\include::<datamodels_views_root>/<view_name>.yml[]
-\....
+[source,asciidoc]
+--
+{startsb}datamodel_attributes_table,path/to/your/model_file.yml{endsb}
+--
+
+This snipped will generate separate section with definition provided in yml file as well as attributes and values table as deccribed in <<model>> section
+
+
+
+=== Generate palntuml diagramm from supplied <<view, view>> file
+
+Syntax:
+
+[source,asciidoc]
+--
+{startsb}datamodel_plantuml,path/to/your/view_file.yml,include/path{endsb}
+--
+
+`include/path` is an optional parameter which tells macro of where to find models to import.
+This snipped will generate uml diagramm from parameters supplied in yml file as deccribed in <<view>> section

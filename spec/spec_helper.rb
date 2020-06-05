@@ -36,6 +36,10 @@ def strip_guid(x)
   x.gsub(%r{ id="_[^"]+"}, ' id="_"').gsub(%r{ target="_[^"]+"}, ' target="_"')
 end
 
+def strip_src(xml)
+  xml.gsub(/\ssrc="[^"]+"/, ' src="_"')
+end
+
 def xmlpp(x)
   s = ""
   f = REXML::Formatters::Pretty.new(2)

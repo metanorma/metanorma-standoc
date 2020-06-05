@@ -1,11 +1,11 @@
 require "asciidoctor/extensions"
 require "fileutils"
 require "uuidtools"
-require "yaml"
-require_relative "./macros_plantuml.rb"
-require_relative "./datamodel_block_macro"
-require_relative "./macros_yaml2text.rb"
-require_relative "./macros_datamodel.rb"
+require 'yaml'
+require_relative './macros_plantuml.rb'
+require_relative './datamodel/attributes_table_preprocessor.rb'
+require_relative './datamodel/diagram_preprocessor.rb'
+require_relative './macros_yaml2text.rb'
 
 module Asciidoctor
   module Standoc
