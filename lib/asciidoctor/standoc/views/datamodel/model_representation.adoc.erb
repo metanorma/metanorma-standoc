@@ -17,19 +17,12 @@
 {end}
 
 {if definition['values']}
-{if definition.name}
-.{definition.name} values
-{end}
-[cols=2*,options="header"]
+.{definition.name || "<%= file_name %>"} values
 |===
-<|Name
-<|Definition
+|Name |Definition
 
 {definition['values']&.*,key,EOK}
-
-|{key}
-|{definition['values'][key].definition}
-
+|{key} |{definition['values'][key].definition}
 {EOK}
 |===
 {end}

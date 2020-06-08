@@ -123,8 +123,8 @@ module Asciidoctor
           line.gsub!(/{\s*if\s*([^}]+)}/, '<% if \1 %>')
           line.gsub!(/{\s*?end\s*?}/, '<% end %>')
           line = line
-                    .gsub(/{(.+?[^}]*)}/, '<%= \1 %>')
-                    .gsub(/[a-z\.]+\#/, 'index')
+                   .gsub(/{(.+?[^}]*)}/, '<%= \1 %>')
+                   .gsub(/[a-z\.]+\#/, 'index')
           result.push(line)
         end
         result = parse_context_block(context_lines: result,
@@ -137,10 +137,10 @@ module Asciidoctor
                               context_items:,
                               context_name:)
         renderer = YamlContextRenderer
-                    .new(
-                      context_object: context_items,
-                      context_name: context_name
-                    )
+                     .new(
+                       context_object: context_items,
+                       context_name: context_name
+                     )
         renderer.render(context_lines.join("\n")).split("\n")
       end
     end

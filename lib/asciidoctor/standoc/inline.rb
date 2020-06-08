@@ -191,7 +191,7 @@ module Asciidoctor
         #   sources/plantuml/plantuml20200524-90467-1iqek5i.png ->
         #   sources/sources/plantuml/plantuml20200524-90467-1iqek5i.png)
         path = File.file?(uri) ? uri : @localdir + uri
-        bin = File.open(path, 'rb') { |io| io.read }
+        bin = File.open(path, 'rb', &:read)
         data = Base64.strict_encode64(bin)
         "data:#{type};base64,#{data}"
       end
