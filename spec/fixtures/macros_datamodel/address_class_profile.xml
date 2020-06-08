@@ -1,0 +1,149 @@
+  <sections>
+    <clause id='_' inline-header='false' obligation='normative'>
+      <title>AddressClassProfile</title>
+      <p id='_'>
+        An
+        <tt>AddressClassProfile</tt>
+         represents a profile of a
+        <tt>ProfileCompliantAddress</tt>
+        . It corresponds to the concept of an
+        <tt>AddressClass</tt>
+         originally expressed in
+        <xref target='ISO19160-1'/>
+         as a referenced codelist.
+      </p>
+      <p id='_'>
+        It represents additional attributes and restrictions to the
+        <tt>ProfileCompliantAddress</tt>
+         model. It also represents metadata for the use of the profile.
+      </p>
+      <p id='_'>
+        A single profile can include and support multiple types of address
+        formats, such as a numbered street address and a “PO Box” address
+        simultaneously. Each of these address formats is represented as an
+        interchange address class.
+      </p>
+      <example id='_'>
+        <p id='_'>
+          The US Numbered Thoroughfare Address with this syntax can be
+          represented as an address class profile:
+        </p>
+        <p id='_'>
+          * { Complete Landmark Name or Complete Place Name }
+          <br/>
+           * { Complete Address Number * }
+          <br/>
+           * { Complete Street Name * }
+          <br/>
+           * { Complete Subaddress }
+          <br/>
+           * { Complete Place Name * }
+          <br/>
+           * { State Name * }
+          <br/>
+           * { Zip Code }
+          <br/>
+           * { Zip Plus 4 }
+          <br/>
+           * { Country Name }
+        </p>
+      </example>
+      <table id='_'>
+        <name>AddressClassProfile attributes</name>
+        <thead>
+          <tr>
+            <th align='left'>Name</th>
+            <th align='left'>Definition</th>
+            <th align='left'>Mandatory/ Optional/ Conditional</th>
+            <th align='left'>Max Occur</th>
+            <th align='left'>Data Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align='left'>id</td>
+            <td align='left'>Unique identifier of this AddressClassProfile.</td>
+            <td align='left'>M</td>
+            <td align='left'>1</td>
+            <td align='left'>
+              <tt>CharacterString</tt>
+            </td>
+          </tr>
+          <tr>
+            <td align='left'>type</td>
+            <td align='left'>Intended usage of this profile.</td>
+            <td align='left'>M</td>
+            <td align='left'>1</td>
+            <td align='left'>
+              <tt>CharacterString</tt>
+            </td>
+          </tr>
+          <tr>
+            <td align='left'>description</td>
+            <td align='left'>Textual description of this profile.</td>
+            <td align='left'>M</td>
+            <td align='left'>1</td>
+            <td align='left'>
+              <tt>CharacterString</tt>
+            </td>
+          </tr>
+          <tr>
+            <td align='left'>localization</td>
+            <td align='left'>The language and script used within this profile.</td>
+            <td align='left'>M</td>
+            <td align='left'>1</td>
+            <td align='left'>
+              <tt>Localization</tt>
+            </td>
+          </tr>
+          <tr>
+            <td align='left'>signature</td>
+            <td align='left'>
+              The digital signature to verify the integrity of this profile, and
+              the identity of the publishing authority.
+            </td>
+            <td align='left'>O</td>
+            <td align='left'>1</td>
+            <td align='left'>
+              <tt>Signature</tt>
+            </td>
+          </tr>
+          <tr>
+            <td align='left'>areaApplicability</td>
+            <td align='left'>
+              The geographic representation of which this AddressClassProfile
+              applies to. Overlapping geographic areas are allowed across
+              different profiles.
+            </td>
+            <td align='left'>O</td>
+            <td align='left'>N</td>
+            <td align='left'>
+              <tt>iso19115MD_SpatialRepresentation</tt>
+            </td>
+          </tr>
+          <tr>
+            <td align='left'>timeToLive</td>
+            <td align='left'>
+              The maximum time interval between refreshing of this profile via
+              an authoritative source, in seconds.
+            </td>
+            <td align='left'>M</td>
+            <td align='left'>1</td>
+            <td align='left'>
+              <tt>Integer</tt>
+            </td>
+          </tr>
+          <tr>
+            <td align='left'>validity</td>
+            <td align='left'>The period of date and time that this profile should be considered as valid.</td>
+            <td align='left'>M</td>
+            <td align='left'>1</td>
+            <td align='left'>
+              <tt>Validity</tt>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </clause>
+  </sections>
+</standard-document>

@@ -1,0 +1,90 @@
+modelType: class
+# TODO
+definition: |
+  An `AddressClassProfile` represents a profile of a `ProfileCompliantAddress`.
+  It corresponds to the concept of an `AddressClass` originally
+  expressed in <<ISO19160-1>> as a referenced codelist.
+
+  It represents additional attributes and restrictions to the
+  `ProfileCompliantAddress` model. It also represents metadata for the use of
+  the profile.
+
+  A single profile can include and support multiple types of
+  address formats, such as a numbered street address and a
+  "`PO Box`" address simultaneously. Each of these address formats
+  is represented as an interchange address class.
+
+  [example]
+  --
+  The US Numbered Thoroughfare Address with this syntax can be
+  represented as an address class profile:
+
+  *{sp}{ Complete Landmark Name or Complete Place Name } +
+  *{sp}{ Complete Address Number * } +
+  *{sp}{ Complete Street Name * } +
+  *{sp}{ Complete Subaddress } +
+  *{sp}{ Complete Place Name * } +
+  *{sp}{ State Name * } +
+  *{sp}{ Zip Code } +
+  *{sp}{ Zip Plus 4 } +
+  *{sp}{ Country Name }
+  --
+attributes:
+  id:
+    definition: Unique identifier of this AddressClassProfile.
+    type: CharacterString
+  type:
+    definition: Intended usage of this profile.
+    type: CharacterString
+  description:
+    definition: Textual description of this profile.
+    type: CharacterString
+  localization:
+    definition: The language and script used within this profile.
+    type: Localization
+  signature:
+    definition: The digital signature to verify the integrity of this profile, and the identity of the publishing authority.
+    type: Signature
+    cardinality:
+      min: 0
+      max: 1
+  areaApplicability:
+    definition: The geographic representation of which this AddressClassProfile applies to. Overlapping geographic areas are allowed across different profiles.
+    type: iso19115MD_SpatialRepresentation
+    cardinality:
+      min: 0
+      max: "*"
+  timeToLive:
+    definition: The maximum time interval between refreshing of this profile via an authoritative source, in seconds.
+    type: Integer
+  validity:
+    definition: The period of date and time that this profile should be considered as valid.
+    type: Validity
+relations:
+  - target: AttributeProfile
+    relationship:
+      source:
+        type: aggregation
+        attribute:
+          addressClassProfile:
+      target:
+        type: direct
+        attribute:
+          attributeProfile:
+            cardinality:
+              min: 0
+              max: '*'
+
+  - target: ProfileCompliantAddress
+    relationship:
+      source:
+        attribute:
+          profile:
+            cardinality:
+              min: 1
+              max: 1
+      target:
+        type: direct
+    action:
+      verb: compliesWith
+      direction: source

@@ -147,7 +147,7 @@ module Asciidoctor
 
       def requirement_inherit(x)
         x.xpath("//requirement | //recommendation | //permission").each do |r|
-          ins = r.at("./classification") || 
+          ins = r.at("./classification") ||
             r.at("./description | ./measurementtarget | ./specification | "\
                  "./verification | ./import | ./description | ./requirement | "\
                  "./recommendation | ./permission")
@@ -158,7 +158,7 @@ module Asciidoctor
       def requirement_descriptions(x)
         x.xpath("//requirement | //recommendation | //permission").each do |r|
           r.children.each do |e|
-            unless e.element? && (Utils::reqt_subpart(e.name) || 
+            unless e.element? && (Utils::reqt_subpart(e.name) ||
                 %w(requirement recommendation permission).include?(e.name))
               t = Nokogiri::XML::Element.new("description", x)
               e.before(t)

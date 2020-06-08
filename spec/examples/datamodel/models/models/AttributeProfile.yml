@@ -1,0 +1,32 @@
+modelType: class
+definition: |
+  An `AttributeProfile` represents name, cardinalities and value type of an
+  attribute in a model that complies with a profile that includes this
+  AttributeProfile.
+
+  If it represents an attribute that has been previously defined, e.g. an
+  attribute in Address model defined in <<ISO19160-1>>, it extends the
+  definition of the attribute by redefining the name, cardinalities and value
+  type.
+attributes:
+  name:
+    definition: The name of the attribute represented by this AttributeProfile.
+    type: CharacterString
+  minCardinality:
+    definition: The minimum number of occurrences of the attribute represented by this AttributeProfile.
+    type: Integer
+    cardinality:
+      min: 0
+      max: 1
+  maxCardinality:
+    definition: The maximum number of occurences of the attribute represented by this AttributeProfile.
+    type: Integer
+    cardinality:
+      min: 0
+      max: 1
+  valueType:
+    definition: The data type of values of the attribute represented by this AttributeProfile.
+    type: CharacterString
+    cardinality:
+      min: 0
+      max: 1

@@ -44,8 +44,8 @@ module Asciidoctor
     end
 
     class Yaml2TextPreprocessor < Asciidoctor::Extensions::Preprocessor
-      BLOCK_START_REGEXP = /\{(.+?)\.\*,(.+),(.+)\}/.freeze
-      BLOCK_END_REGEXP = /\A\{[A-Z]+\}\z/.freeze
+      BLOCK_START_REGEXP = /\{(.+?)\.\*,(.+),(.+)\}/
+      BLOCK_END_REGEXP = /\A\{[A-Z]+\}\z/
       # search document for block `yaml2text`
       #   after that take template from block and read file into this template
       #   example:
@@ -107,35 +107,41 @@ module Asciidoctor
 
       def parse_blocks_recursively(lines:,
                                    attributes:,
-                                   context_name:,
-                                   parent_context: nil)
+                                   context_name:)
         lines = lines.to_enum
         result = []
         loop do
           line = lines.next
           if line.match(BLOCK_START_REGEXP)
-            line.gsub!(BLOCK_START_REGEXP, '<% \1.each.with_index do |\2,index| %>')
+            line.gsub!(BLOCK_START_REGEXP,
+                       '<% \1.each&.with_index do |\2,index| %>')
           end
 
-          if line.match(BLOCK_END_REGEXP)
+          if line.strip.match(BLOCK_END_REGEXP)
             line.gsub!(BLOCK_END_REGEXP, '<% end %>')
           end
-          line = line.gsub(/{(.+?[^}]*)}/, '<%= \1 %>').gsub(/[a-z\.]+\#/, 'index')
+          line.gsub!(/{\s*if\s*([^}]+)}/, '<% if \1 %>')
+          line.gsub!(/{\s*?end\s*?}/, '<% end %>')
+          line = line
+                   .gsub(/{(.+?[^}]*)}/, '<%= \1 %>')
+                   .gsub(/[a-z\.]+\#/, 'index')
           result.push(line)
         end
         result = parse_context_block(context_lines: result,
                                      context_items: attributes,
-                                     context_name: context_name,
-                                     parent_context: parent_context)
+                                     context_name: context_name)
         result
       end
 
       def parse_context_block(context_lines:,
                               context_items:,
-                              context_name:,
-                              parent_context: nil)
-        renderer = YamlContextRenderer.new(context_object: context_items, context_name: context_name)
-        renderer.render(context_lines.join('\n')).split('\n')
+                              context_name:)
+        renderer = YamlContextRenderer
+                     .new(
+                       context_object: context_items,
+                       context_name: context_name
+                     )
+        renderer.render(context_lines.join("\n")).split("\n")
       end
     end
   end

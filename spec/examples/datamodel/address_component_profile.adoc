@@ -1,0 +1,4 @@
+= Document title
+Author
+
+[datamodel_attributes_table,models/models/AddressComponentProfile.yml]

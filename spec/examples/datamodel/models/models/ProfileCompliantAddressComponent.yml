@@ -1,0 +1,15 @@
+name: ProfileCompliantAddressComponent
+modelType: class
+definition: |
+  ProfileCompliantAddressComponent extends from the AddressComponent model
+  defined in <<ISO19160-1>> to represent an Address complying with an
+  AddressClassProfile.
+
+  A ProfileCompliantAddressComponent MUST conform to the constraints and
+  requirements specified in AddressComponentProfile, and its associated
+  profiles and specifications.
+relations:
+  - target: AddressComponent
+    relationship:
+      target:
+        type: inheritance
