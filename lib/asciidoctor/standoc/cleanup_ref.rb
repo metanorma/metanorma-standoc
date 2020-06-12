@@ -205,6 +205,7 @@ module Asciidoctor
         xml = Nokogiri::XML(File.read(file, encoding: "utf-8"))
         ret = xml.at("//*[local-name() = 'bibdata']") or return nil
         ret.name = "bibitem"
+        ret.default_namespace = nil
         ins = ret.at("./*[local-name() = 'docidentifier']") or return nil
         ins.previous = %{<uri type="citation">#{uri}</uri>}
         ret&.at("./*[local-name() = 'ext']")&.remove
