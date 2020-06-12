@@ -196,6 +196,36 @@ module Asciidoctor
       def fetch_termbase(termbase, id)
         ""
       end
+
+      def read_local_bibitem(uri)
+        return nil if %r{^http[s]?://}.match(uri)
+        file = @localdir + uri + ".rxl"
+        File.file?(file) or file = @localdir + uri + ".xml"
+        File.file?(file) or return nil
+        xml = Nokogiri::XML(File.read(file, encoding: "utf-8"))
+        ret = xml.at("//*[local-name() = 'bibdata']") or return nil
+        ret.name = "bibitem"
+        ins = ret.at("./*[local-name() = 'docidentifier']") or return nil
+        ins.previous = %{<uri type="citation">#{uri}</uri>}
+        ret&.at("./*[local-name() = 'ext']")&.remove
+        ret
+      end
+
+      # if citation uri points to local file, get bibitem from it
+      def fetch_local_bibitem(xmldoc)
+        xmldoc.xpath("//bibitem[formattedref]"\
+                     "[uri[@type = 'citation']]").each do |b|
+          uri = b&.at("./uri[@type = 'citation']")&.text
+          bibitem = read_local_bibitem(uri) or next
+          bibitem["id"] = b["id"]
+          b.replace(bibitem)
+        end
+      end
+
+      def bibitem_cleanup(xmldoc)
+        ref_dl_cleanup(xmldoc)
+        fetch_local_bibitem(xmldoc)
+      end
     end
   end
 end

@@ -34,7 +34,7 @@ module Asciidoctor
       # extending localities to cover ISO referencing
       LOCALITY_REGEX_STR = <<~REGEXP.freeze
         ^((?<locality>section|clause|part|paragraph|chapter|page|
-                      table|annex|figure|example|note|formula|list|
+                      table|annex|figure|example|note|formula|list|time|anchor|
                       locality:[^ \\t\\n\\r:,;=]+)(\\s+|=)
                (?<ref>[^"][^ \\t\\n,:-]*|"[^"]+")
                  (-(?<to>[^"][^ \\t\\n,:-]*|"[^"]"))?|

@@ -748,8 +748,8 @@ RSpec.describe Asciidoctor::Standoc do
                <formattedref format='application/x-isodoc+xml'>
                  <em>Standard</em>
                </formattedref>
-               <docidentifier>ISO/IEC TR 12382:1992</docidentifier>
-               <docnumber>12382:1992)</docnumber>
+               <docidentifier type='ISO'>ISO/IEC TR 12382:1992</docidentifier>
+               <docnumber>12382:1992</docnumber>
              </bibitem>
              <bibitem id='iso124' type='standard'>
                <fetched>#{Date.today}</fetched>
@@ -1244,7 +1244,253 @@ OUTPUT
     OUTPUT
   end
 
-  private
+  it "processes repository reference" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+      #{ISOBIB_BLANK_HDR}
+      == Scope
+
+      <<iso123>>
+
+      <<iso123,clause=1>>
+
+      [bibliography]
+      == Normative References
+
+      * [[[iso123,repo:(a/b,ISO 123)]]] _Standard_
+    INPUT
+     #{BLANK_HDR}
+  <sections>
+    <clause id='_' inline-header='false' obligation='normative'>
+      <title>Scope</title>
+      <p id='_'>
+        <eref type='inline' bibitemid='iso123' citeas='ISO 123'/>
+      </p>
+      <p id='_'>
+        <eref type='inline' bibitemid='iso123' citeas='ISO 123'>
+          <localityStack>
+            <locality type='clause'>
+              <referenceFrom>1</referenceFrom>
+            </locality>
+          </localityStack>
+        </eref>
+      </p>
+    </clause>
+  </sections>
+  <bibliography>
+    <references id='_' normative='true' obligation='informative'>
+      <title>Normative References</title>
+      <p id='_'>
+        The following documents are referred to in the text in such a way that
+        some or all of their content constitutes requirements of this document.
+        For dated references, only the edition cited applies. For undated
+        references, the latest edition of the referenced document (including any
+        amendments) applies.
+      </p>
+      <bibitem id='iso123'>
+        <formattedref format='application/x-isodoc+xml'>
+          <em>Standard</em>
+        </formattedref>
+        <docidentifier type="ISO">ISO 123</docidentifier>
+        <docidentifier type="repository">a/b</docidentifier>
+        <docnumber>123</docnumber>
+      </bibitem>
+    </references>
+  </bibliography>
+</standard-document>
+    OUTPUT
+    end
+
+    it "processes hyperlink reference, ingest RXL or XML if available" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+      #{ISOBIB_BLANK_HDR}
+      == Scope
+
+      <<iso123>>
+
+      <<iso124,clause=1>>
+
+      <<iso123,anchor=xyz>>
+
+      <<iso124,clause=1,anchor=xyz>>
+
+      [bibliography]
+      == Normative References
+
+      * [[[iso123,path:(spec/assets/iso123,ISO 123)]]] _Standard_
+      * [[[iso124,path:(a/b.adoc,ISO 124)]]] _Standard_
+    INPUT
+     #{BLANK_HDR}
+  <sections>
+    <clause id='_' inline-header='false' obligation='normative'>
+      <title>Scope</title>
+      <p id='_'>
+        <eref type='inline' bibitemid='iso123' citeas='ISO 123'/>
+      </p>
+      <p id='_'>
+        <eref type='inline' bibitemid='iso124' citeas='ISO 124'>
+          <localityStack>
+            <locality type='clause'>
+              <referenceFrom>1</referenceFrom>
+            </locality>
+          </localityStack>
+        </eref>
+      </p>
+      <p id='_'>
+        <eref type='inline' bibitemid='iso123' citeas='ISO 123'>
+          <localityStack>
+        <locality type='anchor'>
+  <referenceFrom>xyz</referenceFrom>
+</locality>
+          </localityStack>
+        </eref>
+      </p>
+      <p id='_'>
+        <eref type='inline' bibitemid='iso124' citeas='ISO 124'>
+          <localityStack>
+            <locality type='clause'>
+              <referenceFrom>1</referenceFrom>
+            </locality>
+            <locality type='anchor'>
+  <referenceFrom>xyz</referenceFrom>
+</locality>
+          </localityStack>
+        </eref>
+      </p>
+    </clause>
+  </sections>
+  <bibliography>
+    <references id='_' normative='true' obligation='informative'>
+      <title>Normative References</title>
+      <p id='_'>
+        The following documents are referred to in the text in such a way that
+        some or all of their content constitutes requirements of this document.
+        For dated references, only the edition cited applies. For undated
+        references, the latest edition of the referenced document (including any
+        amendments) applies.
+      </p>
+      <bibitem id='iso123' type='standard'>
+  <fetched>2020-06-12</fetched>
+  <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
+  <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
+  <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex – Sampling</title>
+  <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
+  <title type='title-main' format='text/plain' language='fr' script='Latn'>Échantillonnage</title>
+  <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc – Échantillonnage</title>
+  <uri type='src'>https://www.iso.org/standard/23281.html</uri>
+  <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+  <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+  <uri type='citation'>spec/assets/iso123</uri>
+  <docidentifier type='ISO'>ISO 123</docidentifier>
+  <docidentifier type='ISO'>ISO 123 (all parts)</docidentifier>
+  <docnumber>123</docnumber>
+  <date type='published'>
+    <on>2001</on>
+  </date>
+  <contributor>
+    <role type='publisher'/>
+    <organization>
+      <name>International Organization for Standardization</name>
+      <abbreviation>ISO</abbreviation>
+      <uri>www.iso.org</uri>
+    </organization>
+  </contributor>
+  <edition>3</edition>
+  <language>en</language>
+  <language>fr</language>
+  <script>Latn</script>
+  <status>
+    <stage>90</stage>
+    <substage>93</substage>
+  </status>
+  <copyright>
+    <from>2001</from>
+    <owner>
+      <organization>
+        <name>ISO</name>
+      </organization>
+    </owner>
+  </copyright>
+  <relation type='obsoletes'>
+    <bibitem type='standard'>
+      <formattedref format='text/plain'>ISO 123:1985</formattedref>
+    </bibitem>
+  </relation>
+  <relation type='instance'>
+    <bibitem type='standard'>
+      <fetched>2020-06-12</fetched>
+      <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
+      <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
+      <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex – Sampling</title>
+      <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
+      <title type='title-main' format='text/plain' language='fr' script='Latn'>Échantillonnage</title>
+      <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc – Échantillonnage</title>
+      <uri type='src'>https://www.iso.org/standard/23281.html</uri>
+      <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+      <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+      <docidentifier type='ISO'>ISO 123:2001</docidentifier>
+      <docnumber>123</docnumber>
+      <date type='published'>
+        <on>2001</on>
+      </date>
+      <contributor>
+        <role type='publisher'/>
+        <organization>
+          <name>International Organization for Standardization</name>
+          <abbreviation>ISO</abbreviation>
+          <uri>www.iso.org</uri>
+        </organization>
+      </contributor>
+      <edition>3</edition>
+      <language>en</language>
+      <language>fr</language>
+      <script>Latn</script>
+      <status>
+        <stage>90</stage>
+        <substage>93</substage>
+      </status>
+      <copyright>
+        <from>2001</from>
+        <owner>
+          <organization>
+            <name>ISO</name>
+          </organization>
+        </owner>
+      </copyright>
+      <relation type='obsoletes'>
+        <bibitem type='standard'>
+          <formattedref format='text/plain'>ISO 123:1985</formattedref>
+        </bibitem>
+      </relation>
+      <place>Geneva</place>
+    </bibitem>
+  </relation>
+  <relation type='instance'>
+    <bibitem type='standard'>
+      <formattedref format='text/plain'>ISO 123:1985</formattedref>
+    </bibitem>
+  </relation>
+  <relation type='instance'>
+    <bibitem type='standard'>
+      <formattedref format='text/plain'>ISO 123:1974</formattedref>
+    </bibitem>
+  </relation>
+  <place>Geneva</place>
+</bibitem>
+      <bibitem id='iso124'>
+        <formattedref format='application/x-isodoc+xml'>
+          <em>Standard</em>
+        </formattedref>
+        <uri type='URI'>a/b</uri>
+<uri type='citation'>a/b</uri>
+        <docidentifier type="ISO">ISO 124</docidentifier>
+        <docnumber>124</docnumber>
+      </bibitem>
+    </references>
+  </bibliography>
+</standard-document>
+    OUTPUT
+    end
+
 
       private
 

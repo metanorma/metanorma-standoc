@@ -37,8 +37,7 @@ module Asciidoctor
       end
 
       def id_and_year(id, year)
-        return id unless year
-        "#{id}:#{year}"
+        year ? "#{id}:#{year}" : id
       end
 
       def docid(t, code)
@@ -58,8 +57,14 @@ module Asciidoctor
       end
 
       def norm_year(yr)
-        return "--" if /^\&\#821[12];$/.match yr
-        yr
+        /^\&\#821[12];$/.match(yr) ? "--" : yr
+      end
+
+      def isorefrender1(t, m, yr, allp = "")
+          t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
+          docid(t, m[:usrlbl]) if m[:usrlbl]
+          docid(t, id_and_year(m[:code], yr) + allp)
+          docnumber(t, m[:code])
       end
 
       def isorefmatches(xml, m)
@@ -67,10 +72,7 @@ module Asciidoctor
         ref = fetch_ref xml, m[:code], yr, title: m[:text], usrlbl: m[:usrlbl]
         return use_my_anchor(ref, m[:anchor]) if ref
         xml.bibitem **attr_code(ref_attributes(m)) do |t|
-          t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
-          docid(t, m[:usrlbl]) if m[:usrlbl]
-          docid(t, id_and_year(m[:code], yr))
-          docnumber(t, m[:code])
+          isorefrender1(t, m, yr)
           yr and t.date **{ type: "published" } do |d|
             set_date_range(d, yr)
           end
@@ -82,12 +84,8 @@ module Asciidoctor
         ref = fetch_ref xml, m[:code], nil, no_year: true, note: m[:fn],
           title: m[:text], usrlbl: m[:usrlbl]
         return use_my_anchor(ref, m[:anchor]) if ref
-
         xml.bibitem **attr_code(ref_attributes(m)) do |t|
-          t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
-          docid(t, m[:usrlbl]) if m[:usrlbl]
-          docid(t, id_and_year(m[:code], "--"))
-          docnumber(t, m[:code])
+          isorefrender1(t, m, "--")
           t.date **{ type: "published" } do |d|
             d.on "--"
           end
@@ -99,10 +97,8 @@ module Asciidoctor
       def conditional_date(t, m, noyr)
         m.names.include?("year") and !m[:year].nil? and
           t.date(**{ type: "published" }) do |d|
-          if noyr then d.on "--"
-          else
+          noyr and d.on "--" or
             set_date_range(d, norm_year(m[:year]))
-          end
         end
       end
 
@@ -115,10 +111,7 @@ module Asciidoctor
         return use_my_anchor(ref, m[:anchor]) if ref
 
         xml.bibitem(**attr_code(ref_attributes(m))) do |t|
-          t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
-          docid(t, m[:usrlbl]) if m[:usrlbl]
-          docid(t, id_and_year(m[:code], yr) + " (all parts)")
-          docnumber(t, m[:code])
+          isorefrender1(t, m, yr, " (all parts)")
           conditional_date(t, m, noyr)
           iso_publisher(t, m[:code])
           m.names.include?("fn") && m[:fn] and
@@ -129,14 +122,24 @@ module Asciidoctor
         end
       end
 
-      def refitem_render(xml, m)
+      def refitem_render1(m, code, t)
+        if code[:type] == "path"
+          t.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), **{ type: "URI" }
+          t.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), **{ type: "citation" }
+        end
+        docid(t, m[:usrlbl]) if m[:usrlbl]
+        docid(t, /^\d+$/.match(code[:id]) ? "[#{code[:id]}]" : code[:id])
+        code[:type] == "repo" and
+          t.docidentifier code[:key], **{ type: "repository" }
+      end
+
+      def refitem_render(xml, m, code)
         xml.bibitem **attr_code(id: m[:anchor]) do |t|
           t.formattedref **{ format: "application/x-isodoc+xml" } do |i|
             i << ref_normalise_no_format(m[:text])
           end
-          docid(t, m[:usrlbl]) if m[:usrlbl]
-          docid(t, /^\d+$/.match(m[:code]) ? "[#{m[:code]}]" : m[:code])
-          docnumber(t, m[:code]) unless /^\d+$|^\(.+\)$/.match(m[:code])
+          refitem_render1(m, code, t)
+          docnumber(t, code[:id]) unless /^\d+$|^\(.+\)$/.match(code[:id])
         end
       end
 
@@ -144,19 +147,56 @@ module Asciidoctor
         "https://www.metanorma.com/author/topics/document-format/bibliography/ , "\
         "https://www.metanorma.com/author/iso/topics/markup/#bibliographies".freeze
 
+      def analyse_ref_nofetch(ret)
+        if m = /^nofetch\((?<id>.+)\)$/.match(ret[:id])
+          ret[:id] = m[:id]
+          ret[:nofetch] = true
+        end
+        ret
+      end
+     
+      def analyse_ref_repo_path(ret)
+         if m = /^(?<type>repo|path):\((?<key>[^,]+),(?<id>.+)\)$/.match(ret[:id])
+          ret[:id] = m[:id]
+          ret[:type] = m[:type]
+          ret[:key] = m[:key]
+          ret[:nofetch] = true
+        end
+         ret
+      end
+
+      def analyse_ref_numeric(ret)
+        if /^\d+$/.match(ret[:id])
+          ret[:numeric] = true
+        end
+        ret
+      end
+
+      # ref id = (usrlbl)code[:-]year
+      # code = nofetch(code) | (repo|path):(key,code) | \[? number \]? | identifier
+      def analyse_ref_code(code)
+        ret = {id: code}
+        return ret if code.nil? || code.empty?
+        ret = analyse_ref_nofetch(ret)
+        ret = analyse_ref_repo_path(ret)
+        ret = analyse_ref_numeric(ret)
+        ret
+      end
+
       # TODO: alternative where only title is available
       def refitem(xml, item, node)
         unless m = NON_ISO_REF.match(item)
           @log.add("AsciiDoc Input", node, "#{MALFORMED_REF}: #{item}")
           return
         end
-        unless m[:code] && /^\d+$/.match(m[:code])
-          ref = fetch_ref xml, m[:code],
+        code = analyse_ref_code(m[:code])
+        unless code[:id] && code[:numeric] || code[:nofetch]
+          ref = fetch_ref xml, code[:id],
             m.names.include?("year") ? m[:year] : nil, title: m[:text],
             usrlbl: m[:usrlbl]
           return use_my_anchor(ref, m[:anchor]) if ref
         end
-        refitem_render(xml, m)
+        refitem_render(xml, m, code)
       end
 
       def ref_normalise(ref)
