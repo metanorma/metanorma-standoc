@@ -1,4 +1,4 @@
- <bibdata id='iso123' type='standard'>
+ <bibdata id='iso123' xmlns='http://www.example.com' type='standard'>
                <fetched>2020-06-12</fetched>
                <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>

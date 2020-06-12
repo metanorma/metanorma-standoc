@@ -1324,7 +1324,7 @@ OUTPUT
     <clause id='_' inline-header='false' obligation='normative'>
       <title>Scope</title>
       <p id='_'>
-        <eref type='inline' bibitemid='iso123' citeas='ISO 123'/>
+        <eref type='inline' bibitemid='iso123' citeas='ISO 123 (all parts)'/>
       </p>
       <p id='_'>
         <eref type='inline' bibitemid='iso124' citeas='ISO 124'>
@@ -1336,7 +1336,7 @@ OUTPUT
         </eref>
       </p>
       <p id='_'>
-        <eref type='inline' bibitemid='iso123' citeas='ISO 123'>
+        <eref type='inline' bibitemid='iso123' citeas='ISO 123 (all parts)'>
           <localityStack>
         <locality type='anchor'>
   <referenceFrom>xyz</referenceFrom>
@@ -1380,7 +1380,6 @@ OUTPUT
   <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
   <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
   <uri type='citation'>spec/assets/iso123</uri>
-  <docidentifier type='ISO'>ISO 123</docidentifier>
   <docidentifier type='ISO'>ISO 123 (all parts)</docidentifier>
   <docnumber>123</docnumber>
   <date type='published'>
