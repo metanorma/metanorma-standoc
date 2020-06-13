@@ -9,6 +9,62 @@ RSpec.describe Asciidoctor::Standoc do
   expect(File.exist?("spec/assets/xref_error.err")).to be true
   end
 
+  it "warns about missing fields in asciibib" do
+  FileUtils.rm_f "test.err"
+  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
+      #{VALIDATING_BLANK_HDR}
+  
+      [bibliography]
+      == Normative References
+
+      [%bibitem]
+      === Standard
+      id:: iso123
+      type:: standard
+      contributor:: 
+        role::: publisher
+        organization:::
+          name:::: ISO
+      contributor::
+        role::: author
+        person:::
+          name::::
+      +
+      --
+      completename::
+        language::: en
+        content::: Fred
+      --
+      contributor::
+        role::: author
+        person:::
+        name::::
+          completename::::: Jack
+
+    INPUT
+  errf = File.read("test.err")
+  expect(errf).to include "Reference iso123 is missing a document identifier (docid)"
+  end
+
+    it "warns about missing fields in asciibib" do
+  FileUtils.rm_f "test.err"
+  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+      #{VALIDATING_BLANK_HDR}
+      
+      [bibliography]
+      == Normative References
+
+      [%bibitem]
+      === Standard
+      type:: standard
+      contributor::
+        role::: publisher
+        organization:::
+          name:::: ISO
+INPUT
+  errf = File.read("test.err")
+  expect(errf).to include "The following reference is missing an anchor"
+  end
   it "warns about malformed LaTeX" do
   FileUtils.rm_f "test.err"
   Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 

@@ -122,12 +122,25 @@ module Asciidoctor
       def ref_dl_cleanup(xmldoc)
         xmldoc.xpath("//clause[@bibitem = 'true']").each do |c|
           bib = dl_bib_extract(c) or next
+          validate_ref_dl(bib, c)
           bibitemxml = RelatonBib::BibliographicItem.new(
             RelatonBib::HashConverter::hash_to_bib(bib)).to_xml or next
           bibitem = Nokogiri::XML(bibitemxml)
           bibitem["id"] = c["id"] if c["id"]
           c.replace(bibitem.root)
         end
+      end
+
+      def validate_ref_dl(bib, c)
+        unless bib["id"]
+          @log.add("Anchors", c, "The following reference is missing "\
+                              "an anchor:\n" + c.to_xml)
+          return
+        end
+        bib["title"] or @log.add("Bibliography", c, "Reference #{bib['id']} "\
+                                "is missing a title")
+        bib["docid"] or @log.add("Bibliography", c, "Reference #{bib['id']} "\
+                                "is missing a document identifier (docid)")
       end
 
       def extract_from_p(tag, bib, key)
