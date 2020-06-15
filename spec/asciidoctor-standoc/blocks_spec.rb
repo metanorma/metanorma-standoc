@@ -63,7 +63,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [stem%inequality]
+      [stem%inequality,number=3]
       ++++
       r = 1 % 
       r = 1 % 
@@ -87,7 +87,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
             #{BLANK_HDR}
        <sections>
-         <formula id="ABC" inequality="true">
+         <formula id="ABC" inequality="true" number="3">
          <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem>
        </formula>
 
@@ -630,6 +630,11 @@ RSpec.describe Asciidoctor::Standoc do
       ====
       This is another example
       ====
+
+      [example,number=3]
+      ====
+      This is yet another example
+      ====
       INPUT
       #{BLANK_HDR}
        <sections>
@@ -638,6 +643,7 @@ RSpec.describe Asciidoctor::Standoc do
         <p id="_">This is an example</p>
        <p id="_">Amen</p></example>
          <example id="_" unnumbered="true"><p id="_">This is another example</p></example>
+         <example id="_" number="3"><p id="_">This is yet another example</p></example>
        </sections>
        </standard-document>
       OUTPUT
@@ -761,14 +767,14 @@ RSpec.describe Asciidoctor::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [%unnumbered]
+      [%unnumbered,number=3]
       .Split-it-right sample divider
       image::spec/examples/rice_images/rice_image1.png[alttext]
 
       INPUT
       #{BLANK_HDR}
               <sections>
-         <figure id="ABC" unnumbered="true">
+         <figure id="ABC" unnumbered="true" number="3">
          <name>Split-it-right sample divider</name>
                   <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto" alt="alttext"/>
        </figure>
@@ -906,7 +912,7 @@ RSpec.describe Asciidoctor::Standoc do
       
       [[ABC]]
       .Caption
-      [source%unnumbered,ruby,filename=sourcecode1.rb]
+      [source%unnumbered,ruby,number=3,filename=sourcecode1.rb]
       --
       puts "Hello, world."
       %w{a b c}.each do |x|
@@ -916,7 +922,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
        <sections>
-         <sourcecode id="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true"><name>Caption</name>puts "Hello, world."
+         <sourcecode id="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3"><name>Caption</name>puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
        end</sourcecode>
@@ -1102,7 +1108,7 @@ RSpec.describe Asciidoctor::Standoc do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
       [[ABC]]
-      [.requirement,subsequence="A",inherit="/ss/584/2015/level/1 &amp; /ss/584/2015/level/2"]
+      [.requirement,subsequence="A",inherit="/ss/584/2015/level/1 &amp; /ss/584/2015/level/2",number=3]
       .Title
       ====
       I recommend this
@@ -1111,7 +1117,7 @@ RSpec.describe Asciidoctor::Standoc do
              output = <<~"OUTPUT"
             #{BLANK_HDR}
        <sections>
-  <requirement id="ABC" subsequence="A"><title>Title</title>
+  <requirement id="ABC" subsequence="A" number="3"><title>Title</title>
   <inherit>/ss/584/2015/level/1 &amp; /ss/584/2015/level/2</inherit>
   <description><p id="_">I recommend this</p></description>
 </requirement>
