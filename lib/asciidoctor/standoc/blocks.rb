@@ -251,7 +251,8 @@ module Asciidoctor
 
       def pass(node)
         noko do |xml|
-          xml.passthrough **attr_code(formats: node.attr("format")) do |p|
+          xml.passthrough **attr_code(formats: 
+                                      node.attr("format") || "metanorma") do |p|
             p << HTMLEntities.new.encode(node.content, :basic, :hexadecimal)
           end
         end

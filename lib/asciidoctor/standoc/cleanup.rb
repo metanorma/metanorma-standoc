@@ -16,8 +16,14 @@ module Asciidoctor
     module Cleanup
       def textcleanup(result)
         text = result.flatten.map { |l| l.sub(/\s*$/, "") }  * "\n"
-        if !@keepasciimath
-          text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>}m) do |m|
+        !@keepasciimath and text = asciimath2mathml(text)
+        text = text.gsub(/\s+<fn /, "<fn ")
+        text.gsub(%r{<passthrough\s+formats="metanorma">([^<]*)
+                  </passthrough>}mx) { |m| HTMLEntities.new.decode($1) }
+      end
+
+      def asciimath2mathml(text)
+        text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>}m) do |m|
             "<amathstem>#{HTMLEntities.new.decode($1)}</amathstem>"
           end
           text = Html2Doc.
@@ -26,9 +32,7 @@ module Asciidoctor
           x.xpath("//*[local-name() = 'math'][not(parent::stem)]").each do |y|
             y.wrap("<stem type='MathML'></stem>")
           end
-          text = x.to_xml
-        end
-        text.gsub(/\s+<fn /, "<fn ")
+          x.to_xml
       end
 
       def cleanup(xmldoc)

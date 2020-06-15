@@ -2,7 +2,7 @@ require "spec_helper"
 require "open3"
 
 RSpec.describe Asciidoctor::Standoc do
-    it "processes pass blocks" do
+    it "processes format-specific pass blocks" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       
@@ -14,6 +14,26 @@ RSpec.describe Asciidoctor::Standoc do
         #{BLANK_HDR}
        <sections>
        <passthrough formats='rfc,html'>&lt;abc&gt;X &gt; Y&lt;/abc&gt;</passthrough>
+       </sections>
+       </standard-document>
+    OUTPUT
+  end
+
+  it "processes Metanorma XML pass blocks" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+
+      ++++
+      <abc>X &gt;
+      ++++
+
+      ++++
+      Y</abc>
+      ++++
+    INPUT
+        #{BLANK_HDR}
+       <sections>
+       <abc>X &gt; Y</abc>
        </sections>
        </standard-document>
     OUTPUT
