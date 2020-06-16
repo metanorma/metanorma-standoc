@@ -9,19 +9,19 @@ module Asciidoctor
         { id: Utils::anchor_or_uuid(node) }
       end
 
-      def id_unnum_attr(node)
+      def id_unnum_attrs(node)
         attr_code( id: Utils::anchor_or_uuid(node),
                   unnumbered: node.option?("unnumbered") ? "true" : nil,
                   number: node.attr("number"),
                   subsequence: node.attr("subsequence") )
       end
 
-      def formula_attr(node)
-        attr_code(id_unnum_attr(node).merge(keep_attr(node).merge(
+      def formula_attrs(node)
+        attr_code(id_unnum_attrs(node).merge(keep_attrs(node).merge(
           inequality: node.option?("inequality") ? "true" : nil)))
       end
 
-      def keep_attr(node)
+      def keep_attrs(node)
         { "keep-with-next": node.attr("keep-with-next"),
           "keep-lines-together": node.attr("keep-lines-together") }
       end
@@ -38,7 +38,7 @@ module Asciidoctor
       end
 
       def literal_attrs(node)
-        attr_code(id_attr(node).merge(keep_attr(node)))
+        attr_code(id_attr(node).merge(keep_attrs(node)))
       end
 
       def literal(node)
@@ -54,7 +54,7 @@ module Asciidoctor
       # NOTE: html escaping is performed by Nokogiri
       def stem(node)
         noko do |xml|
-          xml.formula **formula_attr(node) do |s|
+          xml.formula **formula_attrs(node) do |s|
             stem_parse(node.lines.join("\n"), s, node.style.to_sym)
           end
         end
@@ -89,7 +89,7 @@ module Asciidoctor
       end
 
       def example_attrs(node)
-        attr_code(id_unnum_attr(node).merge(keep_attr(node)))
+        attr_code(id_unnum_attrs(node).merge(keep_attrs(node)))
       end
 
       def example_proper(node)
@@ -107,7 +107,7 @@ module Asciidoctor
       end
 
       def figure_attrs(node)
-        attr_code(id_unnum_attr(node).merge(keep_attr(node)))
+        attr_code(id_unnum_attrs(node).merge(keep_attrs(node)))
       end
 
       def image(node)
@@ -120,7 +120,7 @@ module Asciidoctor
       end
 
       def para_attrs(node)
-        attr_code(keep_attr(node).merge(align: node.attr("align"), 
+        attr_code(keep_attrs(node).merge(align: node.attr("align"), 
                                         id: Utils::anchor_or_uuid(node)))
       end
 
@@ -134,7 +134,7 @@ module Asciidoctor
       end
 
       def quote_attrs(node)
-        attr_code(keep_attr(node).merge(align: node.attr("align"), 
+        attr_code(keep_attrs(node).merge(align: node.attr("align"), 
                                         id: Utils::anchor_or_uuid(node)))
       end
 
@@ -159,7 +159,7 @@ module Asciidoctor
       end
 
       def listing_attrs(node)
-        attr_code(keep_attr(node).merge(lang: node.attr("language"),
+        attr_code(keep_attrs(node).merge(lang: node.attr("language"),
                                         id: Utils::anchor_or_uuid(node),
                                         unnumbered: node.option?("unnumbered") ? "true" : nil,
                                         number: node.attr("number"),

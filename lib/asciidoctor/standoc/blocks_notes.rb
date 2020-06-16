@@ -1,7 +1,7 @@
 module Asciidoctor
   module Standoc
     module Blocks
-      def termnote_attr(node)
+      def termnote_attrs(node)
         attr_code(id_attr(node).merge(
           unnumbered: node.attr("unnumbered"),
           number: node.attr("number"),
@@ -11,8 +11,8 @@ module Asciidoctor
           "keep-separate": node.attr("keep-separate")))
       end
 
-      def note_attr(node)
-        attr_code(termnote_attr(node).merge(
+      def note_attrs(node)
+        attr_code(termnote_attrs(node).merge(
           beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil))
       end
 
@@ -49,7 +49,7 @@ module Asciidoctor
 
       def termnote(n)
         noko do |xml|
-          xml.termnote **termnote_attr(n) do |ex|
+          xml.termnote **termnote_attrs(n) do |ex|
             wrap_in_para(n, ex)
           end
         end.join("\n")
@@ -57,7 +57,7 @@ module Asciidoctor
 
       def note(n)
         noko do |xml|
-          xml.note **note_attr(n) do |c|
+          xml.note **note_attrs(n) do |c|
             wrap_in_para(n, c)
           end
         end.join("\n")
@@ -68,7 +68,7 @@ module Asciidoctor
         a = node.attr("type") and ["danger", "safety precautions"].each do |t|
           name = t if a.casecmp(t).zero?
         end
-        attr_code(keep_attr(node).merge(id: Utils::anchor_or_uuid(node), type: name,
+        attr_code(keep_attrs(node).merge(id: Utils::anchor_or_uuid(node), type: name,
                   beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil))
       end
 

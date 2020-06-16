@@ -192,7 +192,7 @@ module Asciidoctor
         end
       end
 
-      def term_source_attr(seen_xref)
+      def term_source_attrs(seen_xref)
         { bibitemid: seen_xref.children[0]["target"],
           format: seen_xref.children[0]["format"],
           type: "inline" }
@@ -203,7 +203,7 @@ module Asciidoctor
           xml_t.origin { |o| o << seen_xref.children[0].to_xml }
         else
           xml_t.origin seen_xref.children[0].content,
-            **attr_code(term_source_attr(seen_xref))
+            **attr_code(term_source_attrs(seen_xref))
         end
         m[:text] && xml_t.modification do |mod|
           mod.p { |p| p << m[:text].sub(/^\s+/, "") }
