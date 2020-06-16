@@ -63,7 +63,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [stem%inequality,number=3]
+      [stem%inequality,number=3,keep-with-next=true,keep-lines-together=true]
       ++++
       r = 1 % 
       r = 1 % 
@@ -87,7 +87,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
             #{BLANK_HDR}
        <sections>
-         <formula id="ABC" inequality="true" number="3">
+         <formula id="ABC" inequality="true" number="3" keep-with-next="true" keep-lines-together="true">
          <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem>
        </formula>
 
@@ -424,7 +424,7 @@ RSpec.describe Asciidoctor::Standoc do
       [[ABC]]
       NOTE: This is a note
 
-      [NOTE,keep-separate=true]
+      [NOTE,keep-separate=true,number=7,subsequence=A,beforeclauses=true,keep-with-next=true,keep-lines-together=true]
       ====
       XYZ
       ====
@@ -436,14 +436,14 @@ RSpec.describe Asciidoctor::Standoc do
          <p id="_">This is a note</p>
        </note>
        </foreword></preface><sections>
+         <note id='_' number="7" subsequence="A" keep-with-next="true" keep-lines-together="true">
+    <p id='_'>XYZ</p>
+  </note>
        <clause id="_" inline-header="false" obligation="normative">
          <title>Clause 1</title>
          <note id="ABC">
          <p id="_">This is a note</p>
        </note>
-         <note id='_'>
-    <p id='_'>XYZ</p>
-  </note>
        </clause></sections>
 
        </standard-document>
@@ -456,7 +456,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [alt=Literal]
+      [alt=Literal,keep-with-next=true,keep-lines-together=true]
       ....
       <LITERAL>
       FIGURATIVE
@@ -464,7 +464,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
        <sections>
-           <figure id="ABC">
+           <figure id="ABC" keep-with-next="true" keep-lines-together="true">
         <pre alt="Literal" id="_">&lt;LITERAL&gt;
         FIGURATIVE
         </pre>
@@ -497,7 +497,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{ASCIIDOC_BLANK_HDR}
       
       [[ABC]]
-      [CAUTION,type=Safety Precautions]
+      [CAUTION,type=Safety Precautions,keep-with-next="true",keep-lines-together="true"]
       .Precautions
       ====
       While werewolves are hardy community members, keep in mind the following dietary concerns:
@@ -509,7 +509,8 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
       <sections>
-         <admonition id="ABC" type="safety precautions"><name>Precautions</name><p id="_">While werewolves are hardy community members, keep in mind the following dietary concerns:</p>
+         <admonition id="ABC" type="safety precautions" keep-with-next="true" keep-lines-together="true">
+        <name>Precautions</name><p id="_">While werewolves are hardy community members, keep in mind the following dietary concerns:</p>
        <ol id="_" type="arabic">
          <li>
            <p id="_">They are allergic to cinnamon.</p>
@@ -618,7 +619,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [example,subsequence=A]
+      [example,subsequence=A,keep-with-next=true,keep-lines-together=next]
       .Title
       ====
       This is an example
@@ -638,7 +639,7 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
        <sections>
-         <example id="ABC" subsequence="A">
+         <example id="ABC" subsequence="A"  keep-with-next='true' keep-lines-together='next'>
          <name>Title</name>
         <p id="_">This is an example</p>
        <p id="_">Amen</p></example>
@@ -866,15 +867,15 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
     end
 
-    it "accepts alignment attribute on paragraphs" do
+    it "accepts attributes on paragraphs" do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
-      [align=right]
+      [align=right,keep-with-next=true,keep-lines-together=true]
       This para is right-aligned.
       INPUT
       #{BLANK_HDR}
       <sections>
-         <p align="right" id="_">This para is right-aligned.</p>
+         <p align="right" id="_" keep-with-next="true" keep-lines-together="true">This para is right-aligned.</p>
        </sections>
       </standard-document>
       OUTPUT
@@ -885,14 +886,14 @@ RSpec.describe Asciidoctor::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [quote, ISO, "ISO7301,section 1"]
+      [quote, ISO, "ISO7301,section 1",align="right",keep-with-next=true,keep-lines-together=true]
       ____
       Block quotation
       ____
       INPUT
       #{BLANK_HDR}
        <sections>
-         <quote id="ABC">
+         <quote id="ABC" align="right" keep-with-next="true" keep-lines-together="true">
          <source type="inline" bibitemid="ISO7301" citeas="">
          <localityStack>
         <locality type="section"><referenceFrom>1</referenceFrom></locality>
@@ -912,7 +913,7 @@ RSpec.describe Asciidoctor::Standoc do
       
       [[ABC]]
       .Caption
-      [source%unnumbered,ruby,number=3,filename=sourcecode1.rb]
+      [source%unnumbered,ruby,number=3,filename=sourcecode1.rb,keep-with-next=true,keep-lines-together=true]
       --
       puts "Hello, world."
       %w{a b c}.each do |x|
@@ -922,7 +923,8 @@ RSpec.describe Asciidoctor::Standoc do
       INPUT
       #{BLANK_HDR}
        <sections>
-         <sourcecode id="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3"><name>Caption</name>puts "Hello, world."
+         <sourcecode id="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true">
+        <name>Caption</name>puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
        end</sourcecode>

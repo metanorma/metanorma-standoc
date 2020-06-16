@@ -3,12 +3,16 @@ module Asciidoctor
     module Blocks
       def termnote_attr(node)
         attr_code(id_attr(node).merge(
+          unnumbered: node.attr("unnumbered"),
+          number: node.attr("number"),
+          subsequence: node.attr("subsequence"),
+          "keep-with-next": node.attr("keep-with-next"),
+          "keep-lines-together": node.attr("keep-with-next"),
           "keep-separate": node.attr("keep-separate")))
       end
 
       def note_attr(node)
-        attr_code(id_attr(node).merge(
-          "keep-separate": node.attr("keep-separate"),
+        attr_code(termnote_attr(node).merge(
           beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil))
       end
 
@@ -64,8 +68,8 @@ module Asciidoctor
         a = node.attr("type") and ["danger", "safety precautions"].each do |t|
           name = t if a.casecmp(t).zero?
         end
-        attr_code(id: Utils::anchor_or_uuid(node), type: name,
-                  beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil)
+        attr_code(keep_attr(node).merge(id: Utils::anchor_or_uuid(node), type: name,
+                  beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil))
       end
 
       def admonition(node)

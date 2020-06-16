@@ -73,6 +73,7 @@ RSpec.describe Asciidoctor::Standoc do
     output = Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
       #{ASCIIDOC_BLANK_HDR}
       [[id]]
+      [keep-with-next=true,keep-lines-together=true]
       * First
       * Second
       +
@@ -83,6 +84,7 @@ RSpec.describe Asciidoctor::Standoc do
       --
 
       [[id1]]
+      [keep-with-next=true,keep-lines-together=true]
       [loweralpha]
       . First
       . Second
@@ -101,8 +103,7 @@ RSpec.describe Asciidoctor::Standoc do
       [arabic]
       ... E
       ... F
-
-
+      [keep-with-next=true,keep-lines-together=true]
       Notes1::
       Notes::  Note 1.
       +
@@ -113,14 +114,14 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
     expect(xmlpp(strip_guid(output))).to be_equivalent_to xmlpp(<<~"OUTPUT")
             #{BLANK_HDR}
-       <sections><ul id="id">
+       <sections><ul id="id" keep-with-next="true" keep-lines-together="true">
          <li>
            <p id="_">First</p>
          </li>
          <li><p id="_">Second</p><p id="_">entry1</p>
        <p id="_">entry2</p></li>
        </ul>
-       <ol id="id1" type="alphabet">
+       <ol id="id1" type="alphabet"  keep-with-next="true" keep-lines-together="true">
          <li>
            <p id="_">First</p>
          </li>
@@ -160,7 +161,8 @@ RSpec.describe Asciidoctor::Standoc do
          </li>
          <li>
            <p id="_">F</p>
-           <dl id="_">
+
+           <dl id="_"  keep-with-next="true" keep-lines-together="true">
          <dt>Notes1</dt>
          <dd/>
          <dt>Notes</dt>

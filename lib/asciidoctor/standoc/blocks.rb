@@ -17,11 +17,13 @@ module Asciidoctor
       end
 
       def formula_attr(node)
-        attr_code( id: Utils::anchor_or_uuid(node),
-                  inequality: node.option?("inequality") ? "true" : nil,
-                  unnumbered: node.option?("unnumbered") ? "true" : nil,
-                  number: node.attr("number"),
-                  subsequence: node.attr("subsequence") )
+        attr_code(id_unnum_attr(node).merge(keep_attr(node).merge(
+          inequality: node.option?("inequality") ? "true" : nil)))
+      end
+
+      def keep_attr(node)
+        { "keep-with-next": node.attr("keep-with-next"),
+          "keep-lines-together": node.attr("keep-lines-together") }
       end
 
       # We append each contained block to its parent
@@ -36,7 +38,7 @@ module Asciidoctor
       end
 
       def literal_attrs(node)
-        attr_code(id_attr(node))
+        attr_code(id_attr(node).merge(keep_attr(node)))
       end
 
       def literal(node)
@@ -79,7 +81,7 @@ module Asciidoctor
         # prevent A's and other subs inappropriate for pseudocode
         node.blocks.each { |b| b.remove_sub(:replacements) }
         noko do |xml|
-          xml.figure **id_unnum_attr(node).merge(class: "pseudocode") do |ex|
+          xml.figure **example_attrs(node).merge(class: "pseudocode") do |ex|
             figure_title(node, ex)
             wrap_in_para(node, ex)
           end
@@ -87,7 +89,7 @@ module Asciidoctor
       end
 
       def example_attrs(node)
-        attr_code(id_unnum_attr(node))
+        attr_code(id_unnum_attr(node).merge(keep_attr(node)))
       end
 
       def example_proper(node)
@@ -105,7 +107,7 @@ module Asciidoctor
       end
 
       def figure_attrs(node)
-        attr_code(id_unnum_attr(node))
+        attr_code(id_unnum_attr(node).merge(keep_attr(node)))
       end
 
       def image(node)
@@ -118,7 +120,8 @@ module Asciidoctor
       end
 
       def para_attrs(node)
-        attr_code(align: node.attr("align"), id: Utils::anchor_or_uuid(node))
+        attr_code(keep_attr(node).merge(align: node.attr("align"), 
+                                        id: Utils::anchor_or_uuid(node)))
       end
 
       def paragraph(node)
@@ -131,7 +134,8 @@ module Asciidoctor
       end
 
       def quote_attrs(node)
-        attr_code(id: Utils::anchor_or_uuid(node), align: node.attr("align"))
+        attr_code(keep_attr(node).merge(align: node.attr("align"), 
+                                        id: Utils::anchor_or_uuid(node)))
       end
 
       def quote_attribution(node, out)
@@ -155,11 +159,11 @@ module Asciidoctor
       end
 
       def listing_attrs(node)
-        attr_code(lang: node.attr("language"),
-                  id: Utils::anchor_or_uuid(node),
-                  unnumbered: node.option?("unnumbered") ? "true" : nil,
-                  number: node.attr("number"),
-                  filename: node.attr("filename"))
+        attr_code(keep_attr(node).merge(lang: node.attr("language"),
+                                        id: Utils::anchor_or_uuid(node),
+                                        unnumbered: node.option?("unnumbered") ? "true" : nil,
+                                        number: node.attr("number"),
+                                        filename: node.attr("filename")))
       end
 
       # NOTE: html escaping is performed by Nokogiri

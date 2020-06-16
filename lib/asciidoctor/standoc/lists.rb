@@ -24,7 +24,7 @@ module Asciidoctor
       end
 
       def ul_attr(node)
-        attr_code(id_attr(node))
+        attr_code(id_attr(node).merge(keep_attr(node)))
       end
 
       def ul_li_attr(node)
@@ -54,8 +54,8 @@ module Asciidoctor
       end
 
       def ol_attr(node)
-        attr_code(id: Utils::anchor_or_uuid(node),
-                  type: olist_style(node.style))
+        attr_code(keep_attr(node).merge(id: Utils::anchor_or_uuid(node),
+                  type: olist_style(node.style)))
       end
 
       def olist(node)
@@ -87,7 +87,7 @@ module Asciidoctor
       end
 
       def dl_attr(node)
-        attr_code(id_attr(node))
+        attr_code(id_attr(node).merge(keep_attr(node)))
       end
 
       def dlist(node)

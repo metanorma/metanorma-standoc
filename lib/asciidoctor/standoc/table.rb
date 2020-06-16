@@ -2,7 +2,7 @@ module Asciidoctor
   module Standoc
     module Table
       def table_attrs(node)
-        { id: Utils::anchor_or_uuid(node),
+        keep_attr(node).merge( id: Utils::anchor_or_uuid(node),
           headerrows: node.attr("headerrows"),
           unnumbered: node.option?("unnumbered") ? "true" : nil,
           number: node.attr("number"),
@@ -10,7 +10,7 @@ module Asciidoctor
           alt: node.attr("alt"),
           summary: node.attr("summary"),
           width: node.attr("width"),
-        }
+        )
       end
 
       def table(node)
