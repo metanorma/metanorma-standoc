@@ -77,19 +77,25 @@ module Asciidoctor
 
       def processed_lines(document, input_lines)
         result = []
+        current_macro_line_num = 0
         loop do
           line = input_lines.next
+          current_macro_line_num += 1
           if yaml_block_match = line.match(/^\[yaml2text,(.+?),(.+?)\]/)
             mark = input_lines.next
             current_yaml_block = []
             while (yaml_block_line = input_lines.next) != mark
               current_yaml_block.push(yaml_block_line)
             end
-            content = nested_open_struct_from_yaml(yaml_block_match[1], document)
-            result.push(*
-              parse_blocks_recursively(lines: current_yaml_block,
-                                       attributes: content,
-                                       context_name: yaml_block_match[2]))
+            begin
+              content = nested_open_struct_from_yaml(yaml_block_match[1], document)
+              result.push(*
+                parse_blocks_recursively(lines: current_yaml_block,
+                                        attributes: content,
+                                        context_name: yaml_block_match[2]))
+            rescue StandardError, Errno::ENOENT => exception
+              document.logger.warn("Failed to parse yaml2text block on line #{current_macro_line_num}: #{exception.message}")
+            end
           else
             result.push(line)
           end

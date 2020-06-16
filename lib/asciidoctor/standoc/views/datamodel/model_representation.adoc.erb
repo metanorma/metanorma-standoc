@@ -11,7 +11,7 @@
 |Name |Definition |Mandatory/ Optional/ Conditional |Max Occur |Data Type
 
 {definition.attributes&.*,key,EOK}
-|{key} |{definition.attributes[key].definition || "TODO: enum " + key + "'s definition"} |{definition.attributes[key]&.cardinality&.min == 0 ? "O" : "M"} |{definition.attributes[key]&.cardinality&.max == "*" ? "N" : "1"} |{definition.attributes[key].origin ? "<<" + definition.attributes[key].origin + ">>" : ""}`{definition.attributes[key].type}`
+|{key} |{definition.attributes[key].definition || "TODO: enum " + key.to_s + "'s definition"} |{definition.attributes[key]&.cardinality&.min == 0 ? "O" : "M"} |{definition.attributes[key]&.cardinality&.max == "*" ? "N" : "1"} |{definition.attributes[key].origin ? "<<" + definition.attributes[key].origin.to_s + ">>" : ""}`{definition.attributes[key].type}`
 {EOK}
 |===
 {end}
