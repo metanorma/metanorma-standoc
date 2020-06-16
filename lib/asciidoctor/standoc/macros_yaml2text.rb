@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ostruct'
 
 module Asciidoctor
@@ -61,7 +63,7 @@ module Asciidoctor
       #     - name: spaghetti
       #       desc: wheat noodles of 9mm diameter
       #       symbol: SPAG
-      #       symbol_def: the situation is message like spaghetti at a kid's meal
+      #       symbol_def: the situation is message like spaghetti at a kid's
       #
       #   will produce:
       #     === spaghetti
@@ -77,19 +79,20 @@ module Asciidoctor
 
       def processed_lines(document, input_lines)
         result = []
+        current_macro_line_num = 0
         loop do
           line = input_lines.next
+          current_macro_line_num += 1
           if yaml_block_match = line.match(/^\[yaml2text,(.+?),(.+?)\]/)
             mark = input_lines.next
             current_yaml_block = []
             while (yaml_block_line = input_lines.next) != mark
               current_yaml_block.push(yaml_block_line)
             end
-            content = nested_open_struct_from_yaml(yaml_block_match[1], document)
-            result.push(*
-              parse_blocks_recursively(lines: current_yaml_block,
-                                       attributes: content,
-                                       context_name: yaml_block_match[2]))
+            result.push(*read_yaml_and_parse_template(current_yaml_block,
+                                                      document,
+                                                      yaml_block_match,
+                                                      current_macro_line_num))
           else
             result.push(line)
           end
@@ -97,9 +100,23 @@ module Asciidoctor
         result
       end
 
+      def read_yaml_and_parse_template(current_yaml_block, document, yaml_block_match, current_macro_line_num)
+        content = nested_open_struct_from_yaml(yaml_block_match[1], document)
+        parse_blocks_recursively(lines: current_yaml_block,
+                                 attributes: content,
+                                 context_name: yaml_block_match[2])
+      rescue StandardError => exception
+        document
+          .logger
+          .warn("Failed to parse yaml2text block on line #{current_macro_line_num}: #{exception.message}")
+        []
+      end
+
       def nested_open_struct_from_yaml(file_path, document)
         docfile_directory = File.dirname(document.attributes['docfile'] || '.')
-        yaml_file_path = document.path_resolver.system_path(file_path, docfile_directory)
+        yaml_file_path = document
+                         .path_resolver
+                         .system_path(file_path, docfile_directory)
         content = YAML.safe_load(File.read(yaml_file_path))
         # Load content as json, then parse with JSON as nested open_struct
         JSON.parse(content.to_json, object_class: YamlBlockStruct)
@@ -112,19 +129,19 @@ module Asciidoctor
         result = []
         loop do
           line = lines.next
-          if line.match(BLOCK_START_REGEXP)
+          if line.match?(BLOCK_START_REGEXP)
             line.gsub!(BLOCK_START_REGEXP,
                        '<% \1.each&.with_index do |\2,index| %>')
           end
 
-          if line.strip.match(BLOCK_END_REGEXP)
+          if line.strip.match?(BLOCK_END_REGEXP)
             line.gsub!(BLOCK_END_REGEXP, '<% end %>')
           end
           line.gsub!(/{\s*if\s*([^}]+)}/, '<% if \1 %>')
           line.gsub!(/{\s*?end\s*?}/, '<% end %>')
           line = line
-                   .gsub(/{(.+?[^}]*)}/, '<%= \1 %>')
-                   .gsub(/[a-z\.]+\#/, 'index')
+                 .gsub(/{(.+?[^}]*)}/, '<%= \1 %>')
+                 .gsub(/[a-z\.]+\#/, 'index')
           result.push(line)
         end
         result = parse_context_block(context_lines: result,
@@ -137,10 +154,10 @@ module Asciidoctor
                               context_items:,
                               context_name:)
         renderer = YamlContextRenderer
-                     .new(
-                       context_object: context_items,
-                       context_name: context_name
-                     )
+                   .new(
+                     context_object: context_items,
+                     context_name: context_name
+                   )
         renderer.render(context_lines.join("\n")).split("\n")
       end
     end
