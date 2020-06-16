@@ -1110,7 +1110,7 @@ RSpec.describe Asciidoctor::Standoc do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
       [[ABC]]
-      [.requirement,subsequence="A",inherit="/ss/584/2015/level/1 &amp; /ss/584/2015/level/2",number=3]
+      [.requirement,subsequence="A",inherit="/ss/584/2015/level/1 &amp; /ss/584/2015/level/2",number=3,keep-with-next=true,keep-lines-together=true]
       .Title
       ====
       I recommend this
@@ -1119,7 +1119,8 @@ RSpec.describe Asciidoctor::Standoc do
              output = <<~"OUTPUT"
             #{BLANK_HDR}
        <sections>
-  <requirement id="ABC" subsequence="A" number="3"><title>Title</title>
+  <requirement id="ABC" subsequence="A" number="3" keep-with-next="true" keep-lines-together="true">
+        <title>Title</title>
   <inherit>/ss/584/2015/level/1 &amp; /ss/584/2015/level/2</inherit>
   <description><p id="_">I recommend this</p></description>
 </requirement>
@@ -1197,7 +1198,7 @@ RSpec.describe Asciidoctor::Standoc do
       ====
       I recommend _this_.
 
-      [.specification,type="tabular"]
+      [.specification,type="tabular",keep-with-next=true,keep-lines-together=true]
       --
       This is the object of the recommendation:
       |===
@@ -1245,7 +1246,7 @@ RSpec.describe Asciidoctor::Standoc do
        <recommendation id="ABC"  obligation="permission,recommendation" filename="reqt1.rq"><label>/ogc/recommendation/wfs/2</label><subject>user</subject>
 <classification><tag>control-class</tag><value>Technical</value></classification><classification><tag>priority</tag><value>P0</value></classification><classification><tag>family</tag><value>System &amp; Communications Protection</value></classification><classification><tag>family</tag><value>System and Communications Protocols</value></classification>
         <description><p id="_">I recommend <em>this</em>.</p>
-       </description><specification exclude="false" type="tabular"><p id="_">This is the object of the recommendation:</p><table id="_">  <tbody>    <tr>      <td align="left">Object</td>      <td align="left">Value</td>    </tr>    <tr>      <td align="left">Mission</td>      <td align="left">Accomplished</td>    </tr>  </tbody></table></specification><description>
+       </description><specification exclude="false" type="tabular" keep-with-next="true" keep-lines-together="true"><p id="_">This is the object of the recommendation:</p><table id="_">  <tbody>    <tr>      <td align="left">Object</td>      <td align="left">Value</td>    </tr>    <tr>      <td align="left">Mission</td>      <td align="left">Accomplished</td>    </tr>  </tbody></table></specification><description>
        <p id="_">As for the measurement targets,</p>
        </description><measurement-target exclude="false"><p id="_">The measurement target shall be measured as:</p><formula id="_">  <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mi>r</mi><mn>1</mn></mfrac><mo>=</mo><mn>0</mn></math></stem></formula></measurement-target>
        <verification exclude="false"><p id="_">The following code will be run for verification:</p><sourcecode  lang="CoreRoot" id="_">CoreRoot(success): HttpResponse

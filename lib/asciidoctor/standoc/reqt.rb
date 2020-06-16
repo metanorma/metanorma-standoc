@@ -6,11 +6,15 @@ require "base64"
 module Asciidoctor
   module Standoc
     module Blocks
+      def reqt_subpart_attrs(node)
+        attr_code(keep_attrs(node).merge(exclude: node.option?("exclude"),
+                                     type: node.attr("type")))
+      end
+
       def requirement_subpart(node)
         name = node.role || node.attr("style")
         noko do |xml|
-          xml.send name, **attr_code(exclude: node.option?("exclude"),
-                                     type: node.attr("type")) do |o|
+          xml.send name, **reqt_subpart_attrs(node) do |o|
             o << node.content
           end
         end
@@ -35,8 +39,8 @@ module Asciidoctor
         end
       end
 
-      def reqt_attributes(node)
-        {
+      def reqt_attrs(node)
+        attr_code(keep_attrs(node).merge(id_unnum_attrs(node)).merge(
           id: Utils::anchor_or_uuid(node),
           unnumbered: node.option?("unnumbered") ? "true" : nil,
           number: node.attr("number"),
@@ -45,13 +49,13 @@ module Asciidoctor
           filename: node.attr("filename"),
           type: node.attr("type"),
           model: node.attr("model"),
-        }
+        ))
       end
 
       def requirement(node, obligation)
         classif = node.attr("classification")
         noko do |xml|
-          xml.send obligation, **attr_code(reqt_attributes(node)) do |ex|
+          xml.send obligation, **reqt_attrs(node) do |ex|
             node.title and ex.title { |t| t << node.title }
             node.attr("label") and ex.label { |l| l << node.attr("label") }
             node.attr("subject") and ex.subject { |s| s << node.attr("subject") }
