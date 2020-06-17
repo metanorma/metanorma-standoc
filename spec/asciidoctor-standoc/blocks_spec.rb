@@ -424,7 +424,7 @@ RSpec.describe Asciidoctor::Standoc do
       [[ABC]]
       NOTE: This is a note
 
-      [NOTE,keep-separate=true,number=7,subsequence=A,beforeclauses=true,keep-with-next=true,keep-lines-together=true]
+      [NOTE,keep-separate=true,number=7,subsequence=A,beforeclauses=true,keep-with-next=true,keep-lines-together=true,type=classified]
       ====
       XYZ
       ====
@@ -436,7 +436,7 @@ RSpec.describe Asciidoctor::Standoc do
          <p id="_">This is a note</p>
        </note>
        </foreword></preface><sections>
-         <note id='_' number="7" subsequence="A" keep-with-next="true" keep-lines-together="true">
+         <note id='_' number="7" subsequence="A" keep-with-next="true" keep-lines-together="true" type="classified">
     <p id='_'>XYZ</p>
   </note>
        <clause id="_" inline-header="false" obligation="normative">

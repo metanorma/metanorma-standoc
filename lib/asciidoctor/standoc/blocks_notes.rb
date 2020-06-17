@@ -13,6 +13,7 @@ module Asciidoctor
 
       def note_attrs(node)
         attr_code(termnote_attrs(node).merge(
+          type: node.attr("type"),
           beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil))
       end
 
