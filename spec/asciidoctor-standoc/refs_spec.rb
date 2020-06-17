@@ -850,7 +850,7 @@ OUTPUT
              <name>ISO</name>
            </organization>
          </contributor>
-         <note format="text/plain">ISO DATE: The standard is in press</note>
+         <note format="text/plain" type="ISO DATE">The standard is in press</note>
        </bibitem>
          <bibitem id="iso125" type="standard">
          <title format="text/plain">Standard</title>
@@ -865,7 +865,7 @@ OUTPUT
              <name>ISO</name>
            </organization>
          </contributor>
-         <note format="text/plain">ISO DATE: The standard is in press</note>
+         <note format="text/plain" type="ISO DATE">The standard is in press</note>
        </bibitem>
        <bibitem id='iso126' type='standard'>
   <title format='text/plain'>Standard</title>

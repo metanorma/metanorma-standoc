@@ -90,7 +90,9 @@ module Asciidoctor
             d.on "--"
           end
           iso_publisher(t, m[:code])
-          m[:fn].nil? or t.note(**plaintxt) { |p| p << "ISO DATE: #{m[:fn]}" }
+          m[:fn].nil? or t.note(**plaintxt.merge(type: "ISO DATE")) do |p|
+            p << "#{m[:fn]}"
+          end
         end
       end
 
@@ -115,7 +117,7 @@ module Asciidoctor
           conditional_date(t, m, noyr)
           iso_publisher(t, m[:code])
           m.names.include?("fn") && m[:fn] and
-            t.note(**plaintxt) { |p| p << "ISO DATE: #{m[:fn]}" }
+            t.note(**plaintxt.merge(type: "ISO DATE")) { |p| p << "#{m[:fn]}" }
           t.extent **{ type: 'part' } do |e|
             e.referenceFrom "all"
           end
