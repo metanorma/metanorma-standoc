@@ -98,6 +98,10 @@ module Asciidoctor
         IsoDoc::WordConvert.new(doc_extract_attributes(node))
       end
 
+      def presentation_xml_converter(node)
+        IsoDoc::PresentationXMLConvert.new(html_extract_attributes(node))
+      end
+
       def init(node)
         @fn_number ||= 0
         @draft = false
@@ -138,14 +142,17 @@ module Asciidoctor
         "$bodyfont: #{b};\n$headerfont: #{h};\n$monospacefont: #{m};\n"
       end
 
+      def outputs(node, ret)
+        File.open(@filename + ".xml", "w:UTF-8") { |f| f.write(ret) }
+        presentation_xml_converter(node).convert(@filename + ".xml")
+        html_converter(node).convert(@filename + ".presentation.xml", nil, false, "#{@filename}.html")
+        doc_converter(node).convert(@filename + ".presentation.xml", nil, false, "#{@filename}.doc")
+      end
+
       def document(node)
         init(node)
         ret = makexml(node).to_xml(indent: 2)
-        unless node.attr("nodoc") || !node.attr("docfile")
-          File.open(@filename + ".xml", "w:UTF-8") { |f| f.write(ret) }
-          html_converter(node).convert(@filename + ".xml")
-          doc_converter(node).convert(@filename + ".xml")
-        end
+        outputs(node, ret) unless node.attr("nodoc") || !node.attr("docfile")
         clean_exit
         ret
       end
