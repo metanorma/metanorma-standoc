@@ -826,7 +826,7 @@ end
     INPUT
        #{BLANK_HDR}
        <sections><formula id="_">
-         <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>F</mi><mtext>or</mtext><mi>μ</mi><mi>l</mi><mi>a</mi></math></stem> 
+         <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>F</mi><mi>or</mi><mi>μ</mi><mi>l</mi><mi>a</mi></math></stem> 
        <dl id="_">
          <dt>a</dt>
          <dd>
@@ -1204,7 +1204,7 @@ end
           <fetched>#{Date.today}</fetched>
           <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
           <title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics — General concepts and linear algebra</title>
-          <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) – Part 102: Mathematics — General concepts and linear algebra</title>
+          <title type='main' format='text/plain' language='en' script='Latn'>International Electrotechnical Vocabulary (IEV) — Part 102: Mathematics — General concepts and linear algebra</title>
           <uri type="src">https://webstore.iec.ch/publication/160</uri>
           <uri type="obp">/preview/info_iec60050-102%7Bed1.0%7Db.pdf</uri>
           <docidentifier type="IEC">IEC 60050-102:2007</docidentifier>
@@ -1222,7 +1222,7 @@ end
           <edition>1.0</edition>
           <language>en</language>
           <script>Latn</script>
-          <abstract format="text/plain" language="en" script="Latn">This part of IEC 60050 gives the general mathematical terminology used in the fields of electricity, electronics and telecommunications, together with basic concepts in linear algebra. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Another part will deal with functions. It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
+          <abstract format="text/plain" language="en" script="Latn">This part of IEC 60050 gives the general mathematical terminology used in the fields of electricity, electronics and telecommunications, together with basic concepts in linear algebra. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Another part will deal with functions.&#13; It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
           <status>
             <stage>60</stage>
             <substage>60</substage>
@@ -1242,7 +1242,7 @@ end
           <fetched>#{Date.today}</fetched>
           <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
           <title type="title-part" format="text/plain" language="en" script="Latn">Part 103: Mathematics — Functions</title>
-          <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) – Part 103: Mathematics — Functions</title>
+          <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 103: Mathematics — Functions</title>
           <uri type="src">https://webstore.iec.ch/publication/161</uri>
           <uri type="obp">/preview/info_iec60050-103%7Bed1.0%7Db.pdf</uri>
           <docidentifier type="IEC">IEC 60050-103:2009</docidentifier>

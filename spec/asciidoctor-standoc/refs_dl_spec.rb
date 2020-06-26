@@ -43,7 +43,8 @@ RSpec.describe Asciidoctor::Standoc do
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
         <fetched>#{Date.today}</fetched>
-         <title type="main" format="text/plain" language="en" script="Latn">Standard</title>
+        <title type='title-main' format='text/plain'>Standard</title>
+        <title type='main' format='text/plain'>Standard</title>
          <docidentifier type="ISO">ISO 123</docidentifier>
          <contributor>
            <role type="publisher"/>
@@ -813,7 +814,8 @@ OUTPUT
        </bibitem>
        <bibitem id='iso123' type='standard'>
          <fetched>#{Date.today.to_s}</fetched>
-         <title type='main' format='text/plain' language='en' script='Latn'>Standard</title>
+         <title type='title-main' format='text/plain'>Standard</title>
+         <title type='main' format='text/plain'>Standard</title>
          <docidentifier type='ISO'>ISO 123</docidentifier>
          <contributor>
            <role type='publisher'/>

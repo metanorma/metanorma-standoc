@@ -224,7 +224,7 @@ RSpec.describe Asciidoctor::Standoc do
 
   it "fetches simple ISO reference" do
     # mock_isobib_get_123
-    VCR.use_cassette "isobib_get_123" do
+    VCR.use_cassette "isobib_get_123_1" do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
         #{ISOBIB_BLANK_HDR}
         [bibliography]
@@ -288,10 +288,10 @@ RSpec.describe Asciidoctor::Standoc do
                    <fetched>#{Date.today}</fetched>
                    <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                    <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
-                   <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex – Sampling</title>
+                   <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex — Sampling</title>
                    <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
                    <title type='title-main' format='text/plain' language='fr' script='Latn'>Échantillonnage</title>
-                   <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc – Échantillonnage</title>
+                   <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc — Échantillonnage</title>
                    <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                    <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                    <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -395,10 +395,10 @@ RSpec.describe Asciidoctor::Standoc do
                    <fetched>#{Date.today}</fetched>
                    <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                    <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
-                   <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex – Sampling</title>
+                   <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex — Sampling</title>
                    <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
                    <title type='title-main' format='text/plain' language='fr' script='Latn'>Échantillonnage</title>
-                   <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc – Échantillonnage</title>
+                   <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc — Échantillonnage</title>
                    <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                    <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                    <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -575,10 +575,10 @@ RSpec.describe Asciidoctor::Standoc do
           <fetched>#{Date.today}</fetched>
           <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
           <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
-          <title type="main" format="text/plain" language="en" script="Latn">Latex, rubber – Determination of total solids content</title>
+          <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber — Determination of total solids content</title>
           <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
 <title type="title-main" format="text/plain" language="fr" script="Latn">Détermination des matières solides totales</title>
-          <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc – Détermination des matières solides totales</title>
+<title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc — Détermination des matières solides totales</title>
           <uri type="src">https://www.iso.org/standard/61884.html</uri>
           <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
           <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
@@ -623,9 +623,9 @@ RSpec.describe Asciidoctor::Standoc do
           <bibitem type="standard" id="iso125">
           <fetched>#{Date.today}</fetched>
           <title type="title-main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
-          <title type="main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
+          <title type='main' format='text/plain' language='en' script='Latn'>Permuted index of the vocabulary of information technology</title>
           <title type="title-main" format="text/plain" language="fr" script="Latn">Index permuté du vocabulaire des technologies de l’information</title>
-          <title type="main" format="text/plain" language="fr" script="Latn">Index permuté du vocabulaire des technologies de l’information</title>
+          <title type='main' format='text/plain' language='fr' script='Latn'>Index permuté du vocabulaire des technologies de l’information</title>
           <uri type="src">https://www.iso.org/standard/21071.html</uri>
           <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:21071:en</uri>
           <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
@@ -675,10 +675,10 @@ RSpec.describe Asciidoctor::Standoc do
           <fetched>#{Date.today}</fetched>
           <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
           <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
-          <title type="main" format="text/plain" language="en" script="Latn">Latex, rubber – Determination of total solids content</title>
+          <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber — Determination of total solids content</title>
           <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
 <title type="title-main" format="text/plain" language="fr" script="Latn">Détermination des matières solides totales</title>
-          <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc – Détermination des matières solides totales</title>
+        <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc — Détermination des matières solides totales</title>
           <uri type="src">https://www.iso.org/standard/61884.html</uri>
           <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
           <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
@@ -755,10 +755,10 @@ RSpec.describe Asciidoctor::Standoc do
                <fetched>#{Date.today}</fetched>
                <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
-               <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber – Determination of total solids content</title>
+               <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber — Determination of total solids content</title>
                <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
                <title type='title-main' format='text/plain' language='fr' script='Latn'>Détermination des matières solides totales</title>
-               <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc – Détermination des matières solides totales</title>
+               <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc — Détermination des matières solides totales</title>
                <uri type='src'>https://www.iso.org/standard/61884.html</uri>
                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
                <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>

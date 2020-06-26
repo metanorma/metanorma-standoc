@@ -297,7 +297,7 @@ OUTPUT
          <mi>X</mi>
          <mo>¯</mo>
        </mover>
-       <mi>'</mi>
+       <mo>′</mo>
        <mo>=</mo>
        <mfrac>
          <mn>1</mn>
