@@ -50,7 +50,8 @@ module Asciidoctor
       # only numeric references are renumbered
       def biblio_renumber(xmldoc)
         r = xmldoc.at("//references[@normative = 'false'] | "\
-                      "//clause[.//references[@normative = 'false']]") or return
+                      "//clause[.//references[@normative = 'false']] | "\
+                      "//annex[.//references[@normative = 'false']] | ") or return
         r.xpath(".//bibitem[not(ancestor::bibitem)]").each_with_index do |b, i|
           next unless docid = b.at("./docidentifier[@type = 'metanorma']")
           next unless  /^\[\d+\]$/.match(docid.text)
@@ -134,13 +135,13 @@ module Asciidoctor
       def validate_ref_dl(bib, c)
         unless bib["id"]
           @log.add("Anchors", c, "The following reference is missing "\
-                              "an anchor:\n" + c.to_xml)
+                   "an anchor:\n" + c.to_xml)
           return
         end
         bib["title"] or @log.add("Bibliography", c, "Reference #{bib['id']} "\
-                                "is missing a title")
+                                 "is missing a title")
         bib["docid"] or @log.add("Bibliography", c, "Reference #{bib['id']} "\
-                                "is missing a document identifier (docid)")
+                                 "is missing a document identifier (docid)")
       end
 
       def extract_from_p(tag, bib, key)
