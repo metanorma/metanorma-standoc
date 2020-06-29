@@ -61,10 +61,10 @@ module Asciidoctor
       end
 
       def isorefrender1(t, m, yr, allp = "")
-          t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
-          docid(t, m[:usrlbl]) if m[:usrlbl]
-          docid(t, id_and_year(m[:code], yr) + allp)
-          docnumber(t, m[:code])
+        t.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
+        docid(t, m[:usrlbl]) if m[:usrlbl]
+        docid(t, id_and_year(m[:code], yr) + allp)
+        docnumber(t, m[:code])
       end
 
       def isorefmatches(xml, m)
@@ -106,15 +106,16 @@ module Asciidoctor
 
       def isorefmatches3(xml, m)
         yr = norm_year(m[:year])
-        hasyr =  m.names.include?("year") && yr != "--"
-        noyr =  m.names.include?("year") && yr == "--"
-        ref = fetch_ref xml, m[:code], hasyr ? yr : nil,
-          all_parts: true, no_year: noyr, text: m[:text], usrlbl: m[:usrlbl]
+        #hasyr =  m.names.include?("year") && yr != "--"
+        hasyr = !yr.nil? && yr != "--"
+        #noyr =  m.names.include?("year") && yr == "--"
+        ref = fetch_ref xml, m[:code], hasyr ? yr : nil, all_parts: true, 
+          no_year: yr == "--", text: m[:text], usrlbl: m[:usrlbl]
         return use_my_anchor(ref, m[:anchor]) if ref
 
         xml.bibitem(**attr_code(ref_attributes(m))) do |t|
           isorefrender1(t, m, yr, " (all parts)")
-          conditional_date(t, m, noyr)
+          conditional_date(t, m, yr == "--")
           iso_publisher(t, m[:code])
           m.names.include?("fn") && m[:fn] and
             t.note(**plaintxt.merge(type: "ISO DATE")) { |p| p << "#{m[:fn]}" }
@@ -150,32 +151,30 @@ module Asciidoctor
         "https://www.metanorma.com/author/iso/topics/markup/#bibliographies".freeze
 
       def analyse_ref_nofetch(ret)
-        if m = /^nofetch\((?<id>.+)\)$/.match(ret[:id])
-          ret[:id] = m[:id]
-          ret[:nofetch] = true
-        end
+        return ret unless m = /^nofetch\((?<id>.+)\)$/.match(ret[:id])
+        ret[:id] = m[:id]
+        ret[:nofetch] = true
         ret
       end
-     
+
       def analyse_ref_repo_path(ret)
-         if m = /^(?<type>repo|path):\((?<key>[^,]+),(?<id>.+)\)$/.match(ret[:id])
-          ret[:id] = m[:id]
-          ret[:type] = m[:type]
-          ret[:key] = m[:key]
-          ret[:nofetch] = true
-        end
-         ret
+        return ret unless m =
+          /^(?<type>repo|path):\((?<key>[^,]+),(?<id>.+)\)$/.match(ret[:id])
+        ret[:id] = m[:id]
+        ret[:type] = m[:type]
+        ret[:key] = m[:key]
+        ret[:nofetch] = true
+        ret
       end
 
       def analyse_ref_numeric(ret)
-        if /^\d+$/.match(ret[:id])
-          ret[:numeric] = true
-        end
+        return ret unless /^\d+$/.match(ret[:id])
+        ret[:numeric] = true
         ret
       end
 
       # ref id = (usrlbl)code[:-]year
-      # code = nofetch(code) | (repo|path):(key,code) | \[? number \]? | identifier
+      # code = nofetch(code) | (repo|path):(key,code) | \[? number \]? | ident
       def analyse_ref_code(code)
         ret = {id: code}
         return ret if code.nil? || code.empty?
