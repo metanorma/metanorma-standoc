@@ -1888,7 +1888,7 @@ INPUT
     <admonition id='_' type='important'>
       <p id='_'>Notice which is very important</p>
     </admonition>
-    <clause id='_' inline-header='false' obligation='normative'>
+    <clause id='_' inline-header='false' obligation='normative' type="scope">
       <title>Scope</title>
       <p id='_'>Scope statement</p>
     </clause>

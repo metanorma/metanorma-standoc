@@ -1260,7 +1260,7 @@ OUTPUT
     INPUT
      #{BLANK_HDR}
   <sections>
-    <clause id='_' inline-header='false' obligation='normative'>
+    <clause id='_' inline-header='false' obligation='normative' type="scope">
       <title>Scope</title>
       <p id='_'>
         <eref type='inline' bibitemid='iso123' citeas='ISO 123'/>
@@ -1321,7 +1321,7 @@ OUTPUT
     INPUT
      #{BLANK_HDR}
   <sections>
-    <clause id='_' inline-header='false' obligation='normative'>
+    <clause id='_' inline-header='false' obligation='normative' type="scope">
       <title>Scope</title>
       <p id='_'>
         <eref type='inline' bibitemid='iso123' citeas='ISO 123 (all parts)'/>

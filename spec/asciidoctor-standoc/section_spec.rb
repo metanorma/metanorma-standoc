@@ -101,7 +101,7 @@ RSpec.describe Asciidoctor::Standoc do
 </preface><sections>
 
 
-<clause id="_" inline-header="false" obligation="normative">
+<clause id="_" inline-header="false" obligation="normative" type="scope">
   <title>Scope</title>
   <p id="_">Text</p>
 </clause>
@@ -306,7 +306,7 @@ RSpec.describe Asciidoctor::Standoc do
 </preface><sections>
 
 
-       <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+       <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative" type="scope">
          <title>Scope</title>
          <p id="_">Text</p>
        </clause>
@@ -895,7 +895,7 @@ _time_ (<<term-time>>) on the _calendar_ (<<term-calendar>>) _time scale_ (<<ter
 INPUT
 #{BLANK_HDR}
  <sections>
-   <clause id='_' inline-header='false' obligation='normative'>
+   <clause id='_' inline-header='false' obligation='normative' type="scope">
      <title>Scope</title>
    </clause>
    <clause id='tda' obligation='normative'>

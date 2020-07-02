@@ -61,6 +61,7 @@ module Asciidoctor
           case sectiontype(node)
           when "introduction" then introduction_parse(a, xml, node)
           when "foreword" then foreword_parse(a, xml, node)
+          when "scope" then scope_parse(a, xml, node)
           when "normative references" then norm_ref_parse(a, xml, node)
           when "terms and definitions"
             @term_def = true
@@ -70,7 +71,8 @@ module Asciidoctor
             symbols_parse(a, xml, node)
           when "acknowledgements"
             acknowledgements_parse(a, xml, node)
-          when "bibliography" then bibliography_parse(a, xml, node)
+          when "bibliography" 
+            bibliography_parse(a, xml, node)
           else
             if @term_def then term_def_subclause_parse(a, xml, node)
             elsif @definitions then symbols_parse(a, xml, node)
@@ -117,6 +119,10 @@ module Asciidoctor
         xml.abstract **attr_code(attrs) do |xml_section|
           xml_section << node.content
         end
+      end
+
+      def scope_parse(attrs, xml, node)
+        clause_parse(attrs.merge(type: "scope"), xml, node)
       end
 
       def clause_parse(attrs, xml, node)
