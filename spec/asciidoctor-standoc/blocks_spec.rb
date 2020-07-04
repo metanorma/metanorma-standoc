@@ -402,7 +402,7 @@ RSpec.describe Asciidoctor::Standoc do
 <term id="_">
   <preferred>Term1</preferred>
 </term>
-<definitions id="_">
+<definitions id="_" obligation="normative">
   <title>Symbols</title>
   <note id="_">
   <p id="_">This is a note</p>
@@ -602,7 +602,7 @@ RSpec.describe Asciidoctor::Standoc do
 <p id="_">For the purposes of this document, the following terms and definitions apply.</p><term id="_">   
   <preferred>Term1</preferred>   
 </term>  
-<definitions id="_">   
+<definitions id="_" obligation="normative">   
   <title>Symbols</title>   
   <example id="_">    
   <p id="_">This is an example</p>    

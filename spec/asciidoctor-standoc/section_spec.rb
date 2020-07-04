@@ -143,13 +143,13 @@ RSpec.describe Asciidoctor::Standoc do
   <preferred>Term2</preferred>
 </term>
 </terms>
-<definitions id="_"><title>Symbols and Abbreviated Terms</title><clause id="_" inline-header="false" obligation="normative">
+<definitions id="_" obligation="normative"><title>Symbols and Abbreviated Terms</title><clause id="_" inline-header="false" obligation="normative">
   <title>General</title>
 </clause>
-<definitions id="_">
+<definitions id="_" obligation="normative">
   <title>Symbols 1</title>
 </definitions></definitions></clause>
-<definitions id="_">
+<definitions id="_" obligation="normative">
   <title>Abbreviated Terms</title>
 </definitions>
 <clause id="_" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="_" inline-header="false" obligation="normative">
@@ -348,13 +348,13 @@ RSpec.describe Asciidoctor::Standoc do
          <preferred>Term2</preferred>
        </term>
        </terms>
-       <definitions id="_" language="en" script="Latn"><title>Symbols and Abbreviated Terms</title><clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+       <definitions id="_" language="en" script="Latn" obligation="normative"><title>Symbols and Abbreviated Terms</title><clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
          <title>General</title>
        </clause>
-       <definitions id="_">
+       <definitions id="_" obligation="normative">
          <title>Symbols 1</title>
        </definitions></definitions></clause>
-       <definitions id="_" language="en" script="Latn">
+       <definitions id="_" language="en" script="Latn" obligation="normative">
          <title>Abbreviated Terms</title>
        </definitions>
        <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
@@ -478,11 +478,11 @@ RSpec.describe Asciidoctor::Standoc do
           <preferred>Term2</preferred>
         </term>
       </terms>
-      <definitions id='_'>
+      <definitions id='_' obligation="normative">
         <title>Σύμβολα και Συντομογραφίες</title>
       </definitions>
     </clause>
-    <definitions id='_'>
+    <definitions id='_' obligation="normative">
       <title>Σύμβολα και Συντομογραφίες</title>
     </definitions>
     <clause id='_' inline-header='false' obligation='normative'>
@@ -537,7 +537,7 @@ RSpec.describe Asciidoctor::Standoc do
       <term id='_'>
         <preferred>Term</preferred>
       </term>
-      <definitions id='_'>
+      <definitions id='_' obligation="normative">
         <title>Symbols</title>
       </definitions>
     </terms>
@@ -565,7 +565,7 @@ RSpec.describe Asciidoctor::Standoc do
       <term id='_'>
         <preferred>Term</preferred>
       </term>
-      <definitions id='_'>
+      <definitions id='_' obligation="normative">
         <title>Symbols</title>
       </definitions>
     </terms>
@@ -676,7 +676,7 @@ RSpec.describe Asciidoctor::Standoc do
     <clause id='_' inline-header='false' obligation='normative'>
       <title>Terms and definitions</title>
     </clause>
-    <definitions id='_'>
+    <definitions id='_' obligation="normative">
       <title>Symbols</title>
     </definitions>
   </terms>
@@ -863,7 +863,7 @@ INPUT
       <clause id='terms' inline-header='false' obligation='normative'>
         <title>Terms and definitions</title>
       </clause>
-      <definitions id='_'>
+      <definitions id='_' obligation="normative">
         <title>Symbols</title>
       </definitions>
     </terms>
@@ -963,7 +963,7 @@ INPUT
   </preface>
   <sections> </sections>
   <annex id='_' obligation='' language='fr' script=''>
-    <definitions id='sym' language='fr'>
+    <definitions id='sym' language='fr' obligation="normative">
       <title>Symbols and abbreviated terms</title>
     </definitions>
   </annex>

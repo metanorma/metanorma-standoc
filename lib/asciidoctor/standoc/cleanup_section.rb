@@ -123,10 +123,8 @@ module Asciidoctor
 
       def obligations_cleanup_norm(x)
         (s = x.at("//clause[@type = 'scope']")) && s["obligation"] = "normative"
-        (s = x.at("//clause[title = 'Symbols and Abbreviated Terms']")) &&
-          s["obligation"] = "normative"
         x.xpath("//terms").each { |r| r["obligation"] = "normative" }
-        x.xpath("//symbols-abbrevs").each { |r| r["obligation"] = "normative" }
+        x.xpath("//definitions").each { |r| r["obligation"] = "normative" }
       end
 
       def obligations_cleanup_inherit(x)

@@ -1672,7 +1672,7 @@ it "sorts symbols lists" do
   INPUT
   #{BLANK_HDR}
   <sections>
-    <definitions id='L'>
+    <definitions id='L' obligation="normative">
       <title>Symbols and abbreviated terms</title>
       <dl id='_'>
         <dt>x</dt>
@@ -1717,7 +1717,7 @@ it "sorts symbols lists" do
   INPUT
   #{BLANK_HDR}
   <sections>
-    <definitions id='L'>
+    <definitions id='L' obligation="normative">
       <title>Symbols and abbreviated terms</title>
       <dl id='_'>
         <dt>x</dt>
