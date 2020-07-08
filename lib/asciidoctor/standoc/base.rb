@@ -117,6 +117,7 @@ module Asciidoctor
         @filename = node.attr("docfile") ?
           File.basename(node.attr("docfile")).gsub(/\.adoc$/, "") : ""
         @localdir = Utils::localdir(node)
+        @output_dir = outputdir node
         @no_isobib_cache = node.attr("no-isobib-cache")
         @no_isobib = node.attr("no-isobib")
         @bibdb = nil
@@ -158,7 +159,7 @@ module Asciidoctor
       end
 
       def clean_exit
-        @log.write(@localdir + @filename + ".err") unless @novalid
+        @log.write(@output_dir + @filename + ".err") unless @novalid
         @files_to_delete.each { |f| FileUtils.rm f }
       end
 
@@ -242,6 +243,14 @@ module Asciidoctor
             add_term_source(xml_t, seen_xref, matched)
           end
         end.join("\n")
+      end
+
+      private
+
+      def outputdir(node)
+        if node.attr("output_dir").nil_or_empty? then Utils::localdir(node)
+        else File.join(node.attr("output_dir"), "")
+        end
       end
     end
   end
