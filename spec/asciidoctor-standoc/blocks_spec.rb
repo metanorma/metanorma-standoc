@@ -96,7 +96,7 @@ RSpec.describe Asciidoctor::Standoc do
        </formula>
               <formula id="_" subsequence="A">
          <stem type="MathML">
-       <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+       <math xmlns="http://www.w3.org/1998/Math/MathML">
          <mrow>
            <mi>M</mi>
            <mo>=</mo>
