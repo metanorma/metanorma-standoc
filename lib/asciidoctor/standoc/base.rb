@@ -14,22 +14,6 @@ module Asciidoctor
       XML_ROOT_TAG = "standard-document".freeze
       XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
 
-      Asciidoctor::Extensions.register do
-        preprocessor Asciidoctor::Standoc::Datamodel::AttributesTablePreprocessor
-        preprocessor Asciidoctor::Standoc::Datamodel::DiagramPreprocessor
-        preprocessor Asciidoctor::Standoc::Yaml2TextPreprocessor
-        inline_macro Asciidoctor::Standoc::AltTermInlineMacro
-        inline_macro Asciidoctor::Standoc::DeprecatedTermInlineMacro
-        inline_macro Asciidoctor::Standoc::DomainTermInlineMacro
-        inline_macro Asciidoctor::Standoc::InheritInlineMacro
-        inline_macro Asciidoctor::Standoc::HTML5RubyMacro
-        inline_macro Asciidoctor::Standoc::ConceptInlineMacro
-        block Asciidoctor::Standoc::ToDoAdmonitionBlock
-        treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
-        block Asciidoctor::Standoc::PlantUMLBlockMacro
-        block Asciidoctor::Standoc::PseudocodeBlockMacro
-      end
-
       def xml_root_tag
         self.class::XML_ROOT_TAG
       end
