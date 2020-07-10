@@ -21,6 +21,22 @@ module Asciidoctor
     # A {Converter} implementation that generates Standoc output, and a document
     # schema encapsulation of the document for validation
     class Converter
+      Asciidoctor::Extensions.register do
+        preprocessor Asciidoctor::Standoc::Datamodel::AttributesTablePreprocessor
+        preprocessor Asciidoctor::Standoc::Datamodel::DiagramPreprocessor
+        preprocessor Asciidoctor::Standoc::Yaml2TextPreprocessor
+        inline_macro Asciidoctor::Standoc::AltTermInlineMacro
+        inline_macro Asciidoctor::Standoc::DeprecatedTermInlineMacro
+        inline_macro Asciidoctor::Standoc::DomainTermInlineMacro
+        inline_macro Asciidoctor::Standoc::InheritInlineMacro
+        inline_macro Asciidoctor::Standoc::HTML5RubyMacro
+        inline_macro Asciidoctor::Standoc::ConceptInlineMacro
+        block Asciidoctor::Standoc::ToDoAdmonitionBlock
+        treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
+        block Asciidoctor::Standoc::PlantUMLBlockMacro
+        block Asciidoctor::Standoc::PseudocodeBlockMacro
+      end
+
       include ::Asciidoctor::Converter
       include ::Asciidoctor::Writer
 

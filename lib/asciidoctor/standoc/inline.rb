@@ -135,7 +135,7 @@ module Asciidoctor
         results.nil? and
           @log.add('Math', nil,
                    "latexmlmath failed to process equation:\n#{lxm_input}")
-        results
+        results&.sub(%r{<math ([^>]+ )?display="block"}, "<math \\1")
       end
 
       def stem_parse(text, xml, style)

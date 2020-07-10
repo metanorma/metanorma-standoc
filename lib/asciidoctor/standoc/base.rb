@@ -14,22 +14,6 @@ module Asciidoctor
       XML_ROOT_TAG = "standard-document".freeze
       XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
 
-      Asciidoctor::Extensions.register do
-        preprocessor Asciidoctor::Standoc::Datamodel::AttributesTablePreprocessor
-        preprocessor Asciidoctor::Standoc::Datamodel::DiagramPreprocessor
-        preprocessor Asciidoctor::Standoc::Yaml2TextPreprocessor
-        inline_macro Asciidoctor::Standoc::AltTermInlineMacro
-        inline_macro Asciidoctor::Standoc::DeprecatedTermInlineMacro
-        inline_macro Asciidoctor::Standoc::DomainTermInlineMacro
-        inline_macro Asciidoctor::Standoc::InheritInlineMacro
-        inline_macro Asciidoctor::Standoc::HTML5RubyMacro
-        inline_macro Asciidoctor::Standoc::ConceptInlineMacro
-        block Asciidoctor::Standoc::ToDoAdmonitionBlock
-        treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
-        block Asciidoctor::Standoc::PlantUMLBlockMacro
-        block Asciidoctor::Standoc::PseudocodeBlockMacro
-      end
-
       def xml_root_tag
         self.class::XML_ROOT_TAG
       end
@@ -117,6 +101,7 @@ module Asciidoctor
         @filename = node.attr("docfile") ?
           File.basename(node.attr("docfile")).gsub(/\.adoc$/, "") : ""
         @localdir = Utils::localdir(node)
+        @output_dir = outputdir node
         @no_isobib_cache = node.attr("no-isobib-cache")
         @no_isobib = node.attr("no-isobib")
         @bibdb = nil
@@ -158,7 +143,7 @@ module Asciidoctor
       end
 
       def clean_exit
-        @log.write(@localdir + @filename + ".err") unless @novalid
+        @log.write(@output_dir + @filename + ".err") unless @novalid
         @files_to_delete.each { |f| FileUtils.rm f }
       end
 
@@ -242,6 +227,14 @@ module Asciidoctor
             add_term_source(xml_t, seen_xref, matched)
           end
         end.join("\n")
+      end
+
+      private
+
+      def outputdir(node)
+        if node.attr("output_dir").nil_or_empty? then Utils::localdir(node)
+        else File.join(node.attr("output_dir"), "")
+        end
       end
     end
   end

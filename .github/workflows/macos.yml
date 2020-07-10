@@ -29,10 +29,6 @@ jobs:
         uses: actions/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          architecture: 'x64'
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '10.x'
       - name: Install LaTeXML
         run: |
           brew install libxml2 cpanminus
@@ -41,9 +37,6 @@ jobs:
       - name: Install PlantUML
         run: |
           brew install plantuml
-      - name: Install puppeteer
-        run: |
-          npm -g i puppeteer
       - name: Update gems
         run: |
           sudo gem install bundler --force
