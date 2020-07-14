@@ -173,6 +173,22 @@ module Asciidoctor
 
       SUBCLAUSE_XPATH = "//clause[not(parent::sections)]"\
         "[not(ancestor::boilerplate)]".freeze
+
+       def isodoc(lang, script, i18nyaml = nil)
+        conv = html_converter(EmptyAttr.new)
+        i18n = conv.i18n_init(lang, script, i18nyaml)
+        conv.metadata_init(lang, script, i18n)
+        conv
+      end
+
+       class EmptyAttr
+        def attr(_x)
+          nil
+        end
+        def attributes
+          {}
+        end
+      end
     end
   end
 end

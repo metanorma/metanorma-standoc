@@ -111,9 +111,10 @@ module Asciidoctor
         @log = Asciidoctor::Standoc::Log.new
         init_bib_caches(node)
         init_iev_caches(node)
-        lang = (node.attr("language") || "en")
-        script = (node.attr("script") || "en")
-        i18n_init(lang, script)
+        @lang = (node.attr("language") || "en")
+        @script = (node.attr("script") || "en")
+        @isodoc = isodoc(@lang, @script, node.attr("i18nyaml"))
+        @i18n = @isodoc.i18n
       end
 
       def default_fonts(node)
