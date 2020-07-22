@@ -1,2 +1,17 @@
-foreword: Enkonduko
-
+foreword: Antaŭparolo
+introduction: Enkonduko
+clause: klaŭzo
+table: Tabelo
+source: SOURCE
+modified: modified
+scope: Amplekso
+symbols: Simboloj kai mallongigitaj terminoj
+annex: Aldono
+normref: Normaj citaĵoj
+bibliography: Bibliografio
+inform_annex: informa
+norm_annex: norma
+all_parts: ĉiuj partoj
+locality: {
+  table: Tabelo
+}
