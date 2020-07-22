@@ -39,6 +39,7 @@ module Asciidoctor
           dupabstract.traverse { |n| n.remove_attribute("id") }
           dupabstract.remove_attribute("language")
           dupabstract.remove_attribute("script")
+          dupabstract&.at("./title")&.remove
           bibabstract.next = dupabstract
         end
       end
@@ -105,6 +106,7 @@ module Asciidoctor
       def sections_cleanup(x)
         sections_order_cleanup(x)
         sections_level_cleanup(x)
+        sections_names_cleanup(x)
       end
 
       def obligations_cleanup(x)
@@ -118,7 +120,9 @@ module Asciidoctor
         (s = x.at("//introduction")) && s["obligation"] = "informative"
         (s = x.at("//acknowledgements")) && s["obligation"] = "informative"
         x.xpath("//references").each { |r| r["obligation"] = "informative" }
-        x.xpath("//preface//clause").each { |r| r["obligation"] = "informative" }
+        x.xpath("//preface//clause").each do |r|
+          r["obligation"] = "informative"
+        end
       end
 
       def obligations_cleanup_norm(x)
@@ -146,6 +150,71 @@ module Asciidoctor
           x.delete("beforeclauses")
           ins.previous = x.remove
         end
+      end
+
+      def get_or_make_title(node)
+          unless node.at("./title")
+            if node.children.empty?
+              node << "<title/>"
+            else
+              node.children.first.previous = "<title/>"
+            end
+          end
+          node.at("./title")
+      end
+
+      def replace_title(doc, xpath, text, first = false)
+        return unless text
+        doc.xpath(xpath).each_with_index do |node, i|
+          next if first && !i.zero?
+          title = get_or_make_title(node)
+          fn = title.xpath("./fn")
+          fn.each { |n| n.remove }
+          title.content = text
+          fn.each { |n| title << n }
+        end
+      end
+
+      def sections_names_cleanup(x)
+        replace_title(x, "//clause[@type = 'scope']", @i18n&.scope)
+        replace_title(x, "//preface//abstract", @i18n&.abstract)
+        replace_title(x, "//foreword", @i18n&.foreword)
+        replace_title(x, "//introduction", @i18n&.introduction)
+        replace_title(x, "//acknowledgements", @i18n&.acknowledgements)
+        section_names_refs_cleanup(x)
+        section_names_terms_cleanup(x)
+      end
+
+      def section_names_refs_cleanup(x)
+        replace_title(x, "//references[@normative = 'true']",
+                      @i18n&.normref, true)
+        replace_title(x, "//references[@normative = 'false']",
+                      @i18n&.bibliography, true)
+      end
+
+      NO_SYMABBR = "[.//definitions[not(@type)]]"
+      SYMABBR = "[.//definitions[@type = 'symbols']"\
+        "[@type = 'abbreviated_terms']]".freeze
+      SYMnoABBR = "[.//definitions[@type = 'symbols']"\
+        "[not(@type = 'abbreviated_terms')]]".freeze
+      ABBRnoSYM = "[.//definitions[not(@type = 'symbols')]"\
+        "[@type = 'abbreviated_terms']]".freeze
+
+      def section_names_terms_cleanup(x)
+        replace_title(x, "//definitions[@type = 'symbols']", @i18n&.symbols)
+        replace_title(x, "//definitions[@type = 'abbreviated_terms']", @i18n&.abbrev)
+        replace_title(x, "//definitions[not(@type)]", @i18n&.symbolsabbrev)
+        replace_title(x, "//terms#{SYMnoABBR} | //clause[.//terms]#{SYMnoABBR}",
+                      @i18n&.termsdefsymbols, true)
+        replace_title(x, "//terms#{ABBRnoSYM} | //clause[.//terms]#{ABBRnoSYM}",
+                      @i18n&.termsdefabbrev, true)
+        replace_title(x, "//terms#{SYMABBR} | //clause[.//terms]#{SYMABBR}",
+                      @i18n&.termsdefsymbolsabbrev, true)
+        replace_title(x, "//terms#{NO_SYMABBR} | //clause[.//terms]#{NO_SYMABBR}",
+                      @i18n&.termsdefsymbolsabbrev, true)
+        replace_title(
+          x, "//terms[not(.//definitions)] | //clause[.//terms][not(.//definitions)]",
+          @i18n&.termsdef, true)
       end
     end
   end

@@ -13,9 +13,13 @@ module Asciidoctor
         @term_def
       end
 
-      def sectiontype(node, level = true)
-        ret = node&.attr("heading")&.downcase ||
+      def sectiontype1(node)
+        node&.attr("heading")&.downcase ||
           node.title.gsub(/<[^>]+>/, "").downcase
+      end
+
+      def sectiontype(node, level = true)
+        ret = sectiontype1(node)
         ret1 = sectiontype_streamline(ret)
         return ret1 if "symbols and abbreviated terms" == ret1
         return nil unless !level || node.level == 1
@@ -68,7 +72,7 @@ module Asciidoctor
             term_def_parse(a, xml, node, true)
             @term_def = false
           when "symbols and abbreviated terms"
-            symbols_parse(a, xml, node)
+            symbols_parse(symbols_attrs(node, a), xml, node)
           when "acknowledgements"
             acknowledgements_parse(a, xml, node)
           when "bibliography" 
@@ -108,7 +112,7 @@ module Asciidoctor
       def preamble(node)
         noko do |xml|
           xml.foreword **attr_code(section_attributes(node)) do |xml_abstract|
-            xml_abstract.title { |t| t << (node.blocks[0].title || "Foreword") }
+            xml_abstract.title { |t| t << (node.blocks[0].title || @i18n.foreword) }
             content = node.content
             xml_abstract << content
           end
@@ -151,6 +155,15 @@ module Asciidoctor
         @definitions = true
       end
 
+      def symbols_attrs(node, a)
+        case sectiontype1(node)
+        when "symbols" then a.merge(type: "symbols")
+        when "abbreviated terms", "abbreviations" then a.merge(type: "abbreviated_terms")
+        else
+          a
+        end
+      end
+
       def symbols_parse(attr, xml, node)
         node.role == "nonterm" and return nonterm_symbols_parse(attr, xml, node)
         xml.definitions **attr_code(attr) do |xml_section|
@@ -164,9 +177,6 @@ module Asciidoctor
           @term_def = termdefs
         end
       end
-
-      SYMBOLS_TITLES = ["symbols and abbreviated terms", "symbols",
-                        "abbreviated terms"].freeze
 
       def nonterm_term_def_subclause_parse(attrs, xml, node)
         @term_def = false
@@ -196,23 +206,9 @@ module Asciidoctor
         end
       end
 
-      def term_def_title(toplevel, node)
-        return node.title unless toplevel
-        sub = node.find_by(context: :section) do |s|
-          SYMBOLS_TITLES.include? s.title.downcase
-        end
-        return "Terms and definitions" if sub.empty?
-        sym = /symbol/i.match(node.title)
-        abbrev = /abbreviat/i.match(node.title)
-        sym && abbrev and return "Terms, definitions, symbols and abbreviated terms"
-        sym and return "Terms, definitions and symbols"
-        abbrev and return "Terms, definitions and abbreviated terms"
-        "Terms, definitions, symbols and abbreviated terms"
-      end
-
       def term_def_parse(attrs, xml, node, toplevel)
         xml.terms **attr_code(attrs) do |section|
-          section.title { |t| t << term_def_title(toplevel, node) }
+          section.title { |t| t << node.title }
           (s = node.attr("source")) && s.split(/,/).each do |s1|
             section.termdocsource(nil, **attr_code(bibitemid: s1))
           end
@@ -222,7 +218,7 @@ module Asciidoctor
 
       def introduction_parse(attrs, xml, node)
         xml.introduction **attr_code(attrs) do |xml_section|
-          xml_section.title { |t| t << "Introduction" }
+          xml_section.title { |t| t << @i18n.introduction }
           content = node.content
           xml_section << content
         end
@@ -238,7 +234,7 @@ module Asciidoctor
 
       def acknowledgements_parse(attrs, xml, node)
         xml.acknowledgements **attr_code(attrs) do |xml_section|
-          xml_section.title { |t| t << node.title || "Acknowledgements" }
+          xml_section.title { |t| t << node.title || @i18n.acknowledgements }
           content = node.content
           xml_section << content
         end

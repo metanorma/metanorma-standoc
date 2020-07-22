@@ -15,7 +15,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{BLANK_HDR}
       <sections>
       </sections><bibliography><references id="_" obligation="informative" normative="true">
-        <title>Normative References</title>
+        <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
@@ -58,7 +58,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{BLANK_HDR}
       <sections>
       </sections><bibliography><references id="_" obligation="informative" normative="true">
-        <title>Normative References</title>
+        <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
           <title format="text/plain">Standard</title>
@@ -125,7 +125,7 @@ RSpec.describe Asciidoctor::Standoc do
   </foreword>
 </preface>
        <sections>
-       </sections><bibliography><references id="_" obligation="informative" normative="true"><title>Normative References</title>
+       </sections><bibliography><references id="_" obligation="informative" normative="true"><title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
 <bibitem type="standard" id="iso123">
   <uri type="src">https://www.iso.org/standard/23281.html</uri>
@@ -236,7 +236,7 @@ RSpec.describe Asciidoctor::Standoc do
         #{BLANK_HDR}
        <sections>
 
-       </sections><bibliography><references id="_" obligation="informative" normative="true"><title>Normative References</title>
+       </sections><bibliography><references id="_" obligation="informative" normative="true"><title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
          <bibitem id='iso123' type='standard'>
                <fetched>#{Date.today}</fetched>
@@ -470,7 +470,7 @@ RSpec.describe Asciidoctor::Standoc do
        #{BLANK_HDR}
               <sections>
        </sections><bibliography><references id="_" obligation="informative" normative="true">
-         <title>Normative References</title>
+         <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
          <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
@@ -519,7 +519,7 @@ RSpec.describe Asciidoctor::Standoc do
         <sections>
 
         </sections><bibliography><references id="_" obligation="informative" normative="true">
-          <title>Normative References</title>
+          <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
           <bibitem type="standard" id="iso123">
           <fetched>#{Date.today}</fetched>
@@ -742,7 +742,7 @@ RSpec.describe Asciidoctor::Standoc do
         <sections>
 
         </sections><bibliography><references id="_" obligation="informative" normative="true">
-          <title>Normative References</title>
+          <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id='iso123'>
                <formattedref format='application/x-isodoc+xml'>
@@ -821,7 +821,7 @@ OUTPUT
        #{BLANK_HDR}
        <sections>
               </sections><bibliography><references id="_" obligation="informative" normative="true">
-         <title>Normative References</title>
+         <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
          <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
@@ -902,7 +902,7 @@ OUTPUT
       #{BLANK_HDR}
       <sections>
       </sections><bibliography><references id="_" obligation="informative" normative="true">
-        <title>Normative References</title>
+        <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
          <title format="text/plain">Standard</title>
@@ -969,7 +969,7 @@ OUTPUT
   </p>
   </clause>
   </sections><bibliography><references id="_" obligation="informative" normative="true">
-  <title>Normative References</title>
+  <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
   <bibitem id="iso123" type="standard">
     <fetched>#{Date.today}</fetched>
@@ -1110,7 +1110,7 @@ OUTPUT
               <sections>
 
        </sections><bibliography><references id="_" obligation="informative" normative="true">
-         <title>Normative References</title>
+         <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
          <bibitem id="iso123">
          <formattedref format="application/x-isodoc+xml">
@@ -1214,7 +1214,7 @@ OUTPUT
       <sections>
 
       </sections><bibliography><references id="_" obligation="informative" normative="true">
-        <title>Normative References</title>
+        <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
         <title format="text/plain">Standard</title>
@@ -1278,7 +1278,7 @@ OUTPUT
   </sections>
   <bibliography>
     <references id='_' normative='true' obligation='informative'>
-      <title>Normative References</title>
+      <title>Normative references</title>
       <p id='_'>
         The following documents are referred to in the text in such a way that
         some or all of their content constitutes requirements of this document.
@@ -1360,7 +1360,7 @@ OUTPUT
   </sections>
   <bibliography>
     <references id='_' normative='true' obligation='informative'>
-      <title>Normative References</title>
+      <title>Normative references</title>
       <p id='_'>
         The following documents are referred to in the text in such a way that
         some or all of their content constitutes requirements of this document.

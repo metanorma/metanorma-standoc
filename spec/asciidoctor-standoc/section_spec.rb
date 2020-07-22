@@ -59,7 +59,7 @@ RSpec.describe Asciidoctor::Standoc do
       [.nonterm]
       ==== General
 
-      ==== Symbols 1
+      ==== Symbols
 
       == Abbreviated Terms
 
@@ -82,6 +82,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
              #{BLANK_HDR.sub(/<status>/, "<abstract> <p>Text</p> </abstract><status>")}
     <preface><abstract id="_">
+    <title>Abstract</title>
   <p id="_">Text</p>
 </abstract><foreword id='_' obligation="informative">
   <title>Foreword</title>
@@ -143,14 +144,14 @@ RSpec.describe Asciidoctor::Standoc do
   <preferred>Term2</preferred>
 </term>
 </terms>
-<definitions id="_" obligation="normative"><title>Symbols and Abbreviated Terms</title><clause id="_" inline-header="false" obligation="normative">
+<definitions id="_" obligation="normative"><title>Symbols and abbreviated terms</title><clause id="_" inline-header="false" obligation="normative">
   <title>General</title>
 </clause>
-<definitions id="_" obligation="normative">
-  <title>Symbols 1</title>
+<definitions id="_" obligation="normative" type="symbols">
+  <title>Symbols</title>
 </definitions></definitions></clause>
-<definitions id="_" obligation="normative">
-  <title>Abbreviated Terms</title>
+<definitions id="_" obligation="normative" type="abbreviated_terms">
+  <title>Abbreviated terms</title>
 </definitions>
 <clause id="_" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="_" inline-header="false" obligation="normative">
   <title>Introduction</title>
@@ -168,7 +169,7 @@ RSpec.describe Asciidoctor::Standoc do
   <title>Annex A.1</title>
 </clause>
 </annex><bibliography><references id="_" obligation="informative" normative="true">
-  <title>Normative References</title>
+  <title>Normative references</title>
   <p id="_">There are no normative references in this document.</p>
 </references><clause id="_" obligation="informative">
   <title>Bibliography</title>
@@ -256,7 +257,7 @@ RSpec.describe Asciidoctor::Standoc do
       [language=en,script=Latn]
       ==== General
 
-      ==== Symbols 1
+      ==== Symbols
 
       [language=en,script=Latn]
       == Abbreviated Terms
@@ -287,6 +288,7 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
              #{BLANK_HDR.sub(/<status>/, "<abstract> <p>Text</p> </abstract><status>")}
      <preface><abstract id="_" language="en" script="Latn">
+     <title>Abstract</title>
          <p id="_">Text</p>
        </abstract><foreword id='_' language='en' script='Latn' obligation='informative'>
          <title>Foreword</title>
@@ -348,14 +350,14 @@ RSpec.describe Asciidoctor::Standoc do
          <preferred>Term2</preferred>
        </term>
        </terms>
-       <definitions id="_" language="en" script="Latn" obligation="normative"><title>Symbols and Abbreviated Terms</title><clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+       <definitions id="_" language="en" script="Latn" obligation="normative"><title>Symbols and abbreviated terms</title><clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
          <title>General</title>
        </clause>
-       <definitions id="_" obligation="normative">
-         <title>Symbols 1</title>
+       <definitions id="_" obligation="normative" type="symbols">
+         <title>Symbols</title>
        </definitions></definitions></clause>
-       <definitions id="_" language="en" script="Latn" obligation="normative">
-         <title>Abbreviated Terms</title>
+       <definitions id="_" language="en" script="Latn" obligation="normative" type="abbreviated_terms">
+         <title>Abbreviated terms</title>
        </definitions>
        <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
          <title>Introduction</title>
@@ -373,7 +375,7 @@ RSpec.describe Asciidoctor::Standoc do
          <title>Annex A.1</title>
        </clause>
        </annex><bibliography><references id="_" language="en" script="Latn" obligation="informative" normative="true">
-         <title>Normative References</title>
+         <title>Normative references</title>
          <p id="_">There are no normative references in this document.</p>
        </references><clause id="_" language="en" script="Latn" obligation="informative">
          <title>Bibliography</title>
@@ -420,10 +422,10 @@ RSpec.describe Asciidoctor::Standoc do
 
       ==== Term2
 
-      [heading=symbols and abbreviated terms]
+      [heading=symbols]
       === Σύμβολα και Συντομογραφίες
 
-      [heading=symbols and abbreviated terms]
+      [heading=abbreviated terms]
       == Σύμβολα και Συντομογραφίες
 
       == Clause 4
@@ -445,6 +447,7 @@ RSpec.describe Asciidoctor::Standoc do
              #{BLANK_HDR.sub(/<status>/, "<abstract> <p>Text</p> </abstract><status>")}
       <preface>
     <abstract id='_'>
+    <title>Abstract</title>
       <p id='_'>Text</p>
     </abstract>
     <foreword id='_' obligation='informative'>
@@ -458,7 +461,7 @@ RSpec.describe Asciidoctor::Standoc do
       </clause>
     </introduction>
     <acknowledgements id='_' obligation='informative'>
-  <title>Ευχαριστίες</title>
+  <title>Acknowledgements</title>
 </acknowledgements>
   </preface>
   <sections>
@@ -470,7 +473,7 @@ RSpec.describe Asciidoctor::Standoc do
       </term>
     </terms>
     <clause id='_' obligation='normative'>
-      <title>Terms and definitions</title>
+      <title>Terms, definitions and symbols</title>
   <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
       <terms id='_' obligation='normative'>
         <title>Normal Terms</title>
@@ -478,12 +481,12 @@ RSpec.describe Asciidoctor::Standoc do
           <preferred>Term2</preferred>
         </term>
       </terms>
-      <definitions id='_' obligation="normative">
-        <title>Σύμβολα και Συντομογραφίες</title>
+      <definitions id='_' obligation="normative" type="symbols">
+        <title>Symbols</title>
       </definitions>
     </clause>
-    <definitions id='_' obligation="normative">
-      <title>Σύμβολα και Συντομογραφίες</title>
+    <definitions id='_' obligation="normative" type="abbreviated_terms">
+      <title>Abbreviated terms</title>
     </definitions>
     <clause id='_' inline-header='false' obligation='normative'>
       <title>Clause 4</title>
@@ -503,7 +506,7 @@ RSpec.describe Asciidoctor::Standoc do
   </annex>
   <bibliography>
     <references id='_' obligation='informative' normative="true">
-      <title>Normative References</title>
+      <title>Normative references</title>
       <p id="_">There are no normative references in this document.</p>
     </references>
     <clause id='_' obligation='informative'>
@@ -537,7 +540,7 @@ RSpec.describe Asciidoctor::Standoc do
       <term id='_'>
         <preferred>Term</preferred>
       </term>
-      <definitions id='_' obligation="normative">
+      <definitions id='_' obligation="normative" type="symbols">
         <title>Symbols</title>
       </definitions>
     </terms>
@@ -554,6 +557,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Term
       
+      [heading="abbreviated terms"]
       === Symbols
 
       INPUT
@@ -565,8 +569,8 @@ RSpec.describe Asciidoctor::Standoc do
       <term id='_'>
         <preferred>Term</preferred>
       </term>
-      <definitions id='_' obligation="normative">
-        <title>Symbols</title>
+      <definitions id='_' obligation="normative" type="abbreviated_terms">
+        <title>Abbreviated terms</title>
       </definitions>
     </terms>
   </sections>
@@ -671,12 +675,12 @@ RSpec.describe Asciidoctor::Standoc do
              #{BLANK_HDR}
              <sections>
   <terms id='_' obligation='normative'>
-    <title>Terms, definitions, symbols and abbreviated terms</title>
+    <title>Terms, definitions and symbols</title>
     <p id='_'>No terms and definitions are listed in this document.</p>
     <clause id='_' inline-header='false' obligation='normative'>
       <title>Terms and definitions</title>
     </clause>
-    <definitions id='_' obligation="normative">
+    <definitions id='_' obligation="normative" type="symbols">
       <title>Symbols</title>
     </definitions>
   </terms>
@@ -787,11 +791,11 @@ RSpec.describe Asciidoctor::Standoc do
      #{BLANK_HDR.sub(%r{<language>en</language>}, "<language>fr</language>")}
              <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
         <preface><foreword id='_' obligation="informative">
-         <title>Foreword</title>
+         <title>Avant-propos</title>
          <p id="_">Foreword</p>
        </foreword></preface><sections>
        <terms id="_" obligation="normative">
-         <title>Terms and definitions</title>
+         <title>Terms et définitions</title>
         <p id="_">Pour les besoins du présent document, les termes et définitions de <eref bibitemid="iso1234"/> et <eref bibitemid="iso5678"/> s’appliquent.</p>
 
 
@@ -820,11 +824,11 @@ RSpec.describe Asciidoctor::Standoc do
      INPUT
      #{BLANK_HDR.sub(%r{<language>en</language>}, "<language>zh</language>").sub(%r{<script>Latn</script>}, "<script>Hans</script>")}
        <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/><preface><foreword id='_' obligation="informative">
-         <title>Foreword</title>
+         <title>前言</title>
          <p id="_">Foreword</p>
        </foreword></preface><sections>
        <terms id="_" obligation="normative">
-         <title>Terms and definitions</title><p id="_"><eref bibitemid="iso1234"/>和<eref bibitemid="iso5678"/>界定的术语和定义适用于本文件。</p>
+         <title>术语和定义</title><p id="_"><eref bibitemid="iso1234"/>和<eref bibitemid="iso5678"/>界定的术语和定义适用于本文件。</p>
      
          
          
@@ -858,12 +862,12 @@ INPUT
 #{BLANK_HDR}
   <sections>
     <terms id='tda' obligation='normative'>
-      <title>Terms, definitions, symbols and abbreviated terms</title>
+      <title>Terms, definitions and symbols</title>
       <p id='_'>No terms and definitions are listed in this document.</p>
       <clause id='terms' inline-header='false' obligation='normative'>
         <title>Terms and definitions</title>
       </clause>
-      <definitions id='_' obligation="normative">
+      <definitions id='_' obligation="normative" type="symbols">
         <title>Symbols</title>
       </definitions>
     </terms>

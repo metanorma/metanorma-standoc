@@ -39,7 +39,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{BLANK_HDR}
       <sections>
       </sections><bibliography><references id="_" obligation="informative" normative="true">
-        <title>Normative References</title>
+        <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
         <fetched>#{Date.today}</fetched>
@@ -289,7 +289,7 @@ formattedref::
       #{BLANK_HDR}
       <sections>
       </sections><bibliography><references id="_" obligation="informative" normative="true">
-        <title>Normative References</title>
+        <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="TC211" type="standard">
   <fetched>2019-06-30</fetched>
@@ -607,7 +607,7 @@ series.formattedref.script:: Latn
       #{BLANK_HDR}
       <sections>
       </sections><bibliography><references id="_" obligation="informative" normative="true">
-        <title>Normative References</title>
+        <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="TC211" type="standard">
   <fetched>2019-06-30</fetched>
@@ -807,7 +807,7 @@ OUTPUT
        <title>Subsection</title>
      </clause>
      <references id='_' obligation='informative'  normative="true">
-       <title>Normative References</title>
+       <title>Normative references</title>
        <bibitem id='A'>
          <formattedref format='application/x-isodoc+xml'>Title</formattedref>
          <docidentifier>B</docidentifier>
