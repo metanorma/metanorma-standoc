@@ -451,7 +451,7 @@ RSpec.describe Asciidoctor::Standoc do
       :body-font: Zapf Chancery
       :header-font: Comic Sans
       :monospace-font: Andale Mono
-      :htmlstylesheet: spec/assets/html.css
+      :htmlstylesheet: spec/assets/html.scss
       :htmlcoverpage: spec/assets/htmlcover.html
       :htmlintropage: spec/assets/htmlintro.html
       :scripts: spec/assets/scripts.html
@@ -483,7 +483,7 @@ RSpec.describe Asciidoctor::Standoc do
       :body-font: Zapf Chancery
       :header-font: Comic Sans
       :monospace-font: Andale Mono
-      :wordstylesheet: spec/assets/word.css
+      :wordstylesheet: spec/assets/word.scss
       :wordcoverpage: spec/assets/wordcover.html
       :wordintropage: spec/assets/wordintro.html
       :header: spec/assets/header.html
