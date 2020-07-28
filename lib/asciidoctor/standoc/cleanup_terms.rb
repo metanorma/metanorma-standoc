@@ -76,6 +76,15 @@ module Asciidoctor
         end
       end
 
+      def termnote_example_cleanup(xmldoc)
+        xmldoc.xpath("//termnote[not(ancestor::term)]").each do |x|
+          x.name = "note"
+        end
+        xmldoc.xpath("//termexample[not(ancestor::term)]").each do |x|
+          x.name = "note"
+        end
+      end
+
       def termdef_cleanup(xmldoc)
         termdef_from_termbase(xmldoc)
         termdef_unnest_cleanup(xmldoc)
@@ -83,6 +92,7 @@ module Asciidoctor
         termdomain_cleanup(xmldoc)
         termdefinition_cleanup(xmldoc)
         termdomain1_cleanup(xmldoc)
+        termnote_example_cleanup(xmldoc)
         termdef_boilerplate_cleanup(xmldoc)
         termdef_subclause_cleanup(xmldoc)
         term_children_cleanup(xmldoc) 

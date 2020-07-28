@@ -361,6 +361,10 @@ RSpec.describe Asciidoctor::Standoc do
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
 
+      NOTE: This is not a termnote
+
+      EXAMPLE: This is not a termexample
+
       [.nonterm]
       === Term1
 
@@ -371,6 +375,9 @@ RSpec.describe Asciidoctor::Standoc do
   <terms id="_" obligation="normative">
   <title>Terms and definitions</title>
          <p id="_">No terms and definitions are listed in this document.</p>
+         <note id='_'>
+  <p id='_'>This is not a termnote</p>
+</note>
   <clause id="_" inline-header="false" obligation="normative">
   <title>Term1</title>
   <note id="_">
