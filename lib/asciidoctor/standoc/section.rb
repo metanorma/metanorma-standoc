@@ -150,9 +150,10 @@ module Asciidoctor
       end
 
       def nonterm_symbols_parse(attrs, xml, node)
+        defs = @definitions
         @definitions = false
         clause_parse(attrs, xml, node)
-        @definitions = true
+        @definitions = defs
       end
 
       def symbols_attrs(node, a)
@@ -179,9 +180,10 @@ module Asciidoctor
       end
 
       def nonterm_term_def_subclause_parse(attrs, xml, node)
+        defs = @term_def
         @term_def = false
         clause_parse(attrs, xml, node)
-        @term_def = true
+        @term_def = defs
       end
 
       # subclause contains subclauses
