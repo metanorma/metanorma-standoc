@@ -3,6 +3,7 @@ require "nokogiri"
 require "htmlentities"
 require "pathname"
 require "open-uri"
+require "csv"
 
 module Asciidoctor
   module Standoc
@@ -24,8 +25,15 @@ module Asciidoctor
         org.name orgname
       end
 
+      # , " => ," : CSV definition does not deal with space followed by quote
+      # at start of field
+      def csv_split(s)
+        CSV.parse_line(s&.gsub(/, "(?!")/, ',"'), liberal_parsing: true)&.
+          map { |x| x.strip }
+      end
+
       def metadata_author(node, xml)
-        (node.attr("publisher") || "").split(/,[ ]?/).each do |p|
+        csv_split(node.attr("publisher") || "")&.each do |p|
           xml.contributor do |c|
             c.role **{ type: "author" }
             c.organization { |a| organization(a, p) }
@@ -85,12 +93,29 @@ module Asciidoctor
         end
       end
 
+      def default_publisher
+        nil
+      end
+
       def metadata_publisher(node, xml)
-        publishers = node.attr("publisher") || return
-        publishers.split(/,[ ]?/).each do |p|
+        publishers = node.attr("publisher") || default_publisher || return
+        csv_split(publishers)&.each do |p|
           xml.contributor do |c|
             c.role **{ type: "publisher" }
             c.organization { |a| organization(a, p) }
+          end
+        end
+      end
+
+      def metadata_copyright(node, xml)
+        publishers = node.attr("copyright-holder") || node.attr("publisher") || 
+          default_publisher || "-"
+        csv_split(publishers)&.each do |p|
+          xml.copyright do |c|
+            c.from (node.attr("copyright-year") || Date.today.year)
+            p.match(/[A-Za-z]/).nil? or c.owner do |owner|
+              owner.organization { |o| organization(o, p) }
+            end
           end
         end
       end

@@ -25,18 +25,6 @@ module Asciidoctor
         end
       end
 
-      def metadata_copyright(node, xml)
-        publishers = node.attr("publisher") || " "
-        publishers.split(/,[ ]?/).each do |p|
-          xml.copyright do |c|
-            c.from (node.attr("copyright-year") || Date.today.year)
-            p.match(/[A-Za-z]/).nil? or c.owner do |owner|
-              owner.organization { |o| organization(o, p) }
-            end
-          end
-        end
-      end
-
       def metadata_status(node, xml)
         xml.status do |s|
           s.stage ( node.attr("status") || node.attr("docstage") || "published" )

@@ -102,7 +102,8 @@ RSpec.describe Asciidoctor::Standoc do
       :email_2: barney@rockhead.example.com
       :phone_2: 789
       :fax_2: 012
-      :publisher: Hanna Barbera, Cartoon Network
+      :publisher: "Hanna Barbera", "Cartoon Network", "Ribose, Inc."
+      :copyright-holder: "Ribose, Inc.", Hanna Barbera
       :part-of: ABC
       :translated-from: DEF,GHI;JKL MNO,PQR
       :keywords: a, b, c
@@ -155,6 +156,12 @@ RSpec.describe Asciidoctor::Standoc do
 <date type="Jack">
   <on>1010-01-01</on>
 </date>
+<contributor>
+  <role type="author"/>
+  <organization>
+    <name>Ribose, Inc.</name>
+  </organization>
+</contributor>
 <contributor>
   <role type="author"/>
   <organization>
@@ -221,6 +228,12 @@ RSpec.describe Asciidoctor::Standoc do
     <name>Cartoon Network</name>
   </organization>
 </contributor>
+<contributor>
+  <role type="publisher"/>
+  <organization>
+    <name>Ribose, Inc.</name>
+  </organization>
+</contributor>
 <edition>2</edition>
 <version>
   <revision-date>2000-01-01</revision-date>
@@ -237,7 +250,7 @@ RSpec.describe Asciidoctor::Standoc do
     <from>2001</from>
        <owner>
      <organization>
-       <name>Hanna Barbera</name>
+       <name>Ribose, Inc.</name>
      </organization>
    </owner>
  </copyright>
@@ -245,7 +258,7 @@ RSpec.describe Asciidoctor::Standoc do
    <from>2001</from>
    <owner>
      <organization>
-       <name>Cartoon Network</name>
+       <name>Hanna Barbera</name>
      </organization>
    </owner>
   </copyright>
