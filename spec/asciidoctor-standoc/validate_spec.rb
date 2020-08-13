@@ -64,7 +64,25 @@ RSpec.describe Asciidoctor::Standoc do
 INPUT
   errf = File.read("test.err")
   expect(errf).to include "The following reference is missing an anchor"
+  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+      #{VALIDATING_BLANK_HDR}
+
+      [bibliography]
+      == Normative References
+
+      [[x]]
+      [%bibitem]
+      === Standard
+      type:: standard
+      contributor::
+        role::: publisher
+        organization:::
+          name:::: ISO
+INPUT
+  errf = File.read("test.err")
+  expect(errf).not_to include "The following reference is missing an anchor"
   end
+
   it "warns about malformed LaTeX" do
   FileUtils.rm_f "test.err"
   Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 

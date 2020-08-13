@@ -133,14 +133,16 @@ module Asciidoctor
       end
 
       def validate_ref_dl(bib, c)
-        unless bib["id"]
+        id = bib["id"]
+        id ||= c["id"] unless /^_/.match(c["id"]) # do not accept implicit id
+        unless id
           @log.add("Anchors", c, "The following reference is missing "\
                    "an anchor:\n" + c.to_xml)
           return
         end
-        bib["title"] or @log.add("Bibliography", c, "Reference #{bib['id']} "\
+        bib["title"] or @log.add("Bibliography", c, "Reference #{id} "\
                                  "is missing a title")
-        bib["docid"] or @log.add("Bibliography", c, "Reference #{bib['id']} "\
+        bib["docid"] or @log.add("Bibliography", c, "Reference #{id} "\
                                  "is missing a document identifier (docid)")
       end
 

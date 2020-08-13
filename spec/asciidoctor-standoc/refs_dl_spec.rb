@@ -77,7 +77,7 @@ it "processes complex dl reference" do
 [bibliography]
 == Normative References
 
-[[ISO/TC211]]
+[[ISOTC211]]
 [%bibitem]
 === {blank}
 fetched:: 2019-06-30
@@ -446,7 +446,7 @@ OUTPUT
 [bibliography]
 == Normative References
 
-[[ISO/TC211]]
+[[ISOTC211]]
 [%bibitem]
 === {blank}
 fetched:: 2019-06-30
