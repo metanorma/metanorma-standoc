@@ -33,7 +33,7 @@ module Asciidoctor
       end
 
       def metadata_author(node, xml)
-        csv_split(node.attr("publisher") || "")&.each do |p|
+        csv_split(node.attr("publisher") || default_publisher || "")&.each do |p|
           xml.contributor do |c|
             c.role **{ type: "author" }
             c.organization { |a| organization(a, p) }
