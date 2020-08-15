@@ -327,6 +327,7 @@ RSpec.describe Asciidoctor::Standoc do
       :doc-uri: E
       :relaton-uri: F
       :title-eo: Dokumenttitolo
+      :doctype: This is a DocType
 
       [abstract]
       == Abstract
@@ -422,7 +423,7 @@ RSpec.describe Asciidoctor::Standoc do
            </owner>
          </copyright>
          <ext>
-         <doctype>article</doctype>
+         <doctype>this-is-a-doctype</doctype>
          </ext>
        </bibdata>
          <preface>
