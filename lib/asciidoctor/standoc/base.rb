@@ -170,7 +170,7 @@ module Asciidoctor
       end
 
       def doctype(node)
-        node.attr("doctype").gsub(/\s+/, "-").downcase
+        node.attr("doctype")&.gsub(/\s+/, "-")&.downcase
       end
 
       def front(node, xml)
