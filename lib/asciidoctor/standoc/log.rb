@@ -8,7 +8,8 @@ module Asciidoctor
       def add(category, loc, msg)
         return if @novalid
         @log[category] = [] unless @log[category]
-        @log[category] << { location: current_location(loc), message: msg }
+        @log[category] << { location: current_location(loc), message: msg,
+                            context: context(loc) }
         loc = loc.nil? ? "" : "(#{current_location(loc)}): "
         warn "#{category}: #{loc}#{msg}" 
       end
@@ -31,6 +32,13 @@ module Asciidoctor
         "??"
       end
 
+      def context(n)
+        return nil if n.is_a? String
+        n.respond_to?(:to_xml) and return n.to_xml
+        n.respond_to?(:to_s) and return n.to_s
+        nil
+      end
+
       def write(file)
         File.open(file, "w:UTF-8") do |f|
           f.puts "#{file} errors"
@@ -41,6 +49,7 @@ module Asciidoctor
             end.each do |n|
               loc = n[:location] ? "(#{n[:location]}): " : ""
               f.puts "#{loc}#{n[:message]}" 
+              n[:context]&.split(/\n/)&.first(5)&.each { |l| f.puts "\t#{l}" }
             end
           end
         end

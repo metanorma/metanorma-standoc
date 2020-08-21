@@ -9,6 +9,28 @@ RSpec.describe Asciidoctor::Standoc do
   expect(File.exist?("spec/assets/xref_error.err")).to be true
   end
 
+  it "provides context for log" do
+  FileUtils.rm_f "test.xml"
+  FileUtils.rm_f "test.err"
+  begin
+  expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to raise_error(SystemExit)
+  = Document title
+  Author
+  :docfile: test.adoc
+  :nodoc:
+
+  [[abc]]
+  == Clause 1
+
+  [[abc]]
+  == Clause 2
+  INPUT
+  rescue SystemExit
+  end
+  expect(File.read("test.err")).to include "Anchor abc has already been used at line"
+  expect(File.read("test.err")).to include %(\t<clause id="abc" inline-header="false" obligation="normative">)
+end
+
   it "warns about missing fields in asciibib" do
   FileUtils.rm_f "test.err"
   Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 

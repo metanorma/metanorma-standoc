@@ -22,7 +22,7 @@ module Asciidoctor
       def style_warning(node, msg, text = nil)
         w = msg
         w += ": #{text}" if text
-        @log.add("Style Warning", node, w)
+        @log.add("Metanorma XML Style Warning", node, w)
       end
 
       def asset_title_style(root)

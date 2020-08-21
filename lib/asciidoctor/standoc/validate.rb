@@ -8,7 +8,8 @@ module Asciidoctor
   module Standoc
     module Validate
 
-      SOURCELOCALITY = "./termsource/origin//locality[@type = 'clause']/referenceFrom".freeze
+      SOURCELOCALITY = "./termsource/origin//locality[@type = 'clause']/"\
+        "referenceFrom".freeze
 
       def init_iev
         return nil if @no_isobib
@@ -19,13 +20,16 @@ module Asciidoctor
 
       def iev_validate(xmldoc)
         xmldoc.xpath("//term").each do |t|
-          /^IEC 60050-/.match(t&.at("./termsource/origin/@citeas")&.text) or next
-          pref = t.xpath("./preferred").inject([]) { |m, x| m << x&.text&.downcase }
-          locality = t.xpath(SOURCELOCALITY)&.text or next
+          /^IEC 60050-/.match(t&.at("./termsource/origin/@citeas")&.text) &&
+            loc = t.xpath(SOURCELOCALITY)&.text or next
           @iev = init_iev or return
-          iev = @iev.fetch(locality, xmldoc&.at("//language")&.text || "en") or next
+          iev = @iev.fetch(loc, xmldoc&.at("//language")&.text || "en") or next
+          pref = t.xpath("./preferred").inject([]) do |m, x|
+            m << x&.text&.downcase
+          end
           pref.include?(iev.downcase) or
-          @log.add("Bibliography", t, %(Term "#{pref[0]}" does not match IEV #{locality} "#{iev}"))
+            @log.add("Bibliography", t, %(Term "#{pref[0]}" does not match ) +
+                     %(IEV #{loc} "#{iev}"))
         end
       end
 
@@ -35,20 +39,26 @@ module Asciidoctor
         iev_validate(doc.root)
       end
 
+      def repeat_id_validate1(ids, x)
+        if ids[x["id"]]
+          @log.add("Anchors", x, "Anchor #{x['id']} has already been used "\
+                   "at line #{ids[x['id']]}")
+          raise StandardError.new "Error: multiple instances of same ID"
+        else
+          ids[x["id"]] = x.line
+        end
+        ids
+      end
+
       def repeat_id_validate(doc)
         ids = {}
-        crash = false
-        doc.xpath("//*[@id]").each do |x|
-          if ids[x["id"]]
-            @log.add("Anchors", x, "Anchor #{x['id']} has already been used at line #{ids[x['id']]}")
-            crash = true
-          else
-            ids[x["id"]] = x.line
+        begin
+          doc.xpath("//*[@id]").each do |x|
+            ids = repeat_id_validate1(ids, x)
           end
-        end
-        if crash
+        rescue StandardError => e
           clean_exit
-          abort("Cannot deal with multiple instances of same ID")
+          abort(e.message)
         end
       end
 
@@ -59,8 +69,10 @@ module Asciidoctor
             f.close
             errors = Jing.new(schema).validate(f.path)
             warn "Syntax Valid!" if errors.none?
-            errors.each do |error|
-              @log.add("Syntax", "XML Line #{"%06d" % error[:line]}:#{error[:column]}", error[:message])
+            errors.each do |e|
+              @log.add("Metanorma XML Syntax",
+                       "XML Line #{"%06d" % e[:line]}:#{e[:column]}",
+                       e[:message])
             end
           rescue Jing::Error => e
             clean_exit
