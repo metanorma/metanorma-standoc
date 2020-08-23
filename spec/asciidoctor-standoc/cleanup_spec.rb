@@ -3102,6 +3102,57 @@ INPUT
 OUTPUT
 end
 
+it "fixes illegal anchors" do
+input = <<~INPUT
+#{ASCIIDOC_BLANK_HDR}
+
+[[a:b]]
+== A
+<</:ab>>
+<<:>>
+<<1>>
+<<1:>>
+<<1#b>>
+<<:a#b:>>
+
+INPUT
+expect(xmlpp(Asciidoctor.convert(input, backend: :standoc, header_footer: true).gsub(/<p id="_[^"]+">/, "").gsub('</p>', ""))).to be_equivalent_to (<<~"OUTPUT")
+<standard-document xmlns='https://www.metanorma.org/ns/standoc'>
+  <bibdata type='standard'>
+    <title language='en' format='text/plain'>Document title</title>
+    <language>en</language>
+    <script>Latn</script>
+    <status>
+      <stage>published</stage>
+    </status>
+    <copyright>
+      <from>2020</from>
+    </copyright>
+    <ext>
+      <doctype>article</doctype>
+    </ext>
+  </bibdata>
+  <sections>
+    <clause id='ab' inline-header='false' obligation='normative'>
+      <title>A</title>
+      <xref target='ab'/>
+      <xref target='_BLANK'/>
+      <xref target='_1'/>
+      <xref target='_1'/>
+      <xref target='1#b'/>
+<xref target='a#b'/>
+    </clause>
+  </sections>
+</standard-document>
+OUTPUT
+expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <clause id="ab" inline-header="false" obligation="normative"/> from a:b}).to_stderr
+expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="ab"/> from /:ab}).to_stderr
+expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="_BLANK"/> from :}).to_stderr
+expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="_1"/> from 1}).to_stderr
+expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="_1"/> from 1:}).to_stderr
+expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="a#b"/> from :a#b:}).to_stderr
+end
+
 
   private
 

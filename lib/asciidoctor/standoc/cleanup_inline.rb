@@ -117,7 +117,8 @@ module Asciidoctor
       def concept_termbase_cleanup(x)
         text = x&.children&.first&.remove&.text
         termbase, key = x["key"].split(/:/, 2)
-        x.add_child(%(<termref base="#{termbase}" target="#{key}">#{text}</termref>))
+        x.add_child(%(<termref base="#{termbase}" target="#{key}">) + 
+                    "#{text}</termref>")
       end
 
       def concept_xref_cleanup(x)
@@ -128,6 +129,61 @@ module Asciidoctor
       def concept_eref_cleanup(x)
         x.children = "<eref>#{x.children.to_xml}</eref>"
         extract_localities(x.first_element_child)
+      end
+
+      NAMECHAR = "\u0000-\u0022\u0024\u002c\u002f\u003a-\u0040\\u005b-\u005e"\
+        "\u0060\u007b-\u00b6\u00b8-\u00bf\u00d7\u00f7\u037e\u2000-\u200b"\
+        "\u200e-\u203e\u2041-\u206f\u2190-\u2bff\u2ff0-\u3000".freeze
+      #"\ud800-\uf8ff\ufdd0-\ufdef\ufffe-\uffff".freeze
+      NAMESTARTCHAR = "\\u002d\u002e\u0030-\u0039\u00b7\u0300-\u036f"\
+        "\u203f-\u2040".freeze
+
+      def to_ncname(s)
+        start = s[0]
+        ret1 = %r([#{NAMECHAR}#]).match(start) ? "_" :
+          (%r([#{NAMESTARTCHAR}#]).match(start) ? "_#{start}" : start)
+        ret = ret1 + s[1..-1].gsub(%r([#{NAMECHAR}#]), "_")
+        ret
+      end
+
+      def to_xreftarget(s)
+        return to_ncname(s) unless /^[^#]+#.+$/.match(s)
+          /^(?<pref>[^#]+)#(?<suff>.+)$/ =~ s
+        pref = pref.gsub(%r([#{NAMECHAR}]), "_")
+        suff = suff.gsub(%r([#{NAMECHAR}]), "_")
+        "#{pref}##{suff}"
+      end
+
+      IDREF = "//*/@id | //review/@from | //review/@to | "\
+        "//callout/@target | //citation/@bibitemid | //eref/@bibitemid".freeze
+
+      def anchor_cleanup(x)
+        anchor_cleanup1(x)
+        xreftarget_cleanup(x)
+      end
+
+      def anchor_cleanup1(x)
+        x.xpath(IDREF).each do |s|
+          if (ret = to_ncname(s.value)) != (orig = s.value)
+            s.value = ret
+            output = s.parent.dup
+            output.children.remove
+            @log.add("Anchors", s.parent, "normalised identifier in #{output} "\
+                     "from #{orig}")
+          end
+        end
+      end
+
+      def xreftarget_cleanup(x)
+        x.xpath("//xref/@target").each do |s|
+          if (ret = to_xreftarget(s.value)) != (orig = s.value)
+            s.value = ret
+            output = s.parent.dup
+            output.children.remove
+            @log.add("Anchors", s.parent, "normalised identifier in #{output} "\
+                     "from #{orig}")
+          end
+        end
       end
     end
   end
