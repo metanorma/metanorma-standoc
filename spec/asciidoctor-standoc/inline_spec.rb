@@ -162,13 +162,16 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
       http://example.com[]
       http://example.com[Link]
       http://example.com[Link,title="tip"]
+      link:++https://asciidoctor.org/now_this__link_works.html++[]
     INPUT
             #{BLANK_HDR}
        <sections>
          <p id="_">mailto:fred@example.com
        <link target="http://example.com"/>
        <link target="http://example.com">Link</link>
-       <link target="http://example.com" alt="tip">Link</link></p>
+       <link target="http://example.com" alt="tip">Link</link>
+       <link target='https://asciidoctor.org/now_this__link_works.html'/>
+       </p>
        </sections>
        </standard-document>
     OUTPUT
