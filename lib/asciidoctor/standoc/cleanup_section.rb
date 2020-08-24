@@ -141,12 +141,29 @@ module Asciidoctor
       end
 
       def clausebefore_cleanup(xmldoc)
+        preface_clausebefore_cleanup(xmldoc)
+        sections_clausebefore_cleanup(xmldoc)
+      end
+
+       def preface_clausebefore_cleanup(xmldoc)
+        return unless xmldoc.at("//preface")
+        unless ins = xmldoc.at("//preface").children.first
+          xmldoc.at("//preface") << " "
+          ins = xmldoc.at("//preface").children.first
+        end
+        xmldoc.xpath("//preface//*[@beforeclauses = 'true']").each do |x|
+          x.delete("beforeclauses")
+          ins.previous = x.remove
+        end
+      end
+
+      def sections_clausebefore_cleanup(xmldoc)
         return unless xmldoc.at("//sections")
         unless ins = xmldoc.at("//sections").children.first
           xmldoc.at("//sections") << " "
           ins = xmldoc.at("//sections").children.first
         end
-        xmldoc.xpath("//*[@beforeclauses = 'true']").each do |x|
+        xmldoc.xpath("//sections//*[@beforeclauses = 'true']").each do |x|
           x.delete("beforeclauses")
           ins.previous = x.remove
         end

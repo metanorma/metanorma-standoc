@@ -1872,6 +1872,9 @@ it "moves %beforeclause admonitions to right position" do
 INPUT
   #{BLANK_HDR}
   <preface>
+    <note id='_'>
+      <p id='_'>Note which is very important</p>
+    </note>
     <foreword id='_' obligation='informative'>
       <title>Foreword</title>
       <p id='_'>Foreword</p>
@@ -1882,9 +1885,6 @@ INPUT
     </introduction>
   </preface>
   <sections>
-    <note id='_'>
-      <p id='_'>Note which is very important</p>
-    </note>
     <admonition id='_' type='important'>
       <p id='_'>Notice which is very important</p>
     </admonition>
@@ -3133,24 +3133,24 @@ expect(xmlpp(Asciidoctor.convert(input, backend: :standoc, header_footer: true).
     </ext>
   </bibdata>
   <sections>
-    <clause id='ab' inline-header='false' obligation='normative'>
-      <title>A</title>
-      <xref target='ab'/>
-      <xref target='_BLANK'/>
-      <xref target='_1'/>
-      <xref target='_1'/>
-      <xref target='1#b'/>
-<xref target='a#b'/>
-    </clause>
+  <clause id='a_b' inline-header='false' obligation='normative'>
+             <title>A</title>
+             <xref target='__ab'/>
+             <xref target='_'/>
+             <xref target='_1'/>
+             <xref target='_1_'/>
+             <xref target='1#b'/>
+             <xref target='_a#b_'/>
+           </clause>
   </sections>
 </standard-document>
 OUTPUT
-expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <clause id="ab" inline-header="false" obligation="normative"/> from a:b}).to_stderr
-expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="ab"/> from /:ab}).to_stderr
-expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="_BLANK"/> from :}).to_stderr
+expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <clause id="a_b" inline-header="false" obligation="normative"/> from a:b}).to_stderr
+expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="__ab"/> from /:ab}).to_stderr
+expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="_"/> from :}).to_stderr
 expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="_1"/> from 1}).to_stderr
-expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="_1"/> from 1:}).to_stderr
-expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="a#b"/> from :a#b:}).to_stderr
+expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="_1_"/> from 1:}).to_stderr
+expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="_a#b_"/> from :a#b:}).to_stderr
 end
 
 
