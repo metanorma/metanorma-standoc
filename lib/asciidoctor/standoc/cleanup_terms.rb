@@ -110,8 +110,8 @@ module Asciidoctor
         end
         ret = Nokogiri::XML(key.to_xml)
         HTMLEntities.new.decode(ret.text).
-          gsub(/[\[\]\{\}<>\(\)]/, "").strip.
-          gsub(/[[:punct]]|[_^]/, ":\\0").gsub(/`/, "").
+          gsub(/[\[\]\{\}<>\(\)]/, "").gsub(/\s/m, "").
+          gsub(/[[:punct:]]|[_^]/, ":\\0").gsub(/`/, "").
           gsub(/[0-9]+/, "þ\\0")
       end
         

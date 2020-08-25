@@ -1669,12 +1669,28 @@ it "sorts symbols lists" do
   x_1_:: Definition 3
   x_m_:: Definition 4
   x:: Definition 5
+  stem:[n]:: Definition 6
+  m:: Definition 7
   INPUT
   #{BLANK_HDR}
   <sections>
     <definitions id='L' obligation="normative">
       <title>Symbols and abbreviated terms</title>
       <dl id='_'>
+      <dt>m</dt>
+<dd>
+  <p id='_'>Definition 7</p>
+</dd>
+<dt>
+  <stem type='MathML'>
+    <math xmlns='http://www.w3.org/1998/Math/MathML'>
+      <mi>n</mi>
+    </math>
+  </stem>
+</dt>
+<dd>
+  <p id='_'>Definition 6</p>
+</dd>
         <dt>x</dt>
         <dd>
           <p id='_'>Definition 5</p>
