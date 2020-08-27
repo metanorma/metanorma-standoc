@@ -79,7 +79,7 @@ it "processes complex dl reference" do
 
 [[ISOTC211]]
 [%bibitem]
-=== {blank}
+=== Other Title
 fetched:: 2019-06-30
 title::
   type::: main
@@ -295,6 +295,8 @@ formattedref::
   <fetched>2019-06-30</fetched>
   <title type="main" format="text/plain">Geographic information</title>
   <title type="subtitle" format="text/plain" language="en" script="Latn">Geographic information subtitle</title>
+  <title type='title-main' format='text/plain'>Other Title</title>
+<title type='main' format='text/plain'>Other Title</title>
   <uri type="src">https://www.iso.org/standard/53798.html</uri>
   <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:53798:en</uri>
   <uri type="rss">https://www.iso.org/contents/data/standard/05/37/53798.detail.rss</uri>

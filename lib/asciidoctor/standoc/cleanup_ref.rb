@@ -203,7 +203,9 @@ module Asciidoctor
         end
         if !nested and c.at("./title")
           title = c.at("./title").remove.children.to_xml
-          bib["title"] = bib["title"] ? Array(bib["title"]) : []
+          bib["title"] = [bib["title"]] if bib["title"].is_a? Hash
+          bib["title"] = [bib["title"]] if bib["title"].is_a? String
+          bib["title"] = [] unless bib["title"]
           bib["title"] << title if !title.empty?
         end
         bib
