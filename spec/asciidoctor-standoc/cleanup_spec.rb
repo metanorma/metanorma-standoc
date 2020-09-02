@@ -2646,7 +2646,7 @@ INPUT
                 </clause>
               </clause>
               <definitions id='_' obligation='normative'>
-                <title>Symbols and abbreviated terms</title>
+                <title>Symboles et termes abrégés</title>
                 <clause id='_' inline-header='false' obligation='normative'>
                   <title>General</title>
                 </clause>

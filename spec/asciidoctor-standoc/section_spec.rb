@@ -520,7 +520,6 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
-
   it "varies terms & symbols title" do
      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
