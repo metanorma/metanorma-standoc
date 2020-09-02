@@ -52,93 +52,93 @@
         <name>AddressClassProfile attributes</name>
         <thead>
           <tr>
-            <th align='left'>Name</th>
-            <th align='left'>Definition</th>
-            <th align='left'>Mandatory/ Optional/ Conditional</th>
-            <th align='left'>Max Occur</th>
-            <th align='left'>Data Type</th>
+            <th valign='top' align='left'>Name</th>
+            <th valign='top' align='left'>Definition</th>
+            <th valign='top' align='left'>Mandatory/ Optional/ Conditional</th>
+            <th valign='top' align='left'>Max Occur</th>
+            <th valign='top' align='left'>Data Type</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td align='left'>id</td>
-            <td align='left'>Unique identifier of this AddressClassProfile.</td>
-            <td align='left'>M</td>
-            <td align='left'>1</td>
-            <td align='left'>
+            <td valign='top' align='left'>id</td>
+            <td valign='top' align='left'>Unique identifier of this AddressClassProfile.</td>
+            <td valign='top' align='left'>M</td>
+            <td valign='top' align='left'>1</td>
+            <td valign='top' align='left'>
               <tt>CharacterString</tt>
             </td>
           </tr>
           <tr>
-            <td align='left'>type</td>
-            <td align='left'>Intended usage of this profile.</td>
-            <td align='left'>M</td>
-            <td align='left'>1</td>
-            <td align='left'>
+            <td valign='top' align='left'>type</td>
+            <td valign='top' align='left'>Intended usage of this profile.</td>
+            <td valign='top' align='left'>M</td>
+            <td valign='top' align='left'>1</td>
+            <td valign='top' align='left'>
               <tt>CharacterString</tt>
             </td>
           </tr>
           <tr>
-            <td align='left'>description</td>
-            <td align='left'>Textual description of this profile.</td>
-            <td align='left'>M</td>
-            <td align='left'>1</td>
-            <td align='left'>
+            <td valign='top' align='left'>description</td>
+            <td valign='top' align='left'>Textual description of this profile.</td>
+            <td valign='top' align='left'>M</td>
+            <td valign='top' align='left'>1</td>
+            <td valign='top' align='left'>
               <tt>CharacterString</tt>
             </td>
           </tr>
           <tr>
-            <td align='left'>localization</td>
-            <td align='left'>The language and script used within this profile.</td>
-            <td align='left'>M</td>
-            <td align='left'>1</td>
-            <td align='left'>
+            <td valign='top' align='left'>localization</td>
+            <td valign='top' align='left'>The language and script used within this profile.</td>
+            <td valign='top' align='left'>M</td>
+            <td valign='top' align='left'>1</td>
+            <td valign='top' align='left'>
               <tt>Localization</tt>
             </td>
           </tr>
           <tr>
-            <td align='left'>signature</td>
-            <td align='left'>
+            <td valign='top' align='left'>signature</td>
+            <td valign='top' align='left'>
               The digital signature to verify the integrity of this profile, and
               the identity of the publishing authority.
             </td>
-            <td align='left'>O</td>
-            <td align='left'>1</td>
-            <td align='left'>
+            <td valign='top' align='left'>O</td>
+            <td valign='top' align='left'>1</td>
+            <td valign='top' align='left'>
               <tt>Signature</tt>
             </td>
           </tr>
           <tr>
-            <td align='left'>areaApplicability</td>
-            <td align='left'>
+            <td valign='top' align='left'>areaApplicability</td>
+            <td valign='top' align='left'>
               The geographic representation of which this AddressClassProfile
               applies to. Overlapping geographic areas are allowed across
               different profiles.
             </td>
-            <td align='left'>O</td>
-            <td align='left'>N</td>
-            <td align='left'>
+            <td valign='top' align='left'>O</td>
+            <td valign='top' align='left'>N</td>
+            <td valign='top' align='left'>
               <tt>iso19115MD_SpatialRepresentation</tt>
             </td>
           </tr>
           <tr>
-            <td align='left'>timeToLive</td>
-            <td align='left'>
+            <td valign='top' align='left'>timeToLive</td>
+            <td valign='top' align='left'>
               The maximum time interval between refreshing of this profile via
               an authoritative source, in seconds.
             </td>
-            <td align='left'>M</td>
-            <td align='left'>1</td>
-            <td align='left'>
+            <td valign='top' align='left'>M</td>
+            <td valign='top' align='left'>1</td>
+            <td valign='top' align='left'>
               <tt>Integer</tt>
             </td>
           </tr>
           <tr>
-            <td align='left'>validity</td>
-            <td align='left'>The period of date and time that this profile should be considered as valid.</td>
-            <td align='left'>M</td>
-            <td align='left'>1</td>
-            <td align='left'>
+            <td valign='top' align='left'>validity</td>
+            <td valign='top' align='left'>The period of date and time that this profile should be considered as valid.</td>
+            <td valign='top' align='left'>M</td>
+            <td valign='top' align='left'>1</td>
+            <td valign='top' align='left'>
               <tt>Validity</tt>
             </td>
           </tr>

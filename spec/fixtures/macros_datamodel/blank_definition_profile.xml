@@ -9,38 +9,38 @@
         <name>Signature attributes</name>
         <thead>
           <tr>
-            <th align='left'>Name</th>
-            <th align='left'>Definition</th>
-            <th align='left'>Mandatory/ Optional/ Conditional</th>
-            <th align='left'>Max Occur</th>
-            <th align='left'>Data Type</th>
+            <th valign='top' align='left'>Name</th>
+            <th valign='top' align='left'>Definition</th>
+            <th valign='top' align='left'>Mandatory/ Optional/ Conditional</th>
+            <th valign='top' align='left'>Max Occur</th>
+            <th valign='top' align='left'>Data Type</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td align='left'>algorithm</td>
-            <td align='left'>TODO: enum algorithm’s definition</td>
-            <td align='left'>M</td>
-            <td align='left'>1</td>
-            <td align='left'>
+            <td valign='top' align='left'>algorithm</td>
+            <td valign='top' align='left'>TODO: enum algorithm’s definition</td>
+            <td valign='top' align='left'>M</td>
+            <td valign='top' align='left'>1</td>
+            <td valign='top' align='left'>
               <tt>iso14888Oid</tt>
             </td>
           </tr>
           <tr>
-            <td align='left'>publicKey</td>
-            <td align='left'>TODO: enum publicKey’s definition</td>
-            <td align='left'>M</td>
-            <td align='left'>1</td>
-            <td align='left'>
+            <td valign='top' align='left'>publicKey</td>
+            <td valign='top' align='left'>TODO: enum publicKey’s definition</td>
+            <td valign='top' align='left'>M</td>
+            <td valign='top' align='left'>1</td>
+            <td valign='top' align='left'>
               <tt>Uri</tt>
             </td>
           </tr>
           <tr>
-            <td align='left'>signature</td>
-            <td align='left'>The actual digital signature value encoded in Base64 format.</td>
-            <td align='left'>M</td>
-            <td align='left'>1</td>
-            <td align='left'>
+            <td valign='top' align='left'>signature</td>
+            <td valign='top' align='left'>The actual digital signature value encoded in Base64 format.</td>
+            <td valign='top' align='left'>M</td>
+            <td valign='top' align='left'>1</td>
+            <td valign='top' align='left'>
               <tt>CharacterString</tt>
             </td>
           </tr>

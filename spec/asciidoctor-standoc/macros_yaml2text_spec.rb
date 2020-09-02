@@ -516,21 +516,21 @@ RSpec.describe Asciidoctor::Standoc::Yaml2TextPreprocessor do
               <table id='_'>
                 <thead>
                   <tr>
-                    <th align='left'>Script conversion system authority code</th>
-                    <th align='left'>Name in English</th>
-                    <th align='left'>Notes</th>
-                    <th align='left'>Name en</th>
+                    <th valign="top" align='left'>Script conversion system authority code</th>
+                    <th valign="top" align='left'>Name in English</th>
+                    <th valign="top" align='left'>Notes</th>
+                    <th valign="top" align='left'>Name en</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td align='left'>
+                    <td valign="top" align='left'>
                       <p id='_'>acadsin-zho-hani-latn-2002</p>
                     </td>
-                    <td align='left'>
+                    <td valign="top" align='left'>
                       <p id='_'>acadsin-zho-hani-latn-2002</p>
                     </td>
-                    <td align='left'>
+                    <td valign="top" align='left'>
                       <note id='_'>
                         <p id='_'>
                           OGC 11-122r1 code
@@ -538,7 +538,7 @@ RSpec.describe Asciidoctor::Standoc::Yaml2TextPreprocessor do
                         </p>
                       </note>
                     </td>
-                    <td align='left'>
+                    <td valign="top" align='left'>
                       <p id='_'>Academica Sinica — Chinese Tongyong Pinyin (2002)</p>
                     </td>
                   </tr>

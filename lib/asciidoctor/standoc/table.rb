@@ -45,8 +45,9 @@ module Asciidoctor
       end
 
       def table_cell(c, xml_tr, tblsec)
-        cell_attributes = { id: c.id, colspan: c.colspan,
-                            rowspan: c.rowspan, align: c.attr("halign") }
+        cell_attributes =
+          { id: c.id, colspan: c.colspan, valign: c.attr("valign"),
+            rowspan: c.rowspan, align: c.attr("halign") }
         cell_tag = "td"
         cell_tag = "th" if tblsec == :head || c.style == :header
         xml_tr.send cell_tag, **attr_code(cell_attributes) do |thd|

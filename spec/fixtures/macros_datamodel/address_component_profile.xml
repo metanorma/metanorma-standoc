@@ -23,44 +23,44 @@
         <name>AddressComponentProfile attributes</name>
         <thead>
           <tr>
-            <th align='left'>Name</th>
-            <th align='left'>Definition</th>
-            <th align='left'>Mandatory/ Optional/ Conditional</th>
-            <th align='left'>Max Occur</th>
-            <th align='left'>Data Type</th>
+            <th valign='top' align='left'>Name</th>
+            <th valign='top' align='left'>Definition</th>
+            <th valign='top' align='left'>Mandatory/ Optional/ Conditional</th>
+            <th valign='top' align='left'>Max Occur</th>
+            <th valign='top' align='left'>Data Type</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td align='left'>key</td>
-            <td align='left'>
+            <td valign='top' align='left'>key</td>
+            <td valign='top' align='left'>
               An identifier of this
               <tt>AddressComponentProfile</tt>
               , shall be unique within the
               <tt>AddressProfile</tt>
               .
             </td>
-            <td align='left'>M</td>
-            <td align='left'>1</td>
-            <td align='left'>
+            <td valign='top' align='left'>M</td>
+            <td valign='top' align='left'>1</td>
+            <td valign='top' align='left'>
               <tt>CharacterString</tt>
             </td>
           </tr>
           <tr>
-            <td align='left'>description</td>
-            <td align='left'>Textual description of this component.</td>
-            <td align='left'>M</td>
-            <td align='left'>1</td>
-            <td align='left'>
+            <td valign='top' align='left'>description</td>
+            <td valign='top' align='left'>Textual description of this component.</td>
+            <td valign='top' align='left'>M</td>
+            <td valign='top' align='left'>1</td>
+            <td valign='top' align='left'>
               <tt>CharacterString</tt>
             </td>
           </tr>
           <tr>
-            <td align='left'>example</td>
-            <td align='left'>A textual example to demonstrate the correct use of this component.</td>
-            <td align='left'>O</td>
-            <td align='left'>1</td>
-            <td align='left'>
+            <td valign='top' align='left'>example</td>
+            <td valign='top' align='left'>A textual example to demonstrate the correct use of this component.</td>
+            <td valign='top' align='left'>O</td>
+            <td valign='top' align='left'>1</td>
+            <td valign='top' align='left'>
               <tt>CharacterString</tt>
             </td>
           </tr>
