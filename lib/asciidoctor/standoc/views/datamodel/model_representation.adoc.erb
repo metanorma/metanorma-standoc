@@ -2,29 +2,29 @@
 [yaml2text,<%= model_path %>,definition]
 ----
 
-=== {definition.name || "<%= file_name %>"}
+=== {definition.name | default: "<%= file_name %>"}
 {definition.definition}
 
-{if definition.attributes}
-.{definition.name || "<%= file_name %>"} attributes
+{% if definition.attributes %}
+.{definition.name | default: "<%= file_name %>"} attributes
 |===
 |Name |Definition |Mandatory/ Optional/ Conditional |Max Occur |Data Type
 
-{definition.attributes&.*,key,EOK}
-|{key} |{definition.attributes[key].definition || "TODO: enum " + key.to_s + "'s definition"} |{definition.attributes[key]&.cardinality&.min == 0 ? "O" : "M"} |{definition.attributes[key]&.cardinality&.max == "*" ? "N" : "1"} |{definition.attributes[key].origin ? "<<" + definition.attributes[key].origin.to_s + ">>" : ""}`{definition.attributes[key].type}`
+{definition.attributes.*,key,EOK}
+|{key} |{% if definition.attributes[key].definition %}{{ definition.attributes[key].definition }}{% else %}TODO: enum {{ key }}'s definition{% endif %} |{% if definition.attributes[key].cardinality.min == 0 %}O{% else %}M{% endif %} |{% if definition.attributes[key].cardinality.max == "*" %}N{% else %}1{% endif %} |{% if definition.attributes[key].origin %}<<{{ definition.attributes[key].origin }}>>{% endif %} `{definition.attributes[key].type}`
 {EOK}
 |===
-{end}
+{% endif %}
 
-{if definition['values']}
-.{definition.name || "<%= file_name %>"} values
+{% if definition['values'] %}
+.{definition.name | default: "<%= file_name %>"} values
 |===
 |Name |Definition
 
-{definition['values']&.*,key,EOK}
+{definition['values'].*,key,EOK}
 |{key} |{definition['values'][key].definition}
 {EOK}
 |===
-{end}
+{% endif %}
 
 ----

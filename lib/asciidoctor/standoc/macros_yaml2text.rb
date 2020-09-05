@@ -1,53 +1,19 @@
 # frozen_string_literal: true
 
-require 'ostruct'
+require "liquid/custom_blocks/key_iterator"
+require "liquid/custom_filters/values"
+
+Liquid::Template.register_tag("keyiterator", Liquid::CustomBlocks::KeyIterator)
+Liquid::Template.register_filter(Liquid::CustomFilters)
 
 module Asciidoctor
   module Standoc
-    class YamlBlockStruct < OpenStruct
-      def to_a
-        @table.to_h.keys
-      end
-
-      def values
-        @table.to_h.values
-      end
-
-      def each
-        return to_a.each unless block_given?
-
-        to_a.each do |key|
-          yield(key)
-        end
-      end
-    end
-
-    class YamlContextRenderer
-      attr_reader :context_object, :context_name
-
-      def initialize(context_object:, context_name:)
-        @context_object = context_object
-        @context_name = context_name
-      end
-
-      def respond_to_missing?(name)
-        respond_to?(name)
-      end
-
-      def method_missing(name, *_args)
-        return context_object if name.to_s == context_name
-
-        super
-      end
-
-      def render(template)
-        ERB.new(template).result(binding)
-      end
-    end
-
     class Yaml2TextPreprocessor < Asciidoctor::Extensions::Preprocessor
       BLOCK_START_REGEXP = /\{(.+?)\.\*,(.+),(.+)\}/
       BLOCK_END_REGEXP = /\A\{[A-Z]+\}\z/
+
+      attr_reader :document
+
       # search document for block `yaml2text`
       #   after that take template from block and read file into this template
       #   example:
@@ -79,86 +45,93 @@ module Asciidoctor
 
       def processed_lines(document, input_lines)
         result = []
-        current_macro_line_num = 0
         loop do
-          line = input_lines.next
-          current_macro_line_num += 1
-          if yaml_block_match = line.match(/^\[yaml2text,(.+?),(.+?)\]/)
-            mark = input_lines.next
-            current_yaml_block = []
-            while (yaml_block_line = input_lines.next) != mark
-              current_yaml_block.push(yaml_block_line)
-            end
-            result.push(*read_yaml_and_parse_template(current_yaml_block,
-                                                      document,
-                                                      yaml_block_match,
-                                                      current_macro_line_num))
-          else
-            result.push(line)
-          end
+          result.push(*process_yaml2text_blocks(document, input_lines))
         end
         result
       end
 
-      def read_yaml_and_parse_template(current_yaml_block, document, yaml_block_match, current_macro_line_num)
-        content = nested_open_struct_from_yaml(yaml_block_match[1], document)
-        parse_blocks_recursively(lines: current_yaml_block,
-                                 attributes: content,
-                                 context_name: yaml_block_match[2])
+      def content_from_yaml(document, file_path)
+        docfile_directory = File.dirname(document.attributes["docfile"] || ".")
+        yaml_file_path = document
+          .path_resolver
+          .system_path(file_path, docfile_directory)
+        YAML.safe_load(File.read(yaml_file_path))
+      end
+
+      def process_yaml2text_blocks(document, input_lines)
+        line = input_lines.next
+        yaml_block_match = line.match(/^\[yaml2text,(.+?),(.+?)\]/)
+        return [line] if yaml_block_match.nil?
+
+        mark = input_lines.next
+        current_yaml_block = []
+        while (yaml_block_line = input_lines.next) != mark
+          current_yaml_block.push(yaml_block_line)
+        end
+        read_yaml_and_parse_template(document,
+                                     current_yaml_block,
+                                     yaml_block_match)
+      end
+
+      def read_yaml_and_parse_template(document, current_block, block_match)
+        transformed_liquid_lines = current_block
+          .map(&method(:transform_line_liquid))
+        context_items = content_from_yaml(document, block_match[1])
+        parse_context_block(document: document,
+                            context_lines: transformed_liquid_lines,
+                            context_items: context_items,
+                            context_name: block_match[2])
       rescue StandardError => exception
-        document
-          .logger
-          .warn("Failed to parse yaml2text block on line #{current_macro_line_num}: #{exception.message}")
+        document.logger
+          .warn("Failed to parse yaml2text block: #{exception.message}")
         []
       end
 
-      def nested_open_struct_from_yaml(file_path, document)
-        docfile_directory = File.dirname(document.attributes['docfile'] || '.')
-        yaml_file_path = document
-                         .path_resolver
-                         .system_path(file_path, docfile_directory)
-        content = YAML.safe_load(File.read(yaml_file_path))
-        # Load content as json, then parse with JSON as nested open_struct
-        JSON.parse(content.to_json, object_class: YamlBlockStruct)
-      end
-
-      def parse_blocks_recursively(lines:,
-                                   attributes:,
-                                   context_name:)
-        lines = lines.to_enum
-        result = []
-        loop do
-          line = lines.next
-          if line.match?(BLOCK_START_REGEXP)
-            line.gsub!(BLOCK_START_REGEXP,
-                       '<% \1.each&.with_index do |\2,index| %>')
-          end
-
-          if line.strip.match?(BLOCK_END_REGEXP)
-            line.gsub!(BLOCK_END_REGEXP, '<% end %>')
-          end
-          line.gsub!(/{\s*if\s*([^}]+)}/, '<% if \1 %>')
-          line.gsub!(/{\s*?end\s*?}/, '<% end %>')
-          line = line
-                 .gsub(/{(.+?[^}]*)}/, '<%= \1 %>')
-                 .gsub(/[a-z\.]+\#/, 'index')
-          result.push(line)
+      def transform_line_liquid(line)
+        if line.match?(BLOCK_START_REGEXP)
+          line.gsub!(BLOCK_START_REGEXP,
+                     '{% keyiterator \1, \2 %}')
         end
-        result = parse_context_block(context_lines: result,
-                                     context_items: attributes,
-                                     context_name: context_name)
-        result
+
+        if line.strip.match?(BLOCK_END_REGEXP)
+          line.gsub!(BLOCK_END_REGEXP, "{% endkeyiterator %}")
+        end
+        line
+          .gsub(/(?<!{){(?!%)([^{}]+)(?<!%)}(?!})/, '{{\1}}')
+          .gsub(/[a-z\.]+\#/, "index")
+          .gsub(/{{(.+).values(.*?)}}/,
+                '{% assign custom_value = \1 | values %}{{custom_value\2}}')
       end
 
       def parse_context_block(context_lines:,
                               context_items:,
-                              context_name:)
-        renderer = YamlContextRenderer
-                   .new(
-                     context_object: context_items,
-                     context_name: context_name
-                   )
-        renderer.render(context_lines.join("\n")).split("\n")
+                              context_name:,
+                              document:)
+        render_result, errors = render_liquid_string(
+          template_string: context_lines.join("\n"),
+          context_items: context_items,
+          context_name: context_name
+        )
+        notify_render_errors(document, errors)
+        render_result.split("\n")
+      end
+
+      def render_liquid_string(template_string:, context_items:, context_name:)
+        liquid_template = Liquid::Template.parse(template_string)
+        rendered_string = liquid_template
+          .render(context_name => context_items,
+                  strict_variables: true,
+                  error_mode: :warn)
+        [rendered_string, liquid_template.errors]
+      end
+
+      def notify_render_errors(document, errors)
+        errors.each do |error_obj|
+          document
+            .logger
+            .warn("Liquid render error: #{error_obj.message}")
+        end
       end
     end
   end
