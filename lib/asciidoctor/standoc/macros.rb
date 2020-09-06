@@ -1,11 +1,12 @@
 require "asciidoctor/extensions"
 require "fileutils"
 require "uuidtools"
-require 'yaml'
-require_relative './macros_plantuml.rb'
-require_relative './datamodel/attributes_table_preprocessor.rb'
-require_relative './datamodel/diagram_preprocessor.rb'
-require_relative './macros_yaml2text.rb'
+require "yaml"
+require_relative "./macros_plantuml.rb"
+require_relative "./datamodel/attributes_table_preprocessor.rb"
+require_relative "./datamodel/diagram_preprocessor.rb"
+require_relative "./yaml2_text_preprocessor.rb"
+require_relative "./json2_text_preprocessor.rb"
 
 module Asciidoctor
   module Standoc
@@ -61,17 +62,17 @@ module Asciidoctor
       use_dsl
       named :concept
       name_positional_attributes "id", "word", "term"
-      #match %r{concept:(?<target>[^\[]*)\[(?<content>|.*?[^\\])\]$}
+      # match %r{concept:(?<target>[^\[]*)\[(?<content>|.*?[^\\])\]$}
       match /\{\{(?<content>|.*?[^\\])\}\}/
       using_format :short
 
       # deal with locality attrs and their disruption of positional attrs
       def preprocess_attrs(attrs)
-        attrs.delete("term") if attrs["term"] and !attrs["word"]
+        attrs.delete("term") if attrs["term"] && !attrs["word"]
         attrs.delete(3) if attrs[3] == attrs["term"]
-        a = attrs.keys.reject { |k| k.is_a? String or [1, 2].include? k }
-        attrs["word"] ||= attrs[a[0]] if a.length() > 0
-        attrs["term"] ||= attrs[a[1]] if a.length() > 1
+        a = attrs.keys.reject { |k| k.is_a?(String) || [1, 2].include?(k) }
+        attrs["word"] ||= attrs[a[0]] if !a.empty?
+        attrs["term"] ||= attrs[a[1]] if a.length > 1
         attrs
       end
 
@@ -94,30 +95,30 @@ module Asciidoctor
 
       def init_indent(s)
         /^(?<prefix>[ \t]*)(?<suffix>.*)$/ =~ s
-        prefix = prefix.gsub(/\t/, "\u00a0\u00a0\u00a0\u00a0").
-          gsub(/ /, "\u00a0")
+        prefix = prefix.gsub(/\t/, "\u00a0\u00a0\u00a0\u00a0")
+          .gsub(/ /, "\u00a0")
         prefix + suffix
       end
 
       def supply_br(lines)
         ignore = false
         lines.each_with_index do |l, i|
-          /^(--+|====+|\|===|\.\.\.\.+|\*\*\*\*+|\+\+\+\++|\`\`\`\`+|____\+)$/.match(l) and
-            ignore = !ignore
+          /^(--+|====+|\|===|\.\.\.\.+|\*\*\*\*+|\+\+\+\++|\`\`\`\`+|____\+)$/.match(l) &&
+            (ignore = !ignore)
           next if l.empty? || l.match(/ \+$/)
           next if /^\[.*\]$/.match(l)
           next if ignore
-          next if i == lines.size - 1 || i < lines.size - 1 && lines[i+1].empty?
+          next if i == lines.size - 1 || i < lines.size - 1 && lines[i + 1].empty?
           lines[i] += " +"
         end
         lines
       end
 
-      def process parent, reader, attrs
-        attrs['role'] = 'pseudocode'
+      def process(parent, reader, attrs)
+        attrs["role"] = "pseudocode"
         lines = reader.lines.map { |m| init_indent(m) }
         ret = create_block(parent, :example, supply_br(lines),
-                     attrs, content_model: :compound)
+                           attrs, content_model: :compound)
         ret
       end
     end
@@ -128,19 +129,19 @@ module Asciidoctor
       parse_content_as :text
       option :pos_attrs, %w(rpbegin rt rpend)
 
-      def process(parent, target, attributes)
-        rpbegin = '('
-        rpend = ')'
-        if attributes.size == 1 and attributes.key?("text")
+      def process(_parent, target, attributes)
+        rpbegin = "("
+        rpend = ")"
+        if (attributes.size == 1) && attributes.key?("text")
           rt = attributes["text"]
-        elsif attributes.size == 2 and attributes.key?(1) and
-          attributes.key?("rpbegin")
+        elsif (attributes.size == 2) && attributes.key?(1) &&
+            attributes.key?("rpbegin")
           # for example, html5ruby:楽聖少女[がくせいしょうじょ]
           rt = attributes[1] || ""
         else
-          rpbegin = attributes['rpbegin']
-          rt = attributes['rt']
-          rpend = attributes['rpend']
+          rpbegin = attributes["rpbegin"]
+          rt = attributes["rt"]
+          rpend = attributes["rpend"]
         end
 
         "<ruby>#{target}<rp>#{rpbegin}</rp><rt>#{rt}</rt>"\
@@ -153,16 +154,16 @@ module Asciidoctor
       named :TODO
       on_contexts :example, :paragraph
 
-      def process parent, reader, attrs
-        attrs['name'] = 'todo'
-        attrs['caption'] = 'TODO'
+      def process(parent, reader, attrs)
+        attrs["name"] = "todo"
+        attrs["caption"] = "TODO"
         create_block parent, :admonition, reader.lines, attrs,
-          content_model: :compound
+                     content_model: :compound
       end
     end
 
     class ToDoInlineAdmonitionBlock < Extensions::Treeprocessor
-      def process document
+      def process(document)
         (document.find_by context: :paragraph).each do |para|
           next unless /^TODO: /.match para.lines[0]
           parent = para.parent
@@ -170,7 +171,7 @@ module Asciidoctor
           para.set_attr("caption", "TODO")
           para.lines[0].sub!(/^TODO: /, "")
           todo = Block.new parent, :admonition, attributes: para.attributes,
-            source: para.lines, content_model: :compound
+                                                source: para.lines, content_model: :compound
           parent.blocks[parent.blocks.index(para)] = todo
         end
       end
