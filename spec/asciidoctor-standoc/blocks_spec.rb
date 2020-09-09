@@ -1275,4 +1275,106 @@ end</sourcecode></verification>
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(output)
   end
 
+  it "processes change clauses" do
+    input = <<~"INPUT"
+#{ASCIIDOC_BLANK_HDR}
+[change="modify",locality="page=27",path="//table[2]",path_end="//table[2]/following-sibling:example[1]",title="Change"]
+==== Change Clause
+
+autonumber:table[2]
+autonumber:note[7]
+
+_This table contains information on polygon cells which are not included in ISO 10303-52. Remove table 2 completely and replace with:_
+
+____
+.Edges of triangle and quadrilateral cells
+|===
+2+^.^h| triangle 2+^.^h| quadrilateral
+^.^| edge ^.^| vertices ^.^| edge ^.^| vertices
+^.^| 1 ^.^| 1, 2 ^.^| 1 ^.^| 1, 2
+^.^| 2 ^.^| 2, 3 ^.^| 2 ^.^| 2, 3
+^.^| 3 ^.^| 3, 1 ^.^| 3 ^.^| 3, 4
+| | ^.^| 4 ^.^| 4, 1
+|===
+
+====
+This is not generalised further.
+====
+
+____
+
+    INPUT
+
+     output = <<~"OUTPUT"
+            #{BLANK_HDR}
+     <sections>
+  <clause id='_' inline-header='false' obligation='normative'>
+    <title>Change Clause</title>
+    <amend id='_' change='modify' path='//table[2]' path_end='//table[2]/following-sibling:example[1]' title='Change'>
+      <description>
+        <p id='_'>
+          <autonumber type='table'>2</autonumber>
+          <autonumber type='note'>7</autonumber>
+        </p>
+        <p id='_'>
+          <em>
+            This table contains information on polygon cells which are not
+            included in ISO 10303-52. Remove table 2 completely and replace
+            with:
+          </em>
+        </p>
+      </description>
+      <replacement id='_'>
+        <table id='_'>
+          <name>Edges of triangle and quadrilateral cells</name>
+          <tbody>
+            <tr>
+              <th colspan='2' valign='middle' align='center'>triangle</th>
+              <th colspan='2' valign='middle' align='center'>quadrilateral</th>
+            </tr>
+            <tr>
+              <td valign='middle' align='center'>edge</td>
+              <td valign='middle' align='center'>vertices</td>
+              <td valign='middle' align='center'>edge</td>
+              <td valign='middle' align='center'>vertices</td>
+            </tr>
+            <tr>
+              <td valign='middle' align='center'>1</td>
+              <td valign='middle' align='center'>1, 2</td>
+              <td valign='middle' align='center'>1</td>
+              <td valign='middle' align='center'>1, 2</td>
+            </tr>
+            <tr>
+              <td valign='middle' align='center'>2</td>
+              <td valign='middle' align='center'>2, 3</td>
+              <td valign='middle' align='center'>2</td>
+              <td valign='middle' align='center'>2, 3</td>
+            </tr>
+            <tr>
+              <td valign='middle' align='center'>3</td>
+              <td valign='middle' align='center'>3, 1</td>
+              <td valign='middle' align='center'>3</td>
+              <td valign='middle' align='center'>3, 4</td>
+            </tr>
+            <tr>
+              <td valign='top' align='left'/>
+              <td valign='top' align='left'/>
+              <td valign='middle' align='center'>4</td>
+              <td valign='middle' align='center'>4, 1</td>
+            </tr>
+          </tbody>
+        </table>
+        <example id='_'>
+          <p id='_'>This is not generalised further.</p>
+        </example>
+      </replacement>
+    </amend>
+  </clause>
+</sections>
+     </standard-document>
+     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(output)
+  end
+
+
 end

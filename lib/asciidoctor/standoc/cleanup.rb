@@ -9,6 +9,7 @@ require_relative "./cleanup_boilerplate.rb"
 require_relative "./cleanup_section.rb"
 require_relative "./cleanup_terms.rb"
 require_relative "./cleanup_inline.rb"
+require_relative "./cleanup_amend.rb"
 require "relaton_iev"
 
 module Asciidoctor

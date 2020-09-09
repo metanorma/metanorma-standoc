@@ -1,8 +1,6 @@
 require "date"
-require "nokogiri"
 require "htmlentities"
 require "json"
-require "pathname"
 require "open-uri"
 require "mathml2asciimath"
 
@@ -107,6 +105,7 @@ module Asciidoctor
         sections_order_cleanup(x)
         sections_level_cleanup(x)
         sections_names_cleanup(x)
+        change_clauses(x)
       end
 
       def obligations_cleanup(x)

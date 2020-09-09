@@ -8,6 +8,7 @@ RSpec.describe Asciidoctor::Standoc do
       deprecated:[term1]
       domain:[term1]
       inherit:[<<ref1>>]
+      autonumber:table[3]
 
       [bibliography]
       == Bibliography
@@ -23,6 +24,7 @@ RSpec.describe Asciidoctor::Standoc do
     <inherit>
       <eref type='inline' bibitemid='ref1' citeas='XYZ 123'/>
     </inherit>
+    <autonumber type='table'>3</autonumber>
   </foreword>
 </preface>
 <sections> </sections>

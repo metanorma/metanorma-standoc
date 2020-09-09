@@ -30,6 +30,7 @@ module Asciidoctor
         inline_macro Asciidoctor::Standoc::InheritInlineMacro
         inline_macro Asciidoctor::Standoc::HTML5RubyMacro
         inline_macro Asciidoctor::Standoc::ConceptInlineMacro
+        inline_macro Asciidoctor::Standoc::AutonumberInlineMacro
         block Asciidoctor::Standoc::ToDoAdmonitionBlock
         treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
         block Asciidoctor::Standoc::PlantUMLBlockMacro
