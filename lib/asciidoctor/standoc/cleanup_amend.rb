@@ -12,11 +12,16 @@ module Asciidoctor
         c.elements.each do |e|
           e.parent = a unless %w(amend title).include? e.name
         end
+        create_amend1(c, a)
+      end
+
+      def create_amend1(c, a)
         a&.elements[-1]&.name = "quote" and a.elements[-1].name = "replacement"
         d = a.add_child("<description/>").first
         a.elements.each { |e| e.parent = d unless e.name == "description" }
         e = d.at("./replacement") and d.next = e
-        d.xpath("./autonumber").each { |e| d.previous = e }
+        d.xpath(".//autonumber").each { |e| d.previous = e }
+        d.xpath(".//p[normalize-space(.)='']").each { |e| e.remove }
         move_attrs_to_amend(c, a)
         a
       end

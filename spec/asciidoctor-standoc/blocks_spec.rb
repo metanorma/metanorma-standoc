@@ -1311,19 +1311,17 @@ ____
   <clause id='_' inline-header='false' obligation='normative'>
     <title>Change Clause</title>
     <amend id='_' change='modify' path='//table[2]' path_end='//table[2]/following-sibling:example[1]' title='Change'>
-      <description>
-        <p id='_'>
-          <autonumber type='table'>2</autonumber>
-          <autonumber type='note'>7</autonumber>
-        </p>
-        <p id='_'>
-          <em>
-            This table contains information on polygon cells which are not
-            included in ISO 10303-52. Remove table 2 completely and replace
-            with:
-          </em>
-        </p>
-      </description>
+    <autonumber type='table'>2</autonumber>
+               <autonumber type='note'>7</autonumber>
+               <description>
+                 <p id='_'>
+                   <em>
+                     This table contains information on polygon cells which are not
+                     included in ISO 10303-52. Remove table 2 completely and replace
+                     with:
+                   </em>
+                 </p>
+               </description>
       <replacement id='_'>
         <table id='_'>
           <name>Edges of triangle and quadrilateral cells</name>
