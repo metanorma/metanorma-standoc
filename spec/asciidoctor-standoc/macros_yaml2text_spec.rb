@@ -561,5 +561,62 @@ RSpec.describe Asciidoctor::Standoc::Yaml2TextPreprocessor do
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
+
+    context 'Liquid code snippets' do
+      let(:example_yaml_content) do
+        <<~TEXT
+          ---
+          - name: One
+            show: true
+          - name: Two
+            show: true
+          - name: Three
+            show: false
+        TEXT
+      end
+      let(:input) do
+        <<~TEXT
+          = Document title
+          Author
+          :docfile: test.adoc
+          :nodoc:
+          :novalid:
+          :no-isobib:
+          :imagesdir: spec/assets
+
+          [yaml2text,#{example_file},my_context]
+          ----
+          {% for item in my_context %}
+          {% if item.show %}
+          {{ item.name | upcase }}
+          {{ item.name | size }}
+          {% endif %}
+          {% endfor %}
+          ----
+        TEXT
+      end
+      let(:output) do
+        <<~TEXT
+          #{BLANK_HDR}
+          <sections>
+            <p id='_'>ONE 3</p>
+            <p id='_'>TWO 3</p>
+          </sections>
+          </standard-document>
+        TEXT
+      end
+
+      it 'renders liquid markup' do
+        expect(
+          xmlpp(
+            strip_guid(
+              Asciidoctor.convert(input,
+                                  backend: :standoc,
+                                  header_footer: true),
+            ),
+          ),
+        ).to(be_equivalent_to(xmlpp(output)))
+      end
+    end
   end
 end
