@@ -1,9 +1,9 @@
-RSpec.shared_examples 'structured data 2 text preprocessor' do
-  describe '#process' do
+RSpec.shared_examples "structured data 2 text preprocessor" do
+  describe "#process" do
     let(:example_file) { "example.#{extention}" }
 
     before do
-      File.open(example_file, 'w') do |n|
+      File.open(example_file, "w") do |n|
         n.puts(transform_to_type(example_content))
       end
     end
@@ -12,12 +12,12 @@ RSpec.shared_examples 'structured data 2 text preprocessor' do
       FileUtils.rm_rf(example_file)
     end
 
-    context 'Array of hashes' do
+    context "Array of hashes" do
       let(:example_content) do
-        [{"name"=>"spaghetti",
-        "desc"=>"wheat noodles of 9mm diameter",
-        "symbol"=>"SPAG",
-        "symbol_def"=>"the situation is message like spaghetti at a kid's meal"}]
+        [{ "name" => "spaghetti",
+           "desc" => "wheat noodles of 9mm diameter",
+           "symbol" => "SPAG",
+           "symbol_def" => "the situation is message like spaghetti at a kid's meal" }]
       end
       let(:input) do
         <<~TEXT
@@ -58,14 +58,14 @@ RSpec.shared_examples 'structured data 2 text preprocessor' do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
+                                  header_footer: true)
+            )
+          )
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
 
-    context 'An array of strings' do
+    context "An array of strings" do
       let(:example_content) do
         ["lorem", "ipsum", "dolor"]
       end
@@ -117,16 +117,16 @@ RSpec.shared_examples 'structured data 2 text preprocessor' do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
+                                  header_footer: true)
+            )
+          )
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
 
-    context 'A simple hash' do
+    context "A simple hash" do
       let(:example_content) do
-        {"name"=>"Lorem ipsum", "desc"=>"dolor sit amet"}
+        { "name" => "Lorem ipsum", "desc" => "dolor sit amet" }
       end
       let(:input) do
         <<~TEXT
@@ -165,16 +165,16 @@ RSpec.shared_examples 'structured data 2 text preprocessor' do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
+                                  header_footer: true)
+            )
+          )
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
 
-    context 'A simple hash with free keys' do
+    context "A simple hash with free keys" do
       let(:example_content) do
-        {"name"=>"Lorem ipsum", "desc"=>"dolor sit amet"}
+        { "name" => "Lorem ipsum", "desc" => "dolor sit amet" }
       end
       let(:input) do
         <<~TEXT
@@ -220,18 +220,18 @@ RSpec.shared_examples 'structured data 2 text preprocessor' do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
+                                  header_footer: true)
+            )
+          )
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
 
-    context 'An array of hashes' do
+    context "An array of hashes" do
       let(:example_content) do
-        [{"name"=>"Lorem", "desc"=>"ipsum", "nums"=>[2]},
-        {"name"=>"dolor", "desc"=>"sit", "nums"=>[]},
-        {"name"=>"amet", "desc"=>"lorem", "nums"=>[2, 4, 6]}]
+        [{ "name" => "Lorem", "desc" => "ipsum", "nums" => [2] },
+         { "name" => "dolor", "desc" => "sit", "nums" => [] },
+         { "name" => "amet", "desc" => "lorem", "nums" => [2, 4, 6] }]
       end
       let(:input) do
         <<~TEXT
@@ -302,9 +302,9 @@ RSpec.shared_examples 'structured data 2 text preprocessor' do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
+                                  header_footer: true)
+            )
+          )
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
@@ -312,7 +312,7 @@ RSpec.shared_examples 'structured data 2 text preprocessor' do
     context "An array with interpolated file names, etc. \
               for Asciidoc's consumption" do
       let(:example_content) do
-        {"prefix"=>"doc-", "items"=>["lorem", "ipsum", "dolor"]}
+        { "prefix" => "doc-", "items" => ["lorem", "ipsum", "dolor"] }
       end
       let(:input) do
         <<~TEXT
@@ -374,16 +374,18 @@ RSpec.shared_examples 'structured data 2 text preprocessor' do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
+                                  header_footer: true)
+            )
+          )
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
 
     context "Array of language codes" do
       let(:example_content) do
-        YAML.load(File.read(File.expand_path('../../assets/codes.yml', __dir__)))
+        YAML.safe_load(
+          File.read(File.expand_path("../../assets/codes.yml", __dir__))
+        )
       end
       let(:input) do
         <<~TEXT
@@ -426,27 +428,29 @@ RSpec.shared_examples 'structured data 2 text preprocessor' do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
+                                  header_footer: true)
+            )
+          )
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
 
     context "Nested hash dot notation" do
       let(:example_content) do
-        {"data"=>
-          {"acadsin-zho-hani-latn-2002"=>
-            {"code"=>"acadsin-zho-hani-latn-2002",
-            "name"=>{"en"=>"Academica Sinica -- Chinese Tongyong Pinyin (2002)"},
-            "authority"=>"acadsin",
-            "lang"=>{"system"=>"iso-639-2", "code"=>"zho"},
-            "source_script"=>"Hani",
-            "target_script"=>"Latn",
-            "system"=>
-              {"id"=>"2002",
-              "specification"=>"Academica Sinica -- Chinese Tongyong Pinyin (2002)"},
-            "notes"=>"NOTE: OGC 11-122r1 code `zho_Hani2Latn_AcadSin_2002`"}}}
+        { "data" =>
+          { "acadsin-zho-hani-latn-2002" =>
+            { "code" => "acadsin-zho-hani-latn-2002",
+              "name" => {
+                "en" => "Academica Sinica -- Chinese Tongyong Pinyin (2002)",
+              },
+              "authority" => "acadsin",
+              "lang" => { "system" => "iso-639-2", "code" => "zho" },
+              "source_script" => "Hani",
+              "target_script" => "Latn",
+              "system" =>
+              { "id" => "2002",
+                "specification" => "Academica Sinica -- Chinese Tongyong Pinyin (2002)" },
+              "notes" => "NOTE: OGC 11-122r1 code `zho_Hani2Latn_AcadSin_2002`" } } }
       end
       let(:input) do
         <<~TEXT
@@ -518,18 +522,18 @@ RSpec.shared_examples 'structured data 2 text preprocessor' do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
+                                  header_footer: true)
+            )
+          )
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
 
-    context 'Liquid code snippets' do
+    context "Liquid code snippets" do
       let(:example_content) do
-        [{"name"=>"One", "show"=>true},
-        {"name"=>"Two", "show"=>true},
-        {"name"=>"Three", "show"=>false}]
+        [{ "name" => "One", "show" => true },
+         { "name" => "Two", "show" => true },
+         { "name" => "Three", "show" => false }]
       end
       let(:input) do
         <<~TEXT
@@ -563,15 +567,15 @@ RSpec.shared_examples 'structured data 2 text preprocessor' do
         TEXT
       end
 
-      it 'renders liquid markup' do
+      it "renders liquid markup" do
         expect(
           xmlpp(
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
+                                  header_footer: true)
+            )
+          )
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
