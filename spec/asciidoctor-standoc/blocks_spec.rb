@@ -1275,7 +1275,38 @@ end</sourcecode></verification>
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(output)
   end
 
-  it "processes change clauses" do
+  it "processes delete change clauses" do
+    input = <<~"INPUT"
+#{ASCIIDOC_BLANK_HDR}
+[change="modify",locality="page=27",path="//table[2]",path_end="//table[2]/following-sibling:example[1]",title="Change"]
+==== Change Clause
+_This table contains information on polygon cells which are not included in ISO 10303-52. Remove table 2 completely and replace with:_
+INPUT
+ output = <<~"OUTPUT"
+            #{BLANK_HDR}
+            <sections>
+  <clause id='_' inline-header='false' obligation='normative'>
+    <title>Change Clause</title>
+    <amend id='_' change='modify' path='//table[2]' path_end='//table[2]/following-sibling:example[1]' title='Change'>
+      <description>
+        <p id='_'>
+          <em>
+            This table contains information on polygon cells which are not
+            included in ISO 10303-52. Remove table 2 completely and replace
+            with:
+          </em>
+        </p>
+      </description>
+    </amend>
+  </clause>
+</sections>
+            </standard-document>
+            OUTPUT
+ expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(output)
+
+  end
+
+  it "processes modify change clauses" do
     input = <<~"INPUT"
 #{ASCIIDOC_BLANK_HDR}
 [change="modify",locality="page=27",path="//table[2]",path_end="//table[2]/following-sibling:example[1]",title="Change"]
@@ -1303,6 +1334,7 @@ This is not generalised further.
 
 ____
 
+Any further exceptions can be ignored.
     INPUT
 
      output = <<~"OUTPUT"
@@ -1366,6 +1398,9 @@ ____
           <p id='_'>This is not generalised further.</p>
         </example>
       </replacement>
+      <description>
+  <p id='_'>Any further exceptions can be ignored.</p>
+</description>
     </amend>
   </clause>
 </sections>

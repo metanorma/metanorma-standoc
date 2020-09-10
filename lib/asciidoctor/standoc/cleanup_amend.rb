@@ -16,14 +16,25 @@ module Asciidoctor
       end
 
       def create_amend1(c, a)
-        a&.elements[-1]&.name = "quote" and a.elements[-1].name = "replacement"
-        d = a.add_child("<description/>").first
-        a.elements.each { |e| e.parent = d unless e.name == "description" }
-        e = d.at("./replacement") and d.next = e
+        create_amend2(c, a)
+        d = a.at("./description")
         d.xpath(".//autonumber").each { |e| d.previous = e }
         d.xpath(".//p[normalize-space(.)='']").each { |e| e.remove }
         move_attrs_to_amend(c, a)
         a
+      end
+
+      def create_amend2(c, a)
+        q = a.at("./quote") and q.name = "replacement"
+        if q.nil?
+          a.children = "<description>#{a.children.to_xml}</description>"
+        else
+          pre = q&.xpath("./preceding-sibling::*")&.remove
+          post = q&.xpath("./following-sibling::*")&.remove
+          pre.empty? or a << "<description>#{pre.to_xml}</description>"
+          a << q.remove
+          post.empty? or a << "<description>#{post.to_xml}</description>"
+        end
       end
 
       def move_attrs_to_amend(c, a)
