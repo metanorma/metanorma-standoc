@@ -20,7 +20,7 @@ module Asciidoctor
 
       protected
 
-      def content_from_file(document, file_path)
+      def content_from_file(_document, _file_path)
         raise ArgumentError, "Implement `content_from_file` in your class"
       end
 
@@ -52,8 +52,8 @@ module Asciidoctor
           current_block.push(block_line)
         end
         read_content_and_parse_template(document,
-                                     current_block,
-                                     block_match)
+                                        current_block,
+                                        block_match)
       end
 
       def read_content_and_parse_template(document, current_block, block_match)
@@ -66,7 +66,8 @@ module Asciidoctor
                             context_name: block_match[2])
       rescue StandardError => exception
         document.logger
-          .warn("Failed to parse #{config[:block_name]} block: #{exception.message}")
+          .warn("Failed to parse #{config[:block_name]} \
+            block: #{exception.message}")
         []
       end
 
