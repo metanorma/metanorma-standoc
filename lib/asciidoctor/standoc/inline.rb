@@ -3,7 +3,8 @@ require "htmlentities"
 require "unicode2latex"
 require "mime/types"
 require "base64"
-require 'English'
+require "English"
+require "latexmath"
 
 module Asciidoctor
   module Standoc
@@ -108,6 +109,7 @@ module Asciidoctor
           gsub(/&quot;/, '"').gsub(/&#xa;/, "\n")
       end
 
+=begin
       def latex_run1(lxm_input, cmd)
         IO.popen(cmd, "r+", external_encoding: "UTF-8") do |io|
           io.write(lxm_input)
@@ -132,6 +134,16 @@ module Asciidoctor
       def latex_parse(text)
         lxm_input = Unicode2LaTeX.unicode2latex(HTMLEntities.new.decode(text))
         results = latex_run(lxm_input)
+        results.nil? and
+          @log.add('Math', nil,
+                   "latexmlmath failed to process equation:\n#{lxm_input}")
+        results&.sub(%r{<math ([^>]+ )?display="block"}, "<math \\1")
+      end
+=end
+
+      def latex_parse(text)
+        lxm_input = Unicode2LaTeX.unicode2latex(HTMLEntities.new.decode(text))
+        results = Latexmath.parse(lxm_input).to_mathml
         results.nil? and
           @log.add('Math', nil,
                    "latexmlmath failed to process equation:\n#{lxm_input}")

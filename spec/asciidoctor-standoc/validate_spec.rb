@@ -105,6 +105,7 @@ INPUT
   expect(errf).not_to include "The following reference is missing an anchor"
   end
 
+=begin
   it "warns about malformed LaTeX" do
   FileUtils.rm_f "test.err"
   Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
@@ -120,7 +121,9 @@ INPUT
   INPUT
   expect(File.read("test.err")).to include "latexmlmath failed to process equation"
   end
+=end
 
+=begin
   it "warns about reparsing LaTeX" do
     FileUtils.rm_f "test.err"
     expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to output(/Retrying/).to_stderr
@@ -139,6 +142,7 @@ INPUT
   Subclause
   INPUT
   end
+=end
 
   it "warns about hanging paragraphs" do
   FileUtils.rm_f "test.err"

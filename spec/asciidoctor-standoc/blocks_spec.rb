@@ -86,172 +86,149 @@ RSpec.describe Asciidoctor::Standoc do
 
     INPUT
             #{BLANK_HDR}
-       <sections>
-         <formula id="ABC" inequality="true" number="3" keep-with-next="true" keep-lines-together="true">
-         <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem>
-       </formula>
-
-       <formula id="_" unnumbered="true">
-         <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub> <mrow> <mrow> <mi mathvariant="bold-italic">F</mi> </mrow> </mrow> <mrow> <mrow> <mi mathvariant="bold-italic">Α</mi> </mrow> </mrow> </msub> </math></stem>
-       </formula>
-              <formula id="_" subsequence="A">
-         <stem type="MathML">
-       <math xmlns="http://www.w3.org/1998/Math/MathML">
-         <mrow>
-           <mi>M</mi>
-           <mo>=</mo>
-           <mrow>
-             <mo>[</mo>
-             <mtable columnspacing="5pt" displaystyle="true" rowspacing="0pt">
-               <mtr>
-                 <mtd columnalign="center">
+            <sections>
+           <formula id='ABC' number='3' keep-with-next='true' keep-lines-together='true' inequality='true'>
+             <stem type='MathML'>
+               <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                 <mi>r</mi>
+                 <mo>=</mo>
+                 <mn>1</mn>
+                 <mi>%</mi>
+                 <mi>r</mi>
+                 <mo>=</mo>
+                 <mn>1</mn>
+                 <mi>%</mi>
+               </math>
+             </stem>
+           </formula>
+           <formula id='_' unnumbered='true'>
+             <stem type='MathML'>
+               <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                 <msub>
                    <mrow>
-                     <mo>-</mo>
                      <mrow>
-                       <mi>sin</mi>
-                       <mo>⁡</mo>
-                       <msub>
-                         <mi>λ</mi>
-                         <mn>0</mn>
-                       </msub>
+                       <mi mathvariant='bold-italic'>F</mi>
                      </mrow>
                    </mrow>
-                 </mtd>
-                 <mtd columnalign="center">
                    <mrow>
-                     <mi>cos</mi>
-                     <mo>⁡</mo>
-                     <msub>
-                       <mi>λ</mi>
-                       <mn>0</mn>
-                     </msub>
-                   </mrow>
-                 </mtd>
-                 <mtd columnalign="center">
-                   <mn>0</mn>
-                 </mtd>
-               </mtr>
-               <mtr>
-                 <mtd columnalign="center">
-                   <mrow>
-                     <mo>-</mo>
                      <mrow>
-                       <mrow>
-                         <mi>sin</mi>
-                         <mo>⁡</mo>
+                       <mi mathvariant='bold-italic'>Α</mi>
+                     </mrow>
+                   </mrow>
+                 </msub>
+               </math>
+             </stem>
+           </formula>
+           <formula id='_' subsequence='A'>
+             <stem type='MathML'>
+               <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                 <mrow>
+                   <mi>M</mi>
+                   <mo>=</mo>
+                   <mo>[</mo>
+                   <mtable>
+                     <mtr>
+                       <mtd>
+                         <mrow>
+                           <mo>−</mo>
+                           <mi>sin</mi>
+                         </mrow>
                          <msub>
-                           <mi>φ</mi>
+                           <mi>λ</mi>
                            <mn>0</mn>
                          </msub>
-                       </mrow>
-                       <mo>⁢</mo>
-                       <mrow>
+                       </mtd>
+                       <mtd>
                          <mi>cos</mi>
-                         <mo>⁡</mo>
                          <msub>
                            <mi>λ</mi>
                            <mn>0</mn>
                          </msub>
-                       </mrow>
-                     </mrow>
-                   </mrow>
-                 </mtd>
-                 <mtd columnalign="center">
-                   <mrow>
-                     <mo>-</mo>
-                     <mrow>
-                       <mrow>
-                         <mi>sin</mi>
-                         <mo>⁡</mo>
+                       </mtd>
+                       <mtd>
+                         <mn>0</mn>
+                       </mtd>
+                     </mtr>
+                     <mtr>
+                       <mtd>
+                         <mrow>
+                           <mo>−</mo>
+                           <mi>sin</mi>
+                         </mrow>
                          <msub>
                            <mi>φ</mi>
                            <mn>0</mn>
                          </msub>
-                       </mrow>
-                       <mo>⁢</mo>
-                       <mrow>
-                         <mi>sin</mi>
-                         <mo>⁡</mo>
+                         <mi>cos</mi>
                          <msub>
                            <mi>λ</mi>
                            <mn>0</mn>
                          </msub>
-                       </mrow>
-                     </mrow>
-                   </mrow>
-                 </mtd>
-                 <mtd columnalign="center">
-                   <mrow>
-                     <mi>cos</mi>
-                     <mo>⁡</mo>
-                     <msub>
-                       <mi>φ</mi>
-                       <mn>0</mn>
-                     </msub>
-                   </mrow>
-                 </mtd>
-               </mtr>
-               <mtr>
-                 <mtd columnalign="center">
-                   <mrow>
-                     <mrow>
-                       <mi>cos</mi>
-                       <mo>⁡</mo>
-                       <msub>
-                         <mi>φ</mi>
-                         <mn>0</mn>
-                       </msub>
-                     </mrow>
-                     <mo>⁢</mo>
-                     <mrow>
-                       <mi>cos</mi>
-                       <mo>⁡</mo>
-                       <msub>
-                         <mi>λ</mi>
-                         <mn>0</mn>
-                       </msub>
-                     </mrow>
-                   </mrow>
-                 </mtd>
-                 <mtd columnalign="center">
-                   <mrow>
-                     <mrow>
-                       <mi>cos</mi>
-                       <mo>⁡</mo>
-                       <msub>
-                         <mi>φ</mi>
-                         <mn>0</mn>
-                       </msub>
-                     </mrow>
-                     <mo>⁢</mo>
-                     <mrow>
-                       <mi>sin</mi>
-                       <mo>⁡</mo>
-                       <msub>
-                         <mi>λ</mi>
-                         <mn>0</mn>
-                       </msub>
-                     </mrow>
-                   </mrow>
-                 </mtd>
-                 <mtd columnalign="center">
-                   <mrow>
-                     <mi>sin</mi>
-                     <mo>⁡</mo>
-                     <msub>
-                       <mi>φ</mi>
-                       <mn>0</mn>
-                     </msub>
-                   </mrow>
-                 </mtd>
-               </mtr>
-             </mtable>
-             <mo>]</mo>
-           </mrow>
-         </mrow>
-       </math></stem>
-       </formula>
-       </sections></standard-document>
+                       </mtd>
+                       <mtd>
+                         <mrow>
+                           <mo>−</mo>
+                           <mi>sin</mi>
+                         </mrow>
+                         <msub>
+                           <mi>φ</mi>
+                           <mn>0</mn>
+                         </msub>
+                         <mi>sin</mi>
+                         <msub>
+                           <mi>λ</mi>
+                           <mn>0</mn>
+                         </msub>
+                       </mtd>
+                       <mtd>
+                         <mi>cos</mi>
+                         <msub>
+                           <mi>φ</mi>
+                           <mn>0</mn>
+                         </msub>
+                       </mtd>
+                     </mtr>
+                     <mtr>
+                       <mtd>
+                         <mi>cos</mi>
+                         <msub>
+                           <mi>φ</mi>
+                           <mn>0</mn>
+                         </msub>
+                         <mi>cos</mi>
+                         <msub>
+                           <mi>λ</mi>
+                           <mn>0</mn>
+                         </msub>
+                       </mtd>
+                       <mtd>
+                         <mi>cos</mi>
+                         <msub>
+                           <mi>φ</mi>
+                           <mn>0</mn>
+                         </msub>
+                         <mi>sin</mi>
+                         <msub>
+                           <mi>λ</mi>
+                           <mn>0</mn>
+                         </msub>
+                       </mtd>
+                       <mtd>
+                         <mi>sin</mi>
+                         <msub>
+                           <mi>φ</mi>
+                           <mn>0</mn>
+                         </msub>
+                       </mtd>
+                     </mtr>
+                   </mtable>
+                   <mo>]</mo>
+                 </mrow>
+               </math>
+             </stem>
+           </formula>
+         </sections>
+       </standard-document>
     OUTPUT
   end
   
