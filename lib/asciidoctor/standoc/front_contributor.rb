@@ -52,18 +52,26 @@ module Asciidoctor
         end
       end
 
+      def personal_role(node, c, suffix)
+        c.role **{ type: node.attr("role#{suffix}")&.downcase || "author" }
+      end
+
+      def personal_contact(node, suffix, p)
+        node.attr("phone#{suffix}") and p.phone node.attr("phone#{suffix}")
+        node.attr("fax#{suffix}") and
+          p.phone node.attr("fax#{suffix}"), **{type: "fax"}
+        node.attr("email#{suffix}") and p.email node.attr("email#{suffix}")
+        node.attr("contributor-uri#{suffix}") and
+          p.uri node.attr("contributor-uri#{suffix}")
+      end
+
       def personal_author1(node, xml, suffix)
         xml.contributor do |c|
-          c.role **{ type: node.attr("role#{suffix}")&.downcase || "author" }
+          personal_role(node, c, suffix)
           c.person do |p|
             person_name(node, xml, suffix, p)
             person_affiliation(node, xml, suffix, p)
-            node.attr("phone#{suffix}") and p.phone node.attr("phone#{suffix}")
-            node.attr("fax#{suffix}") and
-              p.phone node.attr("fax#{suffix}"), **{type: "fax"}
-            node.attr("email#{suffix}") and p.email node.attr("email#{suffix}")
-            node.attr("contributor-uri#{suffix}") and
-              p.uri node.attr("contributor-uri#{suffix}")
+            personal_contact(node, suffix, p)
           end
         end
       end

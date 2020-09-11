@@ -18,7 +18,9 @@ require "equivalent-xml"
 require "metanorma"
 require "metanorma/standoc"
 require "rexml/document"
-require 'byebug'
+require "byebug"
+
+Dir[File.expand_path("./support/**/**/*.rb", __dir__)].each { |f| require f }
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -44,150 +46,150 @@ def xmlpp(x)
   s = ""
   f = REXML::Formatters::Pretty.new(2)
   f.compact = true
-  f.write(REXML::Document.new(x),s)
+  f.write(REXML::Document.new(x), s)
   s
 end
 
-ASCIIDOC_BLANK_HDR = <<~"HDR"
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :no-isobib:
+ASCIIDOC_BLANK_HDR = <<~"HDR".freeze
+  = Document title
+  Author
+  :docfile: test.adoc
+  :nodoc:
+  :novalid:
+  :no-isobib:
 
 HDR
 
-DUMBQUOTE_BLANK_HDR = <<~"HDR"
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :no-isobib:
-      :smartquotes: false
+DUMBQUOTE_BLANK_HDR = <<~"HDR".freeze
+  = Document title
+  Author
+  :docfile: test.adoc
+  :nodoc:
+  :novalid:
+  :no-isobib:
+  :smartquotes: false
 
 HDR
 
-ISOBIB_BLANK_HDR = <<~"HDR"
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :no-isobib-cache:
+ISOBIB_BLANK_HDR = <<~"HDR".freeze
+  = Document title
+  Author
+  :docfile: test.adoc
+  :nodoc:
+  :novalid:
+  :no-isobib-cache:
 
 HDR
 
-FLUSH_CACHE_ISOBIB_BLANK_HDR = <<~"HDR"
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :flush-caches:
+FLUSH_CACHE_ISOBIB_BLANK_HDR = <<~"HDR".freeze
+  = Document title
+  Author
+  :docfile: test.adoc
+  :nodoc:
+  :novalid:
+  :flush-caches:
 
 HDR
 
-CACHED_ISOBIB_BLANK_HDR = <<~"HDR"
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
+CACHED_ISOBIB_BLANK_HDR = <<~"HDR".freeze
+  = Document title
+  Author
+  :docfile: test.adoc
+  :nodoc:
+  :novalid:
 
 HDR
 
-LOCAL_CACHED_ISOBIB_BLANK_HDR = <<~"HDR"
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :local-cache:
+LOCAL_CACHED_ISOBIB_BLANK_HDR = <<~"HDR".freeze
+  = Document title
+  Author
+  :docfile: test.adoc
+  :nodoc:
+  :novalid:
+  :local-cache:
 
 HDR
 
-LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR = <<~"HDR"
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :local-cache-only:
+LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR = <<~"HDR".freeze
+  = Document title
+  Author
+  :docfile: test.adoc
+  :nodoc:
+  :novalid:
+  :local-cache-only:
 
 HDR
 
-VALIDATING_BLANK_HDR = <<~"HDR"
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :no-isobib:
+VALIDATING_BLANK_HDR = <<~"HDR".freeze
+  = Document title
+  Author
+  :docfile: test.adoc
+  :nodoc:
+  :no-isobib:
 
 HDR
 
-NORM_REF_BOILERPLATE = <<~"HDR"
-<p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+NORM_REF_BOILERPLATE = <<~"HDR".freeze
+  <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
 HDR
 
-BLANK_HDR = <<~"HDR"
-<?xml version="1.0" encoding="UTF-8"?>
-<standard-document xmlns="https://www.metanorma.org/ns/standoc">
-<bibdata type="standard">
-<title language="en" format="text/plain">Document title</title>
-  <language>en</language>
-  <script>Latn</script>
-  <status><stage>published</stage></status>
-  <copyright>
-    <from>#{Time.new.year}</from>
-  </copyright>
-  <ext>
-  <doctype>article</doctype>
-  </ext>
-</bibdata>
+BLANK_HDR = <<~"HDR".freeze
+  <?xml version="1.0" encoding="UTF-8"?>
+  <standard-document xmlns="https://www.metanorma.org/ns/standoc">
+  <bibdata type="standard">
+  <title language="en" format="text/plain">Document title</title>
+    <language>en</language>
+    <script>Latn</script>
+    <status><stage>published</stage></status>
+    <copyright>
+      <from>#{Time.new.year}</from>
+    </copyright>
+    <ext>
+    <doctype>article</doctype>
+    </ext>
+  </bibdata>
 HDR
 
-HTML_HDR = <<~END
-        <html xmlns:epub="http://www.idpf.org/2007/ops">
-          <head>
-            <title>test</title>
-          </head>
-          <body lang="EN-US" link="blue" vlink="#954F72">
-            <div class="title-section">
-              <p>&#160;</p>
-            </div>
-            <br/>
-            <div class="prefatory-section">
-              <p>&#160;</p>
-            </div>
-            <br/>
-            <div class="main-section">
+HTML_HDR = <<~END.freeze
+  <html xmlns:epub="http://www.idpf.org/2007/ops">
+    <head>
+      <title>test</title>
+    </head>
+    <body lang="EN-US" link="blue" vlink="#954F72">
+      <div class="title-section">
+        <p>&#160;</p>
+      </div>
+      <br/>
+      <div class="prefatory-section">
+        <p>&#160;</p>
+      </div>
+      <br/>
+      <div class="main-section">
 END
 
-WORD_HDR = <<~END
-       <html xmlns:epub="http://www.idpf.org/2007/ops">
-         <head>
-           <title>test</title>
-         </head>
-         <body lang="EN-US" link="blue" vlink="#954F72">
-           <div class="WordSection1">
-             <p>&#160;</p>
-           </div>
-           <br clear="all" class="section"/>
-           <div class="WordSection2">
-             <p>&#160;</p>
-           </div>
-           <br clear="all" class="section"/>
-           <div class="WordSection3">
+WORD_HDR = <<~END.freeze
+  <html xmlns:epub="http://www.idpf.org/2007/ops">
+    <head>
+      <title>test</title>
+    </head>
+    <body lang="EN-US" link="blue" vlink="#954F72">
+      <div class="WordSection1">
+        <p>&#160;</p>
+      </div>
+      <br clear="all" class="section"/>
+      <div class="WordSection2">
+        <p>&#160;</p>
+      </div>
+      <br clear="all" class="section"/>
+      <div class="WordSection3">
 END
 
 def examples_path(path)
-  File.join(File.expand_path('./examples', __dir__), path)
+  File.join(File.expand_path("./examples", __dir__), path)
 end
 
 def fixtures_path(path)
-  File.join(File.expand_path('./fixtures', __dir__), path)
+  File.join(File.expand_path("./fixtures", __dir__), path)
 end
 
 def stub_fetch_ref(**opts)
@@ -212,8 +214,8 @@ def stub_fetch_ref(**opts)
   hit_pages = double("hit_pages")
   expect(hit_pages).to receive(:first).and_return(hit_page).at_least :once
 
-  expect(Isobib::IsoBibliography).to receive(:search).
-    and_wrap_original do |search, *args|
+  expect(Isobib::IsoBibliography).to receive(:search)
+    .and_wrap_original do |search, *args|
     code = args[0]
     expect(code).to be_instance_of String
     xml = get_xml(search, code, opts)
@@ -246,4 +248,3 @@ def mock_open_uri(code)
     File.read file, encoding: "utf-8"
   end.at_least :once
 end
-

@@ -50,6 +50,10 @@ module Asciidoctor
 
       def extract_localities(x)
         text = x&.children&.first&.remove&.text
+        extract_localities1(x, text)
+      end
+
+      def extract_localities1(x, text)
         b = x.add_child("<localityStack/>").first if LOCALITY_RE.match text
         while (m = LOCALITY_RE.match text)
           ref = m[:ref] ? "<referenceFrom>#{tq m[:ref]}</referenceFrom>" : ""

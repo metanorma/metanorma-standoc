@@ -1,10 +1,7 @@
 require "date"
-require "nokogiri"
 require "htmlentities"
 require "json"
-require "pathname"
 require "open-uri"
-require "pp"
 
 module Asciidoctor
   module Standoc

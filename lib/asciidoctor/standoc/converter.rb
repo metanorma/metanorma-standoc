@@ -24,12 +24,14 @@ module Asciidoctor
         preprocessor Asciidoctor::Standoc::Datamodel::AttributesTablePreprocessor
         preprocessor Asciidoctor::Standoc::Datamodel::DiagramPreprocessor
         preprocessor Asciidoctor::Standoc::Yaml2TextPreprocessor
+        preprocessor Asciidoctor::Standoc::Json2TextPreprocessor
         inline_macro Asciidoctor::Standoc::AltTermInlineMacro
         inline_macro Asciidoctor::Standoc::DeprecatedTermInlineMacro
         inline_macro Asciidoctor::Standoc::DomainTermInlineMacro
         inline_macro Asciidoctor::Standoc::InheritInlineMacro
         inline_macro Asciidoctor::Standoc::HTML5RubyMacro
         inline_macro Asciidoctor::Standoc::ConceptInlineMacro
+        inline_macro Asciidoctor::Standoc::AutonumberInlineMacro
         block Asciidoctor::Standoc::ToDoAdmonitionBlock
         treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
         block Asciidoctor::Standoc::PlantUMLBlockMacro
@@ -65,7 +67,7 @@ module Asciidoctor
         attr_accessor :_file
       end
 
-      def self.inherited( k )
+      def self.inherited(k)
         k._file = caller_locations.first.absolute_path
       end
 
