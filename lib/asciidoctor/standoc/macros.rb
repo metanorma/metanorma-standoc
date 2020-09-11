@@ -175,5 +175,16 @@ module Asciidoctor
         end
       end
     end
+
+    class AutonumberInlineMacro < Extensions::InlineMacroProcessor
+      use_dsl
+      named :autonumber
+      parse_content_as :text
+
+      def process(parent, target, attrs)
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        %{<autonumber type=#{target}>#{out}</autonumber>}
+      end
+    end
   end
 end

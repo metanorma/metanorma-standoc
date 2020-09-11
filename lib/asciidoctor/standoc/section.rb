@@ -46,7 +46,7 @@ module Asciidoctor
       end
 
       def section_attributes(node)
-        { id: Utils::anchor_or_uuid(node),
+        ret = { id: Utils::anchor_or_uuid(node),
           language: node.attributes["language"],
           script: node.attributes["script"],
           annex: (
@@ -55,8 +55,13 @@ module Asciidoctor
           ),
           preface: (
             (node.role == "preface" || node.attr("style") == "preface") ?
-            true : nil),
-        }
+            true : nil) }
+        return ret unless node.attributes["change"]
+        ret.merge(change: node.attributes["change"],
+                  path: node.attributes["path"],
+                  path_end: node.attributes["path_end"],
+                  title: node.attributes["title"],
+        )
       end
 
       def section(node)
