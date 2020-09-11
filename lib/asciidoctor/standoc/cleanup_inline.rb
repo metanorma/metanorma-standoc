@@ -142,7 +142,8 @@ module Asciidoctor
         start = s[0]
         ret1 = %r([#{NAMECHAR}#]).match(start) ? "_" :
           (%r([#{NAMESTARTCHAR}#]).match(start) ? "_#{start}" : start)
-        ret = ret1 + s[1..-1].gsub(%r([#{NAMECHAR}#]), "_")
+        ret2 = s[1..-1] || ""
+        ret = (ret1 || "") + ret2.gsub(%r([#{NAMECHAR}#]), "_")
         ret
       end
 
