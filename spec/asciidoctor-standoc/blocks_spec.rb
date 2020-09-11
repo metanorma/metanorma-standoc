@@ -1354,7 +1354,7 @@ Any further exceptions can be ignored.
                    </em>
                  </p>
                </description>
-      <replacement id='_'>
+      <newcontent id='_'>
         <table id='_'>
           <name>Edges of triangle and quadrilateral cells</name>
           <tbody>
@@ -1397,7 +1397,7 @@ Any further exceptions can be ignored.
         <example id='_'>
           <p id='_'>This is not generalised further.</p>
         </example>
-      </replacement>
+      </newcontent>
       <description>
   <p id='_'>Any further exceptions can be ignored.</p>
 </description>

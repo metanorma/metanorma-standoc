@@ -1576,7 +1576,7 @@
         </element>
       </optional>
       <optional>
-        <element name="replacement">
+        <element name="newcontent">
           <zeroOrMore>
             <ref name="BasicBlock"/>
           </zeroOrMore>

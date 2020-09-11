@@ -25,7 +25,7 @@ module Asciidoctor
       end
 
       def create_amend2(c, a)
-        q = a.at("./quote") and q.name = "replacement"
+        q = a.at("./quote") and q.name = "newcontent"
         if q.nil?
           a.children = "<description>#{a.children.to_xml}</description>"
         else
