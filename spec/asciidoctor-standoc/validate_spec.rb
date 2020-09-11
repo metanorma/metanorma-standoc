@@ -113,7 +113,7 @@ INPUT
 
   == Clause 1
 
-  latexmath:[\\begin{}]
+  latexmath:[\\[ \\text{Odd integer = 51, \\quad \\text{Even integers } = 50 \\]]
 
   === Clause 1.1
 
