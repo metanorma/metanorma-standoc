@@ -86,7 +86,8 @@ module Asciidoctor
                                     "stem, figure[@class = 'pseudocode']").empty?
             n.replace(Utils::smartformat(n.text))
           else
-            n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'"))
+            n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'"))#.
+                      #gsub(/</, "&lt;").gsub(/>/, "&gt;"))
           end
         end
       end

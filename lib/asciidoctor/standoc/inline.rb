@@ -106,7 +106,7 @@ module Asciidoctor
         HTMLEntities.new.encode(text, :basic, :hexadecimal).
           gsub(/&amp;gt;/, ">").gsub(/\&amp;lt;/, "<").gsub(/&amp;amp;/, "&").
           gsub(/&gt;/, ">").gsub(/&lt;/, "<").gsub(/&amp;/, "&").
-          gsub(/&quot;/, '"').gsub(/&#xa;/, "\n")
+          gsub(/&quot;/, '"').gsub(/&#xa;/, "\n").gsub(/&amp;#/, "&#")
       end
 
 =begin
@@ -163,7 +163,7 @@ module Asciidoctor
             s.parent.children = math
           end
         else
-          xml.stem text, **{ type: "AsciiMath" }
+          xml.stem text&.gsub(/\&amp;#/, "&#"), **{ type: "AsciiMath" }
         end
       end
 
