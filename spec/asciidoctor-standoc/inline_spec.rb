@@ -83,35 +83,117 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
 
       stem:[n < 1] +
       latexmath:[n < 1]
+      stem:["&#x200c;"^199 "Hg"^+]
       INPUT
             #{BLANK_HDR}
       <sections>
       <p id="_">
           <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math></stem><br/>
           <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math></stem>
+          <stem type='MathML'>
+  <math xmlns='http://www.w3.org/1998/Math/MathML'>
+    <msup>
+      <mrow>
+        <mtext>‌</mtext>
+      </mrow>
+      <mrow>
+        <mn>199</mn>
+      </mrow>
+    </msup>
+    <msup>
+      <mrow>
+        <mtext>Hg</mtext>
+      </mrow>
+      <mrow>
+        <mo>+</mo>
+      </mrow>
+    </msup>
+  </math>
+</stem>
         </p>
       </sections>
        </standard-document>
       OUTPUT
   end
 
-  it "normalises inline stem" do
+  it "normalises inline stem, straight quotes" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{DUMBQUOTE_BLANK_HDR}
 
       stem:[n < 1]
       latexmath:[n < 1]
+      stem:["&#x200c;"^199 "Hg"^+]
       INPUT
             #{BLANK_HDR}
       <sections>
       <p id="_">
           <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math></stem>
           <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math></stem>
+          <stem type='MathML'>
+  <math xmlns='http://www.w3.org/1998/Math/MathML'>
+    <msup>
+      <mrow>
+        <mtext>‌</mtext>
+      </mrow>
+      <mrow>
+        <mn>199</mn>
+      </mrow>
+    </msup>
+    <msup>
+      <mrow>
+        <mtext>Hg</mtext>
+      </mrow>
+      <mrow>
+        <mo>+</mo>
+      </mrow>
+    </msup>
+  </math>
+  </stem>
         </p>
       </sections>
        </standard-document>
       OUTPUT
   end
+
+  it "normalises inline stem, smart quotes" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+
+      stem:[n < 1]
+      latexmath:[n < 1]
+      stem:["&#x200c;"^199 "Hg"^+]
+      INPUT
+            #{BLANK_HDR}
+      <sections>
+      <p id="_">
+          <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math></stem>
+          <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math></stem>
+          <stem type='MathML'>
+  <math xmlns='http://www.w3.org/1998/Math/MathML'>
+    <msup>
+      <mrow> 
+        <mtext>‌</mtext>
+      </mrow>
+      <mrow>
+        <mn>199</mn>
+      </mrow>
+    </msup>
+    <msup>
+      <mrow>
+        <mtext>Hg</mtext>
+      </mrow>
+      <mrow>
+        <mo>+</mo>
+      </mrow>
+    </msup>
+  </math>
+  </stem>
+        </p>
+      </sections>
+       </standard-document>
+      OUTPUT
+  end
+
 
   it "generates desired smart quotes for 'dd'" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
