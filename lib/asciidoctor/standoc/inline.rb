@@ -33,16 +33,26 @@ module Asciidoctor
       end
 
       def inline_anchor_xref(node)
-        m = /^(?<case>capital%|lowercase%)?(?<fn>fn(:\s*(?<text>.*))?)?$/.match node.text
-        casing = m.nil? ? nil : m[:case]&.sub(/%$/, "")
-        f = (m.nil? || m[:fn].nil?) ? "inline" : "footnote"
-        c = (!m.nil? && (!m[:fn].nil? || !m[:case].nil?)) ? m[:text] : node.text
-        t = node.target.gsub(/^#/, "").gsub(%r{(\.xml|\.adoc)(#.*$)}, "\\2")
         noko do |xml|
-          xml.xref **attr_code(target: t, type: f, case: casing) do |x|
+          attrs = inline_anchor_xref_attrs(node)
+          c = attrs[:text]
+          attrs.delete(:text) unless c.nil?
+          xml.xref **attr_code(attrs) do |x|
             x << c
           end
         end.join
+      end
+
+      def inline_anchor_xref_attrs(node)
+        m = /^(?<drop>droploc%)?(?<case>capital%|lowercase%)?(?<drop2>droploc%)?
+          (?<fn>fn(:\s*(?<text>.*))?)?$/x.match node.text
+        casing = m.nil? ? nil : m[:case]&.sub(/%$/, "")
+        droploc = m.nil? ? nil : ((m[:drop].nil? && m[:drop2].nil?) ? nil: true)
+        f = (m.nil? || m[:fn].nil?) ? "inline" : "footnote"
+        c = (!m.nil? && (%i[case fn drop drop2].any? { |x| !m[x].nil? })) ?
+          m[:text] : node.text
+        t = node.target.gsub(/^#/, "").gsub(%r{(\.xml|\.adoc)(#.*$)}, "\\2")
+        { target: t, type: f, case: casing, droploc: droploc, text: c }
       end
 
       def inline_anchor_link(node)
@@ -108,38 +118,6 @@ module Asciidoctor
           gsub(/&gt;/, ">").gsub(/&lt;/, "<").gsub(/&amp;/, "&").
           gsub(/&quot;/, '"').gsub(/&#xa;/, "\n").gsub(/&amp;#/, "&#")
       end
-
-=begin
-      def latex_run1(lxm_input, cmd)
-        IO.popen(cmd, "r+", external_encoding: "UTF-8") do |io|
-          io.write(lxm_input)
-          io.close_write
-          io.read
-        end
-      end
-
-      def latex_run(lxm_input)
-        results = nil
-        Metanorma::Standoc::Requirements[:latexml].cmd.each_with_index do |cmd, i|
-          warn "Retrying with #{cmd}" if i > 0
-          results = latex_run1(lxm_input, cmd)
-          if $CHILD_STATUS.to_i.zero?
-            warn "Success!" if i > 0
-            break
-          end
-        end
-        $CHILD_STATUS.to_i.zero? ? results : nil
-      end
-
-      def latex_parse(text)
-        lxm_input = Unicode2LaTeX.unicode2latex(HTMLEntities.new.decode(text))
-        results = latex_run(lxm_input)
-        results.nil? and
-          @log.add('Math', nil,
-                   "latexmlmath failed to process equation:\n#{lxm_input}")
-        results&.sub(%r{<math ([^>]+ )?display="block"}, "<math \\1")
-      end
-=end
 
       def latex_parse(text)
         lxm_input = Unicode2LaTeX.unicode2latex(HTMLEntities.new.decode(text))

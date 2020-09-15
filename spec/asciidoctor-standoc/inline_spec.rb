@@ -283,8 +283,14 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
       Inline Reference with Text to <<reference,text>>
       Footnoted Reference with Text to <<reference,fn: text>>
       Anchored Crossreference to other document <<a.adoc#b>>
+      Capitalised Reference to <<reference,droploc%capital%>>
+      Lowercase Footnoted Reference to <<reference,capital%droploc%fn>>
       Capitalised Reference to <<reference,capital%>>
       Lowercase Footnoted Reference to <<reference,capital%fn>>
+      Capitalised Reference to <<reference,droploc%>>
+      Lowercase Footnoted Reference to <<reference,droploc%fn>>
+      Capitalised Reference to <<reference,droploc%capital%>>
+      Lowercase Footnoted Reference to <<reference,droploc%capital%fn>>
     INPUT
        #{BLANK_HDR}
         <sections>
@@ -295,8 +301,21 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
        Inline Reference with Text to <xref target="reference">text</xref>
        Footnoted Reference with Text to <xref target="reference">text</xref>
        Anchored Crossreference to other document <xref target="a#b"/>
-       Capitalised Reference to <xref target='reference' case='capital'></xref>
-       Lowercase Footnoted Reference to <xref target='reference' case='capital'></xref></p>
+       Capitalised Reference to <xref target='reference' case='capital' droploc="true"></xref>
+       Lowercase Footnoted Reference to <xref target='reference' case='capital' droploc="true"></xref>
+        Capitalised Reference to
+<xref target='reference' case='capital'/>
+ Lowercase Footnoted Reference to
+<xref target='reference' case='capital'/>
+ Capitalised Reference to
+<xref target='reference' droploc='true'/>
+ Lowercase Footnoted Reference to
+<xref target='reference' droploc='true'/>
+ Capitalised Reference to
+<xref target='reference' case='capital' droploc='true'/>
+ Lowercase Footnoted Reference to
+<xref target='reference' case='capital' droploc='true'/>
+</p>
        </clause>
        </sections>
        </standard-document>
