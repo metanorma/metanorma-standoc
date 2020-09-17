@@ -224,7 +224,7 @@ RSpec.describe Asciidoctor::Standoc do
 
   it "fetches simple ISO reference" do
     # mock_isobib_get_123
-    VCR.use_cassette "isobib_get_123_1" do
+    VCR.use_cassette "isobib_get_123_1", :re_record_interval => 25200 do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
         #{ISOBIB_BLANK_HDR}
         [bibliography]
@@ -504,7 +504,7 @@ RSpec.describe Asciidoctor::Standoc do
   it "processes dated ISO reference and joint ISO/IEC references" do
     # mock_isobib_get_iec12382
     # mock_isobib_get_124
-    VCR.use_cassette "dated_iso_ref_joint_iso_iec" do
+    VCR.use_cassette "dated_iso_ref_joint_iso_iec", :re_record_interval => 25200 do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
         #{ISOBIB_BLANK_HDR}
         [bibliography]
@@ -729,7 +729,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
     it "declines to fetch individual references" do
-    VCR.use_cassette "dated_iso_ref_joint_iso_iec" do
+    VCR.use_cassette "dated_iso_ref_joint_iso_iec", :re_record_interval => 25200 do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
         #{ISOBIB_BLANK_HDR}
         [bibliography]
@@ -947,7 +947,7 @@ OUTPUT
 
   it "processes RFC reference in Normative References" do
     # mock_rfcbib_get_rfc8341
-    VCR.use_cassette "rfcbib_get_rfc8341" do
+    VCR.use_cassette "rfcbib_get_rfc8341", :re_record_interval => 25200 do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
         #{ISOBIB_BLANK_HDR}
         [bibliography]
@@ -1198,7 +1198,7 @@ OUTPUT
       * [[[iso124,(1)ISO 123]]] _Standard_
     INPUT
       <?xml version="1.0" encoding="UTF-8"?>
-      <standard-document xmlns="https://www.metanorma.org/ns/standoc">
+      <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
       <bibdata type="standard">
       <title language="en" format="text/plain">Document title</title>
         <language>en</language>

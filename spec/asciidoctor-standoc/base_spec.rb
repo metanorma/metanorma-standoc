@@ -33,7 +33,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes default metadata" do
-    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~'OUTPUT')
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -109,7 +109,7 @@ RSpec.describe Asciidoctor::Standoc do
       :keywords: a, b, c
     INPUT
     <?xml version="1.0" encoding="UTF-8"?>
-<standard-document xmlns="https://www.metanorma.org/ns/standoc">
+<standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
 <bibdata type="standard">
 <title language="en" format="text/plain">Main Title — Title</title>
   <docidentifier>1000-1</docidentifier>
@@ -339,7 +339,7 @@ RSpec.describe Asciidoctor::Standoc do
       == Clause 1
     INPUT
            <?xml version="1.0" encoding="UTF-8"?>
-       <standard-document xmlns="https://www.metanorma.org/ns/standoc">
+       <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
        <bibdata type="standard">
          <title language="en" format="text/plain">Document title</title>
          <title language="eo" format="text/plain">Dokumenttitolo</title>
