@@ -30,7 +30,7 @@ RSpec.describe Asciidoctor::Standoc do
        </bibitem>
        <bibitem id='iso124' type='standard'>
   <title format='text/plain'>Standard</title>
-  <docidentifier type='metanorma'>[1]</docidentifier>
+  <docidentifier type='metanorma'>[2]</docidentifier>
   <docidentifier>ISO 123</docidentifier>
          <docnumber>123</docnumber>
   <contributor>
@@ -77,7 +77,7 @@ RSpec.describe Asciidoctor::Standoc do
        </bibitem>
        <bibitem id="iso124" type="standard">
           <title format="text/plain">Standard</title>
-          <docidentifier type='metanorma'>[1]</docidentifier>
+          <docidentifier type='metanorma'>[2]</docidentifier>
   <docidentifier>ISO 123:1066-1067</docidentifier>
          <docnumber>123</docnumber>
   <date type="published">
@@ -120,7 +120,7 @@ RSpec.describe Asciidoctor::Standoc do
     <title>Foreword</title>
     <p id='_'>
       <eref type='inline' bibitemid='iso123' citeas='ISO 123'/>
-      <eref type='inline' bibitemid='iso124' citeas='[1]'/>
+      <eref type='inline' bibitemid='iso124' citeas='[2]'/>
     </p>
   </foreword>
 </preface>
@@ -213,7 +213,7 @@ RSpec.describe Asciidoctor::Standoc do
     </bibitem>
   </relation>
 <docidentifier>ISO 123</docidentifier>
- <docidentifier type='metanorma'>[1]</docidentifier>
+ <docidentifier type='metanorma'>[2]</docidentifier>
 <title><em>Standard</em></title>
 </bibitem>
 </references></bibliography>
@@ -356,7 +356,7 @@ RSpec.describe Asciidoctor::Standoc do
                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                <docidentifier type='ISO'>ISO 123 (all parts)</docidentifier>
-               <docidentifier type='metanorma'>[1]</docidentifier>
+               <docidentifier type='metanorma'>[2]</docidentifier>
                <docnumber>123</docnumber>
                <date type='published'>
                  <on>2001</on>
@@ -485,7 +485,7 @@ RSpec.describe Asciidoctor::Standoc do
        </bibitem>
        <bibitem id='iso124' type='standard'>
   <title format='text/plain'>Standard</title>
-  <docidentifier type='metanorma'>[1]</docidentifier>
+  <docidentifier type='metanorma'>[2]</docidentifier>
   <docidentifier>IEC 123</docidentifier>
   <docnumber>123</docnumber>
   <contributor>
@@ -630,7 +630,7 @@ RSpec.describe Asciidoctor::Standoc do
           <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:21071:en</uri>
           <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
           <docidentifier type="ISO">ISO/IEC TR 12382:1992</docidentifier>
-          <docidentifier type='metanorma'>[1]</docidentifier>
+          <docidentifier type='metanorma'>[3]</docidentifier>
           <docnumber>12382</docnumber>
           <date type="published">
             <on>1992</on>
@@ -683,7 +683,7 @@ RSpec.describe Asciidoctor::Standoc do
           <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
           <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
           <docidentifier type="ISO">ISO 124:2014</docidentifier>
-          <docidentifier type='metanorma'>[1]</docidentifier>
+          <docidentifier type='metanorma'>[4]</docidentifier>
           <docnumber>124</docnumber>
           <date type="published">
             <on>2014</on>
@@ -869,7 +869,7 @@ OUTPUT
        </bibitem>
        <bibitem id='iso126' type='standard'>
   <title format='text/plain'>Standard</title>
-  <docidentifier type='metanorma'>[1]</docidentifier>
+  <docidentifier type='metanorma'>[4]</docidentifier>
   <docidentifier>ISO 123:—</docidentifier>
          <docnumber>123</docnumber>
   <date type='published'>
@@ -923,7 +923,7 @@ OUTPUT
        </bibitem>
        <bibitem id='iso124' type='standard'>
   <title format='text/plain'>Standard</title>
-  <docidentifier type='metanorma'>[1]</docidentifier>
+  <docidentifier type='metanorma'>[2]</docidentifier>
   <docidentifier>ISO 123:1066 (all parts)</docidentifier>
          <docnumber>123</docnumber>
   <date type='published'>
@@ -1036,7 +1036,7 @@ OUTPUT
     <uri type='xml'>https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8341.xml</uri>
     <uri type="src">https://www.rfc-editor.org/info/rfc8341</uri>
     <docidentifier type="IETF">RFC 8341</docidentifier>
-    <docidentifier type='metanorma'>[1]</docidentifier>
+    <docidentifier type='metanorma'>[2]</docidentifier>
     <docidentifier type='rfc-anchor'>RFC8341</docidentifier>
     <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
     <date type="published">
@@ -1123,7 +1123,7 @@ OUTPUT
   <formattedref format='application/x-isodoc+xml'>
     <em>Standard</em>
   </formattedref>
-  <docidentifier type='metanorma'>[1]</docidentifier>
+  <docidentifier type='metanorma'>[2]</docidentifier>
   <docidentifier>XYZ 123:1066 (all parts)</docidentifier>
          <docnumber>123:1066 (all parts)</docnumber>
 </bibitem>
@@ -1229,7 +1229,7 @@ OUTPUT
       </bibitem>
       <bibitem id='iso124' type='standard'>
   <title format='text/plain'>Standard</title>
-  <docidentifier type='metanorma'>[1]</docidentifier>
+  <docidentifier type='metanorma'>[2]</docidentifier>
   <docidentifier type='ISO'>ISO 123</docidentifier>
   <docnumber>123</docnumber>
   <contributor>
