@@ -29,25 +29,15 @@ jobs:
         uses: actions/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-      - name: Install MN Windows dependencies
-        shell: pwsh
-        run: |
-          choco install --no-progress plantuml make sed gnuwin32-coreutils.install grep
       - name: Update gems
         shell: pwsh
         run: |
           gem install bundler
           bundle config --local path vendor/bundle
           bundle install --jobs 4 --retry 3
-      - name: Install LaTeXML
-        shell: cmd
+      - name: Install PlantUML
         run: |
-          cinst -y latexml
-          refreshenv
-          set PATH=C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;%PATH%
-          where latexmlmath
+          cinst -y plantuml
       - name: Run specs
-        shell: pwsh
         run: |
-          $env:Path = "C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;$env:Path"
           bundle exec rake
