@@ -42,8 +42,7 @@ module Asciidoctor
 
       def docid(t, code)
         type, code1 = /^\[\d+\]$|^\([^)]+\).*$/.match(code) ?
-          ["metanorma", mn_code(code)] :
-          @bibdb&.docid_type(code) || [nil, code]
+          ["metanorma", mn_code(code)] : @bibdb&.docid_type(code) || [nil, code]
         code1.sub!(/^nofetch\((.+)\)$/, "\\1")
         t.docidentifier **attr_code(type: type) do |d|
           d << code1
@@ -84,6 +83,10 @@ module Asciidoctor
         ref = fetch_ref xml, m[:code], nil, no_year: true, note: m[:fn],
           title: m[:text], usrlbl: m[:usrlbl]
         return use_my_anchor(ref, m[:anchor]) if ref
+        isorefmatches2_1(xml, m)
+      end
+
+      def isorefmatches2_1(xml, m)
         xml.bibitem **attr_code(ref_attributes(m)) do |t|
           isorefrender1(t, m, "--")
           t.date **{ type: "published" } do |d|
@@ -106,13 +109,14 @@ module Asciidoctor
 
       def isorefmatches3(xml, m)
         yr = norm_year(m[:year])
-        #hasyr =  m.names.include?("year") && yr != "--"
         hasyr = !yr.nil? && yr != "--"
-        #noyr =  m.names.include?("year") && yr == "--"
         ref = fetch_ref xml, m[:code], hasyr ? yr : nil, all_parts: true, 
           no_year: yr == "--", text: m[:text], usrlbl: m[:usrlbl]
         return use_my_anchor(ref, m[:anchor]) if ref
+        isorefmatches3_1(xml, m, yr, hasyr, ref)
+      end
 
+      def isorefmatches3_1(xml, m, yr, hasyr, ref)
         xml.bibitem(**attr_code(ref_attributes(m))) do |t|
           isorefrender1(t, m, yr, " (all parts)")
           conditional_date(t, m, yr == "--")
@@ -147,30 +151,24 @@ module Asciidoctor
       end
 
       MALFORMED_REF = "no anchor on reference, markup may be malformed: see "\
-        "https://www.metanorma.com/author/topics/document-format/bibliography/ , "\
-        "https://www.metanorma.com/author/iso/topics/markup/#bibliographies".freeze
+        "https://www.metanorma.com/author/topics/document-format/"\
+        "bibliography/ , https://www.metanorma.com/author/iso/topics/markup/"\
+        "#bibliographies".freeze
 
       def analyse_ref_nofetch(ret)
         return ret unless m = /^nofetch\((?<id>.+)\)$/.match(ret[:id])
-        ret[:id] = m[:id]
-        ret[:nofetch] = true
-        ret
+        ret.merge(id: m[:id], nofetch: true)
       end
 
       def analyse_ref_repo_path(ret)
         return ret unless m =
           /^(?<type>repo|path):\((?<key>[^,]+),(?<id>.+)\)$/.match(ret[:id])
-        ret[:id] = m[:id]
-        ret[:type] = m[:type]
-        ret[:key] = m[:key]
-        ret[:nofetch] = true
-        ret
+        ret.merge(id: m[:id], type: m[:type], key: m[:key], nofetch: true)
       end
 
       def analyse_ref_numeric(ret)
         return ret unless /^\d+$/.match(ret[:id])
-        ret[:numeric] = true
-        ret
+        ret.merge(numeric: true)
       end
 
       # ref id = (usrlbl)code[:-]year
@@ -178,10 +176,7 @@ module Asciidoctor
       def analyse_ref_code(code)
         ret = {id: code}
         return ret if code.nil? || code.empty?
-        ret = analyse_ref_nofetch(ret)
-        ret = analyse_ref_repo_path(ret)
-        ret = analyse_ref_numeric(ret)
-        ret
+        analyse_ref_nofetch(analyse_ref_repo_path(analyse_ref_numeric(ret)))
       end
 
       # TODO: alternative where only title is available
@@ -190,6 +185,10 @@ module Asciidoctor
           @log.add("AsciiDoc Input", node, "#{MALFORMED_REF}: #{item}")
           return
         end
+        refitem1(xml, item, m)
+      end
+
+      def refitem1(xml, item, m)
         code = analyse_ref_code(m[:code])
         unless code[:id] && code[:numeric] || code[:nofetch]
           ref = fetch_ref xml, code[:id],
@@ -214,23 +213,25 @@ module Asciidoctor
         (?<text>.*)$}xm
 
         ISO_REF_NO_YEAR = %r{^<ref\sid="(?<anchor>[^"]+)">
-      \[(?<usrlbl>\([^)]+\))?(?<code>(ISO|IEC)[^0-9]*\s[0-9-]+):(--|\&\#821[12]\;)\]</ref>,?\s*
+      \[(?<usrlbl>\([^)]+\))?(?<code>(ISO|IEC)[^0-9]*\s[0-9-]+):
+      (--|\&\#821[12]\;)\]</ref>,?\s*
         (<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>)?,?\s?(?<text>.*)$}xm
 
         ISO_REF_ALL_PARTS = %r{^<ref\sid="(?<anchor>[^"]+)">
-        \[(?<usrlbl>\([^)]+\))?(?<code>(ISO|IEC)[^0-9]*\s[0-9]+)(:(?<year>--|\&\#821[12]\;|[0-9][0-9-]+))?\s
+        \[(?<usrlbl>\([^)]+\))?(?<code>(ISO|IEC)[^0-9]*\s[0-9]+)
+        (:(?<year>--|\&\#821[12]\;|[0-9][0-9-]+))?\s
         \(all\sparts\)\]</ref>,?\s*
           (<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>,?\s?)?(?<text>.*)$}xm
 
           NON_ISO_REF = %r{^<ref\sid="(?<anchor>[^"]+)">
-        \[(?<usrlbl>\([^)]+\))?(?<code>[^\]]+?)([:-](?<year>(19|20)[0-9][0-9]))?\]</ref>,?\s*
-          (?<text>.*)$}xm
+        \[(?<usrlbl>\([^)]+\))?(?<code>[^\]]+?)
+        ([:-](?<year>(19|20)[0-9][0-9]))?\]</ref>,?\s*(?<text>.*)$}xm
 
-          def reference1_matches(item)
-            matched = ISO_REF.match item
-            matched2 = ISO_REF_NO_YEAR.match item
-            matched3 = ISO_REF_ALL_PARTS.match item
-            [matched, matched2, matched3]
+        def reference1_matches(item)
+          matched = ISO_REF.match item
+          matched2 = ISO_REF_NO_YEAR.match item
+          matched3 = ISO_REF_ALL_PARTS.match item
+          [matched, matched2, matched3]
         end
 
         def reference1(node, item, xml)
