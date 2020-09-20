@@ -77,6 +77,29 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
     OUTPUT
   end
 
+  it "process mtext spaces" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{DUMBQUOTE_BLANK_HDR}
+
+      stem:[n < 1 " for all text "]
+INPUT
+            #{BLANK_HDR}
+  <sections>
+    <p id='_'>
+      <stem type='MathML'>
+        <math xmlns='http://www.w3.org/1998/Math/MathML'>
+          <mi>n</mi>
+          <mo/>
+          <mn>1</mn>
+          <mtext> for all text </mtext>
+        </math>
+      </stem>
+    </p>
+  </sections>
+</standard-document>
+OUTPUT
+  end
+
   it "properly handles inline substitution" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{DUMBQUOTE_BLANK_HDR}

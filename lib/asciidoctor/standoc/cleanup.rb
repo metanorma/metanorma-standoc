@@ -81,13 +81,13 @@ module Asciidoctor
         xmldoc.traverse do |n|
           next unless n.text?
           if @smartquotes
-            next unless /[-'"(<>]|\.\.|\dx/.match(n)
-            next unless n.ancestors("pre, tt, sourcecode, bibdata, on, "\
-                                    "stem, figure[@class = 'pseudocode']").empty?
+            /[-'"(<>]|\.\.|\dx/.match(n) or next
+            n.ancestors("pre, tt, sourcecode, bibdata, on, "\
+                        "stem, figure[@class = 'pseudocode']").empty? or next
             n.replace(Utils::smartformat(n.text))
           else
             n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'"))#.
-                      #gsub(/</, "&lt;").gsub(/>/, "&gt;"))
+            #gsub(/</, "&lt;").gsub(/>/, "&gt;"))
           end
         end
       end
@@ -147,16 +147,33 @@ module Asciidoctor
         align_callouts_to_annotations(xmldoc)
       end
 
+      def xml_unescape_mathml(x)
+        return if x.children.any? { |y| y.element? }
+        math = x.text.gsub(/&lt;/, "<").gsub(/&gt;/, ">").gsub(/&quot;/, '"').
+          gsub(/&apos;/, "'").gsub(/&amp;/, "&").
+          gsub(/<[^: \r\n\t\/]+:/, "<").gsub(/<\/[^ \r\n\t:]+:/, "</")
+        x.children = math
+      end
+
+      def mathml_preserve_space(m)
+        m.xpath(".//m:mtext",
+                "m" => "http://www.w3.org/1998/Math/MathML").each do |x|
+          x.children = x.children.to_xml.gsub(/^\s/, "&#xA0;").
+            gsub(/\s$/, "&#xA0;")
+        end
+      end
+
+      def mathml_namespace(stem)
+        stem.xpath("./math", ).each do |x|
+          x.default_namespace = "http://www.w3.org/1998/Math/MathML"
+        end
+      end
+
       def mathml_cleanup(xmldoc)
         xmldoc.xpath("//stem[@type = 'MathML']").each do |x|
-          next if x.children.any? { |y| y.element? }
-          math = x.text.gsub(/&lt;/, "<").gsub(/&gt;/, ">").gsub(/&quot;/, '"').
-            gsub(/&apos;/, "'").gsub(/&amp;/, "&").
-            gsub(/<[^: \r\n\t\/]+:/, "<").gsub(/<\/[^ \r\n\t:]+:/, "</").
-            gsub(/ xmlns[^>"']+/, "").
-            gsub(/<math /, '<math xmlns="http://www.w3.org/1998/Math/MathML" ').
-            gsub(/<math>/, '<math xmlns="http://www.w3.org/1998/Math/MathML">')
-          x.children = math
+          xml_unescape_mathml(x)
+          mathml_namespace(x)
+          mathml_preserve_space(x)
         end
       end
 
