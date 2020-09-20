@@ -29,18 +29,13 @@ jobs:
         uses: actions/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-      - name: Install LaTeXML
-        run: |
-          brew install libxml2 cpanminus
-          env PATH=$(brew --prefix libxml2)/bin:$PATH \
-            cpanm --notest XML::LibXSLT@1.96 git://github.com/brucemiller/LaTeXML.git@9a0e7dc5
-      - name: Install PlantUML
-        run: |
-          brew install plantuml
       - name: Update gems
         run: |
           sudo gem install bundler --force
           bundle install --jobs 4 --retry 3
+      - name: Install PlantUML
+        run: |
+          brew install plantuml
       - name: Run specs
         run: |
-          env PATH=$(brew --prefix perl)/bin:$PATH bundle exec rake
+          bundle exec rake

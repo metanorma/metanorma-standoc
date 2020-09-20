@@ -33,10 +33,6 @@ jobs:
         run: |
           gem install bundler
           bundle install --jobs 4 --retry 3
-      - name: Install LaTeXML
-        run: |
-          sudo snap install latexml --edge
-          echo "::add-path::/snap/bin"
       - name: Install PlantUML
         uses: nick-invision/retry@v1
         with:
