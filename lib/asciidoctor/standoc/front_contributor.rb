@@ -22,6 +22,9 @@ module Asciidoctor
       end
 
       def organization(org, orgname)
+        #require "byebug"; byebug
+        abbrevs = org_abbrev
+        n = abbrevs.invert[orgname] and orgname = n
         org.name orgname
         a = org_abbrev[orgname] and org.abbreviation a
       end
