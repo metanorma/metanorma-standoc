@@ -37,7 +37,8 @@ module Asciidoctor
 
       def content_from_file(document, file_path)
         YAML.safe_load(
-          File.read(relative_file_path(document, file_path)),
+          File.read(relative_file_path(document, file_path),
+            encoding: "UTF-8"),
           [Date, Time])
       end
     end
