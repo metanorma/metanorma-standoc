@@ -579,5 +579,51 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
+
+    context "Date time objects support" do
+      let(:example_content) do
+        { "date" => Date.parse('1889-09-28'), "time" => Time.gm(2020, 10, 15, 5, 34) }
+      end
+      let(:input) do
+        <<~TEXT
+          = Document title
+          Author
+          :docfile: test.adoc
+          :nodoc:
+          :novalid:
+          :no-isobib:
+          :imagesdir: spec/assets
+
+          [#{extention}2text,#{example_file},my_context]
+          ----
+          {{my_context.time}}
+
+          {{my_context.date}}
+          ----
+        TEXT
+      end
+      let(:output) do
+        <<~TEXT
+          #{BLANK_HDR}
+          <sections>
+            <p id='_'>1889-09-28</p>
+            <p id='_'>2020-10-15 05:34:00 UTC</p>
+          </sections>
+          </standard-document>
+        TEXT
+      end
+
+      it "renders liquid markup" do
+        expect(
+          xmlpp(
+            strip_guid(
+              Asciidoctor.convert(input,
+                                  backend: :standoc,
+                                  header_footer: true)
+            )
+          )
+        ).to(be_equivalent_to(xmlpp(output)))
+      end
+    end
   end
 end
