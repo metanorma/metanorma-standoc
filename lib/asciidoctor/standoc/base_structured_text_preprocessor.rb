@@ -41,29 +41,42 @@ module Asciidoctor
           .system_path(file_path, docfile_directory)
       end
 
-      def process_text_blocks(document, input_lines)
+      def process_text_blocks(document, input_lines, context_variables={})
         line = input_lines.next
         block_match = line.match(/^\[#{config[:block_name]},(.+?),(.+?)\]/)
         return [line] if block_match.nil?
 
         mark = input_lines.next
         current_block = []
+        have_nested_macroses = false
+        context_items = content_from_file(document, block_match[1])
+        context_variables = context_variables.merge(block_match[2] => context_items)
+
         while (block_line = input_lines.next) != mark
-          current_block.push(block_line)
+          if nested_match = block_line.match(/^\[#{config[:block_name]},(.+?),(.+?)\]/)
+            current_block.push(block_line)
+            nested_mark = input_lines.next
+            current_block.push(nested_mark)
+            current_block.push('{% raw  %}')
+            while (block_line = input_lines.next) != nested_mark
+              current_block.push(block_line)
+            end
+            current_block.push(block_line)
+            current_block.push('{% endraw  %}')
+          else
+            current_block.push(block_line)
+          end
         end
-        read_content_and_parse_template(document,
-                                        current_block,
-                                        block_match)
+        parse_template(document,
+          current_block,
+          context_variables)
       end
 
-      def read_content_and_parse_template(document, current_block, block_match)
-        transformed_liquid_lines = current_block
-          .map(&method(:transform_line_liquid))
-        context_items = content_from_file(document, block_match[1])
+      def parse_template(document, current_block, context_variables)
+        transformed_liquid_lines = current_block.map(&method(:transform_line_liquid))
         parse_context_block(document: document,
                             context_lines: transformed_liquid_lines,
-                            context_items: context_items,
-                            context_name: block_match[2])
+                            context_variables: context_variables)
       rescue StandardError => exception
         document.logger
           .warn("Failed to parse #{config[:block_name]} \
@@ -90,22 +103,20 @@ module Asciidoctor
       end
 
       def parse_context_block(context_lines:,
-                              context_items:,
-                              context_name:,
+                              context_variables:,
                               document:)
         render_result, errors = render_liquid_string(
           template_string: context_lines.join("\n"),
-          context_items: context_items,
-          context_name: context_name
+          context_variables: context_variables
         )
         notify_render_errors(document, errors)
         render_result.split("\n")
       end
 
-      def render_liquid_string(template_string:, context_items:, context_name:)
+      def render_liquid_string(template_string:, context_variables:)
         liquid_template = Liquid::Template.parse(template_string)
         rendered_string = liquid_template
-          .render(context_name => context_items,
+          .render(context_variables,
                   strict_variables: true,
                   error_mode: :warn)
         [rendered_string, liquid_template.errors]

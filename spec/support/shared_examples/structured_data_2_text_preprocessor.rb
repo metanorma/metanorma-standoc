@@ -625,5 +625,124 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
+
+    context "Nested files support" do
+      let(:example_content) do
+        { "date" => Date.parse('1889-09-28'), "time" => Time.gm(2020, 10, 15, 5, 34) }
+      end
+      let(:parent_file) { "parent_file.#{extention}" }
+      let(:parent_file_content) { [nested_file, nested_file_2] }
+      let(:parent_file_2) { "parent_file_2.#{extention}" }
+      let(:parent_file_2_content) { ['name', 'description'] }
+      let(:parent_file_3) { "parent_file_3.#{extention}" }
+      let(:parent_file_3_content) { ['one', 'two'] }
+      let(:nested_file) { "nested_file.#{extention}" }
+      let(:nested_file_content) do
+        {
+          name: 'nested file-main',
+          description: 'nested description-main',
+          one: 'nested one-main',
+          two: 'nested two-main'
+        }
+      end
+      let(:nested_file_2) { "nested_file_2.#{extention}" }
+      let(:nested_file_2_content) do
+        {
+          name: 'nested2 name-main',
+          description: 'nested2 description-main',
+          one: 'nested2 one-main',
+          two: 'nested2 two-main'
+        }
+      end
+      let(:input) do
+        <<~TEXT
+          = Document title
+          Author
+          :docfile: test.adoc
+          :nodoc:
+          :novalid:
+          :no-isobib:
+          :imagesdir: spec/assets
+
+          [#{extention}2text,#{parent_file},paths]
+          ----
+          {% for path in paths %}
+
+          [#{extention}2text,#{parent_file_2},attribute_names]
+          ---
+          {% for name in attribute_names %}
+
+          [yaml2text,{{ path }},data]
+          --
+
+          == {{ data[name] | split: "-" | last }}: {{ data[name] }}
+
+          --
+
+          {% endfor %}
+          ---
+
+          [#{extention}2text,#{parent_file_3},attribute_names]
+          ---
+          {% for name in attribute_names %}
+
+          [yaml2text,{{ path }},data]
+          --
+
+          == {{ data[name] }}
+
+          --
+
+          {% endfor %}
+          ---
+
+          {% endfor %}
+          ----
+        TEXT
+      end
+      let(:output) do
+        <<~TEXT
+          #{BLANK_HDR}
+          <sections>
+          </sections>
+          </standard-document>
+        TEXT
+      end
+      let(:file_list) do
+        {
+          parent_file => parent_file_content,
+          parent_file_2 => parent_file_2_content,
+          parent_file_3 => parent_file_3_content,
+          nested_file => nested_file_content,
+          nested_file_2 => nested_file_2_content
+        }
+      end
+
+      before do
+        file_list.each_pair do |file, content|
+          File.open(file, "w") do |n|
+            n.puts(transform_to_type(content))
+          end
+        end
+      end
+
+      after do
+        file_list.keys.each do |file|
+          FileUtils.rm_rf(file)
+        end
+      end
+
+      it "renders liquid markup" do
+        expect(
+          xmlpp(
+            strip_guid(
+              Asciidoctor.convert(input,
+                                  backend: :standoc,
+                                  header_footer: true)
+            )
+          )
+        ).to(be_equivalent_to(xmlpp(output)))
+      end
+    end
   end
 end
