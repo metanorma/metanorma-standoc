@@ -1028,9 +1028,6 @@
           <value>alphabet_upper</value>
         </choice>
       </attribute>
-      <optional>
-        <attribute name="start"/>
-      </optional>
       <oneOrMore>
         <ref name="li"/>
       </oneOrMore>

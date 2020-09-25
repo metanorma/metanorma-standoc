@@ -94,7 +94,7 @@ RSpec.describe Asciidoctor::Standoc do
       . Fifth
       . Sixth
 
-      [lowerroman,start=c]
+      [lowerroman]
       . A
       . B
       [upperroman]
@@ -143,7 +143,7 @@ RSpec.describe Asciidoctor::Standoc do
            <p id="_">Sixth</p>
          </li>
        </ol>
-       <ol id="_" type="roman" start="c">
+       <ol id="_" type="roman">
          <li>
            <p id="_">A</p>
          </li>
