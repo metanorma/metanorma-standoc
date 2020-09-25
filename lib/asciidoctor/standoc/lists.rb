@@ -55,7 +55,7 @@ module Asciidoctor
 
       def ol_attrs(node)
         attr_code(keep_attrs(node).merge(id: Utils::anchor_or_uuid(node),
-                  type: olist_style(node.style)))
+                  type: olist_style(node.style), start: node.attr("start")))
       end
 
       def olist(node)
