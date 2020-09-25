@@ -639,19 +639,19 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
       let(:nested_file) { "nested_file.#{extention}" }
       let(:nested_file_content) do
         {
-          name: 'nested file-main',
-          description: 'nested description-main',
-          one: 'nested one-main',
-          two: 'nested two-main'
+          'name' => 'nested file-main',
+          'description' => 'nested description-main',
+          'one' => 'nested one-main',
+          'two' => 'nested two-main'
         }
       end
       let(:nested_file_2) { "nested_file_2.#{extention}" }
       let(:nested_file_2_content) do
         {
-          name: 'nested2 name-main',
-          description: 'nested2 description-main',
-          one: 'nested2 one-main',
-          two: 'nested2 two-main'
+          'name' => 'nested2 name-main',
+          'description' => 'nested2 description-main',
+          'one' => 'nested2 one-main',
+          'two' => 'nested2 two-main'
         }
       end
       let(:input) do
@@ -672,7 +672,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           ---
           {% for name in attribute_names %}
 
-          [yaml2text,{{ path }},data]
+          [#{extention}2text,{{ path }},data]
           --
 
           == {{ data[name] | split: "-" | last }}: {{ data[name] }}
@@ -686,7 +686,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           ---
           {% for name in attribute_names %}
 
-          [yaml2text,{{ path }},data]
+          [#{extention}2text,{{ path }},data]
           --
 
           == {{ data[name] }}
@@ -704,6 +704,30 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
         <<~TEXT
           #{BLANK_HDR}
           <sections>
+            <clause id='_' inline-header='false' obligation='normative'>
+              <title>main: nested file-main</title>
+            </clause>
+            <clause id='_' inline-header='false' obligation='normative'>
+              <title>main: nested description-main</title>
+            </clause>
+            <clause id='_' inline-header='false' obligation='normative'>
+              <title>nested one-main</title>
+            </clause>
+            <clause id='_' inline-header='false' obligation='normative'>
+              <title>nested two-main</title>
+            </clause>
+            <clause id='_' inline-header='false' obligation='normative'>
+              <title>main: nested2 name-main</title>
+            </clause>
+            <clause id='_' inline-header='false' obligation='normative'>
+              <title>main: nested2 description-main</title>
+            </clause>
+            <clause id='_' inline-header='false' obligation='normative'>
+              <title>nested2 one-main</title>
+            </clause>
+            <clause id='_' inline-header='false' obligation='normative'>
+              <title>nested2 two-main</title>
+            </clause>
           </sections>
           </standard-document>
         TEXT

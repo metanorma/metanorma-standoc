@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
 require "liquid/custom_blocks/key_iterator"
+require "liquid/custom_blocks/with_yaml_nested_context"
+require "liquid/custom_blocks/with_json_nested_context"
 require "liquid/custom_filters/values"
 
 Liquid::Template.register_tag("keyiterator", Liquid::CustomBlocks::KeyIterator)
+Liquid::Template.register_tag("with_yaml_nested_context", Liquid::CustomBlocks::WithYamlNestedContext)
+Liquid::Template.register_tag("with_json_nested_context", Liquid::CustomBlocks::WithJsonNestedContext)
 Liquid::Template.register_filter(Liquid::CustomFilters)
 
 module Asciidoctor
@@ -41,35 +45,47 @@ module Asciidoctor
           .system_path(file_path, docfile_directory)
       end
 
-      def process_text_blocks(document, input_lines, context_variables={})
+      def process_text_blocks(document, input_lines)
         line = input_lines.next
         block_match = line.match(/^\[#{config[:block_name]},(.+?),(.+?)\]/)
         return [line] if block_match.nil?
 
         mark = input_lines.next
         current_block = []
-        have_nested_macroses = false
-        context_items = content_from_file(document, block_match[1])
-        context_variables = context_variables.merge(block_match[2] => context_items)
+        nested_marks = []
 
         while (block_line = input_lines.next) != mark
           if nested_match = block_line.match(/^\[#{config[:block_name]},(.+?),(.+?)\]/)
-            current_block.push(block_line)
-            nested_mark = input_lines.next
-            current_block.push(nested_mark)
-            current_block.push('{% raw  %}')
-            while (block_line = input_lines.next) != nested_mark
+            current_block.push(*nested_context_tag(document, nested_match[1], nested_match[2]).split("\n"))
+            nested_marks.push(input_lines.next)
+          else
+            if nested_marks.include?(block_line)
+              current_block.push("{% endwith_#{data_file_type}_nested_context %}")
+              nested_marks.delete(block_line)
+            else
               current_block.push(block_line)
             end
-            current_block.push(block_line)
-            current_block.push('{% endraw  %}')
-          else
-            current_block.push(block_line)
           end
         end
+        context_items = content_from_file(document, block_match[1])
+        context_variables = { block_match[2] => context_items }
         parse_template(document,
           current_block,
           context_variables)
+      end
+
+      def data_file_type
+        @config[:block_name].split('2').first
+      end
+
+      def nested_context_tag(document, file_path, context_name)
+        absolute_file_path = relative_file_path(document, file_path)
+        <<~TEMPLATE
+          {% capture nested_file_path %}
+          #{absolute_file_path}
+          {% endcapture %}
+          {% with_#{data_file_type}_nested_context nested_file_path, #{context_name}  %}
+        TEMPLATE
       end
 
       def parse_template(document, current_block, context_variables)
