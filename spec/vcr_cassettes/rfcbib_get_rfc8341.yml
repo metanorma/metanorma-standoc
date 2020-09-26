@@ -21,13 +21,13 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 17 Sep 2020 11:26:49 GMT
+      - Sat, 26 Sep 2020 08:45:26 GMT
       Server:
       - Apache/2.2.22 (Debian)
       Last-Modified:
-      - Tue, 15 Sep 2020 05:31:29 GMT
+      - Fri, 25 Sep 2020 23:45:18 GMT
       Etag:
-      - '"39c1e81-46c-5af5376830e40"'
+      - '"39c1e7a-46c-5b02be8b7df80"'
       Accept-Ranges:
       - bytes
       Content-Length:
@@ -52,7 +52,7 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Thu, 17 Sep 2020 11:26:49 GMT
+  recorded_at: Sat, 26 Sep 2020 08:45:26 GMT
 - request:
     method: get
     uri: https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8341.xml
@@ -74,13 +74,13 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 17 Sep 2020 11:26:50 GMT
+      - Sat, 26 Sep 2020 08:45:27 GMT
       Server:
       - Apache/2.2.22 (Debian)
       Last-Modified:
-      - Tue, 15 Sep 2020 05:31:29 GMT
+      - Fri, 25 Sep 2020 23:45:18 GMT
       Etag:
-      - '"39c1e81-46c-5af5376830e40"'
+      - '"39c1e7a-46c-5b02be8b7df80"'
       Accept-Ranges:
       - bytes
       Content-Length:
@@ -105,5 +105,5 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Thu, 17 Sep 2020 11:26:50 GMT
+  recorded_at: Sat, 26 Sep 2020 08:45:27 GMT
 recorded_with: VCR 5.0.0
