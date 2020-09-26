@@ -42,7 +42,7 @@ RSpec.describe Asciidoctor::Standoc do
       :novalid:
       :publisher: International Electrotechnical Commission,IETF,ISO
 INPUT
-<standard-document xmlns='https://www.metanorma.org/ns/standoc'>
+<standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='1.5.3'>
   <bibdata type='standard'>
     <title language='en' format='text/plain'>Document title</title>
     <contributor>
