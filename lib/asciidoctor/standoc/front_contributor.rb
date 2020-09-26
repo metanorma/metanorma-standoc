@@ -28,8 +28,9 @@ module Asciidoctor
       # , " => ," : CSV definition does not deal with space followed by quote
       # at start of field
       def csv_split(s, delim = ",")
-        CSV.parse_line(s&.gsub(/, "(?!")/, ',"'), liberal_parsing: true,
-                       col_sep: delim)&.map { |x| x.strip }
+        CSV.parse_line(s&.gsub(/, "(?!")/, ',"'),
+                       liberal_parsing: true,
+                       col_sep: delim)&.compact&.map { |x| x.strip }
       end
 
       def metadata_author(node, xml)

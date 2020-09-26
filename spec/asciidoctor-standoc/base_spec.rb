@@ -526,6 +526,20 @@ QU1FOiB0ZXN0Cgo=
 ])
   end
 
+  it "test submitting-organizations with delimiter in end" do
+    FileUtils.rm_f "test.doc"
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :doctype: standard
+      :encoding: utf-8
+      :lang: en
+      :submitting-organizations: Organization One; Organization Two;
+      :publisher: "Hanna Barbera", "Cartoon Network", "Ribose, Inc.",
+    INPUT
+    expect(File.exist?("test.doc")).to be true
+  end
 
 end
 
