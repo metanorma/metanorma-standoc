@@ -34,7 +34,7 @@ RSpec.describe Asciidoctor::Standoc do
 
     it "processes publisher abbreviations" do
     mock_org_abbrevs
-    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~'OUTPUT')
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -42,7 +42,7 @@ RSpec.describe Asciidoctor::Standoc do
       :novalid:
       :publisher: International Electrotechnical Commission,IETF,ISO
 INPUT
-<standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='1.5.3'>
+<standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
   <bibdata type='standard'>
     <title language='en' format='text/plain'>Document title</title>
     <contributor>
