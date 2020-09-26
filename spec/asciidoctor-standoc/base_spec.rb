@@ -126,7 +126,7 @@ OUTPUT
   end
 
   it "processes default metadata" do
-    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~'OUTPUT')
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -202,7 +202,7 @@ OUTPUT
       :keywords: a, b, c
     INPUT
     <?xml version="1.0" encoding="UTF-8"?>
-<standard-document xmlns="https://www.metanorma.org/ns/standoc">
+<standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
 <bibdata type="standard">
 <title language="en" format="text/plain">Main Title — Title</title>
   <docidentifier>1000-1</docidentifier>
@@ -432,7 +432,7 @@ OUTPUT
       == Clause 1
     INPUT
            <?xml version="1.0" encoding="UTF-8"?>
-       <standard-document xmlns="https://www.metanorma.org/ns/standoc">
+       <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
        <bibdata type="standard">
          <title language="en" format="text/plain">Document title</title>
          <title language="eo" format="text/plain">Dokumenttitolo</title>
@@ -619,6 +619,21 @@ QU1FOiB0ZXN0Cgo=
 ])
   end
 
+  it "test submitting-organizations with delimiter in end" do
+    FileUtils.rm_f "test.doc"
+    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :doctype: standard
+      :encoding: utf-8
+      :lang: en
+      :submitting-organizations: Organization One; Organization Two;
+      :publisher: "Hanna Barbera", "Cartoon Network", "Ribose, Inc.",
+    INPUT
+    expect(File.exist?("test.doc")).to be true
+  end
+
   private
 
   def mock_org_abbrevs
@@ -628,6 +643,7 @@ QU1FOiB0ZXN0Cgo=
     )
   end
 
+ 
 
 end
 

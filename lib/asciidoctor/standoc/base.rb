@@ -143,6 +143,11 @@ module Asciidoctor
         ret
       end
 
+      def version
+        flavour = self.class.name.sub(/::Converter$/, "").sub(/^.+::/, "")
+        Metanorma.versioned(Metanorma, flavour)[-1]::VERSION
+      end
+
       def clean_exit
         @log.write(@output_dir + @filename + ".err") unless @novalid
         @files_to_delete.each { |f| FileUtils.rm f }
@@ -150,7 +155,7 @@ module Asciidoctor
 
       def makexml1(node)
         result = ["<?xml version='1.0' encoding='UTF-8'?>",
-                  "<#{xml_root_tag}>"]
+                  "<#{xml_root_tag} type='semantic' version='#{version}'>"]
         result << noko { |ixml| front node, ixml }
         result << noko { |ixml| middle node, ixml }
         result << "</#{xml_root_tag}>"

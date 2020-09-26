@@ -1167,7 +1167,7 @@ end
     # mock_iecbib_get_iec60050_102_01
     # mock_iecbib_get_iec60050_103_01
     # mock_iev
-    VCR.use_cassette "separates_iev_citations_by_top_level_clause" do
+    VCR.use_cassette "separates_iev_citations_by_top_level_clause", :re_record_interval => 25200 do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{CACHED_ISOBIB_BLANK_HDR}
 
@@ -1621,7 +1621,7 @@ it "removes bibdata bibitem IDs" do
 
     INPUT
     <?xml version='1.0' encoding='UTF-8'?>
-<standard-document xmlns='https://www.metanorma.org/ns/standoc'>
+<standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
   <bibdata type='standard'>
     <title language='en' format='text/plain'>Document title</title>
     <language>en</language>
@@ -1667,7 +1667,7 @@ it "imports boilerplate file" do
     == Clause 1
 
     INPUT
-    <standard-document xmlns='https://www.metanorma.org/ns/standoc'>
+    <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
   <bibdata type='standard'>
     <title language='en' format='text/plain'>Document title</title>
     <language>en</language>
@@ -2056,7 +2056,7 @@ expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, heade
       === Bibliography Subsection
 
 INPUT
- <standard-document xmlns='https://www.metanorma.org/ns/standoc'>
+ <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
          <bibdata type='standard'>
            <title language='en' format='text/plain'>Document title</title>
            <language>en</language>
@@ -2332,7 +2332,7 @@ expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, heade
       === Bibliography Subsection
 
 INPUT
-<standard-document xmlns='https://www.metanorma.org/ns/standoc'>
+<standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
           <bibdata type='standard'>
             <title language='en' format='text/plain'>Document title</title>
             <language>tlh</language>
@@ -2563,7 +2563,7 @@ expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, heade
       === Bibliography Subsection
 
 INPUT
-<standard-document xmlns='https://www.metanorma.org/ns/standoc'>
+<standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
           <bibdata type='standard'>
             <title language='en' format='text/plain'>Document title</title>
             <language>fr</language>
@@ -2797,7 +2797,7 @@ expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, heade
       === Bibliography Subsection
 
 INPUT
-<standard-document xmlns='https://www.metanorma.org/ns/standoc'>
+<standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
           <bibdata type='standard'>
             <title language='en' format='text/plain'>Document title</title>
             <language>zh</language>
@@ -3028,7 +3028,7 @@ expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, heade
       === Bibliography Subsection
 
 INPUT
-<standard-document xmlns='https://www.metanorma.org/ns/standoc'>
+<standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
           <bibdata type='standard'>
             <title language='en' format='text/plain'>Document title</title>
             <language>en</language>
@@ -3178,7 +3178,7 @@ input = <<~INPUT
 
 INPUT
 expect(xmlpp(Asciidoctor.convert(input, backend: :standoc, header_footer: true).gsub(/<p id="_[^"]+">/, "").gsub('</p>', ""))).to be_equivalent_to (<<~"OUTPUT")
-<standard-document xmlns='https://www.metanorma.org/ns/standoc'>
+<standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
   <bibdata type='standard'>
     <title language='en' format='text/plain'>Document title</title>
     <language>en</language>
