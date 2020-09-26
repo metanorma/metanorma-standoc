@@ -32,6 +32,99 @@ RSpec.describe Asciidoctor::Standoc do
     expect(File.exist?("htmlstyle.css")).to be false
   end
 
+    it "processes publisher abbreviations" do
+    mock_org_abbrevs
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~'OUTPUT')
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :publisher: International Electrotechnical Commission,IETF,ISO
+INPUT
+<standard-document xmlns='https://www.metanorma.org/ns/standoc'>
+  <bibdata type='standard'>
+    <title language='en' format='text/plain'>Document title</title>
+    <contributor>
+      <role type='author'/>
+      <organization>
+        <name>International Electrotechnical Commission</name>
+        <abbreviation>IEC</abbreviation>
+      </organization>
+    </contributor>
+    <contributor>
+      <role type='author'/>
+      <organization>
+        <name>IETF</name>
+      </organization>
+    </contributor>
+    <contributor>
+      <role type='author'/>
+      <organization>
+        <name>International Standards Organization</name>
+        <abbreviation>ISO</abbreviation>
+      </organization>
+    </contributor>
+    <contributor>
+      <role type='publisher'/>
+      <organization>
+        <name>International Electrotechnical Commission</name>
+        <abbreviation>IEC</abbreviation>
+      </organization>
+    </contributor>
+    <contributor>
+      <role type='publisher'/>
+      <organization>
+        <name>IETF</name>
+      </organization>
+    </contributor>
+    <contributor>
+      <role type='publisher'/>
+      <organization>
+        <name>International Standards Organization</name>
+        <abbreviation>ISO</abbreviation>
+      </organization>
+    </contributor>
+    <language>en</language>
+    <script>Latn</script>
+    <status>
+      <stage>published</stage>
+    </status>
+    <copyright>
+      <from>2020</from>
+      <owner>
+        <organization>
+          <name>International Electrotechnical Commission</name>
+          <abbreviation>IEC</abbreviation>
+        </organization>
+      </owner>
+    </copyright>
+    <copyright>
+      <from>2020</from>
+      <owner>
+        <organization>
+          <name>IETF</name>
+        </organization>
+      </owner>
+    </copyright>
+    <copyright>
+      <from>2020</from>
+      <owner>
+        <organization>
+          <name>International Standards Organization</name>
+          <abbreviation>ISO</abbreviation>
+        </organization>
+      </owner>
+    </copyright>
+    <ext>
+      <doctype>article</doctype>
+    </ext>
+  </bibdata>
+  <sections> </sections>
+</standard-document>
+OUTPUT
+  end
+
   it "processes default metadata" do
     expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
@@ -540,6 +633,17 @@ QU1FOiB0ZXN0Cgo=
     INPUT
     expect(File.exist?("test.doc")).to be true
   end
+
+  private
+
+  def mock_org_abbrevs
+    allow_any_instance_of(::Asciidoctor::Standoc::Front).to receive(:org_abbrev).and_return(
+      { "International Standards Organization" => "ISO",
+        "International Electrotechnical Commission" => "IEC" }
+    )
+  end
+
+ 
 
 end
 

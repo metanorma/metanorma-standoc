@@ -22,7 +22,10 @@ module Asciidoctor
       end
 
       def organization(org, orgname)
+        abbrevs = org_abbrev
+        n = abbrevs.invert[orgname] and orgname = n
         org.name orgname
+        a = org_abbrev[orgname] and org.abbreviation a
       end
 
       # , " => ," : CSV definition does not deal with space followed by quote
@@ -104,6 +107,10 @@ module Asciidoctor
 
       def default_publisher
         nil
+      end
+
+      def org_abbrev
+        { }
       end
 
       def metadata_publisher(node, xml)
