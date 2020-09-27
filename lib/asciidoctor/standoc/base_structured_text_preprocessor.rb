@@ -6,8 +6,12 @@ require "liquid/custom_blocks/with_json_nested_context"
 require "liquid/custom_filters/values"
 
 Liquid::Template.register_tag("keyiterator", Liquid::CustomBlocks::KeyIterator)
-Liquid::Template.register_tag("with_yaml_nested_context", Liquid::CustomBlocks::WithYamlNestedContext)
-Liquid::Template.register_tag("with_json_nested_context", Liquid::CustomBlocks::WithJsonNestedContext)
+Liquid::Template
+  .register_tag("with_yaml_nested_context",
+                Liquid::CustomBlocks::WithYamlNestedContext)
+Liquid::Template
+  .register_tag("with_json_nested_context",
+                Liquid::CustomBlocks::WithJsonNestedContext)
 Liquid::Template.register_filter(Liquid::CustomFilters)
 
 module Asciidoctor
@@ -50,30 +54,36 @@ module Asciidoctor
         block_match = line.match(/^\[#{config[:block_name]},(.+?),(.+?)\]/)
         return [line] if block_match.nil?
 
-        mark = input_lines.next
+        end_mark = input_lines.next
+        parse_template(document,
+                       collect_internal_block_lines(input_lines, end_mark),
+                       block_match)
+      end
+
+      def collect_internal_block_lines(input_lines, end_mark)
         current_block = []
         nested_marks = []
-
-        while (block_line = input_lines.next) != mark
-          if nested_match = block_line.match(/^\[#{config[:block_name]},(.+?),(.+?)\]/)
-            current_block.push(*nested_context_tag(document, nested_match[1], nested_match[2]).split("\n"))
-            nested_marks.push(input_lines.next)
-          else
-            if nested_marks.include?(block_line)
-              current_block.push("{% endwith_#{data_file_type}_nested_context %}")
-              nested_marks.delete(block_line)
-            else
-              current_block.push(block_line)
-            end
+        while (block_line = input_lines.next) != end_mark
+          if nested_match = block_line
+              .match(/^\[#{config[:block_name]},(.+?),(.+?)\]/)
+            current_block
+              .push(*nested_context_tag(document,
+                                        nested_match[1],
+                                        nested_match[2]).split("\n"))
+            next nested_marks.push(input_lines.next)
           end
+
+          if nested_marks.include?(block_line)
+            current_block.push("{% endwith_#{data_file_type}_nested_context %}")
+            next nested_marks.delete(block_line)
+          end
+          current_block.push(block_line)
         end
-        parse_template(document,
-          current_block,
-          block_match)
+        current_block
       end
 
       def data_file_type
-        @config[:block_name].split('2').first
+        @config[:block_name].split("2").first
       end
 
       def nested_context_tag(document, file_path, context_name)
@@ -87,7 +97,8 @@ module Asciidoctor
       end
 
       def parse_template(document, current_block, block_match)
-        transformed_liquid_lines = current_block.map(&method(:transform_line_liquid))
+        transformed_liquid_lines = current_block
+          .map(&method(:transform_line_liquid))
         context_items = content_from_file(document, block_match[1])
         parse_context_block(document: document,
                             context_lines: transformed_liquid_lines,
@@ -102,8 +113,7 @@ module Asciidoctor
 
       def transform_line_liquid(line)
         if line.match?(BLOCK_START_REGEXP)
-          line.gsub!(BLOCK_START_REGEXP,
-                     '{% keyiterator \1, \2 %}')
+          line.gsub!(BLOCK_START_REGEXP, '{% keyiterator \1, \2 %}')
         end
 
         if line.strip.match?(BLOCK_END_REGEXP)

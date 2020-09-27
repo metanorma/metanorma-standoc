@@ -17,7 +17,8 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
         [{ "name" => "spaghetti",
            "desc" => "wheat noodles of 9mm diameter",
            "symbol" => "SPAG",
-           "symbol_def" => "the situation is message like spaghetti at a kid's meal" }]
+           "symbol_def" =>
+           "the situation is message like spaghetti at a kid's meal" }]
       end
       let(:input) do
         <<~TEXT
@@ -449,8 +450,10 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
               "target_script" => "Latn",
               "system" =>
               { "id" => "2002",
-                "specification" => "Academica Sinica -- Chinese Tongyong Pinyin (2002)" },
-              "notes" => "NOTE: OGC 11-122r1 code `zho_Hani2Latn_AcadSin_2002`" } } }
+                "specification" =>
+                "Academica Sinica -- Chinese Tongyong Pinyin (2002)" },
+              "notes" =>
+              "NOTE: OGC 11-122r1 code `zho_Hani2Latn_AcadSin_2002`" } } }
       end
       let(:input) do
         <<~TEXT
@@ -582,7 +585,10 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
 
     context "Date time objects support" do
       let(:example_content) do
-        { "date" => Date.parse('1889-09-28'), "time" => Time.gm(2020, 10, 15, 5, 34) }
+        {
+          "date" => Date.parse("1889-09-28"),
+          "time" => Time.gm(2020, 10, 15, 5, 34),
+        }
       end
       let(:input) do
         <<~TEXT
@@ -628,30 +634,33 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
 
     context "Nested files support" do
       let(:example_content) do
-        { "date" => Date.parse('1889-09-28'), "time" => Time.gm(2020, 10, 15, 5, 34) }
+        {
+          "date" => Date.parse("1889-09-28"),
+          "time" => Time.gm(2020, 10, 15, 5, 34),
+        }
       end
       let(:parent_file) { "parent_file.#{extention}" }
       let(:parent_file_content) { [nested_file, nested_file_2] }
       let(:parent_file_2) { "parent_file_2.#{extention}" }
-      let(:parent_file_2_content) { ['name', 'description'] }
+      let(:parent_file_2_content) { ["name", "description"] }
       let(:parent_file_3) { "parent_file_3.#{extention}" }
-      let(:parent_file_3_content) { ['one', 'two'] }
+      let(:parent_file_3_content) { ["one", "two"] }
       let(:nested_file) { "nested_file.#{extention}" }
       let(:nested_file_content) do
         {
-          'name' => 'nested file-main',
-          'description' => 'nested description-main',
-          'one' => 'nested one-main',
-          'two' => 'nested two-main'
+          "name" => "nested file-main",
+          "description" => "nested description-main",
+          "one" => "nested one-main",
+          "two" => "nested two-main",
         }
       end
       let(:nested_file_2) { "nested_file_2.#{extention}" }
       let(:nested_file_2_content) do
         {
-          'name' => 'nested2 name-main',
-          'description' => 'nested2 description-main',
-          'one' => 'nested2 one-main',
-          'two' => 'nested2 two-main'
+          "name" => "nested2 name-main",
+          "description" => "nested2 description-main",
+          "one" => "nested2 one-main",
+          "two" => "nested2 two-main",
         }
       end
       let(:input) do
@@ -738,7 +747,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           parent_file_2 => parent_file_2_content,
           parent_file_3 => parent_file_3_content,
           nested_file => nested_file_content,
-          nested_file_2 => nested_file_2_content
+          nested_file_2 => nested_file_2_content,
         }
       end
 
