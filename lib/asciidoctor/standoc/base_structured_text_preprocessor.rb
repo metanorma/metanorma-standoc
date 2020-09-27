@@ -56,11 +56,13 @@ module Asciidoctor
 
         end_mark = input_lines.next
         parse_template(document,
-                       collect_internal_block_lines(input_lines, end_mark),
+                       collect_internal_block_lines(document,
+                                                    input_lines,
+                                                    end_mark),
                        block_match)
       end
 
-      def collect_internal_block_lines(input_lines, end_mark)
+      def collect_internal_block_lines(document, input_lines, end_mark)
         current_block = []
         nested_marks = []
         while (block_line = input_lines.next) != end_mark
