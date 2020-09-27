@@ -67,11 +67,9 @@ module Asciidoctor
             end
           end
         end
-        context_items = content_from_file(document, block_match[1])
-        context_variables = { block_match[2] => context_items }
         parse_template(document,
           current_block,
-          context_variables)
+          block_match)
       end
 
       def data_file_type
@@ -88,11 +86,13 @@ module Asciidoctor
         TEMPLATE
       end
 
-      def parse_template(document, current_block, context_variables)
+      def parse_template(document, current_block, block_match)
         transformed_liquid_lines = current_block.map(&method(:transform_line_liquid))
+        context_items = content_from_file(document, block_match[1])
         parse_context_block(document: document,
                             context_lines: transformed_liquid_lines,
-                            context_variables: context_variables)
+                            context_items: context_items,
+                            context_name: block_match[2])
       rescue StandardError => exception
         document.logger
           .warn("Failed to parse #{config[:block_name]} \
@@ -114,25 +114,27 @@ module Asciidoctor
           .gsub(/[a-z\.]+\#/, "index")
           .gsub(/{{(.+)\s+\+\s+(\d+)\s*?}}/, '{{ \1 | plus: \2 }}')
           .gsub(/{{(.+)\s+\-\s+(\d+)\s*?}}/, '{{ \1 | minus: \2 }}')
-          .gsub(/{{(.+).values(.*?)}}/,
+          .gsub(/{{(.+)\.values(.*?)}}/,
                 '{% assign custom_value = \1 | values %}{{custom_value\2}}')
       end
 
       def parse_context_block(context_lines:,
-                              context_variables:,
+                              context_items:,
+                              context_name:,
                               document:)
         render_result, errors = render_liquid_string(
           template_string: context_lines.join("\n"),
-          context_variables: context_variables
+          context_items: context_items,
+          context_name: context_name
         )
         notify_render_errors(document, errors)
         render_result.split("\n")
       end
 
-      def render_liquid_string(template_string:, context_variables:)
+      def render_liquid_string(template_string:, context_items:, context_name:)
         liquid_template = Liquid::Template.parse(template_string)
         rendered_string = liquid_template
-          .render(context_variables,
+          .render(context_name => context_items,
                   strict_variables: true,
                   error_mode: :warn)
         [rendered_string, liquid_template.errors]
