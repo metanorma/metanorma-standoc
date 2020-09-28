@@ -291,7 +291,7 @@ formattedref::
       </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
-        <bibitem id="TC211" type="standard">
+        <bibitem id="ISOTC211" type="standard">
   <fetched>2019-06-30</fetched>
   <title type="main" format="text/plain">Geographic information</title>
   <title type="subtitle" format="text/plain" language="en" script="Latn">Geographic information subtitle</title>
@@ -611,7 +611,7 @@ series.formattedref.script:: Latn
       </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
-        <bibitem id="TC211" type="standard">
+        <bibitem id="ISOTC211" type="standard">
   <fetched>2019-06-30</fetched>
   <title type="main" format="text/plain">Geographic information</title>
   <title type="subtitle" format="text/plain" language="en" script="Latn">Geographic information subtitle</title>

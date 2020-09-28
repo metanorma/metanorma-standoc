@@ -126,7 +126,7 @@ module Asciidoctor
           bibitemxml = RelatonBib::BibliographicItem.new(
             RelatonBib::HashConverter::hash_to_bib(bib)).to_xml or next
           bibitem = Nokogiri::XML(bibitemxml)
-          bibitem["id"] = c["id"] if c["id"]
+          bibitem.root["id"] = c["id"] if c["id"] && !/^_/.match(c["id"])
           c.replace(bibitem.root)
         end
       end
