@@ -48,14 +48,11 @@ EOS
          <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
          <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
          <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber - Determination of total solids content</title>
-         <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
-         <title type="title-main" format="text/plain" language="fr" script="Latn">Détermination des matières solides totales</title>
-         <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc - Détermination des matières solides totales</title>
          <uri type="src">https://www.iso.org/standard/61884.html</uri>
          <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
          <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
          <docidentifier type="ISO">ISO 124:2014</docidentifier>
-         <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en,fr</docidentifier>
+         <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
          <docnumber>124</docnumber>
          <date type="published">
            <on>2014</on>
@@ -70,10 +67,8 @@ EOS
          </contributor>
          <edition>7</edition>
          <language>en</language>
-         <language>fr</language>
          <script>Latn</script>
          <abstract format="text/plain" language="en" script="Latn">ISO 124:2014 specifies methods for the determination of the total solids content of natural rubber field and concentrated latices and synthetic rubber latex. These methods are not necessarily suitable for latex from natural sources other than the Hevea brasiliensis, for vulcanized latex, for compounded latex, or for artificial dispersions of rubber.</abstract>
-         <abstract format="text/plain" language="fr" script="Latn">L'ISO 124:2014 spécifie des méthodes pour la détermination des matières solides totales dans le latex de plantation, le latex de concentré de caoutchouc naturel et le latex de caoutchouc synthétique. Ces méthodes ne conviennent pas nécessairement au latex d'origine naturelle autre que celui de l'Hevea brasiliensis, au latex vulcanisé, aux mélanges de latex, ou aux dispersions artificielles de caoutchouc.</abstract>
          <status>
            <stage>90</stage>
            <substage>93</substage>
@@ -114,9 +109,6 @@ EOS
          <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
          <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
          <title type="main" format="text/plain" language="en" script="Latn">Rubber latex – Sampling</title>
-         <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
-         <title type="title-main" format="text/plain" language="fr" script="Latn">Échantillonnage</title>
-         <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc – Échantillonnage</title>
          <uri type="src">https://www.iso.org/standard/23281.html</uri>
          <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -132,7 +124,6 @@ EOS
          </contributor>
          <edition>3</edition>
          <language>en</language>
-         <language>fr</language>
          <script>Latn</script>
          <status>
            <stage>90</stage>
@@ -156,8 +147,6 @@ EOS
              <fetched>#{Date.today}</fetched>
              <title type="title-main" format="text/plain" language="en" script="Latn">Rubber latex – Sampling</title>
              <title type="main" format="text/plain" language="en" script="Latn">Rubber latex – Sampling</title>
-             <title type="title-main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc – Échantillonnage</title>
-             <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc – Échantillonnage</title>
              <uri type="src">https://www.iso.org/standard/23281.html</uri>
              <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
              <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -176,7 +165,6 @@ EOS
              </contributor>
              <edition>3</edition>
              <language>en</language>
-             <language>fr</language>
              <script>Latn</script>
              <status>
                <stage>90</stage>
@@ -219,14 +207,11 @@ EOS
          <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
          <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
          <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex - Sampling</title>
-         <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
-         <title type="title-main" format="text/plain" language="fr" script="Latn">Échantillonnage</title>
-         <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc - Échantillonnage</title>
          <uri type="src">https://www.iso.org/standard/23281.html</uri>
          <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
          <docidentifier type="ISO">ISO 123:2001</docidentifier>
-         <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en,fr</docidentifier>
+         <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
          <docnumber>123</docnumber>
          <date type="published">
            <on>2001</on>
@@ -241,7 +226,6 @@ EOS
          </contributor>
          <edition>3</edition>
          <language>en</language>
-         <language>fr</language>
          <script>Latn</script>
          <status>
            <stage>90</stage>
@@ -689,19 +673,19 @@ EOS
 private
 
   def mock_isobib_get_123
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", "2001", {:title=>"<em>Standard</em>", :usrlbl=>nil}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED))
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", "2001", {:lang=>"en", :title=>"<em>Standard</em>", :usrlbl=>nil}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED))
   end
 
   def mock_isobib_get_123_undated
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", nil, {:title=>"<em>Standard</em>", :usrlbl=>nil}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_UNDATED))
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", nil, {:lang=>"en", :title=>"<em>Standard</em>", :usrlbl=>nil}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_UNDATED))
   end
 
   def mock_isobib_get_124
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 124", "2014", {:title=>"<em>Standard</em>", :usrlbl=>nil}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_124_DATED))
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 124", "2014", {:lang=>"en", :title=>"<em>Standard</em>", :usrlbl=>nil}).and_return(RelatonIsoBib::XMLParser.from_xml(ISO_124_DATED))
   end
 
   def mock_ietfbib_get_123
-    expect(RelatonIetf::IetfBibliography).to receive(:get).with("RFC 123", nil, {:title=>"<em>Standard</em>", :usrlbl=>nil}).and_return(RelatonIsoBib::XMLParser.from_xml(IETF_123_SHORT))
+    expect(RelatonIetf::IetfBibliography).to receive(:get).with("RFC 123", nil, {:lang=>"en", :title=>"<em>Standard</em>", :usrlbl=>nil}).and_return(RelatonIsoBib::XMLParser.from_xml(IETF_123_SHORT))
   end
 
 end

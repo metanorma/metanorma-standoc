@@ -9,6 +9,12 @@ module Asciidoctor
         @norm_ref
       end
 
+      def reference(node)
+          noko do |xml|
+            node.items.each { |item| reference1(node, item.text, xml) }
+          end.join
+        end
+
       def bibliography_parse(attrs, xml, node)
         node.option? "bibitem" and return bibitem_parse(attrs, xml, node)
         node.attr("style") == "bibliography" or
@@ -58,6 +64,7 @@ module Asciidoctor
       def fetch_ref(xml, code, year, **opts)
         return nil if opts[:no_year]
         code = code.sub(/^\([^)]+\)/, "")
+        require "byebug"; byebug if opts[:lang] == "fr"
         hit = @bibdb&.fetch(code, year, opts)
         return nil if hit.nil?
         xml.parent.add_child(smart_render_xml(hit, code, opts[:title],

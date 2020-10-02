@@ -68,7 +68,8 @@ module Asciidoctor
 
       def isorefmatches(xml, m)
         yr = norm_year(m[:year])
-        ref = fetch_ref xml, m[:code], yr, title: m[:text], usrlbl: m[:usrlbl]
+        ref = fetch_ref xml, m[:code], yr, title: m[:text], usrlbl: m[:usrlbl],
+          lang: (@lang || :all)
         return use_my_anchor(ref, m[:anchor]) if ref
         xml.bibitem **attr_code(ref_attributes(m)) do |t|
           isorefrender1(t, m, yr)
@@ -81,7 +82,7 @@ module Asciidoctor
 
       def isorefmatches2(xml, m)
         ref = fetch_ref xml, m[:code], nil, no_year: true, note: m[:fn],
-          title: m[:text], usrlbl: m[:usrlbl]
+          title: m[:text], usrlbl: m[:usrlbl], lang: (@lang || :all)
         return use_my_anchor(ref, m[:anchor]) if ref
         isorefmatches2_1(xml, m)
       end
@@ -111,7 +112,8 @@ module Asciidoctor
         yr = norm_year(m[:year])
         hasyr = !yr.nil? && yr != "--"
         ref = fetch_ref xml, m[:code], hasyr ? yr : nil, all_parts: true, 
-          no_year: yr == "--", text: m[:text], usrlbl: m[:usrlbl]
+          no_year: yr == "--", text: m[:text], usrlbl: m[:usrlbl],
+          lang: (@lang || :all)
         return use_my_anchor(ref, m[:anchor]) if ref
         isorefmatches3_1(xml, m, yr, hasyr, ref)
       end
@@ -181,11 +183,9 @@ module Asciidoctor
 
       # TODO: alternative where only title is available
       def refitem(xml, item, node)
-        unless m = NON_ISO_REF.match(item)
-          @log.add("AsciiDoc Input", node, "#{MALFORMED_REF}: #{item}")
-          return
-        end
-        refitem1(xml, item, m)
+        m = NON_ISO_REF.match(item) and return refitem1(xml, item, m)
+        @log.add("AsciiDoc Input", node, "#{MALFORMED_REF}: #{item}")
+        nil
       end
 
       def refitem1(xml, item, m)
@@ -193,7 +193,7 @@ module Asciidoctor
         unless code[:id] && code[:numeric] || code[:nofetch]
           ref = fetch_ref xml, code[:id],
             m.names.include?("year") ? m[:year] : nil, title: m[:text],
-            usrlbl: m[:usrlbl]
+            usrlbl: m[:usrlbl], lang: (@lang || :all)
           return use_my_anchor(ref, m[:anchor]) if ref
         end
         refitem_render(xml, m, code)
@@ -242,12 +242,6 @@ module Asciidoctor
           elsif !matched2.nil? then isorefmatches2(xml, matched2)
           elsif !matched3.nil? then isorefmatches3(xml, matched3)
           end
-        end
-
-        def reference(node)
-          noko do |xml|
-            node.items.each { |item| reference1(node, item.text, xml) }
-          end.join
         end
 
         def mn_code(code)
