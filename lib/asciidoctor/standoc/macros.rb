@@ -5,8 +5,7 @@ require "yaml"
 require_relative "./macros_plantuml.rb"
 require_relative "./datamodel/attributes_table_preprocessor.rb"
 require_relative "./datamodel/diagram_preprocessor.rb"
-require_relative "./yaml2_text_preprocessor.rb"
-require_relative "./json2_text_preprocessor.rb"
+require "metanorma-plugin-datastruct"
 
 module Asciidoctor
   module Standoc
