@@ -3214,6 +3214,43 @@ expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to ou
 expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="_a#b_"/> from :a#b:}).to_stderr
 end
 
+it "moves title footnotes to bibdata" do
+input = <<~INPUT
+= Document title footnote:[ABC] footnote:[DEF]
+Author
+:docfile: test.adoc
+:nodoc:
+:novalid:
+:no-isobib:
+
+INPUT
+expect(xmlpp(Asciidoctor.convert(input, backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+<standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+         <bibdata type='standard'>
+           <title language='en' format='text/plain'>Document title</title>
+           <note type='title-footnote'>
+             <p>ABC</p>
+           </note>
+           <note type='title-footnote'>
+             <p>DEF</p>
+           </note>
+           <language>en</language>
+           <script>Latn</script>
+           <status>
+             <stage>published</stage>
+           </status>
+           <copyright>
+             <from>2020</from>
+           </copyright>
+           <ext>
+             <doctype>article</doctype>
+           </ext>
+         </bibdata>
+         <sections> </sections>
+         </standard-document>
+OUTPUT
+
+end
 
   private
 
