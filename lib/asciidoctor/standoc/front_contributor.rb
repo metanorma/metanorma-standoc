@@ -21,11 +21,12 @@ module Asciidoctor
         end
       end
 
-      def organization(org, orgname)
+      def organization(org, orgname, subdiv = nil, subdiv_abbr = nil)
         abbrevs = org_abbrev
         n = abbrevs.invert[orgname] and orgname = n
         org.name orgname
-        a = org_abbrev[orgname] and org.abbreviation a
+        subdiv and org.subdivision subdiv
+        a = (subdiv_abbr || org_abbrev[orgname]) and org.abbreviation a
       end
 
       # , " => ," : CSV definition does not deal with space followed by quote
@@ -40,7 +41,10 @@ module Asciidoctor
         csv_split(node.attr("publisher") || default_publisher || "")&.each do |p|
           xml.contributor do |c|
             c.role **{ type: "author" }
-            c.organization { |a| organization(a, p) }
+            c.organization do |a|
+              organization(a, p, node.attr("publisher") ? nil: node.attr("subdivision"),
+                           node.attr("publisher") ? nil: node.attr("subdivision-abbr"))
+            end
           end
         end
         personal_author(node, xml)
@@ -118,19 +122,24 @@ module Asciidoctor
         csv_split(publishers)&.each do |p|
           xml.contributor do |c|
             c.role **{ type: "publisher" }
-            c.organization { |a| organization(a, p) }
+            c.organization do |a|
+              organization(a, p, node.attr("publisher") ? nil: node.attr("subdivision"),
+                           node.attr("publisher") ? nil: node.attr("subdivision-abbr"))
+            end
           end
         end
       end
 
       def metadata_copyright(node, xml)
-        publishers = node.attr("copyright-holder") || node.attr("publisher") || 
-          default_publisher || "-"
-        csv_split(publishers)&.each do |p|
+        pub = node.attr("copyright-holder") || node.attr("publisher")
+        csv_split(pub || default_publisher || "-")&.each do |p|
           xml.copyright do |c|
             c.from (node.attr("copyright-year") || Date.today.year)
             p.match(/[A-Za-z]/).nil? or c.owner do |owner|
-              owner.organization { |o| organization(o, p) }
+              owner.organization do |a|
+                organization(a, p, pub ? nil: node.attr("subdivision"),
+                             pub ? nil: node.attr("subdivision-abbr"))
+              end
             end
           end
         end

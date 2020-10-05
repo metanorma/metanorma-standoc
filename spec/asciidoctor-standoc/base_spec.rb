@@ -421,6 +421,8 @@ OUTPUT
       :relaton-uri: F
       :title-eo: Dokumenttitolo
       :doctype: This is a DocType
+      :subdivision: Subdivision
+      :subdivision-abbr: SD
 
       [abstract]
       == Abstract
@@ -535,6 +537,78 @@ OUTPUT
     OUTPUT
   end
 
+   it "processes subdivisions" do
+     mock_default_publisher
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :revdate: 2000-01
+      :published-date: 1000-01
+      :docnumber: 1000
+      :partnumber: 1-1
+      :tc-docnumber: 2000
+      :language: el
+      :script: Grek
+      :subdivision: Subdivision
+      :subdivision-abbr: SD
+      :doctype: This is a DocType
+
+    INPUT
+       <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+  <bibdata type='standard'>
+    <title language='en' format='text/plain'>Document title</title>
+    <docidentifier>1000-1-1</docidentifier>
+    <docnumber>1000</docnumber>
+    <date type='published'>
+      <on>1000-01</on>
+    </date>
+    <contributor>
+      <role type='author'/>
+      <organization>
+        <name>International Standards Organization</name>
+        <subdivision>Subdivision</subdivision>
+        <abbreviation>SD</abbreviation>
+      </organization>
+    </contributor>
+    <contributor>
+      <role type='publisher'/>
+      <organization>
+        <name>International Standards Organization</name>
+        <subdivision>Subdivision</subdivision>
+        <abbreviation>SD</abbreviation>
+      </organization>
+    </contributor>
+    <version>
+      <revision-date>2000-01</revision-date>
+    </version>
+    <language>el</language>
+    <script>Grek</script>
+    <status>
+      <stage>published</stage>
+    </status>
+    <copyright>
+      <from>2020</from>
+      <owner>
+        <organization>
+          <name>International Standards Organization</name>
+          <subdivision>Subdivision</subdivision>
+          <abbreviation>SD</abbreviation>
+        </organization>
+      </owner>
+    </copyright>
+    <ext>
+      <doctype>this-is-a-doctype</doctype>
+    </ext>
+  </bibdata>
+  <sections> </sections>
+</standard-document>
+        
+OUTPUT
+   end
+
   it "reads scripts into blank HTML document" do
     FileUtils.rm_f "test.html"
     Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
@@ -643,6 +717,11 @@ QU1FOiB0ZXN0Cgo=
     )
   end
 
+   def mock_default_publisher 
+    allow_any_instance_of(::Asciidoctor::Standoc::Front).to receive(:default_publisher).and_return(
+        "International Standards Organization"
+    )
+  end
  
 
 end
