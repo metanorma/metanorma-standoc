@@ -200,6 +200,12 @@ OUTPUT
       :part-of: ABC
       :translated-from: DEF,GHI;JKL MNO,PQR
       :keywords: a, b, c
+      :pub-address: 1 Infinity Loop + \
+      California
+      :pub-phone: 3333333
+      :pub-fax: 4444444
+      :pub-email: x@example.com
+      :pub-uri: http://www.example.com
     INPUT
     <?xml version="1.0" encoding="UTF-8"?>
 <standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
@@ -555,6 +561,12 @@ OUTPUT
       :subdivision: Subdivision
       :subdivision-abbr: SD
       :doctype: This is a DocType
+      :pub-address: 1 Infinity Loop + \
+      California
+      :pub-phone: 3333333
+      :pub-fax: 4444444
+      :pub-email: x@example.com
+      :pub-uri: http://www.example.com
 
     INPUT
        <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
@@ -571,6 +583,13 @@ OUTPUT
         <name>International Standards Organization</name>
         <subdivision>Subdivision</subdivision>
         <abbreviation>SD</abbreviation>
+        <address>
+  <formattedAddress>1 Infinity Loop + California</formattedAddress>
+</address>
+<phone>3333333</phone>
+<phone type='fax'>4444444</phone>
+<email>x@example.com</email>
+<uri>http://www.example.com</uri>
       </organization>
     </contributor>
     <contributor>
@@ -579,6 +598,13 @@ OUTPUT
         <name>International Standards Organization</name>
         <subdivision>Subdivision</subdivision>
         <abbreviation>SD</abbreviation>
+        <address>
+  <formattedAddress>1 Infinity Loop + California</formattedAddress>
+</address>
+<phone>3333333</phone>
+<phone type='fax'>4444444</phone>
+<email>x@example.com</email>
+<uri>http://www.example.com</uri>
       </organization>
     </contributor>
     <version>
@@ -596,6 +622,13 @@ OUTPUT
           <name>International Standards Organization</name>
           <subdivision>Subdivision</subdivision>
           <abbreviation>SD</abbreviation>
+        <address>
+  <formattedAddress>1 Infinity Loop + California</formattedAddress>
+</address>
+<phone>3333333</phone>
+<phone type='fax'>4444444</phone>
+<email>x@example.com</email>
+<uri>http://www.example.com</uri>
         </organization>
       </owner>
     </copyright>

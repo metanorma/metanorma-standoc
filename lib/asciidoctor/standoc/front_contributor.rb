@@ -21,12 +21,25 @@ module Asciidoctor
         end
       end
 
-      def organization(org, orgname, subdiv = nil, subdiv_abbr = nil)
+      def organization(org, orgname, node = nil, default_org = nil)
         abbrevs = org_abbrev
         n = abbrevs.invert[orgname] and orgname = n
         org.name orgname
-        subdiv and org.subdivision subdiv
-        a = (subdiv_abbr || org_abbrev[orgname]) and org.abbreviation a
+        default_org and a = node.attr("subdivision") and org.subdivision a
+        abbr = org_abbrev[orgname]
+        default_org && b = node.attr("subdivision-abbr") and abbr = b
+        abbr and org.abbreviation abbr
+        default_org and org_address(node, org)
+      end
+
+      def org_address(node, p)
+        node.attr("pub-address") and p.address do |ad|
+          ad.formattedAddress node.attr("pub-address")
+        end
+        node.attr("pub-phone") and p.phone node.attr("pub-phone")
+        node.attr("pub-fax") and p.phone node.attr("pub-fax"), **{type: "fax"}
+        node.attr("pub-email") and p.email node.attr("pub-email")
+        node.attr("pub-uri") and p.uri node.attr("pub-uri")
       end
 
       # , " => ," : CSV definition does not deal with space followed by quote
@@ -38,12 +51,12 @@ module Asciidoctor
       end
 
       def metadata_author(node, xml)
-        csv_split(node.attr("publisher") || default_publisher || "")&.each do |p|
+        csv_split(node.attr("publisher") || default_publisher || "")&.
+          each do |p|
           xml.contributor do |c|
             c.role **{ type: "author" }
             c.organization do |a|
-              organization(a, p, node.attr("publisher") ? nil: node.attr("subdivision"),
-                           node.attr("publisher") ? nil: node.attr("subdivision-abbr"))
+              organization(a, p, node, !node.attr("publisher"))  
             end
           end
         end
@@ -123,8 +136,7 @@ module Asciidoctor
           xml.contributor do |c|
             c.role **{ type: "publisher" }
             c.organization do |a|
-              organization(a, p, node.attr("publisher") ? nil: node.attr("subdivision"),
-                           node.attr("publisher") ? nil: node.attr("subdivision-abbr"))
+              organization(a, p, node, !node.attr("publisher"))
             end
           end
         end
@@ -137,8 +149,7 @@ module Asciidoctor
             c.from (node.attr("copyright-year") || Date.today.year)
             p.match(/[A-Za-z]/).nil? or c.owner do |owner|
               owner.organization do |a|
-                organization(a, p, pub ? nil: node.attr("subdivision"),
-                             pub ? nil: node.attr("subdivision-abbr"))
+                organization(a, p, node, !pub)
               end
             end
           end
