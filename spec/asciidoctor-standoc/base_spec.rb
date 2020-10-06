@@ -191,7 +191,8 @@ OUTPUT
       :role_2: editor
       :affiliation_2: Rockhead and Quarry Cave Construction Company
       :affiliation_abbrev_2: RQCCC
-      :address_2: 6A Rubble Way, Bedrock
+      :address_2: 6A Rubble Way, + \\
+      Bedrock
       :email_2: barney@rockhead.example.com
       :phone_2: 789
       :fax_2: 012
@@ -200,7 +201,7 @@ OUTPUT
       :part-of: ABC
       :translated-from: DEF,GHI;JKL MNO,PQR
       :keywords: a, b, c
-      :pub-address: 1 Infinity Loop + \
+      :pub-address: 1 Infinity Loop + \\
       California
       :pub-phone: 3333333
       :pub-fax: 4444444
@@ -258,12 +259,6 @@ OUTPUT
 <contributor>
   <role type="author"/>
   <organization>
-    <name>Ribose, Inc.</name>
-  </organization>
-</contributor>
-<contributor>
-  <role type="author"/>
-  <organization>
     <name>Hanna Barbera</name>
   </organization>
 </contributor>
@@ -271,6 +266,12 @@ OUTPUT
   <role type="author"/>
   <organization>
     <name>Cartoon Network</name>
+  </organization>
+</contributor>
+<contributor>
+  <role type="author"/>
+  <organization>
+    <name>Ribose, Inc.</name>
   </organization>
 </contributor>
 <contributor>
@@ -284,7 +285,9 @@ OUTPUT
      <name>Slate Rock and Gravel Company</name>
      <abbreviation>SRG</abbreviation>
   <address>
-    <formattedAddress>6 Rubble Way, Bedrock</formattedAddress>
+  <formattedAddress>
+  6 Rubble Way, Bedrock
+</formattedAddress>
   </address>
    </organization>
    </affiliation>
@@ -306,7 +309,7 @@ OUTPUT
     <name>Rockhead and Quarry Cave Construction Company</name>
     <abbreviation>RQCCC</abbreviation>
   <address>
-    <formattedAddress>6A Rubble Way, Bedrock</formattedAddress>
+    <formattedAddress>6A Rubble Way, <br/>Bedrock</formattedAddress>
   </address>
   </organization>
 </affiliation>
@@ -561,7 +564,7 @@ OUTPUT
       :subdivision: Subdivision
       :subdivision-abbr: SD
       :doctype: This is a DocType
-      :pub-address: 1 Infinity Loop + \
+      :pub-address: 1 Infinity Loop + \\
       California
       :pub-phone: 3333333
       :pub-fax: 4444444
@@ -584,7 +587,7 @@ OUTPUT
         <subdivision>Subdivision</subdivision>
         <abbreviation>SD</abbreviation>
         <address>
-  <formattedAddress>1 Infinity Loop + California</formattedAddress>
+  <formattedAddress>1 Infinity Loop <br/>California</formattedAddress>
 </address>
 <phone>3333333</phone>
 <phone type='fax'>4444444</phone>
@@ -599,7 +602,7 @@ OUTPUT
         <subdivision>Subdivision</subdivision>
         <abbreviation>SD</abbreviation>
         <address>
-  <formattedAddress>1 Infinity Loop + California</formattedAddress>
+  <formattedAddress>1 Infinity Loop <br/>California</formattedAddress>
 </address>
 <phone>3333333</phone>
 <phone type='fax'>4444444</phone>
@@ -623,7 +626,7 @@ OUTPUT
           <subdivision>Subdivision</subdivision>
           <abbreviation>SD</abbreviation>
         <address>
-  <formattedAddress>1 Infinity Loop + California</formattedAddress>
+  <formattedAddress>1 Infinity Loop <br/>California</formattedAddress>
 </address>
 <phone>3333333</phone>
 <phone type='fax'>4444444</phone>

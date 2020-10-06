@@ -34,7 +34,9 @@ module Asciidoctor
 
       def org_address(node, p)
         node.attr("pub-address") and p.address do |ad|
-          ad.formattedAddress node.attr("pub-address")
+          ad.formattedAddress do |f|
+            f << node.attr("pub-address").gsub(/ \+\n/, "<br/>")
+          end
         end
         node.attr("pub-phone") and p.phone node.attr("pub-phone")
         node.attr("pub-fax") and p.phone node.attr("pub-fax"), **{type: "fax"}
@@ -116,7 +118,9 @@ module Asciidoctor
             abbr = node.attr("affiliation_abbrev#{suffix}") and
               o.abbreviation abbr
             node.attr("address#{suffix}") and o.address do |ad|
-              ad.formattedAddress node.attr("address#{suffix}")
+              ad.formattedAddress do |f|
+                f << node.attr("address#{suffix}").gsub(/ \+\n/, "<br/>")
+              end
             end
           end
         end
