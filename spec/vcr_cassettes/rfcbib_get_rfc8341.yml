@@ -21,7 +21,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 05 Oct 2020 13:10:59 GMT
+      - Tue, 06 Oct 2020 12:53:28 GMT
       Server:
       - Apache/2.2.22 (Debian)
       Last-Modified:
@@ -52,7 +52,7 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Mon, 05 Oct 2020 13:11:00 GMT
+  recorded_at: Tue, 06 Oct 2020 12:53:28 GMT
 - request:
     method: get
     uri: https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8341.xml
@@ -74,7 +74,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 05 Oct 2020 13:11:00 GMT
+      - Tue, 06 Oct 2020 12:53:29 GMT
       Server:
       - Apache/2.2.22 (Debian)
       Last-Modified:
@@ -105,5 +105,5 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Mon, 05 Oct 2020 13:11:00 GMT
+  recorded_at: Tue, 06 Oct 2020 12:53:29 GMT
 recorded_with: VCR 5.0.0
