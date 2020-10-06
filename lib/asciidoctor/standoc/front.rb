@@ -27,7 +27,7 @@ module Asciidoctor
 
       def metadata_status(node, xml)
         xml.status do |s|
-          s.stage ( node.attr("status") || node.attr("docstage") || "published" )
+          s.stage (node.attr("status") || node.attr("docstage") || "published")
           node.attr("docsubstage") and s.substage node.attr("docsubstage")
           node.attr("iteration") and s.iteration node.attr("iteration")
         end
@@ -180,8 +180,8 @@ module Asciidoctor
         ["en"].each do |lang|
           at = { language: lang, format: "text/plain" }
           xml.title **attr_code(at) do |t|
-            t << (Utils::asciidoc_sub(node.attr("title") || node.attr("title-en")) ||
-                  node.title)
+            t << (Utils::asciidoc_sub(node.attr("title") ||
+                                      node.attr("title-en")) || node.title)
           end
         end
       end

@@ -21,11 +21,27 @@ module Asciidoctor
         end
       end
 
-      def organization(org, orgname)
+      def organization(org, orgname, node = nil, default_org = nil)
         abbrevs = org_abbrev
         n = abbrevs.invert[orgname] and orgname = n
         org.name orgname
-        a = org_abbrev[orgname] and org.abbreviation a
+        default_org and a = node.attr("subdivision") and org.subdivision a
+        abbr = org_abbrev[orgname]
+        default_org && b = node.attr("subdivision-abbr") and abbr = b
+        abbr and org.abbreviation abbr
+        default_org and org_address(node, org)
+      end
+
+      def org_address(node, p)
+        node.attr("pub-address") and p.address do |ad|
+          ad.formattedAddress do |f|
+            f << node.attr("pub-address").gsub(/ \+\n/, "<br/>")
+          end
+        end
+        node.attr("pub-phone") and p.phone node.attr("pub-phone")
+        node.attr("pub-fax") and p.phone node.attr("pub-fax"), **{type: "fax"}
+        node.attr("pub-email") and p.email node.attr("pub-email")
+        node.attr("pub-uri") and p.uri node.attr("pub-uri")
       end
 
       # , " => ," : CSV definition does not deal with space followed by quote
@@ -37,10 +53,13 @@ module Asciidoctor
       end
 
       def metadata_author(node, xml)
-        csv_split(node.attr("publisher") || default_publisher || "")&.each do |p|
+        csv_split(node.attr("publisher") || default_publisher || "")&.
+          each do |p|
           xml.contributor do |c|
             c.role **{ type: "author" }
-            c.organization { |a| organization(a, p) }
+            c.organization do |a|
+              organization(a, p, node, !node.attr("publisher"))  
+            end
           end
         end
         personal_author(node, xml)
@@ -99,7 +118,9 @@ module Asciidoctor
             abbr = node.attr("affiliation_abbrev#{suffix}") and
               o.abbreviation abbr
             node.attr("address#{suffix}") and o.address do |ad|
-              ad.formattedAddress node.attr("address#{suffix}")
+              ad.formattedAddress do |f|
+                f << node.attr("address#{suffix}").gsub(/ \+\n/, "<br/>")
+              end
             end
           end
         end
@@ -118,19 +139,22 @@ module Asciidoctor
         csv_split(publishers)&.each do |p|
           xml.contributor do |c|
             c.role **{ type: "publisher" }
-            c.organization { |a| organization(a, p) }
+            c.organization do |a|
+              organization(a, p, node, !node.attr("publisher"))
+            end
           end
         end
       end
 
       def metadata_copyright(node, xml)
-        publishers = node.attr("copyright-holder") || node.attr("publisher") || 
-          default_publisher || "-"
-        csv_split(publishers)&.each do |p|
+        pub = node.attr("copyright-holder") || node.attr("publisher")
+        csv_split(pub || default_publisher || "-")&.each do |p|
           xml.copyright do |c|
             c.from (node.attr("copyright-year") || Date.today.year)
             p.match(/[A-Za-z]/).nil? or c.owner do |owner|
-              owner.organization { |o| organization(o, p) }
+              owner.organization do |a|
+                organization(a, p, node, !pub)
+              end
             end
           end
         end
