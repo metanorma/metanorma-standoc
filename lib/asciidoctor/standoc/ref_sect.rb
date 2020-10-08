@@ -67,8 +67,7 @@ module Asciidoctor
         #require "byebug"; byebug if opts[:lang] == "fr"
         hit = @bibdb&.fetch(code, year, opts)
         return nil if hit.nil?
-        xml.parent.add_child(smart_render_xml(hit, code, opts[:title],
-                                              opts[:usrlbl]))
+        xml.parent.add_child(smart_render_xml(hit, code, opts))
         xml
       rescue RelatonBib::RequestError
         @log.add("Bibliography", nil, "Could not retrieve #{code}: "\
@@ -91,10 +90,11 @@ module Asciidoctor
           "<docidentifier type='metanorma'>#{mn_code(usrlbl)}</docidentifier>"
       end
 
-      def smart_render_xml(x, code, title, usrlbl)
-        xstr = x.to_xml if x.respond_to? :to_xml
+      def smart_render_xml(x, code, opts)
+        x.respond_to? :to_xml or return nil
+        xstr = x.to_xml(lang: opts[:lang])
         xml = Nokogiri::XML(xstr)
-        emend_biblio(xml, code, title, usrlbl)
+        emend_biblio(xml, code, opts[:title], opts[:usrlbl])
         xml.xpath("//date").each { |d| Utils::endash_date(d) }
         xml.traverse do |n|
           n.text? and n.replace(Utils::smartformat(n.text))
