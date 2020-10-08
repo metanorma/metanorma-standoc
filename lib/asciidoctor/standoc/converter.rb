@@ -23,8 +23,8 @@ module Asciidoctor
       Asciidoctor::Extensions.register do
         preprocessor Asciidoctor::Standoc::Datamodel::AttributesTablePreprocessor
         preprocessor Asciidoctor::Standoc::Datamodel::DiagramPreprocessor
-        preprocessor Asciidoctor::Standoc::Yaml2TextPreprocessor
-        preprocessor Asciidoctor::Standoc::Json2TextPreprocessor
+        preprocessor Metanorma::Plugin::Datastruct::Json2TextPreprocessor
+        preprocessor Metanorma::Plugin::Datastruct::Yaml2TextPreprocessor
         inline_macro Asciidoctor::Standoc::AltTermInlineMacro
         inline_macro Asciidoctor::Standoc::DeprecatedTermInlineMacro
         inline_macro Asciidoctor::Standoc::DomainTermInlineMacro

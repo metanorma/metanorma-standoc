@@ -191,7 +191,8 @@ OUTPUT
       :role_2: editor
       :affiliation_2: Rockhead and Quarry Cave Construction Company
       :affiliation_abbrev_2: RQCCC
-      :address_2: 6A Rubble Way, Bedrock
+      :address_2: 6A Rubble Way, + \\
+      Bedrock
       :email_2: barney@rockhead.example.com
       :phone_2: 789
       :fax_2: 012
@@ -200,6 +201,12 @@ OUTPUT
       :part-of: ABC
       :translated-from: DEF,GHI;JKL MNO,PQR
       :keywords: a, b, c
+      :pub-address: 1 Infinity Loop + \\
+      California
+      :pub-phone: 3333333
+      :pub-fax: 4444444
+      :pub-email: x@example.com
+      :pub-uri: http://www.example.com
     INPUT
     <?xml version="1.0" encoding="UTF-8"?>
 <standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
@@ -252,12 +259,6 @@ OUTPUT
 <contributor>
   <role type="author"/>
   <organization>
-    <name>Ribose, Inc.</name>
-  </organization>
-</contributor>
-<contributor>
-  <role type="author"/>
-  <organization>
     <name>Hanna Barbera</name>
   </organization>
 </contributor>
@@ -265,6 +266,12 @@ OUTPUT
   <role type="author"/>
   <organization>
     <name>Cartoon Network</name>
+  </organization>
+</contributor>
+<contributor>
+  <role type="author"/>
+  <organization>
+    <name>Ribose, Inc.</name>
   </organization>
 </contributor>
 <contributor>
@@ -278,7 +285,9 @@ OUTPUT
      <name>Slate Rock and Gravel Company</name>
      <abbreviation>SRG</abbreviation>
   <address>
-    <formattedAddress>6 Rubble Way, Bedrock</formattedAddress>
+  <formattedAddress>
+  6 Rubble Way, Bedrock
+</formattedAddress>
   </address>
    </organization>
    </affiliation>
@@ -300,7 +309,7 @@ OUTPUT
     <name>Rockhead and Quarry Cave Construction Company</name>
     <abbreviation>RQCCC</abbreviation>
   <address>
-    <formattedAddress>6A Rubble Way, Bedrock</formattedAddress>
+    <formattedAddress>6A Rubble Way, <br/>Bedrock</formattedAddress>
   </address>
   </organization>
 </affiliation>
@@ -421,6 +430,8 @@ OUTPUT
       :relaton-uri: F
       :title-eo: Dokumenttitolo
       :doctype: This is a DocType
+      :subdivision: Subdivision
+      :subdivision-abbr: SD
 
       [abstract]
       == Abstract
@@ -535,6 +546,105 @@ OUTPUT
     OUTPUT
   end
 
+   it "processes subdivisions" do
+     mock_default_publisher
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :revdate: 2000-01
+      :published-date: 1000-01
+      :docnumber: 1000
+      :partnumber: 1-1
+      :tc-docnumber: 2000
+      :language: el
+      :script: Grek
+      :subdivision: Subdivision
+      :subdivision-abbr: SD
+      :doctype: This is a DocType
+      :pub-address: 1 Infinity Loop + \\
+      California
+      :pub-phone: 3333333
+      :pub-fax: 4444444
+      :pub-email: x@example.com
+      :pub-uri: http://www.example.com
+
+    INPUT
+       <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+  <bibdata type='standard'>
+    <title language='en' format='text/plain'>Document title</title>
+    <docidentifier>1000-1-1</docidentifier>
+    <docnumber>1000</docnumber>
+    <date type='published'>
+      <on>1000-01</on>
+    </date>
+    <contributor>
+      <role type='author'/>
+      <organization>
+        <name>International Standards Organization</name>
+        <subdivision>Subdivision</subdivision>
+        <abbreviation>SD</abbreviation>
+        <address>
+  <formattedAddress>1 Infinity Loop <br/>California</formattedAddress>
+</address>
+<phone>3333333</phone>
+<phone type='fax'>4444444</phone>
+<email>x@example.com</email>
+<uri>http://www.example.com</uri>
+      </organization>
+    </contributor>
+    <contributor>
+      <role type='publisher'/>
+      <organization>
+        <name>International Standards Organization</name>
+        <subdivision>Subdivision</subdivision>
+        <abbreviation>SD</abbreviation>
+        <address>
+  <formattedAddress>1 Infinity Loop <br/>California</formattedAddress>
+</address>
+<phone>3333333</phone>
+<phone type='fax'>4444444</phone>
+<email>x@example.com</email>
+<uri>http://www.example.com</uri>
+      </organization>
+    </contributor>
+    <version>
+      <revision-date>2000-01</revision-date>
+    </version>
+    <language>el</language>
+    <script>Grek</script>
+    <status>
+      <stage>published</stage>
+    </status>
+    <copyright>
+      <from>2020</from>
+      <owner>
+        <organization>
+          <name>International Standards Organization</name>
+          <subdivision>Subdivision</subdivision>
+          <abbreviation>SD</abbreviation>
+        <address>
+  <formattedAddress>1 Infinity Loop <br/>California</formattedAddress>
+</address>
+<phone>3333333</phone>
+<phone type='fax'>4444444</phone>
+<email>x@example.com</email>
+<uri>http://www.example.com</uri>
+        </organization>
+      </owner>
+    </copyright>
+    <ext>
+      <doctype>this-is-a-doctype</doctype>
+    </ext>
+  </bibdata>
+  <sections> </sections>
+</standard-document>
+        
+OUTPUT
+   end
+
   it "reads scripts into blank HTML document" do
     FileUtils.rm_f "test.html"
     Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
@@ -643,6 +753,11 @@ QU1FOiB0ZXN0Cgo=
     )
   end
 
+   def mock_default_publisher 
+    allow_any_instance_of(::Asciidoctor::Standoc::Front).to receive(:default_publisher).and_return(
+        "International Standards Organization"
+    )
+  end
  
 
 end

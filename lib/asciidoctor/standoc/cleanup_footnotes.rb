@@ -72,7 +72,18 @@ module Asciidoctor
         end
       end
 
+      def title_footnote_move(xmldoc)
+        ins = xmldoc.at("//bibdata/language")
+        xmldoc.xpath("//bibdata/title//fn").each do |f|
+          f.name = "note"
+          f["type"] = "title-footnote"
+          f.delete("reference")
+          ins.previous = f.remove
+        end
+      end
+
       def footnote_cleanup(xmldoc)
+        title_footnote_move(xmldoc)
         table_footnote_renumber(xmldoc)
         other_footnote_renumber(xmldoc)
         xmldoc.xpath("//fn").each do |fn|
