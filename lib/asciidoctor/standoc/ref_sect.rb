@@ -9,6 +9,12 @@ module Asciidoctor
         @norm_ref
       end
 
+      def reference(node)
+          noko do |xml|
+            node.items.each { |item| reference1(node, item.text, xml) }
+          end.join
+        end
+
       def bibliography_parse(attrs, xml, node)
         node.option? "bibitem" and return bibitem_parse(attrs, xml, node)
         node.attr("style") == "bibliography" or
@@ -58,10 +64,10 @@ module Asciidoctor
       def fetch_ref(xml, code, year, **opts)
         return nil if opts[:no_year]
         code = code.sub(/^\([^)]+\)/, "")
+        #require "byebug"; byebug if opts[:lang] == "fr"
         hit = @bibdb&.fetch(code, year, opts)
         return nil if hit.nil?
-        xml.parent.add_child(smart_render_xml(hit, code, opts[:title],
-                                              opts[:usrlbl]))
+        xml.parent.add_child(smart_render_xml(hit, code, opts))
         xml
       rescue RelatonBib::RequestError
         @log.add("Bibliography", nil, "Could not retrieve #{code}: "\
@@ -84,10 +90,11 @@ module Asciidoctor
           "<docidentifier type='metanorma'>#{mn_code(usrlbl)}</docidentifier>"
       end
 
-      def smart_render_xml(x, code, title, usrlbl)
-        xstr = x.to_xml if x.respond_to? :to_xml
+      def smart_render_xml(x, code, opts)
+        x.respond_to? :to_xml or return nil
+        xstr = x.to_xml(lang: opts[:lang])
         xml = Nokogiri::XML(xstr)
-        emend_biblio(xml, code, title, usrlbl)
+        emend_biblio(xml, code, opts[:title], opts[:usrlbl])
         xml.xpath("//date").each { |d| Utils::endash_date(d) }
         xml.traverse do |n|
           n.text? and n.replace(Utils::smartformat(n.text))

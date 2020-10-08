@@ -60,8 +60,7 @@ module Asciidoctor
         ret.merge(change: node.attributes["change"],
                   path: node.attributes["path"],
                   path_end: node.attributes["path_end"],
-                  title: node.attributes["title"],
-        )
+                  title: node.attributes["title"])
       end
 
       def section(node)
@@ -105,13 +104,10 @@ module Asciidoctor
       end
 
       def set_obligation(attrs, node)
-        attrs[:obligation] = if node.attributes.has_key?("obligation")
-                               node.attr("obligation")
-                             elsif node.parent.attributes.has_key?("obligation")
-                               node.parent.attr("obligation")
-                             else
-                               "normative"
-                             end
+        attrs[:obligation] = node.attributes.has_key?("obligation") ?
+                               node.attr("obligation") :
+                             node.parent.attributes.has_key?("obligation") ?
+                               node.parent.attr("obligation") : "normative"
       end
 
       def preamble(node)
