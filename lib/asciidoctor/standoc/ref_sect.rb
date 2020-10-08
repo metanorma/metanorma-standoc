@@ -64,7 +64,7 @@ module Asciidoctor
       def fetch_ref(xml, code, year, **opts)
         return nil if opts[:no_year]
         code = code.sub(/^\([^)]+\)/, "")
-        require "byebug"; byebug if opts[:lang] == "fr"
+        #require "byebug"; byebug if opts[:lang] == "fr"
         hit = @bibdb&.fetch(code, year, opts)
         return nil if hit.nil?
         xml.parent.add_child(smart_render_xml(hit, code, opts[:title],

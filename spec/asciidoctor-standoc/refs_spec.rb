@@ -446,7 +446,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "fetches simple ISO reference in French" do
-    VCR.use_cassette "isobib_get_123_1", :re_record_interval => 25200 do
+    VCR.use_cassette "isobib_get_123_1_fr", :re_record_interval => 25200 do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
         = Document title
         Author
@@ -462,16 +462,27 @@ RSpec.describe Asciidoctor::Standoc do
         * [[[iso123,ISO 123]]] _Standard_
         * [[[iso124,(1)ISO 123]]] _Standard_
       INPUT
-        #{BLANK_HDR}
+      #{BLANK_HDR.sub(%r{<language>en</language>}, "<language>fr</language>")}
        <sections>
 
-       </sections><bibliography><references id="_" obligation="informative" normative="true"><title>Normative references</title>
-        #{NORM_REF_BOILERPLATE}
-         <bibitem id='iso123' type='standard'>
+       </sections><bibliography>
+       <references id='_' normative='true' obligation='informative'>
+             <title>Références normatives</title>
+             <p id='_'>
+               Les documents suivants cités dans le texte constituent, pour tout ou
+               partie de leur contenu, des exigences du présent document. Pour les
+               références datées, seule l’édition citée s’applique. Pour les
+               références non datées, la dernière édition du document de
+               référence s’applique (y compris les éventuels amendements).
+             </p>
+        <bibitem id='iso123' type='standard'>
                <fetched>#{Date.today}</fetched>
                <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
                <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex – Sampling</title>
+               <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
+               <title type='title-main' format='text/plain' language='fr' script='Latn'>Échantillonnage</title>
+               <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc – Échantillonnage</title>
                <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -491,6 +502,7 @@ RSpec.describe Asciidoctor::Standoc do
                </contributor>
                <edition>3</edition>
                <language>en</language>
+               <language>fr</language>
                <script>Latn</script>
                <status>
                  <stage>90</stage>
@@ -515,11 +527,14 @@ RSpec.describe Asciidoctor::Standoc do
                    <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                    <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
                    <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex — Sampling</title>
+                   <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
+                   <title type='title-main' format='text/plain' language='fr' script='Latn'>Échantillonnage</title>
+                   <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc — Échantillonnage</title>
                    <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                    <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                    <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                    <docidentifier type='ISO'>ISO 123:2001</docidentifier>
-                   <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
+                   <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en,fr</docidentifier>
                    <docnumber>123</docnumber>
                    <date type='published'>
                      <on>2001</on>
@@ -534,6 +549,7 @@ RSpec.describe Asciidoctor::Standoc do
                    </contributor>
                    <edition>3</edition>
                    <language>en</language>
+                   <language>fr</language>
                    <script>Latn</script>
                    <status>
                      <stage>90</stage>
@@ -572,6 +588,9 @@ RSpec.describe Asciidoctor::Standoc do
                <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
                <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex – Sampling</title>
+               <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
+               <title type='title-main' format='text/plain' language='fr' script='Latn'>Échantillonnage</title>
+               <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc – Échantillonnage</title>
                <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -592,6 +611,7 @@ RSpec.describe Asciidoctor::Standoc do
                </contributor>
                <edition>3</edition>
                <language>en</language>
+               <language>fr</language>
                <script>Latn</script>
                <status>
                  <stage>90</stage>
@@ -616,11 +636,14 @@ RSpec.describe Asciidoctor::Standoc do
                    <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                    <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
                    <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex — Sampling</title>
+                   <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
+                   <title type='title-main' format='text/plain' language='fr' script='Latn'>Échantillonnage</title>
+                   <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc — Échantillonnage</title>
                    <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                    <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                    <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                    <docidentifier type='ISO'>ISO 123:2001</docidentifier>
-                   <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
+                   <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en,fr</docidentifier>
                    <docnumber>123</docnumber>
                    <date type='published'>
                      <on>2001</on>
@@ -635,6 +658,7 @@ RSpec.describe Asciidoctor::Standoc do
                    </contributor>
                    <edition>3</edition>
                    <language>en</language>
+                   <language>fr</language>
                    <script>Latn</script>
                    <status>
                      <stage>90</stage>

@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "iev", "~> 0.2.1"
   spec.add_dependency "metanorma-plugin-datastruct"
   # relaton-cli not just relaton, to avoid circular reference in metanorma
-  spec.add_dependency "relaton-cli", "~> 1.4.0"
+  spec.add_dependency "relaton-cli", "~> 1.5.0pre"
   spec.add_dependency "relaton-iev", "~> 1.0.0"
   spec.add_dependency "sterile", "~> 1.0.14"
   spec.add_dependency "concurrent-ruby"
