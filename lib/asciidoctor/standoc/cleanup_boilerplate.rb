@@ -91,8 +91,22 @@ module Asciidoctor
       end
 
       def bibdata_cleanup(xmldoc)
+        bibdata_anchor_cleanup(xmldoc)
+        bibdata_docidentifier_cleanup(xmldoc)
+      end
+
+      def bibdata_anchor_cleanup(xmldoc)
         xmldoc.xpath("//bibdata//bibitem | //bibdata//note").each do |b|
           b.delete("id")
+        end
+      end
+
+      def bibdata_docidentifier_cleanup(xmldoc)
+        ins = xmldoc.at("//bibdata/docidentifier")
+        xmldoc.xpath("//bibdata/docidentifier").each_with_index do |b, i|
+          next if i == 0
+          ins.next = b.remove
+          ins = ins.next
         end
       end
     end
