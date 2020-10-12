@@ -207,12 +207,16 @@ OUTPUT
       :pub-fax: 4444444
       :pub-email: x@example.com
       :pub-uri: http://www.example.com
+      :isbn: ISBN-13
+      :isbn10: ISBN-10
     INPUT
     <?xml version="1.0" encoding="UTF-8"?>
 <standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
 <bibdata type="standard">
 <title language="en" format="text/plain">Main Title — Title</title>
   <docidentifier>1000-1</docidentifier>
+  <docidentifier type='ISBN'>ISBN-13</docidentifier>
+<docidentifier type='ISBN10'>ISBN-10</docidentifier>
   <docnumber>1000</docnumber>
   <date type="published">
   <on>1000-01-01</on>

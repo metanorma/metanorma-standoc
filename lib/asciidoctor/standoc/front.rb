@@ -17,6 +17,11 @@ module Asciidoctor
         xml.docnumber node.attr("docnumber")
       end
 
+      def metadata_other_id(node, xml)
+        a = node.attr("isbn") and xml.docidentifier a, type: "ISBN"
+        a = node.attr("isbn10") and xml.docidentifier a, type: "ISBN10"
+      end
+
       def metadata_version(node, xml)
         xml.edition node.attr("edition") if node.attr("edition")
         xml.version do |v|
@@ -138,6 +143,7 @@ module Asciidoctor
         title node, xml
         metadata_source(node, xml)
         metadata_id(node, xml)
+        metadata_other_id(node, xml)
         metadata_date(node, xml)
         metadata_author(node, xml)
         metadata_publisher(node, xml)
