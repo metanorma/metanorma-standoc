@@ -49,8 +49,12 @@ module Asciidoctor
       end
 
       def extract_localities(x)
-        text = x&.children&.first&.remove&.text
-        extract_localities1(x, text)
+        f = x&.children&.first or return
+        f.text? or return
+        head = f.remove.text
+        tail = x&.children&.remove
+        extract_localities1(x, head)
+        tail and x << tail
       end
 
       def extract_localities1(x, text)

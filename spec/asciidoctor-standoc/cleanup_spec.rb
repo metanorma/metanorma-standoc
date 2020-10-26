@@ -415,6 +415,9 @@ RSpec.describe Asciidoctor::Standoc do
       #{ASCIIDOC_BLANK_HDR}
       <<iso216,whole,clause=3,example=9-11,locality:prelude="33 a",locality:entirety:the reference,xyz>>
       <<iso216,whole,clause=3,example=9-11,locality:prelude=33,locality:entirety="the reference";whole,clause=3,example=9-11,locality:prelude=33,locality:entirety:the reference,xyz>>
+      <<iso216,_whole_>>
+      <<iso216,a _whole_ flagon>>
+      <<iso216,whole,clause=3,a _whole_ flagon>>
 
       [bibliography]
       == Normative References
@@ -462,7 +465,25 @@ RSpec.describe Asciidoctor::Standoc do
    </localityStack>
    the reference,xyz
  </eref>
-
+<eref type='inline' bibitemid='iso216' citeas='ISO 216'>
+  <em>whole</em>
+</eref>
+<eref type='inline' bibitemid='iso216' citeas='ISO 216'>
+  a 
+  <em>whole</em>
+   flagon
+</eref>
+<eref type='inline' bibitemid='iso216' citeas='ISO 216'>
+  <localityStack>
+    <locality type='whole'/>
+    <locality type='clause'>
+      <referenceFrom>3</referenceFrom>
+    </locality>
+  </localityStack>
+  a 
+  <em>whole</em>
+   flagon
+</eref>
         </p>
       </foreword></preface><sections>
       </sections><bibliography><references id="_" obligation="informative" normative="true">
