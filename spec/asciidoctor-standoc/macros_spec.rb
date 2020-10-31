@@ -44,6 +44,40 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+  it "processes the Asciidoctor::Standoc variant macros" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      == lang:en[English] lang:fr-Latn[Français]
+
+      this lang:en[English] lang:fr-Latn[Français] section is lang:en[silly]  lang:fr[fou]
+
+    INPUT
+            #{BLANK_HDR}
+            <sections>
+  <clause id='_' inline-header='false' obligation='normative'>
+    <title>
+      <variant lang='en'>English</variant>
+      <variant lang='fr' script='Latn'>Français</variant>
+    </title>
+    <p id='_'>
+      this
+      <variant>
+        <variant lang='en'>English</variant>
+        <variant lang='fr' script='Latn'>Français</variant>
+      </variant>
+       section is
+      <variant>
+        <variant lang='en'>silly</variant>
+        <variant lang='fr'>fou</variant>
+      </variant>
+    </p>
+  </clause>
+</sections>
+       </standard-document>
+    OUTPUT
+  end
+
+
     it "processes the Asciidoctor::Standoc concept macros" do
           expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
