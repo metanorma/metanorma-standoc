@@ -69,6 +69,7 @@ module Asciidoctor
         bibdata_cleanup(xmldoc)
         boilerplate_cleanup(xmldoc)
         smartquotes_cleanup(xmldoc)
+        variant_cleanup(xmldoc)
         para_cleanup(xmldoc)
         empty_element_cleanup(xmldoc)
         img_cleanup(xmldoc)
@@ -191,6 +192,26 @@ module Asciidoctor
         xmldoc.xpath("//image").each do |i|
           i["src"] = datauri(i["src"])
         end
+      end
+
+      def variant_cleanup(xmldoc)
+        xmldoc.xpath("//*[variant]").each do |c|
+          c&.next&.text? && c&.next&.next&.name == "variant" &&
+            c.next.text.gsub(/\s/, "").empty? and c.next.remove
+        end
+        xmldoc.xpath("//*[variant]").each do |c|
+          next unless c.children.any? do |n|
+            n.name != "variant" && (!n.text? || !n.text.gsub(/\s/, "").empty?)
+          end
+          c.xpath("./variant").each do |n|
+            if n.at_xpath('preceding-sibling::node()[not(self::text()[not(normalize-space())])][1][self::variantwrap]')
+              n.previous_element << n
+            else
+              n.replace('<variantwrap/>').first << n
+            end
+          end
+        end
+        xmldoc.xpath("//variantwrap").each { |n| n.name = "variant" }
       end
     end
   end

@@ -186,5 +186,19 @@ module Asciidoctor
         %{<autonumber type=#{target}>#{out}</autonumber>}
       end
     end
+
+    class VariantInlineMacro < Extensions::InlineMacroProcessor
+      use_dsl
+      named :lang
+      parse_content_as :text
+
+      def process(parent, target, attrs)
+        /^(?<lang>[^-]*)(-(?<script>.*))?$/ =~ target
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        script ? 
+        %{<variant lang=#{lang} script=#{script}>#{out}</variant>} :
+        %{<variant lang=#{lang}>#{out}</variant>}
+      end
+    end
   end
 end
