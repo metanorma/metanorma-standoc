@@ -155,6 +155,24 @@ BLANK_HDR = <<~"HDR".freeze
   </bibdata>
 HDR
 
+BLANK_METANORMA_HDR = <<~"HDR".freeze
+  <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+  <?xml version="1.0" encoding="UTF-8"?><html><body>
+  <standard-document xmlns="https://www.metanorma.org/ns/standoc" version="#{Metanorma::Standoc::VERSION}" type="semantic">
+  <bibdata type="standard">
+  <title language="en" format="text/plain">Document title</title>
+    <language>en</language>
+    <script>Latn</script>
+    <status><stage>published</stage></status>
+    <copyright>
+      <from>#{Time.new.year}</from>
+    </copyright>
+    <ext>
+    <doctype>article</doctype>
+    </ext>
+  </bibdata>
+HDR
+
 HTML_HDR = <<~END.freeze
   <html xmlns:epub="http://www.idpf.org/2007/ops">
     <head>
@@ -252,4 +270,14 @@ def mock_open_uri(code)
     File.write file, m.call(*args).read unless File.exist? file
     File.read file, encoding: "utf-8"
   end.at_least :once
+end
+
+def metanorma_process(input)
+  Metanorma::Input::Asciidoc
+    .new
+    .process(input, "test.adoc", :standoc)
+end
+
+def xml_string_conent(xml)
+  strip_guid(Nokogiri::HTML(xml).to_s)
 end
