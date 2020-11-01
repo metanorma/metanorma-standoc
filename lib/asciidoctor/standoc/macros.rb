@@ -6,6 +6,7 @@ require_relative "./macros_plantuml.rb"
 require_relative "./datamodel/attributes_table_preprocessor.rb"
 require_relative "./datamodel/diagram_preprocessor.rb"
 require "metanorma-plugin-datastruct"
+require "metanorma-plugin-lutaml"
 
 module Asciidoctor
   module Standoc
@@ -195,7 +196,7 @@ module Asciidoctor
       def process(parent, target, attrs)
         /^(?<lang>[^-]*)(-(?<script>.*))?$/ =~ target
         out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
-        script ? 
+        script ?
         %{<variant lang=#{lang} script=#{script}>#{out}</variant>} :
         %{<variant lang=#{lang}>#{out}</variant>}
       end
