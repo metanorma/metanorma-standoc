@@ -469,11 +469,11 @@ RSpec.describe Asciidoctor::Standoc do
        <references id='_' normative='true' obligation='informative'>
              <title>Références normatives</title>
              <p id='_'>
-               Les documents suivants cités dans le texte constituent, pour tout ou
-               partie de leur contenu, des exigences du présent document. Pour les
-               références datées, seule l’édition citée s’applique. Pour les
-               références non datées, la dernière édition du document de
-               référence s’applique (y compris les éventuels amendements).
+               Les documents suivants cités dans le texte constituent, pour tout ou
+partie de leur contenu, des exigences du présent document. Pour les
+références datées, seule l’édition citée s’applique. Pour les références
+non datées, la dernière édition du document de référence s’applique (y
+compris les éventuels amendements).
              </p>
         <bibitem id='iso123' type='standard'>
                <fetched>#{Date.today}</fetched>
