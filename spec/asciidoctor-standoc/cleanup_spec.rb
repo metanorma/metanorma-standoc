@@ -1031,7 +1031,7 @@ end
              <name>ISO</name>
            </organization>
          </contributor>
-         <note format="text/plain" type="ISO DATE">The standard is in press</note>
+         <note format="text/plain" type="Unpublished-Status">The standard is in press</note>
        </bibitem>
       </references>
       </bibliography>
