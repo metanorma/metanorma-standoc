@@ -1188,7 +1188,7 @@ end
     # mock_iecbib_get_iec60050_102_01
     # mock_iecbib_get_iec60050_103_01
     # mock_iev
-    VCR.use_cassette "separates_iev_citations_by_top_level_clause", :re_record_interval => 25200 do
+    VCR.use_cassette "separates_iev_citations_by_top_level_clause" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{CACHED_ISOBIB_BLANK_HDR}
 

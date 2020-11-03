@@ -326,7 +326,7 @@ EOS
     FileUtils.rm_rf File.expand_path("~/.iev/cache")
 
     # mock_isobib_get_123
-    VCR.use_cassette "isobib_get_123_2001", :re_record_interval => 25200 do
+    VCR.use_cassette "isobib_get_123_2001" do
       Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
         #{FLUSH_CACHE_ISOBIB_BLANK_HDR}
         [bibliography]
@@ -407,7 +407,7 @@ EOS
   it "activates global cache" do
     FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
     FileUtils.rm_rf "relaton/cache"
-        VCR.use_cassette "isobib_get_123_2001", :re_record_interval => 25200 do
+        VCR.use_cassette "isobib_get_123_2001" do
       Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
         #{CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
@@ -527,7 +527,7 @@ EOS
       #)
 
     # mock_isobib_get_124
-    VCR.use_cassette "isobib_get_124", :re_record_interval => 25200 do
+    VCR.use_cassette "isobib_get_124" do
       Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
         #{CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
@@ -566,7 +566,7 @@ EOS
       #)
 
     # mock_isobib_get_123_undated
-    VCR.use_cassette "isobib_get_123", :re_record_interval => 25200 do
+    VCR.use_cassette "isobib_get_123" do
       Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
         #{CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
@@ -587,7 +587,7 @@ EOS
   end
 
   it "does not expire stale dated references" do
-        VCR.use_cassette "isobib_get_123_2001", :re_record_interval => 25200 do
+        VCR.use_cassette "isobib_get_123_2001" do
     FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore1")
     FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
 
@@ -621,8 +621,8 @@ EOS
   end
 
   it "prioritises local over global cache values" do
-        VCR.use_cassette "isobib_get_123_2001", :re_record_interval => 25200 do
-    VCR.use_cassette "isobib_get_124", :re_record_interval => 25200 do
+        VCR.use_cassette "isobib_get_123_2001" do
+    VCR.use_cassette "isobib_get_124" do
     FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore1")
     FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
     FileUtils.rm_rf "relaton/cache"

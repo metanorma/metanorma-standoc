@@ -223,7 +223,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "fetches simple ISO reference" do
-    VCR.use_cassette "isobib_get_123_1", :re_record_interval => 25200 do
+    VCR.use_cassette "isobib_get_123_1" do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
         #{ISOBIB_BLANK_HDR}
         [bibliography]
@@ -446,7 +446,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "fetches simple ISO reference in French" do
-    VCR.use_cassette "isobib_get_123_1_fr", :re_record_interval => 25200 do
+    VCR.use_cassette "isobib_get_123_1_fr" do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
         = Document title
         Author
@@ -733,7 +733,7 @@ RSpec.describe Asciidoctor::Standoc do
   it "processes dated ISO reference and joint ISO/IEC references" do
     # mock_isobib_get_iec12382
     # mock_isobib_get_124
-    VCR.use_cassette "dated_iso_ref_joint_iso_iec", :re_record_interval => 25200 do
+    VCR.use_cassette "dated_iso_ref_joint_iso_iec" do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
         #{ISOBIB_BLANK_HDR}
         [bibliography]
@@ -944,7 +944,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
     it "declines to fetch individual references" do
-    VCR.use_cassette "dated_iso_ref_joint_iso_iec", :re_record_interval => 25200 do
+    VCR.use_cassette "dated_iso_ref_joint_iso_iec" do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
         #{ISOBIB_BLANK_HDR}
         [bibliography]
@@ -1158,7 +1158,7 @@ OUTPUT
 
   it "processes RFC reference in Normative References" do
     # mock_rfcbib_get_rfc8341
-    VCR.use_cassette "rfcbib_get_rfc8341", :re_record_interval => 25200 do
+    VCR.use_cassette "rfcbib_get_rfc8341" do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
         #{ISOBIB_BLANK_HDR}
         [bibliography]
