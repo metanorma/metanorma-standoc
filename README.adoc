@@ -1,9 +1,7 @@
 = Metanorma-standoc
 
 image:https://img.shields.io/gem/v/metanorma-standoc.svg["Gem Version", link="https://rubygems.org/gems/metanorma-standoc"]
-image:https://github.com/metanorma/metanorma-standoc/workflows/macos/badge.svg["Build Status (macOS)", link="https://github.com/metanorma/metanorma-standoc/actions?workflow=macos"]
-image:https://github.com/metanorma/metanorma-standoc/workflows/ubuntu/badge.svg["Build Status (ubuntu)", link="https://github.com/metanorma/metanorma-standoc/actions?workflow=ubuntu"]
-image:https://github.com/metanorma/metanorma-standoc/workflows/windows/badge.svg["Build Status (Windows)", link="https://github.com/metanorma/metanorma-standoc/actions?workflow=windows"]
+image:https://github.com/metanorma/metanorma-standoc/workflows/rake/badge.svg["Build Status", link="https://github.com/metanorma/metanorma-standoc/actions?workflow=rake"]
 image:https://codeclimate.com/github/metanorma/metanorma-standoc/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/metanorma/metanorma-standoc"]
 image:https://img.shields.io/github/issues-pr-raw/metanorma/metanorma-standoc.svg["Pull Requests", link="https://github.com/metanorma/metanorma-standoc/pulls"]
 image:https://img.shields.io/github/commits-since/metanorma/metanorma-standoc/latest.svg["Commits since latest",link="https://github.com/metanorma/metanorma-standoc/releases"]
