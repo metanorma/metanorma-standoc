@@ -111,6 +111,9 @@ RSpec.describe Asciidoctor::Standoc do
       +
       Note 3.
 
+      [%key]
+      a:: b
+
     INPUT
     expect(xmlpp(strip_guid(output))).to be_equivalent_to xmlpp(<<~"OUTPUT")
             #{BLANK_HDR}
@@ -174,7 +177,13 @@ RSpec.describe Asciidoctor::Standoc do
          </li>
        </ol>
          </li>
-       </ol></sections>
+       </ol><dl id='_' key='true'>
+  <dt>a</dt>
+  <dd>
+    <p id='_'>b</p>
+  </dd>
+</dl>
+</sections>
        </standard-document>
        OUTPUT
     end

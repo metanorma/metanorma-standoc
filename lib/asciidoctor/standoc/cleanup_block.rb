@@ -19,12 +19,22 @@ module Asciidoctor
         end
       end
 
+      def dl1_table_cleanup(xmldoc)
+        q = "//table/following-sibling::*[1][self::dl]"
+        xmldoc.xpath(q).each do |s|
+          if s["key"] == "true"
+            s.previous_element << s.remove
+          end
+        end
+      end
+
       # move Key dl after table footer
-      def dl_table_cleanup(xmldoc)
+      def dl2_table_cleanup(xmldoc)
         q = "//table/following-sibling::*[1][self::p]"
         xmldoc.xpath(q).each do |s|
           if s.text =~ /^\s*key[^a-z]*$/i && !s.next_element.nil? &&
               s.next_element.name == "dl"
+            s.next_element["key"] = "true"
             s.previous_element << s.next_element.remove
             s.remove
           end
@@ -54,7 +64,8 @@ module Asciidoctor
       end
 
       def table_cleanup(xmldoc)
-        dl_table_cleanup(xmldoc)
+        dl1_table_cleanup(xmldoc)
+        dl2_table_cleanup(xmldoc)
         notes_table_cleanup(xmldoc)
         header_rows_cleanup(xmldoc)
       end
@@ -74,22 +85,47 @@ module Asciidoctor
 
       # include where definition list inside stem block
       def formula_cleanup(x)
+        formula_cleanup_where1(x)
+        formula_cleanup_where2(x)
+      end
+
+      def formula_cleanup_where1(x)
+        q = "//formula/following-sibling::*[1][self::dl]"
+        x.xpath(q).each do |s|
+          if s["key"] == "true"
+            s.previous_element << s.remove
+          end
+        end
+      end
+
+      def formula_cleanup_where2(x)
         q = "//formula/following-sibling::*[1][self::p]"
         x.xpath(q).each do |s|
           if s.text =~ /^\s*where[^a-z]*$/i && !s.next_element.nil? &&
               s.next_element.name == "dl"
+            s.next_element["key"] = "true"
             s.previous_element << s.next_element.remove
             s.remove
           end
         end
       end
 
+      def figure_dl_cleanup1(xmldoc)
+        q = "//figure/following-sibling::*[self::dl]"
+        xmldoc.xpath(q).each do |s|
+          if s["key"] == "true"
+            s.previous_element << s.remove
+          end
+        end
+      end
+
       # include key definition list inside figure
-      def figure_dl_cleanup(xmldoc)
+      def figure_dl_cleanup2(xmldoc)
         q = "//figure/following-sibling::*[self::p]"
         xmldoc.xpath(q).each do |s|
           if s.text =~ /^\s*key[^a-z]*$/i && !s.next_element.nil? &&
               s.next_element.name == "dl"
+            s.next_element["key"] = "true"
             s.previous_element << s.next_element.remove
             s.remove
           end
@@ -115,7 +151,8 @@ module Asciidoctor
 
       def figure_cleanup(xmldoc)
         figure_footnote_cleanup(xmldoc)
-        figure_dl_cleanup(xmldoc)
+        figure_dl_cleanup1(xmldoc)
+        figure_dl_cleanup2(xmldoc)
         subfigure_cleanup(xmldoc)
       end
 

@@ -589,24 +589,68 @@ RSpec.describe Asciidoctor::Standoc do
       Key
 
       a:: b
+
+      |===
+      |a |b |c
+      |===
+
+      [%key]
+      a:: b
+
+      |===
+      |a |b |c
+      |===
+
+      a:: b
     INPUT
        #{BLANK_HDR}
-       <sections><table id="_">
-         <tbody>
-           <tr>
-             <td valign="top" align="left">a</td>
-             <td valign="top" align="left">b</td>
-             <td valign="top" align="left">c</td>
-           </tr>
-         </tbody>
-       <dl id="_">
-         <dt>a</dt>
-         <dd>
-           <p id="_">b</p>
-         </dd>
-       </dl></table>
-
-       </sections>
+       <sections>
+           <table id='_'>
+             <tbody>
+               <tr>
+                 <td valign='top' align='left'>a</td>
+                 <td valign='top' align='left'>b</td>
+                 <td valign='top' align='left'>c</td>
+               </tr>
+             </tbody>
+             <dl id='_' key='true'>
+               <dt>a</dt>
+               <dd>
+                 <p id='_'>b</p>
+               </dd>
+             </dl>
+           </table>
+           <table id='_'>
+             <tbody>
+               <tr>
+                 <td valign='top' align='left'>a</td>
+                 <td valign='top' align='left'>b</td>
+                 <td valign='top' align='left'>c</td>
+               </tr>
+             </tbody>
+             <dl id='_' key='true'>
+               <dt>a</dt>
+               <dd>
+                 <p id='_'>b</p>
+               </dd>
+             </dl>
+           </table>
+           <table id='_'>
+             <tbody>
+               <tr>
+                 <td valign='top' align='left'>a</td>
+                 <td valign='top' align='left'>b</td>
+                 <td valign='top' align='left'>c</td>
+               </tr>
+             </tbody>
+           </table>
+           <dl id='_'>
+             <dt>a</dt>
+             <dd>
+               <p id='_'>b</p>
+             </dd>
+           </dl>
+         </sections>
        </standard-document>
     OUTPUT
   end
@@ -737,18 +781,76 @@ RSpec.describe Asciidoctor::Standoc do
       Where,
 
       a:: b
+
+      [stem]
+      ++++
+      Formula
+      ++++
+
+      [%key]
+      a:: b
+
+      [stem]
+      ++++
+      Formula
+      ++++
+
+      a:: b
     INPUT
        #{BLANK_HDR}
-       <sections><formula id="_">
-         <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>F</mi><mi>or</mi><mi>μ</mi><mi>l</mi><mi>a</mi></math></stem> 
-       <dl id="_">
-         <dt>a</dt>
-         <dd>
-           <p id="_">b</p>
-         </dd>
-       </dl></formula>
-
-       </sections>
+       <sections>
+           <formula id='_'>
+             <stem type='MathML'>
+               <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                 <mi>F</mi>
+                 <mi>or</mi>
+                 <mi>μ</mi>
+                 <mi>l</mi>
+                 <mi>a</mi>
+               </math>
+             </stem>
+             <dl id='_' key='true'>
+               <dt>a</dt>
+               <dd>
+                 <p id='_'>b</p>
+               </dd>
+             </dl>
+           </formula>
+           <formula id='_'>
+             <stem type='MathML'>
+               <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                 <mi>F</mi>
+                 <mi>or</mi>
+                 <mi>μ</mi>
+                 <mi>l</mi>
+                 <mi>a</mi>
+               </math>
+             </stem>
+             <dl id='_' key='true'>
+               <dt>a</dt>
+               <dd>
+                 <p id='_'>b</p>
+               </dd>
+             </dl>
+           </formula>
+           <formula id='_'>
+             <stem type='MathML'>
+               <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                 <mi>F</mi>
+                 <mi>or</mi>
+                 <mi>μ</mi>
+                 <mi>l</mi>
+                 <mi>a</mi>
+               </math>
+             </stem>
+           </formula>
+           <dl id='_'>
+             <dt>a</dt>
+             <dd>
+               <p id='_'>b</p>
+             </dd>
+           </dl>
+         </sections>
        </standard-document>
     OUTPUT
   end
@@ -800,19 +902,46 @@ RSpec.describe Asciidoctor::Standoc do
       key:
 
       a:: b
+
+      image::spec/examples/rice_images/rice_image1.png[]
+
+      [%key]
+      a:: b
+
+      image::spec/examples/rice_images/rice_image1.png[]
+
+      a:: b
     INPUT
        #{BLANK_HDR}
-       <sections><figure id="_">
-         <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
-       <dl id="_">
-         <dt>a</dt>
-         <dd>
-           <p id="_">b</p>
-         </dd>
-       </dl></figure>
-
-       </sections>
-
+       <sections>
+           <figure id='_'>
+             <image src='spec/examples/rice_images/rice_image1.png' id='_' mimetype='image/png' height='auto' width='auto'/>
+             <dl id='_' key='true'>
+               <dt>a</dt>
+               <dd>
+                 <p id='_'>b</p>
+               </dd>
+             </dl>
+           </figure>
+           <figure id='_'>
+             <image src='spec/examples/rice_images/rice_image1.png' id='_' mimetype='image/png' height='auto' width='auto'/>
+             <dl id='_' key='true'>
+               <dt>a</dt>
+               <dd>
+                 <p id='_'>b</p>
+               </dd>
+             </dl>
+           </figure>
+           <figure id='_'>
+             <image src='spec/examples/rice_images/rice_image1.png' id='_' mimetype='image/png' height='auto' width='auto'/>
+           </figure>
+           <dl id='_'>
+             <dt>a</dt>
+             <dd>
+               <p id='_'>b</p>
+             </dd>
+           </dl>
+         </sections>
        </standard-document>
     OUTPUT
   end
