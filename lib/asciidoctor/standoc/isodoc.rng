@@ -141,6 +141,11 @@
             <data type="boolean"/>
           </attribute>
         </optional>
+        <optional>
+          <attribute name="key">
+            <data type="boolean"/>
+          </attribute>
+        </optional>
         <oneOrMore>
           <ref name="dt"/>
           <ref name="dd"/>
