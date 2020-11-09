@@ -1909,8 +1909,148 @@ expect(xmlpp(Asciidoctor.convert(input, backend: :standoc, header_footer: true))
 OUTPUT
 
 end
+it "customises italicisation of MathML" do
+input = <<~INPUT
+= Document title
+Author
+:stem:
+
+[stem]
+++++
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mi>A</mi>
+  <mo>+</mo>
+  <mi>a</mi>
+  <mo>+</mo>
+  <mi>Α</mi>
+  <mo>+</mo>
+  <mi>α</mi>
+  <mo>+</mo>
+  <mi>AB</mi>
+</math>
+++++
+INPUT
+
+expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+#{BLANK_HDR}
+  <sections>
+    <formula id='_'>
+      <stem type='MathML'>
+        <math xmlns='http://www.w3.org/1998/Math/MathML'>
+          <mi>A</mi>
+          <mo>+</mo>
+          <mi>a</mi>
+          <mo>+</mo>
+          <mi>Α</mi>
+          <mo>+</mo>
+          <mi>α</mi>
+          <mo>+</mo>
+          <mi>AB</mi>
+        </math>
+      </stem>
+    </formula>
+  </sections>
+</standard-document>
+OUTPUT
+mock_mathml_italicise({ uppergreek: false, upperroman: true, lowergreek: true, lowerroman: true })
+expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+#{BLANK_HDR}
+  <sections>
+    <formula id='_'>
+      <stem type='MathML'>
+        <math xmlns='http://www.w3.org/1998/Math/MathML'>
+          <mi>A</mi>
+          <mo>+</mo>
+          <mi>a</mi>
+          <mo>+</mo>
+          <mi mathvariant="normal">Α</mi>
+          <mo>+</mo>
+          <mi>α</mi>
+          <mo>+</mo>
+          <mi>AB</mi>
+        </math>
+      </stem>
+    </formula>
+  </sections>
+</standard-document>
+OUTPUT
+mock_mathml_italicise({ uppergreek: true, upperroman: false, lowergreek: true, lowerroman: true })
+expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+#{BLANK_HDR}
+  <sections>
+    <formula id='_'>
+      <stem type='MathML'>
+        <math xmlns='http://www.w3.org/1998/Math/MathML'>
+          <mi mathvariant="normal">A</mi>
+          <mo>+</mo>
+          <mi>a</mi>
+          <mo>+</mo>
+          <mi>Α</mi>
+          <mo>+</mo>
+          <mi>α</mi>
+          <mo>+</mo>
+          <mi>AB</mi>
+        </math>
+      </stem>
+    </formula>
+  </sections>
+</standard-document>
+OUTPUT
+mock_mathml_italicise({ uppergreek: true, upperroman: true, lowergreek: false, lowerroman: true })
+expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+#{BLANK_HDR}
+  <sections>
+    <formula id='_'>
+      <stem type='MathML'>
+        <math xmlns='http://www.w3.org/1998/Math/MathML'>
+          <mi>A</mi>
+          <mo>+</mo>
+          <mi>a</mi>
+          <mo>+</mo>
+          <mi>Α</mi>
+          <mo>+</mo>
+          <mi mathvariant="normal">α</mi>
+          <mo>+</mo>
+          <mi>AB</mi>
+        </math>
+      </stem>
+    </formula>
+  </sections>
+</standard-document>
+OUTPUT
+mock_mathml_italicise({ uppergreek: true, upperroman: true, lowergreek: true, lowerroman: false })
+expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+#{BLANK_HDR}
+  <sections>
+    <formula id='_'>
+      <stem type='MathML'>
+        <math xmlns='http://www.w3.org/1998/Math/MathML'>
+          <mi>A</mi>
+          <mo>+</mo>
+          <mi mathvariant="normal">a</mi>
+          <mo>+</mo>
+          <mi>Α</mi>
+          <mo>+</mo>
+          <mi>α</mi>
+          <mo>+</mo>
+          <mi>AB</mi>
+        </math>
+      </stem>
+    </formula>
+  </sections>
+</standard-document>
+OUTPUT
+mock_mathml_italicise({ uppergreek: true, upperroman: true, lowergreek: true, lowerroman: true })
+
+
+end
 
   private
+
+  def mock_mathml_italicise(x)
+  allow_any_instance_of(::Asciidoctor::Standoc::Cleanup).to receive(:mathml_mi_italics).and_return(x)
+  end
+
 
     def mock_iecbib_get_iec60050_103_01
       expect(Iecbib::IecBibliography).to receive(:get).with("IEC 60050-103", nil, {keep_year: true}) do

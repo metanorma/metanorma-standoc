@@ -156,17 +156,42 @@ module Asciidoctor
         x.children = math
       end
 
+      MATHML_NS = "http://www.w3.org/1998/Math/MathML".freeze
+
       def mathml_preserve_space(m)
-        m.xpath(".//m:mtext",
-                "m" => "http://www.w3.org/1998/Math/MathML").each do |x|
+        m.xpath(".//m:mtext", "m" => MATHML_NS).each do |x|
           x.children = x.children.to_xml.gsub(/^\s/, "&#xA0;").
             gsub(/\s$/, "&#xA0;")
         end
       end
 
       def mathml_namespace(stem)
-        stem.xpath("./math", ).each do |x|
-          x.default_namespace = "http://www.w3.org/1998/Math/MathML"
+        stem.xpath("./math", ).each { |x| x.default_namespace = MATHML_NS }
+      end
+
+      def mathml_mi_italics
+        { uppergreek: true, upperroman: true,
+          lowergreek: true, lowerroman: true }
+      end
+
+      # presuppose multichar mi upright, singlechar mi MathML default italic
+      def mathml_italicise(x)
+        x.xpath(".//m:mi", "m" => MATHML_NS).each do |i|
+          char = HTMLEntities.new.decode(i.text)
+          i["mathvariant"] = "normal" if mi_italicise?(char)
+        end
+      end
+
+      def mi_italicise?(c)
+        return false if c.length > 1
+        if /\p{Greek}/.match(c)
+          /\p{Lower}/.match(c) && !mathml_mi_italics[:lowergreek] ||
+            /\p{Upper}/.match(c) && !mathml_mi_italics[:uppergreek]
+        elsif /\p{Latin}/.match(c)
+          /\p{Lower}/.match(c) && !mathml_mi_italics[:lowerroman] ||
+            /\p{Upper}/.match(c) && !mathml_mi_italics[:upperroman]
+        else
+          false
         end
       end
 
@@ -175,6 +200,7 @@ module Asciidoctor
           xml_unescape_mathml(x)
           mathml_namespace(x)
           mathml_preserve_space(x)
+          mathml_italicise(x)
         end
       end
 
@@ -204,7 +230,8 @@ module Asciidoctor
             n.name != "variant" && (!n.text? || !n.text.gsub(/\s/, "").empty?)
           end
           c.xpath("./variant").each do |n|
-            if n.at_xpath('preceding-sibling::node()[not(self::text()[not(normalize-space())])][1][self::variantwrap]')
+            if n.at_xpath('preceding-sibling::node()[not(self::text()'\
+                '[not(normalize-space())])][1][self::variantwrap]')
               n.previous_element << n
             else
               n.replace('<variantwrap/>').first << n
