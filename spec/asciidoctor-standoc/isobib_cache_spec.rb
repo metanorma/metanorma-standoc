@@ -55,7 +55,7 @@ EOS
          <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
          <docnumber>124</docnumber>
          <date type="published">
-           <on>2014</on>
+           <on>2014-03</on>
          </date>
          <contributor>
            <role type="publisher"/>
@@ -214,7 +214,7 @@ EOS
          <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
          <docnumber>123</docnumber>
          <date type="published">
-           <on>2001</on>
+           <on>2001-05</on>
          </date>
          <contributor>
            <role type="publisher"/>

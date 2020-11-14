@@ -249,7 +249,7 @@ RSpec.describe Asciidoctor::Standoc do
                <docidentifier type='URN'>urn:iso:std:iso:123</docidentifier>
                <docnumber>123</docnumber>
                <date type='published'>
-                 <on>2001</on>
+                 <on>2001-05</on>
                </date>
                <contributor>
                  <role type='publisher'/>
@@ -292,7 +292,7 @@ RSpec.describe Asciidoctor::Standoc do
                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
                    <docnumber>123</docnumber>
                    <date type='published'>
-                     <on>2001</on>
+                     <on>2001-05</on>
                    </date>
                    <contributor>
                      <role type='publisher'/>
@@ -350,7 +350,7 @@ RSpec.describe Asciidoctor::Standoc do
                <docidentifier type='URN'>urn:iso:std:iso:123</docidentifier>
                <docnumber>123</docnumber>
                <date type='published'>
-                 <on>2001</on>
+                 <on>2001-05</on>
                </date>
                <contributor>
                  <role type='publisher'/>
@@ -393,7 +393,7 @@ RSpec.describe Asciidoctor::Standoc do
                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
                    <docnumber>123</docnumber>
                    <date type='published'>
-                     <on>2001</on>
+                     <on>2001-05</on>
                    </date>
                    <contributor>
                      <role type='publisher'/>
@@ -487,7 +487,7 @@ compris les éventuels amendements).
                <docidentifier type='URN'>urn:iso:std:iso:123</docidentifier>
                <docnumber>123</docnumber>
                <date type='published'>
-                 <on>2001</on>
+                 <on>2001-05</on>
                </date>
                <contributor>
                  <role type='publisher'/>
@@ -531,7 +531,7 @@ compris les éventuels amendements).
                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:fr</docidentifier>
                    <docnumber>123</docnumber>
                    <date type='published'>
-                     <on>2001</on>
+                     <on>2001-05</on>
                    </date>
                    <contributor>
                      <role type='publisher'/>
@@ -590,7 +590,7 @@ compris les éventuels amendements).
                <docidentifier type='URN'>urn:iso:std:iso:123</docidentifier>
                <docnumber>123</docnumber>
                <date type='published'>
-                 <on>2001</on>
+                 <on>2001-05</on>
                </date>
                <contributor>
                  <role type='publisher'/>
@@ -634,7 +634,7 @@ compris les éventuels amendements).
                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:fr</docidentifier>
                    <docnumber>123</docnumber>
                    <date type='published'>
-                     <on>2001</on>
+                     <on>2001-05</on>
                    </date>
                    <contributor>
                      <role type='publisher'/>
@@ -761,7 +761,7 @@ compris les éventuels amendements).
           <docidentifier type='URN'>urn:iso:std:iso-iec:tr:12382:stage-90.93:ed-2:en</docidentifier>
           <docnumber>12382</docnumber>
           <date type="published">
-            <on>1992</on>
+            <on>1992-12</on>
           </date>
           <contributor>
             <role type="publisher"/>
@@ -809,7 +809,7 @@ compris les éventuels amendements).
           <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
           <docnumber>124</docnumber>
           <date type="published">
-            <on>2014</on>
+            <on>2014-03</on>
           </date>
           <contributor>
             <role type="publisher"/>
@@ -854,7 +854,7 @@ compris les éventuels amendements).
           <docidentifier type='URN'>urn:iso:std:iso-iec:tr:12382:stage-90.93:ed-2:en</docidentifier>
           <docnumber>12382</docnumber>
           <date type="published">
-            <on>1992</on>
+            <on>1992-12</on>
           </date>
           <contributor>
             <role type="publisher"/>
@@ -903,7 +903,7 @@ compris les éventuels amendements).
           <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
           <docnumber>124</docnumber>
           <date type="published">
-            <on>2014</on>
+            <on>2014-03</on>
           </date>
           <contributor>
             <role type="publisher"/>
@@ -978,7 +978,7 @@ compris les éventuels amendements).
                <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
                <docnumber>124</docnumber>
                <date type='published'>
-                 <on>2014</on>
+                 <on>2014-03</on>
                </date>
                <contributor>
                  <role type='publisher'/>

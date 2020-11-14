@@ -306,11 +306,11 @@ formattedref::
     <on>2014</on>
   </date>
   <date type="published">
-    <from>2014</from>
-    <to>2014</to>
+    <from>2014-04</from>
+    <to>2014-05</to>
   </date>
   <date type="accessed">
-    <on>2015</on>
+    <on>2015-05-20</on>
   </date>
   <contributor>
     <role type="publisher"><description>Publisher role</description></role>
@@ -624,11 +624,11 @@ series.formattedref.script:: Latn
     <on>2014</on>
   </date>
   <date type="published">
-    <from>2014</from>
-    <to>2014</to>
+    <from>2014-04</from>
+    <to>2014-05</to>
   </date>
   <date type="accessed">
-    <on>2015</on>
+    <on>2015-05-20</on>
   </date>
   <contributor>
     <role type="publisher"><description>Publisher role</description></role>

@@ -56,7 +56,9 @@ module Asciidoctor
       end
 
       def norm_year(yr)
-        /^\&\#821[12];$/.match(yr) ? "--" : yr
+        /^\&\#821[12];$/.match(yr) and return "--" 
+        /^\d\d\d\d-\d\d\d\d$/.match(yr) and return yr
+        yr&.sub(/(?<=[0-9])-.*$/, "")
       end
 
       def isorefrender1(t, m, yr, allp = "")
@@ -225,7 +227,7 @@ module Asciidoctor
 
           NON_ISO_REF = %r{^<ref\sid="(?<anchor>[^"]+)">
         \[(?<usrlbl>\([^)]+\))?(?<code>[^\]]+?)
-        ([:-](?<year>(19|20)[0-9][0-9]))?\]</ref>,?\s*(?<text>.*)$}xm
+        ([:-](?<year>(19|20)[0-9][0-9][0-9-]*))?\]</ref>,?\s*(?<text>.*)$}xm
 
         def reference1_matches(item)
           matched = ISO_REF.match item

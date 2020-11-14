@@ -1165,7 +1165,7 @@ RSpec.describe Asciidoctor::Standoc do
           <docidentifier type="IEC">IEC 60050-102:2007</docidentifier>
           <docidentifier type='URN'>urn:iec:std:iec:60050-102:2007:::en</docidentifier>
           <date type="published">
-            <on>2007</on>
+            <on>2007-08-27</on>
           </date>
           <contributor>
             <role type="publisher"/>
@@ -1204,7 +1204,7 @@ RSpec.describe Asciidoctor::Standoc do
           <docidentifier type="IEC">IEC 60050-103:2009</docidentifier>
           <docidentifier type='URN'>urn:iec:std:iec:60050-103:2009:::en</docidentifier>
           <date type="published">
-            <on>2009</on>
+            <on>2009-12-14</on>
           </date>
           <contributor>
             <role type="publisher"/>
