@@ -1,4 +1,7 @@
 require "asciidoctor"
+require "fontist"
+require "fontist/manifest/install"
+require "metanorma/util"
 require "metanorma/standoc/version"
 require "asciidoctor/standoc/base"
 require "asciidoctor/standoc/front"
@@ -63,6 +66,8 @@ module Asciidoctor
         basebackend "html"
         outfilesuffix ".xml"
         @libdir = File.dirname(self.class::_file || __FILE__)
+
+        install_fonts(opts)
       end
 
       class << self
@@ -75,7 +80,32 @@ module Asciidoctor
 
       # path to isodoc assets in child gems
       def html_doc_path(file)
-        File.join(@libdir, File.join("../../isodoc/html", file))
+        File.join(@libdir, "../../isodoc/html", file)
+      end
+
+      def fonts_manifest
+        File.join(@libdir, "fonts_manifest.yaml")
+      end
+
+      def install_fonts(options={})
+        if options[:no_install_fonts] || fonts_manifest.nil? || !File.exist?(fonts_manifest)
+          Metanorma::Util.log("[fontinst] Skip font installation process", :debug)
+          return
+        end
+
+        begin
+          Fontist::Manifest::Install.call(
+            fonts_manifest,
+            confirmation: options[:confirm_license] ? "yes" : "no"
+          )
+        rescue Fontist::Errors::LicensingError
+          log_type = options[:continue_without_fonts] ? :error : :fatal
+          Metanorma::Util.log("[fontinst] Error: License acceptance required to install a necessary font." \
+            "Accept required licenses with: `metanorma setup --agree-to-terms`.", log_type)
+
+        rescue Fontist::Errors::NonSupportedFontError
+          Metanorma::Util.log("[fontinst] The font `#{font}` is not yet supported.", :info)
+        end
       end
 
       alias_method :embedded, :content
