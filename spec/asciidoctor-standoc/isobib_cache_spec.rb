@@ -227,6 +227,13 @@ EOS
          <edition>3</edition>
          <language>en</language>
          <script>Latn</script>
+         <abstract format='text/plain' language='en' script='Latn'>
+  This International Standard specifies procedures for sampling natural rubber
+  latex concentrate and for sampling syntheticrubber latices and artificial
+  latices. It is also suitable for sampling rubber latex contained in drums,
+  tank cars ortanks. The procedures may also be used for sampling plastics
+  dispersions.
+</abstract>
          <status>
            <stage>90</stage>
            <substage>93</substage>
