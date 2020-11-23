@@ -166,8 +166,9 @@ module Asciidoctor
 
       def analyse_ref_repo_path(ret)
         return ret unless m =
-          /^(?<type>repo|path):\((?<key>[^,]+),(?<id>.+)\)$/.match(ret[:id])
-        ret.merge(id: m[:id], type: m[:type], key: m[:key], nofetch: true)
+          /^(?<type>repo|path):\((?<key>[^,]+),?(?<id>.*)\)$/.match(ret[:id])
+        id = m[:id].empty? ? m[:key].sub(%r{^[^/]+/}, "")  : m[:id]
+        ret.merge(id: id, type: m[:type], key: m[:key], nofetch: true)
       end
 
       def analyse_ref_numeric(ret)

@@ -305,6 +305,13 @@ RSpec.describe Asciidoctor::Standoc do
                    <edition>3</edition>
                    <language>en</language>
                    <script>Latn</script>
+                    <abstract format='text/plain' language='en' script='Latn'>
+   This International Standard specifies procedures for sampling
+   natural rubber latex concentrate and for sampling syntheticrubber
+   latices and artificial latices. It is also suitable for sampling
+   rubber latex contained in drums, tank cars ortanks. The procedures
+   may also be used for sampling plastics dispersions.
+ </abstract>
                    <status>
                      <stage>90</stage>
                      <substage>93</substage>
@@ -406,6 +413,13 @@ RSpec.describe Asciidoctor::Standoc do
                    <edition>3</edition>
                    <language>en</language>
                    <script>Latn</script>
+                   <abstract format='text/plain' language='en' script='Latn'>
+   This International Standard specifies procedures for sampling
+   natural rubber latex concentrate and for sampling syntheticrubber
+   latices and artificial latices. It is also suitable for sampling
+   rubber latex contained in drums, tank cars ortanks. The procedures
+   may also be used for sampling plastics dispersions.
+ </abstract>
                    <status>
                      <stage>90</stage>
                      <substage>93</substage>
@@ -545,6 +559,15 @@ compris les éventuels amendements).
                    <language>en</language>
                    <language>fr</language>
                    <script>Latn</script>
+                   <abstract format='text/plain' language='fr' script='Latn'>
+  La présente Norme internationale spécifie des méthodes
+  d’échantillonnage pour des concentrés de latex de
+  caoutchoucnaturel et pour échantillonner des latex de caoutchouc
+  synthétique et des latex artificiels. Elle s’applique égalementà
+  l’échantillonnage de latex de caoutchouc contenus dans des fûts,
+  citernes routières ou de stockage. Lemode opératoire peut aussi
+  être utilisé pour l’échantillonnage de dispersions de plastiques.
+</abstract>
                    <status>
                      <stage>90</stage>
                      <substage>93</substage>
@@ -648,6 +671,15 @@ compris les éventuels amendements).
                    <language>en</language>
                    <language>fr</language>
                    <script>Latn</script>
+                   <abstract format='text/plain' language='fr' script='Latn'>
+  La présente Norme internationale spécifie des méthodes
+  d’échantillonnage pour des concentrés de latex de
+  caoutchoucnaturel et pour échantillonner des latex de caoutchouc
+  synthétique et des latex artificiels. Elle s’applique égalementà
+  l’échantillonnage de latex de caoutchouc contenus dans des fûts,
+  citernes routières ou de stockage. Lemode opératoire peut aussi
+  être utilisé pour l’échantillonnage de dispersions de plastiques.
+</abstract>
                    <status>
                      <stage>90</stage>
                      <substage>93</substage>
@@ -1461,53 +1493,68 @@ OUTPUT
       == Scope
 
       <<iso123>>
-
       <<iso123,clause=1>>
+      <<iso124>>
+      <<iso124,clause=1>>
 
       [bibliography]
       == Normative References
 
-      * [[[iso123,repo:(a/b,ISO 123)]]] _Standard_
+      * [[[iso123,repo:(ab/ISO 123)]]] _Standard_
+      * [[[iso124,repo:(ab/ISO 124,id)]]] _Standard_
     INPUT
      #{BLANK_HDR}
-  <sections>
-    <clause id='_' inline-header='false' obligation='normative' type="scope">
-      <title>Scope</title>
-      <p id='_'>
-        <eref type='inline' bibitemid='iso123' citeas='ISO 123'/>
-      </p>
-      <p id='_'>
-        <eref type='inline' bibitemid='iso123' citeas='ISO 123'>
-          <localityStack>
-            <locality type='clause'>
-              <referenceFrom>1</referenceFrom>
-            </locality>
-          </localityStack>
-        </eref>
-      </p>
-    </clause>
-  </sections>
-  <bibliography>
-    <references id='_' normative='true' obligation='informative'>
-      <title>Normative references</title>
-      <p id='_'>
-        The following documents are referred to in the text in such a way that
-        some or all of their content constitutes requirements of this document.
-        For dated references, only the edition cited applies. For undated
-        references, the latest edition of the referenced document (including any
-        amendments) applies.
-      </p>
-      <bibitem id='iso123'>
-        <formattedref format='application/x-isodoc+xml'>
-          <em>Standard</em>
-        </formattedref>
-        <docidentifier type="ISO">ISO 123</docidentifier>
-        <docidentifier type="repository">a/b</docidentifier>
-        <docnumber>123</docnumber>
-      </bibitem>
-    </references>
-  </bibliography>
-</standard-document>
+<sections>
+           <clause id='_' type='scope' inline-header='false' obligation='normative'>
+             <title>Scope</title>
+             <p id='_'>
+               <eref type='inline' bibitemid='iso123' citeas='ISO 123'/>
+               <eref type='inline' bibitemid='iso123' citeas='ISO 123'>
+                 <localityStack>
+                   <locality type='clause'>
+                     <referenceFrom>1</referenceFrom>
+                   </locality>
+                 </localityStack>
+               </eref>
+               <eref type='inline' bibitemid='iso124' citeas='id'/>
+               <eref type='inline' bibitemid='iso124' citeas='id'>
+                 <localityStack>
+                   <locality type='clause'>
+                     <referenceFrom>1</referenceFrom>
+                   </locality>
+                 </localityStack>
+               </eref>
+             </p>
+           </clause>
+         </sections>
+         <bibliography>
+           <references id='_' normative='true' obligation='informative'>
+             <title>Normative references</title>
+             <p id='_'>
+               The following documents are referred to in the text in such a way that
+               some or all of their content constitutes requirements of this document.
+               For dated references, only the edition cited applies. For undated
+               references, the latest edition of the referenced document (including any
+               amendments) applies.
+             </p>
+             <bibitem id='iso123'>
+               <formattedref format='application/x-isodoc+xml'>
+                 <em>Standard</em>
+               </formattedref>
+               <docidentifier type='ISO'>ISO 123</docidentifier>
+               <docidentifier type='repository'>ab/ISO 123</docidentifier>
+               <docnumber>123</docnumber>
+             </bibitem>
+             <bibitem id='iso124'>
+               <formattedref format='application/x-isodoc+xml'>
+                 <em>Standard</em>
+               </formattedref>
+               <docidentifier>id</docidentifier>
+               <docidentifier type='repository'>ab/ISO 124</docidentifier>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
     OUTPUT
     end
 
