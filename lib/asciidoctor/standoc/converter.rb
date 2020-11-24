@@ -103,13 +103,19 @@ module Asciidoctor
         begin
           Fontist::Manifest::Install.call(
             fonts_manifest,
-            confirmation: options[:confirm_license] ? "yes" : "no"
+            confirmation: options[:agree_to_terms] ? "yes" : "no"
           )
         rescue Fontist::Errors::LicensingError
-          log_type = options[:continue_without_fonts] ? :error : :fatal
-          Metanorma::Util.log("[fontist] Error: License acceptance required " \
-            "to install a necessary font. Accept required licenses with: " \
-            "`metanorma setup --agree-to-terms`.", log_type)
+          if !options[:agree_to_terms]
+            Metanorma::Util.log("[fontist] --agree-to-terms option missing." \
+              " You must accept font licenses to install fonts.", :debug)
+          elsif options[:continue_without_fonts]
+            Metanorma::Util.log("[fontist] Processing will continue without" \
+              " fonts installed", :debug)
+          else
+            Metanorma::Util.log("[fontist] Aborting without proper fonts" \
+              " installed", :fatal)
+          end
         rescue Fontist::Errors::NonSupportedFontError
           flavor = self.class.name.split('::')&.[](-2).downcase || 'cli'
           Metanorma::Util.log("[fontist] '#{font}'' font is not supported. " \
