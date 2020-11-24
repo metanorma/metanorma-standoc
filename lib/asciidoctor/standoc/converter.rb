@@ -88,8 +88,15 @@ module Asciidoctor
       end
 
       def install_fonts(options={})
-        if options[:no_install_fonts] || fonts_manifest.nil? || !File.exist?(fonts_manifest)
-          Metanorma::Util.log("[fontinst] Skip font installation process", :debug)
+        if options[:no_install_fonts]
+          Metanorma::Util.log("[fontist] Skip font installation because" \
+            " --no-install-fonts argument passed", :debug)
+          return
+        end
+
+        if fonts_manifest.nil? || !File.exist?(fonts_manifest)
+          Metanorma::Util.log("[fontist] Skip font installation because" \
+            " font manifest file doesn't exists/defined", :debug)
           return
         end
 
@@ -100,11 +107,14 @@ module Asciidoctor
           )
         rescue Fontist::Errors::LicensingError
           log_type = options[:continue_without_fonts] ? :error : :fatal
-          Metanorma::Util.log("[fontinst] Error: License acceptance required to install a necessary font." \
-            "Accept required licenses with: `metanorma setup --agree-to-terms`.", log_type)
-
+          Metanorma::Util.log("[fontist] Error: License acceptance required " \
+            "to install a necessary font. Accept required licenses with: " \
+            "`metanorma setup --agree-to-terms`.", log_type)
         rescue Fontist::Errors::NonSupportedFontError
-          Metanorma::Util.log("[fontinst] The font `#{font}` is not yet supported.", :info)
+          flavor = self.class.name.split('::')&.[](-2).downcase || 'cli'
+          Metanorma::Util.log("[fontist] '#{font}'' font is not supported. " \
+            "Please go to github.com/metanorma/metanorma-#{flavor}/issues" \
+            " to report this issue.", :info)
         end
       end
 
