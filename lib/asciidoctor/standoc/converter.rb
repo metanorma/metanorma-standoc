@@ -26,6 +26,7 @@ module Asciidoctor
         preprocessor Metanorma::Plugin::Datastruct::Json2TextPreprocessor
         preprocessor Metanorma::Plugin::Datastruct::Yaml2TextPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlPreprocessor
+        preprocessor Metanorma::Plugin::Lutaml::LutamlDatamodelAttributesTablePreprocessor
         inline_macro Asciidoctor::Standoc::AltTermInlineMacro
         inline_macro Asciidoctor::Standoc::DeprecatedTermInlineMacro
         inline_macro Asciidoctor::Standoc::DomainTermInlineMacro
@@ -37,6 +38,7 @@ module Asciidoctor
         block Asciidoctor::Standoc::ToDoAdmonitionBlock
         treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
         block Asciidoctor::Standoc::PlantUMLBlockMacro
+        block Metanorma::Plugin::Lutaml::LutamlDiagramBlock
         block Asciidoctor::Standoc::PseudocodeBlockMacro
       end
 
