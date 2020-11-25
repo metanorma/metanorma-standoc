@@ -519,7 +519,7 @@ OUTPUT
     end
   end
 
-  context 'when lutaml_datamodel_attributes_table' do
+  context 'when lutaml_uml_attributes_table' do
     let(:example_file) { fixtures_path("diagram_definitions.lutaml") }
     let(:input) do
       <<~"OUTPUT"
@@ -531,7 +531,7 @@ OUTPUT
         :no-isobib:
         :imagesdir: spec/assets
 
-        [lutaml_datamodel_attributes_table,#{example_file},AttributeProfile]
+        [lutaml_uml_attributes_table,#{example_file},AttributeProfile]
       OUTPUT
     end
     let(:output) do
