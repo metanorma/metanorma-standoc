@@ -82,7 +82,21 @@ module Asciidoctor
         end
       end
 
+      def footnote_block_cleanup(xmldoc)
+        xmldoc.xpath("//footnoteblock").each do |f|
+          f.name = 'fn'
+          if id = xmldoc.at("//*[@id = '#{f.text}']")
+            f.children = id.remove.children
+          else
+            @log.add("Crossreferences", f,
+                     "Could not resolve footnoteblock:[#{f.text}]")
+            f.children = "[ERROR]"
+          end
+        end
+      end
+
       def footnote_cleanup(xmldoc)
+        footnote_block_cleanup(xmldoc)
         title_footnote_move(xmldoc)
         table_footnote_renumber(xmldoc)
         other_footnote_renumber(xmldoc)
