@@ -1,4 +1,7 @@
 require "asciidoctor"
+require "fontist"
+require "fontist/manifest/install"
+require "metanorma/util"
 require "metanorma/standoc/version"
 require "asciidoctor/standoc/base"
 require "asciidoctor/standoc/front"
@@ -65,6 +68,8 @@ module Asciidoctor
         basebackend "html"
         outfilesuffix ".xml"
         @libdir = File.dirname(self.class::_file || __FILE__)
+
+        install_fonts(opts)
       end
 
       class << self
@@ -77,7 +82,52 @@ module Asciidoctor
 
       # path to isodoc assets in child gems
       def html_doc_path(file)
-        File.join(@libdir, File.join("../../isodoc/html", file))
+        File.join(@libdir, "../../isodoc/html", file)
+      end
+
+      def flavor_name
+        self.class.name.split("::")&.[](-2).downcase
+      end
+
+      def fonts_manifest
+        File.expand_path(File.join(@libdir, "../../metanorma/", flavor_name, "fonts_manifest.yaml"))
+      end
+
+      def install_fonts(options={})
+        if options[:no_install_fonts]
+          Metanorma::Util.log("[fontist] Skip font installation because" \
+            " --no-install-fonts argument passed", :debug)
+          return
+        end
+
+        if fonts_manifest.nil? || !File.exist?(fonts_manifest)
+          Metanorma::Util.log("[fontist] Skip font installation because" \
+            " font manifest file doesn't exists/defined", :debug)
+          return
+        end
+
+        begin
+          Fontist::Manifest::Install.call(
+            fonts_manifest,
+            confirmation: options[:agree_to_terms] ? "yes" : "no"
+          )
+        rescue Fontist::Errors::LicensingError
+          if !options[:agree_to_terms]
+            Metanorma::Util.log("[fontist] --agree-to-terms option missing." \
+              " You must accept font licenses to install fonts.", :debug)
+          elsif options[:continue_without_fonts]
+            Metanorma::Util.log("[fontist] Processing will continue without" \
+              " fonts installed", :debug)
+          else
+            Metanorma::Util.log("[fontist] Aborting without proper fonts" \
+              " installed", :fatal)
+          end
+        rescue Fontist::Errors::NonSupportedFontError
+          flavor = flavor_name || "cli"
+          Metanorma::Util.log("[fontist] '#{font}' font is not supported. " \
+            "Please go to github.com/metanorma/metanorma-#{flavor}/issues" \
+            " to report this issue.", :info)
+        end
       end
 
       alias_method :embedded, :content
