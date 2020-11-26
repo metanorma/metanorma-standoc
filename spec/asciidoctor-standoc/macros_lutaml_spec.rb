@@ -44,27 +44,27 @@ RSpec.describe 'Lutaml macros' do
         <clause id="_" inline-header="false" obligation="normative">
         <title>a3m_data_quality_criterion</title>
         <p id="_">supertypes →
-        explicit → assessment_specification</p>
+        explicit → </p>
         </clause>
         <clause id="_" inline-header="false" obligation="normative">
         <title>a3m_data_quality_criterion_specific_applied_value</title>
         <p id="_">supertypes →
-        explicit → criterion_to_assign_the_value</p>
+        explicit → </p>
         </clause>
         <clause id="_" inline-header="false" obligation="normative">
         <title>a3m_data_quality_target_accuracy_association</title>
         <p id="_">supertypes →
-        explicit → id</p>
+        explicit → </p>
         </clause>
         <clause id="_" inline-header="false" obligation="normative">
         <title>a3m_detailed_report_request</title>
         <p id="_">supertypes →
-        explicit → value_type_requested</p>
+        explicit → </p>
         </clause>
         <clause id="_" inline-header="false" obligation="normative">
         <title>a3m_summary_report_request_with_representative_value</title>
         <p id="_">supertypes →
-        explicit → value_type_requested</p>
+        explicit → </p>
         </clause></clause>
         </sections>
         </standard-document>
