@@ -83,8 +83,12 @@ module Asciidoctor
         File.join(@libdir, "../../isodoc/html", file)
       end
 
+      def flavor_name
+        self.class.name.split("::")&.[](-2).downcase
+      end
+
       def fonts_manifest
-        File.join(@libdir, "fonts_manifest.yaml")
+        File.expand_path(File.join(@libdir, "../../metanorma/", flavor_name, "fonts_manifest.yaml"))
       end
 
       def install_fonts(options={})
@@ -117,8 +121,8 @@ module Asciidoctor
               " installed", :fatal)
           end
         rescue Fontist::Errors::NonSupportedFontError
-          flavor = self.class.name.split('::')&.[](-2).downcase || 'cli'
-          Metanorma::Util.log("[fontist] '#{font}'' font is not supported. " \
+          flavor = flavor_name || "cli"
+          Metanorma::Util.log("[fontist] '#{font}' font is not supported. " \
             "Please go to github.com/metanorma/metanorma-#{flavor}/issues" \
             " to report this issue.", :info)
         end
