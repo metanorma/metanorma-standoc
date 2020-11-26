@@ -21,8 +21,8 @@ module Asciidoctor
           @log.add("AsciiDoc Input", node, "Section not marked up as [bibliography]!")
         @biblio = true
         xml.references **attr_code(attrs.merge(normative: false)) do |xml_section|
-          title = node.level == 1 ? "Bibliography" : node.title
-          xml_section.title { |t| t << title }
+          #title = node.level == 1 ? "Bibliography" : node.title
+          xml_section.title { |t| t << node.title }
           xml_section << node.content
         end
         @biblio = false
@@ -44,7 +44,8 @@ module Asciidoctor
           @log.add("AsciiDoc Input", node, "Section not marked up as [bibliography]!")
         @norm_ref = true
         xml.references **attr_code(attrs.merge(normative: true)) do |xml_section|
-          xml_section.title { |t| t << "Normative References" }
+          #xml_section.title { |t| t << "Normative References" }
+          xml_section.title { |t| t << node.title }
           xml_section << node.content
         end
         @norm_ref = false
