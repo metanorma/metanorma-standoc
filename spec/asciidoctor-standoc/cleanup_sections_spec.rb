@@ -548,17 +548,33 @@ INPUT
          </annex>
          <bibliography>
            <references id='_' normative='true' obligation='informative'>
-             <title>Normative references</title>
+             <title>Normative references
+<fn reference='1'>
+  <p id='_'>A</p>
+</fn>
+</title>
              <p id='_'>There are no normative references in this document.</p>
            </references>
            <references id='_' normative='false' obligation='informative'>
-             <title>Bibliography</title>
+             <title>Bibliography
+<fn reference='1'>
+  <p id='_'>A</p>
+</fn>
+</title>
            </references>
            <references id='_' normative='false' obligation='informative'>
-             <title>Bibliography</title>
+             <title>Bibliography.
+<fn reference='1'>
+  <p id='_'>A</p>
+</fn>
+</title>
            </references>
            <clause id='_' obligation='informative'>
-             <title>Bibliography</title>
+             <title>Bibliography 2.
+<fn reference='1'>
+  <p id='_'>A</p>
+</fn>
+</title>
              <references id='_' normative='false' obligation='informative'>
                <title>Bibliography Subsection</title>
              </references>
@@ -789,7 +805,7 @@ INPUT
               <title>Bibliography</title>
             </references>
             <clause id='_' obligation='informative'>
-              <title>Bibliography</title>
+              <title>Bibliography 2</title>
               <references id='_' normative='false' obligation='informative'>
                 <title>Bibliography Subsection</title>
               </references>
@@ -1023,7 +1039,7 @@ INPUT
               <title>Bibliography</title>
             </references>
             <clause id='_' obligation='informative'>
-              <title>Bibliography</title>
+              <title>Bibliography 2</title>
               <references id='_' normative='false' obligation='informative'>
                 <title>Bibliography Subsection</title>
               </references>
@@ -1254,7 +1270,7 @@ INPUT
               <title>Bibliography</title>
             </references>
             <clause id='_' obligation='informative'>
-              <title>Bibliography</title>
+              <title>Bibliography 2</title>
               <references id='_' normative='false' obligation='informative'>
                 <title>Bibliography Subsection</title>
               </references>
@@ -1485,7 +1501,7 @@ INPUT
               <title>Bibliography</title>
             </references>
             <clause id='_' obligation='informative'>
-              <title>Bibliography</title>
+              <title>Bibliography 2</title>
               <references id='_' normative='false' obligation='informative'>
                 <title>Bibliography Subsection</title>
               </references>
