@@ -395,6 +395,119 @@ OUTPUT
     OUTPUT
   end
 
+  it "processes the footnoteblock macro" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+
+      footnoteblock:[id1]
+
+      [[id1]]
+      [NOTE]
+      --
+      |===
+      |a |b
+
+      |c |d
+      |===
+
+      * A
+      * B
+      * C
+      --
+    INPUT
+            #{BLANK_HDR}
+            <sections>
+              <p id="_">
+              <fn reference='1'>
+  <table id='_'>
+    <thead>
+      <tr>
+        <th valign='top' align='left'>a</th>
+        <th valign='top' align='left'>b</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td valign='top' align='left'>c</td>
+        <td valign='top' align='left'>d</td>
+      </tr>
+    </tbody>
+  </table>
+  <ul id='_'>
+    <li>
+      <p id='_'>A</p>
+    </li>
+    <li>
+      <p id='_'>B</p>
+    </li>
+    <li>
+      <p id='_'>C</p>
+    </li>
+  </ul>
+</fn>
+            </p>
+            </sections>
+       </standard-document>
+    OUTPUT
+  end
+
+    it "processes the footnoteblock macro with failed reference" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+
+      footnoteblock:[id1]
+
+      [[id2]]
+      [NOTE]
+      --
+      |===
+      |a |b
+
+      |c |d
+      |===
+
+      * A
+      * B
+      * C
+      --
+    INPUT
+            #{BLANK_HDR}
+        <sections>
+           <p id='_'>
+             <fn reference='1'>[ERROR]</fn>
+           </p>
+           <note id='id2'>
+             <table id='_'>
+               <thead>
+                 <tr>
+                   <th valign='top' align='left'>a</th>
+                   <th valign='top' align='left'>b</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 <tr>
+                   <td valign='top' align='left'>c</td>
+                   <td valign='top' align='left'>d</td>
+                 </tr>
+               </tbody>
+             </table>
+             <ul id='_'>
+               <li>
+                 <p id='_'>A</p>
+               </li>
+               <li>
+                 <p id='_'>B</p>
+               </li>
+               <li>
+                 <p id='_'>C</p>
+               </li>
+             </ul>
+           </note>
+         </sections>
+       </standard-document>
+    OUTPUT
+  end
+
   it "processes the PlantUML macro" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).gsub(%r{plantuml/plantuml[^./]+\.}, "plantuml/_."))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}

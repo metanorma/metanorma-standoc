@@ -201,5 +201,17 @@ module Asciidoctor
         %{<variant lang=#{lang}>#{out}</variant>}
       end
     end
+
+    class FootnoteBlockInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :footnoteblock
+      parse_content_as :text
+      using_format :short
+
+      def process(parent, _target, attrs)
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        %{<footnoteblock>#{out}</footnoteblock>}
+      end
+    end
   end
 end
