@@ -369,4 +369,30 @@ it "err file succesfully created for docfile path" do
   expect(File.read("test/test.err")).to include "Hanging paragraph in clause"
 end
 
+it "Warning if no block for footnoteblock" do
+  FileUtils.rm_f "test.err"
+  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+  = Document title
+  Author
+  :docfile: test.adoc
+
+  footnoteblock:[id1]
+
+  [[id2]]
+  [NOTE]
+  --
+  |===
+  |a |b
+
+  |c |d
+  |===
+
+  * A
+  * B
+  * C
+  --
+  INPUT
+  expect(File.read("test.err")).to include 'Could not resolve footnoteblock:[id1]'
+end
+
 end
