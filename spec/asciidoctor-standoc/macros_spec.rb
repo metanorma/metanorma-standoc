@@ -632,7 +632,6 @@ OUTPUT
     end
   end
 
-=begin
   context 'when lutaml_uml_attributes_table' do
     let(:example_file) { fixtures_path("diagram_definitions.lutaml") }
     let(:input) do
@@ -669,7 +668,7 @@ OUTPUT
                 <tr>
                   <td valign='top' align='left'>addressClassProfile</td>
                   <td valign='top' align='left'>TODO: enum ‘s definition</td>
-                  <td valign='top' align='left'>M</td>
+                  <td valign='top' align='left'>O</td>
                   <td valign='top' align='left'>1</td>
                   <td valign='top' align='left'>
                     <tt>CharacterString</tt>
@@ -678,7 +677,7 @@ OUTPUT
                 <tr>
                   <td valign='top' align='left'>imlicistAttributeProfile</td>
                   <td valign='top' align='left'>this is attribute definition with multiply lines</td>
-                  <td valign='top' align='left'>M</td>
+                  <td valign='top' align='left'>O</td>
                   <td valign='top' align='left'>1</td>
                   <td valign='top' align='left'>
                     <tt>CharacterString</tt>
@@ -692,14 +691,13 @@ OUTPUT
       OUTPUT
     end
 
-    it "processes the lutaml_diagram" do
+    it "processes the lutaml_uml_attributes_table macro" do
       expect(
         xmlpp(
           strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
         .to(be_equivalent_to(xmlpp(output)))
     end
   end
-=end
 
   it "processes the PlantUML macro with PlantUML disabled" do
     mock_plantuml_disabled
