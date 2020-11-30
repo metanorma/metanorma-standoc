@@ -519,6 +519,7 @@ OUTPUT
     end
   end
 
+=begin
   context 'when lutaml_uml_attributes_table' do
     let(:example_file) { fixtures_path("diagram_definitions.lutaml") }
     let(:input) do
@@ -585,6 +586,7 @@ OUTPUT
         .to(be_equivalent_to(xmlpp(output)))
     end
   end
+=end
 
   it "processes the PlantUML macro with PlantUML disabled" do
     mock_plantuml_disabled
