@@ -1,3 +1,5 @@
+require_relative "term_lookup_cleanup"
+
 module Asciidoctor
   module Standoc
     module Cleanup
@@ -86,6 +88,7 @@ module Asciidoctor
       end
 
       def termdef_cleanup(xmldoc)
+        Asciidoctor::Standoc::TermLookupCleanup.new(xmldoc, @log).call
         termdef_from_termbase(xmldoc)
         termdef_unnest_cleanup(xmldoc)
         termdef_stem_cleanup(xmldoc)

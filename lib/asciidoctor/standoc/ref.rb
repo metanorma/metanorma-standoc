@@ -1,6 +1,6 @@
 module Asciidoctor
   module Standoc
-    module Lists
+    module Refs
       def iso_publisher(t, code)
         code.sub(/ .*$/, "").split(/\//).each do |abbrev|
           t.contributor do |c|

@@ -58,6 +58,20 @@ module Asciidoctor
       end
     end
 
+     # Macro to transform `term[X,Y]` into em, termxref xml
+    class TermRefInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+
+      named :term
+      name_positional_attributes 'name', 'termxref'
+      using_format :short
+
+      def process(_parent, _target, attrs)
+        termref = attrs['termxref'] || attrs['name']
+        "<em>#{attrs['name']}</em> (<termxref>#{termref}</termxref>)"
+      end
+    end
+
     class ConceptInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :concept

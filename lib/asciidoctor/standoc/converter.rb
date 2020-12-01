@@ -39,6 +39,7 @@ module Asciidoctor
         inline_macro Asciidoctor::Standoc::AutonumberInlineMacro
         inline_macro Asciidoctor::Standoc::VariantInlineMacro
         inline_macro Asciidoctor::Standoc::FootnoteBlockInlineMacro
+        inline_macro Asciidoctor::Standoc::TermRefInlineMacro
         block Asciidoctor::Standoc::ToDoAdmonitionBlock
         treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
         block Asciidoctor::Standoc::PlantUMLBlockMacro
@@ -52,6 +53,7 @@ module Asciidoctor
       include ::Asciidoctor::Standoc::Base
       include ::Asciidoctor::Standoc::Front
       include ::Asciidoctor::Standoc::Lists
+      include ::Asciidoctor::Standoc::Refs
       include ::Asciidoctor::Standoc::Inline
       include ::Asciidoctor::Standoc::Blocks
       include ::Asciidoctor::Standoc::Section
