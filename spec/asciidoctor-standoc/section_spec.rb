@@ -111,7 +111,7 @@ RSpec.describe Asciidoctor::Standoc do
   <title>Terms and definitions</title>
   <p id="_">For the purposes of this document,
        the following terms and definitions apply.</p>
-  <term id="_">
+  <term id="term-term1">
   <preferred>Term1</preferred>
 </term>
 </terms>
@@ -133,14 +133,14 @@ RSpec.describe Asciidoctor::Standoc do
   <title>Intro 4</title>
   <terms id="_" obligation="normative">
   <title>Intro 5</title>
-  <term id="_">
+  <term id="term-term1-1">
   <preferred>Term1</preferred>
 </term>
 </terms>
 </clause>
 <terms id="_" obligation="normative">
   <title>Normal Terms</title>
-  <term id="_">
+  <term id="term-term2">
   <preferred>Term2</preferred>
 </term>
 </terms>
@@ -317,7 +317,7 @@ RSpec.describe Asciidoctor::Standoc do
          <title>Terms and definitions</title>
          <p id="_">For the purposes of this document,
        the following terms and definitions apply.</p>
-         <term id="_" language="en" script="Latn">
+         <term id="term-term1" language="en" script="Latn">
          <preferred>Term1</preferred>
        </term>
        </terms>
@@ -339,14 +339,14 @@ RSpec.describe Asciidoctor::Standoc do
          <title>Intro 4</title>
          <terms id="_" language="en" script="Latn" obligation="normative">
          <title>Intro 5</title>
-         <term id="_">
+         <term id="term-term1-1">
          <preferred>Term1</preferred>
        </term>
        </terms>
        </clause>
        <terms id="_" language="en" script="Latn" obligation="normative">
          <title>Normal Terms</title>
-         <term id="_">
+         <term id="term-term2">
          <preferred>Term2</preferred>
        </term>
        </terms>
@@ -468,7 +468,7 @@ RSpec.describe Asciidoctor::Standoc do
     <terms id='_' obligation='normative'>
       <title>Terms and definitions</title>
       <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-      <term id='_'>
+      <term id='term-term1'>
         <preferred>Term1</preferred>
       </term>
     </terms>
@@ -477,7 +477,7 @@ RSpec.describe Asciidoctor::Standoc do
   <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
       <terms id='_' obligation='normative'>
         <title>Normal Terms</title>
-        <term id='_'>
+        <term id='term-term2'>
           <preferred>Term2</preferred>
         </term>
       </terms>
@@ -536,7 +536,7 @@ RSpec.describe Asciidoctor::Standoc do
     <terms id='_' obligation='normative'>
       <title>Terms, definitions and symbols</title>
       <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-      <term id='_'>
+      <term id='term-term'>
         <preferred>Term</preferred>
       </term>
       <definitions id='_' obligation="normative" type="symbols">
@@ -565,7 +565,7 @@ RSpec.describe Asciidoctor::Standoc do
     <terms id='_' obligation='normative'>
       <title>Terms, definitions and abbreviated terms</title>
       <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-      <term id='_'>
+      <term id='term-term'>
         <preferred>Term</preferred>
       </term>
       <definitions id='_' obligation="normative" type="abbreviated_terms">
@@ -710,7 +710,7 @@ RSpec.describe Asciidoctor::Standoc do
        <terms id="_" obligation="normative">
           <title>Terms and definitions</title><p id="_">For the purposes of this document, the terms and definitions 
   given in <eref bibitemid="iso1234"/> and <eref bibitemid="iso5678"/> and the following apply.</p>
-  <term id="_">
+  <term id="term-term1">
   <preferred>Term1</preferred>
 </term>
        </terms></sections>

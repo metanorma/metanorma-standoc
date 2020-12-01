@@ -318,7 +318,7 @@ RSpec.describe Asciidoctor::Standoc do
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
          <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-         <term id="_">
+         <term id="term-term1">
          <preferred>Term1</preferred>
          <termnote id="_">
          <p id="_">This is a note</p>
@@ -383,7 +383,7 @@ RSpec.describe Asciidoctor::Standoc do
               <sections>
   <terms id="_" obligation="normative"><title>Terms, definitions and symbols</title>
 <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-<term id="_">
+<term id="term-term1">
   <preferred>Term1</preferred>
 </term>
 <definitions id="_" obligation="normative" type="symbols">
@@ -528,7 +528,7 @@ RSpec.describe Asciidoctor::Standoc do
   <terms id="_" obligation="normative">
   <title>Terms and definitions</title>
 <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-  <term id="_">
+  <term id="term-term1">
   <preferred>Term1</preferred>
 
 <termexample id="ABC">
@@ -583,7 +583,7 @@ RSpec.describe Asciidoctor::Standoc do
               #{BLANK_HDR}
 <sections> 
   <terms id="_" obligation="normative"><title>Terms, definitions and symbols</title>
-<p id="_">For the purposes of this document, the following terms and definitions apply.</p><term id="_">   
+<p id="_">For the purposes of this document, the following terms and definitions apply.</p><term id="term-term1">   
   <preferred>Term1</preferred>   
 </term>  
 <definitions id="_" obligation="normative" type="symbols">   
@@ -972,7 +972,7 @@ RSpec.describe Asciidoctor::Standoc do
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title><p id="_">For the purposes of this document,
        the following terms and definitions apply.</p>
-         <term id="_">
+         <term id="term-term1">
          <preferred>Term1</preferred>
          <termsource status="identical">
          <origin bibitemid="ISO2191" type="inline" citeas="">
@@ -982,7 +982,7 @@ RSpec.describe Asciidoctor::Standoc do
         </origin>
        </termsource>
        </term>
-       <term id='_'>
+       <term id='term-term2'>
   <preferred>Term2</preferred>
   <definition>
     <p id='_'>Definition</p>
@@ -1032,7 +1032,7 @@ RSpec.describe Asciidoctor::Standoc do
          <title>Terms and definitions</title>
          <p id="_">For the purposes of this document,
        the following terms and definitions apply.</p>
-         <term id="_">
+         <term id="term-term1">
          <preferred>Term1</preferred>
          <termsource status="modified">
          <origin bibitemid="ISO2191" type="inline" citeas="">
@@ -1045,7 +1045,7 @@ RSpec.describe Asciidoctor::Standoc do
          </modification>
        </termsource>
        </term>
-       <term id='_'>
+       <term id='term-term2'>
   <preferred>Term2</preferred>
   <definition>
     <p id='_'>Definition</p>

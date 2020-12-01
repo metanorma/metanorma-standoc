@@ -158,7 +158,7 @@ RSpec.describe Asciidoctor::Standoc do
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
          <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-         <term id="_"><preferred><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
+         <term id="term-t90"><preferred><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
          <mrow>
   <mi>t</mi>
 </mrow>
@@ -200,11 +200,11 @@ RSpec.describe Asciidoctor::Standoc do
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
          <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-         <term id="_">
+         <term id="term-tempus">
          <preferred>Tempus</preferred>
          <domain>relativity</domain><definition><p id="_"> Time</p></definition>
        </term>
-       <term id='_'>
+       <term id='term-tempus1'>
   <preferred>Tempus1</preferred>
   <domain>relativity2</domain>
   <definition>
@@ -243,7 +243,7 @@ RSpec.describe Asciidoctor::Standoc do
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
          <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-         <term id="_"><preferred><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
+         <term id="term-t90"><preferred><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
           <mrow>
    <mi>t</mi>
  </mrow>
@@ -530,7 +530,7 @@ RSpec.describe Asciidoctor::Standoc do
          <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
          <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-         <term id="_">
+         <term id="term-term1">
          <preferred>Term1</preferred>
          <termsource status="identical">
          <origin bibitemid="ISO2191" type="inline" citeas="">
@@ -1059,7 +1059,7 @@ RSpec.describe Asciidoctor::Standoc do
        <terms id="_" obligation="normative">
          <title>Terms and definitions</title>
          <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-         <term id="_"><preferred>Term</preferred>
+         <term id="term-term"><preferred>Term</preferred>
 
 
 
@@ -1123,7 +1123,7 @@ RSpec.describe Asciidoctor::Standoc do
           <sections>
         <terms id="_" obligation="normative"><title>Terms and definitions</title>
          <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-         <term id="_">
+         <term id="term-automation1">
           <preferred>Automation1</preferred>
           <termsource status="identical">
           <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">
@@ -1133,7 +1133,7 @@ RSpec.describe Asciidoctor::Standoc do
         </origin>
         </termsource>
         </term>
-        <term id="_">
+        <term id="term-automation2">
           <preferred>Automation2</preferred>
           <termsource status="identical">
           <origin bibitemid="IEC60050-102" type="inline" citeas="IEC 60050-102:2007">
@@ -1143,7 +1143,7 @@ RSpec.describe Asciidoctor::Standoc do
         </origin>
         </termsource>
         </term>
-        <term id="_">
+        <term id="term-automation3">
           <preferred>Automation3</preferred>
           <termsource status="identical">
           <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">

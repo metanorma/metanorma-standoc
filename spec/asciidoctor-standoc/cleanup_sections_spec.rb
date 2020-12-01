@@ -21,7 +21,7 @@ RSpec.describe Asciidoctor::Standoc do
          <terms id="_" obligation="normative"><title>Terms and definitions</title>
          <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
 
-       <term id="_">
+       <term id="term-time">
        <preferred>Time</preferred>
          <definition><p id="_">This paragraph is extraneous</p></definition>
        </term></terms>
@@ -456,7 +456,7 @@ INPUT
                </fn>
              </title>
              <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-             <term id='_'>
+             <term id='term-term1'>
                <preferred>Term1</preferred>
              </term>
            </terms>
@@ -728,7 +728,7 @@ INPUT
             <terms id='_' obligation='normative'>
               <title>Terms and definitions</title>
               <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-              <term id='_'>
+              <term id='term-term1'>
                 <preferred>Term1</preferred>
               </term>
             </terms>
@@ -962,7 +962,7 @@ INPUT
                 Pour les besoins du présent document, les termes et définitions suivants
                 s’appliquent.
               </p>
-              <term id='_'>
+              <term id='term-term1'>
                 <preferred>Term1</preferred>
               </term>
             </terms>
@@ -1193,7 +1193,7 @@ INPUT
             <terms id='_' obligation='normative'>
               <title>术语和定义</title>
               <p id='_'>下列术语和定义适用于本文件。</p>
-              <term id='_'>
+              <term id='term-term1'>
                 <preferred>Term1</preferred>
               </term>
             </terms>
@@ -1424,7 +1424,7 @@ INPUT
             <terms id='_' obligation='normative'>
               <title>Terms and definitions</title>
               <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-              <term id='_'>
+              <term id='term-term1'>
                 <preferred>Term1</preferred>
               </term>
             </terms>
