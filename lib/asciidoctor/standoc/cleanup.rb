@@ -176,7 +176,7 @@ module Asciidoctor
 
       # presuppose multichar mi upright, singlechar mi MathML default italic
       def mathml_italicise(x)
-        x.xpath(".//m:mi", "m" => MATHML_NS).each do |i|
+        x.xpath(".//m:mi[not(ancestor::*[@mathvariant])]", "m" => MATHML_NS).each do |i|
           char = HTMLEntities.new.decode(i.text)
           i["mathvariant"] = "normal" if mi_italicise?(char)
         end

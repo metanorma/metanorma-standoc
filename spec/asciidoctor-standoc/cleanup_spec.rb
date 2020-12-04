@@ -1927,6 +1927,11 @@ Author
   <mi>α</mi>
   <mo>+</mo>
   <mi>AB</mi>
+  <mstyle mathvariant="italic">
+  <mrow>
+  <mi>Α</mi>
+  </mrow>
+  </mstyle>
 </math>
 ++++
 INPUT
@@ -1946,6 +1951,11 @@ expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_foo
           <mi>α</mi>
           <mo>+</mo>
           <mi>AB</mi>
+          <mstyle mathvariant='italic'>
+  <mrow>
+    <mi>Α</mi>
+  </mrow>
+</mstyle>
         </math>
       </stem>
     </formula>
@@ -1968,6 +1978,11 @@ expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_foo
           <mi>α</mi>
           <mo>+</mo>
           <mi>AB</mi>
+          <mstyle mathvariant='italic'>
+  <mrow>
+    <mi>Α</mi>
+  </mrow>
+</mstyle>
         </math>
       </stem>
     </formula>
@@ -1990,6 +2005,11 @@ expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_foo
           <mi>α</mi>
           <mo>+</mo>
           <mi>AB</mi>
+          <mstyle mathvariant='italic'>
+  <mrow>
+    <mi>Α</mi>
+  </mrow>
+</mstyle>
         </math>
       </stem>
     </formula>
@@ -2012,6 +2032,11 @@ expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_foo
           <mi mathvariant="normal">α</mi>
           <mo>+</mo>
           <mi>AB</mi>
+          <mstyle mathvariant='italic'>
+  <mrow>
+    <mi>Α</mi>
+  </mrow>
+</mstyle>
         </math>
       </stem>
     </formula>
@@ -2034,6 +2059,11 @@ expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_foo
           <mi>α</mi>
           <mo>+</mo>
           <mi>AB</mi>
+          <mstyle mathvariant='italic'>
+  <mrow>
+    <mi>Α</mi>
+  </mrow>
+</mstyle>
         </math>
       </stem>
     </formula>
