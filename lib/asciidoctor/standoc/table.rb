@@ -17,6 +17,7 @@ module Asciidoctor
         @table_fn_number = "a"
         noko do |xml|
           xml.table **attr_code(table_attrs(node)) do |xml_table|
+            colgroup(node, xml_table)
             table_name(node, xml_table)
             %i(head body foot).reject do |tblsec|
               node.rows[tblsec].empty?
@@ -27,6 +28,17 @@ module Asciidoctor
       end
 
       private
+
+      def colgroup(node, xml_table)
+        return if node.option? "autowidth"
+        cols = node&.attr("cols")&.split(/,/) or return
+        return unless cols.size > 1 and cols.all? { |c| /\d/.match(c) }
+        xml_table.colgroup do |cg|
+          node.columns.each do |col|
+            cg.col **{ width: "#{col.attr 'colpcwidth'}%" }
+          end
+        end
+      end
 
       def table_name(node, xml_table)
         if node.title?
