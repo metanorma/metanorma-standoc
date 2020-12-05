@@ -35,6 +35,68 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+  it "processes column widths in tables" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      [cols=".<,.^,^.>"]
+      |===
+      |A |B |C
+
+      |1 |2 |3
+      |===
+
+      [cols="1,2,6"]
+      |===
+      |A |B |C
+
+      |1 |2 |3
+      |===
+    INPUT
+            #{BLANK_HDR}
+            <sections>
+           <table id='_'>
+             <thead>
+               <tr>
+                 <th valign='top' align='left'>A</th>
+                 <th valign='middle' align='left'>B</th>
+                 <th valign='bottom' align='center'>C</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <td valign='top' align='left'>1</td>
+                 <td valign='middle' align='left'>2</td>
+                 <td valign='bottom' align='center'>3</td>
+               </tr>
+             </tbody>
+           </table>
+           <table id='_'>
+             <colgroup>
+               <col width='11.1111%'/>
+               <col width='22.2222%'/>
+               <col width='66.6667%'/>
+             </colgroup>
+             <thead>
+               <tr>
+                 <th valign='top' align='left'>A</th>
+                 <th valign='top' align='left'>B</th>
+                 <th valign='top' align='left'>C</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <td valign='top' align='left'>1</td>
+                 <td valign='top' align='left'>2</td>
+                 <td valign='top' align='left'>3</td>
+               </tr>
+             </tbody>
+           </table>
+         </sections>
+       </standard-document>
+    OUTPUT
+  end
+
+
   it "inserts header rows in a table with a name and no header" do
         expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
