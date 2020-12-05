@@ -45,6 +45,14 @@ RSpec.describe Asciidoctor::Standoc do
       |1 |2 |3
       |===
 
+      [cols="3"]
+      |===
+      |A |B |C
+
+      |1 |2 |3
+      |===
+
+
       [cols="1,2,6"]
       |===
       |A |B |C
@@ -67,6 +75,22 @@ RSpec.describe Asciidoctor::Standoc do
                  <td valign='top' align='left'>1</td>
                  <td valign='middle' align='left'>2</td>
                  <td valign='bottom' align='center'>3</td>
+               </tr>
+             </tbody>
+           </table>
+            <table id='_'>
+             <thead>
+               <tr>
+                 <th valign='top' align='left'>A</th>
+                 <th valign='top' align='left'>B</th>
+                 <th valign='top' align='left'>C</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <td valign='top' align='left'>1</td>
+                 <td valign='top' align='left'>2</td>
+                 <td valign='top' align='left'>3</td>
                </tr>
              </tbody>
            </table>

@@ -31,8 +31,8 @@ module Asciidoctor
 
       def colgroup(node, xml_table)
         return if node.option? "autowidth"
-        return unless node.attr("cols") and
-          node.attr("cols").split(/,/).all? { |c| /\d/.match(c) }
+        cols = node&.attr("cols")&.split(/,/) or return
+        return unless cols.size > 1 and cols.all? { |c| /\d/.match(c) }
         xml_table.colgroup do |cg|
           node.columns.each do |col|
             cg.col **{ width: "#{col.attr 'colpcwidth'}%" }
