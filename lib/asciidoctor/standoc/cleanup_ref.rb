@@ -49,12 +49,15 @@ module Asciidoctor
       # consecutively, but that standards codes are preserved as is:
       # only numeric references are renumbered
       def biblio_renumber(xmldoc)
-        r = xmldoc.at("//references | //clause[.//references] | "\
-                      "//annex[.//references]") or return
-        r.xpath(".//bibitem[not(ancestor::bibitem)]").each_with_index do |b, i|
-          next unless docid = b.at("./docidentifier[@type = 'metanorma']")
-          next unless  /^\[\d+\]$/.match(docid.text)
-          docid.children = "[#{i + 1}]"
+        i = 0
+        xmldoc.xpath("//bibliography//references | //clause//references | "\
+                     "//annex//references").each do |r|
+          r.xpath("./bibitem").each do |b|
+            i += 1
+            next unless docid = b.at("./docidentifier[@type = 'metanorma']")
+            next unless  /^\[\d+\]$/.match(docid.text)
+            docid.children = "[#{i}]"
+          end
         end
       end
 
