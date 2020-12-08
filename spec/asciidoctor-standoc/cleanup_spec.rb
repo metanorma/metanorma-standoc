@@ -1415,6 +1415,14 @@ OUTPUT
       * [[[iso125,ISO 125]]] _Standard 124_
       * [[[iso126,1]]] _Standard 123_
 
+      [bibliography]
+      == Bibliography Redux
+
+      [bibliography]
+      === Clause 1
+      * [[[iso127,ISO 124]]] _Standard 124_
+      * [[[iso128,1]]] _Standard 123_
+
     INPUT
     #{BLANK_HDR}
     <sections><clause id="_" inline-header="false" obligation="normative">
@@ -1462,6 +1470,29 @@ OUTPUT
          </formattedref>
          <docidentifier type="metanorma">[4]</docidentifier>
        </bibitem>
+    </references>
+  </clause>
+  <clause id='_' obligation='informative'>
+    <title>Bibliography Redux</title>
+    <references id='_' normative='false' obligation='informative'>
+      <title>Clause 1</title>
+      <bibitem id='iso127' type='standard'>
+        <title format='text/plain'>Standard 124</title>
+        <docidentifier>ISO 124</docidentifier>
+        <docnumber>124</docnumber>
+        <contributor>
+          <role type='publisher'/>
+          <organization>
+            <name>ISO</name>
+          </organization>
+        </contributor>
+      </bibitem>
+      <bibitem id='iso128'>
+        <formattedref format='application/x-isodoc+xml'>
+          <em>Standard 123</em>
+        </formattedref>
+        <docidentifier type='metanorma'>[6]</docidentifier>
+      </bibitem>
        </references></clause></bibliography>
        </standard-document>
 OUTPUT
