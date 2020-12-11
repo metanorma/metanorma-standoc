@@ -40,6 +40,7 @@ module Asciidoctor
         inline_macro Asciidoctor::Standoc::VariantInlineMacro
         inline_macro Asciidoctor::Standoc::FootnoteBlockInlineMacro
         inline_macro Asciidoctor::Standoc::TermRefInlineMacro
+        inline_macro Asciidoctor::Standoc::IndexInlineMacro
         block Asciidoctor::Standoc::ToDoAdmonitionBlock
         treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
         block Asciidoctor::Standoc::PlantUMLBlockMacro

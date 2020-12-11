@@ -44,6 +44,45 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+  it "processes the Asciidoctor::Standoc index macros" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      index:also[]
+      index:see[A]
+      index:also[B,C~x~]
+      index:see[D,_E_,F]
+      index:also[G,H,I,J]
+      index:see[K,L,M,N,O]
+    INPUT
+            #{BLANK_HDR}
+  <sections>
+    <p id='_'>
+      <index-xref also='true'>
+        <primary>B</primary>
+        <target>
+          C
+          <sub>x</sub>
+        </target>
+      </index-xref>
+      <index-xref also='false'>
+        <primary>D</primary>
+        <secondary>
+          <em>E</em>
+        </secondary>
+        <target>F</target>
+      </index-xref>
+      <index-xref also='true'>
+        <primary>G</primary>
+        <secondary>H</secondary>
+        <tertiary>I</tertiary>
+        <target>J</target>
+      </index-xref>
+    </p>
+  </sections>
+</standard-document>
+    OUTPUT
+  end
+
   it "processes the Asciidoctor::Standoc variant macros" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}

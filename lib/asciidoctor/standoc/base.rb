@@ -94,12 +94,10 @@ module Asciidoctor
         @draft = node.attributes.has_key?("draft")
         @novalid = node.attr("novalid")
         @smartquotes = node.attr("smartquotes") != "false"
-        @keepasciimath = node.attr("mn-keep-asciimath") &&
-          node.attr("mn-keep-asciimath") != "false"
+        @keepasciimath = node.attr("mn-keep-asciimath") && node.attr("mn-keep-asciimath") != "false"
         @fontheader = default_fonts(node)
         @files_to_delete = []
-        @filename = node.attr("docfile") ?
-          File.basename(node.attr("docfile")).gsub(/\.adoc$/, "") : ""
+        @filename = node.attr("docfile") ?  File.basename(node.attr("docfile")).gsub(/\.adoc$/, "") : ""
         @localdir = Utils::localdir(node)
         @output_dir = outputdir node
         @no_isobib_cache = node.attr("no-isobib-cache")
@@ -119,11 +117,9 @@ module Asciidoctor
 
       def default_fonts(node)
         b = node.attr("body-font") ||
-          (node.attr("script") == "Hans" ? '"SimSun",serif' :
-           '"Cambria",serif')
+          (node.attr("script") == "Hans" ? '"SimSun",serif' : '"Cambria",serif')
         h = node.attr("header-font") ||
-          (node.attr("script") == "Hans" ? '"SimHei",sans-serif' :
-           '"Cambria",serif')
+          (node.attr("script") == "Hans" ? '"SimHei",sans-serif' : '"Cambria",serif')
         m = node.attr("monospace-font") || '"Courier New",monospace'
         "$bodyfont: #{b};\n$headerfont: #{h};\n$monospacefont: #{m};\n"
       end
@@ -154,8 +150,7 @@ module Asciidoctor
       end
 
       def makexml1(node)
-        result = ["<?xml version='1.0' encoding='UTF-8'?>",
-                  "<#{xml_root_tag} type='semantic' version='#{version}'>"]
+        result = ["<?xml version='1.0' encoding='UTF-8'?>", "<#{xml_root_tag} type='semantic' version='#{version}'>"]
         result << noko { |ixml| front node, ixml }
         result << noko { |ixml| middle node, ixml }
         result << "</#{xml_root_tag}>"
@@ -192,16 +187,14 @@ module Asciidoctor
 
       def term_source_attrs(seen_xref)
         { bibitemid: seen_xref.children[0]["target"],
-          format: seen_xref.children[0]["format"],
-          type: "inline" }
+          format: seen_xref.children[0]["format"], type: "inline" }
       end
 
       def add_term_source(xml_t, seen_xref, m)
         if seen_xref.children[0].name == "concept"
           xml_t.origin { |o| o << seen_xref.children[0].to_xml }
         else
-          xml_t.origin seen_xref.children[0].content,
-            **attr_code(term_source_attrs(seen_xref))
+          xml_t.origin seen_xref.children[0].content, **attr_code(term_source_attrs(seen_xref))
         end
         m[:text] && xml_t.modification do |mod|
           mod.p { |p| p << m[:text].sub(/^\s+/, "") }
@@ -219,8 +212,7 @@ module Asciidoctor
 
       def extract_termsource_refs(text, node)
         matched = TERM_REFERENCE_RE.match text
-        matched.nil? and
-          @log.add("AsciiDoc Input", node, "term reference not in expected format: #{text}")
+        matched.nil? and @log.add("AsciiDoc Input", node, "term reference not in expected format: #{text}")
         matched
       end
 
