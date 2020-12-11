@@ -89,11 +89,26 @@ module Asciidoctor
       end
 
       def flavor_name
-        self.class.name.split("::")&.[](-2).downcase
+        self.class.name.split("::")&.[](-2).downcase.to_sym
       end
 
       def fonts_manifest
-        File.expand_path(File.join(@libdir, "../../metanorma/", flavor_name, "fonts_manifest.yaml"))
+        flavor = flavor_name
+        registry = Metanorma::Registry.instance
+        processor = registry.find_processor(flavor)
+
+        if processor.nil?
+          Metanorma::Util.log("[fontist] #{flavor} processor not found. " \
+            "Please go to github.com/metanorma/metanorma/issues to report " \
+            "this issue.", :warn)
+          return nil
+        elsif !defined? processor.fonts_manifest
+          Metanorma::Util.log("[fontist] #{flavor} processor don't require " \
+            "specific fonts", :debug)
+          return nil
+        end
+
+        processor.fonts_manifest
       end
 
       def install_fonts(options={})
@@ -103,15 +118,12 @@ module Asciidoctor
           return
         end
 
-        if fonts_manifest.nil? || !File.exist?(fonts_manifest)
-          Metanorma::Util.log("[fontist] Skip font installation because" \
-            " font manifest file doesn't exists/defined", :debug)
-          return
-        end
+        manifest = fonts_manifest
+        return if manifest.nil?
 
         begin
-          Fontist::Manifest::Install.call(
-            fonts_manifest,
+          Fontist::Manifest::Install.from_hash(
+            processor.fonts_manifest,
             confirmation: options[:agree_to_terms] ? "yes" : "no"
           )
         rescue Fontist::Errors::LicensingError
@@ -126,9 +138,8 @@ module Asciidoctor
               " installed", :fatal)
           end
         rescue Fontist::Errors::NonSupportedFontError
-          flavor = flavor_name || "cli"
           Metanorma::Util.log("[fontist] '#{font}' font is not supported. " \
-            "Please go to github.com/metanorma/metanorma-#{flavor}/issues" \
+            "Please go to github.com/metanorma/metanorma-#{flavor_name}/issues" \
             " to report this issue.", :info)
         end
       end
