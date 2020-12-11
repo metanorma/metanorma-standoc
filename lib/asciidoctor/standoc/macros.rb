@@ -3,6 +3,7 @@ require "fileutils"
 require "uuidtools"
 require "yaml"
 require_relative "./macros_plantuml.rb"
+require_relative "./macros_terms.rb"
 require_relative "./datamodel/attributes_table_preprocessor.rb"
 require_relative "./datamodel/diagram_preprocessor.rb"
 require "metanorma-plugin-datastruct"
@@ -10,42 +11,6 @@ require "metanorma-plugin-lutaml"
 
 module Asciidoctor
   module Standoc
-    class AltTermInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
-      use_dsl
-      named :alt
-      parse_content_as :text
-      using_format :short
-
-      def process(parent, _target, attrs)
-        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
-        %{<admitted>#{out}</admitted>}
-      end
-    end
-
-    class DeprecatedTermInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
-      use_dsl
-      named :deprecated
-      parse_content_as :text
-      using_format :short
-
-      def process(parent, _target, attrs)
-        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
-        %{<deprecates>#{out}</deprecates>}
-      end
-    end
-
-    class DomainTermInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
-      use_dsl
-      named :domain
-      parse_content_as :text
-      using_format :short
-
-      def process(parent, _target, attrs)
-        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
-        %{<domain>#{out}</domain>}
-      end
-    end
-
     class InheritInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :inherit
@@ -58,47 +23,24 @@ module Asciidoctor
       end
     end
 
-     # Macro to transform `term[X,Y]` into em, termxref xml
-    class TermRefInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+    class IndexInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
+      named :index
 
-      named :term
-      name_positional_attributes 'name', 'termxref'
-      using_format :short
-
-      def process(_parent, _target, attrs)
-        termref = attrs['termxref'] || attrs['name']
-        "<em>#{attrs['name']}</em> (<termxref>#{termref}</termxref>)"
-      end
-    end
-
-    class ConceptInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
-      use_dsl
-      named :concept
-      name_positional_attributes "id", "word", "term"
-      # match %r{concept:(?<target>[^\[]*)\[(?<content>|.*?[^\\])\]$}
-      match /\{\{(?<content>|.*?[^\\])\}\}/
-      using_format :short
-
-      # deal with locality attrs and their disruption of positional attrs
       def preprocess_attrs(attrs)
-        attrs.delete("term") if attrs["term"] && !attrs["word"]
-        attrs.delete(3) if attrs[3] == attrs["term"]
-        a = attrs.keys.reject { |k| k.is_a?(String) || [1, 2].include?(k) }
-        attrs["word"] ||= attrs[a[0]] if !a.empty?
-        attrs["term"] ||= attrs[a[1]] if a.length > 1
-        attrs
+        return unless attrs.size > 1 && attrs.size < 5
+        ret = { primary: attrs[1], target: attrs[attrs.size] }
+        ret[:secondary] = attrs[2] if attrs.size > 2
+        ret[:tertiary] = attrs[3] if attrs.size > 3
+        ret
       end
 
-      def process(parent, _target, attr)
-        attr = preprocess_attrs(attr)
-        localities = attr.keys.reject { |k| %w(id word term).include? k }.
-          reject { |k| k.is_a? Numeric }.
-          map { |k| "#{k}=#{attr[k]}" }.join(",")
-        text = [localities, attr["word"]].reject{ |k| k.nil? || k.empty? }.
-          join(",")
-        out = Asciidoctor::Inline.new(parent, :quoted, text).convert
-        %{<concept key="#{attr['id']}" term="#{attr['term']}">#{out}</concept>}
+      def process(_parent, target, attr)
+        args = preprocess_attrs(attr) or return
+        ret = "<index-xref also='#{target == 'also'}'><primary>#{args[:primary]}</primary>"
+        ret += "<secondary>#{args[:secondary]}</secondary>" if args[:secondary]
+        ret += "<tertiary>#{args[:tertiary]}</tertiary>" if args[:tertiary]
+        ret + "<target>#{args[:target]}</target></index-xref>"
       end
     end
 
@@ -149,7 +91,7 @@ module Asciidoctor
         if (attributes.size == 1) && attributes.key?("text")
           rt = attributes["text"]
         elsif (attributes.size == 2) && attributes.key?(1) &&
-            attributes.key?("rpbegin")
+          attributes.key?("rpbegin")
           # for example, html5ruby:楽聖少女[がくせいしょうじょ]
           rt = attributes[1] || ""
         else
@@ -172,7 +114,7 @@ module Asciidoctor
         attrs["name"] = "todo"
         attrs["caption"] = "TODO"
         create_block parent, :admonition, reader.lines, attrs,
-                     content_model: :compound
+          content_model: :compound
       end
     end
 
@@ -185,7 +127,7 @@ module Asciidoctor
           para.set_attr("caption", "TODO")
           para.lines[0].sub!(/^TODO: /, "")
           todo = Block.new parent, :admonition, attributes: para.attributes,
-                                                source: para.lines, content_model: :compound
+            source: para.lines, content_model: :compound
           parent.blocks[parent.blocks.index(para)] = todo
         end
       end
@@ -211,8 +153,8 @@ module Asciidoctor
         /^(?<lang>[^-]*)(-(?<script>.*))?$/ =~ target
         out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
         script ?
-        %{<variant lang=#{lang} script=#{script}>#{out}</variant>} :
-        %{<variant lang=#{lang}>#{out}</variant>}
+          %{<variant lang=#{lang} script=#{script}>#{out}</variant>} :
+          %{<variant lang=#{lang}>#{out}</variant>}
       end
     end
 

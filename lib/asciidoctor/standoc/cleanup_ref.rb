@@ -16,8 +16,7 @@ module Asciidoctor
         insert = refs&.at("./bibitem")&.previous_element
         refs.xpath("./bibitem").each { |b| b.remove }
         bib.reverse.each do |b|
-          insert and insert.next = b.to_xml or
-            refs.children.first.add_previous_sibling b.to_xml
+          insert and insert.next = b.to_xml or refs.children.first.add_previous_sibling b.to_xml
         end
         extract_notes_from_biblio(refs)
         refs.xpath("./references").each { |r| biblio_reorder1(r) }
@@ -50,8 +49,7 @@ module Asciidoctor
       # only numeric references are renumbered
       def biblio_renumber(xmldoc)
         i = 0
-        xmldoc.xpath("//bibliography//references | //clause//references | "\
-                     "//annex//references").each do |r|
+        xmldoc.xpath("//bibliography//references | //clause//references | //annex//references").each do |r|
           r.xpath("./bibitem").each do |b|
             i += 1
             next unless docid = b.at("./docidentifier[@type = 'metanorma']")
@@ -126,8 +124,7 @@ module Asciidoctor
         xmldoc.xpath("//clause[@bibitem = 'true']").each do |c|
           bib = dl_bib_extract(c) or next
           validate_ref_dl(bib, c)
-          bibitemxml = RelatonBib::BibliographicItem.new(
-            RelatonBib::HashConverter::hash_to_bib(bib)).to_xml or next
+          bibitemxml = RelatonBib::BibliographicItem.new(RelatonBib::HashConverter::hash_to_bib(bib)).to_xml or next
           bibitem = Nokogiri::XML(bibitemxml)
           bibitem.root["id"] = c["id"] if c["id"] && !/^_/.match(c["id"])
           c.replace(bibitem.root)
@@ -138,14 +135,11 @@ module Asciidoctor
         id = bib["id"]
         id ||= c["id"] unless /^_/.match(c["id"]) # do not accept implicit id
         unless id
-          @log.add("Anchors", c, "The following reference is missing "\
-                   "an anchor:\n" + c.to_xml)
+          @log.add("Anchors", c, "The following reference is missing an anchor:\n" + c.to_xml)
           return
         end
-        bib["title"] or @log.add("Bibliography", c, "Reference #{id} "\
-                                 "is missing a title")
-        bib["docid"] or @log.add("Bibliography", c, "Reference #{id} "\
-                                 "is missing a document identifier (docid)")
+        bib["title"] or @log.add("Bibliography", c, "Reference #{id} is missing a title")
+        bib["docid"] or @log.add("Bibliography", c, "Reference #{id} is missing a document identifier (docid)")
       end
 
       def extract_from_p(tag, bib, key)
@@ -176,8 +170,7 @@ module Asciidoctor
         return nil if dtd.children.empty?
         dtd.at("./dl") and return dl_bib_extract(dtd)
         elems = dtd.remove.elements
-        return p_unwrap(dtd) unless elems.size == 1 &&
-          %w(ol ul).include?(elems[0].name)
+        return p_unwrap(dtd) unless elems.size == 1 && %w(ol ul).include?(elems[0].name)
         ret = []
         elems[0].xpath("./li").each do |li|
           ret << p_unwrap(li)
@@ -195,8 +188,7 @@ module Asciidoctor
         bib = {}
         key = ""
         dl.xpath("./dt | ./dd").each do |dtd|
-          dtd.name == "dt" and key = dtd.text.sub(/:+$/, "") or
-            add_to_hash(bib, key, dd_bib_extract(dtd))
+          dtd.name == "dt" and key = dtd.text.sub(/:+$/, "") or add_to_hash(bib, key, dd_bib_extract(dtd))
         end
         c.xpath("./clause").each do |c1|
           key = c1&.at("./title")&.text&.downcase&.strip
@@ -224,8 +216,7 @@ module Asciidoctor
         File.file?(file) or return nil
         xml = Nokogiri::XML(File.read(file, encoding: "utf-8"))
         ret = xml.at("//*[local-name() = 'bibdata']") or return nil
-        ret = Nokogiri::XML(ret.to_xml.sub(
-          %r{(<bibdata[^>]*?) xmlns=("[^"]+"|'[^']+')}, "\\1")).root
+        ret = Nokogiri::XML(ret.to_xml.sub(%r{(<bibdata[^>]*?) xmlns=("[^"]+"|'[^']+')}, "\\1")).root
         ret.name = "bibitem"
         ins = ret.at("./*[local-name() = 'docidentifier']") or return nil
         ins.previous = %{<uri type="citation">#{uri}</uri>}
@@ -235,8 +226,7 @@ module Asciidoctor
 
       # if citation uri points to local file, get bibitem from it
       def fetch_local_bibitem(xmldoc)
-        xmldoc.xpath("//bibitem[formattedref]"\
-                     "[uri[@type = 'citation']]").each do |b|
+        xmldoc.xpath("//bibitem[formattedref][uri[@type = 'citation']]").each do |b|
           uri = b&.at("./uri[@type = 'citation']")&.text
           bibitem = read_local_bibitem(uri) or next
           bibitem["id"] = b["id"]

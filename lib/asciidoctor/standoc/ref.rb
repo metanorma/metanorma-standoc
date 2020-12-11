@@ -70,8 +70,7 @@ module Asciidoctor
 
       def isorefmatches(xml, m)
         yr = norm_year(m[:year])
-        ref = fetch_ref xml, m[:code], yr, title: m[:text], usrlbl: m[:usrlbl],
-          lang: (@lang || :all)
+        ref = fetch_ref xml, m[:code], yr, title: m[:text], usrlbl: m[:usrlbl], lang: (@lang || :all)
         return use_my_anchor(ref, m[:anchor]) if ref
         xml.bibitem **attr_code(ref_attributes(m)) do |t|
           isorefrender1(t, m, yr)
@@ -105,8 +104,7 @@ module Asciidoctor
       def conditional_date(t, m, noyr)
         m.names.include?("year") and !m[:year].nil? and
           t.date(**{ type: "published" }) do |d|
-          noyr and d.on "--" or
-            set_date_range(d, norm_year(m[:year]))
+          noyr and d.on "--" or set_date_range(d, norm_year(m[:year]))
         end
       end
 
@@ -114,8 +112,7 @@ module Asciidoctor
         yr = norm_year(m[:year])
         hasyr = !yr.nil? && yr != "--"
         ref = fetch_ref xml, m[:code], hasyr ? yr : nil, all_parts: true, 
-          no_year: yr == "--", text: m[:text], usrlbl: m[:usrlbl],
-          lang: (@lang || :all)
+          no_year: yr == "--", text: m[:text], usrlbl: m[:usrlbl], lang: (@lang || :all)
         return use_my_anchor(ref, m[:anchor]) if ref
         isorefmatches3_1(xml, m, yr, hasyr, ref)
       end
@@ -140,8 +137,7 @@ module Asciidoctor
         end
         docid(t, m[:usrlbl]) if m[:usrlbl]
         docid(t, /^\d+$/.match(code[:id]) ? "[#{code[:id]}]" : code[:id])
-        code[:type] == "repo" and
-          t.docidentifier code[:key], **{ type: "repository" }
+        code[:type] == "repo" and t.docidentifier code[:key], **{ type: "repository" }
       end
 
       def refitem_render(xml, m, code)
@@ -155,9 +151,8 @@ module Asciidoctor
       end
 
       MALFORMED_REF = "no anchor on reference, markup may be malformed: see "\
-        "https://www.metanorma.com/author/topics/document-format/"\
-        "bibliography/ , https://www.metanorma.com/author/iso/topics/markup/"\
-        "#bibliographies".freeze
+        "https://www.metanorma.com/author/topics/document-format/bibliography/ , "\
+        "https://www.metanorma.com/author/iso/topics/markup/#bibliographies".freeze
 
       def analyse_ref_nofetch(ret)
         return ret unless m = /^nofetch\((?<id>.+)\)$/.match(ret[:id])
@@ -165,9 +160,8 @@ module Asciidoctor
       end
 
       def analyse_ref_repo_path(ret)
-        return ret unless m =
-          /^(?<type>repo|path):\((?<key>[^,]+),?(?<id>.*)\)$/.match(ret[:id])
-        id = m[:id].empty? ? m[:key].sub(%r{^[^/]+/}, "")  : m[:id]
+        return ret unless m = /^(?<type>repo|path):\((?<key>[^,]+),?(?<id>.*)\)$/.match(ret[:id])
+        id = m[:id].empty? ? m[:key].sub(%r{^[^/]+/}, "") : m[:id]
         ret.merge(id: id, type: m[:type], key: m[:key], nofetch: true)
       end
 
@@ -194,8 +188,7 @@ module Asciidoctor
       def refitem1(xml, item, m)
         code = analyse_ref_code(m[:code])
         unless code[:id] && code[:numeric] || code[:nofetch]
-          ref = fetch_ref xml, code[:id],
-            m.names.include?("year") ? m[:year] : nil, title: m[:text],
+          ref = fetch_ref xml, code[:id], m.names.include?("year") ? m[:year] : nil, title: m[:text],
             usrlbl: m[:usrlbl], lang: (@lang || :all)
           return use_my_anchor(ref, m[:anchor]) if ref
         end
@@ -212,8 +205,7 @@ module Asciidoctor
 
       ISO_REF = %r{^<ref\sid="(?<anchor>[^"]+)">
       \[(?<usrlbl>\([^)]+\))?(?<code>(ISO|IEC)[^0-9]*\s[0-9-]+|IEV)
-      (:(?<year>[0-9][0-9-]+))?\]</ref>,?\s*
-        (?<text>.*)$}xm
+      (:(?<year>[0-9][0-9-]+))?\]</ref>,?\s*(?<text>.*)$}xm
 
         ISO_REF_NO_YEAR = %r{^<ref\sid="(?<anchor>[^"]+)">
       \[(?<usrlbl>\([^)]+\))?(?<code>(ISO|IEC)[^0-9]*\s[0-9-]+):
@@ -239,8 +231,7 @@ module Asciidoctor
 
         def reference1(node, item, xml)
           matched, matched2, matched3 = reference1_matches(item)
-          if matched3.nil? && matched2.nil? && matched.nil?
-            refitem(xml, item, node)
+          if matched3.nil? && matched2.nil? && matched.nil? then refitem(xml, item, node)
           elsif !matched.nil? then isorefmatches(xml, matched)
           elsif !matched2.nil? then isorefmatches2(xml, matched2)
           elsif !matched3.nil? then isorefmatches3(xml, matched3)
