@@ -41,7 +41,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "mimemagic"
   spec.add_dependency "mathml2asciimath"
   spec.add_dependency "latexmath"
-  spec.add_dependency "fontist", "~> 1.5.0"
+  spec.add_dependency "fontist", "~> 1.7.3"
 
   spec.add_development_dependency "byebug"
   spec.add_development_dependency "sassc", "2.4.0"
