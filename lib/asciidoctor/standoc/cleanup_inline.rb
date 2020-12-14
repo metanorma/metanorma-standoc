@@ -125,7 +125,7 @@ module Asciidoctor
       def concept_termbase_cleanup(x)
         text = x&.children&.first&.remove&.text
         termbase, key = x["key"].split(/:/, 2)
-        x.add_child(%(<termref base="#{termbase}" target="#{key}">) + 
+        x.add_child(%(<termref base="#{termbase}" target="#{key}">) +
                     "#{text}</termref>")
       end
 
@@ -154,6 +154,8 @@ module Asciidoctor
         ret = (ret1 || "") + ret2.gsub(%r([#{NAMECHAR}#]), "_")
         ret
       end
+
+      module_function :to_ncname
 
       def to_xreftarget(s)
         return to_ncname(s) unless /^[^#]+#.+$/.match(s)
