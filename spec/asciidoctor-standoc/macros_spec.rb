@@ -368,13 +368,11 @@ OUTPUT
  <formula id='_'>
    <stem type='MathML'>
      <math xmlns='http://www.w3.org/1998/Math/MathML'>
-     <mover>
+     <mover accent="true">
                      <mrow>
                        <mi>X</mi>
                      </mrow>
-                     <mrow>
                        <mo>¯</mo>
-                     </mrow>
                    </mover>
                    <mo>′</mo>
                    <mo>=</mo>
