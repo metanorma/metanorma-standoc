@@ -211,11 +211,12 @@ module Asciidoctor
       def inline_indexterm(node)
         noko do |xml|
           node.type == :visible and xml << node.text
-          terms = node.attr("terms") ||
-            [Nokogiri::XML("<a>#{node.text}</a>").xpath("//text()").text]
-          xml.index nil, **attr_code(primary: terms[0],
-                                     secondary: terms.dig(1),
-                                     tertiary: terms.dig(2))
+            terms = (node.attr("terms") || [node.text]).map { |x| xml_encode(x) }
+          xml.index do |i|
+            i.primary { |x| x << terms[0] }
+            a = terms.dig(1) and i.secondary { |x| x << a }
+            a = terms.dig(2) and i.tertiary { |x| x << a }
+          end
         end.join
       end
     end
