@@ -53,6 +53,13 @@ RSpec.describe Asciidoctor::Standoc do
       index:see[D,_E_,F]
       index:also[G,H,I,J]
       index:see[K,L,M,N,O]
+      index-range:id2[P]
+      index-range:id3[((_P_))]
+      index-range:id3[(((Q, R, S)))]
+
+      Text [[id2]]
+
+      Text [[id3]]
     INPUT
             #{BLANK_HDR}
   <sections>
@@ -77,7 +84,30 @@ RSpec.describe Asciidoctor::Standoc do
         <tertiary>I</tertiary>
         <target>J</target>
       </index-xref>
+       P
+<index to="id2">
+  <primary>P</primary>
+</index>
+<em>P</em>
+<index to="id3">
+  <primary>
+    <em>P</em>
+  </primary>
+</index>
+<index to="id3">
+  <primary>Q</primary>
+  <secondary>R</secondary>
+  <tertiary>S</tertiary>
+</index>
     </p>
+    <p id='_'>
+             Text
+             <bookmark id='id2'/>
+           </p>
+           <p id='_'>
+             Text
+             <bookmark id='id3'/>
+           </p>
   </sections>
 </standard-document>
     OUTPUT
