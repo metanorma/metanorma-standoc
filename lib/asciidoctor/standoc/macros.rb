@@ -23,7 +23,7 @@ module Asciidoctor
       end
     end
 
-    class IndexInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+    class IndexXrefInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :index
 
@@ -41,6 +41,19 @@ module Asciidoctor
         ret += "<secondary>#{args[:secondary]}</secondary>" if args[:secondary]
         ret += "<tertiary>#{args[:tertiary]}</tertiary>" if args[:tertiary]
         ret + "<target>#{args[:target]}</target></index-xref>"
+      end
+    end
+
+    class IndexRangeInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named "index-range".to_sym
+      parse_content_as :text
+
+      def process(parent, target, attr)
+        text = attr["text"]
+        text = "((#{text}))" unless /^\(\(.+\)\)$/.match(text)
+        out = parent.sub_macros(text)
+        out.sub(/<index>/, "<index to='#{target}'>")
       end
     end
 
