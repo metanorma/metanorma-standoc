@@ -422,10 +422,7 @@ OUTPUT
    INPUT
    #{BLANK_HDR}
   <sections>
-    <p id='_'>
-      See
-      <index primary='See'/> Index <em>term</em> <index primary='term'/> and<index primary='A' secondary='B' tertiary='C'/>.
-    </p>
+      <p id="_">See<index><primary>See</primary></index> Index <em>term</em><index><primary><em>term</em></primary></index> and<index><primary>A<sub>B</sub></primary><secondary><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>α</mi></math></stem></secondary><tertiary>Ⲁ</tertiary></index>.</p>
   </sections>
 </standard-document>
    OUTPUT
