@@ -418,7 +418,7 @@ OUTPUT
   it "processes index terms" do 
           expect((strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to (<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
-      ((See)) Index ((_term_)) and(((A, B, C))).
+      ((See)) Index ((_term_)) and(((A~B~, stem:[alpha], &#x2c80;))).
    INPUT
    #{BLANK_HDR}
   <sections>
