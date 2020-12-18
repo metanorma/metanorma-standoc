@@ -125,7 +125,7 @@ module Asciidoctor
 
         begin
           Fontist::Manifest::Install.from_hash(
-            processor.fonts_manifest,
+            fonts_manifest,
             confirmation: options[:agree_to_terms] ? "yes" : "no"
           )
         rescue Fontist::Errors::LicensingError
