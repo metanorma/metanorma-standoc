@@ -40,7 +40,7 @@ RSpec.describe Asciidoctor::Standoc do
       :docfile: test.adoc
       :nodoc:
       :novalid:
-      :publisher: International Electrotechnical Commission,IETF,ISO
+      :publisher: International Electrotechnical Commission;IETF;ISO
 INPUT
 <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
   <bibdata type='standard'>
@@ -181,6 +181,7 @@ OUTPUT
       :role: author
       :affiliation: Slate Rock and Gravel Company
       :affiliation_abbrev: SRG
+      :affiliation_subdiv: Hermeneutics Unit; Exegetical Subunit
       :address: 6 Rubble Way, Bedrock
       :contributor-uri: http://slate.example.com
       :phone: 123
@@ -191,13 +192,14 @@ OUTPUT
       :role_2: editor
       :affiliation_2: Rockhead and Quarry Cave Construction Company
       :affiliation_abbrev_2: RQCCC
+      :affiliation_subdiv_2: Hermeneutics Unit; Exegetical Subunit
       :address_2: 6A Rubble Way, + \\
       Bedrock
       :email_2: barney@rockhead.example.com
       :phone_2: 789
       :fax_2: 012
-      :publisher: "Hanna Barbera", "Cartoon Network", "Ribose, Inc."
-      :copyright-holder: "Ribose, Inc.", Hanna Barbera
+      :publisher: "Hanna Barbera"; "Cartoon Network"; "Ribose, Inc."
+      :copyright-holder: "Ribose, Inc."; Hanna Barbera
       :part-of: ABC
       :translated-from: DEF,GHI;JKL MNO,PQR
       :keywords: a, b, c
@@ -288,6 +290,8 @@ OUTPUT
    <organization>
      <name>Slate Rock and Gravel Company</name>
      <abbreviation>SRG</abbreviation>
+     <subdivision>Hermeneutics Unit</subdivision>
+<subdivision>Exegetical Subunit</subdivision>
   <address>
   <formattedAddress>
   6 Rubble Way, Bedrock
@@ -312,6 +316,8 @@ OUTPUT
   <organization>
     <name>Rockhead and Quarry Cave Construction Company</name>
     <abbreviation>RQCCC</abbreviation>
+    <subdivision>Hermeneutics Unit</subdivision>
+<subdivision>Exegetical Subunit</subdivision>
   <address>
     <formattedAddress>6A Rubble Way, <br/>Bedrock</formattedAddress>
   </address>
@@ -425,7 +431,7 @@ OUTPUT
       :tc-docnumber: 2000
       :language: el
       :script: Grek
-      :publisher: IEC,IETF,ISO
+      :publisher: IEC;IETF;ISO
       :uri: A
       :xml-uri: B
       :html-uri: C

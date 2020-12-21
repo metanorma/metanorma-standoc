@@ -46,8 +46,8 @@ module Asciidoctor
 
       # , " => ," : CSV definition does not deal with space followed by quote
       # at start of field
-      def csv_split(s, delim = ",")
-        CSV.parse_line(s&.gsub(/, "(?!")/, ',"'),
+      def csv_split(s, delim = ";")
+        CSV.parse_line(s&.gsub(/#{delim} "(?!")/, "#{delim}\""),
                        liberal_parsing: true,
                        col_sep: delim)&.compact&.map { |x| x.strip }
       end
@@ -115,8 +115,11 @@ module Asciidoctor
         node.attr("affiliation#{suffix}") and p.affiliation do |a|
           a.organization do |o|
             o.name node.attr("affiliation#{suffix}")
-            abbr = node.attr("affiliation_abbrev#{suffix}") and
-              o.abbreviation abbr
+            a = node.attr("affiliation_subdiv#{suffix}")
+            abbr = node.attr("affiliation_abbrev#{suffix}") and o.abbreviation abbr
+            csv_split(node.attr("affiliation_subdiv#{suffix}"))&.each do |s|
+              o.subdivision s
+            end
             node.attr("address#{suffix}") and o.address do |ad|
               ad.formattedAddress do |f|
                 f << node.attr("address#{suffix}").gsub(/ \+\n/, "<br/>")
