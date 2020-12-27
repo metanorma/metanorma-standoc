@@ -31,8 +31,10 @@ module Asciidoctor
           docfile.nil? ? './' : Pathname.new(docfile).parent.to_s + '/'
         end
 
+        # TODO needs internationalisation
         def smartformat(n)
           n.gsub(/ --? /, "&#8201;&#8212;&#8201;").
+            gsub(/\'(\d\d)(?=[^\u2019\'\s<]+[’\'][\p{P}\p{Z}])([\p{P}\p{Z}])/, "\u2018\\1\\2").
             gsub(/--/, "&#8212;").smart_format.gsub(/</, "&lt;").gsub(/>/, "&gt;")
         end
 
