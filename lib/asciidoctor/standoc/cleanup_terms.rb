@@ -79,7 +79,7 @@ module Asciidoctor
           x.name = "note"
         end
         xmldoc.xpath("//termexample[not(ancestor::term)]").each do |x|
-          x.name = "note"
+          x.name = "example"
         end
       end
 
