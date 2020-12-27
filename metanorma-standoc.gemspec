@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "asciidoctor", "~> 2.0.0"
   spec.add_dependency "ruby-jing"
-  spec.add_dependency "isodoc", "~> 1.3.0"
+  spec.add_dependency "isodoc", "~> 1.4.0"
   spec.add_dependency "iev", "~> 0.2.1"
   spec.add_dependency "metanorma-plugin-datastruct"
   spec.add_dependency "metanorma-plugin-lutaml", "~> 0.2.1"
