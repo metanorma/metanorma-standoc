@@ -3,14 +3,12 @@ module Asciidoctor
     module Cleanup
       def external_terms_boilerplate(sources)
         @i18n.l10n(
-          @i18n.external_terms_boilerplate.gsub(/%/, sources || "???"),
-          @lang, @script)
+          @i18n.external_terms_boilerplate.gsub(/%/, sources || "???"), @lang, @script)
       end
 
       def internal_external_terms_boilerplate(sources)
         @i18n.l10n(
-          @i18n.internal_external_terms_boilerplate.gsub(/%/, sources || "??"),
-          @lang, @script)
+          @i18n.internal_external_terms_boilerplate.gsub(/%/, sources || "??"), @lang, @script)
       end
 
       def term_defs_boilerplate(div, source, term, preface, isodoc)
@@ -19,11 +17,9 @@ module Asciidoctor
           @anchors[s["bibitemid"]] or
             @log.add("Crossreferences", nil, "term source #{s['bibitemid']} not referenced")
         end
-        if source.empty? && term.nil?
-          div.next = @i18n.no_terms_boilerplate
-        else
-          div.next = term_defs_boilerplate_cont(source, term, isodoc)
-        end
+        a = (source.empty? && term.nil?) ?  @i18n.no_terms_boilerplate :
+          term_defs_boilerplate_cont(source, term, isodoc)
+        a and div.next = a
       end
 
       def term_defs_boilerplate_cont(src, term, isodoc)
@@ -38,15 +34,14 @@ module Asciidoctor
       end
 
       def norm_ref_preface(f)
-      refs = f.elements.select do |e|
-        ["reference", "bibitem"].include? e.name
+        refs = f.elements.select do |e|
+          ["reference", "bibitem"].include? e.name
+        end
+        f.at("./title").next =
+          "<p>#{(refs.empty? ? @i18n.norm_empty_pref : @i18n.norm_with_refs_pref)}</p>"
       end
-      f.at("./title").next =
-        "<p>#{(refs.empty? ? @i18n.norm_empty_pref : @i18n.norm_with_refs_pref)}</p>"
-    end
 
-      TERM_CLAUSE = "//sections/terms | "\
-        "//sections/clause[descendant::terms]".freeze
+      TERM_CLAUSE = "//sections/terms | //sections/clause[descendant::terms]".freeze
 
       NORM_REF = "//bibliography/references[@normative = 'true']".freeze
 
@@ -59,15 +54,33 @@ module Asciidoctor
         @isodoc
       end
 
+      def termdef_boilerplate_cleanup(xmldoc)
+        #termdef_remove_initial_paras(xmldoc)
+      end
+
+      def termdef_remove_initial_paras(xmldoc)
+        xmldoc.xpath("//terms/p | //terms/ul").each(&:remove)
+      end
+
+      def termdef_unwrap_boilerplate_clauses(xmldoc)
+        xmldoc.xpath(self.class::TERM_CLAUSE).each do |f|
+          f.xpath(".//clause[@type = 'boilerplate']").each do |c|
+            c&.at("./title")&.remove
+            c.replace(c.children)
+          end
+        end
+      end
+
       def boilerplate_cleanup(xmldoc)
         isodoc = boilerplate_isodoc(xmldoc)
+        termdef_boilerplate_cleanup(xmldoc)
         xmldoc.xpath(self.class::TERM_CLAUSE).each do |f|
-          term_defs_boilerplate(f.at("./title"),
-                                xmldoc.xpath(".//termdocsource"),
+          next if f.at("./clause[@type = 'boilerplate']")
+          term_defs_boilerplate(f.at("./title"), xmldoc.xpath(".//termdocsource"),
                                 f.at(".//term"), f.at(".//p"), isodoc)
         end
-        f = xmldoc.at(self.class::NORM_REF) and
-          norm_ref_preface(f)
+        termdef_unwrap_boilerplate_clauses(xmldoc)
+        f = xmldoc.at(self.class::NORM_REF) and norm_ref_preface(f)
         initial_boilerplate(xmldoc, isodoc)
       end
 

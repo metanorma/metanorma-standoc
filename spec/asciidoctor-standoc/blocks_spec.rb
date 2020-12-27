@@ -340,7 +340,9 @@ RSpec.describe Asciidoctor::Standoc do
 
       NOTE: This is not a termnote
 
-      EXAMPLE: This is not a termexample
+      ====
+      This is not a termexample
+      ====
 
       [.nonterm]
       === Term1
@@ -355,6 +357,9 @@ RSpec.describe Asciidoctor::Standoc do
          <note id='_'>
   <p id='_'>This is not a termnote</p>
 </note>
+  <example id='_'>
+  <p id='_'>This is not a termexample</p>
+</example>
   <clause id="_" inline-header="false" obligation="normative">
   <title>Term1</title>
   <note id="_">

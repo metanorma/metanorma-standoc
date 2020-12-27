@@ -14,8 +14,7 @@ module Asciidoctor
       end
 
       def sectiontype1(node)
-        node&.attr("heading")&.downcase ||
-          node.title.gsub(/<[^>]+>/, "").downcase
+        node&.attr("heading")&.downcase || node.title.gsub(/<[^>]+>/, "").downcase
       end
 
       def sectiontype(node, level = true)
@@ -47,15 +46,12 @@ module Asciidoctor
 
       def section_attributes(node)
         ret = { id: Utils::anchor_or_uuid(node),
-          language: node.attributes["language"],
-          script: node.attributes["script"],
-          annex: (
-            ((node.attr("style") == "appendix" || node.role == "appendix") && 
-             node.level == 1) ? true : nil
-          ),
-          preface: (
-            (node.role == "preface" || node.attr("style") == "preface") ?
-            true : nil) }
+                language: node.attributes["language"],
+                script: node.attributes["script"],
+                annex: ( ((node.attr("style") == "appendix" || node.role == "appendix") && 
+                          node.level == 1) ? true : nil),
+                         preface: (
+                           (node.role == "preface" || node.attr("style") == "preface") ?  true : nil) }
         return ret unless node.attributes["change"]
         ret.merge(change: node.attributes["change"],
                   path: node.attributes["path"],
@@ -105,9 +101,9 @@ module Asciidoctor
 
       def set_obligation(attrs, node)
         attrs[:obligation] = node.attributes.has_key?("obligation") ?
-                               node.attr("obligation") :
-                             node.parent.attributes.has_key?("obligation") ?
-                               node.parent.attr("obligation") : "normative"
+          node.attr("obligation") :
+          node.parent.attributes.has_key?("obligation") ?
+          node.parent.attr("obligation") : "normative"
       end
 
       def preamble(node)
@@ -187,18 +183,23 @@ module Asciidoctor
         @term_def = defs
       end
 
+      def terms_boilerplate_parse(attrs, xml, node)
+        defs = @term_def
+        @term_def = false
+        clause_parse(attrs.merge(type: "boilerplate"), xml, node)
+        @term_def = defs
+      end
+
       # subclause contains subclauses
       def term_def_subclause_parse(attrs, xml, node)
-        node.role == "nonterm"  and
-          return nonterm_term_def_subclause_parse(attrs, xml, node)
+        node.role == "nonterm"  and return nonterm_term_def_subclause_parse(attrs, xml, node)
+        node.role == "boilerplate"  and return terms_boilerplate_parse(attrs, xml, node)
         st = sectiontype(node, false)
         return symbols_parse(attrs, xml, node) if @definitions
         sub = node.find_by(context: :section) { |s| s.level == node.level + 1 }
         sub.empty? || (return term_def_parse(attrs, xml, node, false))
-        st == "symbols and abbreviated terms" and
-          (return symbols_parse(attrs, xml, node))
-        st == "terms and definitions" and
-          return clause_parse(attrs, xml, node)
+        st == "symbols and abbreviated terms" and (return symbols_parse(attrs, xml, node))
+        st == "terms and definitions" and return clause_parse(attrs, xml, node)
         term_def_subclause_parse1(attrs, xml, node)
       end
 
