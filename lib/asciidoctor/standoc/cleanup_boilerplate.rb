@@ -17,11 +17,9 @@ module Asciidoctor
           @anchors[s["bibitemid"]] or
             @log.add("Crossreferences", nil, "term source #{s['bibitemid']} not referenced")
         end
-        if source.empty? && term.nil?
-          div.next = @i18n.no_terms_boilerplate
-        else
-          div.next = term_defs_boilerplate_cont(source, term, isodoc)
-        end
+        a = (source.empty? && term.nil?) ?  @i18n.no_terms_boilerplate :
+          term_defs_boilerplate_cont(source, term, isodoc)
+        a and div.next = a
       end
 
       def term_defs_boilerplate_cont(src, term, isodoc)
@@ -36,12 +34,12 @@ module Asciidoctor
       end
 
       def norm_ref_preface(f)
-      refs = f.elements.select do |e|
-        ["reference", "bibitem"].include? e.name
+        refs = f.elements.select do |e|
+          ["reference", "bibitem"].include? e.name
+        end
+        f.at("./title").next =
+          "<p>#{(refs.empty? ? @i18n.norm_empty_pref : @i18n.norm_with_refs_pref)}</p>"
       end
-      f.at("./title").next =
-        "<p>#{(refs.empty? ? @i18n.norm_empty_pref : @i18n.norm_with_refs_pref)}</p>"
-    end
 
       TERM_CLAUSE = "//sections/terms | //sections/clause[descendant::terms]".freeze
 
