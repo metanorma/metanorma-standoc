@@ -47,6 +47,7 @@ module Asciidoctor
       # , " => ," : CSV definition does not deal with space followed by quote
       # at start of field
       def csv_split(s, delim = ";")
+        return if s.nil?
         CSV.parse_line(s&.gsub(/#{delim} "(?!")/, "#{delim}\""),
                        liberal_parsing: true,
                        col_sep: delim)&.compact&.map { |x| x.strip }
