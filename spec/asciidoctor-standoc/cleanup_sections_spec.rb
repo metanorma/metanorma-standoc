@@ -3,7 +3,7 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
-  it "strips any initial boilerplate from terms and definitions" do
+  it "appends any initial user-supplied text to boilerplate in terms and definitions" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
@@ -20,7 +20,12 @@ RSpec.describe Asciidoctor::Standoc do
               <sections>
          <terms id="_" obligation="normative"><title>Terms and definitions</title>
          <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-
+<p id='_'>I am boilerplate</p>
+<ul id='_'>
+  <li>
+    <p id='_'>So am I</p>
+  </li>
+</ul>
        <term id="term-time">
        <preferred>Time</preferred>
          <definition><p id="_">This paragraph is extraneous</p></definition>

@@ -55,7 +55,7 @@ module Asciidoctor
       end
 
       def termdef_boilerplate_cleanup(xmldoc)
-        termdef_remove_initial_paras(xmldoc)
+        #termdef_remove_initial_paras(xmldoc)
       end
 
       def termdef_remove_initial_paras(xmldoc)
