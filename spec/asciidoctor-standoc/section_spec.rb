@@ -34,6 +34,11 @@ RSpec.describe Asciidoctor::Standoc do
 
       == Terms, Definitions, Symbols and Abbreviated Terms
 
+      [.boilerplate]
+      === Boilerplate
+
+      Boilerplate text
+
       [.nonterm]
       === Introduction
 
@@ -116,7 +121,7 @@ RSpec.describe Asciidoctor::Standoc do
 </term>
 </terms>
 <clause id="_" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title>
-  <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+<p id='_'>Boilerplate text</p>
 <clause id="_" inline-header="false" obligation="normative">
   <title>Introduction</title>
   <clause id="_" inline-header="false" obligation="normative">

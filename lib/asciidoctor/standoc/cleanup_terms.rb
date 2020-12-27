@@ -47,10 +47,6 @@ module Asciidoctor
         end
       end
 
-      def termdef_boilerplate_cleanup(xmldoc)
-        xmldoc.xpath("//terms/p | //terms/ul").each(&:remove)
-      end
-
       def termdef_subclause_cleanup(xmldoc)
         xmldoc.xpath("//terms[terms]").each { |t| t.name = "clause" }
       end
@@ -96,7 +92,6 @@ module Asciidoctor
         termdefinition_cleanup(xmldoc)
         termdomain1_cleanup(xmldoc)
         termnote_example_cleanup(xmldoc)
-        termdef_boilerplate_cleanup(xmldoc)
         termdef_subclause_cleanup(xmldoc)
         term_children_cleanup(xmldoc) 
         termdocsource_cleanup(xmldoc)
