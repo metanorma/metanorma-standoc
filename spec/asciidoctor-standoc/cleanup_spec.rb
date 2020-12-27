@@ -7,11 +7,14 @@ RSpec.describe Asciidoctor::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       == "Quotation" A's
+
+      '24:00:00'.
     INPUT
        #{BLANK_HDR}
               <sections>
   <clause id="_" inline-header="false" obligation="normative">
   <title>“Quotation” A’s</title>
+  <p id='_'>‘24:00:00’.</p>
 </clause>
        </sections>
        </standard-document>

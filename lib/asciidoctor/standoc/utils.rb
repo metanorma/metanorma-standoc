@@ -33,6 +33,7 @@ module Asciidoctor
 
         def smartformat(n)
           n.gsub(/ --? /, "&#8201;&#8212;&#8201;").
+            gsub(/\'(\d\d)(?!’|\'|[^’\'\s<]+[’\'][\p{P}\p{Z}])([\p{P}\p{Z}])/, "’\\1\\2").
             gsub(/--/, "&#8212;").smart_format.gsub(/</, "&lt;").gsub(/>/, "&gt;")
         end
 
