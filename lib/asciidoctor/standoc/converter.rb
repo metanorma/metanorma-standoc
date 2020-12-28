@@ -139,7 +139,8 @@ module Asciidoctor
             Metanorma::Util.log("[fontist] Aborting without proper fonts" \
               " installed", :fatal)
           end
-        rescue Fontist::Errors::NonSupportedFontError
+        rescue Fontist::Errors::NonSupportedFontError => e
+          font = /Font '([^']+)'/.match(e.to_s)[1]
           Metanorma::Util.log("[fontist] '#{font}' font is not supported. " \
             "Please go to github.com/metanorma/metanorma-#{flavor_name}/issues" \
             " to report this issue.", :info)
