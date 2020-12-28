@@ -165,6 +165,7 @@ module Asciidoctor
             when "domain" then xml.domain { |a| a << node.text }
 
             when "strike" then xml.strike { |s| s << node.text }
+            when "underline" then xml.underline { |s| s << node.text }
             when "smallcap" then xml.smallcap { |s| s << node.text }
             when "keyword" then xml.keyword { |s| s << node.text }
             else
