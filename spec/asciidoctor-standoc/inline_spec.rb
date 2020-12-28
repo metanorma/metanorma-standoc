@@ -52,6 +52,7 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
       [deprecated]#deprecated#
       [domain]#domain#
       [strike]#strike#
+      [underline]#underline#
       [smallcap]#smallcap#
       [keyword]#keyword#
     INPUT
@@ -70,6 +71,7 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
        <deprecates>deprecated</deprecates>
        <domain>domain</domain>
        <strike>strike</strike>
+       <underline>underline</underline>
        <smallcap>smallcap</smallcap>
        <keyword>keyword</keyword>
        </sections>
