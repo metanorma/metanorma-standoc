@@ -35,6 +35,66 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
+  it "processes table widths" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    #{ASCIIDOC_BLANK_HDR}
+    [width=75%]
+    |===
+    |A
+    |B
+    |===
+
+    [width=75]
+    |===
+    |A
+    |B
+    |===
+
+    [width=575]
+    |===
+    |A
+    |B
+    |===
+
+    INPUT
+            #{BLANK_HDR}
+  <sections>
+    <table id='_' width='75%'>
+      <tbody>
+        <tr>
+          <td valign='top' align='left'>A</td>
+        </tr>
+        <tr>
+          <td valign='top' align='left'>B</td>
+        </tr>
+      </tbody>
+    </table>
+    <table id='_' width='75'>
+      <tbody>
+        <tr>
+          <td valign='top' align='left'>A</td>
+        </tr>
+        <tr>
+          <td valign='top' align='left'>B</td>
+        </tr>
+      </tbody>
+    </table>
+    <table id='_' width='575'>
+      <tbody>
+        <tr>
+          <td valign='top' align='left'>A</td>
+        </tr>
+        <tr>
+          <td valign='top' align='left'>B</td>
+        </tr>
+      </tbody>
+    </table>
+  </sections>
+</standard-document>
+
+    OUTPUT
+  end
+
   it "processes column widths in tables" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
