@@ -91,7 +91,7 @@ module Asciidoctor
       end
 
       def flavor_name
-        self.class.name.split("::")&.[](-2).downcase.to_sym
+        self.class.name.split("::")&.[](-2)&.downcase&.to_sym
       end
 
       def fonts_manifest
@@ -123,16 +123,20 @@ module Asciidoctor
         manifest = fonts_manifest
         return if manifest.nil?
 
+        agree_to_terms = options[:agree_to_terms]
+        continue_without_fonts = options[:continue_without_fonts]
+
+        install_fonts_safe(manifest, agree_to_terms, continue_without_fonts)
+      end
+
+      def install_fonts_safe(manifest, agree, continue)
         begin
-          Fontist::Manifest::Install.from_hash(
-            fonts_manifest,
-            confirmation: options[:agree_to_terms] ? "yes" : "no"
-          )
+          fontist_install(manifest, agree)
         rescue Fontist::Errors::LicensingError
-          if !options[:agree_to_terms]
+          if !confirm
             Metanorma::Util.log("[fontist] --agree-to-terms option missing." \
               " You must accept font licenses to install fonts.", :debug)
-          elsif options[:continue_without_fonts]
+          elsif continue
             Metanorma::Util.log("[fontist] Processing will continue without" \
               " fonts installed", :debug)
           else
@@ -144,7 +148,18 @@ module Asciidoctor
           Metanorma::Util.log("[fontist] '#{font}' font is not supported. " \
             "Please go to github.com/metanorma/metanorma-#{flavor_name}/issues" \
             " to report this issue.", :info)
+        rescue Fontist::Errors::FormulaIndexNotFoundError
+          Metanorma::Util.log("[fontist] Missing formula index. Fetching it...", :debug)
+          Fontist::Formula.update_formulas_repo
+          fontist_install(manifest, agree)
         end
+      end
+
+      def fontist_install(manifest, agree)
+        Fontist::Manifest::Install.from_hash(
+          manifest,
+          confirmation: agree ? "yes" : "no"
+        )
       end
 
       alias_method :embedded, :content
