@@ -1,6 +1,4 @@
 require "asciidoctor"
-require "fontist"
-require "fontist/manifest/install"
 require "metanorma/util"
 require "metanorma/standoc/version"
 require "asciidoctor/standoc/base"
@@ -73,8 +71,6 @@ module Asciidoctor
         basebackend "html"
         outfilesuffix ".xml"
         @libdir = File.dirname(self.class::_file || __FILE__)
-
-        install_fonts(opts)
       end
 
       class << self
@@ -88,78 +84,6 @@ module Asciidoctor
       # path to isodoc assets in child gems
       def html_doc_path(file)
         File.join(@libdir, "../../isodoc/html", file)
-      end
-
-      def flavor_name
-        self.class.name.split("::")&.[](-2)&.downcase&.to_sym
-      end
-
-      def fonts_manifest
-        flavor = flavor_name
-        registry = Metanorma::Registry.instance
-        processor = registry.find_processor(flavor)
-
-        if processor.nil?
-          Metanorma::Util.log("[fontist] #{flavor} processor not found. " \
-            "Please go to github.com/metanorma/metanorma/issues to report " \
-            "this issue.", :warn)
-          return nil
-        elsif !defined? processor.fonts_manifest
-          Metanorma::Util.log("[fontist] #{flavor} processor don't require " \
-            "specific fonts", :debug)
-          return nil
-        end
-
-        processor.fonts_manifest
-      end
-
-      def install_fonts(options={})
-        if options[:no_install_fonts]
-          Metanorma::Util.log("[fontist] Skip font installation because" \
-            " --no-install-fonts argument passed", :debug)
-          return
-        end
-
-        manifest = fonts_manifest
-        return if manifest.nil?
-
-        agree_to_terms = options[:agree_to_terms]
-        continue_without_fonts = options[:continue_without_fonts]
-
-        install_fonts_safe(manifest, agree_to_terms, continue_without_fonts)
-      end
-
-      def install_fonts_safe(manifest, agree, continue)
-        begin
-          fontist_install(manifest, agree)
-        rescue Fontist::Errors::LicensingError
-          if !confirm
-            Metanorma::Util.log("[fontist] --agree-to-terms option missing." \
-              " You must accept font licenses to install fonts.", :debug)
-          elsif continue
-            Metanorma::Util.log("[fontist] Processing will continue without" \
-              " fonts installed", :debug)
-          else
-            Metanorma::Util.log("[fontist] Aborting without proper fonts" \
-              " installed", :fatal)
-          end
-        rescue Fontist::Errors::NonSupportedFontError => e
-          font = /Font '([^']+)'/.match(e.to_s)[1]
-          Metanorma::Util.log("[fontist] '#{font}' font is not supported. " \
-            "Please go to github.com/metanorma/metanorma-#{flavor_name}/issues" \
-            " to report this issue.", :info)
-        rescue Fontist::Errors::FormulaIndexNotFoundError
-          Metanorma::Util.log("[fontist] Missing formula index. Fetching it...", :debug)
-          Fontist::Formula.update_formulas_repo
-          fontist_install(manifest, agree)
-        end
-      end
-
-      def fontist_install(manifest, agree)
-        Fontist::Manifest::Install.from_hash(
-          manifest,
-          confirmation: agree ? "yes" : "no"
-        )
       end
 
       alias_method :embedded, :content
