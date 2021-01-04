@@ -91,7 +91,7 @@ INPUT
       <stage>published</stage>
     </status>
     <copyright>
-      <from>2020</from>
+      <from>#{Time.now.year}</from>
       <owner>
         <organization>
           <name>International Electrotechnical Commission</name>
@@ -100,7 +100,7 @@ INPUT
       </owner>
     </copyright>
     <copyright>
-      <from>2020</from>
+      <from>#{Time.now.year}</from>
       <owner>
         <organization>
           <name>IETF</name>
@@ -108,7 +108,7 @@ INPUT
       </owner>
     </copyright>
     <copyright>
-      <from>2020</from>
+      <from>#{Time.now.year}</from>
       <owner>
         <organization>
           <name>International Standards Organization</name>
@@ -629,7 +629,7 @@ OUTPUT
       <stage>published</stage>
     </status>
     <copyright>
-      <from>2020</from>
+      <from>#{Time.now.year}</from>
       <owner>
         <organization>
           <name>International Standards Organization</name>
