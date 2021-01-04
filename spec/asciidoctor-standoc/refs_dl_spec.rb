@@ -142,7 +142,7 @@ copyright::
      abbreviation:::: ISO
      url:::: www.iso.org
    from::: 2014
-   to::: 2020
+   to::: #{Time.now.year}
 link::
   type::: src
   content::: https://www.iso.org/standard/53798.html
@@ -389,7 +389,7 @@ home run record in 1998.</note>
   </status>
   <copyright>
     <from>2014</from>
-    <to>2020</to>
+    <to>#{Time.now.year}</to>
     <owner>
       <organization>
         <name>International Organization for Standardization</name>
@@ -507,7 +507,7 @@ copyright.owner.name:: International Organization for Standardization
 copyright.owner.abbreviation:: ISO
 copyright.owner.url:: www.iso.org
 copyright.from:: 2014
-copyright.to:: 2020
+copyright.to:: #{Time.now.year}
 link::
 link.type:: src
 link.content:: https://www.iso.org/standard/53798.html
@@ -707,7 +707,7 @@ home run record in 1998.</note>
   </status>
   <copyright>
     <from>2014</from>
-    <to>2020</to>
+    <to>#{Time.now.year}</to>
     <owner>
       <organization>
         <name>International Organization for Standardization</name>

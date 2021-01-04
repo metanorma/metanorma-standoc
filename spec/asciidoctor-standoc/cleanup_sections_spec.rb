@@ -405,7 +405,7 @@ INPUT
              <stage>published</stage>
            </status>
            <copyright>
-             <from>2020</from>
+             <from>#{Time.now.year}</from>
            </copyright>
            <ext>
              <doctype>article</doctype>
@@ -697,7 +697,7 @@ INPUT
               <stage>published</stage>
             </status>
             <copyright>
-              <from>2020</from>
+              <from>#{Time.now.year}</from>
             </copyright>
             <ext>
               <doctype>article</doctype>
@@ -928,7 +928,7 @@ INPUT
               <stage>published</stage>
             </status>
             <copyright>
-              <from>2020</from>
+              <from>#{Time.now.year}</from>
             </copyright>
             <ext>
               <doctype>article</doctype>
@@ -1162,7 +1162,7 @@ INPUT
               <stage>published</stage>
             </status>
             <copyright>
-              <from>2020</from>
+              <from>#{Time.now.year}</from>
             </copyright>
             <ext>
               <doctype>article</doctype>
@@ -1393,7 +1393,7 @@ INPUT
               <stage>published</stage>
             </status>
             <copyright>
-              <from>2020</from>
+              <from>#{Time.now.year}</from>
             </copyright>
             <ext>
               <doctype>article</doctype>

@@ -1879,7 +1879,7 @@ expect(xmlpp(Asciidoctor.convert(input, backend: :standoc, header_footer: true).
       <stage>published</stage>
     </status>
     <copyright>
-      <from>2020</from>
+      <from>#{Time.now.year}</from>
     </copyright>
     <ext>
       <doctype>article</doctype>
@@ -1932,7 +1932,7 @@ expect(xmlpp(Asciidoctor.convert(input, backend: :standoc, header_footer: true))
              <stage>published</stage>
            </status>
            <copyright>
-             <from>2020</from>
+             <from>#{Time.now.year}</from>
            </copyright>
            <ext>
              <doctype>article</doctype>
