@@ -48,6 +48,7 @@ module Asciidoctor
         ret = { id: Utils::anchor_or_uuid(node),
                 language: node.attributes["language"],
                 script: node.attributes["script"],
+                number: node.attributes["number"],
                 annex: ( ((node.attr("style") == "appendix" || node.role == "appendix") && 
                           node.level == 1) ? true : nil),
                          preface: (
