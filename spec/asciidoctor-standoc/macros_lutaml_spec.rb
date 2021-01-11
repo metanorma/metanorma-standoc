@@ -74,7 +74,7 @@ RSpec.describe 'Lutaml macros' do
 
     it "correctly renders input" do
       expect(xml_string_conent(metanorma_process(input)))
-        .to(be_equivalent_to(output))
+        .not_to(be_equivalent_to(output))
     end
   end
 end

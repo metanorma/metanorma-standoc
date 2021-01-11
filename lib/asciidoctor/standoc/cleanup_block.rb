@@ -134,14 +134,6 @@ module Asciidoctor
 
       # examples containing only figures become subfigures of figures
       def subfigure_cleanup(xmldoc)
-        nodes = xmldoc.xpath("//example/figure")
-        while !nodes.empty?
-          nodes[0].parent.name = "figure"
-          nodes = xmldoc.xpath("//example/figure")
-        end
-      end
-
-      def subfigure_cleanup(xmldoc)
         xmldoc.xpath("//example[figure]").each do |e|
           next unless e.elements.map { |m| m.name }.
             reject { |m| %w(name figure).include? m }.empty?
