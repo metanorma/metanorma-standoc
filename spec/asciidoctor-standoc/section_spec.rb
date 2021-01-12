@@ -530,7 +530,7 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
     end
 
-  it "processes sections with title attributes" do
+  it "processes sections with title and type attributes" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       .Foreword
@@ -571,8 +571,10 @@ RSpec.describe Asciidoctor::Standoc do
       [heading=abbreviated terms]
       == Σύμβολα και Συντομογραφίες
 
+      [type=ABC]
       == Clause 4
 
+      [type=DEF]
       === Introduction
 
       === Clause 4.2
@@ -631,9 +633,9 @@ RSpec.describe Asciidoctor::Standoc do
     <definitions id='_' obligation="normative" type="abbreviated_terms">
       <title>Abbreviated terms</title>
     </definitions>
-    <clause id='_' inline-header='false' obligation='normative'>
+    <clause id='_' inline-header='false' obligation='normative' type="ABC">
       <title>Clause 4</title>
-      <clause id='_' inline-header='false' obligation='normative'>
+      <clause id='_' inline-header='false' obligation='normative' type="DEF">
         <title>Introduction</title>
       </clause>
       <clause id='_' inline-header='false' obligation='normative'>
