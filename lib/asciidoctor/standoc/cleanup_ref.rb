@@ -78,6 +78,7 @@ module Asciidoctor
         biblio_reorder(xmldoc)
         biblio_nested(xmldoc)
         biblio_renumber(xmldoc)
+        biblio_indirect_erefs(xmldoc, %w(express-schema))
       end
 
       def biblio_nested(xmldoc)
@@ -120,91 +121,6 @@ module Asciidoctor
         end
       end
 
-      def ref_dl_cleanup(xmldoc)
-        xmldoc.xpath("//clause[@bibitem = 'true']").each do |c|
-          bib = dl_bib_extract(c) or next
-          validate_ref_dl(bib, c)
-          bibitemxml = RelatonBib::BibliographicItem.new(RelatonBib::HashConverter::hash_to_bib(bib)).to_xml or next
-          bibitem = Nokogiri::XML(bibitemxml)
-          bibitem.root["id"] = c["id"] if c["id"] && !/^_/.match(c["id"])
-          c.replace(bibitem.root)
-        end
-      end
-
-      def validate_ref_dl(bib, c)
-        id = bib["id"]
-        id ||= c["id"] unless /^_/.match(c["id"]) # do not accept implicit id
-        unless id
-          @log.add("Anchors", c, "The following reference is missing an anchor:\n" + c.to_xml)
-          return
-        end
-        bib["title"] or @log.add("Bibliography", c, "Reference #{id} is missing a title")
-        bib["docid"] or @log.add("Bibliography", c, "Reference #{id} is missing a document identifier (docid)")
-      end
-
-      def extract_from_p(tag, bib, key)
-        return unless bib[tag]
-        "<#{key}>#{bib[tag].at('p').children}</#{key}>"
-      end
-
-      # if the content is a single paragraph, replace it with its children
-      # single links replaced with uri
-      def p_unwrap(p)
-        elems = p.elements
-        if elems.size == 1 && elems[0].name == "p"
-          link_unwrap(elems[0]).children.to_xml.strip
-        else
-          p.to_xml.strip
-        end
-      end
-
-      def link_unwrap(p)
-        elems = p.elements
-        if elems.size == 1 && elems[0].name == "link"
-          p.at("./link").replace(elems[0]["target"].strip)
-        end
-        p
-      end
-
-      def dd_bib_extract(dtd)
-        return nil if dtd.children.empty?
-        dtd.at("./dl") and return dl_bib_extract(dtd)
-        elems = dtd.remove.elements
-        return p_unwrap(dtd) unless elems.size == 1 && %w(ol ul).include?(elems[0].name)
-        ret = []
-        elems[0].xpath("./li").each do |li|
-          ret << p_unwrap(li)
-        end
-        ret
-      end
-
-      def add_to_hash(bib, key, val)
-        Utils::set_nested_value(bib, key.split(/\./), val)
-      end
-
-      # definition list, with at most one level of unordered lists
-      def dl_bib_extract(c, nested = false)
-        dl = c.at("./dl") or return
-        bib = {}
-        key = ""
-        dl.xpath("./dt | ./dd").each do |dtd|
-          dtd.name == "dt" and key = dtd.text.sub(/:+$/, "") or add_to_hash(bib, key, dd_bib_extract(dtd))
-        end
-        c.xpath("./clause").each do |c1|
-          key = c1&.at("./title")&.text&.downcase&.strip
-          next unless %w(contributor relation series).include? key
-          add_to_hash(bib, key, dl_bib_extract(c1, true))
-        end
-        if !nested and c.at("./title")
-          title = c.at("./title").remove.children.to_xml
-          bib["title"] = [bib["title"]] if bib["title"].is_a? Hash
-          bib["title"] = [bib["title"]] if bib["title"].is_a? String
-          bib["title"] = [] unless bib["title"]
-          bib["title"] << title if !title.empty?
-        end
-        bib
-      end
-
       def fetch_termbase(termbase, id)
         ""
       end
@@ -237,6 +153,61 @@ module Asciidoctor
       def bibitem_cleanup(xmldoc)
         ref_dl_cleanup(xmldoc)
         fetch_local_bibitem(xmldoc)
+      end
+
+      def gather_indirect_erefs(xmldoc, prefix)
+        xmldoc.xpath("//eref[@type = '#{prefix}']").each_with_object({}) do |e, m|
+          e.delete("type")
+          m[e["bibitemid"]] = true
+        end.keys
+      end
+
+      def insert_indirect_biblio(xmldoc, refs, prefix)
+        ins = xmldoc.at("bibliography") or
+          xmldoc.root << "<bibliography/>" and ins = xmldoc.at("bibliography")
+        ins = ins.add_child("<references hidden='true' normative='false'/>").first
+        refs.each do |x|
+          ins << <<~END
+            <bibitem id="#{x}" type="internal">
+            <docidentifier type="repository">#{x.sub(/^#{prefix}_/, "#{prefix}/")}</docidentifier>
+            </bibitem>
+          END
+        end
+      end
+
+      def indirect_eref_to_xref(e, id)
+        loc = e&.at("./locality[@type = 'anchor']")&.remove&.text
+        target = loc ? "#{id}.#{loc}" : id
+        e.name = "xref"
+        e.delete("bibitemid")
+        if e.document.at("//*[@id = '#{target}']")
+          e["target"] = target
+        else
+          e["target"] = id
+          e.children = %(** Missing target #{loc})
+        end
+      end
+
+      def resolve_local_indirect_erefs(xmldoc, refs, prefix)
+        refs.each_with_object([]) do |r, m|
+          id = r.sub(/^#{prefix}_/, "")
+          if xmldoc.at("//*[@id = '#{id}'][@type = '#{prefix}']")
+            xmldoc.xpath("//eref[@bibitemid = '#{r}']").each do |e|
+              indirect_eref_to_xref(e, id)
+            end
+          else
+            m << r
+          end
+        end
+      end
+
+      def biblio_indirect_erefs(xmldoc, prefixes)
+        prefixes.each do |prefix|
+          refs = gather_indirect_erefs(xmldoc, prefix)
+          refs = resolve_local_indirect_erefs(xmldoc, refs, prefix)
+          refs.empty? and return
+          insert_indirect_biblio(xmldoc, refs, prefix)
+        end
       end
     end
   end

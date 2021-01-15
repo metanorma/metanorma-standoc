@@ -28,6 +28,7 @@ module Asciidoctor
         preprocessor Metanorma::Plugin::Datastruct::Yaml2TextPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlUmlAttributesTablePreprocessor
+        inline_macro Asciidoctor::Standoc::ExpressRefMacro
         inline_macro Asciidoctor::Standoc::AltTermInlineMacro
         inline_macro Asciidoctor::Standoc::DeprecatedTermInlineMacro
         inline_macro Asciidoctor::Standoc::DomainTermInlineMacro

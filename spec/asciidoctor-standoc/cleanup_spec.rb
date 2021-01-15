@@ -2109,6 +2109,100 @@ mock_mathml_italicise({ uppergreek: true, upperroman: true, lowergreek: true, lo
 
 end
 
+  it "process express_ref macro with existing bibliography" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true, agree_to_terms: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      == Clause
+
+      express_ref:[A.B.C]
+      express_ref:[A]
+      express_ref:[action.AA]
+      express_ref:[action.AB]
+
+      [[action]]
+      [type="express-schema"]
+      == Action
+
+      [[action.AA]]
+      === AA
+
+      [bibliography]
+      == Bibliography
+      * [[[D,E]]] F
+    INPUT
+       #{BLANK_HDR}
+       <sections>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Clause</title>
+             <p id='_'>
+               <eref bibitemid='express-schema_A'>
+                 <locality type='anchor'><referenceFrom>B.C</referenceFrom></locality>
+                 C
+               </eref>
+               <eref bibitemid='express-schema_A'/>
+<xref target='action.AA'>AA</xref>
+<xref target='action'>** Missing target AB</xref>
+             </p>
+           </clause>
+           <clause id='action' type='express-schema' inline-header='false' obligation='normative'>
+  <title>Action</title>
+  <clause id='action.AA' inline-header='false' obligation='normative'>
+    <title>AA</title>
+  </clause>
+</clause>
+         </sections>
+         <bibliography>
+           <references id='_' normative='false' obligation='informative'>
+             <title>Bibliography</title>
+             <bibitem id='D'>
+               <formattedref format='application/x-isodoc+xml'>F</formattedref>
+               <docidentifier>E</docidentifier>
+             </bibitem>
+           </references>
+           <references hidden='true' normative='false'>
+             <bibitem id='express-schema_A' type='internal'>
+               <docidentifier type='repository'>express-schema/A</docidentifier>
+             </bibitem>
+           </references>
+         </bibliography>
+</standard-document>
+    OUTPUT
+  end
+
+
+  it "process express_ref macro with no existing bibliography" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true, agree_to_terms: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      == Clause
+
+      express_ref:[A.B.C]
+      express_ref:[A]
+    INPUT
+       #{BLANK_HDR}
+       <sections>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Clause</title>
+             <p id='_'>
+               <eref bibitemid='express-schema_A'>
+                 <locality type='anchor'><referenceFrom>B.C</referenceFrom></locality>
+                 C
+               </eref>
+               <eref bibitemid='express-schema_A'/>
+             </p>
+           </clause>
+         </sections>
+         <bibliography>
+           <references hidden='true' normative='false'>
+             <bibitem id='express-schema_A' type='internal'>
+               <docidentifier type='repository'>express-schema/A</docidentifier>
+             </bibitem>
+           </references>
+         </bibliography>
+</standard-document>
+    OUTPUT
+  end
+
+
   private
 
   def mock_mathml_italicise(x)

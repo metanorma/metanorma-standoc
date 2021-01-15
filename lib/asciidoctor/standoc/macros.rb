@@ -11,6 +11,23 @@ require "metanorma-plugin-lutaml"
 
 module Asciidoctor
   module Standoc
+    class ExpressRefMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :express_ref
+      parse_content_as :text
+      using_format :short
+
+      def process(parent, _target, attrs)
+        vals = attrs["text"].split(".")
+        if vals.size > 1
+          loc = <<~END
+            <locality type="anchor"><referenceFrom>#{vals[1..-1].join(".")}</referenceFrom></locality>#{vals[-1]}
+          END
+        end
+        %{<eref type="express-schema" bibitemid="express-schema_#{vals[0]}">#{loc&.strip}</eref>}
+      end
+    end
+
     class InheritInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :inherit

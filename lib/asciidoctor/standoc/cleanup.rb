@@ -5,6 +5,7 @@ require "html2doc"
 require_relative "./cleanup_block.rb"
 require_relative "./cleanup_footnotes.rb"
 require_relative "./cleanup_ref.rb"
+require_relative "./cleanup_ref_dl.rb"
 require_relative "./cleanup_boilerplate.rb"
 require_relative "./cleanup_section.rb"
 require_relative "./cleanup_terms.rb"
@@ -27,8 +28,7 @@ module Asciidoctor
         text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>}m) do |m|
             "<amathstem>#{HTMLEntities.new.decode($1)}</amathstem>"
           end
-          text = Html2Doc.
-            asciimath_to_mathml(text, ["<amathstem>", "</amathstem>"])
+          text = Html2Doc.asciimath_to_mathml(text, ["<amathstem>", "</amathstem>"])
           x =  Nokogiri::XML(text)
           x.xpath("//*[local-name() = 'math'][not(parent::stem)]").each do |y|
             y.wrap("<stem type='MathML'></stem>")
@@ -160,8 +160,7 @@ module Asciidoctor
 
       def mathml_preserve_space(m)
         m.xpath(".//m:mtext", "m" => MATHML_NS).each do |x|
-          x.children = x.children.to_xml.gsub(/^\s/, "&#xA0;").
-            gsub(/\s$/, "&#xA0;")
+          x.children = x.children.to_xml.gsub(/^\s/, "&#xA0;").gsub(/\s$/, "&#xA0;")
         end
       end
 
