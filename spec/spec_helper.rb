@@ -37,6 +37,14 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.around(:each) do |example|
+    begin
+      example.run
+    rescue SystemExit
+      fail 'Unexpected exit encountered'
+    end
+  end
 end
 
 def strip_guid(x)
