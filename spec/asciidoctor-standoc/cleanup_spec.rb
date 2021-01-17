@@ -2140,7 +2140,7 @@ end
                  C
                </eref>
                <eref bibitemid='express-schema_A'/>
-<xref target='action'>** Missing target action.AA</xref>
+               <xref target='action.AA'>AA</xref>
 <xref target='action'>** Missing target action.AB</xref>
              </p>
            </clause>

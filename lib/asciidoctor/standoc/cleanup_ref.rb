@@ -177,7 +177,7 @@ module Asciidoctor
 
       def indirect_eref_to_xref(e, id)
         loc = e&.at("./locality[@type = 'anchor']")&.remove&.text
-        target = loc ? "#{id}.#{loc}" : id
+        target = loc ? loc : id
         e.name = "xref"
         e.delete("bibitemid")
         if e.document.at("//*[@id = '#{target}']")
