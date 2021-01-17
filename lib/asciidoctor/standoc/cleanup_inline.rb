@@ -82,12 +82,26 @@ module Asciidoctor
 
       def xref_cleanup(xmldoc)
         xmldoc.xpath("//xref").each do |x|
+          /:/.match(x["target"]) and xref_to_internal_eref(x)
+          next unless x.name == "xref"
           if refid? x["target"]
             x.name = "eref"
             xref_to_eref(x)
           else
             x.delete("type")
           end
+        end
+      end
+
+      def xref_to_internal_eref(x)
+        a = x["target"].split(":", 3)
+        unless  a.size < 2 || a[0].empty? || a[1].empty?
+          x["target"] = "#{a[0]}_#{a[1]}"
+          a.size > 2 and x.children = %{anchor="#{a[2..-1].join("")}",#{x&.children&.text}}
+          x["type"] = a[0]
+          @internal_eref_namespaces << a[0]
+          x.name = "eref"
+          xref_to_eref(x)
         end
       end
 
@@ -179,8 +193,7 @@ module Asciidoctor
             s.value = ret
             output = s.parent.dup
             output.children.remove
-            @log.add("Anchors", s.parent, "normalised identifier in #{output} "\
-                     "from #{orig}")
+            @log.add("Anchors", s.parent, "normalised identifier in #{output} from #{orig}")
           end
         end
       end
@@ -191,8 +204,7 @@ module Asciidoctor
             s.value = ret
             output = s.parent.dup
             output.children.remove
-            @log.add("Anchors", s.parent, "normalised identifier in #{output} "\
-                     "from #{orig}")
+            @log.add("Anchors", s.parent, "normalised identifier in #{output} from #{orig}")
           end
         end
       end

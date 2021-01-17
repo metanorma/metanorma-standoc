@@ -1867,6 +1867,8 @@ input = <<~INPUT
 <<1:>>
 <<1#b>>
 <<:a#b:>>
+<</%ab>>
+<<1!>>
 
 INPUT
 expect(xmlpp(Asciidoctor.convert(input, backend: :standoc, header_footer: true).gsub(/<p id="_[^"]+">/, "").gsub('</p>', ""))).to be_equivalent_to (<<~"OUTPUT")
@@ -1888,18 +1890,27 @@ expect(xmlpp(Asciidoctor.convert(input, backend: :standoc, header_footer: true).
   <sections>
   <clause id='a_b' inline-header='false' obligation='normative'>
              <title>A</title>
-             <xref target='__ab'/>
+             <eref bibitemid='__ab' citeas=''/>
              <xref target='_'/>
              <xref target='_1'/>
              <xref target='_1_'/>
              <xref target='1#b'/>
              <xref target='_a#b_'/>
+             <xref target='_%ab'/>
+             <xref target='_1_'/>
            </clause>
   </sections>
+  <bibliography>
+  <references hidden='true' normative='false'>
+    <bibitem id='__ab' type='internal'>
+      <docidentifier type='repository'>//ab</docidentifier>
+    </bibitem>
+  </references>
+</bibliography>
 </standard-document>
 OUTPUT
 expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <clause id="a_b" inline-header="false" obligation="normative"/> from a:b}).to_stderr
-expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="__ab"/> from /:ab}).to_stderr
+expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <eref bibitemid="__ab" citeas=""/> from /_ab}).to_stderr
 expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="_"/> from :}).to_stderr
 expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="_1"/> from 1}).to_stderr
 expect{Asciidoctor.convert(input, backend: :standoc, header_footer: true)}.to output(%r{normalised identifier in <xref target="_1_"/> from 1:}).to_stderr
@@ -2114,10 +2125,10 @@ end
       #{ASCIIDOC_BLANK_HDR}
       == Clause
 
-      express_ref:[A.B.C]
-      express_ref:[A]
-      express_ref:[action.AA]
-      express_ref:[action.AB]
+      <<uml:A:A.B.C,C>>
+      <<uml:A>>
+      <<express-schema:action:action.AA,AA>>
+      <<express-schema:action:action.AB>>
 
       [[action]]
       [type="express-schema"]
@@ -2135,11 +2146,13 @@ end
            <clause id='_' inline-header='false' obligation='normative'>
              <title>Clause</title>
              <p id='_'>
-               <eref bibitemid='express-schema_A'>
+               <eref bibitemid='uml_A' citeas="">
+               <localityStack>
                  <locality type='anchor'><referenceFrom>A.B.C</referenceFrom></locality>
+               </localityStack>
                  C
                </eref>
-               <eref bibitemid='express-schema_A'/>
+               <eref bibitemid='uml_A' citeas=""/>
                <xref target='action.AA'>AA</xref>
 <xref target='action'>** Missing target action.AB</xref>
              </p>
@@ -2160,8 +2173,8 @@ end
              </bibitem>
            </references>
            <references hidden='true' normative='false'>
-             <bibitem id='express-schema_A' type='internal'>
-               <docidentifier type='repository'>express-schema/A</docidentifier>
+             <bibitem id='uml_A' type='internal'>
+               <docidentifier type='repository'>uml/A</docidentifier>
              </bibitem>
            </references>
          </bibliography>
@@ -2175,19 +2188,21 @@ end
       #{ASCIIDOC_BLANK_HDR}
       == Clause
 
-      express_ref:[A.B.C]
-      express_ref:[A]
+      <<express-schema:A:A.B.C,C>>
+      <<express-schema:A>>
     INPUT
        #{BLANK_HDR}
        <sections>
            <clause id='_' inline-header='false' obligation='normative'>
              <title>Clause</title>
              <p id='_'>
-               <eref bibitemid='express-schema_A'>
+               <eref bibitemid='express-schema_A' citeas="">
+               <localityStack>
                  <locality type='anchor'><referenceFrom>A.B.C</referenceFrom></locality>
+               </localityStack>
                  C
                </eref>
-               <eref bibitemid='express-schema_A'/>
+               <eref bibitemid='express-schema_A' citeas=""/>
              </p>
            </clause>
          </sections>

@@ -78,7 +78,6 @@ module Asciidoctor
         biblio_reorder(xmldoc)
         biblio_nested(xmldoc)
         biblio_renumber(xmldoc)
-        biblio_indirect_erefs(xmldoc, %w(express-schema))
       end
 
       def biblio_nested(xmldoc)
@@ -153,61 +152,6 @@ module Asciidoctor
       def bibitem_cleanup(xmldoc)
         ref_dl_cleanup(xmldoc)
         fetch_local_bibitem(xmldoc)
-      end
-
-      def gather_indirect_erefs(xmldoc, prefix)
-        xmldoc.xpath("//eref[@type = '#{prefix}']").each_with_object({}) do |e, m|
-          e.delete("type")
-          m[e["bibitemid"]] = true
-        end.keys
-      end
-
-      def insert_indirect_biblio(xmldoc, refs, prefix)
-        ins = xmldoc.at("bibliography") or
-          xmldoc.root << "<bibliography/>" and ins = xmldoc.at("bibliography")
-        ins = ins.add_child("<references hidden='true' normative='false'/>").first
-        refs.each do |x|
-          ins << <<~END
-            <bibitem id="#{x}" type="internal">
-            <docidentifier type="repository">#{x.sub(/^#{prefix}_/, "#{prefix}/")}</docidentifier>
-            </bibitem>
-          END
-        end
-      end
-
-      def indirect_eref_to_xref(e, id)
-        loc = e&.at("./locality[@type = 'anchor']")&.remove&.text
-        target = loc ? loc : id
-        e.name = "xref"
-        e.delete("bibitemid")
-        if e.document.at("//*[@id = '#{target}']")
-          e["target"] = target
-        else
-          e["target"] = id
-          e.children = %(** Missing target #{loc})
-        end
-      end
-
-      def resolve_local_indirect_erefs(xmldoc, refs, prefix)
-        refs.each_with_object([]) do |r, m|
-          id = r.sub(/^#{prefix}_/, "")
-          if xmldoc.at("//*[@id = '#{id}'][@type = '#{prefix}']")
-            xmldoc.xpath("//eref[@bibitemid = '#{r}']").each do |e|
-              indirect_eref_to_xref(e, id)
-            end
-          else
-            m << r
-          end
-        end
-      end
-
-      def biblio_indirect_erefs(xmldoc, prefixes)
-        prefixes.each do |prefix|
-          refs = gather_indirect_erefs(xmldoc, prefix)
-          refs = resolve_local_indirect_erefs(xmldoc, refs, prefix)
-          refs.empty? and return
-          insert_indirect_biblio(xmldoc, refs, prefix)
-        end
       end
     end
   end
