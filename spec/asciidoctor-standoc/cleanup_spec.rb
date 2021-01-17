@@ -2136,12 +2136,12 @@ end
              <title>Clause</title>
              <p id='_'>
                <eref bibitemid='express-schema_A'>
-                 <locality type='anchor'><referenceFrom>B.C</referenceFrom></locality>
+                 <locality type='anchor'><referenceFrom>A.B.C</referenceFrom></locality>
                  C
                </eref>
                <eref bibitemid='express-schema_A'/>
-<xref target='action.AA'>AA</xref>
-<xref target='action'>** Missing target AB</xref>
+<xref target='action'>** Missing target action.AA</xref>
+<xref target='action'>** Missing target action.AB</xref>
              </p>
            </clause>
            <clause id='action' type='express-schema' inline-header='false' obligation='normative'>
@@ -2184,7 +2184,7 @@ end
              <title>Clause</title>
              <p id='_'>
                <eref bibitemid='express-schema_A'>
-                 <locality type='anchor'><referenceFrom>B.C</referenceFrom></locality>
+                 <locality type='anchor'><referenceFrom>A.B.C</referenceFrom></locality>
                  C
                </eref>
                <eref bibitemid='express-schema_A'/>
