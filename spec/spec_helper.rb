@@ -38,11 +38,11 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  config.around(:each) do |example|
+  config.around :each do |example|
     begin
       example.run
     rescue SystemExit
-      fail 'Unexpected exit encountered'
+      fail "Unexpected exit encountered"
     end
   end
 end
