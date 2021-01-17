@@ -127,7 +127,7 @@ EOS
          <script>Latn</script>
          <status>
            <stage>90</stage>
-           <substage>93</substage>
+           <substage>20</substage>
          </status>
          <copyright>
            <from>2001</from>
@@ -168,7 +168,7 @@ EOS
              <script>Latn</script>
              <status>
                <stage>90</stage>
-               <substage>93</substage>
+               <substage>20</substage>
              </status>
              <copyright>
                <from>2001</from>
@@ -211,7 +211,7 @@ EOS
          <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
          <docidentifier type="ISO">ISO 123:2001</docidentifier>
-         <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
+         <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.20:ed-3:en</docidentifier>
          <docnumber>123</docnumber>
          <date type="published">
            <on>2001-05</on>
@@ -236,7 +236,7 @@ EOS
 </abstract>
          <status>
            <stage>90</stage>
-           <substage>93</substage>
+           <substage>20</substage>
          </status>
          <copyright>
            <from>2001</from>

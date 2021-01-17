@@ -91,6 +91,7 @@ module Asciidoctor
         @draft = false
         @refids = Set.new
         @anchors = {}
+        @internal_eref_namespaces = []
         @draft = node.attributes.has_key?("draft")
         @novalid = node.attr("novalid")
         @smartquotes = node.attr("smartquotes") != "false"

@@ -21,13 +21,13 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 29 Dec 2020 22:44:19 GMT
+      - Sun, 17 Jan 2021 03:10:13 GMT
       Server:
       - Apache/2.2.22 (Debian)
       Last-Modified:
-      - Sat, 19 Dec 2020 00:00:33 GMT
+      - Wed, 13 Jan 2021 06:50:17 GMT
       Etag:
-      - '"39c1e62-46c-5b6c5e9ed2a40"'
+      - '"39c1e5c-46c-5b8c28d479c40"'
       Accept-Ranges:
       - bytes
       Content-Length:
@@ -52,7 +52,7 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Tue, 29 Dec 2020 22:44:20 GMT
+  recorded_at: Sun, 17 Jan 2021 03:10:14 GMT
 - request:
     method: get
     uri: https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8341.xml
@@ -74,13 +74,13 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 29 Dec 2020 22:44:20 GMT
+      - Sun, 17 Jan 2021 03:10:14 GMT
       Server:
       - Apache/2.2.22 (Debian)
       Last-Modified:
-      - Sat, 19 Dec 2020 00:00:33 GMT
+      - Wed, 13 Jan 2021 06:50:17 GMT
       Etag:
-      - '"39c1e62-46c-5b6c5e9ed2a40"'
+      - '"39c1e5c-46c-5b8c28d479c40"'
       Accept-Ranges:
       - bytes
       Content-Length:
@@ -105,5 +105,5 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Tue, 29 Dec 2020 22:44:20 GMT
+  recorded_at: Sun, 17 Jan 2021 03:10:14 GMT
 recorded_with: VCR 5.0.0
