@@ -22,6 +22,7 @@ module Asciidoctor
           @log.add("Anchors", c, "The following reference is missing an anchor:\n" + c.to_xml)
           return
         end
+        @refids << id
         bib["title"] or @log.add("Bibliography", c, "Reference #{id} is missing a title")
         bib["docid"] or @log.add("Bibliography", c, "Reference #{id} is missing a document identifier (docid)")
       end
