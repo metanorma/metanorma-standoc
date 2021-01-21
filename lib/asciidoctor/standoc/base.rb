@@ -107,6 +107,8 @@ module Asciidoctor
         @seen_headers = []
         @datauriimage = node.attr("data-uri-image")
         @boilerplateauthority = node.attr("boilerplate-authority")
+        @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
+        @sourcecode_markup_end = node.attr("sourcecode-markup-start") || "}}}"
         @log = Asciidoctor::Standoc::Log.new
         init_bib_caches(node)
         init_iev_caches(node)
@@ -118,9 +120,9 @@ module Asciidoctor
 
       def default_fonts(node)
         b = node.attr("body-font") ||
-          (node.attr("script") == "Hans" ? '"SimSun",serif' : '"Cambria",serif')
+          (node.attr("script") == "Hans" ? '"Source Han Sans",serif' : '"Cambria",serif')
         h = node.attr("header-font") ||
-          (node.attr("script") == "Hans" ? '"SimHei",sans-serif' : '"Cambria",serif')
+          (node.attr("script") == "Hans" ? '"Source Han Sans",sans-serif' : '"Cambria",serif')
         m = node.attr("monospace-font") || '"Courier New",monospace'
         "$bodyfont: #{b};\n$headerfont: #{h};\n$monospacefont: #{m};\n"
       end
