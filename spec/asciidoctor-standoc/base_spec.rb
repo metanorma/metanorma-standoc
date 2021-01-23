@@ -32,7 +32,36 @@ RSpec.describe Asciidoctor::Standoc do
     expect(File.exist?("htmlstyle.css")).to be false
   end
 
-    it "processes publisher abbreviations" do
+    it "assigns default scripts to major languages" do
+    FileUtils.rm_f "test.doc"
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      = Document title
+      Author
+      :docfile: test.adoc
+      :novalid:
+      :language: ar
+    INPUT
+    <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
+         <bibdata type='standard'>
+           <title language='en' format='text/plain'>Document title</title>
+           <language>ar</language>
+           <script>Arab</script>
+           <status>
+             <stage>published</stage>
+           </status>
+           <copyright>
+             <from>2021</from>
+           </copyright>
+           <ext>
+             <doctype>article</doctype>
+           </ext>
+         </bibdata>
+         <sections> </sections>
+       </standard-document>
+    OUTPUT
+  end
+
+  it "processes publisher abbreviations" do
     mock_org_abbrevs
     expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title

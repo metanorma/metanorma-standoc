@@ -93,7 +93,7 @@ module Asciidoctor
       end
 
       def metadata_script(node, xml)
-        xml.script (node.attr("script") || "Latn")
+        xml.script (node.attr("script") || default_script(node.attr("language")))
       end
 
       def relaton_relations
