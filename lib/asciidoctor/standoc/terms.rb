@@ -78,6 +78,48 @@ module Asciidoctor
           section << node.content
         end
       end
+
+      def term_source_attrs(seen_xref)
+        { bibitemid: seen_xref.children[0]["target"],
+          format: seen_xref.children[0]["format"], type: "inline" }
+      end
+
+      def add_term_source(xml_t, seen_xref, m)
+        if seen_xref.children[0].name == "concept"
+          xml_t.origin { |o| o << seen_xref.children[0].to_xml }
+        else
+          xml_t.origin seen_xref.children[0].content, **attr_code(term_source_attrs(seen_xref))
+        end
+        m[:text] && xml_t.modification do |mod|
+          mod.p { |p| p << m[:text].sub(/^\s+/, "") }
+        end
+      end
+
+      TERM_REFERENCE_RE_STR = <<~REGEXP.freeze
+        ^(?<xref><(xref|concept)[^>]+>([^<]*</(xref|concept)>)?)
+               (,\s(?<text>.*))?
+        $
+      REGEXP
+      TERM_REFERENCE_RE =
+        Regexp.new(TERM_REFERENCE_RE_STR.gsub(/\s/, "").gsub(/_/, "\\s"),
+                   Regexp::IGNORECASE | Regexp::MULTILINE)
+
+      def extract_termsource_refs(text, node)
+        matched = TERM_REFERENCE_RE.match text
+        matched.nil? and @log.add("AsciiDoc Input", node, "term reference not in expected format: #{text}")
+        matched
+      end
+
+      def termsource(node)
+        matched = extract_termsource_refs(node.content, node) || return
+        noko do |xml|
+          attrs = { status: matched[:text] ? "modified" : "identical" }
+          xml.termsource **attrs do |xml_t|
+            seen_xref = Nokogiri::XML.fragment(matched[:xref])
+            add_term_source(xml_t, seen_xref, matched)
+          end
+        end.join("\n")
+      end
     end
   end
 end
