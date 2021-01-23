@@ -8,7 +8,7 @@ module Asciidoctor
     module Cleanup
       def para_cleanup(xmldoc)
         ["//p[not(ancestor::bibdata)]", "//ol[not(ancestor::bibdata)]",
-         "//ul[not(ancestor::bibdata)]",
+         "//ul[not(ancestor::bibdata)]", "//quote[not(ancestor::bibdata)]",
          "//note[not(ancestor::bibitem or ancestor::table or ancestor::bibdata)]"
         ].each { |w| inject_id(xmldoc, w) }
       end
