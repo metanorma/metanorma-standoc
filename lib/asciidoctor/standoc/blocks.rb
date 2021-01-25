@@ -29,7 +29,7 @@ module Asciidoctor
       # We append each contained block to its parent
       def open(node)
         role = node.role || node.attr("style")
-        Metanorma::Utils::reqt_subpart(role) and return requirement_subpart(node)
+        reqt_subpart(role) and return requirement_subpart(node)
         result = []
         node.blocks.each do |b|
           result << send(b.context, b)
