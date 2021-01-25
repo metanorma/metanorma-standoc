@@ -41,7 +41,7 @@ module Asciidoctor
       end
 
       def section_attributes(node)
-        ret = { id: Utils::anchor_or_uuid(node),
+        ret = { id: Metanorma::Utils::anchor_or_uuid(node),
                 language: node.attributes["language"],
                 script: node.attributes["script"],
                 number: node.attributes["number"],

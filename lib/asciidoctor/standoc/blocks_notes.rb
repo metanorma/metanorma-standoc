@@ -35,7 +35,7 @@ module Asciidoctor
         date = node.attr("date") || Date.today.iso8601.gsub(/\+.*$/, "")
         date += "T00:00:00Z" unless /T/.match date
         attr_code(
-          id: Utils::anchor_or_uuid(node),
+          id: ::Metanorma::Utils::anchor_or_uuid(node),
           reviewer: node.attr("reviewer") || node.attr("source") || "(Unknown)",
           date: date )
       end
@@ -69,7 +69,7 @@ module Asciidoctor
         a = node.attr("type") and ["danger", "safety precautions"].each do |t|
           name = t if a.casecmp(t).zero?
         end
-        attr_code(keep_attrs(node).merge(id: Utils::anchor_or_uuid(node), type: name,
+        attr_code(keep_attrs(node).merge(id: Metanorma::Utils::anchor_or_uuid(node), type: name,
                   beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil))
       end
 

@@ -64,7 +64,7 @@ module Asciidoctor
       end
 
       def add_to_hash(bib, key, val)
-        Utils::set_nested_value(bib, key.split(/\./), val)
+        Metanorma::Utils::set_nested_value(bib, key.split(/\./), val)
       end
 
       # definition list, with at most one level of unordered lists

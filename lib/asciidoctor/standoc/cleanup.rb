@@ -78,14 +78,14 @@ module Asciidoctor
       end
 
       def smartquotes_cleanup(xmldoc)
-        xmldoc.xpath("//date").each { |d| Utils::endash_date(d) }
+        xmldoc.xpath("//date").each { |d| Metanorma::Utils::endash_date(d) }
         xmldoc.traverse do |n|
           next unless n.text?
           if @smartquotes
             /[-'"(<>]|\.\.|\dx/.match(n) or next
             n.ancestors("pre, tt, sourcecode, bibdata, on, "\
                         "stem, figure[@class = 'pseudocode']").empty? or next
-            n.replace(Utils::smartformat(n.text))
+            n.replace(Metanorma::Utils::smartformat(n.text))
           else
             n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'"))#.
             #gsub(/</, "&lt;").gsub(/>/, "&gt;"))

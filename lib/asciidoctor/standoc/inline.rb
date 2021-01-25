@@ -194,7 +194,7 @@ module Asciidoctor
         type = types.first.to_s
         uri = uri.sub(%r{^data:image/\*;}, "data:#{type};")
         attr_code(src: uri, #@datauriimage ? datauri(uri) : uri,
-                  id: Utils::anchor_or_uuid,
+                  id: Metanorma::Utils::anchor_or_uuid,
                   mimetype: type,
                   height: node.attr("height") || "auto",
                   width: node.attr("width") || "auto" ,

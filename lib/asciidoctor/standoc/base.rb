@@ -7,6 +7,7 @@ require "open-uri"
 require "isodoc"
 require "relaton"
 require "fileutils"
+require "metanorma-utils"
 
 module Asciidoctor
   module Standoc
@@ -99,7 +100,7 @@ module Asciidoctor
         @fontheader = default_fonts(node)
         @files_to_delete = []
         @filename = node.attr("docfile") ?  File.basename(node.attr("docfile")).gsub(/\.adoc$/, "") : ""
-        @localdir = Utils::localdir(node)
+        @localdir = Metanorma::Utils::localdir(node)
         @output_dir = outputdir node
         @no_isobib_cache = node.attr("no-isobib-cache")
         @no_isobib = node.attr("no-isobib")
@@ -109,7 +110,7 @@ module Asciidoctor
         @boilerplateauthority = node.attr("boilerplate-authority")
         @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
         @sourcecode_markup_end = node.attr("sourcecode-markup-start") || "}}}"
-        @log = Asciidoctor::Standoc::Log.new
+        @log = Metanorma::Utils::Log.new
         init_bib_caches(node)
         init_iev_caches(node)
         @lang = (node.attr("language") || "en")
@@ -216,7 +217,7 @@ module Asciidoctor
       private
 
       def outputdir(node)
-        if node.attr("output_dir").nil_or_empty? then Utils::localdir(node)
+        if node.attr("output_dir").nil_or_empty? then Metanorma::Utils::localdir(node)
         else File.join(node.attr("output_dir"), "")
         end
       end

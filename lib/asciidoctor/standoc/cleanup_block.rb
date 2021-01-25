@@ -15,7 +15,7 @@ module Asciidoctor
 
       def inject_id(xmldoc, path)
         xmldoc.xpath(path).each do |x|
-          x["id"] ||= Utils::anchor_or_uuid
+          x["id"] ||= Metanorma::Utils::anchor_or_uuid
         end
       end
 
@@ -185,7 +185,7 @@ module Asciidoctor
       def requirement_descriptions(x)
         x.xpath("//requirement | //recommendation | //permission").each do |r|
           r.children.each do |e|
-            unless e.element? && (Utils::reqt_subpart(e.name) ||
+            unless e.element? && (reqt_subpart(e.name) ||
                 %w(requirement recommendation permission).include?(e.name))
               t = Nokogiri::XML::Element.new("description", x)
               e.before(t)

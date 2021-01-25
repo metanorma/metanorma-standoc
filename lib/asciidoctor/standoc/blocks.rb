@@ -6,11 +6,11 @@ module Asciidoctor
   module Standoc
     module Blocks
       def id_attr(node = nil)
-        { id: Utils::anchor_or_uuid(node) }
+        { id: Metanorma::Utils::anchor_or_uuid(node) }
       end
 
       def id_unnum_attrs(node)
-        attr_code( id: Utils::anchor_or_uuid(node),
+        attr_code( id: Metanorma::Utils::anchor_or_uuid(node),
                   unnumbered: node.option?("unnumbered") ? "true" : nil,
                   number: node.attr("number"),
                   subsequence: node.attr("subsequence") )
@@ -29,7 +29,7 @@ module Asciidoctor
       # We append each contained block to its parent
       def open(node)
         role = node.role || node.attr("style")
-        Utils::reqt_subpart(role) and return requirement_subpart(node)
+        Metanorma::Utils::reqt_subpart(role) and return requirement_subpart(node)
         result = []
         node.blocks.each do |b|
           result << send(b.context, b)
@@ -45,7 +45,7 @@ module Asciidoctor
         noko do |xml|
           xml.figure **literal_attrs(node) do |f|
             figure_title(node, f)
-            f.pre node.lines.join("\n"), **attr_code(id: Utils::anchor_or_uuid,
+            f.pre node.lines.join("\n"), **attr_code(id: Metanorma::Utils::anchor_or_uuid,
                                                      alt: node.attr("alt"))
           end
         end
@@ -121,7 +121,7 @@ module Asciidoctor
 
       def para_attrs(node)
         attr_code(keep_attrs(node).merge(align: node.attr("align"), 
-                                        id: Utils::anchor_or_uuid(node)))
+                                        id: Metanorma::Utils::anchor_or_uuid(node)))
       end
 
       def paragraph(node)
@@ -135,7 +135,7 @@ module Asciidoctor
 
       def quote_attrs(node)
         attr_code(keep_attrs(node).merge(align: node.attr("align"), 
-                                        id: Utils::anchor_or_uuid(node)))
+                                        id: Metanorma::Utils::anchor_or_uuid(node)))
       end
 
       def quote_attribution(node, out)
@@ -160,7 +160,7 @@ module Asciidoctor
 
       def listing_attrs(node)
         attr_code(keep_attrs(node).merge(lang: node.attr("language"),
-                                        id: Utils::anchor_or_uuid(node),
+                                        id: Metanorma::Utils::anchor_or_uuid(node),
                                         unnumbered: node.option?("unnumbered") ? "true" : nil,
                                         number: node.attr("number"),
                                         filename: node.attr("filename")))
