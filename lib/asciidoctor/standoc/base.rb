@@ -7,6 +7,7 @@ require "open-uri"
 require "isodoc"
 require "relaton"
 require "fileutils"
+require "metanorma-utils"
 
 module Asciidoctor
   module Standoc
@@ -99,7 +100,7 @@ module Asciidoctor
         @fontheader = default_fonts(node)
         @files_to_delete = []
         @filename = node.attr("docfile") ?  File.basename(node.attr("docfile")).gsub(/\.adoc$/, "") : ""
-        @localdir = Utils::localdir(node)
+        @localdir = Metanorma::Utils::localdir(node)
         @output_dir = outputdir node
         @no_isobib_cache = node.attr("no-isobib-cache")
         @no_isobib = node.attr("no-isobib")
@@ -109,20 +110,22 @@ module Asciidoctor
         @seen_headers = []
         @datauriimage = node.attr("data-uri-image")
         @boilerplateauthority = node.attr("boilerplate-authority")
-        @log = Asciidoctor::Standoc::Log.new
+        @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
+        @sourcecode_markup_end = node.attr("sourcecode-markup-start") || "}}}"
+        @log = Metanorma::Utils::Log.new
         init_bib_caches(node)
         init_iev_caches(node)
         @lang = (node.attr("language") || "en")
-        @script = (node.attr("script") || "Latn")
+        @script = (node.attr("script") || default_script(node.attr("language")))
         @isodoc = isodoc(@lang, @script, node.attr("i18nyaml"))
         @i18n = @isodoc.i18n
       end
 
       def default_fonts(node)
         b = node.attr("body-font") ||
-          (node.attr("script") == "Hans" ? '"SimSun",serif' : '"Cambria",serif')
+          (node.attr("script") == "Hans" ? '"Source Han Sans",serif' : '"Cambria",serif')
         h = node.attr("header-font") ||
-          (node.attr("script") == "Hans" ? '"SimHei",sans-serif' : '"Cambria",serif')
+          (node.attr("script") == "Hans" ? '"Source Han Sans",sans-serif' : '"Cambria",serif')
         m = node.attr("monospace-font") || '"Courier New",monospace'
         "$bodyfont: #{b};\n$headerfont: #{h};\n$monospacefont: #{m};\n"
       end
@@ -188,52 +191,35 @@ module Asciidoctor
         end
       end
 
-      def term_source_attrs(seen_xref)
-        { bibitemid: seen_xref.children[0]["target"],
-          format: seen_xref.children[0]["format"], type: "inline" }
-      end
-
-      def add_term_source(xml_t, seen_xref, m)
-        if seen_xref.children[0].name == "concept"
-          xml_t.origin { |o| o << seen_xref.children[0].to_xml }
+      def default_script(lang)
+        case lang
+        when "ar", "fa"
+          "Arab"
+        when "ur"
+          "Aran"
+        when "ru", "bg"
+          "Cyrl"
+        when "hi"
+          "Deva"
+        when "el"
+          "Grek"
+        when "zh"
+          "Hans"
+        when "ko"
+          "Kore"
+        when "he"
+          "Hebr"
+        when "ja"
+          "Jpan"
         else
-          xml_t.origin seen_xref.children[0].content, **attr_code(term_source_attrs(seen_xref))
+          "Latn"
         end
-        m[:text] && xml_t.modification do |mod|
-          mod.p { |p| p << m[:text].sub(/^\s+/, "") }
-        end
-      end
-
-      TERM_REFERENCE_RE_STR = <<~REGEXP.freeze
-        ^(?<xref><(xref|concept)[^>]+>([^<]*</(xref|concept)>)?)
-               (,\s(?<text>.*))?
-        $
-      REGEXP
-      TERM_REFERENCE_RE =
-        Regexp.new(TERM_REFERENCE_RE_STR.gsub(/\s/, "").gsub(/_/, "\\s"),
-                   Regexp::IGNORECASE | Regexp::MULTILINE)
-
-      def extract_termsource_refs(text, node)
-        matched = TERM_REFERENCE_RE.match text
-        matched.nil? and @log.add("AsciiDoc Input", node, "term reference not in expected format: #{text}")
-        matched
-      end
-
-      def termsource(node)
-        matched = extract_termsource_refs(node.content, node) || return
-        noko do |xml|
-          attrs = { status: matched[:text] ? "modified" : "identical" }
-          xml.termsource **attrs do |xml_t|
-            seen_xref = Nokogiri::XML.fragment(matched[:xref])
-            add_term_source(xml_t, seen_xref, matched)
-          end
-        end.join("\n")
       end
 
       private
 
       def outputdir(node)
-        if node.attr("output_dir").nil_or_empty? then Utils::localdir(node)
+        if node.attr("output_dir").nil_or_empty? then Metanorma::Utils::localdir(node)
         else File.join(node.attr("output_dir"), "")
         end
       end

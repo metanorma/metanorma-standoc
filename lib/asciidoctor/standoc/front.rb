@@ -93,7 +93,7 @@ module Asciidoctor
       end
 
       def metadata_script(node, xml)
-        xml.script (node.attr("script") || "Latn")
+        xml.script (node.attr("script") || default_script(node.attr("language")))
       end
 
       def relaton_relations
@@ -186,7 +186,7 @@ module Asciidoctor
         ["en"].each do |lang|
           at = { language: lang, format: "text/plain" }
           xml.title **attr_code(at) do |t|
-            t << (Utils::asciidoc_sub(node.attr("title") ||
+            t << (Metanorma::Utils::asciidoc_sub(node.attr("title") ||
                                       node.attr("title-en")) || node.title)
           end
         end

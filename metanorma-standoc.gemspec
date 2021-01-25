@@ -28,16 +28,16 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "asciidoctor", "~> 2.0.0"
   spec.add_dependency "ruby-jing"
-  spec.add_dependency "isodoc", "~> 1.4.2"
+  spec.add_dependency "isodoc", "~> 1.5.0"
   spec.add_dependency "iev", "~> 0.2.1"
   spec.add_dependency "metanorma-plugin-datastruct"
   spec.add_dependency "metanorma-plugin-lutaml", "~> 0.2.1"
   # relaton-cli not just relaton, to avoid circular reference in metanorma
   spec.add_dependency "relaton-cli", "~> 1.7.0"
   spec.add_dependency "relaton-iev", "~> 1.1.0"
-  spec.add_dependency "sterile", "~> 1.0.14"
   spec.add_dependency "concurrent-ruby"
   spec.add_dependency "unicode2latex", "~> 0.0.1"
+  spec.add_dependency "metanorma-utils", "~> 1"
   spec.add_dependency "mimemagic"
   spec.add_dependency "mathml2asciimath"
   spec.add_dependency "latexmath"

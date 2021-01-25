@@ -6,6 +6,11 @@ require "base64"
 module Asciidoctor
   module Standoc
     module Blocks
+      def reqt_subpart(x)
+        %w(specification measurement-target verification import label
+             subject inherit classification title).include? x
+      end
+
       def reqt_subpart_attrs(node)
         attr_code(keep_attrs(node).merge(exclude: node.option?("exclude"),
                                      type: node.attr("type")))
@@ -41,7 +46,7 @@ module Asciidoctor
 
       def reqt_attrs(node)
         attr_code(keep_attrs(node).merge(id_unnum_attrs(node)).merge(
-          id: Utils::anchor_or_uuid(node),
+          id: Metanorma::Utils::anchor_or_uuid(node),
           unnumbered: node.option?("unnumbered") ? "true" : nil,
           number: node.attr("number"),
           subsequence: node.attr("subsequence"),

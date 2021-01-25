@@ -96,9 +96,9 @@ module Asciidoctor
         xstr = x.to_xml(lang: opts[:lang])
         xml = Nokogiri::XML(xstr)
         emend_biblio(xml, code, opts[:title], opts[:usrlbl])
-        xml.xpath("//date").each { |d| Utils::endash_date(d) }
+        xml.xpath("//date").each { |d| Metanorma::Utils::endash_date(d) }
         xml.traverse do |n|
-          n.text? and n.replace(Utils::smartformat(n.text))
+          n.text? and n.replace(Metanorma::Utils::smartformat(n.text))
         end
         xml.to_xml.sub(/<\?[^>]+>/, "")
       end

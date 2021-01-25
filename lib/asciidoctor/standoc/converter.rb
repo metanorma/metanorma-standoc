@@ -14,7 +14,6 @@ require "asciidoctor/standoc/utils"
 require "asciidoctor/standoc/cleanup"
 require "asciidoctor/standoc/reqt"
 require_relative "./macros.rb"
-require_relative "./log.rb"
 
 module Asciidoctor
   module Standoc
