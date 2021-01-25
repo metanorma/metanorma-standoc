@@ -32,8 +32,7 @@ module Asciidoctor
       def dl2_table_cleanup(xmldoc)
         q = "//table/following-sibling::*[1][self::p]"
         xmldoc.xpath(q).each do |s|
-          if s.text =~ /^\s*key[^a-z]*$/i && !s.next_element.nil? &&
-              s.next_element.name == "dl"
+          if s.text =~ /^\s*key[^a-z]*$/i && !s.next_element.nil? && s.next_element.name == "dl"
             s.next_element["key"] = "true"
             s.previous_element << s.next_element.remove
             s.remove
@@ -101,8 +100,7 @@ module Asciidoctor
       def formula_cleanup_where2(x)
         q = "//formula/following-sibling::*[1][self::p]"
         x.xpath(q).each do |s|
-          if s.text =~ /^\s*where[^a-z]*$/i && !s.next_element.nil? &&
-              s.next_element.name == "dl"
+          if s.text =~ /^\s*where[^a-z]*$/i && !s.next_element.nil? && s.next_element.name == "dl"
             s.next_element["key"] = "true"
             s.previous_element << s.next_element.remove
             s.remove

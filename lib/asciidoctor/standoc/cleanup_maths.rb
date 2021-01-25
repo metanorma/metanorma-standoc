@@ -1,0 +1,86 @@
+require "nokogiri"
+require "pathname"
+require "open-uri"
+require "html2doc"
+require_relative "./cleanup_block.rb"
+require_relative "./cleanup_footnotes.rb"
+require_relative "./cleanup_ref.rb"
+require_relative "./cleanup_ref_dl.rb"
+require_relative "./cleanup_boilerplate.rb"
+require_relative "./cleanup_section.rb"
+require_relative "./cleanup_terms.rb"
+require_relative "./cleanup_inline.rb"
+require_relative "./cleanup_amend.rb"
+require "relaton_iev"
+
+module Asciidoctor
+  module Standoc
+    module Cleanup
+      def asciimath2mathml(text)
+        text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>}m) do |m|
+            "<amathstem>#{HTMLEntities.new.decode($1)}</amathstem>"
+          end
+          text = Html2Doc.asciimath_to_mathml(text, ["<amathstem>", "</amathstem>"])
+          x =  Nokogiri::XML(text)
+          x.xpath("//*[local-name() = 'math'][not(parent::stem)]").each do |y|
+            y.wrap("<stem type='MathML'></stem>")
+          end
+          x.to_xml
+      end
+
+      def xml_unescape_mathml(x)
+        return if x.children.any? { |y| y.element? }
+        math = x.text.gsub(/&lt;/, "<").gsub(/&gt;/, ">").gsub(/&quot;/, '"').gsub(/&apos;/, "'").gsub(/&amp;/, "&").
+          gsub(/<[^: \r\n\t\/]+:/, "<").gsub(/<\/[^ \r\n\t:]+:/, "</")
+        x.children = math
+      end
+
+      MATHML_NS = "http://www.w3.org/1998/Math/MathML".freeze
+
+      def mathml_preserve_space(m)
+        m.xpath(".//m:mtext", "m" => MATHML_NS).each do |x|
+          x.children = x.children.to_xml.gsub(/^\s/, "&#xA0;").gsub(/\s$/, "&#xA0;")
+        end
+      end
+
+      def mathml_namespace(stem)
+        stem.xpath("./math", ).each { |x| x.default_namespace = MATHML_NS }
+      end
+
+      def mathml_mi_italics
+        { uppergreek: true, upperroman: true,
+          lowergreek: true, lowerroman: true }
+      end
+
+      # presuppose multichar mi upright, singlechar mi MathML default italic
+      def mathml_italicise(x)
+        x.xpath(".//m:mi[not(ancestor::*[@mathvariant])]", "m" => MATHML_NS).each do |i|
+          char = HTMLEntities.new.decode(i.text)
+          i["mathvariant"] = "normal" if mi_italicise?(char)
+        end
+      end
+
+      def mi_italicise?(c)
+        return false if c.length > 1
+        if /\p{Greek}/.match(c)
+          /\p{Lower}/.match(c) && !mathml_mi_italics[:lowergreek] ||
+            /\p{Upper}/.match(c) && !mathml_mi_italics[:uppergreek]
+        elsif /\p{Latin}/.match(c)
+          /\p{Lower}/.match(c) && !mathml_mi_italics[:lowerroman] ||
+            /\p{Upper}/.match(c) && !mathml_mi_italics[:upperroman]
+        else
+          false
+        end
+      end
+
+      def mathml_cleanup(xmldoc)
+        xmldoc.xpath("//stem[@type = 'MathML']").each do |x|
+          xml_unescape_mathml(x)
+          mathml_namespace(x)
+          mathml_preserve_space(x)
+          mathml_italicise(x)
+        end
+      end
+    end
+  end
+end

@@ -3,6 +3,71 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
+    it "processes markup in sourcecode" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      
+      [source]
+      ----
+      <tag/>
+      ----
+
+      [[A]]
+      [source]
+      ----
+      var {{{*x*}}} : {{{<<A,recursive>>}}} <tag/>
+      ----
+
+
+    INPUT
+       #{BLANK_HDR}
+       <sections>
+  <sourcecode id='_'>&lt;tag/&gt;</sourcecode>
+  <sourcecode id='A'>
+    var
+    <strong>x</strong>
+     :
+    <xref target='A'>recursive</xref>
+     &lt;tag/&gt;
+  </sourcecode>
+</sections>
+       </standard-document>
+    OUTPUT
+  end
+
+       it "processes markup in sourcecode with custom delimiters" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :sourcecode-markup-start: [[[
+      :sourcecode-markup-end: ]]]
+
+      [[A]]
+      [source]
+      ----
+      var [[[*x*]]] : [[[<<A,recursive>>]]]
+      ----
+
+
+    INPUT
+       #{BLANK_HDR}
+       <sections>
+  <sourcecode id='A'>
+    var
+    <strong>x</strong>
+     :
+    <xref target='A'>recursive</xref>
+  </sourcecode>
+</sections>
+       </standard-document>
+    OUTPUT
+  end
+
+
   it "applies smartquotes by default" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}

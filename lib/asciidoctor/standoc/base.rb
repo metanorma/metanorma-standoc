@@ -104,6 +104,8 @@ module Asciidoctor
         @output_dir = outputdir node
         @no_isobib_cache = node.attr("no-isobib-cache")
         @no_isobib = node.attr("no-isobib")
+        @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
+        @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
         @bibdb = nil
         @seen_headers = []
         @datauriimage = node.attr("data-uri-image")

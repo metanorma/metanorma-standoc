@@ -11,6 +11,7 @@ require_relative "./cleanup_section.rb"
 require_relative "./cleanup_terms.rb"
 require_relative "./cleanup_inline.rb"
 require_relative "./cleanup_amend.rb"
+require_relative "./cleanup_maths.rb"
 require "relaton_iev"
 
 module Asciidoctor
@@ -24,25 +25,15 @@ module Asciidoctor
                   </passthrough>}mx) { |m| HTMLEntities.new.decode($1) }
       end
 
-      def asciimath2mathml(text)
-        text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>}m) do |m|
-            "<amathstem>#{HTMLEntities.new.decode($1)}</amathstem>"
-          end
-          text = Html2Doc.asciimath_to_mathml(text, ["<amathstem>", "</amathstem>"])
-          x =  Nokogiri::XML(text)
-          x.xpath("//*[local-name() = 'math'][not(parent::stem)]").each do |y|
-            y.wrap("<stem type='MathML'></stem>")
-          end
-          x.to_xml
-      end
-
       def cleanup(xmldoc)
         element_name_cleanup(xmldoc)
         sections_cleanup(xmldoc)
         obligations_cleanup(xmldoc)
         table_cleanup(xmldoc)
         formula_cleanup(xmldoc)
+        sourcecode_cleanup(xmldoc)
         figure_cleanup(xmldoc)
+        element_name_cleanup(xmldoc)
         ref_cleanup(xmldoc)
         note_cleanup(xmldoc)
         clausebefore_cleanup(xmldoc)
@@ -83,8 +74,7 @@ module Asciidoctor
           next unless n.text?
           if @smartquotes
             /[-'"(<>]|\.\.|\dx/.match(n) or next
-            n.ancestors("pre, tt, sourcecode, bibdata, on, "\
-                        "stem, figure[@class = 'pseudocode']").empty? or next
+            n.ancestors("pre, tt, sourcecode, bibdata, on, stem, figure[@class = 'pseudocode']").empty? or next
             n.replace(Metanorma::Utils::smartformat(n.text))
           else
             n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'"))#.
@@ -148,59 +138,26 @@ module Asciidoctor
         align_callouts_to_annotations(xmldoc)
       end
 
-      def xml_unescape_mathml(x)
-        return if x.children.any? { |y| y.element? }
-        math = x.text.gsub(/&lt;/, "<").gsub(/&gt;/, ">").gsub(/&quot;/, '"').
-          gsub(/&apos;/, "'").gsub(/&amp;/, "&").
-          gsub(/<[^: \r\n\t\/]+:/, "<").gsub(/<\/[^ \r\n\t:]+:/, "</")
-        x.children = math
-      end
-
-      MATHML_NS = "http://www.w3.org/1998/Math/MathML".freeze
-
-      def mathml_preserve_space(m)
-        m.xpath(".//m:mtext", "m" => MATHML_NS).each do |x|
-          x.children = x.children.to_xml.gsub(/^\s/, "&#xA0;").gsub(/\s$/, "&#xA0;")
+      def sourcecode_cleanup(xmldoc)
+        xmldoc.xpath("//sourcecode").each do |x|
+          x.traverse do |n|
+            next unless n.text?
+            next unless /#{Regexp.escape(@sourcecode_markup_start)}/.match(n.text)
+            n.replace(sourcecode_markup(n))
+          end
         end
       end
 
-      def mathml_namespace(stem)
-        stem.xpath("./math", ).each { |x| x.default_namespace = MATHML_NS }
-      end
-
-      def mathml_mi_italics
-        { uppergreek: true, upperroman: true,
-          lowergreek: true, lowerroman: true }
-      end
-
-      # presuppose multichar mi upright, singlechar mi MathML default italic
-      def mathml_italicise(x)
-        x.xpath(".//m:mi[not(ancestor::*[@mathvariant])]", "m" => MATHML_NS).each do |i|
-          char = HTMLEntities.new.decode(i.text)
-          i["mathvariant"] = "normal" if mi_italicise?(char)
+      def sourcecode_markup(n)
+        acc = []
+        n.text.split(/(#{Regexp.escape(@sourcecode_markup_start)}|#{Regexp.escape(@sourcecode_markup_end)})/).
+          each_slice(4).map do |a|
+          acc << Nokogiri::XML::Text.new(a[0], n.document).
+            to_xml(encoding: "US-ASCII", save_with: Nokogiri::XML::Node::SaveOptions::NO_DECLARATION)
+          next unless a.size == 4
+          acc << Asciidoctor.convert(a[2], backend: (self&.backend&.to_sym || :standoc), doctype: :inline)
         end
-      end
-
-      def mi_italicise?(c)
-        return false if c.length > 1
-        if /\p{Greek}/.match(c)
-          /\p{Lower}/.match(c) && !mathml_mi_italics[:lowergreek] ||
-            /\p{Upper}/.match(c) && !mathml_mi_italics[:uppergreek]
-        elsif /\p{Latin}/.match(c)
-          /\p{Lower}/.match(c) && !mathml_mi_italics[:lowerroman] ||
-            /\p{Upper}/.match(c) && !mathml_mi_italics[:upperroman]
-        else
-          false
-        end
-      end
-
-      def mathml_cleanup(xmldoc)
-        xmldoc.xpath("//stem[@type = 'MathML']").each do |x|
-          xml_unescape_mathml(x)
-          mathml_namespace(x)
-          mathml_preserve_space(x)
-          mathml_italicise(x)
-        end
+        acc.join
       end
 
       # allows us to deal with doc relation localities,
@@ -214,23 +171,18 @@ module Asciidoctor
 
       def img_cleanup(xmldoc)
         return xmldoc unless @datauriimage
-        xmldoc.xpath("//image").each do |i|
-          i["src"] = datauri(i["src"])
-        end
+        xmldoc.xpath("//image").each { |i| i["src"] = datauri(i["src"]) }
       end
 
       def variant_cleanup(xmldoc)
         xmldoc.xpath("//*[variant]").each do |c|
-          c&.next&.text? && c&.next&.next&.name == "variant" &&
-            c.next.text.gsub(/\s/, "").empty? and c.next.remove
+          c&.next&.text? && c&.next&.next&.name == "variant" && c.next.text.gsub(/\s/, "").empty? and
+            c.next.remove
         end
         xmldoc.xpath("//*[variant]").each do |c|
-          next unless c.children.any? do |n|
-            n.name != "variant" && (!n.text? || !n.text.gsub(/\s/, "").empty?)
-          end
+          next unless c.children.any? { |n| n.name != "variant" && (!n.text? || !n.text.gsub(/\s/, "").empty?) }
           c.xpath("./variant").each do |n|
-            if n.at_xpath('preceding-sibling::node()[not(self::text()'\
-                '[not(normalize-space())])][1][self::variantwrap]')
+            if n.at_xpath('preceding-sibling::node()[not(self::text()[not(normalize-space())])][1][self::variantwrap]')
               n.previous_element << n
             else
               n.replace('<variantwrap/>').first << n
