@@ -111,7 +111,7 @@ module Asciidoctor
         @datauriimage = node.attr("data-uri-image")
         @boilerplateauthority = node.attr("boilerplate-authority")
         @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
-        @sourcecode_markup_end = node.attr("sourcecode-markup-start") || "}}}"
+        @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
         @log = Metanorma::Utils::Log.new
         init_bib_caches(node)
         init_iev_caches(node)
