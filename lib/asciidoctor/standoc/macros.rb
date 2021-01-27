@@ -182,5 +182,21 @@ module Asciidoctor
         %{<footnoteblock>#{out}</footnoteblock>}
       end
     end
+
+    class SvgmapBlockMacro < Extensions::BlockProcessor
+      use_dsl
+      named :svgmap
+      on_contexts :example, :open, :sourcecode
+
+      def process(parent, reader, attrs)
+        attrs_out = {} 
+        attrs_out["src"] = attrs[2] 
+        attrs_out["alt"] = attrs[3] 
+        attrs_out["style"] = "svgmap"
+        ret = create_block(parent, :example, reader.lines,
+                           attrs_out, content_model: :compound)
+        ret
+      end
+    end
   end
 end

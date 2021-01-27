@@ -74,10 +74,11 @@ module Asciidoctor
 
       def xref_to_eref(x)
         x["bibitemid"] = x["target"]
-        x["citeas"] = @anchors&.dig(x["target"], :xref) ||
+        unless x["citeas"] = @anchors&.dig(x["target"], :xref)
+          @internal_eref_namespaces.include?(x["type"]) or
           @log.add("Crossreferences", x,
-                   "#{x['target']} does not have a corresponding anchor ID "\
-                   "in the bibliography!")
+                   "#{x['target']} does not have a corresponding anchor ID in the bibliography!")
+        end
         x.delete("target")
         extract_localities(x) unless x.children.empty?
       end

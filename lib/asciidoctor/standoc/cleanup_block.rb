@@ -1,6 +1,5 @@
 require "date"
 require "htmlentities"
-require "json"
 require "open-uri"
 
 module Asciidoctor
@@ -22,9 +21,7 @@ module Asciidoctor
       def dl1_table_cleanup(xmldoc)
         q = "//table/following-sibling::*[1][self::dl]"
         xmldoc.xpath(q).each do |s|
-          if s["key"] == "true"
-            s.previous_element << s.remove
-          end
+          s["key"] == "true" and s.previous_element << s.remove
         end
       end
 
@@ -91,9 +88,7 @@ module Asciidoctor
       def formula_cleanup_where1(x)
         q = "//formula/following-sibling::*[1][self::dl]"
         x.xpath(q).each do |s|
-          if s["key"] == "true"
-            s.previous_element << s.remove
-          end
+          s["key"] == "true" and s.previous_element << s.remove
         end
       end
 
@@ -111,9 +106,7 @@ module Asciidoctor
       def figure_dl_cleanup1(xmldoc)
         q = "//figure/following-sibling::*[self::dl]"
         xmldoc.xpath(q).each do |s|
-          if s["key"] == "true"
-            s.previous_element << s.remove
-          end
+          s["key"] == "true" and s.previous_element << s.remove
         end
       end
 
@@ -121,8 +114,7 @@ module Asciidoctor
       def figure_dl_cleanup2(xmldoc)
         q = "//figure/following-sibling::*[self::p]"
         xmldoc.xpath(q).each do |s|
-          if s.text =~ /^\s*key[^a-z]*$/i && !s.next_element.nil? &&
-              s.next_element.name == "dl"
+          if s.text =~ /^\s*key[^a-z]*$/i && !s.next_element.nil? && s.next_element.name == "dl"
             s.next_element["key"] = "true"
             s.previous_element << s.next_element.remove
             s.remove
@@ -133,8 +125,7 @@ module Asciidoctor
       # examples containing only figures become subfigures of figures
       def subfigure_cleanup(xmldoc)
         xmldoc.xpath("//example[figure]").each do |e|
-          next unless e.elements.map { |m| m.name }.
-            reject { |m| %w(name figure).include? m }.empty?
+          next unless e.elements.map { |m| m.name }.reject { |m| %w(name figure).include? m }.empty?
           e.name = "figure"
         end
       end
@@ -146,12 +137,10 @@ module Asciidoctor
         subfigure_cleanup(xmldoc)
       end
 
-      ELEMS_ALLOW_NOTES =
-        %w[p formula ul ol dl figure].freeze
+      ELEMS_ALLOW_NOTES = %w[p formula ul ol dl figure].freeze
 
       # if a note is at the end of a section, it is left alone
-      # if a note is followed by a non-note block,
-      # it is moved inside its preceding block if it is not delimited
+      # if a note is followed by a non-note block, it is moved inside its preceding block if it is not delimited
       # (so there was no way of making that block include the note)
       def note_cleanup(xmldoc)
         q = "//note[following-sibling::*[not(local-name() = 'note')]]"
@@ -199,9 +188,33 @@ module Asciidoctor
           n = d.next.remove
           d << n.children
         end
-        r.xpath("./description[normalize-space(.)='']").each do |d|
-          d.replace("\n")
+        r.xpath("./description[normalize-space(.)='']").each { |d| d.replace("\n") }
+      end
+
+      def svgmap_cleanup(xmldoc)
+        svgmap_populate(xmldoc)
+        Metanorma::Utils::svgmap_rewrite(xmldoc)
+      end
+
+      def svgmap_populate(xmldoc)
+        xmldoc.xpath("//svgmap").each do |s|
+          s1 = s.dup
+          s.children.remove
+          s1.xpath(".//li").each do |li|
+            t = li&.at(".//eref | .//link | .//xref") or next
+            href = t.xpath("./following-sibling::node()")
+            next if href.empty?
+            s << %[<target href="#{svgmap_target(href)}">#{t.to_xml}</target>]
+          end
         end
+      end
+
+      def svgmap_target(nodeset)
+        nodeset.each do |n|
+          next unless n.name == "link"
+          n.children = n["target"]
+        end
+        nodeset.text.sub(/^[,;]/, "").strip
       end
     end
   end
