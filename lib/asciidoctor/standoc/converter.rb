@@ -44,7 +44,6 @@ module Asciidoctor
         block Asciidoctor::Standoc::PlantUMLBlockMacro
         block Metanorma::Plugin::Lutaml::LutamlDiagramBlock
         block Asciidoctor::Standoc::PseudocodeBlockMacro
-        block Asciidoctor::Standoc::SvgmapBlockMacro
       end
 
       include ::Asciidoctor::Converter

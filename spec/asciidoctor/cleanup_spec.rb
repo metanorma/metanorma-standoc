@@ -15,14 +15,19 @@ RSpec.describe Asciidoctor::Standoc do
 ====
 
 [[ref1]]
-[svgmap,action_schemaexpg1.svg]
+[.svgmap]
 ====
+image::action_schemaexpg1.svg[]  
+
 * <<ref1,Computer>>; mn://action_schema
 * http://www.example.com[Phone]; http://www.example.com
 ====
       
-[svgmap,action_schemaexpg2.svg,Workmap]
+[svgmap]
 ====
+[alt=Workmap]
+image::action_schemaexpg2.svg[]  
+
 * <<ref1,Computer>>; href1.htm
 * http://www.example.com[Phone]; mn://basic_attribute_schema
 * <<express:action_schema:action_schema.basic,Coffee>>; mn://support_resource_schema
@@ -35,8 +40,13 @@ INPUT
       <xref target='ref1'>Computer</xref>
     </target>
   </svgmap>
-  <img id='_' src='action_schemaexpg1.svg' mimetype='image/svg+xml' height='315' width='368'/>
-  <svgmap id='_' src='action_schemaexpg2.svg' alt='Workmap'>
+  <figure id='_'>
+  <image src='action_schemaexpg1.svg' id='_' mimetype='image/svg+xml' height='auto' width='auto'/>
+</figure>
+<svgmap id='_'>
+  <figure id='_'>
+    <image src='action_schemaexpg2.svg' id='_' mimetype='image/svg+xml' height='auto' width='auto' alt='Workmap'/>
+  </figure>
     <target href='mn://support_resource_schema'>
       <eref bibitemid='express_action_schema' citeas=''>
         <localityStack>

@@ -193,13 +193,14 @@ module Asciidoctor
 
       def svgmap_cleanup(xmldoc)
         svgmap_populate(xmldoc)
-        Metanorma::Utils::svgmap_rewrite(xmldoc)
+        Metanorma::Utils::svgmap_rewrite(xmldoc, @localdir)
       end
 
       def svgmap_populate(xmldoc)
         xmldoc.xpath("//svgmap").each do |s|
           s1 = s.dup
           s.children.remove
+          f = s1.at(".//figure") and s << f
           s1.xpath(".//li").each do |li|
             t = li&.at(".//eref | .//link | .//xref") or next
             href = t.xpath("./following-sibling::node()")

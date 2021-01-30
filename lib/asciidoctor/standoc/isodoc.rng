@@ -1639,12 +1639,7 @@
   </define>
   <define name="imagemap">
     <element name="imagemap">
-      <attribute name="src">
-        <data type="anyURI"/>
-      </attribute>
-      <optional>
-        <attribute name="alt"/>
-      </optional>
+      <ref name="figure"/>
       <zeroOrMore>
         <element name="area">
           <attribute name="type">
@@ -1657,7 +1652,7 @@
           </attribute>
           <choice>
             <ref name="xref"/>
-            <ref name="link"/>
+            <ref name="hyperlink"/>
             <ref name="eref"/>
           </choice>
           <oneOrMore>
@@ -1688,12 +1683,7 @@
   </define>
   <define name="svgmap">
     <element name="svgmap">
-      <attribute name="src">
-        <data type="anyURI"/>
-      </attribute>
-      <optional>
-        <attribute name="alt"/>
-      </optional>
+      <ref name="figure"/>
       <zeroOrMore>
         <element name="target">
           <attribute name="href">
@@ -1701,7 +1691,7 @@
           </attribute>
           <choice>
             <ref name="xref"/>
-            <ref name="link"/>
+            <ref name="hyperlink"/>
             <ref name="eref"/>
           </choice>
         </element>
