@@ -45,6 +45,7 @@ module Asciidoctor
         xref_cleanup(xmldoc)
         concept_cleanup(xmldoc)
         origin_cleanup(xmldoc)
+        svgmap_cleanup(xmldoc)
         termdef_cleanup(xmldoc)
         RelatonIev::iev_cleanup(xmldoc, @bibdb)
         element_name_cleanup(xmldoc)

@@ -3,6 +3,105 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
+ it "processes svgmap" do
+   FileUtils.cp "spec/fixtures/action_schemaexpg1.svg", "action_schemaexpg1.svg"
+   FileUtils.cp "spec/fixtures/action_schemaexpg1.svg", "action_schemaexpg2.svg"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+#{ASCIIDOC_BLANK_HDR}
+
+[svgmap]
+====
+* <<ref1,Computer>>; http://www.example.com
+====
+
+[[ref1]]
+[.svgmap]
+====
+image::action_schemaexpg1.svg[]  
+
+* <<ref1,Computer>>; mn://action_schema
+* http://www.example.com[Phone]; http://www.example.com
+====
+      
+[svgmap]
+====
+[alt=Workmap]
+image::action_schemaexpg2.svg[]  
+
+* <<ref1,Computer>>; href1.htm
+* http://www.example.com[Phone]; mn://basic_attribute_schema
+* <<express:action_schema:action_schema.basic,Coffee>>; mn://support_resource_schema
+====
+INPUT
+       #{BLANK_HDR}
+       <sections>
+  <svgmap id='_'>
+    <target href='http://www.example.com'>
+      <xref target='ref1'>Computer</xref>
+    </target>
+  </svgmap>
+  <figure id='_'>
+  <image src='action_schemaexpg1.svg' id='_' mimetype='image/svg+xml' height='auto' width='auto'/>
+</figure>
+<svgmap id='_'>
+  <figure id='_'>
+    <image src='action_schemaexpg2.svg' id='_' mimetype='image/svg+xml' height='auto' width='auto' alt='Workmap'/>
+  </figure>
+    <target href='mn://support_resource_schema'>
+      <eref bibitemid='express_action_schema' citeas=''>
+        <localityStack>
+          <locality type='anchor'>
+            <referenceFrom>action_schema.basic</referenceFrom>
+          </locality>
+        </localityStack>
+        Coffee
+      </eref>
+    </target>
+  </svgmap>
+</sections>
+<bibliography>
+  <references hidden='true' normative='false'>
+    <bibitem id='express_action_schema' type='internal'>
+      <docidentifier type='repository'>express/action_schema</docidentifier>
+    </bibitem>
+  </references>
+</bibliography>
+       </standard-document>
+OUTPUT
+expect(xmlpp(File.read("action_schemaexpg1.svg", encoding: "utf-8").sub(%r{<image .*</image>}m, ""))).to be_equivalent_to <<~OUTPUT
+<?xml version='1.0' encoding='UTF-8'?>
+       <!-- Generator: Adobe Illustrator 25.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+       <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve'>
+         <style type='text/css'> .st0{fill:none;stroke:#000000;stroke-miterlimit:10;} </style>
+         <a xlink:href='#ref1'>
+           <rect x='123.28' y='273.93' class='st0' width='88.05' height='41.84'/>
+         </a>
+         <a xlink:href='mn://basic_attribute_schema'>
+           <rect x='324.69' y='450.52' class='st0' width='132.62' height='40.75'/>
+         </a>
+         <a xlink:href='mn://support_resource_schema'>
+           <rect x='324.69' y='528.36' class='st0' width='148.16' height='40.75'/>
+         </a>
+       </svg>
+OUTPUT
+expect(xmlpp(File.read("action_schemaexpg2.svg", encoding: "utf-8").sub(%r{<image .*</image>}m, ""))).to be_equivalent_to <<~OUTPUT
+<?xml version='1.0' encoding='UTF-8'?>
+       <!-- Generator: Adobe Illustrator 25.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+       <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve'>
+         <style type='text/css'> .st0{fill:none;stroke:#000000;stroke-miterlimit:10;} </style>
+         <a xlink:href='mn://action_schema'>
+           <rect x='123.28' y='273.93' class='st0' width='88.05' height='41.84'/>
+         </a>
+         <a xlink:href='http://www.example.com'>
+           <rect x='324.69' y='450.52' class='st0' width='132.62' height='40.75'/>
+         </a>
+         <a xlink:href='mn://support_resource_schema'>
+           <rect x='324.69' y='528.36' class='st0' width='148.16' height='40.75'/>
+         </a>
+       </svg>
+OUTPUT
+ end
+
     it "processes markup in sourcecode" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
@@ -2403,7 +2502,5 @@ end
 OUTPUT
     end.at_least :once
 end
-
-
 
 end
