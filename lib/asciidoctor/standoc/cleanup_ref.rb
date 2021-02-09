@@ -50,6 +50,7 @@ module Asciidoctor
       def biblio_renumber(xmldoc)
         i = 0
         xmldoc.xpath("//bibliography//references | //clause//references | //annex//references").each do |r|
+          next if r["normative"] == "true"
           r.xpath("./bibitem").each do |b|
             i += 1
             next unless docid = b.at("./docidentifier[@type = 'metanorma']")

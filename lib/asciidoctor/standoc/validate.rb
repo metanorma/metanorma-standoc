@@ -35,8 +35,23 @@ module Asciidoctor
 
       def content_validate(doc)
         section_validate(doc)
+        norm_ref_validate(doc)
         repeat_id_validate(doc.root)
         iev_validate(doc.root)
+      end
+
+      def norm_ref_validate(doc)
+        found = false
+        doc.xpath("//references[@normative = 'true']/bibitem").each do |b|
+          next unless docid = b.at("./docidentifier[@type = 'metanorma']")
+          next unless  /^\[\d+\]$/.match(docid.text)
+          @log.add("Bibliography", b, "Numeric reference in normative references")
+          found = true
+        end
+        if found
+          clean_exit
+          abort("Numeric reference in normative references")
+        end
       end
 
       def repeat_id_validate1(ids, x)
