@@ -172,7 +172,7 @@ module Asciidoctor
 
       def img_cleanup(xmldoc)
         return xmldoc unless @datauriimage
-        xmldoc.xpath("//image").each { |i| i["src"] = datauri(i["src"]) }
+        xmldoc.xpath("//image").each { |i| i["src"] = Metanorma::Utils::datauri(i["src"], @localdir) }
       end
 
       def variant_cleanup(xmldoc)
