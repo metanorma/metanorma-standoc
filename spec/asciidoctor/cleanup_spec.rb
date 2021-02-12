@@ -2350,14 +2350,17 @@ end
   it "process express_ref macro with no existing bibliography" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true, agree_to_terms: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
+      [[B]]
+      [type="express-schema"]
       == Clause
 
       <<express-schema:A:A.B.C,C>>
       <<express-schema:A>>
+      <<express-schema:B>>
     INPUT
        #{BLANK_HDR}
        <sections>
-           <clause id='_' inline-header='false' obligation='normative'>
+           <clause id='B' inline-header='false' obligation='normative' type="express-schema">
              <title>Clause</title>
              <p id='_'>
                <eref bibitemid='express-schema_A' citeas="">
@@ -2367,6 +2370,7 @@ end
                  C
                </eref>
                <eref bibitemid='express-schema_A' citeas=""/>
+               <xref target='B'/>
              </p>
            </clause>
          </sections>
