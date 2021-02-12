@@ -106,7 +106,7 @@ module Asciidoctor
       def bibdata_cleanup(xmldoc)
         bibdata_anchor_cleanup(xmldoc)
         bibdata_docidentifier_cleanup(xmldoc)
-                biblio_indirect_erefs(xmldoc, @internal_eref_namespaces&.uniq)
+        biblio_indirect_erefs(xmldoc, @internal_eref_namespaces&.uniq)
       end
 
       def bibdata_anchor_cleanup(xmldoc)
@@ -124,7 +124,7 @@ module Asciidoctor
         end
       end
 
-       def gather_indirect_erefs(xmldoc, prefix)
+      def gather_indirect_erefs(xmldoc, prefix)
         xmldoc.xpath("//eref[@type = '#{prefix}']").each_with_object({}) do |e, m|
           e.delete("type")
           m[e["bibitemid"]] = true
