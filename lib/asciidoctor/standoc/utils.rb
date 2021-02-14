@@ -5,7 +5,6 @@ require "json"
 require "pathname"
 require "open-uri"
 require "uuidtools"
-require "mimemagic"
 
 module Asciidoctor
   module Standoc
@@ -55,29 +54,6 @@ module Asciidoctor
         else
           out.p { |p| p << node.content }
         end
-      end
-
-      def datauri2mime(uri)
-        %r{^data:image/(?<imgtype>[^;]+);base64,(?<imgdata>.+)$} =~ uri
-        type = nil
-        imgtype = "png" unless /^[a-z0-9]+$/.match imgtype
-        Tempfile.open(["imageuri", ".#{imgtype}"]) do |file|
-          type = datauri2mime1(file, imgdata)
-        end
-        [type]
-      end
-
-      def datauri2mime1(file, imgdata)
-        type = nil
-        begin
-          file.binmode
-          file.write(Base64.strict_decode64(imgdata))
-          file.rewind
-          type = MimeMagic.by_magic(file)
-        ensure
-          file.close!
-        end
-        type
       end
 
       SUBCLAUSE_XPATH = "//clause[not(parent::sections)]"\

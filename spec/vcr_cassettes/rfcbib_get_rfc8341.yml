@@ -23,13 +23,13 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '618'
-      Content-Type:
-      - text/plain; charset=utf-8
+      - '606'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
       - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
       Etag:
       - W/"917849434ef8ee04a3bcadf9ae049ece388743c0c3d6cc3be9719aa90d0c2aa3"
       Strict-Transport-Security:
@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - B5BC:0DDF:19AA11:1D7122:602088BC
+      - A2D2:0812:68991:76C0A:60268182
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 08 Feb 2021 00:41:41 GMT
+      - Fri, 12 Feb 2021 13:24:19 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11240-MEL
+      - cache-mel11255-MEL
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1612744901.364584,VS0,VE392
+      - S1613136260.558582,VS0,VE414
       Vary:
-      - Authorization,Accept-Encoding, Accept-Encoding
+      - Authorization,Accept-Encoding
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 3eb9cc91bfd01ce6f01a711732c525441e210a07
+      - 6b2958ee7131e9469351715c329b156accb937a5
       Expires:
-      - Mon, 08 Feb 2021 00:46:41 GMT
+      - Fri, 12 Feb 2021 13:29:19 GMT
       Source-Age:
       - '0'
     body:
@@ -84,7 +84,7 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Mon, 08 Feb 2021 00:41:41 GMT
+  recorded_at: Fri, 12 Feb 2021 13:24:19 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
@@ -108,13 +108,13 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '618'
-      Content-Type:
-      - text/plain; charset=utf-8
+      - '606'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
       - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
       Etag:
       - W/"917849434ef8ee04a3bcadf9ae049ece388743c0c3d6cc3be9719aa90d0c2aa3"
       Strict-Transport-Security:
@@ -126,29 +126,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - B5BC:0DDF:19AA11:1D7122:602088BC
+      - A2D2:0812:68991:76C0A:60268182
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 08 Feb 2021 00:41:41 GMT
+      - Fri, 12 Feb 2021 13:24:20 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11257-MEL
+      - cache-mel11255-MEL
       X-Cache:
       - HIT
       X-Cache-Hits:
       - '1'
       X-Timer:
-      - S1612744902.820850,VS0,VE0
+      - S1613136260.080531,VS0,VE0
       Vary:
-      - Authorization,Accept-Encoding, Accept-Encoding
+      - Authorization,Accept-Encoding
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - c7ec6c3ddfd52d0d407a26b2e03bf80e8f3a44f7
+      - 94e88b3cc65f87bde2e19d3e17933cc5a5c18616
       Expires:
-      - Mon, 08 Feb 2021 00:46:41 GMT
+      - Fri, 12 Feb 2021 13:29:20 GMT
       Source-Age:
       - '0'
     body:
@@ -169,5 +169,5 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Mon, 08 Feb 2021 00:41:41 GMT
+  recorded_at: Fri, 12 Feb 2021 13:24:20 GMT
 recorded_with: VCR 5.0.0

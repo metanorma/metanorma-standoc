@@ -38,7 +38,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "concurrent-ruby"
   spec.add_dependency "unicode2latex", "~> 0.0.1"
   spec.add_dependency "metanorma-utils", "~> 1.0.2"
-  spec.add_dependency "mimemagic"
   spec.add_dependency "mathml2asciimath"
   spec.add_dependency "latexmath"
 
