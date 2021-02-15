@@ -2118,6 +2118,109 @@ expect(xmlpp(Asciidoctor.convert(input, backend: :standoc, header_footer: true))
 OUTPUT
 
 end
+
+it "converts UnitsML to MathML" do
+  expect(xmlpp(strip_guid(Asciidoctor.convert(<<~INPUT, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+= Document title
+Author
+:stem:
+
+[stem]
+++++
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mrow>
+  <mn>7</mn>
+  <mtext>unitsml(kg^-2)</mtext>
+  <mo>+</mo>
+  <mn>8</mn>
+  <mtext>unitsml(kg^-2)</mtext>
+  </mrow>
+</math>
+++++
+INPUT
+#{BLANK_HDR}
+<misc-container>
+           <UnitsML xmlns='http://unitsml.nist.gov/2005'>
+             <UnitSet>
+               <Unit xml:id='U_kg-2' dimensionURL='#D_M-2'>
+                 <UnitSystem name='SI' type='SI_base' xml:lang='en-US'/>
+                 <UnitName xml:lang='en'>kg^-2</UnitName>
+                 <UnitSymbol type='HTML'>
+                   kg
+                   <sup>−2</sup>
+                 </UnitSymbol>
+                 <UnitSymbol type='MathML'>
+                   <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                     <mrow>
+                       <msup>
+                         <mrow>
+                           <mi mathvariant='normal'>kg</mi>
+                         </mrow>
+                         <mrow>
+                           <mo>−</mo>
+                           <mn>2</mn>
+                         </mrow>
+                       </msup>
+                     </mrow>
+                   </math>
+                 </UnitSymbol>
+               </Unit>
+             </UnitSet>
+             <DimensionSet>
+               <Dimension xml:id='D_M-2'>
+                 <Mass symbol='M' powerNumerator='-2'/>
+               </Dimension>
+             </DimensionSet>
+             <PrefixSet>
+               <Prefix prefixBase='10' prefixPower='3' xml:id='NISTp10_3'>
+                 <PrefixName xml:lang='en'>kilo</PrefixName>
+                 <PrefixSymbol type='ASCII'>k</PrefixSymbol>
+               </Prefix>
+             </PrefixSet>
+           </UnitsML>
+         </misc-container>
+         <sections>
+           <formula id='_'>
+             <stem type='MathML'>
+               <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                 <mrow>
+                   <mn>7</mn>
+                   <mo rspace='thickmathspace'>⁢</mo>
+                   <mrow xref='U_kg-2'>
+                     <msup>
+                       <mrow>
+                         <mi mathvariant='normal'>kg</mi>
+                       </mrow>
+                       <mrow>
+                         <mo>−</mo>
+                         <mn>2</mn>
+                       </mrow>
+                     </msup>
+                   </mrow>
+                   <mo>+</mo>
+                   <mn>8</mn>
+                   <mo rspace='thickmathspace'>⁢</mo>
+                   <mrow xref='U_kg-2'>
+                     <msup>
+                       <mrow>
+                         <mi mathvariant='normal'>kg</mi>
+                       </mrow>
+                       <mrow>
+                         <mo>−</mo>
+                         <mn>2</mn>
+                       </mrow>
+                     </msup>
+                   </mrow>
+                 </mrow>
+               </math>
+             </stem>
+           </formula>
+         </sections>
+       </standard-document>
+OUTPUT
+
+end
+
 it "customises italicisation of MathML" do
 input = <<~INPUT
 = Document title

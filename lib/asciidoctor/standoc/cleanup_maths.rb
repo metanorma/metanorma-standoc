@@ -2,6 +2,7 @@ require "nokogiri"
 require "pathname"
 require "open-uri"
 require "html2doc"
+require "asciimath2unitsml"
 require_relative "./cleanup_block.rb"
 require_relative "./cleanup_footnotes.rb"
 require_relative "./cleanup_ref.rb"
@@ -73,13 +74,45 @@ module Asciidoctor
         end
       end
 
+      UNITSML_NS = "http://unitsml.nist.gov/2005".freeze
+
+      def add_misc_container(xmldoc)
+        unless ins = xmldoc.at("//misc-container")
+          a = xmldoc.at("//termdocsource") || xmldoc.at("//bibdata")
+          a.next = "<misc-container/>"
+          ins = xmldoc.at("//misc-container")
+        end
+        ins
+      end
+
+      def mathml_unitsML(xmldoc)
+        return unless xmldoc.at(".//m:*", "m" => UNITSML_NS)
+        misc = add_misc_container(xmldoc)
+        unitsml = misc.add_child("<UnitsML xmlns='#{UNITSML_NS}'/>").first
+        %w(Unit CountedItem Quantity Dimension Prefix).each do |t|
+          gather_unitsml(unitsml, xmldoc, t)
+        end
+      end
+
+      def gather_unitsml(unitsml, xmldoc, t)
+        tags = xmldoc.xpath(".//m:#{t}", "m" => UNITSML_NS).each_with_object({}) do |x, m|
+          m[x["id"]] = x.remove
+        end
+        return if tags.empty?
+        set = unitsml.add_child("<#{t}Set/>").first
+        tags.values.each { |v| set << v }
+      end
+
       def mathml_cleanup(xmldoc)
+        unitsml = Asciimath2UnitsML::Conv.new()
         xmldoc.xpath("//stem[@type = 'MathML']").each do |x|
           xml_unescape_mathml(x)
           mathml_namespace(x)
           mathml_preserve_space(x)
           mathml_italicise(x)
+          unitsml.MathML2UnitsML(x)
         end
+        mathml_unitsML(xmldoc)
       end
     end
   end
