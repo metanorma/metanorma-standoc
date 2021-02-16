@@ -175,26 +175,13 @@ module Asciidoctor
         end.join
       end
 
-      def datauri(uri)
-        return uri if /^data:/.match(uri)
-        types = MIME::Types.type_for(@localdir + uri)
-        type = types ? types.first.to_s : 'text/plain; charset="utf-8"'
-        # FIXME: nested uri path error(
-        #   sources/plantuml/plantuml20200524-90467-1iqek5i.png ->
-        #   sources/sources/plantuml/plantuml20200524-90467-1iqek5i.png)
-        path = File.file?(uri) ? uri : @localdir + uri
-        bin = File.open(path, 'rb', &:read)
-        data = Base64.strict_encode64(bin)
-        "data:#{type};base64,#{data}"
-      end
-
       def image_attributes(node)
         uri = node.image_uri (node.attr("target") || node.target)
-        types = /^data:/.match(uri) ? datauri2mime(uri) : MIME::Types.type_for(uri)
+        types = /^data:/.match(uri) ? Metanorma::Utils::datauri2mime(uri) : MIME::Types.type_for(uri)
         type = types.first.to_s
         uri = uri.sub(%r{^data:image/\*;}, "data:#{type};")
-        attr_code(src: uri, #@datauriimage ? datauri(uri) : uri,
-                  id: Utils::anchor_or_uuid,
+        attr_code(src: uri, 
+                  id: Metanorma::Utils::anchor_or_uuid,
                   mimetype: type,
                   height: node.attr("height") || "auto",
                   width: node.attr("width") || "auto" ,

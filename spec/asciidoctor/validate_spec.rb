@@ -348,6 +348,26 @@ it "warns and aborts if id used twice" do
   expect(File.exist?("test.xml")).to be false
 end
 
+it "warns and aborts if numeric normative reference" do
+  FileUtils.rm_f "test.xml"
+  FileUtils.rm_f "test.err"
+  begin
+  expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to raise_error(SystemExit)
+  = Document title
+  Author
+  :docfile: test.adoc
+  :nodoc:
+
+  [bibliography]
+  == Normative references
+  * [[[A,1]]]
+  INPUT
+  rescue SystemExit
+  end
+  expect(File.read("test.err")).to include "Numeric reference in normative references"
+  expect(File.exist?("test.xml")).to be false
+end
+
 it "err file succesfully created for docfile path" do
   FileUtils.rm_rf "test"
   FileUtils.mkdir_p "test"

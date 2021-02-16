@@ -30,7 +30,7 @@ RSpec.describe Asciidoctor::Standoc do
        </bibitem>
        <bibitem id='iso124' type='standard'>
   <title format='text/plain'>Standard</title>
-  <docidentifier type='metanorma'>[2]</docidentifier>
+  <docidentifier type='metanorma'>[1]</docidentifier>
   <docidentifier>ISO 123</docidentifier>
          <docnumber>123</docnumber>
   <contributor>
@@ -77,7 +77,7 @@ RSpec.describe Asciidoctor::Standoc do
        </bibitem>
        <bibitem id="iso124" type="standard">
           <title format="text/plain">Standard</title>
-          <docidentifier type='metanorma'>[2]</docidentifier>
+          <docidentifier type='metanorma'>[1]</docidentifier>
   <docidentifier>ISO 123:1066-1067</docidentifier>
          <docnumber>123</docnumber>
   <date type="published">
@@ -120,7 +120,7 @@ RSpec.describe Asciidoctor::Standoc do
     <title>Foreword</title>
     <p id='_'>
       <eref type='inline' bibitemid='iso123' citeas='ISO 123'/>
-      <eref type='inline' bibitemid='iso124' citeas='[2]'/>
+      <eref type='inline' bibitemid='iso124' citeas='[1]'/>
     </p>
   </foreword>
 </preface>
@@ -213,7 +213,7 @@ RSpec.describe Asciidoctor::Standoc do
     </bibitem>
   </relation>
 <docidentifier>ISO 123</docidentifier>
- <docidentifier type='metanorma'>[2]</docidentifier>
+ <docidentifier type='metanorma'>[1]</docidentifier>
 <title><em>Standard</em></title>
 </bibitem>
 </references></bibliography>
@@ -353,7 +353,7 @@ RSpec.describe Asciidoctor::Standoc do
                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                <docidentifier type='ISO'>ISO 123 (all parts)</docidentifier>
-               <docidentifier type='metanorma'>[2]</docidentifier>
+               <docidentifier type='metanorma'>[1]</docidentifier>
                <docidentifier type='URN'>urn:iso:std:iso:123</docidentifier>
                <docnumber>123</docnumber>
                <date type='published'>
@@ -609,7 +609,7 @@ compris les éventuels amendements).
                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                <docidentifier type='ISO'>ISO 123 (all parts)</docidentifier>
-               <docidentifier type='metanorma'>[2]</docidentifier>
+               <docidentifier type='metanorma'>[1]</docidentifier>
                <docidentifier type='URN'>urn:iso:std:iso:123</docidentifier>
                <docnumber>123</docnumber>
                <date type='published'>
@@ -746,7 +746,7 @@ compris les éventuels amendements).
        </bibitem>
        <bibitem id='iso124' type='standard'>
   <title format='text/plain'>Standard</title>
-  <docidentifier type='metanorma'>[2]</docidentifier>
+  <docidentifier type='metanorma'>[1]</docidentifier>
   <docidentifier>IEC 123</docidentifier>
   <docnumber>123</docnumber>
   <contributor>
@@ -882,7 +882,7 @@ compris les éventuels amendements).
           <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:21071:en</uri>
           <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
           <docidentifier type="ISO">ISO/IEC TR 12382:1992</docidentifier>
-          <docidentifier type='metanorma'>[3]</docidentifier>
+          <docidentifier type='metanorma'>[1]</docidentifier>
           <docidentifier type='URN'>urn:iso:std:iso-iec:tr:12382:stage-90.93:ed-2:en</docidentifier>
           <docnumber>12382</docnumber>
           <date type="published">
@@ -931,7 +931,7 @@ compris les éventuels amendements).
           <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
           <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
           <docidentifier type="ISO">ISO 124:2014</docidentifier>
-          <docidentifier type='metanorma'>[4]</docidentifier>
+          <docidentifier type='metanorma'>[1]</docidentifier>
           <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
           <docnumber>124</docnumber>
           <date type="published">
@@ -1112,7 +1112,7 @@ OUTPUT
        </bibitem>
        <bibitem id='iso126' type='standard'>
   <title format='text/plain'>Standard</title>
-  <docidentifier type='metanorma'>[4]</docidentifier>
+  <docidentifier type='metanorma'>[1]</docidentifier>
   <docidentifier>ISO 123:—</docidentifier>
          <docnumber>123</docnumber>
   <date type='published'>
@@ -1166,7 +1166,7 @@ OUTPUT
        </bibitem>
        <bibitem id='iso124' type='standard'>
   <title format='text/plain'>Standard</title>
-  <docidentifier type='metanorma'>[2]</docidentifier>
+  <docidentifier type='metanorma'>[1]</docidentifier>
   <docidentifier>ISO 123:1066 (all parts)</docidentifier>
          <docnumber>123</docnumber>
   <date type='published'>
@@ -1214,128 +1214,150 @@ OUTPUT
   </sections><bibliography><references id="_" obligation="informative" normative="true">
   <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
-  <bibitem id="iso123" type="standard">
-    <fetched>#{Date.today}</fetched>
-    <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>
-    <uri type='xml'>https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8341.xml</uri>
-    <uri type="src">https://www.rfc-editor.org/info/rfc8341</uri>
-    <docidentifier type="IETF">RFC 8341</docidentifier>
-    <docidentifier type='rfc-anchor'>RFC8341</docidentifier>
-    <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
-    <date type="published">
-      <on>2018-03</on>
-    </date>
-    <contributor>
-      <role type="author"/>
-      <person>
-        <name>
-          <completename language="en">A. Bierman</completename>
-        </name>
-        <affiliation>
-          <organization>
-            <name>Internet Engineering Task Force</name>
-            <abbreviation>IETF</abbreviation>
-          </organization>
-        </affiliation>
-      </person>
-    </contributor>
-    <contributor>
-      <role type="author"/>
-      <person>
-        <name>
-          <completename language="en">M. Bjorklund</completename>
-        </name>
-        <affiliation>
-          <organization>
-            <name>Internet Engineering Task Force</name>
-            <abbreviation>IETF</abbreviation>
-          </organization>
-        </affiliation>
-      </person>
-    </contributor>
-     <contributor>
-   <role type='publisher'/>
-   <organization>
-     <name>Internet Engineering Task Force</name>
-     <abbreviation>IETF</abbreviation>
-   </organization>
- </contributor>
-    <language>en</language>
-    <script>Latn</script>
-    <abstract format="text/plain" language="en" script="Latn">The standardization of network configuration interfaces for use with the Network Configuration Protocol (NETCONF) or the RESTCONF protocol requires a structured and secure operating environment that promotes human usability and multi-vendor interoperability.  There is a need for standard mechanisms to restrict NETCONF or RESTCONF protocol access for particular users to a preconfigured subset of all available NETCONF or RESTCONF protocol operations and content.  This document defines such an access control model.This document obsoletes RFC 6536.</abstract>
-    <series type="main">
-      <title format="text/plain" language="en" script="Latn">STD</title>
-      <number>91</number>
-    </series>
-    <series type="main">
-      <title format="text/plain" language="en" script="Latn">RFC</title>
-      <number>8341</number>
-    </series>
-    <place>Fremont, CA</place>
-  </bibitem>
-  <bibitem id="iso124" type="standard">
-    <fetched>#{Date.today}</fetched>
-    <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>
-    <uri type='xml'>https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8341.xml</uri>
-    <uri type="src">https://www.rfc-editor.org/info/rfc8341</uri>
-    <docidentifier type="IETF">RFC 8341</docidentifier>
-    <docidentifier type='metanorma'>[2]</docidentifier>
-    <docidentifier type='rfc-anchor'>RFC8341</docidentifier>
-    <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
-    <date type="published">
-      <on>2018-03</on>
-    </date>
-    <contributor>
-      <role type="author"/>
-      <person>
-        <name>
-          <completename language="en">A. Bierman</completename>
-        </name>
-        <affiliation>
-          <organization>
-            <name>Internet Engineering Task Force</name>
-            <abbreviation>IETF</abbreviation>
-          </organization>
-        </affiliation>
-      </person>
-    </contributor>
-    <contributor>
-      <role type="author"/>
-      <person>
-        <name>
-          <completename language="en">M. Bjorklund</completename>
-        </name>
-        <affiliation>
-          <organization>
-            <name>Internet Engineering Task Force</name>
-            <abbreviation>IETF</abbreviation>
-          </organization>
-        </affiliation>
-      </person>
-    </contributor>
-     <contributor>
-   <role type='publisher'/>
-   <organization>
-     <name>Internet Engineering Task Force</name>
-     <abbreviation>IETF</abbreviation>
-   </organization>
- </contributor>
-    <language>en</language>
-    <script>Latn</script>
-    <abstract format="text/plain" language="en" script="Latn">The standardization of network configuration interfaces for use with the Network Configuration Protocol (NETCONF) or the RESTCONF protocol requires a structured and secure operating environment that promotes human usability and multi-vendor interoperability.  There is a need for standard mechanisms to restrict NETCONF or RESTCONF protocol access for particular users to a preconfigured subset of all available NETCONF or RESTCONF protocol operations and content.  This document defines such an access control model.This document obsoletes RFC 6536.</abstract>
-    <series type="main">
-      <title format="text/plain" language="en" script="Latn">STD</title>
-      <number>91</number>
-    </series>
-    <series type="main">
-      <title format="text/plain" language="en" script="Latn">RFC</title>
-      <number>8341</number>
-    </series>
-    <place>Fremont, CA</place>
-  </bibitem>
-        </references>
-        </bibliography>
-        </standard-document>
+        <bibitem id='iso123' type='standard'>
+               <fetched>#{Date.today}</fetched>
+               <title format='text/plain' language='en' script='Latn'>Network Configuration Access Control Model</title>
+               <uri type='xml'>
+                 https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
+               </uri>
+               <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
+               <docidentifier type='IETF'>RFC 8341</docidentifier>
+               <docidentifier type='rfc-anchor'>RFC8341</docidentifier>
+               <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
+               <date type='published'>
+                 <on>2018-03</on>
+               </date>
+               <contributor>
+                 <role type='author'/>
+                 <person>
+                   <name>
+                     <completename language='en'>A. Bierman</completename>
+                   </name>
+                   <affiliation>
+                     <organization>
+                       <name>Internet Engineering Task Force</name>
+                       <abbreviation>IETF</abbreviation>
+                     </organization>
+                   </affiliation>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type='author'/>
+                 <person>
+                   <name>
+                     <completename language='en'>M. Bjorklund</completename>
+                   </name>
+                   <affiliation>
+                     <organization>
+                       <name>Internet Engineering Task Force</name>
+                       <abbreviation>IETF</abbreviation>
+                     </organization>
+                   </affiliation>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>Internet Engineering Task Force</name>
+                   <abbreviation>IETF</abbreviation>
+                 </organization>
+               </contributor>
+               <language>en</language>
+               <script>Latn</script>
+               <abstract format='text/plain' language='en' script='Latn'>
+                 The standardization of network configuration interfaces for use with
+                 the Network Configuration Protocol (NETCONF) or the RESTCONF protocol
+                 requires a structured and secure operating environment that promotes
+                 human usability and multi-vendor interoperability. There is a need for
+                 standard mechanisms to restrict NETCONF or RESTCONF protocol access
+                 for particular users to a preconfigured subset of all available
+                 NETCONF or RESTCONF protocol operations and content. This document
+                 defines such an access control model.This document obsoletes RFC 6536.
+               </abstract>
+               <series type='main'>
+                 <title format='text/plain' language='en' script='Latn'>STD</title>
+                 <number>91</number>
+               </series>
+               <series type='main'>
+                 <title format='text/plain' language='en' script='Latn'>RFC</title>
+                 <number>8341</number>
+               </series>
+               <place>Fremont, CA</place>
+             </bibitem>
+             <bibitem id='iso124' type='standard'>
+               <fetched>#{Date.today}</fetched>
+               <title format='text/plain' language='en' script='Latn'>Network Configuration Access Control Model</title>
+               <uri type='xml'>
+                 https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
+               </uri>
+               <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
+               <docidentifier type='IETF'>RFC 8341</docidentifier>
+               <docidentifier type='metanorma'>[1]</docidentifier>
+               <docidentifier type='rfc-anchor'>RFC8341</docidentifier>
+               <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
+               <date type='published'>
+                 <on>2018-03</on>
+               </date>
+               <contributor>
+                 <role type='author'/>
+                 <person>
+                   <name>
+                     <completename language='en'>A. Bierman</completename>
+                   </name>
+                   <affiliation>
+                     <organization>
+                       <name>Internet Engineering Task Force</name>
+                       <abbreviation>IETF</abbreviation>
+                     </organization>
+                   </affiliation>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type='author'/>
+                 <person>
+                   <name>
+                     <completename language='en'>M. Bjorklund</completename>
+                   </name>
+                   <affiliation>
+                     <organization>
+                       <name>Internet Engineering Task Force</name>
+                       <abbreviation>IETF</abbreviation>
+                     </organization>
+                   </affiliation>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>Internet Engineering Task Force</name>
+                   <abbreviation>IETF</abbreviation>
+                 </organization>
+               </contributor>
+               <language>en</language>
+               <script>Latn</script>
+               <abstract format='text/plain' language='en' script='Latn'>
+                 The standardization of network configuration interfaces for use with
+                 the Network Configuration Protocol (NETCONF) or the RESTCONF protocol
+                 requires a structured and secure operating environment that promotes
+                 human usability and multi-vendor interoperability. There is a need for
+                 standard mechanisms to restrict NETCONF or RESTCONF protocol access
+                 for particular users to a preconfigured subset of all available
+                 NETCONF or RESTCONF protocol operations and content. This document
+                 defines such an access control model.This document obsoletes RFC 6536.
+               </abstract>
+               <series type='main'>
+                 <title format='text/plain' language='en' script='Latn'>STD</title>
+                 <number>91</number>
+               </series>
+               <series type='main'>
+                 <title format='text/plain' language='en' script='Latn'>RFC</title>
+                 <number>8341</number>
+               </series>
+               <place>Fremont, CA</place>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
       OUTPUT
     end
   end
@@ -1366,7 +1388,7 @@ OUTPUT
   <formattedref format='application/x-isodoc+xml'>
     <em>Standard</em>
   </formattedref>
-  <docidentifier type='metanorma'>[2]</docidentifier>
+  <docidentifier type='metanorma'>[1]</docidentifier>
   <docidentifier>XYZ 123:1066 (all parts)</docidentifier>
          <docnumber>123:1066 (all parts)</docnumber>
 </bibitem>
@@ -1472,7 +1494,7 @@ OUTPUT
       </bibitem>
       <bibitem id='iso124' type='standard'>
   <title format='text/plain'>Standard</title>
-  <docidentifier type='metanorma'>[2]</docidentifier>
+  <docidentifier type='metanorma'>[1]</docidentifier>
   <docidentifier type='ISO'>ISO 123</docidentifier>
   <docnumber>123</docnumber>
   <contributor>

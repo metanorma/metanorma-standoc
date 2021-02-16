@@ -30,7 +30,7 @@ module Asciidoctor
       # plantuml process may finish earlier then dot, as result png file
       # maybe not created yet after plantuml finish
       def self.generate_file parent, reader
-        localdir = Utils::localdir(parent.document)
+        localdir = Metanorma::Utils::localdir(parent.document)
         imagesdir = parent.document.attr('imagesdir')
         umlfile, outfile = save_plantuml parent, reader, localdir
         run(umlfile, outfile) or raise "No image output from PlantUML (#{umlfile}, #{outfile})!"

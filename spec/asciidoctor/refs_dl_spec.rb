@@ -74,6 +74,11 @@ RSpec.describe Asciidoctor::Standoc do
 it "processes complex dl reference" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
 #{ASCIIDOC_BLANK_HDR}
+
+== Clause
+
+<<ISOTC211>>
+
 [bibliography]
 == Normative References
 
@@ -288,7 +293,14 @@ formattedref::
     INPUT
       #{BLANK_HDR}
       <sections>
-      </sections><bibliography><references id="_" obligation="informative" normative="true">
+  <clause id='_' inline-header='false' obligation='normative'>
+    <title>Clause</title>
+    <p id='_'>
+      <eref type='inline' bibitemid='ISOTC211' citeas='TC211'/>
+    </p>
+  </clause>
+      </sections>
+<bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="ISOTC211" type="standard">

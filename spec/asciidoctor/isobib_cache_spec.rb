@@ -127,7 +127,7 @@ EOS
          <script>Latn</script>
          <status>
            <stage>90</stage>
-           <substage>93</substage>
+           <substage>20</substage>
          </status>
          <copyright>
            <from>2001</from>
@@ -168,7 +168,7 @@ EOS
              <script>Latn</script>
              <status>
                <stage>90</stage>
-               <substage>93</substage>
+               <substage>20</substage>
              </status>
              <copyright>
                <from>2001</from>
@@ -203,69 +203,69 @@ EOS
 
   ISO_123_DATED = <<~EOS
   <bibdata type="standard">
-    <fetched>#{Date.today}</fetched>
-    <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
-    <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
-    <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex - Sampling</title>
-    <uri type="src">https://www.iso.org/standard/23281.html</uri>
-    <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-    <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-    <docidentifier type="ISO">ISO 123:2001</docidentifier>
-    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.20:ed-3:en</docidentifier>
-    <docnumber>123</docnumber>
-    <date type="published">
-      <on>2001-05</on>
-    </date>
-    <contributor>
-      <role type="publisher"/>
-      <organization>
-        <name>International Organization for Standardization</name>
-        <abbreviation>ISO</abbreviation>
-        <uri>www.iso.org</uri>
-     </organization>
-    </contributor>
-    <edition>3</edition>
-    <language>en</language>
-    <script>Latn</script>
-    <abstract format='text/plain' language='en' script='Latn'>
-      This International Standard specifies procedures for sampling natural rubber
-      latex concentrate and for sampling syntheticrubber latices and artificial
-      latices. It is also suitable for sampling rubber latex contained in drums,
-      tank cars ortanks. The procedures may also be used for sampling plastics
-      dispersions.
-    </abstract>
-    <status>
-      <stage>90</stage>
-      <substage>20</substage>
-    </status>
-    <copyright>
-      <from>2001</from>
-      <owner>
-        <organization>
-          <name>ISO</name>
-        </organization>
-      </owner>
-    </copyright>
-    <relation type="obsoletes">
-      <bibitem type="standard">
-        <formattedref format="text/plain">ISO 123:1985</formattedref>
-      </bibitem>
-    </relation>
-    <place>Geneva</place>
-    <ext>
-      <doctype>international-standard</doctype>
-      <editorialgroup>
-        <technical-committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical-committee>
-      </editorialgroup>
-      <ics>
-        <code>83.040.10</code>
-        <text>Latex and raw rubber</text>
-      </ics>
-      <structuredidentifier type="ISO">
-        <project-number>ISO 123</project-number>
-      </structuredidentifier>
-    </ext>
-  </bibdata>
+         <fetched>#{Date.today}</fetched>
+         <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
+         <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
+         <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex - Sampling</title>
+         <uri type="src">https://www.iso.org/standard/23281.html</uri>
+         <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+         <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+         <docidentifier type="ISO">ISO 123:2001</docidentifier>
+         <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.20:ed-3:en</docidentifier>
+         <docnumber>123</docnumber>
+         <date type="published">
+           <on>2001-05</on>
+         </date>
+         <contributor>
+           <role type="publisher"/>
+           <organization>
+             <name>International Organization for Standardization</name>
+             <abbreviation>ISO</abbreviation>
+             <uri>www.iso.org</uri>
+           </organization>
+         </contributor>
+         <edition>3</edition>
+         <language>en</language>
+         <script>Latn</script>
+         <abstract format='text/plain' language='en' script='Latn'>
+  This International Standard specifies procedures for sampling natural rubber
+  latex concentrate and for sampling syntheticrubber latices and artificial
+  latices. It is also suitable for sampling rubber latex contained in drums,
+  tank cars ortanks. The procedures may also be used for sampling plastics
+  dispersions.
+</abstract>
+         <status>
+           <stage>90</stage>
+           <substage>20</substage>
+         </status>
+         <copyright>
+           <from>2001</from>
+           <owner>
+             <organization>
+               <name>ISO</name>
+             </organization>
+           </owner>
+         </copyright>
+         <relation type="obsoletes">
+           <bibitem type="standard">
+             <formattedref format="text/plain">ISO 123:1985</formattedref>
+           </bibitem>
+         </relation>
+         <place>Geneva</place>
+         <ext>
+           <doctype>international-standard</doctype>
+           <editorialgroup>
+             <technical-committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical-committee>
+           </editorialgroup>
+           <ics>
+             <code>83.040.10</code>
+             <text>Latex and raw rubber</text>
+           </ics>
+           <structuredidentifier type="ISO">
+             <project-number>ISO 123</project-number>
+           </structuredidentifier>
+         </ext>
+       </bibdata>
 EOS
 
   it "does not activate biblio caches if isobib disabled" do

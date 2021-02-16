@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8341.xml
+    uri: https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
     body:
       encoding: US-ASCII
       string: ''
@@ -14,28 +14,60 @@ http_interactions:
       User-Agent:
       - Ruby
       Host:
-      - xml2rfc.tools.ietf.org
+      - raw.githubusercontent.com
   response:
     status:
       code: 200
       message: OK
     headers:
-      Date:
-      - Tue, 29 Dec 2020 22:44:19 GMT
-      Server:
-      - Apache/2.2.22 (Debian)
-      Last-Modified:
-      - Sat, 19 Dec 2020 00:00:33 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '606'
+      Cache-Control:
+      - max-age=300
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
       Etag:
-      - '"39c1e62-46c-5b6c5e9ed2a40"'
+      - W/"917849434ef8ee04a3bcadf9ae049ece388743c0c3d6cc3be9719aa90d0c2aa3"
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Github-Request-Id:
+      - A2D2:0812:68991:76C0A:60268182
       Accept-Ranges:
       - bytes
-      Content-Length:
-      - '1132'
-      Content-Type:
-      - application/xml
+      Date:
+      - Fri, 12 Feb 2021 13:24:19 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - cache-mel11255-MEL
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1613136260.558582,VS0,VE414
+      Vary:
+      - Authorization,Accept-Encoding
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Fastly-Request-Id:
+      - 6b2958ee7131e9469351715c329b156accb937a5
+      Expires:
+      - Fri, 12 Feb 2021 13:29:19 GMT
+      Source-Age:
+      - '0'
     body:
-      encoding: UTF-8
+      encoding: ASCII-8BIT
       string: |
         <?xml version='1.0' encoding='UTF-8'?>
 
@@ -52,10 +84,10 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Tue, 29 Dec 2020 22:44:20 GMT
+  recorded_at: Fri, 12 Feb 2021 13:24:19 GMT
 - request:
     method: get
-    uri: https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8341.xml
+    uri: https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
     body:
       encoding: US-ASCII
       string: ''
@@ -67,28 +99,60 @@ http_interactions:
       User-Agent:
       - Ruby
       Host:
-      - xml2rfc.tools.ietf.org
+      - raw.githubusercontent.com
   response:
     status:
       code: 200
       message: OK
     headers:
-      Date:
-      - Tue, 29 Dec 2020 22:44:20 GMT
-      Server:
-      - Apache/2.2.22 (Debian)
-      Last-Modified:
-      - Sat, 19 Dec 2020 00:00:33 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '606'
+      Cache-Control:
+      - max-age=300
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
       Etag:
-      - '"39c1e62-46c-5b6c5e9ed2a40"'
+      - W/"917849434ef8ee04a3bcadf9ae049ece388743c0c3d6cc3be9719aa90d0c2aa3"
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Github-Request-Id:
+      - A2D2:0812:68991:76C0A:60268182
       Accept-Ranges:
       - bytes
-      Content-Length:
-      - '1132'
-      Content-Type:
-      - application/xml
+      Date:
+      - Fri, 12 Feb 2021 13:24:20 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - cache-mel11255-MEL
+      X-Cache:
+      - HIT
+      X-Cache-Hits:
+      - '1'
+      X-Timer:
+      - S1613136260.080531,VS0,VE0
+      Vary:
+      - Authorization,Accept-Encoding
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Fastly-Request-Id:
+      - 94e88b3cc65f87bde2e19d3e17933cc5a5c18616
+      Expires:
+      - Fri, 12 Feb 2021 13:29:20 GMT
+      Source-Age:
+      - '0'
     body:
-      encoding: UTF-8
+      encoding: ASCII-8BIT
       string: |
         <?xml version='1.0' encoding='UTF-8'?>
 
@@ -105,5 +169,5 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Tue, 29 Dec 2020 22:44:20 GMT
+  recorded_at: Fri, 12 Feb 2021 13:24:20 GMT
 recorded_with: VCR 5.0.0
