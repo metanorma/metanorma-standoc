@@ -26,6 +26,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       Text
 
+      [bibliography]
       == Normative References
 
       == Terms and Definitions
@@ -81,9 +82,18 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Annex A.1
 
+      [bibliography]
       == Bibliography
 
       === Bibliography Subsection
+
+      [index]
+      == Index
+
+      This is an index
+
+      [index,type=thematic]
+      == Thematic Index
     INPUT
              #{BLANK_HDR.sub(/<status>/, "<abstract> <p>Text</p> </abstract><status>")}
     <preface><abstract id="_">
@@ -182,6 +192,13 @@ RSpec.describe Asciidoctor::Standoc do
   <title>Bibliography Subsection</title>
 </references>
 </clause></bibliography>
+<indexsect id='_'>
+  <title>Index</title>
+  <p id='_'>This is an index</p>
+</indexsect>
+<indexsect id='_' type='thematic'>
+  <title>Thematic Index</title>
+</indexsect>
 </standard-document>
     OUTPUT
   end
