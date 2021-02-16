@@ -829,7 +829,7 @@ compris les éventuels amendements).
           </copyright>
           <place>Geneva</place>
         </bibitem>
-          <bibitem type="standard" id="iso124">
+          <bibitem id="iso124" type="standard">
           <fetched>#{Date.today}</fetched>
           <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
           <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
@@ -874,7 +874,7 @@ compris les éventuels amendements).
           </relation>
           <place>Geneva</place>
           </bibitem>
-          <bibitem type="standard" id="iso125">
+          <bibitem id="iso125" type="standard">
           <fetched>#{Date.today}</fetched>
           <title type="title-main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
           <title type='main' format='text/plain' language='en' script='Latn'>Permuted index of the vocabulary of information technology</title>
@@ -922,7 +922,7 @@ compris les éventuels amendements).
           </copyright>
           <place>Geneva</place>
         </bibitem>
-          <bibitem type="standard" id="iso126">
+          <bibitem id="iso126" type="standard">
           <fetched>#{Date.today}</fetched>
           <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
           <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
@@ -988,7 +988,7 @@ compris les éventuels amendements).
         #{BLANK_HDR}
         <sections>
 
-        </sections><bibliography><references id="_" obligation="informative" normative="true">
+        </sections><bibliography><references id="_" normative="true" obligation="informative" >
           <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id='iso123'>
@@ -1601,7 +1601,7 @@ OUTPUT
     INPUT
      #{BLANK_HDR}
   <sections>
-    <clause id='_' inline-header='false' obligation='normative' type="scope">
+    <clause id='_' type="scope" inline-header='false' obligation='normative'>
       <title>Scope</title>
       <p id='_'>
         <eref type='inline' bibitemid='iso123' citeas='ISO 123 (all parts)'/>
