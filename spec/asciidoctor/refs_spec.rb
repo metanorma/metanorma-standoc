@@ -1208,7 +1208,7 @@ OUTPUT
   <clause id="_" inline-header="false" obligation="normative">
     <title>Clause 4</title>
     <p id="_">
-    <eref type="inline" bibitemid="iso123" citeas="RFC 8341"/>
+    <eref type="inline" bibitemid="iso123" citeas="IETF RFC 8341"/>
   </p>
   </clause>
   </sections><bibliography><references id="_" obligation="informative" normative="true">
