@@ -103,8 +103,12 @@ module Asciidoctor
         tags.values.each { |v| set << v }
       end
 
+      def asciimath2unitsml_options
+        { multiplier: :space }
+      end
+
       def mathml_cleanup(xmldoc)
-        unitsml = Asciimath2UnitsML::Conv.new()
+        unitsml = Asciimath2UnitsML::Conv.new(asciimath2unitsml_options)
         xmldoc.xpath("//stem[@type = 'MathML']").each do |x|
           xml_unescape_mathml(x)
           mathml_namespace(x)
