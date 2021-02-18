@@ -62,10 +62,15 @@ module Asciidoctor
         end
       end
 
+      def make_indexsect(x, s)
+        x.xpath("//sections/indexsect").reverse_each { |r| s.next = r.remove }
+      end
+
       def sections_order_cleanup(x)
         s = x.at("//sections")
         make_preface(x, s)
         make_annexes(x)
+        make_indexsect(x, s)
         make_bibliography(x, s)
         x.xpath("//sections/annex").reverse_each { |r| s.next = r.remove }
       end

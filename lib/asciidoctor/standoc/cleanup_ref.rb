@@ -89,18 +89,8 @@ module Asciidoctor
         end
       end
 
-      def docid_prefix(prefix, docid)
-        docid = "#{prefix} #{docid}" unless omit_docid_prefix(prefix)
-        docid
-      end
-
-      def omit_docid_prefix(prefix)
-        return true if prefix.nil? || prefix.empty?
-        %(ISO IEC IEV ITU metanorma).include? prefix
-      end
-
-      def format_ref(ref, type, isopub)
-        return docid_prefix(type, ref) if isopub
+      def format_ref(ref, type)
+        return @isodoc.docid_prefix(type, ref) if type != "metanorma"
         return "[#{ref}]" if /^\d+$/.match(ref) && !/^\[.*\]$/.match(ref)
         ref
       end
@@ -116,7 +106,7 @@ module Asciidoctor
           isopub = ref.at(ISO_PUBLISHER_XPATH)
           docid = ref.at("./docidentifier[@type = 'metanorma']") ||
             ref.at("./docidentifier[not(@type = 'DOI')]") or next
-          reference = format_ref(docid.text, docid["type"], isopub)
+          reference = format_ref(docid.text, docid["type"])
           @anchors[ref["id"]] = { xref: reference }
         end
       end

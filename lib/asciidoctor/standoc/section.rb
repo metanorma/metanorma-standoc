@@ -88,6 +88,8 @@ module Asciidoctor
               bibliography_parse(a, xml, node)
             elsif node.attr("style") == "abstract" 
               abstract_parse(a, xml, node)
+            elsif node.attr("style") == "index" 
+              indexsect_parse(a, xml, node)
             elsif node.attr("style") == "appendix" && node.level == 1
               annex_parse(a, xml, node)
             else
@@ -112,6 +114,13 @@ module Asciidoctor
             xml_abstract << content
           end
         end.join("\n")
+      end
+
+      def indexsect_parse(attrs, xml, node)
+        xml.indexsect **attr_code(attrs) do |xml_section|
+          xml_section.title { |name| name << node.title }
+          xml_section << node.content
+        end
       end
 
       def abstract_parse(attrs, xml, node)
