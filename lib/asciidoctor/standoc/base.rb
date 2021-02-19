@@ -139,7 +139,7 @@ module Asciidoctor
 
       def document(node)
         init(node)
-        ret = makexml(node).to_xml(indent: 2)
+        ret = makexml(node).to_xml(encoding: "US-ASCII", indent: 2)
         outputs(node, ret) unless node.attr("nodoc") || !node.attr("docfile")
         clean_exit
         ret
