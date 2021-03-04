@@ -2182,6 +2182,9 @@ INPUT
                <Prefix prefixBase='10' prefixPower='3' xml:id='NISTp10_3'>
                  <PrefixName xml:lang='en'>kilo</PrefixName>
                  <PrefixSymbol type='ASCII'>k</PrefixSymbol>
+                 <PrefixSymbol type='unicode'>k</PrefixSymbol>
+                 <PrefixSymbol type='LaTeX'>k</PrefixSymbol>
+                 <PrefixSymbol type='HTML'>k</PrefixSymbol>
                </Prefix>
              </PrefixSet>
            </UnitsML>

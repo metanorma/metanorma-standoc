@@ -215,7 +215,7 @@ module Asciidoctor
           next unless n.name == "link"
           n.children = n["target"]
         end
-        nodeset.text.sub(/^[,;]/, "").strip
+        nodeset.text.sub(/^[,; ]/, "").strip
       end
     end
   end
