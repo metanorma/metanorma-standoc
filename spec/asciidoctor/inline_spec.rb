@@ -48,6 +48,7 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
       sub~script~
       sub~__scr__ipt~
       stem:[<mml:math><mml:msub xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"> <mml:mrow> <mml:mrow> <mml:mi mathvariant="bold-italic">F</mml:mi> </mml:mrow> </mml:mrow> <mml:mrow> <mml:mrow> <mml:mi mathvariant="bold-italic">&#x391;</mml:mi> </mml:mrow> </mml:mrow> </mml:msub> </mml:math>]
+      #mark#
       [alt]#alt#
       [deprecated]#deprecated#
       [domain]#domain#
@@ -67,6 +68,7 @@ text, including <strong><em>nest</em></strong>ed markup.</p>
        sub<sub>script</sub>
        sub<sub><em>scr</em>ipt</sub>
        <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub> <mrow> <mrow> <mi mathvariant="bold-italic">F</mi> </mrow> </mrow> <mrow> <mrow> <mi mathvariant="bold-italic">Α</mi> </mrow> </mrow> </msub> </math></stem>
+       mark
        <admitted>alt</admitted>
        <deprecates>deprecated</deprecates>
        <domain>domain</domain>
