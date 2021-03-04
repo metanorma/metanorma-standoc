@@ -145,6 +145,10 @@ module Asciidoctor
         end
       end
 
+        def highlight_parse(text, xml)
+          xml << text
+        end
+
       def inline_quoted(node)
         noko do |xml|
           case node.type
@@ -157,6 +161,7 @@ module Asciidoctor
           when :subscript then xml.sub { |s| s << node.text }
           when :asciimath then stem_parse(node.text, xml, :asciimath)
           when :latexmath then stem_parse(node.text, xml, :latexmath)
+          when :mark then highlight_parse(node.text, xml)
           else
             case node.role
               # the following three are legacy, they are now handled by macros
