@@ -1761,7 +1761,7 @@ it "sorts symbols lists" do
   == Symbols and abbreviated terms
 
   α:: Definition 1
-  xa:: Definition 2
+  Xa:: Definition 2
   x_1_:: Definition 3
   x_m_:: Definition 4
   x:: Definition 5
@@ -1799,7 +1799,7 @@ it "sorts symbols lists" do
         <dd>
           <p id='_'>Definition 3</p>
         </dd>
-        <dt>xa</dt>
+        <dt>Xa</dt>
         <dd>
           <p id='_'>Definition 2</p>
         </dd>
