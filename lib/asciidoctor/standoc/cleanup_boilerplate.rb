@@ -160,7 +160,7 @@ module Asciidoctor
       def resolve_local_indirect_erefs(xmldoc, refs, prefix)
         refs.each_with_object([]) do |r, m|
           id = r.sub(/^#{prefix}_/, "")
-          if xmldoc.at("//*[@id = '#{id}'][@type = '#{prefix}']")
+          if n = xmldoc.at("//*[@id = '#{id}']") and n.at("./ancestor-or-self::*[@type = '#{prefix}']")
             xmldoc.xpath("//eref[@bibitemid = '#{r}']").each do |e|
               indirect_eref_to_xref(e, id)
             end

@@ -2471,23 +2471,33 @@ end
       [type="express-schema"]
       == Clause
 
+      [[B1]]
+      NOTE: X
+
       <<express-schema:A:A.B.C,C>>
       <<express-schema:A>>
       <<express-schema:B>>
+      <<express-schema:B1>>
     INPUT
        #{BLANK_HDR}
        <sections>
-           <clause id='B' inline-header='false' obligation='normative' type="express-schema">
+       <clause id='B' type='express-schema' inline-header='false' obligation='normative'>
              <title>Clause</title>
+             <note id='B1'>
+               <p id='_'>X</p>
+             </note>
              <p id='_'>
-               <eref bibitemid='express-schema_A' citeas="">
-               <localityStack>
-                 <locality type='anchor'><referenceFrom>A.B.C</referenceFrom></locality>
-               </localityStack>
+               <eref bibitemid='express-schema_A' citeas=''>
+                 <localityStack>
+                   <locality type='anchor'>
+                     <referenceFrom>A.B.C</referenceFrom>
+                   </locality>
+                 </localityStack>
                  C
                </eref>
-               <eref bibitemid='express-schema_A' citeas=""/>
+               <eref bibitemid='express-schema_A' citeas=''/>
                <xref target='B'/>
+               <xref target='B1'/>
              </p>
            </clause>
          </sections>
