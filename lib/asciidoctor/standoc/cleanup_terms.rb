@@ -97,7 +97,7 @@ module Asciidoctor
         termdocsource_cleanup(xmldoc)
       end   
 
-            # Indices sort after letter but before any following
+      # Indices sort after letter but before any following
       # letter (x, x_m, x_1, xa); we use colon to force that sort order.
       # Numbers sort *after* letters; we use thorn to force that sort order.
       def symbol_key(x)
@@ -107,7 +107,7 @@ module Asciidoctor
           n.replace(grkletters(MathML2AsciiMath.m2a(n.to_xml)))
         end
         ret = Nokogiri::XML(key.to_xml)
-        HTMLEntities.new.decode(ret.text).
+        HTMLEntities.new.decode(ret.text.downcase).
           gsub(/[\[\]\{\}<>\(\)]/, "").gsub(/\s/m, "").
           gsub(/[[:punct:]]|[_^]/, ":\\0").gsub(/`/, "").
           gsub(/[0-9]+/, "þ\\0")
