@@ -9,7 +9,7 @@ RSpec.describe Asciidoctor::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
 #{ASCIIDOC_BLANK_HDR}
 
-[svgmap]
+[svgmap%unnumbered,number=8,subsequence=A,keep-with-next=true,keep-lines-together=true]
 ====
 * <<ref1,Computer>>; http://www.example.com
 ====
@@ -22,8 +22,9 @@ image::action_schemaexpg1.svg[]
 * <<ref1,Computer>>; mn://action_schema
 * http://www.example.com[Phone]; http://www.example.com
 ====
-      
-[svgmap]
+ 
+[[ref2]]
+[svgmap%unnumbered,number=8,subsequence=A,keep-with-next=true,keep-lines-together=true]
 ====
 [alt=Workmap]
 image::action_schemaexpg2.svg[]  
@@ -35,29 +36,29 @@ image::action_schemaexpg2.svg[]
 INPUT
        #{BLANK_HDR}
        <sections>
-  <svgmap id='_'>
-    <target href='http://www.example.com'>
-      <xref target='ref1'>Computer</xref>
-    </target>
-  </svgmap>
-  <figure id='_'>
-  <image src='action_schemaexpg1.svg' id='_' mimetype='image/svg+xml' height='auto' width='auto'/>
-</figure>
-<svgmap id='_'>
-  <figure id='_'>
-    <image src='action_schemaexpg2.svg' id='_' mimetype='image/svg+xml' height='auto' width='auto' alt='Workmap'/>
-  </figure>
-    <target href='mn://support_resource_schema'>
-      <eref bibitemid='express_action_schema' citeas=''>
-        <localityStack>
-          <locality type='anchor'>
-            <referenceFrom>action_schema.basic</referenceFrom>
-          </locality>
-        </localityStack>
-        Coffee
-      </eref>
-    </target>
-  </svgmap>
+        <svgmap unnumbered='true' number='8' subsequence='A' keep-with-next='true' keep-lines-together='true'>
+             <target href='http://www.example.com'>
+               <xref target='ref1'>Computer</xref>
+             </target>
+           </svgmap>
+           <figure id='ref1'>
+             <image src='action_schemaexpg1.svg' id='_' mimetype='image/svg+xml' height='auto' width='auto'/>
+           </figure>
+           <svgmap>
+             <figure id='ref2' unnumbered='true' number='8' subsequence='A' keep-with-next='true' keep-lines-together='true'>
+               <image src='action_schemaexpg2.svg' id='_' mimetype='image/svg+xml' height='auto' width='auto' alt='Workmap'/>
+             </figure>
+             <target href='mn://support_resource_schema'>
+               <eref bibitemid='express_action_schema' citeas=''>
+                 <localityStack>
+                   <locality type='anchor'>
+                     <referenceFrom>action_schema.basic</referenceFrom>
+                   </locality>
+                 </localityStack>
+                 Coffee
+               </eref>
+             </target>
+           </svgmap>
 </sections>
 <bibliography>
   <references hidden='true' normative='false'>
