@@ -29,7 +29,7 @@ module Asciidoctor
       def dl2_table_cleanup(xmldoc)
         q = "//table/following-sibling::*[1][self::p]"
         xmldoc.xpath(q).each do |s|
-          if s.text =~ /^\s*key[^a-z]*$/i && !s.next_element.nil? && s.next_element.name == "dl"
+          if s.text =~ /^\s*key[^a-z]*$/i && s&.next_element&.name == "dl"
             s.next_element["key"] = "true"
             s.previous_element << s.next_element.remove
             s.remove
@@ -95,7 +95,7 @@ module Asciidoctor
       def formula_cleanup_where2(x)
         q = "//formula/following-sibling::*[1][self::p]"
         x.xpath(q).each do |s|
-          if s.text =~ /^\s*where[^a-z]*$/i && !s.next_element.nil? && s.next_element.name == "dl"
+          if s.text =~ /^\s*where[^a-z]*$/i && s&.next_element&.name == "dl"
             s.next_element["key"] = "true"
             s.previous_element << s.next_element.remove
             s.remove
@@ -114,7 +114,7 @@ module Asciidoctor
       def figure_dl_cleanup2(xmldoc)
         q = "//figure/following-sibling::*[self::p]"
         xmldoc.xpath(q).each do |s|
-          if s.text =~ /^\s*key[^a-z]*$/i && !s.next_element.nil? && s.next_element.name == "dl"
+          if s.text =~ /^\s*key[^a-z]*$/i && s&.next_element&.name == "dl"
             s.next_element["key"] = "true"
             s.previous_element << s.next_element.remove
             s.remove
@@ -125,7 +125,9 @@ module Asciidoctor
       # examples containing only figures become subfigures of figures
       def subfigure_cleanup(xmldoc)
         xmldoc.xpath("//example[figure]").each do |e|
-          next unless e.elements.map { |m| m.name }.reject { |m| %w(name figure).include? m }.empty?
+          next unless e.elements.map { |m| m.name }.reject do |m|
+            %w(name figure).include? m
+          end.empty?
           e.name = "figure"
         end
       end
@@ -140,7 +142,8 @@ module Asciidoctor
       ELEMS_ALLOW_NOTES = %w[p formula ul ol dl figure].freeze
 
       # if a note is at the end of a section, it is left alone
-      # if a note is followed by a non-note block, it is moved inside its preceding block if it is not delimited
+      # if a note is followed by a non-note block, 
+      # it is moved inside its preceding block if it is not delimited
       # (so there was no way of making that block include the note)
       def note_cleanup(xmldoc)
         q = "//note[following-sibling::*[not(local-name() = 'note')]]"
@@ -150,8 +153,10 @@ module Asciidoctor
           prev = n.previous_element || next
           n.parent = prev if ELEMS_ALLOW_NOTES.include? prev.name
         end
-        xmldoc.xpath("//note[@keep-separate]").each { |n| n.delete("keep-separate") }
-        xmldoc.xpath("//termnote[@keep-separate]").each { |n| n.delete("keep-separate") }
+        xmldoc.xpath("//note[@keep-separate] | "\
+                     "//termnote[@keep-separate]").each do |n|
+          n.delete("keep-separate")
+        end
       end
 
       def requirement_cleanup(x)
@@ -184,16 +189,43 @@ module Asciidoctor
       end
 
       def requirement_cleanup1(r)
-        while d = r.at("./description[following-sibling::*[1][self::description]]")
+        while d = r.at("./description[following-sibling::*[1]"\
+            "[self::description]]")
           n = d.next.remove
           d << n.children
         end
-        r.xpath("./description[normalize-space(.)='']").each { |d| d.replace("\n") }
+        r.xpath("./description[normalize-space(.)='']").each do |d|
+          d.replace("\n")
+        end
       end
 
       def svgmap_cleanup(xmldoc)
+        svgmap_moveattrs(xmldoc)
         svgmap_populate(xmldoc)
         Metanorma::Utils::svgmap_rewrite(xmldoc, @localdir)
+      end
+
+      def guid?(x)
+        /^_[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/i.
+          match(x)
+      end
+
+      def svgmap_moveattrs(xmldoc)
+        xmldoc.xpath("//svgmap").each do |s|
+          f = s.at(".//figure") or next
+          t = s.at("./title") and !f.at("./title") and
+            f.first.previous = t.remove
+          if s["id"] && guid?(f["id"])
+            f["id"] = s["id"]
+            s.delete("id")
+          end
+          %w(unnumbered number subsequence keep-with-next 
+          keep-lines-together).each do |a|
+            next if f[a] || !s[a]
+            f[a] = s[a]
+            s.delete(a)
+          end
+        end
       end
 
       def svgmap_populate(xmldoc)
@@ -204,8 +236,8 @@ module Asciidoctor
           s1.xpath(".//li").each do |li|
             t = li&.at(".//eref | .//link | .//xref") or next
             href = t.xpath("./following-sibling::node()")
-            next if href.empty?
-            s << %[<target href="#{svgmap_target(href)}">#{t.to_xml}</target>]
+            href.empty? or
+              s << %[<target href="#{svgmap_target(href)}">#{t.to_xml}</target>]
           end
         end
       end

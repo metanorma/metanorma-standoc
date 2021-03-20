@@ -45,8 +45,9 @@ module Asciidoctor
         noko do |xml|
           xml.figure **literal_attrs(node) do |f|
             figure_title(node, f)
-            f.pre node.lines.join("\n"), **attr_code(id: Metanorma::Utils::anchor_or_uuid,
-                                                     alt: node.attr("alt"))
+            f.pre node.lines.join("\n"),
+              **attr_code(id: Metanorma::Utils::anchor_or_uuid,
+                          alt: node.attr("alt"))
           end
         end
       end
@@ -78,9 +79,19 @@ module Asciidoctor
         example_proper(node)
       end
 
+      def svgmap_attrs(node)
+        attr_code( { id: node.id,
+                     unnumbered: node.option?("unnumbered") ? "true" : nil,
+                     number: node.attr("number"),
+                     subsequence: node.attr("subsequence") }.
+        merge(keep_attrs(node)))
+      end
+
       def svgmap_example(node)
         noko do |xml|
-          xml.svgmap **attr_code(example_attrs(node).merge(src: node.attr("src"), alt: node.attr("alt"))) do |ex|
+          xml.svgmap **attr_code(svgmap_attrs(node).merge(
+            src: node.attr("src"), alt: node.attr("alt"))) do |ex|
+            figure_title(node, ex)
             ex << node.content
           end
         end.join("\n")
@@ -129,8 +140,9 @@ module Asciidoctor
       end
 
       def para_attrs(node)
-        attr_code(keep_attrs(node).merge(align: node.attr("align"), 
-                                         id: Metanorma::Utils::anchor_or_uuid(node)))
+        attr_code(keep_attrs(node).
+                  merge(align: node.attr("align"), 
+                        id: Metanorma::Utils::anchor_or_uuid(node)))
       end
 
       def paragraph(node)
@@ -143,8 +155,9 @@ module Asciidoctor
       end
 
       def quote_attrs(node)
-        attr_code(keep_attrs(node).merge(align: node.attr("align"), 
-                                         id: Metanorma::Utils::anchor_or_uuid(node)))
+        attr_code(keep_attrs(node).
+                  merge(align: node.attr("align"), 
+                        id: Metanorma::Utils::anchor_or_uuid(node)))
       end
 
       def quote_attribution(node, out)
@@ -168,11 +181,12 @@ module Asciidoctor
       end
 
       def listing_attrs(node)
-        attr_code(keep_attrs(node).merge(lang: node.attr("language"),
-                                         id: Metanorma::Utils::anchor_or_uuid(node),
-                                         unnumbered: node.option?("unnumbered") ? "true" : nil,
-                                         number: node.attr("number"),
-                                         filename: node.attr("filename")))
+        attr_code(keep_attrs(node).
+                  merge(lang: node.attr("language"),
+                        id: Metanorma::Utils::anchor_or_uuid(node),
+                        unnumbered: node.option?("unnumbered") ? "true" : nil,
+                        number: node.attr("number"),
+                        filename: node.attr("filename")))
       end
 
       # NOTE: html escaping is performed by Nokogiri
