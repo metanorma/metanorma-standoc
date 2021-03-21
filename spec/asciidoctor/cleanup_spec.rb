@@ -15,6 +15,7 @@ RSpec.describe Asciidoctor::Standoc do
 ====
 
 [[ref1]]
+.SVG title
 [.svgmap]
 ====
 image::action_schemaexpg1.svg[]  
@@ -42,6 +43,7 @@ INPUT
              </target>
            </svgmap>
            <figure id='ref1'>
+           <name>SVG title</name>
              <image src='action_schemaexpg1.svg' id='_' mimetype='image/svg+xml' height='auto' width='auto'/>
            </figure>
            <svgmap>

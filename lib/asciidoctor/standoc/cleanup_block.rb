@@ -213,19 +213,24 @@ module Asciidoctor
       def svgmap_moveattrs(xmldoc)
         xmldoc.xpath("//svgmap").each do |s|
           f = s.at(".//figure") or next
-          t = s.at("./title") and !f.at("./title") and
-            f.first.previous = t.remove
+          if t = s.at("./name") and !f.at("./name")
+            f.children.first.previous = t.remove
+          end
           if s["id"] && guid?(f["id"])
             f["id"] = s["id"]
             s.delete("id")
           end
-          %w(unnumbered number subsequence keep-with-next 
+          svgmap_moveattrs1(s, f)
+        end
+      end
+
+      def svgmap_moveattrs1(s, f)
+        %w(unnumbered number subsequence keep-with-next
           keep-lines-together).each do |a|
             next if f[a] || !s[a]
             f[a] = s[a]
             s.delete(a)
           end
-        end
       end
 
       def svgmap_populate(xmldoc)
