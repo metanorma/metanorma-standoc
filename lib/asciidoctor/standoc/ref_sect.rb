@@ -20,12 +20,12 @@ module Asciidoctor
         node.attr("style") == "bibliography" or
           @log.add("AsciiDoc Input", node, "Section not marked up as [bibliography]!")
         @biblio = true
-        xml.references **attr_code(attrs.merge(normative: false)) do |xml_section|
-          #title = node.level == 1 ? "Bibliography" : node.title
-          xml_section.title { |t| t << node.title }
-          xml_section << node.content
-        end
-        @biblio = false
+        xml.references **attr_code(attrs.merge(
+          normative: node.attr("normative") || false)) do |xml_section|
+            xml_section.title { |t| t << node.title }
+            xml_section << node.content
+          end
+          @biblio = false
       end
 
       def bibitem_parse(attrs, xml, node)
@@ -43,12 +43,12 @@ module Asciidoctor
         node.attr("style") == "bibliography" or
           @log.add("AsciiDoc Input", node, "Section not marked up as [bibliography]!")
         @norm_ref = true
-        xml.references **attr_code(attrs.merge(normative: true)) do |xml_section|
-          #xml_section.title { |t| t << "Normative References" }
-          xml_section.title { |t| t << node.title }
-          xml_section << node.content
-        end
-        @norm_ref = false
+        xml.references **attr_code(attrs.merge(
+          normative: node.attr("normative") || true)) do |xml_section|
+            xml_section.title { |t| t << node.title }
+            xml_section << node.content
+          end
+          @norm_ref = false
       end
 
       def global_ievcache_name

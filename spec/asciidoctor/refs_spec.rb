@@ -99,8 +99,8 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "repairs simple fetched ISO reference" do
-    mock_isobib_get_123_no_docid
-    mock_isobib_get_123_no_docid_lbl
+    mock_isobib_get_123_no_docid(2)
+    mock_isobib_get_123_no_docid_lbl(2)
     input = <<~"INPUT"
         #{ISOBIB_BLANK_HDR}
         
@@ -1770,6 +1770,134 @@ OUTPUT
     OUTPUT
     end
 
+    it "overrides normative status of bibliographies" do
+    mock_isobib_get_123_no_docid(1)
+    mock_isobib_get_123_no_docid_lbl(1)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+      #{ISOBIB_BLANK_HDR}
+      [bibliography,normative=false]
+      == Normative References
+
+      * [[[iso123,ISO 123]]] _Standard_
+      
+      [bibliography,normative=true]
+      == Bibliography
+
+      * [[[iso124,(1)ISO 123]]] _Standard_
+    INPUT
+         #{BLANK_HDR}
+  <sections> </sections>
+<bibliography>
+           <references id='_' normative='false' obligation='informative'>
+             <title>Bibliography</title>
+             <bibitem type='standard' id='iso123'>
+               <uri type='src'>https://www.iso.org/standard/23281.html</uri>
+               <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+               <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+               <date type='published'>
+                 <on>2001</on>
+               </date>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <edition>3</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <status>
+                 <stage>Published</stage>
+               </status>
+               <copyright>
+                 <from>2001</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                     <abbreviation/>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type='obsoletes'>
+                 <bibitem type='standard'>
+                   <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                 </bibitem>
+               </relation>
+               <relation type='updates'>
+                 <bibitem type='standard'>
+                   <formattedref format='text/plain'>ISO 123:2001</formattedref>
+                 </bibitem>
+               </relation>
+               <docidentifier>ISO 123</docidentifier>
+               <title>
+                 <em>Standard</em>
+               </title>
+             </bibitem>
+           </references>
+           <references id='_' normative='true' obligation='informative'>
+             <title>Normative references</title>
+             <p id='_'>
+               The following documents are referred to in the text in such a way that
+               some or all of their content constitutes requirements of this document.
+               For dated references, only the edition cited applies. For undated
+               references, the latest edition of the referenced document (including any
+               amendments) applies.
+             </p>
+             <bibitem type='standard' id='iso124'>
+               <uri type='src'>https://www.iso.org/standard/23281.html</uri>
+               <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+               <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+               <date type='published'>
+                 <on>2001</on>
+               </date>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <edition>3</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <status>
+                 <stage>Published</stage>
+               </status>
+               <copyright>
+                 <from>2001</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                     <abbreviation/>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type='obsoletes'>
+                 <bibitem type='standard'>
+                   <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                 </bibitem>
+               </relation>
+               <relation type='updates'>
+                 <bibitem type='standard'>
+                   <formattedref format='text/plain'>ISO 123:2001</formattedref>
+                 </bibitem>
+               </relation>
+               <docidentifier>ISO 123</docidentifier>
+               <docidentifier type='metanorma'>[1]</docidentifier>
+               <title>
+                 <em>Standard</em>
+               </title>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
+    OUTPUT
+    end
 
       private
 
@@ -1781,20 +1909,20 @@ OUTPUT
       end
     end
 
-    def mock_isobib_get_123_no_docid
+    def mock_isobib_get_123_no_docid(n)
       expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", nil, {:lang=>"en", :title=>"<em>Standard</em>", usrlbl: nil}) do
         RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
         <bibitem type=\"standard\" id=\"ISO123\">\n  <uri type=\"src\">https://www.iso.org/standard/23281.html</uri>\n  <uri type=\"obp\">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>\n  <uri type=\"rss\">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type=\"published\">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type=\"publisher\"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type=\"obsoletes\">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type=\"updates\">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n</bibitem>
         OUTPUT
-      end.exactly(2).times
+      end.exactly(n).times
     end
 
-    def mock_isobib_get_123_no_docid_lbl
+    def mock_isobib_get_123_no_docid_lbl(n)
       expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", nil, {:lang=>"en", :title=>"<em>Standard</em>", usrlbl: "(1)"}) do
         RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
         <bibitem type=\"standard\" id=\"ISO123\">\n  <uri type=\"src\">https://www.iso.org/standard/23281.html</uri>\n  <uri type=\"obp\">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>\n  <uri type=\"rss\">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type=\"published\">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type=\"publisher\"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type=\"obsoletes\">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type=\"updates\">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n</bibitem>
         OUTPUT
-      end.exactly(2).times
+      end.exactly(n).times
     end
 
     def mock_isobib_get_124

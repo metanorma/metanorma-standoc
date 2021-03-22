@@ -1351,7 +1351,7 @@ OUTPUT
           <abstract format="text/plain" language="en" script="Latn">This part of IEC 60050 gives the general mathematical terminology used in the fields of electricity, electronics and telecommunications, together with basic concepts in linear algebra. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Another part will deal with functions.&#13; It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
           <status>
             <stage>60</stage>
-            <substage>60</substage>
+            <substage>00</substage>
           </status>
           <copyright>
             <from>2007</from>

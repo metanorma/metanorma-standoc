@@ -560,15 +560,15 @@ INPUT
 </title>
              <p id='_'>There are no normative references in this document.</p>
            </references>
-           <references id='_' normative='false' obligation='informative'>
-             <title>Bibliography
+           <references id='_' normative='true' obligation='informative'>
+             <title>Normative References 2.
 <fn reference='1'>
   <p id='_'>A</p>
 </fn>
 </title>
            </references>
            <references id='_' normative='false' obligation='informative'>
-             <title>Bibliography.
+             <title>Bibliography
 <fn reference='1'>
   <p id='_'>A</p>
 </fn>
@@ -803,8 +803,8 @@ INPUT
               <title>Normative references</title>
               <p id='_'>There are no normative references in this document.</p>
             </references>
-            <references id='_' normative='false' obligation='informative'>
-              <title>Bibliography</title>
+            <references id='_' normative='true' obligation='informative'>
+              <title>Normative References 2</title>
             </references>
             <references id='_' normative='false' obligation='informative'>
               <title>Bibliography</title>
@@ -1037,11 +1037,11 @@ INPUT
               <title>Références normatives</title>
               <p id='_'>Le présent document ne contient aucune référence normative.</p>
             </references>
-            <references id='_' normative='false' obligation='informative'>
-              <title>Bibliographie</title>
+            <references id='_' normative='true' obligation='informative'>
+              <title>Normative References 2</title>
             </references>
             <references id='_' normative='false' obligation='informative'>
-              <title>Bibliography</title>
+              <title>Bibliographie</title>
             </references>
             <clause id='_' obligation='informative'>
               <title>Bibliography 2</title>
@@ -1268,11 +1268,11 @@ INPUT
               <title>规范性引用文件</title>
               <p id='_'>本文件并没有规范性引用文件。</p>
             </references>
-            <references id='_' normative='false' obligation='informative'>
-              <title>参考文献</title>
+            <references id='_' normative='true' obligation='informative'>
+              <title>Normative References 2</title>
             </references>
             <references id='_' normative='false' obligation='informative'>
-              <title>Bibliography</title>
+              <title>参考文献</title>
             </references>
             <clause id='_' obligation='informative'>
               <title>Bibliography 2</title>
@@ -1499,11 +1499,11 @@ INPUT
               <title>Normaj citaĵoj</title>
               <p id='_'>There are no normative references in this document.</p>
             </references>
-            <references id='_' normative='false' obligation='informative'>
-              <title>Bibliografio</title>
+            <references id='_' normative='true' obligation='informative'>
+              <title>Normative References 2</title>
             </references>
             <references id='_' normative='false' obligation='informative'>
-              <title>Bibliography</title>
+              <title>Bibliografio</title>
             </references>
             <clause id='_' obligation='informative'>
               <title>Bibliography 2</title>
