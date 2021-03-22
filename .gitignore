@@ -10,3 +10,5 @@ spec/examples/rice.html
 spec/examples/rice.xml
 spec/examples/rice_files/
 Gemfile.lock
+
+.rubocop-https--*
