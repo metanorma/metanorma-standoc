@@ -709,6 +709,7 @@ OUTPUT
       :header-font: Comic Sans
       :monospace-font: Andale Mono
       :htmlstylesheet: spec/assets/html.scss
+      :htmlstylesheet-override: spec/assets/html-override.css
       :htmlcoverpage: spec/assets/htmlcover.html
       :htmlintropage: spec/assets/htmlintro.html
       :scripts: spec/assets/scripts.html
@@ -727,6 +728,7 @@ OUTPUT
     expect(html).to match(%r[an empty html cover page])
     expect(html).to match(%r[an empty html intro page])
     expect(html).to match(%r[This is > a script])
+    expect(html).to match(%r[html-override])
   end
 
   it "uses specified fonts and assets in Word" do
@@ -741,6 +743,7 @@ OUTPUT
       :header-font: Comic Sans
       :monospace-font: Andale Mono
       :wordstylesheet: spec/assets/word.scss
+      :wordstylesheet-override: spec/assets/word-override.css
       :wordcoverpage: spec/assets/wordcover.html
       :wordintropage: spec/assets/wordintro.html
       :header: spec/assets/header.html
@@ -758,6 +761,7 @@ OUTPUT
     expect(html).to match(%r[h1[^{]+\{[^{]+font-family: Comic Sans;]m)
     expect(html).to match(%r[an empty word cover page])
     expect(html).to match(%r[an empty word intro page])
+    expect(html).to match(%r[word-override])
     expect(html).to include('\o "1-3"')
     expect(html).to include(%[Content-Location: file:///C:/Doc/test_files/header.html
 Content-Transfer-Encoding: base64
