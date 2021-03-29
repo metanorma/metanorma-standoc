@@ -40,7 +40,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "metanorma-utils", "~> 1.0.2"
   spec.add_dependency "mathml2asciimath"
   spec.add_dependency "latexmath"
-  spec.add_dependency "asciimath2unitsml", "~> 0.2.0"
+  spec.add_dependency "asciimath2unitsml", "~> 0.3.0"
 
   spec.add_development_dependency "byebug"
   spec.add_development_dependency "sassc", "2.4.0"

@@ -2143,7 +2143,7 @@ Author
 INPUT
 #{BLANK_HDR}
 <misc-container>
-           <UnitsML xmlns='http://unitsml.nist.gov/2005'>
+           <UnitsML xmlns='https://schema.unitsml.org/unitsml/1.0'>
              <UnitSet>
                <Unit xml:id='U_m.kg-2' dimensionURL='#D_LM-2'>
                  <UnitSystem name='SI' type='SI_derived' xml:lang='en-US'/>

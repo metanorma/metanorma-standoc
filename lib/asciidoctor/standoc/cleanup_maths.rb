@@ -74,7 +74,7 @@ module Asciidoctor
         end
       end
 
-      UNITSML_NS = "http://unitsml.nist.gov/2005".freeze
+      UNITSML_NS = "https://schema.unitsml.org/unitsml/1.0".freeze
 
       def add_misc_container(xmldoc)
         unless ins = xmldoc.at("//misc-container")
