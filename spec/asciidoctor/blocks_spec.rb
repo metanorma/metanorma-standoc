@@ -959,6 +959,9 @@ RSpec.describe Asciidoctor::Standoc do
       [.source]
       <<ISO2191,section=1>>
 
+      [.source]
+      <<ISO2191,droploc%capital%section=1>>
+
       === Term2
 
       Definition
@@ -981,6 +984,13 @@ RSpec.describe Asciidoctor::Standoc do
          <preferred>Term1</preferred>
          <termsource status="identical">
          <origin bibitemid="ISO2191" type="inline" citeas="">
+         <localityStack>
+        <locality type="section"><referenceFrom>1</referenceFrom></locality>
+        </localityStack>
+        </origin>
+       </termsource>
+       <termsource status="identical">
+         <origin bibitemid="ISO2191" type="inline" citeas="" case='capital' droploc='true'>
          <localityStack>
         <locality type="section"><referenceFrom>1</referenceFrom></locality>
         </localityStack>

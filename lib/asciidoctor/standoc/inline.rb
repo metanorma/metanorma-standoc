@@ -45,7 +45,7 @@ module Asciidoctor
 
       def inline_anchor_xref_attrs(node)
         m = /^(?<drop>droploc%)?(?<case>capital%|lowercase%)?(?<drop2>droploc%)?
-          (?<fn>fn(:\s*(?<text>.*))?)?$/x.match node.text
+          (?<fn>fn:?\s*)?(?<text>.*)$/x.match node.text
         casing = m.nil? ? nil : m[:case]&.sub(/%$/, "")
         droploc = m.nil? ? nil : ((m[:drop].nil? && m[:drop2].nil?) ? nil: true)
         f = (m.nil? || m[:fn].nil?) ? "inline" : "footnote"
