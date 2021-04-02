@@ -79,16 +79,20 @@ module Asciidoctor
         end
       end
 
-      def term_source_attrs(seen_xref)
-        { bibitemid: seen_xref.children[0]["target"],
-          format: seen_xref.children[0]["format"], type: "inline" }
+      def term_source_attrs(node, seen_xref)
+          { case: seen_xref.children[0]["case"],
+            droploc: seen_xref.children[0]["droploc"],
+            bibitemid: seen_xref.children[0]["target"],
+            format: seen_xref.children[0]["format"], type: "inline" }
       end
 
-      def add_term_source(xml_t, seen_xref, m)
+      def add_term_source(node, xml_t, seen_xref, m)
         if seen_xref.children[0].name == "concept"
           xml_t.origin { |o| o << seen_xref.children[0].to_xml }
         else
-          xml_t.origin seen_xref.children[0].content, **attr_code(term_source_attrs(seen_xref))
+          attrs = term_source_attrs(node, seen_xref)
+          attrs.delete(:text)
+          xml_t.origin seen_xref.children[0].content, **attr_code(attrs)
         end
         m[:text] && xml_t.modification do |mod|
           mod.p { |p| p << m[:text].sub(/^\s+/, "") }
@@ -116,7 +120,7 @@ module Asciidoctor
           attrs = { status: matched[:text] ? "modified" : "identical" }
           xml.termsource **attrs do |xml_t|
             seen_xref = Nokogiri::XML.fragment(matched[:xref])
-            add_term_source(xml_t, seen_xref, matched)
+            add_term_source(node, xml_t, seen_xref, matched)
           end
         end.join("\n")
       end

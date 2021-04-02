@@ -318,6 +318,7 @@ OUTPUT
       Lowercase Footnoted Reference to <<reference,droploc%fn>>
       Capitalised Reference to <<reference,droploc%capital%>>
       Lowercase Footnoted Reference to <<reference,droploc%capital%fn>>
+      Lowercase Footnoted Reference to <<reference,droploc%capital%text>>
     INPUT
        #{BLANK_HDR}
         <sections>
@@ -342,6 +343,8 @@ OUTPUT
 <xref target='reference' case='capital' droploc='true'/>
  Lowercase Footnoted Reference to
 <xref target='reference' case='capital' droploc='true'/>
+ Lowercase Footnoted Reference to
+<xref target='reference' case='capital' droploc='true'>text</xref>
 </p>
        </clause>
        </sections>

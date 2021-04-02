@@ -518,6 +518,7 @@ OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       <<iso216>>
+      <<iso216,droploc%capital%>>
 
       [bibliography]
       == Normative References
@@ -528,6 +529,7 @@ OUTPUT
         <title>Foreword</title>
         <p id="_">
         <eref type="inline" bibitemid="iso216" citeas="ISO 216:2001"/>
+        <eref type='inline' case='capital' droploc='true' bibitemid='iso216' citeas='ISO 216:2001'/>
       </p>
       </foreword></preface><sections>
       </sections><bibliography><references id="_" obligation="informative" normative="true">
@@ -561,6 +563,7 @@ OUTPUT
       <<iso216,_whole_>>
       <<iso216,a _whole_ flagon>>
       <<iso216,whole,clause=3,a _whole_ flagon>>
+      <<iso216,droploc%capital%whole,clause=3,a _whole_ flagon>>
 
       [bibliography]
       == Normative References
@@ -624,6 +627,17 @@ OUTPUT
     </locality>
   </localityStack>
   a 
+  <em>whole</em>
+   flagon
+</eref>
+<eref type='inline' case='capital' droploc='true' bibitemid='iso216' citeas='ISO 216'>
+  <localityStack>
+    <locality type='whole'/>
+    <locality type='clause'>
+      <referenceFrom>3</referenceFrom>
+    </locality>
+  </localityStack>
+  a
   <em>whole</em>
    flagon
 </eref>
