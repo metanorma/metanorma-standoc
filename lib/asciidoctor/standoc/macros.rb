@@ -2,10 +2,10 @@ require "asciidoctor/extensions"
 require "fileutils"
 require "uuidtools"
 require "yaml"
-require_relative "./macros_plantuml.rb"
-require_relative "./macros_terms.rb"
-require_relative "./datamodel/attributes_table_preprocessor.rb"
-require_relative "./datamodel/diagram_preprocessor.rb"
+require_relative "./macros_plantuml"
+require_relative "./macros_terms"
+require_relative "./datamodel/attributes_table_preprocessor"
+require_relative "./datamodel/diagram_preprocessor"
 require "metanorma-plugin-datastruct"
 require "metanorma-plugin-lutaml"
 
@@ -29,6 +29,7 @@ module Asciidoctor
 
       def preprocess_attrs(attrs)
         return unless attrs.size > 1 && attrs.size < 5
+
         ret = { primary: attrs[1], target: attrs[attrs.size] }
         ret[:secondary] = attrs[2] if attrs.size > 2
         ret[:tertiary] = attrs[3] if attrs.size > 3
@@ -37,7 +38,8 @@ module Asciidoctor
 
       def process(_parent, target, attr)
         args = preprocess_attrs(attr) or return
-        ret = "<index-xref also='#{target == 'also'}'><primary>#{args[:primary]}</primary>"
+        ret = "<index-xref also='#{target == 'also'}'>"\
+          "<primary>#{args[:primary]}</primary>"
         ret += "<secondary>#{args[:secondary]}</secondary>" if args[:secondary]
         ret += "<tertiary>#{args[:tertiary]}</tertiary>" if args[:tertiary]
         ret + "<target>#{args[:target]}</target></index-xref>"
@@ -51,7 +53,7 @@ module Asciidoctor
 
       def process(parent, target, attr)
         text = attr["text"]
-        text = "((#{text}))" unless /^\(\(.+\)\)$/.match(text)
+        text = "((#{text}))" unless /^\(\(.+\)\)$/.match?(text)
         out = parent.sub_macros(text)
         out.sub(/<index>/, "<index to='#{target}'>")
       end
@@ -62,8 +64,8 @@ module Asciidoctor
       named :pseudocode
       on_context :example, :sourcecode
 
-      def init_indent(s)
-        /^(?<prefix>[ \t]*)(?<suffix>.*)$/ =~ s
+      def init_indent(line)
+        /^(?<prefix>[ \t]*)(?<suffix>.*)$/ =~ line
         prefix = prefix.gsub(/\t/, "\u00a0\u00a0\u00a0\u00a0")
           .gsub(/ /, "\u00a0")
         prefix + suffix
@@ -75,9 +77,10 @@ module Asciidoctor
           /^(--+|====+|\|===|\.\.\.\.+|\*\*\*\*+|\+\+\+\++|\`\`\`\`+|____\+)$/.match(l) &&
             (ignore = !ignore)
           next if l.empty? || l.match(/ \+$/)
-          next if /^\[.*\]$/.match(l)
+          next if /^\[.*\]$/.match?(l)
           next if ignore
           next if i == lines.size - 1 || i < lines.size - 1 && lines[i + 1].empty?
+
           lines[i] += " +"
         end
         lines
@@ -86,9 +89,8 @@ module Asciidoctor
       def process(parent, reader, attrs)
         attrs["role"] = "pseudocode"
         lines = reader.lines.map { |m| init_indent(m) }
-        ret = create_block(parent, :example, supply_br(lines),
-                           attrs, content_model: :compound)
-        ret
+        create_block(parent, :example, supply_br(lines),
+                     attrs, content_model: :compound)
       end
     end
 
@@ -98,6 +100,7 @@ module Asciidoctor
       parse_content_as :text
       option :pos_attrs, %w(rpbegin rt rpend)
 
+      # for example, html5ruby:楽聖少女[がくせいしょうじょ]
       def process(_parent, target, attributes)
         rpbegin = "("
         rpend = ")"
@@ -105,7 +108,6 @@ module Asciidoctor
           rt = attributes["text"]
         elsif (attributes.size == 2) && attributes.key?(1) &&
           attributes.key?("rpbegin")
-          # for example, html5ruby:楽聖少女[がくせいしょうじょ]
           rt = attributes[1] || ""
         else
           rpbegin = attributes["rpbegin"]
@@ -135,6 +137,7 @@ module Asciidoctor
       def process(document)
         (document.find_by context: :paragraph).each do |para|
           next unless /^TODO: /.match para.lines[0]
+
           parent = para.parent
           para.set_attr("name", "todo")
           para.set_attr("caption", "TODO")
@@ -180,6 +183,30 @@ module Asciidoctor
       def process(parent, _target, attrs)
         out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
         %{<footnoteblock>#{out}</footnoteblock>}
+      end
+    end
+
+    class AddMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :add
+      parse_content_as :text
+      using_format :short
+
+      def process(parent, _target, attrs)
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        %{<add>#{out}</add>}
+      end
+    end
+
+    class DelMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :del
+      parse_content_as :text
+      using_format :short
+
+      def process(parent, _target, attrs)
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        %{<del>#{out}</del>}
       end
     end
   end

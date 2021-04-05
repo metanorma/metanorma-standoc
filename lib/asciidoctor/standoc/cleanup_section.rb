@@ -43,7 +43,7 @@ module Asciidoctor
       end
 
       def bibabstract_location(x)
-        bibabstract = x.at("//bibdata/script") || x.at("//bibdata/language") ||
+        x.at("//bibdata/script") || x.at("//bibdata/language") ||
           x.at("//bibdata/contributor[not(following-sibling::contributor)]") ||
           x.at("//bibdata/date[not(following-sibling::date)]") ||
           x.at("//docnumber") ||
@@ -74,7 +74,6 @@ module Asciidoctor
         make_bibliography(x, s)
         x.xpath("//sections/annex").reverse_each { |r| s.next = r.remove }
       end
-      
       def make_annexes(x)
         x.xpath("//*[@annex]").each do |y|
           y.delete("annex")
@@ -186,6 +185,7 @@ module Asciidoctor
 
       def replace_title(doc, xpath, text, first = false)
         return unless text
+
         doc.xpath(xpath).each_with_index do |node, i|
           next if first && !i.zero?
           title = get_or_make_title(node)
@@ -196,24 +196,24 @@ module Asciidoctor
         end
       end
 
-      def sections_names_cleanup(x)
-        replace_title(x, "//clause[@type = 'scope']", @i18n&.scope)
-        replace_title(x, "//preface//abstract", @i18n&.abstract)
-        replace_title(x, "//foreword", @i18n&.foreword)
-        replace_title(x, "//introduction", @i18n&.introduction)
-        replace_title(x, "//acknowledgements", @i18n&.acknowledgements)
-        section_names_refs_cleanup(x)
-        section_names_terms_cleanup(x)
+      def sections_names_cleanup(xml)
+        replace_title(xml, "//clause[@type = 'scope']", @i18n&.scope)
+        replace_title(xml, "//preface//abstract", @i18n&.abstract)
+        replace_title(xml, "//foreword", @i18n&.foreword)
+        replace_title(xml, "//introduction", @i18n&.introduction)
+        replace_title(xml, "//acknowledgements", @i18n&.acknowledgements)
+        section_names_refs_cleanup(xml)
+        section_names_terms_cleanup(xml)
       end
 
-      def section_names_refs_cleanup(x)
-        replace_title(x, "//references[@normative = 'true']",
+      def section_names_refs_cleanup(xml)
+        replace_title(xml, "//references[@normative = 'true']",
                       @i18n&.normref, true)
-        replace_title(x, "//references[@normative = 'false']",
+        replace_title(xml, "//references[@normative = 'false']",
                       @i18n&.bibliography, true)
       end
 
-      NO_SYMABBR = "[.//definitions[not(@type)]]"
+      NO_SYMABBR = "[.//definitions[not(@type)]]".freeze
       SYMABBR = "[.//definitions[@type = 'symbols']"\
         "[@type = 'abbreviated_terms']]".freeze
       SYMnoABBR = "[.//definitions[@type = 'symbols']"\
@@ -223,7 +223,8 @@ module Asciidoctor
 
       def section_names_terms_cleanup(x)
         replace_title(x, "//definitions[@type = 'symbols']", @i18n&.symbols)
-        replace_title(x, "//definitions[@type = 'abbreviated_terms']", @i18n&.abbrev)
+        replace_title(x, "//definitions[@type = 'abbreviated_terms']",
+                      @i18n&.abbrev)
         replace_title(x, "//definitions[not(@type)]", @i18n&.symbolsabbrev)
         replace_title(x, "//terms#{SYMnoABBR} | //clause[.//terms]#{SYMnoABBR}",
                       @i18n&.termsdefsymbols, true)

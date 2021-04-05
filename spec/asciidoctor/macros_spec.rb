@@ -9,14 +9,15 @@ RSpec.describe Asciidoctor::Standoc do
       domain:[term1]
       inherit:[<<ref1>>]
       autonumber:table[3]
+      add:[a <<clause>>] del:[B]
 
       [bibliography]
       == Bibliography
       * [[[ref1,XYZ 123]]] _Title_
     INPUT
-            #{BLANK_HDR}
+      #{BLANK_HDR}
          <preface>
-  <foreword id='_' obligation='informative'>
+    <foreword id='_' obligation='informative'>
     <title>Foreword</title>
     <admitted>term1</admitted>
     <deprecates>term1</deprecates>
@@ -25,6 +26,11 @@ RSpec.describe Asciidoctor::Standoc do
       <eref type='inline' bibitemid='ref1' citeas='XYZ 123'/>
     </inherit>
     <autonumber type='table'>3</autonumber>
+    <add>
+                a
+                <xref target='clause'/>
+              </add>
+              <del>B</del>
   </foreword>
 </preface>
 <sections> </sections>
