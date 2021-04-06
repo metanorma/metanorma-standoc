@@ -3,21 +3,26 @@ module Asciidoctor
     module Cleanup
       def external_terms_boilerplate(sources)
         @i18n.l10n(
-          @i18n.external_terms_boilerplate.gsub(/%/, sources || "???"), @lang, @script)
+          @i18n.external_terms_boilerplate.gsub(/%/, sources || "???"),
+          @lang, @script
+        )
       end
 
       def internal_external_terms_boilerplate(sources)
         @i18n.l10n(
-          @i18n.internal_external_terms_boilerplate.gsub(/%/, sources || "??"), @lang, @script)
+          @i18n.internal_external_terms_boilerplate.gsub(/%/, sources || "??"),
+          @lang, @script
+        )
       end
 
       def term_defs_boilerplate(div, source, term, preface, isodoc)
         a = @i18n.term_def_boilerplate and div.next = a
         source.each do |s|
           @anchors[s["bibitemid"]] or
-            @log.add("Crossreferences", nil, "term source #{s['bibitemid']} not referenced")
+            @log.add("Crossreferences", nil,
+                     "term source #{s['bibitemid']} not referenced")
         end
-        a = (source.empty? && term.nil?) ?  @i18n.no_terms_boilerplate :
+        a = source.empty? && term.nil? ?  @i18n.no_terms_boilerplate :
           term_defs_boilerplate_cont(source, term, isodoc)
         a and div.next = a
       end
@@ -55,7 +60,7 @@ module Asciidoctor
       end
 
       def termdef_boilerplate_cleanup(xmldoc)
-        #termdef_remove_initial_paras(xmldoc)
+        # termdef_remove_initial_paras(xmldoc)
       end
 
       def termdef_remove_initial_paras(xmldoc)
@@ -76,6 +81,7 @@ module Asciidoctor
         termdef_boilerplate_cleanup(xmldoc)
         xmldoc.xpath(self.class::TERM_CLAUSE).each do |f|
           next if f.at("./clause[@type = 'boilerplate']")
+
           term_defs_boilerplate(f.at("./title"), xmldoc.xpath(".//termdocsource"),
                                 f.at(".//term"), f.at(".//p"), isodoc)
         end
@@ -84,15 +90,16 @@ module Asciidoctor
         initial_boilerplate(xmldoc, isodoc)
       end
 
-      def initial_boilerplate(x, isodoc)
-        return if x.at("//boilerplate")
-        preface = x.at("//preface") || x.at("//sections") || x.at("//annex") ||
-          x.at("//references") || return
+      def initial_boilerplate(xml, isodoc)
+        return if xml.at("//boilerplate")
+
+        preface = xml.at("//preface") || xml.at("//sections") ||
+          xml.at("//annex") || xml.at("//references") || return
         b = boilerplate(x, isodoc) or return
         preface.previous = b
       end
 
-      def boilerplate_file(xmldoc)
+      def boilerplate_file(_xmldoc)
         File.join(@libdir, "boilerplate.xml")
       end
 
@@ -100,7 +107,7 @@ module Asciidoctor
         file = boilerplate_file(xml)
         file = File.join(@localdir, @boilerplateauthority) if @boilerplateauthority
         !file.nil? and File.exists?(file) or return
-        conv.populate_template((File.read(file, encoding: "UTF-8")), nil)
+        conv.populate_template(File.read(file, encoding: "UTF-8"), nil)
       end
 
       def bibdata_cleanup(xmldoc)
@@ -118,14 +125,16 @@ module Asciidoctor
       def bibdata_docidentifier_cleanup(xmldoc)
         ins = xmldoc.at("//bibdata/docidentifier")
         xmldoc.xpath("//bibdata/docidentifier").each_with_index do |b, i|
-          next if i == 0
+          next if i.zero?
+
           ins.next = b.remove
           ins = ins.next
         end
       end
 
       def gather_indirect_erefs(xmldoc, prefix)
-        xmldoc.xpath("//eref[@type = '#{prefix}']").each_with_object({}) do |e, m|
+        xmldoc.xpath("//eref[@type = '#{prefix}']")
+          .each_with_object({}) do |e, m|
           e.delete("type")
           m[e["bibitemid"]] = true
         end.keys

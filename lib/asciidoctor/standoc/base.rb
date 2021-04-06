@@ -52,6 +52,7 @@ module Asciidoctor
           htmltoclevels: node.attr("htmltoclevels") || node.attr("toclevels"),
           doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
           break_up_urls_in_tables: node.attr("break-up-urls-in-tables"),
+          sectionsplit: node.attr("sectionsplit"),
         }
       end
 
