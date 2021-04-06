@@ -95,7 +95,7 @@ module Asciidoctor
 
         preface = xml.at("//preface") || xml.at("//sections") ||
           xml.at("//annex") || xml.at("//references") || return
-        b = boilerplate(x, isodoc) or return
+        b = boilerplate(xml, isodoc) or return
         preface.previous = b
       end
 
