@@ -787,6 +787,19 @@ QU1FOiB0ZXN0Cgo=
     expect(File.exist?("test.doc")).to be true
   end
 
+
+  it "process mn2pdf attributes" do
+    node = Nokogiri::XML("<fake/>").at("fake")
+    node["mn2pdf-font-manifest-file"] = "passed/as/font/manifest/to/mn2pdf.jar"
+
+    options = Asciidoctor::Standoc::Converter
+      .new(:standoc, header_footer: true)
+      .doc_extract_attributes(node)
+
+    expect(options.dig(:mn2pdf, :font_manifest_file))
+      .to eq(node["mn2pdf-font-manifest-file"])
+  end
+
   private
 
   def mock_org_abbrevs
