@@ -787,7 +787,6 @@ QU1FOiB0ZXN0Cgo=
     expect(File.exist?("test.doc")).to be true
   end
 
-
   it "process mn2pdf attributes" do
     node = Nokogiri::XML("<fake/>").at("fake")
     node["mn2pdf-font-manifest-file"] = "passed/as/font/manifest/to/mn2pdf.jar"

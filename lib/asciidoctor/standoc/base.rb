@@ -84,7 +84,7 @@ module Asciidoctor
 
         if font_manifest_file = node.attr("mn2pdf-font-manifest-file")
           attrs[IsoDoc::XslfoPdfConvert::MN2PDF_OPTIONS] = {
-            IsoDoc::XslfoPdfConvert::MN2PDF_FONT_MANIFEST => font_manifest_file
+            IsoDoc::XslfoPdfConvert::MN2PDF_FONT_MANIFEST => font_manifest_file,
           }
         end
 
