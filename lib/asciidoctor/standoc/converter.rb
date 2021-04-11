@@ -13,7 +13,7 @@ require "asciidoctor/standoc/validate"
 require "asciidoctor/standoc/utils"
 require "asciidoctor/standoc/cleanup"
 require "asciidoctor/standoc/reqt"
-require_relative "./macros.rb"
+require_relative "./macros"
 
 module Asciidoctor
   module Standoc
@@ -39,6 +39,8 @@ module Asciidoctor
         inline_macro Asciidoctor::Standoc::TermRefInlineMacro
         inline_macro Asciidoctor::Standoc::IndexXrefInlineMacro
         inline_macro Asciidoctor::Standoc::IndexRangeInlineMacro
+        inline_macro Asciidoctor::Standoc::AddMacro
+        inline_macro Asciidoctor::Standoc::DelMacro
         block Asciidoctor::Standoc::ToDoAdmonitionBlock
         treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
         block Asciidoctor::Standoc::PlantUMLBlockMacro

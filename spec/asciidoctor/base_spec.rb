@@ -763,7 +763,8 @@ OUTPUT
     expect(html).to match(%r[an empty word intro page])
     expect(html).to match(%r[word-override])
     expect(html).to include('\o "1-3"')
-    expect(html).to include(%[Content-Location: file:///C:/Doc/test_files/header.html
+    expect(html).to include(%[Content-ID: <header.html>
+Content-Disposition: inline; filename="header.html"
 Content-Transfer-Encoding: base64
 Content-Type: text/html charset="utf-8"
 
