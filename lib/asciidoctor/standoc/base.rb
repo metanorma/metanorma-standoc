@@ -8,6 +8,7 @@ require "isodoc"
 require "relaton"
 require "fileutils"
 require "metanorma-utils"
+require "isodoc/xslfo_convert"
 
 module Asciidoctor
   module Standoc
@@ -61,7 +62,7 @@ module Asciidoctor
       end
 
       def doc_extract_attributes(node)
-        {
+        attrs = {
           script: node.attr("script"),
           bodyfont: node.attr("body-font"),
           headerfont: node.attr("header-font"),
@@ -80,6 +81,14 @@ module Asciidoctor
           doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
           break_up_urls_in_tables: node.attr("break-up-urls-in-tables"),
         }
+
+        if font_manifest_file = node.attr("mn2pdf-font-manifest-file")
+          attrs[IsoDoc::XslfoPdfConvert::MN2PDF_OPTIONS] = {
+            IsoDoc::XslfoPdfConvert::MN2PDF_FONT_MANIFEST => font_manifest_file,
+          }
+        end
+
+        attrs
       end
 
       def doc_converter(node)
