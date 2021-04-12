@@ -6,7 +6,7 @@ RSpec.describe Asciidoctor::Standoc do
   it "processes svgmap" do
     FileUtils.cp "spec/fixtures/action_schemaexpg1.svg", "action_schemaexpg1.svg"
     FileUtils.cp "spec/fixtures/action_schemaexpg1.svg", "action_schemaexpg2.svg"
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).gsub(%r{<image.*?</image>}m, "<image/>").gsub(%r{<style.*?</style>}m, "<style/>")).to be_equivalent_to xmlpp(<<~"OUTPUT")
             #{ASCIIDOC_BLANK_HDR}
 
             [svgmap%unnumbered,number=8,subsequence=A,keep-with-next=true,keep-lines-together=true]
@@ -30,7 +30,7 @@ RSpec.describe Asciidoctor::Standoc do
             [alt=Workmap]
             image::action_schemaexpg2.svg[]
 
-            * <<ref1,Computer>>; href1.htm
+            * <<ref1,Computer>>; mn://action_schema
             * http://www.example.com[Phone]; mn://basic_attribute_schema
             * <<express:action_schema:action_schema.basic,Coffee>>; mn://support_resource_schema
             ====
@@ -44,11 +44,39 @@ RSpec.describe Asciidoctor::Standoc do
                  </svgmap>
                  <figure id='ref1'>
                  <name>SVG title</name>
-                   <image src='action_schemaexpg1.svg' id='_' mimetype='image/svg+xml' height='auto' width='auto'/>
+                   <?xml version="1.0" encoding="utf-8"??>
+      <!-- Generator: Adobe Illustrator 25.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+      <svg xmlns='http://www.w3.org/2000/svg' version='1.1' id='Layer_1' x='0px' y='0px' viewbox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink'>
+        <style/>
+        <image/>
+        <a xlink:href='#ref1'>
+          <rect x='123.28' y='273.93' class='st0' width='88.05' height='41.84'/>
+        </a>
+        <a xlink:href='mn://basic_attribute_schema'>
+          <rect x='324.69' y='450.52' class='st0' width='132.62' height='40.75'/>
+        </a>
+        <a xlink:href='mn://support_resource_schema'>
+          <rect x='324.69' y='528.36' class='st0' width='148.16' height='40.75'/>
+        </a>
+      </svg>
                  </figure>
                  <svgmap>
                    <figure id='ref2' unnumbered='true' number='8' subsequence='A' keep-with-next='true' keep-lines-together='true'>
-                     <image src='action_schemaexpg2.svg' id='_' mimetype='image/svg+xml' height='auto' width='auto' alt='Workmap'/>
+                   <?xml version="1.0" encoding="utf-8"??>
+        <!-- Generator: Adobe Illustrator 25.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+        <svg xmlns='http://www.w3.org/2000/svg' version='1.1' id='Layer_1' x='0px' y='0px' viewbox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink'>
+          <style/>
+          <image/>
+          <a xlink:href='#ref1'>
+            <rect x='123.28' y='273.93' class='st0' width='88.05' height='41.84'/>
+          </a>
+          <a xlink:href='http://www.example.com'>
+            <rect x='324.69' y='450.52' class='st0' width='132.62' height='40.75'/>
+          </a>
+          <a xlink:href='mn://support_resource_schema'>
+            <rect x='324.69' y='528.36' class='st0' width='148.16' height='40.75'/>
+          </a>
+        </svg>
                    </figure>
                    <target href='mn://support_resource_schema'>
                      <eref bibitemid='express_action_schema' citeas=''>
@@ -70,38 +98,6 @@ RSpec.describe Asciidoctor::Standoc do
         </references>
       </bibliography>
              </standard-document>
-    OUTPUT
-    expect(xmlpp(File.read("action_schemaexpg1.svg", encoding: "utf-8").sub(%r{<image .*</image>}m, ""))).to be_equivalent_to <<~OUTPUT
-      <?xml version='1.0' encoding='UTF-8'?>
-             <!-- Generator: Adobe Illustrator 25.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-             <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve'>
-               <style type='text/css'> .st0{fill:none;stroke:#000000;stroke-miterlimit:10;} </style>
-               <a xlink:href='#ref1'>
-                 <rect x='123.28' y='273.93' class='st0' width='88.05' height='41.84'/>
-               </a>
-               <a xlink:href='mn://basic_attribute_schema'>
-                 <rect x='324.69' y='450.52' class='st0' width='132.62' height='40.75'/>
-               </a>
-               <a xlink:href='mn://support_resource_schema'>
-                 <rect x='324.69' y='528.36' class='st0' width='148.16' height='40.75'/>
-               </a>
-             </svg>
-    OUTPUT
-    expect(xmlpp(File.read("action_schemaexpg2.svg", encoding: "utf-8").sub(%r{<image .*</image>}m, ""))).to be_equivalent_to <<~OUTPUT
-      <?xml version='1.0' encoding='UTF-8'?>
-             <!-- Generator: Adobe Illustrator 25.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-             <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve'>
-               <style type='text/css'> .st0{fill:none;stroke:#000000;stroke-miterlimit:10;} </style>
-               <a xlink:href='mn://action_schema'>
-                 <rect x='123.28' y='273.93' class='st0' width='88.05' height='41.84'/>
-               </a>
-               <a xlink:href='http://www.example.com'>
-                 <rect x='324.69' y='450.52' class='st0' width='132.62' height='40.75'/>
-               </a>
-               <a xlink:href='mn://support_resource_schema'>
-                 <rect x='324.69' y='528.36' class='st0' width='148.16' height='40.75'/>
-               </a>
-             </svg>
     OUTPUT
   end
 
@@ -1358,7 +1354,7 @@ RSpec.describe Asciidoctor::Standoc do
                           <abstract format="text/plain" language="en" script="Latn">This part of IEC 60050 gives the general mathematical terminology used in the fields of electricity, electronics and telecommunications, together with basic concepts in linear algebra. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Another part will deal with functions.&#13; It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
                           <status>
                             <stage>60</stage>
-                            <substage>00</substage>
+                            <substage>60</substage>
                           </status>
                           <copyright>
                             <from>2007</from>

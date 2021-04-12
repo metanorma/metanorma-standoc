@@ -1,6 +1,6 @@
 # coding: utf-8
 
-lib = File.expand_path("../lib", __FILE__)
+lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "metanorma/standoc/version"
 
@@ -27,29 +27,29 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = Gem::Requirement.new(">= 2.4.0")
 
   spec.add_dependency "asciidoctor", "~> 2.0.0"
-  spec.add_dependency "ruby-jing"
-  spec.add_dependency "isodoc", "~> 1.5.0"
   spec.add_dependency "iev", "~> 0.2.1"
+  spec.add_dependency "isodoc", "~> 1.6.0"
   spec.add_dependency "metanorma-plugin-datastruct"
   spec.add_dependency "metanorma-plugin-lutaml", "~> 0.3.0"
+  spec.add_dependency "ruby-jing"
   # relaton-cli not just relaton, to avoid circular reference in metanorma
+  spec.add_dependency "asciimath2unitsml", "~> 0.3.0"
+  spec.add_dependency "concurrent-ruby"
+  spec.add_dependency "latexmath"
+  spec.add_dependency "mathml2asciimath"
+  spec.add_dependency "metanorma-utils", "~> 1.2.0"
   spec.add_dependency "relaton-cli", "~> 1.7.0"
   spec.add_dependency "relaton-iev", "~> 1.1.0"
-  spec.add_dependency "concurrent-ruby"
   spec.add_dependency "unicode2latex", "~> 0.0.1"
-  spec.add_dependency "metanorma-utils", "~> 1.1.0"
-  spec.add_dependency "mathml2asciimath"
-  spec.add_dependency "latexmath"
-  spec.add_dependency "asciimath2unitsml", "~> 0.3.0"
 
   spec.add_development_dependency "byebug"
-  spec.add_development_dependency "sassc", "2.4.0"
   spec.add_development_dependency "equivalent-xml", "~> 0.6"
   spec.add_development_dependency "guard", "~> 2.14"
   spec.add_development_dependency "guard-rspec", "~> 4.7"
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.6"
   spec.add_development_dependency "rubocop", "~> 1.5.2"
+  spec.add_development_dependency "sassc", "2.4.0"
   spec.add_development_dependency "simplecov", "~> 0.15"
   spec.add_development_dependency "timecop", "~> 0.9"
   spec.add_development_dependency "vcr", "~> 5.0.0"

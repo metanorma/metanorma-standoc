@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - EEF0:6F3F:C2507:20D554:6057F121
+      - D074:46C0:228A17:304D36:60740EDD
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 22 Mar 2021 01:21:38 GMT
+      - Mon, 12 Apr 2021 09:11:58 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11270-MEL
+      - cache-mel11258-MEL
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1616376098.717421,VS0,VE412
+      - S1618218718.928229,VS0,VE475
       Vary:
       - Authorization,Accept-Encoding
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 82cdfc0a5128b9eb359b9dfdfc73d7947fb6ef31
+      - f1789c14f24d7375f9da61aa0f567c84578dd4b3
       Expires:
-      - Mon, 22 Mar 2021 01:26:38 GMT
+      - Mon, 12 Apr 2021 09:16:58 GMT
       Source-Age:
       - '0'
     body:
@@ -84,7 +84,7 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Mon, 22 Mar 2021 01:21:38 GMT
+  recorded_at: Mon, 12 Apr 2021 09:11:58 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
@@ -126,29 +126,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - EEF0:6F3F:C2507:20D554:6057F121
+      - D074:46C0:228A17:304D36:60740EDD
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 22 Mar 2021 01:21:38 GMT
+      - Mon, 12 Apr 2021 09:11:58 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11230-MEL
+      - cache-mel11223-MEL
       X-Cache:
       - HIT
       X-Cache-Hits:
       - '1'
       X-Timer:
-      - S1616376098.397550,VS0,VE0
+      - S1618218718.434440,VS0,VE0
       Vary:
       - Authorization,Accept-Encoding
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 223ebf01c684cbcd8af660a2a12330a05a5a73d2
+      - bee3ed89b1d99c69c6ca2790fbe06fb5426275aa
       Expires:
-      - Mon, 22 Mar 2021 01:26:38 GMT
+      - Mon, 12 Apr 2021 09:16:58 GMT
       Source-Age:
       - '0'
     body:
@@ -169,5 +169,5 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Mon, 22 Mar 2021 01:21:38 GMT
+  recorded_at: Mon, 12 Apr 2021 09:11:58 GMT
 recorded_with: VCR 5.0.0
