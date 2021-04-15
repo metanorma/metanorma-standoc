@@ -3,7 +3,7 @@ require "relaton_iso"
 require "relaton_ietf"
 
 RSpec.describe Asciidoctor::Standoc do
-    it "processes simple ISO reference" do
+  it "processes simple ISO reference" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]

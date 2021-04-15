@@ -44,9 +44,7 @@ RSpec.describe Asciidoctor::Standoc do
                  </svgmap>
                  <figure id='ref1'>
                  <name>SVG title</name>
-                   <?xml version="1.0" encoding="utf-8"??>
-      <!-- Generator: Adobe Illustrator 25.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-      <svg xmlns='http://www.w3.org/2000/svg' version='1.1' id='Layer_1' x='0px' y='0px' viewbox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink'>
+                 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1_000000001' x='0px' y='0px' viewBox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve'>
         <style/>
         <image/>
         <a xlink:href='#ref1'>
@@ -62,9 +60,7 @@ RSpec.describe Asciidoctor::Standoc do
                  </figure>
                  <svgmap>
                    <figure id='ref2' unnumbered='true' number='8' subsequence='A' keep-with-next='true' keep-lines-together='true'>
-                   <?xml version="1.0" encoding="utf-8"??>
-        <!-- Generator: Adobe Illustrator 25.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-        <svg xmlns='http://www.w3.org/2000/svg' version='1.1' id='Layer_1' x='0px' y='0px' viewbox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink'>
+        <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1_000000002' x='0px' y='0px' viewBox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve'>
           <style/>
           <image/>
           <a xlink:href='#ref1'>

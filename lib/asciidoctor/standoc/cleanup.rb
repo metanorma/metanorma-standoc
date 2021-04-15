@@ -73,13 +73,15 @@ module Asciidoctor
         xmldoc.xpath("//date").each { |d| Metanorma::Utils::endash_date(d) }
         xmldoc.traverse do |n|
           next unless n.text?
+
           if @smartquotes
             /[-'"(<>]|\.\.|\dx/.match(n) or next
+
             n.ancestors("pre, tt, sourcecode, bibdata, on, stem, figure[@class = 'pseudocode']").empty? or next
             n.replace(Metanorma::Utils::smartformat(n.text))
           else
-            n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'"))#.
-            #gsub(/</, "&lt;").gsub(/>/, "&gt;"))
+            n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'")) #.
+            # gsub(/</, "&lt;").gsub(/>/, "&gt;"))
           end
         end
       end
@@ -144,6 +146,7 @@ module Asciidoctor
           x.traverse do |n|
             next unless n.text?
             next unless /#{Regexp.escape(@sourcecode_markup_start)}/.match(n.text)
+
             n.replace(sourcecode_markup(n))
           end
         end
@@ -151,11 +154,12 @@ module Asciidoctor
 
       def sourcecode_markup(n)
         acc = []
-        n.text.split(/(#{Regexp.escape(@sourcecode_markup_start)}|#{Regexp.escape(@sourcecode_markup_end)})/).
-          each_slice(4).map do |a|
-          acc << Nokogiri::XML::Text.new(a[0], n.document).
-            to_xml(encoding: "US-ASCII", save_with: Nokogiri::XML::Node::SaveOptions::NO_DECLARATION)
+        n.text.split(/(#{Regexp.escape(@sourcecode_markup_start)}|#{Regexp.escape(@sourcecode_markup_end)})/)
+          .each_slice(4).map do |a|
+          acc << Nokogiri::XML::Text.new(a[0], n.document)
+            .to_xml(encoding: "US-ASCII", save_with: Nokogiri::XML::Node::SaveOptions::NO_DECLARATION)
           next unless a.size == 4
+
           acc << Asciidoctor.convert(a[2], backend: (self&.backend&.to_sym || :standoc), doctype: :inline)
         end
         acc.join
@@ -172,21 +176,30 @@ module Asciidoctor
 
       def img_cleanup(xmldoc)
         return xmldoc unless @datauriimage
-        xmldoc.xpath("//image").each { |i| i["src"] = Metanorma::Utils::datauri(i["src"], @localdir) }
+
+        xmldoc.xpath("//image").each do |i|
+          i["src"] = Metanorma::Utils::datauri(i["src"], @localdir)
+        end
       end
 
       def variant_cleanup(xmldoc)
         xmldoc.xpath("//*[variant]").each do |c|
-          c&.next&.text? && c&.next&.next&.name == "variant" && c.next.text.gsub(/\s/, "").empty? and
+          c&.next&.text? && c&.next&.next&.name == "variant" &&
+            c.next.text.gsub(/\s/, "").empty? and
             c.next.remove
         end
         xmldoc.xpath("//*[variant]").each do |c|
-          next unless c.children.any? { |n| n.name != "variant" && (!n.text? || !n.text.gsub(/\s/, "").empty?) }
+          next unless c.children.any? do |n|
+            n.name != "variant" && (!n.text? || !n.text.gsub(/\s/, "").empty?)
+          end
+
           c.xpath("./variant").each do |n|
-            if n.at_xpath('preceding-sibling::node()[not(self::text()[not(normalize-space())])][1][self::variantwrap]')
+            if n.at_xpath("preceding-sibling::node()"\
+                "[not(self::text()[not(normalize-space())])][1]"\
+                "[self::variantwrap]")
               n.previous_element << n
             else
-              n.replace('<variantwrap/>').first << n
+              n.replace("<variantwrap/>").first << n
             end
           end
         end

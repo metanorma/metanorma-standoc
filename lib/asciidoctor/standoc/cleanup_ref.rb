@@ -14,9 +14,10 @@ module Asciidoctor
         fold_notes_into_biblio(refs)
         bib = sort_biblio(refs.xpath("./bibitem"))
         insert = refs&.at("./bibitem")&.previous_element
-        refs.xpath("./bibitem").each { |b| b.remove }
+        refs.xpath("./bibitem").each(&:remove)
         bib.reverse.each do |b|
-          insert and insert.next = b.to_xml or refs.children.first.add_previous_sibling b.to_xml
+          insert and insert.next = b.to_xml or
+            refs.children.first.add_previous_sibling b.to_xml
         end
         extract_notes_from_biblio(refs)
         refs.xpath("./references").each { |r| biblio_reorder1(r) }
@@ -24,7 +25,7 @@ module Asciidoctor
 
       def fold_notes_into_biblio(refs)
         refs.xpath("./bibitem").each do |r|
-          while r&.next_element&.name == "note" do
+          while r&.next_element&.name == "note"
             r.next_element["appended"] = true
             r << r.next_element.remove
           end
@@ -49,12 +50,15 @@ module Asciidoctor
       # only numeric references are renumbered
       def biblio_renumber(xmldoc)
         i = 0
-        xmldoc.xpath("//bibliography//references | //clause//references | //annex//references").each do |r|
+        xmldoc.xpath("//bibliography//references | //clause//references | "\
+                     "//annex//references").each do |r|
           next if r["normative"] == "true"
+
           r.xpath("./bibitem").each do |b|
             i += 1
             next unless docid = b.at("./docidentifier[@type = 'metanorma']")
             next unless  /^\[\d+\]$/.match(docid.text)
+
             docid.children = "[#{i}]"
           end
         end
@@ -72,7 +76,7 @@ module Asciidoctor
         r = xmldoc.at(self.class::NORM_REF) || return
         preface = r.xpath("./title/following-sibling::*") & # intersection
           r.xpath("./bibitem[1]/preceding-sibling::*")
-        preface.each { |n| n.remove }
+        preface.each(&:remove)
       end
 
       def biblio_cleanup(xmldoc)
@@ -92,6 +96,7 @@ module Asciidoctor
       def format_ref(ref, type)
         return @isodoc.docid_prefix(type, ref) if type != "metanorma"
         return "[#{ref}]" if /^\d+$/.match(ref) && !/^\[.*\]$/.match(ref)
+
         ref
       end
 
@@ -103,7 +108,7 @@ module Asciidoctor
 
       def reference_names(xmldoc)
         xmldoc.xpath("//bibitem[not(ancestor::bibitem)]").each do |ref|
-          isopub = ref.at(ISO_PUBLISHER_XPATH)
+          # isopub = ref.at(ISO_PUBLISHER_XPATH)
           docid = ref.at("./docidentifier[@type = 'metanorma']") ||
             ref.at("./docidentifier[not(@type = 'DOI')]") or next
           reference = format_ref(docid.text, docid["type"])
@@ -111,18 +116,20 @@ module Asciidoctor
         end
       end
 
-      def fetch_termbase(termbase, id)
+      def fetch_termbase(_termbase, _id)
         ""
       end
 
       def read_local_bibitem(uri)
-        return nil if %r{^http[s]?://}.match(uri)
-        file = @localdir + uri + ".rxl"
-        File.file?(file) or file = @localdir + uri + ".xml"
+        return nil if %r{^https?://}.match?(uri)
+
+        file = "#{@localdir}#{uri}.rxl"
+        File.file?(file) or file = "#{@localdir}#{uri}.xml"
         File.file?(file) or return nil
         xml = Nokogiri::XML(File.read(file, encoding: "utf-8"))
         ret = xml.at("//*[local-name() = 'bibdata']") or return nil
-        ret = Nokogiri::XML(ret.to_xml.sub(%r{(<bibdata[^>]*?) xmlns=("[^"]+"|'[^']+')}, "\\1")).root
+        ret = Nokogiri::XML(ret.to_xml
+          .sub(%r{(<bibdata[^>]*?) xmlns=("[^"]+"|'[^']+')}, "\\1")).root
         ret.name = "bibitem"
         ins = ret.at("./*[local-name() = 'docidentifier']") or return nil
         ins.previous = %{<uri type="citation">#{uri}</uri>}
@@ -132,7 +139,8 @@ module Asciidoctor
 
       # if citation uri points to local file, get bibitem from it
       def fetch_local_bibitem(xmldoc)
-        xmldoc.xpath("//bibitem[formattedref][uri[@type = 'citation']]").each do |b|
+        xmldoc.xpath("//bibitem[formattedref][uri[@type = 'citation']]")
+          .each do |b|
           uri = b&.at("./uri[@type = 'citation']")&.text
           bibitem = read_local_bibitem(uri) or next
           bibitem["id"] = b["id"]

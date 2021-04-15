@@ -25,7 +25,8 @@ require "metanorma/standoc"
 require "rexml/document"
 require "byebug"
 
-Dir[File.expand_path("./support/**/**/*.rb", __dir__)].each { |f| require f }
+Dir[File.expand_path("./support/**/**/*.rb", __dir__)]
+  .sort.each { |f| require f }
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -47,19 +48,20 @@ RSpec.configure do |config|
   end
 end
 
-def strip_guid(x)
-  x.gsub(%r{ id="_[^"]+"}, ' id="_"').gsub(%r{ target="_[^"]+"}, ' target="_"')
+def strip_guid(xml)
+  xml.gsub(%r{ id="_[^"]+"}, ' id="_"')
+    .gsub(%r{ target="_[^"]+"}, ' target="_"')
 end
 
 def strip_src(xml)
   xml.gsub(/\ssrc="[^"]+"/, ' src="_"')
 end
 
-def xmlpp(x)
+def xmlpp(xml)
   s = ""
   f = REXML::Formatters::Pretty.new(2)
   f.compact = true
-  f.write(REXML::Document.new(x), s)
+  f.write(REXML::Document.new(xml), s)
   s
 end
 
@@ -181,7 +183,7 @@ BLANK_METANORMA_HDR = <<~"HDR".freeze
   </bibdata>
 HDR
 
-HTML_HDR = <<~END.freeze
+HTML_HDR = <<~HDR.freeze
   <html xmlns:epub="http://www.idpf.org/2007/ops">
     <head>
       <title>test</title>
@@ -196,9 +198,9 @@ HTML_HDR = <<~END.freeze
       </div>
       <br/>
       <div class="main-section">
-END
+HDR
 
-WORD_HDR = <<~END.freeze
+WORD_HDR = <<~HDR.freeze
   <html xmlns:epub="http://www.idpf.org/2007/ops">
     <head>
       <title>test</title>
@@ -213,7 +215,7 @@ WORD_HDR = <<~END.freeze
       </div>
       <br clear="all" class="section"/>
       <div class="WordSection3">
-END
+HDR
 
 def examples_path(path)
   File.join(File.expand_path("./examples", __dir__), path)
