@@ -71,7 +71,7 @@ module Asciidoctor
 
       def datetypes
         %w{ published accessed created implemented obsoleted
-            confirmed updated issued circulated unchanged received 
+            confirmed updated issued circulated unchanged received
             vote-started vote-ended
         }
       end
@@ -124,7 +124,7 @@ module Asciidoctor
           id = d.split(/,\s*/)
           xml.relation **{ type: relation_normalise(type) } do |r|
             desc.nil? or r.description relation_normalise(desc)
-            fetch_ref(r, d, nil, {}) or r.bibitem do |b|
+            fetch_ref(r, d, nil, **{}) or r.bibitem do |b|
               b.title id[1] ? id[1] : "--"
               b.docidentifier id[0]
             end
