@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "iev", "~> 0.2.1"
   spec.add_dependency "isodoc", "~> 1.6.0"
   spec.add_dependency "metanorma-plugin-datastruct"
-  spec.add_dependency "metanorma-plugin-lutaml", "~> 0.3.0"
+  spec.add_dependency "metanorma-plugin-lutaml"
   spec.add_dependency "ruby-jing"
   # relaton-cli not just relaton, to avoid circular reference in metanorma
   spec.add_dependency "asciimath2unitsml", "~> 0.3.0"
