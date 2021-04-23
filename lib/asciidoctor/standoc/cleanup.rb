@@ -2,27 +2,27 @@ require "nokogiri"
 require "pathname"
 require "open-uri"
 require "html2doc"
-require_relative "./cleanup_block.rb"
-require_relative "./cleanup_footnotes.rb"
-require_relative "./cleanup_ref.rb"
-require_relative "./cleanup_ref_dl.rb"
-require_relative "./cleanup_boilerplate.rb"
-require_relative "./cleanup_section.rb"
-require_relative "./cleanup_terms.rb"
-require_relative "./cleanup_inline.rb"
-require_relative "./cleanup_amend.rb"
-require_relative "./cleanup_maths.rb"
+require_relative "./cleanup_block"
+require_relative "./cleanup_footnotes"
+require_relative "./cleanup_ref"
+require_relative "./cleanup_ref_dl"
+require_relative "./cleanup_boilerplate"
+require_relative "./cleanup_section"
+require_relative "./cleanup_terms"
+require_relative "./cleanup_inline"
+require_relative "./cleanup_amend"
+require_relative "./cleanup_maths"
 require "relaton_iev"
 
 module Asciidoctor
   module Standoc
     module Cleanup
       def textcleanup(result)
-        text = result.flatten.map { |l| l.sub(/\s*$/, "") }  * "\n"
+        text = result.flatten.map { |l| l.sub(/\s*$/, "") } * "\n"
         !@keepasciimath and text = asciimath2mathml(text)
         text = text.gsub(/\s+<fn /, "<fn ")
         text.gsub(%r{<passthrough\s+formats="metanorma">([^<]*)
-                  </passthrough>}mx) { |m| HTMLEntities.new.decode($1) }
+                  </passthrough>}mx) { HTMLEntities.new.decode($1) }
       end
 
       def cleanup(xmldoc)
@@ -77,20 +77,20 @@ module Asciidoctor
           if @smartquotes
             /[-'"(<>]|\.\.|\dx/.match(n) or next
 
-            n.ancestors("pre, tt, sourcecode, bibdata, on, stem, figure[@class = 'pseudocode']").empty? or next
+            n.ancestors("pre, tt, sourcecode, bibdata, on, "\
+                        "stem, figure[@class = 'pseudocode']").empty? or next
             n.replace(Metanorma::Utils::smartformat(n.text))
           else
-            n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'")) #.
+            n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'")) # .
             # gsub(/</, "&lt;").gsub(/>/, "&gt;"))
           end
         end
       end
 
-      def docidentifier_cleanup(xmldoc)
-      end
+      def docidentifier_cleanup(xmldoc); end
 
       TEXT_ELEMS =
-        %w{status language script version author name callout phone email 
+        %w{status language script version author name callout phone email
            street city state country postcode identifier referenceFrom surname
            referenceTo docidentifier docnumber prefix initial addition forename
            title draft secretariat title-main title-intro title-part}.freeze
@@ -145,7 +145,7 @@ module Asciidoctor
         xmldoc.xpath("//sourcecode").each do |x|
           x.traverse do |n|
             next unless n.text?
-            next unless /#{Regexp.escape(@sourcecode_markup_start)}/.match(n.text)
+            next unless /#{Regexp.escape(@sourcecode_markup_start)}/.match?(n.text)
 
             n.replace(sourcecode_markup(n))
           end

@@ -28,14 +28,16 @@ module Asciidoctor
       end
 
       def ul_li_attrs(node)
+        c = node.attr?("checked")
         attr_code(
-          uncheckedcheckbox: node.attr?("checkbox") ? !node.attr?("checked") : nil,
-          checkedcheckbox: node.attr?("checkbox") ? node.attr?("checked") : nil,
+          uncheckedcheckbox: node.attr?("checkbox") ? !c : nil,
+          checkedcheckbox: node.attr?("checkbox") ? c : nil
         )
       end
 
       def ulist(node)
         return reference(node) if in_norm_ref? || in_biblio?
+
         noko do |xml|
           xml.ul **ul_attrs(node) do |xml_ul|
             node.items.each do |item|

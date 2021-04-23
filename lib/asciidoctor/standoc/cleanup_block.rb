@@ -40,6 +40,7 @@ module Asciidoctor
       def insert_thead(s)
         thead = s.at("./thead")
         return thead unless thead.nil?
+
         if tname = s.at("./name")
           thead = tname.add_next_sibling("<thead/>").first
           return thead
@@ -80,21 +81,21 @@ module Asciidoctor
       end
 
       # include where definition list inside stem block
-      def formula_cleanup(x)
-        formula_cleanup_where1(x)
-        formula_cleanup_where2(x)
+      def formula_cleanup(formula)
+        formula_cleanup_where1(formula)
+        formula_cleanup_where2(formula)
       end
 
-      def formula_cleanup_where1(x)
+      def formula_cleanup_where1(formula)
         q = "//formula/following-sibling::*[1][self::dl]"
-        x.xpath(q).each do |s|
+        formula.xpath(q).each do |s|
           s["key"] == "true" and s.previous_element << s.remove
         end
       end
 
-      def formula_cleanup_where2(x)
+      def formula_cleanup_where2(formula)
         q = "//formula/following-sibling::*[1][self::p]"
-        x.xpath(q).each do |s|
+        formula.xpath(q).each do |s|
           if s.text =~ /^\s*where[^a-z]*$/i && s&.next_element&.name == "dl"
             s.next_element["key"] = "true"
             s.previous_element << s.next_element.remove
@@ -125,9 +126,10 @@ module Asciidoctor
       # examples containing only figures become subfigures of figures
       def subfigure_cleanup(xmldoc)
         xmldoc.xpath("//example[figure]").each do |e|
-          next unless e.elements.map { |m| m.name }.reject do |m|
+          next unless e.elements.map(&:name).reject do |m|
             %w(name figure).include? m
           end.empty?
+
           e.name = "figure"
         end
       end
@@ -150,6 +152,7 @@ module Asciidoctor
         xmldoc.xpath(q).each do |n|
           next if n["keep-separate"] == "true"
           next unless n.ancestors("table").empty?
+
           prev = n.previous_element || next
           n.parent = prev if ELEMS_ALLOW_NOTES.include? prev.name
         end
@@ -159,13 +162,14 @@ module Asciidoctor
         end
       end
 
-      def requirement_cleanup(x)
-        requirement_descriptions(x)
-        requirement_inherit(x)
+      def requirement_cleanup(reqt)
+        requirement_descriptions(reqt)
+        requirement_inherit(reqt)
       end
 
-      def requirement_inherit(x)
-        x.xpath("//requirement | //recommendation | //permission").each do |r|
+      def requirement_inherit(reqt)
+        reqt.xpath("//requirement | //recommendation | //permission")
+          .each do |r|
           ins = r.at("./classification") ||
             r.at("./description | ./measurementtarget | ./specification | "\
                  "./verification | ./import | ./description | ./requirement | "\
@@ -174,12 +178,13 @@ module Asciidoctor
         end
       end
 
-      def requirement_descriptions(x)
-        x.xpath("//requirement | //recommendation | //permission").each do |r|
+      def requirement_descriptions(reqt)
+        reqt.xpath("//requirement | //recommendation | //permission")
+          .each do |r|
           r.children.each do |e|
             unless e.element? && (reqt_subpart(e.name) ||
                 %w(requirement recommendation permission).include?(e.name))
-              t = Nokogiri::XML::Element.new("description", x)
+              t = Nokogiri::XML::Element.new("description", reqt)
               e.before(t)
               t.children = e.remove
             end
@@ -188,14 +193,14 @@ module Asciidoctor
         end
       end
 
-      def requirement_cleanup1(r)
-        while d = r.at("./description[following-sibling::*[1]"\
+      def requirement_cleanup1(reqt)
+        while d = reqt.at("./description[following-sibling::*[1]"\
             "[self::description]]")
           n = d.next.remove
           d << n.children
         end
-        r.xpath("./description[normalize-space(.)='']").each do |d|
-          d.replace("\n")
+        reqt.xpath("./description[normalize-space(.)='']").each do |r|
+          r.replace("\n")
         end
       end
 
@@ -205,15 +210,15 @@ module Asciidoctor
         Metanorma::Utils::svgmap_rewrite(xmldoc, @localdir)
       end
 
-      def guid?(x)
-        /^_[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/i.
-          match(x)
+      def guid?(str)
+        /^_[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/i
+          .match(str)
       end
 
       def svgmap_moveattrs(xmldoc)
         xmldoc.xpath("//svgmap").each do |s|
           f = s.at(".//figure") or next
-          if t = s.at("./name") and !f.at("./name")
+          if (t = s.at("./name")) && !f.at("./name")
             f.children.first.previous = t.remove
           end
           if s["id"] && guid?(f["id"])
@@ -226,11 +231,12 @@ module Asciidoctor
 
       def svgmap_moveattrs1(s, f)
         %w(unnumbered number subsequence keep-with-next
-          keep-lines-together).each do |a|
-            next if f[a] || !s[a]
-            f[a] = s[a]
-            s.delete(a)
-          end
+           keep-lines-together).each do |a|
+          next if f[a] || !s[a]
+
+          f[a] = s[a]
+          s.delete(a)
+        end
       end
 
       def svgmap_populate(xmldoc)
@@ -250,6 +256,7 @@ module Asciidoctor
       def svgmap_target(nodeset)
         nodeset.each do |n|
           next unless n.name == "link"
+
           n.children = n["target"]
         end
         nodeset.text.sub(/^[,; ]/, "").strip

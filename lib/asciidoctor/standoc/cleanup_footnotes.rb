@@ -20,6 +20,7 @@ module Asciidoctor
           nomatches = true
           xmldoc.xpath(q).each do |s|
             next if s.children.map { |c| c.text? && /[[:alpha:]]/.match(c.text) }.any?
+
             s.previous_element << s.first_element_child.remove
             s.remove
             nomatches = false

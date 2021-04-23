@@ -19,11 +19,11 @@ module Asciidoctor
       end
 
       NOKOHEAD = <<~HERE.freeze
-          <!DOCTYPE html SYSTEM
-          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-          <html xmlns="http://www.w3.org/1999/xhtml">
-          <head> <title></title> <meta charset="UTF-8" /> </head>
-          <body> </body> </html>
+        <!DOCTYPE html SYSTEM
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+        <html xmlns="http://www.w3.org/1999/xhtml">
+        <head> <title></title> <meta charset="UTF-8" /> </head>
+        <body> </body> </html>
       HERE
 
       # block for processing XML document fragments as XHTML,
@@ -66,10 +66,36 @@ module Asciidoctor
         conv
       end
 
+      def default_script(lang)
+        case lang
+        when "ar", "fa"
+          "Arab"
+        when "ur"
+          "Aran"
+        when "ru", "bg"
+          "Cyrl"
+        when "hi"
+          "Deva"
+        when "el"
+          "Grek"
+        when "zh"
+          "Hans"
+        when "ko"
+          "Kore"
+        when "he"
+          "Hebr"
+        when "ja"
+          "Jpan"
+        else
+          "Latn"
+        end
+      end
+
       class EmptyAttr
-        def attr(_x)
+        def attr(_any_attribute)
           nil
         end
+
         def attributes
           {}
         end

@@ -57,7 +57,7 @@ module Asciidoctor
           r.xpath("./bibitem").each do |b|
             i += 1
             next unless docid = b.at("./docidentifier[@type = 'metanorma']")
-            next unless  /^\[\d+\]$/.match(docid.text)
+            next unless /^\[\d+\]$/.match?(docid.text)
 
             docid.children = "[#{i}]"
           end

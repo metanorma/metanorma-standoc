@@ -108,10 +108,15 @@ module Asciidoctor
         @draft = node.attributes.has_key?("draft")
         @novalid = node.attr("novalid")
         @smartquotes = node.attr("smartquotes") != "false"
-        @keepasciimath = node.attr("mn-keep-asciimath") && node.attr("mn-keep-asciimath") != "false"
+        @keepasciimath = node.attr("mn-keep-asciimath") &&
+          node.attr("mn-keep-asciimath") != "false"
         @fontheader = default_fonts(node)
         @files_to_delete = []
-        @filename = node.attr("docfile") ?  File.basename(node.attr("docfile")).gsub(/\.adoc$/, "") : ""
+        if node.attr("docfile")
+          @filename = File.basename(node.attr("docfile"))&.gsub(/\.adoc$/, "")
+        else
+          @filename = ""
+        end
         @localdir = Metanorma::Utils::localdir(node)
         @output_dir = outputdir node
         @no_isobib_cache = node.attr("no-isobib-cache")
@@ -143,10 +148,12 @@ module Asciidoctor
       end
 
       def outputs(node, ret)
-        File.open(@filename + ".xml", "w:UTF-8") { |f| f.write(ret) }
-        presentation_xml_converter(node).convert(@filename + ".xml")
-        html_converter(node).convert(@filename + ".presentation.xml", nil, false, "#{@filename}.html")
-        doc_converter(node).convert(@filename + ".presentation.xml", nil, false, "#{@filename}.doc")
+        File.open("#{@filename}.xml", "w:UTF-8") { |f| f.write(ret) }
+        presentation_xml_converter(node).convert("#{@filename}.xml")
+        html_converter(node).convert("#{@filename}.presentation.xml",
+                                     nil, false, "#{@filename}.html")
+        doc_converter(node).convert("#{@filename}.presentation.xml",
+                                    nil, false, "#{@filename}.doc")
       end
 
       def document(node)
@@ -163,12 +170,19 @@ module Asciidoctor
       end
 
       def clean_exit
-        @log.write(@output_dir + @filename + ".err") unless @novalid
+        @log.write("#{@output_dir}#{@filename}.err") unless @novalid
+
         @files_to_delete.each { |f| FileUtils.rm f }
       end
 
+      def clean_abort(msg)
+        clean_exit
+        abort(msg)
+      end
+
       def makexml1(node)
-        result = ["<?xml version='1.0' encoding='UTF-8'?>", "<#{xml_root_tag} type='semantic' version='#{version}'>"]
+        result = ["<?xml version='1.0' encoding='UTF-8'?>",
+                  "<#{xml_root_tag} type='semantic' version='#{version}'>"]
         result << noko { |ixml| front node, ixml }
         result << noko { |ixml| middle node, ixml }
         result << "</#{xml_root_tag}>"
@@ -203,36 +217,13 @@ module Asciidoctor
         end
       end
 
-      def default_script(lang)
-        case lang
-        when "ar", "fa"
-          "Arab"
-        when "ur"
-          "Aran"
-        when "ru", "bg"
-          "Cyrl"
-        when "hi"
-          "Deva"
-        when "el"
-          "Grek"
-        when "zh"
-          "Hans"
-        when "ko"
-          "Kore"
-        when "he"
-          "Hebr"
-        when "ja"
-          "Jpan"
-        else
-          "Latn"
-        end
-      end
-
       private
 
       def outputdir(node)
-        if node.attr("output_dir").nil_or_empty? then Metanorma::Utils::localdir(node)
-        else File.join(node.attr("output_dir"), "")
+        if node.attr("output_dir").nil_or_empty?
+          Metanorma::Utils::localdir(node)
+        else
+          File.join(node.attr("output_dir"), "")
         end
       end
     end

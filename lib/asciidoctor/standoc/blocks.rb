@@ -140,13 +140,14 @@ module Asciidoctor
       end
 
       def para_attrs(node)
-        attr_code(keep_attrs(node).
-                  merge(align: node.attr("align"), 
-                        id: Metanorma::Utils::anchor_or_uuid(node)))
+        attr_code(keep_attrs(node)
+          .merge(align: node.attr("align"), 
+        id: Metanorma::Utils::anchor_or_uuid(node)))
       end
 
       def paragraph(node)
         return termsource(node) if node.role == "source"
+
         noko do |xml|
           xml.p **para_attrs(node) do |xml_t|
             xml_t << node.content
@@ -155,9 +156,9 @@ module Asciidoctor
       end
 
       def quote_attrs(node)
-        attr_code(keep_attrs(node).
-                  merge(align: node.attr("align"), 
-                        id: Metanorma::Utils::anchor_or_uuid(node)))
+        attr_code(keep_attrs(node)
+          .merge(align: node.attr("align"), 
+        id: Metanorma::Utils::anchor_or_uuid(node)))
       end
 
       def quote_attribution(node, out)

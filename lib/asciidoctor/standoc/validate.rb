@@ -1,5 +1,5 @@
 require "asciidoctor/standoc/utils"
-require_relative "./validate_section.rb"
+require_relative "./validate_section"
 require "nokogiri"
 require "jing"
 require "iev"
@@ -14,6 +14,7 @@ module Asciidoctor
       def init_iev
         return nil if @no_isobib
         return @iev if @iev
+
         @iev = Iev::Db.new(@iev_globalname, @iev_localname) unless @no_isobib
         @iev
       end
@@ -44,14 +45,13 @@ module Asciidoctor
         found = false
         doc.xpath("//references[@normative = 'true']/bibitem").each do |b|
           next unless docid = b.at("./docidentifier[@type = 'metanorma']")
-          next unless  /^\[\d+\]$/.match(docid.text)
-          @log.add("Bibliography", b, "Numeric reference in normative references")
+          next unless /^\[\d+\]$/.match?(docid.text)
+
+          @log.add("Bibliography", b,
+                   "Numeric reference in normative references")
           found = true
         end
-        if found
-          clean_exit
-          abort("Numeric reference in normative references")
-        end
+        found and clean_abort("Numeric reference in normative references")
       end
 
       def repeat_id_validate1(ids, x)
@@ -72,8 +72,7 @@ module Asciidoctor
             ids = repeat_id_validate1(ids, x)
           end
         rescue StandardError => e
-          clean_exit
-          abort(e.message)
+          clean_abort(e.message)
         end
       end
 
@@ -90,8 +89,7 @@ module Asciidoctor
                        e[:message])
             end
           rescue Jing::Error => e
-            clean_exit
-            abort "Jing failed with error: #{e}"
+            clean_abort "Jing failed with error: #{e}"
           ensure
             f.close!
           end
@@ -104,7 +102,8 @@ module Asciidoctor
       def formattedstr_strip(doc)
         doc.xpath("//*[@format] | //stem | //bibdata//description | "\
                   "//formattedref | //bibdata//note | //bibdata/abstract | "\
-                  "//bibitem/abstract | //bibitem/note | //misc-container").each do |n|
+                  "//bibitem/abstract | //bibitem/note | //misc-container")
+          .each do |n|
           n.elements.each do |e|
             e.traverse do |e1|
               e1.element? and e1.each { |k, _v| e1.delete(k) }

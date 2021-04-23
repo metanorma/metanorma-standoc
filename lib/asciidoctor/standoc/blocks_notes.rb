@@ -12,9 +12,11 @@ module Asciidoctor
       end
 
       def note_attrs(node)
-        attr_code(termnote_attrs(node).merge(
-          type: node.attr("type"),
-          beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil))
+        attr_code(termnote_attrs(node)
+          .merge(
+        type: node.attr("type"),
+        beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil
+        ))
       end
 
       def sidebar_attrs(node)
@@ -24,6 +26,7 @@ module Asciidoctor
 
       def sidebar(node)
         return unless draft?
+
         noko do |xml|
           xml.review **(sidebar_attrs(node)) do |r|
             wrap_in_para(node, r)
@@ -33,33 +36,34 @@ module Asciidoctor
 
       def todo_attrs(node)
         date = node.attr("date") || Date.today.iso8601.gsub(/\+.*$/, "")
-        date += "T00:00:00Z" unless /T/.match date
+        date += "T00:00:00Z" unless /T/.match? date
         attr_code(
           id: ::Metanorma::Utils::anchor_or_uuid(node),
           reviewer: node.attr("reviewer") || node.attr("source") || "(Unknown)",
-          date: date )
+          date: date
+        )
       end
 
       def todo(node)
         noko do |xml|
-          xml.review **(todo_attrs(node)) do |r|
+          xml.review **todo_attrs(node) do |r|
             wrap_in_para(node, r)
           end
         end
       end
 
-      def termnote(n)
+      def termnote(node)
         noko do |xml|
-          xml.termnote **termnote_attrs(n) do |ex|
-            wrap_in_para(n, ex)
+          xml.termnote **termnote_attrs(node) do |ex|
+            wrap_in_para(node, ex)
           end
         end.join("\n")
       end
 
-      def note(n)
+      def note(node)
         noko do |xml|
-          xml.note **note_attrs(n) do |c|
-            wrap_in_para(n, c)
+          xml.note **note_attrs(node) do |c|
+            wrap_in_para(node, c)
           end
         end.join("\n")
       end
@@ -69,14 +73,16 @@ module Asciidoctor
         a = node.attr("type") and ["danger", "safety precautions"].each do |t|
           name = t if a.casecmp(t).zero?
         end
-        attr_code(keep_attrs(node).merge(id: Metanorma::Utils::anchor_or_uuid(node), type: name,
-                  beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil))
+        attr_code(keep_attrs(node)
+          .merge(id: Metanorma::Utils::anchor_or_uuid(node), type: name,
+        beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil))
       end
 
       def admonition(node)
         return termnote(node) if in_terms?
         return note(node) if node.attr("name") == "note"
         return todo(node) if node.attr("name") == "todo"
+
         noko do |xml|
           xml.admonition **admonition_attrs(node) do |a|
             node.title.nil? or a.name { |name| name << node.title }
