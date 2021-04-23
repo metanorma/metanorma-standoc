@@ -1,4 +1,4 @@
-require_relative "ref_date"
+require_relative "ref_date_id"
 
 module Asciidoctor
   module Standoc
