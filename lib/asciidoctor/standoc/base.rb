@@ -177,8 +177,7 @@ module Asciidoctor
 
       def clean_abort(msg, file = nil)
         file and
-          File.open("#{@filename}.xml", "w:UTF-8") { |f| f.write(file) }
-        File.write("#{@output_dir}#{@filename}.xml")
+          File.open("#{@filename}.xml.abort", "w:UTF-8") { |f| f.write(file) }
         clean_exit
         abort(msg)
       end

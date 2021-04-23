@@ -24,7 +24,7 @@ module Asciidoctor
       end
 
       def conditional_date(bib, match, noyr)
-        if m.names.include?("year") && !match[:year].nil?
+        if match.names.include?("year") && !match[:year].nil?
           bib.date(**{ type: "published" }) do |d|
             noyr and d.on "--" or set_date_range(d, norm_year(match[:year]))
           end
