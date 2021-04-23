@@ -175,7 +175,10 @@ module Asciidoctor
         @files_to_delete.each { |f| FileUtils.rm f }
       end
 
-      def clean_abort(msg)
+      def clean_abort(msg, file = nil)
+        file and
+          File.open("#{@filename}.xml", "w:UTF-8") { |f| f.write(file) }
+        File.write("#{@output_dir}#{@filename}.xml")
         clean_exit
         abort(msg)
       end

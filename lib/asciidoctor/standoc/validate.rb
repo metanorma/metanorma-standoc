@@ -51,7 +51,8 @@ module Asciidoctor
                    "Numeric reference in normative references")
           found = true
         end
-        found and clean_abort("Numeric reference in normative references")
+        found and
+          clean_abort("Numeric reference in normative references", doc.to_xml)
       end
 
       def repeat_id_validate1(ids, x)
@@ -72,7 +73,7 @@ module Asciidoctor
             ids = repeat_id_validate1(ids, x)
           end
         rescue StandardError => e
-          clean_abort(e.message)
+          clean_abort(e.message, doc.to_xml)
         end
       end
 
@@ -89,7 +90,7 @@ module Asciidoctor
                        e[:message])
             end
           rescue Jing::Error => e
-            clean_abort "Jing failed with error: #{e}"
+            clean_abort("Jing failed with error: #{e}", doc.to_xml)
           ensure
             f.close!
           end
