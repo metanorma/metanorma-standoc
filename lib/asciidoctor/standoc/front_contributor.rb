@@ -29,7 +29,7 @@ module Asciidoctor
         abbr = org_abbrev[orgname]
         default_org && b = node.attr("subdivision-abbr") and abbr = b
         abbr and org.abbreviation abbr
-        org_address(node, org)
+        node and org_address(node, org)
       end
 
       def org_address(node, p)
