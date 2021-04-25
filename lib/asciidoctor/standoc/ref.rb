@@ -8,7 +8,7 @@ module Asciidoctor
           bib.contributor do |c|
             c.role **{ type: "publisher" }
             c.organization do |org|
-              organization(org, abbrev)
+              organization(org, abbrev, true)
             end
           end
         end
