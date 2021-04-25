@@ -12,6 +12,8 @@ require_relative "./cleanup_terms"
 require_relative "./cleanup_inline"
 require_relative "./cleanup_amend"
 require_relative "./cleanup_maths"
+require_relative "./cleanup_image"
+require_relative "./cleanup_reqt"
 require "relaton_iev"
 
 module Asciidoctor
@@ -112,73 +114,12 @@ module Asciidoctor
         xmldoc.traverse { |n| n.name = n.name.gsub(/_/, "-") }
       end
 
-      def link_callouts_to_annotations(callouts, annotations)
-        callouts.each_with_index do |c, i|
-          c["target"] = "_" + UUIDTools::UUID.random_create
-          annotations[i]["id"] = c["target"]
-        end
-      end
-
-      def align_callouts_to_annotations(xmldoc)
-        xmldoc.xpath("//sourcecode").each do |x|
-          callouts = x.elements.select { |e| e.name == "callout" }
-          annotations = x.elements.select { |e| e.name == "annotation" }
-          callouts.size == annotations.size and
-            link_callouts_to_annotations(callouts, annotations)
-        end
-      end
-
-      def merge_annotations_into_sourcecode(xmldoc)
-        xmldoc.xpath("//sourcecode").each do |x|
-          while x&.next_element&.name == "annotation"
-            x.next_element.parent = x
-          end
-        end
-      end
-
-      def callout_cleanup(xmldoc)
-        merge_annotations_into_sourcecode(xmldoc)
-        align_callouts_to_annotations(xmldoc)
-      end
-
-      def sourcecode_cleanup(xmldoc)
-        xmldoc.xpath("//sourcecode").each do |x|
-          x.traverse do |n|
-            next unless n.text?
-            next unless /#{Regexp.escape(@sourcecode_markup_start)}/.match?(n.text)
-
-            n.replace(sourcecode_markup(n))
-          end
-        end
-      end
-
-      def sourcecode_markup(n)
-        acc = []
-        n.text.split(/(#{Regexp.escape(@sourcecode_markup_start)}|#{Regexp.escape(@sourcecode_markup_end)})/)
-          .each_slice(4).map do |a|
-          acc << Nokogiri::XML::Text.new(a[0], n.document)
-            .to_xml(encoding: "US-ASCII", save_with: Nokogiri::XML::Node::SaveOptions::NO_DECLARATION)
-          next unless a.size == 4
-
-          acc << Asciidoctor.convert(a[2], backend: (self&.backend&.to_sym || :standoc), doctype: :inline)
-        end
-        acc.join
-      end
-
       # allows us to deal with doc relation localities,
       # temporarily stashed to "bpart"
       def bpart_cleanup(xmldoc)
         xmldoc.xpath("//relation/bpart").each do |x|
           extract_localities(x)
           x.replace(x.children)
-        end
-      end
-
-      def img_cleanup(xmldoc)
-        return xmldoc unless @datauriimage
-
-        xmldoc.xpath("//image").each do |i|
-          i["src"] = Metanorma::Utils::datauri(i["src"], @localdir)
         end
       end
 

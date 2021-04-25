@@ -3,7 +3,7 @@ require "nokogiri"
 require "htmlentities"
 require "pathname"
 require "open-uri"
-require_relative "./front_contributor.rb"
+require_relative "./front_contributor"
 
 module Asciidoctor
   module Standoc
@@ -40,6 +40,7 @@ module Asciidoctor
 
       def metadata_committee(node, xml)
         return unless node.attr("technical-committee")
+
         xml.editorialgroup do |a|
           committee_component("technical-committee", node, a)
         end
@@ -47,8 +48,8 @@ module Asciidoctor
 
       def metadata_ics(node, xml)
         ics = node.attr("library-ics")
-        ics && ics.split(/,\s*/).each do |i|
-          xml.ics { |ics| ics.code i }
+        ics&.split(/,\s*/)&.each do |i|
+          xml.ics { |elem| elem.code i }
         end
       end
 
@@ -72,14 +73,14 @@ module Asciidoctor
       def datetypes
         %w{ published accessed created implemented obsoleted
             confirmed updated issued circulated unchanged received
-            vote-started vote-ended
-        }
+            vote-started vote-ended }
       end
 
       def metadata_date(node, xml)
         datetypes.each { |t| metadata_date1(node, xml, t) }
-        node.attributes.keys.each do |a|
+        node.attributes.each_key do |a|
           next unless a == "date" || /^date_\d+$/.match(a)
+
           type, date = node.attr(a).split(/ /, 2)
           type or next
           xml.date **{ type: type } do |d|
@@ -93,7 +94,8 @@ module Asciidoctor
       end
 
       def metadata_script(node, xml)
-        xml.script (node.attr("script") || default_script(node.attr("language")))
+        xml.script (node.attr("script") ||
+                    default_script(node.attr("language")))
       end
 
       def relaton_relations
@@ -114,8 +116,8 @@ module Asciidoctor
       end
 
       def relation_normalise(type)
-        type.sub(/-by$/, "By").sub(/-of$/, "Of").sub(/-from$/, "From").
-          sub(/-in$/, "In")
+        type.sub(/-by$/, "By").sub(/-of$/, "Of").sub(/-from$/, "From")
+          .sub(/-in$/, "In")
       end
 
       def metadata_getrelation(node, xml, type, desc = nil)
@@ -125,7 +127,7 @@ module Asciidoctor
           xml.relation **{ type: relation_normalise(type) } do |r|
             desc.nil? or r.description relation_normalise(desc)
             fetch_ref(r, d, nil, **{}) or r.bibitem do |b|
-              b.title id[1] ? id[1] : "--"
+              b.title id[1] || "--"
               b.docidentifier id[0]
             end
           end
@@ -134,8 +136,17 @@ module Asciidoctor
 
       def metadata_keywords(node, xml)
         return unless node.attr("keywords")
-        node.attr("keywords").split(/,[ ]*/).each do |kw|
+
+        node.attr("keywords").split(/,\s*/).each do |kw|
           xml.keyword kw
+        end
+      end
+
+      def metadata_classifications(node, xml)
+        csv_split(node.attr("classification"), ",")&.each do |c|
+          vals = c.split(/:/, 2)
+          vals.size == 1 and vals = ["default", vals[0]]
+          xml.classification vals[1], type: vals[0]
         end
       end
 
@@ -155,14 +166,16 @@ module Asciidoctor
         metadata_copyright(node, xml)
         metadata_relations(node, xml)
         metadata_series(node, xml)
+        metadata_classifications(node, xml)
         metadata_keywords(node, xml)
-        xml.ext do |ext|
+        xml.ext do
           metadata_ext(node, xml)
         end
       end
 
       def metadata_ext(node, ext)
         metadata_doctype(node, ext)
+        metadata_subdoctype(node, ext)
         metadata_committee(node, ext)
         metadata_ics(node, ext)
       end
@@ -171,11 +184,13 @@ module Asciidoctor
         xml.doctype doctype(node)
       end
 
-      def metadata_note(node, xml)
+      def metadata_subdoctype(node, xml)
+        s = node.attr("docsubtype") and xml.subdoctype s
       end
 
-      def metadata_series(node, xml)
-      end
+      def metadata_note(node, xml); end
+
+      def metadata_series(node, xml); end
 
       def title(node, xml)
         title_english(node, xml)
@@ -187,7 +202,8 @@ module Asciidoctor
           at = { language: lang, format: "text/plain" }
           xml.title **attr_code(at) do |t|
             t << (Metanorma::Utils::asciidoc_sub(node.attr("title") ||
-                                      node.attr("title-en")) || node.title)
+                                                 node.attr("title-en")) ||
+            node.title)
           end
         end
       end
@@ -196,6 +212,7 @@ module Asciidoctor
         node.attributes.each do |k, v|
           next unless /^title-(?<titlelang>.+)$/ =~ k
           next if titlelang == "en"
+
           xml.title v, { language: titlelang, format: "text/plain" }
         end
       end
