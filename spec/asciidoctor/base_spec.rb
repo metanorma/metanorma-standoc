@@ -472,6 +472,7 @@ OUTPUT
       :relaton-uri: F
       :title-eo: Dokumenttitolo
       :doctype: This is a DocType
+      :docsubtype: This is a DocSubType
       :subdivision: Subdivision
       :subdivision-abbr: SD
 
@@ -570,6 +571,7 @@ OUTPUT
          </copyright>
          <ext>
          <doctype>this-is-a-doctype</doctype>
+         <subdoctype>This is a DocSubType</subdoctype>
          </ext>
        </bibdata>
          <preface>

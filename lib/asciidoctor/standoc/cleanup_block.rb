@@ -162,104 +162,57 @@ module Asciidoctor
         end
       end
 
-      def requirement_cleanup(reqt)
-        requirement_descriptions(reqt)
-        requirement_inherit(reqt)
-      end
-
-      def requirement_inherit(reqt)
-        reqt.xpath("//requirement | //recommendation | //permission")
-          .each do |r|
-          ins = r.at("./classification") ||
-            r.at("./description | ./measurementtarget | ./specification | "\
-                 "./verification | ./import | ./description | ./requirement | "\
-                 "./recommendation | ./permission")
-          r.xpath("./*//inherit").each { |i| ins.previous = i }
+      def link_callouts_to_annotations(callouts, annotations)
+        callouts.each_with_index do |c, i|
+          c["target"] = "_" + UUIDTools::UUID.random_create
+          annotations[i]["id"] = c["target"]
         end
       end
 
-      def requirement_descriptions(reqt)
-        reqt.xpath("//requirement | //recommendation | //permission")
-          .each do |r|
-          r.children.each do |e|
-            unless e.element? && (reqt_subpart(e.name) ||
-                %w(requirement recommendation permission).include?(e.name))
-              t = Nokogiri::XML::Element.new("description", reqt)
-              e.before(t)
-              t.children = e.remove
-            end
-          end
-          requirement_cleanup1(r)
+      def align_callouts_to_annotations(xmldoc)
+        xmldoc.xpath("//sourcecode").each do |x|
+          callouts = x.elements.select { |e| e.name == "callout" }
+          annotations = x.elements.select { |e| e.name == "annotation" }
+          callouts.size == annotations.size and
+            link_callouts_to_annotations(callouts, annotations)
         end
       end
 
-      def requirement_cleanup1(reqt)
-        while d = reqt.at("./description[following-sibling::*[1]"\
-            "[self::description]]")
-          n = d.next.remove
-          d << n.children
-        end
-        reqt.xpath("./description[normalize-space(.)='']").each do |r|
-          r.replace("\n")
-        end
-      end
-
-      def svgmap_cleanup(xmldoc)
-        svgmap_moveattrs(xmldoc)
-        svgmap_populate(xmldoc)
-        Metanorma::Utils::svgmap_rewrite(xmldoc, @localdir)
-      end
-
-      def guid?(str)
-        /^_[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/i
-          .match(str)
-      end
-
-      def svgmap_moveattrs(xmldoc)
-        xmldoc.xpath("//svgmap").each do |s|
-          f = s.at(".//figure") or next
-          if (t = s.at("./name")) && !f.at("./name")
-            f.children.first.previous = t.remove
-          end
-          if s["id"] && guid?(f["id"])
-            f["id"] = s["id"]
-            s.delete("id")
-          end
-          svgmap_moveattrs1(s, f)
-        end
-      end
-
-      def svgmap_moveattrs1(s, f)
-        %w(unnumbered number subsequence keep-with-next
-           keep-lines-together).each do |a|
-          next if f[a] || !s[a]
-
-          f[a] = s[a]
-          s.delete(a)
-        end
-      end
-
-      def svgmap_populate(xmldoc)
-        xmldoc.xpath("//svgmap").each do |s|
-          s1 = s.dup
-          s.children.remove
-          f = s1.at(".//figure") and s << f
-          s1.xpath(".//li").each do |li|
-            t = li&.at(".//eref | .//link | .//xref") or next
-            href = t.xpath("./following-sibling::node()")
-            href.empty? or
-              s << %[<target href="#{svgmap_target(href)}">#{t.to_xml}</target>]
+      def merge_annotations_into_sourcecode(xmldoc)
+        xmldoc.xpath("//sourcecode").each do |x|
+          while x&.next_element&.name == "annotation"
+            x.next_element.parent = x
           end
         end
       end
 
-      def svgmap_target(nodeset)
-        nodeset.each do |n|
-          next unless n.name == "link"
+      def callout_cleanup(xmldoc)
+        merge_annotations_into_sourcecode(xmldoc)
+        align_callouts_to_annotations(xmldoc)
+      end
 
-          n.children = n["target"]
+      def sourcecode_cleanup(xmldoc)
+        xmldoc.xpath("//sourcecode").each do |x|
+          x.traverse do |n|
+            next unless n.text?
+            next unless /#{Regexp.escape(@sourcecode_markup_start)}/.match?(n.text)
+
+            n.replace(sourcecode_markup(n))
+          end
         end
-        nodeset.text.sub(/^[,; ]/, "").strip
+      end
+
+      def sourcecode_markup(n)
+        acc = []
+        n.text.split(/(#{Regexp.escape(@sourcecode_markup_start)}|#{Regexp.escape(@sourcecode_markup_end)})/)
+          .each_slice(4).map do |a|
+          acc << Nokogiri::XML::Text.new(a[0], n.document)
+            .to_xml(encoding: "US-ASCII", save_with: Nokogiri::XML::Node::SaveOptions::NO_DECLARATION)
+          next unless a.size == 4
+
+          acc << Asciidoctor.convert(a[2], backend: (self&.backend&.to_sym || :standoc), doctype: :inline)
+        end
+        acc.join
       end
     end
   end

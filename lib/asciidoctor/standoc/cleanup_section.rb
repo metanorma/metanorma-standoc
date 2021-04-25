@@ -78,6 +78,7 @@ module Asciidoctor
         x.xpath("//*[@annex]").each do |y|
           y.delete("annex")
           next if y.name == "annex" || !y.ancestors("annex").empty?
+
           y.wrap("<annex/>")
           y.parent["id"] = "_#{UUIDTools::UUID.random_create}"
           y.parent["obligation"] = y["obligation"]
@@ -97,6 +98,7 @@ module Asciidoctor
       def sections_level_cleanup(x)
         m = maxlevel(x)
         return if m < 6
+
         m.downto(6).each do |l|
           x.xpath("//clause[@level = '#{l}']").each do |c|
             c.delete("level")
@@ -150,6 +152,7 @@ module Asciidoctor
 
        def preface_clausebefore_cleanup(xmldoc)
         return unless xmldoc.at("//preface")
+
         unless ins = xmldoc.at("//preface").children.first
           xmldoc.at("//preface") << " "
           ins = xmldoc.at("//preface").children.first
@@ -162,6 +165,7 @@ module Asciidoctor
 
       def sections_clausebefore_cleanup(xmldoc)
         return unless xmldoc.at("//sections")
+
         unless ins = xmldoc.at("//sections").children.first
           xmldoc.at("//sections") << " "
           ins = xmldoc.at("//sections").children.first
@@ -188,6 +192,7 @@ module Asciidoctor
 
         doc.xpath(xpath).each_with_index do |node, i|
           next if first && !i.zero?
+
           title = get_or_make_title(node)
           fn = title.xpath("./fn")
           fn.each { |n| n.remove }

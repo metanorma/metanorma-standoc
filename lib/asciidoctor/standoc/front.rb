@@ -175,12 +175,17 @@ module Asciidoctor
 
       def metadata_ext(node, ext)
         metadata_doctype(node, ext)
+        metadata_subdoctype(node, ext)
         metadata_committee(node, ext)
         metadata_ics(node, ext)
       end
 
       def metadata_doctype(node, xml)
         xml.doctype doctype(node)
+      end
+
+      def metadata_subdoctype(node, xml)
+        s = node.attr("docsubtype") and xml.subdoctype s
       end
 
       def metadata_note(node, xml); end
@@ -197,7 +202,8 @@ module Asciidoctor
           at = { language: lang, format: "text/plain" }
           xml.title **attr_code(at) do |t|
             t << (Metanorma::Utils::asciidoc_sub(node.attr("title") ||
-                                                 node.attr("title-en")) || node.title)
+                                                 node.attr("title-en")) ||
+            node.title)
           end
         end
       end
