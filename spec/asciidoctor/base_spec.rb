@@ -240,6 +240,7 @@ OUTPUT
       :pub-uri: http://www.example.com
       :isbn: ISBN-13
       :isbn10: ISBN-10
+      :classification: a:b, c
     INPUT
     <?xml version="1.0" encoding="UTF-8"?>
 <standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
@@ -421,6 +422,8 @@ OUTPUT
              <docidentifier>JKL MNO</docidentifier>
            </bibitem>
          </relation>
+         <classification type='a'>b</classification>
+         <classification type='default'>c</classification>
 <keyword>a</keyword>
 <keyword>b</keyword>
 <keyword>c</keyword>
