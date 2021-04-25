@@ -361,18 +361,51 @@ OUTPUT
   <role type="publisher"/>
   <organization>
     <name>Hanna Barbera</name>
+    <address>
+  <formattedAddress>
+    1 Infinity Loop
+    <br/>
+    California
+  </formattedAddress>
+</address>
+<phone>3333333</phone>
+<phone type='fax'>4444444</phone>
+<email>x@example.com</email>
+<uri>http://www.example.com</uri>
   </organization>
 </contributor>
 <contributor>
   <role type="publisher"/>
   <organization>
     <name>Cartoon Network</name>
+    <address>
+  <formattedAddress>
+    1 Infinity Loop
+    <br/>
+    California
+  </formattedAddress>
+</address>
+<phone>3333333</phone>
+<phone type='fax'>4444444</phone>
+<email>x@example.com</email>
+<uri>http://www.example.com</uri>
   </organization>
 </contributor>
 <contributor>
   <role type="publisher"/>
   <organization>
     <name>Ribose, Inc.</name>
+    <address>
+  <formattedAddress>
+    1 Infinity Loop
+    <br/>
+    California
+  </formattedAddress>
+</address>
+<phone>3333333</phone>
+<phone type='fax'>4444444</phone>
+<email>x@example.com</email>
+<uri>http://www.example.com</uri>
   </organization>
 </contributor>
 <edition>2</edition>
@@ -392,6 +425,17 @@ OUTPUT
        <owner>
      <organization>
        <name>Ribose, Inc.</name>
+        <address>
+   <formattedAddress>
+     1 Infinity Loop
+     <br/>
+     California
+   </formattedAddress>
+ </address>
+ <phone>3333333</phone>
+ <phone type='fax'>4444444</phone>
+ <email>x@example.com</email>
+ <uri>http://www.example.com</uri>
      </organization>
    </owner>
  </copyright>
@@ -400,6 +444,17 @@ OUTPUT
    <owner>
      <organization>
        <name>Hanna Barbera</name>
+        <address>
+   <formattedAddress>
+     1 Infinity Loop
+     <br/>
+     California
+   </formattedAddress>
+ </address>
+ <phone>3333333</phone>
+ <phone type='fax'>4444444</phone>
+ <email>x@example.com</email>
+ <uri>http://www.example.com</uri>
      </organization>
    </owner>
   </copyright>
@@ -625,13 +680,6 @@ OUTPUT
         <name>International Standards Organization</name>
         <subdivision>Subdivision</subdivision>
         <abbreviation>SD</abbreviation>
-        <address>
-  <formattedAddress>1 Infinity Loop <br/>California</formattedAddress>
-</address>
-<phone>3333333</phone>
-<phone type='fax'>4444444</phone>
-<email>x@example.com</email>
-<uri>http://www.example.com</uri>
       </organization>
     </contributor>
     <contributor>

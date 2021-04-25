@@ -21,7 +21,7 @@ module Asciidoctor
         end
       end
 
-      def organization(org, orgname, node = nil, default_org = nil)
+      def organization(org, orgname, is_pub, node = nil, default_org = nil)
         abbrevs = org_abbrev
         n = abbrevs.invert[orgname] and orgname = n
         org.name orgname
@@ -29,7 +29,7 @@ module Asciidoctor
         abbr = org_abbrev[orgname]
         default_org && b = node.attr("subdivision-abbr") and abbr = b
         abbr and org.abbreviation abbr
-        node and org_address(node, org)
+        is_pub && node and org_address(node, org)
       end
 
       def org_address(node, p)
@@ -59,7 +59,7 @@ module Asciidoctor
           xml.contributor do |c|
             c.role **{ type: "author" }
             c.organization do |a|
-              organization(a, p, node, !node.attr("publisher"))  
+              organization(a, p, false, node, !node.attr("publisher"))  
             end
           end
         end
@@ -144,7 +144,7 @@ module Asciidoctor
           xml.contributor do |c|
             c.role **{ type: "publisher" }
             c.organization do |a|
-              organization(a, p, node, !node.attr("publisher"))
+              organization(a, p, true, node, !node.attr("publisher"))
             end
           end
         end
@@ -157,7 +157,7 @@ module Asciidoctor
             c.from (node.attr("copyright-year") || Date.today.year)
             p.match(/[A-Za-z]/).nil? or c.owner do |owner|
               owner.organization do |a|
-                organization(a, p, node, !pub)
+                organization(a, p, true, node, !pub)
               end
             end
           end
