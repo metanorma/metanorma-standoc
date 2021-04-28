@@ -41,6 +41,11 @@ module Asciidoctor
         inline_macro Asciidoctor::Standoc::IndexRangeInlineMacro
         inline_macro Asciidoctor::Standoc::AddMacro
         inline_macro Asciidoctor::Standoc::DelMacro
+        inline_macro Asciidoctor::Standoc::FormInputMacro
+        inline_macro Asciidoctor::Standoc::FormLabelMacro
+        inline_macro Asciidoctor::Standoc::FormTextareaMacro
+        inline_macro Asciidoctor::Standoc::FormSelectMacro
+        inline_macro Asciidoctor::Standoc::FormOptionMacro
         block Asciidoctor::Standoc::ToDoAdmonitionBlock
         treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
         block Asciidoctor::Standoc::PlantUMLBlockMacro
@@ -78,8 +83,8 @@ module Asciidoctor
         attr_accessor :_file
       end
 
-      def self.inherited(k)
-        k._file = caller_locations.first.absolute_path
+      def self.inherited(konv) # rubocop:disable Lint/MissingSuper
+        konv._file = caller_locations(1..1).first.absolute_path
       end
 
       # path to isodoc assets in child gems

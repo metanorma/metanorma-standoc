@@ -34,9 +34,9 @@ module Asciidoctor
         fragment = doc.fragment("")
         ::Nokogiri::XML::Builder.with fragment, &block
         fragment.to_xml(encoding: "US-ASCII", indent: 0).lines.map do |l|
-          l.gsub(/>\n$/, ">").gsub(/\s*\n$/m, " ").gsub("&#150;", "\u0096").
-            gsub("&#151;", "\u0097").gsub("&#x96;", "\u0096").
-            gsub("&#x97;", "\u0097")
+          l.gsub(/>\n$/, ">").gsub(/\s*\n$/m, " ").gsub("&#150;", "\u0096")
+            .gsub("&#151;", "\u0097").gsub("&#x96;", "\u0096")
+            .gsub("&#x97;", "\u0097")
         end
       end
 

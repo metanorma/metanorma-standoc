@@ -33,6 +33,7 @@ module Asciidoctor
         obligations_cleanup(xmldoc)
         table_cleanup(xmldoc)
         formula_cleanup(xmldoc)
+        form_cleanup(xmldoc)
         sourcecode_cleanup(xmldoc)
         figure_cleanup(xmldoc)
         element_name_cleanup(xmldoc)
