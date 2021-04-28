@@ -41,7 +41,7 @@ module Asciidoctor
       using_format :short
 
       def process(parent, _target, attr)
-        m = %w(id name size disabled multiple)
+        m = %w(id name size disabled multiple value)
           .map { |a| attr[a] ? " #{a}='#{attr[a]}'" : nil }.compact
         out = Asciidoctor::Inline.new(parent, :quoted, attr["text"]).convert
         %{<select #{m.join}>#{out}</select>}
@@ -54,7 +54,7 @@ module Asciidoctor
       using_format :short
 
       def process(parent, _target, attr)
-        m = %w(disabled selected value)
+        m = %w(disabled value)
           .map { |a| attr[a] ? " #{a}='#{attr[a]}'" : nil }.compact
         out = Asciidoctor::Inline.new(parent, :quoted, attr["text"]).convert
         %{<option #{m.join}">#{out}</option>}

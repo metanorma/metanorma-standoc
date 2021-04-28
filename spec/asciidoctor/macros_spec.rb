@@ -609,7 +609,7 @@ RSpec.describe Asciidoctor::Standoc do
       input:file[id=myfile,name=myfile] +
       label:cars[Select a car:] +
       select:[id=cars,name=cars,value=fiat,size=4,disabled=true,multiple=true]
-      option:[Volvo,value=volvo,disabled=true,selected=true]
+      option:[Volvo,value=volvo,disabled=true]
       option:[Saab,value=saab]
       option:[Fiat,value=fiat]
       option:[Audi,value=audi]
@@ -660,8 +660,8 @@ RSpec.describe Asciidoctor::Standoc do
           <br/>
           <label for='cars'>Select a car:</label>
           <br/>
-          <select id='cars' name='cars' size='4' disabled='true' multiple='true'>
-            <option disabled='true' selected='true' value='volvo'/>
+          <select id='cars' name='cars' size='4' disabled='true' multiple='true' value='fiat'>
+            <option disabled='true' value='volvo'/>
             <option value='saab'/>
             <option value='fiat'/>
             <option value='audi'/>
