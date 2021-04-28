@@ -27,11 +27,10 @@ module Asciidoctor
       named :textarea
       using_format :short
 
-      def process(parent, _target, attr)
+      def process(_parent, _target, attr)
         m = %w(id name rows cols value)
           .map { |a| attr[a] ? " #{a}='#{attr[a]}'" : nil }.compact
-        out = Asciidoctor::Inline.new(parent, :quoted, attr["text"]).convert
-        %{<textarea #{m.join}>#{out}</textarea>}
+        %{<textarea #{m.join}/>}
       end
     end
 
