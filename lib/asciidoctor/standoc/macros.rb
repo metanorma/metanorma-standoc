@@ -4,6 +4,7 @@ require "uuidtools"
 require "yaml"
 require_relative "./macros_plantuml"
 require_relative "./macros_terms"
+require_relative "./macros_form"
 require_relative "./datamodel/attributes_table_preprocessor"
 require_relative "./datamodel/diagram_preprocessor"
 require "metanorma-plugin-datastruct"
@@ -74,12 +75,11 @@ module Asciidoctor
       def supply_br(lines)
         ignore = false
         lines.each_with_index do |l, i|
-          /^(--+|====+|\|===|\.\.\.\.+|\*\*\*\*+|\+\+\+\++|\`\`\`\`+|____\+)$/.match(l) &&
-            (ignore = !ignore)
-          next if l.empty? || l.match(/ \+$/)
-          next if /^\[.*\]$/.match?(l)
-          next if ignore
-          next if i == lines.size - 1 || i < lines.size - 1 && lines[i + 1].empty?
+          /^(--+|====+|\|===|\.\.\.\.+|\*\*\*\*+|\+\+\+\++|\`\`\`\`+|____\+)$/
+            .match(l) && (ignore = !ignore)
+          next if l.empty? || l.match(/ \+$/) || /^\[.*\]$/.match?(l) || ignore
+          next if i == lines.size - 1 ||
+            i < lines.size - 1 && lines[i + 1].empty?
 
           lines[i] += " +"
         end
@@ -128,22 +128,22 @@ module Asciidoctor
       def process(parent, reader, attrs)
         attrs["name"] = "todo"
         attrs["caption"] = "TODO"
-        create_block parent, :admonition, reader.lines, attrs,
-          content_model: :compound
+        create_block(parent, :admonition, reader.lines, attrs,
+                     content_model: :compound)
       end
     end
 
     class ToDoInlineAdmonitionBlock < Extensions::Treeprocessor
       def process(document)
         (document.find_by context: :paragraph).each do |para|
-          next unless /^TODO: /.match para.lines[0]
+          next unless /^TODO: /.match? para.lines[0]
 
           parent = para.parent
           para.set_attr("name", "todo")
           para.set_attr("caption", "TODO")
           para.lines[0].sub!(/^TODO: /, "")
-          todo = Block.new parent, :admonition, attributes: para.attributes,
-            source: para.lines, content_model: :compound
+          todo = Block.new(parent, :admonition, attributes: para.attributes,
+                           source: para.lines, content_model: :compound)
           parent.blocks[parent.blocks.index(para)] = todo
         end
       end

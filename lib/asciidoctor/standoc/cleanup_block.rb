@@ -37,15 +37,15 @@ module Asciidoctor
         end
       end
 
-      def insert_thead(s)
-        thead = s.at("./thead")
+      def insert_thead(table)
+        thead = table.at("./thead")
         return thead unless thead.nil?
 
-        if tname = s.at("./name")
+        if tname = table.at("./name")
           thead = tname.add_next_sibling("<thead/>").first
           return thead
         end
-        s.children.first.add_previous_sibling("<thead/>").first
+        table.children.first.add_previous_sibling("<thead/>").first
       end
 
       def header_rows_cleanup(xmldoc)
@@ -144,7 +144,7 @@ module Asciidoctor
       ELEMS_ALLOW_NOTES = %w[p formula ul ol dl figure].freeze
 
       # if a note is at the end of a section, it is left alone
-      # if a note is followed by a non-note block, 
+      # if a note is followed by a non-note block,
       # it is moved inside its preceding block if it is not delimited
       # (so there was no way of making that block include the note)
       def note_cleanup(xmldoc)
@@ -164,7 +164,7 @@ module Asciidoctor
 
       def link_callouts_to_annotations(callouts, annotations)
         callouts.each_with_index do |c, i|
-          c["target"] = "_" + UUIDTools::UUID.random_create
+          c["target"] = "_#{UUIDTools::UUID.random_create}"
           annotations[i]["id"] = c["target"]
         end
       end
@@ -195,24 +195,42 @@ module Asciidoctor
         xmldoc.xpath("//sourcecode").each do |x|
           x.traverse do |n|
             next unless n.text?
-            next unless /#{Regexp.escape(@sourcecode_markup_start)}/.match?(n.text)
+            next unless /#{Regexp.escape(@sourcecode_markup_start)}/
+              .match?(n.text)
 
             n.replace(sourcecode_markup(n))
           end
         end
       end
 
-      def sourcecode_markup(n)
+      def safe_noko(text, doc)
+        Nokogiri::XML::Text.new(text, doc).to_xml(
+          encoding: "US-ASCII",
+          save_with: Nokogiri::XML::Node::SaveOptions::NO_DECLARATION
+        )
+      end
+
+      def sourcecode_markup(node)
         acc = []
-        n.text.split(/(#{Regexp.escape(@sourcecode_markup_start)}|#{Regexp.escape(@sourcecode_markup_end)})/)
+        node.text.split(/(#{Regexp.escape(@sourcecode_markup_start)}|
+                          #{Regexp.escape(@sourcecode_markup_end)})/x)
           .each_slice(4).map do |a|
-          acc << Nokogiri::XML::Text.new(a[0], n.document)
-            .to_xml(encoding: "US-ASCII", save_with: Nokogiri::XML::Node::SaveOptions::NO_DECLARATION)
+          acc << safe_noko(a[0], node.document)
           next unless a.size == 4
 
-          acc << Asciidoctor.convert(a[2], backend: (self&.backend&.to_sym || :standoc), doctype: :inline)
+          acc << Asciidoctor.convert(
+            a[2], doctype: :inline, backend: (self&.backend&.to_sym || :standoc)
+          )
         end
         acc.join
+      end
+
+      def form_cleanup(xmldoc)
+        xmldoc.xpath("//select").each do |s|
+          while s&.next_element&.name == "option"
+            s << s.next_element
+          end
+        end
       end
     end
   end

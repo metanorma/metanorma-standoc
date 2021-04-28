@@ -7,7 +7,6 @@ require "iev"
 module Asciidoctor
   module Standoc
     module Validate
-
       SOURCELOCALITY = "./termsource/origin//locality[@type = 'clause']/"\
         "referenceFrom".freeze
 
@@ -55,13 +54,13 @@ module Asciidoctor
           clean_abort("Numeric reference in normative references", doc.to_xml)
       end
 
-      def repeat_id_validate1(ids, x)
-        if ids[x["id"]]
-          @log.add("Anchors", x, "Anchor #{x['id']} has already been used "\
-                   "at line #{ids[x['id']]}")
+      def repeat_id_validate1(ids, elem)
+        if ids[elem["id"]]
+          @log.add("Anchors", elem, "Anchor #{elem['id']} has already been "\
+                   "used at line #{ids[elem['id']]}")
           raise StandardError.new "Error: multiple instances of same ID"
         else
-          ids[x["id"]] = x.line
+          ids[elem["id"]] = elem.line
         end
         ids
       end
@@ -78,22 +77,25 @@ module Asciidoctor
       end
 
       def schema_validate(doc, schema)
-        Tempfile.open(["tmp", ".xml"], :encoding => 'UTF-8') do |f|
+        Tempfile.open(["tmp", ".xml"], encoding: "UTF-8") do |f|
           begin
-            f.write(doc.to_xml) 
-            f.close
-            errors = Jing.new(schema).validate(f.path)
-            warn "Syntax Valid!" if errors.none?
-            errors.each do |e|
-              @log.add("Metanorma XML Syntax",
-                       "XML Line #{"%06d" % e[:line]}:#{e[:column]}",
-                       e[:message])
-            end
+            schema_validate1(f, doc, schema)
           rescue Jing::Error => e
             clean_abort("Jing failed with error: #{e}", doc.to_xml)
           ensure
             f.close!
           end
+        end
+      end
+
+      def schema_validate1(file, doc, schema)
+        file.write(doc.to_xml)
+        file.close
+        errors = Jing.new(schema).validate(file.path)
+        warn "Syntax Valid!" if errors.none?
+        errors.each do |e|
+          @log.add("Metanorma XML Syntax",
+                   "XML Line #{'%06d' % e[:line]}:#{e[:column]}", e[:message])
         end
       end
 

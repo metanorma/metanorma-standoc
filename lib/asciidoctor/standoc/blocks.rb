@@ -30,11 +30,23 @@ module Asciidoctor
       def open(node)
         role = node.role || node.attr("style")
         reqt_subpart(role) and return requirement_subpart(node)
+        role == "form" and return form(node)
         result = []
         node.blocks.each do |b|
           result << send(b.context, b)
         end
         result
+      end
+
+      def form(node)
+        noko do |xml|
+          xml.form **attr_code(
+            id: Metanorma::Utils::anchor_or_uuid,
+            name: node.attr("name"), action: node.attr("action")
+          ) do |f|
+            f << node.content
+          end
+        end
       end
 
       def literal_attrs(node)
@@ -91,9 +103,9 @@ module Asciidoctor
         noko do |xml|
           xml.svgmap **attr_code(svgmap_attrs(node).merge(
             src: node.attr("src"), alt: node.attr("alt"))) do |ex|
-            figure_title(node, ex)
-            ex << node.content
-          end
+              figure_title(node, ex)
+              ex << node.content
+            end
         end.join("\n")
       end
 
