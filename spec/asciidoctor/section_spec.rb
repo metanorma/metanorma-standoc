@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc do
   it "processes sections" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       .Foreword
 
@@ -95,112 +95,115 @@ RSpec.describe Asciidoctor::Standoc do
       [index,type=thematic]
       == Thematic Index
     INPUT
-                  #{BLANK_HDR.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>')}
-                <preface><abstract id="_">
-                <title>Abstract</title>
-              <p id="_">Text</p>
-            </abstract><foreword id='_' obligation="informative">
-              <title>Foreword</title>
-              <p id="_">Text</p>
-            </foreword><introduction id="_" obligation="informative">
-              <title>Introduction</title>
-              <clause id="_" inline-header="false" obligation="informative">
-              <title>Introduction Subsection</title>
-            </clause>
-            </introduction>
-            <clause id='_' inline-header='false' obligation='informative'>
-              <title>Dedication</title>
-            </clause>
-             <acknowledgements id='_' obligation='informative'>
-               <title>Acknowledgements</title>
-             </acknowledgements>
-            </preface><sections>
-            <clause id="_" inline-header="false" obligation="normative" type="scope">
-              <title>Scope</title>
-              <p id="_">Text</p>
-            </clause>
-            <terms id="_" obligation="normative">
-              <title>Terms and definitions</title>
-              <p id="_">For the purposes of this document,
-                   the following terms and definitions apply.</p>
-              <term id="term-term1">
-              <preferred>Term1</preferred>
-            </term>
-            </terms>
-            <clause id="_" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title>
-            <p id='_'>Boilerplate text</p>
-            <clause id="_" inline-header="false" obligation="normative">
-              <title>Introduction</title>
-              <clause id="_" inline-header="false" obligation="normative">
-              <title>Intro 1</title>
-            </clause>
-            </clause>
-            <terms id="_" obligation="normative">
-              <title>Intro 2</title>
-              <clause id="_" inline-header="false" obligation="normative">
-              <title>Intro 3</title>
-            </clause>
-            </terms>
-            <clause id="_" obligation="normative">
-              <title>Intro 4</title>
-              <terms id="_" obligation="normative">
-              <title>Intro 5</title>
-              <term id="term-term1-1">
-              <preferred>Term1</preferred>
-            </term>
-            </terms>
-            </clause>
-            <terms id="_" obligation="normative">
-              <title>Normal Terms</title>
-              <term id="term-term2">
-              <preferred>Term2</preferred>
-            </term>
-            </terms>
-            <definitions id="_" obligation="normative"><title>Symbols and abbreviated terms</title><clause id="_" inline-header="false" obligation="normative">
-              <title>General</title>
-            </clause>
-            <definitions id="_" obligation="normative" type="symbols">
-              <title>Symbols</title>
-            </definitions></definitions></clause>
-            <definitions id="_" obligation="normative" type="abbreviated_terms">
-              <title>Abbreviated terms</title>
-            </definitions>
-            <clause id="_" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="_" inline-header="false" obligation="normative">
-              <title>Introduction</title>
-            </clause>
-            <clause id="_" inline-header="false" obligation="normative">
-              <title>Clause 4.2</title>
-            </clause></clause>
-            <clause id="_" inline-header="false" obligation="normative">
-              <title>Terms and Definitions</title>
-            </clause>
-            </sections><annex id="_" inline-header="false" obligation="normative">
-              <title>Annex</title>
-              <clause id="_" inline-header="false" obligation="normative">
-              <title>Annex A.1</title>
-            </clause>
-            </annex><bibliography><references id="_" obligation="informative" normative="true">
-              <title>Normative references</title>
-              <p id="_">There are no normative references in this document.</p>
-            </references><clause id="_" obligation="informative">
-              <title>Bibliography</title>
-              <references id="_" obligation="informative" normative="false">
-              <title>Bibliography Subsection</title>
-            </references>
-            </clause></bibliography>
-            <indexsect id='_'>
-              <title>Index</title>
-              <p id='_'>This is an index</p>
-            </indexsect>
-            <indexsect id='_' type='thematic'>
-              <title>Thematic Index</title>
-            </indexsect>
-            </standard-document>
+    output = <<~OUTPUT
+            #{BLANK_HDR.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>')}
+          <preface><abstract id="_">
+          <title>Abstract</title>
+        <p id="_">Text</p>
+      </abstract><foreword id='_' obligation="informative">
+        <title>Foreword</title>
+        <p id="_">Text</p>
+      </foreword><introduction id="_" obligation="informative">
+        <title>Introduction</title>
+        <clause id="_" inline-header="false" obligation="informative">
+        <title>Introduction Subsection</title>
+      </clause>
+      </introduction>
+      <clause id='_' inline-header='false' obligation='informative'>
+        <title>Dedication</title>
+      </clause>
+       <acknowledgements id='_' obligation='informative'>
+         <title>Acknowledgements</title>
+       </acknowledgements>
+      </preface><sections>
+      <clause id="_" inline-header="false" obligation="normative" type="scope">
+        <title>Scope</title>
+        <p id="_">Text</p>
+      </clause>
+      <terms id="_" obligation="normative">
+        <title>Terms and definitions</title>
+        <p id="_">For the purposes of this document,
+             the following terms and definitions apply.</p>
+        <term id="term-term1">
+        <preferred>Term1</preferred>
+      </term>
+      </terms>
+      <clause id="_" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title>
+      <p id='_'>Boilerplate text</p>
+      <clause id="_" inline-header="false" obligation="normative">
+        <title>Introduction</title>
+        <clause id="_" inline-header="false" obligation="normative">
+        <title>Intro 1</title>
+      </clause>
+      </clause>
+      <terms id="_" obligation="normative">
+        <title>Intro 2</title>
+        <clause id="_" inline-header="false" obligation="normative">
+        <title>Intro 3</title>
+      </clause>
+      </terms>
+      <clause id="_" obligation="normative">
+        <title>Intro 4</title>
+        <terms id="_" obligation="normative">
+        <title>Intro 5</title>
+        <term id="term-term1-1">
+        <preferred>Term1</preferred>
+      </term>
+      </terms>
+      </clause>
+      <terms id="_" obligation="normative">
+        <title>Normal Terms</title>
+        <term id="term-term2">
+        <preferred>Term2</preferred>
+      </term>
+      </terms>
+      <definitions id="_" obligation="normative"><title>Symbols and abbreviated terms</title><clause id="_" inline-header="false" obligation="normative">
+        <title>General</title>
+      </clause>
+      <definitions id="_" obligation="normative" type="symbols">
+        <title>Symbols</title>
+      </definitions></definitions></clause>
+      <definitions id="_" obligation="normative" type="abbreviated_terms">
+        <title>Abbreviated terms</title>
+      </definitions>
+      <clause id="_" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="_" inline-header="false" obligation="normative">
+        <title>Introduction</title>
+      </clause>
+      <clause id="_" inline-header="false" obligation="normative">
+        <title>Clause 4.2</title>
+      </clause></clause>
+      <clause id="_" inline-header="false" obligation="normative">
+        <title>Terms and Definitions</title>
+      </clause>
+      </sections><annex id="_" inline-header="false" obligation="normative">
+        <title>Annex</title>
+        <clause id="_" inline-header="false" obligation="normative">
+        <title>Annex A.1</title>
+      </clause>
+      </annex><bibliography><references id="_" obligation="informative" normative="true">
+        <title>Normative references</title>
+        <p id="_">There are no normative references in this document.</p>
+      </references><clause id="_" obligation="informative">
+        <title>Bibliography</title>
+        <references id="_" obligation="informative" normative="false">
+        <title>Bibliography Subsection</title>
+      </references>
+      </clause></bibliography>
+      <indexsect id='_'>
+        <title>Index</title>
+        <p id='_'>This is an index</p>
+      </indexsect>
+      <indexsect id='_' type='thematic'>
+        <title>Thematic Index</title>
+      </indexsect>
+      </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes sections with number attributes" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [number=1bis]
       == Scope
@@ -264,6 +267,7 @@ RSpec.describe Asciidoctor::Standoc do
       [number=20bis]
       === Bibliography Subsection
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
            <sections>
              <clause id='_' number='1bis' type='scope' inline-header='false' obligation='normative'>
@@ -335,10 +339,12 @@ RSpec.describe Asciidoctor::Standoc do
            </bibliography>
          </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes sections with language and script attributes" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [language=en,script=Latn]
       == Foreword
@@ -442,105 +448,108 @@ RSpec.describe Asciidoctor::Standoc do
       [language=en,script=Latn]
       === Bibliography Subsection
     INPUT
-                         #{BLANK_HDR.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>')}
-                 <preface><abstract id="_" language="en" script="Latn">
-                 <title>Abstract</title>
-                     <p id="_">Text</p>
-                   </abstract><foreword id='_' language='en' script='Latn' obligation='informative'>
-                     <title>Foreword</title>
-                     <p id="_">Text</p>
-                   </foreword><introduction id="_" language="en" script="Latn" obligation="informative">
-                     <title>Introduction</title>
-                     <clause id="_" language="en" script="Latn" inline-header="false" obligation="informative">
-                     <title>Introduction Subsection</title>
-                   </clause>
-                   </introduction>
-                   <clause id='_' language='en' script='Latn' inline-header='false' obligation='informative'>
-              <title>Dedication</title>
-            </clause>
-                   <acknowledgements id='_' language='en' script='Latn' obligation='informative'>
-              <title>Acknowledgements</title>
-            </acknowledgements>
-            </preface><sections>
-                   <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative" type="scope">
-                     <title>Scope</title>
-                     <p id="_">Text</p>
-                   </clause>
-                   <terms id="_" language="en" script="Latn" obligation="normative">
-                     <title>Terms and definitions</title>
-                     <p id="_">For the purposes of this document,
-                   the following terms and definitions apply.</p>
-                     <term id="term-term1" language="en" script="Latn">
-                     <preferred>Term1</preferred>
-                   </term>
-                   </terms>
-                   <clause id="_" language="en" script="Latn" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title>
-              <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-            <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
-                     <title>Introduction</title>
-                     <clause id="_" inline-header="false" obligation="normative">
-                     <title>Intro 1</title>
-                   </clause>
-                   </clause>
-                   <terms id="_" language="en" script="Latn" obligation="normative">
-                     <title>Intro 2</title>
-                     <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
-                     <title>Intro 3</title>
-                   </clause>
-                   </terms>
-                   <clause id="_" language="en" script="Latn" obligation="normative">
-                     <title>Intro 4</title>
-                     <terms id="_" language="en" script="Latn" obligation="normative">
-                     <title>Intro 5</title>
-                     <term id="term-term1-1">
-                     <preferred>Term1</preferred>
-                   </term>
-                   </terms>
-                   </clause>
-                   <terms id="_" language="en" script="Latn" obligation="normative">
-                     <title>Normal Terms</title>
-                     <term id="term-term2">
-                     <preferred>Term2</preferred>
-                   </term>
-                   </terms>
-                   <definitions id="_" language="en" script="Latn" obligation="normative"><title>Symbols and abbreviated terms</title><clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
-                     <title>General</title>
-                   </clause>
-                   <definitions id="_" obligation="normative" type="symbols">
-                     <title>Symbols</title>
-                   </definitions></definitions></clause>
-                   <definitions id="_" language="en" script="Latn" obligation="normative" type="abbreviated_terms">
-                     <title>Abbreviated terms</title>
-                   </definitions>
-                   <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
-                     <title>Introduction</title>
-                   </clause>
-                   <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
-                     <title>Clause 4.2</title>
-                   </clause></clause>
-                   <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
-                     <title>Terms and Definitions</title>
-                   </clause>
-                   </sections><annex id="_" language="en" script="Latn" inline-header="false" obligation="normative">
-                     <title>Annex</title>
-                     <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
-                     <title>Annex A.1</title>
-                   </clause>
-                   </annex><bibliography><references id="_" language="en" script="Latn" obligation="informative" normative="true">
-                     <title>Normative references</title>
-                     <p id="_">There are no normative references in this document.</p>
-                   </references><clause id="_" language="en" script="Latn" obligation="informative">
-                     <title>Bibliography</title>
-                     <references id="_" language="en" script="Latn" obligation="informative" normative="false">
-                     <title>Bibliography Subsection</title>
-                   </references>
-                   </clause></bibliography>
-                   </standard-document>
+    output = <<~OUTPUT
+                   #{BLANK_HDR.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>')}
+           <preface><abstract id="_" language="en" script="Latn">
+           <title>Abstract</title>
+               <p id="_">Text</p>
+             </abstract><foreword id='_' language='en' script='Latn' obligation='informative'>
+               <title>Foreword</title>
+               <p id="_">Text</p>
+             </foreword><introduction id="_" language="en" script="Latn" obligation="informative">
+               <title>Introduction</title>
+               <clause id="_" language="en" script="Latn" inline-header="false" obligation="informative">
+               <title>Introduction Subsection</title>
+             </clause>
+             </introduction>
+             <clause id='_' language='en' script='Latn' inline-header='false' obligation='informative'>
+        <title>Dedication</title>
+      </clause>
+             <acknowledgements id='_' language='en' script='Latn' obligation='informative'>
+        <title>Acknowledgements</title>
+      </acknowledgements>
+      </preface><sections>
+             <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative" type="scope">
+               <title>Scope</title>
+               <p id="_">Text</p>
+             </clause>
+             <terms id="_" language="en" script="Latn" obligation="normative">
+               <title>Terms and definitions</title>
+               <p id="_">For the purposes of this document,
+             the following terms and definitions apply.</p>
+               <term id="term-term1" language="en" script="Latn">
+               <preferred>Term1</preferred>
+             </term>
+             </terms>
+             <clause id="_" language="en" script="Latn" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title>
+        <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+      <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+               <title>Introduction</title>
+               <clause id="_" inline-header="false" obligation="normative">
+               <title>Intro 1</title>
+             </clause>
+             </clause>
+             <terms id="_" language="en" script="Latn" obligation="normative">
+               <title>Intro 2</title>
+               <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+               <title>Intro 3</title>
+             </clause>
+             </terms>
+             <clause id="_" language="en" script="Latn" obligation="normative">
+               <title>Intro 4</title>
+               <terms id="_" language="en" script="Latn" obligation="normative">
+               <title>Intro 5</title>
+               <term id="term-term1-1">
+               <preferred>Term1</preferred>
+             </term>
+             </terms>
+             </clause>
+             <terms id="_" language="en" script="Latn" obligation="normative">
+               <title>Normal Terms</title>
+               <term id="term-term2">
+               <preferred>Term2</preferred>
+             </term>
+             </terms>
+             <definitions id="_" language="en" script="Latn" obligation="normative"><title>Symbols and abbreviated terms</title><clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+               <title>General</title>
+             </clause>
+             <definitions id="_" obligation="normative" type="symbols">
+               <title>Symbols</title>
+             </definitions></definitions></clause>
+             <definitions id="_" language="en" script="Latn" obligation="normative" type="abbreviated_terms">
+               <title>Abbreviated terms</title>
+             </definitions>
+             <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+               <title>Introduction</title>
+             </clause>
+             <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+               <title>Clause 4.2</title>
+             </clause></clause>
+             <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+               <title>Terms and Definitions</title>
+             </clause>
+             </sections><annex id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+               <title>Annex</title>
+               <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
+               <title>Annex A.1</title>
+             </clause>
+             </annex><bibliography><references id="_" language="en" script="Latn" obligation="informative" normative="true">
+               <title>Normative references</title>
+               <p id="_">There are no normative references in this document.</p>
+             </references><clause id="_" language="en" script="Latn" obligation="informative">
+               <title>Bibliography</title>
+               <references id="_" language="en" script="Latn" obligation="informative" normative="false">
+               <title>Bibliography Subsection</title>
+             </references>
+             </clause></bibliography>
+             </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes sections with title and type attributes" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       .Foreword
 
@@ -598,6 +607,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Bibliography Subsection
     INPUT
+    output = <<~OUTPUT
                    #{BLANK_HDR.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>')}
             <preface>
           <abstract id='_'>
@@ -672,10 +682,12 @@ RSpec.describe Asciidoctor::Standoc do
         </bibliography>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "varies terms & symbols title" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [heading="terms, definitions, symbols and abbreviated terms"]
       == Terms, Definitions, Symbols Section
@@ -685,6 +697,7 @@ RSpec.describe Asciidoctor::Standoc do
       === Symbols
 
     INPUT
+    output = <<~OUTPUT
              #{BLANK_HDR}
               <sections>
           <terms id='_' obligation='normative'>
@@ -700,20 +713,23 @@ RSpec.describe Asciidoctor::Standoc do
         </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "varies terms & abbreviated terms title" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-                  #{ASCIIDOC_BLANK_HDR}
-                  [heading="terms, definitions, symbols and abbreviated terms"]
-                  == Terms, Definitions, Abbreviated Terms Section
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [heading="terms, definitions, symbols and abbreviated terms"]
+      == Terms, Definitions, Abbreviated Terms Section
 
-                  === Term
+      === Term
 
-                  [heading="abbreviated terms"]
-                  === Symbols
+      [heading="abbreviated terms"]
+      === Symbols
 
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
         <sections>
           <terms id='_' obligation='normative'>
@@ -729,10 +745,12 @@ RSpec.describe Asciidoctor::Standoc do
         </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes section obligations" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [obligation=informative]
       == Clause 1
@@ -745,6 +763,7 @@ RSpec.describe Asciidoctor::Standoc do
       [appendix,obligation=informative]
       == Annex
     INPUT
+    output = <<~OUTPUT
             #{BLANK_HDR}
       <sections><clause id="_" inline-header="false" obligation="informative">
         <title>Clause 1</title>
@@ -760,10 +779,12 @@ RSpec.describe Asciidoctor::Standoc do
       </annex>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes inline headers" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Clause 1
 
@@ -776,6 +797,7 @@ RSpec.describe Asciidoctor::Standoc do
       [%inline-header]
       === Clause Aa
     INPUT
+    output = <<~OUTPUT
             #{BLANK_HDR}
       <sections><clause id="_" inline-header="false" obligation="normative">
         <title>Clause 1</title>
@@ -791,16 +813,19 @@ RSpec.describe Asciidoctor::Standoc do
       </annex>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes blank headers" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Clause 1
 
       === {blank}
 
     INPUT
+    output = <<~OUTPUT
             #{BLANK_HDR}
       <sections>
         <clause id="_" inline-header="false" obligation="normative">
@@ -811,10 +836,12 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes terminal nodes in terms with term subsection names" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       == Terms, definitions, symbols and abbreviated terms
@@ -824,6 +851,7 @@ RSpec.describe Asciidoctor::Standoc do
       === Symbols
 
     INPUT
+    output = <<~OUTPUT
                    #{BLANK_HDR}
                    <sections>
         <terms id='_' obligation='normative'>
@@ -839,10 +867,12 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes terms & definitions with external source" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       Foreword
@@ -853,25 +883,28 @@ RSpec.describe Asciidoctor::Standoc do
       === Term1
 
     INPUT
-                         #{BLANK_HDR}
-                         <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
-                    <preface><foreword id='_' obligation="informative">
-                     <title>Foreword</title>
-                     <p id="_">Foreword</p>
-                   </foreword></preface><sections>
-                   <terms id="_" obligation="normative">
-                      <title>Terms and definitions</title><p id="_">For the purposes of this document, the terms and definitions
-              given in <eref bibitemid="iso1234"/> and <eref bibitemid="iso5678"/> and the following apply.</p>
-              <term id="term-term1">
-              <preferred>Term1</preferred>
-            </term>
-                   </terms></sections>
-                   </standard-document>
+    output = <<~OUTPUT
+                   #{BLANK_HDR}
+                   <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
+              <preface><foreword id='_' obligation="informative">
+               <title>Foreword</title>
+               <p id="_">Foreword</p>
+             </foreword></preface><sections>
+             <terms id="_" obligation="normative">
+                <title>Terms and definitions</title><p id="_">For the purposes of this document, the terms and definitions
+        given in <eref bibitemid="iso1234"/> and <eref bibitemid="iso5678"/> and the following apply.</p>
+        <term id="term-term1">
+        <preferred>Term1</preferred>
+      </term>
+             </terms></sections>
+             </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes empty terms & definitions" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       Foreword
@@ -880,6 +913,7 @@ RSpec.describe Asciidoctor::Standoc do
 
 
     INPUT
+    output = <<~OUTPUT
             #{BLANK_HDR}
        <preface><foreword id='_' obligation="informative">
         <title>Foreword</title>
@@ -891,10 +925,12 @@ RSpec.describe Asciidoctor::Standoc do
       </standard-document>
 
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes empty terms & definitions with external source" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       Foreword
@@ -903,6 +939,7 @@ RSpec.describe Asciidoctor::Standoc do
       == Terms and Definitions
 
     INPUT
+    output = <<~OUTPUT
             #{BLANK_HDR}
             <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
        <preface><foreword id='_' obligation="informative">
@@ -913,16 +950,15 @@ RSpec.describe Asciidoctor::Standoc do
         <title>Terms and definitions</title>
         <p id="_">For the purposes of this document,
        the terms and definitions given in <eref bibitemid="iso1234"/> and <eref bibitemid="iso5678"/> apply.</p>
-
-
       </terms></sections>
       </standard-document>
-
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes term document sources in French" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -937,6 +973,7 @@ RSpec.describe Asciidoctor::Standoc do
       == Terms and Definitions
 
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>fr</language>')}
               <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
          <preface><foreword id='_' obligation="informative">
@@ -946,16 +983,15 @@ RSpec.describe Asciidoctor::Standoc do
         <terms id="_" obligation="normative">
           <title>Terms et définitions</title>
          <p id="_">Pour les besoins du présent document, les termes et définitions de <eref bibitemid="iso1234"/> et <eref bibitemid="iso5678"/> s’appliquent.</p>
-
-
         </terms></sections>
         </standard-document>
-
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes term document sources in Chinese" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -971,77 +1007,86 @@ RSpec.describe Asciidoctor::Standoc do
       == Terms and Definitions
 
     INPUT
-           #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>zh</language>').sub(%r{<script>Latn</script>}, '<script>Hans</script>')}
-             <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/><preface><foreword id='_' obligation="informative">
-               <title>前言</title>
-               <p id="_">Foreword</p>
-             </foreword></preface><sections>
-             <terms id="_" obligation="normative">
-               <title>术语和定义</title><p id="_"><eref bibitemid="iso1234"/>和<eref bibitemid="iso5678"/>界定的术语和定义适用于本文件。</p>
-             </terms></sections>
-             </standard-document>
+    output = <<~OUTPUT
+      #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>zh</language>').sub(%r{<script>Latn</script>}, '<script>Hans</script>')}
+        <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/><preface><foreword id='_' obligation="informative">
+          <title>前言</title>
+          <p id="_">Foreword</p>
+        </foreword></preface><sections>
+        <terms id="_" obligation="normative">
+          <title>术语和定义</title><p id="_"><eref bibitemid="iso1234"/>和<eref bibitemid="iso5678"/>界定的术语和定义适用于本文件。</p>
+        </terms></sections>
+        </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "warn about external source for terms & definitions that does not point anywhere" do
-    expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to output(/not referenced/).to_stderr
-              #{ASCIIDOC_BLANK_HDR}
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
 
-              [source="iso712"]
-              == Terms and Definitions
-              === Term2
+      [source="iso712"]
+      == Terms and Definitions
+      === Term2
     INPUT
+    expect { Asciidoctor.convert(input, backend: :standoc, header_footer: true) }
+      .to output(/not referenced/).to_stderr
   end
 
   it "treats terminal terms subclause named as terms clause as a normal clause" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-            #{ASCIIDOC_BLANK_HDR}
-            [[tda]]
-            == Terms, definitions, symbols and abbreviations
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [[tda]]
+      == Terms, definitions, symbols and abbreviations
 
-            [[terms]]
-            === Terms and definitions
+      [[terms]]
+      === Terms and definitions
 
-            === Symbols
+      === Symbols
 
     INPUT
-            #{BLANK_HDR}
-              <sections>
-                <terms id='tda' obligation='normative'>
-                  <title>Terms, definitions and symbols</title>
-                  <p id='_'>No terms and definitions are listed in this document.</p>
-                  <clause id='terms' inline-header='false' obligation='normative'>
-                    <title>Terms and definitions</title>
-                  </clause>
-                  <definitions id='_' obligation="normative" type="symbols">
-                    <title>Symbols</title>
-                  </definitions>
-                </terms>
-              </sections>
-            </standard-document>
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <terms id='tda' obligation='normative'>
+            <title>Terms, definitions and symbols</title>
+            <p id='_'>No terms and definitions are listed in this document.</p>
+            <clause id='terms' inline-header='false' obligation='normative'>
+              <title>Terms and definitions</title>
+            </clause>
+            <definitions id='_' obligation="normative" type="symbols">
+              <title>Symbols</title>
+            </definitions>
+          </terms>
+        </sections>
+      </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "treats non-terminal terms subclause named as terms clause as a terms clause" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-            #{ASCIIDOC_BLANK_HDR}
-            == Scope
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Scope
 
-            [[tda]]
-            == Terms, definitions, symbols and abbreviations
+      [[tda]]
+      == Terms, definitions, symbols and abbreviations
 
-            [[terms]]
-            === Terms and definitions
+      [[terms]]
+      === Terms and definitions
 
-            [[terms-concepts]]
-            ==== Basic concepts
+      [[terms-concepts]]
+      ==== Basic concepts
 
-            [[term-date]]
-            ===== date
+      [[term-date]]
+      ===== date
 
-            _time_ (<<term-time>>) on the _calendar_ (<<term-calendar>>) _time scale_ (<<term-time-scale>>)
+      _time_ (<<term-time>>) on the _calendar_ (<<term-calendar>>) _time scale_ (<<term-time-scale>>)
 
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
          <clause id='_' inline-header='false' obligation='normative' type="scope">
@@ -1079,28 +1124,31 @@ RSpec.describe Asciidoctor::Standoc do
        </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "leaves alone special titles in preface or appendix" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(strip_guid(<<~"OUTPUT"))
-            #{ASCIIDOC_BLANK_HDR}
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
 
-            [.preface]
-            [[t1]]
-            == Terms and definitions
+      [.preface]
+      [[t1]]
+      == Terms and definitions
 
-            [[t2]]
-            === Term1
+      [[t2]]
+      === Term1
 
-            [appendix,language=fr]
-            [[sym]]
-            == Symbols and abbreviated terms
+      [appendix,language=fr]
+      [[sym]]
+      == Symbols and abbreviated terms
 
-            [.appendix]
-            [[app]]
-            [bibliography]
-            == Normative Reference
+      [.appendix]
+      [[app]]
+      [bibliography]
+      == Normative Reference
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
         <preface>
           <terms id='t1' obligation='normative'>
@@ -1123,5 +1171,27 @@ RSpec.describe Asciidoctor::Standoc do
         </annex>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
   end
+
+  it "recognises special titles despite following indexterms" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Scope (((indexterm)))
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections>
+        <clause id='_' type='scope' inline-header='false' obligation='normative'>
+          <title>Scope</title>
+        </clause>
+      </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
 end
