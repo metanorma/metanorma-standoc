@@ -78,15 +78,21 @@ module Asciidoctor
         end
       end
 
-      def boilerplate_cleanup(xmldoc)
-        isodoc = boilerplate_isodoc(xmldoc)
-        termdef_boilerplate_cleanup(xmldoc)
+      def termdef_boilerplate_insert(xmldoc, isodoc, once = false)
         xmldoc.xpath(self.class::TERM_CLAUSE).each do |f|
           next if f.at("./clause[@type = 'boilerplate']")
 
-          term_defs_boilerplate(f.at("./title"), xmldoc.xpath(".//termdocsource"),
+          term_defs_boilerplate(f.at("./title"),
+                                xmldoc.xpath(".//termdocsource"),
                                 f.at(".//term"), f.at(".//p"), isodoc)
+          break if once
         end
+      end
+
+      def boilerplate_cleanup(xmldoc)
+        isodoc = boilerplate_isodoc(xmldoc)
+        termdef_boilerplate_cleanup(xmldoc)
+        termdef_boilerplate_insert(xmldoc, isodoc)
         termdef_unwrap_boilerplate_clauses(xmldoc)
         f = xmldoc.at(self.class::NORM_REF) and norm_ref_preface(f)
         initial_boilerplate(xmldoc, isodoc)
