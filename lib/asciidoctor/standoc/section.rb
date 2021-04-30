@@ -10,7 +10,9 @@ module Asciidoctor
       @norm_ref = false
 
       def sectiontype1(node)
-        node&.attr("heading")&.downcase || node.title.gsub(/<[^>]+>/, "").downcase
+        node&.attr("heading")&.downcase ||
+          node.title.gsub(%r{<index>.*?</index>}m, "").gsub(/<[^>]+>/, "")
+          .strip.downcase
       end
 
       def sectiontype(node, level = true)
