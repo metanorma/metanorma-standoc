@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'erb'
+require "erb"
 
 module Asciidoctor
   module Datamodel
     class PlantumlRenderer
-      TEMPLATES_PATH = File.expand_path('../views/datamodel', __dir__).freeze
+      TEMPLATES_PATH = File.expand_path("../views/datamodel", __dir__).freeze
 
       attr_reader :yml, :plantuml_path
 
@@ -15,23 +15,23 @@ module Asciidoctor
       end
 
       def join_as_plantuml(*ary)
-        ary.compact.join("\n").sub(/\s+\Z/, '')
+        ary.compact.join("\n").sub(/\s+\Z/, "")
       end
 
       def render
         ERB.new(
           File.read(
-            File.join(TEMPLATES_PATH, 'plantuml_representation.adoc.erb')
+            File.join(TEMPLATES_PATH, "plantuml_representation.adoc.erb")
           )
         ).result(binding)
       end
 
       def diagram_caption
-        yml['caption']
+        yml["caption"]
       end
 
       def imports_yml_to_plantuml
-        return if empty?(yml, 'imports')
+        return if empty?(yml, "imports")
 
         <<~TEMPLATE
           '******* IMPORTS ******************************************************
@@ -40,7 +40,7 @@ module Asciidoctor
       end
 
       def class_defs_yml_to_plantuml
-        return if empty?(yml, 'classes') && empty?(yml, 'enums')
+        return if empty?(yml, "classes") && empty?(yml, "enums")
 
         <<~TEMPLATE
           '******* CLASS DEFINITIONS ********************************************
@@ -52,7 +52,7 @@ module Asciidoctor
       end
 
       def class_groups_yml_to_plantuml
-        return if empty?(yml, 'groups')
+        return if empty?(yml, "groups")
 
         <<~TEMPLATE
           '******* CLASS GROUPS *************************************************
@@ -63,7 +63,7 @@ module Asciidoctor
       end
 
       def class_relations_yml_to_plantuml
-        return if empty?(yml, 'classes') && empty?(yml, 'relations')
+        return if empty?(yml, "classes") && empty?(yml, "relations")
 
         <<~TEMPLATE
           '******* CLASS RELATIONS **********************************************
@@ -75,7 +75,7 @@ module Asciidoctor
       end
 
       def diagram_options_yml_to_plantuml
-        return if empty?(yml, 'diagram_options')
+        return if empty?(yml, "diagram_options")
 
         <<~TEMPLATE
           '******* DIAGRAM SPECIFIC CONFIG **************************************
@@ -86,7 +86,7 @@ module Asciidoctor
       end
 
       def bottom_yml_to_plantuml
-        return if empty?(yml, 'bottom')
+        return if empty?(yml, "bottom")
 
         <<~TEMPLATE
           '******* BOTTOM OVERRIDE CONFIG **************************************
@@ -95,7 +95,7 @@ module Asciidoctor
       end
 
       def fidelity_yml_to_plantuml
-        return if empty?(yml, 'fidelity')
+        return if empty?(yml, "fidelity")
 
         <<~TEMPLATE
           '******* FIDELITY *****************************************************
@@ -133,7 +133,7 @@ module Asciidoctor
 
         attributes.map do |(attr_name, attr_hash)|
           attribute_to_plantuml(attr_name, attr_hash)
-        end.join('').sub(/\n\Z/, '')
+        end.join("").sub(/\n\Z/, "")
       end
 
       def attribute_to_plantuml(attr_name, attr_hash)
@@ -143,9 +143,10 @@ module Asciidoctor
       end
 
       def attribute_cardinality_plantuml(cardinality, with_bracket = true)
-        return '' if cardinality.nil? ||
-                     (cardinality['min'] == cardinality['max'] &&
-                       cardinality['min'] == 1)
+        return "" if cardinality.nil? ||
+          (cardinality["min"] == cardinality["max"] &&
+            cardinality["min"] == 1)
+
         card = "#{cardinality['min']}..#{cardinality['max']}"
         return card unless with_bracket
 
@@ -172,7 +173,7 @@ module Asciidoctor
       def classes_to_relations_plantuml(classes)
         output_ary = classes.map do |(class_name, class_hash)|
           class_hash ||= {}
-          relations = class_hash['relations']
+          relations = class_hash["relations"]
           relations_to_plantuml(class_name, relations)
         end
 
@@ -183,9 +184,9 @@ module Asciidoctor
         return unless relations
 
         output_ary = relations.map do |relation|
-          source = class_name || relation['source']
+          source = class_name || relation["source"]
           relation_to_plantuml(source,
-                               relation['target'],
+                               relation["target"],
                                relation)
         end
 
@@ -194,41 +195,41 @@ module Asciidoctor
 
       def relation_arrow(relationship, relation)
         [
-          relationship_type_to_plantuml('source',
-                                        relationship['source']['type']),
-          (relation['direction']).to_s,
-          relationship_type_to_plantuml('target',
-                                        relationship['target']['type'])
-        ].compact.join('-')
+          relationship_type_to_plantuml("source",
+                                        relationship["source"]["type"]),
+          (relation["direction"]).to_s,
+          relationship_type_to_plantuml("target",
+                                        relationship["target"]["type"]),
+        ].compact.join("-")
       end
 
       def relation_label(action)
-        return '' unless action
+        return "" unless action
 
-        case action['direction']
-        when 'source'
+        case action["direction"]
+        when "source"
           " : < #{action['verb']}"
-        when 'target'
+        when "target"
           " : #{action['verb']} >"
         else
-          ''
+          ""
         end
       end
 
       def source_arrow_end(source, relationship)
         source_attribute = relationship_cardinality_to_plantuml(
-          relationship['source']['attribute']
+          relationship["source"]["attribute"]
         )
-        [source, source_attribute].join(' ')
+        [source, source_attribute].join(" ")
       end
 
       def target_arrow_end(target, relationship, action)
         target_attribute = relationship_cardinality_to_plantuml(
-          relationship['target']['attribute']
+          relationship["target"]["attribute"]
         )
         [
-          [target_attribute, target].join(' '),
-          relation_label(action)
+          [target_attribute, target].join(" "),
+          relation_label(action),
         ].join
       end
 
@@ -239,9 +240,9 @@ module Asciidoctor
       end
 
       def relation_to_plantuml(source, target, relation)
-        relationship = relation['relationship'] || {}
-        relationship['source'] ||= {}
-        relationship['target'] ||= {}
+        relationship = relation["relationship"] || {}
+        relationship["source"] ||= {}
+        relationship["target"] ||= {}
         relation_output_lines(source, target, relation, relationship)
       end
 
@@ -249,22 +250,22 @@ module Asciidoctor
         output_lines = [
           source_arrow_end(source, relationship),
           relation_arrow(relationship, relation),
-          target_arrow_end(target, relationship, relation['action']),
-          relation_association(source, target, relationship['association'])
-        ].join(' ')
+          target_arrow_end(target, relationship, relation["action"]),
+          relation_association(source, target, relationship["association"]),
+        ].join(" ")
 
         join_as_plantuml(*output_lines)
       end
 
       def relationship_type_to_plantuml(relation_end, relationship_type)
-        is_source = (relation_end == 'source')
+        is_source = (relation_end == "source")
         mappings = {
-          'direct' => is_source ? '<' : '>',
-          'inheritance' => is_source ? '<|' : '|>',
-          'composition' => '*',
-          'aggregation' => 'o'
+          "direct" => is_source ? "<" : ">",
+          "inheritance" => is_source ? "<|" : "|>",
+          "composition" => "*",
+          "aggregation" => "o",
         }
-        mappings.fetch(relationship_type, '')
+        mappings.fetch(relationship_type, "")
       end
 
       def relationship_cardinality_to_plantuml(attribute)
@@ -273,12 +274,12 @@ module Asciidoctor
         return unless attribute_name
 
         attribute_hash = attribute[attribute_name] || {}
-        card = attribute_cardinality(attribute_hash['cardinality'])
+        card = attribute_cardinality(attribute_hash["cardinality"])
         "\"+#{attribute_name}#{card}\""
       end
 
       def attribute_cardinality(attribute_cardinality)
-        cardinality = ''
+        cardinality = ""
         if attribute_cardinality
           cardinality = attribute_cardinality_plantuml(
             attribute_cardinality,
@@ -308,7 +309,7 @@ module Asciidoctor
       end
 
       def model_stereotype_to_plantuml(model_stereotype)
-        return '' unless model_stereotype
+        return "" unless model_stereotype
 
         " <<#{model_stereotype}>>"
       end
@@ -325,7 +326,7 @@ module Asciidoctor
         groups ||= []
         return if groups.empty?
 
-        groups.reduce('') do |output, group|
+        groups.reduce("") do |output, group|
           output += "\ntogether {\n"
           group.each do |class_name|
             output += "\nclass #{class_name}\n"
@@ -350,9 +351,9 @@ module Asciidoctor
       end
 
       def format_hidden_class(accum, fidelity_classes, class_hash)
-        return accum if class_hash['relations'].nil?
+        return accum if class_hash["relations"].nil?
 
-        class_hash['relations'].each_with_object(accum) do |relation, acc|
+        class_hash["relations"].each_with_object(accum) do |relation, acc|
           format_source_target_relation(relation, fidelity_classes, acc)
           format_association_relation(relation, fidelity_classes, acc)
         end
@@ -367,36 +368,36 @@ module Asciidoctor
       end
 
       def format_association_relation(relation, fidelity_classes, acc)
-        return unless relation['relationship'] &&
-                      relation['relationship']['association']
+        return unless relation["relationship"] &&
+          relation["relationship"]["association"]
 
-        association = relation['relationship']['association']
+        association = relation["relationship"]["association"]
         return unless association && !fidelity_classes.key?(association)
 
         acc.merge!(association => true)
       end
 
       def hide_other_classes(fidelity)
-        return '' if fidelity.nil? || fidelity['classes'].nil?
+        return "" if fidelity.nil? || fidelity["classes"].nil?
 
-        output = ''
-        hidden_classes = fidelity['classes']
-                         .reduce({}) do |acc, (_class_name, class_hash)|
-          format_hidden_class(acc, fidelity['classes'], class_hash)
+        output = ""
+        hidden_classes = fidelity["classes"]
+          .reduce({}) do |acc, (_class_name, class_hash)|
+          format_hidden_class(acc, fidelity["classes"], class_hash)
         end
 
-        hidden_classes.keys.each do |hidden_class_name|
+        hidden_classes.each_key do |hidden_class_name|
           output += "\nhide #{hidden_class_name}\n"
         end
         output
       end
 
       def fidelity_to_plantuml(fidelity)
-        return '' if fidelity.nil?
+        return "" if fidelity.nil?
 
-        output = ''
-        output += hide_other_classes(fidelity) if fidelity['hideOtherClasses']
-        output += "\nhide members\n" if fidelity['hideMembers']
+        output = ""
+        output += hide_other_classes(fidelity) if fidelity["hideOtherClasses"]
+        output += "\nhide members\n" if fidelity["hideMembers"]
         output
       end
 
