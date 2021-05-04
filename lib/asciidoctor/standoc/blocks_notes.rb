@@ -2,33 +2,41 @@ module Asciidoctor
   module Standoc
     module Blocks
       def termnote_attrs(node)
-        attr_code(id_attr(node).merge(
-          unnumbered: node.attr("unnumbered"),
-          number: node.attr("number"),
-          subsequence: node.attr("subsequence"),
-          "keep-with-next": node.attr("keep-with-next"),
-          "keep-lines-together": node.attr("keep-with-next"),
-          "keep-separate": node.attr("keep-separate")))
+        attr_code(
+          id_attr(node).merge(
+            unnumbered: node.attr("unnumbered"),
+            number: node.attr("number"),
+            subsequence: node.attr("subsequence"),
+            "keep-with-next": node.attr("keep-with-next"),
+            "keep-lines-together": node.attr("keep-with-next"),
+            "keep-separate": node.attr("keep-separate")
+          )
+        )
       end
 
       def note_attrs(node)
-        attr_code(termnote_attrs(node)
-          .merge(
-        type: node.attr("type"),
-        beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil
-        ))
+        attr_code(
+          termnote_attrs(node).merge(
+            type: node.attr("type"),
+            beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil
+          )
+        )
       end
 
       def sidebar_attrs(node)
-        todo_attrs(node).merge(attr_code(
-          from: node.attr("from"), to: node.attr("to") || node.attr("from") ))
+        todo_attrs(node).merge(
+          attr_code(
+            from: node.attr("from"),
+            to: node.attr("to") || node.attr("from")
+          )
+        )
       end
 
       def sidebar(node)
         return unless draft?
 
         noko do |xml|
-          xml.review **(sidebar_attrs(node)) do |r|
+          xml.review **sidebar_attrs(node) do |r|
             wrap_in_para(node, r)
           end
         end
@@ -73,9 +81,12 @@ module Asciidoctor
         a = node.attr("type") and ["danger", "safety precautions"].each do |t|
           name = t if a.casecmp(t).zero?
         end
-        attr_code(keep_attrs(node)
-          .merge(id: Metanorma::Utils::anchor_or_uuid(node), type: name,
-        beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil))
+        attr_code(
+          keep_attrs(node).merge(
+            id: Metanorma::Utils::anchor_or_uuid(node), type: name,
+            beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil
+          )
+        )
       end
 
       def admonition(node)

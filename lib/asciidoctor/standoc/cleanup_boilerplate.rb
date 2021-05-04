@@ -39,11 +39,15 @@ module Asciidoctor
       end
 
       def norm_ref_preface(ref)
-        refs = ref.elements.select do |e|
-          %w(references bibitem).include? e.name
+        if ref.at("./note[@type = 'boilerplate']")
+          unwrap_boilerplate_clauses(ref, ".")
+        else
+          refs = ref.elements.select do |e|
+            %w(references bibitem).include? e.name
+          end
+          pref = refs.empty? ? @i18n.norm_empty_pref : @i18n.norm_with_refs_pref
+          ref.at("./title").next = "<p>#{pref}</p>"
         end
-        pref = refs.empty? ? @i18n.norm_empty_pref : @i18n.norm_with_refs_pref
-        ref.at("./title").next = "<p>#{pref}</p>"
       end
 
       TERM_CLAUSE = "//sections/terms | "\
@@ -69,9 +73,10 @@ module Asciidoctor
         xmldoc.xpath("//terms/p | //terms/ul").each(&:remove)
       end
 
-      def termdef_unwrap_boilerplate_clauses(xmldoc)
-        xmldoc.xpath(self.class::TERM_CLAUSE).each do |f|
-          f.xpath(".//clause[@type = 'boilerplate']").each do |c|
+      def unwrap_boilerplate_clauses(xmldoc, xpath)
+        xmldoc.xpath(xpath).each do |f|
+          f.xpath(".//clause[@type = 'boilerplate'] | "\
+                  ".//note[@type = 'boilerplate']").each do |c|
             c&.at("./title")&.remove
             c.replace(c.children)
           end
@@ -93,7 +98,7 @@ module Asciidoctor
         isodoc = boilerplate_isodoc(xmldoc)
         termdef_boilerplate_cleanup(xmldoc)
         termdef_boilerplate_insert(xmldoc, isodoc)
-        termdef_unwrap_boilerplate_clauses(xmldoc)
+        unwrap_boilerplate_clauses(xmldoc, self.class::TERM_CLAUSE)
         f = xmldoc.at(self.class::NORM_REF) and norm_ref_preface(f)
         initial_boilerplate(xmldoc, isodoc)
       end

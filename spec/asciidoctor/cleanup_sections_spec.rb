@@ -69,7 +69,44 @@ RSpec.describe Asciidoctor::Standoc do
     OUTPUT
   end
 
-    it "sorts references with their notes in Bibliography" do
+  it "preserves user-supplied boilerplate in Normative References" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      [bibliography]
+      == Normative References
+
+      [NOTE,type=boilerplate]
+      --
+      This is extraneous information
+      --
+
+      * [[[iso216,ISO 216]]], _Reference_
+
+      This is also extraneous information
+    INPUT
+      #{BLANK_HDR}
+      <sections></sections>
+      <bibliography><references id="_" obligation="informative" normative="true"><title>Normative references</title>
+       <p id='_'>This is extraneous information</p>
+         <bibitem id="iso216" type="standard">
+         <title format="text/plain">Reference</title>
+         <docidentifier>ISO 216</docidentifier>
+         <docnumber>216</docnumber>
+         <contributor>
+           <role type="publisher"/>
+           <organization>
+             <name>ISO</name>
+           </organization>
+         </contributor>
+       </bibitem>
+       <p id='_'>This is also extraneous information</p>
+      </references>
+      </bibliography>
+      </standard-document>
+    OUTPUT
+  end
+
+  it "sorts references with their notes in Bibliography" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
