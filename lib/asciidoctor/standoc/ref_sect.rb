@@ -10,10 +10,10 @@ module Asciidoctor
       end
 
       def reference(node)
-          noko do |xml|
-            node.items.each { |item| reference1(node, item.text, xml) }
-          end.join
-        end
+        noko do |xml|
+          node.items.each { |item| reference1(node, item.text, xml) }
+        end.join
+      end
 
       def bibliography_parse(attrs, xml, node)
         node.option? "bibitem" and return bibitem_parse(attrs, xml, node)
@@ -43,12 +43,12 @@ module Asciidoctor
         node.attr("style") == "bibliography" or
           @log.add("AsciiDoc Input", node, "Section not marked up as [bibliography]!")
         @norm_ref = true
-        xml.references **attr_code(attrs.merge(
-          normative: node.attr("normative") || true)) do |xml_section|
-            xml_section.title { |t| t << node.title }
-            xml_section << node.content
-          end
-          @norm_ref = false
+        attrs = attrs.merge(normative: node.attr("normative") || true)
+        xml.references **attr_code(attrs) do |xml_section|
+          xml_section.title { |t| t << node.title }
+          xml_section << node.content
+        end
+        @norm_ref = false
       end
 
       def global_ievcache_name
@@ -57,6 +57,7 @@ module Asciidoctor
 
       def local_ievcache_name(cachename)
         return nil if cachename.nil?
+
         cachename += "_iev" unless cachename.empty?
         cachename = "iev" if cachename.empty?
         "#{cachename}/cache"
@@ -64,10 +65,11 @@ module Asciidoctor
 
       def fetch_ref(xml, code, year, **opts)
         return nil if opts[:no_year]
+
         code = code.sub(/^\([^)]+\)/, "")
-        #require "byebug"; byebug if opts[:lang] == "fr"
         hit = @bibdb&.fetch(code, year, opts)
         return nil if hit.nil?
+
         xml.parent.add_child(smart_render_xml(hit, code, opts))
         xml
       rescue RelatonBib::RequestError
@@ -91,10 +93,9 @@ module Asciidoctor
           "<docidentifier type='metanorma'>#{mn_code(usrlbl)}</docidentifier>"
       end
 
-      def smart_render_xml(x, code, opts)
-        x.respond_to? :to_xml or return nil
-        xstr = x.to_xml(lang: opts[:lang])
-        xml = Nokogiri::XML(xstr)
+      def smart_render_xml(xml, code, opts)
+        xml.respond_to? :to_xml or return nil
+        xml = Nokogiri::XML(xml.to_xml(lang: opts[:lang]))
         emend_biblio(xml, code, opts[:title], opts[:usrlbl])
         xml.xpath("//date").each { |d| Metanorma::Utils::endash_date(d) }
         xml.traverse do |n|
@@ -105,17 +106,19 @@ module Asciidoctor
 
       def init_bib_caches(node)
         return if @no_isobib
+
         global = !@no_isobib_cache && !node.attr("local-cache-only")
         local = node.attr("local-cache") || node.attr("local-cache-only")
         local = nil if @no_isobib_cache
         @bibdb = Relaton::DbCache.init_bib_caches(
           local_cache: local,
           flush_caches: node.attr("flush-caches"),
-          global_cache: global)
+          global_cache: global
+        )
       end
 
       def init_iev_caches(node)
-        unless (@no_isobib_cache || @no_isobib)
+        unless @no_isobib_cache || @no_isobib
           node.attr("local-cache-only") or
             @iev_globalname = global_ievcache_name
           @iev_localname = local_ievcache_name(node.attr("local-cache") ||
