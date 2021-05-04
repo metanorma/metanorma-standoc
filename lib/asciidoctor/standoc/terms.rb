@@ -46,7 +46,6 @@ module Asciidoctor
       def terms_boilerplate_parse(attrs, xml, node)
         defs = @term_def
         @term_def = false
-        require "byebug"; byebug
         clause_parse(attrs.merge(type: "boilerplate"), xml, node)
         @term_def = defs
       end
