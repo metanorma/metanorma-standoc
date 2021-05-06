@@ -83,11 +83,15 @@ module Asciidoctor
 
       def example(node)
         return term_example(node) if in_terms?
+
+        role == "form" and return form(node)
         role = node.role || node.attr("style")
         %w(recommendation requirement permission).include?(role) and
           return requirement(node, role)
         return pseudocode_example(node) if role == "pseudocode"
         return svgmap_example(node) if role == "svgmap"
+        return form(node) if role == "form"
+
         example_proper(node)
       end
 
