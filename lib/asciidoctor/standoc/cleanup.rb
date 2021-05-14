@@ -72,21 +72,36 @@ module Asciidoctor
         xmldoc
       end
 
+      IGNORE_DUMBQUOTES = "//pre | //pre//* | //tt | //tt//* | "\
+        "//sourcecode | //sourcecode//* | //bibdata//* | //stem | "\
+        "//stem//* | //figure[@class = 'pseudocode'] | "\
+        "//figure[@class = 'pseudocode']//*".freeze
+
       def smartquotes_cleanup(xmldoc)
         xmldoc.xpath("//date").each { |d| Metanorma::Utils::endash_date(d) }
+        if @smartquotes then smartquotes_cleanup1(xmldoc)
+        else dumbquote_cleanup(xmldoc)
+        end
+      end
+
+      def smartquotes_cleanup1(xmldoc)
+        (xmldoc.xpath("//*[child::text()]") - xmldoc.xpath(IGNORE_DUMBQUOTES))
+          .each do |x|
+          x.children.each do |n|
+            next unless n.text?
+
+            /[-'"(<>]|\.\.|\dx/.match(n) or next
+
+            n.replace(Metanorma::Utils::smartformat(n.text))
+          end
+        end
+      end
+
+      def dumbquote_cleanup(xmldoc)
         xmldoc.traverse do |n|
           next unless n.text?
 
-          if @smartquotes
-            /[-'"(<>]|\.\.|\dx/.match(n) or next
-
-            n.ancestors("pre, tt, sourcecode, bibdata, on, "\
-                        "stem, figure[@class = 'pseudocode']").empty? or next
-            n.replace(Metanorma::Utils::smartformat(n.text))
-          else
-            n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'")) # .
-            # gsub(/</, "&lt;").gsub(/>/, "&gt;"))
-          end
+          n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'")) # .
         end
       end
 
@@ -125,11 +140,7 @@ module Asciidoctor
       end
 
       def variant_cleanup(xmldoc)
-        xmldoc.xpath("//*[variant]").each do |c|
-          c&.next&.text? && c&.next&.next&.name == "variant" &&
-            c.next.text.gsub(/\s/, "").empty? and
-            c.next.remove
-        end
+        variant_space_cleanup(xmldoc)
         xmldoc.xpath("//*[variant]").each do |c|
           next unless c.children.any? do |n|
             n.name != "variant" && (!n.text? || !n.text.gsub(/\s/, "").empty?)
@@ -146,6 +157,15 @@ module Asciidoctor
           end
         end
         xmldoc.xpath("//variantwrap").each { |n| n.name = "variant" }
+      end
+
+      def variant_space_cleanup(xmldoc)
+        xmldoc.xpath("//*[variant]").each do |c|
+          if c&.next&.text? && c&.next&.next&.name == "variant"
+            c.next.text.gsub(/\s/, "").empty? and
+              c.next.remove
+          end
+        end
       end
     end
   end
