@@ -1,8 +1,6 @@
 require "spec_helper"
 require "open3"
 
-OPTIONS = [backend: :standoc, header_footer: true].freeze
-
 RSpec.describe Asciidoctor::Standoc do
   it "processes format-specific pass blocks" do
     input = <<~INPUT

@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc do
   it "processes the Asciidoctor::Standoc inline macros" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       alt:[term1]
       deprecated:[term1]
@@ -51,7 +51,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes the Asciidoctor::Standoc index macros" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       index:also[]
       index:see[A]
@@ -120,7 +120,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes the Asciidoctor::Standoc variant macros" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       == lang:en[English] lang:fr-Latn[Français]
 
@@ -153,7 +153,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes the Asciidoctor::Standoc concept macros" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       {{clause1}}
       {{clause1,w\[o\]rd}}
@@ -303,7 +303,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes the TODO custom admonition" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       TODO: Note1
 
@@ -330,7 +330,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "generates pseudocode examples, with formatting and initial indentation" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       [pseudocode,subsequence="A",number="3",keep-with-next=true,keep-lines-together=true]
@@ -354,7 +354,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "supplies line breaks in pseudocode" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       [pseudocode]
@@ -386,7 +386,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "skips embedded blocks when supplying line breaks in pseudocode" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       [pseudocode]
@@ -452,7 +452,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes the Ruby markups" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       ruby:楽聖少女[がくせいしょうじょ]
@@ -468,7 +468,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes the footnoteblock macro" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       footnoteblock:[id1]
@@ -524,7 +524,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes the footnoteblock macro with failed reference" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       footnoteblock:[id1]
@@ -581,7 +581,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes input form macros" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       [form,id=N0,name=N1,action="/action_page.php"]
@@ -682,7 +682,7 @@ RSpec.describe Asciidoctor::Standoc do
       xmlpp(
         strip_guid(
           Asciidoctor.convert(
-            input, backend: :standoc, header_footer: true
+            input, *OPTIONS
           )
         )
       )

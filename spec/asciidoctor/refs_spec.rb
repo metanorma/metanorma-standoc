@@ -4,7 +4,7 @@ require "relaton_ietf"
 
 RSpec.describe Asciidoctor::Standoc do
   it "processes simple ISO reference" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -47,7 +47,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes simple ISO reference with date range" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -113,7 +113,7 @@ RSpec.describe Asciidoctor::Standoc do
         * [[[iso123,ISO 123]]] _Standard_
         * [[[iso124,(1)ISO 123]]] _Standard_
       INPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
        #{BLANK_HDR}
        <preface>
   <foreword id='_' obligation='informative'>
@@ -219,12 +219,12 @@ RSpec.describe Asciidoctor::Standoc do
 </references></bibliography>
 </standard-document>
      OUTPUT
-        expect { Asciidoctor.convert(input, backend: :standoc, header_footer: true) }.to output(/ERROR: No document identifier retrieved for ISO 123/).to_stderr
+        expect { Asciidoctor.convert(input, *OPTIONS) }.to output(/ERROR: No document identifier retrieved for ISO 123/).to_stderr
   end
 
   it "fetches simple ISO reference" do
     VCR.use_cassette "isobib_get_123_1" do
-      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
         #{ISOBIB_BLANK_HDR}
         [bibliography]
         == Normative References
@@ -461,7 +461,7 @@ RSpec.describe Asciidoctor::Standoc do
 
   it "fetches simple ISO reference in French" do
     VCR.use_cassette "isobib_get_123_1_fr" do
-      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
         = Document title
         Author
         :docfile: test.adoc
@@ -720,7 +720,7 @@ compris les éventuels amendements).
   end
 
   it "processes simple IEC reference" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -766,7 +766,7 @@ compris les éventuels amendements).
     # mock_isobib_get_iec12382
     # mock_isobib_get_124
     VCR.use_cassette "dated_iso_ref_joint_iso_iec" do
-      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
         #{ISOBIB_BLANK_HDR}
         [bibliography]
         == Normative References
@@ -977,7 +977,7 @@ compris les éventuels amendements).
 
     it "declines to fetch individual references" do
     VCR.use_cassette "dated_iso_ref_joint_iso_iec" do
-      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
         #{ISOBIB_BLANK_HDR}
         [bibliography]
         == Normative References
@@ -1051,7 +1051,7 @@ OUTPUT
   it "processes draft ISO reference" do
     #stub_fetch_ref no_year: true, note: "The standard is in press"
 
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -1134,7 +1134,7 @@ OUTPUT
   it "processes all-parts ISO reference" do
     #stub_fetch_ref(all_parts: true)
 
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -1191,7 +1191,7 @@ OUTPUT
   it "processes RFC reference in Normative References" do
     # mock_rfcbib_get_rfc8341
     VCR.use_cassette "rfcbib_get_rfc8341" do
-      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
         #{ISOBIB_BLANK_HDR}
         [bibliography]
         == Normative References
@@ -1363,7 +1363,7 @@ OUTPUT
   end
 
   it "processes non-ISO reference in Normative References" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -1399,7 +1399,7 @@ OUTPUT
   end
 
   it "processes non-ISO reference in Bibliography" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Bibliography
@@ -1454,7 +1454,7 @@ OUTPUT
     expect(RelatonIso::IsoBibliography).to receive(:search).with("ISO 123") do
       raise RelatonBib::RequestError.new "getaddrinfo"
     end.at_least :once
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
       #{ISOBIB_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -1510,7 +1510,7 @@ OUTPUT
   end
 
   it "processes repository reference" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
       #{ISOBIB_BLANK_HDR}
       == Scope
 
@@ -1581,7 +1581,7 @@ OUTPUT
     end
 
     it "processes hyperlink reference, ingest RXL or XML if available" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
       #{ISOBIB_BLANK_HDR}
       == Scope
 
@@ -1773,7 +1773,7 @@ OUTPUT
     it "overrides normative status of bibliographies" do
     mock_isobib_get_123_no_docid(1)
     mock_isobib_get_123_no_docid_lbl(1)
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp( <<~"OUTPUT")
       #{ISOBIB_BLANK_HDR}
       [bibliography,normative=false]
       == Normative References

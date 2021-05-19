@@ -7,7 +7,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes a blank document" do
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).to be_equivalent_to <<~"OUTPUT"
+    expect(Asciidoctor.convert(<<~"INPUT", *OPTIONS)).to be_equivalent_to <<~"OUTPUT"
     #{ASCIIDOC_BLANK_HDR}
     INPUT
     #{BLANK_HDR}
@@ -18,7 +18,7 @@ RSpec.describe Asciidoctor::Standoc do
 
   it "converts a blank document" do
     FileUtils.rm_f "test.doc"
-    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", *OPTIONS))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -34,7 +34,7 @@ RSpec.describe Asciidoctor::Standoc do
 
     it "assigns default scripts to major languages" do
     FileUtils.rm_f "test.doc"
-    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", *OPTIONS))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -63,7 +63,7 @@ RSpec.describe Asciidoctor::Standoc do
 
   it "processes publisher abbreviations" do
     mock_org_abbrevs
-    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", *OPTIONS))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -155,7 +155,7 @@ OUTPUT
   end
 
   it "processes default metadata" do
-    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", *OPTIONS))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -505,7 +505,7 @@ OUTPUT
   end
 
   it "processes complex metadata" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -647,7 +647,7 @@ OUTPUT
 
    it "processes subdivisions" do
      mock_default_publisher
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -739,7 +739,7 @@ OUTPUT
 
   it "reads scripts into blank HTML document" do
     FileUtils.rm_f "test.html"
-    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -752,7 +752,7 @@ OUTPUT
 
   it "uses specified fonts and assets in HTML" do
     FileUtils.rm_f "test.html"
-    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -786,7 +786,7 @@ OUTPUT
 
   it "uses specified fonts and assets in Word" do
     FileUtils.rm_f "test.doc"
-    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -828,7 +828,7 @@ QU1FOiB0ZXN0Cgo=
 
   it "test submitting-organizations with delimiter in end" do
     FileUtils.rm_f "test.doc"
-    Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc

@@ -13,7 +13,7 @@ RSpec.describe Asciidoctor::Standoc do
   FileUtils.rm_f "test.xml"
   FileUtils.rm_f "test.err"
   begin
-  expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to raise_error(SystemExit)
+  expect { Asciidoctor.convert(<<~"INPUT", *OPTIONS) }.to raise_error(SystemExit)
   = Document title
   Author
   :docfile: test.adoc
@@ -33,7 +33,7 @@ end
 
   it "warns about missing fields in asciibib" do
   FileUtils.rm_f "test.err"
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
+  Asciidoctor.convert(<<~"INPUT", *OPTIONS) 
       #{VALIDATING_BLANK_HDR}
   
       [bibliography]
@@ -70,7 +70,7 @@ end
 
     it "warns about missing fields in asciibib" do
   FileUtils.rm_f "test.err"
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+  Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       #{VALIDATING_BLANK_HDR}
       
       [bibliography]
@@ -86,7 +86,7 @@ end
 INPUT
   errf = File.read("test.err")
   expect(errf).to include "The following reference is missing an anchor"
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+  Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       #{VALIDATING_BLANK_HDR}
 
       [bibliography]
@@ -108,7 +108,7 @@ INPUT
 =begin
   it "warns about malformed LaTeX" do
   FileUtils.rm_f "test.err"
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
+  Asciidoctor.convert(<<~"INPUT", *OPTIONS) 
   #{VALIDATING_BLANK_HDR}
 
   == Clause 1
@@ -126,7 +126,7 @@ INPUT
 =begin
   it "warns about reparsing LaTeX" do
     FileUtils.rm_f "test.err"
-    expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to output(/Retrying/).to_stderr
+    expect { Asciidoctor.convert(<<~"INPUT", *OPTIONS) }.to output(/Retrying/).to_stderr
   #{VALIDATING_BLANK_HDR}
 
   == Clause 1
@@ -146,7 +146,7 @@ INPUT
 
   it "warns about hanging paragraphs" do
   FileUtils.rm_f "test.err"
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
+  Asciidoctor.convert(<<~"INPUT", *OPTIONS) 
   #{VALIDATING_BLANK_HDR}
 
   == Clause 1
@@ -162,7 +162,7 @@ INPUT
 
   it "warns that video is a skipped node" do
   FileUtils.rm_f "test.err"
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
+  Asciidoctor.convert(<<~"INPUT", *OPTIONS) 
   #{VALIDATING_BLANK_HDR}
 
   video::video_file.mp4[]
@@ -172,7 +172,7 @@ INPUT
 
 it "warns that figure does not have title" do
   FileUtils.rm_f "test.err"
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
+  Asciidoctor.convert(<<~"INPUT", *OPTIONS) 
   #{VALIDATING_BLANK_HDR}
 
   image::spec/examples/rice_images/rice_image1.png[]
@@ -182,7 +182,7 @@ end
 
 it "warns that callouts do not match annotations" do
   FileUtils.rm_f "test.err"
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+  Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       #{VALIDATING_BLANK_HDR}
       [source,ruby]
       --
@@ -199,7 +199,7 @@ end
 
 it "warns that term source is not a real reference" do
   FileUtils.rm_f "test.err"
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
+  Asciidoctor.convert(<<~"INPUT", *OPTIONS) 
   #{VALIDATING_BLANK_HDR}
 
   [.source]
@@ -210,7 +210,7 @@ end
 
 it "warns of Non-reference in bibliography" do
   FileUtils.rm_f "test.err"
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
+  Asciidoctor.convert(<<~"INPUT", *OPTIONS) 
   #{VALIDATING_BLANK_HDR}
 
   == Normative References
@@ -221,7 +221,7 @@ end
 
 it "warns that Table should have title" do
   FileUtils.rm_f "test.err"
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
+  Asciidoctor.convert(<<~"INPUT", *OPTIONS) 
   #{VALIDATING_BLANK_HDR}     
 
   |===
@@ -233,7 +233,7 @@ end
 
 it "validates document against ISO XML schema" do
   FileUtils.rm_f "test.err"
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
+  Asciidoctor.convert(<<~"INPUT", *OPTIONS) 
   #{VALIDATING_BLANK_HDR}
 
   [align=mid-air]
@@ -247,7 +247,7 @@ it "Warning if terms mismatches IEV" do
   FileUtils.mv File.expand_path("~/.iev/cache"), File.expand_path("~/.iev.pstore1"), force: true
   FileUtils.rm_f "test_iev/pstore"
   mock_open_uri('103-01-02')
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
+  Asciidoctor.convert(<<~"INPUT", *OPTIONS) 
   = Document title
   Author
   :docfile: test.adoc
@@ -271,7 +271,7 @@ it "No warning if English term matches IEV" do
   FileUtils.mv File.expand_path("~/.iev/cache"), File.expand_path("~/.iev.pstore1"), force: true
   FileUtils.rm_f "test_iev/cache"
   mock_open_uri('103-01-02')
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
+  Asciidoctor.convert(<<~"INPUT", *OPTIONS) 
   = Document title
   Author
   :docfile: test.adoc
@@ -295,7 +295,7 @@ it "No warning if French term matches IEV" do
   FileUtils.mv File.expand_path("~/.iev/cache"), File.expand_path("~/.iev.pstore1"), force: true
   FileUtils.rm_f "test_iev/cache"
   mock_open_uri('103-01-02')
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) 
+  Asciidoctor.convert(<<~"INPUT", *OPTIONS) 
   = Document title
   Author
   :docfile: test.adoc
@@ -330,7 +330,7 @@ it "warns and aborts if id used twice" do
   FileUtils.rm_f "test.xml"
   FileUtils.rm_f "test.err"
   begin
-  expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to raise_error(SystemExit) 
+  expect { Asciidoctor.convert(<<~"INPUT", *OPTIONS) }.to raise_error(SystemExit) 
   = Document title
   Author
   :docfile: test.adoc
@@ -352,7 +352,7 @@ it "warns and aborts if numeric normative reference" do
   FileUtils.rm_f "test.xml"
   FileUtils.rm_f "test.err"
   begin
-  expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to raise_error(SystemExit)
+  expect { Asciidoctor.convert(<<~"INPUT", *OPTIONS) }.to raise_error(SystemExit)
   = Document title
   Author
   :docfile: test.adoc
@@ -371,7 +371,7 @@ end
 it "err file succesfully created for docfile path" do
   FileUtils.rm_rf "test"
   FileUtils.mkdir_p "test"
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+  Asciidoctor.convert(<<~"INPUT", *OPTIONS)
   = Document title
   Author
   :docfile: test#{File::ALT_SEPARATOR || File::SEPARATOR}test.adoc
@@ -391,7 +391,7 @@ end
 
 it "Warning if no block for footnoteblock" do
   FileUtils.rm_f "test.err"
-  Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)
+  Asciidoctor.convert(<<~"INPUT", *OPTIONS)
   = Document title
   Author
   :docfile: test.adoc

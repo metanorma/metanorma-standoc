@@ -6,7 +6,7 @@ RSpec.describe Asciidoctor::Standoc do
   it "processes svgmap" do
     FileUtils.cp "spec/fixtures/action_schemaexpg1.svg", "action_schemaexpg1.svg"
     FileUtils.cp "spec/fixtures/action_schemaexpg1.svg", "action_schemaexpg2.svg"
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true))).gsub(%r{<image.*?</image>}m, "<image/>").gsub(%r{<style.*?</style>}m, "<style/>")).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS))).gsub(%r{<image.*?</image>}m, "<image/>").gsub(%r{<style.*?</style>}m, "<style/>")).to be_equivalent_to xmlpp(<<~"OUTPUT")
             #{ASCIIDOC_BLANK_HDR}
 
             [svgmap%unnumbered,number=8,subsequence=A,keep-with-next=true,keep-lines-together=true]
@@ -98,7 +98,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes markup in sourcecode" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
                   #{ASCIIDOC_BLANK_HDR}
 
                   [source]
@@ -130,7 +130,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes markup in sourcecode with custom delimiters" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -162,7 +162,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "applies smartquotes by default" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       == "Quotation" A's
 
@@ -180,7 +180,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "applies smartquotes when requested" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -202,7 +202,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "does not apply smartquotes when requested not to" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -229,7 +229,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "does not apply smartquotes to sourcecode, tt, pre, pseudocode" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -272,7 +272,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "handles < > &amp; in Asciidoctor correctly" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       == {blank}
 
@@ -289,7 +289,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "removes empty text elements" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       == {blank}
     INPUT
@@ -304,7 +304,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes stem-only terms as admitted" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
 
@@ -342,7 +342,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "moves term domains out of the term definition paragraph" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
 
@@ -380,7 +380,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "permits multiple blocks in term definition paragraph" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -430,7 +430,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "moves notes inside preceding blocks, if they are not at clause end, and the blocks are not delimited" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
                   #{ASCIIDOC_BLANK_HDR}
 
                   [stem]
@@ -455,7 +455,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "does not move notes inside preceding blocks, if they are marked as keep-separate" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       [stem]
@@ -483,7 +483,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "does not move notes inside preceding blocks, if they are at clause end" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [source,ruby]
       [1...x].each do |y|
@@ -504,7 +504,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "converts xrefs to references into erefs" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       <<iso216>>
       <<iso216,droploc%capital%>>
@@ -545,7 +545,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "extracts localities from erefs" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       <<iso216,whole,clause=3,example=9-11,locality:prelude="33 a",locality:entirety:the reference,xyz>>
       <<iso216,whole,clause=3,example=9-11,locality:prelude=33,locality:entirety="the reference";whole,clause=3,example=9-11,locality:prelude=33,locality:entirety:the reference,xyz>>
@@ -653,7 +653,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "strips type from xrefs" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       <<iso216>>
 
@@ -688,7 +688,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes localities in term sources" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
 
@@ -719,7 +719,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "inserts IDs into paragraphs" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       Paragraph
     INPUT
@@ -732,7 +732,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "inserts IDs into notes" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [example]
       ====
@@ -752,7 +752,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "moves table key inside table" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       |===
       |a |b |c
@@ -828,7 +828,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes headerrows attribute for table without header rows" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [headerrows=3]
       |===
@@ -867,7 +867,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes headerrows attribute for table with header rows" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [headerrows=3]
       |===
@@ -912,7 +912,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "moves table notes inside table" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       |===
       |a |b |c
@@ -943,7 +943,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "moves formula key inside formula" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [stem]
       ++++
@@ -1028,7 +1028,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "moves footnotes inside figures" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       .Figuretitle.footnote:[xyz]
       image::spec/examples/rice_images/rice_image1.png[]
@@ -1065,7 +1065,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "moves figure key inside figure" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       image::spec/examples/rice_images/rice_image1.png[]
 
@@ -1117,7 +1117,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes subfigures" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [[figureC-2]]
       .Stages of gelatinization
@@ -1152,7 +1152,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "numbers bibliographic notes and footnotes sequentially" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       footnote:[Footnote]
 
@@ -1204,7 +1204,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "rearranges term note, term example, term source" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       == Terms and definitions
@@ -1265,7 +1265,7 @@ RSpec.describe Asciidoctor::Standoc do
     # mock_iecbib_get_iec60050_103_01
     # mock_iev
     VCR.use_cassette "separates_iev_citations_by_top_level_clause" do
-      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         #{CACHED_ISOBIB_BLANK_HDR}
 
         [bibliography]
@@ -1414,7 +1414,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "counts footnotes with link-only content as separate footnotes" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
                   #{ASCIIDOC_BLANK_HDR}
 
                   footnote:[http://www.example.com]
@@ -1447,7 +1447,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "retains AsciiMath on request" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -1469,7 +1469,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "converts AsciiMath to MathML by default" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -1497,7 +1497,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "cleans up text MathML" do
-    expect(Asciidoctor::Standoc::Converter.new(nil, backend: :standoc, header_footer: true).cleanup(Nokogiri::XML(<<~"INPUT")).to_xml).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(Asciidoctor::Standoc::Converter.new(nil, *OPTIONS).cleanup(Nokogiri::XML(<<~"INPUT")).to_xml).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{BLANK_HDR}
       <sections>
       <stem type="MathML">&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;&lt;mfrac&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;/mfrac&gt;&lt;/math&gt;</stem>
@@ -1513,7 +1513,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "renumbers numeric references in Bibliography sequentially" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       == Clause
@@ -1557,7 +1557,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "renumbers numeric references in Bibliography subclauses sequentially" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       == Clause
@@ -1663,7 +1663,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "removes bibdata bibitem IDs" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -1710,7 +1710,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "imports boilerplate file" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -1751,7 +1751,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "sorts symbols lists" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
               #{ASCIIDOC_BLANK_HDR}
 
               [[L]]
@@ -1812,7 +1812,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "sorts symbols lists" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
               #{ASCIIDOC_BLANK_HDR}
 
               [[L]]
@@ -1885,7 +1885,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "moves inherit macros to correct location" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       == Clause
@@ -1965,7 +1965,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "moves %beforeclause admonitions to right position" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
               #{ASCIIDOC_BLANK_HDR}
 
               .Foreword
@@ -2029,7 +2029,7 @@ RSpec.describe Asciidoctor::Standoc do
             <</%ab>>
             <<1!>>
     INPUT
-    expect(xmlpp(Asciidoctor.convert(input, backend: :standoc, header_footer: true).gsub(/<p id="_[^"]+">/, "").gsub("</p>", ""))).to be_equivalent_to (<<~"OUTPUT")
+    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS).gsub(/<p id="_[^"]+">/, "").gsub("</p>", ""))).to be_equivalent_to (<<~"OUTPUT")
       <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
         <bibdata type='standard'>
           <title language='en' format='text/plain'>Document title</title>
@@ -2067,12 +2067,12 @@ RSpec.describe Asciidoctor::Standoc do
       </bibliography>
       </standard-document>
     OUTPUT
-    expect { Asciidoctor.convert(input, backend: :standoc, header_footer: true) }.to output(%r{normalised identifier in <clause id="a_b" inline-header="false" obligation="normative"/> from a:b}).to_stderr
-    expect { Asciidoctor.convert(input, backend: :standoc, header_footer: true) }.to output(%r{normalised identifier in <eref bibitemid="__ab" citeas=""/> from /_ab}).to_stderr
-    expect { Asciidoctor.convert(input, backend: :standoc, header_footer: true) }.to output(%r{normalised identifier in <xref target="_"/> from :}).to_stderr
-    expect { Asciidoctor.convert(input, backend: :standoc, header_footer: true) }.to output(%r{normalised identifier in <xref target="_1"/> from 1}).to_stderr
-    expect { Asciidoctor.convert(input, backend: :standoc, header_footer: true) }.to output(%r{normalised identifier in <xref target="_1_"/> from 1:}).to_stderr
-    expect { Asciidoctor.convert(input, backend: :standoc, header_footer: true) }.to output(%r{normalised identifier in <xref target="_a#b_"/> from :a#b:}).to_stderr
+    expect { Asciidoctor.convert(input, *OPTIONS) }.to output(%r{normalised identifier in <clause id="a_b" inline-header="false" obligation="normative"/> from a:b}).to_stderr
+    expect { Asciidoctor.convert(input, *OPTIONS) }.to output(%r{normalised identifier in <eref bibitemid="__ab" citeas=""/> from /_ab}).to_stderr
+    expect { Asciidoctor.convert(input, *OPTIONS) }.to output(%r{normalised identifier in <xref target="_"/> from :}).to_stderr
+    expect { Asciidoctor.convert(input, *OPTIONS) }.to output(%r{normalised identifier in <xref target="_1"/> from 1}).to_stderr
+    expect { Asciidoctor.convert(input, *OPTIONS) }.to output(%r{normalised identifier in <xref target="_1_"/> from 1:}).to_stderr
+    expect { Asciidoctor.convert(input, *OPTIONS) }.to output(%r{normalised identifier in <xref target="_a#b_"/> from :a#b:}).to_stderr
   end
 
   it "moves title footnotes to bibdata" do
@@ -2085,7 +2085,7 @@ RSpec.describe Asciidoctor::Standoc do
             :no-isobib:
 
     INPUT
-    expect(xmlpp(Asciidoctor.convert(input, backend: :standoc, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
                <bibdata type='standard'>
                  <title language='en' format='text/plain'>Document title</title>
@@ -2113,7 +2113,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "converts UnitsML to MathML" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~INPUT, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~INPUT, *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
             = Document title
             Author
             :stem:
@@ -2254,7 +2254,7 @@ RSpec.describe Asciidoctor::Standoc do
             ++++
     INPUT
 
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{BLANK_HDR}
         <sections>
           <formula id='_'>
@@ -2281,7 +2281,7 @@ RSpec.describe Asciidoctor::Standoc do
       </standard-document>
     OUTPUT
     mock_mathml_italicise({ uppergreek: false, upperroman: true, lowergreek: true, lowerroman: true })
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{BLANK_HDR}
         <sections>
           <formula id='_'>
@@ -2308,7 +2308,7 @@ RSpec.describe Asciidoctor::Standoc do
       </standard-document>
     OUTPUT
     mock_mathml_italicise({ uppergreek: true, upperroman: false, lowergreek: true, lowerroman: true })
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{BLANK_HDR}
         <sections>
           <formula id='_'>
@@ -2335,7 +2335,7 @@ RSpec.describe Asciidoctor::Standoc do
       </standard-document>
     OUTPUT
     mock_mathml_italicise({ uppergreek: true, upperroman: true, lowergreek: false, lowerroman: true })
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{BLANK_HDR}
         <sections>
           <formula id='_'>
@@ -2362,7 +2362,7 @@ RSpec.describe Asciidoctor::Standoc do
       </standard-document>
     OUTPUT
     mock_mathml_italicise({ uppergreek: true, upperroman: true, lowergreek: true, lowerroman: false })
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{BLANK_HDR}
         <sections>
           <formula id='_'>
@@ -2392,7 +2392,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "process express_ref macro with existing bibliography" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true, agree_to_terms: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       == Clause
 
@@ -2454,7 +2454,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "process express_ref macro with no existing bibliography" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true, agree_to_terms: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [[B]]
       [type="express-schema"]

@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc do
   it "processes the PlantUML macro" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).gsub(%r{plantuml/plantuml[^./]+\.}, "plantuml/_."))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)).gsub(%r{plantuml/plantuml[^./]+\.}, "plantuml/_."))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       [plantuml]
@@ -53,7 +53,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes the PlantUML macro with imagesdir" do
-      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)).gsub(%r{spec/assets/[^./]+\.}, "spec/assets/_."))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)).gsub(%r{spec/assets/[^./]+\.}, "spec/assets/_."))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -119,7 +119,7 @@ OUTPUT
     it "processes the lutaml_diagram" do
       expect(
         xmlpp(
-          strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))
+          strip_guid(Asciidoctor.convert(input, *OPTIONS))
                       .gsub(%r{".+spec\/assets\/lutaml\/[^.\/]+\.}, %q("spec/assets/_.))))
         .to(be_equivalent_to xmlpp(output))
     end
@@ -187,14 +187,14 @@ OUTPUT
     it "processes the lutaml_uml_attributes_table macro" do
       expect(
         xmlpp(
-          strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+          strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to(be_equivalent_to(xmlpp(output)))
     end
   end
 
   it "processes the PlantUML macro with PlantUML disabled" do
     mock_plantuml_disabled
-    expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to output(%r{PlantUML not installed}).to_stderr
+    expect { Asciidoctor.convert(<<~"INPUT", *OPTIONS) }.to output(%r{PlantUML not installed}).to_stderr
       #{ASCIIDOC_BLANK_HDR}
 
       [plantuml]
@@ -210,7 +210,7 @@ OUTPUT
     INPUT
 
     mock_plantuml_disabled
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       [plantuml]
@@ -240,7 +240,7 @@ Alice &lt;-- Bob: another authentication Response
 
   it "processes the PlantUML macro with localdir unwritable" do
     mock_localdir_unwritable
-    expect { Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true) }.to output(%r{not writable for PlantUML}).to_stderr
+    expect { Asciidoctor.convert(<<~"INPUT", *OPTIONS) }.to output(%r{not writable for PlantUML}).to_stderr
       #{ASCIIDOC_BLANK_HDR}
 
       [plantuml]
@@ -256,7 +256,7 @@ Alice &lt;-- Bob: another authentication Response
     INPUT
 
     mock_localdir_unwritable
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :standoc, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       [plantuml]
