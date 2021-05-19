@@ -198,7 +198,7 @@ RSpec.describe Asciidoctor::Standoc do
       </indexsect>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -339,7 +339,7 @@ RSpec.describe Asciidoctor::Standoc do
            </bibliography>
          </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -544,7 +544,7 @@ RSpec.describe Asciidoctor::Standoc do
              </clause></bibliography>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -682,7 +682,7 @@ RSpec.describe Asciidoctor::Standoc do
         </bibliography>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -698,8 +698,8 @@ RSpec.describe Asciidoctor::Standoc do
 
     INPUT
     output = <<~OUTPUT
-             #{BLANK_HDR}
-              <sections>
+      #{BLANK_HDR}
+      <sections>
           <terms id='_' obligation='normative'>
             <title>Terms, definitions and symbols</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
@@ -713,7 +713,7 @@ RSpec.describe Asciidoctor::Standoc do
         </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -745,7 +745,43 @@ RSpec.describe Asciidoctor::Standoc do
         </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "varies terms symbols & abbreviated terms title" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [heading="terms, definitions, symbols and abbreviated terms"]
+      == Terms, Definitions, Abbreviated Terms Section
+
+      === Term
+
+      === Abbreviated Terms
+
+      === Symbols
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <terms id='_' obligation='normative'>
+            <title>Terms, definitions, symbols and abbreviated terms</title>
+            <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+            <term id='term-term'>
+              <preferred>Term</preferred>
+            </term>
+            <definitions id='_' type='abbreviated_terms' obligation='normative'>
+                <title>Abbreviated terms</title>
+                </definitions>
+                <definitions id='_' type='symbols' obligation='normative'>
+                <title>Symbols</title>
+                </definitions>
+          </terms>
+        </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -779,7 +815,7 @@ RSpec.describe Asciidoctor::Standoc do
       </annex>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -813,7 +849,7 @@ RSpec.describe Asciidoctor::Standoc do
       </annex>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -836,7 +872,7 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -867,7 +903,7 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -899,7 +935,7 @@ RSpec.describe Asciidoctor::Standoc do
              </terms></sections>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -925,7 +961,7 @@ RSpec.describe Asciidoctor::Standoc do
       </standard-document>
 
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -953,7 +989,7 @@ RSpec.describe Asciidoctor::Standoc do
       </terms></sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -986,7 +1022,7 @@ RSpec.describe Asciidoctor::Standoc do
         </terms></sections>
         </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -1018,7 +1054,7 @@ RSpec.describe Asciidoctor::Standoc do
         </terms></sections>
         </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -1030,7 +1066,7 @@ RSpec.describe Asciidoctor::Standoc do
       == Terms and Definitions
       === Term2
     INPUT
-    expect { Asciidoctor.convert(input, backend: :standoc, header_footer: true) }
+    expect { Asciidoctor.convert(input, *OPTIONS) }
       .to output(/not referenced/).to_stderr
   end
 
@@ -1062,7 +1098,7 @@ RSpec.describe Asciidoctor::Standoc do
         </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -1124,7 +1160,7 @@ RSpec.describe Asciidoctor::Standoc do
        </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -1171,7 +1207,7 @@ RSpec.describe Asciidoctor::Standoc do
         </annex>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -1190,7 +1226,7 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, backend: :standoc, header_footer: true))))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
