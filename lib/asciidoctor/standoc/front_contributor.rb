@@ -10,13 +10,13 @@ module Asciidoctor
     module Front
       def committee_component(compname, node, out)
         out.send compname.gsub(/-/, "_"), node.attr(compname),
-          **attr_code(number: node.attr("#{compname}-number"),
-                      type: node.attr("#{compname}-type"))
+                 **attr_code(number: node.attr("#{compname}-number"),
+                             type: node.attr("#{compname}-type"))
         i = 2
-        while node.attr(compname+"_#{i}") do
-          out.send compname.gsub(/-/, "_"), node.attr(compname+"_#{i}"),
-            **attr_code(number: node.attr("#{compname}-number_#{i}"),
-                        type: node.attr("#{compname}-type_#{i}"))
+        while node.attr(compname + "_#{i}")
+          out.send compname.gsub(/-/, "_"), node.attr(compname + "_#{i}"),
+                   **attr_code(number: node.attr("#{compname}-number_#{i}"),
+                               type: node.attr("#{compname}-type_#{i}"))
           i += 1
         end
       end
@@ -32,34 +32,36 @@ module Asciidoctor
         is_pub && node and org_address(node, org)
       end
 
-      def org_address(node, p)
-        node.attr("pub-address") and p.address do |ad|
+      def org_address(node, person)
+        node.attr("pub-address") and person.address do |ad|
           ad.formattedAddress do |f|
             f << node.attr("pub-address").gsub(/ \+\n/, "<br/>")
           end
         end
-        node.attr("pub-phone") and p.phone node.attr("pub-phone")
-        node.attr("pub-fax") and p.phone node.attr("pub-fax"), **{type: "fax"}
-        node.attr("pub-email") and p.email node.attr("pub-email")
-        node.attr("pub-uri") and p.uri node.attr("pub-uri")
+        node.attr("pub-phone") and person.phone node.attr("pub-phone")
+        node.attr("pub-fax") and
+          person.phone node.attr("pub-fax"), **{ type: "fax" }
+        node.attr("pub-email") and person.email node.attr("pub-email")
+        node.attr("pub-uri") and person.uri node.attr("pub-uri")
       end
 
       # , " => ," : CSV definition does not deal with space followed by quote
       # at start of field
-      def csv_split(s, delim = ";")
-        return if s.nil?
-        CSV.parse_line(s&.gsub(/#{delim} "(?!")/, "#{delim}\""),
+      def csv_split(text, delim = ";")
+        return if text.nil?
+
+        CSV.parse_line(text&.gsub(/#{delim} "(?!")/, "#{delim}\""),
                        liberal_parsing: true,
-                       col_sep: delim)&.compact&.map { |x| x.strip }
+                       col_sep: delim)&.compact&.map(&:strip)
       end
 
       def metadata_author(node, xml)
-        csv_split(node.attr("publisher") || default_publisher || "")&.
-          each do |p|
+        csv_split(node.attr("publisher") || default_publisher || "")
+          &.each do |p|
           xml.contributor do |c|
             c.role **{ type: "author" }
             c.organization do |a|
-              organization(a, p, false, node, !node.attr("publisher"))  
+              organization(a, p, false, node, !node.attr("publisher"))
             end
           end
         end
@@ -76,17 +78,18 @@ module Asciidoctor
         end
       end
 
-      def personal_role(node, c, suffix)
-        c.role **{ type: node.attr("role#{suffix}")&.downcase || "author" }
+      def personal_role(node, contrib, suffix)
+        type = node.attr("role#{suffix}")&.downcase || "author"
+        contrib.role **{ type: type }
       end
 
-      def personal_contact(node, suffix, p)
-        node.attr("phone#{suffix}") and p.phone node.attr("phone#{suffix}")
+      def personal_contact(node, suffix, person)
+        node.attr("phone#{suffix}") and person.phone node.attr("phone#{suffix}")
         node.attr("fax#{suffix}") and
-          p.phone node.attr("fax#{suffix}"), **{type: "fax"}
-        node.attr("email#{suffix}") and p.email node.attr("email#{suffix}")
+          person.phone node.attr("fax#{suffix}"), **{ type: "fax" }
+        node.attr("email#{suffix}") and person.email node.attr("email#{suffix}")
         node.attr("contributor-uri#{suffix}") and
-          p.uri node.attr("contributor-uri#{suffix}")
+          person.uri node.attr("contributor-uri#{suffix}")
       end
 
       def personal_author1(node, xml, suffix)
@@ -100,8 +103,8 @@ module Asciidoctor
         end
       end
 
-      def person_name(node, xml, suffix, p)
-        p.name do |n|
+      def person_name(node, _xml, suffix, person)
+        person.name do |n|
           if node.attr("fullname#{suffix}")
             n.completename node.attr("fullname#{suffix}")
           else
@@ -112,21 +115,43 @@ module Asciidoctor
         end
       end
 
-      def person_affiliation(node, xml, suffix, p)
-        node.attr("affiliation#{suffix}") and p.affiliation do |a|
+      def person_affiliation(node, _xml, suffix, person)
+        node.attr("affiliation#{suffix}") and person.affiliation do |a|
           a.organization do |o|
-            o.name node.attr("affiliation#{suffix}")
-            a = node.attr("affiliation_subdiv#{suffix}")
-            abbr = node.attr("affiliation_abbrev#{suffix}") and o.abbreviation abbr
-            csv_split(node.attr("affiliation_subdiv#{suffix}"))&.each do |s|
-              o.subdivision s
-            end
-            node.attr("address#{suffix}") and o.address do |ad|
-              ad.formattedAddress do |f|
-                f << node.attr("address#{suffix}").gsub(/ \+\n/, "<br/>")
-              end
+            person_organization(node, suffix, o)
+          end
+        end
+      end
+
+      def person_organization(node, suffix, xml)
+        xml.name node.attr("affiliation#{suffix}")
+        abbr = node.attr("affiliation_abbrev#{suffix}") and
+          xml.abbreviation abbr
+        csv_split(node.attr("affiliation_subdiv#{suffix}"))&.each do |s|
+          xml.subdivision s
+        end
+        person_address(node, suffix, xml)
+      end
+
+      def person_address(node, suffix, xml)
+        if node.attr("address#{suffix}")
+          xml.address do |ad|
+            ad.formattedAddress do |f|
+              f << node.attr("address#{suffix}").gsub(/ \+\n/, "<br/>")
             end
           end
+        elsif node.attr("country#{suffix}") || node.attr("city#{suffix}")
+          person_address_components(node, suffix, xml)
+        end
+      end
+
+      def person_address_components(node, suffix, xml)
+        xml.address do |ad|
+          s = node.attr("street#{suffix}") and ad.street s
+          s = node.attr("city#{suffix}") and ad.city s
+          s = node.attr("state#{suffix}") and ad.state s
+          s = node.attr("country#{suffix}") and ad.country s
+          s = node.attr("postcode#{suffix}") and ad.postcode s
         end
       end
 
@@ -135,7 +160,7 @@ module Asciidoctor
       end
 
       def org_abbrev
-        { }
+        {}
       end
 
       def metadata_publisher(node, xml)
