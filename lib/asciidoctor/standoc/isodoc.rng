@@ -32,6 +32,14 @@
         <ref name="DocumentType"/>
       </element>
     </define>
+    <define name="docsubtype">
+      <element name="docsubtype">
+        <ref name="DocumentSubtype"/>
+      </element>
+    </define>
+    <define name="DocumentSubtype">
+      <text/>
+    </define>
     <define name="hyperlink">
       <element name="link">
         <attribute name="target">
@@ -44,6 +52,11 @@
         </optional>
         <optional>
           <attribute name="alt"/>
+        </optional>
+        <optional>
+          <attribute name="updatetype">
+            <data type="boolean"/>
+          </attribute>
         </optional>
         <text/>
       </element>
@@ -543,6 +556,9 @@
     </define>
     <define name="BibDataExtensionType">
       <ref name="doctype"/>
+      <optional>
+        <ref name="docubtype"/>
+      </optional>
       <optional>
         <ref name="editorialgroup"/>
       </optional>
