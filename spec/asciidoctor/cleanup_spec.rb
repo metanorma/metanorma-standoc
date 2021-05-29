@@ -4,37 +4,40 @@ require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
   it "processes svgmap" do
-    FileUtils.cp "spec/fixtures/action_schemaexpg1.svg", "action_schemaexpg1.svg"
-    FileUtils.cp "spec/fixtures/action_schemaexpg1.svg", "action_schemaexpg2.svg"
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS))).gsub(%r{<image.*?</image>}m, "<image/>").gsub(%r{<style.*?</style>}m, "<style/>")).to be_equivalent_to xmlpp(<<~"OUTPUT")
-            #{ASCIIDOC_BLANK_HDR}
+    FileUtils.cp "spec/fixtures/action_schemaexpg1.svg",
+                 "action_schemaexpg1.svg"
+    FileUtils.cp "spec/fixtures/action_schemaexpg1.svg",
+                 "action_schemaexpg2.svg"
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
 
-            [svgmap%unnumbered,number=8,subsequence=A,keep-with-next=true,keep-lines-together=true]
-            ====
-            * <<ref1,Computer>>; http://www.example.com
-            ====
+      [svgmap%unnumbered,number=8,subsequence=A,keep-with-next=true,keep-lines-together=true]
+      ====
+      * <<ref1,Computer>>; http://www.example.com
+      ====
 
-            [[ref1]]
-            .SVG title
-            [.svgmap]
-            ====
-            image::action_schemaexpg1.svg[]
+      [[ref1]]
+      .SVG title
+      [.svgmap]
+      ====
+      image::action_schemaexpg1.svg[]
 
-            * <<ref1,Computer>>; mn://action_schema
-            * http://www.example.com[Phone]; http://www.example.com
-            ====
+      * <<ref1,Computer>>; mn://action_schema
+      * http://www.example.com[Phone]; http://www.example.com
+      ====
 
-            [[ref2]]
-            [svgmap%unnumbered,number=8,subsequence=A,keep-with-next=true,keep-lines-together=true]
-            ====
-            [alt=Workmap]
-            image::action_schemaexpg2.svg[]
+      [[ref2]]
+      [svgmap%unnumbered,number=8,subsequence=A,keep-with-next=true,keep-lines-together=true]
+      ====
+      [alt=Workmap]
+      image::action_schemaexpg2.svg[]
 
-            * <<ref1,Computer>>; mn://action_schema
-            * http://www.example.com[Phone]; mn://basic_attribute_schema
-            * <<express:action_schema:action_schema.basic,Coffee>>; mn://support_resource_schema
-            ====
+      * <<ref1,Computer>>; mn://action_schema
+      * http://www.example.com[Phone]; mn://basic_attribute_schema
+      * <<express:action_schema:action_schema.basic,Coffee>>; mn://support_resource_schema
+      ====
     INPUT
+    output = <<~OUTPUT
              #{BLANK_HDR}
              <sections>
               <svgmap unnumbered='true' number='8' subsequence='A' keep-with-next='true' keep-lines-together='true'>
@@ -95,25 +98,30 @@ RSpec.describe Asciidoctor::Standoc do
       </bibliography>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .gsub(%r{<image.*?</image>}m, "<image/>")
+      .gsub(%r{<style.*?</style>}m, "<style/>"))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes markup in sourcecode" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-                  #{ASCIIDOC_BLANK_HDR}
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
 
-                  [source]
-                  ----
-                  <tag/>
-                  ----
+      [source]
+      ----
+      <tag/>
+      ----
 
-                  [[A]]
-                  [source]
-                  ----
-                  var {{{*x*}}} : {{{<<A,recursive>>}}} <tag/>
-                  ----
+      [[A]]
+      [source]
+      ----
+      var {{{*x*}}} : {{{<<A,recursive>>}}} <tag/>
+      ----
 
 
     INPUT
+    output = <<~OUTPUT
              #{BLANK_HDR}
              <sections>
         <sourcecode id='_'>&lt;tag/&gt;</sourcecode>
@@ -127,10 +135,12 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes markup in sourcecode with custom delimiters" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -148,6 +158,7 @@ RSpec.describe Asciidoctor::Standoc do
 
 
     INPUT
+    output = <<~OUTPUT
              #{BLANK_HDR}
              <sections>
         <sourcecode id='A'>
@@ -159,15 +170,18 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "applies smartquotes by default" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == "Quotation" A's
 
       '24:00:00'.
     INPUT
+    output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
         <clause id="_" inline-header="false" obligation="normative">
@@ -177,10 +191,12 @@ RSpec.describe Asciidoctor::Standoc do
              </sections>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "applies smartquotes when requested" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -191,6 +207,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       == "Quotation" A's
     INPUT
+    output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
         <clause id="_" inline-header="false" obligation="normative">
@@ -199,10 +216,12 @@ RSpec.describe Asciidoctor::Standoc do
              </sections>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "does not apply smartquotes when requested not to" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -215,6 +234,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       `"quote" A's`
     INPUT
+    output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
         <clause id="_" inline-header="false" obligation="normative">
@@ -226,10 +246,12 @@ RSpec.describe Asciidoctor::Standoc do
              </sections>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "does not apply smartquotes to sourcecode, tt, pre, pseudocode" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -255,6 +277,7 @@ RSpec.describe Asciidoctor::Standoc do
       ====
 
     INPUT
+    output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
                       <clause id="_" inline-header="false" obligation="normative"><title>“Quotation” A’s</title><p id="_">“Quotation” A’s</p>
@@ -269,15 +292,18 @@ RSpec.describe Asciidoctor::Standoc do
              </sections>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "handles < > &amp; in Asciidoctor correctly" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == {blank}
 
       <&amp;>
     INPUT
+    output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
                <clause id="_" inline-header="false" obligation="normative">
@@ -286,13 +312,16 @@ RSpec.describe Asciidoctor::Standoc do
              </sections>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "removes empty text elements" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == {blank}
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
              <sections>
         <clause id="_" inline-header="false" obligation="normative">
@@ -301,10 +330,12 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes stem-only terms as admitted" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
 
@@ -314,6 +345,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       Time
     INPUT
+    output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
                <terms id="_" obligation="normative">
@@ -339,10 +371,12 @@ RSpec.describe Asciidoctor::Standoc do
              </sections>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "moves term domains out of the term definition paragraph" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
 
@@ -356,6 +390,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       domain:[relativity2]
     INPUT
+    output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
                <terms id="_" obligation="normative">
@@ -377,10 +412,12 @@ RSpec.describe Asciidoctor::Standoc do
              </sections>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "permits multiple blocks in term definition paragraph" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -399,6 +436,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       This paragraph is extraneous
     INPUT
+    output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
                <terms id="_" obligation="normative">
@@ -427,35 +465,40 @@ RSpec.describe Asciidoctor::Standoc do
              </sections>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "moves notes inside preceding blocks, if they are not at clause end, and the blocks are not delimited" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-                  #{ASCIIDOC_BLANK_HDR}
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
 
-                  [stem]
-                  ++++
-                  r = 1 %
-                  r = 1 %
-                  ++++
+      [stem]
+      ++++
+      r = 1 %
+      r = 1 %
+      ++++
 
-                  NOTE: That formula does not do much
+      NOTE: That formula does not do much
 
-                  Indeed.
+      Indeed.
     INPUT
-                   #{BLANK_HDR}
-                <sections><formula id="_">
-              <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem>
-            <note id="_">
-              <p id="_">That formula does not do much</p>
-            </note></formula>
-                   <p id="_">Indeed.</p></sections>
-                   </standard-document>
+    output = <<~OUTPUT
+             #{BLANK_HDR}
+          <sections><formula id="_">
+        <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem>
+      <note id="_">
+        <p id="_">That formula does not do much</p>
+      </note></formula>
+             <p id="_">Indeed.</p></sections>
+             </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "does not move notes inside preceding blocks, if they are marked as keep-separate" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       [stem]
@@ -471,19 +514,22 @@ RSpec.describe Asciidoctor::Standoc do
 
       Indeed.
     INPUT
-                   #{BLANK_HDR}
-                <sections><formula id="_">
-              <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem></formula>
-            <note id="_">
-              <p id="_">That formula does not do much</p>
-            </note>
-                   <p id="_">Indeed.</p></sections>
-                   </standard-document>
+    output = <<~OUTPUT
+             #{BLANK_HDR}
+          <sections><formula id="_">
+        <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem></formula>
+      <note id="_">
+        <p id="_">That formula does not do much</p>
+      </note>
+             <p id="_">Indeed.</p></sections>
+             </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "does not move notes inside preceding blocks, if they are at clause end" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [source,ruby]
       [1...x].each do |y|
@@ -492,6 +538,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       NOTE: That loop does not do much
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
              <sections><sourcecode id="_" lang="ruby">[1...x].each do |y|
         puts y
@@ -501,10 +548,12 @@ RSpec.describe Asciidoctor::Standoc do
       </note></sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "converts xrefs to references into erefs" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       <<iso216>>
       <<iso216,droploc%capital%>>
@@ -513,6 +562,7 @@ RSpec.describe Asciidoctor::Standoc do
       == Normative References
       * [[[iso216,ISO 216:2001]]], _Reference_
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
         <preface><foreword id="_" obligation="informative">
         <title>Foreword</title>
@@ -542,10 +592,12 @@ RSpec.describe Asciidoctor::Standoc do
       </bibliography>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "extracts localities from erefs" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       <<iso216,whole,clause=3,example=9-11,locality:prelude="33 a",locality:entirety:the reference,xyz>>
       <<iso216,whole,clause=3,example=9-11,locality:prelude=33,locality:entirety="the reference";whole,clause=3,example=9-11,locality:prelude=33,locality:entirety:the reference,xyz>>
@@ -558,6 +610,7 @@ RSpec.describe Asciidoctor::Standoc do
       == Normative References
       * [[[iso216,ISO 216]]], _Reference_
     INPUT
+    output = <<~OUTPUT
             #{BLANK_HDR}
             <preface><foreword id="_" obligation="informative">
               <title>Foreword</title>
@@ -650,10 +703,12 @@ RSpec.describe Asciidoctor::Standoc do
             </bibliography>
             </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "strips type from xrefs" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       <<iso216>>
 
@@ -661,6 +716,7 @@ RSpec.describe Asciidoctor::Standoc do
       == Clause
       * [[[iso216,ISO 216]]], _Reference_
     INPUT
+    output = <<~OUTPUT
              #{BLANK_HDR}
              <preface>
              <foreword id="_" obligation="informative">
@@ -685,10 +741,12 @@ RSpec.describe Asciidoctor::Standoc do
       </references></bibliography>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes localities in term sources" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
 
@@ -697,6 +755,7 @@ RSpec.describe Asciidoctor::Standoc do
       [.source]
       <<ISO2191,section=1>>
     INPUT
+    output = <<~OUTPUT
              #{BLANK_HDR}
       <sections>
         <terms id="_" obligation="normative">
@@ -716,29 +775,35 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "inserts IDs into paragraphs" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       Paragraph
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
         <p id="_">Paragraph</p>
       </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "inserts IDs into notes" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [example]
       ====
       NOTE: This note has no ID
       ====
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
         <example id="_">
@@ -749,10 +814,12 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "moves table key inside table" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       |===
       |a |b |c
@@ -775,6 +842,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       a:: b
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
           <table id='_'>
@@ -825,10 +893,12 @@ RSpec.describe Asciidoctor::Standoc do
         </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes headerrows attribute for table without header rows" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [headerrows=3]
       |===
@@ -838,6 +908,7 @@ RSpec.describe Asciidoctor::Standoc do
       |a |b |c
       |===
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
             <table id="_"><thead><tr>
@@ -864,10 +935,12 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes headerrows attribute for table with header rows" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [headerrows=3]
       |===
@@ -878,6 +951,7 @@ RSpec.describe Asciidoctor::Standoc do
       |a |b |c
       |===
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
         <table id="_">
@@ -909,10 +983,12 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "moves table notes inside table" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       |===
       |a |b |c
@@ -922,6 +998,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       NOTE: Note 2
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
              <sections><table id="_">
         <tbody>
@@ -940,10 +1017,12 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "moves formula key inside formula" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [stem]
       ++++
@@ -969,6 +1048,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       a:: b
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
           <formula id='_'>
@@ -1025,10 +1105,12 @@ RSpec.describe Asciidoctor::Standoc do
         </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "moves footnotes inside figures" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       .Figuretitle.footnote:[xyz]
       image::spec/examples/rice_images/rice_image1.png[]
@@ -1039,33 +1121,36 @@ RSpec.describe Asciidoctor::Standoc do
 
       A footnote:[This is a third footnote]
     INPUT
-                   #{BLANK_HDR}
-                   <sections><figure id="_">
-                   <name>
-              Figuretitle.
-              <fn reference='1'>
-                <p id='_'>xyz</p>
-              </fn>
-            </name>
-                     <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
-                   <fn reference="a">
-                     <p id="_">This is a footnote to a figure</p>
-                   </fn><fn reference="b">
-                     <p id="_">This is another footnote to a figure</p>
-                   </fn></figure>
-                   <p id='_'>
-              A
-              <fn reference='2'>
-                <p id='_'>This is a third footnote</p>
-              </fn>
-            </p>
-                   </sections>
-                   </standard-document>
+    output = <<~OUTPUT
+             #{BLANK_HDR}
+             <sections><figure id="_">
+             <name>
+        Figuretitle.
+        <fn reference='1'>
+          <p id='_'>xyz</p>
+        </fn>
+      </name>
+               <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+             <fn reference="a">
+               <p id="_">This is a footnote to a figure</p>
+             </fn><fn reference="b">
+               <p id="_">This is another footnote to a figure</p>
+             </fn></figure>
+             <p id='_'>
+        A
+        <fn reference='2'>
+          <p id='_'>This is a third footnote</p>
+        </fn>
+      </p>
+             </sections>
+             </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "moves figure key inside figure" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       image::spec/examples/rice_images/rice_image1.png[]
 
@@ -1082,6 +1167,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       a:: b
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
           <figure id='_'>
@@ -1114,10 +1200,12 @@ RSpec.describe Asciidoctor::Standoc do
         </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes subfigures" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [[figureC-2]]
       .Stages of gelatinization
@@ -1132,6 +1220,7 @@ RSpec.describe Asciidoctor::Standoc do
       image::spec/examples/rice_images/rice_image3_3.png[]
       ====
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
              <sections>
         <figure id="figureC-2"><name>Stages of gelatinization</name><figure id="_">
@@ -1149,10 +1238,12 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "numbers bibliographic notes and footnotes sequentially" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       footnote:[Footnote]
 
@@ -1164,6 +1255,7 @@ RSpec.describe Asciidoctor::Standoc do
       == Clause
       footnote:[Footnote2]
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
       <preface><foreword id="_" obligation="informative">
         <title>Foreword</title>
@@ -1201,10 +1293,12 @@ RSpec.describe Asciidoctor::Standoc do
       </bibliography>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "rearranges term note, term example, term source" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       == Terms and definitions
@@ -1224,6 +1318,7 @@ RSpec.describe Asciidoctor::Standoc do
       [example]
       Example 2
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
       <terms id="_" obligation="normative">
@@ -1252,20 +1347,24 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "separates IEV citations by top-level clause" do
     FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore1")
-    FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
+    FileUtils.mv File.expand_path("~/.relaton/cache"),
+                 File.expand_path("~/.relaton-bib.pstore1"), force: true
     FileUtils.rm_rf File.expand_path("~/.iev.pstore1")
-    FileUtils.mv File.expand_path("~/.iev.pstore"), File.expand_path("~/.iev.pstore1"), force: true
+    FileUtils.mv File.expand_path("~/.iev.pstore"),
+                 File.expand_path("~/.iev.pstore1"), force: true
     FileUtils.rm_rf "relaton/cache"
     FileUtils.rm_rf "test.iev.pstore"
     # mock_iecbib_get_iec60050_102_01
     # mock_iecbib_get_iec60050_103_01
     # mock_iev
     VCR.use_cassette "separates_iev_citations_by_top_level_clause" do
-      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      input = <<~INPUT
         #{CACHED_ISOBIB_BLANK_HDR}
 
         [bibliography]
@@ -1288,166 +1387,174 @@ RSpec.describe Asciidoctor::Standoc do
         [.source]
         <<iev,clause="103-01-02">>
       INPUT
-                          #{BLANK_HDR}
-                          <sections>
-                        <terms id="_" obligation="normative"><title>Terms and definitions</title>
-                         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-                         <term id="term-automation1">
-                          <preferred>Automation1</preferred>
-                          <termsource status="identical">
-                          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">
-                          <localityStack>
-                        <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
-                          </localityStack>
-                        </origin>
-                        </termsource>
-                        </term>
-                        <term id="term-automation2">
-                          <preferred>Automation2</preferred>
-                          <termsource status="identical">
-                          <origin bibitemid="IEC60050-102" type="inline" citeas="IEC 60050-102:2007">
-                          <localityStack>
-                        <locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality>
-                          </localityStack>
-                        </origin>
-                        </termsource>
-                        </term>
-                        <term id="term-automation3">
-                          <preferred>Automation3</preferred>
-                          <termsource status="identical">
-                          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">
-                          <localityStack>
-                        <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
-                          </localityStack>
-                        </origin>
-                        </termsource>
-                        </term></terms></sections><bibliography><references id="_" obligation="informative" normative="true">
-                          <title>Normative references</title>
-                        #{NORM_REF_BOILERPLATE}
-                          <bibitem type="standard" id="IEC60050-102">
-                          <fetched>#{Date.today}</fetched>
-                          <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
-                          <title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics — General concepts and linear algebra</title>
-                          <title type='main' format='text/plain' language='en' script='Latn'>International Electrotechnical Vocabulary (IEV) — Part 102: Mathematics — General concepts and linear algebra</title>
-                          <uri type="src">https://webstore.iec.ch/publication/160</uri>
-                          <uri type="obp">/preview/info_iec60050-102%7Bed1.0%7Db.pdf</uri>
-                          <docidentifier type="IEC">IEC 60050-102:2007</docidentifier>
-                          <docidentifier type='URN'>urn:iec:std:iec:60050-102:2007:::en</docidentifier>
-                          <date type="published">
-                            <on>2007-08-27</on>
-                          </date>
-                          <contributor>
-                            <role type="publisher"/>
-                            <organization>
-                              <name>International Electrotechnical Commission</name>
-                              <abbreviation>IEC</abbreviation>
-                              <uri>www.iec.ch</uri>
-                            </organization>
-                          </contributor>
-                          <edition>1.0</edition>
-                          <language>en</language>
-                          <script>Latn</script>
-                          <abstract format="text/plain" language="en" script="Latn">This part of IEC 60050 gives the general mathematical terminology used in the fields of electricity, electronics and telecommunications, together with basic concepts in linear algebra. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Another part will deal with functions.&#13; It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
-                          <status>
-                            <stage>60</stage>
-                            <substage>60</substage>
-                          </status>
-                          <copyright>
-                            <from>2007</from>
-                            <owner>
-                              <organization>
-                              <name>International Electrotechnical Commission</name>
-                              <abbreviation>IEC</abbreviation>
-                              <uri>www.iec.ch</uri>
-                              </organization>
-                            </owner>
-                          </copyright>
-                          <place>Geneva</place>
-                        </bibitem><bibitem type="standard" id="IEC60050-103">
-                          <fetched>#{Date.today}</fetched>
-                          <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
-                          <title type="title-part" format="text/plain" language="en" script="Latn">Part 103: Mathematics — Functions</title>
-                          <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 103: Mathematics — Functions</title>
-                          <uri type="src">https://webstore.iec.ch/publication/161</uri>
-                          <uri type="obp">/preview/info_iec60050-103%7Bed1.0%7Db.pdf</uri>
-                          <docidentifier type="IEC">IEC 60050-103:2009</docidentifier>
-                          <docidentifier type='URN'>urn:iec:std:iec:60050-103:2009:::en</docidentifier>
-                          <date type="published">
-                            <on>2009-12-14</on>
-                          </date>
-                          <contributor>
-                            <role type="publisher"/>
-                            <organization>
-                            <name>International Electrotechnical Commission</name>
-                <abbreviation>IEC</abbreviation>
-                <uri>www.iec.ch</uri>
-                            </organization>
-                          </contributor>
-                          <edition>1.0</edition>
-                          <language>en</language>
-                          <script>Latn</script>
-                          <abstract format="text/plain" language="en" script="Latn">IEC 60050-103:2009 gives the terminology relative to functions of one or more variables. Together with IEC 60050-102, it covers the mathematical terminology used in the fields of electricity, electronics and telecommunications. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Mathematical symbols are generally in accordance with IEC 60027-1 and ISO 80000-2. This standard cancels and replaces Sections 101-13, 101-14 and 101-15 of International Standard IEC 60050-101:1998. It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
-                          <status>
-                            <stage>60</stage>
-                            <substage>60</substage>
-                          </status>
-                          <copyright>
-                            <from>2009</from>
-                            <owner>
-                              <organization>
-                              <name>International Electrotechnical Commission</name>
-                <abbreviation>IEC</abbreviation>
-                <uri>www.iec.ch</uri>
-                              </organization>
-                            </owner>
-                          </copyright>
-                          <place>Geneva</place>
-                        </bibitem>
-                        </references></bibliography>
-                        </standard-document>
+      output = <<~OUTPUT
+          #{BLANK_HDR}
+          <sections>
+        <terms id="_" obligation="normative"><title>Terms and definitions</title>
+         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+         <term id="term-automation1">
+          <preferred>Automation1</preferred>
+          <termsource status="identical">
+          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">
+          <localityStack>
+        <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
+          </localityStack>
+        </origin>
+        </termsource>
+        </term>
+        <term id="term-automation2">
+          <preferred>Automation2</preferred>
+          <termsource status="identical">
+          <origin bibitemid="IEC60050-102" type="inline" citeas="IEC 60050-102:2007">
+          <localityStack>
+        <locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality>
+          </localityStack>
+        </origin>
+        </termsource>
+        </term>
+        <term id="term-automation3">
+          <preferred>Automation3</preferred>
+          <termsource status="identical">
+          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">
+          <localityStack>
+        <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
+          </localityStack>
+        </origin>
+        </termsource>
+        </term></terms></sections><bibliography><references id="_" obligation="informative" normative="true">
+          <title>Normative references</title>
+        #{NORM_REF_BOILERPLATE}
+          <bibitem type="standard" id="IEC60050-102">
+          <fetched>#{Date.today}</fetched>
+          <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
+          <title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics — General concepts and linear algebra</title>
+          <title type='main' format='text/plain' language='en' script='Latn'>International Electrotechnical Vocabulary (IEV) — Part 102: Mathematics — General concepts and linear algebra</title>
+          <uri type="src">https://webstore.iec.ch/publication/160</uri>
+          <uri type="obp">/preview/info_iec60050-102%7Bed1.0%7Db.pdf</uri>
+          <docidentifier type="IEC">IEC 60050-102:2007</docidentifier>
+          <docidentifier type='URN'>urn:iec:std:iec:60050-102:2007:::en</docidentifier>
+          <date type="published">
+            <on>2007-08-27</on>
+          </date>
+          <contributor>
+            <role type="publisher"/>
+            <organization>
+              <name>International Electrotechnical Commission</name>
+              <abbreviation>IEC</abbreviation>
+              <uri>www.iec.ch</uri>
+            </organization>
+          </contributor>
+          <edition>1.0</edition>
+          <language>en</language>
+          <script>Latn</script>
+          <abstract format="text/plain" language="en" script="Latn">This part of IEC 60050 gives the general mathematical terminology used in the fields of electricity, electronics and telecommunications, together with basic concepts in linear algebra. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Another part will deal with functions.&#13; It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
+          <status>
+            <stage>60</stage>
+            <substage>60</substage>
+          </status>
+          <copyright>
+            <from>2007</from>
+            <owner>
+              <organization>
+              <name>International Electrotechnical Commission</name>
+              <abbreviation>IEC</abbreviation>
+              <uri>www.iec.ch</uri>
+              </organization>
+            </owner>
+          </copyright>
+          <place>Geneva</place>
+        </bibitem><bibitem type="standard" id="IEC60050-103">
+          <fetched>#{Date.today}</fetched>
+          <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
+          <title type="title-part" format="text/plain" language="en" script="Latn">Part 103: Mathematics — Functions</title>
+          <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 103: Mathematics — Functions</title>
+          <uri type="src">https://webstore.iec.ch/publication/161</uri>
+          <uri type="obp">/preview/info_iec60050-103%7Bed1.0%7Db.pdf</uri>
+          <docidentifier type="IEC">IEC 60050-103:2009</docidentifier>
+          <docidentifier type='URN'>urn:iec:std:iec:60050-103:2009:::en</docidentifier>
+          <date type="published">
+            <on>2009-12-14</on>
+          </date>
+          <contributor>
+            <role type="publisher"/>
+            <organization>
+            <name>International Electrotechnical Commission</name>
+        <abbreviation>IEC</abbreviation>
+        <uri>www.iec.ch</uri>
+            </organization>
+          </contributor>
+          <edition>1.0</edition>
+          <language>en</language>
+          <script>Latn</script>
+          <abstract format="text/plain" language="en" script="Latn">IEC 60050-103:2009 gives the terminology relative to functions of one or more variables. Together with IEC 60050-102, it covers the mathematical terminology used in the fields of electricity, electronics and telecommunications. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Mathematical symbols are generally in accordance with IEC 60027-1 and ISO 80000-2. This standard cancels and replaces Sections 101-13, 101-14 and 101-15 of International Standard IEC 60050-101:1998. It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
+          <status>
+            <stage>60</stage>
+            <substage>60</substage>
+          </status>
+          <copyright>
+            <from>2009</from>
+            <owner>
+              <organization>
+              <name>International Electrotechnical Commission</name>
+        <abbreviation>IEC</abbreviation>
+        <uri>www.iec.ch</uri>
+              </organization>
+            </owner>
+          </copyright>
+          <place>Geneva</place>
+        </bibitem>
+        </references></bibliography>
+        </standard-document>
       OUTPUT
+      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+        .to be_equivalent_to xmlpp(output)
     end
     FileUtils.rm_rf File.expand_path("~/.iev.pstore")
-    FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev.pstore"), force: true
+    FileUtils.mv File.expand_path("~/.iev.pstore1"),
+                 File.expand_path("~/.iev.pstore"), force: true
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
-    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"),
+                 File.expand_path("~/.relaton/cache"), force: true
   end
 
   it "counts footnotes with link-only content as separate footnotes" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-                  #{ASCIIDOC_BLANK_HDR}
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
 
-                  footnote:[http://www.example.com]
+      footnote:[http://www.example.com]
 
-                  footnote:[http://www.example.com]
+      footnote:[http://www.example.com]
 
-                  footnote:[http://www.example1.com]
+      footnote:[http://www.example1.com]
     INPUT
-                   #{BLANK_HDR}
-                   <sections><p id="_"><fn reference="1">
-              <p id="_">
-                <link target="http://www.example.com"/>
-              </p>
-            </fn>
-            </p>
-            <p id="_"><fn reference="1">
-              <p id="_">
-                <link target="http://www.example.com"/>
-              </p>
-            </fn>
-            </p>
-            <p id="_"><fn reference="2">
-              <p id="_">
-                <link target="http://www.example1.com"/>
-              </p>
-            </fn>
-            </p></sections>
-                   </standard-document>
+    output = <<~OUTPUT
+             #{BLANK_HDR}
+             <sections><p id="_"><fn reference="1">
+        <p id="_">
+          <link target="http://www.example.com"/>
+        </p>
+      </fn>
+      </p>
+      <p id="_"><fn reference="1">
+        <p id="_">
+          <link target="http://www.example.com"/>
+        </p>
+      </fn>
+      </p>
+      <p id="_"><fn reference="2">
+        <p id="_">
+          <link target="http://www.example1.com"/>
+        </p>
+      </fn>
+      </p></sections>
+             </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "retains AsciiMath on request" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -1458,18 +1565,21 @@ RSpec.describe Asciidoctor::Standoc do
 
       stem:[1/r]
     INPUT
-                   #{BLANK_HDR}
-                   <sections>
-              <p id="_">
-              <stem type="AsciiMath">1/r</stem>
-            </p>
-            </sections>
-            </standard-document>
+    output = <<~OUTPUT
+             #{BLANK_HDR}
+             <sections>
+        <p id="_">
+        <stem type="AsciiMath">1/r</stem>
+      </p>
+      </sections>
+      </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "converts AsciiMath to MathML by default" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -1479,6 +1589,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       stem:[1/r]
     INPUT
+    output = <<~OUTPUT
              #{BLANK_HDR}
              <sections>
                <p id="_">
@@ -1494,26 +1605,32 @@ RSpec.describe Asciidoctor::Standoc do
              </sections>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "cleans up text MathML" do
-    expect(Asciidoctor::Standoc::Converter.new(nil, *OPTIONS).cleanup(Nokogiri::XML(<<~"INPUT")).to_xml).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{BLANK_HDR}
       <sections>
       <stem type="MathML">&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;&lt;mfrac&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;/mfrac&gt;&lt;/math&gt;</stem>
       </sections>
       </standard-document>
     INPUT
-                   #{BLANK_HDR}
-                   <sections>
-                   <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mi>r</mi></mfrac></math></stem>
-            </sections>
-                   </standard-document>
+    output = <<~OUTPUT
+             #{BLANK_HDR}
+             <sections>
+             <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mi>r</mi></mfrac></math></stem>
+      </sections>
+             </standard-document>
     OUTPUT
+    expect(Asciidoctor::Standoc::Converter.new(nil, *OPTIONS)
+      .cleanup(Nokogiri::XML(input)).to_xml)
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "renumbers numeric references in Bibliography sequentially" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       == Clause
@@ -1526,6 +1643,7 @@ RSpec.describe Asciidoctor::Standoc do
       * [[[iso124,ISO 124]]] _Standard 124_
       * [[[iso123,1]]] _Standard 123_
     INPUT
+    output = <<~OUTPUT
           #{BLANK_HDR}
       <sections><clause id="_" inline-header="false" obligation="normative">
         <title>Clause</title>
@@ -1554,10 +1672,12 @@ RSpec.describe Asciidoctor::Standoc do
       </references></bibliography>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "renumbers numeric references in Bibliography subclauses sequentially" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       == Clause
@@ -1588,6 +1708,7 @@ RSpec.describe Asciidoctor::Standoc do
       * [[[iso128,1]]] _Standard 123_
 
     INPUT
+    output = <<~OUTPUT
         #{BLANK_HDR}
         <sections><clause id="_" inline-header="false" obligation="normative">
              <title>Clause</title>
@@ -1660,10 +1781,12 @@ RSpec.describe Asciidoctor::Standoc do
            </references></clause></bibliography>
            </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "removes bibdata bibitem IDs" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -1676,6 +1799,7 @@ RSpec.describe Asciidoctor::Standoc do
       == Normative References
 
     INPUT
+    output = <<~OUTPUT
           <?xml version='1.0' encoding='UTF-8'?>
       <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
         <bibdata type='standard'>
@@ -1707,10 +1831,12 @@ RSpec.describe Asciidoctor::Standoc do
         </bibliography>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "imports boilerplate file" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -1723,6 +1849,7 @@ RSpec.describe Asciidoctor::Standoc do
       == Clause 1
 
     INPUT
+    output = <<~OUTPUT
           <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
         <bibdata type='standard'>
           <title language='en' format='text/plain'>Document title</title>
@@ -1748,23 +1875,26 @@ RSpec.describe Asciidoctor::Standoc do
         </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "sorts symbols lists" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-              #{ASCIIDOC_BLANK_HDR}
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
 
-              [[L]]
-              == Symbols and abbreviated terms
+      [[L]]
+      == Symbols and abbreviated terms
 
-              α:: Definition 1
-              Xa:: Definition 2
-              x_1_:: Definition 3
-              x_m_:: Definition 4
-              x:: Definition 5
-              stem:[n]:: Definition 6
-              m:: Definition 7
+      α:: Definition 1
+      Xa:: Definition 2
+      x_1_:: Definition 3
+      x_m_:: Definition 4
+      x:: Definition 5
+      stem:[n]:: Definition 6
+      m:: Definition 7
     INPUT
+    output = <<~OUTPUT
         #{BLANK_HDR}
         <sections>
           <definitions id='L' obligation="normative">
@@ -1809,21 +1939,24 @@ RSpec.describe Asciidoctor::Standoc do
         </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "sorts symbols lists" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-              #{ASCIIDOC_BLANK_HDR}
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
 
-              [[L]]
-              == Symbols and abbreviated terms
+      [[L]]
+      == Symbols and abbreviated terms
 
-              stem:[alpha]:: Definition 1
-              xa:: Definition 2
-              stem:[x_1]:: Definition 3
-              stem:[x_m]:: Definition 4
-              x:: Definition 5
+      stem:[alpha]:: Definition 1
+      xa:: Definition 2
+      stem:[x_1]:: Definition 3
+      stem:[x_m]:: Definition 4
+      x:: Definition 5
     INPUT
+    output = <<~OUTPUT
         #{BLANK_HDR}
         <sections>
           <definitions id='L' obligation="normative">
@@ -1882,10 +2015,12 @@ RSpec.describe Asciidoctor::Standoc do
         </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "moves inherit macros to correct location" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       == Clause
@@ -1920,6 +2055,7 @@ RSpec.describe Asciidoctor::Standoc do
 
 
     INPUT
+    output = <<~OUTPUT
         #{BLANK_HDR}
         <sections>
           <clause id='_' inline-header='false' obligation='normative'>
@@ -1962,74 +2098,79 @@ RSpec.describe Asciidoctor::Standoc do
         </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "moves %beforeclause admonitions to right position" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-              #{ASCIIDOC_BLANK_HDR}
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
 
-              .Foreword
-              Foreword
+      .Foreword
+      Foreword
 
-              [NOTE,beforeclauses=true]
-              ====
-              Note which is very important
-              ====
+      [NOTE,beforeclauses=true]
+      ====
+      Note which is very important
+      ====
 
-              == Introduction
-              Introduction
+      == Introduction
+      Introduction
 
-              == Scope
-              Scope statement
+      == Scope
+      Scope statement
 
-              [IMPORTANT,beforeclauses=true]
-              ====
-              Notice which is very important
-              ====
+      [IMPORTANT,beforeclauses=true]
+      ====
+      Notice which is very important
+      ====
     INPUT
-              #{BLANK_HDR}
-              <preface>
-                <note id='_'>
-                  <p id='_'>Note which is very important</p>
-                </note>
-                <foreword id='_' obligation='informative'>
-                  <title>Foreword</title>
-                  <p id='_'>Foreword</p>
-                </foreword>
-                <introduction id='_' obligation='informative'>
-                  <title>Introduction</title>
-                  <p id='_'>Introduction</p>
-                </introduction>
-              </preface>
-              <sections>
-                <admonition id='_' type='important'>
-                  <p id='_'>Notice which is very important</p>
-                </admonition>
-                <clause id='_' inline-header='false' obligation='normative' type="scope">
-                  <title>Scope</title>
-                  <p id='_'>Scope statement</p>
-                </clause>
-              </sections>
-            </standard-document>
+    output = <<~OUTPUT
+        #{BLANK_HDR}
+        <preface>
+          <note id='_'>
+            <p id='_'>Note which is very important</p>
+          </note>
+          <foreword id='_' obligation='informative'>
+            <title>Foreword</title>
+            <p id='_'>Foreword</p>
+          </foreword>
+          <introduction id='_' obligation='informative'>
+            <title>Introduction</title>
+            <p id='_'>Introduction</p>
+          </introduction>
+        </preface>
+        <sections>
+          <admonition id='_' type='important'>
+            <p id='_'>Notice which is very important</p>
+          </admonition>
+          <clause id='_' inline-header='false' obligation='normative' type="scope">
+            <title>Scope</title>
+            <p id='_'>Scope statement</p>
+          </clause>
+        </sections>
+      </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "fixes illegal anchors" do
     input = <<~INPUT
-            #{ASCIIDOC_BLANK_HDR}
+      #{ASCIIDOC_BLANK_HDR}
 
-            [[a:b]]
-            == A
-            <</:ab>>
-            <<:>>
-            <<1>>
-            <<1:>>
-            <<1#b>>
-            <<:a#b:>>
-            <</%ab>>
-            <<1!>>
+      [[a:b]]
+      == A
+      <</:ab>>
+      <<:>>
+      <<1>>
+      <<1:>>
+      <<1#b>>
+      <<:a#b:>>
+      <</%ab>>
+      <<1!>>
     INPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS).gsub(/<p id="_[^"]+">/, "").gsub("</p>", ""))).to be_equivalent_to (<<~"OUTPUT")
+    output = <<~OUTPUT
       <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
         <bibdata type='standard'>
           <title language='en' format='text/plain'>Document title</title>
@@ -2067,25 +2208,40 @@ RSpec.describe Asciidoctor::Standoc do
       </bibliography>
       </standard-document>
     OUTPUT
-    expect { Asciidoctor.convert(input, *OPTIONS) }.to output(%r{normalised identifier in <clause id="a_b" inline-header="false" obligation="normative"/> from a:b}).to_stderr
-    expect { Asciidoctor.convert(input, *OPTIONS) }.to output(%r{normalised identifier in <eref bibitemid="__ab" citeas=""/> from /_ab}).to_stderr
-    expect { Asciidoctor.convert(input, *OPTIONS) }.to output(%r{normalised identifier in <xref target="_"/> from :}).to_stderr
-    expect { Asciidoctor.convert(input, *OPTIONS) }.to output(%r{normalised identifier in <xref target="_1"/> from 1}).to_stderr
-    expect { Asciidoctor.convert(input, *OPTIONS) }.to output(%r{normalised identifier in <xref target="_1_"/> from 1:}).to_stderr
-    expect { Asciidoctor.convert(input, *OPTIONS) }.to output(%r{normalised identifier in <xref target="_a#b_"/> from :a#b:}).to_stderr
+    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)
+      .gsub(/<p id="_[^"]+">/, "").gsub("</p>", "")))
+      .to be_equivalent_to(output)
+    expect { Asciidoctor.convert(input, *OPTIONS) }
+      .to output(%r{normalised identifier in <clause id="a_b" inline-header="false" obligation="normative"/> from a:b})
+      .to_stderr
+    expect { Asciidoctor.convert(input, *OPTIONS) }
+      .to output(%r{normalised identifier in <eref bibitemid="__ab" citeas=""/> from /_ab})
+      .to_stderr
+    expect { Asciidoctor.convert(input, *OPTIONS) }
+      .to output(%r{normalised identifier in <xref target="_"/> from :})
+      .to_stderr
+    expect { Asciidoctor.convert(input, *OPTIONS) }
+      .to output(%r{normalised identifier in <xref target="_1"/> from 1})
+      .to_stderr
+    expect { Asciidoctor.convert(input, *OPTIONS) }
+      .to output(%r{normalised identifier in <xref target="_1_"/> from 1:})
+      .to_stderr
+    expect { Asciidoctor.convert(input, *OPTIONS) }
+      .to output(%r{normalised identifier in <xref target="_a#b_"/> from :a#b:})
+      .to_stderr
   end
 
   it "moves title footnotes to bibdata" do
     input = <<~INPUT
-            = Document title footnote:[ABC] footnote:[DEF]
-            Author
-            :docfile: test.adoc
-            :nodoc:
-            :novalid:
-            :no-isobib:
+      = Document title footnote:[ABC] footnote:[DEF]
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
 
     INPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    output = <<~OUTPUT
       <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
                <bibdata type='standard'>
                  <title language='en' format='text/plain'>Document title</title>
@@ -2110,289 +2266,304 @@ RSpec.describe Asciidoctor::Standoc do
                <sections> </sections>
                </standard-document>
     OUTPUT
+    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "converts UnitsML to MathML" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~INPUT, *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-            = Document title
-            Author
-            :stem:
+    input = <<~INPUT
+      = Document title
+      Author
+      :stem:
 
-            [stem]
-            ++++
-            <math xmlns='http://www.w3.org/1998/Math/MathML'>
-              <mrow>
-              <mn>7</mn>
-              <mtext>unitsml(m*kg^-2)</mtext>
-              <mo>+</mo>
-              <mn>8</mn>
-              <mtext>unitsml(m*kg^-2)</mtext>
-              </mrow>
-            </math>
-            ++++
+      [stem]
+      ++++
+      <math xmlns='http://www.w3.org/1998/Math/MathML'>
+        <mrow>
+        <mn>7</mn>
+        <mtext>unitsml(m*kg^-2)</mtext>
+        <mo>+</mo>
+        <mn>8</mn>
+        <mtext>unitsml(m*kg^-2)</mtext>
+        </mrow>
+      </math>
+      ++++
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
       <misc-container>
-                 <UnitsML xmlns='https://schema.unitsml.org/unitsml/1.0'>
-                   <UnitSet>
-                     <Unit xml:id='U_m.kg-2' dimensionURL='#D_LM-2'>
-                       <UnitSystem name='SI' type='SI_derived' xml:lang='en-US'/>
-                       <UnitName xml:lang='en'>m*kg^-2</UnitName>
-                       <UnitSymbol type='HTML'>
-                         m&#160;kg
-                         <sup>&#8722;2</sup>
-                       </UnitSymbol>
-                       <UnitSymbol type='MathML'>
-                         <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                           <mrow>
-                             <mi mathvariant='normal'>m</mi>
-                             <mo rspace='thickmathspace'>&#8290;</mo>
-                             <msup>
-                               <mrow>
-                                 <mi mathvariant='normal'>kg</mi>
-                               </mrow>
-                               <mrow>
-                                 <mo>&#8722;</mo>
-                                 <mn>2</mn>
-                               </mrow>
-                             </msup>
-                           </mrow>
-                         </math>
-                       </UnitSymbol>
-                       <RootUnits>
-                         <EnumeratedRootUnit unit='meter'/>
-                         <EnumeratedRootUnit unit='gram' prefix='k' powerNumerator='-2'/>
-                       </RootUnits>
-                     </Unit>
-                   </UnitSet>
-                   <DimensionSet>
-                     <Dimension xml:id='D_LM-2'>
-                       <Length symbol='L' powerNumerator='1'/>
-                       <Mass symbol='M' powerNumerator='-2'/>
-                     </Dimension>
-                   </DimensionSet>
-                   <PrefixSet>
-                     <Prefix prefixBase='10' prefixPower='3' xml:id='NISTp10_3'>
-                       <PrefixName xml:lang='en'>kilo</PrefixName>
-                       <PrefixSymbol type='ASCII'>k</PrefixSymbol>
-                       <PrefixSymbol type='unicode'>k</PrefixSymbol>
-                       <PrefixSymbol type='LaTeX'>k</PrefixSymbol>
-                       <PrefixSymbol type='HTML'>k</PrefixSymbol>
-                     </Prefix>
-                   </PrefixSet>
-                 </UnitsML>
-               </misc-container>
-               <sections>
-                 <formula id='_'>
-                   <stem type='MathML'>
-                     <math xmlns='http://www.w3.org/1998/Math/MathML'>
+           <UnitsML xmlns='https://schema.unitsml.org/unitsml/1.0'>
+             <UnitSet>
+               <Unit xml:id='U_m.kg-2' dimensionURL='#D_LM-2'>
+                 <UnitSystem name='SI' type='SI_derived' xml:lang='en-US'/>
+                 <UnitName xml:lang='en'>m*kg^-2</UnitName>
+                 <UnitSymbol type='HTML'>
+                   m&#160;kg
+                   <sup>&#8722;2</sup>
+                 </UnitSymbol>
+                 <UnitSymbol type='MathML'>
+                   <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                     <mrow>
+                       <mi mathvariant='normal'>m</mi>
+                       <mo rspace='thickmathspace'>&#8290;</mo>
+                       <msup>
+                         <mrow>
+                           <mi mathvariant='normal'>kg</mi>
+                         </mrow>
+                         <mrow>
+                           <mo>&#8722;</mo>
+                           <mn>2</mn>
+                         </mrow>
+                       </msup>
+                     </mrow>
+                   </math>
+                 </UnitSymbol>
+                 <RootUnits>
+                   <EnumeratedRootUnit unit='meter'/>
+                   <EnumeratedRootUnit unit='gram' prefix='k' powerNumerator='-2'/>
+                 </RootUnits>
+               </Unit>
+             </UnitSet>
+             <DimensionSet>
+               <Dimension xml:id='D_LM-2'>
+                 <Length symbol='L' powerNumerator='1'/>
+                 <Mass symbol='M' powerNumerator='-2'/>
+               </Dimension>
+             </DimensionSet>
+             <PrefixSet>
+               <Prefix prefixBase='10' prefixPower='3' xml:id='NISTp10_3'>
+                 <PrefixName xml:lang='en'>kilo</PrefixName>
+                 <PrefixSymbol type='ASCII'>k</PrefixSymbol>
+                 <PrefixSymbol type='unicode'>k</PrefixSymbol>
+                 <PrefixSymbol type='LaTeX'>k</PrefixSymbol>
+                 <PrefixSymbol type='HTML'>k</PrefixSymbol>
+               </Prefix>
+             </PrefixSet>
+           </UnitsML>
+         </misc-container>
+         <sections>
+           <formula id='_'>
+             <stem type='MathML'>
+               <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                 <mrow>
+                   <mn>7</mn>
+                   <mo rspace='thickmathspace'>&#8290;</mo>
+                   <mrow xref='U_m.kg-2'>
+                     <mi mathvariant='normal'>m</mi>
+                     <mo rspace='thickmathspace'>&#8290;</mo>
+                     <msup>
                        <mrow>
-                         <mn>7</mn>
-                         <mo rspace='thickmathspace'>&#8290;</mo>
-                         <mrow xref='U_m.kg-2'>
-                           <mi mathvariant='normal'>m</mi>
-                           <mo rspace='thickmathspace'>&#8290;</mo>
-                           <msup>
-                             <mrow>
-                               <mi mathvariant='normal'>kg</mi>
-                             </mrow>
-                             <mrow>
-                               <mo>&#8722;</mo>
-                               <mn>2</mn>
-                             </mrow>
-                           </msup>
-                         </mrow>
-                         <mo>+</mo>
-                         <mn>8</mn>
-                         <mo rspace='thickmathspace'>&#8290;</mo>
-                         <mrow xref='U_m.kg-2'>
-                           <mi mathvariant='normal'>m</mi>
-                           <mo rspace='thickmathspace'>&#8290;</mo>
-                           <msup>
-                             <mrow>
-                               <mi mathvariant='normal'>kg</mi>
-                             </mrow>
-                             <mrow>
-                               <mo>&#8722;</mo>
-                               <mn>2</mn>
-                             </mrow>
-                           </msup>
-                         </mrow>
+                         <mi mathvariant='normal'>kg</mi>
                        </mrow>
-                     </math>
-                   </stem>
-                 </formula>
-               </sections>
-             </standard-document>
+                       <mrow>
+                         <mo>&#8722;</mo>
+                         <mn>2</mn>
+                       </mrow>
+                     </msup>
+                   </mrow>
+                   <mo>+</mo>
+                   <mn>8</mn>
+                   <mo rspace='thickmathspace'>&#8290;</mo>
+                   <mrow xref='U_m.kg-2'>
+                     <mi mathvariant='normal'>m</mi>
+                     <mo rspace='thickmathspace'>&#8290;</mo>
+                     <msup>
+                       <mrow>
+                         <mi mathvariant='normal'>kg</mi>
+                       </mrow>
+                       <mrow>
+                         <mo>&#8722;</mo>
+                         <mn>2</mn>
+                       </mrow>
+                     </msup>
+                   </mrow>
+                 </mrow>
+               </math>
+             </stem>
+           </formula>
+         </sections>
+       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "customises italicisation of MathML" do
     input = <<~INPUT
-            = Document title
-            Author
-            :stem:
+      = Document title
+      Author
+      :stem:
 
-            [stem]
-            ++++
-            <math xmlns='http://www.w3.org/1998/Math/MathML'>
-              <mi>A</mi>
-              <mo>+</mo>
-              <mi>a</mi>
-              <mo>+</mo>
-              <mi>Α</mi>
-              <mo>+</mo>
-              <mi>α</mi>
-              <mo>+</mo>
-              <mi>AB</mi>
-              <mstyle mathvariant="italic">
-              <mrow>
-              <mi>Α</mi>
-              </mrow>
-              </mstyle>
-            </math>
-            ++++
+      [stem]
+      ++++
+      <math xmlns='http://www.w3.org/1998/Math/MathML'>
+        <mi>A</mi>
+        <mo>+</mo>
+        <mi>a</mi>
+        <mo>+</mo>
+        <mi>Α</mi>
+        <mo>+</mo>
+        <mi>α</mi>
+        <mo>+</mo>
+        <mi>AB</mi>
+        <mstyle mathvariant="italic">
+        <mrow>
+        <mi>Α</mi>
+        </mrow>
+        </mstyle>
+      </math>
+      ++++
     INPUT
 
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-      #{BLANK_HDR}
-        <sections>
-          <formula id='_'>
-            <stem type='MathML'>
-              <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                <mi>A</mi>
-                <mo>+</mo>
-                <mi>a</mi>
-                <mo>+</mo>
-                <mi>Α</mi>
-                <mo>+</mo>
-                <mi>α</mi>
-                <mo>+</mo>
-                <mi>AB</mi>
-                <mstyle mathvariant='italic'>
-        <mrow>
-          <mi>Α</mi>
-        </mrow>
-      </mstyle>
-              </math>
-            </stem>
-          </formula>
-        </sections>
-      </standard-document>
-    OUTPUT
-    mock_mathml_italicise({ uppergreek: false, upperroman: true, lowergreek: true, lowerroman: true })
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-      #{BLANK_HDR}
-        <sections>
-          <formula id='_'>
-            <stem type='MathML'>
-              <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                <mi>A</mi>
-                <mo>+</mo>
-                <mi>a</mi>
-                <mo>+</mo>
-                <mi mathvariant="normal">Α</mi>
-                <mo>+</mo>
-                <mi>α</mi>
-                <mo>+</mo>
-                <mi>AB</mi>
-                <mstyle mathvariant='italic'>
-        <mrow>
-          <mi>Α</mi>
-        </mrow>
-      </mstyle>
-              </math>
-            </stem>
-          </formula>
-        </sections>
-      </standard-document>
-    OUTPUT
-    mock_mathml_italicise({ uppergreek: true, upperroman: false, lowergreek: true, lowerroman: true })
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-      #{BLANK_HDR}
-        <sections>
-          <formula id='_'>
-            <stem type='MathML'>
-              <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                <mi mathvariant="normal">A</mi>
-                <mo>+</mo>
-                <mi>a</mi>
-                <mo>+</mo>
-                <mi>Α</mi>
-                <mo>+</mo>
-                <mi>α</mi>
-                <mo>+</mo>
-                <mi>AB</mi>
-                <mstyle mathvariant='italic'>
-        <mrow>
-          <mi>Α</mi>
-        </mrow>
-      </mstyle>
-              </math>
-            </stem>
-          </formula>
-        </sections>
-      </standard-document>
-    OUTPUT
-    mock_mathml_italicise({ uppergreek: true, upperroman: true, lowergreek: false, lowerroman: true })
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-      #{BLANK_HDR}
-        <sections>
-          <formula id='_'>
-            <stem type='MathML'>
-              <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                <mi>A</mi>
-                <mo>+</mo>
-                <mi>a</mi>
-                <mo>+</mo>
-                <mi>Α</mi>
-                <mo>+</mo>
-                <mi mathvariant="normal">α</mi>
-                <mo>+</mo>
-                <mi>AB</mi>
-                <mstyle mathvariant='italic'>
-        <mrow>
-          <mi>Α</mi>
-        </mrow>
-      </mstyle>
-              </math>
-            </stem>
-          </formula>
-        </sections>
-      </standard-document>
-    OUTPUT
-    mock_mathml_italicise({ uppergreek: true, upperroman: true, lowergreek: true, lowerroman: false })
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-      #{BLANK_HDR}
-        <sections>
-          <formula id='_'>
-            <stem type='MathML'>
-              <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                <mi>A</mi>
-                <mo>+</mo>
-                <mi mathvariant="normal">a</mi>
-                <mo>+</mo>
-                <mi>Α</mi>
-                <mo>+</mo>
-                <mi>α</mi>
-                <mo>+</mo>
-                <mi>AB</mi>
-                <mstyle mathvariant='italic'>
-        <mrow>
-          <mi>Α</mi>
-        </mrow>
-      </mstyle>
-              </math>
-            </stem>
-          </formula>
-        </sections>
-      </standard-document>
-    OUTPUT
-    mock_mathml_italicise({ uppergreek: true, upperroman: true, lowergreek: true, lowerroman: true })
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(<<~"OUTPUT")
+        #{BLANK_HDR}
+          <sections>
+            <formula id='_'>
+              <stem type='MathML'>
+                <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                  <mi>A</mi>
+                  <mo>+</mo>
+                  <mi>a</mi>
+                  <mo>+</mo>
+                  <mi>Α</mi>
+                  <mo>+</mo>
+                  <mi>α</mi>
+                  <mo>+</mo>
+                  <mi>AB</mi>
+                  <mstyle mathvariant='italic'>
+          <mrow>
+            <mi>Α</mi>
+          </mrow>
+        </mstyle>
+                </math>
+              </stem>
+            </formula>
+          </sections>
+        </standard-document>
+      OUTPUT
+    mock_mathml_italicise({ uppergreek: false, upperroman: true,
+                            lowergreek: true, lowerroman: true })
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(<<~"OUTPUT")
+        #{BLANK_HDR}
+          <sections>
+            <formula id='_'>
+              <stem type='MathML'>
+                <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                  <mi>A</mi>
+                  <mo>+</mo>
+                  <mi>a</mi>
+                  <mo>+</mo>
+                  <mi mathvariant="normal">Α</mi>
+                  <mo>+</mo>
+                  <mi>α</mi>
+                  <mo>+</mo>
+                  <mi>AB</mi>
+                  <mstyle mathvariant='italic'>
+          <mrow>
+            <mi>Α</mi>
+          </mrow>
+        </mstyle>
+                </math>
+              </stem>
+            </formula>
+          </sections>
+        </standard-document>
+      OUTPUT
+    mock_mathml_italicise({ uppergreek: true, upperroman: false,
+                            lowergreek: true, lowerroman: true })
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(<<~"OUTPUT")
+        #{BLANK_HDR}
+          <sections>
+            <formula id='_'>
+              <stem type='MathML'>
+                <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                  <mi mathvariant="normal">A</mi>
+                  <mo>+</mo>
+                  <mi>a</mi>
+                  <mo>+</mo>
+                  <mi>Α</mi>
+                  <mo>+</mo>
+                  <mi>α</mi>
+                  <mo>+</mo>
+                  <mi>AB</mi>
+                  <mstyle mathvariant='italic'>
+          <mrow>
+            <mi>Α</mi>
+          </mrow>
+        </mstyle>
+                </math>
+              </stem>
+            </formula>
+          </sections>
+        </standard-document>
+      OUTPUT
+    mock_mathml_italicise({ uppergreek: true, upperroman: true,
+                            lowergreek: false, lowerroman: true })
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(<<~"OUTPUT")
+        #{BLANK_HDR}
+          <sections>
+            <formula id='_'>
+              <stem type='MathML'>
+                <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                  <mi>A</mi>
+                  <mo>+</mo>
+                  <mi>a</mi>
+                  <mo>+</mo>
+                  <mi>Α</mi>
+                  <mo>+</mo>
+                  <mi mathvariant="normal">α</mi>
+                  <mo>+</mo>
+                  <mi>AB</mi>
+                  <mstyle mathvariant='italic'>
+          <mrow>
+            <mi>Α</mi>
+          </mrow>
+        </mstyle>
+                </math>
+              </stem>
+            </formula>
+          </sections>
+        </standard-document>
+      OUTPUT
+    mock_mathml_italicise({ uppergreek: true, upperroman: true,
+                            lowergreek: true, lowerroman: false })
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(<<~"OUTPUT")
+        #{BLANK_HDR}
+          <sections>
+            <formula id='_'>
+              <stem type='MathML'>
+                <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                  <mi>A</mi>
+                  <mo>+</mo>
+                  <mi mathvariant="normal">a</mi>
+                  <mo>+</mo>
+                  <mi>Α</mi>
+                  <mo>+</mo>
+                  <mi>α</mi>
+                  <mo>+</mo>
+                  <mi>AB</mi>
+                  <mstyle mathvariant='italic'>
+          <mrow>
+            <mi>Α</mi>
+          </mrow>
+        </mstyle>
+                </math>
+              </stem>
+            </formula>
+          </sections>
+        </standard-document>
+      OUTPUT
+    mock_mathml_italicise({ uppergreek: true, upperroman: true,
+                            lowergreek: true, lowerroman: true })
   end
 
   it "process express_ref macro with existing bibliography" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Clause
 
@@ -2412,49 +2583,52 @@ RSpec.describe Asciidoctor::Standoc do
       == Bibliography
       * [[[D,E]]] F
     INPUT
-             #{BLANK_HDR}
-             <sections>
-                 <clause id='_' inline-header='false' obligation='normative'>
-                   <title>Clause</title>
-                   <p id='_'>
-                     <eref bibitemid='uml_A' citeas="">
-                     <localityStack>
-                       <locality type='anchor'><referenceFrom>A.B.C</referenceFrom></locality>
-                     </localityStack>
-                       C
-                     </eref>
-                     <eref bibitemid='uml_A' citeas=""/>
-                     <xref target='action.AA'>AA</xref>
-      <xref target='action'>** Missing target action.AB</xref>
-                   </p>
-                 </clause>
-                 <clause id='action' type='express-schema' inline-header='false' obligation='normative'>
-        <title>Action</title>
-        <clause id='action.AA' inline-header='false' obligation='normative'>
-          <title>AA</title>
-        </clause>
-      </clause>
-               </sections>
-               <bibliography>
-                 <references id='_' normative='false' obligation='informative'>
-                   <title>Bibliography</title>
-                   <bibitem id='D'>
-                     <formattedref format='application/x-isodoc+xml'>F</formattedref>
-                     <docidentifier>E</docidentifier>
-                   </bibitem>
-                 </references>
-                 <references hidden='true' normative='false'>
-                   <bibitem id='uml_A' type='internal'>
-                     <docidentifier type='repository'>uml/A</docidentifier>
-                   </bibitem>
-                 </references>
-               </bibliography>
+    output = <<~OUTPUT
+       #{BLANK_HDR}
+       <sections>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Clause</title>
+             <p id='_'>
+               <eref bibitemid='uml_A' citeas="">
+               <localityStack>
+                 <locality type='anchor'><referenceFrom>A.B.C</referenceFrom></locality>
+               </localityStack>
+                 C
+               </eref>
+               <eref bibitemid='uml_A' citeas=""/>
+               <xref target='action.AA'>AA</xref>
+               <xref target='action'>** Missing target action.AB</xref>
+             </p>
+           </clause>
+           <clause id='action' type='express-schema' inline-header='false' obligation='normative'>
+             <title>Action</title>
+             <clause id='action.AA' inline-header='false' obligation='normative'>
+             <title>AA</title>
+              </clause>
+           </clause>
+         </sections>
+         <bibliography>
+           <references id='_' normative='false' obligation='informative'>
+             <title>Bibliography</title>
+             <bibitem id='D'>
+               <formattedref format='application/x-isodoc+xml'>F</formattedref>
+               <docidentifier>E</docidentifier>
+             </bibitem>
+           </references>
+           <references hidden='true' normative='false'>
+             <bibitem id='uml_A' type='internal'>
+               <docidentifier type='repository'>uml/A</docidentifier>
+             </bibitem>
+           </references>
+         </bibliography>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "process express_ref macro with no existing bibliography" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [[B]]
       [type="express-schema"]
@@ -2468,6 +2642,7 @@ RSpec.describe Asciidoctor::Standoc do
       <<express-schema:B>>
       <<express-schema:B1>>
     INPUT
+    output = <<~OUTPUT
              #{BLANK_HDR}
              <sections>
              <clause id='B' type='express-schema' inline-header='false' obligation='normative'>
@@ -2499,16 +2674,20 @@ RSpec.describe Asciidoctor::Standoc do
                </bibliography>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   private
 
-  def mock_mathml_italicise(x)
-    allow_any_instance_of(::Asciidoctor::Standoc::Cleanup).to receive(:mathml_mi_italics).and_return(x)
+  def mock_mathml_italicise(string)
+    allow_any_instance_of(::Asciidoctor::Standoc::Cleanup)
+      .to receive(:mathml_mi_italics).and_return(string)
   end
 
   def mock_iecbib_get_iec60050_103_01
-    expect(Iecbib::IecBibliography).to receive(:get).with("IEC 60050-103", nil, { keep_year: true }) do
+    expect(Iecbib::IecBibliography).to receive(:get)
+      .with("IEC 60050-103", nil, { keep_year: true }) do
       IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
         <bibitem type="standard" id="IEC60050-103">
            <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
@@ -2546,7 +2725,8 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   def mock_iecbib_get_iec60050_102_01
-    expect(Iecbib::IecBibliography).to receive(:get).with("IEC 60050-102", nil, { keep_year: true }) do
+    expect(Iecbib::IecBibliography).to receive(:get)
+      .with("IEC 60050-102", nil, { keep_year: true }) do
       IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
         <bibitem type="standard" id="IEC60050-102">
            <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
