@@ -3,20 +3,21 @@ require "htmlentities"
 require "json"
 require "open-uri"
 require "mathml2asciimath"
+require_relative "cleanup_section_names"
 
 module Asciidoctor
   module Standoc
     module Cleanup
-      def make_preface(xml, s)
+      def make_preface(xml, sect)
         if xml.at("//foreword | //introduction | //acknowledgements | "\
             "//*[@preface]")
-          preface = s.add_previous_sibling("<preface/>").first
+          preface = sect.add_previous_sibling("<preface/>").first
           f = xml.at("//foreword") and preface.add_child f.remove
           f = xml.at("//introduction") and preface.add_child f.remove
           move_clauses_into_preface(xml, preface)
           f = xml.at("//acknowledgements") and preface.add_child f.remove
         end
-        make_abstract(xml, s)
+        make_abstract(xml, sect)
       end
 
       def move_clauses_into_preface(xml, preface)
@@ -26,10 +27,10 @@ module Asciidoctor
         end
       end
 
-      def make_abstract(xml, s)
+      def make_abstract(xml, sect)
         if xml.at("//abstract[not(ancestor::bibitem)]")
-          preface = s.at("//preface") ||
-            s.add_previous_sibling("<preface/>").first
+          preface = sect.at("//preface") ||
+            sect.add_previous_sibling("<preface/>").first
           abstract = xml.at("//abstract[not(ancestor::bibitem)]").remove
           preface.prepend_child abstract.remove
           bibabstract = bibabstract_location(xml)
@@ -53,17 +54,19 @@ module Asciidoctor
           xml.at("//bibdata/title[not(following-sibling::title)]")
       end
 
-      def make_bibliography(xml, s)
+      def make_bibliography(xml, sect)
         if xml.at("//sections/references")
-          biblio = s.add_next_sibling("<bibliography/>").first
+          biblio = sect.add_next_sibling("<bibliography/>").first
           xml.xpath("//sections/references").each do |r|
             biblio.add_child r.remove
           end
         end
       end
 
-      def make_indexsect(xml, s)
-        xml.xpath("//sections/indexsect").reverse_each { |r| s.next = r.remove }
+      def make_indexsect(xml, sect)
+        xml.xpath("//sections/indexsect").reverse_each do |r|
+          sect.next = r.remove
+        end
       end
 
       def sections_order_cleanup(xml)
@@ -176,76 +179,6 @@ module Asciidoctor
           x.delete("beforeclauses")
           ins.previous = x.remove
         end
-      end
-
-      def get_or_make_title(node)
-        unless node.at("./title")
-          if node.children.empty?
-            node << "<title/>"
-          else
-            node.children.first.previous = "<title/>"
-          end
-        end
-        node.at("./title")
-      end
-
-      def replace_title(doc, xpath, text, first = false)
-        return unless text
-
-        doc.xpath(xpath).each_with_index do |node, i|
-          next if first && !i.zero?
-
-          title = get_or_make_title(node)
-          fn = title.xpath("./fn")
-          fn.each(&:remove)
-          title.content = text
-          fn.each { |n| title << n }
-        end
-      end
-
-      def sections_names_cleanup(xml)
-        replace_title(xml, "//clause[@type = 'scope']", @i18n&.scope)
-        replace_title(xml, "//preface//abstract", @i18n&.abstract)
-        replace_title(xml, "//foreword", @i18n&.foreword)
-        replace_title(xml, "//introduction", @i18n&.introduction)
-        replace_title(xml, "//acknowledgements", @i18n&.acknowledgements)
-        section_names_refs_cleanup(xml)
-        section_names_terms_cleanup(xml)
-      end
-
-      def section_names_refs_cleanup(xml)
-        replace_title(xml, "//references[@normative = 'true']",
-                      @i18n&.normref, true)
-        replace_title(xml, "//references[@normative = 'false']",
-                      @i18n&.bibliography, true)
-      end
-
-      NO_SYMABBR = "[.//definitions[not(@type)]]".freeze
-      SYMABBR = "[.//definitions[@type = 'symbols']]"\
-        "[.//definitions[@type = 'abbreviated_terms']]".freeze
-      SYMnoABBR = "[.//definitions[@type = 'symbols']]"\
-        "[not(.//definitions[@type = 'abbreviated_terms'])]".freeze
-      ABBRnoSYM = "[.//definitions[@type = 'abbreviated_terms']]"\
-        "[not(.//definitions[@type = 'symbols'])]".freeze
-
-      def section_names_terms_cleanup(x)
-        replace_title(x, "//definitions[@type = 'symbols']", @i18n&.symbols)
-        replace_title(x, "//definitions[@type = 'abbreviated_terms']",
-                      @i18n&.abbrev)
-        replace_title(x, "//definitions[not(@type)]", @i18n&.symbolsabbrev)
-        replace_title(x, "//terms#{SYMnoABBR} | //clause[.//terms]#{SYMnoABBR}",
-                      @i18n&.termsdefsymbols, true)
-        replace_title(x, "//terms#{ABBRnoSYM} | //clause[.//terms]#{ABBRnoSYM}",
-                      @i18n&.termsdefabbrev, true)
-        replace_title(x, "//terms#{SYMABBR} | //clause[.//terms]#{SYMABBR}",
-                      @i18n&.termsdefsymbolsabbrev, true)
-        replace_title(x, "//terms#{NO_SYMABBR} | //clause[.//terms]#{NO_SYMABBR}",
-                      @i18n&.termsdefsymbolsabbrev, true)
-        replace_title(
-          x,
-          "//terms[not(.//definitions)] | //clause[.//terms][not(.//definitions)]",
-          @i18n&.termsdef, true
-        )
       end
     end
   end
