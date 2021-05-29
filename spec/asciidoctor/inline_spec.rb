@@ -2,13 +2,14 @@ require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc do
   it "handles spacing around markup" do
-    expect((strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to (<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       This is
       a paragraph with <<x>>
       markup _for_
       text, including **__nest__**ed markup.
     INPUT
+    output = <<~OUTPUT
             <?xml version="1.0" encoding="UTF-8"?>
       <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
       <bibdata type="standard">
@@ -33,10 +34,12 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
   end
 
   it "processes inline_quoted formatting" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{DUMBQUOTE_BLANK_HDR}
       _Physical noise
       sources_
@@ -57,6 +60,7 @@ RSpec.describe Asciidoctor::Standoc do
       [smallcap]#smallcap#
       [keyword]#keyword#
     INPUT
+    output = <<~OUTPUT
            #{BLANK_HDR}
       <sections>
       <em>Physical noise sources</em>
@@ -79,14 +83,17 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
   end
 
   it "process mtext spaces" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{DUMBQUOTE_BLANK_HDR}
 
       stem:[n < 1 " for all text "]
     INPUT
+    output = <<~OUTPUT
                   #{BLANK_HDR}
         <sections>
           <p id='_'>
@@ -102,16 +109,19 @@ RSpec.describe Asciidoctor::Standoc do
         </sections>
       </standard-document>
     OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
   end
 
   it "properly handles inline substitution" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{DUMBQUOTE_BLANK_HDR}
 
       stem:[n < 1] +
       latexmath:[n < 1]
       stem:["&#x200c;"^199 "Hg"^+]
     INPUT
+    output = <<~OUTPUT
                   #{BLANK_HDR}
             <sections>
             <p id="_">
@@ -141,16 +151,19 @@ RSpec.describe Asciidoctor::Standoc do
             </sections>
              </standard-document>
     OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
   end
 
   it "normalises inline stem, straight quotes" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{DUMBQUOTE_BLANK_HDR}
 
       stem:[n < 1]
       latexmath:[n < 1]
       stem:["&#x200c;"^199 "Hg"^+]
     INPUT
+    output = <<~OUTPUT
                 #{BLANK_HDR}
           <sections>
           <p id="_">
@@ -180,16 +193,19 @@ RSpec.describe Asciidoctor::Standoc do
           </sections>
            </standard-document>
     OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
   end
 
   it "normalises inline stem, smart quotes" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       stem:[n < 1]
       latexmath:[n < 1]
       stem:["&#x200c;"^199 "Hg"^+]
     INPUT
+    output = <<~OUTPUT
                 #{BLANK_HDR}
           <sections>
           <p id="_">
@@ -219,23 +235,28 @@ RSpec.describe Asciidoctor::Standoc do
           </sections>
            </standard-document>
     OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
   end
 
   it "generates desired smart quotes for 'dd'" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       '99'.
 
     INPUT
+    output = <<~OUTPUT
            #{BLANK_HDR}
       <sections><p id="_">‘99’.</p>
       </sections>
       </standard-document>
     OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
   end
 
   it "processes breaks" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       Line break +
       line break
@@ -250,6 +271,7 @@ RSpec.describe Asciidoctor::Standoc do
       [%portrait]
       <<<
     INPUT
+    output = <<~OUTPUT
            #{BLANK_HDR}
       <sections><p id="_">Line break<br/>
       line break</p>
@@ -260,17 +282,23 @@ RSpec.describe Asciidoctor::Standoc do
        </sections>
       </standard-document>
     OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
   end
 
   it "processes links" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       mailto:fred@example.com
       http://example.com[]
       http://example.com[Link]
       http://example.com[Link,title="tip"]
       link:++https://asciidoctor.org/now_this__link_works.html++[]
+      http://example.com[Link,updatetype=true]
+      link:../example[updatetype=true]
+      link:../example[Link,updatetype=true]
     INPUT
+    output = <<~OUTPUT
            #{BLANK_HDR}
       <sections>
         <p id="_">mailto:fred@example.com
@@ -278,27 +306,35 @@ RSpec.describe Asciidoctor::Standoc do
       <link target="http://example.com">Link</link>
       <link target="http://example.com" alt="tip">Link</link>
       <link target='https://asciidoctor.org/now_this__link_works.html'/>
+      <link target="http://example.com" updatetype="true">Link</link>
+      <link target="../example" updatetype="true"/>
+      <link target="../example" updatetype="true">Link</link></p>
       </p>
       </sections>
       </standard-document>
     OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
   end
 
   it "processes bookmarks" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       Text [[bookmark]] Text
     INPUT
+    output = <<~OUTPUT
            #{BLANK_HDR}
       <sections>
         <p id="_">Text <bookmark id="bookmark"/> Text</p>
       </sections>
       </standard-document>
     OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
   end
 
   it "processes crossreferences" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [[reference]]
       == Section
@@ -318,6 +354,7 @@ RSpec.describe Asciidoctor::Standoc do
       Lowercase Footnoted Reference to <<reference,droploc%capital%fn>>
       Lowercase Footnoted Reference to <<reference,droploc%capital%text>>
     INPUT
+    output = <<~OUTPUT
              #{BLANK_HDR}
               <sections>
                <clause id="reference" inline-header="false" obligation="normative">
@@ -348,10 +385,12 @@ RSpec.describe Asciidoctor::Standoc do
              </sections>
              </standard-document>
     OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
   end
 
   it "processes bibliographic anchors" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -360,6 +399,7 @@ RSpec.describe Asciidoctor::Standoc do
       * [[[ISO713]]] Reference
 
     INPUT
+    output = <<~OUTPUT
            #{BLANK_HDR}
       <sections>
 
@@ -379,10 +419,12 @@ RSpec.describe Asciidoctor::Standoc do
       </bibliography>
       </standard-document>
     OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
   end
 
   it "processes footnotes" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       Hello!footnote:[Footnote text]
 
@@ -392,6 +434,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       Repetition.footnote:abc[]
     INPUT
+    output = <<~OUTPUT
                   #{BLANK_HDR}
                     <preface><foreword id="_" obligation="informative">
                <title>Foreword</title>
@@ -418,18 +461,23 @@ RSpec.describe Asciidoctor::Standoc do
              </clause></sections>
              </standard-document>
     OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
   end
 
   it "processes index terms" do
-    expect((strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to (<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       ((See)) Index ((_term_)) and(((A~B~, stem:[alpha], &#x2c80;))).
     INPUT
+    output = <<~OUTPUT
          #{BLANK_HDR}
         <sections>
             <p id="_">See<index><primary>See</primary></index> Index <em>term</em><index><primary><em>term</em></primary></index> and<index><primary>A<sub>B</sub></primary><secondary><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>α</mi></math></stem></secondary><tertiary>Ⲁ</tertiary></index>.</p>
         </sections>
       </standard-document>
     OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
   end
 end

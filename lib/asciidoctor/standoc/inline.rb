@@ -9,8 +9,8 @@ require "latexmath"
 module Asciidoctor
   module Standoc
     module Inline
-      def refid?(x)
-        @refids.include? x
+      def refid?(ref)
+        @refids.include? ref
       end
 
       def inline_anchor(node)
@@ -58,7 +58,8 @@ module Asciidoctor
       def inline_anchor_link(node)
         contents = node.text
         contents = "" if node.target.gsub(%r{^mailto:}, "") == node.text
-        attributes = { "target": node.target, "alt": node.attr("title") }
+        attributes = { "target": node.target, "alt": node.attr("title"),
+                       "updatetype": node.attr("updatetype") }
         noko do |xml|
           xml.link **attr_code(attributes) do |l|
             l << contents
@@ -67,8 +68,8 @@ module Asciidoctor
       end
 
       def inline_anchor_bibref(node)
-        eref_contents = (node.text || node.target || node.id)&.
-          sub(/^\[?([^\[\]]+?)\]?$/, "[\\1]")
+        eref_contents = (node.text || node.target || node.id)
+          &.sub(/^\[?([^\[\]]+?)\]?$/, "[\\1]")
         eref_attributes = { id: node.target || node.id }
         @refids << (node.target || node.id)
         noko do |xml|
@@ -105,7 +106,7 @@ module Asciidoctor
         attrs = {}
         node.option?("landscape") and attrs[:orientation] = "landscape"
         node.option?("portrait") and attrs[:orientation] = "portrait"
-        noko { |xml| xml.pagebreak **attr_code(attrs)}.join
+        noko { |xml| xml.pagebreak **attr_code(attrs) }.join
       end
 
       def thematic_break(_node)
@@ -113,30 +114,31 @@ module Asciidoctor
       end
 
       def xml_encode(text)
-        HTMLEntities.new.encode(text, :basic, :hexadecimal).
-          gsub(/&amp;gt;/, ">").gsub(/\&amp;lt;/, "<").gsub(/&amp;amp;/, "&").
-          gsub(/&gt;/, ">").gsub(/&lt;/, "<").gsub(/&amp;/, "&").
-          gsub(/&quot;/, '"').gsub(/&#xa;/, "\n").gsub(/&amp;#/, "&#")
+        HTMLEntities.new.encode(text, :basic, :hexadecimal)
+          .gsub(/&amp;gt;/, ">").gsub(/\&amp;lt;/, "<").gsub(/&amp;amp;/, "&")
+          .gsub(/&gt;/, ">").gsub(/&lt;/, "<").gsub(/&amp;/, "&")
+          .gsub(/&quot;/, '"').gsub(/&#xa;/, "\n").gsub(/&amp;#/, "&#")
       end
 
       def latex_parse(text)
         lxm_input = Unicode2LaTeX.unicode2latex(HTMLEntities.new.decode(text))
         results = Latexmath.parse(lxm_input).to_mathml
         results.nil? and
-          @log.add('Math', nil,
+          @log.add("Math", nil,
                    "latexmlmath failed to process equation:\n#{lxm_input}")
         results&.sub(%r{<math ([^>]+ )?display="block"}, "<math \\1")
       end
 
       def stem_parse(text, xml, style)
         if /&lt;([^:>&]+:)?math(\s+[^>&]+)?&gt; |
-          <([^:>&]+:)?math(\s+[^>&]+)?>/x.match text
+          <([^:>&]+:)?math(\s+[^>&]+)?>/x.match? text
           math = xml_encode(text)
           xml.stem math, **{ type: "MathML" }
         elsif style == :latexmath
           latex = latex_parse(text) or return xml.stem **{ type: "MathML" }
           xml.stem **{ type: "MathML" } do |s|
-            math = Nokogiri::XML.fragment(latex.sub(/<\?[^>]+>/, "")).elements[0]
+            math = Nokogiri::XML.fragment(latex.sub(/<\?[^>]+>/, ""))
+              .elements[0]
             math.delete("alttext")
             s.parent.children = math
           end
@@ -145,9 +147,9 @@ module Asciidoctor
         end
       end
 
-        def highlight_parse(text, xml)
-          xml << text
-        end
+      def highlight_parse(text, xml)
+        xml << text
+      end
 
       def inline_quoted(node)
         noko do |xml|
@@ -182,14 +184,20 @@ module Asciidoctor
 
       def image_attributes(node)
         uri = node.image_uri (node.attr("target") || node.target)
-        types = /^data:/.match(uri) ? Metanorma::Utils::datauri2mime(uri) : MIME::Types.type_for(uri)
+        types = if /^data:/.match?(uri) then Metanorma::Utils::datauri2mime(uri)
+                else MIME::Types.type_for(uri)
+                end
         type = types.first.to_s
         uri = uri.sub(%r{^data:image/\*;}, "data:#{type};")
-        attr_code(src: uri, 
+        image_attributes1(node, uri, type)
+      end
+
+      def image_attributes1(node, uri, type)
+        attr_code(src: uri,
                   id: Metanorma::Utils::anchor_or_uuid,
                   mimetype: type,
                   height: node.attr("height") || "auto",
-                  width: node.attr("width") || "auto" ,
+                  width: node.attr("width") || "auto",
                   filename: node.attr("filename"),
                   title: node.attr("titleattr"),
                   alt: node.alt == node.attr("default-alt") ? nil : node.alt)
@@ -197,14 +205,14 @@ module Asciidoctor
 
       def inline_image(node)
         noko do |xml|
-          xml.image **(image_attributes(node))
+          xml.image **image_attributes(node)
         end.join("")
       end
 
       def inline_indexterm(node)
         noko do |xml|
           node.type == :visible and xml << node.text
-            terms = (node.attr("terms") || [node.text]).map { |x| xml_encode(x) }
+          terms = (node.attr("terms") || [node.text]).map { |x| xml_encode(x) }
           xml.index do |i|
             i.primary { |x| x << terms[0] }
             a = terms.dig(1) and i.secondary { |x| x << a }

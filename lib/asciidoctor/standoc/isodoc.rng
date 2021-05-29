@@ -45,6 +45,11 @@
         <optional>
           <attribute name="alt"/>
         </optional>
+        <optional>
+          <attribute name="updatetype">
+            <data type="boolean"/>
+          </attribute>
+        </optional>
         <text/>
       </element>
     </define>
