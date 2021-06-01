@@ -7,155 +7,167 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes a blank document" do
-    expect(Asciidoctor.convert(<<~"INPUT", *OPTIONS)).to be_equivalent_to <<~"OUTPUT"
-    #{ASCIIDOC_BLANK_HDR}
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
     INPUT
-    #{BLANK_HDR}
-<sections/>
-</standard-document>
+    output = <<~OUTPUT
+          #{BLANK_HDR}
+      <sections/>
+      </standard-document>
     OUTPUT
+    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "converts a blank document" do
     FileUtils.rm_f "test.doc"
-    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", *OPTIONS))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
       :novalid:
     INPUT
-    #{BLANK_HDR}
-<sections/>
-</standard-document>
+    output = <<~OUTPUT
+          #{BLANK_HDR}
+      <sections/>
+      </standard-document>
     OUTPUT
+    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_equivalent_to xmlpp(output)
     expect(File.exist?("test.doc")).to be true
     expect(File.exist?("htmlstyle.css")).to be false
   end
 
-    it "assigns default scripts to major languages" do
+  it "assigns default scripts to major languages" do
     FileUtils.rm_f "test.doc"
-    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", *OPTIONS))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
       :novalid:
       :language: ar
     INPUT
-    <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
-         <bibdata type='standard'>
-           <title language='en' format='text/plain'>Document title</title>
-           <language>ar</language>
-           <script>Arab</script>
-           <status>
-             <stage>published</stage>
-           </status>
-           <copyright>
-             <from>2021</from>
-           </copyright>
-           <ext>
-             <doctype>article</doctype>
-           </ext>
-         </bibdata>
-         <sections> </sections>
-       </standard-document>
+    output = <<~OUTPUT
+      <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
+           <bibdata type='standard'>
+             <title language='en' format='text/plain'>Document title</title>
+             <language>ar</language>
+             <script>Arab</script>
+             <status>
+               <stage>published</stage>
+             </status>
+             <copyright>
+               <from>2021</from>
+             </copyright>
+             <ext>
+               <doctype>article</doctype>
+             </ext>
+           </bibdata>
+           <sections> </sections>
+         </standard-document>
     OUTPUT
+    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes publisher abbreviations" do
     mock_org_abbrevs
-    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", *OPTIONS))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
       :nodoc:
       :novalid:
       :publisher: International Electrotechnical Commission;IETF;ISO
-INPUT
-<standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
-  <bibdata type='standard'>
-    <title language='en' format='text/plain'>Document title</title>
-    <contributor>
-      <role type='author'/>
-      <organization>
-        <name>International Electrotechnical Commission</name>
-        <abbreviation>IEC</abbreviation>
-      </organization>
-    </contributor>
-    <contributor>
-      <role type='author'/>
-      <organization>
-        <name>IETF</name>
-      </organization>
-    </contributor>
-    <contributor>
-      <role type='author'/>
-      <organization>
-        <name>International Standards Organization</name>
-        <abbreviation>ISO</abbreviation>
-      </organization>
-    </contributor>
-    <contributor>
-      <role type='publisher'/>
-      <organization>
-        <name>International Electrotechnical Commission</name>
-        <abbreviation>IEC</abbreviation>
-      </organization>
-    </contributor>
-    <contributor>
-      <role type='publisher'/>
-      <organization>
-        <name>IETF</name>
-      </organization>
-    </contributor>
-    <contributor>
-      <role type='publisher'/>
-      <organization>
-        <name>International Standards Organization</name>
-        <abbreviation>ISO</abbreviation>
-      </organization>
-    </contributor>
-    <language>en</language>
-    <script>Latn</script>
-    <status>
-      <stage>published</stage>
-    </status>
-    <copyright>
-      <from>#{Time.now.year}</from>
-      <owner>
-        <organization>
-          <name>International Electrotechnical Commission</name>
-          <abbreviation>IEC</abbreviation>
-        </organization>
-      </owner>
-    </copyright>
-    <copyright>
-      <from>#{Time.now.year}</from>
-      <owner>
-        <organization>
-          <name>IETF</name>
-        </organization>
-      </owner>
-    </copyright>
-    <copyright>
-      <from>#{Time.now.year}</from>
-      <owner>
-        <organization>
-          <name>International Standards Organization</name>
-          <abbreviation>ISO</abbreviation>
-        </organization>
-      </owner>
-    </copyright>
-    <ext>
-      <doctype>article</doctype>
-    </ext>
-  </bibdata>
-  <sections> </sections>
-</standard-document>
-OUTPUT
+    INPUT
+    output = <<~OUTPUT
+      <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
+        <bibdata type='standard'>
+          <title language='en' format='text/plain'>Document title</title>
+          <contributor>
+            <role type='author'/>
+            <organization>
+              <name>International Electrotechnical Commission</name>
+              <abbreviation>IEC</abbreviation>
+            </organization>
+          </contributor>
+          <contributor>
+            <role type='author'/>
+            <organization>
+              <name>IETF</name>
+            </organization>
+          </contributor>
+          <contributor>
+            <role type='author'/>
+            <organization>
+              <name>International Standards Organization</name>
+              <abbreviation>ISO</abbreviation>
+            </organization>
+          </contributor>
+          <contributor>
+            <role type='publisher'/>
+            <organization>
+              <name>International Electrotechnical Commission</name>
+              <abbreviation>IEC</abbreviation>
+            </organization>
+          </contributor>
+          <contributor>
+            <role type='publisher'/>
+            <organization>
+              <name>IETF</name>
+            </organization>
+          </contributor>
+          <contributor>
+            <role type='publisher'/>
+            <organization>
+              <name>International Standards Organization</name>
+              <abbreviation>ISO</abbreviation>
+            </organization>
+          </contributor>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+            <stage>published</stage>
+          </status>
+          <copyright>
+            <from>#{Time.now.year}</from>
+            <owner>
+              <organization>
+                <name>International Electrotechnical Commission</name>
+                <abbreviation>IEC</abbreviation>
+              </organization>
+            </owner>
+          </copyright>
+          <copyright>
+            <from>#{Time.now.year}</from>
+            <owner>
+              <organization>
+                <name>IETF</name>
+              </organization>
+            </owner>
+          </copyright>
+          <copyright>
+            <from>#{Time.now.year}</from>
+            <owner>
+              <organization>
+                <name>International Standards Organization</name>
+                <abbreviation>ISO</abbreviation>
+              </organization>
+            </owner>
+          </copyright>
+          <ext>
+            <doctype>article</doctype>
+          </ext>
+        </bibdata>
+        <sections> </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes default metadata" do
-    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", *OPTIONS))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -242,270 +254,273 @@ OUTPUT
       :isbn10: ISBN-10
       :classification: a:b, c
     INPUT
-    <?xml version="1.0" encoding="UTF-8"?>
-<standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
-<bibdata type="standard">
-<title language="en" format="text/plain">Main Title — Title</title>
-  <docidentifier>1000-1</docidentifier>
-  <docidentifier type='ISBN'>ISBN-13</docidentifier>
-<docidentifier type='ISBN10'>ISBN-10</docidentifier>
-  <docnumber>1000</docnumber>
-  <date type="published">
-  <on>1000-01-01</on>
-</date>
-<date type="accessed">
-  <on>1001-01-01</on>
-</date>
-<date type="created">
-  <on>1002-01-01</on>
-</date>
-<date type="implemented">
-  <on>1003-01-01</on>
-</date>
-<date type="obsoleted">
-  <on>1004-01-01</on>
-</date>
-<date type="confirmed">
-  <on>1005-01-01</on>
-</date>
-<date type="updated">
-  <on>1006-01-01</on>
-</date>
-<date type="issued">
-  <on>1007-01-01</on>
-</date>
-<date type="circulated">
-  <on>1008-01-01</on>
-</date>
-<date type="unchanged">
-  <on>1009-01-01</on>
-</date>
- <date type='vote-started'>
-   <on>1011-01-01</on>
- </date>
- <date type='vote-ended'>
-   <on>1012-01-01</on>
- </date>
-<date type="Fred">
-  <on>1010-01-01</on>
-</date>
-<date type="Jack">
-  <on>1010-01-01</on>
-</date>
-<contributor>
-  <role type="author"/>
-  <organization>
-    <name>Hanna Barbera</name>
-  </organization>
-</contributor>
-<contributor>
-  <role type="author"/>
-  <organization>
-    <name>Cartoon Network</name>
-  </organization>
-</contributor>
-<contributor>
-  <role type="author"/>
-  <organization>
-    <name>Ribose, Inc.</name>
-  </organization>
-</contributor>
-<contributor>
-  <role type="author"/>
-  <person>
-    <name>
-      <completename>Fred Flintstone</completename>
-    </name>
-     <affiliation>
-   <organization>
-     <name>Slate Rock and Gravel Company</name>
-     <abbreviation>SRG</abbreviation>
-     <subdivision>Hermeneutics Unit</subdivision>
-<subdivision>Exegetical Subunit</subdivision>
-  <address>
-  <formattedAddress>
-  6 Rubble Way, Bedrock
-</formattedAddress>
-  </address>
-   </organization>
-   </affiliation>
-   <phone>123</phone>
-<phone type='fax'>456</phone>
-   <uri>http://slate.example.com</uri>
-  </person>
-</contributor>
-<contributor>
-  <role type="editor"/>
-  <person>
-    <name>
-      <forename>Barney</forename>
-      <initial>B. X.</initial>
-      <surname>Rubble</surname>
-    </name>
-<affiliation>
-  <organization>
-    <name>Rockhead and Quarry Cave Construction Company</name>
-    <abbreviation>RQCCC</abbreviation>
-    <subdivision>Hermeneutics Unit</subdivision>
-<subdivision>Exegetical Subunit</subdivision>
-  <address>
-    <formattedAddress>6A Rubble Way, <br/>Bedrock</formattedAddress>
-  </address>
-  </organization>
-</affiliation>
-<phone>789</phone>
-<phone type='fax'>012</phone>
-   <email>barney@rockhead.example.com</email>
-  </person>
-</contributor>
-<contributor>
-  <role type="publisher"/>
-  <organization>
-    <name>Hanna Barbera</name>
-    <address>
-  <formattedAddress>
-    1 Infinity Loop
-    <br/>
-    California
-  </formattedAddress>
-</address>
-<phone>3333333</phone>
-<phone type='fax'>4444444</phone>
-<email>x@example.com</email>
-<uri>http://www.example.com</uri>
-  </organization>
-</contributor>
-<contributor>
-  <role type="publisher"/>
-  <organization>
-    <name>Cartoon Network</name>
-    <address>
-  <formattedAddress>
-    1 Infinity Loop
-    <br/>
-    California
-  </formattedAddress>
-</address>
-<phone>3333333</phone>
-<phone type='fax'>4444444</phone>
-<email>x@example.com</email>
-<uri>http://www.example.com</uri>
-  </organization>
-</contributor>
-<contributor>
-  <role type="publisher"/>
-  <organization>
-    <name>Ribose, Inc.</name>
-    <address>
-  <formattedAddress>
-    1 Infinity Loop
-    <br/>
-    California
-  </formattedAddress>
-</address>
-<phone>3333333</phone>
-<phone type='fax'>4444444</phone>
-<email>x@example.com</email>
-<uri>http://www.example.com</uri>
-  </organization>
-</contributor>
-<edition>2</edition>
-<version>
-  <revision-date>2000-01-01</revision-date>
-  <draft>3.4</draft>
-</version>
-  <language>en</language>
-  <script>Latn</script>
-  <status>
-    <stage>10</stage>
-    <substage>20</substage>
-    <iteration>3</iteration>
-  </status>
-  <copyright>
-    <from>2001</from>
-       <owner>
-     <organization>
-       <name>Ribose, Inc.</name>
+    output = <<~OUTPUT
+          <?xml version="1.0" encoding="UTF-8"?>
+      <standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
+      <bibdata type="standard">
+      <title language="en" format="text/plain">Main Title — Title</title>
+        <docidentifier>1000-1</docidentifier>
+        <docidentifier type='ISBN'>ISBN-13</docidentifier>
+      <docidentifier type='ISBN10'>ISBN-10</docidentifier>
+        <docnumber>1000</docnumber>
+        <date type="published">
+        <on>1000-01-01</on>
+      </date>
+      <date type="accessed">
+        <on>1001-01-01</on>
+      </date>
+      <date type="created">
+        <on>1002-01-01</on>
+      </date>
+      <date type="implemented">
+        <on>1003-01-01</on>
+      </date>
+      <date type="obsoleted">
+        <on>1004-01-01</on>
+      </date>
+      <date type="confirmed">
+        <on>1005-01-01</on>
+      </date>
+      <date type="updated">
+        <on>1006-01-01</on>
+      </date>
+      <date type="issued">
+        <on>1007-01-01</on>
+      </date>
+      <date type="circulated">
+        <on>1008-01-01</on>
+      </date>
+      <date type="unchanged">
+        <on>1009-01-01</on>
+      </date>
+       <date type='vote-started'>
+         <on>1011-01-01</on>
+       </date>
+       <date type='vote-ended'>
+         <on>1012-01-01</on>
+       </date>
+      <date type="Fred">
+        <on>1010-01-01</on>
+      </date>
+      <date type="Jack">
+        <on>1010-01-01</on>
+      </date>
+      <contributor>
+        <role type="author"/>
+        <organization>
+          <name>Hanna Barbera</name>
+        </organization>
+      </contributor>
+      <contributor>
+        <role type="author"/>
+        <organization>
+          <name>Cartoon Network</name>
+        </organization>
+      </contributor>
+      <contributor>
+        <role type="author"/>
+        <organization>
+          <name>Ribose, Inc.</name>
+        </organization>
+      </contributor>
+      <contributor>
+        <role type="author"/>
+        <person>
+          <name>
+            <completename>Fred Flintstone</completename>
+          </name>
+           <affiliation>
+         <organization>
+           <name>Slate Rock and Gravel Company</name>
+           <abbreviation>SRG</abbreviation>
+           <subdivision>Hermeneutics Unit</subdivision>
+      <subdivision>Exegetical Subunit</subdivision>
         <address>
-   <formattedAddress>
-     1 Infinity Loop
-     <br/>
-     California
-   </formattedAddress>
- </address>
- <phone>3333333</phone>
- <phone type='fax'>4444444</phone>
- <email>x@example.com</email>
- <uri>http://www.example.com</uri>
-     </organization>
-   </owner>
- </copyright>
- <copyright>
-   <from>2001</from>
-   <owner>
-     <organization>
-       <name>Hanna Barbera</name>
+        <formattedAddress>
+        6 Rubble Way, Bedrock
+      </formattedAddress>
+        </address>
+         </organization>
+         </affiliation>
+         <phone>123</phone>
+      <phone type='fax'>456</phone>
+         <uri>http://slate.example.com</uri>
+        </person>
+      </contributor>
+      <contributor>
+        <role type="editor"/>
+        <person>
+          <name>
+            <forename>Barney</forename>
+            <initial>B. X.</initial>
+            <surname>Rubble</surname>
+          </name>
+      <affiliation>
+        <organization>
+          <name>Rockhead and Quarry Cave Construction Company</name>
+          <abbreviation>RQCCC</abbreviation>
+          <subdivision>Hermeneutics Unit</subdivision>
+      <subdivision>Exegetical Subunit</subdivision>
         <address>
-   <formattedAddress>
-     1 Infinity Loop
-     <br/>
-     California
-   </formattedAddress>
- </address>
- <phone>3333333</phone>
- <phone type='fax'>4444444</phone>
- <email>x@example.com</email>
- <uri>http://www.example.com</uri>
-     </organization>
-   </owner>
-  </copyright>
-  <relation type="partOf">
-  <bibitem>
-  <title>--</title>
-  <docidentifier>ABC</docidentifier>
-  </bibitem>
-</relation>
-<relation type="translatedFrom">
-           <bibitem>
-             <title>GHI</title>
-             <docidentifier>DEF</docidentifier>
-           </bibitem>
-         </relation>
-         <relation type="translatedFrom">
-           <bibitem>
-             <title>PQR</title>
-             <docidentifier>JKL MNO</docidentifier>
-           </bibitem>
-         </relation>
-         <classification type='a'>b</classification>
-         <classification type='default'>c</classification>
-<keyword>a</keyword>
-<keyword>b</keyword>
-<keyword>c</keyword>
-<ext>
-<doctype>article</doctype>
-  <editorialgroup>
-    <technical-committee number="1" type="A">TC</technical-committee>
-    <technical-committee number="11" type="A1">TC1</technical-committee>
-  </editorialgroup>
-  <ics>
-    <code>1</code>
-  </ics>
-  <ics>
-    <code>2</code>
-  </ics>
-  <ics>
-    <code>3</code>
-  </ics>
-  </ext>
-</bibdata>
-<sections/>
-</standard-document>
+          <formattedAddress>6A Rubble Way, <br/>Bedrock</formattedAddress>
+        </address>
+        </organization>
+      </affiliation>
+      <phone>789</phone>
+      <phone type='fax'>012</phone>
+         <email>barney@rockhead.example.com</email>
+        </person>
+      </contributor>
+      <contributor>
+        <role type="publisher"/>
+        <organization>
+          <name>Hanna Barbera</name>
+          <address>
+        <formattedAddress>
+          1 Infinity Loop
+          <br/>
+          California
+        </formattedAddress>
+      </address>
+      <phone>3333333</phone>
+      <phone type='fax'>4444444</phone>
+      <email>x@example.com</email>
+      <uri>http://www.example.com</uri>
+        </organization>
+      </contributor>
+      <contributor>
+        <role type="publisher"/>
+        <organization>
+          <name>Cartoon Network</name>
+          <address>
+        <formattedAddress>
+          1 Infinity Loop
+          <br/>
+          California
+        </formattedAddress>
+      </address>
+      <phone>3333333</phone>
+      <phone type='fax'>4444444</phone>
+      <email>x@example.com</email>
+      <uri>http://www.example.com</uri>
+        </organization>
+      </contributor>
+      <contributor>
+        <role type="publisher"/>
+        <organization>
+          <name>Ribose, Inc.</name>
+          <address>
+        <formattedAddress>
+          1 Infinity Loop
+          <br/>
+          California
+        </formattedAddress>
+      </address>
+      <phone>3333333</phone>
+      <phone type='fax'>4444444</phone>
+      <email>x@example.com</email>
+      <uri>http://www.example.com</uri>
+        </organization>
+      </contributor>
+      <edition>2</edition>
+      <version>
+        <revision-date>2000-01-01</revision-date>
+        <draft>3.4</draft>
+      </version>
+        <language>en</language>
+        <script>Latn</script>
+        <status>
+          <stage>10</stage>
+          <substage>20</substage>
+          <iteration>3</iteration>
+        </status>
+        <copyright>
+          <from>2001</from>
+             <owner>
+           <organization>
+             <name>Ribose, Inc.</name>
+              <address>
+         <formattedAddress>
+           1 Infinity Loop
+           <br/>
+           California
+         </formattedAddress>
+       </address>
+       <phone>3333333</phone>
+       <phone type='fax'>4444444</phone>
+       <email>x@example.com</email>
+       <uri>http://www.example.com</uri>
+           </organization>
+         </owner>
+       </copyright>
+       <copyright>
+         <from>2001</from>
+         <owner>
+           <organization>
+             <name>Hanna Barbera</name>
+              <address>
+         <formattedAddress>
+           1 Infinity Loop
+           <br/>
+           California
+         </formattedAddress>
+       </address>
+       <phone>3333333</phone>
+       <phone type='fax'>4444444</phone>
+       <email>x@example.com</email>
+       <uri>http://www.example.com</uri>
+           </organization>
+         </owner>
+        </copyright>
+        <relation type="partOf">
+        <bibitem>
+        <title>--</title>
+        <docidentifier>ABC</docidentifier>
+        </bibitem>
+      </relation>
+      <relation type="translatedFrom">
+                 <bibitem>
+                   <title>GHI</title>
+                   <docidentifier>DEF</docidentifier>
+                 </bibitem>
+               </relation>
+               <relation type="translatedFrom">
+                 <bibitem>
+                   <title>PQR</title>
+                   <docidentifier>JKL MNO</docidentifier>
+                 </bibitem>
+               </relation>
+               <classification type='a'>b</classification>
+               <classification type='default'>c</classification>
+      <keyword>a</keyword>
+      <keyword>b</keyword>
+      <keyword>c</keyword>
+      <ext>
+      <doctype>article</doctype>
+        <editorialgroup>
+          <technical-committee number="1" type="A">TC</technical-committee>
+          <technical-committee number="11" type="A1">TC1</technical-committee>
+        </editorialgroup>
+        <ics>
+          <code>1</code>
+        </ics>
+        <ics>
+          <code>2</code>
+        </ics>
+        <ics>
+          <code>3</code>
+        </ics>
+        </ext>
+      </bibdata>
+      <sections/>
+      </standard-document>
     OUTPUT
+    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes complex metadata" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -540,114 +555,117 @@ OUTPUT
       [language=en]
       == Clause 1
     INPUT
-           <?xml version="1.0" encoding="UTF-8"?>
-       <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
-       <bibdata type="standard">
-         <title language="en" format="text/plain">Document title</title>
-         <title language="eo" format="text/plain">Dokumenttitolo</title>
-         <uri>A</uri>
-         <uri type="xml">B</uri>
-         <uri type="html">C</uri>
-         <uri type="pdf">D</uri>
-         <uri type="doc">E</uri>
-         <uri type="relaton">F</uri>
-         <docidentifier>1000-1-1</docidentifier>
-         <docnumber>1000</docnumber>
-         <date type='published'>
-  <on>1000-01</on>
-</date>
-         <contributor>
-           <role type="author"/>
-           <organization>
-             <name>IEC</name>
-           </organization>
-         </contributor>
-         <contributor>
-           <role type="author"/>
-           <organization>
-             <name>IETF</name>
-           </organization>
-         </contributor>
-         <contributor>
-           <role type="author"/>
-           <organization>
-             <name>ISO</name>
-           </organization>
-         </contributor>
-         <contributor>
-           <role type="publisher"/>
-           <organization>
-             <name>IEC</name>
-           </organization>
-         </contributor>
-         <contributor>
-           <role type="publisher"/>
-           <organization>
-             <name>IETF</name>
-           </organization>
-         </contributor>
-         <contributor>
-           <role type="publisher"/>
-           <organization>
-             <name>ISO</name>
-           </organization>
-         </contributor>
-         <version>
-  <revision-date>2000-01</revision-date>
-</version>
-         <language>el</language>
-         <script>Grek</script>
-         <abstract><p>This is the abstract of the document</p>
-         <p>This is the second paragraph of the abstract of the document.</p></abstract>
-         <status><stage>published</stage></status>
-         <copyright>
-           <from>#{Date.today.year}</from>
-           <owner>
-             <organization>
-               <name>IEC</name>
-             </organization>
-           </owner>
-         </copyright>
-         <copyright>
-           <from>#{Date.today.year}</from>
-           <owner>
-             <organization>
-               <name>IETF</name>
-             </organization>
-           </owner>
-         </copyright>
-         <copyright>
-           <from>#{Date.today.year}</from>
-           <owner>
-             <organization>
-               <name>ISO</name>
-             </organization>
-           </owner>
-         </copyright>
-         <ext>
-         <doctype>this-is-a-doctype</doctype>
-         <subdoctype>This is a DocSubType</subdoctype>
-         </ext>
-       </bibdata>
-         <preface>
-    <abstract id='_'>
-    <title>Abstract</title>
-      <p id='_'>This is the abstract of the document</p>
-      <p id='_'>This is the second paragraph of the abstract of the document.</p>
-    </abstract>
-  </preface>
-  <sections>
-    <clause id='_' language='en' inline-header='false' obligation='normative'>
-      <title>Clause 1</title>
-    </clause>
-  </sections>
-</standard-document>
+    output = <<~OUTPUT
+                 <?xml version="1.0" encoding="UTF-8"?>
+             <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+             <bibdata type="standard">
+               <title language="en" format="text/plain">Document title</title>
+               <title language="eo" format="text/plain">Dokumenttitolo</title>
+               <uri>A</uri>
+               <uri type="xml">B</uri>
+               <uri type="html">C</uri>
+               <uri type="pdf">D</uri>
+               <uri type="doc">E</uri>
+               <uri type="relaton">F</uri>
+               <docidentifier>1000-1-1</docidentifier>
+               <docnumber>1000</docnumber>
+               <date type='published'>
+        <on>1000-01</on>
+      </date>
+               <contributor>
+                 <role type="author"/>
+                 <organization>
+                   <name>IEC</name>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <organization>
+                   <name>IETF</name>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <organization>
+                   <name>ISO</name>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>IEC</name>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>IETF</name>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>ISO</name>
+                 </organization>
+               </contributor>
+               <version>
+        <revision-date>2000-01</revision-date>
+      </version>
+               <language>el</language>
+               <script>Grek</script>
+               <abstract><p>This is the abstract of the document</p>
+               <p>This is the second paragraph of the abstract of the document.</p></abstract>
+               <status><stage>published</stage></status>
+               <copyright>
+                 <from>#{Date.today.year}</from>
+                 <owner>
+                   <organization>
+                     <name>IEC</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <copyright>
+                 <from>#{Date.today.year}</from>
+                 <owner>
+                   <organization>
+                     <name>IETF</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <copyright>
+                 <from>#{Date.today.year}</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <ext>
+               <doctype>this-is-a-doctype</doctype>
+               <subdoctype>This is a DocSubType</subdoctype>
+               </ext>
+             </bibdata>
+               <preface>
+          <abstract id='_'>
+          <title>Abstract</title>
+            <p id='_'>This is the abstract of the document</p>
+            <p id='_'>This is the second paragraph of the abstract of the document.</p>
+          </abstract>
+        </preface>
+        <sections>
+          <clause id='_' language='en' inline-header='false' obligation='normative'>
+            <title>Clause 1</title>
+          </clause>
+        </sections>
+      </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
-   it "processes subdivisions" do
-     mock_default_publisher
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+  it "processes subdivisions" do
+    mock_default_publisher
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -671,71 +689,73 @@ OUTPUT
       :pub-uri: http://www.example.com
 
     INPUT
-       <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
-  <bibdata type='standard'>
-    <title language='en' format='text/plain'>Document title</title>
-    <docidentifier>1000-1-1</docidentifier>
-    <docnumber>1000</docnumber>
-    <date type='published'>
-      <on>1000-01</on>
-    </date>
-    <contributor>
-      <role type='author'/>
-      <organization>
-        <name>International Standards Organization</name>
-        <subdivision>Subdivision</subdivision>
-        <abbreviation>SD</abbreviation>
-      </organization>
-    </contributor>
-    <contributor>
-      <role type='publisher'/>
-      <organization>
-        <name>International Standards Organization</name>
-        <subdivision>Subdivision</subdivision>
-        <abbreviation>SD</abbreviation>
-        <address>
-  <formattedAddress>1 Infinity Loop <br/>California</formattedAddress>
-</address>
-<phone>3333333</phone>
-<phone type='fax'>4444444</phone>
-<email>x@example.com</email>
-<uri>http://www.example.com</uri>
-      </organization>
-    </contributor>
-    <version>
-      <revision-date>2000-01</revision-date>
-    </version>
-    <language>el</language>
-    <script>Grek</script>
-    <status>
-      <stage>published</stage>
-    </status>
-    <copyright>
-      <from>#{Time.now.year}</from>
-      <owner>
-        <organization>
-          <name>International Standards Organization</name>
-          <subdivision>Subdivision</subdivision>
-          <abbreviation>SD</abbreviation>
-        <address>
-  <formattedAddress>1 Infinity Loop <br/>California</formattedAddress>
-</address>
-<phone>3333333</phone>
-<phone type='fax'>4444444</phone>
-<email>x@example.com</email>
-<uri>http://www.example.com</uri>
-        </organization>
-      </owner>
-    </copyright>
-    <ext>
-      <doctype>this-is-a-doctype</doctype>
-    </ext>
-  </bibdata>
-  <sections> </sections>
-</standard-document>
-        
-OUTPUT
-   end
+    output = <<~OUTPUT
+             <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+        <bibdata type='standard'>
+          <title language='en' format='text/plain'>Document title</title>
+          <docidentifier>1000-1-1</docidentifier>
+          <docnumber>1000</docnumber>
+          <date type='published'>
+            <on>1000-01</on>
+          </date>
+          <contributor>
+            <role type='author'/>
+            <organization>
+              <name>International Standards Organization</name>
+              <subdivision>Subdivision</subdivision>
+              <abbreviation>SD</abbreviation>
+            </organization>
+          </contributor>
+          <contributor>
+            <role type='publisher'/>
+            <organization>
+              <name>International Standards Organization</name>
+              <subdivision>Subdivision</subdivision>
+              <abbreviation>SD</abbreviation>
+              <address>
+        <formattedAddress>1 Infinity Loop <br/>California</formattedAddress>
+      </address>
+      <phone>3333333</phone>
+      <phone type='fax'>4444444</phone>
+      <email>x@example.com</email>
+      <uri>http://www.example.com</uri>
+            </organization>
+          </contributor>
+          <version>
+            <revision-date>2000-01</revision-date>
+          </version>
+          <language>el</language>
+          <script>Grek</script>
+          <status>
+            <stage>published</stage>
+          </status>
+          <copyright>
+            <from>#{Time.now.year}</from>
+            <owner>
+              <organization>
+                <name>International Standards Organization</name>
+                <subdivision>Subdivision</subdivision>
+                <abbreviation>SD</abbreviation>
+              <address>
+        <formattedAddress>1 Infinity Loop <br/>California</formattedAddress>
+      </address>
+      <phone>3333333</phone>
+      <phone type='fax'>4444444</phone>
+      <email>x@example.com</email>
+      <uri>http://www.example.com</uri>
+              </organization>
+            </owner>
+          </copyright>
+          <ext>
+            <doctype>this-is-a-doctype</doctype>
+          </ext>
+        </bibdata>
+        <sections> </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_equivalent_to xmlpp(output)
+  end
 
   it "reads scripts into blank HTML document" do
     FileUtils.rm_f "test.html"
@@ -856,20 +876,17 @@ QU1FOiB0ZXN0Cgo=
   private
 
   def mock_org_abbrevs
-    allow_any_instance_of(::Asciidoctor::Standoc::Front).to receive(:org_abbrev).and_return(
-      { "International Standards Organization" => "ISO",
-        "International Electrotechnical Commission" => "IEC" }
-    )
+    allow_any_instance_of(::Asciidoctor::Standoc::Front)
+      .to receive(:org_abbrev).and_return(
+        { "International Standards Organization" => "ISO",
+          "International Electrotechnical Commission" => "IEC" },
+      )
   end
 
-   def mock_default_publisher 
-    allow_any_instance_of(::Asciidoctor::Standoc::Front).to receive(:default_publisher).and_return(
-        "International Standards Organization"
-    )
+  def mock_default_publisher
+    allow_any_instance_of(::Asciidoctor::Standoc::Front)
+      .to receive(:default_publisher).and_return(
+        "International Standards Organization",
+      )
   end
- 
-
 end
-
-
-

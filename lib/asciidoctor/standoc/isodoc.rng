@@ -32,14 +32,6 @@
         <ref name="DocumentType"/>
       </element>
     </define>
-    <define name="docsubtype">
-      <element name="docsubtype">
-        <ref name="DocumentSubtype"/>
-      </element>
-    </define>
-    <define name="DocumentSubtype">
-      <text/>
-    </define>
     <define name="hyperlink">
       <element name="link">
         <attribute name="target">
@@ -557,7 +549,7 @@
     <define name="BibDataExtensionType">
       <ref name="doctype"/>
       <optional>
-        <ref name="docubtype"/>
+        <ref name="docsubtype"/>
       </optional>
       <optional>
         <ref name="editorialgroup"/>
@@ -906,6 +898,14 @@
     </define>
   </include>
   <!-- end overrides -->
+  <define name="docsubtype">
+    <element name="docsubtype">
+      <ref name="DocumentSubtype"/>
+    </element>
+  </define>
+  <define name="DocumentSubtype">
+    <text/>
+  </define>
   <define name="colgroup">
     <element name="colgroup">
       <oneOrMore>

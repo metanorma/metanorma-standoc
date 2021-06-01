@@ -53,6 +53,7 @@ module Asciidoctor
           htmltoclevels: node.attr("htmltoclevels") || node.attr("toclevels"),
           doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
           break_up_urls_in_tables: node.attr("break-up-urls-in-tables"),
+          bare: node.attr("bare"),
           sectionsplit: node.attr("sectionsplit"),
         }
       end
@@ -80,6 +81,7 @@ module Asciidoctor
           htmltoclevels: node.attr("htmltoclevels") || node.attr("toclevels"),
           doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
           break_up_urls_in_tables: node.attr("break-up-urls-in-tables"),
+          bare: node.attr("bare"),
         }
 
         if font_manifest_file = node.attr("mn2pdf-font-manifest-file")
