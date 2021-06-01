@@ -545,6 +545,19 @@ RSpec.describe Asciidoctor::Standoc do
       :docsubtype: This is a DocSubType
       :subdivision: Subdivision
       :subdivision-abbr: SD
+      :fullname: Fred Flintstone
+      :affiliation: Slate Rock and Gravel Company
+      :street: 1 Infinity Loop
+      :city: Cupertino
+      :state: CA
+      :country: USA
+      :postcode: 95014
+      :fullname_2: Barney Rubble
+      :affiliation_2: Slate Rock and Gravel Company
+      :street_2: Pavillon de Breteuil
+      :city_2: Sèvres CEDEX
+      :country_2: France
+      :postcode_2: F-92312
 
       [abstract]
       == Abstract
@@ -591,6 +604,45 @@ RSpec.describe Asciidoctor::Standoc do
                  </organization>
                </contributor>
                <contributor>
+                <role type='author'/>
+                <person>
+                  <name>
+                    <completename>Fred Flintstone</completename>
+                  </name>
+                  <affiliation>
+                    <organization>
+                      <name>Slate Rock and Gravel Company</name>
+                      <address>
+                        <street>1 Infinity Loop</street>
+                        <city>Cupertino</city>
+                        <state>CA</state>
+                        <country>USA</country>
+                        <postcode>95014</postcode>
+                      </address>
+                    </organization>
+                  </affiliation>
+                </person>
+              </contributor>
+              <contributor>
+                <role type='author'/>
+                <person>
+                  <name>
+                    <completename>Barney Rubble</completename>
+                  </name>
+                  <affiliation>
+                    <organization>
+                      <name>Slate Rock and Gravel Company</name>
+                      <address>
+                        <street>Pavillon de Breteuil</street>
+                        <city>S&#232;vres CEDEX</city>
+                        <country>France</country>
+                        <postcode>F-92312</postcode>
+                      </address>
+                    </organization>
+                  </affiliation>
+                </person>
+              </contributor>
+               <contributor>
                  <role type="publisher"/>
                  <organization>
                    <name>IEC</name>
@@ -609,8 +661,8 @@ RSpec.describe Asciidoctor::Standoc do
                  </organization>
                </contributor>
                <version>
-        <revision-date>2000-01</revision-date>
-      </version>
+                 <revision-date>2000-01</revision-date>
+               </version>
                <language>el</language>
                <script>Grek</script>
                <abstract><p>This is the abstract of the document</p>
@@ -660,6 +712,77 @@ RSpec.describe Asciidoctor::Standoc do
       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes formatted address overridding address components" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :fullname: Fred Flintstone
+      :affiliation: Slate Rock and Gravel Company
+      :address: Address
+      :city: Utopia
+      :fullname_2: Barney Rubble
+      :affiliation_2: Slate Rock and Gravel Company
+      :city_2: Utopia
+
+    INPUT
+    output = <<~OUTPUT
+          <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+        <bibdata type='standard'>
+          <title language='en' format='text/plain'>Document title</title>
+          <contributor>
+            <role type='author'/>
+            <person>
+              <name>
+                <completename>Fred Flintstone</completename>
+              </name>
+              <affiliation>
+                <organization>
+                  <name>Slate Rock and Gravel Company</name>
+                  <address>
+                    <formattedAddress>Address</formattedAddress>
+                  </address>
+                </organization>
+              </affiliation>
+            </person>
+          </contributor>
+          <contributor>
+            <role type='author'/>
+            <person>
+              <name>
+                <completename>Barney Rubble</completename>
+              </name>
+              <affiliation>
+                <organization>
+                  <name>Slate Rock and Gravel Company</name>
+                  <address>
+                    <city>Utopia</city>
+                  </address>
+                </organization>
+              </affiliation>
+            </person>
+          </contributor>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+            <stage>published</stage>
+          </status>
+          <copyright>
+            <from>2021</from>
+          </copyright>
+          <ext>
+            <doctype>article</doctype>
+          </ext>
+        </bibdata>
+        <sections> </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
       .to be_equivalent_to xmlpp(output)
   end
 
