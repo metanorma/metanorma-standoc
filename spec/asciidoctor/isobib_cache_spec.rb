@@ -2,8 +2,6 @@ require "spec_helper"
 require "relaton_iso"
 require "fileutils"
 
-OPTIONS = [backend: :standoc, header_footer: true].freeze
-
 IETF_123_SHORT = <<~XML.freeze
   <bibitem type="standard" id="IETF123">
     <title format="text/plain" language="en" script="Latn">Rubber latex -- Sampling</title>

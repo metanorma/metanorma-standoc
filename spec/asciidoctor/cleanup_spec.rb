@@ -1618,11 +1618,42 @@ RSpec.describe Asciidoctor::Standoc do
       </standard-document>
     INPUT
     output = <<~OUTPUT
-             #{BLANK_HDR}
-             <sections>
-             <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mi>r</mi></mfrac></math></stem>
+      #{BLANK_HDR}
+      <sections>
+      <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mi>r</mi></mfrac></math></stem>
       </sections>
-             </standard-document>
+      </standard-document>
+    OUTPUT
+    expect(Asciidoctor::Standoc::Converter.new(nil, *OPTIONS)
+      .cleanup(Nokogiri::XML(input)).to_xml)
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "removes nested bibitem IDs" do
+    input = <<~INPUT
+      #{BLANK_HDR}
+      <bibliography>
+        <references normative="true"><title>Normative</title>
+        <bibitem id="A">
+          <relation type="includes">
+            <bibitem id="B"/>
+          </relation>
+        </bibitem>
+      </bibliography>
+      </standard-document>
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <bibliography>
+        <references normative="true"><title>Normative</title>
+        <bibitem id="A">
+          <relation type="includes">
+            <bibitem id="B"/>
+          </relation>
+        </bibitem>
+      </references>
+      </bibliography>
+      </standard-document>
     OUTPUT
     expect(Asciidoctor::Standoc::Converter.new(nil, *OPTIONS)
       .cleanup(Nokogiri::XML(input)).to_xml)

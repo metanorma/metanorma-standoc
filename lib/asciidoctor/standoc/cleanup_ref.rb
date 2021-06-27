@@ -149,7 +149,14 @@ module Asciidoctor
         end
       end
 
+      def bibitem_nested_id(xmldoc)
+        xmldoc.xpath("//bibitem//bibitem").each do |b|
+          b.delete("id")
+        end
+      end
+
       def bibitem_cleanup(xmldoc)
+        bibitem_nested_id(xmldoc)
         ref_dl_cleanup(xmldoc)
         fetch_local_bibitem(xmldoc)
       end
