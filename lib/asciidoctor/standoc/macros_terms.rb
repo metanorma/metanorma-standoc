@@ -36,15 +36,15 @@ module Asciidoctor
       end
     end
 
-     # Macro to transform `term[X,Y]` into em, termxref xml
+    # Macro to transform `term[X,Y]` into em, termxref xml
     class TermRefInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :term
-      name_positional_attributes 'name', 'termxref'
+      name_positional_attributes "name", "termxref"
       using_format :short
 
       def process(_parent, _target, attrs)
-        termref = attrs['termxref'] || attrs['name']
+        termref = attrs["termxref"] || attrs["name"]
         "<em>#{attrs['name']}</em> (<termxref>#{termref}</termxref>)"
       end
     end
@@ -69,11 +69,11 @@ module Asciidoctor
 
       def process(parent, _target, attr)
         attr = preprocess_attrs(attr)
-        localities = attr.keys.reject { |k| %w(id word term).include? k }.
-          reject { |k| k.is_a? Numeric }.
-          map { |k| "#{k}=#{attr[k]}" }.join(",")
-        text = [localities, attr["word"]].reject{ |k| k.nil? || k.empty? }.
-          join(",")
+        localities = attr.keys.reject { |k| %w(id word term).include? k }
+          .reject { |k| k.is_a? Numeric }
+          .map { |k| "#{k}=#{attr[k]}" }.join(",")
+        text = [localities, attr["word"]].reject { |k| k.nil? || k.empty? }
+          .join(",")
         out = Asciidoctor::Inline.new(parent, :quoted, text).convert
         %{<concept key="#{attr['id']}" term="#{attr['term']}">#{out}</concept>}
       end

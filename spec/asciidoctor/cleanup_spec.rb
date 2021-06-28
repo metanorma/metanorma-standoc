@@ -1879,7 +1879,7 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "sorts symbols lists" do
+  it "sorts symbols lists #1" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
@@ -1943,7 +1943,7 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "sorts symbols lists" do
+  it "sorts symbols lists #2" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
