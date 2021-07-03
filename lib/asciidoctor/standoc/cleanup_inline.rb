@@ -140,7 +140,8 @@ module Asciidoctor
 
       def origin_cleanup(xmldoc)
         xmldoc.xpath("//origin/concept[termref]").each do |x|
-          x.replace(x.children)
+          t = x.at("./termref")
+          x.replace(t)
         end
         xmldoc.xpath("//origin").each do |x|
           x["citeas"] = @anchors&.dig(x["bibitemid"], :xref) or
@@ -152,8 +153,10 @@ module Asciidoctor
       end
 
       def concept_cleanup(xmldoc)
-        xmldoc.xpath("//concept").each do |x|
-          x.delete("term") if x["term"].empty?
+        xmldoc.xpath("//concept[not(termxref)]").each do |x|
+          term = x.at("./refterm")
+          term&.remove if term&.text&.empty?
+          x.children.remove if x&.children&.text&.strip&.empty?
           if /:/.match?(x["key"]) then concept_termbase_cleanup(x)
           elsif refid? x["key"] then concept_eref_cleanup(x)
           else concept_xref_cleanup(x)
@@ -163,20 +166,21 @@ module Asciidoctor
       end
 
       def concept_termbase_cleanup(elem)
-        text = elem&.children&.first&.remove&.text
+        t = elem&.at("./displayterm")&.remove&.children
         termbase, key = elem["key"].split(/:/, 2)
         elem.add_child(%(<termref base="#{termbase}" target="#{key}">) +
-                       "#{text}</termref>")
+                       "#{t&.to_xml}</termref>")
       end
 
       def concept_xref_cleanup(elem)
-        text = elem&.children&.first&.remove&.text
-        elem.add_child(%(<xref target="#{elem['key']}">#{text}</xref>))
+        t = elem&.at("./displayterm")&.remove&.children
+        elem.add_child(%(<xref target="#{elem['key']}">#{t&.to_xml}</xref>))
       end
 
       def concept_eref_cleanup(elem)
-        elem.children = "<eref>#{elem.children.to_xml}</eref>"
-        extract_localities(elem.first_element_child)
+        t = elem&.at("./displayterm")&.remove&.children
+        elem.add_child "<eref bibitemid='#{elem['key']}'>#{t&.to_xml}</eref>"
+        extract_localities(elem.elements[-1])
       end
 
       def to_xreftarget(str)

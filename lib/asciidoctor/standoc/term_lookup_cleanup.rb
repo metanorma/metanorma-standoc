@@ -3,8 +3,6 @@
 module Asciidoctor
   module Standoc
     # Intelligent term lookup xml modifier
-    # Lookup all `term` and `calause` tags and replace `termxref` tags with
-    # `xref`:target tag
     class TermLookupCleanup
       AUTOMATIC_GENERATED_ID_REGEXP = /\A_/.freeze
       EXISTING_TERM_REGEXP = /\Aterm-/.freeze
@@ -41,7 +39,9 @@ module Asciidoctor
             remove_missing_ref(node, target)
             next
           end
-          modify_ref_node(node, target)
+          x = node.at("../displayterm")
+          modify_ref_node(x, target)
+          node.name = "refterm"
         end
       end
 
@@ -49,20 +49,17 @@ module Asciidoctor
         log.add("AsciiDoc Input", node,
                 %(Error: Term reference in `term[#{target}]` missing: \
                 "#{target}" is not defined in document))
-        term_name_node = node.previous.previous
-        term_name_node.remove
-        term_name_node.name = "strong"
-        term_name_node.children.first.content =
-          %(term "#{term_name_node.text}" not resolved)
-        node.add_previous_sibling(term_name_node)
-        node.remove
+        node.name = "strong"
+        display = node&.at("../displayterm")&.remove&.children
+        display = [] if display.to_xml == node.text
+        d = display.empty? ? "" : ", display <tt>#{display.to_xml}</tt>"
+        node.children = "term <tt>#{node.text}</tt>#{d} "\
+          "not resolved via ID <tt>#{target}</tt>"
       end
 
       def modify_ref_node(node, target)
         node.name = "xref"
         node["target"] = termlookup[target]
-        node.children.remove
-        node.remove_attribute("defaultref")
       end
 
       def replace_automatic_generated_ids_terms

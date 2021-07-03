@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc do
   it "processes the Asciidoctor::Standoc inline macros" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       alt:[term1]
       deprecated:[term1]
@@ -15,6 +15,7 @@ RSpec.describe Asciidoctor::Standoc do
       == Bibliography
       * [[[ref1,XYZ 123]]] _Title_
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
       <preface>
           <foreword id='_' obligation='informative'>
@@ -48,10 +49,12 @@ RSpec.describe Asciidoctor::Standoc do
       </bibliography>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes the Asciidoctor::Standoc index macros" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       index:also[]
       index:see[A]
@@ -67,6 +70,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       Text [[id3]]
     INPUT
+    output = <<~OUTPUT
                   #{BLANK_HDR}
         <sections>
           <p id='_'>
@@ -117,16 +121,19 @@ RSpec.describe Asciidoctor::Standoc do
         </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes the Asciidoctor::Standoc variant macros" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == lang:en[English] lang:fr-Latn[Français]
 
       this lang:en[English] lang:fr-Latn[Français] section is lang:en[silly]  lang:fr[fou]
 
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
         <clause id='_' inline-header='false' obligation='normative'>
@@ -150,23 +157,35 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes the Asciidoctor::Standoc concept macros" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       {{clause1}}
+      term:[clause1]
       {{clause1,w\[o\]rd}}
+      term:[clause1,w[o&#93;rd]
       {{clause1,w\[o\]rd,term}}
+      {{<<clause1>>}}
+      {{<<clause1>>,w\[o\]rd}}
+      {{<<clause1>>,w\[o\]rd,term}}
       {{blah}}
+      term:[blah]
       {{blah,word}}
+      term:[blah,word]
       {{blah,word,term}}
-      {{blah,clause=3.1}}
-      {{blah,clause=3.1,word}}
-      {{blah,clause=3.1,word,term}}
-      {{blah,clause=3.1,figure=a}}
-      {{blah,clause=3.1,figure=a,word}}
-      {{blah,clause=3.1,figure=a,word,term}}
+      {{<<blah>>}}
+      {{<<blah>>,word}}
+      {{<<blah>>,word,term}}
+      {{<<blah>>,clause=3.1}}
+      {{<<blah>>,clause=3.1,word}}
+      {{<<blah>>,clause=3.1,word,term}}
+      {{<<blah>>,clause=3.1,figure=a}}
+      {{<<blah>>,clause=3.1,figure=a,word}}
+      {{<<blah>>,clause=3.1,figure=a,word,term}}
       {{IEV:135-13-13}}
       {{IEV:135-13-13,word}}
       {{IEV:135-13-13,word,term}}
@@ -179,31 +198,120 @@ RSpec.describe Asciidoctor::Standoc do
       == Bibliography
       * [[[blah,blah]]] _Blah_
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
       <preface>
         <foreword id='_' obligation='informative'>
           <title>Foreword</title>
           <p id='_'>
+          <concept>
+          <strong>
+          term
+          <tt>clause1</tt>
+          not resolved via ID
+          <tt>clause1</tt>
+        </strong>
+          </concept>
+          <concept>
+          <strong>
+          term
+          <tt>clause1</tt>
+          not resolved via ID
+          <tt>clause1</tt>
+        </strong>
+          </concept>
+          <concept>
+          <strong>
+          term
+          <tt>clause1</tt>, display <tt>w[o]rd</tt>
+          not resolved via ID
+          <tt>clause1</tt>
+          </strong>
+          </concept>
+          <concept>
+          <strong>
+          term
+          <tt>clause1</tt>, display <tt>w[o]rd</tt>
+          not resolved via ID
+          <tt>clause1</tt>
+          </strong>
+          </concept>
+          <concept>
+          <strong>
+          term
+          <tt>clause1</tt>, display <tt>w[o]rd</tt>
+          not resolved via ID
+          <tt>clause1</tt>
+        </strong>
+          </concept>
             <concept>
               <xref target='clause1'/>
             </concept>
             <concept>
               <xref target='clause1'>w[o]rd</xref>
             </concept>
-            <concept term='term'>
+            <concept>
+              <refterm>term</refterm>
               <xref target='clause1'>w[o]rd</xref>
             </concept>
+             <concept>
+                <strong>
+                  term
+                  <tt>blah</tt>
+                   not resolved via ID
+                  <tt>blah</tt>
+                </strong>
+              </concept>
+              <concept>
+                <strong>
+                  term
+                  <tt>blah</tt>
+                   not resolved via ID
+                  <tt>blah</tt>
+                </strong>
+              </concept>
+              <concept>
+                <strong>
+                  term
+                  <tt>blah</tt>
+                  , display
+                  <tt>word</tt>
+                   not resolved via ID
+                  <tt>blah</tt>
+                </strong>
+              </concept>
+              <concept>
+                <strong>
+                  term
+                  <tt>blah</tt>
+                  , display
+                  <tt>word</tt>
+                   not resolved via ID
+                  <tt>blah</tt>
+                </strong>
+              </concept>
+              <concept>
+                <strong>
+                  term
+                  <tt>blah</tt>
+                  , display
+                  <tt>word</tt>
+                   not resolved via ID
+                  <tt>blah</tt>
+                </strong>
+              </concept>
             <concept>
-              <eref/>
+              <eref bibitemid='blah'/>
             </concept>
             <concept>
-              <eref>word</eref>
-            </concept>
-            <concept term='term'>
-              <eref>word</eref>
+              <eref bibitemid='blah'>word</eref>
             </concept>
             <concept>
-              <eref>
+              <refterm>term</refterm>
+              <eref bibitemid='blah'>word</eref>
+            </concept>
+            <concept>
+              <eref bibitemid='blah'>
               <localityStack>
                 <locality type='clause'>
                   <referenceFrom>3.1</referenceFrom>
@@ -212,7 +320,7 @@ RSpec.describe Asciidoctor::Standoc do
               </eref>
             </concept>
             <concept>
-              <eref>
+              <eref bibitemid='blah'>
               <localityStack>
                 <locality type='clause'>
                   <referenceFrom>3.1</referenceFrom>
@@ -221,8 +329,9 @@ RSpec.describe Asciidoctor::Standoc do
                 word
               </eref>
             </concept>
-            <concept term='term'>
-              <eref>
+            <concept>
+              <refterm>term</refterm>
+              <eref bibitemid='blah'>
               <localityStack>
                 <locality type='clause'>
                   <referenceFrom>3.1</referenceFrom>
@@ -232,7 +341,7 @@ RSpec.describe Asciidoctor::Standoc do
               </eref>
             </concept>
             <concept>
-              <eref>
+              <eref bibitemid='blah'>
               <localityStack>
                 <locality type='clause'>
                   <referenceFrom>3.1</referenceFrom>
@@ -244,7 +353,7 @@ RSpec.describe Asciidoctor::Standoc do
               </eref>
             </concept>
             <concept>
-              <eref>
+              <eref bibitemid='blah'>
               <localityStack>
                 <locality type='clause'>
                   <referenceFrom>3.1</referenceFrom>
@@ -256,8 +365,9 @@ RSpec.describe Asciidoctor::Standoc do
                 word
               </eref>
             </concept>
-            <concept term='term'>
-              <eref>
+            <concept>
+              <refterm>term</refterm>
+              <eref bibitemid='blah'>
               <localityStack>
                 <locality type='clause'>
                   <referenceFrom>3.1</referenceFrom>
@@ -275,7 +385,8 @@ RSpec.describe Asciidoctor::Standoc do
             <concept>
               <termref base='IEV' target='135-13-13'>word</termref>
             </concept>
-            <concept term='term'>
+            <concept>
+              <refterm>term</refterm>
               <termref base='IEV' target='135-13-13'>word</termref>
             </concept>
           </p>
@@ -300,10 +411,12 @@ RSpec.describe Asciidoctor::Standoc do
       </bibliography>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes the TODO custom admonition" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       TODO: Note1
 
@@ -315,6 +428,7 @@ RSpec.describe Asciidoctor::Standoc do
       [TODO]
       Note3
     INPUT
+    output = <<~OUTPUT
            #{BLANK_HDR}
            <sections><review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z">
         <p id="_"/>
@@ -327,10 +441,12 @@ RSpec.describe Asciidoctor::Standoc do
       </review></sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "generates pseudocode examples, with formatting and initial indentation" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       [pseudocode,subsequence="A",number="3",keep-with-next=true,keep-lines-together=true]
@@ -342,6 +458,7 @@ RSpec.describe Asciidoctor::Standoc do
         _C_
       ====
     INPUT
+    output = <<~OUTPUT
               #{BLANK_HDR}
               <sections>
         <figure id="_"  subsequence='A' class="pseudocode" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true">
@@ -351,10 +468,12 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "supplies line breaks in pseudocode" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       [pseudocode]
@@ -366,6 +485,7 @@ RSpec.describe Asciidoctor::Standoc do
       E
       ====
     INPUT
+    output = <<~OUTPUT
               #{BLANK_HDR}
               <sections>
       <figure id='_' class='pseudocode'>
@@ -383,10 +503,12 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "skips embedded blocks when supplying line breaks in pseudocode" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       [pseudocode]
@@ -397,6 +519,7 @@ RSpec.describe Asciidoctor::Standoc do
       ++++
       ====
     INPUT
+    output = <<~OUTPUT
               #{BLANK_HDR}
               <sections>
       <figure id='_' class='pseudocode'>
@@ -449,14 +572,17 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes the Ruby markups" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       ruby:楽聖少女[がくせいしょうじょ]
     INPUT
+    output = <<~OUTPUT
            #{BLANK_HDR}
            <sections>
              <p id="_">
@@ -465,10 +591,12 @@ RSpec.describe Asciidoctor::Standoc do
            </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes the footnoteblock macro" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       footnoteblock:[id1]
@@ -487,6 +615,7 @@ RSpec.describe Asciidoctor::Standoc do
       * C
       --
     INPUT
+    output = <<~OUTPUT
                   #{BLANK_HDR}
                   <sections>
                     <p id="_">
@@ -521,10 +650,12 @@ RSpec.describe Asciidoctor::Standoc do
                   </sections>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes the footnoteblock macro with failed reference" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       footnoteblock:[id1]
@@ -543,6 +674,7 @@ RSpec.describe Asciidoctor::Standoc do
       * C
       --
     INPUT
+    output = <<~OUTPUT
            #{BLANK_HDR}
        <sections>
           <p id='_'>
@@ -578,10 +710,12 @@ RSpec.describe Asciidoctor::Standoc do
         </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes input form macros" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       [form,id=N0,name=N1,action="/action_page.php"]
@@ -619,6 +753,7 @@ RSpec.describe Asciidoctor::Standoc do
       input:submit[value="Submit"]
       --
     INPUT
+    output = <<~OUTPUT
         #{BLANK_HDR}
         <sections>
         <form id='_' name='N1' action='/action_page.php'>
@@ -675,6 +810,8 @@ RSpec.describe Asciidoctor::Standoc do
               </sections>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   describe "term inline macros" do
@@ -692,11 +829,13 @@ RSpec.describe Asciidoctor::Standoc do
         #{ASCIIDOC_BLANK_HDR}
         == Terms and Definitions
 
-        === name2
+        === name
 
         == Main
 
         term:[name,name2] is a term
+
+        {{name,name2}} is a term
       XML
     end
     let(:output) do
@@ -706,17 +845,25 @@ RSpec.describe Asciidoctor::Standoc do
           <terms id='_' obligation='normative'>
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-            <term id='term-name2'>
-              <preferred>name2</preferred>
+            <term id='term-name'>
+              <preferred>name</preferred>
             </term>
           </terms>
           <clause id='_' inline-header='false' obligation='normative'>
             <title>Main</title>
             <p id='_'>
-              <em>name</em>
-              (
-              <xref target='term-name2'/>
-              ) is a term
+            <concept>
+              <refterm>name</refterm>
+              <xref target='term-name'>name2</xref>
+            </concept>
+             is a term
+            </p>
+            <p id='_'>
+            <concept>
+              <refterm>name</refterm>
+              <xref target='term-name'>name2</xref>
+            </concept>
+             is a term
             </p>
           </clause>
         </sections>
@@ -740,6 +887,8 @@ RSpec.describe Asciidoctor::Standoc do
           == Main
 
           term:[name] is a term
+
+          {{name}} is a term
         XML
       end
       let(:output) do
@@ -756,10 +905,18 @@ RSpec.describe Asciidoctor::Standoc do
             <clause id='_' inline-header='false' obligation='normative'>
               <title>Main</title>
               <p id='_'>
-                <em>name</em>
-                (
-                <xref target='term-name' />
-                ) is a term
+              <concept>
+              <refterm>name</refterm>
+              <xref target='term-name'>name</xref>
+              </concept>
+              is a term
+              </p>
+              <p id='_'>
+              <concept>
+              <refterm>name</refterm>
+              <xref target='term-name'>name</xref>
+              </concept>
+              is a term
               </p>
             </clause>
           </sections>
@@ -792,6 +949,8 @@ RSpec.describe Asciidoctor::Standoc do
 
           term:[name] is a term
           term:[name2] is a term
+          {{name}} is a term
+          {{name2}} is a term
         XML
       end
       let(:output) do
@@ -815,14 +974,26 @@ RSpec.describe Asciidoctor::Standoc do
             <clause id='term-name2' inline-header='false' obligation='normative'>
               <title>Second</title>
               <p id='_'>
-                <em>name</em>
-                (
-                <xref target='term-name-1' />
-                ) is a term
-                <em>name2</em>
-                  (
-                <xref target='term-name2-1' />
-                ) is a term
+              <concept>
+                <refterm>name</refterm>
+                <xref target='term-name-1'>name</xref>
+              </concept>
+               is a term
+              <concept>
+                <refterm>name2</refterm>
+                <xref target='term-name2-1'>name2</xref>
+              </concept>
+               is a term
+              <concept>
+                <refterm>name</refterm>
+                <xref target='term-name-1'>name</xref>
+              </concept>
+               is a term
+              <concept>
+                <refterm>name2</refterm>
+                <xref target='term-name2-1'>name2</xref>
+              </concept>
+               is a term
               </p>
             </clause>
           </sections>
@@ -854,6 +1025,13 @@ RSpec.describe Asciidoctor::Standoc do
           term:[name identity] is a term
 
           Moreover, term:[missing] is a term
+
+
+          {{name check}} is a term
+
+          {{name identity}} is a term
+
+          Moreover, {{missing}} is a term
         XML
       end
       let(:output) do
@@ -871,18 +1049,51 @@ RSpec.describe Asciidoctor::Standoc do
                   <definition>
                     <p id='_'>paragraph</p>
                     <p id='_'>
-                      <em>name check</em>
-                       (
-                      <xref target='name-check'/>
-                      ) is a term
+                    <concept>
+                    <refterm>name check</refterm>
+                    <xref target='name-check'>name check</xref>
+                  </concept>
+                  is a term
                       </p>
                       <p id='_'>
-                      <em>name identity</em>
-                       (
-                      <xref target='term-name-identity'/>
-                      ) is a term
+                      <concept>
+                      <refterm>name identity</refterm>
+                      <xref target='term-name-identity'>name identity</xref>
+                    </concept>
+                    is a term
                       </p>
-                      <p id="_">Moreover, (<strong>term “missing” not resolved</strong>) is a term</p>
+                      <p id="_">Moreover, <concept>
+                      <strong>
+                      term
+                      <tt>missing</tt>
+                      not resolved via ID
+                      <tt>missing</tt>
+                    </strong>
+                    </concept>
+                    is a term</p>
+                    <p id='_'>
+                    <concept>
+                    <refterm>name check</refterm>
+                    <xref target='name-check'>name check</xref>
+                  </concept>
+                  is a term
+                      </p>
+                      <p id='_'>
+                      <concept>
+                      <refterm>name identity</refterm>
+                      <xref target='term-name-identity'>name identity</xref>
+                    </concept>
+                    is a term
+                      </p>
+                      <p id="_">Moreover, <concept>
+                      <strong>
+                      term
+                      <tt>missing</tt>
+                      not resolved via ID
+                      <tt>missing</tt>
+                    </strong>
+                    </concept>
+                    is a term</p>
                   </definition>
                 </term>
               </terms>
