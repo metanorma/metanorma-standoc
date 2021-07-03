@@ -60,15 +60,15 @@ module Asciidoctor
 
       def term_children_cleanup(xmldoc)
         xmldoc.xpath("//term").each do |t|
-          t.xpath("./termnote").each { |n| t << n.remove }
-          t.xpath("./termexample").each { |n| t << n.remove }
-          t.xpath("./termsource").each { |n| t << n.remove }
+          %w(termnote termexample termsource).each do |w|
+            t.xpath("./#{w}").each { |n| t << n.remove }
+          end
         end
-      end 
+      end
 
       def termdef_from_termbase(xmldoc)
         xmldoc.xpath("//term").each do |x|
-          if c = x.at("./origin/termref") and !x.at("./definition")
+          if (c = x.at("./origin/termref")) && !x.at("./definition")
             x.at("./origin").previous = fetch_termbase(c["base"], c.text)
           end
         end
@@ -93,33 +93,34 @@ module Asciidoctor
         termdomain1_cleanup(xmldoc)
         termnote_example_cleanup(xmldoc)
         termdef_subclause_cleanup(xmldoc)
-        term_children_cleanup(xmldoc) 
+        term_children_cleanup(xmldoc)
         termdocsource_cleanup(xmldoc)
-      end   
+      end
 
       # Indices sort after letter but before any following
       # letter (x, x_m, x_1, xa); we use colon to force that sort order.
       # Numbers sort *after* letters; we use thorn to force that sort order.
-      def symbol_key(x)
-        key = x.dup
+      def symbol_key(sym)
+        key = sym.dup
         key.traverse do |n|
           next unless n.name == "math"
+
           n.replace(grkletters(MathML2AsciiMath.m2a(n.to_xml)))
         end
         ret = Nokogiri::XML(key.to_xml)
-        HTMLEntities.new.decode(ret.text.downcase).
-          gsub(/[\[\]\{\}<>\(\)]/, "").gsub(/\s/m, "").
-          gsub(/[[:punct:]]|[_^]/, ":\\0").gsub(/`/, "").
-          gsub(/[0-9]+/, "þ\\0")
+        HTMLEntities.new.decode(ret.text.downcase)
+          .gsub(/[\[\]{}<>()]/, "").gsub(/\s/m, "")
+          .gsub(/[[:punct:]]|[_^]/, ":\\0").gsub(/`/, "")
+          .gsub(/[0-9]+/, "þ\\0")
       end
-        
+
       def grkletters(x)
         x.gsub(/\b(alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|nu|xi|omicron|pi|rho|sigma|tau|upsilon|phi|chi|psi|omega)\b/i, "&\\1;")
       end
 
-      def extract_symbols_list(dl)
+      def extract_symbols_list(dlist)
         dl_out = []
-        dl.xpath("./dt | ./dd").each do |dtd|
+        dlist.xpath("./dt | ./dd").each do |dtd|
           if dtd.name == "dt"
             dl_out << { dt: dtd.remove, key: symbol_key(dtd) }
           else
@@ -128,7 +129,7 @@ module Asciidoctor
         end
         dl_out
       end
-          
+
       def symbols_cleanup(docxml)
         docxml.xpath("//definitions/dl").each do |dl|
           dl_out = extract_symbols_list(dl)
@@ -136,7 +137,7 @@ module Asciidoctor
           dl.children = dl_out.map { |d| d[:dt].to_s + d[:dd].to_s }.join("\n")
         end
         docxml
-      end 
+      end
     end
   end
 end

@@ -46,13 +46,13 @@ module Asciidoctor
       def inline_anchor_xref_attrs(node)
         m = /^(?<drop>droploc%)?(?<case>capital%|lowercase%)?(?<drop2>droploc%)?
           (?<fn>fn:?\s*)?(?<text>.*)$/x.match node.text
-        casing = m.nil? ? nil : m[:case]&.sub(/%$/, "")
-        droploc = m.nil? ? nil : ((m[:drop].nil? && m[:drop2].nil?) ? nil: true)
-        f = (m.nil? || m[:fn].nil?) ? "inline" : "footnote"
-        c = (!m.nil? && (%i[case fn drop drop2].any? { |x| !m[x].nil? })) ?
-          m[:text] : node.text
         t = node.target.gsub(/^#/, "").gsub(%r{(\.xml|\.adoc)(#.*$)}, "\\2")
-        { target: t, type: f, case: casing, droploc: droploc, text: c }
+        m.nil? and return { target: t, type: "inline", text: node.text }
+        droploc = m[:drop].nil? && m[:drop2].nil? ? nil : true
+        f = m[:fn].nil? ? "inline" : "footnote"
+        c = %i[case fn drop drop2].any? { |x| !m[x].nil? } ? m[:text] : node.text
+        { target: t, type: f, case: m[:case]&.sub(/%$/, ""), droploc: droploc,
+          text: c }
       end
 
       def inline_anchor_link(node)
@@ -115,12 +115,12 @@ module Asciidoctor
 
       def xml_encode(text)
         HTMLEntities.new.encode(text, :basic, :hexadecimal)
-          .gsub(/&amp;gt;/, ">").gsub(/\&amp;lt;/, "<").gsub(/&amp;amp;/, "&")
+          .gsub(/&amp;gt;/, ">").gsub(/&amp;lt;/, "<").gsub(/&amp;amp;/, "&")
           .gsub(/&gt;/, ">").gsub(/&lt;/, "<").gsub(/&amp;/, "&")
           .gsub(/&quot;/, '"').gsub(/&#xa;/, "\n").gsub(/&amp;#/, "&#")
       end
 
-      def latex_parse(text)
+      def latex_parse1(text)
         lxm_input = Unicode2LaTeX.unicode2latex(HTMLEntities.new.decode(text))
         results = Latexmath.parse(lxm_input).to_mathml
         results.nil? and
@@ -134,16 +134,19 @@ module Asciidoctor
           <([^:>&]+:)?math(\s+[^>&]+)?>/x.match? text
           math = xml_encode(text)
           xml.stem math, **{ type: "MathML" }
-        elsif style == :latexmath
-          latex = latex_parse(text) or return xml.stem **{ type: "MathML" }
-          xml.stem **{ type: "MathML" } do |s|
-            math = Nokogiri::XML.fragment(latex.sub(/<\?[^>]+>/, ""))
-              .elements[0]
-            math.delete("alttext")
-            s.parent.children = math
-          end
+        elsif style == :latexmath then latex_parse(text, xml)
         else
-          xml.stem text&.gsub(/\&amp;#/, "&#"), **{ type: "AsciiMath" }
+          xml.stem text&.gsub(/&amp;#/, "&#"), **{ type: "AsciiMath" }
+        end
+      end
+
+      def latex_parse(text, xml)
+        latex = latex_parse1(text) or return xml.stem **{ type: "MathML" }
+        xml.stem **{ type: "MathML" } do |s|
+          math = Nokogiri::XML.fragment(latex.sub(/<\?[^>]+>/, ""))
+            .elements[0]
+          math.delete("alttext")
+          s.parent.children = math
         end
       end
 

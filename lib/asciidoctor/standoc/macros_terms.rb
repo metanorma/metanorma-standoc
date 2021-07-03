@@ -36,7 +36,6 @@ module Asciidoctor
       end
     end
 
-    # Macro to transform `term[X,Y]` into em, termxref xml
     class TermRefInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :term
@@ -45,10 +44,18 @@ module Asciidoctor
 
       def process(_parent, _target, attrs)
         termref = attrs["termxref"] || attrs["name"]
-        "<em>#{attrs['name']}</em> (<termxref>#{termref}</termxref>)"
+        "<concept><termxref>#{attrs['name']}</termxref>"\
+          "<displayterm>#{termref}</displayterm></concept>"
       end
     end
 
+    # Possibilities:
+    # {{<<id>>, term}}
+    # {{<<id>>, term, text}}
+    # {{termbase:id, term}}
+    # {{termbase:id, term, text}}
+    # {{term}} equivalent to term:[term]
+    # {{text, text}} equivalent to term:[term, text]
     class ConceptInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :concept
@@ -59,7 +66,8 @@ module Asciidoctor
 
       # deal with locality attrs and their disruption of positional attrs
       def preprocess_attrs(attrs)
-        attrs.delete("term") if attrs["term"] && !attrs["word"]
+        attrs = preprocess_attrs1(attrs)
+        attrs.delete("term") if attrs["term"] && !attrs["word"] && attrs["id"]
         attrs.delete(3) if attrs[3] == attrs["term"]
         a = attrs.keys.reject { |k| k.is_a?(String) || [1, 2].include?(k) }
         attrs["word"] ||= attrs[a[0]] if !a.empty?
@@ -67,15 +75,33 @@ module Asciidoctor
         attrs
       end
 
-      def process(parent, _target, attr)
-        attr = preprocess_attrs(attr)
-        localities = attr.keys.reject { |k| %w(id word term).include? k }
+      def preprocess_attrs1(attrs)
+        if /^&lt;&lt;.+&gt;&gt;$/.match?(attrs["id"])
+          attrs["id"] = attrs["id"].sub(/^&lt;&lt;/, "").sub(/&gt;&gt;$/, "")
+        elsif !/.:./.match?(attrs["id"])
+          attrs["term"] = attrs["id"]
+          attrs["word"] ||= attrs["term"]
+          attrs.delete("id")
+        end
+        attrs
+      end
+
+      def preprocess_localities(attrs)
+        attrs.keys.reject { |k| %w(id word term).include? k }
           .reject { |k| k.is_a? Numeric }
-          .map { |k| "#{k}=#{attr[k]}" }.join(",")
-        text = [localities, attr["word"]].reject { |k| k.nil? || k.empty? }
-          .join(",")
+          .map { |k| "#{k}=#{attrs[k]}" }.join(",")
+      end
+
+      def process(parent, _target, attrs)
+        attrs = preprocess_attrs(attrs)
+        loc = preprocess_localities(attrs)
+        text = [loc, attrs["word"]].reject { |k| k.nil? || k.empty? }.join(",")
         out = Asciidoctor::Inline.new(parent, :quoted, text).convert
-        %{<concept key="#{attr['id']}" term="#{attr['term']}">#{out}</concept>}
+        attrs["id"] and return "<concept key='#{attrs['id']}'><refterm>"\
+          "#{attrs['term']}</refterm><displayterm>#{out}</displayterm>"\
+          "</concept>"
+        "<concept><termxref>#{attrs['term']}</termxref>"\
+          "<displayterm>#{attrs['word']}</displayterm></concept>"
       end
     end
   end
