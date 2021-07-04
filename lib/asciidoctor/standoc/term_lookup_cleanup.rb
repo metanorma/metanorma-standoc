@@ -39,7 +39,7 @@ module Asciidoctor
             remove_missing_ref(node, target)
             next
           end
-          x = node.at("../displayterm")
+          x = node.at("../xrefrender")
           modify_ref_node(x, target)
           node.name = "refterm"
         end
@@ -50,8 +50,9 @@ module Asciidoctor
                 %(Error: Term reference in `term[#{target}]` missing: \
                 "#{target}" is not defined in document))
         node.name = "strong"
-        display = node&.at("../displayterm")&.remove&.children
-        display = [] if display.to_xml == node.text
+        node.at("../xrefrender").remove
+        display = node&.at("../renderterm")&.remove&.children
+        display = [] if display.nil? || display&.to_xml == node.text
         d = display.empty? ? "" : ", display <tt>#{display.to_xml}</tt>"
         node.children = "term <tt>#{node.text}</tt>#{d} "\
           "not resolved via ID <tt>#{target}</tt>"

@@ -157,6 +157,7 @@ module Asciidoctor
           term = x.at("./refterm")
           term&.remove if term&.text&.empty?
           x.children.remove if x&.children&.text&.strip&.empty?
+          key_extract_locality(x)
           if /:/.match?(x["key"]) then concept_termbase_cleanup(x)
           elsif refid? x["key"] then concept_eref_cleanup(x)
           else concept_xref_cleanup(x)
@@ -165,22 +166,31 @@ module Asciidoctor
         end
       end
 
+      def key_extract_locality(elem)
+        return unless /,/.match?(elem["key"])
+
+        elem.add_child("<locality>#{elem['key'].sub(/^[^,]+,/, '')}</locality>")
+        elem["key"] = elem["key"].sub(/,.*$/, "")
+      end
+
       def concept_termbase_cleanup(elem)
-        t = elem&.at("./displayterm")&.remove&.children
+        t = elem&.at("./xrefrender")&.remove&.children
         termbase, key = elem["key"].split(/:/, 2)
         elem.add_child(%(<termref base="#{termbase}" target="#{key}">) +
                        "#{t&.to_xml}</termref>")
       end
 
       def concept_xref_cleanup(elem)
-        t = elem&.at("./displayterm")&.remove&.children
+        t = elem&.at("./xrefrender")&.remove&.children
         elem.add_child(%(<xref target="#{elem['key']}">#{t&.to_xml}</xref>))
       end
 
       def concept_eref_cleanup(elem)
-        t = elem&.at("./displayterm")&.remove&.children
-        elem.add_child "<eref bibitemid='#{elem['key']}'>#{t&.to_xml}</eref>"
+        t = elem&.at("./xrefrender")&.remove&.children&.to_xml
+        l = elem&.at("./locality")&.remove&.children&.to_xml
+        elem.add_child "<eref bibitemid='#{elem['key']}'>#{l}</eref>"
         extract_localities(elem.elements[-1])
+        elem.elements[-1].add_child(t) if t
       end
 
       def to_xreftarget(str)
