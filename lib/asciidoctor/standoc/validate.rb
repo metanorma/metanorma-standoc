@@ -19,10 +19,10 @@ module Asciidoctor
       end
 
       def iev_validate(xmldoc)
+        @iev = init_iev or return
         xmldoc.xpath("//term").each do |t|
           /^IEC 60050-/.match(t&.at("./termsource/origin/@citeas")&.text) &&
             loc = t.xpath(SOURCELOCALITY)&.text or next
-          @iev = init_iev or return
           iev = @iev.fetch(loc, xmldoc&.at("//language")&.text || "en") or next
           pref = t.xpath("./preferred").inject([]) do |m, x|
             m << x&.text&.downcase
@@ -38,6 +38,7 @@ module Asciidoctor
         norm_ref_validate(doc)
         repeat_id_validate(doc.root)
         iev_validate(doc.root)
+        concept_validate(doc)
       end
 
       def norm_ref_validate(doc)
@@ -52,6 +53,20 @@ module Asciidoctor
         end
         found and
           clean_abort("Numeric reference in normative references", doc.to_xml)
+      end
+
+      def concept_validate(doc)
+        found = false
+        doc.xpath("//concept/xref").each do |x|
+          next if doc.at("//term[@id = '#{x['target']}']")
+
+          ref = x&.at("../refterm")&.text
+          @log.add("Anchors", x, "Concept #{ref} is pointing to "\
+                   "#{x['target']}, which is not a term")
+          found = true
+        end
+        found and
+          clean_abort("Concept not cross-referencing term", doc.to_xml)
       end
 
       def repeat_id_validate1(ids, elem)
@@ -78,13 +93,11 @@ module Asciidoctor
 
       def schema_validate(doc, schema)
         Tempfile.open(["tmp", ".xml"], encoding: "UTF-8") do |f|
-          begin
-            schema_validate1(f, doc, schema)
-          rescue Jing::Error => e
-            clean_abort("Jing failed with error: #{e}", doc.to_xml)
-          ensure
-            f.close!
-          end
+          schema_validate1(f, doc, schema)
+        rescue Jing::Error => e
+          clean_abort("Jing failed with error: #{e}", doc.to_xml)
+        ensure
+          f.close!
         end
       end
 
