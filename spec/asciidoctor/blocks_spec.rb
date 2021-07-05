@@ -1051,13 +1051,13 @@ RSpec.describe Asciidoctor::Standoc do
       Definition
 
       [.source]
-      {{IEV:xyz}}
+      {{<<IEV:xyz>>}}
 
       [.source]
-      {{IEV:xyz,t1}}
+      {{<<IEV:xyz>>,t1}}
 
       [.source]
-      {{IEV:xyz,t1,t2}}
+      {{<<IEV:xyz>>,t1,t2}}
     INPUT
     output = <<~OUTPUT
             #{BLANK_HDR}
@@ -1094,12 +1094,12 @@ RSpec.describe Asciidoctor::Standoc do
         </termsource>
         <termsource status='identical'>
           <origin citeas=''>
-            <termref base='IEV' target='xyz'>t1</termref>
+            <termref base='IEV' target='xyz'/>
           </origin>
         </termsource>
         <termsource status='identical'>
           <origin citeas=''>
-            <termref base='IEV' target='xyz'>t1</termref>
+            <termref base='IEV' target='xyz'/>
           </origin>
         </termsource>
       </term>
@@ -1126,7 +1126,7 @@ RSpec.describe Asciidoctor::Standoc do
       Definition
 
       [.source]
-      {{IEV:xyz}}, with adjustments
+      {{<<IEV:xyz>>}}, with adjustments
     INPUT
     output = <<~OUTPUT
             #{BLANK_HDR}

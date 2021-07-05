@@ -5,7 +5,11 @@ require "fileutils"
 RSpec.describe Asciidoctor::Standoc do
   it "generates error file" do
     FileUtils.rm_f "spec/assets/xref_error.err"
-    Asciidoctor.convert_file "spec/assets/xref_error.adoc", { attributes: { "backend" => "standoc" }, safe: 0, header_footer: true, requires: ["metanorma-standoc"], failure_level: 4, mkdirs: true, to_file: nil }
+    Asciidoctor.convert_file "spec/assets/xref_error.adoc",
+                             { attributes: { "backend" => "standoc" }, safe: 0,
+                               header_footer: true,
+                               requires: ["metanorma-standoc"],
+                               failure_level: 4, mkdirs: true, to_file: nil }
     expect(File.exist?("spec/assets/xref_error.err")).to be true
   end
 
@@ -13,7 +17,7 @@ RSpec.describe Asciidoctor::Standoc do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"
     begin
-      expect { Asciidoctor.convert(<<~"INPUT", *OPTIONS) }.to raise_error(SystemExit)
+      input = <<~INPUT
         = Document title
         Author
         :docfile: test.adoc
@@ -25,10 +29,13 @@ RSpec.describe Asciidoctor::Standoc do
         [[abc]]
         == Clause 2
       INPUT
+      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
     rescue SystemExit
     end
-    expect(File.read("test.err")).to include "Anchor abc has already been used at line"
-    expect(File.read("test.err")).to include %(\t<clause id="abc" inline-header="false" obligation="normative">)
+    expect(File.read("test.err"))
+      .to include "Anchor abc has already been used at line"
+    expect(File.read("test.err"))
+      .to include %(\t<clause id="abc" inline-header="false" obligation="normative">)
   end
 
   it "warns about missing fields in asciibib" do
@@ -64,7 +71,8 @@ RSpec.describe Asciidoctor::Standoc do
           completename::::: Jack
     INPUT
     errf = File.read("test.err")
-    expect(errf).to include "Reference iso123 is missing a document identifier (docid)"
+    expect(errf)
+      .to include "Reference iso123 is missing a document identifier (docid)"
   end
 
   it "warns about missing fields in asciibib" do
@@ -189,7 +197,8 @@ RSpec.describe Asciidoctor::Standoc do
       <1> This is one callout
       <2> This is another callout
     INPUT
-    expect(File.read("test.err")).to include "mismatch of callouts and annotations"
+    expect(File.read("test.err"))
+      .to include "mismatch of callouts and annotations"
   end
 
   it "warns that term source is not a real reference" do
@@ -200,7 +209,8 @@ RSpec.describe Asciidoctor::Standoc do
       [.source]
       <<iso123>>
     INPUT
-    expect(File.read("test.err")).to include "iso123 does not have a corresponding anchor ID in the bibliography"
+    expect(File.read("test.err"))
+      .to include "iso123 does not have a corresponding anchor ID in the bibliography"
   end
 
   it "warns of Non-reference in bibliography" do
@@ -234,12 +244,14 @@ RSpec.describe Asciidoctor::Standoc do
       [align=mid-air]
       Para
     INPUT
-    expect(File.read("test.err")).to include 'value of attribute "align" is invalid; must be equal to'
+    expect(File.read("test.err"))
+      .to include 'value of attribute "align" is invalid; must be equal to'
   end
 
   it "Warning if terms mismatches IEV" do
     FileUtils.rm_f "test.err"
-    FileUtils.mv File.expand_path("~/.iev/cache"), File.expand_path("~/.iev.pstore1"), force: true
+    FileUtils.mv File.expand_path("~/.iev/cache"),
+                 File.expand_path("~/.iev.pstore1"), force: true
     FileUtils.rm_f "test_iev/pstore"
     mock_open_uri("103-01-02")
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
@@ -257,13 +269,16 @@ RSpec.describe Asciidoctor::Standoc do
       [.source]
       <<iev,clause="103-01-02">>
     INPUT
-    expect(File.read("test.err")).to include 'Term "automation" does not match IEV 103-01-02 "functional"'
-    FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev/cache"), force: true
+    expect(File.read("test.err"))
+      .to include 'Term "automation" does not match IEV 103-01-02 "functional"'
+    FileUtils.mv File.expand_path("~/.iev.pstore1"),
+                 File.expand_path("~/.iev/cache"), force: true
   end
 
   it "No warning if English term matches IEV" do
     FileUtils.rm_f "test.err"
-    FileUtils.mv File.expand_path("~/.iev/cache"), File.expand_path("~/.iev.pstore1"), force: true
+    FileUtils.mv File.expand_path("~/.iev/cache"),
+                 File.expand_path("~/.iev.pstore1"), force: true
     FileUtils.rm_f "test_iev/cache"
     mock_open_uri("103-01-02")
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
@@ -282,12 +297,14 @@ RSpec.describe Asciidoctor::Standoc do
       <<iev,clause="103-01-02">>
     INPUT
     expect(File.read("test.err")).not_to include "does not match IEV 103-01-02"
-    FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev/cache"), force: true
+    FileUtils.mv File.expand_path("~/.iev.pstore1"),
+                 File.expand_path("~/.iev/cache"), force: true
   end
 
   it "No warning if French term matches IEV" do
     FileUtils.rm_f "test.err"
-    FileUtils.mv File.expand_path("~/.iev/cache"), File.expand_path("~/.iev.pstore1"), force: true
+    FileUtils.mv File.expand_path("~/.iev/cache"),
+                 File.expand_path("~/.iev.pstore1"), force: true
     FileUtils.rm_f "test_iev/cache"
     mock_open_uri("103-01-02")
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
@@ -307,7 +324,8 @@ RSpec.describe Asciidoctor::Standoc do
       [.source]
       <<iev,clause="103-01-02">>
     INPUT
-    expect(File.read("test.err")).not_to include "does not match IEV 103-01-02"
+    expect(File.read("test.err"))
+      .not_to include "does not match IEV 103-01-02"
     FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev/cache"), force: true
   end
 
@@ -319,11 +337,34 @@ RSpec.describe Asciidoctor::Standoc do
   # INPUT
   # end
 
+  it "warns and aborts if concept/xref does not point to term" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        [[abc]]
+        == Clause 1
+
+        {{<<abc>>,term}}
+      INPUT
+      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+    expect(File.read("test.err"))
+      .to include "Concept term is pointing to abc, which is not a term"
+    expect(File.exist?("test.xml")).to be false
+  end
+
   it "warns and aborts if id used twice" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"
     begin
-      expect { Asciidoctor.convert(<<~"INPUT", *OPTIONS) }.to raise_error(SystemExit)
+      input = <<~INPUT
         = Document title
         Author
         :docfile: test.adoc
@@ -335,9 +376,11 @@ RSpec.describe Asciidoctor::Standoc do
         [[abc]]
         == Clause 2
       INPUT
+      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
     rescue SystemExit
     end
-    expect(File.read("test.err")).to include "Anchor abc has already been used at line"
+    expect(File.read("test.err"))
+      .to include "Anchor abc has already been used at line"
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -345,7 +388,7 @@ RSpec.describe Asciidoctor::Standoc do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"
     begin
-      expect { Asciidoctor.convert(<<~"INPUT", *OPTIONS) }.to raise_error(SystemExit)
+      input = <<~INPUT
         = Document title
         Author
         :docfile: test.adoc
@@ -355,9 +398,11 @@ RSpec.describe Asciidoctor::Standoc do
         == Normative references
         * [[[A,1]]]
       INPUT
+      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
     rescue SystemExit
     end
-    expect(File.read("test.err")).to include "Numeric reference in normative references"
+    expect(File.read("test.err"))
+      .to include "Numeric reference in normative references"
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -405,6 +450,7 @@ RSpec.describe Asciidoctor::Standoc do
       * C
       --
     INPUT
-    expect(File.read("test.err")).to include "Could not resolve footnoteblock:[id1]"
+    expect(File.read("test.err"))
+      .to include "Could not resolve footnoteblock:[id1]"
   end
 end
