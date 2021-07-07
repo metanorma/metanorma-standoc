@@ -2,7 +2,6 @@ require "date"
 require "nokogiri"
 require "htmlentities"
 require "pathname"
-require "open-uri"
 require_relative "./front_contributor"
 
 module Asciidoctor

@@ -41,7 +41,7 @@ module Asciidoctor
       def form(node)
         noko do |xml|
           xml.form **attr_code(
-            id: Metanorma::Utils::anchor_or_uuid,
+            id: Metanorma::Utils::anchor_or_uuid, class: node.attr("class"),
             name: node.attr("name"), action: node.attr("action")
           ) do |f|
             f << node.content

@@ -1,6 +1,5 @@
 require "date"
 require "htmlentities"
-require "open-uri"
 
 module Asciidoctor
   module Standoc
