@@ -1,7 +1,6 @@
 require "date"
 require "htmlentities"
 require "json"
-require "open-uri"
 require "mathml2asciimath"
 require_relative "cleanup_section_names"
 

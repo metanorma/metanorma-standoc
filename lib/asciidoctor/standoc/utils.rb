@@ -3,7 +3,6 @@ require "nokogiri"
 require "htmlentities"
 require "json"
 require "pathname"
-require "open-uri"
 require "uuidtools"
 
 module Asciidoctor

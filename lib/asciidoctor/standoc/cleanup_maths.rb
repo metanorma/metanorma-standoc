@@ -1,6 +1,5 @@
 require "nokogiri"
 require "pathname"
-require "open-uri"
 require "html2doc"
 require "asciimath2unitsml"
 require_relative "./cleanup_block"
