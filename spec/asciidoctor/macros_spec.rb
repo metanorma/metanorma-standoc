@@ -174,6 +174,8 @@ RSpec.describe Asciidoctor::Standoc do
       {{blah,word}}
       term:[blah,word]
       {{blah,term,word}}
+      {{blah,term,word,xref}}
+      {{blah,term,word,xref,option="noital,noref"}}
 
       [[clause1]]
       == Clause
@@ -271,6 +273,26 @@ RSpec.describe Asciidoctor::Standoc do
                   <tt>blah</tt>
                 </strong>
               </concept>
+              <concept>
+                 <strong>
+                   term
+                   <tt>blah</tt>
+                   , display
+                   <tt>term</tt>
+                    not resolved via ID
+                   <tt>blah</tt>
+                 </strong>
+               </concept>
+               <concept noital='true' noref='true'>
+                 <strong>
+                   term
+                   <tt>blah</tt>
+                   , display
+                   <tt>term</tt>
+                    not resolved via ID
+                   <tt>blah</tt>
+                 </strong>
+               </concept>
           </p>
         </foreword>
       </preface>

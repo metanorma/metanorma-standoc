@@ -12,7 +12,7 @@ module Asciidoctor
       def sectiontype1(node)
         node&.attr("heading")&.downcase ||
           node.title.gsub(%r{<index>.*?</index>}m, "").gsub(/<[^>]+>/, "")
-          .strip.downcase
+            .strip.downcase
       end
 
       def sectiontype(node, level = true)
@@ -21,6 +21,7 @@ module Asciidoctor
         return ret1 if "symbols and abbreviated terms" == ret1
         return nil unless !level || node.level == 1
         return nil if @seen_headers.include? ret
+
         @seen_headers << ret
         ret1
       end
@@ -48,11 +49,14 @@ module Asciidoctor
                 script: node.attributes["script"],
                 number: node.attributes["number"],
                 type: node.attributes["type"],
-                annex: ( ((node.attr("style") == "appendix" || node.role == "appendix") && 
-                          node.level == 1) ? true : nil),
-                         preface: (
-                           (node.role == "preface" || node.attr("style") == "preface") ?  true : nil) }
+                annex: (if (node.attr("style") == "appendix" || node.role == "appendix") &&
+                          node.level == 1
+                          true
+                        end),
+                preface: (
+                           node.role == "preface" || node.attr("style") == "preface" ? true : nil) }
         return ret unless node.attributes["change"]
+
         ret.merge(change: node.attributes["change"],
                   path: node.attributes["path"],
                   path_end: node.attributes["path_end"],
@@ -75,7 +79,7 @@ module Asciidoctor
             symbols_parse(symbols_attrs(node, a), xml, node)
           when "acknowledgements"
             acknowledgements_parse(a, xml, node)
-          when "bibliography" 
+          when "bibliography"
             bibliography_parse(a, xml, node)
           else
             if @term_def then term_def_subclause_parse(a, xml, node)
@@ -88,9 +92,9 @@ module Asciidoctor
               bibliography_parse(a, xml, node)
             elsif node.attr("style") == "bibliography"
               bibliography_parse(a, xml, node)
-            elsif node.attr("style") == "abstract" 
+            elsif node.attr("style") == "abstract"
               abstract_parse(a, xml, node)
-            elsif node.attr("style") == "index" 
+            elsif node.attr("style") == "index"
               indexsect_parse(a, xml, node)
             elsif node.attr("style") == "appendix" && node.level == 1
               annex_parse(a, xml, node)
@@ -102,10 +106,13 @@ module Asciidoctor
       end
 
       def set_obligation(attrs, node)
-        attrs[:obligation] = node.attributes.has_key?("obligation") ?
-          node.attr("obligation") :
-          node.parent.attributes.has_key?("obligation") ?
-          node.parent.attr("obligation") : "normative"
+        attrs[:obligation] = if node.attributes.has_key?("obligation")
+                               node.attr("obligation")
+                             elsif node.parent.attributes.has_key?("obligation")
+                               node.parent.attr("obligation")
+                             else
+                               "normative"
+                             end
       end
 
       def preamble(node)
