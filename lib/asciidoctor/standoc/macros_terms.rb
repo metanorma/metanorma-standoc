@@ -68,11 +68,22 @@ module Asciidoctor
       def preprocess_attrs(target)
         m = /^(?<id>&lt;&lt;.+?&gt;&gt;)?(?<rest>.*)$/.match(target)
         ret = { id: m[:id]&.sub(/^&lt;&lt;/, "")&.sub(/&gt;&gt;$/, "") }
-        m2 = /^(?<rest>.*)(?<opt>,option=.+)?$/.match(m[:rest].sub(/^,/, ""))
-        ret[:opt] = m2[:opt]&.sub(/^,option=/, "")
-        attrs = CSV.parse_line(m2[:rest]) || []
+        if m2 = /^(?<rest>.*?)(?<opt>,option=.+)$/.match(m[:rest].sub(/^,/, ""))
+          ret[:opt] = CSV.parse_line(m2[:opt].sub(/^,option=/, "")
+            .sub(/^"(.+)"$/, "\\1").sub(/^'(.+)'$/, "\\1"))
+          attrs = CSV.parse_line(m2[:rest]) || []
+        else
+          attrs = CSV.parse_line(m[:rest].sub(/^,/, "")) || []
+        end
         ret.merge(term: attrs[0], word: attrs[1] || attrs[0],
                   xrefrender: attrs[2])
+      end
+
+      def generate_attrs(opts)
+        ret = ""
+        opts.include?("noital") and ret += " noital='true'"
+        opts.include?("noref") and ret += " noref='true'"
+        ret
       end
 
       def process(parent, target, _attrs)
@@ -81,11 +92,12 @@ module Asciidoctor
         wordout = Asciidoctor::Inline.new(parent, :quoted, attrs[:word]).convert
         xrefout = Asciidoctor::Inline.new(parent, :quoted,
                                           attrs[:xrefrender]).convert
-        attrs[:id] and return "<concept key='#{attrs[:id]}'><refterm>"\
+        optout = generate_attrs(attrs[:opt] || [])
+        attrs[:id] and return "<concept#{optout} key='#{attrs[:id]}'><refterm>"\
           "#{termout}</refterm><renderterm>#{wordout}</renderterm>"\
           "<xrefrender>#{xrefout}</xrefrender></concept>"
-        "<concept><termxref>#{termout}</termxref><renderterm>#{wordout}"\
-          "</renderterm><xrefrender>#{xrefout}</xrefrender></concept>"
+        "<concept#{optout}><termxref>#{termout}</termxref><renderterm>"\
+          "#{wordout}</renderterm><xrefrender>#{xrefout}</xrefrender></concept>"
       end
     end
   end
