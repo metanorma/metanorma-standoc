@@ -12,7 +12,6 @@ module Asciidoctor
           end
         end
         raise "PlantUML not installed"
-        nil
       end
 
       def self.run(umlfile, outfile)
@@ -59,7 +58,7 @@ module Asciidoctor
         Tempfile.open(["plantuml", ".pml"], encoding: "utf-8") do |f|
           f.write(src)
           [f, File.join(File.dirname(f.path),
-                        (fn || File.basename(f.path, ".pml")) + ".png")]
+                        "#{fn || File.basename(f.path, '.pml')}.png")]
         end
       end
 
@@ -81,7 +80,8 @@ module Asciidoctor
       def abort(parent, reader, attrs, msg)
         warn msg
         attrs["language"] = "plantuml"
-        create_listing_block parent, reader.source, attrs.reject { |k, _v| k == 1 }
+        create_listing_block parent, reader.source,
+                             (attrs.reject { |k, _v| k == 1 })
       end
 
       def process(parent, reader, attrs)

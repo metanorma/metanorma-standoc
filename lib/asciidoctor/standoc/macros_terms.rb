@@ -46,7 +46,20 @@ module Asciidoctor
 
       def process(_parent, _target, attrs)
         termref = attrs["termxref"] || attrs["name"]
-        "<concept><termxref>#{attrs['name']}</termxref>"\
+        "<concept type='term'><termxref>#{attrs['name']}</termxref>"\
+          "<renderterm>#{termref}</renderterm><xrefrender/></concept>"
+      end
+    end
+
+    class SymbolRefInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :symbol
+      name_positional_attributes "name", "termxref"
+      using_format :short
+
+      def process(_parent, _target, attrs)
+        termref = attrs["termxref"] || attrs["name"]
+        "<concept type='symbol'><termxref>#{attrs['name']}</termxref>"\
           "<renderterm>#{termref}</renderterm><xrefrender/></concept>"
       end
     end

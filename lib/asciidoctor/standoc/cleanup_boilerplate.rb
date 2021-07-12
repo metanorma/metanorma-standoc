@@ -158,11 +158,11 @@ module Asciidoctor
           xmldoc.root << "<bibliography/>" and ins = xmldoc.at("bibliography")
         ins = ins.add_child("<references hidden='true' normative='false'/>").first
         refs.each do |x|
-          ins << <<~END
+          ins << <<~BIB
             <bibitem id="#{x}" type="internal">
             <docidentifier type="repository">#{x.sub(/^#{prefix}_/, "#{prefix}/")}</docidentifier>
             </bibitem>
-          END
+          BIB
         end
       end
 

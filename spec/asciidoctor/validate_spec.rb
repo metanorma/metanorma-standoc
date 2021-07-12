@@ -337,7 +337,7 @@ RSpec.describe Asciidoctor::Standoc do
   # INPUT
   # end
 
-  it "warns and aborts if concept/xref does not point to term" do
+  it "warns and aborts if concept/xref does not point to term or definition" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"
     begin
@@ -349,14 +349,24 @@ RSpec.describe Asciidoctor::Standoc do
 
         [[abc]]
         == Clause 1
+        [[ghi]]A:: B
+
+        == Symbols and Abbreviated Terms
+        [[def]]DEF:: def
 
         {{<<abc>>,term}}
+        {{<<def>>,term}}
+        {{<<ghi>>,term}}
       INPUT
       expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
     rescue SystemExit
     end
     expect(File.read("test.err"))
-      .to include "Concept term is pointing to abc, which is not a term"
+      .to include "Concept term is pointing to abc, which is not a term or symbol"
+    expect(File.read("test.err"))
+      .not_to include "Concept term is pointing to def, which is not a term or symbol"
+    expect(File.read("test.err"))
+      .to include "Concept term is pointing to ghi, which is not a term or symbol"
     expect(File.exist?("test.xml")).to be false
   end
 

@@ -1931,11 +1931,11 @@ RSpec.describe Asciidoctor::Standoc do
           <definitions id='L' obligation="normative">
             <title>Symbols and abbreviated terms</title>
             <dl id='_'>
-            <dt>m</dt>
+            <dt id="symbol-m">m</dt>
       <dd>
         <p id='_'>Definition 7</p>
       </dd>
-      <dt>
+      <dt id="symbol--n-">
         <stem type='MathML'>
           <math xmlns='http://www.w3.org/1998/Math/MathML'>
             <mi>n</mi>
@@ -1945,23 +1945,23 @@ RSpec.describe Asciidoctor::Standoc do
       <dd>
         <p id='_'>Definition 6</p>
       </dd>
-              <dt>x</dt>
+              <dt id="symbol-x">x</dt>
               <dd>
                 <p id='_'>Definition 5</p>
               </dd>
-              <dt>x_m_</dt>
+              <dt  id='symbol-x_m_'>x_m_</dt>
               <dd>
                 <p id='_'>Definition 4</p>
               </dd>
-              <dt>x_1_</dt>
+              <dt id='symbol-x_1_'>x_1_</dt>
               <dd>
                 <p id='_'>Definition 3</p>
               </dd>
-              <dt>Xa</dt>
+              <dt id='symbol-xa'>Xa</dt>
               <dd>
                 <p id='_'>Definition 2</p>
               </dd>
-              <dt>α</dt>
+              <dt  id='symbol-&#945;'>α</dt>
               <dd>
                 <p id='_'>Definition 1</p>
               </dd>
@@ -1993,11 +1993,11 @@ RSpec.describe Asciidoctor::Standoc do
           <definitions id='L' obligation="normative">
             <title>Symbols and abbreviated terms</title>
             <dl id='_'>
-              <dt>x</dt>
+              <dt  id='symbol-x'>x</dt>
               <dd>
                 <p id='_'>Definition 5</p>
               </dd>
-              <dt><stem type='MathML'>
+              <dt  id='symbol--xm-'><stem type='MathML'>
               <math xmlns='http://www.w3.org/1998/Math/MathML'>
         <msub>
           <mrow>
@@ -2012,7 +2012,7 @@ RSpec.describe Asciidoctor::Standoc do
               <dd>
                 <p id='_'>Definition 4</p>
               </dd>
-              <dt><stem type='MathML'>
+              <dt  id='symbol--x1-'><stem type='MathML'>
                <math xmlns='http://www.w3.org/1998/Math/MathML'>
          <msub>
            <mrow>
@@ -2027,11 +2027,11 @@ RSpec.describe Asciidoctor::Standoc do
               <dd>
                 <p id='_'>Definition 3</p>
               </dd>
-              <dt>xa</dt>
+              <dt  id='symbol-xa'>xa</dt>
               <dd>
                 <p id='_'>Definition 2</p>
               </dd>
-              <dt>
+              <dt  id='symbol--&#945;-'>
               <stem type='MathML'>
         <math xmlns='http://www.w3.org/1998/Math/MathML'>
           <mi>α</mi>
