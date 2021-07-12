@@ -59,14 +59,15 @@ module Asciidoctor
         found = false
         doc.xpath("//concept/xref").each do |x|
           next if doc.at("//term[@id = '#{x['target']}']")
+          next if doc.at("//definitions//dt[@id = '#{x['target']}']")
 
           ref = x&.at("../refterm")&.text
           @log.add("Anchors", x, "Concept #{ref} is pointing to "\
-                   "#{x['target']}, which is not a term")
+                   "#{x['target']}, which is not a term or symbol")
           found = true
         end
-        found and
-          clean_abort("Concept not cross-referencing term", doc.to_xml)
+        found and clean_abort("Concept not cross-referencing term or symbol",
+                              doc.to_xml)
       end
 
       def repeat_id_validate1(ids, elem)

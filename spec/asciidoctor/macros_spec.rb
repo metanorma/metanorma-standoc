@@ -308,6 +308,131 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes the Asciidoctor::Standoc concept macros for acronyms" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      {{Clause1}}
+      {{Clause1,Clause 1}}
+      {{Clause 2}}
+      {{Clause 2,Clause 1}}
+      {{<<Clause2>>,Clause 2}}
+      symbol:[Clause1]
+      symbol:[Clause1,word]
+      symbol:[Clause 2]
+      symbol:[Clause 2,word]
+      {{<<Clause2>>,word}}
+      {{<<Clause2>>,word,term}}
+      {{<<Clause2>>,word,term,xref}}
+      {{<<Clause2>>,word,term,xref,option="noital,noref"}}
+
+      == Terms and definitions
+      === Clause1
+      == Symbols and Abbreviated Terms
+      Clause1:: A
+      [[Clause2]]Clause 2:: C
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+       <preface>
+                 <foreword id='_' obligation='informative'>
+                   <title>Foreword</title>
+                   <p id='_'>
+                                  <concept>
+                 <refterm>Clause1</refterm>
+                 <renderterm>Clause1</renderterm>
+                 <xref target='term-clause1'/>
+               </concept>
+               <concept>
+                 <refterm>Clause1</refterm>
+                 <renderterm>Clause 1</renderterm>
+                 <xref target='term-clause1'/>
+               </concept>
+               <concept>
+                 <refterm>Clause 2</refterm>
+                 <renderterm>Clause 2</renderterm>
+                 <xref target='Clause2'/>
+               </concept>
+               <concept>
+                 <refterm>Clause 2</refterm>
+                 <renderterm>Clause 1</renderterm>
+                 <xref target='Clause2'/>
+               </concept>
+               <concept>
+                 <refterm>Clause 2</refterm>
+                 <renderterm>Clause 2</renderterm>
+                 <xref target='Clause2'/>
+               </concept>
+               <concept>
+                 <refterm>Clause1</refterm>
+                 <renderterm>Clause1</renderterm>
+                 <xref target='symbol-clause1'/>
+               </concept>
+               <concept>
+                 <refterm>Clause1</refterm>
+                 <renderterm>word</renderterm>
+                 <xref target='symbol-clause1'/>
+               </concept>
+               <concept>
+                 <refterm>Clause 2</refterm>
+                 <renderterm>Clause 2</renderterm>
+                 <xref target='Clause2'/>
+               </concept>
+               <concept>
+                 <refterm>Clause 2</refterm>
+                 <renderterm>word</renderterm>
+                 <xref target='Clause2'/>
+               </concept>
+               <concept>
+                 <refterm>word</refterm>
+                 <renderterm>word</renderterm>
+                 <xref target='Clause2'/>
+               </concept>
+               <concept>
+                 <refterm>word</refterm>
+                 <renderterm>term</renderterm>
+                 <xref target='Clause2'/>
+               </concept>
+               <concept>
+                 <refterm>word</refterm>
+                 <renderterm>term</renderterm>
+                 <xref target='Clause2'>xref</xref>
+               </concept>
+               <concept noital='true' noref='true'>
+                 <refterm>word</refterm>
+                 <renderterm>term</renderterm>
+                 <xref target='Clause2'>xref</xref>
+               </concept>
+                   </p>
+                 </foreword>
+               </preface>
+               <sections>
+                 <terms id='_' obligation='normative'>
+                   <title>Terms and definitions</title>
+                   <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+                   <term id='term-clause1'>
+                     <preferred>Clause1</preferred>
+                   </term>
+                 </terms>
+                 <definitions id='_' obligation='normative'>
+                   <title>Symbols and abbreviated terms</title>
+                   <dl id='_'>
+                     <dt id="symbol-clause1">Clause1</dt>
+                     <dd>
+                       <p id='_'>A</p>
+                     </dd>
+                     <dt id='Clause2'>Clause 2</dt>
+                     <dd>
+                       <p id='_'>C</p>
+                     </dd>
+                   </dl>
+                 </definitions>
+               </sections>
+             </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes the concept macros with xrefs" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1161,79 +1286,79 @@ RSpec.describe Asciidoctor::Standoc do
       end
       let(:output) do
         <<~XML
-          #{BLANK_HDR}
-                 <sections>
-           <terms id='_' obligation='normative'>
-             <title>Terms and definitions</title>
-             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-             <term id='term-name-identity'>
-               <preferred>name identity</preferred>
-             </term>
-             <term id='name-check'>
-               <preferred>name check</preferred>
-               <definition>
-                 <p id='_'>paragraph</p>
-                 <p id='_'>
-                   <concept>
-                     <refterm>name check</refterm>
-                     <renderterm>name check</renderterm>
-                     <xref target='name-check'/>
-                   </concept>
-                    is a term
-                 </p>
-                 <p id='_'>
-                   <concept>
-                     <refterm>name identity</refterm>
-                     <renderterm>name identity</renderterm>
-                     <xref target='term-name-identity'/>
-                   </concept>
-                    is a term
-                 </p>
-                 <p id='_'>
-                   Moreover,
-                   <concept>
-                     <strong>
-                       term
-                       <tt>missing</tt>
-                        not resolved via ID
-                       <tt>missing</tt>
-                     </strong>
-                   </concept>
-                    is a term
-                 </p>
-                 <p id='_'>
-                   <concept>
-                     <refterm>name check</refterm>
-                     <renderterm>name check</renderterm>
-                     <xref target='name-check'/>
-                   </concept>
-                    is a term
-                 </p>
-                 <p id='_'>
-                   <concept>
-                     <refterm>name identity</refterm>
-                     <renderterm>name identity</renderterm>
-                     <xref target='term-name-identity'/>
-                   </concept>
-                    is a term
-                 </p>
-                 <p id='_'>
-                   Moreover,
-                   <concept>
-                     <strong>
-                       term
-                       <tt>missing</tt>
-                        not resolved via ID
-                       <tt>missing</tt>
-                     </strong>
-                   </concept>
-                    is a term
-                 </p>
-               </definition>
-             </term>
-           </terms>
-         </sections>
-       </standard-document>
+             #{BLANK_HDR}
+                    <sections>
+              <terms id='_' obligation='normative'>
+                <title>Terms and definitions</title>
+                <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+                <term id='term-name-identity'>
+                  <preferred>name identity</preferred>
+                </term>
+                <term id='name-check'>
+                  <preferred>name check</preferred>
+                  <definition>
+                    <p id='_'>paragraph</p>
+                    <p id='_'>
+                      <concept>
+                        <refterm>name check</refterm>
+                        <renderterm>name check</renderterm>
+                        <xref target='name-check'/>
+                      </concept>
+                       is a term
+                    </p>
+                    <p id='_'>
+                      <concept>
+                        <refterm>name identity</refterm>
+                        <renderterm>name identity</renderterm>
+                        <xref target='term-name-identity'/>
+                      </concept>
+                       is a term
+                    </p>
+                    <p id='_'>
+                      Moreover,
+                      <concept>
+                        <strong>
+                          term
+                          <tt>missing</tt>
+                           not resolved via ID
+                          <tt>missing</tt>
+                        </strong>
+                      </concept>
+                       is a term
+                    </p>
+                    <p id='_'>
+                      <concept>
+                        <refterm>name check</refterm>
+                        <renderterm>name check</renderterm>
+                        <xref target='name-check'/>
+                      </concept>
+                       is a term
+                    </p>
+                    <p id='_'>
+                      <concept>
+                        <refterm>name identity</refterm>
+                        <renderterm>name identity</renderterm>
+                        <xref target='term-name-identity'/>
+                      </concept>
+                       is a term
+                    </p>
+                    <p id='_'>
+                      Moreover,
+                      <concept>
+                        <strong>
+                          term
+                          <tt>missing</tt>
+                           not resolved via ID
+                          <tt>missing</tt>
+                        </strong>
+                      </concept>
+                       is a term
+                    </p>
+                  </definition>
+                </term>
+              </terms>
+            </sections>
+          </standard-document>
         XML
       end
 

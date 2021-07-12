@@ -37,6 +37,7 @@ module Asciidoctor
         inline_macro Asciidoctor::Standoc::VariantInlineMacro
         inline_macro Asciidoctor::Standoc::FootnoteBlockInlineMacro
         inline_macro Asciidoctor::Standoc::TermRefInlineMacro
+        inline_macro Asciidoctor::Standoc::SymbolRefInlineMacro
         inline_macro Asciidoctor::Standoc::IndexXrefInlineMacro
         inline_macro Asciidoctor::Standoc::IndexRangeInlineMacro
         inline_macro Asciidoctor::Standoc::AddMacro

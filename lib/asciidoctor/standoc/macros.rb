@@ -75,7 +75,7 @@ module Asciidoctor
       def supply_br(lines)
         ignore = false
         lines.each_with_index do |l, i|
-          /^(--+|====+|\|===|\.\.\.\.+|\*\*\*\*+|\+\+\+\++|\`\`\`\`+|____\+)$/
+          /^(--+|====+|\|===|\.\.\.\.+|\*\*\*\*+|\+\+\+\++|````+|____\+)$/
             .match(l) && (ignore = !ignore)
           next if l.empty? || l.match(/ \+$/) || /^\[.*\]$/.match?(l) || ignore
           next if i == lines.size - 1 ||
@@ -107,7 +107,7 @@ module Asciidoctor
         if (attributes.size == 1) && attributes.key?("text")
           rt = attributes["text"]
         elsif (attributes.size == 2) && attributes.key?(1) &&
-          attributes.key?("rpbegin")
+            attributes.key?("rpbegin")
           rt = attributes[1] || ""
         else
           rpbegin = attributes["rpbegin"]
@@ -143,7 +143,7 @@ module Asciidoctor
           para.set_attr("caption", "TODO")
           para.lines[0].sub!(/^TODO: /, "")
           todo = Block.new(parent, :admonition, attributes: para.attributes,
-                           source: para.lines, content_model: :compound)
+                                                source: para.lines, content_model: :compound)
           parent.blocks[parent.blocks.index(para)] = todo
         end
       end
@@ -168,9 +168,11 @@ module Asciidoctor
       def process(parent, target, attrs)
         /^(?<lang>[^-]*)(-(?<script>.*))?$/ =~ target
         out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
-        script ?
-          %{<variant lang=#{lang} script=#{script}>#{out}</variant>} :
+        if script
+          %{<variant lang=#{lang} script=#{script}>#{out}</variant>}
+        else
           %{<variant lang=#{lang}>#{out}</variant>}
+        end
       end
     end
 
