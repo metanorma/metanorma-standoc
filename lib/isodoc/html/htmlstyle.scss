@@ -53,7 +53,7 @@ main {
 */
 
 #toc {
-  @include toc(#485094, #6C734A, #485094);
+  @include toc(#485094, #C70039, #485094);
   @include sidebarToc();
 
   .toc-active a {
@@ -88,7 +88,7 @@ nav {
 }
 
 #toggle {
-  @include sidebarNavToggle(white, #6C734A)
+  @include sidebarNavToggle(white, #C70039)
 }
 
 @media screen and (min-width: 768px) {
@@ -161,7 +161,7 @@ p.document-stage {
 
   h1,h2,h3,h4,h5,h6 {
     font-family: $headerfont;
-    color: #6C734A;
+    color: #C70039;
     font-weight: 300;
     margin-top: 1.6em;
     margin-bottom: 0.3em;
@@ -190,7 +190,7 @@ p.document-stage {
   }
 
   .TermNum, .Terms, .AltTerms {
-    color: #6C734A;
+    color: #C70039;
     font-weight: 100;
   }
 
@@ -215,7 +215,7 @@ p.document-stage {
 /*
     3.2 Links
 */
-@include elementStyles(#485094, #6C734A, white);
+@include elementStyles(#485094, #C70039, white);
 
 /*
     3.3 Lists
@@ -430,15 +430,15 @@ a.footnote-number {
   margin-top: 5em;
   width: 250px;
   text-align: left;
-  border: #6C734A solid 2px;
-  color: #6C734A!important;
+  border: #C70039 solid 2px;
+  color: #C70039!important;
   border-radius: 25px;
 
 }
 
 .contact-info a,
 .contact-info a:hover {
-  color: #6C734A;
+  color: #C70039;
 }
 
 .contact-info p, .contact-info a {
@@ -494,7 +494,7 @@ h2 p {
 }
 
 .wrapper-top {
-  background: linear-gradient(200deg, #007864, #6C734A);
+  background: linear-gradient(200deg, #007864, #C70039);
   color: #ffffff;
   padding: 2em 0;
   width: 100%;
@@ -503,7 +503,7 @@ h2 p {
 .wrapper-top-bottom {
   width: 0;
   height: 0;
-  border-top: 100px solid #6C734A;
+  border-top: 100px solid #C70039;
   border-right: 100px solid transparent;
   position: absolute;
 }

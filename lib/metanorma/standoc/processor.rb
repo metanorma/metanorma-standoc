@@ -20,12 +20,16 @@ module Metanorma
         "Metanorma::Standoc #{Metanorma::Standoc::VERSION}/IsoDoc #{IsoDoc::VERSION}"
       end
 
+      def html_path(file)
+        File.join(File.dirname(__FILE__), "..", "..", "isodoc", "html", file)
+      end
+
       def output(isodoc_node, inname, outname, format, options = {})
         case format
         when :html
           options = options
-            .merge(htmlstylesheet: File.join(File.dirname(__FILE__),
-                                             "..", "..", "isodoc", "html", "htmlstylesheet.scss"))
+            .merge(htmlstylesheet: html_path("htmlstyle.scss"),
+                  htmlcoverpage: html_path("html_titlepage.html"))
           IsoDoc::HtmlConvert.new(options)
             .convert(inname, isodoc_node, nil, outname)
         when :doc

@@ -1,0 +1,72 @@
+<div id='toggle'> <span>•</span> </div>
+{% if tc_docnumber.size > 0 %}
+    {% for num in tc_docnumber %}
+<p class="coverpage_docnumber">{{ num }}</p>
+    {% endfor %}
+    {% else %}
+<p class="coverpage_docnumber">{{ docnumber_lang }} {{ draftinfo }}</p>
+    {% endif %}
+
+{% if revdate %}
+<p class="coverpage_docnumber">{{ labels["date"]}}: {{ revdate }}</p>
+{% endif %}
+
+{% if tc_docnumber.size > 0 %}
+<p class="coverpage_docnumber">{{ docnumber_lang }} {{ draftinfo }}</p>
+{% endif %}
+
+<p class="coverpage_techcommittee">{{ agency }}/{{ editorialgroup | join: "/" }}</p>
+
+<p class="coverpage_techcommittee"><a
+name="CVP_Secretariat_Loca">Secretariat</a>: {{ secretariat }}</p>
+
+<div class="doctitle-en"><div><span class="title">{{ doctitleintro }}{% if doctitleintro and doctitlemain %} &mdash; {% endif %}</span><span class="subtitle">{{ doctitlemain }}{% if doctitlemain and doctitlepart %} &mdash;{% endif %}</span>
+  {% if doctitlepart %}
+</div><div class="doctitle-part">
+  {% if doctitlepartlabel %}<span class="partlabel">{{ doctitlepartlabel }}: </span>{% endif %}
+  <span class="part">{{ doctitlepart }}</span>
+  {% endif %}
+</div>
+{% if doctitleamdlabel %}
+<div class="doctitle-part">{{ doctitleamdlabel }}{% if doctitleamd %}: {{ doctitleamd }}{% endif %}</div>
+{% endif %}
+{% if doctitlecorrlabel %}
+<div class="doctitle-part">{{ doctitlecorrlabel }}</div>
+{% endif %}
+</div>
+
+<div class="doctitle-fr"><div><span class="title">{{ docsubtitleintro }}{% if docsubtitleintro and docsubtitlemain %} &mdash; {% endif %}</span><span class="subtitle">{{ docsubtitlemain }}{% if docsubtitlemain and docsubtitlepart %} &mdash;{% endif %}</span>
+  {% if docsubtitlepart %}
+  </div><div>
+  {% if docsubtitlepartlabel %}<span class="partlabel">{{ docsubtitlepartlabel }}: </span>{% endif %}
+  <span class="part">{{ docsubtitlepart }}</span>
+  {% endif %}
+</div>
+{% if docsubtitleamdlabel %}
+<div>{{ docsubtitleamdlabel }}{% if docsubtitleamd %}: {{ docsubtitleamd }}{% endif %}</div>
+{% endif %}
+{% if docsubtitlecorrlabel %}
+<div>{{ docsubtitlecorrlabel }}</div>
+{% endif %}
+</div>
+
+<div class="coverpage_docstage">
+  {% if unpublished %}
+  <p>{{ stageabbr }} stage</p>
+  {% endif %}
+</div>
+
+{% if unpublished %}
+<div class="coverpage_warning">
+  <div id="boilerplate-license-destination"/>
+</div>
+{% endif %}
+
+{% if ics %}
+<p><b>ICS:</b> {{ ics }}</p>
+{% endif %}
+
+{% if keywords.size > 0 %}
+<p><b>Descriptors:</b> {{ keywords | join: ", " }}
+{% endif %}
+
