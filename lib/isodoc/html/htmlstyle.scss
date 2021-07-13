@@ -44,10 +44,6 @@ body {
   }
 }
 
-main {
-  margin: 0 3em 0 6em;
-}
-
 /*
     2. Responsive navigation layout
 */
@@ -494,7 +490,7 @@ h2 p {
 }
 
 .wrapper-top {
-  background: linear-gradient(200deg, #007864, #C70039);
+  background:  #C70039;
   color: #ffffff;
   padding: 2em 0;
   width: 100%;
@@ -504,7 +500,6 @@ h2 p {
   width: 0;
   height: 0;
   border-top: 100px solid #C70039;
-  border-right: 100px solid transparent;
   position: absolute;
 }
 

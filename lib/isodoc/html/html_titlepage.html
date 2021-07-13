@@ -1,72 +1,81 @@
-<div id='toggle'> <span>•</span> </div>
-{% if tc_docnumber.size > 0 %}
-    {% for num in tc_docnumber %}
-<p class="coverpage_docnumber">{{ num }}</p>
-    {% endfor %}
-    {% else %}
-<p class="coverpage_docnumber">{{ docnumber_lang }} {{ draftinfo }}</p>
-    {% endif %}
+<div class="document-stage-band" id="{{ stage | downcase | replace: ' ', '-' }}-band">
+    <p class="document-stage">{{ stage_display }}</p>
+</div>
 
-{% if revdate %}
-<p class="coverpage_docnumber">{{ labels["date"]}}: {{ revdate }}</p>
-{% endif %}
+<div class="document-type-band" id="{{ doctype | downcase | replace: ' ', '-' }}-band">
+  <p class="document-type">{{org_abbrev}} {{ doctype_display }}</p>
+</div>
 
-{% if tc_docnumber.size > 0 %}
-<p class="coverpage_docnumber">{{ docnumber_lang }} {{ draftinfo }}</p>
-{% endif %}
 
-<p class="coverpage_techcommittee">{{ agency }}/{{ editorialgroup | join: "/" }}</p>
 
-<p class="coverpage_techcommittee"><a
-name="CVP_Secretariat_Loca">Secretariat</a>: {{ secretariat }}</p>
+  <div id='toggle'> <span>&#x2022;</span> </div>
 
-<div class="doctitle-en"><div><span class="title">{{ doctitleintro }}{% if doctitleintro and doctitlemain %} &mdash; {% endif %}</span><span class="subtitle">{{ doctitlemain }}{% if doctitlemain and doctitlepart %} &mdash;{% endif %}</span>
-  {% if doctitlepart %}
-</div><div class="doctitle-part">
-  {% if doctitlepartlabel %}<span class="partlabel">{{ doctitlepartlabel }}: </span>{% endif %}
-  <span class="part">{{ doctitlepart }}</span>
+  <header>
+
+<!--<div class="WordSection1">-->
+  <div class="coverpage">
+    <div class="wrapper-top">
+
+  <div class="coverpage-doc-identity">
+    <div class="doc-number">
+      <span class="docnumber">{{ docnumber }}</span>
+      <span class="docnumber-separator">:</span>
+      <span class="docyear">{{ docyear }} {{ draftinfo }}</span>
+    </div>
+
+    <div class="coverpage-title">
+      {% if appendixtitle or parttitle or subparttitle %}
+      <span class="title-third">{{ doctitle }}</span>
+      <span class="title-third">{{ docsubtitle }}</span><br/>
+      {% if partid %}<span class="title-first">{{ partid}}: {{ parttitle }}</span><br/>{% endif %}
+      {% if partid_alt %}<span class="title-second">{{ partid_alt}}: {{ partsubtitle }}</span>{% endif %}       
+      {% if subparttitle %}<span class="title-first">{{ subparttitle }}</span><br/>{% endif %}
+      {% if subpartsubtitle %}<span class="title-second">{{ subpartsubtitle }}</span><br/>{% endif %}
+      {% if provenancetitle %}<span class="title-first">{{ provenancetitle }}</span><br/>{% endif %}
+      {% if provenancesubtitle %}<span class="title-second">{{ provenancesubtitle }}</span><br/>{% endif %}
+      {% if appendixid %}<span class="title-first">{{ appendixid}}: {{ appendixtitle }}</span><br/>{% endif %} 
+      {% if appendixid_alt %}<span class="title-second">{{ appendixid_alt}}: {{ appendixsubtitle }}</span>{% endif %}
+      {% if annexid %}<span class="title-first">{{ annexid}}: {{ annextitle }}</span><br/>{% endif %} 
+      {% if annexid_alt %}<span class="title-second">{{ annexid_alt}}: {{ annexsubtitle }}</span>{% endif %}
+      {% else %}
+      <span class="title-first">{{ doctitle }}</span><br/>
+      <span class="title-second">{{ docsubtitle }}</span>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if authors %}
+  <div class="coverpage-tc-name">
+    {% for item in authors %}
+    <span>{{item}} {% if authors_affiliations[forloop.index0] %}({{ authors_affiliations[forloop.index0] }}){% endif %}{% if forloop.last == false %}, {% endif %}{% endfor %}.
+  </div>
   {% endif %}
-</div>
-{% if doctitleamdlabel %}
-<div class="doctitle-part">{{ doctitleamdlabel }}{% if doctitleamd %}: {{ doctitleamd }}{% endif %}</div>
-{% endif %}
-{% if doctitlecorrlabel %}
-<div class="doctitle-part">{{ doctitlecorrlabel }}</div>
-{% endif %}
+
+
+  </div>
+
+    <div class="wrapper-top-bottom"></div>
+
+  <div class="WordSection11">
+  <div class="coverpage-stage-block" >
+    <span class="coverpage-stage" id="{{ doctype | replace: ' ', '-' | downcase }}">{{org_abbrev}} {{ doctype_display }}</span>
+  </div>
+
+  <div class="coverpage-stage-block" >
+    <p><span class="coverpage-maturity" id="{{ stage | replace: ' ', '-' | downcase }}">{{ stage_display }}</span></p>
 </div>
 
-<div class="doctitle-fr"><div><span class="title">{{ docsubtitleintro }}{% if docsubtitleintro and docsubtitlemain %} &mdash; {% endif %}</span><span class="subtitle">{{ docsubtitlemain }}{% if docsubtitlemain and docsubtitlepart %} &mdash;{% endif %}</span>
-  {% if docsubtitlepart %}
-  </div><div>
-  {% if docsubtitlepartlabel %}<span class="partlabel">{{ docsubtitlepartlabel }}: </span>{% endif %}
-  <span class="part">{{ docsubtitlepart }}</span>
-  {% endif %}
-</div>
-{% if docsubtitleamdlabel %}
-<div>{{ docsubtitleamdlabel }}{% if docsubtitleamd %}: {{ docsubtitleamd }}{% endif %}</div>
-{% endif %}
-{% if docsubtitlecorrlabel %}
-<div>{{ docsubtitlecorrlabel }}</div>
-{% endif %}
-</div>
-
-<div class="coverpage_docstage">
-  {% if unpublished %}
-  <p>{{ stageabbr }} stage</p>
-  {% endif %}
-</div>
-
-{% if unpublished %}
-<div class="coverpage_warning">
+<div class="info-section">
+<div class="copyright">
+<div id="boilerplate-copyright-destination"/>
   <div id="boilerplate-license-destination"/>
+  <div id="boilerplate-legal-destination"/>
+<div id="boilerplate-feedback-destination"/>
 </div>
-{% endif %}
 
-{% if ics %}
-<p><b>ICS:</b> {{ ics }}</p>
-{% endif %}
+<div class="rule"></div>
+</div>
+  </div>
 
-{% if keywords.size > 0 %}
-<p><b>Descriptors:</b> {{ keywords | join: ", " }}
-{% endif %}
 
+</header>
