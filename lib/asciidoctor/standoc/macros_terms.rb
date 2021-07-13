@@ -94,8 +94,10 @@ module Asciidoctor
 
       def generate_attrs(opts)
         ret = ""
-        opts.include?("noital") and ret += " noital='true'"
-        opts.include?("noref") and ret += " noref='true'"
+        opts.include?("noital") and ret += " ital='false'"
+        opts.include?("noref") and ret += " ref='false'"
+        opts.include?("ital") and ret += " ital='true'"
+        opts.include?("ref") and ret += " ref='true'"
         ret
       end
 

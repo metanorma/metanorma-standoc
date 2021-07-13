@@ -283,7 +283,7 @@ RSpec.describe Asciidoctor::Standoc do
                    <tt>blah</tt>
                  </strong>
                </concept>
-               <concept noital='true' noref='true'>
+               <concept ital='false' ref='false'>
                  <strong>
                    term
                    <tt>blah</tt>
@@ -324,6 +324,7 @@ RSpec.describe Asciidoctor::Standoc do
       {{<<Clause2>>,word,term}}
       {{<<Clause2>>,word,term,xref}}
       {{<<Clause2>>,word,term,xref,option="noital,noref"}}
+      {{<<Clause2>>,word,term,xref,option="ital,ref"}}
 
       == Terms and definitions
       === Clause1
@@ -397,7 +398,12 @@ RSpec.describe Asciidoctor::Standoc do
                  <renderterm>term</renderterm>
                  <xref target='Clause2'>xref</xref>
                </concept>
-               <concept noital='true' noref='true'>
+                <concept ital='false' ref='false'>
+                  <refterm>word</refterm>
+                  <renderterm>term</renderterm>
+                  <xref target='Clause2'>xref</xref>
+                </concept>
+                <concept ital='true' ref='true'>
                  <refterm>word</refterm>
                  <renderterm>term</renderterm>
                  <xref target='Clause2'>xref</xref>
