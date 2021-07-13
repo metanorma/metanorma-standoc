@@ -1,0 +1,719 @@
+/*
+  0 CSS RESET
+*/
+
+/* http://meyerweb.com/eric/tools/css/reset/
+  v2.0 | 20110126
+  License: none (public domain)
+*/
+
+$doctype-colors-list: (
+  brochure: #0AC442,
+  mise-en-pratique: #540D6E,
+  rapport: #D183C9,
+  monographie: #65AFFF,
+  guide: #3A405A,
+  meeting-report: #F26430,
+  technical-report: #C84630,
+  working-part-note: #BFAE48,
+  strategy: #BD9391,
+  cipm-mra: #004E64,
+  resolution: #53C170
+);
+
+
+$docstage-colors-list: (
+  draft-proposal: #39A0ED,
+  draft-development: #2D7393,
+  in-force: #53C170,
+  retired: #2E382E
+);
+
+@import 'base_style/all';
+
+/*
+    1. HTML & Body
+*/
+
+body {
+  @include bodyStyle1($normalfontsize, 1.4em, #1d1d1d, #ffffff, 300);
+  font-weight: 400;
+
+  pre * {
+    font-family: $bodyfont !important;
+  }
+}
+
+main {
+  margin: 0 3em 0 6em;
+}
+
+/*
+    2. Responsive navigation layout
+*/
+
+#toc {
+  @include toc(#485094, #6C734A, #485094);
+  @include sidebarToc();
+
+  .toc-active a {
+    color: white;
+  }
+
+  .toc-active,
+  li:hover {
+    box-shadow: none !important;
+
+    a {
+      color: white;
+      background: none;
+      box-shadow: none;
+    }
+  }
+
+  li a {
+    text-transform: uppercase;
+  }
+
+  ul {
+    a:hover {
+      box-shadow: none;
+      color: white;
+    }
+  }
+}
+
+nav {
+  @include sidebarNav(#f7f7f7, 323px, 45px);
+}
+
+#toggle {
+  @include sidebarNavToggle(white, #6C734A)
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    padding-left: 360px;
+  }
+
+  .rule.toc {
+    display: none;
+  }
+
+  h1.toc-contents {
+    margin-top: 1em;
+  }
+
+  ul#toc-list {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+div.figure {
+  @include figureBlock();
+}
+
+/*
+    Document types + stages
+*/
+
+.document-type-band {
+  @include docBand($order: 2, $offset: 180px);
+
+  .document-type {
+    top: 20px;
+  }
+}
+
+.document-stage-band {
+  @include docBand(1, 150);
+}
+
+.document-stage-band> :first-child {
+  font-weight: 300;
+}
+
+p.document-stage {
+  @include docBandTitle(150);
+}
+
+#governance-band p.document-type {
+  height: 230px !important;
+}
+
+p.document-stage {
+  font-weight: 300;
+  height: 160px;
+}
+
+.coverpage-maturity {
+  @include coverpageStageBlock();
+}
+
+/*
+    3. TYPOGRAPHY
+*/
+
+/*
+    3.1 Titles
+*/
+
+  h1,h2,h3,h4,h5,h6 {
+    font-family: $headerfont;
+    color: #6C734A;
+    font-weight: 300;
+    margin-top: 1.6em;
+    margin-bottom: 0.3em;
+  }
+
+  h1 {
+    font-size: 1.6em;
+    text-transform: uppercase;
+    margin-top: 2em;
+  }
+
+  h1#content {
+      margin-top: 2em;
+  }
+
+  h2 {
+    margin-top: 1.3em;
+    font-size: 1.3em;
+    font-weight: 400;
+  }
+
+  h3 {
+    margin-top: 1.1em;
+    font-size: 1.1em;
+    font-weight: 100;
+  }
+
+  .TermNum, .Terms, .AltTerms {
+    color: #6C734A;
+    font-weight: 100;
+  }
+
+  h2.TermNum {
+    margin-bottom: 0;
+  }
+
+  p.Terms {
+    font-size: 1.1em;
+    line-height: 1.5em;
+    margin: 0;
+  }
+
+  p.AltTerms {
+    /*
+    font-style: italic;
+     */
+    font-size: 1.1em;
+    margin: 0;
+  }
+
+/*
+    3.2 Links
+*/
+@include elementStyles(#485094, #6C734A, white);
+
+/*
+    3.3 Lists
+*/
+
+ul, ol {
+  margin-left: 1.2em;
+}
+
+ul  li {
+  list-style: none;
+}
+
+ul li:before {
+  content: "—";
+  display: inline-block; width: 1em;
+  margin-left: -1.2em;
+}
+
+ul li p {
+  display: inline;
+}
+
+ul li:first-child {
+  margin-top: 1em;
+}
+
+#toc-list ul {
+  margin-bottom: 0.25em;
+}
+
+#toc-list li {
+  list-style-type: none;
+}
+
+#toc li:before {
+  content: " ";
+  display: none;
+}
+
+/* https://github.com/metanorma/metanorma-bipm/issues/47 */
+
+ol[class="alphabet"] {
+  counter-reset: alphabet;
+}
+ol[class="roman"] {
+  counter-reset: roman;
+}
+ol[class="alphabet"] ol[class="alphabet"]  {
+  counter-reset: none;
+}
+ol[class="alphabet"] > li {
+  list-style: none;
+  position: relative;
+}
+ol[class="alphabet"] ol[class="alphabet"] > li {
+  list-style: inherit;
+}
+ol[class="alphabet"] > li:before {
+  counter-increment: alphabet;
+  content: counter(alphabet, lower-alpha)") ";
+  position: absolute;
+  left: -1.4em;
+}
+ol[class="alphabet"] ol[class="alphabet"] > li:before {
+  counter-increment: none;
+  content: initial;
+}
+ol[class="roman"] ol[class="roman"]  {
+  counter-reset: none;
+}
+ol[class="roman"] > li {
+  list-style: none;
+  position: relative;
+}
+ol[class="roman"] ol[class="roman"] > li {
+  list-style: inherit;
+}
+ol[class="roman"] > li:before {
+  counter-increment: roman;
+  content: "("counter(roman, lower-roman)") ";
+  position: absolute;
+  left: -2.0em;
+}
+ol[class="roman"] ol[class="roman"] > li:before {
+  counter-increment: none;
+  content: initial;
+}
+
+
+
+/*
+    3.4 Rules
+*/
+.rule {
+  @include rule(1px, #0e1a85)
+}
+
+/*
+    3.5 Bibliograhy
+*/
+
+p.Biblio, p.NormRef {
+    margin-top: 1em;
+    margin-left: 2em;
+}
+
+/*
+    3.6 Source Code + figures
+*/
+
+.figure,
+pre,
+.pseudocode {
+  @include pseudocodeBlock(#f7f7f7);
+}
+
+pre {
+  @include monospaceBlockStyle()
+}
+
+@include admonitionBlock();
+@include recommendationBlock();
+
+.FigureTitle,
+.SourceTitle {
+  @include blockTitle()
+}
+
+/*
+    3.7 Notes
+*/
+
+.Note {
+  background-color: #fff495;
+  color: #47430c;
+  padding: 1.2em;
+  margin: 1em 0 1em 0;
+
+  p {
+      margin: 0;
+  }
+}
+
+/*
+    3.8 Examples
+*/
+
+.example {
+  @include exampleBlock(#e1eef1, #424242, 1.2em);
+
+  .example-title {
+    margin-top: 0;
+  }
+
+  pre,
+  .pseudocode {
+    background: none;
+  }
+}
+
+/*
+    3.9 Tables
+*/
+
+table {
+  @include table(1px solid black);
+}
+
+p.TableTitle {
+  text-align: center;
+  margin-top: 2.5em;
+  font-weight: 400;
+}
+
+/*
+  3.10 Footnotes
+*/
+
+a.footnote-number {
+  vertical-align: super;
+  font-size: 0.8em;
+}
+
+.footnote {
+    font-size: $footnotefontsize;
+}
+
+
+/*
+    3.11 Blockquotes
+*/
+
+.Quote {
+  @include blockquoteBlock(#f2f2f2);
+}
+
+/*
+    3.12 Formulas
+*/
+
+.formula {
+  @include formulaBlock(#f7f7f7)
+}
+
+/*
+    3.13 Contact Info
+*/
+
+.contact-info {
+  padding: 2em;
+  margin-top: 5em;
+  width: 250px;
+  text-align: left;
+  border: #6C734A solid 2px;
+  color: #6C734A!important;
+  border-radius: 25px;
+
+}
+
+.contact-info a,
+.contact-info a:hover {
+  color: #6C734A;
+}
+
+.contact-info p, .contact-info a {
+  font-family: $monospacefont;
+  font-weight: 400;
+}
+
+.contact-info .name {
+  font-weight: 700;
+  font-size: 1.2em;
+  margin-bottom:0;
+}
+
+.contact-info .address {
+  font-size: 1em;
+  line-height: 1.3em;
+  margin-top:0;
+}
+
+/*
+    Keywords
+*/
+
+span.keyword {
+    font-weight: 600;
+}
+
+/*
+    Paragraphs
+*/
+
+p {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+h2 p {
+  display: inline;
+}
+
+
+/*
+    4.0 Page header
+*/
+
+/*
+    4.1 Top Logo
+*/
+
+.icon-svg {
+  width: 100%;
+  color: #5ecf86;
+}
+
+.wrapper-top {
+  background: linear-gradient(200deg, #007864, #6C734A);
+  color: #ffffff;
+  padding: 2em 0;
+  width: 100%;
+}
+
+.wrapper-top-bottom {
+  width: 0;
+  height: 0;
+  border-top: 100px solid #6C734A;
+  border-right: 100px solid transparent;
+  position: absolute;
+}
+
+.doc-number {
+  font-size: 0.5em;
+  font-family: $bodyfont;
+}
+
+.coverpage-title {
+  padding-bottom: 0.5em;
+  font-family: $headerfont;
+  font-size: 1.2em;
+  line-height: 1.5em;
+  font-weight: 100;
+  padding-left: 1em;
+  padding-right: 1em;
+  text-transform: uppercase;
+}
+
+.WordSection11 {
+  padding: 0 2em 0 3em;
+}
+
+ .info-section {
+  padding: 0 2em 0 5em;
+}
+
+.prefatory-section {
+  padding: 0 3em 0 6em;
+}
+
+
+.zzSTDTitle1, .MsoCommentText {
+  display: none;
+}
+
+
+.coverpage {
+  text-align: center;
+  padding-left: 1.5em;
+}
+
+.coverpage-logo span, .coverpage-tc-name span {
+  font-family: $bodyfont;
+    text-transform: none;
+    font-weight: 300;
+}
+
+.coverpage-tc-name {
+  font-size: 1.2em;
+  line-height: 1.2em;
+  margin: 0.25em 0;
+}
+
+/*
+    4.2 Document Identity
+*/
+
+.coverpage-doc-identity {
+  font-size: 2em;
+  line-height: 2em;
+}
+
+.coverpage-title .title-second {
+  font-size: 0.8em;
+}
+
+.coverpage-title .title-third {
+  font-size: 0.6em;
+}
+
+.coverpage-stage-block {
+  font-family: $bodyfont;
+  font-weight: 600;
+  font-size: 1.25em;
+  margin: 2em 0em 2em 0em;
+  text-transform: uppercase;
+}
+
+/*
+    4.3 Draft Warning
+*/
+
+.coverpage-warning {
+  border: #f36f36 solid 2px;
+  color: #f36f36!important;
+  margin: 1em 2em;
+  color: #485094;
+  padding: 2em 1em 1em 1em;
+  border-radius: 25px;
+}
+
+.coverpage-warning .title {
+  font-family: $headerfont;
+  font-weight: 300;
+  text-transform: uppercase;
+  font-size: 1.2em;
+}
+
+
+/*
+    4.4 Copyright
+*/
+
+.copyright {
+  padding: 1em;
+  font-size: 0.9em;
+  text-align: left;
+}
+
+
+/*  .copyright .name, .copyright .address {color: #485094;} */
+
+
+
+/*
+    5.0 Other styles
+*/
+
+
+
+/*
+To top button
+*/
+
+#myBtn {
+  @include toTopBtn(white, #1f8ca0);
+  text-transform: uppercase;
+
+  a.anchorjs-link {
+    @include anchorLink(#485094)
+  }
+}
+
+@page {
+  margin: 2cm 1cm;
+}
+
+@media print {
+  .document-info,  nav, .copyright {
+      page-break-before: always;
+  }
+
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+    margin-top: 1.2em;
+  }
+
+  .note, .figure, pre, .pseudocode, table {
+    page-break-inside: avoid;
+  }
+
+  .info-section {
+    display: none;
+  }
+
+  .coverpage {
+      height: 23cm;
+  }
+
+  .wrapper-top {
+    top: 0;
+    padding-top: 4cm;
+    padding-bottom: 4cm;
+  }
+
+  .wrapper-top-bottom {
+    margin-top: -5px;
+  }
+
+
+  #toggle, .document-stage-band,
+  .document-type-band, button#myBtn {
+      display: none;
+  }
+
+  .container {
+      padding-left: 0;
+  }
+
+  h1.content {
+    margin-top: 2em;
+    line-height: 2.5em;
+  }
+
+  h1 {
+    font-size: 1.5em;
+    line-height: 1.5;
+  }
+
+  h2 {
+    font-size: 1.2em
+  }
+
+  h3 {
+    font-size: 1em;
+  }
+
+  .Note {
+      background-color: #fff495;
+      color: #47430c;
+      padding: 5px;
+      margin: 2em 0 1em 0; }
+
+  .Note p {
+    padding: 0 5px 0 5px;
+  }
+
+  .wrapper-top-bottom {
+    display: none;
+  }
+}

@@ -3,8 +3,7 @@ require "metanorma/processor"
 module Metanorma
   module Standoc
     class Processor < Metanorma::Processor
-
-      def initialize
+      def initialize # rubocop:disable Lint/MissingSuper
         @short = :standoc
         @input_format = :asciidoc
         @asciidoctor_backend = :standoc
@@ -13,7 +12,7 @@ module Metanorma
       def output_formats
         super.merge(
           html: "html",
-          doc: "doc"
+          doc: "doc",
         )
       end
 
@@ -21,14 +20,20 @@ module Metanorma
         "Metanorma::Standoc #{Metanorma::Standoc::VERSION}/IsoDoc #{IsoDoc::VERSION}"
       end
 
-      def output(isodoc_node, inname, outname, format, options={})
+      def output(isodoc_node, inname, outname, format, options = {})
         case format
         when :html
-          IsoDoc::HtmlConvert.new(options).convert(inname, isodoc_node, nil, outname)
+          options = options
+            .merge(htmlstylesheet: File.join(File.dirname(__FILE__),
+                                             "..", "..", "isodoc", "html", "htmlstylesheet.scss"))
+          IsoDoc::HtmlConvert.new(options)
+            .convert(inname, isodoc_node, nil, outname)
         when :doc
-          IsoDoc::WordConvert.new(options).convert(inname, isodoc_node, nil, outname)
+          IsoDoc::WordConvert.new(options)
+            .convert(inname, isodoc_node, nil, outname)
         when :presentation
-          IsoDoc::PresentationXMLConvert.new(options).convert(inname, isodoc_node, nil, outname)
+          IsoDoc::PresentationXMLConvert.new(options)
+            .convert(inname, isodoc_node, nil, outname)
         else
           super
         end
