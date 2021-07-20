@@ -1935,7 +1935,7 @@ RSpec.describe Asciidoctor::Standoc do
       <dd>
         <p id='_'>Definition 7</p>
       </dd>
-      <dt id="symbol--n-">
+      <dt id="symbol-_-n-">
         <stem type='MathML'>
           <math xmlns='http://www.w3.org/1998/Math/MathML'>
             <mi>n</mi>
@@ -1997,7 +1997,7 @@ RSpec.describe Asciidoctor::Standoc do
               <dd>
                 <p id='_'>Definition 5</p>
               </dd>
-              <dt  id='symbol--xm-'><stem type='MathML'>
+              <dt  id='symbol-_-xm-'><stem type='MathML'>
               <math xmlns='http://www.w3.org/1998/Math/MathML'>
         <msub>
           <mrow>
@@ -2012,7 +2012,7 @@ RSpec.describe Asciidoctor::Standoc do
               <dd>
                 <p id='_'>Definition 4</p>
               </dd>
-              <dt  id='symbol--x1-'><stem type='MathML'>
+              <dt  id='symbol-_-x1-'><stem type='MathML'>
                <math xmlns='http://www.w3.org/1998/Math/MathML'>
          <msub>
            <mrow>
@@ -2031,7 +2031,7 @@ RSpec.describe Asciidoctor::Standoc do
               <dd>
                 <p id='_'>Definition 2</p>
               </dd>
-              <dt  id='symbol--&#945;-'>
+              <dt  id='symbol-_-&#945;-'>
               <stem type='MathML'>
         <math xmlns='http://www.w3.org/1998/Math/MathML'>
           <mi>α</mi>
