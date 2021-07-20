@@ -663,6 +663,75 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes the concept macros with disambiguation for math symbols" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [[clause1]]
+
+      == Symbols and Abbreviated Terms
+      stem:[|~ x ~|]:: A function that returns the smallest integer greater than or equal to stem:[x]; also known as the _ceiling_ function.
+      stem:[|__ x __|]:: A function that returns the largest integer less than or equal to stem:[x]; also known as the _floor_ function.
+    INPUT
+    output = <<~OUTPUT
+            #{BLANK_HDR}
+            <sections>
+        <definitions id='clause1' obligation='normative'>
+          <title>Symbols and abbreviated terms</title>
+          <dl id='_'>
+            <dt id='symbol-_-_x_-'>
+              <stem type='MathML'>
+                <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                  <mo>&#8970;</mo>
+                  <mi>x</mi>
+                  <mo>&#8971;</mo>
+                </math>
+              </stem>
+            </dt>
+            <dd>
+              <p id='_'>
+                A function that returns the largest integer less than or equal to
+                <stem type='MathML'>
+                  <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                    <mi>x</mi>
+                  </math>
+                </stem>
+                ; also known as the
+                <em>floor</em>
+                 function.
+              </p>
+            </dd>
+            <dt id='symbol-_-_x_--1'>
+              <stem type='MathML'>
+                <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                  <mo>&#8968;</mo>
+                  <mi>x</mi>
+                  <mo>&#8969;</mo>
+                </math>
+              </stem>
+            </dt>
+            <dd>
+              <p id='_'>
+                A function that returns the smallest integer greater than or equal
+                to
+                <stem type='MathML'>
+                  <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                    <mi>x</mi>
+                  </math>
+                </stem>
+                ; also known as the
+                <em>ceiling</em>
+                 function.
+              </p>
+            </dd>
+          </dl>
+        </definitions>
+      </sections>
+            </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes the TODO custom admonition" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}

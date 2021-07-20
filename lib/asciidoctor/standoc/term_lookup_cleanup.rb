@@ -121,7 +121,7 @@ module Asciidoctor
       end
 
       def normalize_ref_id(text)
-        text.downcase.gsub(/[[:space:]]/, "-")
+        Metanorma::Utils::to_ncname(text.downcase.gsub(/[[:space:]]/, "-"))
       end
 
       def unique_text_id(text, prefix)
