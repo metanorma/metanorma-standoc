@@ -520,7 +520,7 @@ RSpec.describe Asciidoctor::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
           <sections><formula id="_">
-        <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem>
+        <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo></math></stem>
       <note id="_">
         <p id="_">That formula does not do much</p>
       </note></formula>
@@ -551,7 +551,7 @@ RSpec.describe Asciidoctor::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
           <sections><formula id="_">
-        <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem></formula>
+        <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo></math></stem></formula>
       <note id="_">
         <p id="_">That formula does not do much</p>
       </note>
