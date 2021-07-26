@@ -4,7 +4,7 @@ module Asciidoctor
   module Standoc
     module Refs
       def iso_publisher(bib, code)
-        code.sub(/ .*$/, "").split(/\//).each do |abbrev|
+        code.sub(/ .*$/, "").split("/").each do |abbrev|
           bib.contributor do |c|
             c.role **{ type: "publisher" }
             c.organization do |org|
@@ -18,75 +18,78 @@ module Asciidoctor
         { format: "text/plain" }
       end
 
-      def ref_attributes(m)
-        { id: m[:anchor], type: "standard" }
+      def ref_attributes(match)
+        { id: match[:anchor], type: "standard" }
       end
 
-      def isorefrender1(bib, m, yr, allp = "")
-        bib.title(**plaintxt) { |i| i << ref_normalise(m[:text]) }
-        docid(bib, m[:usrlbl]) if m[:usrlbl]
-        docid(bib, id_and_year(m[:code], yr) + allp)
-        docnumber(bib, m[:code])
+      def isorefrender1(bib, match, yr, allp = "")
+        bib.title(**plaintxt) { |i| i << ref_normalise(match[:text]) }
+        docid(bib, match[:usrlbl]) if match[:usrlbl]
+        docid(bib, id_and_year(match[:code], yr) + allp)
+        docnumber(bib, match[:code])
       end
 
-      def isorefmatches(xml, m)
-        yr = norm_year(m[:year])
-        ref = fetch_ref xml, m[:code], yr, title: m[:text], usrlbl: m[:usrlbl],
-          lang: (@lang || :all)
-        return use_my_anchor(ref, m[:anchor]) if ref
+      def isorefmatches(xml, match)
+        yr = norm_year(match[:year])
+        ref = fetch_ref xml, match[:code], yr,
+                        title: match[:text], usrlbl: match[:usrlbl],
+                        lang: (@lang || :all)
+        return use_my_anchor(ref, match[:anchor]) if ref
 
-        xml.bibitem **attr_code(ref_attributes(m)) do |t|
-          isorefrender1(t, m, yr)
+        xml.bibitem **attr_code(ref_attributes(match)) do |t|
+          isorefrender1(t, match, yr)
           yr and t.date **{ type: "published" } do |d|
             set_date_range(d, yr)
           end
-          iso_publisher(t, m[:code])
+          iso_publisher(t, match[:code])
         end
       end
 
-      def isorefmatches2(xml, m)
-        ref = fetch_ref xml, m[:code], nil, no_year: true, note: m[:fn],
-          title: m[:text], usrlbl: m[:usrlbl], lang: (@lang || :all)
-        return use_my_anchor(ref, m[:anchor]) if ref
+      def isorefmatches2(xml, match)
+        ref = fetch_ref xml, match[:code], nil,
+                        no_year: true, note: match[:fn],
+                        title: match[:text], usrlbl: match[:usrlbl],
+                        lang: (@lang || :all)
+        return use_my_anchor(ref, match[:anchor]) if ref
 
-        isorefmatches2_1(xml, m)
+        isorefmatches2_1(xml, match)
       end
 
-      def isorefmatches2_1(xml, m)
-        xml.bibitem **attr_code(ref_attributes(m)) do |t|
-          isorefrender1(t, m, "--")
+      def isorefmatches2_1(xml, match)
+        xml.bibitem **attr_code(ref_attributes(match)) do |t|
+          isorefrender1(t, match, "--")
           t.date **{ type: "published" } do |d|
             d.on "--"
           end
-          iso_publisher(t, m[:code])
-          unless m[:fn].nil?
+          iso_publisher(t, match[:code])
+          unless match[:fn].nil?
             t.note(**plaintxt.merge(type: "Unpublished-Status")) do |p|
-            p << (m[:fn]).to_s
+              p << (match[:fn]).to_s
             end
           end
         end
       end
 
-      def isorefmatches3(xml, m)
-        yr = norm_year(m[:year])
+      def isorefmatches3(xml, match)
+        yr = norm_year(match[:year])
         hasyr = !yr.nil? && yr != "--"
-        ref = fetch_ref(xml, m[:code], hasyr ? yr : nil,
-                        all_parts: true,
-                        no_year: yr == "--", text: m[:text], usrlbl: m[:usrlbl],
+        ref = fetch_ref(xml, match[:code], hasyr ? yr : nil,
+                        all_parts: true, no_year: yr == "--",
+                        text: match[:text], usrlbl: match[:usrlbl],
                         lang: (@lang || :all))
-        return use_my_anchor(ref, m[:anchor]) if ref
+        return use_my_anchor(ref, match[:anchor]) if ref
 
-        isorefmatches3_1(xml, m, yr, hasyr, ref)
+        isorefmatches3_1(xml, match, yr, hasyr, ref)
       end
 
-      def isorefmatches3_1(xml, m, yr, _hasyr, _ref)
-        xml.bibitem(**attr_code(ref_attributes(m))) do |t|
-          isorefrender1(t, m, yr, " (all parts)")
-          conditional_date(t, m, yr == "--")
-          iso_publisher(t, m[:code])
-          if m.names.include?("fn") && m[:fn]
+      def isorefmatches3_1(xml, match, yr, _hasyr, _ref)
+        xml.bibitem(**attr_code(ref_attributes(match))) do |t|
+          isorefrender1(t, match, yr, " (all parts)")
+          conditional_date(t, match, yr == "--")
+          iso_publisher(t, match[:code])
+          if match.names.include?("fn") && match[:fn]
             t.note(**plaintxt.merge(type: "Unpublished-Status")) do |p|
-              p << (m[:fn]).to_s
+              p << (match[:fn]).to_s
             end
           end
           t.extent **{ type: "part" } do |e|
@@ -95,23 +98,23 @@ module Asciidoctor
         end
       end
 
-      def refitem_render1(m, code, bib)
+      def refitem_render1(match, code, bib)
         if code[:type] == "path"
           bib.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), **{ type: "URI" }
           bib.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), **{ type: "citation" }
         end
-        docid(bib, m[:usrlbl]) if m[:usrlbl]
+        docid(bib, match[:usrlbl]) if match[:usrlbl]
         docid(bib, /^\d+$/.match?(code[:id]) ? "[#{code[:id]}]" : code[:id])
         code[:type] == "repo" and
           bib.docidentifier code[:key], **{ type: "repository" }
       end
 
-      def refitem_render(xml, m, code)
-        xml.bibitem **attr_code(id: m[:anchor]) do |t|
+      def refitem_render(xml, match, code)
+        xml.bibitem **attr_code(id: match[:anchor]) do |t|
           t.formattedref **{ format: "application/x-isodoc+xml" } do |i|
-            i << ref_normalise_no_format(m[:text])
+            i << ref_normalise_no_format(match[:text])
           end
-          refitem_render1(m, code, t)
+          refitem_render1(match, code, t)
           docnumber(t, code[:id]) unless /^\d+$|^\(.+\)$/.match?(code[:id])
         end
       end
@@ -128,7 +131,7 @@ module Asciidoctor
 
       def analyse_ref_repo_path(ret)
         return ret unless m =
-          /^(?<type>repo|path):\((?<key>[^,]+),?(?<id>.*)\)$/.match(ret[:id])
+                            /^(?<type>repo|path):\((?<key>[^,]+),?(?<id>.*)\)$/.match(ret[:id])
 
         id = m[:id].empty? ? m[:key].sub(%r{^[^/]+/}, "") : m[:id]
         ret.merge(id: id, type: m[:type], key: m[:key], nofetch: true)
@@ -156,16 +159,17 @@ module Asciidoctor
         nil
       end
 
-      def refitem1(xml, _item, m)
-        code = analyse_ref_code(m[:code])
+      def refitem1(xml, _item, match)
+        code = analyse_ref_code(match[:code])
         unless code[:id] && code[:numeric] || code[:nofetch]
           ref = fetch_ref(xml, code[:id],
-                          m.names.include?("year") ? m[:year] : nil,
-                          title: m[:text],
-                          usrlbl: m[:usrlbl], lang: (@lang || :all))
-          return use_my_anchor(ref, m[:anchor]) if ref
+                          match.names.include?("year") ? match[:year] : nil,
+                          title: match[:text],
+                          usrlbl: match[:usrlbl], lang: (@lang || :all)) and
+            return use_my_anchor(ref, match[:anchor])
         end
-        refitem_render(xml, m, code)
+
+        refitem_render(xml, match, code)
       end
 
       def ref_normalise(ref)
@@ -186,7 +190,7 @@ module Asciidoctor
       \[(?<usrlbl>\([^)]+\))?(?<code>(ISO|IEC)[^0-9]*\s[0-9-]+):
       (--|&\#821[12];)\]</ref>,?\s*
         (<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>)?,?\s?(?<text>.*)$}xm
-        .freeze
+          .freeze
 
       ISO_REF_ALL_PARTS =
         %r{^<ref\sid="(?<anchor>[^"]+)">
