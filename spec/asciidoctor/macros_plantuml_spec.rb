@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc do
   it "processes the PlantUML macro" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)).gsub(%r{plantuml/plantuml[^./]+\.}, "plantuml/_."))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       [plantuml]
@@ -36,24 +36,27 @@ RSpec.describe Asciidoctor::Standoc do
       @enduml
       ....
     INPUT
-       #{BLANK_HDR}
-       <sections><figure id="_">
-  <image src="plantuml/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
-</figure>
-<figure id="_">
-  <image src="plantuml/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
-</figure>
-<figure id="_">
-  <image src="plantuml/filename.png" id="_" mimetype="image/png" height="auto" width="auto"/>
-</figure>
-        </sections>
-
-       </standard-document>
+    output = <<~OUTPUT
+             #{BLANK_HDR}
+             <sections><figure id="_">
+        <image src="plantuml/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+      </figure>
+      <figure id="_">
+        <image src="plantuml/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+      </figure>
+      <figure id="_">
+        <image src="plantuml/filename.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+      </figure>
+              </sections>
+             </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))
+      .gsub(%r{plantuml/plantuml[^./]+\.}, "plantuml/_.")))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes the PlantUML macro with imagesdir" do
-      expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)).gsub(%r{spec/assets/[^./]+\.}, "spec/assets/_."))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -72,18 +75,22 @@ RSpec.describe Asciidoctor::Standoc do
       Alice <-- Bob: another authentication Response
       @enduml
       ....
-   INPUT
-          #{BLANK_HDR}
-          <sections>
-  <figure id="_">
-  <image src="spec/assets/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
-</figure>
-</sections>
-</standard-document>
-OUTPUT
-    end
+    INPUT
+    output = <<~OUTPUT
+                #{BLANK_HDR}
+                <sections>
+        <figure id="_">
+        <image src="spec/assets/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+      </figure>
+      </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))
+      .gsub(%r{spec/assets/[^./]+\.}, "spec/assets/_.")))
+      .to be_equivalent_to xmlpp(output)
+  end
 
-  context 'when lutaml_diagram' do
+  context "when lutaml_diagram" do
     let(:input) do
       <<~"OUTPUT"
         = Document title
@@ -106,13 +113,13 @@ OUTPUT
     end
     let(:output) do
       <<~"OUTPUT"
-      #{BLANK_HDR}
-        <sections>
-        <figure id="_">
-        <image src="spec/assets/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
-        </figure>
-        </sections>
-        </standard-document>
+        #{BLANK_HDR}
+          <sections>
+          <figure id="_">
+          <image src="spec/assets/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+          </figure>
+          </sections>
+          </standard-document>
       OUTPUT
     end
 
@@ -120,12 +127,15 @@ OUTPUT
       expect(
         xmlpp(
           strip_guid(Asciidoctor.convert(input, *OPTIONS))
-                      .gsub(%r{".+spec\/assets\/lutaml\/[^.\/]+\.}, %q("spec/assets/_.))))
-        .to(be_equivalent_to xmlpp(output))
+                      .gsub(%r{".+spec/assets/lutaml/[^./]+\.},
+                            '"spec/assets/_.'),
+        ),
+      )
+        .to(be_equivalent_to(xmlpp(output)))
     end
   end
 
-  context 'when lutaml_uml_attributes_table' do
+  context "when lutaml_uml_attributes_table" do
     let(:example_file) { fixtures_path("diagram_definitions.lutaml") }
     let(:input) do
       <<~"OUTPUT"
@@ -142,59 +152,61 @@ OUTPUT
     end
     let(:output) do
       <<~"OUTPUT"
-      #{BLANK_HDR}
-        <sections>
-          <clause id='_' inline-header='false' obligation='normative'>
-            <title>AttributeProfile</title>
-            <table id='_'>
-              <name>AttributeProfile attributes</name>
-              <thead>
-                <tr>
-                  <th valign='top' align='left'>Name</th>
-                  <th valign='top' align='left'>Definition</th>
-                  <th valign='top' align='left'>Mandatory/ Optional/ Conditional</th>
-                  <th valign='top' align='left'>Max Occur</th>
-                  <th valign='top' align='left'>Data Type</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td valign='top' align='left'>addressClassProfile</td>
-                  <td valign='top' align='left'>TODO: enum ‘s definition</td>
-                  <td valign='top' align='left'>O</td>
-                  <td valign='top' align='left'>1</td>
-                  <td valign='top' align='left'>
-                    <tt>CharacterString</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td valign='top' align='left'>imlicistAttributeProfile</td>
-                  <td valign='top' align='left'>this is attribute definition with multiply lines</td>
-                  <td valign='top' align='left'>O</td>
-                  <td valign='top' align='left'>1</td>
-                  <td valign='top' align='left'>
-                    <tt>CharacterString</tt>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </clause>
-        </sections>
-        </standard-document>
+        #{BLANK_HDR}
+          <sections>
+            <clause id='_' inline-header='false' obligation='normative'>
+              <title>AttributeProfile</title>
+              <table id='_'>
+                <name>AttributeProfile attributes</name>
+                <thead>
+                  <tr>
+                    <th valign='top' align='left'>Name</th>
+                    <th valign='top' align='left'>Definition</th>
+                    <th valign='top' align='left'>Mandatory/ Optional/ Conditional</th>
+                    <th valign='top' align='left'>Max Occur</th>
+                    <th valign='top' align='left'>Data Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td valign='top' align='left'>addressClassProfile</td>
+                    <td valign='top' align='left'>TODO: enum ‘s definition</td>
+                    <td valign='top' align='left'>O</td>
+                    <td valign='top' align='left'>1</td>
+                    <td valign='top' align='left'>
+                      <tt>CharacterString</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td valign='top' align='left'>imlicistAttributeProfile</td>
+                    <td valign='top' align='left'>this is attribute definition with multiply lines</td>
+                    <td valign='top' align='left'>O</td>
+                    <td valign='top' align='left'>1</td>
+                    <td valign='top' align='left'>
+                      <tt>CharacterString</tt>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </clause>
+          </sections>
+          </standard-document>
       OUTPUT
     end
 
     it "processes the lutaml_uml_attributes_table macro" do
       expect(
         xmlpp(
-          strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+          strip_guid(Asciidoctor.convert(input, *OPTIONS)),
+        ),
+      )
         .to(be_equivalent_to(xmlpp(output)))
     end
   end
 
   it "processes the PlantUML macro with PlantUML disabled" do
     mock_plantuml_disabled
-    expect { Asciidoctor.convert(<<~"INPUT", *OPTIONS) }.to output(%r{PlantUML not installed}).to_stderr
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       [plantuml]
@@ -208,9 +220,11 @@ OUTPUT
       @enduml
       ....
     INPUT
+    expect { Asciidoctor.convert(input, *OPTIONS) }
+      .to output(%r{PlantUML not installed}).to_stderr
 
     mock_plantuml_disabled
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       [plantuml]
@@ -224,23 +238,26 @@ OUTPUT
       @enduml
       ....
     INPUT
-       #{BLANK_HDR}
-       <sections>
-         <sourcecode id="_" lang="plantuml">@startuml
-Alice -&gt; Bob: Authentication Request
-Bob --&gt; Alice: Authentication Response
+    output = <<~OUTPUT
+             #{BLANK_HDR}
+             <sections>
+               <sourcecode id="_" lang="plantuml">@startuml
+      Alice -&gt; Bob: Authentication Request
+      Bob --&gt; Alice: Authentication Response
 
-Alice -&gt; Bob: Another authentication Request
-Alice &lt;-- Bob: another authentication Response
-@enduml</sourcecode>
-        </sections>
-       </standard-document>
+      Alice -&gt; Bob: Another authentication Request
+      Alice &lt;-- Bob: another authentication Response
+      @enduml</sourcecode>
+              </sections>
+             </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes the PlantUML macro with localdir unwritable" do
     mock_localdir_unwritable
-    expect { Asciidoctor.convert(<<~"INPUT", *OPTIONS) }.to output(%r{not writable for PlantUML}).to_stderr
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       [plantuml]
@@ -254,9 +271,11 @@ Alice &lt;-- Bob: another authentication Response
       @enduml
       ....
     INPUT
+    expect { Asciidoctor.convert(input, *OPTIONS) }
+      .to output(%r{not writable for PlantUML}).to_stderr
 
     mock_localdir_unwritable
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       [plantuml]
@@ -270,26 +289,29 @@ Alice &lt;-- Bob: another authentication Response
       @enduml
       ....
     INPUT
-       #{BLANK_HDR}
-       <sections>
-         <sourcecode id="_" lang="plantuml">@startuml
-Alice -&gt; Bob: Authentication Request
-Bob --&gt; Alice: Authentication Response
+    output = <<~OUTPUT
+             #{BLANK_HDR}
+             <sections>
+               <sourcecode id="_" lang="plantuml">@startuml
+      Alice -&gt; Bob: Authentication Request
+      Bob --&gt; Alice: Authentication Response
 
-Alice -&gt; Bob: Another authentication Request
-Alice &lt;-- Bob: another authentication Response
-@enduml</sourcecode>
-        </sections>
-       </standard-document>
+      Alice -&gt; Bob: Another authentication Request
+      Alice &lt;-- Bob: another authentication Response
+      @enduml</sourcecode>
+              </sections>
+             </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   private
 
   def mock_plantuml_disabled
-    expect(Asciidoctor::Standoc::PlantUMLBlockMacroBackend).to receive(:plantuml_installed?) do
+    expect(Asciidoctor::Standoc::PlantUMLBlockMacroBackend)
+      .to receive(:plantuml_installed?) do
       raise "PlantUML not installed"
-      false
     end
   end
 

@@ -316,6 +316,40 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "ignores tags when applying smartquotes" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      "((ppt))",
+
+      "((ppm))", "((ppt))"
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+             <sections>
+                        <p id='_'>
+           &#8220;ppt&#8221;,
+           <index>
+             <primary>ppt</primary>
+           </index>
+         </p>
+         <p id='_'>
+           &#8220;ppm&#8221;,
+           <index>
+             <primary>ppm</primary>
+           </index>
+            &#8220;ppt&#8221;
+           <index>
+             <primary>ppt</primary>
+           </index>
+         </p>
+      </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "removes empty text elements" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}

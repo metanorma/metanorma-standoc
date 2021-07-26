@@ -59,9 +59,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true)
-            )
-          )
+                                  header_footer: true),
+            ),
+          ),
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
@@ -118,9 +118,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true)
-            )
-          )
+                                  header_footer: true),
+            ),
+          ),
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
@@ -166,9 +166,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true)
-            )
-          )
+                                  header_footer: true),
+            ),
+          ),
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
@@ -221,9 +221,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true)
-            )
-          )
+                                  header_footer: true),
+            ),
+          ),
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
@@ -303,9 +303,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true)
-            )
-          )
+                                  header_footer: true),
+            ),
+          ),
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
@@ -375,9 +375,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true)
-            )
-          )
+                                  header_footer: true),
+            ),
+          ),
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
@@ -385,7 +385,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
     context "Array of language codes" do
       let(:example_content) do
         YAML.safe_load(
-          File.read(File.expand_path("../../assets/codes.yml", __dir__))
+          File.read(File.expand_path("../../assets/codes.yml", __dir__)),
         )
       end
       let(:input) do
@@ -429,9 +429,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true)
-            )
-          )
+                                  header_footer: true),
+            ),
+          ),
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
@@ -525,9 +525,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true)
-            )
-          )
+                                  header_footer: true),
+            ),
+          ),
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
@@ -576,9 +576,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true)
-            )
-          )
+                                  header_footer: true),
+            ),
+          ),
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
@@ -625,9 +625,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true)
-            )
-          )
+                                  header_footer: true),
+            ),
+          ),
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
@@ -771,9 +771,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
-                                  header_footer: true)
-            )
-          )
+                                  header_footer: true),
+            ),
+          ),
         ).to(be_equivalent_to(xmlpp(output)))
       end
     end
