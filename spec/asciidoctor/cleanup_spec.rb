@@ -316,6 +316,40 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "ignores tags when applying smartquotes" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      "((ppt))",
+
+      "((ppm))", "((ppt))"
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+             <sections>
+                        <p id='_'>
+           &#8220;ppt&#8221;,
+           <index>
+             <primary>ppt</primary>
+           </index>
+         </p>
+         <p id='_'>
+           &#8220;ppm&#8221;,
+           <index>
+             <primary>ppm</primary>
+           </index>
+            &#8220;ppt&#8221;
+           <index>
+             <primary>ppt</primary>
+           </index>
+         </p>
+      </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "removes empty text elements" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -486,7 +520,7 @@ RSpec.describe Asciidoctor::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
           <sections><formula id="_">
-        <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem>
+        <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo></math></stem>
       <note id="_">
         <p id="_">That formula does not do much</p>
       </note></formula>
@@ -517,7 +551,7 @@ RSpec.describe Asciidoctor::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
           <sections><formula id="_">
-        <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem></formula>
+        <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo></math></stem></formula>
       <note id="_">
         <p id="_">That formula does not do much</p>
       </note>

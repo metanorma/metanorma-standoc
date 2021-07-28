@@ -84,6 +84,29 @@ module Asciidoctor
       end
 
       def smartquotes_cleanup1(xmldoc)
+        uninterrupt_quotes_around_xml(xmldoc)
+        dumb2smart_quotes(xmldoc)
+      end
+
+      # "abc<tag/>", def => "abc",<tag/> def
+      def uninterrupt_quotes_around_xml(xmldoc)
+        xmldoc.xpath("//*[following::text()[1]"\
+                     "[starts-with(., '\"') or starts-with(., \"'\")]]")
+          .each do |x|
+          uninterrupt_quotes_around_xml1(x)
+        end
+      end
+
+      def uninterrupt_quotes_around_xml1(elem)
+        prev = elem.at(".//preceding::text()[1]") or return
+        /\S$/.match?(prev.text) or return
+        foll = elem.at(".//following::text()[1]")
+        m = /^(["'][[:punct:]]*)(\s|$)/.match(foll&.text) or return
+        foll.content = foll.text.sub(/^(["'][[:punct:]]*)/, "")
+        prev.content = "#{prev.text}#{m[1]}"
+      end
+
+      def dumb2smart_quotes(xmldoc)
         (xmldoc.xpath("//*[child::text()]") - xmldoc.xpath(IGNORE_DUMBQUOTES))
           .each do |x|
           x.children.each do |n|
