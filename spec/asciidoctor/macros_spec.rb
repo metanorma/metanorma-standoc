@@ -1131,6 +1131,105 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes ToC form macros" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [[clause1]]
+      == Clause 1
+
+      [[clause1A]]
+      === Clause 1A
+
+      [[clause1Aa]]
+      ==== Clause 1Aa
+
+      [[clause1Ab]]
+      ==== Clause 1Ab
+
+      [[clause1B]]
+      === Clause 1B
+
+      [[clause1Ba]]
+      ==== Clause 1Ba
+
+      [[clause2]]
+      == Clause 2
+
+      And introducing:
+      toc:["//clause[@id = 'clause1'\\]/clause/title","//clause[@id = 'clause1'\\]/clause/clause/title:2"]
+
+      toc:["//clause[@id = 'clause1'\\]/clause/title"]
+    INPUT
+    output = <<~OUTPUT
+                  #{BLANK_HDR}
+                  <sections>
+              <clause id='clause1' inline-header='false' obligation='normative'>
+                <title>Clause 1</title>
+                <clause id='clause1A' inline-header='false' obligation='normative'>
+                  <title>Clause 1A</title>
+                  <clause id='clause1Aa' inline-header='false' obligation='normative'>
+                    <title>Clause 1Aa</title>
+                  </clause>
+                  <clause id='clause1Ab' inline-header='false' obligation='normative'>
+                    <title>Clause 1Ab</title>
+                  </clause>
+                </clause>
+                <clause id='clause1B' inline-header='false' obligation='normative'>
+                  <title>Clause 1B</title>
+                  <clause id='clause1Ba' inline-header='false' obligation='normative'>
+                    <title>Clause 1Ba</title>
+                  </clause>
+                </clause>
+              </clause>
+              <clause id='clause2' inline-header='false' obligation='normative'>
+                <title>Clause 2</title>
+                <p id='_'>And introducing: </p>
+      <toc>
+        <ul id='_'>
+          <li>
+            <xref target='clause1A'>Clause 1A</xref>
+          </li>
+          <li>
+            <ul id='_'>
+              <li>
+                <xref target='clause1Aa'>Clause 1Aa</xref>
+              </li>
+              <li>
+                <xref target='clause1Ab'>Clause 1Ab</xref>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <xref target='clause1B'>Clause 1B</xref>
+          </li>
+          <li>
+            <ul id='_'>
+              <li>
+                <xref target='clause1Ba'>Clause 1Ba</xref>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </toc>
+      <toc>
+        <ul id='_'>
+          <li>
+            <xref target='clause1A'>Clause 1A</xref>
+          </li>
+          <li>
+            <xref target='clause1B'>Clause 1B</xref>
+          </li>
+        </ul>
+      </toc>
+              </clause>
+            </sections>
+                  </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   describe "term inline macros" do
     subject(:convert) do
       xmlpp(

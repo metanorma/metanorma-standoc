@@ -47,6 +47,7 @@ module Asciidoctor
         inline_macro Asciidoctor::Standoc::FormTextareaMacro
         inline_macro Asciidoctor::Standoc::FormSelectMacro
         inline_macro Asciidoctor::Standoc::FormOptionMacro
+        inline_macro Asciidoctor::Standoc::ToCInlineMacro
         block Asciidoctor::Standoc::ToDoAdmonitionBlock
         treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
         block Asciidoctor::Standoc::PlantUMLBlockMacro

@@ -2,6 +2,7 @@ require "asciidoctor/extensions"
 require "fileutils"
 require "uuidtools"
 require "yaml"
+require "csv"
 require_relative "./macros_plantuml"
 require_relative "./macros_terms"
 require_relative "./macros_form"
@@ -209,6 +210,23 @@ module Asciidoctor
       def process(parent, _target, attrs)
         out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
         %{<del>#{out}</del>}
+      end
+    end
+
+    class ToCInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :toc
+      parse_content_as :text
+      using_format :short
+
+      def process(parent, _target, attrs)
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        content = CSV.parse_line(out).map do |x|
+          x.sub!(/^(["'])(.+)\1/, "\\2")
+          m = /^(.*?)(:\d+)?$/.match(x)
+          %{<toc-xpath depth='#{m[2]&.sub(/:/, '') || 1}'>#{m[1]}</toc-xpath>}
+        end.join
+        "<toc>#{content}</toc>"
       end
     end
   end
