@@ -133,6 +133,45 @@ RSpec.describe Asciidoctor::Standoc do
       )
         .to(be_equivalent_to(xmlpp(output)))
     end
+
+    context "when inline macro, path supplied as the second arg" do
+      let(:example_file) { fixtures_path('diagram_definitions.lutaml') }
+      let(:input) do
+        <<~TEXT
+          = Document title
+          Author
+          :docfile: test.adoc
+          :nodoc:
+          :novalid:
+          :no-isobib:
+          :imagesdir: spec/assets
+
+          lutaml_diagram::#{example_file}[]
+
+        TEXT
+      end
+      let(:output) do
+        <<~TEXT
+          #{BLANK_HDR}
+          <sections>
+          <figure id="_">
+          <image src="spec/assets/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+          </figure>
+          </sections>
+          </standard-document>
+        TEXT
+      end
+
+      it "correctly renders input" do
+        expect(
+          xmlpp(
+            strip_guid(Asciidoctor.convert(input, *OPTIONS))
+                        .gsub(%r{".+spec/assets/lutaml/[^./]+\.},
+                              '"spec/assets/_.'),
+          ),
+        ).to(be_equivalent_to(xmlpp(output)))
+      end
+    end
   end
 
   context "when lutaml_uml_attributes_table" do
@@ -170,7 +209,7 @@ RSpec.describe Asciidoctor::Standoc do
                 <tbody>
                   <tr>
                     <td valign='top' align='left'>addressClassProfile</td>
-                    <td valign='top' align='left'>TODO: enum ‘s definition</td>
+                    <td valign='top' align='left'></td>
                     <td valign='top' align='left'>O</td>
                     <td valign='top' align='left'>1</td>
                     <td valign='top' align='left'>
