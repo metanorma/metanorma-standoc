@@ -47,6 +47,7 @@ module Asciidoctor
         inline_macro Asciidoctor::Standoc::FormTextareaMacro
         inline_macro Asciidoctor::Standoc::FormSelectMacro
         inline_macro Asciidoctor::Standoc::FormOptionMacro
+        inline_macro Asciidoctor::Standoc::ToCInlineMacro
         block_macro Metanorma::Plugin::Lutaml::LutamlDiagramBlockMacro
         block Asciidoctor::Standoc::ToDoAdmonitionBlock
         treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock

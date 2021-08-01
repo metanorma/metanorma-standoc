@@ -1254,6 +1254,12 @@
     <optional>
       <attribute name="type"/>
     </optional>
+    <optional>
+      <attribute name="identifier"/>
+    </optional>
+    <optional>
+      <attribute name="prefix"/>
+    </optional>
     <text/>
   </define>
   <define name="ics">

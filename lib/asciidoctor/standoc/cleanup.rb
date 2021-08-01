@@ -62,6 +62,7 @@ module Asciidoctor
         bibdata_cleanup(xmldoc)
         svgmap_cleanup(xmldoc)
         boilerplate_cleanup(xmldoc)
+        toc_cleanup(xmldoc)
         smartquotes_cleanup(xmldoc)
         variant_cleanup(xmldoc)
         para_cleanup(xmldoc)
@@ -188,6 +189,42 @@ module Asciidoctor
               c.next.remove
           end
         end
+      end
+
+      def toc_cleanup(xmldoc)
+        xmldoc.xpath("//p[toc]").each do |x|
+          x.xpath("./toc").reverse.each do |t|
+            x.next = t
+          end
+          x.remove if x.text.strip.empty?
+        end
+        xmldoc.xpath("//toc").each { |t| toc_cleanup1(t, xmldoc) }
+      end
+
+      def toc_index(toc, xmldoc)
+        depths = toc.xpath("./toc-xpath").each_with_object({}) do |x, m|
+          m[x.text] = x["depth"]
+        end
+        depths.keys.each_with_object([]) do |key, arr|
+          xmldoc.xpath(key).each do |x|
+            arr << { text: x.children.to_xml, depth: depths[key].to_i,
+                     target: x.xpath("(./ancestor-or-self::*/@id)[last()]")[0].text,
+                     line: x.line }
+          end
+        end.sort_by { |a| a[:line] }
+      end
+
+      def toc_cleanup1(toc, xmldoc)
+        depth = 1
+        ret = ""
+        toc_index(toc, xmldoc).each do |x|
+          if depth > x[:depth] then ret += "</ul></li>" * (depth - x[:depth])
+          elsif depth < x[:depth] then ret += "<li><ul>" * (x[:depth] - depth)
+          end
+          ret += "<li><xref target='#{x[:target]}'>#{x[:text]}</xref></li>"
+          depth = x[:depth]
+        end
+        toc.children = "<ul>#{ret}</ul>"
       end
     end
   end
