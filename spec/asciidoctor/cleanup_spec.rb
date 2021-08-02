@@ -323,6 +323,12 @@ RSpec.describe Asciidoctor::Standoc do
       "((ppt))",
 
       "((ppm))", "((ppt))"
+
+      "((ppm))"&#xa0;
+
+      ....
+      ((ppm))",
+      ....
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -343,6 +349,16 @@ RSpec.describe Asciidoctor::Standoc do
              <primary>ppt</primary>
            </index>
          </p>
+         <p id='_'>
+  &#8220;ppm
+  <index>
+    <primary>ppm</primary>
+  </index>
+  &#8220;&#160;
+</p>
+<figure id='_'>
+  <pre id='_'>((ppm))",</pre>
+</figure>
       </sections>
       </standard-document>
     OUTPUT

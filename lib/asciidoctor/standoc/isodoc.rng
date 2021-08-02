@@ -1011,7 +1011,13 @@
       <ref name="imagemap"/>
       <ref name="svgmap"/>
       <ref name="inputform"/>
+      <ref name="toc"/>
     </choice>
+  </define>
+  <define name="toc">
+    <element name="toc">
+      <ref name="ul"/>
+    </element>
   </define>
   <define name="inputform">
     <element name="form">

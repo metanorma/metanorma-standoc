@@ -94,6 +94,7 @@ module Asciidoctor
         xmldoc.xpath("//*[following::text()[1]"\
                      "[starts-with(., '\"') or starts-with(., \"'\")]]")
           .each do |x|
+          next if !x.ancestors("pre, tt, sourcecode, stem, figure").empty?
           uninterrupt_quotes_around_xml1(x)
         end
       end
@@ -102,7 +103,7 @@ module Asciidoctor
         prev = elem.at(".//preceding::text()[1]") or return
         /\S$/.match?(prev.text) or return
         foll = elem.at(".//following::text()[1]")
-        m = /^(["'][[:punct:]]*)(\s|$)/.match(foll&.text) or return
+        m = /^(["'][[:punct:]]*)(\s|$)/.match(HTMLEntities.new.decode(foll&.text)) or return
         foll.content = foll.text.sub(/^(["'][[:punct:]]*)/, "")
         prev.content = "#{prev.text}#{m[1]}"
       end
