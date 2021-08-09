@@ -12,10 +12,11 @@ module Asciidoctor
       end
 
       def reqt_subpart_attrs(node, name)
+        klass = node.attr("class") || "component"
         attr_code(keep_attrs(node)
           .merge(exclude: node.option?("exclude"),
                  type: node.attr("type"),
-                 class: name == "component" ? node.attr("class") : nil))
+                 class: name == "component" ? klass : nil))
       end
 
       def requirement_subpart(node)

@@ -1363,7 +1363,7 @@ RSpec.describe Asciidoctor::Standoc do
             recommendation(label: success-response)
           end</sourcecode></verification>
                  <import exclude="true">  <sourcecode  lang="CoreRoot" id="_">success-response()</sourcecode></import>
-                 <component exclude='false'>
+                 <component exclude='false' class='component'>
         <p id='_'>Hello</p>
       </component>
       <component exclude='false' class='condition'>
