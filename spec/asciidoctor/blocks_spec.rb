@@ -1330,31 +1330,48 @@ RSpec.describe Asciidoctor::Standoc do
       success-response()
       ----
       --
+
+      [.component]
+      --
+      Hello
+      --
+
+      [.component,class=condition]
+      --
+      If this be thus
+      --
       ====
     INPUT
     output = <<~"OUTPUT"
-                  #{BLANK_HDR}
-             <sections>
-             <recommendation id="ABC"  obligation="permission,recommendation" filename="reqt1.rq"><label>/ogc/recommendation/wfs/2</label><subject>user</subject>
-      <classification><tag>control-class</tag><value>Technical</value></classification><classification><tag>priority</tag><value>P0</value></classification><classification><tag>family</tag><value>System &amp; Communications Protection</value></classification><classification><tag>family</tag><value>System and Communications Protocols</value></classification>
-              <description><p id="_">I recommend <em>this</em>.</p>
-             </description><specification exclude="false" type="tabular" keep-with-next="true" keep-lines-together="true"><p id="_">This is the object of the recommendation:</p><table id="_">  <tbody>    <tr>      <td valign="top" align="left">Object</td>      <td valign="top" align="left">Value</td>    </tr>    <tr>      <td valign="top" align="left">Mission</td>      <td valign="top" align="left">Accomplished</td>    </tr>  </tbody></table></specification><description>
-             <p id="_">As for the measurement targets,</p>
-             </description><measurement-target exclude="false"><p id="_">The measurement target shall be measured as:</p><formula id="_">  <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac>
-             <mrow>
-        <mi>r</mi>
-      </mrow>
-      <mrow>
-        <mn>1</mn>
-      </mrow>
-      </mfrac><mo>=</mo><mn>0</mn></math></stem></formula></measurement-target>
-             <verification exclude="false"><p id="_">The following code will be run for verification:</p><sourcecode  lang="CoreRoot" id="_">CoreRoot(success): HttpResponse
-      if (success)
-        recommendation(label: success-response)
-      end</sourcecode></verification>
-             <import exclude="true">  <sourcecode  lang="CoreRoot" id="_">success-response()</sourcecode></import></recommendation>
-             </sections>
-             </standard-document>
+         #{BLANK_HDR}
+                 <sections>
+                 <recommendation id="ABC"  obligation="permission,recommendation" filename="reqt1.rq"><label>/ogc/recommendation/wfs/2</label><subject>user</subject>
+          <classification><tag>control-class</tag><value>Technical</value></classification><classification><tag>priority</tag><value>P0</value></classification><classification><tag>family</tag><value>System &amp; Communications Protection</value></classification><classification><tag>family</tag><value>System and Communications Protocols</value></classification>
+                  <description><p id="_">I recommend <em>this</em>.</p>
+                 </description><specification exclude="false" type="tabular" keep-with-next="true" keep-lines-together="true"><p id="_">This is the object of the recommendation:</p><table id="_">  <tbody>    <tr>      <td valign="top" align="left">Object</td>      <td valign="top" align="left">Value</td>    </tr>    <tr>      <td valign="top" align="left">Mission</td>      <td valign="top" align="left">Accomplished</td>    </tr>  </tbody></table></specification><description>
+                 <p id="_">As for the measurement targets,</p>
+                 </description><measurement-target exclude="false"><p id="_">The measurement target shall be measured as:</p><formula id="_">  <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac>
+                 <mrow>
+            <mi>r</mi>
+          </mrow>
+          <mrow>
+            <mn>1</mn>
+          </mrow>
+          </mfrac><mo>=</mo><mn>0</mn></math></stem></formula></measurement-target>
+                 <verification exclude="false"><p id="_">The following code will be run for verification:</p><sourcecode  lang="CoreRoot" id="_">CoreRoot(success): HttpResponse
+          if (success)
+            recommendation(label: success-response)
+          end</sourcecode></verification>
+                 <import exclude="true">  <sourcecode  lang="CoreRoot" id="_">success-response()</sourcecode></import>
+                 <component exclude='false' class='component'>
+        <p id='_'>Hello</p>
+      </component>
+      <component exclude='false' class='condition'>
+        <p id='_'>If this be thus</p>
+      </component>
+          </recommendation>
+                 </sections>
+                 </standard-document>
     OUTPUT
 
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))

@@ -80,6 +80,7 @@
         <ref name="verification"/>
         <ref name="import"/>
         <ref name="description"/>
+        <ref name="component"/>
       </choice>
     </zeroOrMore>
     <optional>
@@ -135,6 +136,12 @@
   </define>
   <define name="description">
     <element name="description">
+      <ref name="RequirementSubpart"/>
+    </element>
+  </define>
+  <define name="component">
+    <element name="component">
+      <attribute name="class"/>
       <ref name="RequirementSubpart"/>
     </element>
   </define>
