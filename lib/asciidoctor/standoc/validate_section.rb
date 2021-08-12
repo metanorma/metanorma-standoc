@@ -42,7 +42,8 @@ module Asciidoctor
         root.xpath("//clause | //annex | //foreword | //introduction | "\
                    "//acknowledgements").each do |c|
           next unless c.at("./clause")
-          next if c.elements.select { |n| n.name != "clause" }.empty?
+          next if c.elements.reject { |n| %w(clause title).include? n.name }.empty?
+
           style_warning(c, "Hanging paragraph in clause")
         end
       end
