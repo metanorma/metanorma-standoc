@@ -66,13 +66,13 @@ module Asciidoctor
         a = node.attr("label") and out.label do |l|
           l << a
         end
-        a = node.attr("subject") and out.subject do |s|
-          s << a
+        a = node.attr("subject") and csv_split(a)&.each do |subj|
+          out.subject { |s| s << subj }
         end
-        HTMLEntities.new.decode(node.attr("inherit"))&.split(/;\s*/)
-          &.each do |i|
-          out.inherit { |inh| inh << i }
-        end
+        a = HTMLEntities.new.decode(node.attr("inherit")) and
+          csv_split(a)&.each do |i|
+            out.inherit { |inh| inh << i }
+          end
         classif = node.attr("classification") and
           requirement_classification(classif, out)
       end

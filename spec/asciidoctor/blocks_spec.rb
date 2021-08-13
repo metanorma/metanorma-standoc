@@ -264,6 +264,8 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes review blocks if document is in draft mode" do
@@ -1173,7 +1175,7 @@ RSpec.describe Asciidoctor::Standoc do
   it "processes recommendation" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [.recommendation,label="/ogc/recommendation/wfs/2",subject="user",inherit="/ss/584/2015/level/1; /ss/584/2015/level/2",options="unnumbered",type=verification,model=ogc]
+      [.recommendation,label="/ogc/recommendation/wfs/2",subject="user;developer, implementer",inherit="/ss/584/2015/level/1; /ss/584/2015/level/2",options="unnumbered",type=verification,model=ogc]
       ====
       I recommend this
       ====
@@ -1184,6 +1186,7 @@ RSpec.describe Asciidoctor::Standoc do
         <recommendation id="_" unnumbered="true" type="verification" model="ogc">
         <label>/ogc/recommendation/wfs/2</label>
       <subject>user</subject>
+      <subject>developer, implementer</subject>
       <inherit>/ss/584/2015/level/1</inherit>
       <inherit>/ss/584/2015/level/2</inherit>
         <description><p id="_">I recommend this</p></description>
