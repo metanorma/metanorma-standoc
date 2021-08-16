@@ -1541,4 +1541,113 @@ RSpec.describe Asciidoctor::Standoc do
       end
     end
   end
+
+  describe "lutaml_figure macro" do
+    let(:example_file) { fixtures_path("test.xmi") }
+    let(:input) do
+      <<~TEXT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+        :novalid:
+        :no-isobib:
+        :imagesdir: spec/assets
+
+        [lutaml_uml_datamodel_description,#{example_file}]
+        --
+        --
+
+        This is lutaml_figure::[package="Wrapper root package", name="Fig B1 Full model"] figure
+      TEXT
+    end
+    let(:output) do
+      '<xref target="figure-EAID_0E029ABF_C35A_49e3_9EEA_FFD4F32780A8">'
+    end
+
+    it "correctly renders input" do
+      expect(strip_src(xml_string_conent(metanorma_process(input))))
+        .to(include(output))
+    end
+  end
+
+  describe "lutaml_uml_datamodel_description macro" do
+    subject(:convert) do
+      xmlpp(
+        strip_guid(
+          Asciidoctor.convert(
+            input, *OPTIONS
+          ),
+        ),
+      )
+    end
+
+    let(:example_file) { fixtures_path("test.xmi") }
+    let(:input) do
+      <<~TEXT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+        :novalid:
+        :no-isobib:
+        :imagesdir: spec/assets
+
+        [lutaml_uml_datamodel_description,#{example_file}]
+        --
+        [.diagram_include_block, base_path="requirements/"]
+        ...
+        Diagram text
+        ...
+
+        [.include_block, package="Another", base_path="spec/fixtures/"]
+        ...
+        my text
+        ...
+
+        [.include_block, base_path="spec/fixtures/"]
+        ...
+        my text
+        ...
+
+        [.before]
+        ...
+        mine text
+        ...
+
+        [.before, package="Another"]
+        ...
+        text before Another package
+        ...
+
+        [.after, package="Another"]
+        ...
+        text after Another package
+        ...
+
+        [.after, package="CityGML"]
+        ...
+        text after CityGML package
+        ...
+
+        [.after]
+        ...
+        footer text
+        ...
+        --
+      TEXT
+    end
+    let(:output) do
+      <<~TEXT
+        #{BLANK_HDR}
+        #{File.read(fixtures_path('datamodel_description_sections_tree.xml'))}
+        </standard-document>
+      TEXT
+    end
+
+    it "correctly renders input" do
+      expect(convert)
+        .to(be_equivalent_to(xmlpp(output)))
+    end
+  end
 end

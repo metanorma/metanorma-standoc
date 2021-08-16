@@ -27,6 +27,7 @@ module Asciidoctor
         preprocessor Metanorma::Plugin::Datastruct::Yaml2TextPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlUmlAttributesTablePreprocessor
+        preprocessor Metanorma::Plugin::Lutaml::LutamlUmlDatamodelDescriptionPreprocessor
         inline_macro Asciidoctor::Standoc::AltTermInlineMacro
         inline_macro Asciidoctor::Standoc::DeprecatedTermInlineMacro
         inline_macro Asciidoctor::Standoc::DomainTermInlineMacro
@@ -48,6 +49,7 @@ module Asciidoctor
         inline_macro Asciidoctor::Standoc::FormSelectMacro
         inline_macro Asciidoctor::Standoc::FormOptionMacro
         inline_macro Asciidoctor::Standoc::ToCInlineMacro
+        inline_macro Metanorma::Plugin::Lutaml::LutamlFigureInlineMacro
         block_macro Metanorma::Plugin::Lutaml::LutamlDiagramBlockMacro
         block Asciidoctor::Standoc::ToDoAdmonitionBlock
         treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
