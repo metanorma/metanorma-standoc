@@ -22,6 +22,7 @@ RSpec.describe Asciidoctor::Standoc do
         Author
         :docfile: test.adoc
         :nodoc:
+        :no-pdf:
 
         [[abc]]
         == Clause 1
@@ -258,6 +259,7 @@ RSpec.describe Asciidoctor::Standoc do
       = Document title
       Author
       :docfile: test.adoc
+      :no-pdf:
 
       [bibliography]
       == Normative References
@@ -285,6 +287,7 @@ RSpec.describe Asciidoctor::Standoc do
       = Document title
       Author
       :docfile: test.adoc
+      :no-pdf:
 
       [bibliography]
       == Normative References
@@ -443,6 +446,7 @@ RSpec.describe Asciidoctor::Standoc do
       = Document title
       Author
       :docfile: test.adoc
+      :no-pdf:
 
       footnoteblock:[id1]
 

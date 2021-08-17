@@ -35,6 +35,7 @@ RSpec.describe Asciidoctor::Standoc do
     expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
       .to be_equivalent_to xmlpp(output)
     expect(File.exist?("test.doc")).to be true
+    expect(File.exist?("test.pdf")).to be true
     expect(File.exist?("htmlstyle.css")).to be false
   end
 
@@ -45,6 +46,7 @@ RSpec.describe Asciidoctor::Standoc do
       Author
       :docfile: test.adoc
       :novalid:
+      :no-pdf:
       :language: ar
     INPUT
     output = <<~OUTPUT
@@ -887,6 +889,7 @@ RSpec.describe Asciidoctor::Standoc do
       Author
       :docfile: test.adoc
       :novalid:
+      :no-pdf:
       :scripts: spec/assets/scripts.html
     INPUT
     html = File.read("test.html", encoding: "utf-8")
@@ -899,6 +902,7 @@ RSpec.describe Asciidoctor::Standoc do
       = Document title
       Author
       :docfile: test.adoc
+      :no-pdf:
       :novalid:
       :script: Hans
       :body-font: Zapf Chancery
@@ -934,6 +938,7 @@ RSpec.describe Asciidoctor::Standoc do
       Author
       :docfile: test.adoc
       :novalid:
+      :no-pdf:
       :script: Hans
       :body-font: Zapf Chancery
       :header-font: Comic Sans
@@ -974,6 +979,7 @@ QU1FOiB0ZXN0Cgo=
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       = Document title
       Author
+      :no-pdf:
       :docfile: test.adoc
       :doctype: standard
       :encoding: utf-8

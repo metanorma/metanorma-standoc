@@ -13,6 +13,7 @@ module Metanorma
         super.merge(
           html: "html",
           doc: "doc",
+          pdf: "pdf",
         )
       end
 
@@ -29,11 +30,14 @@ module Metanorma
         when :html
           options = options
             .merge(htmlstylesheet: html_path("htmlstyle.scss"),
-                  htmlcoverpage: html_path("html_titlepage.html"))
+                   htmlcoverpage: html_path("html_titlepage.html"))
           IsoDoc::HtmlConvert.new(options)
             .convert(inname, isodoc_node, nil, outname)
         when :doc
           IsoDoc::WordConvert.new(options)
+            .convert(inname, isodoc_node, nil, outname)
+        when :pdf
+          IsoDoc::Standoc::PdfConvert.new(options)
             .convert(inname, isodoc_node, nil, outname)
         when :presentation
           IsoDoc::PresentationXMLConvert.new(options)

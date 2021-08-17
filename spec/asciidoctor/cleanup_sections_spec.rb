@@ -1357,7 +1357,7 @@ RSpec.describe Asciidoctor::Standoc do
 
   it "processes section names, internationalisation file" do
     input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR.sub(/:nodoc:/, ':i18nyaml: spec/assets/i18n.yaml')}
+      #{ASCIIDOC_BLANK_HDR.sub(/:nodoc:/, ":no-pdf:\n:i18nyaml: spec/assets/i18n.yaml")}
       .Foreword
 
       Text
