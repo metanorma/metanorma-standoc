@@ -58,7 +58,13 @@ module Asciidoctor
         }
       end
 
+      def html_converter(node)
+        IsoDoc::HtmlConvert.new(html_extract_attributes(node))
+      end
+
       def pdf_converter(node)
+        return nil if node.attr("no-pdf")
+
         IsoDoc::Standoc::PdfConvert.new(doc_extract_attributes(node))
       end
 
@@ -114,11 +120,11 @@ module Asciidoctor
           node.attr("mn-keep-asciimath") != "false"
         @fontheader = default_fonts(node)
         @files_to_delete = []
-        if node.attr("docfile")
-          @filename = File.basename(node.attr("docfile"))&.gsub(/\.adoc$/, "")
-        else
-          @filename = ""
-        end
+        @filename = if node.attr("docfile")
+                      File.basename(node.attr("docfile"))&.gsub(/\.adoc$/, "")
+                    else
+                      ""
+                    end
         @localdir = Metanorma::Utils::localdir(node)
         @output_dir = outputdir node
         @no_isobib_cache = node.attr("no-isobib-cache")
@@ -156,8 +162,8 @@ module Asciidoctor
                                      nil, false, "#{@filename}.html")
         doc_converter(node).convert("#{@filename}.presentation.xml",
                                     nil, false, "#{@filename}.doc")
-        pdf_converter(node).convert("#{@filename}.presentation.xml",
-                                    nil, false, "#{@filename}.pdf")
+        pdf_converter(node)&.convert("#{@filename}.presentation.xml",
+                                     nil, false, "#{@filename}.pdf")
       end
 
       def document(node)
