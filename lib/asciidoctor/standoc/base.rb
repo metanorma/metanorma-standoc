@@ -58,8 +58,8 @@ module Asciidoctor
         }
       end
 
-      def html_converter(node)
-        IsoDoc::HtmlConvert.new(html_extract_attributes(node))
+      def pdf_converter(node)
+        IsoDoc::Standoc::PdfConvert.new(doc_extract_attributes(node))
       end
 
       def doc_extract_attributes(node)
@@ -156,6 +156,8 @@ module Asciidoctor
                                      nil, false, "#{@filename}.html")
         doc_converter(node).convert("#{@filename}.presentation.xml",
                                     nil, false, "#{@filename}.doc")
+        pdf_converter(node).convert("#{@filename}.presentation.xml",
+                                    nil, false, "#{@filename}.pdf")
       end
 
       def document(node)
