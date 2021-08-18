@@ -1679,6 +1679,33 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "cleans up nested mathvariant instances" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      
+      stem:[sf "unitsml(cd)"]
+    INPUT
+    output = <<~OUTPUT
+             <sections>
+         <p id='_'>
+           <stem type='MathML'>
+             <math xmlns='http://www.w3.org/1998/Math/MathML'>
+               <mstyle mathvariant='sans-serif'>
+                 <mrow xref='U_NISTu7'>
+                   <mi mathvariant='sans-serif'>cd</mi>
+                 </mrow>
+               </mstyle>
+             </math>
+           </stem>
+         </p>
+       </sections>
+    OUTPUT
+    expect(xmlpp(strip_guid(Nokogiri::XML(
+      Asciidoctor.convert(input, *OPTIONS),
+    ).at("//xmlns:sections").to_xml)))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "removes nested bibitem IDs" do
     input = <<~INPUT
       #{BLANK_HDR}
