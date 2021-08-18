@@ -331,36 +331,36 @@ RSpec.describe Asciidoctor::Standoc do
       ....
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR}
-             <sections>
-                        <p id='_'>
-           &#8220;ppt&#8221;,
-           <index>
-             <primary>ppt</primary>
-           </index>
-         </p>
-         <p id='_'>
-           &#8220;ppm&#8221;,
-           <index>
-             <primary>ppm</primary>
-           </index>
-            &#8220;ppt&#8221;
-           <index>
-             <primary>ppt</primary>
-           </index>
-         </p>
-         <p id='_'>
-  &#8220;ppm
-  <index>
-    <primary>ppm</primary>
-  </index>
-  &#8220;&#160;
-</p>
-<figure id='_'>
-  <pre id='_'>((ppm))",</pre>
-</figure>
-      </sections>
-      </standard-document>
+            #{BLANK_HDR}
+                   <sections>
+                              <p id='_'>
+                 &#8220;ppt&#8221;,
+                 <index>
+                   <primary>ppt</primary>
+                 </index>
+               </p>
+               <p id='_'>
+                 &#8220;ppm&#8221;,
+                 <index>
+                   <primary>ppm</primary>
+                 </index>
+                  &#8220;ppt&#8221;
+                 <index>
+                   <primary>ppt</primary>
+                 </index>
+               </p>
+               <p id='_'>
+        &#8220;ppm
+        <index>
+          <primary>ppm</primary>
+        </index>
+        &#8220;&#160;
+      </p>
+      <figure id='_'>
+        <pre id='_'>((ppm))",</pre>
+      </figure>
+            </sections>
+            </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -2095,6 +2095,90 @@ RSpec.describe Asciidoctor::Standoc do
           </definitions>
         </sections>
       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "moves metadata deflist to correct location" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Clause
+
+      [.requirement,subsequence="A",inherit="/ss/584/2015/level/1 &amp; /ss/584/2015/level/2"]
+      ====
+      [%metadata]
+      model:: ogc
+      type:: class
+      label:: http://www.opengis.net/spec/waterml/2.0/req/xsd-xml-rules[*req/core*]
+      subject:: Encoding of logical models
+      inherit:: urn:iso:dis:iso:19156:clause:7.2.2
+      inherit:: urn:iso:dis:iso:19156:clause:8
+      inherit:: http://www.opengis.net/doc/IS/GML/3.2/clause/2.4
+      inherit:: O&M Abstract model, OGC 10-004r3, clause D.3.4
+      inherit:: http://www.opengis.net/spec/SWE/2.0/req/core/core-concepts-used
+      inherit:: <<ref2>>
+      inherit:: <<ref3>>
+      classification:: priority:P0
+      classification:: domain:Hydrology,Groundwater
+      classification:: control-class:Technical
+      obligation:: recommendation,requirement
+
+      I recommend this
+      ====
+    INPUT
+    output = <<~OUTPUT
+            #{BLANK_HDR}
+            <sections>
+        <clause id='_' inline-header='false' obligation='normative'>
+          <title>Clause</title>
+          <requirement id='_' subsequence='A'>
+            <label>
+              <link target='http://www.opengis.net/spec/waterml/2.0/req/xsd-xml-rules'>
+                <strong>req/core</strong>
+              </link>
+            </label>
+            <subject>Encoding of logical models</subject>
+            <inherit>/ss/584/2015/level/1 &amp; /ss/584/2015/level/2</inherit>
+            <inherit>urn:iso:dis:iso:19156:clause:7.2.2</inherit>
+            <inherit>urn:iso:dis:iso:19156:clause:8</inherit>
+            <inherit>
+              <link target='http://www.opengis.net/doc/IS/GML/3.2/clause/2.4'/>
+            </inherit>
+            <inherit>O&amp;M Abstract model, OGC 10-004r3, clause D.3.4</inherit>
+            <inherit>
+              <link target='http://www.opengis.net/spec/SWE/2.0/req/core/core-concepts-used'/>
+            </inherit>
+            <inherit>
+              <xref target='ref2'/>
+            </inherit>
+            <inherit>
+              <xref target='ref3'/>
+            </inherit>
+            <classification>
+              <tag>control-class</tag>
+              <value>Technical</value>
+            </classification>
+            <classification>
+              <tag>domain</tag>
+              <value>Groundwater</value>
+            </classification>
+            <classification>
+              <tag>domain</tag>
+              <value>Hydrology</value>
+            </classification>
+            <classification>
+              <tag>priority</tag>
+              <value>P0</value>
+            </classification>
+            <description>
+              <p id='_'>I recommend this</p>
+            </description>
+          </requirement>
+        </clause>
+      </sections>
+            </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)

@@ -7,8 +7,11 @@ module Asciidoctor
       def para_cleanup(xmldoc)
         ["//p[not(ancestor::bibdata)]", "//ol[not(ancestor::bibdata)]",
          "//ul[not(ancestor::bibdata)]", "//quote[not(ancestor::bibdata)]",
-         "//note[not(ancestor::bibitem or ancestor::table or ancestor::bibdata)]"
-        ].each { |w| inject_id(xmldoc, w) }
+         "//note[not(ancestor::bibitem or ancestor::table or ancestor::bibdata)]"].each do |w|
+          inject_id(
+            xmldoc, w
+          )
+        end
       end
 
       def inject_id(xmldoc, path)
@@ -205,7 +208,7 @@ module Asciidoctor
       def safe_noko(text, doc)
         Nokogiri::XML::Text.new(text, doc).to_xml(
           encoding: "US-ASCII",
-          save_with: Nokogiri::XML::Node::SaveOptions::NO_DECLARATION
+          save_with: Nokogiri::XML::Node::SaveOptions::NO_DECLARATION,
         )
       end
 

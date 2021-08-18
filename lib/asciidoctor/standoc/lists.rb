@@ -31,7 +31,7 @@ module Asciidoctor
         c = node.attr?("checked")
         attr_code(
           uncheckedcheckbox: node.attr?("checkbox") ? !c : nil,
-          checkedcheckbox: node.attr?("checkbox") ? c : nil
+          checkedcheckbox: node.attr?("checkbox") ? c : nil,
         )
       end
 
@@ -52,12 +52,14 @@ module Asciidoctor
         return "roman" if style == "lowerroman"
         return "roman_upper" if style == "upperroman"
         return "alphabet_upper" if style == "upperalpha"
+
         style
       end
 
       def ol_attrs(node)
-        attr_code(keep_attrs(node).merge(id: Metanorma::Utils::anchor_or_uuid(node),
-                                         type: olist_style(node.style)))
+        attr_code(keep_attrs(node)
+          .merge(id: Metanorma::Utils::anchor_or_uuid(node),
+                 type: olist_style(node.style)))
       end
 
       def olist(node)
@@ -89,9 +91,10 @@ module Asciidoctor
       end
 
       def dl_attrs(node)
-        attr_code(keep_attrs(node).
-                  merge(id: Metanorma::Utils::anchor_or_uuid(node),
-                        key: node.option?("key") ? "true" : nil))
+        attr_code(keep_attrs(node)
+                  .merge(id: Metanorma::Utils::anchor_or_uuid(node),
+                         metadata: node.option?("metadata") ? "true" : nil,
+                         key: node.option?("key") ? "true" : nil))
       end
 
       def dlist(node)

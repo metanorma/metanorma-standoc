@@ -10,15 +10,17 @@ module Asciidoctor
       end
 
       def id_unnum_attrs(node)
-        attr_code( id: Metanorma::Utils::anchor_or_uuid(node),
+        attr_code(id: Metanorma::Utils::anchor_or_uuid(node),
                   unnumbered: node.option?("unnumbered") ? "true" : nil,
                   number: node.attr("number"),
-                  subsequence: node.attr("subsequence") )
+                  subsequence: node.attr("subsequence"))
       end
 
       def formula_attrs(node)
-        attr_code(id_unnum_attrs(node).merge(keep_attrs(node).merge(
-          inequality: node.option?("inequality") ? "true" : nil)))
+        attr_code(id_unnum_attrs(node)
+          .merge(keep_attrs(node).merge(
+                   inequality: node.option?("inequality") ? "true" : nil,
+                 )))
       end
 
       def keep_attrs(node)
@@ -58,8 +60,8 @@ module Asciidoctor
           xml.figure **literal_attrs(node) do |f|
             figure_title(node, f)
             f.pre node.lines.join("\n"),
-              **attr_code(id: Metanorma::Utils::anchor_or_uuid,
-                          alt: node.attr("alt"))
+                  **attr_code(id: Metanorma::Utils::anchor_or_uuid,
+                              alt: node.attr("alt"))
           end
         end
       end
@@ -95,20 +97,21 @@ module Asciidoctor
       end
 
       def svgmap_attrs(node)
-        attr_code( { id: node.id,
-                     unnumbered: node.option?("unnumbered") ? "true" : nil,
-                     number: node.attr("number"),
-                     subsequence: node.attr("subsequence") }.
-        merge(keep_attrs(node)))
+        attr_code({ id: node.id,
+                    unnumbered: node.option?("unnumbered") ? "true" : nil,
+                    number: node.attr("number"),
+                    subsequence: node.attr("subsequence") }
+        .merge(keep_attrs(node)))
       end
 
       def svgmap_example(node)
         noko do |xml|
           xml.svgmap **attr_code(svgmap_attrs(node).merge(
-            src: node.attr("src"), alt: node.attr("alt"))) do |ex|
-              figure_title(node, ex)
-              ex << node.content
-            end
+                                   src: node.attr("src"), alt: node.attr("alt"),
+                                 )) do |ex|
+            figure_title(node, ex)
+            ex << node.content
+          end
         end.join("\n")
       end
 
@@ -136,9 +139,10 @@ module Asciidoctor
         end.join("\n")
       end
 
-      def figure_title(node, f)
+      def figure_title(node, out)
         return if node.title.nil?
-        f.name { |name| name << node.title }
+
+        out.name { |name| name << node.title }
       end
 
       def figure_attrs(node)
@@ -149,15 +153,15 @@ module Asciidoctor
         noko do |xml|
           xml.figure **figure_attrs(node) do |f|
             figure_title(node, f)
-            f.image **(image_attributes(node))
+            f.image **image_attributes(node)
           end
         end
       end
 
       def para_attrs(node)
         attr_code(keep_attrs(node)
-          .merge(align: node.attr("align"), 
-        id: Metanorma::Utils::anchor_or_uuid(node)))
+          .merge(align: node.attr("align"),
+                 id: Metanorma::Utils::anchor_or_uuid(node)))
       end
 
       def paragraph(node)
@@ -172,8 +176,8 @@ module Asciidoctor
 
       def quote_attrs(node)
         attr_code(keep_attrs(node)
-          .merge(align: node.attr("align"), 
-        id: Metanorma::Utils::anchor_or_uuid(node)))
+          .merge(align: node.attr("align"),
+                 id: Metanorma::Utils::anchor_or_uuid(node)))
       end
 
       def quote_attribution(node, out)
@@ -189,7 +193,7 @@ module Asciidoctor
 
       def quote(node)
         noko do |xml|
-          xml.quote **(quote_attrs(node)) do |q|
+          xml.quote **quote_attrs(node) do |q|
             quote_attribution(node, q)
             wrap_in_para(node, q)
           end
@@ -197,18 +201,18 @@ module Asciidoctor
       end
 
       def listing_attrs(node)
-        attr_code(keep_attrs(node).
-                  merge(lang: node.attr("language"),
-                        id: Metanorma::Utils::anchor_or_uuid(node),
-                        unnumbered: node.option?("unnumbered") ? "true" : nil,
-                        number: node.attr("number"),
-                        filename: node.attr("filename")))
+        attr_code(keep_attrs(node)
+                  .merge(lang: node.attr("language"),
+                         id: Metanorma::Utils::anchor_or_uuid(node),
+                         unnumbered: node.option?("unnumbered") ? "true" : nil,
+                         number: node.attr("number"),
+                         filename: node.attr("filename")))
       end
 
       # NOTE: html escaping is performed by Nokogiri
       def listing(node)
         fragment = ::Nokogiri::XML::Builder.new do |xml|
-          xml.sourcecode **(listing_attrs(node)) do |s|
+          xml.sourcecode **listing_attrs(node) do |s|
             figure_title(node, s)
             s << node.content
           end
@@ -219,7 +223,7 @@ module Asciidoctor
 
       def pass(node)
         noko do |xml|
-          xml.passthrough **attr_code(formats: 
+          xml.passthrough **attr_code(formats:
                                       node.attr("format") || "metanorma") do |p|
             p << HTMLEntities.new.encode(node.content, :basic, :hexadecimal)
           end

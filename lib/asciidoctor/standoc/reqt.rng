@@ -64,9 +64,9 @@
     <optional>
       <ref name="label"/>
     </optional>
-    <optional>
+    <zeroOrMore>
       <ref name="subject"/>
-    </optional>
+    </zeroOrMore>
     <zeroOrMore>
       <ref name="reqinherit"/>
     </zeroOrMore>
@@ -106,12 +106,16 @@
   </define>
   <define name="subject">
     <element name="subject">
-      <text/>
+      <oneOrMore>
+        <ref name="TextElement"/>
+      </oneOrMore>
     </element>
   </define>
   <define name="reqinherit">
     <element name="inherit">
-      <text/>
+      <oneOrMore>
+        <ref name="TextElement"/>
+      </oneOrMore>
     </element>
   </define>
   <define name="measurementtarget">
