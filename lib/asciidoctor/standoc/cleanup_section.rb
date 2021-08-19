@@ -114,6 +114,7 @@ module Asciidoctor
         sections_order_cleanup(xml)
         sections_level_cleanup(xml)
         sections_names_cleanup(xml)
+        sections_variant_title_cleanup(xml)
         change_clauses(xml)
       end
 

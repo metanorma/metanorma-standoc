@@ -1588,4 +1588,70 @@ RSpec.describe Asciidoctor::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
+
+  it "adds variant titles" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Clause
+      Text
+
+      === Subclause
+
+      [.variant-title,type=toc]
+      Clause _A_ stem:[x]
+
+      [.variant-title,type=sub]
+      "A" 'B'
+
+      Text
+
+      [appendix]
+      == Clause
+
+      [.variant-title,type=toc]
+      Clause _A_ stem:[x]
+
+      Text
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <sections>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Clause</title>
+             <p id='_'>Text</p>
+             <clause id='_' inline-header='false' obligation='normative'>
+               <title>Subclause</title>
+               <variant-title variant_title='true' type='sub' id='_'>&#8220;A&#8221; &#8216;B&#8217;</variant-title>
+               <variant-title variant_title='true' type='toc' id='_'>
+                 Clause
+                 <em>A</em>
+                 <stem type='MathML'>
+                   <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                     <mi>x</mi>
+                   </math>
+                 </stem>
+               </variant-title>
+               <p id='_'>Text</p>
+             </clause>
+           </clause>
+         </sections>
+         <annex id='_' inline-header='false' obligation='normative'>
+           <title>Clause</title>
+           <variant-title variant_title='true' type='toc' id='_'>
+             Clause
+             <em>A</em>
+             <stem type='MathML'>
+               <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                 <mi>x</mi>
+               </math>
+             </stem>
+           </variant-title>
+           <p id='_'>Text</p>
+         </annex>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
 end
