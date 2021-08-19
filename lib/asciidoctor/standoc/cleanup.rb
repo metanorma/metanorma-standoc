@@ -13,19 +13,12 @@ require_relative "./cleanup_amend"
 require_relative "./cleanup_maths"
 require_relative "./cleanup_image"
 require_relative "./cleanup_reqt"
+require_relative "./cleanup_text"
 require "relaton_iev"
 
 module Asciidoctor
   module Standoc
     module Cleanup
-      def textcleanup(result)
-        text = result.flatten.map { |l| l.sub(/\s*$/, "") } * "\n"
-        !@keepasciimath and text = asciimath2mathml(text)
-        text = text.gsub(/\s+<fn /, "<fn ")
-        text.gsub(%r{<passthrough\s+formats="metanorma">([^<]*)
-                  </passthrough>}mx) { HTMLEntities.new.decode($1) }
-      end
-
       def cleanup(xmldoc)
         element_name_cleanup(xmldoc)
         sections_cleanup(xmldoc)
@@ -72,63 +65,6 @@ module Asciidoctor
         xmldoc
       end
 
-      IGNORE_DUMBQUOTES = "//pre | //pre//* | //tt | //tt//* | "\
-        "//sourcecode | //sourcecode//* | //bibdata//* | //stem | "\
-        "//stem//* | //figure[@class = 'pseudocode'] | "\
-        "//figure[@class = 'pseudocode']//*".freeze
-
-      def smartquotes_cleanup(xmldoc)
-        xmldoc.xpath("//date").each { |d| Metanorma::Utils::endash_date(d) }
-        if @smartquotes then smartquotes_cleanup1(xmldoc)
-        else dumbquote_cleanup(xmldoc)
-        end
-      end
-
-      def smartquotes_cleanup1(xmldoc)
-        uninterrupt_quotes_around_xml(xmldoc)
-        dumb2smart_quotes(xmldoc)
-      end
-
-      # "abc<tag/>", def => "abc",<tag/> def
-      def uninterrupt_quotes_around_xml(xmldoc)
-        xmldoc.xpath("//*[following::text()[1]"\
-                     "[starts-with(., '\"') or starts-with(., \"'\")]]")
-          .each do |x|
-          next if !x.ancestors("pre, tt, sourcecode, stem, figure").empty?
-          uninterrupt_quotes_around_xml1(x)
-        end
-      end
-
-      def uninterrupt_quotes_around_xml1(elem)
-        prev = elem.at(".//preceding::text()[1]") or return
-        /\S$/.match?(prev.text) or return
-        foll = elem.at(".//following::text()[1]")
-        m = /^(["'][[:punct:]]*)(\s|$)/.match(HTMLEntities.new.decode(foll&.text)) or return
-        foll.content = foll.text.sub(/^(["'][[:punct:]]*)/, "")
-        prev.content = "#{prev.text}#{m[1]}"
-      end
-
-      def dumb2smart_quotes(xmldoc)
-        (xmldoc.xpath("//*[child::text()]") - xmldoc.xpath(IGNORE_DUMBQUOTES))
-          .each do |x|
-          x.children.each do |n|
-            next unless n.text?
-
-            /[-'"(<>]|\.\.|\dx/.match(n) or next
-
-            n.replace(Metanorma::Utils::smartformat(n.text))
-          end
-        end
-      end
-
-      def dumbquote_cleanup(xmldoc)
-        xmldoc.traverse do |n|
-          next unless n.text?
-
-          n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'")) # .
-        end
-      end
-
       def docidentifier_cleanup(xmldoc); end
 
       TEXT_ELEMS =
@@ -172,8 +108,8 @@ module Asciidoctor
 
           c.xpath("./variant").each do |n|
             if n.at_xpath("preceding-sibling::node()"\
-                "[not(self::text()[not(normalize-space())])][1]"\
-                "[self::variantwrap]")
+                          "[not(self::text()[not(normalize-space())])][1]"\
+                          "[self::variantwrap]")
               n.previous_element << n
             else
               n.replace("<variantwrap/>").first << n
@@ -203,16 +139,22 @@ module Asciidoctor
       end
 
       def toc_index(toc, xmldoc)
-        depths = toc.xpath("./toc-xpath").each_with_object({}) do |x, m|
-          m[x.text] = x["depth"]
-        end
+        depths = toc_index_depths(toc)
         depths.keys.each_with_object([]) do |key, arr|
           xmldoc.xpath(key).each do |x|
+            t = x.at("./following-sibling::variant-title[@type = 'toc']") and
+              x = t
             arr << { text: x.children.to_xml, depth: depths[key].to_i,
                      target: x.xpath("(./ancestor-or-self::*/@id)[last()]")[0].text,
                      line: x.line }
           end
         end.sort_by { |a| a[:line] }
+      end
+
+      def toc_index_depths(toc)
+        toc.xpath("./toc-xpath").each_with_object({}) do |x, m|
+          m[x.text] = x["depth"]
+        end
       end
 
       def toc_cleanup1(toc, xmldoc)

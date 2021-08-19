@@ -80,6 +80,7 @@ module Asciidoctor
         xml.xpath("//p[@variant_title]").each do |p|
           p.xpath("(#{path})[last()]").each do |sect|
             p.name = "variant-title"
+            p.delete("id")
             if ins = sect.at("./title") then ins.next = p
             else sect.children.first.previous = p
             end
