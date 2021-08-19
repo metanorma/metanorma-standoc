@@ -1147,6 +1147,9 @@ RSpec.describe Asciidoctor::Standoc do
       [[clause1Ab]]
       ==== Clause 1Ab
 
+      [.variant-title,type=toc]
+      1Ab Clause
+
       [[clause1B]]
       === Clause 1B
 
@@ -1173,6 +1176,7 @@ RSpec.describe Asciidoctor::Standoc do
                   </clause>
                   <clause id='clause1Ab' inline-header='false' obligation='normative'>
                     <title>Clause 1Ab</title>
+                    <variant-title variant_title='true' type='toc'>1Ab Clause</variant-title>
                   </clause>
                 </clause>
                 <clause id='clause1B' inline-header='false' obligation='normative'>
@@ -1196,7 +1200,7 @@ RSpec.describe Asciidoctor::Standoc do
                 <xref target='clause1Aa'>Clause 1Aa</xref>
               </li>
               <li>
-                <xref target='clause1Ab'>Clause 1Ab</xref>
+                <xref target='clause1Ab'>1Ab Clause</xref>
               </li>
             </ul>
           </li>

@@ -1622,8 +1622,8 @@ RSpec.describe Asciidoctor::Standoc do
              <p id='_'>Text</p>
              <clause id='_' inline-header='false' obligation='normative'>
                <title>Subclause</title>
-               <variant-title variant_title='true' type='sub' id='_'>&#8220;A&#8221; &#8216;B&#8217;</variant-title>
-               <variant-title variant_title='true' type='toc' id='_'>
+               <variant-title variant_title='true' type='sub'>&#8220;A&#8221; &#8216;B&#8217;</variant-title>
+               <variant-title variant_title='true' type='toc'>
                  Clause
                  <em>A</em>
                  <stem type='MathML'>
@@ -1638,7 +1638,7 @@ RSpec.describe Asciidoctor::Standoc do
          </sections>
          <annex id='_' inline-header='false' obligation='normative'>
            <title>Clause</title>
-           <variant-title variant_title='true' type='toc' id='_'>
+           <variant-title variant_title='true' type='toc'>
              Clause
              <em>A</em>
              <stem type='MathML'>
