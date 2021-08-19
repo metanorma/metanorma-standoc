@@ -161,6 +161,8 @@ module Asciidoctor
       def para_attrs(node)
         attr_code(keep_attrs(node)
           .merge(align: node.attr("align"),
+                 variant_title: node.role == "variant-title" ? true : nil,
+                 type: node.attr("type"),
                  id: Metanorma::Utils::anchor_or_uuid(node)))
       end
 

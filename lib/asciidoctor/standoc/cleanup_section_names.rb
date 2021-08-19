@@ -45,30 +45,46 @@ module Asciidoctor
 
       NO_SYMABBR = "[.//definitions[not(@type)]]".freeze
       SYMABBR = "[.//definitions[@type = 'symbols']]"\
-        "[.//definitions[@type = 'abbreviated_terms']]".freeze
+                "[.//definitions[@type = 'abbreviated_terms']]".freeze
       SYMnoABBR = "[.//definitions[@type = 'symbols']]"\
-        "[not(.//definitions[@type = 'abbreviated_terms'])]".freeze
+                  "[not(.//definitions[@type = 'abbreviated_terms'])]".freeze
       ABBRnoSYM = "[.//definitions[@type = 'abbreviated_terms']]"\
-        "[not(.//definitions[@type = 'symbols'])]".freeze
+                  "[not(.//definitions[@type = 'symbols'])]".freeze
 
-      def section_names_terms_cleanup(x)
-        replace_title(x, "//definitions[@type = 'symbols']", @i18n&.symbols)
-        replace_title(x, "//definitions[@type = 'abbreviated_terms']",
+      def section_names_terms_cleanup(xml)
+        replace_title(xml, "//definitions[@type = 'symbols']", @i18n&.symbols)
+        replace_title(xml, "//definitions[@type = 'abbreviated_terms']",
                       @i18n&.abbrev)
-        replace_title(x, "//definitions[not(@type)]", @i18n&.symbolsabbrev)
-        replace_title(x, "//terms#{SYMnoABBR} | //clause[.//terms]#{SYMnoABBR}",
+        replace_title(xml, "//definitions[not(@type)]", @i18n&.symbolsabbrev)
+        replace_title(xml, "//terms#{SYMnoABBR} | //clause[.//terms]#{SYMnoABBR}",
                       @i18n&.termsdefsymbols, true)
-        replace_title(x, "//terms#{ABBRnoSYM} | //clause[.//terms]#{ABBRnoSYM}",
+        replace_title(xml, "//terms#{ABBRnoSYM} | //clause[.//terms]#{ABBRnoSYM}",
                       @i18n&.termsdefabbrev, true)
-        replace_title(x, "//terms#{SYMABBR} | //clause[.//terms]#{SYMABBR}",
+        replace_title(xml, "//terms#{SYMABBR} | //clause[.//terms]#{SYMABBR}",
                       @i18n&.termsdefsymbolsabbrev, true)
-        replace_title(x, "//terms#{NO_SYMABBR} | //clause[.//terms]#{NO_SYMABBR}",
+        replace_title(xml, "//terms#{NO_SYMABBR} | //clause[.//terms]#{NO_SYMABBR}",
                       @i18n&.termsdefsymbolsabbrev, true)
         replace_title(
-          x,
+          xml,
           "//terms[not(.//definitions)] | //clause[.//terms][not(.//definitions)]",
           @i18n&.termsdef, true
         )
+      end
+
+      SECTION_CONTAINERS = %w(foreword introduction acknowledgements abstract
+                              clause clause references terms definitions annex
+                              appendix).freeze
+
+      def sections_variant_title_cleanup(xml)
+        path = SECTION_CONTAINERS.map { |x| "./ancestor::#{x}" }.join(" | ")
+        xml.xpath("//p[@variant_title]").each do |p|
+          p.xpath("(#{path})[last()]").each do |sect|
+            p.name = "variant-title"
+            if ins = sect.at("./title") then ins.next = p
+            else sect.children.first.previous = p
+            end
+          end
+        end
       end
     end
   end
