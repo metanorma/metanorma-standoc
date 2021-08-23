@@ -24,6 +24,7 @@ module Asciidoctor
           r.children.each do |e|
             unless e.element? && (reqt_subpart(e.name) ||
                 %w(requirement recommendation permission).include?(e.name))
+              next if e.text.strip.empty?
               t = Nokogiri::XML::Element.new("description", r)
               e.before(t)
               t.children = e.remove
