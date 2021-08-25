@@ -50,6 +50,10 @@ module Asciidoctor
         inline_macro Asciidoctor::Standoc::FormOptionMacro
         inline_macro Asciidoctor::Standoc::ToCInlineMacro
         inline_macro Metanorma::Plugin::Lutaml::LutamlFigureInlineMacro
+        inline_macro Metanorma::Plugin::Lutaml::LutamlTablePackageInlineMacro
+        inline_macro Metanorma::Plugin::Lutaml::LutamlTableDataTypeInlineMacro
+        inline_macro Metanorma::Plugin::Lutaml::LutamlTableEnumInlineMacro
+        inline_macro Metanorma::Plugin::Lutaml::LutamlTableClassInlineMacro
         block_macro Metanorma::Plugin::Lutaml::LutamlDiagramBlockMacro
         block Asciidoctor::Standoc::ToDoAdmonitionBlock
         treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
