@@ -37,9 +37,9 @@ module Asciidoctor
       end
 
       def section_names_refs_cleanup(xml)
-        replace_title(xml, "//references[@normative = 'true']",
+        replace_title(xml, "//bibliography/references[@normative = 'true']",
                       @i18n&.normref, true)
-        replace_title(xml, "//references[@normative = 'false']",
+        replace_title(xml, "//bibliography/references[@normative = 'false']",
                       @i18n&.bibliography, true)
       end
 

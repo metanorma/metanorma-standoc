@@ -53,6 +53,7 @@ module Asciidoctor
           htmltoclevels: node.attr("htmltoclevels") || node.attr("toclevels"),
           doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
           break_up_urls_in_tables: node.attr("break-up-urls-in-tables"),
+          suppressasciimathdup: node.attr("suppress-asciimath-dup"),
           bare: node.attr("bare"),
           sectionsplit: node.attr("sectionsplit"),
         }
@@ -87,6 +88,7 @@ module Asciidoctor
           htmltoclevels: node.attr("htmltoclevels") || node.attr("toclevels"),
           doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
           break_up_urls_in_tables: node.attr("break-up-urls-in-tables"),
+          suppressasciimathdup: node.attr("suppress-asciimath-dup"),
           bare: node.attr("bare"),
         }
 
