@@ -88,14 +88,14 @@ ISO_124_DATED = <<~XML.freeze
          <ext>
            <doctype>international-standard</doctype>
            <editorialgroup>
-             <technical-committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical-committee>
+           <technical-committee number='45' type='TC' identifier='ISO/TC 45/SC 3'>Raw materials (including latex) for use in the rubber industry</technical-committee>
            </editorialgroup>
            <ics>
              <code>83.040.10</code>
              <text>Latex and raw rubber</text>
            </ics>
            <structuredidentifier type="ISO">
-             <project-number>ISO 124</project-number>
+             <project-number part="">ISO 124</project-number>
            </structuredidentifier>
          </ext>
        </bibdata>
@@ -186,14 +186,14 @@ ISO_123_UNDATED = <<~XML.freeze
         <ext>
           <doctype>international-standard</doctype>
           <editorialgroup>
-            <technical-committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical-committee>
+          <technical-committee number='45' type='TC' identifier='ISO/TC 45/SC 3'>Raw materials (including latex) for use in the rubber industry</technical-committee>
           </editorialgroup>
           <ics>
             <code>83.040.10</code>
             <text>Latex and raw rubber</text>
           </ics>
           <structuredidentifier type="ISO">
-            <project-number>ISO 123</project-number>
+            <project-number part="">ISO 123</project-number>
           </structuredidentifier>
         </ext>
       </bibdata>
@@ -227,9 +227,9 @@ ISO_123_DATED = <<~XML.freeze
            <script>Latn</script>
            <abstract format='text/plain' language='en' script='Latn'>
     This International Standard specifies procedures for sampling natural rubber
-    latex concentrate and for sampling syntheticrubber latices and artificial
+    latex concentrate and for sampling synthetic rubber latices and artificial
     latices. It is also suitable for sampling rubber latex contained in drums,
-    tank cars ortanks. The procedures may also be used for sampling plastics
+    tank cars or tanks. The procedures may also be used for sampling plastics
     dispersions.
   </abstract>
            <status>
@@ -253,14 +253,14 @@ ISO_123_DATED = <<~XML.freeze
            <ext>
              <doctype>international-standard</doctype>
              <editorialgroup>
-               <technical-committee number="45" type="TC">ISO/TC 45/SC 3Raw materials (including latex) for use in the rubber industry</technical-committee>
+             <technical-committee number='45' type='TC' identifier='ISO/TC 45/SC 3'>Raw materials (including latex) for use in the rubber industry</technical-committee>
              </editorialgroup>
              <ics>
                <code>83.040.10</code>
                <text>Latex and raw rubber</text>
              </ics>
              <structuredidentifier type="ISO">
-               <project-number>ISO 123</project-number>
+               <project-number part="">ISO 123</project-number>
              </structuredidentifier>
            </ext>
          </bibdata>
