@@ -2160,7 +2160,7 @@ RSpec.describe Asciidoctor::Standoc do
             <sections>
         <clause id='_' inline-header='false' obligation='normative'>
           <title>Clause</title>
-          <requirement id='_' subsequence='A'>
+          <requirement id='_' subsequence='A' obligation='recommendation,requirement' model='ogc' type='class'>
             <label>
               <link target='http://www.opengis.net/spec/waterml/2.0/req/xsd-xml-rules'>
                 <strong>req/core</strong>

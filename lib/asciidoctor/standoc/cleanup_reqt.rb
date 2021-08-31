@@ -25,6 +25,7 @@ module Asciidoctor
             unless e.element? && (reqt_subpart(e.name) ||
                 %w(requirement recommendation permission).include?(e.name))
               next if e.text.strip.empty?
+
               t = Nokogiri::XML::Element.new("description", r)
               e.before(t)
               t.children = e.remove
@@ -52,15 +53,28 @@ module Asciidoctor
         end
       end
 
+      def requirement_metadata1_tags
+        %w(label subject inherit)
+      end
+
       def requirement_metadata1(reqt, dlist)
         unless ins = reqt.at("./title")
           reqt.children.first.previous = " "
           ins = reqt.children.first
         end
-        %w(label subject inherit).each do |a|
+        %w(obligation model type).each do |a|
+          reqt_dl_to_attrs(reqt, dlist, a)
+        end
+        requirement_metadata1_tags.each do |a|
           ins = reqt_dl_to_elems(ins, reqt, dlist, a)
         end
         reqt_dl_to_classif(ins, reqt, dlist)
+      end
+
+      def reqt_dl_to_attrs(reqt, dlist, name)
+        e = dlist.at("./dt[text()='#{name}']") or return
+        val = e.at("./following::dd/p") || e.at("./following::dd") or return
+        reqt[name] = val.text
       end
 
       def reqt_dl_to_elems(ins, reqt, dlist, name)
