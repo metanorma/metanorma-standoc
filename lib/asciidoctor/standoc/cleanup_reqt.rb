@@ -91,16 +91,16 @@ module Asciidoctor
       end
 
       def reqt_dl_to_classif(ins, reqt, dlist)
-        if a = reqt.at("./classification[last()]")
-          ins = a
-        end
+        if a = reqt.at("./classification[last()]") then ins = a end
         dlist.xpath("./dt[text()='classification']").each do |e|
           val = e.at("./following::dd/p") || e.at("./following::dd")
           req_classif_parse(val.text).each do |r|
             ins.next = "<classification><tag>#{r[0]}</tag>"\
                        "<value>#{r[1]}</value></classification>"
+            ins = ins.next
           end
         end
+        ins
       end
     end
   end
