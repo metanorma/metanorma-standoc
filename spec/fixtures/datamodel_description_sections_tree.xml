@@ -1,326 +1,326 @@
-         <preface>
-           <foreword id='_' obligation='informative'>
-             <title>Foreword</title>
-             <p id='_'>mine text</p>
-           </foreword>
-         </preface>
-         <sections>
-           <clause id='lutaml-section-wrapper_nested_package' inline-header='false' obligation='normative'>
-             <title>Wrapper nested package package</title>
-             <clause id='_' inline-header='false' obligation='normative'>
-               <title>Wrapper nested package overview</title>
-               <p id='_'>Diagram text</p>
-               <figure id='figure-EAID_0E029ABF_C35A_49e3_9EEA_FFD4F32780A8'>
-                 <name>Fig B1 Full model</name>
-                 <image src='spec/assets/requirements//EAID_0E029ABF_C35A_49e3_9EEA_FFD4F32780A8.png' id='_' mimetype='image/png' height='auto' width='auto'/>
-               </figure>
-               <p id='_'>The Wrapper nested package package is organized into 1 packages:</p>
-               <ol id='_' type='arabic'>
-                 <li>
-                   <p id='_'>ISO 19135 Procedures for item registration XML package</p>
-                 </li>
-               </ol>
-               <p id='_'>mine text</p>
-             </clause>
-             <clause id='lutaml-section-iso_19135_procedures_for_item_registration_xml' inline-header='false' obligation='normative'>
-               <title>ISO 19135 Procedures for item registration XML package</title>
-               <clause id='_' inline-header='false' obligation='normative'>
-                 <title>ISO 19135 Procedures for item registration XML overview</title>
-                 <p id='_'>Diagram text</p>
-                 <figure id='figure-EAID_0E029ABF_C35A_49e3_9EEA_FFD4F32780A8'>
-                   <name>Fig B1 Full model</name>
-                   <image src='spec/assets/requirements//EAID_0E029ABF_C35A_49e3_9EEA_FFD4F32780A8.png' id='_' mimetype='image/png' height='auto' width='auto'/>
-                 </figure>
-               </clause>
-               <clause id='_' inline-header='false' obligation='normative'>
-                 <title>Defining tables</title>
-                 <table id='tab-P-iso_19135_procedures_for_item_registration_xml-C-EAID_82206E96_8D23_48dd_AC2F_31939C484AF2' width='100%'>
-                   <name>
-                     Elements of &#8220;ISO 19135 Procedures for item registration
-                     XML::RE_Register&#8221; (class)
-                   </name>
-                   <tbody>
-                     <tr>
-                       <th valign='top' align='left'>Name:</th>
-                       <td colspan='7' valign='top' align='left'>
-                         <p id='_'>RE_Register</p>
-                       </td>
-                     </tr>
-                     <tr>
-                       <th valign='top' align='left'>Definition:</th>
-                       <td colspan='7' valign='top' align='left'>
-                         <p id='_'>
-                           The class &#8220;RE_Register&#8221; specifies information
-                           about the register itself. It is a subtype of the Register
-                           class in the core profile.
-                         </p>
-                       </td>
-                     </tr>
-                     <tr>
-                       <th valign='top' align='left'>Stereotype:</th>
-                       <td colspan='7' valign='top' align='left'>
-                         <p id='_'>interface</p>
-                       </td>
-                     </tr>
-                     <tr>
-                       <th valign='top' align='left'>Inheritance from:</th>
-                       <td colspan='7' valign='top' align='left'>
-                         <p id='_'>Register</p>
-                       </td>
-                     </tr>
-                     <tr>
-                       <th valign='top' align='left'>Generalization of:</th>
-                       <td colspan='7' valign='top' align='left'>
-                         <p id='_'>TermRegister, CL_ClassificationRegister, LC_LCMLRegister</p>
-                       </td>
-                     </tr>
-                     <tr>
-                       <th valign='top' align='left'>Abstract:</th>
-                       <td colspan='7' valign='top' align='left'>
-                         <p id='_'>True</p>
-                       </td>
-                     </tr>
-                     <tr>
-                       <th valign='top' rowspan='2' align='left'>Associations:</th>
-                       <td colspan='4' valign='top' align='left'>
-                         <p id='_'>
-                           <em>Association with</em>
-                         </p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>
-                           <em>Obligation</em>
-                         </p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>
-                           <em>Maximum occurrence</em>
-                         </p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>
-                           <em>Provides</em>
-                         </p>
-                       </td>
-                     </tr>
-                     <tr>
-                       <td colspan='4' valign='top' align='left'>
-                         <p id='_'>RE_ReferenceSource</p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>C</p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>*</p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>citation</p>
-                       </td>
-                     </tr>
-                     <tr>
-                       <th valign='top' rowspan='6' align='left'>Public attributes:</th>
-                       <td valign='top' align='left'>
-                         <p id='_'>
-                           <em>Name</em>
-                         </p>
-                       </td>
-                       <td colspan='2' valign='top' align='left'>
-                         <p id='_'>
-                           <em>Definition</em>
-                         </p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>
-                           <em>Derived</em>
-                         </p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>
-                           <em>Obligation</em>
-                         </p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>
-                           <em>Maximum occurrence</em>
-                         </p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>
-                           <em>Data type</em>
-                         </p>
-                       </td>
-                     </tr>
-                     <tr>
-                       <td valign='top' align='left'>
-                         <p id='_'>alternativeLanguages</p>
-                       </td>
-                       <td colspan='2' valign='top' align='left'>
-                         <p id='_'>
-                           The attribute &#8220;alternativeLanguages&#8221; supports
-                           cultural and linguistic adaptability, individual items in a
-                           register may provide elements of information in additional
-                           languages other than the operating language of the register.
-                           The attribute 
-                           <em>alternativeLanguages</em>
-                            shall be represented as a set of instances of RE_Locale,
-                           each specifying an additional unique locale used by items in
-                           the register. Every member of the set shall be used by at
-                           least one item in the register. The 
-                           <em>locale</em>
-                            of every 
-                           <em>alternativeExpression</em>
-                            used by any item in the register shall be included in this
-                           set of RE_Locales. This attribute provides a summary of
-                           alternative locales used by items in a register. Register
-                           owners shall specify and publish their policy as to whether
-                           all or only some of the items in a register shall have
-                           alternative expressions.
-                         </p>
-                       </td>
-                       <td valign='top' align='left'/>
-                       <td valign='top' align='left'>
-                         <p id='_'>C</p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>1</p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>Set&lt;RE_Locale&gt;</p>
-                       </td>
-                     </tr>
-                     <tr>
-                       <td valign='top' align='left'>
-                         <p id='_'>contentSummary</p>
-                       </td>
-                       <td colspan='2' valign='top' align='left'>
-                         <p id='_'>
-                           The attribute &#8220;contentSummary&#8221; is be represented
-                           as a CharacterString containing a general statement of the
-                           purpose for which items in the register are made available
-                           to potential users. It should also specify any limits to the
-                           scope of the register and identify the types of applications
-                           for which the items are intended. NOTE The scope of a
-                           register could be limited by theme, by region, by language
-                           or other criteria. EXAMPLE The scope of a terminology
-                           register could be limited to Spanish terms used to describe
-                           landforms in Latin America.
-                         </p>
-                       </td>
-                       <td valign='top' align='left'/>
-                       <td valign='top' align='left'>
-                         <p id='_'>M</p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>1</p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>CharacterString</p>
-                       </td>
-                     </tr>
-                     <tr>
-                       <td valign='top' align='left'>
-                         <p id='_'>name</p>
-                       </td>
-                       <td colspan='2' valign='top' align='left'>
-                         <p id='_'>
-                           The attribute &#8220;name&#8221; is be represented as a
-                           CharacterString containing a compact and human-readable
-                           designator that is used to uniquely denote that register
-                           within the set of registers maintained by the register
-                           owner. In the case of a hierarchical register, the &#8220;
-                           <em>name&#8221;</em>
-                            of a subregister shall uniquely identify that subregister
-                           within the scope EXAMPLE &#239;&#191;&#189;ISO/TC 211
-                           Register of Feature Data Dictionaries and Feature
-                           Catalogues&#239;&#191;&#189; might be the name of the
-                           principal register of of all registers established by the
-                           owner of the principal register. a hierarchical register.
-                           &#239;&#191;&#189;DGIWG FACC Data
-                           Dictionary&#239;&#191;&#189; and &#239;&#191;&#189;IHO S-57
-                           Object Dictionary&#239;&#191;&#189; might be the names of
-                           subregisters within the hierarchy.
-                         </p>
-                       </td>
-                       <td valign='top' align='left'/>
-                       <td valign='top' align='left'>
-                         <p id='_'>M</p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>1</p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>CharacterString</p>
-                       </td>
-                     </tr>
-                     <tr>
-                       <td valign='top' align='left'>
-                         <p id='_'>operatingLanguage</p>
-                       </td>
-                       <td colspan='2' valign='top' align='left'>
-                         <p id='_'>
-                           The attribute &#8220;operatingLanguage&#8221; is represented
-                           as an instance of class RE_Locale that is used to specify
-                           language, country information and character encoding for the
-                           proper interpretation of the content of character strings in
-                           the register. The values of all character strings in the
-                           register shall be in accordance with the value of
-                           &#8220;operatingLanguage&#8221;, unless otherwise stated.
-                         </p>
-                       </td>
-                       <td valign='top' align='left'/>
-                       <td valign='top' align='left'>
-                         <p id='_'>M</p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>1</p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>EAID_3996125E_4828_4f3c_93BD_605E9059DE05</p>
-                       </td>
-                     </tr>
-                     <tr>
-                       <td valign='top' align='left'>
-                         <p id='_'>uniformResourceIdentifier</p>
-                       </td>
-                       <td colspan='2' valign='top' align='left'>
-                         <p id='_'>
-                           The attribute &#8220;uniformResourceIdentifier&#8221; takes
-                           as its value a set of URI&#8217;s, each referencing
-                           information about online resources associated with the
-                           register. EXAMPLE &#239;
-                           <em>OnLineResource.linkage</em>
-                            specifies a resource providing access to the complete
-                           content of the register. EXAMPLE
-                           &#239;&#191;&#189;http://www.digest.org/Navigate2.htm&#239;&#191;&#189; and &#239;&#191;&#189;http://www.epa.gov/opppmsd1/PPISdata/index.html&#239;&#191;&#189; are sample values of 
-                           <em>OnLineResource.linkage</em>
-                           .
-                         </p>
-                       </td>
-                       <td valign='top' align='left'/>
-                       <td valign='top' align='left'>
-                         <p id='_'>M</p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>*</p>
-                       </td>
-                       <td valign='top' align='left'>
-                         <p id='_'>URI</p>
-                       </td>
-                     </tr>
-                     <tr>
-                       <th valign='top' align='left'>Constraints:</th>
-                       <td colspan='7' valign='top' align='left'>
-                         <p id='_'>
-                           <tt>count(self.version +self.dateOfLastChange) &gt;= 1</tt>
-                         </p>
-                       </td>
-                     </tr>
-                   </tbody>
-                 </table>
-                 <p id='_'>footer text</p>
-                 <p id='_'>footer text</p>
-               </clause>
-             </clause>
-           </clause>
-         </sections>
-
+<preface>
+  <foreword id='_' obligation='informative'>
+    <title>Foreword</title>
+    <p id='_'>mine text</p>
+  </foreword>
+</preface>
+  <sections>
+    <clause id='_' inline-header='false' obligation='normative'>
+      <title>Wrapper nested package package</title>
+      <clause id='section-EAPK_9C96A88B_E98B_490b_8A9C_24AEDAC64293' inline-header='false' obligation='normative'>
+        <title>Wrapper nested package overview</title>
+        <p id='_'>Diagram text</p>
+        <figure id='figure-EAID_0E029ABF_C35A_49e3_9EEA_FFD4F32780A8'>
+          <name>Fig B1 Full model</name>
+          <image src='spec/assets/requirements//EAID_0E029ABF_C35A_49e3_9EEA_FFD4F32780A8.png' id='_' mimetype='image/png' height='auto' width='auto'/>
+        </figure>
+        <p id='_'>The Wrapper nested package package is organized into 1 packages:</p>
+        <ol id='_' type='arabic'>
+          <li>
+            <p id='_'>ISO 19135 Procedures for item registration XML package</p>
+          </li>
+        </ol>
+        <p id='_'>mine text</p>
+      </clause>
+      <clause id='_' inline-header='false' obligation='normative'>
+        <title>ISO 19135 Procedures for item registration XML package</title>
+        <clause id='section-EAPK_9C96A88B_E98B_490b_8A9C_24AEDAC64293' inline-header='false' obligation='normative'>
+          <title>ISO 19135 Procedures for item registration XML overview</title>
+          <p id='_'>Diagram text</p>
+          <figure id='figure-EAID_0E029ABF_C35A_49e3_9EEA_FFD4F32780A8'>
+            <name>Fig B1 Full model</name>
+            <image src='spec/assets/requirements//EAID_0E029ABF_C35A_49e3_9EEA_FFD4F32780A8.png' id='_' mimetype='image/png' height='auto' width='auto'/>
+          </figure>
+        </clause>
+        <clause id='_' inline-header='false' obligation='normative'>
+          <title>Defining tables</title>
+          <table id='section-EAID_82206E96_8D23_48dd_AC2F_31939C484AF2' width='100%'>
+            <name>
+              Elements of &#8220;ISO 19135 Procedures for item registration
+              XML::RE_Register&#8221; (class)
+            </name>
+            <tbody>
+              <tr>
+                <th valign='top' align='left'>Name:</th>
+                <td colspan='7' valign='top' align='left'>
+                  <p id='_'>RE_Register</p>
+                </td>
+              </tr>
+              <tr>
+                <th valign='top' align='left'>Definition:</th>
+                <td colspan='7' valign='top' align='left'>
+                  <p id='_'>
+                    The class &#8220;RE_Register&#8221; specifies information
+                    about the register itself. It is a subtype of the Register
+                    class in the core profile.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <th valign='top' align='left'>Stereotype:</th>
+                <td colspan='7' valign='top' align='left'>
+                  <p id='_'>interface</p>
+                </td>
+              </tr>
+              <tr>
+                <th valign='top' align='left'>Inheritance from:</th>
+                <td colspan='7' valign='top' align='left'>
+                  <p id='_'>Register</p>
+                </td>
+              </tr>
+              <tr>
+                <th valign='top' align='left'>Generalization of:</th>
+                <td colspan='7' valign='top' align='left'>
+                  <p id='_'>TermRegister, CL_ClassificationRegister, LC_LCMLRegister</p>
+                </td>
+              </tr>
+              <tr>
+                <th valign='top' align='left'>Abstract:</th>
+                <td colspan='7' valign='top' align='left'>
+                  <p id='_'>True</p>
+                </td>
+              </tr>
+              <tr>
+                <th valign='top' rowspan='2' align='left'>Associations:</th>
+                <td colspan='4' valign='top' align='left'>
+                  <p id='_'>
+                    <em>Association with</em>
+                  </p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>
+                    <em>Obligation</em>
+                  </p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>
+                    <em>Maximum occurrence</em>
+                  </p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>
+                    <em>Provides</em>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td colspan='4' valign='top' align='left'>
+                  <p id='_'>RE_ReferenceSource</p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>C</p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>*</p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>citation</p>
+                </td>
+              </tr>
+              <tr>
+                <th valign='top' rowspan='6' align='left'>Public attributes:</th>
+                <td valign='top' align='left'>
+                  <p id='_'>
+                    <em>Name</em>
+                  </p>
+                </td>
+                <td colspan='2' valign='top' align='left'>
+                  <p id='_'>
+                    <em>Definition</em>
+                  </p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>
+                    <em>Derived</em>
+                  </p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>
+                    <em>Obligation</em>
+                  </p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>
+                    <em>Maximum occurrence</em>
+                  </p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>
+                    <em>Data type</em>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td valign='top' align='left'>
+                  <p id='_'>alternativeLanguages</p>
+                </td>
+                <td colspan='2' valign='top' align='left'>
+                  <p id='_'>
+                    The attribute &#8220;alternativeLanguages&#8221; supports
+                    cultural and linguistic adaptability, individual items in a
+                    register may provide elements of information in additional
+                    languages other than the operating language of the register.
+                    The attribute
+                    <em>alternativeLanguages</em>
+                     shall be represented as a set of instances of RE_Locale,
+                    each specifying an additional unique locale used by items in
+                    the register. Every member of the set shall be used by at
+                    least one item in the register. The
+                    <em>locale</em>
+                     of every
+                    <em>alternativeExpression</em>
+                     used by any item in the register shall be included in this
+                    set of RE_Locales. This attribute provides a summary of
+                    alternative locales used by items in a register. Register
+                    owners shall specify and publish their policy as to whether
+                    all or only some of the items in a register shall have
+                    alternative expressions.
+                  </p>
+                </td>
+                <td valign='top' align='left'/>
+                <td valign='top' align='left'>
+                  <p id='_'>C</p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>1</p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>Set&lt;RE_Locale&gt;</p>
+                </td>
+              </tr>
+              <tr>
+                <td valign='top' align='left'>
+                  <p id='_'>contentSummary</p>
+                </td>
+                <td colspan='2' valign='top' align='left'>
+                  <p id='_'>
+                    The attribute &#8220;contentSummary&#8221; is be represented
+                    as a CharacterString containing a general statement of the
+                    purpose for which items in the register are made available
+                    to potential users. It should also specify any limits to the
+                    scope of the register and identify the types of applications
+                    for which the items are intended. NOTE The scope of a
+                    register could be limited by theme, by region, by language
+                    or other criteria. EXAMPLE The scope of a terminology
+                    register could be limited to Spanish terms used to describe
+                    landforms in Latin America.
+                  </p>
+                </td>
+                <td valign='top' align='left'/>
+                <td valign='top' align='left'>
+                  <p id='_'>M</p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>1</p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>CharacterString</p>
+                </td>
+              </tr>
+              <tr>
+                <td valign='top' align='left'>
+                  <p id='_'>name</p>
+                </td>
+                <td colspan='2' valign='top' align='left'>
+                  <p id='_'>
+                    The attribute &#8220;name&#8221; is be represented as a
+                    CharacterString containing a compact and human-readable
+                    designator that is used to uniquely denote that register
+                    within the set of registers maintained by the register
+                    owner. In the case of a hierarchical register, the &#8220;
+                    <em>name&#8221;</em>
+                     of a subregister shall uniquely identify that subregister
+                    within the scope EXAMPLE &#239;&#191;&#189;ISO/TC 211
+                    Register of Feature Data Dictionaries and Feature
+                    Catalogues&#239;&#191;&#189; might be the name of the
+                    principal register of of all registers established by the
+                    owner of the principal register. a hierarchical register.
+                    &#239;&#191;&#189;DGIWG FACC Data
+                    Dictionary&#239;&#191;&#189; and &#239;&#191;&#189;IHO S-57
+                    Object Dictionary&#239;&#191;&#189; might be the names of
+                    subregisters within the hierarchy.
+                  </p>
+                </td>
+                <td valign='top' align='left'/>
+                <td valign='top' align='left'>
+                  <p id='_'>M</p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>1</p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>CharacterString</p>
+                </td>
+              </tr>
+              <tr>
+                <td valign='top' align='left'>
+                  <p id='_'>operatingLanguage</p>
+                </td>
+                <td colspan='2' valign='top' align='left'>
+                  <p id='_'>
+                    The attribute &#8220;operatingLanguage&#8221; is represented
+                    as an instance of class RE_Locale that is used to specify
+                    language, country information and character encoding for the
+                    proper interpretation of the content of character strings in
+                    the register. The values of all character strings in the
+                    register shall be in accordance with the value of
+                    &#8220;operatingLanguage&#8221;, unless otherwise stated.
+                  </p>
+                </td>
+                <td valign='top' align='left'/>
+                <td valign='top' align='left'>
+                  <p id='_'>M</p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>1</p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>EAID_3996125E_4828_4f3c_93BD_605E9059DE05</p>
+                </td>
+              </tr>
+              <tr>
+                <td valign='top' align='left'>
+                  <p id='_'>uniformResourceIdentifier</p>
+                </td>
+                <td colspan='2' valign='top' align='left'>
+                  <p id='_'>
+                    The attribute &#8220;uniformResourceIdentifier&#8221; takes
+                    as its value a set of URI&#8217;s, each referencing
+                    information about online resources associated with the
+                    register. EXAMPLE
+                    &#239;&#191;&#189;http://www.digest.org/Navigate2.htm&#239;&#191;
+                    <em>OnLineResource.linkage</em>
+                     specifies a resource providing access to the complete
+                    content of the register. EXAMPLE
+                    &#239;&#191;&#189;http://www.digest.org/Navigate2.htm&#239;&#191;&#189; and &#239;&#191;&#189;http://www.epa.gov/opppmsd1/PPISdata/index.html&#239;&#191;&#189; are sample values of
+                    <em>OnLineResource.linkage</em>
+                    .
+                  </p>
+                </td>
+                <td valign='top' align='left'/>
+                <td valign='top' align='left'>
+                  <p id='_'>M</p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>*</p>
+                </td>
+                <td valign='top' align='left'>
+                  <p id='_'>URI</p>
+                </td>
+              </tr>
+              <tr>
+                <th valign='top' align='left'>Constraints:</th>
+                <td colspan='7' valign='top' align='left'>
+                  <p id='_'>
+                    <tt>count(self.version +self.dateOfLastChange) &gt;= 1</tt>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p id='_'>footer text</p>
+          <p id='_'>footer text</p>
+        </clause>
+      </clause>
+    </clause>
+  </sections>
