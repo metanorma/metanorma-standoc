@@ -21,18 +21,23 @@ module Asciidoctor
 
       def requirement_descriptions(xmldoc)
         xmldoc.xpath(REQRECPER).each do |r|
+          r.xpath(".//p[normalize-space(.)='']").each(&:remove)
           r.children.each do |e|
-            unless e.element? && (reqt_subpart(e.name) ||
-                %w(requirement recommendation permission).include?(e.name))
-              next if e.text.strip.empty?
-
-              t = Nokogiri::XML::Element.new("description", r)
-              e.before(t)
-              t.children = e.remove
-            end
+            requirement_description_wrap(r, e)
           end
           requirement_description_cleanup1(r)
         end
+      end
+
+      def requirement_description_wrap(reqt, text)
+        return if text.element? && (reqt_subpart(text.name) ||
+                %w(requirement recommendation
+                   permission).include?(text.name)) ||
+          text.text.strip.empty?
+
+        t = Nokogiri::XML::Element.new("description", reqt)
+        text.before(t)
+        t.children = text.remove
       end
 
       def requirement_description_cleanup1(reqt)
