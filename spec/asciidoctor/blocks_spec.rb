@@ -1264,10 +1264,14 @@ RSpec.describe Asciidoctor::Standoc do
       =====
       I also permit this
       =====
+
+      [requirement,type="general",label="/req/core/quantities-uom"]
+      ======
+      ======
       ====
     INPUT
     output = <<~"OUTPUT"
-                  #{BLANK_HDR}
+      #{BLANK_HDR}
              <sections>
                <permission id="_"><description><p id="_">I permit this</p>
       <example id="_">
@@ -1275,7 +1279,11 @@ RSpec.describe Asciidoctor::Standoc do
       </example></description>
       <permission id="_">
         <description><p id="_">I also permit this</p></description>
-      </permission></permission>
+      </permission>
+      <requirement id='_' type='general'>
+      <label>/req/core/quantities-uom</label>
+      </requirement>
+      </permission>
       </sections>
       </standard-document>
     OUTPUT
