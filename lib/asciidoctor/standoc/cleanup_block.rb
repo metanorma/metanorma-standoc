@@ -7,7 +7,8 @@ module Asciidoctor
       def para_cleanup(xmldoc)
         ["//p[not(ancestor::bibdata)]", "//ol[not(ancestor::bibdata)]",
          "//ul[not(ancestor::bibdata)]", "//quote[not(ancestor::bibdata)]",
-         "//note[not(ancestor::bibitem or ancestor::table or ancestor::bibdata)]"].each do |w|
+         "//note[not(ancestor::bibitem or "\
+         "ancestor::table or ancestor::bibdata)]"].each do |w|
           inject_id(
             xmldoc, w
           )
@@ -73,9 +74,11 @@ module Asciidoctor
       def notes_table_cleanup(xmldoc)
         nomatches = false
         until nomatches
-          q = "//table/following-sibling::*[1][self::note]"
+          q = "//table/following-sibling::*[1]"\
+              "[self::note[not(@keep-separate = 'true')]]"
           nomatches = true
           xmldoc.xpath(q).each do |n|
+            n.delete("keep-separate")
             n.previous_element << n.remove
             nomatches = false
           end
