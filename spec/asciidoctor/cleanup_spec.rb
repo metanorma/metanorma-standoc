@@ -578,6 +578,79 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "does not move notes inside preceding tables, if they are marked as keep-separate" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      |===
+      |A |B
+
+      |C |D
+      |===
+
+      [NOTE,keep-separate=true]
+      ====
+      That formula does not do much
+      ====
+
+      |===
+      |A |B
+
+      |C |D
+      |===
+
+      [NOTE]
+      ====
+      That formula does not do much
+      ====
+
+      Indeed.
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections>
+                 <table id='_'>
+             <thead>
+               <tr>
+                 <th valign='top' align='left'>A</th>
+                 <th valign='top' align='left'>B</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <td valign='top' align='left'>C</td>
+                 <td valign='top' align='left'>D</td>
+               </tr>
+             </tbody>
+           </table>
+           <note id='_'>
+             <p id='_'>That formula does not do much</p>
+           </note>
+           <table id='_'>
+             <thead>
+               <tr>
+                 <th valign='top' align='left'>A</th>
+                 <th valign='top' align='left'>B</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <td valign='top' align='left'>C</td>
+                 <td valign='top' align='left'>D</td>
+               </tr>
+             </tbody>
+             <note id='_'>
+               <p id='_'>That formula does not do much</p>
+             </note>
+           </table>
+           <p id='_'>Indeed.</p>
+      </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "does not move notes inside preceding blocks, if they are at clause end" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
