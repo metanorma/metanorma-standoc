@@ -317,6 +317,88 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes multiple term definitions" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      === Term1
+
+      [.definition]
+      --
+      first definition
+
+      [.source]
+      <<ISO2191,section=1>>
+      --
+
+      [.definition]
+      --
+      second definition
+
+      [.source]
+      <<ISO2191,section=2>>
+      --
+
+      NOTE: This is a note
+
+      [.source]
+      <<ISO2191,section=3>>
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <sections>
+           <terms id='_' obligation='normative'>
+             <title>Terms and definitions</title>
+             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+             <term id='term-term1'>
+               <preferred>Term1</preferred>
+               <definition>
+                 <p id='_'>first definition</p>
+                 <termsource status='identical'>
+                   <origin bibitemid='ISO2191' type='inline' citeas=''>
+                     <localityStack>
+                       <locality type='section'>
+                         <referenceFrom>1</referenceFrom>
+                       </locality>
+                     </localityStack>
+                   </origin>
+                 </termsource>
+               </definition>
+               <definition>
+                 <p id='_'>second definition</p>
+                 <termsource status='identical'>
+                   <origin bibitemid='ISO2191' type='inline' citeas=''>
+                     <localityStack>
+                       <locality type='section'>
+                         <referenceFrom>2</referenceFrom>
+                       </locality>
+                     </localityStack>
+                   </origin>
+                 </termsource>
+               </definition>
+               <termnote id='_'>
+                 <p id='_'>This is a note</p>
+               </termnote>
+               <termsource status='identical'>
+                 <origin bibitemid='ISO2191' type='inline' citeas=''>
+                   <localityStack>
+                     <locality type='section'>
+                       <referenceFrom>3</referenceFrom>
+                     </locality>
+                   </localityStack>
+                 </origin>
+               </termsource>
+             </term>
+           </terms>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes term notes" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}

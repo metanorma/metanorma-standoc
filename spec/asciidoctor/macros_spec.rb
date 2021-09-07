@@ -678,7 +678,7 @@ RSpec.describe Asciidoctor::Standoc do
         <definitions id='clause1' obligation='normative'>
           <title>Symbols and abbreviated terms</title>
           <dl id='_'>
-            <dt id='symbol-_-_x_-'>
+            <dt id='symbol-_-__x230a_x__x230b_-'>
               <stem type='MathML'>
                 <math xmlns='http://www.w3.org/1998/Math/MathML'>
                   <mo>&#8970;</mo>
@@ -700,7 +700,7 @@ RSpec.describe Asciidoctor::Standoc do
                  function.
               </p>
             </dd>
-            <dt id='symbol-_-_x_--1'>
+            <dt id='symbol-_-__x2308_x__x2309_-'>
               <stem type='MathML'>
                 <math xmlns='http://www.w3.org/1998/Math/MathML'>
                   <mo>&#8968;</mo>

@@ -29,7 +29,7 @@ module Asciidoctor
       end
 
       def termdefinition_cleanup(xmldoc)
-        xmldoc.xpath("//term").each do |d|
+        xmldoc.xpath("//term[not(definition)]").each do |d|
           first_child = d.at("./p | ./figure | ./formula") || next
           t = Nokogiri::XML::Element.new("definition", xmldoc)
           first_child.replace(t)

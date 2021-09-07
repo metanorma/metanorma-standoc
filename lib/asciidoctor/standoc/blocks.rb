@@ -33,6 +33,7 @@ module Asciidoctor
         role = node.role || node.attr("style")
         reqt_subpart(role) and return requirement_subpart(node)
         role == "form" and return form(node)
+        role == "definition" and return termdefinition(node)
         result = []
         node.blocks.each do |b|
           result << send(b.context, b)

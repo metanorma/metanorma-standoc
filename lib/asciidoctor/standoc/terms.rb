@@ -77,7 +77,7 @@ module Asciidoctor
       def term_def_parse(attrs, xml, node, _toplevel)
         xml.terms **attr_code(attrs) do |section|
           section.title { |t| t << node.title }
-          (s = node.attr("source")) && s.split(/,/).each do |s1|
+          (s = node.attr("source")) && s.split(",").each do |s1|
             section.termdocsource(nil, **attr_code(bibitemid: s1))
           end
           section << node.content
@@ -128,6 +128,14 @@ module Asciidoctor
           xml.termsource **attrs do |xml_t|
             seen_xref = Nokogiri::XML.fragment(matched[:xref])
             add_term_source(node, xml_t, seen_xref, matched)
+          end
+        end.join("\n")
+      end
+
+      def termdefinition(node)
+        noko do |xml|
+          xml.definition do |d|
+            d << node.content
           end
         end.join("\n")
       end

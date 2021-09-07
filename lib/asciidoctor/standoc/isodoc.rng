@@ -1700,7 +1700,9 @@
       <zeroOrMore>
         <ref name="termgrammar"/>
       </zeroOrMore>
-      <ref name="definition"/>
+      <oneOrMore>
+        <ref name="termdefinition"/>
+      </oneOrMore>
       <zeroOrMore>
         <ref name="termnote"/>
       </zeroOrMore>
@@ -1763,7 +1765,7 @@
       </oneOrMore>
     </element>
   </define>
-  <define name="definition">
+  <define name="termdefinition">
     <element name="definition">
       <oneOrMore>
         <choice>
@@ -1772,6 +1774,9 @@
           <ref name="formula"/>
         </choice>
       </oneOrMore>
+      <zeroOrMore>
+        <ref name="termsource"/>
+      </zeroOrMore>
     </element>
   </define>
   <define name="termnote">
