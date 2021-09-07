@@ -1424,7 +1424,7 @@ RSpec.describe Asciidoctor::Standoc do
       <<Löwe>>
 
       [[Löwe]]
-      . See <<Löwner2016>>
+      .See <<Löwner2016>>
       ----
       ABC
       ----
@@ -1461,13 +1461,13 @@ RSpec.describe Asciidoctor::Standoc do
              <xref target='__ab'/>
              <xref target='_1_'/>
              <xref target='L__xf6_we'/>
-             <ol id='L__xf6_we' type='arabic'>
-               <li>
-                  See
+             <sourcecode id='L__xf6_we'>
+               <name>
+                 See 
                  <eref type='inline' bibitemid='L__xf6_wner2016' citeas='L&#246;wner et al. 2016'/>
-               </li>
-             </ol>
-             <sourcecode id='_c1166980-b218-41cb-931f-cbc81167b748'>ABC</sourcecode>
+               </name>
+               ABC
+             </sourcecode>
            </clause>
          </sections>
          <bibliography>
@@ -1495,9 +1495,9 @@ RSpec.describe Asciidoctor::Standoc do
          </bibliography>
        </standard-document>
     OUTPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)
-      .gsub(/<p id="_[^"]+">/, "").gsub("</p>", "")))
-      .to be_equivalent_to(output)
+    expect(strip_guid(xmlpp(Asciidoctor.convert(input, *OPTIONS)
+      .gsub(/<p id="_[^"]+">/, "").gsub("</p>", ""))))
+      .to be_equivalent_to(xmlpp(output))
     expect { Asciidoctor.convert(input, *OPTIONS) }
       .to output(%r{normalised identifier in <clause id="a_b" inline-header="false" obligation="normative"/> from a:b})
       .to_stderr
