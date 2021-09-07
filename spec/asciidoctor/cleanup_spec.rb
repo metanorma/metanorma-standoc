@@ -396,7 +396,7 @@ RSpec.describe Asciidoctor::Standoc do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       <<iso216,whole,clause=3,example=9-11,locality:prelude="33 a",locality:entirety:the reference,xyz>>
-      <<iso216,whole,clause=3,example=9-11,locality:prelude=33,locality:entirety="the reference";whole,clause=3,example=9-11,locality:prelude=33,locality:entirety:the reference,xyz>>
+      <<iso216,whole,clause=3,example=9-11,locality:prelude=33,locality:entirety="the reference";whole,clause=3,example=9-11,locality:prelude=33,locality:URL:the reference,xyz>>
       <<iso216,_whole_>>
       <<iso216,a _whole_ flagon>>
       <<iso216,whole,clause=3,a _whole_ flagon>>
@@ -445,7 +445,7 @@ RSpec.describe Asciidoctor::Standoc do
            <locality type='locality:prelude'>
              <referenceFrom>33</referenceFrom>
            </locality>
-           <locality type='locality:entirety'/>
+           <locality type='locality:URL'/>
          </localityStack>
          the reference,xyz
        </eref>

@@ -86,12 +86,17 @@ module Asciidoctor
         while (m = LOCALITY_RE.match text)
           ref = m[:ref] ? "<referenceFrom>#{tq m[:ref]}</referenceFrom>" : ""
           refto = m[:to] ? "<referenceTo>#{tq m[:to]}</referenceTo>" : ""
-          loc = m[:locality]&.downcase || m[:locality2]&.downcase
-          b.add_child("<locality type='#{loc}'>#{ref}#{refto}</locality>")
+          b.add_child("<locality type='#{locality_label(m)}'>#{ref}#{refto}"\
+                      "</locality>")
           text = m[:text]
           b = elem.add_child("<localityStack/>").first if m[:punct] == ";"
         end
         elem.add_child(text) if text
+      end
+
+      def locality_label(match)
+        loc = match[:locality] || match[:locality2]
+        /^locality:/.match?(loc) ? loc : loc&.downcase
       end
 
       def xref_to_eref(elem)
