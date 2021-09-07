@@ -203,7 +203,8 @@ module Asciidoctor
       end
 
       IDREF = "//*/@id | //review/@from | //review/@to | "\
-        "//callout/@target | //citation/@bibitemid | //eref/@bibitemid".freeze
+              "//callout/@target | //citation/@bibitemid | "\
+              "//eref/@bibitemid".freeze
 
       def anchor_cleanup(elem)
         anchor_cleanup1(elem)

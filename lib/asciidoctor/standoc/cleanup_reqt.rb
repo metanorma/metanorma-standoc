@@ -21,7 +21,7 @@ module Asciidoctor
 
       def requirement_descriptions(xmldoc)
         xmldoc.xpath(REQRECPER).each do |r|
-          r.xpath(".//p[normalize-space(.)='']").each(&:remove)
+          r.xpath(".//p[not(node())][normalize-space(.)='']").each(&:remove)
           r.children.each do |e|
             requirement_description_wrap(r, e)
           end
