@@ -2,15 +2,15 @@ module Asciidoctor
   module Standoc
     module Table
       def table_attrs(node)
-        keep_attrs(node).merge( id: Metanorma::Utils::anchor_or_uuid(node),
-          headerrows: node.attr("headerrows"),
-          unnumbered: node.option?("unnumbered") ? "true" : nil,
-          number: node.attr("number"),
-          subsequence: node.attr("subsequence"),
-          alt: node.attr("alt"),
-          summary: node.attr("summary"),
-          width: node.attr("width"),
-        )
+        keep_attrs(node)
+          .merge(id: Metanorma::Utils::anchor_or_uuid(node),
+                 headerrows: node.attr("headerrows"),
+                 unnumbered: node.option?("unnumbered") ? "true" : nil,
+                 number: node.attr("number"),
+                 subsequence: node.attr("subsequence"),
+                 alt: node.attr("alt"),
+                 summary: node.attr("summary"),
+                 width: node.attr("width"))
       end
 
       def table(node)
@@ -31,8 +31,10 @@ module Asciidoctor
 
       def colgroup(node, xml_table)
         return if node.option? "autowidth"
+
         cols = node&.attr("cols")&.split(/,/) or return
-        return unless cols.size > 1 and cols.all? { |c| /\d/.match(c) }
+        return unless (cols.size > 1) && cols.all? { |c| /\d/.match(c) }
+
         xml_table.colgroup do |cg|
           node.columns.each do |col|
             cg.col **{ width: "#{col.attr 'colpcwidth'}%" }
@@ -49,21 +51,21 @@ module Asciidoctor
       end
 
       def table_cell1(cell, thd)
-        if cell.style == :asciidoc
-          thd << cell.content
-        else
-          thd << cell.text
-        end
+        thd << if cell.style == :asciidoc
+                 cell.content
+               else
+                 cell.text
+               end
       end
 
-      def table_cell(c, xml_tr, tblsec)
+      def table_cell(node, xml_tr, tblsec)
         cell_attributes =
-          { id: c.id, colspan: c.colspan, valign: c.attr("valign"),
-            rowspan: c.rowspan, align: c.attr("halign") }
+          { id: node.id, colspan: node.colspan, valign: node.attr("valign"),
+            rowspan: node.rowspan, align: node.attr("halign") }
         cell_tag = "td"
-        cell_tag = "th" if tblsec == :head || c.style == :header
+        cell_tag = "th" if tblsec == :head || node.style == :header
         xml_tr.send cell_tag, **attr_code(cell_attributes) do |thd|
-          table_cell1(c, thd)
+          table_cell1(node, thd)
         end
       end
 

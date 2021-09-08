@@ -239,222 +239,110 @@ RSpec.describe Asciidoctor::Standoc do
                #{NORM_REF_BOILERPLATE}
                 <bibitem id='iso123' type='standard'>
                       <fetched>#{Date.today}</fetched>
-                      <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
-                      <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
-                      <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex – Sampling</title>
-                      <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                      <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-                      <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                      <docidentifier type='ISO'>ISO 123 (all parts)</docidentifier>
-                      <docidentifier type='URN'>urn:iso:std:iso:123</docidentifier>
-                      <docnumber>123</docnumber>
-                      <date type='published'>
-                        <on>2001-05</on>
-                      </date>
-                      <contributor>
-                        <role type='publisher'/>
-                        <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                        </organization>
-                      </contributor>
-                      <edition>3</edition>
-                      <language>en</language>
-                      <script>Latn</script>
-                      <status>
-                        <stage>90</stage>
-                        <substage>93</substage>
-                      </status>
-                      <copyright>
-                        <from>2001</from>
-                        <owner>
-                          <organization>
-                            <name>ISO</name>
-                          </organization>
-                        </owner>
-                      </copyright>
-                      <relation type='obsoletes'>
-                        <bibitem type='standard'>
-                          <formattedref format='text/plain'>ISO 123:1985</formattedref>
-                        </bibitem>
-                      </relation>
-                      <relation type='instance'>
-                        <bibitem type='standard'>
-                          <fetched>#{Date.today}</fetched>
-                          <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
-                          <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
-                          <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex — Sampling</title>
-                          <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                          <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-                          <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                          <docidentifier type='ISO'>ISO 123:2001</docidentifier>
-                          <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
-                          <docnumber>123</docnumber>
-                          <date type='published'>
-                            <on>2001-05</on>
-                          </date>
-                          <contributor>
-                            <role type='publisher'/>
-                            <organization>
-                              <name>International Organization for Standardization</name>
-                              <abbreviation>ISO</abbreviation>
-                              <uri>www.iso.org</uri>
-                            </organization>
-                          </contributor>
-                          <edition>3</edition>
-                          <language>en</language>
-                          <script>Latn</script>
-                           <abstract format='text/plain' language='en' script='Latn'>
-          This International Standard specifies procedures for sampling
-          natural rubber latex concentrate and for sampling syntheticrubber
-          latices and artificial latices. It is also suitable for sampling
-          rubber latex contained in drums, tank cars ortanks. The procedures
-          may also be used for sampling plastics dispersions.
-        </abstract>
-                          <status>
-                            <stage>90</stage>
-                            <substage>93</substage>
-                          </status>
-                          <copyright>
-                            <from>2001</from>
-                            <owner>
-                              <organization>
-                                <name>ISO</name>
-                              </organization>
-                            </owner>
-                          </copyright>
-                          <relation type='obsoletes'>
-                            <bibitem type='standard'>
-                              <formattedref format='text/plain'>ISO 123:1985</formattedref>
-                            </bibitem>
-                          </relation>
-                          <place>Geneva</place>
-                        </bibitem>
-                      </relation>
-                      <relation type='instance'>
-                        <bibitem type='standard'>
-                          <formattedref format='text/plain'>ISO 123:1985</formattedref>
-                        </bibitem>
-                      </relation>
-                      <relation type='instance'>
-                        <bibitem type='standard'>
-                          <formattedref format='text/plain'>ISO 123:1974</formattedref>
-                        </bibitem>
-                      </relation>
-                      <place>Geneva</place>
-                    </bibitem>
-                    <bibitem id='iso124' type='standard'>
-                      <fetched>#{Date.today}</fetched>
-                      <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
-                      <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
-                      <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex – Sampling</title>
-                      <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                      <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-                      <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                      <docidentifier type='ISO'>ISO 123 (all parts)</docidentifier>
-                      <docidentifier type='metanorma'>[1]</docidentifier>
-                      <docidentifier type='URN'>urn:iso:std:iso:123</docidentifier>
-                      <docnumber>123</docnumber>
-                      <date type='published'>
-                        <on>2001-05</on>
-                      </date>
-                      <contributor>
-                        <role type='publisher'/>
-                        <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                        </organization>
-                      </contributor>
-                      <edition>3</edition>
-                      <language>en</language>
-                      <script>Latn</script>
-                      <status>
-                        <stage>90</stage>
-                        <substage>93</substage>
-                      </status>
-                      <copyright>
-                        <from>2001</from>
-                        <owner>
-                          <organization>
-                            <name>ISO</name>
-                          </organization>
-                        </owner>
-                      </copyright>
-                      <relation type='obsoletes'>
-                        <bibitem type='standard'>
-                          <formattedref format='text/plain'>ISO 123:1985</formattedref>
-                        </bibitem>
-                      </relation>
-                      <relation type='instance'>
-                        <bibitem type='standard'>
-                          <fetched>#{Date.today}</fetched>
-                          <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
-                          <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
-                          <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex — Sampling</title>
-                          <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                          <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-                          <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                          <docidentifier type='ISO'>ISO 123:2001</docidentifier>
-                          <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
-                          <docnumber>123</docnumber>
-                          <date type='published'>
-                            <on>2001-05</on>
-                          </date>
-                          <contributor>
-                            <role type='publisher'/>
-                            <organization>
-                              <name>International Organization for Standardization</name>
-                              <abbreviation>ISO</abbreviation>
-                              <uri>www.iso.org</uri>
-                            </organization>
-                          </contributor>
-                          <edition>3</edition>
-                          <language>en</language>
-                          <script>Latn</script>
-                          <abstract format='text/plain' language='en' script='Latn'>
-          This International Standard specifies procedures for sampling
-          natural rubber latex concentrate and for sampling syntheticrubber
-          latices and artificial latices. It is also suitable for sampling
-          rubber latex contained in drums, tank cars ortanks. The procedures
-          may also be used for sampling plastics dispersions.
-        </abstract>
-                          <status>
-                            <stage>90</stage>
-                            <substage>93</substage>
-                          </status>
-                          <copyright>
-                            <from>2001</from>
-                            <owner>
-                              <organization>
-                                <name>ISO</name>
-                              </organization>
-                            </owner>
-                          </copyright>
-                          <relation type='obsoletes'>
-                            <bibitem type='standard'>
-                              <formattedref format='text/plain'>ISO 123:1985</formattedref>
-                            </bibitem>
-                          </relation>
-                          <place>Geneva</place>
-                        </bibitem>
-                      </relation>
-                      <relation type='instance'>
-                        <bibitem type='standard'>
-                          <formattedref format='text/plain'>ISO 123:1985</formattedref>
-                        </bibitem>
-                      </relation>
-                      <relation type='instance'>
-                        <bibitem type='standard'>
-                          <formattedref format='text/plain'>ISO 123:1974</formattedref>
-                        </bibitem>
-                      </relation>
-                      <place>Geneva</place>
-                    </bibitem>
-                  </references>
-                </bibliography>
-              </standard-document>
+                                   <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
+               <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
+               <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
+               <uri type='src'>https://www.iso.org/standard/23281.html</uri>
+               <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+               <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+               <docidentifier type='ISO'>ISO 123:2001</docidentifier>
+               <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
+               <docnumber>123</docnumber>
+               <date type='published'>
+                 <on>2001-05</on>
+               </date>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <edition>3</edition>
+               <language>en</language>
+               <script>Latn</script>
+               <abstract format='text/plain' language='en' script='Latn'>
+                 This International Standard specifies procedures for sampling natural
+                 rubber latex concentrate and for sampling synthetic rubber latices and
+                 artificial latices. It is also suitable for sampling rubber latex
+                 contained in drums, tank cars or tanks. The procedures may also be
+                 used for sampling plastics dispersions.
+               </abstract>
+               <status>
+                 <stage>90</stage>
+                 <substage>93</substage>
+               </status>
+               <copyright>
+                 <from>2001</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type='obsoletes'>
+                 <bibitem type='standard'>
+                   <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                 </bibitem>
+               </relation>
+               <place>Geneva</place>
+             </bibitem>
+             <bibitem id='iso124' type='standard'>
+               <fetched>#{Date.today}</fetched>
+               <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
+               <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
+               <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
+               <uri type='src'>https://www.iso.org/standard/23281.html</uri>
+               <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+               <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+               <docidentifier type='ISO'>ISO 123:2001</docidentifier>
+               <docidentifier type='metanorma'>[1]</docidentifier>
+               <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
+               <docnumber>123</docnumber>
+               <date type='published'>
+                 <on>2001-05</on>
+               </date>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <edition>3</edition>
+               <language>en</language>
+               <script>Latn</script>
+               <abstract format='text/plain' language='en' script='Latn'>
+                 This International Standard specifies procedures for sampling natural
+                 rubber latex concentrate and for sampling synthetic rubber latices and
+                 artificial latices. It is also suitable for sampling rubber latex
+                 contained in drums, tank cars or tanks. The procedures may also be
+                 used for sampling plastics dispersions.
+               </abstract>
+               <status>
+                 <stage>90</stage>
+                 <substage>93</substage>
+               </status>
+               <copyright>
+                 <from>2001</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type='obsoletes'>
+                 <bibitem type='standard'>
+                   <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                 </bibitem>
+               </relation>
+               <place>Geneva</place>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
       OUTPUT
     end
   end
@@ -489,231 +377,119 @@ RSpec.describe Asciidoctor::Standoc do
         compris les éventuels amendements).
                      </p>
                 <bibitem id='iso123' type='standard'>
-                       <fetched>#{Date.today}</fetched>
-                       <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
-                       <title type='title-main' format='text/plain' language='fr' script='Latn'>Échantillonnage</title>
-                       <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc – Échantillonnage</title>
-                       <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                       <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-                       <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                       <docidentifier type='ISO'>ISO 123 (all parts)</docidentifier>
-                       <docidentifier type='URN'>urn:iso:std:iso:123</docidentifier>
-                       <docnumber>123</docnumber>
-                       <date type='published'>
-                         <on>2001-05</on>
-                       </date>
-                       <contributor>
-                         <role type='publisher'/>
-                         <organization>
-                           <name>International Organization for Standardization</name>
-                           <abbreviation>ISO</abbreviation>
-                           <uri>www.iso.org</uri>
-                         </organization>
-                       </contributor>
-                       <edition>3</edition>
-                       <language>en</language>
-                       <language>fr</language>
-                       <script>Latn</script>
-                       <status>
-                         <stage>90</stage>
-                         <substage>93</substage>
-                       </status>
-                       <copyright>
-                         <from>2001</from>
-                         <owner>
-                           <organization>
-                             <name>ISO</name>
-                           </organization>
-                         </owner>
-                       </copyright>
-                       <relation type='obsoletes'>
-                         <bibitem type='standard'>
-                           <formattedref format='text/plain'>ISO 123:1985</formattedref>
-                         </bibitem>
-                       </relation>
-                       <relation type='instance'>
-                         <bibitem type='standard'>
-                           <fetched>#{Date.today}</fetched>
-                           <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
-                           <title type='title-main' format='text/plain' language='fr' script='Latn'>Échantillonnage</title>
-                           <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc — Échantillonnage</title>
-                           <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                           <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-                           <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                           <docidentifier type='ISO'>ISO 123:2001</docidentifier>
-                           <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:fr</docidentifier>
-                           <docnumber>123</docnumber>
-                           <date type='published'>
-                             <on>2001-05</on>
-                           </date>
-                           <contributor>
-                             <role type='publisher'/>
-                             <organization>
-                               <name>International Organization for Standardization</name>
-                               <abbreviation>ISO</abbreviation>
-                               <uri>www.iso.org</uri>
-                             </organization>
-                           </contributor>
-                           <edition>3</edition>
-                           <language>en</language>
-                           <language>fr</language>
-                           <script>Latn</script>
-                           <abstract format='text/plain' language='fr' script='Latn'>
-          La présente Norme internationale spécifie des méthodes
-          d’échantillonnage pour des concentrés de latex de
-          caoutchoucnaturel et pour échantillonner des latex de caoutchouc
-          synthétique et des latex artificiels. Elle s’applique égalementà
-          l’échantillonnage de latex de caoutchouc contenus dans des fûts,
-          citernes routières ou de stockage. Lemode opératoire peut aussi
-          être utilisé pour l’échantillonnage de dispersions de plastiques.
-        </abstract>
-                           <status>
-                             <stage>90</stage>
-                             <substage>93</substage>
-                           </status>
-                           <copyright>
-                             <from>2001</from>
-                             <owner>
-                               <organization>
-                                 <name>ISO</name>
-                               </organization>
-                             </owner>
-                           </copyright>
-                           <relation type='obsoletes'>
-                             <bibitem type='standard'>
-                               <formattedref format='text/plain'>ISO 123:1985</formattedref>
-                             </bibitem>
-                           </relation>
-                           <place>Geneva</place>
-                         </bibitem>
-                       </relation>
-                       <relation type='instance'>
-                         <bibitem type='standard'>
-                           <formattedref format='text/plain'>ISO 123:1985</formattedref>
-                         </bibitem>
-                       </relation>
-                       <relation type='instance'>
-                         <bibitem type='standard'>
-                           <formattedref format='text/plain'>ISO 123:1974</formattedref>
-                         </bibitem>
-                       </relation>
-                       <place>Geneva</place>
-                     </bibitem>
-                     <bibitem id='iso124' type='standard'>
-                       <fetched>#{Date.today}</fetched>
-                       <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
-                       <title type='title-main' format='text/plain' language='fr' script='Latn'>Échantillonnage</title>
-                       <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc – Échantillonnage</title>
-                       <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                       <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-                       <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                       <docidentifier type='ISO'>ISO 123 (all parts)</docidentifier>
-                       <docidentifier type='metanorma'>[1]</docidentifier>
-                       <docidentifier type='URN'>urn:iso:std:iso:123</docidentifier>
-                       <docnumber>123</docnumber>
-                       <date type='published'>
-                         <on>2001-05</on>
-                       </date>
-                       <contributor>
-                         <role type='publisher'/>
-                         <organization>
-                           <name>International Organization for Standardization</name>
-                           <abbreviation>ISO</abbreviation>
-                           <uri>www.iso.org</uri>
-                         </organization>
-                       </contributor>
-                       <edition>3</edition>
-                       <language>en</language>
-                       <language>fr</language>
-                       <script>Latn</script>
-                       <status>
-                         <stage>90</stage>
-                         <substage>93</substage>
-                       </status>
-                       <copyright>
-                         <from>2001</from>
-                         <owner>
-                           <organization>
-                             <name>ISO</name>
-                           </organization>
-                         </owner>
-                       </copyright>
-                       <relation type='obsoletes'>
-                         <bibitem type='standard'>
-                           <formattedref format='text/plain'>ISO 123:1985</formattedref>
-                         </bibitem>
-                       </relation>
-                       <relation type='instance'>
-                         <bibitem type='standard'>
-                           <fetched>#{Date.today}</fetched>
-                           <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
-                           <title type='title-main' format='text/plain' language='fr' script='Latn'>Échantillonnage</title>
-                           <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc — Échantillonnage</title>
-                           <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                           <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-                           <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                           <docidentifier type='ISO'>ISO 123:2001</docidentifier>
-                           <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:fr</docidentifier>
-                           <docnumber>123</docnumber>
-                           <date type='published'>
-                             <on>2001-05</on>
-                           </date>
-                           <contributor>
-                             <role type='publisher'/>
-                             <organization>
-                               <name>International Organization for Standardization</name>
-                               <abbreviation>ISO</abbreviation>
-                               <uri>www.iso.org</uri>
-                             </organization>
-                           </contributor>
-                           <edition>3</edition>
-                           <language>en</language>
-                           <language>fr</language>
-                           <script>Latn</script>
-                           <abstract format='text/plain' language='fr' script='Latn'>
-          La présente Norme internationale spécifie des méthodes
-          d’échantillonnage pour des concentrés de latex de
-          caoutchoucnaturel et pour échantillonner des latex de caoutchouc
-          synthétique et des latex artificiels. Elle s’applique égalementà
-          l’échantillonnage de latex de caoutchouc contenus dans des fûts,
-          citernes routières ou de stockage. Lemode opératoire peut aussi
-          être utilisé pour l’échantillonnage de dispersions de plastiques.
-        </abstract>
-                           <status>
-                             <stage>90</stage>
-                             <substage>93</substage>
-                           </status>
-                           <copyright>
-                             <from>2001</from>
-                             <owner>
-                               <organization>
-                                 <name>ISO</name>
-                               </organization>
-                             </owner>
-                           </copyright>
-                           <relation type='obsoletes'>
-                             <bibitem type='standard'>
-                               <formattedref format='text/plain'>ISO 123:1985</formattedref>
-                             </bibitem>
-                           </relation>
-                           <place>Geneva</place>
-                         </bibitem>
-                       </relation>
-                       <relation type='instance'>
-                         <bibitem type='standard'>
-                           <formattedref format='text/plain'>ISO 123:1985</formattedref>
-                         </bibitem>
-                       </relation>
-                       <relation type='instance'>
-                         <bibitem type='standard'>
-                           <formattedref format='text/plain'>ISO 123:1974</formattedref>
-                         </bibitem>
-                       </relation>
-                       <place>Geneva</place>
-                     </bibitem>
-                   </references>
-                 </bibliography>
-               </standard-document>
+                <fetched>#{Date.today}</fetched>
+                <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
+               <title type='title-main' format='text/plain' language='fr' script='Latn'>&#201;chantillonnage</title>
+               <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc&#8201;&#8212;&#8201;&#201;chantillonnage</title>
+               <uri type='src'>https://www.iso.org/standard/23281.html</uri>
+               <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+               <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+               <docidentifier type='ISO'>ISO 123:2001</docidentifier>
+               <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:fr</docidentifier>
+               <docnumber>123</docnumber>
+               <date type='published'>
+                 <on>2001-05</on>
+               </date>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <edition>3</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <abstract format='text/plain' language='fr' script='Latn'>
+                 La pr&#233;sente Norme internationale sp&#233;cifie des m&#233;thodes
+                 d&#8217;&#233;chantillonnage pour des concentr&#233;s de latex de
+                 caoutchouc naturel et pour &#233;chantillonner des latex de caoutchouc
+                 synth&#233;tique et des latex artificiels. Elle s&#8217;applique
+                 &#233;galement &#224; l&#8217;&#233;chantillonnage de latex de
+                 caoutchouc contenus dans des f&#251;ts, citernes routi&#232;res ou de
+                 stockage. Le mode op&#233;ratoire peut aussi &#234;tre utilis&#233;
+                 pour l&#8217;&#233;chantillonnage de dispersions de plastiques.
+               </abstract>
+               <status>
+                 <stage>90</stage>
+                 <substage>93</substage>
+               </status>
+               <copyright>
+                 <from>2001</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type='obsoletes'>
+                 <bibitem type='standard'>
+                   <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                 </bibitem>
+               </relation>
+               <place>Geneva</place>
+             </bibitem>
+             <bibitem id='iso124' type='standard'>
+               <fetched>#{Date.today}</fetched>
+               <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
+               <title type='title-main' format='text/plain' language='fr' script='Latn'>&#201;chantillonnage</title>
+               <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc&#8201;&#8212;&#8201;&#201;chantillonnage</title>
+               <uri type='src'>https://www.iso.org/standard/23281.html</uri>
+               <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+               <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+               <docidentifier type='ISO'>ISO 123:2001</docidentifier>
+               <docidentifier type='metanorma'>[1]</docidentifier>
+               <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:fr</docidentifier>
+               <docnumber>123</docnumber>
+               <date type='published'>
+                 <on>2001-05</on>
+               </date>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <edition>3</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <abstract format='text/plain' language='fr' script='Latn'>
+                 La pr&#233;sente Norme internationale sp&#233;cifie des m&#233;thodes
+                 d&#8217;&#233;chantillonnage pour des concentr&#233;s de latex de
+                 caoutchouc naturel et pour &#233;chantillonner des latex de caoutchouc
+                 synth&#233;tique et des latex artificiels. Elle s&#8217;applique
+                 &#233;galement &#224; l&#8217;&#233;chantillonnage de latex de
+                 caoutchouc contenus dans des f&#251;ts, citernes routi&#232;res ou de
+                 stockage. Le mode op&#233;ratoire peut aussi &#234;tre utilis&#233;
+                 pour l&#8217;&#233;chantillonnage de dispersions de plastiques.
+               </abstract>
+               <status>
+                 <stage>90</stage>
+                 <substage>93</substage>
+               </status>
+               <copyright>
+                 <from>2001</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type='obsoletes'>
+                 <bibitem type='standard'>
+                   <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                 </bibitem>
+               </relation>
+               <place>Geneva</place>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
       OUTPUT
     end
   end
@@ -975,7 +751,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "declines to fetch individual references" do
-    VCR.use_cassette "dated_iso_ref_joint_iso_iec" do
+    VCR.use_cassette "dated_iso_ref_joint_iso_iec1" do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         #{ISOBIB_BLANK_HDR}
         [bibliography]

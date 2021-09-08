@@ -1202,7 +1202,7 @@ RSpec.describe Asciidoctor::Standoc do
         </annex>
         <annex id='_' obligation='' language='' script=''>
           <references id='app' obligation='informative' normative="false">
-            <title>Bibliography</title>
+            <title>Normative Reference</title>
           </references>
         </annex>
       </standard-document>

@@ -1,13 +1,13 @@
-  <preface>
-    <foreword id='_' obligation='informative'>
-      <title>Foreword</title>
-      <p id='_'>mine text</p>
-    </foreword>
-  </preface>
+<preface>
+  <foreword id='_' obligation='informative'>
+    <title>Foreword</title>
+    <p id='_'>mine text</p>
+  </foreword>
+</preface>
   <sections>
     <clause id='_' inline-header='false' obligation='normative'>
       <title>Wrapper nested package package</title>
-      <clause id='_' inline-header='false' obligation='normative'>
+      <clause id='section-EAPK_9C96A88B_E98B_490b_8A9C_24AEDAC64293' inline-header='false' obligation='normative'>
         <title>Wrapper nested package overview</title>
         <p id='_'>Diagram text</p>
         <figure id='figure-EAID_0E029ABF_C35A_49e3_9EEA_FFD4F32780A8'>
@@ -24,7 +24,7 @@
       </clause>
       <clause id='_' inline-header='false' obligation='normative'>
         <title>ISO 19135 Procedures for item registration XML package</title>
-        <clause id='_' inline-header='false' obligation='normative'>
+        <clause id='section-EAPK_9C96A88B_E98B_490b_8A9C_24AEDAC64293' inline-header='false' obligation='normative'>
           <title>ISO 19135 Procedures for item registration XML overview</title>
           <p id='_'>Diagram text</p>
           <figure id='figure-EAID_0E029ABF_C35A_49e3_9EEA_FFD4F32780A8'>
@@ -34,8 +34,11 @@
         </clause>
         <clause id='_' inline-header='false' obligation='normative'>
           <title>Defining tables</title>
-          <table id='tab-P-iso_19135_procedures_for_item_registration_xml-C-re_register' width='100%'>
-            <name>Elements of ISO 19135 Procedures for item registration XML::RE_Register</name>
+          <table id='section-EAID_82206E96_8D23_48dd_AC2F_31939C484AF2' width='100%'>
+            <name>
+              Elements of &#8220;ISO 19135 Procedures for item registration
+              XML::RE_Register&#8221; (class)
+            </name>
             <tbody>
               <tr>
                 <th valign='top' align='left'>Name:</th>
@@ -74,14 +77,14 @@
               <tr>
                 <th valign='top' align='left'>Abstract:</th>
                 <td colspan='7' valign='top' align='left'>
-                  <p id='_'>false</p>
+                  <p id='_'>True</p>
                 </td>
               </tr>
               <tr>
                 <th valign='top' rowspan='2' align='left'>Associations:</th>
                 <td colspan='4' valign='top' align='left'>
                   <p id='_'>
-                    <em>Association with:</em>
+                    <em>Association with</em>
                   </p>
                 </td>
                 <td valign='top' align='left'>
@@ -96,7 +99,7 @@
                 </td>
                 <td valign='top' align='left'>
                   <p id='_'>
-                    <em>Provides:</em>
+                    <em>Provides</em>
                   </p>
                 </td>
               </tr>
@@ -159,14 +162,14 @@
                     languages other than the operating language of the register.
                     The attribute
                     <em>alternativeLanguages</em>
-                      shall be represented as a set of instances of RE_Locale,
+                     shall be represented as a set of instances of RE_Locale,
                     each specifying an additional unique locale used by items in
                     the register. Every member of the set shall be used by at
                     least one item in the register. The
                     <em>locale</em>
-                      of every
+                     of every
                     <em>alternativeExpression</em>
-                      used by any item in the register shall be included in this
+                     used by any item in the register shall be included in this
                     set of RE_Locales. This attribute provides a summary of
                     alternative locales used by items in a register. Register
                     owners shall specify and publish their policy as to whether
@@ -226,7 +229,7 @@
                     within the set of registers maintained by the register
                     owner. In the case of a hierarchical register, the &#8220;
                     <em>name&#8221;</em>
-                      of a subregister shall uniquely identify that subregister
+                     of a subregister shall uniquely identify that subregister
                     within the scope EXAMPLE &#239;&#191;&#189;ISO/TC 211
                     Register of Feature Data Dictionaries and Feature
                     Catalogues&#239;&#191;&#189; might be the name of the
@@ -285,9 +288,9 @@
                     as its value a set of URI&#8217;s, each referencing
                     information about online resources associated with the
                     register. EXAMPLE
-                    &#239;&#191;&#189;http://www.digest.org/Navigate2.htm&#239;&#191;&#189; and &#239;&#191;&#189;http://www.epa.gov/opppmsd1/PPISdata/index.html&#239;&#191;&#189; are sample valuescorresponding value of the attribute
+                    &#239;&#191;&#189;http://www.digest.org/Navigate2.htm&#239;&#191;
                     <em>OnLineResource.linkage</em>
-                      specifies a resource providing access to the complete
+                     specifies a resource providing access to the complete
                     content of the register. EXAMPLE
                     &#239;&#191;&#189;http://www.digest.org/Navigate2.htm&#239;&#191;&#189; and &#239;&#191;&#189;http://www.epa.gov/opppmsd1/PPISdata/index.html&#239;&#191;&#189; are sample values of
                     <em>OnLineResource.linkage</em>
@@ -306,11 +309,7 @@
                 </td>
               </tr>
               <tr>
-                <td valign='top' align='left'>
-                  <p id='_'>
-                    <strong>Constraints:</strong>
-                  </p>
-                </td>
+                <th valign='top' align='left'>Constraints:</th>
                 <td colspan='7' valign='top' align='left'>
                   <p id='_'>
                     <tt>count(self.version +self.dateOfLastChange) &gt;= 1</tt>

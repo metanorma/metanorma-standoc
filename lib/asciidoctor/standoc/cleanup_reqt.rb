@@ -21,16 +21,23 @@ module Asciidoctor
 
       def requirement_descriptions(xmldoc)
         xmldoc.xpath(REQRECPER).each do |r|
+          r.xpath(".//p[not(node())][normalize-space(.)='']").each(&:remove)
           r.children.each do |e|
-            unless e.element? && (reqt_subpart(e.name) ||
-                %w(requirement recommendation permission).include?(e.name))
-              t = Nokogiri::XML::Element.new("description", r)
-              e.before(t)
-              t.children = e.remove
-            end
+            requirement_description_wrap(r, e)
           end
           requirement_description_cleanup1(r)
         end
+      end
+
+      def requirement_description_wrap(reqt, text)
+        return if text.element? && (reqt_subpart(text.name) ||
+                %w(requirement recommendation
+                   permission).include?(text.name)) ||
+          text.text.strip.empty?
+
+        t = Nokogiri::XML::Element.new("description", reqt)
+        text.before(t)
+        t.children = text.remove
       end
 
       def requirement_description_cleanup1(reqt)
@@ -51,15 +58,28 @@ module Asciidoctor
         end
       end
 
+      def requirement_metadata1_tags
+        %w(label subject inherit)
+      end
+
       def requirement_metadata1(reqt, dlist)
         unless ins = reqt.at("./title")
           reqt.children.first.previous = " "
           ins = reqt.children.first
         end
-        %w(label subject inherit).each do |a|
+        %w(obligation model type).each do |a|
+          reqt_dl_to_attrs(reqt, dlist, a)
+        end
+        requirement_metadata1_tags.each do |a|
           ins = reqt_dl_to_elems(ins, reqt, dlist, a)
         end
         reqt_dl_to_classif(ins, reqt, dlist)
+      end
+
+      def reqt_dl_to_attrs(reqt, dlist, name)
+        e = dlist.at("./dt[text()='#{name}']") or return
+        val = e.at("./following::dd/p") || e.at("./following::dd") or return
+        reqt[name] = val.text
       end
 
       def reqt_dl_to_elems(ins, reqt, dlist, name)
@@ -76,16 +96,16 @@ module Asciidoctor
       end
 
       def reqt_dl_to_classif(ins, reqt, dlist)
-        if a = reqt.at("./classification[last()]")
-          ins = a
-        end
+        if a = reqt.at("./classification[last()]") then ins = a end
         dlist.xpath("./dt[text()='classification']").each do |e|
           val = e.at("./following::dd/p") || e.at("./following::dd")
           req_classif_parse(val.text).each do |r|
             ins.next = "<classification><tag>#{r[0]}</tag>"\
                        "<value>#{r[1]}</value></classification>"
+            ins = ins.next
           end
         end
+        ins
       end
     end
   end

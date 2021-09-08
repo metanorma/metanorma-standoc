@@ -821,7 +821,7 @@ OUTPUT
        <title>Subsection</title>
      </clause>
      <references id='_' obligation='informative'  normative="true">
-       <title>Normative references</title>
+       <title>Normative References</title>
        <bibitem id='A'>
          <formattedref format='application/x-isodoc+xml'>Title</formattedref>
          <docidentifier>B</docidentifier>

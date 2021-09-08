@@ -33,6 +33,7 @@ module Asciidoctor
         role = node.role || node.attr("style")
         reqt_subpart(role) and return requirement_subpart(node)
         role == "form" and return form(node)
+        role == "definition" and return termdefinition(node)
         result = []
         node.blocks.each do |b|
           result << send(b.context, b)
@@ -92,7 +93,9 @@ module Asciidoctor
         return pseudocode_example(node) if role == "pseudocode"
         return svgmap_example(node) if role == "svgmap"
         return form(node) if role == "form"
+        return termdefinition(node) if role == "definition"
 
+        reqt_subpart(role) and return requirement_subpart(node)
         example_proper(node)
       end
 

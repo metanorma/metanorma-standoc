@@ -7,8 +7,8 @@ module Asciidoctor
   module Standoc
     module Blocks
       def reqt_subpart(name)
-        %w(specification measurement-target verification import label
-           component subject inherit classification title).include? name
+        %w(specification measurement-target verification import label title
+           description component subject inherit classification).include? name
       end
 
       def reqt_subpart_attrs(node, name)
