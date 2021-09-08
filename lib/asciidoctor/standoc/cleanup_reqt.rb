@@ -3,25 +3,37 @@ module Asciidoctor
     module Cleanup
       def requirement_cleanup(xmldoc)
         requirement_metadata(xmldoc)
-        requirement_descriptions(xmldoc)
         requirement_inherit(xmldoc)
+        requirement_descriptions(xmldoc)
       end
 
       REQRECPER = "//requirement | //recommendation | //permission".freeze
 
       def requirement_inherit(xmldoc)
         xmldoc.xpath(REQRECPER).each do |r|
-          ins = r.at("./classification") ||
-            r.at("./description | ./measurementtarget | ./specification | "\
-                 "./verification | ./import | ./description | ./requirement | "\
-                 "./recommendation | ./permission | ./component")
+          ins = requirement_inherit_insert(r)
           r.xpath("./*//inherit").each { |i| ins.previous = i }
+        end
+      end
+
+      def requirement_inherit_insert(reqt)
+        ins = reqt.at("./classification") || reqt.at(
+          "./description | ./measurementtarget | ./specification | "\
+          "./verification | ./import | ./description | ./component | "\
+          "./requirement | ./recommendation | ./permission",
+        ) and return ins
+        if t = reqt.at("./title")
+          t.next = " "
+          t.next
+        else
+          reqt.children.first.previous = " "
+          reqt.children.first
         end
       end
 
       def requirement_descriptions(xmldoc)
         xmldoc.xpath(REQRECPER).each do |r|
-          r.xpath(".//p[not(node())][normalize-space(.)='']").each(&:remove)
+          r.xpath(".//p[not(./*)][normalize-space(.)='']").each(&:remove)
           r.children.each do |e|
             requirement_description_wrap(r, e)
           end
