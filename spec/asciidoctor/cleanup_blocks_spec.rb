@@ -698,8 +698,8 @@ RSpec.describe Asciidoctor::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
-  
-    it "moves figure key inside figure" do
+
+  it "moves figure key inside figure" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       image::spec/examples/rice_images/rice_image1.png[]
@@ -754,7 +754,7 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-      it "processes subfigures" do
+  it "processes subfigures" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [[figureC-2]]
@@ -792,7 +792,7 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-        it "moves metadata deflist to correct location" do
+  it "moves metadata deflist to correct location" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
@@ -876,7 +876,7 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-    it "moves inherit macros to correct location" do
+  it "moves inherit macros to correct location" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
@@ -910,6 +910,10 @@ RSpec.describe Asciidoctor::Standoc do
       inherit:[A]
       ====
 
+      [.requirement,subsequence="A"]
+      ====
+      inherit:[A]
+      ====
 
     INPUT
     output = <<~OUTPUT
@@ -919,9 +923,9 @@ RSpec.describe Asciidoctor::Standoc do
             <title>Clause</title>
             <requirement id='_' subsequence='A'>
               <title>Title</title>
-              <inherit>/ss/584/2015/level/1 &amp; /ss/584/2015/level/2</inherit>
               <inherit>A</inherit>
               <inherit>B</inherit>
+              <inherit>/ss/584/2015/level/1 &amp; /ss/584/2015/level/2</inherit>
               <description>
                 <p id='_'> I recommend this</p>
               </description>
@@ -946,10 +950,10 @@ RSpec.describe Asciidoctor::Standoc do
             </requirement>
             <requirement id='_' subsequence='A'>
               <title>Title</title>
+                 <inherit>A</inherit>
+              </requirement>
+              <requirement id='_' subsequence='A'>
               <inherit>A</inherit>
-              <description>
-                <p id='_'> </p>
-              </description>
             </requirement>
           </clause>
         </sections>
@@ -959,7 +963,7 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-    it "moves %beforeclause admonitions to right position" do
+  it "moves %beforeclause admonitions to right position" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
@@ -1011,5 +1015,4 @@ RSpec.describe Asciidoctor::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
-
 end
