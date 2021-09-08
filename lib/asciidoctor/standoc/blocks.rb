@@ -93,7 +93,9 @@ module Asciidoctor
         return pseudocode_example(node) if role == "pseudocode"
         return svgmap_example(node) if role == "svgmap"
         return form(node) if role == "form"
+        return termdefinition(node) if role == "definition"
 
+        reqt_subpart(role) and return requirement_subpart(node)
         example_proper(node)
       end
 
