@@ -175,7 +175,8 @@ RSpec.describe Asciidoctor::Standoc do
       term:[blah,word]
       {{blah,term,word}}
       {{blah,term,word,xref}}
-      {{blah,term,word,xref,option="noital,noref"}}
+      {{blah,term,word,xref,option="noital,noref,nolinkmention,nolinkref"}}
+      {{blah,term,word,xref,option="ital,ref,linkmention,linkref"}}
 
       [[clause1]]
       == Clause
@@ -283,7 +284,17 @@ RSpec.describe Asciidoctor::Standoc do
                    <tt>blah</tt>
                  </strong>
                </concept>
-               <concept ital='false' ref='false'>
+               <concept ital='false' ref='false' linkmention='false' linkref='false'>
+                 <strong>
+                   term
+                   <tt>blah</tt>
+                   , display
+                   <tt>term</tt>
+                    not resolved via ID
+                   <tt>blah</tt>
+                 </strong>
+               </concept>
+               <concept ital='true' ref='true' linkmention='true' linkref='true'>
                  <strong>
                    term
                    <tt>blah</tt>
@@ -323,8 +334,8 @@ RSpec.describe Asciidoctor::Standoc do
       {{<<Clause2>>,word}}
       {{<<Clause2>>,word,term}}
       {{<<Clause2>>,word,term,xref}}
-      {{<<Clause2>>,word,term,xref,option="noital,noref"}}
-      {{<<Clause2>>,word,term,xref,option="ital,ref"}}
+      {{<<Clause2>>,word,term,xref,option="noital,noref,nolinkmention,nolinkref"}}
+      {{<<Clause2>>,word,term,xref,option="ital,ref,linkmention,linkref"}}
 
       == Terms and definitions
       === Clause1
@@ -398,12 +409,12 @@ RSpec.describe Asciidoctor::Standoc do
                  <renderterm>term</renderterm>
                  <xref target='Clause2'>xref</xref>
                </concept>
-                <concept ital='false' ref='false'>
+                <concept ital='false' ref='false' linkmention='false' linkref='false'>
                   <refterm>word</refterm>
                   <renderterm>term</renderterm>
                   <xref target='Clause2'>xref</xref>
                 </concept>
-                <concept ital='true' ref='true'>
+                <concept ital='true' ref='true' linkmention='true' linkref='true'>
                  <refterm>word</refterm>
                  <renderterm>term</renderterm>
                  <xref target='Clause2'>xref</xref>

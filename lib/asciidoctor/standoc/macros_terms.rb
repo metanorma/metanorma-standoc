@@ -89,7 +89,7 @@ module Asciidoctor
           attrs = CSV.parse_line(m[:rest].sub(/^,/, "")) || []
         end
         ret.merge(term: attrs[0], word: attrs[1] || attrs[0],
-                  xrefrender: attrs[2])
+                  render: attrs[2])
       end
 
       def generate_attrs(opts)
@@ -98,21 +98,25 @@ module Asciidoctor
         opts.include?("noref") and ret += " ref='false'"
         opts.include?("ital") and ret += " ital='true'"
         opts.include?("ref") and ret += " ref='true'"
+        opts.include?("nolinkmention") and ret += " linkmention='false'"
+        opts.include?("linkmention") and ret += " linkmention='true'"
+        opts.include?("nolinkref") and ret += " linkref='false'"
+        opts.include?("linkref") and ret += " linkref='true'"
         ret
       end
 
       def process(parent, target, _attrs)
         attrs = preprocess_attrs(target)
-        termout = Asciidoctor::Inline.new(parent, :quoted, attrs[:term]).convert
-        wordout = Asciidoctor::Inline.new(parent, :quoted, attrs[:word]).convert
-        xrefout = Asciidoctor::Inline.new(parent, :quoted,
-                                          attrs[:xrefrender]).convert
-        optout = generate_attrs(attrs[:opt] || [])
-        attrs[:id] and return "<concept#{optout} key='#{attrs[:id]}'><refterm>"\
-          "#{termout}</refterm><renderterm>#{wordout}</renderterm>"\
-          "<xrefrender>#{xrefout}</xrefrender></concept>"
-        "<concept#{optout}><termxref>#{termout}</termxref><renderterm>"\
-          "#{wordout}</renderterm><xrefrender>#{xrefout}</xrefrender></concept>"
+        term = Asciidoctor::Inline.new(parent, :quoted, attrs[:term]).convert
+        word = Asciidoctor::Inline.new(parent, :quoted, attrs[:word]).convert
+        xref = Asciidoctor::Inline.new(parent, :quoted, attrs[:render]).convert
+        opt = generate_attrs(attrs[:opt] || [])
+        if attrs[:id] then "<concept#{opt} key='#{attrs[:id]}'><refterm>"\
+          "#{term}</refterm><renderterm>#{word}</renderterm>"\
+          "<xrefrender>#{xref}</xrefrender></concept>"
+        else "<concept#{opt}><termxref>#{term}</termxref><renderterm>"\
+          "#{word}</renderterm><xrefrender>#{xref}</xrefrender></concept>"
+        end
       end
     end
   end
