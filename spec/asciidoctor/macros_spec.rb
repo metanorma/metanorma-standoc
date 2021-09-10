@@ -175,8 +175,8 @@ RSpec.describe Asciidoctor::Standoc do
       term:[blah,word]
       {{blah,term,word}}
       {{blah,term,word,xref}}
-      {{blah,term,word,xref,option="noital,noref,nolinkmention,nolinkref"}}
-      {{blah,term,word,xref,option="ital,ref,linkmention,linkref"}}
+      {{blah,term,word,xref,options="noital,noref,nolinkmention,nolinkref"}}
+      {{blah,term,word,xref,options="ital,ref,linkmention,linkref"}}
 
       [[clause1]]
       == Clause
@@ -334,8 +334,8 @@ RSpec.describe Asciidoctor::Standoc do
       {{<<Clause2>>,word}}
       {{<<Clause2>>,word,term}}
       {{<<Clause2>>,word,term,xref}}
-      {{<<Clause2>>,word,term,xref,option="noital,noref,nolinkmention,nolinkref"}}
-      {{<<Clause2>>,word,term,xref,option="ital,ref,linkmention,linkref"}}
+      {{<<Clause2>>,word,term,xref,options="noital,noref,nolinkmention,nolinkref"}}
+      {{<<Clause2>>,word,term,xref,options="ital,ref,linkmention,linkref"}}
 
       == Terms and definitions
       === Clause1
