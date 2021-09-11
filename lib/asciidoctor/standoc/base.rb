@@ -174,6 +174,9 @@ module Asciidoctor
         outputs(node, ret) unless node.attr("nodoc") || !node.attr("docfile")
         clean_exit
         ret
+      rescue StandardError => e
+        @log.add("Fatal Error", nil, e.message)
+        clean_abort(e.message)
       end
 
       def version

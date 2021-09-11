@@ -81,12 +81,21 @@ module Asciidoctor
       def preprocess_attrs(target)
         m = /^(?<id>&lt;&lt;.+?&gt;&gt;)?(?<rest>.*)$/.match(target)
         ret = { id: m[:id]&.sub(/^&lt;&lt;/, "")&.sub(/&gt;&gt;$/, "") }
-        if m2 = /^(?<rest>.*?)(?<opt>,opt(ion)?s=.+)$/.match(m[:rest].sub(/^,/, ""))
+        if m2 = /^(?<rest>.*?)(?<opt>,opt(ion)?s=.+)$/
+            .match(m[:rest].sub(/^,/, ""))
           ret[:opt] = CSV.parse_line(m2[:opt].sub(/^,opt(ion)?s=/, "")
             .sub(/^"(.+)"$/, "\\1").sub(/^'(.+)'$/, "\\1"))
-          attrs = CSV.parse_line(m2[:rest]) || []
+          begin
+            attrs = CSV.parse_line(m2[:rest]) || []
+          rescue StandardError
+            raise "error processing #{m2[:rest]} as CSV"
+          end
         else
-          attrs = CSV.parse_line(m[:rest].sub(/^,/, "")) || []
+          begin
+            attrs = CSV.parse_line(m[:rest].sub(/^,/, "")) || []
+          rescue StandardError
+            raise "error processing #{m[:rest]} as CSV"
+          end
         end
         ret.merge(term: attrs[0], word: attrs[1] || attrs[0],
                   render: attrs[2])
@@ -117,6 +126,8 @@ module Asciidoctor
         else "<concept#{opt}><termxref>#{term}</termxref><renderterm>"\
           "#{word}</renderterm><xrefrender>#{xref}</xrefrender></concept>"
         end
+      rescue StandardError => e
+        raise("processing {{#{target}}}: #{e.message}")
       end
     end
   end
