@@ -340,6 +340,29 @@ RSpec.describe Asciidoctor::Standoc do
   # INPUT
   # end
 
+  it "warns and aborts if concept attributes are malformed" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        == Symbols and Abbreviated Terms
+        [[def]]DEF:: def
+
+        {{<<def>>,term,option="noital"}}
+      INPUT
+      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+    expect(File.read("test.err"))
+      .to include 'processing {{&lt;&lt;def&gt;&gt;,term,option="noital"}}: error processing ,term,option="noital" as CSV'
+    expect(File.exist?("test.xml")).to be false
+  end
+
   it "warns and aborts if concept/xref does not point to term or definition" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"
