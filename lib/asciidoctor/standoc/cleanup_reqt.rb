@@ -22,11 +22,17 @@ module Asciidoctor
           "./verification | ./import | ./description | ./component | "\
           "./requirement | ./recommendation | ./permission",
         ) and return ins
+        requirement_inherit_insert1(reqt)
+      end
+
+      def requirement_inherit_insert1(reqt)
         if t = reqt.at("./title")
           t.next = " "
           t.next
         else
-          reqt.children.first.previous = " "
+          if reqt.children.empty? then reqt.add_child(" ")
+          else reqt.children.first.previous = " "
+          end
           reqt.children.first
         end
       end
