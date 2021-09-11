@@ -176,7 +176,8 @@ module Asciidoctor
         ret
       rescue StandardError => e
         @log.add("Fatal Error", nil, e.message)
-        clean_abort(e.message)
+        clean_exit
+        raise e
       end
 
       def version

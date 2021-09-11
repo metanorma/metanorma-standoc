@@ -355,8 +355,8 @@ RSpec.describe Asciidoctor::Standoc do
 
         {{<<def>>,term,option="noital"}}
       INPUT
-      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
-    rescue SystemExit
+      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(RuntimeError)
+    rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err"))
       .to include 'processing {{&lt;&lt;def&gt;&gt;,term,option="noital"}}: error processing ,term,option="noital" as CSV'
