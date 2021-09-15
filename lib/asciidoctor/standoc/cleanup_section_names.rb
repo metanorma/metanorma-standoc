@@ -78,12 +78,12 @@ module Asciidoctor
       def sections_variant_title_cleanup(xml)
         path = SECTION_CONTAINERS.map { |x| "./ancestor::#{x}" }.join(" | ")
         xml.xpath("//p[@variant_title]").each do |p|
+          p.name = "variant-title"
+          p.delete("id")
+          p.delete("variant_title")
           p.xpath("(#{path})[last()]").each do |sect|
-            p.name = "variant-title"
-            p.delete("id")
-            if ins = sect.at("./title") then ins.next = p
-            else sect.children.first.previous = p
-            end
+            ins = sect.at("./title") and ins.next = p or
+              sect.children.first.previous = p
           end
         end
       end

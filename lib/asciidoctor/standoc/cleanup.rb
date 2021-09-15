@@ -129,13 +129,18 @@ module Asciidoctor
       end
 
       def toc_cleanup(xmldoc)
+        toc_cleanup_para(xmldoc)
+        xmldoc.xpath("//toc").each { |t| toc_cleanup1(t, xmldoc) }
+        toc_cleanup_clause(xmldoc)
+      end
+
+      def toc_cleanup_para(xmldoc)
         xmldoc.xpath("//p[toc]").each do |x|
           x.xpath("./toc").reverse.each do |t|
             x.next = t
           end
           x.remove if x.text.strip.empty?
         end
-        xmldoc.xpath("//toc").each { |t| toc_cleanup1(t, xmldoc) }
       end
 
       def toc_index(toc, xmldoc)
@@ -168,6 +173,24 @@ module Asciidoctor
           depth = x[:depth]
         end
         toc.children = "<ul>#{ret}</ul>"
+      end
+
+      def toc_cleanup_clause(xmldoc)
+        xmldoc
+          .xpath("//clause[@type = 'toc'] | //annex[@type = 'toc']").each do |c|
+          c.xpath(".//ul[not(ancestor::ul)]").each do |ul|
+            toc_cleanup_clause_entry(xmldoc, ul)
+            ul.replace("<toc>#{ul.to_xml}</toc>")
+          end
+        end
+      end
+
+      def toc_cleanup_clause_entry(xmldoc, list)
+        list.xpath(".//xref[not(text())]").each do |x|
+          c1 = xmldoc.at("//*[@id = '#{x['target']}']")
+          t = c1.at("./variant-title[@type = 'toc']") || c1.at("./title")
+          x << t.dup.children
+        end
       end
     end
   end

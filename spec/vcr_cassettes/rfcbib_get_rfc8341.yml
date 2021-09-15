@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - '0962:3546:1CB4EC:288C0A:6128D25C'
+      - CD02:1235:10E330:26A785:6141FE1A
       Accept-Ranges:
       - bytes
       Date:
-      - Fri, 27 Aug 2021 11:54:04 GMT
+      - Wed, 15 Sep 2021 14:07:23 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11228-MEL
+      - cache-mel11249-MEL
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1630065245.544317,VS0,VE407
+      - S1631714843.845065,VS0,VE443
       Vary:
-      - Authorization,Accept-Encoding
+      - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 0ec3e91aeeab1fd5cd1e2ce0d6d5b210cd6dda6e
+      - 7fd268a55e3b306c06458b82831b97e0bd4d1bb0
       Expires:
-      - Fri, 27 Aug 2021 11:59:04 GMT
+      - Wed, 15 Sep 2021 14:12:23 GMT
       Source-Age:
       - '0'
     body:
@@ -84,7 +84,7 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Fri, 27 Aug 2021 11:54:05 GMT
+  recorded_at: Wed, 15 Sep 2021 14:07:23 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
@@ -126,29 +126,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - '0962:3546:1CB4EC:288C0A:6128D25C'
+      - CD02:1235:10E330:26A785:6141FE1A
       Accept-Ranges:
       - bytes
       Date:
-      - Fri, 27 Aug 2021 11:54:05 GMT
+      - Wed, 15 Sep 2021 14:07:23 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11279-MEL
+      - cache-mel11246-MEL
       X-Cache:
       - HIT
       X-Cache-Hits:
       - '1'
       X-Timer:
-      - S1630065245.148725,VS0,VE0
+      - S1631714843.431038,VS0,VE0
       Vary:
-      - Authorization,Accept-Encoding
+      - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 349b172de7d5e43135be295b64e9ac46969fe095
+      - 1374ec534dcc9c7dd653adb17b6a3b23f6ecb6ba
       Expires:
-      - Fri, 27 Aug 2021 11:59:05 GMT
+      - Wed, 15 Sep 2021 14:12:23 GMT
       Source-Age:
       - '0'
     body:
@@ -169,5 +169,5 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Fri, 27 Aug 2021 11:54:05 GMT
+  recorded_at: Wed, 15 Sep 2021 14:07:23 GMT
 recorded_with: VCR 5.0.0

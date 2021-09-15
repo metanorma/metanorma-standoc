@@ -819,7 +819,7 @@ RSpec.describe Asciidoctor::Standoc do
           <abstract format="text/plain" language="en" script="Latn">IEC 60050-103:2009 gives the terminology relative to functions of one or more variables. Together with IEC 60050-102, it covers the mathematical terminology used in the fields of electricity, electronics and telecommunications. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Mathematical symbols are generally in accordance with IEC 60027-1 and ISO 80000-2. This standard cancels and replaces Sections 101-13, 101-14 and 101-15 of International Standard IEC 60050-101:1998. It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
           <status>
             <stage>60</stage>
-            <substage>00</substage>
+            <substage>60</substage>
           </status>
           <copyright>
             <from>2009</from>

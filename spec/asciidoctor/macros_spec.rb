@@ -1187,7 +1187,7 @@ RSpec.describe Asciidoctor::Standoc do
                   </clause>
                   <clause id='clause1Ab' inline-header='false' obligation='normative'>
                     <title>Clause 1Ab</title>
-                    <variant-title variant_title='true' type='toc'>1Ab Clause</variant-title>
+                    <variant-title type='toc'>1Ab Clause</variant-title>
                   </clause>
                 </clause>
                 <clause id='clause1B' inline-header='false' obligation='normative'>
