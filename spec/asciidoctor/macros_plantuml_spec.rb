@@ -201,7 +201,7 @@ RSpec.describe Asciidoctor::Standoc do
                   <tr>
                     <th valign='top' align='left'>Name</th>
                     <th valign='top' align='left'>Definition</th>
-                    <th valign='top' align='left'>Mandatory/ Optional/ Conditional</th>
+                    <th valign='top' align='left'>Mandatory / Optional / Conditional</th>
                     <th valign='top' align='left'>Max Occur</th>
                     <th valign='top' align='left'>Data Type</th>
                   </tr>

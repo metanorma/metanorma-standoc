@@ -37,7 +37,7 @@
           <table id='section-EAID_82206E96_8D23_48dd_AC2F_31939C484AF2' width='100%'>
             <name>
               Elements of &#8220;ISO 19135 Procedures for item registration
-              XML::RE_Register&#8221; (class)
+              XML::RE_Register&#8221; (interface)
             </name>
             <tbody>
               <tr>
@@ -288,7 +288,7 @@
                     as its value a set of URI&#8217;s, each referencing
                     information about online resources associated with the
                     register. EXAMPLE
-                    &#239;&#191;&#189;http://www.digest.org/Navigate2.htm&#239;&#191;
+                    &#239;&#191;&#189;http://www.digest.org/Navigate2.htm&#239;&#191;&#189; and &#239;&#191;&#189;http://www.epa.gov/opppmsd1/PPISdata/index.html&#239;&#191;&#189; are sample valuescorresponding value of the attribute 
                     <em>OnLineResource.linkage</em>
                      specifies a resource providing access to the complete
                     content of the register. EXAMPLE
@@ -313,6 +313,7 @@
                 <td colspan='7' valign='top' align='left'>
                   <p id='_'>
                     <tt>count(self.version +self.dateOfLastChange) &gt;= 1</tt>
+                      : ``
                   </p>
                 </td>
               </tr>
