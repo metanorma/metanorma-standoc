@@ -41,7 +41,7 @@ module Asciidoctor
       def process(_parent, target, attr)
         args = preprocess_attrs(attr) or return
         ret = "<index-xref also='#{target == 'also'}'>"\
-          "<primary>#{args[:primary]}</primary>"
+              "<primary>#{args[:primary]}</primary>"
         ret += "<secondary>#{args[:secondary]}</secondary>" if args[:secondary]
         ret += "<tertiary>#{args[:tertiary]}</tertiary>" if args[:tertiary]
         ret + "<target>#{args[:target]}</target></index-xref>"
@@ -50,7 +50,7 @@ module Asciidoctor
 
     class IndexRangeInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
-      named "index-range".to_sym
+      named :"index-range"
       parse_content_as :text
 
       def process(parent, target, attr)
@@ -227,6 +227,17 @@ module Asciidoctor
           %{<toc-xpath depth='#{m[2]&.sub(/:/, '') || 1}'>#{m[1]}</toc-xpath>}
         end.join
         "<toc>#{content}</toc>"
+      end
+    end
+
+    class PassInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :"pass-mn"
+
+      def process(parent, target, attrs)
+        format = target || "metanorma"
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs[1]).convert
+        %{<passthrough formats="#{format}">#{out}</passthrough>}
       end
     end
   end
