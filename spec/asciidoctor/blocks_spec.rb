@@ -1605,4 +1605,35 @@ RSpec.describe Asciidoctor::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
+
+  it "processes hard breaks" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [%hardbreaks]
+      One hardbreak
+      Two
+
+      Three hardbreaks +
+      Four
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+            <sections>
+            <p id='_'>
+        One hardbreak
+        <br/>
+         Two
+      </p>
+      <p id='_'>
+        Three hardbreaks
+        <br/>
+         Four
+      </p>
+      </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
 end
