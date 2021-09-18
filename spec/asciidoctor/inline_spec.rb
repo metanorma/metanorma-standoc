@@ -480,4 +480,40 @@ RSpec.describe Asciidoctor::Standoc do
     expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(output)
   end
+
+  it "processes format-specific inline pass" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      pass-mn:rfc,html[<abc>X &gt; Y</abc>]
+    INPUT
+    output = <<~OUTPUT
+       #{BLANK_HDR}
+      <sections>
+      <p id='_'>
+      <passthrough formats='rfc,html'>&lt;abc&gt;X &gt; Y&lt;/abc&gt;</passthrough>
+      </p>
+      </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes Metanorma XML inline pass" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      +<abc>X &gt;+ +++Y+++ pass:c[</abc>]
+    INPUT
+    output = <<~OUTPUT
+       #{BLANK_HDR}
+      <sections>
+      <p id='_'>&lt;abc&gt;X &gt; Y &lt;/abc&gt;</p>
+      </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
 end
