@@ -72,7 +72,7 @@ module Asciidoctor
       def requirement_metadata(xmldoc)
         xmldoc.xpath(REQRECPER).each do |r|
           dl = r&.at("./dl[@metadata = 'true']")&.remove or next
-          requirement_metadata1(r, dl)
+          requirement_metadata1(r, dl, r.at("./title"))
         end
       end
 
@@ -80,8 +80,8 @@ module Asciidoctor
         %w(label subject inherit)
       end
 
-      def requirement_metadata1(reqt, dlist)
-        unless ins = reqt.at("./title")
+      def requirement_metadata1(reqt, dlist, ins)
+        unless ins
           reqt.children.first.previous = " "
           ins = reqt.children.first
         end
