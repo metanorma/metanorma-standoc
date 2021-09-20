@@ -485,7 +485,7 @@ RSpec.describe Asciidoctor::Standoc do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
-      pass-mn:rfc,html[<abc>X &gt; Y</abc>]
+      pass-format:rfc,html[<abc>X &gt; Y</abc>]
     INPUT
     output = <<~OUTPUT
        #{BLANK_HDR}

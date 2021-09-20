@@ -23,17 +23,6 @@ module Asciidoctor
         self.class::XML_NAMESPACE
       end
 
-      def content(node)
-        node.content
-      end
-
-      def skip(node, name = nil)
-        name = name || node.node_name
-        w = "converter missing for #{name} node in Metanorma backend"
-        @log.add("AsciiDoc Input", node, w)
-        nil
-      end
-
       def html_extract_attributes(node)
         {
           script: node.attr("script"),
@@ -126,8 +115,7 @@ module Asciidoctor
         @files_to_delete = []
         @filename = if node.attr("docfile")
                       File.basename(node.attr("docfile"))&.gsub(/\.adoc$/, "")
-                    else
-                      ""
+                    else ""
                     end
         @localdir = Metanorma::Utils::localdir(node)
         @output_dir = outputdir node

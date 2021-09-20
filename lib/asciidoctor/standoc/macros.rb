@@ -6,6 +6,7 @@ require "csv"
 require_relative "./macros_plantuml"
 require_relative "./macros_terms"
 require_relative "./macros_form"
+require_relative "./macros_note"
 require_relative "./datamodel/attributes_table_preprocessor"
 require_relative "./datamodel/diagram_preprocessor"
 require "metanorma-plugin-datastruct"
@@ -121,35 +122,6 @@ module Asciidoctor
       end
     end
 
-    class ToDoAdmonitionBlock < Extensions::BlockProcessor
-      use_dsl
-      named :TODO
-      on_contexts :example, :paragraph
-
-      def process(parent, reader, attrs)
-        attrs["name"] = "todo"
-        attrs["caption"] = "TODO"
-        create_block(parent, :admonition, reader.lines, attrs,
-                     content_model: :compound)
-      end
-    end
-
-    class ToDoInlineAdmonitionBlock < Extensions::Treeprocessor
-      def process(document)
-        (document.find_by context: :paragraph).each do |para|
-          next unless /^TODO: /.match? para.lines[0]
-
-          parent = para.parent
-          para.set_attr("name", "todo")
-          para.set_attr("caption", "TODO")
-          para.lines[0].sub!(/^TODO: /, "")
-          todo = Block.new(parent, :admonition, attributes: para.attributes,
-                                                source: para.lines, content_model: :compound)
-          parent.blocks[parent.blocks.index(para)] = todo
-        end
-      end
-    end
-
     class AutonumberInlineMacro < Extensions::InlineMacroProcessor
       use_dsl
       named :autonumber
@@ -174,18 +146,6 @@ module Asciidoctor
         else
           %{<variant lang=#{lang}>#{out}</variant>}
         end
-      end
-    end
-
-    class FootnoteBlockInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
-      use_dsl
-      named :footnoteblock
-      parse_content_as :text
-      using_format :short
-
-      def process(parent, _target, attrs)
-        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
-        %{<footnoteblock>#{out}</footnoteblock>}
       end
     end
 
@@ -232,7 +192,7 @@ module Asciidoctor
 
     class PassInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
-      named :"pass-mn"
+      named :"pass-format"
 
       def process(parent, target, attrs)
         format = target || "metanorma"

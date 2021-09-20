@@ -99,6 +99,17 @@ module Asciidoctor
         File.join(@libdir, "../../isodoc/html", file)
       end
 
+      def content(node)
+        node.content
+      end
+
+      def skip(node, name = nil)
+        name = name || node.node_name
+        w = "converter missing for #{name} node in Metanorma backend"
+        @log.add("AsciiDoc Input", node, w)
+        nil
+      end
+
       alias_method :embedded, :content
       alias_method :verse, :quote
       alias_method :audio, :skip
