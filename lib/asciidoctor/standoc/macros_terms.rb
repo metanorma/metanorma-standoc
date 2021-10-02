@@ -116,9 +116,12 @@ module Asciidoctor
 
       def process(parent, target, _attrs)
         attrs = preprocess_attrs(target)
-        term = Asciidoctor::Inline.new(parent, :quoted, attrs[:term]).convert
-        word = Asciidoctor::Inline.new(parent, :quoted, attrs[:word]).convert
-        xref = Asciidoctor::Inline.new(parent, :quoted, attrs[:render]).convert
+        term = Asciidoctor::Inline.new(parent, :quoted,
+                                       attrs[:term]).convert
+        word = Asciidoctor::Inline.new(parent, :quoted,
+                                       attrs[:word]).convert
+        xref = Asciidoctor::Inline.new(parent, :quoted,
+                                       attrs[:render]).convert
         opt = generate_attrs(attrs[:opt] || [])
         if attrs[:id] then "<concept#{opt} key='#{attrs[:id]}'><refterm>"\
           "#{term}</refterm><renderterm>#{word}</renderterm>"\

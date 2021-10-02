@@ -1084,7 +1084,7 @@ RSpec.describe Asciidoctor::Standoc do
     output = <<~OUTPUT
         #{BLANK_HDR}
         <sections>
-        <form id='_' name='N1' action='/action_page.php' class="checkboxes">
+        <form id='N0' name='N1' action='/action_page.php' class="checkboxes">
         <p id='_'>
           <label for='fname'>First name:</label>
           <br/>
