@@ -14,7 +14,8 @@ module Asciidoctor
           callouts = x.elements.select { |e| e.name == "callout" }
           annotations = x.elements.select { |e| e.name == "annotation" }
           if callouts.size != annotations.size
-        @log.add("AsciiDoc Input", x, "mismatch of callouts and annotations")
+            @log.add("AsciiDoc Input", x,
+                     "mismatch of callouts and annotations")
           end
         end
       end
@@ -42,7 +43,9 @@ module Asciidoctor
         root.xpath("//clause | //annex | //foreword | //introduction | "\
                    "//acknowledgements").each do |c|
           next unless c.at("./clause")
-          next if c.elements.reject { |n| %w(clause title).include? n.name }.empty?
+          next if c.elements.reject do |n|
+                    %w(clause title).include? n.name
+                  end.empty?
 
           style_warning(c, "Hanging paragraph in clause")
         end
