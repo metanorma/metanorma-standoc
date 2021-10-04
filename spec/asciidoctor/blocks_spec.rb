@@ -72,7 +72,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [stem%inequality,number=3,keep-with-next=true,keep-lines-together=true]
+      [stem%inequality,number=3,keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
       ++++
       r = 1 %
       r = 1 %
@@ -97,7 +97,7 @@ RSpec.describe Asciidoctor::Standoc do
     output = <<~OUTPUT
            #{BLANK_HDR}
            <sections>
-          <formula id='ABC' number='3' keep-with-next='true' keep-lines-together='true' inequality='true'>
+          <formula id='ABC' number='3' keep-with-next='true' keep-lines-together='true' inequality='true' tag='X' multilingual-rendering='common'>
             <stem type='MathML'>
               <math xmlns='http://www.w3.org/1998/Math/MathML'>
                 <mi>r</mi>
@@ -408,7 +408,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       NOTE: This is a note
 
-      [NOTE,keep-separate=true]
+      [NOTE,keep-separate=true,tag=X,multilingual-rendering=common]
       ====
       XYZ
       ====
@@ -424,7 +424,7 @@ RSpec.describe Asciidoctor::Standoc do
               <termnote id="_">
               <p id="_">This is a note</p>
             </termnote>
-             <termnote id='_'>
+             <termnote id='_' tag='X' multilingual-rendering='common'>
         <p id='_'>XYZ</p>
       </termnote>
             </term>
@@ -520,7 +520,7 @@ RSpec.describe Asciidoctor::Standoc do
       [[ABC]]
       NOTE: This is a note
 
-      [NOTE,keep-separate=true,number=7,subsequence=A,beforeclauses=true,keep-with-next=true,keep-lines-together=true,type=classified]
+      [NOTE,keep-separate=true,number=7,subsequence=A,beforeclauses=true,keep-with-next=true,keep-lines-together=true,type=classified,tag=X,multilingual-rendering=common]
       ====
       XYZ
       ====
@@ -533,7 +533,7 @@ RSpec.describe Asciidoctor::Standoc do
              <p id="_">This is a note</p>
            </note>
            </foreword></preface><sections>
-             <note id='_' number="7" subsequence="A" keep-with-next="true" keep-lines-together="true" type="classified">
+             <note id='_' number="7" subsequence="A" keep-with-next="true" keep-lines-together="true" type="classified" tag='X' multilingual-rendering='common'>
         <p id='_'>XYZ</p>
       </note>
            <clause id="_" inline-header="false" obligation="normative">
@@ -555,7 +555,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [alt=Literal,keep-with-next=true,keep-lines-together=true]
+      [alt=Literal,keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
       ....
       <LITERAL>
       FIGURATIVE
@@ -564,7 +564,7 @@ RSpec.describe Asciidoctor::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-           <figure id="ABC" keep-with-next="true" keep-lines-together="true">
+           <figure id="ABC" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common'>
         <pre alt="Literal" id="_">&lt;LITERAL&gt;
         FIGURATIVE
         </pre>
@@ -601,7 +601,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [CAUTION,type=Safety Precautions,keep-with-next="true",keep-lines-together="true"]
+      [CAUTION,type=Safety Precautions,keep-with-next="true",keep-lines-together="true",tag=X,multilingual-rendering=common]
       .Precautions
       ====
       While werewolves are hardy community members, keep in mind the following dietary concerns:
@@ -614,7 +614,7 @@ RSpec.describe Asciidoctor::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
-         <admonition id="ABC" type="safety precautions" keep-with-next="true" keep-lines-together="true">
+         <admonition id="ABC" type="safety precautions" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common'>
         <name>Precautions</name><p id="_">While werewolves are hardy community members, keep in mind the following dietary concerns:</p>
        <ol id="_" type="arabic">
          <li>
@@ -643,7 +643,7 @@ RSpec.describe Asciidoctor::Standoc do
       === Term1
 
       [[ABC]]
-      [example]
+      [example,tag=X,multilingual-rendering=common]
       This is an example
     INPUT
     output = <<~OUTPUT
@@ -654,7 +654,7 @@ RSpec.describe Asciidoctor::Standoc do
       <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
         <term id="term-term1">
         <preferred>Term1</preferred>
-      <termexample id="ABC">
+      <termexample id="ABC" tag='X' multilingual-rendering='common'>
         <p id="_">This is an example</p>
       </termexample></term>
       </terms>
@@ -733,7 +733,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [example,subsequence=A,keep-with-next=true,keep-lines-together=next]
+      [example,subsequence=A,keep-with-next=true,keep-lines-together=next,tag=X,multilingual-rendering=common]
       .Title
       ====
       This is an example
@@ -754,7 +754,7 @@ RSpec.describe Asciidoctor::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-         <example id="ABC" subsequence="A"  keep-with-next='true' keep-lines-together='next'>
+         <example id="ABC" subsequence="A"  keep-with-next='true' keep-lines-together='next' tag='X' multilingual-rendering='common'>
          <name>Title</name>
         <p id="_">This is an example</p>
        <p id="_">Amen</p></example>
@@ -940,7 +940,7 @@ RSpec.describe Asciidoctor::Standoc do
   it "accepts attributes on images" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
-      [height=4,width=3,alt="IMAGE",filename="riceimg1.png",titleattr="TITLE"]
+      [height=4,width=3,alt="IMAGE",filename="riceimg1.png",titleattr="TITLE",tag=X,multilingual-rendering=common]
       .Caption
       image::spec/examples/rice_images/rice_image1.png[]
 
@@ -948,7 +948,7 @@ RSpec.describe Asciidoctor::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
               <sections>
-         <figure id="_"><name>Caption</name>
+         <figure id="_" tag='X' multilingual-rendering='common'><name>Caption</name>
          <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="4" width="3" title="TITLE" alt="IMAGE" filename="riceimg1.png"/>
        </figure>
        </sections>
@@ -1015,13 +1015,13 @@ RSpec.describe Asciidoctor::Standoc do
   it "accepts attributes on paragraphs" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
-      [align=right,keep-with-next=true,keep-lines-together=true]
+      [align=right,keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
       This para is right-aligned.
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
-         <p align="right" id="_" keep-with-next="true" keep-lines-together="true">This para is right-aligned.</p>
+         <p align="right" id="_" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common'>This para is right-aligned.</p>
        </sections>
       </standard-document>
     OUTPUT
@@ -1034,7 +1034,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [quote, ISO, "ISO7301,section 1",align="right",keep-with-next=true,keep-lines-together=true]
+      [quote, ISO, "ISO7301,section 1",align="right",keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
       ____
       Block quotation
       ____
@@ -1042,7 +1042,7 @@ RSpec.describe Asciidoctor::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-         <quote id="ABC" align="right" keep-with-next="true" keep-lines-together="true">
+         <quote id="ABC" align="right" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common'>
          <source type="inline" bibitemid="ISO7301" citeas="">
          <localityStack>
         <locality type="section"><referenceFrom>1</referenceFrom></locality>
@@ -1064,7 +1064,7 @@ RSpec.describe Asciidoctor::Standoc do
 
       [[ABC]]
       .Caption
-      [source%unnumbered,ruby,number=3,filename=sourcecode1.rb,keep-with-next=true,keep-lines-together=true]
+      [source%unnumbered,ruby,number=3,filename=sourcecode1.rb,keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
       --
       puts "Hello, world."
       %w{a b c}.each do |x|
@@ -1075,7 +1075,7 @@ RSpec.describe Asciidoctor::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-         <sourcecode id="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true">
+         <sourcecode id="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common'>
         <name>Caption</name>puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
@@ -1257,7 +1257,7 @@ RSpec.describe Asciidoctor::Standoc do
   it "processes recommendation" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [.recommendation,label="/ogc/recommendation/wfs/2",subject="user;developer, implementer",inherit="/ss/584/2015/level/1; /ss/584/2015/level/2",options="unnumbered",type=verification,model=ogc]
+      [.recommendation,label="/ogc/recommendation/wfs/2",subject="user;developer, implementer",inherit="/ss/584/2015/level/1; /ss/584/2015/level/2",options="unnumbered",type=verification,model=ogc,tag=X,multilingual-rendering=common]
       ====
       I recommend this
       ====
@@ -1265,7 +1265,7 @@ RSpec.describe Asciidoctor::Standoc do
     output = <<~"OUTPUT"
                   #{BLANK_HDR}
              <sections>
-        <recommendation id="_" unnumbered="true" type="verification" model="ogc">
+        <recommendation id="_" unnumbered="true" type="verification" model="ogc" tag='X' multilingual-rendering='common'>
         <label>/ogc/recommendation/wfs/2</label>
       <subject>user</subject>
       <subject>developer, implementer</subject>
@@ -1285,7 +1285,7 @@ RSpec.describe Asciidoctor::Standoc do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
       [[ABC]]
-      [.requirement,subsequence="A",inherit="/ss/584/2015/level/1 &amp; /ss/584/2015/level/2",number=3,keep-with-next=true,keep-lines-together=true]
+      [.requirement,subsequence="A",inherit="/ss/584/2015/level/1 &amp; /ss/584/2015/level/2",number=3,keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
       .Title
       ====
       I recommend this
@@ -1294,7 +1294,7 @@ RSpec.describe Asciidoctor::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
              <sections>
-        <requirement id="ABC" subsequence="A" number="3" keep-with-next="true" keep-lines-together="true">
+        <requirement id="ABC" subsequence="A" number="3" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common'>
               <title>Title</title>
         <inherit>/ss/584/2015/level/1 &amp; /ss/584/2015/level/2</inherit>
         <description><p id="_">I recommend this</p></description>
@@ -1312,7 +1312,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [.permission]
+      [.permission,tag=X,multilingual-rendering=common]
       ====
       I recommend this
       ====
@@ -1320,7 +1320,7 @@ RSpec.describe Asciidoctor::Standoc do
     output = <<~"OUTPUT"
                   #{BLANK_HDR}
              <sections>
-        <permission id="ABC">
+        <permission id="ABC" tag='X' multilingual-rendering='common'>
         <description><p id="_">I recommend this</p></description>
       </permission>
              </sections>

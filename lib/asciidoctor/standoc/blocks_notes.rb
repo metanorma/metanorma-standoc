@@ -2,24 +2,21 @@ module Asciidoctor
   module Standoc
     module Blocks
       def termnote_attrs(node)
-        attr_code(
-          id_attr(node).merge(
+        attr_code(id_attr(node).merge(keep_attrs(node)
+          .merge(
             unnumbered: node.attr("unnumbered"),
             number: node.attr("number"),
             subsequence: node.attr("subsequence"),
-            "keep-with-next": node.attr("keep-with-next"),
-            "keep-lines-together": node.attr("keep-with-next"),
-            "keep-separate": node.attr("keep-separate")
-          )
-        )
+            "keep-separate": node.attr("keep-separate"),
+          )))
       end
 
       def note_attrs(node)
         attr_code(
           termnote_attrs(node).merge(
             type: node.attr("type"),
-            beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil
-          )
+            beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil,
+          ),
         )
       end
 
@@ -27,8 +24,8 @@ module Asciidoctor
         todo_attrs(node).merge(
           attr_code(
             from: node.attr("from"),
-            to: node.attr("to") || node.attr("from")
-          )
+            to: node.attr("to") || node.attr("from"),
+          ),
         )
       end
 
@@ -45,11 +42,10 @@ module Asciidoctor
       def todo_attrs(node)
         date = node.attr("date") || Date.today.iso8601.gsub(/\+.*$/, "")
         date += "T00:00:00Z" unless /T/.match? date
-        attr_code(
-          id: ::Metanorma::Utils::anchor_or_uuid(node),
-          reviewer: node.attr("reviewer") || node.attr("source") || "(Unknown)",
-          date: date
-        )
+        attr_code(id_attr(node)
+          .merge(reviewer: node.attr("reviewer") || node.attr("source") ||
+                 "(Unknown)",
+                 date: date))
       end
 
       def todo(node)
@@ -81,12 +77,11 @@ module Asciidoctor
         a = node.attr("type") and ["danger", "safety precautions"].each do |t|
           name = t if a.casecmp(t).zero?
         end
-        attr_code(
-          keep_attrs(node).merge(
-            id: Metanorma::Utils::anchor_or_uuid(node), type: name,
-            beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil
-          )
-        )
+        attr_code(keep_attrs(node).merge(id_attr(node)
+          .merge(
+            type: name,
+            beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil,
+          )))
       end
 
       def admonition(node)

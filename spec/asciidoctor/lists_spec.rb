@@ -73,7 +73,7 @@ RSpec.describe Asciidoctor::Standoc do
     output = Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       #{ASCIIDOC_BLANK_HDR}
       [[id]]
-      [keep-with-next=true,keep-lines-together=true]
+      [keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
       * First
       * Second
       +
@@ -84,7 +84,7 @@ RSpec.describe Asciidoctor::Standoc do
       --
 
       [[id1]]
-      [keep-with-next=true,keep-lines-together=true]
+      [keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
       [loweralpha]
       . First
       . Second
@@ -103,7 +103,7 @@ RSpec.describe Asciidoctor::Standoc do
       [arabic]
       ... E
       ... F
-      [keep-with-next=true,keep-lines-together=true]
+      [keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
       Notes1::
       Notes::  Note 1.
       +
@@ -117,14 +117,14 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
     expect(xmlpp(strip_guid(output))).to be_equivalent_to xmlpp(<<~"OUTPUT")
                   #{BLANK_HDR}
-             <sections><ul id="id" keep-with-next="true" keep-lines-together="true">
+             <sections><ul id="id" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common' >
                <li>
                  <p id="_">First</p>
                </li>
                <li><p id="_">Second</p><p id="_">entry1</p>
              <p id="_">entry2</p></li>
              </ul>
-             <ol id="id1" type="alphabet"  keep-with-next="true" keep-lines-together="true">
+             <ol id="id1" type="alphabet"  keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common' >
                <li>
                  <p id="_">First</p>
                </li>
@@ -164,7 +164,7 @@ RSpec.describe Asciidoctor::Standoc do
                </li>
                <li>
                  <p id="_">F</p>
-                 <dl id="_"  keep-with-next="true" keep-lines-together="true">
+                 <dl id="_"  keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common'>
                <dt>Notes1</dt>
                <dd/>
                <dt>Notes</dt>

@@ -15,9 +15,8 @@ module Asciidoctor
       def svgmap_moveattrs(xmldoc)
         xmldoc.xpath("//svgmap").each do |s|
           f = s.at(".//figure") or next
-          if (t = s.at("./name")) && !f.at("./name")
+          (t = s.at("./name")) && !f.at("./name") and
             f.children.first.previous = t.remove
-          end
           if s["id"] && guid?(f["id"])
             f["id"] = s["id"]
             s.delete("id")
@@ -26,13 +25,13 @@ module Asciidoctor
         end
       end
 
-      def svgmap_moveattrs1(s, f)
+      def svgmap_moveattrs1(svgmap, figure)
         %w(unnumbered number subsequence keep-with-next
-           keep-lines-together).each do |a|
-          next if f[a] || !s[a]
+           keep-lines-together tag multilingual-rendering).each do |a|
+          next if figure[a] || !svgmap[a]
 
-          f[a] = s[a]
-          s.delete(a)
+          figure[a] = svgmap[a]
+          svgmap.delete(a)
         end
       end
 

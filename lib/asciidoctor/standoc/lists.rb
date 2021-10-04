@@ -4,10 +4,10 @@ module Asciidoctor
       def li(xml_ul, item)
         xml_ul.li do |xml_li|
           if item.blocks?
-            xml_li.p(**id_attr(item)) { |t| t << item.text }
+            xml_li.p(**attr_code(id_attr(item))) { |t| t << item.text }
             xml_li << item.content
           else
-            xml_li.p(**id_attr(item)) { |p| p << item.text }
+            xml_li.p(**attr_code(id_attr(item))) { |p| p << item.text }
           end
         end
       end
@@ -15,10 +15,10 @@ module Asciidoctor
       def ul_li(xml_ul, item)
         xml_ul.li **ul_li_attrs(item) do |xml_li|
           if item.blocks?
-            xml_li.p(**id_attr(item)) { |t| t << item.text }
+            xml_li.p(**attr_code(id_attr(item))) { |t| t << item.text }
             xml_li << item.content
           else
-            xml_li.p(**id_attr(item)) { |p| p << item.text }
+            xml_li.p(**attr_code(id_attr(item))) { |p| p << item.text }
           end
         end
       end
@@ -57,9 +57,8 @@ module Asciidoctor
       end
 
       def ol_attrs(node)
-        attr_code(keep_attrs(node)
-          .merge(id: Metanorma::Utils::anchor_or_uuid(node),
-                 type: olist_style(node.style)))
+        attr_code(id_attr(node).merge(keep_attrs(node)
+          .merge(type: olist_style(node.style))))
       end
 
       def olist(node)
@@ -79,22 +78,23 @@ module Asciidoctor
         end
       end
 
-      def dd(dd, xml_dl)
-        if dd.nil?
+      def dd(ddefn, xml_dl)
+        if ddefn.nil?
           xml_dl.dd
           return
         end
         xml_dl.dd do |xml_dd|
-          xml_dd.p { |t| t << dd.text } if dd.text?
-          xml_dd << dd.content if dd.blocks?
+          xml_dd.p { |t| t << ddefn.text } if ddefn.text?
+          xml_dd << ddefn.content if ddefn.blocks?
         end
       end
 
       def dl_attrs(node)
-        attr_code(keep_attrs(node)
-                  .merge(id: Metanorma::Utils::anchor_or_uuid(node),
-                         metadata: node.option?("metadata") ? "true" : nil,
-                         key: node.option?("key") ? "true" : nil))
+        attr_code(id_attr(node).merge(keep_attrs(node)
+          .merge(
+            metadata: node.option?("metadata") ? "true" : nil,
+            key: node.option?("key") ? "true" : nil,
+          )))
       end
 
       def dlist(node)

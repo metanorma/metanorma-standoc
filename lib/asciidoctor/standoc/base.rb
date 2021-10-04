@@ -46,6 +46,7 @@ module Asciidoctor
           bare: node.attr("bare"),
           sectionsplit: node.attr("sectionsplit"),
           baseassetpath: node.attr("base-asset-path"),
+          aligncrosselements: node.attr("align-cross-elements"),
         }
       end
 
@@ -81,6 +82,7 @@ module Asciidoctor
           suppressasciimathdup: node.attr("suppress-asciimath-dup"),
           bare: node.attr("bare"),
           baseassetpath: node.attr("base-asset-path"),
+          aligncrosselements: node.attr("align-cross-elements"),
         }
 
         if font_manifest_file = node.attr("mn2pdf-font-manifest-file")
