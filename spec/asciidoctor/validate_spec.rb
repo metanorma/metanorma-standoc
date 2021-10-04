@@ -490,4 +490,32 @@ RSpec.describe Asciidoctor::Standoc do
     expect(File.read("test.err"))
       .to include "Could not resolve footnoteblock:[id1]"
   end
+
+  it "Warning if xref/@target does not point to a real identifier" do
+    FileUtils.rm_f "test.err"
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      <<id1>>
+
+      [[id2]]
+      [NOTE]
+      --
+      |===
+      |a |b
+
+      |c |d
+      |===
+
+      * A
+      * B
+      * C
+      --
+    INPUT
+    expect(File.read("test.err"))
+      .to include "Crossreference target id1 is undefined"
+  end
 end

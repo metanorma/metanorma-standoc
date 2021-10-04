@@ -8,7 +8,7 @@ module Asciidoctor
   module Standoc
     module Validate
       SOURCELOCALITY = "./termsource/origin//locality[@type = 'clause']/"\
-        "referenceFrom".freeze
+                       "referenceFrom".freeze
 
       def init_iev
         return nil if @no_isobib
@@ -34,11 +34,14 @@ module Asciidoctor
       end
 
       def content_validate(doc)
+        @fatalerror = []
+        xref_validate(doc)
         section_validate(doc)
         norm_ref_validate(doc)
         repeat_id_validate(doc.root)
         iev_validate(doc.root)
         concept_validate(doc)
+        @fatalerror.empty? or clean_abort(@fatalerror.join("\n"), doc.to_xml)
       end
 
       def norm_ref_validate(doc)
@@ -51,8 +54,7 @@ module Asciidoctor
                    "Numeric reference in normative references")
           found = true
         end
-        found and
-          clean_abort("Numeric reference in normative references", doc.to_xml)
+        found and @fatalerror << "Numeric reference in normative references"
       end
 
       def concept_validate(doc)
@@ -62,19 +64,19 @@ module Asciidoctor
           next if doc.at("//definitions//dt[@id = '#{x['target']}']")
 
           ref = x&.at("../refterm")&.text
-          @log.add("Anchors", x, "Concept #{ref} is pointing to "\
+          @log.add("Anchors", x,
+                   "Concept #{ref} is pointing to "\
                    "#{x['target']}, which is not a term or symbol")
           found = true
         end
-        found and clean_abort("Concept not cross-referencing term or symbol",
-                              doc.to_xml)
+        found and @fatalerror << "Concept not cross-referencing term or symbol"
       end
 
       def repeat_id_validate1(ids, elem)
         if ids[elem["id"]]
           @log.add("Anchors", elem, "Anchor #{elem['id']} has already been "\
-                   "used at line #{ids[elem['id']]}")
-          raise StandardError.new "Error: multiple instances of same ID"
+                                    "used at line #{ids[elem['id']]}")
+          @fatalerror << "Multiple instances of same ID: #{elem['id']}"
         else
           ids[elem["id"]] = elem.line
         end
@@ -83,12 +85,8 @@ module Asciidoctor
 
       def repeat_id_validate(doc)
         ids = {}
-        begin
-          doc.xpath("//*[@id]").each do |x|
-            ids = repeat_id_validate1(ids, x)
-          end
-        rescue StandardError => e
-          clean_abort(e.message, doc.to_xml)
+        doc.xpath("//*[@id]").each do |x|
+          ids = repeat_id_validate1(ids, x)
         end
       end
 
@@ -128,6 +126,17 @@ module Asciidoctor
           end
         end
         doc
+      end
+
+      # manually check for xref/@target, xref/@to integrity
+      def xref_validate(doc)
+        ids = doc.xpath("//*/@id").each_with_object({}) { |x, m| m[x.text] = 1 }
+        doc.xpath("//xref/@target | //xref/@to").each do |x|
+          next if ids[x.text]
+
+          @log.add("Anchors", x.parent,
+                   "Crossreference target #{x.text} is undefined")
+        end
       end
 
       def validate(doc)
