@@ -84,6 +84,11 @@ module Asciidoctor
         biblio_reorder(xmldoc)
         biblio_nested(xmldoc)
         biblio_renumber(xmldoc)
+        biblio_no_ext(xmldoc)
+      end
+
+      def biblio_no_ext(xmldoc)
+        xmldoc.xpath("//bibitem/ext").each(&:remove)
       end
 
       def biblio_nested(xmldoc)
