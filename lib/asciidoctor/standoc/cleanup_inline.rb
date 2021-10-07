@@ -1,4 +1,5 @@
 require "metanorma-utils"
+require "digest"
 
 module Asciidoctor
   module Standoc
@@ -112,6 +113,7 @@ module Asciidoctor
       def anchor_cleanup(elem)
         anchor_cleanup1(elem)
         xreftarget_cleanup(elem)
+        contenthash_id_cleanup(elem)
       end
 
       def anchor_cleanup1(elem)
@@ -136,6 +138,29 @@ module Asciidoctor
                      "normalised identifier in #{output} from #{orig}")
           end
         end
+      end
+
+      def guid?(str)
+        /^_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
+          .match?(str)
+      end
+
+      def contenthash_id_cleanup(doc)
+        ids = doc.xpath("//*[@id]").each_with_object({}) do |x, m|
+          next unless guid?(x["id"])
+
+          m[x["id"]] = contenthash(x)
+          x["id"] = m[x["id"]]
+        end
+        [%w(review from), %(review to), %(callout target), %(eref bibitemid),
+         %(citation bibitemid), %(xref target), %(xref to)].each do |a|
+          doc.xpath("//#{a[0]}").each { |x| ids[a[1]] and x[a[1]] = ids[a[1]] }
+        end
+      end
+
+      def contenthash(elem)
+        Digest::MD5.hexdigest("#{elem.path}////#{elem.text}")
+          .sub(/^(.{8})(.{4})(.{4})(.{4})(.{12})$/, "_\\1-\\2-\\3-\\4-\\5")
       end
     end
   end
