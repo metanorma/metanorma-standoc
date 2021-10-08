@@ -10,26 +10,24 @@ Gem for serialising the https://github.com/metanorma/metanorma-model-standoc[Met
 
 == Functionality
 
-This gem processes Metanorma documents following a template for generating standards documents, according
-to a range of standards classes. This gem provides underlying generic functionality; behaviour specific
-to each standards class is refined in the gem specific to that standards class (e.g. https://github.com/metanorma/metanorma-iso).
-The following outputs are generated.
+This gem processes Metanorma AsciiDoc input into the Metanorma document model.
+This gem provides underlying generic functionality; behaviour specific
+to each standards class is refined in the gem specific to that standards class
+(e.g. https://github.com/metanorma/metanorma-iso[Metanorma ISO]).
 
-* Metanorma XML representation of the document, intended as a document model for 
-Standards. The Metanorma XML representation is processed in turn, to generate one or more of 
-the following outputs as end deliverables, depending on each standards class gem:
-* Microsoft Word output (`.doc`)
-* HTML output (`.html`)
-* PDF (`.pdf`)
+The following outputs are generated:
+
+* Metanorma semantic XML
+* Metanorma presentation XML
+
+These Metanorma XML representations are processed downstream by the `isodoc` gem
+to generate other end deliverables, depending on each standards class.
 
 The following input formats are supported:
 
-* http://asciidoctor.org/[Asciidoctor]
+* Metanorma AsciiDoc
 
-This README provides an overview of the functionality of the gem; see also
-https://github.com/metanorma/metanorma-iso/blob/master/docs/guidance.adoc[Guidance for authoring].
-https://github.com/metanorma/metanorma-iso/blob/master/docs/quickstart.adoc[Quickstart guide]
-gives a summary overview.
+See the https://www.metanorma.org[Metanorma website] for more information.
 
 NOTE: http://asciimath.org[AsciiMathML] is used for mathematical formatting.
 The gem uses the https://github.com/asciidoctor/asciimath[Ruby AsciiMath parser],
@@ -39,21 +37,19 @@ expressions.
 
 === Installation
 
-If you are using a Mac, the https://github.com/metanorma/metanorma-macos-setup
-repository has instructions on setting up your machine to run Metanorma
-scripts such as this one. You need only run the following in a Terminal console:
+See the https://www.metanorma.org[Metanorma website] for instructions.
+
+In the terminal:
 
 [source,console]
 ----
-$ bash <(curl -s https://raw.githubusercontent.com/metanorma/metanorma-macos-setup/master/metanorma-setup)
 $ gem install metanorma-standoc
 $ gem install metanorma-cli 
 ----
 
-The metanorma-cli gem is the command-line interface for the Metanorma tool suite
+`metanorma-cli` is the command-line interface for the Metanorma suite
 (incorporating the `metanorma` executable seen above).
 
 == Documentation
 
-See http://metanorma.com[]
-
+See the https://www.metanorma.org[Metanorma website] for details.
