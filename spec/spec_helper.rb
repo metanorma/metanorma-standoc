@@ -40,11 +40,9 @@ RSpec.configure do |config|
   end
 
   config.around :each do |example|
-    begin
-      example.run
-    rescue SystemExit
-      fail "Unexpected exit encountered"
-    end
+    example.run
+  rescue SystemExit
+    fail "Unexpected exit encountered"
   end
 end
 
@@ -231,7 +229,7 @@ def stub_fetch_ref(**opts)
   xml = ""
 
   hit = double("hit")
-  expect(hit).to receive(:"[]").with("title") do
+  expect(hit).to receive(:[]).with("title") do
     Nokogiri::XML(xml).at("//docidentifier").content
   end.at_least(:once)
 
@@ -261,7 +259,7 @@ end
 private
 
 def get_xml(search, code, opts)
-  c = code.gsub(%r{[\/\s:-]}, "_").sub(%r{_+$}, "").downcase
+  c = code.gsub(%r{[/\s:-]}, "_").sub(%r{_+$}, "").downcase
   o = opts.keys.join "_"
   file = examples_path("#{[c, o].join '_'}.xml")
   if File.exist? file

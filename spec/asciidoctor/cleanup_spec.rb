@@ -690,8 +690,6 @@ RSpec.describe Asciidoctor::Standoc do
                  File.expand_path("~/.iev.pstore1"), force: true
     FileUtils.rm_rf "relaton/cache"
     FileUtils.rm_rf "test.iev.pstore"
-    # mock_iecbib_get_iec60050_102_01
-    # mock_iecbib_get_iec60050_103_01
     # mock_iev
     VCR.use_cassette "separates_iev_citations_by_top_level_clause" do
       input = <<~INPUT
@@ -962,23 +960,23 @@ RSpec.describe Asciidoctor::Standoc do
   it "cleans up nested mathvariant instances" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
-      
+
       stem:[sf "unitsml(cd)"]
     INPUT
     output = <<~OUTPUT
-             <sections>
-         <p id='_'>
-           <stem type='MathML'>
-             <math xmlns='http://www.w3.org/1998/Math/MathML'>
-               <mstyle mathvariant='sans-serif'>
-                 <mrow xref='U_NISTu7'>
-                   <mi mathvariant='sans-serif'>cd</mi>
-                 </mrow>
-               </mstyle>
-             </math>
-           </stem>
-         </p>
-       </sections>
+            <sections>
+        <p id='_'>
+          <stem type='MathML'>
+            <math xmlns='http://www.w3.org/1998/Math/MathML'>
+              <mstyle mathvariant='sans-serif'>
+                <mrow xref='U_NISTu7'>
+                  <mi mathvariant='sans-serif'>cd</mi>
+                </mrow>
+              </mstyle>
+            </math>
+          </stem>
+        </p>
+      </sections>
     OUTPUT
     expect(xmlpp(strip_guid(Nokogiri::XML(
       Asciidoctor.convert(input, *OPTIONS),
@@ -1463,7 +1461,7 @@ RSpec.describe Asciidoctor::Standoc do
              <xref target='L__xf6_we'/>
              <sourcecode id='L__xf6_we'>
                <name>
-                 See 
+                 See
                  <eref type='inline' bibitemid='L__xf6_wner2016' citeas='L&#246;wner et al. 2016'/>
                </name>
                ABC
@@ -1965,89 +1963,84 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "creates content-based GUIDs" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      .Foreword
+      Foreword
+
+      [NOTE,beforeclauses=true]
+      ====
+      Note which is very important <<a>>
+      ====
+
+      == Introduction
+      Introduction
+
+      == Scope
+      Scope statement
+
+      [IMPORTANT,beforeclauses=true]
+      ====
+      Notice which is very important
+      ====
+    INPUT
+    output = <<~OUTPUT
+      <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='1.10.7'>
+         <bibdata type='standard'>
+           <title language='en' format='text/plain'>Document title</title>
+           <language>en</language>
+           <script>Latn</script>
+           <status>
+             <stage>published</stage>
+           </status>
+           <copyright>
+             <from>2021</from>
+           </copyright>
+           <ext>
+             <doctype>article</doctype>
+           </ext>
+         </bibdata>
+         <preface>
+           <note id='_f91b621e-d8cb-30bf-eef6-7d0150204829'>
+             <p id='_76d95913-a379-c60f-5144-1f09655cafa6'>
+               Note which is very important
+               <xref target='_76d95913-a379-c60f-5144-1f09655cafa6'/>
+             </p>
+           </note>
+           <foreword id='_0826616f-13a4-0634-baee-5003c5534175' obligation='informative'>
+             <title>Foreword</title>
+             <p id='_d2f825bf-3e18-6143-8777-34e59928d48c'>Foreword</p>
+           </foreword>
+           <introduction id='_introduction' obligation='informative'>
+             <title>Introduction</title>
+             <p id='_272021ab-1bfa-78ae-e860-ed770e36f3d2'>Introduction</p>
+           </introduction>
+         </preface>
+         <sections>
+           <admonition id='_068def71-3ec8-0395-8853-0e2d3ef5b841' type='important'>
+             <p id='_69ec375e-c992-5be3-76dd-a2311f9bb6cc'>Notice which is very important</p>
+           </admonition>
+           <clause id='_scope' type='scope' inline-header='false' obligation='normative'>
+             <title>Scope</title>
+             <p id='_fdcef9f1-c898-da99-eff6-f3e6abde7799'>Scope statement</p>
+           </clause>
+         </sections>
+       </standard-document>
+    OUTPUT
+    input1 = xmlpp(Asciidoctor.convert(input, *OPTIONS))
+      .sub(/<p id='([^']+)'>(\s+)Note which is very important(\s+)<xref target='a'/,
+           "<p id='\\1'>\\2Note which is very important\\3<xref target='\\1'")
+    expect(input1)
+      .to be_equivalent_to xmlpp(output)
+  end
+
   private
 
   def mock_mathml_italicise(string)
     allow_any_instance_of(::Asciidoctor::Standoc::Cleanup)
       .to receive(:mathml_mi_italics).and_return(string)
-  end
-
-  def mock_iecbib_get_iec60050_103_01
-    expect(Iecbib::IecBibliography).to receive(:get)
-      .with("IEC 60050-103", nil, { keep_year: true }) do
-      IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
-        <bibitem type="standard" id="IEC60050-103">
-           <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
-           <docidentifier>IEC 60050-103:2009</docidentifier>
-           <date type="published">
-             <on>2009</on>
-           </date>
-           <contributor>
-             <role type="publisher"/>
-             <organization>
-               <name>International Electrotechnical Commission</name>
-               <abbreviation>IEC</abbreviation>
-               <uri>www.iec.ch</uri>
-             </organization>
-           </contributor>
-           <language>en</language>
-           <language>fr</language>
-           <script>Latn</script>
-           <status>
-             <stage>60</stage>
-           </status>
-           <copyright>
-             <from>2018</from>
-             <owner>
-               <organization>
-                 <name>International Electrotechnical Commission</name>
-                 <abbreviation>IEC</abbreviation>
-                 <uri>www.iec.ch</uri>
-               </organization>
-             </owner>
-           </copyright>
-         </bibitem>
-      OUTPUT
-    end
-  end
-
-  def mock_iecbib_get_iec60050_102_01
-    expect(Iecbib::IecBibliography).to receive(:get)
-      .with("IEC 60050-102", nil, { keep_year: true }) do
-      IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
-        <bibitem type="standard" id="IEC60050-102">
-           <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
-           <docidentifier>IEC 60050-102:2007</docidentifier>
-           <date type="published">
-             <on>2007</on>
-           </date>
-           <contributor>
-             <role type="publisher"/>
-             <organization>
-               <name>International Electrotechnical Commission</name>
-               <abbreviation>IEC</abbreviation>
-               <uri>www.iec.ch</uri>
-             </organization>
-           </contributor>
-           <language>en</language>
-           <language>fr</language>
-           <script>Latn</script>
-           <status>
-             <stage>60</stage>
-           </status>
-           <copyright>
-             <from>2018</from>
-             <owner>
-               <organization>
-                 <name>International Electrotechnical Commission</name>
-                 <abbreviation>IEC</abbreviation>
-                 <uri>www.iec.ch</uri>
-               </organization>
-             </owner>
-           </copyright>
-         </bibitem>
-      OUTPUT
-    end
   end
 
   def mock_iev
