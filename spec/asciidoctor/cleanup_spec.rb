@@ -1987,7 +1987,7 @@ RSpec.describe Asciidoctor::Standoc do
       ====
     INPUT
     output = <<~OUTPUT
-      <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='1.10.7'>
+      <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version="#{Metanorma::Standoc::VERSION}">
          <bibdata type='standard'>
            <title language='en' format='text/plain'>Document title</title>
            <language>en</language>
