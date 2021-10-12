@@ -28,38 +28,53 @@ module Asciidoctor
       # sleep need for windows because dot works in separate process and
       # plantuml process may finish earlier then dot, as result png file
       # maybe not created yet after plantuml finish
+      #
+      # # Warning: metanorma/metanorma-standoc#187
+      # Windows Ruby 2.4 will crash if a Tempfile is "mv"ed.
+      # This is why we need to copy and then unlink.
       def self.generate_file(parent, reader)
         localdir = Metanorma::Utils::localdir(parent.document)
         imagesdir = parent.document.attr("imagesdir")
         umlfile, outfile = save_plantuml parent, reader, localdir
-        run(umlfile, outfile) or raise "No image output from PlantUML (#{umlfile}, #{outfile})!"
+        run(umlfile, outfile) or
+          raise "No image output from PlantUML (#{umlfile}, #{outfile})!"
         umlfile.unlink
 
-        path = Pathname.new(localdir) + (imagesdir || "plantuml")
-        File.writable?(localdir) or raise "Destination path #{path} not writable for PlantUML!"
-        path.mkpath
-        File.writable?(path) or raise "Destination path #{path} not writable for PlantUML!"
-        # File.exist?(path) or raise "Destination path #{path} already exists for PlantUML!"
-
-        # Warning: metanorma/metanorma-standoc#187
-        # Windows Ruby 2.4 will crash if a Tempfile is "mv"ed.
-        # This is why we need to copy and then unlink.
+        path = path_prep(localdir, imagesdir)
         filename = File.basename(outfile.to_s)
-        FileUtils.cp(outfile, path) && outfile.unlink
+        FileUtils.cp(outfile, path) and outfile.unlink
 
         imagesdir ? filename : File.join(path, filename)
       end
 
+      def self.path_prep(localdir, imagesdir)
+        path = Pathname.new(localdir) + (imagesdir || "plantuml")
+        File.writable?(localdir) or
+          raise "Destination path #{path} not writable for PlantUML!"
+        path.mkpath
+        File.writable?(path) or
+          raise "Destination path #{path} not writable for PlantUML!"
+        # File.exist?(path) or raise "Destination path #{path} already exists for PlantUML!"
+        path
+      end
+
       def self.save_plantuml(_parent, reader, _localdir)
-        src = reader.source
-        reader.lines.first.sub(/\s+$/, "").match /^@startuml($| )/ or
-          src = "@startuml\n#{src}\n@enduml\n"
+        src = prep_source(reader)
         /^@startuml (?<fn>[^\n]+)\n/ =~ src
         Tempfile.open(["plantuml", ".pml"], encoding: "utf-8") do |f|
           f.write(src)
           [f, File.join(File.dirname(f.path),
                         "#{fn || File.basename(f.path, '.pml')}.png")]
         end
+      end
+
+      def self.prep_source(reader)
+        src = reader.source
+        reader.lines.first.sub(/\s+$/, "").match /^@startuml($| )/ or
+          src = "@startuml\n#{src}\n@enduml\n"
+        %r{@enduml\s*$}m.match?(src) or
+          raise "@startuml without matching @enduml in PlantUML!"
+        src
       end
 
       def self.generate_attrs(attrs)
