@@ -64,6 +64,7 @@ RSpec.describe Asciidoctor::Standoc do
       :novalid:
       :no-isobib:
       :imagesdir: spec/assets
+      :data-uri-image: false
 
       [plantuml]
       ....
@@ -100,6 +101,7 @@ RSpec.describe Asciidoctor::Standoc do
         :novalid:
         :no-isobib:
         :imagesdir: spec/assets
+        :data-uri-image: false
 
         [lutaml_diagram]
         ....
@@ -145,6 +147,7 @@ RSpec.describe Asciidoctor::Standoc do
           :novalid:
           :no-isobib:
           :imagesdir: spec/assets
+          :data-uri-image: false
 
           lutaml_diagram::#{example_file}[]
 

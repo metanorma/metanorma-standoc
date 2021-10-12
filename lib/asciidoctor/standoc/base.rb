@@ -38,7 +38,7 @@ module Asciidoctor
           scripts: node.attr("scripts"),
           scripts_override: node.attr("scripts-override"),
           scripts_pdf: node.attr("scripts-pdf"),
-          datauriimage: node.attr("data-uri-image"),
+          datauriimage: node.attr("data-uri-image") != "false",
           htmltoclevels: node.attr("htmltoclevels") || node.attr("toclevels"),
           doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
           break_up_urls_in_tables: node.attr("break-up-urls-in-tables"),
@@ -127,7 +127,7 @@ module Asciidoctor
         @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
         @bibdb = nil
         @seen_headers = []
-        @datauriimage = node.attr("data-uri-image")
+        @datauriimage = node.attr("data-uri-image") != "false"
         @boilerplateauthority = node.attr("boilerplate-authority")
         @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
         @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
