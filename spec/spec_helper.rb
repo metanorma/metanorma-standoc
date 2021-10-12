@@ -72,6 +72,7 @@ ASCIIDOC_BLANK_HDR = <<~"HDR".freeze
   :nodoc:
   :novalid:
   :no-isobib:
+  :data-uri-image: false
 
 HDR
 

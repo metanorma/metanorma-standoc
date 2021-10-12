@@ -1010,6 +1010,50 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
       .to include '<image src="data:image/png;base64'
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :data-uri-image: true
+
+      .Split-it-right sample divider
+      image::spec/examples/rice_images/rice_image1.png[]
+    INPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to include '<image src="data:image/png;base64'
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :data-uri-image: false
+
+      .Split-it-right sample divider
+      image::spec/examples/rice_images/rice_image1.png[]
+    INPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .not_to include '<image src="data:image/png;base64'
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+
+      .Split-it-right sample divider
+      image::spec/examples/rice_images/rice_image1.png[]
+    INPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to include '<image src="data:image/png;base64'
   end
 
   it "accepts attributes on paragraphs" do
