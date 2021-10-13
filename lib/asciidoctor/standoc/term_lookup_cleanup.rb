@@ -101,7 +101,8 @@ module Asciidoctor
 
       def replace_automatic_generated_ids_terms
         r = xmldoc.xpath("//term").each.with_object({}) do |n, res|
-          normalize_id_and_memorize(n, res, "./preferred", "term")
+          normalize_id_and_memorize(n, res, "./preferred/expression/name",
+                                    "term")
         end
         s = xmldoc.xpath("//definitions//dt").each.with_object({}) do |n, res|
           normalize_id_and_memorize(n, res, ".", "symbol")

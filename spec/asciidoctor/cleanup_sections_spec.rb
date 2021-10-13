@@ -28,7 +28,7 @@ RSpec.describe Asciidoctor::Standoc do
         </li>
       </ul>
              <term id="term-time">
-             <preferred>Time</preferred>
+             <preferred><expression><name>Time</name></expression></preferred>
                <definition><p id="_">This paragraph is extraneous</p></definition>
              </term></terms>
              </sections>
@@ -521,7 +521,7 @@ RSpec.describe Asciidoctor::Standoc do
                    </title>
                    <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
                    <term id='term-term1'>
-                     <preferred>Term1</preferred>
+                     <preferred><expression><name>Term1</name></expression></preferred>
                    </term>
                  </terms>
                  <clause id='_' inline-header='false' obligation='normative'>
@@ -796,7 +796,7 @@ RSpec.describe Asciidoctor::Standoc do
                     <title>Terms and definitions</title>
                     <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
                     <term id='term-term1'>
-                      <preferred>Term1</preferred>
+                      <preferred><expression><name>Term1</name></expression></preferred>
                     </term>
                   </terms>
                   <clause id='_' inline-header='false' obligation='normative'>
@@ -1033,7 +1033,7 @@ RSpec.describe Asciidoctor::Standoc do
                       s’appliquent.
                     </p>
                     <term id='term-term1'>
-                      <preferred>Term1</preferred>
+                      <preferred><expression><name>Term1</name></expression></preferred>
                     </term>
                   </terms>
                   <clause id='_' inline-header='false' obligation='normative'>
@@ -1267,7 +1267,7 @@ RSpec.describe Asciidoctor::Standoc do
                     <title>术语和定义</title>
                     <p id='_'>下列术语和定义适用于本文件。</p>
                     <term id='term-term1'>
-                      <preferred>Term1</preferred>
+                      <preferred><expression><name>Term1</name></expression></preferred>
                     </term>
                   </terms>
                   <clause id='_' inline-header='false' obligation='normative'>
@@ -1501,7 +1501,7 @@ RSpec.describe Asciidoctor::Standoc do
                     <title>Terms and definitions</title>
                     <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
                     <term id='term-term1'>
-                      <preferred>Term1</preferred>
+                      <preferred><expression><name>Term1</name></expression></preferred>
                     </term>
                   </terms>
                   <clause id='_' inline-header='false' obligation='normative'>

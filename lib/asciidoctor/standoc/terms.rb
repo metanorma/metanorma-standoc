@@ -69,7 +69,7 @@ module Asciidoctor
 
       def term_def_subclause_parse1(attrs, xml, node)
         xml.term **attr_code(attrs) do |xml_section|
-          xml_section.preferred { |name| name << node.title }
+          term_designation(xml_section, node, "preferred", node.title)
           xml_section << node.content
         end
       end
@@ -81,6 +81,14 @@ module Asciidoctor
             section.termdocsource(nil, **attr_code(bibitemid: s1))
           end
           section << node.content
+        end
+      end
+
+      def term_designation(xml, _node, tag, text)
+        xml.send tag do |p|
+          p.expression do |e|
+            e.name { |name| name << text }
+          end
         end
       end
 

@@ -170,8 +170,10 @@ module Asciidoctor
           else
             case node.role
               # the following three are legacy, they are now handled by macros
-            when "alt" then xml.admitted { |a| a << node.text }
-            when "deprecated" then xml.deprecates { |a| a << node.text }
+            when "alt"
+              term_designation(xml, node, "admitted", node.text)
+            when "deprecated"
+              term_designation(xml, node, "deprecates", node.text)
             when "domain" then xml.domain { |a| a << node.text }
 
             when "strike" then xml.strike { |s| s << node.text }
@@ -209,7 +211,7 @@ module Asciidoctor
       def inline_image(node)
         noko do |xml|
           xml.image **image_attributes(node)
-        end.join("")
+        end.join
       end
 
       def inline_indexterm(node)
@@ -218,8 +220,8 @@ module Asciidoctor
           terms = (node.attr("terms") || [node.text]).map { |x| xml_encode(x) }
           xml.index do |i|
             i.primary { |x| x << terms[0] }
-            a = terms.dig(1) and i.secondary { |x| x << a }
-            a = terms.dig(2) and i.tertiary { |x| x << a }
+            a = terms[1] and i.secondary { |x| x << a }
+            a = terms[2] and i.tertiary { |x| x << a }
           end
         end.join
       end

@@ -20,8 +20,8 @@ RSpec.describe Asciidoctor::Standoc do
       <preface>
           <foreword id='_' obligation='informative'>
           <title>Foreword</title>
-          <admitted>term1</admitted>
-          <deprecates>term1</deprecates>
+          <admitted><expression><name>term1</name></expression></admitted>
+          <deprecates><expression><name>term1</name></expression></deprecates>
           <domain>term1</domain>
           <inherit>
             <eref type='inline' bibitemid='ref1' citeas='XYZ 123'/>
@@ -427,7 +427,7 @@ RSpec.describe Asciidoctor::Standoc do
                    <title>Terms and definitions</title>
                    <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
                    <term id='term-clause1'>
-                     <preferred>Clause1</preferred>
+                     <preferred><expression><name>Clause1</name></expression></preferred>
                    </term>
                  </terms>
                  <definitions id='_' obligation='normative'>
@@ -1277,7 +1277,7 @@ RSpec.describe Asciidoctor::Standoc do
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <term id='term-name'>
-              <preferred>name</preferred>
+              <preferred><expression><name>name</name></expression></preferred>
             </term>
           </terms>
           <clause id='_' inline-header='false' obligation='normative'>
@@ -1332,7 +1332,7 @@ RSpec.describe Asciidoctor::Standoc do
               <title>Terms and definitions</title>
               <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
               <term id='term-name'>
-                <preferred>name</preferred>
+                <preferred><expression><name>name</name></expression></preferred>
               </term>
             </terms>
             <clause id='_' inline-header='false' obligation='normative'>
@@ -1396,10 +1396,10 @@ RSpec.describe Asciidoctor::Standoc do
               <title>Terms and definitions</title>
               <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
               <term id='term-name-1'>
-                 <preferred>name</preferred>
+                 <preferred><expression><name>name</name></expression></preferred>
               </term>
               <term id='term-name2-1'>
-                <preferred>name2</preferred>
+                <preferred><expression><name>name2</name></expression></preferred>
               </term>
             </terms>
             <clause id='term-name' inline-header='false' obligation='normative'>
@@ -1481,10 +1481,10 @@ RSpec.describe Asciidoctor::Standoc do
                 <title>Terms and definitions</title>
                 <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
                 <term id='term-name-identity'>
-                  <preferred>name identity</preferred>
+                  <preferred><expression><name>name identity</name></expression></preferred>
                 </term>
                 <term id='name-check'>
-                  <preferred>name check</preferred>
+                  <preferred><expression><name>name check</name></expression></preferred>
                   <definition>
                     <p id='_'>paragraph</p>
                     <p id='_'>

@@ -6,10 +6,9 @@ module Asciidoctor
       def termdef_stem_cleanup(xmldoc)
         xmldoc.xpath("//term/p/stem").each do |a|
           if a.parent.elements.size == 1 # para contains just a stem expression
-            t = Nokogiri::XML::Element.new("admitted", xmldoc)
             parent = a.parent
-            t.children = a.remove
-            parent.replace(t)
+            parent.replace("<admitted><expression><name>#{a.to_xml}"\
+                           "</name></expression></admitted>")
           end
         end
       end
@@ -114,8 +113,8 @@ module Asciidoctor
           .gsub(/[0-9]+/, "þ\\0")
       end
 
-      def grkletters(x)
-        x.gsub(/\b(alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|nu|xi|omicron|pi|rho|sigma|tau|upsilon|phi|chi|psi|omega)\b/i, "&\\1;")
+      def grkletters(text)
+        text.gsub(/\b(alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|nu|xi|omicron|pi|rho|sigma|tau|upsilon|phi|chi|psi|omega)\b/i, "&\\1;")
       end
 
       def extract_symbols_list(dlist)

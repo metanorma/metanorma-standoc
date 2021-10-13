@@ -353,7 +353,7 @@ RSpec.describe Asciidoctor::Standoc do
              <title>Terms and definitions</title>
              <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
              <term id='term-term1'>
-               <preferred>Term1</preferred>
+               <preferred><expression><name>Term1</name></expression></preferred>
                <definition>
                  <p id='_'>first definition</p>
                  <termsource status='identical'>
@@ -420,7 +420,7 @@ RSpec.describe Asciidoctor::Standoc do
               <title>Terms and definitions</title>
               <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
               <term id="term-term1">
-              <preferred>Term1</preferred>
+              <preferred><expression><name>Term1</name></expression></preferred>
               <termnote id="_">
               <p id="_">This is a note</p>
             </termnote>
@@ -495,7 +495,7 @@ RSpec.describe Asciidoctor::Standoc do
         <terms id="_" obligation="normative"><title>Terms, definitions and symbols</title>
       <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
       <term id="term-term1">
-        <preferred>Term1</preferred>
+        <preferred><expression><name>Term1</name></expression></preferred>
       </term>
       <definitions id="_" obligation="normative" type="symbols">
         <title>Symbols</title>
@@ -653,7 +653,7 @@ RSpec.describe Asciidoctor::Standoc do
         <title>Terms and definitions</title>
       <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
         <term id="term-term1">
-        <preferred>Term1</preferred>
+        <preferred><expression><name>Term1</name></expression></preferred>
       <termexample id="ABC" tag='X' multilingual-rendering='common'>
         <p id="_">This is an example</p>
       </termexample></term>
@@ -713,7 +713,7 @@ RSpec.describe Asciidoctor::Standoc do
       <sections>
         <terms id="_" obligation="normative"><title>Terms, definitions and symbols</title>
       <p id="_">For the purposes of this document, the following terms and definitions apply.</p><term id="term-term1">
-        <preferred>Term1</preferred>
+        <preferred><expression><name>Term1</name></expression></preferred>
       </term>
       <definitions id="_" obligation="normative" type="symbols">
         <title>Symbols</title>
@@ -1150,7 +1150,7 @@ RSpec.describe Asciidoctor::Standoc do
                <title>Terms and definitions</title><p id="_">For the purposes of this document,
              the following terms and definitions apply.</p>
                <term id="term-term1">
-               <preferred>Term1</preferred>
+               <preferred><expression><name>Term1</name></expression></preferred>
                <termsource status="identical">
                <origin bibitemid="ISO2191" type="inline" citeas="">
                <localityStack>
@@ -1167,7 +1167,7 @@ RSpec.describe Asciidoctor::Standoc do
              </termsource>
              </term>
              <term id='term-term2'>
-        <preferred>Term2</preferred>
+        <preferred><expression><name>Term2</name></expression></preferred>
         <definition>
           <p id='_'>Definition</p>
         </definition>
@@ -1220,7 +1220,7 @@ RSpec.describe Asciidoctor::Standoc do
                <p id="_">For the purposes of this document,
              the following terms and definitions apply.</p>
                <term id="term-term1">
-               <preferred>Term1</preferred>
+               <preferred><expression><name>Term1</name></expression></preferred>
                <termsource status="modified">
                <origin bibitemid="ISO2191" type="inline" citeas="">
                <localityStack>
@@ -1233,7 +1233,7 @@ RSpec.describe Asciidoctor::Standoc do
              </termsource>
              </term>
              <term id='term-term2'>
-        <preferred>Term2</preferred>
+        <preferred><expression><name>Term2</name></expression></preferred>
         <definition>
           <p id='_'>Definition</p>
         </definition>

@@ -24,7 +24,7 @@ module Asciidoctor
           /^IEC 60050-/.match(t&.at("./termsource/origin/@citeas")&.text) &&
             loc = t.xpath(SOURCELOCALITY)&.text or next
           iev = @iev.fetch(loc, xmldoc&.at("//language")&.text || "en") or next
-          pref = t.xpath("./preferred").inject([]) do |m, x|
+          pref = t.xpath("./preferred/expression/name").inject([]) do |m, x|
             m << x&.text&.downcase
           end
           pref.include?(iev.downcase) or
