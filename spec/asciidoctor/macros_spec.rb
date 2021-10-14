@@ -4,9 +4,10 @@ RSpec.describe Asciidoctor::Standoc do
   it "processes the Asciidoctor::Standoc inline macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
+      preferred:[term0]
       alt:[term1]
-      deprecated:[term1]
-      domain:[term1]
+      deprecated:[term2]
+      domain:[term3]
       inherit:[<<ref1>>]
       autonumber:table[3]
       add:[a <<clause>>] del:[B]
@@ -20,9 +21,10 @@ RSpec.describe Asciidoctor::Standoc do
       <preface>
           <foreword id='_' obligation='informative'>
           <title>Foreword</title>
+          <preferred><expression><name>term0</name></expression></preferred>
           <admitted><expression><name>term1</name></expression></admitted>
-          <deprecates><expression><name>term1</name></expression></deprecates>
-          <domain>term1</domain>
+          <deprecates><expression><name>term2</name></expression></deprecates>
+          <domain>term3</domain>
           <inherit>
             <eref type='inline' bibitemid='ref1' citeas='XYZ 123'/>
           </inherit>

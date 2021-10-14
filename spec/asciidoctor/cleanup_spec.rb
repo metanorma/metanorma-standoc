@@ -213,6 +213,97 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "permits multiple preferred terms, and treats them as synonyms in concepts" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      === First Designation
+
+      preferred:[Second Designation]
+
+      alt:[Third Designation]
+
+      alt:[Fourth Designation]
+
+      deprecated:[Fourth Designation]
+
+      deprecated:[Fifth Designation]
+
+      Definition
+
+      == Clause
+
+      {{First Designation}}
+
+      {{Second Designation}}
+    INPUT
+    output = <<~OUTPUT
+         #{BLANK_HDR}
+                <sections>
+                   <terms id='_' obligation='normative'>
+        <title>Terms and definitions</title>
+        <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+        <term id='term-first-designation'>
+          <preferred>
+            <expression>
+              <name>First Designation</name>
+            </expression>
+          </preferred>
+          <preferred>
+            <expression>
+              <name>Second Designation</name>
+            </expression>
+          </preferred>
+          <admitted>
+            <expression>
+              <name>Third Designation</name>
+            </expression>
+          </admitted>
+          <admitted>
+            <expression>
+              <name>Fourth Designation</name>
+            </expression>
+          </admitted>
+          <deprecates>
+            <expression>
+              <name>Fourth Designation</name>
+            </expression>
+          </deprecates>
+          <deprecates>
+            <expression>
+              <name>Fifth Designation</name>
+            </expression>
+          </deprecates>
+          <definition>
+            <p id='_'>Definition</p>
+          </definition>
+        </term>
+      </terms>
+      <clause id='_' inline-header='false' obligation='normative'>
+        <title>Clause</title>
+        <p id='_'>
+          <concept>
+            <refterm>First Designation</refterm>
+            <renderterm>First Designation</renderterm>
+            <xref target='term-first-designation'/>
+          </concept>
+        </p>
+        <p id='_'>
+          <concept>
+            <refterm>Second Designation</refterm>
+            <renderterm>Second Designation</renderterm>
+            <xref target='term-first-designation'/>
+          </concept>
+        </p>
+      </clause>
+         </sections>
+         </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes stem-only terms as admitted" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}

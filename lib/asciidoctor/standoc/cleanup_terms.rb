@@ -39,10 +39,10 @@ module Asciidoctor
 
       def termdef_unnest_cleanup(xmldoc)
         # release termdef tags from surrounding paras
-        nodes = xmldoc.xpath("//p/admitted | //p/deprecates")
+        nodes = xmldoc.xpath("//p/admitted | //p/deprecates | //p/preferred")
         while !nodes.empty?
           nodes[0].parent.replace(nodes[0].parent.children)
-          nodes = xmldoc.xpath("//p/admitted | //p/deprecates")
+          nodes = xmldoc.xpath("//p/admitted | //p/deprecates | //p/preferred")
         end
       end
 
@@ -83,9 +83,9 @@ module Asciidoctor
       end
 
       def termdef_cleanup(xmldoc)
+        termdef_unnest_cleanup(xmldoc)
         Asciidoctor::Standoc::TermLookupCleanup.new(xmldoc, @log).call
         termdef_from_termbase(xmldoc)
-        termdef_unnest_cleanup(xmldoc)
         termdef_stem_cleanup(xmldoc)
         termdomain_cleanup(xmldoc)
         termdefinition_cleanup(xmldoc)

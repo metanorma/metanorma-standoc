@@ -2,6 +2,18 @@ require "csv"
 
 module Asciidoctor
   module Standoc
+    class PreferredTermInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :preferred
+      parse_content_as :text
+      using_format :short
+
+      def process(parent, _target, attrs)
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        %{<preferred><expression><name>#{out}</name></expression></preferred>}
+      end
+    end
+
     class AltTermInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :alt
@@ -9,7 +21,8 @@ module Asciidoctor
       using_format :short
 
       def process(parent, _target, attrs)
-        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        out = Asciidoctor::Inline.new(parent, :quoted,
+                                      attrs["text"]).convert
         %{<admitted><expression><name>#{out}</name></expression></admitted>}
       end
     end
@@ -21,7 +34,8 @@ module Asciidoctor
       using_format :short
 
       def process(parent, _target, attrs)
-        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        out = Asciidoctor::Inline.new(parent, :quoted,
+                                      attrs["text"]).convert
         %{<deprecates><expression><name>#{out}<name></expression></deprecates>}
       end
     end
@@ -33,7 +47,8 @@ module Asciidoctor
       using_format :short
 
       def process(parent, _target, attrs)
-        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        out = Asciidoctor::Inline.new(parent, :quoted,
+                                      attrs["text"]).convert
         %{<domain>#{out}</domain>}
       end
     end

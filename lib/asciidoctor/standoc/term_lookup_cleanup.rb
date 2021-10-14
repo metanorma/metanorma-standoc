@@ -13,7 +13,7 @@ module Asciidoctor
       def initialize(xmldoc, log)
         @xmldoc = xmldoc
         @log = log
-        @termlookup = { term: {}, symbol: {} }
+        @termlookup = { term: {}, symbol: {}, secondary2primary: {} }
         @idhash = {}
       end
 
@@ -29,6 +29,9 @@ module Asciidoctor
       def concept_cleanup
         xmldoc.xpath("//concept").each do |n|
           n.delete("type")
+          refterm = n.at("./refterm") or next
+          p = @termlookup[:secondary2primary][refterm.text] and
+            refterm.children = p
         end
       end
 
@@ -71,7 +74,7 @@ module Asciidoctor
         display = [] if display.nil? || display&.to_xml == node.text
         d = display.empty? ? "" : ", display <tt>#{display.to_xml}</tt>"
         node.children = "term <tt>#{node.text}</tt>#{d} "\
-          "not resolved via ID <tt>#{target}</tt>"
+                        "not resolved via ID <tt>#{target}</tt>"
       end
 
       def remove_missing_ref_symbol(node, target)
@@ -84,7 +87,7 @@ module Asciidoctor
         display = [] if display.nil? || display&.to_xml == node.text
         d = display.empty? ? "" : ", display <tt>#{display.to_xml}</tt>"
         node.children = "symbol <tt>#{node.text}</tt>#{d} "\
-          "not resolved via ID <tt>#{target}</tt>"
+                        "not resolved via ID <tt>#{target}</tt>"
       end
 
       def modify_ref_node(node, target)
@@ -107,10 +110,24 @@ module Asciidoctor
         s = xmldoc.xpath("//definitions//dt").each.with_object({}) do |n, res|
           normalize_id_and_memorize(n, res, ".", "symbol")
         end
-        { term: r, symbol: s }
+        { term: r, symbol: s, secondary2primary: pref_secondary2primary }
+      end
+
+      def pref_secondary2primary
+        xmldoc.xpath("//term").each.with_object({}) do |n, res|
+          n.xpath("./preferred/expression/name").each_with_index do |p, i|
+            i.zero? and term = p.text
+            i.positive? and res[p.text] = term
+          end
+        end
       end
 
       def normalize_id_and_memorize(node, res_table, text_selector, prefix)
+        normalize_id_and_memorize_init(node, res_table, text_selector, prefix)
+        memorize_other_pref_terms(node, res_table, text_selector)
+      end
+
+      def normalize_id_and_memorize_init(node, res_table, text_selector, prefix)
         term_text = normalize_ref_id(node.at(text_selector).text)
         unless AUTOMATIC_GENERATED_ID_REGEXP.match(node["id"]).nil? &&
             !node["id"].nil?
@@ -119,6 +136,14 @@ module Asciidoctor
           @idhash[id] = true
         end
         res_table[term_text] = node["id"]
+      end
+
+      def memorize_other_pref_terms(node, res_table, text_selector)
+        node.xpath(text_selector).each_with_index do |p, i|
+          next unless i.positive?
+
+          res_table[normalize_ref_id(p.text)] = node["id"]
+        end
       end
 
       def normalize_ref_id(text)
