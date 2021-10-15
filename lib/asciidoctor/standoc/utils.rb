@@ -40,10 +40,13 @@ module Asciidoctor
       end
 
       def attr_code(attributes)
-        attributes = attributes.reject { |_, val| val.nil? }.map
-        attributes.map do |k, v|
-          [k, (v.is_a? String) ? HTMLEntities.new.decode(v) : v]
-        end.to_h
+        #attributes = attributes.reject { |_, val| val.nil? }.map
+        #attributes.map do |k, v|
+          #[k, (v.is_a? String) ? HTMLEntities.new.decode(v) : v]
+        #end.to_h
+        attributes.compact.transform_values do |v|
+          v.is_a?(String) ? HTMLEntities.new.decode(v) : v
+        end
       end
 
       # if the contents of node are blocks, output them to out;
@@ -56,7 +59,7 @@ module Asciidoctor
       end
 
       SUBCLAUSE_XPATH = "//clause[not(parent::sections)]"\
-        "[not(ancestor::boilerplate)]".freeze
+                        "[not(ancestor::boilerplate)]".freeze
 
       def isodoc(lang, script, i18nyaml = nil)
         conv = html_converter(EmptyAttr.new)
@@ -67,27 +70,37 @@ module Asciidoctor
 
       def default_script(lang)
         case lang
-        when "ar", "fa"
-          "Arab"
-        when "ur"
-          "Aran"
-        when "ru", "bg"
-          "Cyrl"
-        when "hi"
-          "Deva"
-        when "el"
-          "Grek"
-        when "zh"
-          "Hans"
-        when "ko"
-          "Kore"
-        when "he"
-          "Hebr"
-        when "ja"
-          "Jpan"
+        when "ar", "fa" then "Arab"
+        when "ur" then "Aran"
+        when "ru", "bg" then "Cyrl"
+        when "hi" then "Deva"
+        when "el" then "Grek"
+        when "zh" then "Hans"
+        when "ko" then "Kore"
+        when "he" then "Hebr"
+        when "ja" then "Jpan"
         else
           "Latn"
         end
+      end
+
+      def dl_to_attrs(elem, dlist, name)
+        e = dlist.at("./dt[text()='#{name}']") or return
+        val = e.at("./following::dd/p") || e.at("./following::dd") or return
+        elem[name] = val.text
+      end
+
+      def dl_to_elems(ins, elem, dlist, name)
+        if a = elem.at("./#{name}[last()]")
+          ins = a
+        end
+        dlist.xpath("./dt[text()='#{name}']").each do |e|
+          val = e.at("./following::dd/p") || e.at("./following::dd")
+          val.name = name
+          ins.next = val
+          ins = ins.next
+        end
+        ins
       end
 
       class EmptyAttr

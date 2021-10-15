@@ -14,6 +14,9 @@ RSpec.describe Asciidoctor::Standoc do
       language:: fr
       script:: Latn
       type:: prefix
+      isInternational:: true
+      abbreviationType:: acronym
+      pronunciation:: fəɹst
 
       alt:[Third Designation]
 
@@ -34,6 +37,36 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
+      <sections>
+          <terms id='_' obligation='normative'>
+            <title>Terms and definitions</title>
+            <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+            <term id='term-first-designation'>
+              <preferred language='fr' script='Latn' type='prefix'>
+                <expression>
+                  <name>First Designation</name>
+            <isInternational>true</isInternational>
+            <abbreviationType>acronym</abbreviationType>
+            <pronunciation>f&#601;&#633;st</pronunciation>
+                </expression>
+              </preferred>
+              <admitted language='he' script='Hebr' type='suffix'>
+                <expression>
+                  <name>Third Designation</name>
+                </expression>
+              </admitted>
+              <deprecates language='jp' script='Japn' type='full'>
+                <expression>
+                  <name>Fourth Designation</name>
+                </expression>
+              </deprecates>
+              <definition>
+                <p id='_'>Definition</p>
+              </definition>
+            </term>
+          </terms>
+        </sections>
+      </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)

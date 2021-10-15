@@ -82,9 +82,40 @@ module Asciidoctor
         end
       end
 
+      def term_dl_to_metadata(xmldoc)
+        xmldoc.xpath("//term[dl[@metadata = 'true']]").each do |t|
+          t.xpath("./dl[@metadata = 'true']").each do |dl|
+            prev = dl_to_designation(dl) or next
+            term_dl_to_metadata1(prev, dl)
+            dl.remove
+          end
+        end
+      end
+
+      def term_dl_to_metadata1(prev, dlist)
+        %w(language script type).each do |a|
+          dl_to_attrs(prev, dlist, a)
+        end
+        %w(isInternational abbreviationType pronunciation)
+          .reverse.each do |a|
+          dl_to_elems(prev.at("./expression/name"), prev, dlist, a)
+        end
+      end
+
+      def dl_to_designation(dlist)
+        prev = dlist.previous_element
+        unless %w(preferred admitted deprecates).include? prev&.name
+          @log.add("AsciiDoc Input", dlist, "Metadata definition list does "\
+                                            "not follow a term designation")
+          return nil
+        end
+        prev
+      end
+
       def termdef_cleanup(xmldoc)
         termdef_unnest_cleanup(xmldoc)
         Asciidoctor::Standoc::TermLookupCleanup.new(xmldoc, @log).call
+        term_dl_to_metadata(xmldoc)
         termdef_from_termbase(xmldoc)
         termdef_stem_cleanup(xmldoc)
         termdomain_cleanup(xmldoc)
@@ -102,9 +133,8 @@ module Asciidoctor
       def symbol_key(sym)
         key = sym.dup
         key.traverse do |n|
-          next unless n.name == "math"
-
-          n.replace(grkletters(MathML2AsciiMath.m2a(n.to_xml)))
+          n.name == "math" and
+            n.replace(grkletters(MathML2AsciiMath.m2a(n.to_xml)))
         end
         ret = Nokogiri::XML(key.to_xml)
         HTMLEntities.new.decode(ret.text.downcase)
@@ -114,7 +144,9 @@ module Asciidoctor
       end
 
       def grkletters(text)
-        text.gsub(/\b(alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|nu|xi|omicron|pi|rho|sigma|tau|upsilon|phi|chi|psi|omega)\b/i, "&\\1;")
+        text.gsub(
+          /\b(alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|nu|xi|omicron|pi|rho|sigma|tau|upsilon|phi|chi|psi|omega)\b/i, "&\\1;"
+        )
       end
 
       def extract_symbols_list(dlist)
