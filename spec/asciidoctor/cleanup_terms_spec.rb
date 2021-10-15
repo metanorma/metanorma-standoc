@@ -3,7 +3,7 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
-  it "processes designation metadata" do
+  it "processes term and designation metadata" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
@@ -17,6 +17,9 @@ RSpec.describe Asciidoctor::Standoc do
       isInternational:: true
       abbreviationType:: acronym
       pronunciation:: fəɹst
+      domain:: Hydraulics
+      subject:: pipes
+      usageinfo:: This is usage.
 
       alt:[Third Designation]
 
@@ -24,6 +27,9 @@ RSpec.describe Asciidoctor::Standoc do
       language:: he
       script:: Hebr
       type:: suffix
+      domain:: Hydraulics1
+      subject: pipes1
+      usageinfo:: This is usage 1.
 
       deprecated:[Fourth Designation]
 
@@ -33,6 +39,17 @@ RSpec.describe Asciidoctor::Standoc do
       type:: full
 
       Definition
+
+      === Second Term
+
+      [%metadata]
+      usageinfo::
+      +
+      --
+      Usage Info 1.
+
+      Usage Info 2.
+      --
 
     INPUT
     output = <<~OUTPUT
@@ -60,10 +77,24 @@ RSpec.describe Asciidoctor::Standoc do
                   <name>Fourth Designation</name>
                 </expression>
               </deprecates>
+              <domain>Hydraulics</domain>
+              <subject>pipes</subject>
+              <usageinfo>This is usage.</usageinfo>
               <definition>
                 <p id='_'>Definition</p>
               </definition>
             </term>
+        <term id='term-second-term'>
+        <preferred>
+          <expression>
+            <name>Second Term</name>
+          </expression>
+        </preferred>
+        <usageinfo>
+          <p id='_'>Usage Info 1.</p>
+          <p id='_'>Usage Info 2.</p>
+        </usageinfo>
+      </term>
           </terms>
         </sections>
       </standard-document>

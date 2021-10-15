@@ -91,13 +91,13 @@ module Asciidoctor
       end
 
       def dl_to_elems(ins, elem, dlist, name)
-        if a = elem.at("./#{name}[last()]")
-          ins = a
-        end
+        a = elem.at("./#{name}[last()]")
+        ins = a if a
         dlist.xpath("./dt[text()='#{name}']").each do |e|
-          val = e.at("./following::dd/p") || e.at("./following::dd")
-          val.name = name
-          ins.next = val
+          v = e.at("./following::dd")
+          e = v.elements and e.size == 1 && e.first.name == "p" and v = e.first
+          v.name = name
+          ins.next = v
           ins = ins.next
         end
         ins

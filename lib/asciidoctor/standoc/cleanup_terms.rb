@@ -21,7 +21,8 @@ module Asciidoctor
       end
 
       def termdomain1_cleanup(xmldoc)
-        xmldoc.xpath("//domain").each do |d|
+        xmldoc.xpath("//term").each do |t|
+          d = t.xpath("./domain | ./subject | ./usageinfo").last or next
           defn = d.at("../definition") and
             defn.previous = d.remove
         end
@@ -86,13 +87,33 @@ module Asciidoctor
         xmldoc.xpath("//term[dl[@metadata = 'true']]").each do |t|
           t.xpath("./dl[@metadata = 'true']").each do |dl|
             prev = dl_to_designation(dl) or next
-            term_dl_to_metadata1(prev, dl)
+            term_dl_to_term_metadata(prev, dl)
+            term_dl_to_designation_metadata(prev, dl)
             dl.remove
           end
         end
       end
 
-      def term_dl_to_metadata1(prev, dlist)
+      def term_dl_to_term_metadata(prev, dlist)
+        return unless prev.name == "preferred" &&
+          prev.at("./preceding-sibling::preferred").nil?
+
+        ins = term_element_insert_point(prev)
+        %w(domain subject usageinfo).each do |a|
+          ins = dl_to_elems(ins, prev.parent, dlist, a)
+        end
+      end
+
+      def term_element_insert_point(prev)
+        ins = prev
+        while %w(preferred admitted deprecates domain dl)
+            .include? ins&.next_element&.name
+          ins = ins.next_element
+        end
+        ins
+      end
+
+      def term_dl_to_designation_metadata(prev, dlist)
         %w(language script type).each do |a|
           dl_to_attrs(prev, dlist, a)
         end
@@ -144,9 +165,9 @@ module Asciidoctor
       end
 
       def grkletters(text)
-        text.gsub(
-          /\b(alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|nu|xi|omicron|pi|rho|sigma|tau|upsilon|phi|chi|psi|omega)\b/i, "&\\1;"
-        )
+        text.gsub(/\b(alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|
+                      lambda|mu|nu|xi|omicron|pi|rho|sigma|tau|upsilon|phi|chi|
+                      psi|omega)\b/xi, "&\\1;")
       end
 
       def extract_symbols_list(dlist)

@@ -1811,9 +1811,12 @@
       <optional>
         <ref name="termdomain"/>
       </optional>
-      <zeroOrMore>
-        <ref name="termgrammar"/>
-      </zeroOrMore>
+      <optional>
+        <ref name="termsubject"/>
+      </optional>
+      <optional>
+        <ref name="termusage"/>
+      </optional>
       <oneOrMore>
         <ref name="termdefinition"/>
       </oneOrMore>
@@ -1923,6 +1926,20 @@
     <element name="domain">
       <oneOrMore>
         <ref name="TextElement"/>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="termsubject">
+    <element name="subject">
+      <oneOrMore>
+        <ref name="TextElement"/>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="termusage">
+    <element name="usageinfo">
+      <oneOrMore>
+        <ref name="BasicBlock"/>
       </oneOrMore>
     </element>
   </define>
