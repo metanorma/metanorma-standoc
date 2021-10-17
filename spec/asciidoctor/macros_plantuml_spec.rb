@@ -137,7 +137,7 @@ RSpec.describe Asciidoctor::Standoc do
     end
 
     context "when inline macro, path supplied as the second arg" do
-      let(:example_file) { fixtures_path('diagram_definitions.lutaml') }
+      let(:example_file) { fixtures_path("diagram_definitions.lutaml") }
       let(:input) do
         <<~TEXT
           = Document title
@@ -341,6 +341,38 @@ RSpec.describe Asciidoctor::Standoc do
       Alice -&gt; Bob: Another authentication Request
       Alice &lt;-- Bob: another authentication Response
       @enduml</sourcecode>
+              </sections>
+             </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes the PlantUML macro with mismatched delimiters" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [plantuml]
+      ....
+      @startuml
+      Alice -> Bob: Authentication Request
+      Bob --> Alice: Authentication Response
+
+      Alice -> Bob: Another authentication Request
+      Alice <-- Bob: another authentication Response
+      ....
+    INPUT
+    expect { Asciidoctor.convert(input, *OPTIONS) }
+      .to output(%r{@startuml without matching @enduml in PlantUML!}).to_stderr
+    output = <<~OUTPUT
+             #{BLANK_HDR}
+             <sections>
+               <sourcecode id="_" lang="plantuml">@startuml
+      Alice -&gt; Bob: Authentication Request
+      Bob --&gt; Alice: Authentication Response
+
+      Alice -&gt; Bob: Another authentication Request
+      Alice &lt;-- Bob: another authentication Response</sourcecode>
               </sections>
              </standard-document>
     OUTPUT
