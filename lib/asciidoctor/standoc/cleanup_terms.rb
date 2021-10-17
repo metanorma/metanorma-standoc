@@ -114,13 +114,26 @@ module Asciidoctor
       end
 
       def term_dl_to_designation_metadata(prev, dlist)
-        %w(language script type).each do |a|
-          dl_to_attrs(prev, dlist, a)
-        end
+        %w(language script type).each { |a| dl_to_attrs(prev, dlist, a) }
         %w(isInternational abbreviationType pronunciation)
           .reverse.each do |a|
           dl_to_elems(prev.at("./expression/name"), prev, dlist, a)
         end
+        g = dlist.at("./dt[text()='grammar']/following::dd//dl") and
+        term_dl_to_designation_grammar(prev, g)
+      end
+
+      def term_dl_to_designation_grammar(prev, dlist)
+          prev.at("./expression") << "<grammar><sentinel/></grammar>"
+          %w(gender isPreposition isParticiple isAdjective isAdverb isNoun
+             grammarValue).reverse.each do |a|
+            dl_to_elems(prev.at("./expression/grammar/*"), prev.elements.last, dlist, a)
+          end
+          gender = prev.at("./expression/grammar/gender")
+          if /,/.match?(gender&.text)
+            gender.replace(gender.text.split(/,\s*/).map { |x| "<gender>#{x}</gender>" }.join)
+          end
+          prev.at("./expression/grammar/sentinel").remove
       end
 
       def dl_to_designation(dlist)

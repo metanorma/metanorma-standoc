@@ -37,6 +37,11 @@ RSpec.describe Asciidoctor::Standoc do
       language:: jp
       script:: Japn
       type:: full
+      grammar::
+      gender::: masculine, feminine
+      isPreposition::: false
+      isNoun::: true
+      grammarValue::: irregular declension
 
       Definition
 
@@ -75,6 +80,13 @@ RSpec.describe Asciidoctor::Standoc do
               <deprecates language='jp' script='Japn' type='full'>
                 <expression>
                   <name>Fourth Designation</name>
+            <grammar>
+              <gender>masculine</gender>
+              <gender>feminine</gender>
+              <isPreposition>false</isPreposition>
+              <isNoun>true</isNoun>
+              <grammarValue>irregular declension</grammarValue>
+            </grammar>
                 </expression>
               </deprecates>
               <domain>Hydraulics</domain>

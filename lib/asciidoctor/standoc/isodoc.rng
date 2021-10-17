@@ -1905,6 +1905,11 @@
           <ref name="LocalizedString"/>
         </element>
       </optional>
+      <optional>
+        <element name="grammarInfo">
+          <ref name="Grammar"/>
+        </element>
+      </optional>
     </element>
   </define>
   <define name="ExpressionDesignationType">
@@ -1920,6 +1925,56 @@
       <value>truncation</value>
       <value>acronym</value>
       <value>initialism</value>
+    </choice>
+  </define>
+  <define name="Grammar">
+    <zeroOrMore>
+      <element name="gender">
+        <ref name="GrammarGender"/>
+      </element>
+    </zeroOrMore>
+    <optional>
+      <element name="isPreposition">
+        <data type="boolean"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="isParticiple">
+        <data type="boolean"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="isAdjective">
+        <data type="boolean"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="isVerb">
+        <data type="boolean"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="isAdverb">
+        <data type="boolean"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="isNoun">
+        <data type="boolean"/>
+      </element>
+    </optional>
+    <zeroOrMore>
+      <element name="grammarvalue">
+        <text/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="GrammarGender">
+    <choice>
+      <value>masculine</value>
+      <value>feminine</value>
+      <value>neuter</value>
+      <value>common</value>
     </choice>
   </define>
   <define name="termdomain">
@@ -1940,13 +1995,6 @@
     <element name="usageinfo">
       <oneOrMore>
         <ref name="BasicBlock"/>
-      </oneOrMore>
-    </element>
-  </define>
-  <define name="termgrammar">
-    <element name="grammar">
-      <oneOrMore>
-        <ref name="TextElement"/>
       </oneOrMore>
     </element>
   </define>

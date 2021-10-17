@@ -40,10 +40,6 @@ module Asciidoctor
       end
 
       def attr_code(attributes)
-        #attributes = attributes.reject { |_, val| val.nil? }.map
-        #attributes.map do |k, v|
-          #[k, (v.is_a? String) ? HTMLEntities.new.decode(v) : v]
-        #end.to_h
         attributes.compact.transform_values do |v|
           v.is_a?(String) ? HTMLEntities.new.decode(v) : v
         end
