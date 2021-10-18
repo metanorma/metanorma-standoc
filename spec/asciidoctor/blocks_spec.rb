@@ -356,7 +356,7 @@ RSpec.describe Asciidoctor::Standoc do
                <preferred><expression><name>Term1</name></expression></preferred>
                <definition>
                  <p id='_'>first definition</p>
-                 <termsource status='identical'>
+                 <termsource status='identical' type="authoritative">
                    <origin bibitemid='ISO2191' type='inline' citeas=''>
                      <localityStack>
                        <locality type='section'>
@@ -368,7 +368,7 @@ RSpec.describe Asciidoctor::Standoc do
                </definition>
                <definition>
                  <p id='_'>second definition</p>
-                 <termsource status='identical'>
+                 <termsource status='identical' type="authoritative">
                    <origin bibitemid='ISO2191' type='inline' citeas=''>
                      <localityStack>
                        <locality type='section'>
@@ -381,7 +381,7 @@ RSpec.describe Asciidoctor::Standoc do
                <termnote id='_'>
                  <p id='_'>This is a note</p>
                </termnote>
-               <termsource status='identical'>
+               <termsource status='identical' type="authoritative">
                  <origin bibitemid='ISO2191' type='inline' citeas=''>
                    <localityStack>
                      <locality type='section'>
@@ -1151,14 +1151,14 @@ RSpec.describe Asciidoctor::Standoc do
              the following terms and definitions apply.</p>
                <term id="term-term1">
                <preferred><expression><name>Term1</name></expression></preferred>
-               <termsource status="identical">
+               <termsource status="identical" type="authoritative">
                <origin bibitemid="ISO2191" type="inline" citeas="">
                <localityStack>
               <locality type="section"><referenceFrom>1</referenceFrom></locality>
               </localityStack>
               </origin>
              </termsource>
-             <termsource status="identical">
+             <termsource status="identical" type="authoritative">
                <origin bibitemid="ISO2191" type="inline" citeas="" case='capital' droploc='true'>
                <localityStack>
               <locality type="section"><referenceFrom>1</referenceFrom></locality>
@@ -1171,17 +1171,17 @@ RSpec.describe Asciidoctor::Standoc do
         <definition>
           <p id='_'>Definition</p>
         </definition>
-        <termsource status='identical'>
+        <termsource status='identical' type="authoritative">
           <origin citeas=''>
             <termref base='IEV' target='xyz'/>
           </origin>
         </termsource>
-        <termsource status='identical'>
+        <termsource status='identical' type="authoritative">
           <origin citeas=''>
             <termref base='IEV' target='xyz'/>
           </origin>
         </termsource>
-        <termsource status='identical'>
+        <termsource status='identical' type="authoritative">
           <origin citeas=''>
             <termref base='IEV' target='xyz'/>
           </origin>
@@ -1221,7 +1221,7 @@ RSpec.describe Asciidoctor::Standoc do
              the following terms and definitions apply.</p>
                <term id="term-term1">
                <preferred><expression><name>Term1</name></expression></preferred>
-               <termsource status="modified">
+               <termsource status="modified" type="authoritative">
                <origin bibitemid="ISO2191" type="inline" citeas="">
                <localityStack>
               <locality type="section"><referenceFrom>1</referenceFrom></locality>
@@ -1237,7 +1237,7 @@ RSpec.describe Asciidoctor::Standoc do
         <definition>
           <p id='_'>Definition</p>
         </definition>
-        <termsource status='modified'>
+        <termsource status='modified' type="authoritative">
           <origin citeas=''>
             <termref base='IEV' target='xyz'/>
           </origin>
@@ -1250,6 +1250,75 @@ RSpec.describe Asciidoctor::Standoc do
              </sections>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+
+    it "processes term source attributes" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      === Term1
+
+      [.source,status=generalisation]
+      <<ISO2191,section=1>>, with adjustments
+
+      === Term2
+
+      Definition
+
+      [.source,type=lineage]
+      {{<<IEV:xyz>>}}, with adjustments
+    INPUT
+    output = <<~OUTPUT
+            #{BLANK_HDR}
+              <sections>
+    <terms id='_' obligation='normative'>
+      <title>Terms and definitions</title>
+      <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+      <term id='term-term1'>
+        <preferred>
+          <expression>
+            <name>Term1</name>
+          </expression>
+        </preferred>
+        <termsource status='generalisation' type='authoritative'>
+          <origin bibitemid='ISO2191' type='inline' citeas=''>
+            <localityStack>
+              <locality type='section'>
+                <referenceFrom>1</referenceFrom>
+              </locality>
+            </localityStack>
+          </origin>
+          <modification>
+            <p id='_'>with adjustments</p>
+          </modification>
+        </termsource>
+      </term>
+      <term id='term-term2'>
+        <preferred>
+          <expression>
+            <name>Term2</name>
+          </expression>
+        </preferred>
+        <definition>
+          <p id='_'>Definition</p>
+        </definition>
+        <termsource status='modified' type='lineage'>
+          <origin citeas=''>
+            <termref base='IEV' target='xyz'/>
+          </origin>
+          <modification>
+            <p id='_'>with adjustments</p>
+          </modification>
+        </termsource>
+      </term>
+    </terms>
+  </sections>
+            </standard-document>
+OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end

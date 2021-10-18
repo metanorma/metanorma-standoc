@@ -424,7 +424,7 @@ RSpec.describe Asciidoctor::Standoc do
         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
         <term id="term-term1">
         <preferred><expression><name>Term1</name></expression></preferred>
-        <termsource status="identical">
+        <termsource status="identical" type="authoritative">
         <origin bibitemid="ISO2191" type="inline" citeas="">
         <localityStack>
        <locality type="section"><referenceFrom>1</referenceFrom></locality>
@@ -536,7 +536,7 @@ RSpec.describe Asciidoctor::Standoc do
          <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
          <term id="term-automation1">
           <preferred><expression><name>Automation1</name></expression></preferred>
-          <termsource status="identical">
+          <termsource status="identical" type="authoritative">
           <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">
           <localityStack>
         <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
@@ -546,7 +546,7 @@ RSpec.describe Asciidoctor::Standoc do
         </term>
         <term id="term-automation2">
           <preferred><expression><name>Automation2</name></expression></preferred>
-          <termsource status="identical">
+          <termsource status="identical" type="authoritative">
           <origin bibitemid="IEC60050-102" type="inline" citeas="IEC 60050-102:2007">
           <localityStack>
         <locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality>
@@ -556,7 +556,7 @@ RSpec.describe Asciidoctor::Standoc do
         </term>
         <term id="term-automation3">
           <preferred><expression><name>Automation3</name></expression></preferred>
-          <termsource status="identical">
+          <termsource status="identical" type="authoritative">
           <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">
           <localityStack>
         <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>

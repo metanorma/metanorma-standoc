@@ -378,7 +378,7 @@ RSpec.describe Asciidoctor::Standoc do
         <p id="_">Example 1</p>
       </termexample><termexample id="_">
         <p id="_">Example 2</p>
-      </termexample><termsource status="identical">
+      </termexample><termsource status="identical" type="authoritative">
         <origin bibitemid="ISO2191" type="inline" citeas="">
         <localityStack>
        <locality type="section"><referenceFrom>1</referenceFrom></locality>

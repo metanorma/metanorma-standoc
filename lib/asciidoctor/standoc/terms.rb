@@ -132,7 +132,9 @@ module Asciidoctor
       def termsource(node)
         matched = extract_termsource_refs(node.content, node) || return
         noko do |xml|
-          attrs = { status: matched[:text] ? "modified" : "identical" }
+          status = node.attr("status") ||
+            (matched[:text] ? "modified" : "identical")
+          attrs = { status: status, type: node.attr("type") || "authoritative" }
           xml.termsource **attrs do |xml_t|
             seen_xref = Nokogiri::XML.fragment(matched[:xref])
             add_term_source(node, xml_t, seen_xref, matched)

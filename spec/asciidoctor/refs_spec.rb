@@ -999,6 +999,7 @@ RSpec.describe Asciidoctor::Standoc do
                      <docidentifier type='IETF'>RFC 8341</docidentifier>
                      <docidentifier type='rfc-anchor'>RFC8341</docidentifier>
                      <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
+                     <docnumber>RFC8341</docnumber>
                      <date type='published'>
                        <on>2018-03</on>
                      </date>
@@ -1008,12 +1009,6 @@ RSpec.describe Asciidoctor::Standoc do
                          <name>
                            <completename language='en'>A. Bierman</completename>
                          </name>
-                         <affiliation>
-                           <organization>
-                             <name>Internet Engineering Task Force</name>
-                             <abbreviation>IETF</abbreviation>
-                           </organization>
-                         </affiliation>
                        </person>
                      </contributor>
                      <contributor>
@@ -1022,12 +1017,6 @@ RSpec.describe Asciidoctor::Standoc do
                          <name>
                            <completename language='en'>M. Bjorklund</completename>
                          </name>
-                         <affiliation>
-                           <organization>
-                             <name>Internet Engineering Task Force</name>
-                             <abbreviation>IETF</abbreviation>
-                           </organization>
-                         </affiliation>
                        </person>
                      </contributor>
                      <contributor>
@@ -1070,6 +1059,7 @@ RSpec.describe Asciidoctor::Standoc do
                      <docidentifier type='metanorma'>[1]</docidentifier>
                      <docidentifier type='rfc-anchor'>RFC8341</docidentifier>
                      <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
+                     <docnumber>RFC8341</docnumber>
                      <date type='published'>
                        <on>2018-03</on>
                      </date>
@@ -1079,12 +1069,6 @@ RSpec.describe Asciidoctor::Standoc do
                          <name>
                            <completename language='en'>A. Bierman</completename>
                          </name>
-                         <affiliation>
-                           <organization>
-                             <name>Internet Engineering Task Force</name>
-                             <abbreviation>IETF</abbreviation>
-                           </organization>
-                         </affiliation>
                        </person>
                      </contributor>
                      <contributor>
@@ -1093,12 +1077,6 @@ RSpec.describe Asciidoctor::Standoc do
                          <name>
                            <completename language='en'>M. Bjorklund</completename>
                          </name>
-                         <affiliation>
-                           <organization>
-                             <name>Internet Engineering Task Force</name>
-                             <abbreviation>IETF</abbreviation>
-                           </organization>
-                         </affiliation>
                        </person>
                      </contributor>
                      <contributor>
