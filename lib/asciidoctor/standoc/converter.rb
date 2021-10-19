@@ -31,6 +31,7 @@ module Asciidoctor
         inline_macro Asciidoctor::Standoc::PreferredTermInlineMacro
         inline_macro Asciidoctor::Standoc::AltTermInlineMacro
         inline_macro Asciidoctor::Standoc::DeprecatedTermInlineMacro
+        inline_macro Asciidoctor::Standoc::RelatedTermInlineMacro
         inline_macro Asciidoctor::Standoc::DomainTermInlineMacro
         inline_macro Asciidoctor::Standoc::InheritInlineMacro
         inline_macro Asciidoctor::Standoc::HTML5RubyMacro

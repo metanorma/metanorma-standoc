@@ -43,8 +43,17 @@ RSpec.describe Asciidoctor::Standoc do
       isNoun::: true
       grammarValue::: irregular declension
 
+      related:see[<<second>>,Fifth Designation]
+
+      [%metadata]
+      type:: abbreviation
+      grammar::
+      gender::: neuter
+      isVerb::: true
+
       Definition
 
+      [[second]]
       === Second Term
 
       [%metadata]
@@ -89,6 +98,17 @@ RSpec.describe Asciidoctor::Standoc do
             </grammar>
                 </expression>
               </deprecates>
+                      <related type='abbreviation'>
+          <preferred>
+            <expression>
+              <name>Fifth Designation</name>
+              <grammar>
+                <gender>neuter</gender>
+              </grammar>
+            </expression>
+          </preferred>
+          <xref target='second'/>
+        </related>
               <domain>Hydraulics</domain>
               <subject>pipes</subject>
               <usageinfo>This is usage.</usageinfo>
@@ -96,7 +116,7 @@ RSpec.describe Asciidoctor::Standoc do
                 <p id='_'>Definition</p>
               </definition>
             </term>
-        <term id='term-second-term'>
+        <term id='second'>
         <preferred>
           <expression>
             <name>Second Term</name>
@@ -131,6 +151,10 @@ RSpec.describe Asciidoctor::Standoc do
       deprecated:[Fourth Designation]
 
       deprecated:[Fifth Designation]
+
+      related:see[Sixth Designation]
+
+      related:contrast[Seventh Designation]
 
       Definition
 
@@ -177,6 +201,22 @@ RSpec.describe Asciidoctor::Standoc do
               <name>Fifth Designation</name>
             </expression>
           </deprecates>
+        <related type='see'>
+          <strong>
+            term
+            <tt>Sixth Designation</tt>
+             not resolved via ID
+            <tt>sixth-designation</tt>
+          </strong>
+        </related>
+        <related type='contrast'>
+          <strong>
+            term
+            <tt>Seventh Designation</tt>
+             not resolved via ID
+            <tt>seventh-designation</tt>
+          </strong>
+        </related>
           <definition>
             <p id='_'>Definition</p>
           </definition>
@@ -201,6 +241,121 @@ RSpec.describe Asciidoctor::Standoc do
       </clause>
          </sections>
          </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "sorts designations" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      === First Designation
+
+      [%metadata]
+      language:: fr
+      script:: Latn
+      type:: prefix
+      isInternational:: true
+      abbreviationType:: acronym
+      pronunciation:: fəɹst
+      domain:: Hydraulics
+      subject:: pipes
+      usageinfo:: This is usage.
+
+      related:see[Fifth Designation]
+
+      [%metadata]
+      grammar::
+      gender::: neuter
+      isVerb::: true
+
+      deprecated:[Fourth Designation]
+
+      [%metadata]
+      language:: jp
+      script:: Japn
+      type:: full
+      grammar::
+      gender::: masculine, feminine
+      isPreposition::: false
+      isNoun::: true
+      grammarValue::: irregular declension
+
+      alt:[Third Designation]
+
+      [%metadata]
+      language:: he
+      script:: Hebr
+      type:: suffix
+      domain:: Hydraulics1
+      subject: pipes1
+      usageinfo:: This is usage 1.
+
+      preferred:[Second Designation]
+
+      [%metadata]
+      type:: abbreviation
+
+      Definition
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <terms id='_' obligation='normative'>
+            <title>Terms and definitions</title>
+            <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+            <term id='term-first-designation'>
+              <preferred language='fr' script='Latn' type='prefix'>
+                <expression>
+                  <name>First Designation</name>
+                  <isInternational>true</isInternational>
+                  <abbreviationType>acronym</abbreviationType>
+                  <pronunciation>f&#601;&#633;st</pronunciation>
+                </expression>
+              </preferred>
+              <preferred type='abbreviation'>
+                <expression>
+                  <name>Second Designation</name>
+                </expression>
+              </preferred>
+              <admitted language='he' script='Hebr' type='suffix'>
+                <expression>
+                  <name>Third Designation</name>
+                </expression>
+              </admitted>
+              <deprecates language='jp' script='Japn' type='full'>
+                <expression>
+                  <name>Fourth Designation</name>
+                  <grammar>
+                    <gender>masculine</gender>
+                    <gender>feminine</gender>
+                    <isPreposition>false</isPreposition>
+                    <isNoun>true</isNoun>
+                    <grammarValue>irregular declension</grammarValue>
+                  </grammar>
+                </expression>
+              </deprecates>
+              <related type='see'>
+                <strong>
+                  term
+                  <tt>Fifth Designation</tt>
+                   not resolved via ID
+                  <tt>fifth-designation</tt>
+                </strong>
+              </related>
+              <domain>Hydraulics</domain>
+              <subject>pipes</subject>
+              <usageinfo>This is usage.</usageinfo>
+              <definition>
+                <p id='_'>Definition</p>
+              </definition>
+            </term>
+          </terms>
+        </sections>
+      </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)

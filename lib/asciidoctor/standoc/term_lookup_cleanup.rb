@@ -22,6 +22,7 @@ module Asciidoctor
         @termlookup = replace_automatic_generated_ids_terms
         set_termxref_tags_target
         concept_cleanup
+        related_cleanup
       end
 
       private
@@ -32,6 +33,17 @@ module Asciidoctor
           refterm = n.at("./refterm") or next
           p = @termlookup[:secondary2primary][refterm.text] and
             refterm.children = p
+        end
+      end
+
+      def related_cleanup
+        xmldoc.xpath("//related").each do |n|
+          refterm = n.at("./refterm") or next
+          p = @termlookup[:secondary2primary][refterm.text] and
+            refterm.children = p
+          refterm.replace("<preferred><expression><name>"\
+                          "#{refterm.children.to_xml}"\
+                          "</name></expression></name></preferred>")
         end
       end
 
@@ -50,8 +62,7 @@ module Asciidoctor
             remove_missing_ref(node, target)
             next
           end
-          x = node.at("../xrefrender")
-          modify_ref_node(x, target)
+          x = node.at("../xrefrender") and modify_ref_node(x, target)
           node.name = "refterm"
         end
       end
@@ -69,7 +80,7 @@ module Asciidoctor
                 %(Error: Term reference in `term[#{target}]` missing: \
                 "#{target}" is not defined in document))
         node.name = "strong"
-        node.at("../xrefrender").remove
+        node&.at("../xrefrender")&.remove
         display = node&.at("../renderterm")&.remove&.children
         display = [] if display.nil? || display&.to_xml == node.text
         d = display.empty? ? "" : ", display <tt>#{display.to_xml}</tt>"
@@ -82,7 +93,7 @@ module Asciidoctor
                 %(Error: Symbol reference in `symbol[#{target}]` missing: \
                 "#{target}" is not defined in document))
         node.name = "strong"
-        node.at("../xrefrender").remove
+        node&.at("../xrefrender")&.remove
         display = node&.at("../renderterm")&.remove&.children
         display = [] if display.nil? || display&.to_xml == node.text
         d = display.empty? ? "" : ", display <tt>#{display.to_xml}</tt>"
@@ -95,9 +106,10 @@ module Asciidoctor
         s = termlookup[:symbol][target]
         t = termlookup[:term][target]
         type = node.parent["type"]
-        if type == "term" || !type && t
+        if type == "term" || ((!type || node.parent.name == "related") && t)
           node["target"] = t
-        elsif type == "symbol" || !type && s
+        elsif type == "symbol" ||
+          ((!type || node.parent.name == "related") && s)
           node["target"] = s
         end
       end

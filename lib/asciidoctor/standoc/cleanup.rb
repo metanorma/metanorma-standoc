@@ -41,6 +41,7 @@ module Asciidoctor
         symbols_cleanup(xmldoc)
         xref_cleanup(xmldoc)
         concept_cleanup(xmldoc)
+        related_cleanup(xmldoc)
         origin_cleanup(xmldoc)
         bookmark_cleanup(xmldoc)
         termdef_cleanup(xmldoc)

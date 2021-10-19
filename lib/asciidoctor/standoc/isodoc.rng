@@ -1803,10 +1803,10 @@
         <ref name="admitted"/>
       </zeroOrMore>
       <zeroOrMore>
-        <ref name="related"/>
+        <ref name="deprecates"/>
       </zeroOrMore>
       <zeroOrMore>
-        <ref name="deprecates"/>
+        <ref name="related"/>
       </zeroOrMore>
       <optional>
         <ref name="termdomain"/>
@@ -1843,19 +1843,30 @@
   </define>
   <define name="related">
     <element name="related">
-      <optional>
-        <attribute name="type">
-          <choice>
-            <value>compare</value>
-            <value>contrast</value>
-            <value>see</value>
-          </choice>
-        </attribute>
-      </optional>
-      <oneOrMore>
-        <ref name="TextElement"/>
-      </oneOrMore>
+      <attribute name="type">
+        <ref name="RelatedTermType"/>
+      </attribute>
+      <element name="preferred">
+        <ref name="Designation"/>
+      </element>
+      <choice>
+        <ref name="eref"/>
+        <ref name="xref"/>
+        <ref name="termref"/>
+      </choice>
     </element>
+  </define>
+  <define name="RelatedTermType">
+    <choice>
+      <value>deprecates</value>
+      <value>supersedes</value>
+      <value>narrower</value>
+      <value>broader</value>
+      <value>equivalent</value>
+      <value>compare</value>
+      <value>contrast</value>
+      <value>see</value>
+    </choice>
   </define>
   <define name="deprecates">
     <element name="deprecates">

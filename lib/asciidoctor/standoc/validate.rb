@@ -40,7 +40,8 @@ module Asciidoctor
         norm_ref_validate(doc)
         repeat_id_validate(doc.root)
         iev_validate(doc.root)
-        concept_validate(doc)
+        concept_validate(doc, "concept", "refterm")
+        concept_validate(doc, "related", "preferred/expression/name")
         @fatalerror.empty? or clean_abort(@fatalerror.join("\n"), doc.to_xml)
       end
 
@@ -57,19 +58,20 @@ module Asciidoctor
         found and @fatalerror << "Numeric reference in normative references"
       end
 
-      def concept_validate(doc)
+      def concept_validate(doc, tag, refterm)
         found = false
-        doc.xpath("//concept/xref").each do |x|
+        doc.xpath("//#{tag}/xref").each do |x|
           next if doc.at("//term[@id = '#{x['target']}']")
           next if doc.at("//definitions//dt[@id = '#{x['target']}']")
 
-          ref = x&.at("../refterm")&.text
+          ref = x&.at("../#{refterm}")&.text
           @log.add("Anchors", x,
-                   "Concept #{ref} is pointing to "\
+                   "#{tag.capitalize} #{ref} is pointing to "\
                    "#{x['target']}, which is not a term or symbol")
           found = true
         end
-        found and @fatalerror << "Concept not cross-referencing term or symbol"
+        found and
+          @fatalerror << "#{tag.capitalize} not cross-referencing term or symbol"
       end
 
       def repeat_id_validate1(ids, elem)

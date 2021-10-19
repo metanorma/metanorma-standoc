@@ -148,5 +148,34 @@ module Asciidoctor
         raise("processing {{#{target}}}: #{e.message}")
       end
     end
+
+    # Possibilities:
+    # related:relation[<<id>>, term]
+    # related:relation[<<termbase:id>>, term]
+    # related:relation[term] equivalent to a crossreference to term:[term]
+    class RelatedTermInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :related
+      parse_content_as :text
+
+      def preprocess_attrs(target)
+        m = /^(?<id>&lt;&lt;.+?&gt;&gt;, ?)?(?<rest>.*)$/.match(target)
+        { id: m[:id]&.sub(/^&lt;&lt;/, "")&.sub(/&gt;&gt;, ?$/, ""),
+          term: m[:rest] }
+      end
+
+      def process(parent, target, attrs)
+        out = preprocess_attrs(attrs["text"])
+        term = Asciidoctor::Inline.new(parent, :quoted,
+                                       out[:term]).convert
+        if out[:id] then "<related type='#{target}' key='#{out[:id]}'>"\
+          "<refterm>#{term}</refterm></related>"
+        else "<related type='#{target}'><termxref>#{term}</termxref>"\
+          "<xrefrender>#{term}</xrefrender></related>"
+        end
+      rescue StandardError => e
+        raise("processing related:#{target}[#{attrs['text']}]: #{e.message}")
+      end
+    end
   end
 end

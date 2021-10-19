@@ -70,6 +70,21 @@ module Asciidoctor
         end
       end
 
+      def related_cleanup(xmldoc)
+        xmldoc.xpath("//related[not(termxref)]").each do |x|
+          term = x.at("./refterm")
+          term.replace("<preferred><expression><name>#{term.children.to_xml}"\
+                       "</name></expression></preferred>")
+          x.children.remove if x&.children&.text&.strip&.empty?
+          key_extract_locality(x)
+          if /:/.match?(x["key"]) then concept_termbase_cleanup(x)
+          elsif refid? x["key"] then concept_eref_cleanup(x)
+          else concept_xref_cleanup(x)
+          end
+          x.delete("key")
+        end
+      end
+
       def key_extract_locality(elem)
         return unless /,/.match?(elem["key"])
 

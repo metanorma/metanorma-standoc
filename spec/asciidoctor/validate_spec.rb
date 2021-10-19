@@ -399,6 +399,39 @@ RSpec.describe Asciidoctor::Standoc do
     expect(File.exist?("test.xml")).to be false
   end
 
+  it "warns and aborts if related/xref does not point to term or definition" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        [[abc]]
+        == Clause 1
+        [[ghi]]A:: B
+
+        == Symbols and Abbreviated Terms
+        [[def]]DEF:: def
+
+        related:see[<<abc>>,term]
+        related:see[<<def>>,term]
+        related:see[<<ghi>>,term]
+      INPUT
+      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+    expect(File.read("test.err"))
+      .to include "Related term is pointing to abc, which is not a term or symbol"
+    expect(File.read("test.err"))
+      .not_to include "Related term is pointing to def, which is not a term or symbol"
+    expect(File.read("test.err"))
+      .to include "Related term is pointing to ghi, which is not a term or symbol"
+    expect(File.exist?("test.xml")).to be false
+  end
+
   it "warns and aborts if id used twice" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"

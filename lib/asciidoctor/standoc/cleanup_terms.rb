@@ -40,10 +40,11 @@ module Asciidoctor
 
       def termdef_unnest_cleanup(xmldoc)
         # release termdef tags from surrounding paras
-        nodes = xmldoc.xpath("//p/admitted | //p/deprecates | //p/preferred")
+        desgn = "//p/admitted | //p/deprecates | //p/preferred | //p//related"
+        nodes = xmldoc.xpath(desgn)
         while !nodes.empty?
           nodes[0].parent.replace(nodes[0].parent.children)
-          nodes = xmldoc.xpath("//p/admitted | //p/deprecates | //p/preferred")
+          nodes = xmldoc.xpath(desgn)
         end
       end
 
@@ -106,7 +107,7 @@ module Asciidoctor
 
       def term_element_insert_point(prev)
         ins = prev
-        while %w(preferred admitted deprecates domain dl)
+        while %w(preferred admitted deprecates related domain dl)
             .include? ins&.next_element&.name
           ins = ins.next_element
         end
@@ -120,25 +121,31 @@ module Asciidoctor
           dl_to_elems(prev.at("./expression/name"), prev, dlist, a)
         end
         g = dlist.at("./dt[text()='grammar']/following::dd//dl") and
-        term_dl_to_designation_grammar(prev, g)
+          term_dl_to_designation_grammar(prev, g)
       end
 
       def term_dl_to_designation_grammar(prev, dlist)
-          prev.at("./expression") << "<grammar><sentinel/></grammar>"
-          %w(gender isPreposition isParticiple isAdjective isAdverb isNoun
-             grammarValue).reverse.each do |a|
-            dl_to_elems(prev.at("./expression/grammar/*"), prev.elements.last, dlist, a)
-          end
-          gender = prev.at("./expression/grammar/gender")
-          if /,/.match?(gender&.text)
-            gender.replace(gender.text.split(/,\s*/).map { |x| "<gender>#{x}</gender>" }.join)
-          end
-          prev.at("./expression/grammar/sentinel").remove
+        prev.at(".//expression") or return
+        prev.at(".//expression") << "<grammar><sentinel/></grammar>"
+        %w(gender isPreposition isParticiple isAdjective isAdverb isNoun
+           grammarValue).reverse.each do |a|
+          dl_to_elems(prev.at(".//expression/grammar/*"), prev.elements.last,
+                      dlist, a)
+        end
+        term_dl_to_designation_gender(prev)
+      end
+
+      def term_dl_to_designation_gender(prev)
+        gender = prev.at(".//expression/grammar/gender")
+        /,/.match?(gender&.text) and
+          gender.replace(gender.text.split(/,\s*/)
+            .map { |x| "<gender>#{x}</gender>" }.join)
+        prev.at(".//expression/grammar/sentinel").remove
       end
 
       def dl_to_designation(dlist)
         prev = dlist.previous_element
-        unless %w(preferred admitted deprecates).include? prev&.name
+        unless %w(preferred admitted deprecates related).include? prev&.name
           @log.add("AsciiDoc Input", dlist, "Metadata definition list does "\
                                             "not follow a term designation")
           return nil
@@ -150,6 +157,7 @@ module Asciidoctor
         termdef_unnest_cleanup(xmldoc)
         Asciidoctor::Standoc::TermLookupCleanup.new(xmldoc, @log).call
         term_dl_to_metadata(xmldoc)
+        term_designation_reorder(xmldoc)
         termdef_from_termbase(xmldoc)
         termdef_stem_cleanup(xmldoc)
         termdomain_cleanup(xmldoc)
@@ -159,6 +167,17 @@ module Asciidoctor
         termdef_subclause_cleanup(xmldoc)
         term_children_cleanup(xmldoc)
         termdocsource_cleanup(xmldoc)
+      end
+
+      def term_designation_reorder(xmldoc)
+        xmldoc.xpath("//term").each do |t|
+          %w(preferred admitted deprecates related)
+            .each_with_object([]) do |tag, m|
+            t.xpath("./#{tag}").each { |x| m << x.remove }
+          end.reverse.each do |x|
+            t.children.first.previous = x
+          end
+        end
       end
 
       # Indices sort after letter but before any following
