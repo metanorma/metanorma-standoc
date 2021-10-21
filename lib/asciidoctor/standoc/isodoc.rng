@@ -1874,7 +1874,18 @@
     </element>
   </define>
   <define name="Designation">
+    <optional>
+      <attribute name="absent">
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="geographicArea"/>
+    </optional>
     <ref name="expression_designation"/>
+    <zeroOrMore>
+      <ref name="termsource"/>
+    </zeroOrMore>
   </define>
   <define name="expression_designation">
     <element name="expression">

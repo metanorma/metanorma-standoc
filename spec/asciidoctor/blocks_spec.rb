@@ -1124,6 +1124,8 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Term1
 
+      Definition 0
+
       [.source]
       <<ISO2191,section=1>>
 
@@ -1151,6 +1153,7 @@ RSpec.describe Asciidoctor::Standoc do
              the following terms and definitions apply.</p>
                <term id="term-term1">
                <preferred><expression><name>Term1</name></expression></preferred>
+               <definition> <p id='_'>Definition 0</p> </definition>
                <termsource status="identical" type="authoritative">
                <origin bibitemid="ISO2191" type="inline" citeas="">
                <localityStack>
@@ -1202,6 +1205,8 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Term1
 
+      Definition 0
+
       [.source]
       <<ISO2191,section=1>>, with adjustments
 
@@ -1221,6 +1226,7 @@ RSpec.describe Asciidoctor::Standoc do
              the following terms and definitions apply.</p>
                <term id="term-term1">
                <preferred><expression><name>Term1</name></expression></preferred>
+               <definition> <p id='_'>Definition 0</p> </definition>
                <termsource status="modified" type="authoritative">
                <origin bibitemid="ISO2191" type="inline" citeas="">
                <localityStack>
@@ -1262,6 +1268,8 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Term1
 
+      Definition 0
+
       [.source,status=generalisation]
       <<ISO2191,section=1>>, with adjustments
 
@@ -1284,6 +1292,7 @@ RSpec.describe Asciidoctor::Standoc do
             <name>Term1</name>
           </expression>
         </preferred>
+        <definition> <p id='_'>Definition 0</p> </definition>
         <termsource status='generalisation' type='authoritative'>
           <origin bibitemid='ISO2191' type='inline' citeas=''>
             <localityStack>

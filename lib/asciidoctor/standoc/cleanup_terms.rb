@@ -23,8 +23,7 @@ module Asciidoctor
       def termdomain1_cleanup(xmldoc)
         xmldoc.xpath("//term").each do |t|
           d = t.xpath("./domain | ./subject | ./usageinfo").last or next
-          defn = d.at("../definition") and
-            defn.previous = d.remove
+          defn = d.at("../definition") and defn.previous = d.remove
         end
       end
 
@@ -38,8 +37,8 @@ module Asciidoctor
         end
       end
 
+      # release termdef tags from surrounding paras
       def termdef_unnest_cleanup(xmldoc)
-        # release termdef tags from surrounding paras
         desgn = "//p/admitted | //p/deprecates | //p/preferred | //p//related"
         nodes = xmldoc.xpath(desgn)
         while !nodes.empty?
@@ -54,9 +53,7 @@ module Asciidoctor
 
       def termdocsource_cleanup(xmldoc)
         f = xmldoc.at("//preface | //sections")
-        xmldoc.xpath("//termdocsource").each do |s|
-          f.previous = s.remove
-        end
+        xmldoc.xpath("//termdocsource").each { |s| f.previous = s.remove }
       end
 
       def term_children_cleanup(xmldoc)
@@ -88,8 +85,9 @@ module Asciidoctor
         xmldoc.xpath("//term[dl[@metadata = 'true']]").each do |t|
           t.xpath("./dl[@metadata = 'true']").each do |dl|
             prev = dl_to_designation(dl) or next
-            term_dl_to_term_metadata(prev, dl)
             term_dl_to_designation_metadata(prev, dl)
+            term_dl_to_term_metadata(prev, dl)
+            term_dl_to_expression_metadata(prev, dl)
             dl.remove
           end
         end
@@ -105,6 +103,11 @@ module Asciidoctor
         end
       end
 
+      def term_dl_to_designation_metadata(prev, dlist)
+        prev.name == "related" and prev = prev.at("./preferred")
+        %w(absent geographicArea).each { |a| dl_to_attrs(prev, dlist, a) }
+      end
+
       def term_element_insert_point(prev)
         ins = prev
         while %w(preferred admitted deprecates related domain dl)
@@ -114,17 +117,17 @@ module Asciidoctor
         ins
       end
 
-      def term_dl_to_designation_metadata(prev, dlist)
+      def term_dl_to_expression_metadata(prev, dlist)
         %w(language script type).each { |a| dl_to_attrs(prev, dlist, a) }
         %w(isInternational abbreviationType pronunciation)
           .reverse.each do |a|
           dl_to_elems(prev.at("./expression/name"), prev, dlist, a)
         end
         g = dlist.at("./dt[text()='grammar']/following::dd//dl") and
-          term_dl_to_designation_grammar(prev, g)
+          term_dl_to_expression_grammar(prev, g)
       end
 
-      def term_dl_to_designation_grammar(prev, dlist)
+      def term_dl_to_expression_grammar(prev, dlist)
         prev.at(".//expression") or return
         prev.at(".//expression") << "<grammar><sentinel/></grammar>"
         %w(gender isPreposition isParticiple isAdjective isAdverb isNoun
@@ -157,6 +160,7 @@ module Asciidoctor
         termdef_unnest_cleanup(xmldoc)
         Asciidoctor::Standoc::TermLookupCleanup.new(xmldoc, @log).call
         term_dl_to_metadata(xmldoc)
+        term_termsource_to_designation(xmldoc)
         term_designation_reorder(xmldoc)
         termdef_from_termbase(xmldoc)
         termdef_stem_cleanup(xmldoc)
@@ -167,6 +171,19 @@ module Asciidoctor
         termdef_subclause_cleanup(xmldoc)
         term_children_cleanup(xmldoc)
         termdocsource_cleanup(xmldoc)
+      end
+
+      def term_termsource_to_designation(xmldoc)
+        xmldoc.xpath("//term/termsource").each do |t|
+          p = t.previous_element
+          while %w(domain subject usageinfo).include? p&.name
+            p = p.previous_element
+          end
+          %w(preferred admitted deprecates related).include?(p&.name) or
+            next
+          p.name == "related" and p = p.at("./preferred")
+          p << t.remove
+        end
       end
 
       def term_designation_reorder(xmldoc)

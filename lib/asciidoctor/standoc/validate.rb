@@ -7,7 +7,7 @@ require "iev"
 module Asciidoctor
   module Standoc
     module Validate
-      SOURCELOCALITY = "./termsource/origin//locality[@type = 'clause']/"\
+      SOURCELOCALITY = "./origin//locality[@type = 'clause']/"\
                        "referenceFrom".freeze
 
       def init_iev
@@ -21,16 +21,23 @@ module Asciidoctor
       def iev_validate(xmldoc)
         @iev = init_iev or return
         xmldoc.xpath("//term").each do |t|
-          /^IEC 60050-/.match(t&.at("./termsource/origin/@citeas")&.text) &&
-            loc = t.xpath(SOURCELOCALITY)&.text or next
-          iev = @iev.fetch(loc, xmldoc&.at("//language")&.text || "en") or next
-          pref = t.xpath("./preferred/expression/name").inject([]) do |m, x|
-            m << x&.text&.downcase
+          t.xpath(".//termsource").each do |src|
+            (/^IEC 60050-/.match(src&.at("./origin/@citeas")&.text) &&
+          loc = src.xpath(SOURCELOCALITY)&.text) or next
+            iev_validate1(t, loc, xmldoc)
           end
-          pref.include?(iev.downcase) or
-            @log.add("Bibliography", t, %(Term "#{pref[0]}" does not match ) +
-                     %(IEV #{loc} "#{iev}"))
         end
+      end
+
+      def iev_validate1(term, loc, xmldoc)
+        iev = @iev.fetch(loc,
+                         xmldoc&.at("//language")&.text || "en") or return
+        pref = term.xpath("./preferred/expression/name").inject([]) do |m, x|
+          m << x&.text&.downcase
+        end
+        pref.include?(iev.downcase) or
+          @log.add("Bibliography", term, %(Term "#{pref[0]}" does not match ) +
+                   %(IEV #{loc} "#{iev}"))
       end
 
       def content_validate(doc)

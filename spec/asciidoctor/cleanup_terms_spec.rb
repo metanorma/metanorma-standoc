@@ -3,7 +3,7 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Asciidoctor::Standoc do
-  it "processes term and designation metadata" do
+  it "processes term and designation metadata and term sources" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
@@ -21,6 +21,9 @@ RSpec.describe Asciidoctor::Standoc do
       subject:: pipes
       usageinfo:: This is usage.
 
+      [.source]
+      <<ISO2191,section=1>>
+
       alt:[Third Designation]
 
       [%metadata]
@@ -30,6 +33,7 @@ RSpec.describe Asciidoctor::Standoc do
       domain:: Hydraulics1
       subject: pipes1
       usageinfo:: This is usage 1.
+      absent:: true
 
       deprecated:[Fourth Designation]
 
@@ -42,6 +46,7 @@ RSpec.describe Asciidoctor::Standoc do
       isPreposition::: false
       isNoun::: true
       grammarValue::: irregular declension
+      geographicArea:: AUS
 
       related:see[<<second>>,Fifth Designation]
 
@@ -50,8 +55,15 @@ RSpec.describe Asciidoctor::Standoc do
       grammar::
       gender::: neuter
       isVerb::: true
+      geographicArea:: GRC
+
+      [.source]
+      <<ISO2191,section=2>>
 
       Definition
+
+      [.source]
+      <<ISO2191,section=3>>
 
       [[second]]
       === Second Term
@@ -80,13 +92,22 @@ RSpec.describe Asciidoctor::Standoc do
             <abbreviationType>acronym</abbreviationType>
             <pronunciation>f&#601;&#633;st</pronunciation>
                 </expression>
+                        <termsource status='identical' type='authoritative'>
+          <origin bibitemid='ISO2191' type='inline' citeas=''>
+            <localityStack>
+              <locality type='section'>
+                <referenceFrom>1</referenceFrom>
+              </locality>
+            </localityStack>
+          </origin>
+        </termsource>
               </preferred>
-              <admitted language='he' script='Hebr' type='suffix'>
+              <admitted language='he' script='Hebr' type='suffix' absent="true">
                 <expression>
                   <name>Third Designation</name>
                 </expression>
               </admitted>
-              <deprecates language='jp' script='Japn' type='full'>
+              <deprecates language='jp' script='Japn' type='full' geographicArea="AUS">
                 <expression>
                   <name>Fourth Designation</name>
             <grammar>
@@ -99,13 +120,22 @@ RSpec.describe Asciidoctor::Standoc do
                 </expression>
               </deprecates>
                       <related type='abbreviation'>
-          <preferred>
+          <preferred geographicArea="GRC">
             <expression>
               <name>Fifth Designation</name>
               <grammar>
                 <gender>neuter</gender>
               </grammar>
             </expression>
+                                  <termsource status='identical' type='authoritative'>
+              <origin bibitemid='ISO2191' type='inline' citeas=''>
+                <localityStack>
+                  <locality type='section'>
+                    <referenceFrom>2</referenceFrom>
+                  </locality>
+                </localityStack>
+              </origin>
+            </termsource>
           </preferred>
           <xref target='second'/>
         </related>
@@ -115,6 +145,15 @@ RSpec.describe Asciidoctor::Standoc do
               <definition>
                 <p id='_'>Definition</p>
               </definition>
+          <termsource status='identical' type='authoritative'>
+          <origin bibitemid='ISO2191' type='inline' citeas=''>
+            <localityStack>
+              <locality type='section'>
+                <referenceFrom>3</referenceFrom>
+              </locality>
+            </localityStack>
+          </origin>
+        </termsource>
             </term>
         <term id='second'>
         <preferred>
@@ -505,6 +544,8 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Term
 
+      Definition
+
       [.source]
       <<ISO2191,section=1>>
 
@@ -525,6 +566,7 @@ RSpec.describe Asciidoctor::Standoc do
         <title>Terms and definitions</title>
         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
         <term id="term-term"><preferred><expression><name>Term</name></expression></preferred>
+        <definition><p id='_'>Definition</p></definition>
       <termnote id="_">
         <p id="_">Note</p>
       </termnote><termnote id="_">
