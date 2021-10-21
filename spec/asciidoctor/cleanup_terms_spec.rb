@@ -85,10 +85,9 @@ RSpec.describe Asciidoctor::Standoc do
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <term id='term-first-designation'>
-              <preferred language='fr' script='Latn' type='prefix'>
+              <preferred language='fr' script='Latn' type='prefix' isInternational="true">
                 <expression>
                   <name>First Designation</name>
-            <isInternational>true</isInternational>
             <abbreviationType>acronym</abbreviationType>
             <pronunciation>f&#601;&#633;st</pronunciation>
                 </expression>
@@ -285,6 +284,85 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes letter-symbol designations" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      === First Designation
+
+      [%metadata]
+      letter-symbol:: true
+
+      preferred:[Second Designation]
+
+      [%metadata]
+      letter-symbol:: false
+
+      alt:[Third Designation]
+
+      [%metadata]
+      letter-symbol:: true
+
+      deprecated:[Fourth Designation]
+
+      [%metadata]
+      letter-symbol:: true
+
+      related:see[<<second>>,Fifth Designation]
+
+      [%metadata]
+      letter-symbol:: true
+
+      Definition
+    INPUT
+    output = <<~OUTPUT
+             #{BLANK_HDR}
+         <sections>
+           <terms id='_' obligation='normative'>
+             <title>Terms and definitions</title>
+             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+             <term id='term-first-designation'>
+               <preferred>
+                 <letter-symbol>
+                   <name>First Designation</name>
+                 </letter-symbol>
+               </preferred>
+               <preferred>
+                 <expression>
+                   <name>Second Designation</name>
+                 </expression>
+               </preferred>
+               <admitted>
+                 <letter-symbol>
+                   <name>Third Designation</name>
+                 </letter-symbol>
+               </admitted>
+               <deprecates>
+                 <letter-symbol>
+                   <name>Fourth Designation</name>
+                 </letter-symbol>
+               </deprecates>
+               <related type='see'>
+                 <preferred>
+                   <letter-symbol>
+                     <name>Fifth Designation</name>
+                   </letter-symbol>
+                 </preferred>
+                 <xref target='second'/>
+               </related>
+               <definition>
+                 <p id='_'>Definition</p>
+               </definition>
+             </term>
+           </terms>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "sorts designations" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -347,10 +425,9 @@ RSpec.describe Asciidoctor::Standoc do
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <term id='term-first-designation'>
-              <preferred language='fr' script='Latn' type='prefix'>
+              <preferred language='fr' script='Latn' type='prefix' isInternational="true">
                 <expression>
                   <name>First Designation</name>
-                  <isInternational>true</isInternational>
                   <abbreviationType>acronym</abbreviationType>
                   <pronunciation>f&#601;&#633;st</pronunciation>
                 </expression>

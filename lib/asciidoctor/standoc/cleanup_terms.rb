@@ -118,13 +118,15 @@ module Asciidoctor
       end
 
       def term_dl_to_expression_metadata(prev, dlist)
-        %w(language script type).each { |a| dl_to_attrs(prev, dlist, a) }
-        %w(isInternational abbreviationType pronunciation)
-          .reverse.each do |a|
+        %w(language script type isInternational).each do |a|
+          dl_to_attrs(prev, dlist, a)
+        end
+        %w(abbreviationType pronunciation).reverse.each do |a|
           dl_to_elems(prev.at("./expression/name"), prev, dlist, a)
         end
         g = dlist.at("./dt[text()='grammar']/following::dd//dl") and
           term_dl_to_expression_grammar(prev, g)
+        term_to_letter_symbol(prev, dlist)
       end
 
       def term_dl_to_expression_grammar(prev, dlist)
@@ -144,6 +146,14 @@ module Asciidoctor
           gender.replace(gender.text.split(/,\s*/)
             .map { |x| "<gender>#{x}</gender>" }.join)
         prev.at(".//expression/grammar/sentinel").remove
+      end
+
+      def term_to_letter_symbol(prev, dlist)
+        ls = dlist.at("./dt[text()='letter-symbol']/following::dd/p")
+        return unless ls&.text == "true"
+
+        n = prev.at(".//expression")
+        n.name = "letter-symbol"
       end
 
       def dl_to_designation(dlist)

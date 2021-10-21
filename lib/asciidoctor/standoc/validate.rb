@@ -32,7 +32,7 @@ module Asciidoctor
       def iev_validate1(term, loc, xmldoc)
         iev = @iev.fetch(loc,
                          xmldoc&.at("//language")&.text || "en") or return
-        pref = term.xpath("./preferred/expression/name").inject([]) do |m, x|
+        pref = term.xpath("./preferred//name").inject([]) do |m, x|
           m << x&.text&.downcase
         end
         pref.include?(iev.downcase) or
@@ -48,7 +48,7 @@ module Asciidoctor
         repeat_id_validate(doc.root)
         iev_validate(doc.root)
         concept_validate(doc, "concept", "refterm")
-        concept_validate(doc, "related", "preferred/expression/name")
+        concept_validate(doc, "related", "preferred//name")
         @fatalerror.empty? or clean_abort(@fatalerror.join("\n"), doc.to_xml)
       end
 

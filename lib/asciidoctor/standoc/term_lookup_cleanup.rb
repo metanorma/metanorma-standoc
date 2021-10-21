@@ -116,7 +116,7 @@ module Asciidoctor
 
       def replace_automatic_generated_ids_terms
         r = xmldoc.xpath("//term").each.with_object({}) do |n, res|
-          normalize_id_and_memorize(n, res, "./preferred/expression/name",
+          normalize_id_and_memorize(n, res, "./preferred//name",
                                     "term")
         end
         s = xmldoc.xpath("//definitions//dt").each.with_object({}) do |n, res|
@@ -127,7 +127,7 @@ module Asciidoctor
 
       def pref_secondary2primary
         xmldoc.xpath("//term").each.with_object({}) do |n, res|
-          n.xpath("./preferred/expression/name").each_with_index do |p, i|
+          n.xpath("./preferred//name").each_with_index do |p, i|
             i.zero? and term = p.text
             i.positive? and res[p.text] = term
           end
