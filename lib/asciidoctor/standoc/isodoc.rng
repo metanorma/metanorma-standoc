@@ -1885,6 +1885,7 @@
     <choice>
       <ref name="expression_designation"/>
       <ref name="letter_symbol_designation"/>
+      <ref name="graphical_symbol_designation"/>
     </choice>
     <zeroOrMore>
       <ref name="termsource"/>
@@ -1905,6 +1906,16 @@
           </choice>
         </oneOrMore>
       </element>
+    </element>
+  </define>
+  <define name="graphical_symbol_designation">
+    <element name="graphical-symbol">
+      <optional>
+        <attribute name="isInternational">
+          <data type="boolean"/>
+        </attribute>
+      </optional>
+      <ref name="figure"/>
     </element>
   </define>
   <define name="expression_designation">
@@ -1930,12 +1941,9 @@
         </attribute>
       </optional>
       <element name="name">
-        <oneOrMore>
-          <choice>
-            <ref name="PureTextElement"/>
-            <ref name="stem"/>
-          </choice>
-        </oneOrMore>
+        <zeroOrMore>
+          <ref name="PureTextElement"/>
+        </zeroOrMore>
       </element>
       <optional>
         <element name="abbreviationType">

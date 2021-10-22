@@ -304,10 +304,7 @@ RSpec.describe Asciidoctor::Standoc do
       [%metadata]
       letter-symbol:: true
 
-      deprecated:[Fourth Designation]
-
-      [%metadata]
-      letter-symbol:: true
+      deprecated:[stem:[t_90]]
 
       related:see[<<second>>,Fifth Designation]
 
@@ -317,47 +314,228 @@ RSpec.describe Asciidoctor::Standoc do
       Definition
     INPUT
     output = <<~OUTPUT
-             #{BLANK_HDR}
-         <sections>
-           <terms id='_' obligation='normative'>
-             <title>Terms and definitions</title>
-             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-             <term id='term-first-designation'>
-               <preferred>
-                 <letter-symbol>
-                   <name>First Designation</name>
-                 </letter-symbol>
+      #{BLANK_HDR}
+        <sections>
+          <terms id='_' obligation='normative'>
+            <title>Terms and definitions</title>
+            <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+            <term id='term-first-designation'>
+              <preferred>
+                <letter-symbol>
+                  <name>First Designation</name>
+                </letter-symbol>
+              </preferred>
+              <preferred>
+                <expression>
+                  <name>Second Designation</name>
+                </expression>
+              </preferred>
+              <admitted>
+                <letter-symbol>
+                  <name>Third Designation</name>
+                </letter-symbol>
+              </admitted>
+              <deprecates>
+                <letter-symbol>
+                <name>
+              <stem type='MathML'>
+                <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                  <msub>
+                    <mrow>
+                      <mi>t</mi>
+                    </mrow>
+                    <mrow>
+                      <mn>90</mn>
+                    </mrow>
+                  </msub>
+                </math>
+              </stem>
+            </name>
+                </letter-symbol>
+              </deprecates>
+              <related type='see'>
+                <preferred>
+                  <letter-symbol>
+                    <name>Fifth Designation</name>
+                  </letter-symbol>
+                </preferred>
+                <xref target='second'/>
+              </related>
+              <definition>
+                <p id='_'>Definition</p>
+              </definition>
+            </term>
+          </terms>
+        </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes empty designations" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      [[second]]
+      === {blank}
+
+      [%metadata]
+      isInternational:: true
+
+      preferred:[]
+
+      alt:[]
+
+      deprecated:[]
+
+      related:see[<<second>>,]
+
+      Definition
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <terms id='_' obligation='normative'>
+            <title>Terms and definitions</title>
+            <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+            <term id='second'>
+              <preferred isInternational='true'>
+                <expression>
+                  <name/>
+                </expression>
+              </preferred>
+              <preferred>
+                <expression>
+                  <name/>
+                </expression>
+              </preferred>
+              <admitted>
+                <expression>
+                  <name/>
+                </expression>
+              </admitted>
+              <deprecates>
+                <expression>
+                  <name> </name>
+                </expression>
+              </deprecates>
+              <related type='see'>
+                <xref target='second'/>
+              </related>
+              <definition>
+                <p id='_'>Definition</p>
+              </definition>
+            </term>
+          </terms>
+        </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes graphical-symbol designations" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      [[second]]
+      === {blank}
+
+      .Caption
+      ....
+      <LITERAL>
+      FIGURATIVE
+      ....
+
+      [%metadata]
+      isInternational:: true
+
+      preferred:[]
+
+      .Caption
+      ....
+      <LITERAL>
+      FIGURATIVE
+      ....
+
+      alt:[]
+
+      .Caption
+      ....
+      <LITERAL>
+      FIGURATIVE
+      ....
+
+      deprecated:[]
+
+      .Caption
+      ....
+      <LITERAL>
+      FIGURATIVE
+      ....
+
+      related:see[<<second>>,]
+
+      .Caption
+      ....
+      <LITERAL>
+      FIGURATIVE
+      ....
+
+      Definition
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <terms id='_' obligation='normative'>
+            <title>Terms and definitions</title>
+            <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+             <term id='second'>
+               <preferred isInternational='true'>
+                 <graphical-symbol>
+                   <figure id='_'>
+                     <pre id='_'>&lt;LITERAL&gt; FIGURATIVE</pre>
+                   </figure>
+                 </graphical-symbol>
                </preferred>
                <preferred>
-                 <expression>
-                   <name>Second Designation</name>
-                 </expression>
+                 <graphical-symbol>
+                   <figure id='_'>
+                     <pre id='_'>&lt;LITERAL&gt; FIGURATIVE</pre>
+                   </figure>
+                 </graphical-symbol>
                </preferred>
                <admitted>
-                 <letter-symbol>
-                   <name>Third Designation</name>
-                 </letter-symbol>
+                 <graphical-symbol>
+                   <figure id='_'>
+                     <pre id='_'>&lt;LITERAL&gt; FIGURATIVE</pre>
+                   </figure>
+                 </graphical-symbol>
                </admitted>
                <deprecates>
-                 <letter-symbol>
-                   <name>Fourth Designation</name>
-                 </letter-symbol>
+                 <graphical-symbol>
+                   <figure id='_'>
+                     <pre id='_'>&lt;LITERAL&gt; FIGURATIVE</pre>
+                   </figure>
+                 </graphical-symbol>
                </deprecates>
                <related type='see'>
-                 <preferred>
-                   <letter-symbol>
-                     <name>Fifth Designation</name>
-                   </letter-symbol>
-                 </preferred>
                  <xref target='second'/>
                </related>
                <definition>
+                 <figure id='_'>
+                   <name>Caption</name>
+                   <pre id='_'>&lt;LITERAL&gt; FIGURATIVE</pre>
+                 </figure>
                  <p id='_'>Definition</p>
                </definition>
              </term>
-           </terms>
-         </sections>
-       </standard-document>
+          </terms>
+        </sections>
+      </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -494,22 +672,22 @@ RSpec.describe Asciidoctor::Standoc do
                <terms id="_" obligation="normative">
                <title>Terms and definitions</title>
                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-               <term id="term-t90"><preferred><expression><name><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
+               <term id="term-t90"><preferred><letter-symbol><name><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
                <mrow>
         <mi>t</mi>
       </mrow>
       <mrow>
         <mn>90</mn>
       </mrow>
-      </msub></math></stem></name></expression></preferred>
-      <admitted><expression><name><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
+      </msub></math></stem></name></letter-symbol></preferred>
+      <admitted><letter-symbol><name><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
       <mrow>
         <mi>t</mi>
       </mrow>
       <mrow>
         <mn>91</mn>
       </mrow>
-      </msub></math></stem></name></expression></admitted>
+      </msub></math></stem></name></letter-symbol></admitted>
              <definition><p id="_">Time</p></definition></term>
              </terms>
              </sections>
@@ -586,14 +764,14 @@ RSpec.describe Asciidoctor::Standoc do
                <terms id="_" obligation="normative">
                <title>Terms and definitions</title>
                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-               <term id="term-t90"><preferred><expression><name><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
+               <term id="term-t90"><preferred><letter-symbol><name><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
                 <mrow>
          <mi>t</mi>
        </mrow>
        <mrow>
          <mn>90</mn>
        </mrow>
-      </msub></math></stem></name></expression></preferred><definition><formula id="_">
+      </msub></math></stem></name></letter-symbol></preferred><definition><formula id="_">
                <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
                <mrow>
         <mi>t</mi>

@@ -11,6 +11,9 @@ module Asciidoctor
                            "</name></expression></admitted>")
           end
         end
+        xmldoc.xpath("//term//expression/name[stem]").each do |n|
+          n.parent.name = "letter-symbol"
+        end
       end
 
       def termdomain_cleanup(xmldoc)
@@ -169,6 +172,7 @@ module Asciidoctor
       def termdef_cleanup(xmldoc)
         termdef_unnest_cleanup(xmldoc)
         Asciidoctor::Standoc::TermLookupCleanup.new(xmldoc, @log).call
+        term_nonverbal_designations(xmldoc)
         term_dl_to_metadata(xmldoc)
         term_termsource_to_designation(xmldoc)
         term_designation_reorder(xmldoc)
@@ -181,6 +185,32 @@ module Asciidoctor
         termdef_subclause_cleanup(xmldoc)
         term_children_cleanup(xmldoc)
         termdocsource_cleanup(xmldoc)
+      end
+
+      def term_nonverbal_designations(xmldoc)
+        xmldoc.xpath("//term/preferred | //term/admitted | //term/deprecates")
+          .each do |d|
+          d.text.strip.empty? or next
+          n = d.next_element
+          if %w(formula figure).include?(n&.name)
+            term_nonverbal_designations1(d, n)
+          else d.at("./expression/name") or
+            d.children = "<expression><name/></expression>"
+          end
+        end
+      end
+
+      def term_nonverbal_designations1(desgn, elem)
+        desgn.name == "related" and desgn = desgn.at("./preferred")
+        if elem.name == "figure"
+          elem.at("./name").remove
+          desgn.children =
+            "<graphical-symbol>#{elem.remove.to_xml}</graphical-symbol>"
+        else
+          a = elem.at("./stem").to_xml
+          desgn.children = "<expression><name>#{a}</name></expression>"
+          elem.remove
+        end
       end
 
       def term_termsource_to_designation(xmldoc)
@@ -205,49 +235,6 @@ module Asciidoctor
             t.children.first.previous = x
           end
         end
-      end
-
-      # Indices sort after letter but before any following
-      # letter (x, x_m, x_1, xa); we use colon to force that sort order.
-      # Numbers sort *after* letters; we use thorn to force that sort order.
-      def symbol_key(sym)
-        key = sym.dup
-        key.traverse do |n|
-          n.name == "math" and
-            n.replace(grkletters(MathML2AsciiMath.m2a(n.to_xml)))
-        end
-        ret = Nokogiri::XML(key.to_xml)
-        HTMLEntities.new.decode(ret.text.downcase)
-          .gsub(/[\[\]{}<>()]/, "").gsub(/\s/m, "")
-          .gsub(/[[:punct:]]|[_^]/, ":\\0").gsub(/`/, "")
-          .gsub(/[0-9]+/, "þ\\0")
-      end
-
-      def grkletters(text)
-        text.gsub(/\b(alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|
-                      lambda|mu|nu|xi|omicron|pi|rho|sigma|tau|upsilon|phi|chi|
-                      psi|omega)\b/xi, "&\\1;")
-      end
-
-      def extract_symbols_list(dlist)
-        dl_out = []
-        dlist.xpath("./dt | ./dd").each do |dtd|
-          if dtd.name == "dt"
-            dl_out << { dt: dtd.remove, key: symbol_key(dtd) }
-          else
-            dl_out.last[:dd] = dtd.remove
-          end
-        end
-        dl_out
-      end
-
-      def symbols_cleanup(docxml)
-        docxml.xpath("//definitions/dl").each do |dl|
-          dl_out = extract_symbols_list(dl)
-          dl_out.sort! { |a, b| a[:key] <=> b[:key] || a[:dt] <=> b[:dt] }
-          dl.children = dl_out.map { |d| d[:dt].to_s + d[:dd].to_s }.join("\n")
-        end
-        docxml
       end
     end
   end
