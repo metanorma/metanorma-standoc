@@ -2050,9 +2050,31 @@
   </define>
   <define name="termdefinition">
     <element name="definition">
+      <choice>
+        <ref name="verbaldefinition"/>
+        <ref name="nonverbalrep"/>
+        <group>
+          <ref name="verbaldefinition"/>
+          <ref name="nonverbalrep"/>
+        </group>
+      </choice>
+    </element>
+  </define>
+  <define name="verbaldefinition">
+    <element name="verbaldefinition">
+      <oneOrMore>
+        <ref name="paragraph"/>
+      </oneOrMore>
+      <zeroOrMore>
+        <ref name="termsource"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="nonverbalrep">
+    <element name="nonverbalrepresentation">
       <oneOrMore>
         <choice>
-          <ref name="paragraph"/>
+          <ref name="table"/>
           <ref name="figure"/>
           <ref name="formula"/>
         </choice>

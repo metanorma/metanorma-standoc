@@ -355,6 +355,7 @@ RSpec.describe Asciidoctor::Standoc do
              <term id='term-term1'>
                <preferred><expression><name>Term1</name></expression></preferred>
                <definition>
+                 <verbaldefinition>
                  <p id='_'>first definition</p>
                  <termsource status='identical' type="authoritative">
                    <origin bibitemid='ISO2191' type='inline' citeas=''>
@@ -365,8 +366,10 @@ RSpec.describe Asciidoctor::Standoc do
                      </localityStack>
                    </origin>
                  </termsource>
+                 </verbaldefinition>
                </definition>
                <definition>
+               <verbaldefinition>
                  <p id='_'>second definition</p>
                  <termsource status='identical' type="authoritative">
                    <origin bibitemid='ISO2191' type='inline' citeas=''>
@@ -377,6 +380,7 @@ RSpec.describe Asciidoctor::Standoc do
                      </localityStack>
                    </origin>
                  </termsource>
+                 </verbaldefinition>
                </definition>
                <termnote id='_'>
                  <p id='_'>This is a note</p>
@@ -1153,7 +1157,7 @@ RSpec.describe Asciidoctor::Standoc do
              the following terms and definitions apply.</p>
                <term id="term-term1">
                <preferred><expression><name>Term1</name></expression></preferred>
-               <definition> <p id='_'>Definition 0</p> </definition>
+               <definition><verbaldefinition><p id='_'>Definition 0</p></verbaldefinition></definition>
                <termsource status="identical" type="authoritative">
                <origin bibitemid="ISO2191" type="inline" citeas="">
                <localityStack>
@@ -1172,7 +1176,9 @@ RSpec.describe Asciidoctor::Standoc do
              <term id='term-term2'>
         <preferred><expression><name>Term2</name></expression></preferred>
         <definition>
+        <verbaldefinition>
           <p id='_'>Definition</p>
+          </verbaldefinition>
         </definition>
         <termsource status='identical' type="authoritative">
           <origin citeas=''>
@@ -1226,7 +1232,7 @@ RSpec.describe Asciidoctor::Standoc do
              the following terms and definitions apply.</p>
                <term id="term-term1">
                <preferred><expression><name>Term1</name></expression></preferred>
-               <definition> <p id='_'>Definition 0</p> </definition>
+               <definition><verbaldefinition><p id='_'>Definition 0</p></verbaldefinition></definition>
                <termsource status="modified" type="authoritative">
                <origin bibitemid="ISO2191" type="inline" citeas="">
                <localityStack>
@@ -1240,9 +1246,9 @@ RSpec.describe Asciidoctor::Standoc do
              </term>
              <term id='term-term2'>
         <preferred><expression><name>Term2</name></expression></preferred>
-        <definition>
+        <definition><verbaldefinition>
           <p id='_'>Definition</p>
-        </definition>
+        </verbaldefinition></definition>
         <termsource status='modified' type="authoritative">
           <origin citeas=''>
             <termref base='IEV' target='xyz'/>
@@ -1292,7 +1298,7 @@ RSpec.describe Asciidoctor::Standoc do
             <name>Term1</name>
           </expression>
         </preferred>
-        <definition> <p id='_'>Definition 0</p> </definition>
+        <definition><verbaldefinition><p id='_'>Definition 0</p></verbaldefinition></definition>
         <termsource status='generalisation' type='authoritative'>
           <origin bibitemid='ISO2191' type='inline' citeas=''>
             <localityStack>
@@ -1312,9 +1318,9 @@ RSpec.describe Asciidoctor::Standoc do
             <name>Term2</name>
           </expression>
         </preferred>
-        <definition>
+        <definition><verbaldefinition>
           <p id='_'>Definition</p>
-        </definition>
+        </verbaldefinition></definition>
         <termsource status='modified' type='lineage'>
           <origin citeas=''>
             <termref base='IEV' target='xyz'/>

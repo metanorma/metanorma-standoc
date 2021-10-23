@@ -1562,7 +1562,7 @@ RSpec.describe Asciidoctor::Standoc do
               <tt>missing</tt>
             </strong>
           </related>
-                    <definition>
+                    <definition><verbaldefinition>
                       <p id='_'>paragraph</p>
                       <p id='_'>
                         <concept>
@@ -1620,7 +1620,7 @@ RSpec.describe Asciidoctor::Standoc do
                         </concept>
                          is a term
                       </p>
-                    </definition>
+                    </verbaldefinition></definition>
                   </term>
                 </terms>
               </sections>

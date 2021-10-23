@@ -77,8 +77,8 @@ module Asciidoctor
       def related_cleanup(xmldoc)
         xmldoc.xpath("//related[not(termxref)]").each do |x|
           term = x.at("./refterm")
-          term.replace("<preferred><expression><name>#{term.children.to_xml}"\
-                       "</name></expression></preferred>")
+          term.replace("<preferred>#{term_expr(term.children.to_xml)}"\
+                       "</preferred>")
           concept_cleanup1(x)
         end
       end

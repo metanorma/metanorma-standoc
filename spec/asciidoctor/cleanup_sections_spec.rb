@@ -29,7 +29,7 @@ RSpec.describe Asciidoctor::Standoc do
       </ul>
              <term id="term-time">
              <preferred><expression><name>Time</name></expression></preferred>
-               <definition><p id="_">This paragraph is extraneous</p></definition>
+               <definition><verbaldefinition><p id="_">This paragraph is extraneous</p></verbaldefinition></definition>
              </term></terms>
              </sections>
              </standard-document>

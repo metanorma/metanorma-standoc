@@ -141,9 +141,9 @@ RSpec.describe Asciidoctor::Standoc do
               <domain>Hydraulics</domain>
               <subject>pipes</subject>
               <usageinfo>This is usage.</usageinfo>
-              <definition>
+              <definition><verbaldefinition>
                 <p id='_'>Definition</p>
-              </definition>
+              </verbaldefinition></definition>
           <termsource status='identical' type='authoritative'>
           <origin bibitemid='ISO2191' type='inline' citeas=''>
             <localityStack>
@@ -255,9 +255,9 @@ RSpec.describe Asciidoctor::Standoc do
             <tt>seventh-designation</tt>
           </strong>
         </related>
-          <definition>
+          <definition><verbaldefinition>
             <p id='_'>Definition</p>
-          </definition>
+          </verbaldefinition></definition>
         </term>
       </terms>
       <clause id='_' inline-header='false' obligation='normative'>
@@ -361,9 +361,9 @@ RSpec.describe Asciidoctor::Standoc do
                 </preferred>
                 <xref target='second'/>
               </related>
-              <definition>
+              <definition><verbaldefinition>
                 <p id='_'>Definition</p>
-              </definition>
+              </verbaldefinition></definition>
             </term>
           </terms>
         </sections>
@@ -424,9 +424,9 @@ RSpec.describe Asciidoctor::Standoc do
               <related type='see'>
                 <xref target='second'/>
               </related>
-              <definition>
+              <definition><verbaldefinition>
                 <p id='_'>Definition</p>
-              </definition>
+              </verbaldefinition></definition>
             </term>
           </terms>
         </sections>
@@ -526,11 +526,13 @@ RSpec.describe Asciidoctor::Standoc do
                  <xref target='second'/>
                </related>
                <definition>
+                 <verbaldefinition><p id='_'>Definition</p></verbaldefinition>
+                 <nonverbalrepresentation>
                  <figure id='_'>
                    <name>Caption</name>
                    <pre id='_'>&lt;LITERAL&gt; FIGURATIVE</pre>
                  </figure>
-                 <p id='_'>Definition</p>
+                 </nonverbalrepresentation>
                </definition>
              </term>
           </terms>
@@ -643,9 +645,9 @@ RSpec.describe Asciidoctor::Standoc do
               <domain>Hydraulics</domain>
               <subject>pipes</subject>
               <usageinfo>This is usage.</usageinfo>
-              <definition>
+              <definition><verbaldefinition>
                 <p id='_'>Definition</p>
-              </definition>
+              </verbaldefinition></definition>
             </term>
           </terms>
         </sections>
@@ -688,7 +690,7 @@ RSpec.describe Asciidoctor::Standoc do
         <mn>91</mn>
       </mrow>
       </msub></math></stem></name></letter-symbol></admitted>
-             <definition><p id="_">Time</p></definition></term>
+             <definition><verbaldefinition><p id="_">Time</p></verbaldefinition></definition></term>
              </terms>
              </sections>
              </standard-document>
@@ -720,15 +722,15 @@ RSpec.describe Asciidoctor::Standoc do
                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
                <term id="term-tempus">
                <preferred><expression><name>Tempus</name></expression></preferred>
-               <domain>relativity</domain><definition><p id="_"> Time</p></definition>
+               <domain>relativity</domain><definition><verbaldefinition><p id="_"> Time</p></verbaldefinition></definition>
              </term>
              <term id='term-tempus1'>
         <preferred><expression><name>Tempus1</name></expression></preferred>
         <domain>relativity2</domain>
-        <definition>
+        <definition><verbaldefinition>
           <p id='_'>Time2</p>
           <p id='_'> </p>
-        </definition>
+        </verbaldefinition></definition>
       </term>
              </terms>
              </sections>
@@ -771,7 +773,10 @@ RSpec.describe Asciidoctor::Standoc do
        <mrow>
          <mn>90</mn>
        </mrow>
-      </msub></math></stem></name></letter-symbol></preferred><definition><formula id="_">
+      </msub></math></stem></name></letter-symbol></preferred>
+      <definition>
+             <verbaldefinition><p id="_">This paragraph is extraneous</p></verbaldefinition>
+      <nonverbalrepresentation><formula id="_">
                <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
                <mrow>
         <mi>t</mi>
@@ -780,8 +785,8 @@ RSpec.describe Asciidoctor::Standoc do
         <mi>A</mi>
       </mrow>
       </msub></math></stem>
-             </formula>
-             <p id="_">This paragraph is extraneous</p></definition>
+             </formula></nonverbalrepresentation>
+            </definition>
              </term>
              </terms>
              </sections>
@@ -821,7 +826,7 @@ RSpec.describe Asciidoctor::Standoc do
         <title>Terms and definitions</title>
         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
         <term id="term-term"><preferred><expression><name>Term</name></expression></preferred>
-        <definition><p id='_'>Definition</p></definition>
+        <definition><verbaldefinition><p id='_'>Definition</p></verbaldefinition></definition>
       <termnote id="_">
         <p id="_">Note</p>
       </termnote><termnote id="_">
@@ -844,4 +849,142 @@ RSpec.describe Asciidoctor::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
+
+  it "supports non-verbal definitions" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Terms and definitions
+
+      === Term
+
+      [.definition]
+      --
+
+      Definition
+
+      [.source]
+      <<ISO2191,section=1>>
+
+      |===
+      | A | B
+
+      | C | D
+      |===
+      --
+
+      [.source]
+      <<ISO2191,section=2>>
+
+      === Term 2
+
+      [.definition]
+      --
+
+      ....
+      Literal
+      ....
+
+      [stem]
+      ++++
+      x = y
+      ++++
+
+      [.source]
+      <<ISO2191,section=3>>
+      --
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+          <sections>
+            <terms id='_' obligation='normative'>
+              <title>Terms and definitions</title>
+              <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+              <term id='term-term'>
+                <preferred>
+                  <expression>
+                    <name>Term</name>
+                  </expression>
+                </preferred>
+                <definition>
+                  <verbaldefinition>
+                    <p id='_'>Definition</p>
+                    <termsource status='identical' type='authoritative'>
+                      <origin bibitemid='ISO2191' type='inline' citeas=''>
+                        <localityStack>
+                          <locality type='section'>
+                            <referenceFrom>1</referenceFrom>
+                          </locality>
+                        </localityStack>
+                      </origin>
+                    </termsource>
+                  </verbaldefinition>
+                  <nonverbalrepresentation>
+                    <table id='_'>
+                      <thead>
+                        <tr>
+                          <th valign='top' align='left'>A</th>
+                          <th valign='top' align='left'>B</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td valign='top' align='left'>C</td>
+                          <td valign='top' align='left'>D</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </nonverbalrepresentation>
+                </definition>
+                <termsource status='identical' type='authoritative'>
+                  <origin bibitemid='ISO2191' type='inline' citeas=''>
+                    <localityStack>
+                      <locality type='section'>
+                        <referenceFrom>2</referenceFrom>
+                      </locality>
+                    </localityStack>
+                  </origin>
+                </termsource>
+              </term>
+              <term id='term-term-2'>
+                <preferred>
+                  <expression>
+                    <name>Term 2</name>
+                  </expression>
+                </preferred>
+                <definition>
+                  <nonverbalrepresentation>
+                    <figure id='_'>
+                      <pre id='_'>Literal</pre>
+                    </figure>
+                    <formula id='_'>
+                      <stem type='MathML'>
+                        <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                          <mi>x</mi>
+                          <mo>=</mo>
+                          <mi>y</mi>
+                        </math>
+                      </stem>
+                    </formula>
+                    <termsource status='identical' type='authoritative'>
+                      <origin bibitemid='ISO2191' type='inline' citeas=''>
+                        <localityStack>
+                          <locality type='section'>
+                            <referenceFrom>3</referenceFrom>
+                          </locality>
+                        </localityStack>
+                      </origin>
+                    </termsource>
+                  </nonverbalrepresentation>
+                </definition>
+              </term>
+            </terms>
+          </sections>
+        </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
 end

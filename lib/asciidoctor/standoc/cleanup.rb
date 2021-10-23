@@ -75,7 +75,8 @@ module Asciidoctor
         %w{status language script version author name callout phone email
            street city state country postcode identifier referenceFrom surname
            referenceTo docidentifier docnumber prefix initial addition forename
-           title draft secretariat title-main title-intro title-part}.freeze
+           title draft secretariat title-main title-intro title-part
+           verbaldefinition nonverbalrepresentation}.freeze
 
       # it seems Nokogiri::XML is treating the content of <script> as cdata,
       # because of its use in HTML. Bad nokogiri. Undoing that, since we use

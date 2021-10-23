@@ -99,6 +99,10 @@ module Asciidoctor
         ins
       end
 
+      def term_expr(elem)
+        "<expression><name>#{elem}</name></expression>"
+      end
+
       class EmptyAttr
         def attr(_any_attribute)
           nil

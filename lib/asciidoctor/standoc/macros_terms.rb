@@ -36,7 +36,7 @@ module Asciidoctor
       def process(parent, _target, attrs)
         out = Asciidoctor::Inline.new(parent, :quoted,
                                       attrs["text"]).convert
-        %{<deprecates><expression><name>#{out}<name></expression></deprecates>}
+        %{<deprecates><expression><name>#{out}</name></expression></deprecates>}
       end
     end
 

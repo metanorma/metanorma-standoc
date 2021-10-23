@@ -1,4 +1,6 @@
 # frozen_string_literal: true.
+require "asciidoctor/standoc/utils"
+
 
 module Asciidoctor
   module Standoc
@@ -41,9 +43,8 @@ module Asciidoctor
           refterm = n.at("./refterm") or next
           p = @termlookup[:secondary2primary][refterm.text] and
             refterm.children = p
-          refterm.replace("<preferred><expression><name>"\
-                          "#{refterm.children.to_xml}"\
-                          "</name></expression></name></preferred>")
+          refterm.replace("<preferred><expression><name>#{refterm.children.to_xml}"\
+                          "</name></expression></preferred>")
         end
       end
 
