@@ -959,14 +959,15 @@ QU1FOiB0ZXN0Cgo=
 
   it "process mn2pdf attributes" do
     node = Nokogiri::XML("<fake/>").at("fake")
-    node["mn2pdf-font-manifest-file"] = "passed/as/font/manifest/to/mn2pdf.jar"
+    node[Asciidoctor::Standoc::Base::FONTS_MANIFEST] =
+      "passed/as/font/manifest/to/mn2pdf.jar"
 
     options = Asciidoctor::Standoc::Converter
       .new(:standoc, header_footer: true)
       .doc_extract_attributes(node)
 
     expect(options.dig(:mn2pdf, :font_manifest_file))
-      .to eq(node["mn2pdf-font-manifest-file"])
+      .to eq(node[Asciidoctor::Standoc::Base::FONTS_MANIFEST])
   end
 
   private
