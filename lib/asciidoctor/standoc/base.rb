@@ -14,6 +14,7 @@ module Asciidoctor
     module Base
       XML_ROOT_TAG = "standard-document".freeze
       XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
+      FONTS_MANIFEST = "fonts-manifest".freeze
 
       def xml_root_tag
         self.class::XML_ROOT_TAG
@@ -85,9 +86,9 @@ module Asciidoctor
           aligncrosselements: node.attr("align-cross-elements"),
         }
 
-        if font_manifest_file = node.attr("mn2pdf-font-manifest-file")
+        if fonts_manifest = node.attr(FONTS_MANIFEST)
           attrs[IsoDoc::XslfoPdfConvert::MN2PDF_OPTIONS] = {
-            IsoDoc::XslfoPdfConvert::MN2PDF_FONT_MANIFEST => font_manifest_file,
+            IsoDoc::XslfoPdfConvert::MN2PDF_FONT_MANIFEST => fonts_manifest,
           }
         end
 
