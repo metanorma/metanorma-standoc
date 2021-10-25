@@ -7,7 +7,7 @@ require "iev"
 module Asciidoctor
   module Standoc
     module Validate
-      SOURCELOCALITY = "./termsource/origin//locality[@type = 'clause']/"\
+      SOURCELOCALITY = "./origin//locality[@type = 'clause']/"\
                        "referenceFrom".freeze
 
       def init_iev
@@ -21,16 +21,23 @@ module Asciidoctor
       def iev_validate(xmldoc)
         @iev = init_iev or return
         xmldoc.xpath("//term").each do |t|
-          /^IEC 60050-/.match(t&.at("./termsource/origin/@citeas")&.text) &&
-            loc = t.xpath(SOURCELOCALITY)&.text or next
-          iev = @iev.fetch(loc, xmldoc&.at("//language")&.text || "en") or next
-          pref = t.xpath("./preferred").inject([]) do |m, x|
-            m << x&.text&.downcase
+          t.xpath(".//termsource").each do |src|
+            (/^IEC 60050-/.match(src&.at("./origin/@citeas")&.text) &&
+          loc = src.xpath(SOURCELOCALITY)&.text) or next
+            iev_validate1(t, loc, xmldoc)
           end
-          pref.include?(iev.downcase) or
-            @log.add("Bibliography", t, %(Term "#{pref[0]}" does not match ) +
-                     %(IEV #{loc} "#{iev}"))
         end
+      end
+
+      def iev_validate1(term, loc, xmldoc)
+        iev = @iev.fetch(loc,
+                         xmldoc&.at("//language")&.text || "en") or return
+        pref = term.xpath("./preferred//name").inject([]) do |m, x|
+          m << x&.text&.downcase
+        end
+        pref.include?(iev.downcase) or
+          @log.add("Bibliography", term, %(Term "#{pref[0]}" does not match ) +
+                   %(IEV #{loc} "#{iev}"))
       end
 
       def content_validate(doc)
@@ -40,7 +47,8 @@ module Asciidoctor
         norm_ref_validate(doc)
         repeat_id_validate(doc.root)
         iev_validate(doc.root)
-        concept_validate(doc)
+        concept_validate(doc, "concept", "refterm")
+        concept_validate(doc, "related", "preferred//name")
         @fatalerror.empty? or clean_abort(@fatalerror.join("\n"), doc.to_xml)
       end
 
@@ -57,19 +65,20 @@ module Asciidoctor
         found and @fatalerror << "Numeric reference in normative references"
       end
 
-      def concept_validate(doc)
+      def concept_validate(doc, tag, refterm)
         found = false
-        doc.xpath("//concept/xref").each do |x|
+        doc.xpath("//#{tag}/xref").each do |x|
           next if doc.at("//term[@id = '#{x['target']}']")
           next if doc.at("//definitions//dt[@id = '#{x['target']}']")
 
-          ref = x&.at("../refterm")&.text
+          ref = x&.at("../#{refterm}")&.text
           @log.add("Anchors", x,
-                   "Concept #{ref} is pointing to "\
+                   "#{tag.capitalize} #{ref} is pointing to "\
                    "#{x['target']}, which is not a term or symbol")
           found = true
         end
-        found and @fatalerror << "Concept not cross-referencing term or symbol"
+        found and
+          @fatalerror << "#{tag.capitalize} not cross-referencing term or symbol"
       end
 
       def repeat_id_validate1(ids, elem)

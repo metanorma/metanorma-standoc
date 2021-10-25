@@ -73,8 +73,8 @@ RSpec.describe Asciidoctor::Standoc do
       sub<sub><em>scr</em>ipt</sub>
       <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub> <mrow> <mrow> <mi mathvariant="bold-italic">F</mi> </mrow> </mrow> <mrow> <mrow> <mi mathvariant="bold-italic">Α</mi> </mrow> </mrow> </msub> </math></stem>
       mark
-      <admitted>alt</admitted>
-      <deprecates>deprecated</deprecates>
+      <admitted><expression><name>alt</name></expression></admitted>
+      <deprecates><expression><name>deprecated</name></expression></deprecates>
       <domain>domain</domain>
       <strike>strike</strike>
       <underline>underline</underline>

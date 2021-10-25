@@ -86,31 +86,12 @@ module Asciidoctor
           ins = reqt.children.first
         end
         %w(obligation model type).each do |a|
-          reqt_dl_to_attrs(reqt, dlist, a)
+          dl_to_attrs(reqt, dlist, a)
         end
         requirement_metadata1_tags.each do |a|
-          ins = reqt_dl_to_elems(ins, reqt, dlist, a)
+          ins = dl_to_elems(ins, reqt, dlist, a)
         end
         reqt_dl_to_classif(ins, reqt, dlist)
-      end
-
-      def reqt_dl_to_attrs(reqt, dlist, name)
-        e = dlist.at("./dt[text()='#{name}']") or return
-        val = e.at("./following::dd/p") || e.at("./following::dd") or return
-        reqt[name] = val.text
-      end
-
-      def reqt_dl_to_elems(ins, reqt, dlist, name)
-        if a = reqt.at("./#{name}[last()]")
-          ins = a
-        end
-        dlist.xpath("./dt[text()='#{name}']").each do |e|
-          val = e.at("./following::dd/p") || e.at("./following::dd")
-          val.name = name
-          ins.next = val
-          ins = ins.next
-        end
-        ins
       end
 
       def reqt_dl_to_classif(ins, reqt, dlist)

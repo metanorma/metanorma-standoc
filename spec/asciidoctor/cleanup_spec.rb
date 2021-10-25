@@ -213,141 +213,6 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "processes stem-only terms as admitted" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      == Terms and Definitions
-
-      === stem:[t_90]
-
-      stem:[t_91]
-
-      Time
-    INPUT
-    output = <<~OUTPUT
-             #{BLANK_HDR}
-                    <sections>
-               <terms id="_" obligation="normative">
-               <title>Terms and definitions</title>
-               <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-               <term id="term-t90"><preferred><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
-               <mrow>
-        <mi>t</mi>
-      </mrow>
-      <mrow>
-        <mn>90</mn>
-      </mrow>
-      </msub></math></stem></preferred><admitted><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
-      <mrow>
-        <mi>t</mi>
-      </mrow>
-      <mrow>
-        <mn>91</mn>
-      </mrow>
-      </msub></math></stem></admitted>
-             <definition><p id="_">Time</p></definition></term>
-             </terms>
-             </sections>
-             </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "moves term domains out of the term definition paragraph" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      == Terms and Definitions
-
-      === Tempus
-
-      domain:[relativity] Time
-
-      === Tempus1
-
-      Time2
-
-      domain:[relativity2]
-    INPUT
-    output = <<~OUTPUT
-             #{BLANK_HDR}
-                    <sections>
-               <terms id="_" obligation="normative">
-               <title>Terms and definitions</title>
-               <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-               <term id="term-tempus">
-               <preferred>Tempus</preferred>
-               <domain>relativity</domain><definition><p id="_"> Time</p></definition>
-             </term>
-             <term id='term-tempus1'>
-        <preferred>Tempus1</preferred>
-        <domain>relativity2</domain>
-        <definition>
-          <p id='_'>Time2</p>
-          <p id='_'> </p>
-        </definition>
-      </term>
-             </terms>
-             </sections>
-             </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "permits multiple blocks in term definition paragraph" do
-    input = <<~INPUT
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :stem:
-
-      == Terms and Definitions
-
-      === stem:[t_90]
-
-      [stem]
-      ++++
-      t_A
-      ++++
-
-      This paragraph is extraneous
-    INPUT
-    output = <<~OUTPUT
-             #{BLANK_HDR}
-                    <sections>
-               <terms id="_" obligation="normative">
-               <title>Terms and definitions</title>
-               <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-               <term id="term-t90"><preferred><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
-                <mrow>
-         <mi>t</mi>
-       </mrow>
-       <mrow>
-         <mn>90</mn>
-       </mrow>
-      </msub></math></stem></preferred><definition><formula id="_">
-               <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
-               <mrow>
-        <mi>t</mi>
-      </mrow>
-      <mrow>
-        <mi>A</mi>
-      </mrow>
-      </msub></math></stem>
-             </formula>
-             <p id="_">This paragraph is extraneous</p></definition>
-             </term>
-             </terms>
-             </sections>
-             </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
   it "converts xrefs to references into erefs" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -548,6 +413,8 @@ RSpec.describe Asciidoctor::Standoc do
 
       === Term1
 
+      Definition 0
+
       [.source]
       <<ISO2191,section=1>>
     INPUT
@@ -558,8 +425,9 @@ RSpec.describe Asciidoctor::Standoc do
         <title>Terms and definitions</title>
         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
         <term id="term-term1">
-        <preferred>Term1</preferred>
-        <termsource status="identical">
+        <preferred><expression><name>Term1</name></expression></preferred>
+        <definition><verbaldefinition><p id='_'>Definition 0</p></verbaldefinition></definition>
+        <termsource status="identical" type="authoritative">
         <origin bibitemid="ISO2191" type="inline" citeas="">
         <localityStack>
        <locality type="section"><referenceFrom>1</referenceFrom></locality>
@@ -630,57 +498,6 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "rearranges term note, term example, term source" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-
-      == Terms and definitions
-
-      === Term
-
-      [.source]
-      <<ISO2191,section=1>>
-
-      NOTE: Note
-
-      [example]
-      Example 1
-
-      NOTE: Note 2
-
-      [example]
-      Example 2
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR}
-      <sections>
-      <terms id="_" obligation="normative">
-        <title>Terms and definitions</title>
-        <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-        <term id="term-term"><preferred>Term</preferred>
-      <termnote id="_">
-        <p id="_">Note</p>
-      </termnote><termnote id="_">
-        <p id="_">Note 2</p>
-      </termnote><termexample id="_">
-        <p id="_">Example 1</p>
-      </termexample><termexample id="_">
-        <p id="_">Example 2</p>
-      </termexample><termsource status="identical">
-        <origin bibitemid="ISO2191" type="inline" citeas="">
-        <localityStack>
-       <locality type="section"><referenceFrom>1</referenceFrom></locality>
-        </localityStack>
-       </origin>
-      </termsource></term>
-      </terms>
-      </sections>
-      </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
   it "separates IEV citations by top-level clause" do
     FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore1")
     FileUtils.mv File.expand_path("~/.relaton/cache"),
@@ -702,15 +519,21 @@ RSpec.describe Asciidoctor::Standoc do
         == Terms and definitions
         === Automation1
 
+        Definition 1
+
         [.source]
         <<iev,clause="103-01-02">>
 
         === Automation2
 
+        Definition 2
+
         [.source]
         <<iev,clause="102-01-02">>
 
         === Automation3
+
+        Definition 3
 
         [.source]
         <<iev,clause="103-01-02">>
@@ -721,8 +544,9 @@ RSpec.describe Asciidoctor::Standoc do
         <terms id="_" obligation="normative"><title>Terms and definitions</title>
          <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
          <term id="term-automation1">
-          <preferred>Automation1</preferred>
-          <termsource status="identical">
+          <preferred><expression><name>Automation1</name></expression></preferred>
+          <definition><verbaldefinition><p id='_'>Definition 1</p></verbaldefinition></definition>
+          <termsource status="identical" type="authoritative">
           <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">
           <localityStack>
         <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
@@ -731,8 +555,9 @@ RSpec.describe Asciidoctor::Standoc do
         </termsource>
         </term>
         <term id="term-automation2">
-          <preferred>Automation2</preferred>
-          <termsource status="identical">
+          <preferred><expression><name>Automation2</name></expression></preferred>
+          <definition><verbaldefinition><p id='_'>Definition 2</p></verbaldefinition></definition>
+          <termsource status="identical" type="authoritative">
           <origin bibitemid="IEC60050-102" type="inline" citeas="IEC 60050-102:2007">
           <localityStack>
         <locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality>
@@ -741,8 +566,9 @@ RSpec.describe Asciidoctor::Standoc do
         </termsource>
         </term>
         <term id="term-automation3">
-          <preferred>Automation3</preferred>
-          <termsource status="identical">
+          <preferred><expression><name>Automation3</name></expression></preferred>
+          <definition><verbaldefinition><p id='_'>Definition 3</p></verbaldefinition></definition>
+          <termsource status="identical" type="authoritative">
           <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">
           <localityStack>
         <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>

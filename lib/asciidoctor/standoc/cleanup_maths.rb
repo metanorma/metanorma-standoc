@@ -69,13 +69,12 @@ module Asciidoctor
         return false if char.length > 1
 
         if /\p{Greek}/.match?(char)
-          /\p{Lower}/.match(char) && !mathml_mi_italics[:lowergreek] ||
-            /\p{Upper}/.match(char) && !mathml_mi_italics[:uppergreek]
+          (/\p{Lower}/.match(char) && !mathml_mi_italics[:lowergreek]) ||
+            (/\p{Upper}/.match(char) && !mathml_mi_italics[:uppergreek])
         elsif /\p{Latin}/.match?(char)
-          /\p{Lower}/.match(char) && !mathml_mi_italics[:lowerroman] ||
-            /\p{Upper}/.match(char) && !mathml_mi_italics[:upperroman]
-        else
-          false
+          (/\p{Lower}/.match(char) && !mathml_mi_italics[:lowerroman]) ||
+            (/\p{Upper}/.match(char) && !mathml_mi_italics[:upperroman])
+        else false
         end
       end
 

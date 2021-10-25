@@ -4,9 +4,10 @@ RSpec.describe Asciidoctor::Standoc do
   it "processes the Asciidoctor::Standoc inline macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
+      preferred:[term0]
       alt:[term1]
-      deprecated:[term1]
-      domain:[term1]
+      deprecated:[term2]
+      domain:[term3]
       inherit:[<<ref1>>]
       autonumber:table[3]
       add:[a <<clause>>] del:[B]
@@ -20,9 +21,10 @@ RSpec.describe Asciidoctor::Standoc do
       <preface>
           <foreword id='_' obligation='informative'>
           <title>Foreword</title>
-          <admitted>term1</admitted>
-          <deprecates>term1</deprecates>
-          <domain>term1</domain>
+          <preferred><expression><name>term0</name></expression></preferred>
+          <admitted><expression><name>term1</name></expression></admitted>
+          <deprecates><expression><name>term2</name></expression></deprecates>
+          <domain>term3</domain>
           <inherit>
             <eref type='inline' bibitemid='ref1' citeas='XYZ 123'/>
           </inherit>
@@ -161,9 +163,10 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "processes the Asciidoctor::Standoc concept macros" do
+  it "processes the Asciidoctor::Standoc concept and related macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
+
       {{clause1}}
       term:[clause1]
       {{clause1,w\[o\]rd}}
@@ -177,6 +180,8 @@ RSpec.describe Asciidoctor::Standoc do
       {{blah,term,word,xref}}
       {{blah,term,word,xref,options="noital,noref,nolinkmention,nolinkref"}}
       {{blah,term,word,xref,options="ital,ref,linkmention,linkref"}}
+
+      related:contrast[blah]
 
       [[clause1]]
       == Clause
@@ -304,7 +309,15 @@ RSpec.describe Asciidoctor::Standoc do
                    <tt>blah</tt>
                  </strong>
                </concept>
-          </p>
+               </p>
+      <related type='contrast'>
+        <strong>
+          term
+          <tt>blah</tt>
+           not resolved via ID
+          <tt>blah</tt>
+        </strong>
+      </related>
         </foreword>
       </preface>
       <sections>
@@ -322,15 +335,18 @@ RSpec.describe Asciidoctor::Standoc do
   it "processes the Asciidoctor::Standoc concept macros for acronyms" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
+
       {{Clause1}}
       {{Clause1,Clause 1}}
       {{Clause 2}}
       {{Clause 2,Clause 1}}
       {{<<Clause2>>,Clause 2}}
+
       symbol:[Clause1]
       symbol:[Clause1,word]
       symbol:[Clause 2]
       symbol:[Clause 2,word]
+
       {{<<Clause2>>,word}}
       {{<<Clause2>>,word,term}}
       {{<<Clause2>>,word,term,xref}}
@@ -374,6 +390,7 @@ RSpec.describe Asciidoctor::Standoc do
                  <renderterm>Clause 2</renderterm>
                  <xref target='Clause2'/>
                </concept>
+               </p><p id="_">
                <concept>
                  <refterm>Clause1</refterm>
                  <renderterm>Clause1</renderterm>
@@ -394,6 +411,7 @@ RSpec.describe Asciidoctor::Standoc do
                  <renderterm>word</renderterm>
                  <xref target='Clause2'/>
                </concept>
+               </p><p id="_">
                <concept>
                  <refterm>word</refterm>
                  <renderterm>word</renderterm>
@@ -427,7 +445,7 @@ RSpec.describe Asciidoctor::Standoc do
                    <title>Terms and definitions</title>
                    <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
                    <term id='term-clause1'>
-                     <preferred>Clause1</preferred>
+                     <preferred><expression><name>Clause1</name></expression></preferred>
                    </term>
                  </terms>
                  <definitions id='_' obligation='normative'>
@@ -450,13 +468,15 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "processes the concept macros with xrefs" do
+  it "processes the concept and related macros with xrefs" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       {{<<clause1>>}}
       {{<<clause1>>,w\[o\]rd}}
       {{<<clause1>>,term,w\[o\]rd}}
       {{<<clause1>>,term,w\[o\]rd,Clause #1}}
+
+      related:supersedes[<<clause1>>,term]
 
       [[clause1]]
       == Clause
@@ -487,6 +507,14 @@ RSpec.describe Asciidoctor::Standoc do
                  <xref target='clause1'>Clause #1</xref>
                </concept>
              </p>
+                   <related type='supersedes'>
+        <preferred>
+          <expression>
+            <name>term</name>
+          </expression>
+        </preferred>
+        <xref target='clause1'/>
+      </related>
            </foreword>
       </preface>
       <sections>
@@ -501,7 +529,7 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "processes the concept macros with erefs" do
+  it "processes the concept and related macros with erefs" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       {{<<blah>>}}
@@ -514,6 +542,8 @@ RSpec.describe Asciidoctor::Standoc do
       {{<<blah,clause=3.1,figure=a>>}}
       {{<<blah,clause=3.1,figure=a>>,word}}
       {{<<blah,clause=3.1,figure=a>>,term,word,Clause #1}}
+
+      related:narrower[<<blah,clause=3.1,figure=a>>,term]
 
       [bibliography]
       == Bibliography
@@ -616,6 +646,23 @@ RSpec.describe Asciidoctor::Standoc do
                  </eref>
                </concept>
              </p>
+                   <related type='narrower'>
+        <preferred>
+          <expression>
+            <name>term</name>
+          </expression>
+        </preferred>
+        <eref bibitemid='blah'>
+          <localityStack>
+            <locality type='clause'>
+              <referenceFrom>3.1</referenceFrom>
+            </locality>
+            <locality type='figure'>
+              <referenceFrom>a</referenceFrom>
+            </locality>
+          </localityStack>
+        </eref>
+      </related>
            </foreword>
          </preface>
          <sections> </sections>
@@ -636,39 +683,49 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "processes the concept macros with termbase" do
+  it "processes the concept and related macros with termbase" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       {{<<IEV:135-13-13>>}}
       {{<<IEV:135-13-13>>,word}}
       {{<<IEV:135-13-13>>,term,word}}
       {{<<IEV:135-13-13>>,term,word,Clause #1}}
+
+      related:see[<<IEV:135-13-13>>,term]
     INPUT
     output = <<~OUTPUT
-            #{BLANK_HDR}
-            <sections>
-        <p id='_'>
-             <concept>
-               <termref base='IEV' target='135-13-13'/>
-             </concept>
-             <concept>
-               <refterm>word</refterm>
-               <renderterm>word</renderterm>
-               <termref base='IEV' target='135-13-13'/>
-             </concept>
-             <concept>
-               <refterm>term</refterm>
-               <renderterm>word</renderterm>
-               <termref base='IEV' target='135-13-13'/>
-             </concept>
-             <concept>
-               <refterm>term</refterm>
-               <renderterm>word</renderterm>
-               <termref base='IEV' target='135-13-13'>Clause #1</termref>
-             </concept>
-        </p>
-      </sections>
-          </standard-document>
+      #{BLANK_HDR}
+        <sections>
+              <p id='_'>
+                   <concept>
+                     <termref base='IEV' target='135-13-13'/>
+                   </concept>
+                   <concept>
+                     <refterm>word</refterm>
+                     <renderterm>word</renderterm>
+                     <termref base='IEV' target='135-13-13'/>
+                   </concept>
+                   <concept>
+                     <refterm>term</refterm>
+                     <renderterm>word</renderterm>
+                     <termref base='IEV' target='135-13-13'/>
+                   </concept>
+                   <concept>
+                     <refterm>term</refterm>
+                     <renderterm>word</renderterm>
+                     <termref base='IEV' target='135-13-13'>Clause #1</termref>
+                   </concept>
+              </p>
+          <related type='see'>
+            <preferred>
+              <expression>
+                <name>term</name>
+              </expression>
+            </preferred>
+            <termref base='IEV' target='135-13-13'/>
+          </related>
+        </sections>
+      </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -1267,6 +1324,8 @@ RSpec.describe Asciidoctor::Standoc do
         term:[name,name2] is a term
 
         {{name,name2}} is a term
+
+        related:equivalent[name]
       XML
     end
     let(:output) do
@@ -1277,7 +1336,7 @@ RSpec.describe Asciidoctor::Standoc do
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <term id='term-name'>
-              <preferred>name</preferred>
+              <preferred><expression><name>name</name></expression></preferred>
             </term>
           </terms>
           <clause id='_' inline-header='false' obligation='normative'>
@@ -1298,6 +1357,14 @@ RSpec.describe Asciidoctor::Standoc do
             </concept>
              is a term
             </p>
+          <related type='equivalent'>
+          <preferred>
+          <expression>
+            <name>name</name>
+          </expression>
+        </preferred>
+          <xref target='term-name'>name</xref>
+          </related>
           </clause>
         </sections>
         </standard-document>
@@ -1332,7 +1399,7 @@ RSpec.describe Asciidoctor::Standoc do
               <title>Terms and definitions</title>
               <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
               <term id='term-name'>
-                <preferred>name</preferred>
+                <preferred><expression><name>name</name></expression></preferred>
               </term>
             </terms>
             <clause id='_' inline-header='false' obligation='normative'>
@@ -1396,10 +1463,10 @@ RSpec.describe Asciidoctor::Standoc do
               <title>Terms and definitions</title>
               <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
               <term id='term-name-1'>
-                 <preferred>name</preferred>
+                 <preferred><expression><name>name</name></expression></preferred>
               </term>
               <term id='term-name2-1'>
-                <preferred>name2</preferred>
+                <preferred><expression><name>name2</name></expression></preferred>
               </term>
             </terms>
             <clause id='term-name' inline-header='false' obligation='normative'>
@@ -1471,83 +1538,93 @@ RSpec.describe Asciidoctor::Standoc do
           {{name identity}} is a term
 
           Moreover, {{missing}} is a term
+
+          related:equivalent[missing]
         XML
       end
       let(:output) do
         <<~XML
-             #{BLANK_HDR}
-                    <sections>
-              <terms id='_' obligation='normative'>
-                <title>Terms and definitions</title>
-                <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-                <term id='term-name-identity'>
-                  <preferred>name identity</preferred>
-                </term>
-                <term id='name-check'>
-                  <preferred>name check</preferred>
-                  <definition>
-                    <p id='_'>paragraph</p>
-                    <p id='_'>
-                      <concept>
-                        <refterm>name check</refterm>
-                        <renderterm>name check</renderterm>
-                        <xref target='name-check'/>
-                      </concept>
-                       is a term
-                    </p>
-                    <p id='_'>
-                      <concept>
-                        <refterm>name identity</refterm>
-                        <renderterm>name identity</renderterm>
-                        <xref target='term-name-identity'/>
-                      </concept>
-                       is a term
-                    </p>
-                    <p id='_'>
-                      Moreover,
-                      <concept>
-                        <strong>
-                          term
-                          <tt>missing</tt>
-                           not resolved via ID
-                          <tt>missing</tt>
-                        </strong>
-                      </concept>
-                       is a term
-                    </p>
-                    <p id='_'>
-                      <concept>
-                        <refterm>name check</refterm>
-                        <renderterm>name check</renderterm>
-                        <xref target='name-check'/>
-                      </concept>
-                       is a term
-                    </p>
-                    <p id='_'>
-                      <concept>
-                        <refterm>name identity</refterm>
-                        <renderterm>name identity</renderterm>
-                        <xref target='term-name-identity'/>
-                      </concept>
-                       is a term
-                    </p>
-                    <p id='_'>
-                      Moreover,
-                      <concept>
-                        <strong>
-                          term
-                          <tt>missing</tt>
-                           not resolved via ID
-                          <tt>missing</tt>
-                        </strong>
-                      </concept>
-                       is a term
-                    </p>
-                  </definition>
-                </term>
-              </terms>
-            </sections>
-          </standard-document>
+               #{BLANK_HDR}
+                      <sections>
+                <terms id='_' obligation='normative'>
+                  <title>Terms and definitions</title>
+                  <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+                  <term id='term-name-identity'>
+                    <preferred><expression><name>name identity</name></expression></preferred>
+                  </term>
+                  <term id='name-check'>
+                    <preferred><expression><name>name check</name></expression></preferred>
+          <related type='equivalent'>
+            <strong>
+              term
+              <tt>missing</tt>
+               not resolved via ID
+              <tt>missing</tt>
+            </strong>
+          </related>
+                    <definition><verbaldefinition>
+                      <p id='_'>paragraph</p>
+                      <p id='_'>
+                        <concept>
+                          <refterm>name check</refterm>
+                          <renderterm>name check</renderterm>
+                          <xref target='name-check'/>
+                        </concept>
+                         is a term
+                      </p>
+                      <p id='_'>
+                        <concept>
+                          <refterm>name identity</refterm>
+                          <renderterm>name identity</renderterm>
+                          <xref target='term-name-identity'/>
+                        </concept>
+                         is a term
+                      </p>
+                      <p id='_'>
+                        Moreover,
+                        <concept>
+                          <strong>
+                            term
+                            <tt>missing</tt>
+                             not resolved via ID
+                            <tt>missing</tt>
+                          </strong>
+                        </concept>
+                         is a term
+                      </p>
+                      <p id='_'>
+                        <concept>
+                          <refterm>name check</refterm>
+                          <renderterm>name check</renderterm>
+                          <xref target='name-check'/>
+                        </concept>
+                         is a term
+                      </p>
+                      <p id='_'>
+                        <concept>
+                          <refterm>name identity</refterm>
+                          <renderterm>name identity</renderterm>
+                          <xref target='term-name-identity'/>
+                        </concept>
+                         is a term
+                      </p>
+                      <p id='_'>
+                        Moreover,
+                        <concept>
+                          <strong>
+                            term
+                            <tt>missing</tt>
+                             not resolved via ID
+                            <tt>missing</tt>
+                          </strong>
+                        </concept>
+                         is a term
+                      </p>
+                    </verbaldefinition></definition>
+                  </term>
+                </terms>
+              </sections>
+            </standard-document>
         XML
       end
 

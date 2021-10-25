@@ -1,4 +1,6 @@
 # frozen_string_literal: true.
+require "asciidoctor/standoc/utils"
+
 
 module Asciidoctor
   module Standoc
@@ -13,7 +15,7 @@ module Asciidoctor
       def initialize(xmldoc, log)
         @xmldoc = xmldoc
         @log = log
-        @termlookup = { term: {}, symbol: {} }
+        @termlookup = { term: {}, symbol: {}, secondary2primary: {} }
         @idhash = {}
       end
 
@@ -22,6 +24,7 @@ module Asciidoctor
         @termlookup = replace_automatic_generated_ids_terms
         set_termxref_tags_target
         concept_cleanup
+        related_cleanup
       end
 
       private
@@ -29,6 +32,19 @@ module Asciidoctor
       def concept_cleanup
         xmldoc.xpath("//concept").each do |n|
           n.delete("type")
+          refterm = n.at("./refterm") or next
+          p = @termlookup[:secondary2primary][refterm.text] and
+            refterm.children = p
+        end
+      end
+
+      def related_cleanup
+        xmldoc.xpath("//related").each do |n|
+          refterm = n.at("./refterm") or next
+          p = @termlookup[:secondary2primary][refterm.text] and
+            refterm.children = p
+          refterm.replace("<preferred><expression><name>#{refterm.children.to_xml}"\
+                          "</name></expression></preferred>")
         end
       end
 
@@ -47,8 +63,7 @@ module Asciidoctor
             remove_missing_ref(node, target)
             next
           end
-          x = node.at("../xrefrender")
-          modify_ref_node(x, target)
+          x = node.at("../xrefrender") and modify_ref_node(x, target)
           node.name = "refterm"
         end
       end
@@ -66,12 +81,12 @@ module Asciidoctor
                 %(Error: Term reference in `term[#{target}]` missing: \
                 "#{target}" is not defined in document))
         node.name = "strong"
-        node.at("../xrefrender").remove
+        node&.at("../xrefrender")&.remove
         display = node&.at("../renderterm")&.remove&.children
         display = [] if display.nil? || display&.to_xml == node.text
         d = display.empty? ? "" : ", display <tt>#{display.to_xml}</tt>"
         node.children = "term <tt>#{node.text}</tt>#{d} "\
-          "not resolved via ID <tt>#{target}</tt>"
+                        "not resolved via ID <tt>#{target}</tt>"
       end
 
       def remove_missing_ref_symbol(node, target)
@@ -79,12 +94,12 @@ module Asciidoctor
                 %(Error: Symbol reference in `symbol[#{target}]` missing: \
                 "#{target}" is not defined in document))
         node.name = "strong"
-        node.at("../xrefrender").remove
+        node&.at("../xrefrender")&.remove
         display = node&.at("../renderterm")&.remove&.children
         display = [] if display.nil? || display&.to_xml == node.text
         d = display.empty? ? "" : ", display <tt>#{display.to_xml}</tt>"
         node.children = "symbol <tt>#{node.text}</tt>#{d} "\
-          "not resolved via ID <tt>#{target}</tt>"
+                        "not resolved via ID <tt>#{target}</tt>"
       end
 
       def modify_ref_node(node, target)
@@ -92,24 +107,40 @@ module Asciidoctor
         s = termlookup[:symbol][target]
         t = termlookup[:term][target]
         type = node.parent["type"]
-        if type == "term" || !type && t
+        if type == "term" || ((!type || node.parent.name == "related") && t)
           node["target"] = t
-        elsif type == "symbol" || !type && s
+        elsif type == "symbol" ||
+          ((!type || node.parent.name == "related") && s)
           node["target"] = s
         end
       end
 
       def replace_automatic_generated_ids_terms
         r = xmldoc.xpath("//term").each.with_object({}) do |n, res|
-          normalize_id_and_memorize(n, res, "./preferred", "term")
+          normalize_id_and_memorize(n, res, "./preferred//name",
+                                    "term")
         end
         s = xmldoc.xpath("//definitions//dt").each.with_object({}) do |n, res|
           normalize_id_and_memorize(n, res, ".", "symbol")
         end
-        { term: r, symbol: s }
+        { term: r, symbol: s, secondary2primary: pref_secondary2primary }
+      end
+
+      def pref_secondary2primary
+        xmldoc.xpath("//term").each.with_object({}) do |n, res|
+          n.xpath("./preferred//name").each_with_index do |p, i|
+            i.zero? and term = p.text
+            i.positive? and res[p.text] = term
+          end
+        end
       end
 
       def normalize_id_and_memorize(node, res_table, text_selector, prefix)
+        normalize_id_and_memorize_init(node, res_table, text_selector, prefix)
+        memorize_other_pref_terms(node, res_table, text_selector)
+      end
+
+      def normalize_id_and_memorize_init(node, res_table, text_selector, prefix)
         term_text = normalize_ref_id(node.at(text_selector).text)
         unless AUTOMATIC_GENERATED_ID_REGEXP.match(node["id"]).nil? &&
             !node["id"].nil?
@@ -118,6 +149,14 @@ module Asciidoctor
           @idhash[id] = true
         end
         res_table[term_text] = node["id"]
+      end
+
+      def memorize_other_pref_terms(node, res_table, text_selector)
+        node.xpath(text_selector).each_with_index do |p, i|
+          next unless i.positive?
+
+          res_table[normalize_ref_id(p.text)] = node["id"]
+        end
       end
 
       def normalize_ref_id(text)

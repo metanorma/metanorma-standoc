@@ -69,7 +69,7 @@ module Asciidoctor
 
       def term_def_subclause_parse1(attrs, xml, node)
         xml.term **attr_code(attrs) do |xml_section|
-          xml_section.preferred { |name| name << node.title }
+          term_designation(xml_section, node, "preferred", node.title)
           xml_section << node.content
         end
       end
@@ -81,6 +81,14 @@ module Asciidoctor
             section.termdocsource(nil, **attr_code(bibitemid: s1))
           end
           section << node.content
+        end
+      end
+
+      def term_designation(xml, _node, tag, text)
+        xml.send tag do |p|
+          p.expression do |e|
+            e.name { |name| name << text }
+          end
         end
       end
 
@@ -124,7 +132,9 @@ module Asciidoctor
       def termsource(node)
         matched = extract_termsource_refs(node.content, node) || return
         noko do |xml|
-          attrs = { status: matched[:text] ? "modified" : "identical" }
+          status = node.attr("status") ||
+            (matched[:text] ? "modified" : "identical")
+          attrs = { status: status, type: node.attr("type") || "authoritative" }
           xml.termsource **attrs do |xml_t|
             seen_xref = Nokogiri::XML.fragment(matched[:xref])
             add_term_source(node, xml_t, seen_xref, matched)

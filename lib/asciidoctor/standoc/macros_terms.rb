@@ -2,6 +2,18 @@ require "csv"
 
 module Asciidoctor
   module Standoc
+    class PreferredTermInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :preferred
+      parse_content_as :text
+      using_format :short
+
+      def process(parent, _target, attrs)
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        %{<preferred><expression><name>#{out}</name></expression></preferred>}
+      end
+    end
+
     class AltTermInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :alt
@@ -9,8 +21,9 @@ module Asciidoctor
       using_format :short
 
       def process(parent, _target, attrs)
-        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
-        %{<admitted>#{out}</admitted>}
+        out = Asciidoctor::Inline.new(parent, :quoted,
+                                      attrs["text"]).convert
+        %{<admitted><expression><name>#{out}</name></expression></admitted>}
       end
     end
 
@@ -21,8 +34,9 @@ module Asciidoctor
       using_format :short
 
       def process(parent, _target, attrs)
-        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
-        %{<deprecates>#{out}</deprecates>}
+        out = Asciidoctor::Inline.new(parent, :quoted,
+                                      attrs["text"]).convert
+        %{<deprecates><expression><name>#{out}</name></expression></deprecates>}
       end
     end
 
@@ -33,7 +47,8 @@ module Asciidoctor
       using_format :short
 
       def process(parent, _target, attrs)
-        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        out = Asciidoctor::Inline.new(parent, :quoted,
+                                      attrs["text"]).convert
         %{<domain>#{out}</domain>}
       end
     end
@@ -131,6 +146,35 @@ module Asciidoctor
         end
       rescue StandardError => e
         raise("processing {{#{target}}}: #{e.message}")
+      end
+    end
+
+    # Possibilities:
+    # related:relation[<<id>>, term]
+    # related:relation[<<termbase:id>>, term]
+    # related:relation[term] equivalent to a crossreference to term:[term]
+    class RelatedTermInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :related
+      parse_content_as :text
+
+      def preprocess_attrs(target)
+        m = /^(?<id>&lt;&lt;.+?&gt;&gt;, ?)?(?<rest>.*)$/.match(target)
+        { id: m[:id]&.sub(/^&lt;&lt;/, "")&.sub(/&gt;&gt;, ?$/, ""),
+          term: m[:rest] }
+      end
+
+      def process(parent, target, attrs)
+        out = preprocess_attrs(attrs["text"])
+        term = Asciidoctor::Inline.new(parent, :quoted,
+                                       out[:term]).convert
+        if out[:id] then "<related type='#{target}' key='#{out[:id]}'>"\
+          "<refterm>#{term}</refterm></related>"
+        else "<related type='#{target}'><termxref>#{term}</termxref>"\
+          "<xrefrender>#{term}</xrefrender></related>"
+        end
+      rescue StandardError => e
+        raise("processing related:#{target}[#{attrs['text']}]: #{e.message}")
       end
     end
   end

@@ -16,16 +16,14 @@ module Asciidoctor
       end
 
       def bibliography_parse(attrs, xml, node)
-        node.option? "bibitem" and return bibitem_parse(attrs, xml, node)
-        node.attr("style") == "bibliography" or
-          @log.add("AsciiDoc Input", node, "Section not marked up as [bibliography]!")
+        x = biblio_prep(attrs, xml, node) and return x
         @biblio = true
-        xml.references **attr_code(attrs.merge(
-          normative: node.attr("normative") || false)) do |xml_section|
-            xml_section.title { |t| t << node.title }
-            xml_section << node.content
-          end
-          @biblio = false
+        attrs = attrs.merge(normative: node.attr("normative") || false)
+        xml.references **attr_code(attrs) do |xml_section|
+          xml_section.title { |t| t << node.title }
+          xml_section << node.content
+        end
+        @biblio = false
       end
 
       def bibitem_parse(attrs, xml, node)
@@ -39,9 +37,7 @@ module Asciidoctor
       end
 
       def norm_ref_parse(attrs, xml, node)
-        node.option? "bibitem" and return bibitem_parse(attrs, xml, node)
-        node.attr("style") == "bibliography" or
-          @log.add("AsciiDoc Input", node, "Section not marked up as [bibliography]!")
+        x = biblio_prep(attrs, xml, node) and return x
         @norm_ref = true
         attrs = attrs.merge(normative: node.attr("normative") || true)
         xml.references **attr_code(attrs) do |xml_section|
@@ -49,6 +45,17 @@ module Asciidoctor
           xml_section << node.content
         end
         @norm_ref = false
+      end
+
+      def biblio_prep(attrs, xml, node)
+        if node.option? "bibitem"
+          bibitem_parse(attrs, xml, node)
+        else
+          node.attr("style") == "bibliography" or
+            @log.add("AsciiDoc Input", node,
+                     "Section not marked up as [bibliography]!")
+          nil
+        end
       end
 
       def global_ievcache_name
@@ -74,7 +81,7 @@ module Asciidoctor
         xml
       rescue RelatonBib::RequestError
         @log.add("Bibliography", nil, "Could not retrieve #{code}: "\
-                 "no access to online site")
+                                      "no access to online site")
         nil
       end
 
@@ -87,10 +94,10 @@ module Asciidoctor
         unless xml.at("/bibitem/title[text()]")
           @log.add("Bibliography", nil,
                    "ERROR: No title retrieved for #{code}")
-          xml.root << "<title>#{title || "(MISSING TITLE)"}</title>"
+          xml.root << "<title>#{title || '(MISSING TITLE)'}</title>"
         end
         usrlbl and xml.at("/bibitem/docidentifier").next =
-          "<docidentifier type='metanorma'>#{mn_code(usrlbl)}</docidentifier>"
+                     "<docidentifier type='metanorma'>#{mn_code(usrlbl)}</docidentifier>"
       end
 
       def smart_render_xml(xml, code, opts)
@@ -113,7 +120,7 @@ module Asciidoctor
         @bibdb = Relaton::DbCache.init_bib_caches(
           local_cache: local,
           flush_caches: node.attr("flush-caches"),
-          global_cache: global
+          global_cache: global,
         )
       end
 
@@ -128,7 +135,7 @@ module Asciidoctor
             FileUtils.rm_f @iev_localname unless @iev_localname.nil?
           end
         end
-        #@iev = Iev::Db.new(globalname, localname) unless @no_isobib
+        # @iev = Iev::Db.new(globalname, localname) unless @no_isobib
       end
     end
   end

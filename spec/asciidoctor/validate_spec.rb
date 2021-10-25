@@ -329,7 +329,8 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
     expect(File.read("test.err"))
       .not_to include "does not match IEV 103-01-02"
-    FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev/cache"), force: true
+    FileUtils.mv File.expand_path("~/.iev.pstore1"),
+                 File.expand_path("~/.iev/cache"), force: true
   end
 
   # it "No warning if attributes on formatted strong or stem extraneous to Metanomra XML" do
@@ -355,7 +356,9 @@ RSpec.describe Asciidoctor::Standoc do
 
         {{<<def>>,term,option="noital"}}
       INPUT
-      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(RuntimeError)
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(RuntimeError)
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err"))
@@ -393,6 +396,39 @@ RSpec.describe Asciidoctor::Standoc do
       .not_to include "Concept term is pointing to def, which is not a term or symbol"
     expect(File.read("test.err"))
       .to include "Concept term is pointing to ghi, which is not a term or symbol"
+    expect(File.exist?("test.xml")).to be false
+  end
+
+  it "warns and aborts if related/xref does not point to term or definition" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        [[abc]]
+        == Clause 1
+        [[ghi]]A:: B
+
+        == Symbols and Abbreviated Terms
+        [[def]]DEF:: def
+
+        related:see[<<abc>>,term]
+        related:see[<<def>>,term]
+        related:see[<<ghi>>,term]
+      INPUT
+      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+    expect(File.read("test.err"))
+      .to include "Related term is pointing to abc, which is not a term or symbol"
+    expect(File.read("test.err"))
+      .not_to include "Related term is pointing to def, which is not a term or symbol"
+    expect(File.read("test.err"))
+      .to include "Related term is pointing to ghi, which is not a term or symbol"
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -517,5 +553,26 @@ RSpec.describe Asciidoctor::Standoc do
     INPUT
     expect(File.read("test.err"))
       .to include "Crossreference target id1 is undefined"
+  end
+
+  it "Warning if metadata deflist not after a designation" do
+    FileUtils.rm_f "test.err"
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      == Terms and definitions
+
+      === Term 1
+
+      Definition
+
+      [%metadata]
+      language:: fr
+    INPUT
+    expect(File.read("test.err"))
+      .to include "Metadata definition list does not follow a term designation"
   end
 end

@@ -9,6 +9,7 @@ require_relative "./cleanup_ref_dl"
 require_relative "./cleanup_boilerplate"
 require_relative "./cleanup_section"
 require_relative "./cleanup_terms"
+require_relative "./cleanup_symbols"
 require_relative "./cleanup_xref"
 require_relative "./cleanup_inline"
 require_relative "./cleanup_amend"
@@ -41,6 +42,7 @@ module Asciidoctor
         symbols_cleanup(xmldoc)
         xref_cleanup(xmldoc)
         concept_cleanup(xmldoc)
+        related_cleanup(xmldoc)
         origin_cleanup(xmldoc)
         bookmark_cleanup(xmldoc)
         termdef_cleanup(xmldoc)
@@ -73,7 +75,8 @@ module Asciidoctor
         %w{status language script version author name callout phone email
            street city state country postcode identifier referenceFrom surname
            referenceTo docidentifier docnumber prefix initial addition forename
-           title draft secretariat title-main title-intro title-part}.freeze
+           title draft secretariat title-main title-intro title-part
+           verbaldefinition nonverbalrepresentation}.freeze
 
       # it seems Nokogiri::XML is treating the content of <script> as cdata,
       # because of its use in HTML. Bad nokogiri. Undoing that, since we use
@@ -83,7 +86,9 @@ module Asciidoctor
       end
 
       def empty_element_cleanup(xmldoc)
-        xmldoc.xpath("//" + TEXT_ELEMS.join(" | //")).each do |x|
+        xmldoc.xpath("//#{TEXT_ELEMS.join(' | //')}").each do |x|
+          next if x.name == "name" && x.parent.name == "expression"
+
           x.remove if x.children.empty?
         end
       end
@@ -108,17 +113,21 @@ module Asciidoctor
             n.name != "variant" && (!n.text? || !n.text.gsub(/\s/, "").empty?)
           end
 
-          c.xpath("./variant").each do |n|
-            if n.at_xpath("preceding-sibling::node()"\
-                          "[not(self::text()[not(normalize-space())])][1]"\
-                          "[self::variantwrap]")
-              n.previous_element << n
-            else
-              n.replace("<variantwrap/>").first << n
-            end
-          end
+          variant_cleanup1(c)
         end
         xmldoc.xpath("//variantwrap").each { |n| n.name = "variant" }
+      end
+
+      def variant_cleanup1(elem)
+        elem.xpath("./variant").each do |n|
+          if n.at_xpath("preceding-sibling::node()"\
+                        "[not(self::text()[not(normalize-space())])][1]"\
+                        "[self::variantwrap]")
+            n.previous_element << n
+          else
+            n.replace("<variantwrap/>").first << n
+          end
+        end
       end
 
       def variant_space_cleanup(xmldoc)
