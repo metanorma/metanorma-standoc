@@ -966,7 +966,7 @@ QU1FOiB0ZXN0Cgo=
       .new(:standoc, header_footer: true)
       .doc_extract_attributes(node)
 
-    expect(options.dig(:mn2pdf, :font_manifest_file))
+    expect(options.dig(:mn2pdf, :font_manifest))
       .to eq(node[Asciidoctor::Standoc::Base::FONTS_MANIFEST])
   end
 
