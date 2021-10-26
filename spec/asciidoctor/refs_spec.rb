@@ -1028,7 +1028,8 @@ RSpec.describe Asciidoctor::Standoc do
                      </contributor>
                      <language>en</language>
                      <script>Latn</script>
-                     <abstract format='text/plain' language='en' script='Latn'>
+                     <abstract format='text/html' language='en' script='Latn'>
+                       <p id='_'>
                        The standardization of network configuration interfaces for use with
                        the Network Configuration Protocol (NETCONF) or the RESTCONF protocol
                        requires a structured and secure operating environment that promotes
@@ -1036,7 +1037,8 @@ RSpec.describe Asciidoctor::Standoc do
                        standard mechanisms to restrict NETCONF or RESTCONF protocol access
                        for particular users to a preconfigured subset of all available
                        NETCONF or RESTCONF protocol operations and content. This document
-                       defines such an access control model.This document obsoletes RFC 6536.
+                       defines such an access control model.</p>
+                       <p id='_'>This document obsoletes RFC 6536.</p>
                      </abstract>
                      <series type='main'>
                        <title format='text/plain' language='en' script='Latn'>STD</title>
@@ -1088,7 +1090,8 @@ RSpec.describe Asciidoctor::Standoc do
                      </contributor>
                      <language>en</language>
                      <script>Latn</script>
-                     <abstract format='text/plain' language='en' script='Latn'>
+                     <abstract format='text/html' language='en' script='Latn'>
+                     <p id='_'>
                        The standardization of network configuration interfaces for use with
                        the Network Configuration Protocol (NETCONF) or the RESTCONF protocol
                        requires a structured and secure operating environment that promotes
@@ -1096,7 +1099,8 @@ RSpec.describe Asciidoctor::Standoc do
                        standard mechanisms to restrict NETCONF or RESTCONF protocol access
                        for particular users to a preconfigured subset of all available
                        NETCONF or RESTCONF protocol operations and content. This document
-                       defines such an access control model.This document obsoletes RFC 6536.
+                       defines such an access control model.</p>
+                      <p id='_'>This document obsoletes RFC 6536.</p>
                      </abstract>
                      <series type='main'>
                        <title format='text/plain' language='en' script='Latn'>STD</title>
