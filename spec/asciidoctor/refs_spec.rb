@@ -1028,7 +1028,7 @@ RSpec.describe Asciidoctor::Standoc do
                      </contributor>
                      <language>en</language>
                      <script>Latn</script>
-                     <abstract format='text/plain' language='en' script='Latn'>
+                     <abstract format='text/html' language='en' script='Latn'>
                        <p id='_'>
                        The standardization of network configuration interfaces for use with
                        the Network Configuration Protocol (NETCONF) or the RESTCONF protocol
@@ -1090,7 +1090,7 @@ RSpec.describe Asciidoctor::Standoc do
                      </contributor>
                      <language>en</language>
                      <script>Latn</script>
-                     <abstract format='text/plain' language='en' script='Latn'>
+                     <abstract format='text/html' language='en' script='Latn'>
                      <p id='_'>
                        The standardization of network configuration interfaces for use with
                        the Network Configuration Protocol (NETCONF) or the RESTCONF protocol
