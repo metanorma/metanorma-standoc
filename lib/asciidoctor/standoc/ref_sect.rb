@@ -31,9 +31,10 @@ module Asciidoctor
         biblio = @biblio
         @biblio = false
         @norm_ref = false
-        clause_parse(attrs, xml, node)
+        ret = clause_parse(attrs, xml, node)
         @biblio = biblio
         @norm_ref = norm_ref
+        ret
       end
 
       def norm_ref_parse(attrs, xml, node)
