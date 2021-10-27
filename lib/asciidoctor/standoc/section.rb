@@ -18,7 +18,7 @@ module Asciidoctor
       def sectiontype(node, level = true)
         ret = sectiontype1(node)
         ret1 = sectiontype_streamline(ret)
-        return ret1 if "symbols and abbreviated terms" == ret1
+        return ret1 if ret1 == "symbols and abbreviated terms"
         return nil unless !level || node.level == 1
         return nil if @seen_headers.include? ret
 
@@ -49,7 +49,8 @@ module Asciidoctor
                 script: node.attributes["script"],
                 number: node.attributes["number"],
                 type: node.attributes["type"],
-                annex: (if (node.attr("style") == "appendix" || node.role == "appendix") &&
+                annex: (if (node.attr("style") == "appendix" ||
+                            node.role == "appendix") &&
                           node.level == 1
                           true
                         end),
@@ -84,13 +85,11 @@ module Asciidoctor
           else
             if @term_def then term_def_subclause_parse(a, xml, node)
             elsif @definitions then symbols_parse(a, xml, node)
-            elsif @norm_ref then norm_ref_parse(a, xml, node)
-            elsif @biblio then bibliography_parse(a, xml, node)
-            elsif node.attr("style") == "bibliography" && sectiontype(node, false) == "normative references"
+            elsif @norm_ref ||
+                (node.attr("style") == "bibliography" &&
+                 sectiontype(node, false) == "normative references")
               norm_ref_parse(a, xml, node)
-            elsif node.attr("style") == "bibliography" && sectiontype(node, false) == "bibliography"
-              bibliography_parse(a, xml, node)
-            elsif node.attr("style") == "bibliography"
+            elsif @biblio || node.attr("style") == "bibliography"
               bibliography_parse(a, xml, node)
             elsif node.attr("style") == "abstract"
               abstract_parse(a, xml, node)
@@ -118,7 +117,9 @@ module Asciidoctor
       def preamble(node)
         noko do |xml|
           xml.foreword **attr_code(section_attributes(node)) do |xml_abstract|
-            xml_abstract.title { |t| t << (node.blocks[0].title || @i18n.foreword) }
+            xml_abstract.title do |t|
+              t << (node.blocks[0].title || @i18n.foreword)
+            end
             content = node.content
             xml_abstract << content
           end
@@ -143,7 +144,7 @@ module Asciidoctor
       end
 
       def clause_parse(attrs, xml, node)
-        attrs["inline-header".to_sym] = node.option? "inline-header"
+        attrs[:"inline-header"] = node.option? "inline-header"
         attrs[:bibitem] = true if node.option? "bibitem"
         attrs[:level] = node.attr("level")
         set_obligation(attrs, node)
@@ -154,7 +155,7 @@ module Asciidoctor
       end
 
       def annex_parse(attrs, xml, node)
-        attrs["inline-header".to_sym] = node.option? "inline-header"
+        attrs[:"inline-header"] = node.option? "inline-header"
         set_obligation(attrs, node)
         xml.annex **attr_code(attrs) do |xml_section|
           xml_section.title { |name| name << node.title }
@@ -180,7 +181,7 @@ module Asciidoctor
 
       def acknowledgements_parse(attrs, xml, node)
         xml.acknowledgements **attr_code(attrs) do |xml_section|
-          xml_section.title { |t| t << node.title || @i18n.acknowledgements }
+          xml_section.title { |t| (t << node.title) || @i18n.acknowledgements }
           content = node.content
           xml_section << content
         end
