@@ -514,6 +514,59 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes nested terms" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      [.term]
+      === Term1
+
+      definition
+
+      NOTE: Note 1
+
+      ==== Term11
+      definition2
+
+      NOTE: Note 2
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+                <sections>
+           <clause id='_' obligation='normative'>
+             <title>Terms and definitions</title>
+             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+             <terms id='_' obligation='normative'>
+               <title>Term1</title>
+               <p id='_'>definition</p>
+               <note id='_'>
+                 <p id='_'>Note 1</p>
+               </note>
+               <term id='term-term11'>
+                 <preferred>
+                   <expression>
+                     <name>Term11</name>
+                   </expression>
+                 </preferred>
+                 <definition>
+                   <verbaldefinition>
+                     <p id='_'>definition2</p>
+                   </verbaldefinition>
+                 </definition>
+                 <termnote id='_'>
+                   <p id='_'>Note 2</p>
+                 </termnote>
+               </term>
+             </terms>
+           </clause>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes notes" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}

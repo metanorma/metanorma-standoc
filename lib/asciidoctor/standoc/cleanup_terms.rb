@@ -35,7 +35,8 @@ module Asciidoctor
 
       def split_termdefinitions(xmldoc)
         xmldoc.xpath("//definition").each do |d|
-          n = d.children.first.add_previous_sibling("<nonverbalrepresentation/>").first
+          n = d.children.first
+            .add_previous_sibling("<nonverbalrepresentation/>").first
           v = d.children.first.add_previous_sibling("<verbaldefinition/>").first
           nonverb = false
           d.elements.each do |e|
@@ -60,7 +61,7 @@ module Asciidoctor
       def term_children_cleanup(xmldoc)
         xmldoc.xpath("//terms[terms]").each { |t| t.name = "clause" }
         xmldoc.xpath("//term").each do |t|
-          %w(termnote termexample termsource).each do |w|
+          %w(termnote termexample termsource term).each do |w|
             t.xpath("./#{w}").each { |n| t << n.remove }
           end
         end
