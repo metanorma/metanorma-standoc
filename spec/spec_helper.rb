@@ -61,7 +61,8 @@ def xmlpp(xml)
   s = ""
   f = REXML::Formatters::Pretty.new(2)
   f.compact = true
-  f.write(REXML::Document.new(xml), s)
+  f.write(REXML::Document.new(xml
+    .gsub(%r{<fetched>[^<]+</fetched>}, "<fetched/>")), s)
   s
 end
 

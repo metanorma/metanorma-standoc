@@ -23,13 +23,18 @@ module Asciidoctor
         split_termdefinitions(xmldoc)
       end
 
+      TERMDEF_BLOCKS =
+        "./p | ./ol | ./dl | ./ul | ./figure | ./formula | ./table".freeze
+
       def generate_termdefinitions(xmldoc)
         xmldoc.xpath("//term[not(definition)]").each do |d|
-          first_child = d.at("./p | ./figure | ./formula | ./table") || next
+          first_child = d.at(TERMDEF_BLOCKS) || next
           t = Nokogiri::XML::Element.new("definition", xmldoc)
           first_child.replace(t)
           t << first_child.remove
-          d.xpath("./p | ./figure | ./formula | ./table").each { |n| t << n.remove }
+          d.xpath(TERMDEF_BLOCKS).each do |n|
+            t << n.remove
+          end
         end
       end
 
@@ -40,17 +45,22 @@ module Asciidoctor
           v = d.children.first.add_previous_sibling("<verbaldefinition/>").first
           nonverb = false
           d.elements.each do |e|
-            case e.name
-            when "nonverbalrepresentation", "verbaldefinition" then next
-            when "figure", "table", "formula"
-              n << e.remove
-              nonverb = true
-            when "termsource"
-              (nonverb ? n : v) << e.remove
-            else v << e.remove
-            end
+            nonverb = split_termdefinitions1(e, n, v, nonverb)
           end
         end
+      end
+
+      def split_termdefinitions1(elem, nonverbal, verbal, nonverb)
+        case elem.name
+        when "nonverbalrepresentation", "verbaldefinition" then return nonverb
+        when "figure", "table", "formula"
+          nonverbal << elem.remove
+          nonverb = true
+        when "termsource"
+          (nonverb ? nonverbal : verbal) << elem.remove
+        else verbal << elem.remove
+        end
+        nonverb
       end
 
       def termdocsource_cleanup(xmldoc)
@@ -77,9 +87,9 @@ module Asciidoctor
 
       def termnote_example_cleanup(xmldoc)
         %w(note example).each do |w|
-        xmldoc.xpath("//term#{w}[not(ancestor::term)]").each do |x|
-          x.name = w
-        end
+          xmldoc.xpath("//term#{w}[not(ancestor::term)]").each do |x|
+            x.name = w
+          end
         end
       end
 

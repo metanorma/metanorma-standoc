@@ -42,7 +42,7 @@ RSpec.describe Asciidoctor::Standoc do
         <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
-        <fetched>#{Date.today}</fetched>
+        <fetched/>
         <title type='title-main' format='text/plain'>Standard</title>
         <title type='main' format='text/plain'>Standard</title>
          <docidentifier type="ISO">ISO 123</docidentifier>
@@ -304,7 +304,7 @@ formattedref::
         <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="ISOTC211" type="standard">
-  <fetched>2019-06-30</fetched>
+  <fetched/>
   <title type="main" format="text/plain">Geographic information</title>
   <title type="subtitle" format="text/plain" language="en" script="Latn">Geographic information subtitle</title>
   <title type='title-main' format='text/plain'>Other Title</title>
@@ -624,7 +624,7 @@ series.formattedref.script:: Latn
         <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="ISOTC211" type="standard">
-  <fetched>2019-06-30</fetched>
+  <fetched/>
   <title type="main" format="text/plain">Geographic information</title>
   <title type="subtitle" format="text/plain" language="en" script="Latn">Geographic information subtitle</title>
   <uri type="src">https://www.iso.org/standard/53798.html</uri>
@@ -827,7 +827,7 @@ OUTPUT
          <docidentifier>B</docidentifier>
        </bibitem>
        <bibitem id='iso123' type='standard'>
-         <fetched>#{Date.today.to_s}</fetched>
+         <fetched/>
          <title type='title-main' format='text/plain'>Standard</title>
          <title type='main' format='text/plain'>Standard</title>
          <docidentifier type='ISO'>ISO 123</docidentifier>

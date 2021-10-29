@@ -237,20 +237,17 @@ RSpec.describe Asciidoctor::Standoc do
 
               </sections><bibliography><references id="_" obligation="informative" normative="true"><title>Normative references</title>
                #{NORM_REF_BOILERPLATE}
-                <bibitem id='iso123' type='standard'>
-                      <fetched>#{Date.today}</fetched>
-                                   <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
+                    <bibitem id='iso123' type='standard'>
+               <fetched/>
+               <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
                <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
                <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-               <docidentifier type='ISO'>ISO 123:2001</docidentifier>
+               <docidentifier type='ISO'>ISO 123</docidentifier>
                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
                <docnumber>123</docnumber>
-               <date type='published'>
-                 <on>2001-05</on>
-               </date>
                <contributor>
                  <role type='publisher'/>
                  <organization>
@@ -262,13 +259,6 @@ RSpec.describe Asciidoctor::Standoc do
                <edition>3</edition>
                <language>en</language>
                <script>Latn</script>
-               <abstract format='text/plain' language='en' script='Latn'>
-                 This International Standard specifies procedures for sampling natural
-                 rubber latex concentrate and for sampling synthetic rubber latices and
-                 artificial latices. It is also suitable for sampling rubber latex
-                 contained in drums, tank cars or tanks. The procedures may also be
-                 used for sampling plastics dispersions.
-               </abstract>
                <status>
                  <stage>90</stage>
                  <substage>93</substage>
@@ -286,23 +276,73 @@ RSpec.describe Asciidoctor::Standoc do
                    <formattedref format='text/plain'>ISO 123:1985</formattedref>
                  </bibitem>
                </relation>
+               <relation type='instance'>
+                 <bibitem type='standard'>
+                   <fetched/>
+                   <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
+                   <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
+                   <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
+                   <uri type='src'>https://www.iso.org/standard/23281.html</uri>
+                   <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+                   <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <docidentifier type='ISO'>ISO 123:2001</docidentifier>
+                   <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
+                   <docnumber>123</docnumber>
+                   <date type='published'>
+                     <on>2001-05</on>
+                   </date>
+                   <contributor>
+                     <role type='publisher'/>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <abbreviation>ISO</abbreviation>
+                       <uri>www.iso.org</uri>
+                     </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <script>Latn</script>
+                   <abstract format='text/plain' language='en' script='Latn'>
+                     This International Standard specifies procedures for sampling
+                     natural rubber latex concentrate and for sampling synthetic rubber
+                     latices and artificial latices. It is also suitable for sampling
+                     rubber latex contained in drums, tank cars or tanks. The
+                     procedures may also be used for sampling plastics dispersions.
+                   </abstract>
+                   <status>
+                     <stage>90</stage>
+                     <substage>93</substage>
+                   </status>
+                   <copyright>
+                     <from>2001</from>
+                     <owner>
+                       <organization>
+                         <name>ISO</name>
+                       </organization>
+                     </owner>
+                   </copyright>
+                   <relation type='obsoletes'>
+                     <bibitem type='standard'>
+                       <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                     </bibitem>
+                   </relation>
+                   <place>Geneva</place>
+                 </bibitem>
+               </relation>
                <place>Geneva</place>
              </bibitem>
              <bibitem id='iso124' type='standard'>
-               <fetched>#{Date.today}</fetched>
+               <fetched/>
                <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
                <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
                <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-               <docidentifier type='ISO'>ISO 123:2001</docidentifier>
+               <docidentifier type='ISO'>ISO 123</docidentifier>
                <docidentifier type='metanorma'>[1]</docidentifier>
                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
                <docnumber>123</docnumber>
-               <date type='published'>
-                 <on>2001-05</on>
-               </date>
                <contributor>
                  <role type='publisher'/>
                  <organization>
@@ -314,13 +354,6 @@ RSpec.describe Asciidoctor::Standoc do
                <edition>3</edition>
                <language>en</language>
                <script>Latn</script>
-               <abstract format='text/plain' language='en' script='Latn'>
-                 This International Standard specifies procedures for sampling natural
-                 rubber latex concentrate and for sampling synthetic rubber latices and
-                 artificial latices. It is also suitable for sampling rubber latex
-                 contained in drums, tank cars or tanks. The procedures may also be
-                 used for sampling plastics dispersions.
-               </abstract>
                <status>
                  <stage>90</stage>
                  <substage>93</substage>
@@ -336,6 +369,59 @@ RSpec.describe Asciidoctor::Standoc do
                <relation type='obsoletes'>
                  <bibitem type='standard'>
                    <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                 </bibitem>
+               </relation>
+               <relation type='instance'>
+                 <bibitem type='standard'>
+                   <fetched/>
+                   <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
+                   <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
+                   <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
+                   <uri type='src'>https://www.iso.org/standard/23281.html</uri>
+                   <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+                   <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <docidentifier type='ISO'>ISO 123:2001</docidentifier>
+                   <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
+                   <docnumber>123</docnumber>
+                   <date type='published'>
+                     <on>2001-05</on>
+                   </date>
+                   <contributor>
+                     <role type='publisher'/>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <abbreviation>ISO</abbreviation>
+                       <uri>www.iso.org</uri>
+                     </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <script>Latn</script>
+                   <abstract format='text/plain' language='en' script='Latn'>
+                     This International Standard specifies procedures for sampling
+                     natural rubber latex concentrate and for sampling synthetic rubber
+                     latices and artificial latices. It is also suitable for sampling
+                     rubber latex contained in drums, tank cars or tanks. The
+                     procedures may also be used for sampling plastics dispersions.
+                   </abstract>
+                   <status>
+                     <stage>90</stage>
+                     <substage>93</substage>
+                   </status>
+                   <copyright>
+                     <from>2001</from>
+                     <owner>
+                       <organization>
+                         <name>ISO</name>
+                       </organization>
+                     </owner>
+                   </copyright>
+                   <relation type='obsoletes'>
+                     <bibitem type='standard'>
+                       <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                     </bibitem>
+                   </relation>
+                   <place>Geneva</place>
                  </bibitem>
                </relation>
                <place>Geneva</place>
@@ -365,31 +451,30 @@ RSpec.describe Asciidoctor::Standoc do
         * [[[iso124,(1)ISO 123]]] _Standard_
       INPUT
               #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>fr</language>')}
-               <sections>
-               </sections><bibliography>
-               <references id='_' normative='true' obligation='informative'>
-                     <title>Références normatives</title>
-                     <p id='_'>
-                       Les documents suivants cités dans le texte constituent, pour tout ou
-        partie de leur contenu, des exigences du présent document. Pour les
-        références datées, seule l’édition citée s’applique. Pour les références
-        non datées, la dernière édition du document de référence s’applique (y
-        compris les éventuels amendements).
-                     </p>
-                <bibitem id='iso123' type='standard'>
-                <fetched>#{Date.today}</fetched>
-                <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
+                       <sections> </sections>
+         <bibliography>
+           <references id='_' normative='true' obligation='informative'>
+             <title>R&#233;f&#233;rences normatives</title>
+             <p id='_'>
+               Les documents suivants cit&#233;s dans le texte constituent, pour tout
+               ou partie de leur contenu, des exigences du pr&#233;sent document. Pour
+               les r&#233;f&#233;rences dat&#233;es, seule l&#8217;&#233;dition
+               cit&#233;e s&#8217;applique. Pour les r&#233;f&#233;rences non
+               dat&#233;es, la derni&#232;re &#233;dition du document de
+               r&#233;f&#233;rence s&#8217;applique (y compris les &#233;ventuels
+               amendements).
+             </p>
+             <bibitem id='iso123' type='standard'>
+               <fetched/>
+               <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
                <title type='title-main' format='text/plain' language='fr' script='Latn'>&#201;chantillonnage</title>
                <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc&#8201;&#8212;&#8201;&#201;chantillonnage</title>
                <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-               <docidentifier type='ISO'>ISO 123:2001</docidentifier>
+               <docidentifier type='ISO'>ISO 123</docidentifier>
                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:fr</docidentifier>
                <docnumber>123</docnumber>
-               <date type='published'>
-                 <on>2001-05</on>
-               </date>
                <contributor>
                  <role type='publisher'/>
                  <organization>
@@ -402,16 +487,6 @@ RSpec.describe Asciidoctor::Standoc do
                <language>en</language>
                <language>fr</language>
                <script>Latn</script>
-               <abstract format='text/plain' language='fr' script='Latn'>
-                 La pr&#233;sente Norme internationale sp&#233;cifie des m&#233;thodes
-                 d&#8217;&#233;chantillonnage pour des concentr&#233;s de latex de
-                 caoutchouc naturel et pour &#233;chantillonner des latex de caoutchouc
-                 synth&#233;tique et des latex artificiels. Elle s&#8217;applique
-                 &#233;galement &#224; l&#8217;&#233;chantillonnage de latex de
-                 caoutchouc contenus dans des f&#251;ts, citernes routi&#232;res ou de
-                 stockage. Le mode op&#233;ratoire peut aussi &#234;tre utilis&#233;
-                 pour l&#8217;&#233;chantillonnage de dispersions de plastiques.
-               </abstract>
                <status>
                  <stage>90</stage>
                  <substage>93</substage>
@@ -429,23 +504,78 @@ RSpec.describe Asciidoctor::Standoc do
                    <formattedref format='text/plain'>ISO 123:1985</formattedref>
                  </bibitem>
                </relation>
+               <relation type='instance'>
+                 <bibitem type='standard'>
+                   <fetched/>
+                   <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
+                   <title type='title-main' format='text/plain' language='fr' script='Latn'>&#201;chantillonnage</title>
+                   <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc&#8201;&#8212;&#8201;&#201;chantillonnage</title>
+                   <uri type='src'>https://www.iso.org/standard/23281.html</uri>
+                   <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+                   <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <docidentifier type='ISO'>ISO 123:2001</docidentifier>
+                   <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:fr</docidentifier>
+                   <docnumber>123</docnumber>
+                   <date type='published'>
+                     <on>2001-05</on>
+                   </date>
+                   <contributor>
+                     <role type='publisher'/>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <abbreviation>ISO</abbreviation>
+                       <uri>www.iso.org</uri>
+                     </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <abstract format='text/plain' language='fr' script='Latn'>
+                     La pr&#233;sente Norme internationale sp&#233;cifie des
+                     m&#233;thodes d&#8217;&#233;chantillonnage pour des
+                     concentr&#233;s de latex de caoutchouc naturel et pour
+                     &#233;chantillonner des latex de caoutchouc synth&#233;tique et
+                     des latex artificiels. Elle s&#8217;applique &#233;galement &#224;
+                     l&#8217;&#233;chantillonnage de latex de caoutchouc contenus dans
+                     des f&#251;ts, citernes routi&#232;res ou de stockage. Le mode
+                     op&#233;ratoire peut aussi &#234;tre utilis&#233; pour
+                     l&#8217;&#233;chantillonnage de dispersions de plastiques.
+                   </abstract>
+                   <status>
+                     <stage>90</stage>
+                     <substage>93</substage>
+                   </status>
+                   <copyright>
+                     <from>2001</from>
+                     <owner>
+                       <organization>
+                         <name>ISO</name>
+                       </organization>
+                     </owner>
+                   </copyright>
+                   <relation type='obsoletes'>
+                     <bibitem type='standard'>
+                       <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                     </bibitem>
+                   </relation>
+                   <place>Geneva</place>
+                 </bibitem>
+               </relation>
                <place>Geneva</place>
              </bibitem>
              <bibitem id='iso124' type='standard'>
-               <fetched>#{Date.today}</fetched>
+               <fetched/>
                <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
                <title type='title-main' format='text/plain' language='fr' script='Latn'>&#201;chantillonnage</title>
                <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc&#8201;&#8212;&#8201;&#201;chantillonnage</title>
                <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-               <docidentifier type='ISO'>ISO 123:2001</docidentifier>
+               <docidentifier type='ISO'>ISO 123</docidentifier>
                <docidentifier type='metanorma'>[1]</docidentifier>
                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:fr</docidentifier>
                <docnumber>123</docnumber>
-               <date type='published'>
-                 <on>2001-05</on>
-               </date>
                <contributor>
                  <role type='publisher'/>
                  <organization>
@@ -458,16 +588,6 @@ RSpec.describe Asciidoctor::Standoc do
                <language>en</language>
                <language>fr</language>
                <script>Latn</script>
-               <abstract format='text/plain' language='fr' script='Latn'>
-                 La pr&#233;sente Norme internationale sp&#233;cifie des m&#233;thodes
-                 d&#8217;&#233;chantillonnage pour des concentr&#233;s de latex de
-                 caoutchouc naturel et pour &#233;chantillonner des latex de caoutchouc
-                 synth&#233;tique et des latex artificiels. Elle s&#8217;applique
-                 &#233;galement &#224; l&#8217;&#233;chantillonnage de latex de
-                 caoutchouc contenus dans des f&#251;ts, citernes routi&#232;res ou de
-                 stockage. Le mode op&#233;ratoire peut aussi &#234;tre utilis&#233;
-                 pour l&#8217;&#233;chantillonnage de dispersions de plastiques.
-               </abstract>
                <status>
                  <stage>90</stage>
                  <substage>93</substage>
@@ -483,6 +603,64 @@ RSpec.describe Asciidoctor::Standoc do
                <relation type='obsoletes'>
                  <bibitem type='standard'>
                    <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                 </bibitem>
+               </relation>
+               <relation type='instance'>
+                 <bibitem type='standard'>
+                   <fetched/>
+                   <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
+                   <title type='title-main' format='text/plain' language='fr' script='Latn'>&#201;chantillonnage</title>
+                   <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc&#8201;&#8212;&#8201;&#201;chantillonnage</title>
+                   <uri type='src'>https://www.iso.org/standard/23281.html</uri>
+                   <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+                   <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <docidentifier type='ISO'>ISO 123:2001</docidentifier>
+                   <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:fr</docidentifier>
+                   <docnumber>123</docnumber>
+                   <date type='published'>
+                     <on>2001-05</on>
+                   </date>
+                   <contributor>
+                     <role type='publisher'/>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <abbreviation>ISO</abbreviation>
+                       <uri>www.iso.org</uri>
+                     </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <abstract format='text/plain' language='fr' script='Latn'>
+                     La pr&#233;sente Norme internationale sp&#233;cifie des
+                     m&#233;thodes d&#8217;&#233;chantillonnage pour des
+                     concentr&#233;s de latex de caoutchouc naturel et pour
+                     &#233;chantillonner des latex de caoutchouc synth&#233;tique et
+                     des latex artificiels. Elle s&#8217;applique &#233;galement &#224;
+                     l&#8217;&#233;chantillonnage de latex de caoutchouc contenus dans
+                     des f&#251;ts, citernes routi&#232;res ou de stockage. Le mode
+                     op&#233;ratoire peut aussi &#234;tre utilis&#233; pour
+                     l&#8217;&#233;chantillonnage de dispersions de plastiques.
+                   </abstract>
+                   <status>
+                     <stage>90</stage>
+                     <substage>93</substage>
+                   </status>
+                   <copyright>
+                     <from>2001</from>
+                     <owner>
+                       <organization>
+                         <name>ISO</name>
+                       </organization>
+                     </owner>
+                   </copyright>
+                   <relation type='obsoletes'>
+                     <bibitem type='standard'>
+                       <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                     </bibitem>
+                   </relation>
+                   <place>Geneva</place>
                  </bibitem>
                </relation>
                <place>Geneva</place>
@@ -558,7 +736,7 @@ RSpec.describe Asciidoctor::Standoc do
           <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
           <bibitem type="standard" id="iso123">
-          <fetched>#{Date.today}</fetched>
+          <fetched/>
           <title type="title-main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
           <title type="main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
           <uri type="src">https://www.iso.org/standard/21071.html</uri>
@@ -605,7 +783,7 @@ RSpec.describe Asciidoctor::Standoc do
           <place>Geneva</place>
         </bibitem>
           <bibitem id="iso124" type="standard">
-          <fetched>#{Date.today}</fetched>
+          <fetched/>
           <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
           <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
           <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber — Determination of total solids content</title>
@@ -650,7 +828,7 @@ RSpec.describe Asciidoctor::Standoc do
           <place>Geneva</place>
           </bibitem>
           <bibitem id="iso125" type="standard">
-          <fetched>#{Date.today}</fetched>
+          <fetched/>
           <title type="title-main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
           <title type='main' format='text/plain' language='en' script='Latn'>Permuted index of the vocabulary of information technology</title>
           <uri type="src">https://www.iso.org/standard/21071.html</uri>
@@ -698,7 +876,7 @@ RSpec.describe Asciidoctor::Standoc do
           <place>Geneva</place>
         </bibitem>
           <bibitem id="iso126" type="standard">
-          <fetched>#{Date.today}</fetched>
+          <fetched/>
           <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
           <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
           <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber — Determination of total solids content</title>
@@ -774,7 +952,7 @@ RSpec.describe Asciidoctor::Standoc do
                <docnumber>12382:1992</docnumber>
              </bibitem>
              <bibitem id='iso124' type='standard'>
-               <fetched>#{Date.today}</fetched>
+               <fetched/>
                <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
                <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber — Determination of total solids content</title>
@@ -990,7 +1168,7 @@ RSpec.describe Asciidoctor::Standoc do
         <title>Normative references</title>
               #{NORM_REF_BOILERPLATE}
               <bibitem id='iso123' type='standard'>
-                     <fetched>#{Date.today}</fetched>
+                     <fetched/>
                      <title format='text/plain' language='en' script='Latn'>Network Configuration Access Control Model</title>
                      <uri type='xml'>
                        https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
@@ -1051,7 +1229,7 @@ RSpec.describe Asciidoctor::Standoc do
                      <place>Fremont, CA</place>
                    </bibitem>
                    <bibitem id='iso124' type='standard'>
-                     <fetched>#{Date.today}</fetched>
+                     <fetched/>
                      <title format='text/plain' language='en' script='Latn'>Network Configuration Access Control Model</title>
                      <uri type='xml'>
                        https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
@@ -1403,7 +1581,7 @@ RSpec.describe Asciidoctor::Standoc do
               amendments) applies.
             </p>
             <bibitem id='iso123' type='standard'>
-        <fetched>2020-06-12</fetched>
+        <fetched/>
         <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
         <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
         <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex – Sampling</title>
@@ -1450,7 +1628,7 @@ RSpec.describe Asciidoctor::Standoc do
         </relation>
         <relation type='instance'>
           <bibitem type='standard'>
-            <fetched>2020-06-12</fetched>
+            <fetched/>
             <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
             <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
             <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex – Sampling</title>

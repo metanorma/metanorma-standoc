@@ -161,7 +161,7 @@ module Asciidoctor
 
       def refitem1(xml, _item, match)
         code = analyse_ref_code(match[:code])
-        unless code[:id] && code[:numeric] || code[:nofetch]
+        unless (code[:id] && code[:numeric]) || code[:nofetch]
           ref = fetch_ref(xml, code[:id],
                           match.names.include?("year") ? match[:year] : nil,
                           title: match[:text],

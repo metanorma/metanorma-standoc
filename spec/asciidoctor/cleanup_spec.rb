@@ -579,7 +579,7 @@ RSpec.describe Asciidoctor::Standoc do
           <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
           <bibitem type="standard" id="IEC60050-102">
-          <fetched>#{Date.today}</fetched>
+          <fetched/>
           <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
           <title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics — General concepts and linear algebra</title>
           <title type='main' format='text/plain' language='en' script='Latn'>International Electrotechnical Vocabulary (IEV) — Part 102: Mathematics — General concepts and linear algebra</title>
@@ -618,7 +618,7 @@ RSpec.describe Asciidoctor::Standoc do
           </copyright>
           <place>Geneva</place>
         </bibitem><bibitem type="standard" id="IEC60050-103">
-          <fetched>#{Date.today}</fetched>
+          <fetched/>
           <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
           <title type="title-part" format="text/plain" language="en" script="Latn">Part 103: Mathematics — Functions</title>
           <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 103: Mathematics — Functions</title>
