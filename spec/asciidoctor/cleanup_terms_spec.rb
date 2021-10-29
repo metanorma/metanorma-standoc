@@ -759,6 +759,17 @@ RSpec.describe Asciidoctor::Standoc do
       ++++
 
       This paragraph is extraneous
+
+      * This is a list
+
+      []
+      . This too is a list
+
+      []
+      This is:: another list
+
+
+      This is a concluding paragraph
     INPUT
     output = <<~OUTPUT
              #{BLANK_HDR}
@@ -775,7 +786,26 @@ RSpec.describe Asciidoctor::Standoc do
        </mrow>
       </msub></math></stem></name></letter-symbol></preferred>
       <definition>
-             <verbaldefinition><p id="_">This paragraph is extraneous</p></verbaldefinition>
+      <verbaldefinition>
+      <p id="_">This paragraph is extraneous</p>
+                  <ul id='_'>
+              <li>
+                <p id='_'>This is a list</p>
+              </li>
+            </ul>
+            <ol id='_' type='arabic'>
+              <li>
+                <p id='_'>This too is a list</p>
+              </li>
+            </ol>
+            <dl id='_'>
+              <dt>This is</dt>
+              <dd>
+                <p id='_'>another list</p>
+              </dd>
+            </dl>
+            <p id='_'>This is a concluding paragraph</p>
+      </verbaldefinition>
       <nonverbalrepresentation><formula id="_">
                <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
                <mrow>
