@@ -39,6 +39,7 @@ module Asciidoctor
         end
       end
 =end
+=begin
       def uninterrupt_quotes_around_xml(xmldoc)
         xmldoc.traverse do |n|
           next unless n.element? && n&.next&.text? &&
@@ -46,6 +47,17 @@ module Asciidoctor
           next unless /^['"]/.match?(n.next.text)
 
           uninterrupt_quotes_around_xml1(n)
+        end
+      end
+=end
+      def uninterrupt_quotes_around_xml(xmldoc)
+        xmldoc.traverse do |n|
+          next unless n.text? && n&.previous&.element?
+          next unless /^['"]/.match?(n.text)
+          next unless n.previous.ancestors("pre, tt, sourcecode, stem, figure")
+            .empty?
+
+          uninterrupt_quotes_around_xml1(n.previous)
         end
       end
 
