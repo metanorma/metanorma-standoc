@@ -2168,6 +2168,12 @@
           <value>modified</value>
         </choice>
       </attribute>
+      <attribute name="type">
+        <choice>
+          <value>authoritative</value>
+          <value>lineage</value>
+        </choice>
+      </attribute>
       <ref name="origin"/>
       <optional>
         <ref name="modification"/>
