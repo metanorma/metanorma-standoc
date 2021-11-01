@@ -337,18 +337,20 @@ module Asciidoctor
         # results = refs.each_with_index.with_object(Queue.new) do |(ref, i), res|
         # fetch_ref_async(ref) { |doc| res << [ref, i, doc] }
         results = refs.each_with_index.with_object(Queue.new) do |(ref, i), res|
-          fetch_ref_async(ref.merge(ord: i), i.to_s, res)
+          fetch_ref_async(ref.merge(ord: i), i, res)
         end
         noko do |xml|
           ret = refs.each.with_object([]) do |_, m|
-            begin
-              ref, i, doc = results.pop
-            rescue RelatonBib::RequestError
+            # begin
+            ref, i, doc = results.pop
+            if doc.is_a?(RelatonBib::RequestError)
+              # do what needs to propagate error
               @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: "\
                                             "no access to online site")
-              res << [ref, idx, nil]
+              # res << [ref, idx, nil]
+            else
+              m[i.to_i] = { doc: doc, ref: ref }
             end
-            m[i.to_i] = { doc: doc, ref: ref }
           end
           ret.each { |b| reference1out(b, xml) }
         end.join
