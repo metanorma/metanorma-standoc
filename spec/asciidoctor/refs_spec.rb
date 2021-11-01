@@ -1834,7 +1834,14 @@ RSpec.describe Asciidoctor::Standoc do
   private
 
   def mock_isobib_get_123
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", nil, {}) do
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", nil, {code: "ISO 123",
+ lang: "en",
+ match: anything,
+ process: 1,
+ ord: anything,
+ title: "<em>Standard</em>",
+ usrlbl: nil,
+ year: nil}) do
       IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
         <bibitem type=\"standard\" id=\"ISO123\">\n  <title format=\"text/plain\" language=\"en\" script=\"Latn\">Rubber latex -- Sampling</title>\n  <title format=\"text/plain\" language=\"fr\" script=\"Latn\">Latex de caoutchouc -- ?chantillonnage</title>\n  <uri type=\"src\">https://www.iso.org/standard/23281.html</uri>\n  <uri type=\"obp\">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>\n  <uri type=\"rss\">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <docidentifier>ISO 123</docidentifier>\n  <date type=\"published\">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type=\"publisher\"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status>Published</status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type=\"obsoletes\">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type=\"updates\">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n</bibitem>
       OUTPUT
@@ -1842,7 +1849,14 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   def mock_isobib_get_123_no_docid(n)
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", nil, { lang: "en", title: "<em>Standard</em>", usrlbl: nil }) do
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", nil, {:code=>"ISO 123",
+ :lang=>"en",
+ :match=> anything,
+ process: 1,
+ ord: anything,
+ :title=>"<em>Standard</em>",
+ :usrlbl=>nil,
+ :year=>nil}) do
       RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
         <bibitem type=\"standard\" id=\"ISO123\">\n  <uri type=\"src\">https://www.iso.org/standard/23281.html</uri>\n  <uri type=\"obp\">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>\n  <uri type=\"rss\">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type=\"published\">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type=\"publisher\"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type=\"obsoletes\">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type=\"updates\">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
@@ -1850,7 +1864,14 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   def mock_isobib_get_123_no_docid_lbl(n)
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", nil, { lang: "en", title: "<em>Standard</em>", usrlbl: "(1)" }) do
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 123", nil, {:code=>"ISO 123",
+ :lang=>"en",
+ :match=> anything,
+ process: 1,
+ ord: anything,
+ :title=>"<em>Standard</em>",
+ :usrlbl=>"(1)",
+  :year=>nil}) do
       RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
         <bibitem type=\"standard\" id=\"ISO123\">\n  <uri type=\"src\">https://www.iso.org/standard/23281.html</uri>\n  <uri type=\"obp\">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>\n  <uri type=\"rss\">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type=\"published\">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type=\"publisher\"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type=\"obsoletes\">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type=\"updates\">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
@@ -1858,7 +1879,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   def mock_isobib_get_124
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 124", "2014", {}) do
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 124", "2014", anything) do
       IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
                    <bibitem type="standard" id="iso124">
            <title format="text/plain" language="en" script="Latn">Latex, rubber -- Determination of total solids content</title>
@@ -1908,7 +1929,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   def mock_isobib_get_iec12382
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO/IEC TR 12382", "1992", {}) do
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO/IEC TR 12382", "1992", anything) do
       IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
         <bibitem type="standard" id="iso123">
            <title format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
@@ -1970,7 +1991,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   def mock_rfcbib_get_rfc8341
-    expect(IETFBib::RfcBibliography).to receive(:get).with("RFC 8341", nil, {}) do
+    expect(IETFBib::RfcBibliography).to receive(:get).with("RFC 8341", nil, anything) do
       IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
               <bibitem id="RFC8341">
           <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>

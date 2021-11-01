@@ -9,11 +9,11 @@ module Asciidoctor
         @norm_ref
       end
 
-      def reference(node)
-        noko do |xml|
-          node.items.each { |item| reference1(node, item.text, xml) }
-        end.join
-      end
+      #       def reference(node)
+      #         noko do |xml|
+      #           node.items.each { |item| reference1(node, item.text, xml) }
+      #         end.join
+      #       end
 
       def bibliography_parse(attrs, xml, node)
         x = biblio_prep(attrs, xml, node) and return x
@@ -84,6 +84,43 @@ module Asciidoctor
         @log.add("Bibliography", nil, "Could not retrieve #{code}: "\
                                       "no access to online site")
         nil
+      end
+
+      #       def fetch_ref_async(ref, &block)
+      #         if ref[:code].nil? then yield nil
+      #         else
+      #           begin
+      #             @bibdb&.fetch_async(ref[:code], ref[:year], ref, block)
+      #           rescue RelatonBib::RequestError
+      #             @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: "\
+      #                                           "no access to online site")
+      #             yield nil
+      #           end
+      #         end
+      #       end
+
+      def fetch_ref_async(ref, idx, res)
+        if ref[:code].nil? || ref[:no_year] || @bibdb.nil?
+          res << [ref, idx, nil]
+        else
+          warn "3## #{idx}: #{ref}"
+          @bibdb.fetch_async(ref[:code], ref[:year], ref) do |doc|
+            #res << [ref.dup, idx.to_s, doc]
+            a = [ref.dup, idx.to_s, doc]
+            require "byebug"; byebug
+            warn "### #{a}"
+            res << a
+            #warn "### #{idx}: #{ref}"
+          rescue RelatonBib::RequestError
+            @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: "\
+                                          "no access to online site")
+            res << [ref, idx, nil]
+          end
+        end
+      rescue RelatonBib::RequestError
+        @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: "\
+                                      "no access to online site")
+        res << [ref, idx, nil]
       end
 
       def emend_biblio(xml, code, title, usrlbl)

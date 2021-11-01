@@ -45,6 +45,33 @@ module Asciidoctor
         end
       end
 
+      def isorefmatchescode(match)
+        yr = norm_year(match[:year])
+        { code: match[:code],
+          year: yr, match: match,
+          title: match[:text], usrlbl: match[:usrlbl],
+          lang: (@lang || :all) }
+      end
+
+      def use_retrieved_relaton(item, xml)
+        xml.parent.add_child(smart_render_xml(item[:doc], item[:ref][:code],
+                                              item[:ref]))
+        use_my_anchor(xml, item[:ref][:match][:anchor])
+      end
+
+      def isorefmatchesout(item, xml)
+        if item[:doc] then use_retrieved_relaton(item, xml)
+        else
+          xml.bibitem **attr_code(ref_attributes(item[:ref][:match])) do |t|
+            isorefrender1(t, item[:ref][:match], item[:ref][:year])
+            item[:ref][:year] and t.date **{ type: "published" } do |d|
+              set_date_range(d, item[:ref][:year])
+            end
+            iso_publisher(t, item[:ref][:match][:code])
+          end
+        end
+      end
+
       def isorefmatches2(xml, match)
         ref = fetch_ref xml, match[:code], nil,
                         no_year: true, note: match[:fn],
@@ -53,6 +80,21 @@ module Asciidoctor
         return use_my_anchor(ref, match[:anchor]) if ref
 
         isorefmatches2_1(xml, match)
+      end
+
+      def isorefmatches2code(match)
+        { code: match[:code], no_year: true,
+          note: match[:fn],
+          year: nil, match: match,
+          title: match[:text], usrlbl: match[:usrlbl],
+          lang: (@lang || :all) }
+      end
+
+      def isorefmatches2out(item, xml)
+        if item[:doc] then use_retrieved_relaton(item, xml)
+        else
+          isorefmatches2_1(xml, item[:ref][:match])
+        end
       end
 
       def isorefmatches2_1(xml, match)
@@ -80,6 +122,25 @@ module Asciidoctor
         return use_my_anchor(ref, match[:anchor]) if ref
 
         isorefmatches3_1(xml, match, yr, hasyr, ref)
+      end
+
+      def isorefmatches3code(match)
+        yr = norm_year(match[:year])
+        hasyr = !yr.nil? && yr != "--"
+        { code: match[:code],
+          year: hasyr ? yr : nil,
+          all_parts: true, no_year: yr == "--",
+          match: match, yr: yr, hasyr: hasyr,
+          text: match[:text], usrlbl: match[:usrlbl],
+          lang: (@lang || :all) }
+      end
+
+      def isorefmatches3out(item, xml)
+        if item[:doc] then use_retrieved_relaton(item, xml)
+        else
+          isorefmatches3_1(xml, item[:ref][:match], item[:ref][:yr],
+                           item[:ref][:hasyr], item[:doc])
+        end
       end
 
       def isorefmatches3_1(xml, match, yr, _hasyr, _ref)
@@ -120,8 +181,8 @@ module Asciidoctor
       end
 
       MALFORMED_REF = "no anchor on reference, markup may be malformed: see "\
-        "https://www.metanorma.com/author/topics/document-format/bibliography/ , "\
-        "https://www.metanorma.com/author/iso/topics/markup/#bibliographies".freeze
+                      "https://www.metanorma.com/author/topics/document-format/bibliography/ , "\
+                      "https://www.metanorma.com/author/iso/topics/markup/#bibliographies".freeze
 
       def analyse_ref_nofetch(ret)
         return ret unless m = /^nofetch\((?<id>.+)\)$/.match(ret[:id])
@@ -159,6 +220,12 @@ module Asciidoctor
         nil
       end
 
+      def refitemcode(item, node)
+        m = NON_ISO_REF.match(item) and return refitem1code(item, m)
+        @log.add("AsciiDoc Input", node, "#{MALFORMED_REF}: #{item}")
+        {}
+      end
+
       def refitem1(xml, _item, match)
         code = analyse_ref_code(match[:code])
         unless (code[:id] && code[:numeric]) || code[:nofetch]
@@ -170,6 +237,28 @@ module Asciidoctor
         end
 
         refitem_render(xml, match, code)
+      end
+
+      def refitem1code(_item, match)
+        code = analyse_ref_code(match[:code])
+        if (code[:id] && code[:numeric]) || code[:nofetch]
+          { code: nil, match: match, analyse_code: code }
+        else
+          { code: code[:id], analyse_code: code,
+            year: match.names.include?("year") ? match[:year] : nil,
+            title: match[:text], match: match,
+            usrlbl: match[:usrlbl], lang: (@lang || :all) }
+        end
+      end
+
+      def refitemout(item, xml)
+        return nil if item[:ref][:match].nil?
+
+        item[:doc] or
+          return refitem_render(xml, item[:ref][:match],
+                                item[:ref][:analyse_code])
+
+        use_retrieved_relaton(item, xml)
       end
 
       def ref_normalise(ref)
@@ -211,6 +300,7 @@ module Asciidoctor
         [matched, matched2, matched3]
       end
 
+      # elim
       def reference1(node, item, xml)
         matched, matched2, matched3 = reference1_matches(item)
         if matched3.nil? && matched2.nil? && matched.nil?
@@ -219,6 +309,49 @@ module Asciidoctor
         elsif !matched2.nil? then isorefmatches2(xml, matched2)
         elsif !matched3.nil? then isorefmatches3(xml, matched3)
         end
+      end
+
+      def reference1code(item, node)
+        matched, matched2, matched3 = reference1_matches(item)
+        if matched3.nil? && matched2.nil? && matched.nil?
+          refitemcode(item, node).merge(process: 0)
+        elsif !matched.nil? then isorefmatchescode(matched).merge(process: 1)
+        elsif !matched2.nil? then isorefmatches2code(matched2).merge(process: 2)
+        elsif !matched3.nil? then isorefmatches3code(matched3).merge(process: 3)
+        end
+      end
+
+      def reference1out(item, xml)
+        case item[:ref][:process]
+        when 0 then refitemout(item, xml)
+        when 1 then isorefmatchesout(item, xml)
+        when 2 then isorefmatches2out(item, xml)
+        when 3 then isorefmatches3out(item, xml)
+        end
+      end
+
+      def reference(node)
+        refs = node.items.each_with_object([]) do |b, m|
+          m << reference1code(b.text, node)
+        end
+        # results = refs.each_with_index.with_object(Queue.new) do |(ref, i), res|
+        # fetch_ref_async(ref) { |doc| res << [ref, i, doc] }
+        results = refs.each_with_index.with_object(Queue.new) do |(ref, i), res|
+          fetch_ref_async(ref.merge(ord: i), i.to_s, res)
+        end
+        noko do |xml|
+          ret = refs.each.with_object([]) do |_, m|
+            begin
+              ref, i, doc = results.pop
+            rescue RelatonBib::RequestError
+              @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: "\
+                                            "no access to online site")
+              res << [ref, idx, nil]
+            end
+            m[i.to_i] = { doc: doc, ref: ref }
+          end
+          ret.each { |b| reference1out(b, xml) }
+        end.join
       end
     end
   end
