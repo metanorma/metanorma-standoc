@@ -83,6 +83,7 @@ module Asciidoctor
       rescue RelatonBib::RequestError
         @log.add("Bibliography", nil, "Could not retrieve #{code}: "\
                                       "no access to online site")
+        #require "byebug"; byebug
         nil
       end
 
@@ -105,22 +106,10 @@ module Asciidoctor
         else
           warn "3## #{idx}: #{ref}"
           @bibdb.fetch_async(ref[:code], ref[:year], ref, ref: ref, idx: idx) do |doc, otherargs|
-            #res << [ref.dup, idx.to_s, doc]
-            # a = [ref, idx, doc]
-            # require "byebug"; byebug
-            # warn "### #{a}"
             res << [otherargs[:ref], otherargs[:idx], doc]
-            #warn "### #{idx}: #{ref}"
-          # rescue RelatonBib::RequestError => e
-          #   @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: "\
-          #                                 "no access to online site")
-          #   res << [otherargs[:ref], otherargs[:idx], e]
+            warn "FETCHED: #{res.size}"
           end
         end
-      # rescue RelatonBib::RequestError
-      #   @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: "\
-      #                                 "no access to online site")
-      #   res << [ref, idx, nil]
       end
 
       def emend_biblio(xml, code, title, usrlbl)

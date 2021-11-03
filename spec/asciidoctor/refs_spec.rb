@@ -716,8 +716,6 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes dated ISO reference and joint ISO/IEC references" do
-    # mock_isobib_get_iec12382
-    # mock_isobib_get_124
     VCR.use_cassette "dated_iso_ref_joint_iso_iec" do
       expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         #{ISOBIB_BLANK_HDR}
@@ -1703,10 +1701,12 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "overrides normative status of bibliographies" do
-    mock_isobib_get_123_no_docid(1)
-    mock_isobib_get_123_no_docid_lbl(1)
+    #mock_isobib_get_123_no_docid(1)
+    #mock_isobib_get_123_no_docid_lbl(1)
+    VCR.use_cassette "isobib_get_123_1" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ISOBIB_BLANK_HDR}
+
       [bibliography,normative=false]
       == Normative References
 
@@ -1829,6 +1829,7 @@ RSpec.describe Asciidoctor::Standoc do
                </bibliography>
              </standard-document>
     OUTPUT
+    end
   end
 
   private
