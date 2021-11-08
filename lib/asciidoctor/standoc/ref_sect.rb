@@ -105,8 +105,8 @@ module Asciidoctor
           res << [ref, idx, nil]
         else
           warn "3## #{idx}: #{ref}"
-          @bibdb.fetch_async(ref[:code], ref[:year], ref, ref: ref, idx: idx) do |doc, otherargs|
-            res << [otherargs[:ref], otherargs[:idx], doc]
+          @bibdb.fetch_async(ref[:code], ref[:year], ref) do |doc|
+            res << [ref, idx, doc]
             warn "FETCHED: #{res.size}"
           end
         end
