@@ -717,28 +717,24 @@ RSpec.describe Asciidoctor::Standoc do
   def mock_isobib_get_123
     expect(RelatonIso::IsoBibliography).to receive(:get)
       .with("ISO 123", "2001", anything)
-            #{ lang: "en", title: "<em>Standard</em>", usrlbl: nil })
       .and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED))
   end
 
   def mock_isobib_get_123_undated
     expect(RelatonIso::IsoBibliography).to receive(:get)
       .with("ISO 123", nil, anything)
-            #{ lang: "en", title: "<em>Standard</em>", usrlbl: nil })
       .and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_UNDATED))
   end
 
   def mock_isobib_get_124
     expect(RelatonIso::IsoBibliography).to receive(:get)
       .with("ISO 124", "2014", anything)
-            #{ lang: "en", title: "<em>Standard</em>", usrlbl: nil })
       .and_return(RelatonIsoBib::XMLParser.from_xml(ISO_124_DATED))
   end
 
   def mock_ietfbib_get_123
     expect(RelatonIetf::IetfBibliography).to receive(:get)
       .with("RFC 123", nil, anything)
-            #{ lang: "en", title: "<em>Standard</em>", usrlbl: nil })
       .and_return(RelatonIsoBib::XMLParser.from_xml(IETF_123_SHORT))
   end
 end
