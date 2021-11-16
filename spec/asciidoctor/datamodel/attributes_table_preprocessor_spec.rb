@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Asciidoctor::Standoc::Datamodel::AttributesTablePreprocessor do
-  describe '#process' do
-    context 'when simple models without relations' do
+  describe "#process" do
+    context "when simple models without relations" do
       let(:datamodel_file) do
-        examples_path('datamodel/address_class_profile.adoc')
+        examples_path("datamodel/address_class_profile.adoc")
       end
       let(:result_file) do
-        examples_path('datamodel/address_class_profile.xml')
+        examples_path("datamodel/address_class_profile.xml")
       end
       let(:output) do
         [
           BLANK_HDR,
-          File.read(fixtures_path('macros_datamodel/address_class_profile.xml'))
+          File.read(fixtures_path("macros_datamodel/address_class_profile.xml")),
         ]
           .join
       end
@@ -27,7 +27,7 @@ RSpec.describe Asciidoctor::Standoc::Datamodel::AttributesTablePreprocessor do
         end
       end
 
-      it 'correctly renders input' do
+      it "correctly renders input" do
         Asciidoctor.convert_file(datamodel_file,
                                  backend: :standoc,
                                  safe: :safe,
@@ -37,18 +37,18 @@ RSpec.describe Asciidoctor::Standoc::Datamodel::AttributesTablePreprocessor do
       end
     end
 
-    context 'when complex relations' do
+    context "when complex relations" do
       let(:datamodel_file) do
-        examples_path('datamodel/address_component_profile.adoc')
+        examples_path("datamodel/address_component_profile.adoc")
       end
       let(:result_file) do
-        examples_path('datamodel/address_component_profile.xml')
+        examples_path("datamodel/address_component_profile.xml")
       end
       let(:output) do
-        path = fixtures_path('macros_datamodel/address_component_profile.xml')
+        path = fixtures_path("macros_datamodel/address_component_profile.xml")
         [
           BLANK_HDR,
-          File.read(path)
+          File.read(path),
         ]
           .join("\n")
       end
@@ -56,14 +56,14 @@ RSpec.describe Asciidoctor::Standoc::Datamodel::AttributesTablePreprocessor do
       after do
         %w[doc html xml err].each do |extention|
           path = examples_path(
-            "datamodel/address_component_profile.#{extention}"
+            "datamodel/address_component_profile.#{extention}",
           )
           FileUtils.rm_f(path)
           FileUtils.rm_f("address_component_profile.#{extention}")
         end
       end
 
-      it 'correctly renders input' do
+      it "correctly renders input" do
         Asciidoctor.convert_file(datamodel_file,
                                  backend: :standoc,
                                  safe: :safe,
@@ -73,32 +73,32 @@ RSpec.describe Asciidoctor::Standoc::Datamodel::AttributesTablePreprocessor do
       end
     end
 
-    context 'when missing definition' do
+    context "when missing definition" do
       let(:datamodel_file) do
-        examples_path('datamodel/blank_definition_profile.adoc')
+        examples_path("datamodel/blank_definition_profile.adoc")
       end
       let(:result_file) do
-        examples_path('datamodel/blank_definition_profile.xml')
+        examples_path("datamodel/blank_definition_profile.xml")
       end
       let(:output) do
-        path = fixtures_path('macros_datamodel/blank_definition_profile.xml')
+        path = fixtures_path("macros_datamodel/blank_definition_profile.xml")
         [
           BLANK_HDR,
-          File.read(path)
+          File.read(path),
         ].join("\n")
       end
 
       after do
         %w[doc html xml err].each do |extention|
           path = examples_path(
-            "datamodel/blank_definition_profile.#{extention}"
+            "datamodel/blank_definition_profile.#{extention}",
           )
           FileUtils.rm_f(path)
           FileUtils.rm_f("blank_definition_profile.#{extention}")
         end
       end
 
-      it 'correctly renders input' do
+      it "correctly renders input" do
         Asciidoctor.convert_file(datamodel_file,
                                  backend: :standoc,
                                  safe: :safe,

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'erb'
+require "erb"
 
 module Asciidoctor
   module Standoc
@@ -9,7 +9,7 @@ module Asciidoctor
         BLOCK_START_REGEXP = /\{(.+?)\.\*,(.+),(.+)\}/
         BLOCK_END_REGEXP = /\A\{[A-Z]+\}\z/
         MARCO_REGEXP = /\[datamodel_attributes_table,([^,]+),?(.+)?\]/
-        TEMPLATES_PATH = File.expand_path('../views/datamodel', __dir__).freeze
+        TEMPLATES_PATH = File.expand_path("../views/datamodel", __dir__).freeze
         # search document for block `datamodel_attributes_table`
         #  read include derectives that goes after that in block and transform
         #  into yaml2text blocks
@@ -39,16 +39,16 @@ module Asciidoctor
         def model_representation(model_path)
           template = File.read(File.join(
                                  TEMPLATES_PATH,
-                                 'model_representation.adoc.erb'
-          ))
-          file_name = File.basename(model_path).gsub(/\.ya?ml/, '')
+                                 "model_representation.adoc.erb",
+                               ))
+          file_name = File.basename(model_path).gsub(/\.ya?ml/, "")
           ERB
             .new(template)
             .result(binding)
         end
 
         def yaml_relative_path(file_path, document)
-          directory = File.dirname(document.attributes['docfile'] || '.')
+          directory = File.dirname(document.attributes["docfile"] || ".")
           document.path_resolver.system_path(file_path, directory)
         end
       end
