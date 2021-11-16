@@ -339,17 +339,13 @@ module Asciidoctor
         results = refs.each_with_index.with_object(Queue.new) do |(ref, i), res|
           fetch_ref_async(ref.merge(ord: i), i, res)
         end
-        warn "TARGET: #{refs.size}"
         while results.size < refs.size
           sleep 1
-        warn "TARGET: #{results.size}"
         end
-        warn "TARGET: REACHED"
         noko do |xml|
           ret = refs.each.with_object([]) do |_, m|
             # begin
             # require "byebug"; byebug
-            warn "POP"
             ref, i, doc = results.pop
             if doc.is_a?(RelatonBib::RequestError)
               # do what needs to propagate error
