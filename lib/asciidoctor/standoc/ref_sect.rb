@@ -9,11 +9,11 @@ module Asciidoctor
         @norm_ref
       end
 
-      def reference(node)
-        noko do |xml|
-          node.items.each { |item| reference1(node, item.text, xml) }
-        end.join
-      end
+      #       def reference(node)
+      #         noko do |xml|
+      #           node.items.each { |item| reference1(node, item.text, xml) }
+      #         end.join
+      #       end
 
       def bibliography_parse(attrs, xml, node)
         x = biblio_prep(attrs, xml, node) and return x
@@ -83,7 +83,31 @@ module Asciidoctor
       rescue RelatonBib::RequestError
         @log.add("Bibliography", nil, "Could not retrieve #{code}: "\
                                       "no access to online site")
+        #require "byebug"; byebug
         nil
+      end
+
+      #       def fetch_ref_async(ref, &block)
+      #         if ref[:code].nil? then yield nil
+      #         else
+      #           begin
+      #             @bibdb&.fetch_async(ref[:code], ref[:year], ref, block)
+      #           rescue RelatonBib::RequestError
+      #             @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: "\
+      #                                           "no access to online site")
+      #             yield nil
+      #           end
+      #         end
+      #       end
+
+      def fetch_ref_async(ref, idx, res)
+        if ref[:code].nil? || ref[:no_year] || @bibdb.nil?
+          res << [ref, idx, nil]
+        else
+          @bibdb.fetch_async(ref[:code], ref[:year], ref) do |doc|
+            res << [ref, idx, doc]
+          end
+        end
       end
 
       def emend_biblio(xml, code, title, usrlbl)
