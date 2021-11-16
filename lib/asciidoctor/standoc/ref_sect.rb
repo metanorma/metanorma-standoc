@@ -9,12 +9,6 @@ module Asciidoctor
         @norm_ref
       end
 
-      #       def reference(node)
-      #         noko do |xml|
-      #           node.items.each { |item| reference1(node, item.text, xml) }
-      #         end.join
-      #       end
-
       def bibliography_parse(attrs, xml, node)
         x = biblio_prep(attrs, xml, node) and return x
         @biblio = true
@@ -83,22 +77,8 @@ module Asciidoctor
       rescue RelatonBib::RequestError
         @log.add("Bibliography", nil, "Could not retrieve #{code}: "\
                                       "no access to online site")
-        #require "byebug"; byebug
         nil
       end
-
-      #       def fetch_ref_async(ref, &block)
-      #         if ref[:code].nil? then yield nil
-      #         else
-      #           begin
-      #             @bibdb&.fetch_async(ref[:code], ref[:year], ref, block)
-      #           rescue RelatonBib::RequestError
-      #             @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: "\
-      #                                           "no access to online site")
-      #             yield nil
-      #           end
-      #         end
-      #       end
 
       def fetch_ref_async(ref, idx, res)
         if ref[:code].nil? || ref[:no_year] || @bibdb.nil?
@@ -134,6 +114,12 @@ module Asciidoctor
           n.text? and n.replace(Metanorma::Utils::smartformat(n.text))
         end
         xml.to_xml.sub(/<\?[^>]+>/, "")
+      end
+
+      def use_retrieved_relaton(item, xml)
+        xml.parent.add_child(smart_render_xml(item[:doc], item[:ref][:code],
+                                              item[:ref]))
+        use_my_anchor(xml, item[:ref][:match][:anchor])
       end
 
       def init_bib_caches(node)

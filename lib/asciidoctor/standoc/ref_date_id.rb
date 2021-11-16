@@ -26,7 +26,7 @@ module Asciidoctor
       def conditional_date(bib, match, noyr)
         if match.names.include?("year") && !match[:year].nil?
           bib.date(**{ type: "published" }) do |d|
-            noyr and d.on "--" or set_date_range(d, norm_year(match[:year]))
+            (noyr and d.on "--") or set_date_range(d, norm_year(match[:year]))
           end
         end
       end
@@ -56,6 +56,35 @@ module Asciidoctor
 
       def mn_code(code)
         code.sub(/^\(/, "[").sub(/\).*$/, "]").sub(/^nofetch\((.+)\)$/, "\\1")
+      end
+
+      def analyse_ref_nofetch(ret)
+        return ret unless m = /^nofetch\((?<id>.+)\)$/.match(ret[:id])
+
+        ret.merge(id: m[:id], nofetch: true)
+      end
+
+      def analyse_ref_repo_path(ret)
+        return ret unless m =
+                            /^(?<type>repo|path):\((?<key>[^,]+),?(?<id>.*)\)$/.match(ret[:id])
+
+        id = m[:id].empty? ? m[:key].sub(%r{^[^/]+/}, "") : m[:id]
+        ret.merge(id: id, type: m[:type], key: m[:key], nofetch: true)
+      end
+
+      def analyse_ref_numeric(ret)
+        return ret unless /^\d+$/.match?(ret[:id])
+
+        ret.merge(numeric: true)
+      end
+
+      # ref id = (usrlbl)code[:-]year
+      # code = nofetch(code) | (repo|path):(key,code) | \[? number \]? | ident
+      def analyse_ref_code(code)
+        ret = { id: code }
+        return ret if code.blank?
+
+        analyse_ref_nofetch(analyse_ref_repo_path(analyse_ref_numeric(ret)))
       end
     end
   end
