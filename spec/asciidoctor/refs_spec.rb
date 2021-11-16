@@ -735,7 +735,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes dated ISO reference and joint ISO/IEC references" do
-    VCR.use_cassette "dated_iso_ref_joint_iso_iec" do
+    VCR.use_cassette("dated_iso_ref_joint_iso_iec", match_requests_on: %i[method uri body]) do
       input = <<~INPUT
         #{ISOBIB_BLANK_HDR}
         [bibliography]
