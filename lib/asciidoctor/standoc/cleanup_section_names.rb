@@ -21,7 +21,7 @@ module Asciidoctor
           title = get_or_make_title(node)
           fn = title.xpath("./fn")
           fn.each(&:remove)
-          title.content = text
+          title.children = text
           fn.each { |n| title << n }
         end
       end
@@ -82,7 +82,7 @@ module Asciidoctor
           p.delete("id")
           p.delete("variant_title")
           p.xpath("(#{path})[last()]").each do |sect|
-            ins = sect.at("./title") and ins.next = p or
+            (ins = sect.at("./title") and ins.next = p) or
               sect.children.first.previous = p
           end
         end
