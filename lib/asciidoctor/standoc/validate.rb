@@ -112,7 +112,7 @@ module Asciidoctor
       def schema_validate1(file, doc, schema)
         file.write(doc.to_xml)
         file.close
-        errors = Jing.new(schema).validate(file.path)
+        errors = Jing.new(schema, encoding: "UTF-8").validate(file.path)
         warn "Syntax Valid!" if errors.none?
         errors.each do |e|
           @log.add("Metanorma XML Syntax",
