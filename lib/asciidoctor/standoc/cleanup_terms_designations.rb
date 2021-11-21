@@ -40,13 +40,16 @@ module Asciidoctor
           prev.at("./preceding-sibling::preferred").nil?
 
         ins = term_element_insert_point(prev)
-        %w(domain subject usageinfo).each do |a|
+        %w(domain subject).each do |a|
           ins = dl_to_elems(ins, prev.parent, dlist, a)
         end
       end
 
       def term_dl_to_designation_metadata(prev, dlist)
         %w(absent geographicArea).each { |a| dl_to_attrs(related2pref(prev), dlist, a) }
+        %w(fieldofapplication usageinfo).reverse.each do |a|
+          dl_to_elems(prev.at("./expression"), prev, dlist, a)
+        end
       end
 
       def term_element_insert_point(prev)
@@ -134,7 +137,7 @@ module Asciidoctor
       def term_termsource_to_designation(xmldoc)
         xmldoc.xpath("//term/termsource").each do |t|
           p = t.previous_element
-          while %w(domain subject usageinfo).include? p&.name
+          while %w(domain subject).include? p&.name
             p = p.previous_element
           end
           %w(preferred admitted deprecates related).include?(p&.name) or

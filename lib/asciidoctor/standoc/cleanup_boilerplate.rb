@@ -15,15 +15,18 @@ module Asciidoctor
         )
       end
 
-      def term_defs_boilerplate(div, source, term, preface, isodoc)
+      def term_defs_boilerplate(div, source, term, _preface, isodoc)
         a = @i18n.term_def_boilerplate and div.next = a
         source.each do |s|
           @anchors[s["bibitemid"]] or
             @log.add("Crossreferences", nil,
                      "term source #{s['bibitemid']} not referenced")
         end
-        a = source.empty? && term.nil? ?  @i18n.no_terms_boilerplate :
-          term_defs_boilerplate_cont(source, term, isodoc)
+        a = if source.empty? && term.nil?
+              @i18n.no_terms_boilerplate
+            else
+              term_defs_boilerplate_cont(source, term, isodoc)
+            end
         a and div.next = a
       end
 
@@ -51,10 +54,11 @@ module Asciidoctor
       end
 
       TERM_CLAUSE = "//sections/terms | "\
-        "//sections/clause[descendant::terms]".freeze
+                    "//sections/clause[descendant::terms]".freeze
 
       NORM_REF = "//bibliography/references[@normative = 'true'] | "\
-        "//bibliography/clause[.//references[@normative = 'true']]".freeze
+                 "//bibliography/clause[.//references[@normative = 'true']]"
+        .freeze
 
       def boilerplate_isodoc(xmldoc)
         x = xmldoc.dup
@@ -118,8 +122,11 @@ module Asciidoctor
 
       def boilerplate(xml, conv)
         file = boilerplate_file(xml)
-        file = File.join(@localdir, @boilerplateauthority) if @boilerplateauthority
-        !file.nil? and File.exists?(file) or return
+        if @boilerplateauthority
+          file = File.join(@localdir,
+                           @boilerplateauthority)
+        end
+        (!file.nil? and File.exists?(file)) or return
         conv.populate_template(File.read(file, encoding: "UTF-8"), nil)
       end
 
@@ -166,28 +173,29 @@ module Asciidoctor
         end
       end
 
-      def indirect_eref_to_xref(e, id)
-        loc = e&.at("./localityStack[locality[@type = 'anchor']]")&.remove&.text ||
-          e&.at("./locality[@type = 'anchor']")&.remove&.text || id
-        e.name = "xref"
-        e.delete("bibitemid")
-        e.delete("citeas")
-        e["target"] = loc
-        unless e.document.at("//*[@id = '#{loc}']")
-          e.children = %(** Missing target #{loc})
-          e["target"] = id
+      def indirect_eref_to_xref(eref, ident)
+        loc = eref&.at("./localityStack[locality[@type = 'anchor']]")
+          &.remove&.text ||
+          eref&.at("./locality[@type = 'anchor']")&.remove&.text || ident
+        eref.name = "xref"
+        eref.delete("bibitemid")
+        eref.delete("citeas")
+        eref["target"] = loc
+        unless eref.document.at("//*[@id = '#{loc}']")
+          eref.children = %(** Missing target #{loc})
+          eref["target"] = ident
         end
       end
 
       def resolve_local_indirect_erefs(xmldoc, refs, prefix)
         refs.each_with_object([]) do |r, m|
           id = r.sub(/^#{prefix}_/, "")
-          if n = xmldoc.at("//*[@id = '#{id}']") and n.at("./ancestor-or-self::*[@type = '#{prefix}']")
+          if n = xmldoc.at("//*[@id = '#{id}']") and
+              n.at("./ancestor-or-self::*[@type = '#{prefix}']")
             xmldoc.xpath("//eref[@bibitemid = '#{r}']").each do |e|
               indirect_eref_to_xref(e, id)
             end
-          else
-            m << r
+          else m << r
           end
         end
       end
