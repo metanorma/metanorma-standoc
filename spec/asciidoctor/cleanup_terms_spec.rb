@@ -19,6 +19,7 @@ RSpec.describe Asciidoctor::Standoc do
       pronunciation:: fəɹst
       domain:: Hydraulics
       subject:: pipes
+      fieldofapplication:: Field
       usageinfo:: This is usage.
 
       [.source]
@@ -41,6 +42,7 @@ RSpec.describe Asciidoctor::Standoc do
       language:: jp
       script:: Japn
       type:: full
+      fieldofapplication:: Field
       grammar::
       gender::: masculine, feminine
       isPreposition::: false
@@ -91,6 +93,8 @@ RSpec.describe Asciidoctor::Standoc do
             <abbreviationType>acronym</abbreviationType>
             <pronunciation>f&#601;&#633;st</pronunciation>
                 </expression>
+                <fieldofapplication>Field</fieldofapplication>
+                <usageinfo>This is usage.</usageinfo>
                         <termsource status='identical' type='authoritative'>
           <origin bibitemid='ISO2191' type='inline' citeas=''>
             <localityStack>
@@ -105,6 +109,7 @@ RSpec.describe Asciidoctor::Standoc do
                 <expression>
                   <name>Third Designation</name>
                 </expression>
+                <usageinfo>This is usage 1.</usageinfo>
               </admitted>
               <deprecates language='jp' script='Japn' type='full' geographicArea="AUS">
                 <expression>
@@ -117,6 +122,7 @@ RSpec.describe Asciidoctor::Standoc do
               <grammarValue>irregular declension</grammarValue>
             </grammar>
                 </expression>
+                <fieldofapplication>Field</fieldofapplication>
               </deprecates>
                       <related type='abbreviation'>
           <preferred geographicArea="GRC">
@@ -140,7 +146,6 @@ RSpec.describe Asciidoctor::Standoc do
         </related>
               <domain>Hydraulics</domain>
               <subject>pipes</subject>
-              <usageinfo>This is usage.</usageinfo>
               <definition><verbaldefinition>
                 <p id='_'>Definition</p>
               </verbaldefinition></definition>
@@ -159,11 +164,11 @@ RSpec.describe Asciidoctor::Standoc do
           <expression>
             <name>Second Term</name>
           </expression>
-        </preferred>
         <usageinfo>
           <p id='_'>Usage Info 1.</p>
           <p id='_'>Usage Info 2.</p>
         </usageinfo>
+        </preferred>
       </term>
           </terms>
         </sections>
@@ -611,6 +616,7 @@ RSpec.describe Asciidoctor::Standoc do
                   <abbreviationType>acronym</abbreviationType>
                   <pronunciation>f&#601;&#633;st</pronunciation>
                 </expression>
+                <usageinfo>This is usage.</usageinfo>
               </preferred>
               <preferred type='abbreviation'>
                 <expression>
@@ -621,6 +627,7 @@ RSpec.describe Asciidoctor::Standoc do
                 <expression>
                   <name>Third Designation</name>
                 </expression>
+                <usageinfo>This is usage 1.</usageinfo>
               </admitted>
               <deprecates language='jp' script='Japn' type='full'>
                 <expression>
@@ -644,7 +651,6 @@ RSpec.describe Asciidoctor::Standoc do
               </related>
               <domain>Hydraulics</domain>
               <subject>pipes</subject>
-              <usageinfo>This is usage.</usageinfo>
               <definition><verbaldefinition>
                 <p id='_'>Definition</p>
               </verbaldefinition></definition>

@@ -13,7 +13,7 @@ module Asciidoctor
 
       def termdomain1_cleanup(xmldoc)
         xmldoc.xpath("//term").each do |t|
-          d = t.xpath("./domain | ./subject | ./usageinfo").last or next
+          d = t.xpath("./domain | ./subject").last or next
           defn = d.at("../definition") and defn.previous = d.remove
         end
       end
