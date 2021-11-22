@@ -3,14 +3,25 @@ module Asciidoctor
     module Cleanup
       def termdef_stem_cleanup(xmldoc)
         xmldoc.xpath("//term/p/stem").each do |a|
-          if a.parent.elements.size == 1 # para contains just a stem expression
+          if initial_formula(a.parent)
             parent = a.parent
             parent.replace("<admitted>#{term_expr(a.to_xml)}</admitted>")
+          end
+        end
+        xmldoc.xpath("//term/formula").each do |a|
+          if initial_formula(a)
+            a.replace("<admitted>#{term_expr(a.children.to_xml)}</admitted>")
           end
         end
         xmldoc.xpath("//term//expression/name[stem]").each do |n|
           n.parent.name = "letter-symbol"
         end
+      end
+
+      def initial_formula(elem)
+        elem.elements.size == 1 && # para contains just stem expression
+          !elem.at("./preceding-sibling::p | ./preceding-sibling::dl | "\
+                   "./preceding-sibling::ol | ./preceding-sibling::ul")
       end
 
       # release termdef tags from surrounding paras
@@ -46,7 +57,9 @@ module Asciidoctor
       end
 
       def term_dl_to_designation_metadata(prev, dlist)
-        %w(absent geographic-area).each { |a| dl_to_attrs(related2pref(prev), dlist, a) }
+        %w(absent geographic-area).each do |a|
+          dl_to_attrs(related2pref(prev), dlist, a)
+        end
         %w(field-of-application usage-info).reverse.each do |a|
           dl_to_elems(prev.at("./expression"), prev, dlist, a)
         end

@@ -531,13 +531,13 @@ RSpec.describe Asciidoctor::Standoc do
                  <xref target='second'/>
                </related>
                <definition>
-                 <verbal-definition><p id='_'>Definition</p></verbal-definition>
-                 <non-verbal-representation>
-                 <figure id='_'>
-                   <name>Caption</name>
-                   <pre id='_'>&lt;LITERAL&gt; FIGURATIVE</pre>
-                 </figure>
-                 </non-verbal-representation>
+                 <verbal-definition>
+                   <figure id='_'>
+                     <name>Caption</name>
+                     <pre id='_'>&lt;LITERAL&gt; FIGURATIVE</pre>
+                   </figure>
+                   <p id='_'>Definition</p>
+                 </verbal-definition>
                </definition>
              </term>
           </terms>
@@ -791,6 +791,24 @@ RSpec.describe Asciidoctor::Standoc do
          <mn>90</mn>
        </mrow>
       </msub></math></stem></name></letter-symbol></preferred>
+             <admitted>
+         <letter-symbol>
+           <name>
+             <stem type='MathML'>
+               <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                 <msub>
+                   <mrow>
+                     <mi>t</mi>
+                   </mrow>
+                   <mrow>
+                     <mi>A</mi>
+                   </mrow>
+                 </msub>
+               </math>
+             </stem>
+           </name>
+         </letter-symbol>
+       </admitted>
       <definition>
       <verbal-definition>
       <p id="_">This paragraph is extraneous</p>
@@ -812,16 +830,6 @@ RSpec.describe Asciidoctor::Standoc do
             </dl>
             <p id='_'>This is a concluding paragraph</p>
       </verbal-definition>
-      <non-verbal-representation><formula id="_">
-               <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
-               <mrow>
-        <mi>t</mi>
-      </mrow>
-      <mrow>
-        <mi>A</mi>
-      </mrow>
-      </msub></math></stem>
-             </formula></non-verbal-representation>
             </definition>
              </term>
              </terms>
@@ -901,7 +909,10 @@ RSpec.describe Asciidoctor::Standoc do
 
       [.source]
       <<ISO2191,section=1>>
+      --
 
+      [.definition]
+      --
       |===
       | A | B
 
@@ -1023,4 +1034,170 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "differentiates stem expressions before, after, and within verbal definitions" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Terms and definitions
+
+      === Term
+
+      stem:[lambda]
+
+      [.definition]
+      --
+
+      Definition
+
+      stem:[mu]
+      --
+
+      [.definition]
+      --
+
+      stem:[nu]
+      --
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <sections>
+           <terms id='_' obligation='normative'>
+             <title>Terms and definitions</title>
+             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+             <term id='term-term'>
+               <preferred>
+                 <expression>
+                   <name>Term</name>
+                 </expression>
+               </preferred>
+               <admitted>
+                 <letter-symbol>
+                   <name>
+                     <stem type='MathML'>
+                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                         <mi>&#955;</mi>
+                       </math>
+                     </stem>
+                   </name>
+                 </letter-symbol>
+               </admitted>
+               <definition>
+                 <verbal-definition>
+                   <p id='_'>Definition</p>
+                   <p id='_'>
+                     <stem type='MathML'>
+                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                         <mi>&#956;</mi>
+                       </math>
+                     </stem>
+                   </p>
+                 </verbal-definition>
+               </definition>
+               <definition>
+                 <verbal-definition>
+                   <p id='_'>
+                     <stem type='MathML'>
+                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                         <mi>&#957;</mi>
+                       </math>
+                     </stem>
+                   </p>
+                 </verbal-definition>
+               </definition>
+             </term>
+           </terms>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "differentiates formuals before, after, and within verbal definitions" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Terms and definitions
+
+      === Term
+
+      [stem]
+      ++++
+      lambda
+      ++++
+
+      [.definition]
+      --
+
+      Definition
+
+      [stem]
+      ++++
+      mu
+      ++++
+      --
+
+      [.definition]
+      --
+
+      [stem]
+      ++++
+      nu
+      ++++
+      --
+
+    INPUT
+    output = <<~OUTPUT
+          #{BLANK_HDR}
+            <sections>
+        <terms id='_' obligation='normative'>
+          <title>Terms and definitions</title>
+          <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+          <term id='term-term'>
+            <preferred>
+              <expression>
+                <name>Term</name>
+              </expression>
+            </preferred>
+            <admitted>
+              <letter-symbol>
+                <name>
+                  <stem type='MathML'>
+                    <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                      <mi>&#955;</mi>
+                    </math>
+                  </stem>
+                </name>
+              </letter-symbol>
+            </admitted>
+            <definition>
+              <verbal-definition>
+                <p id='_'>Definition</p>
+                <formula id='_'>
+                  <stem type='MathML'>
+                    <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                      <mi>&#956;</mi>
+                    </math>
+                  </stem>
+                </formula>
+              </verbal-definition>
+              <non-verbal-representation>
+                <formula id='_'>
+                  <stem type='MathML'>
+                    <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                      <mi>&#957;</mi>
+                    </math>
+                  </stem>
+                </formula>
+              </non-verbal-representation>
+            </definition>
+          </term>
+        </terms>
+      </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
 end
