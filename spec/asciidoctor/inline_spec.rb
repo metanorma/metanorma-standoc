@@ -294,9 +294,9 @@ RSpec.describe Asciidoctor::Standoc do
       http://example.com[Link]
       http://example.com[Link,title="tip"]
       link:++https://asciidoctor.org/now_this__link_works.html++[]
-      http://example.com[Link,updatetype=true]
+      http://example.com[Link,update-type=true]
       link:../example[updatetype=true]
-      link:../example[Link,updatetype=true]
+      link:../example[Link,update-type=true]
     INPUT
     output = <<~OUTPUT
            #{BLANK_HDR}
@@ -306,9 +306,9 @@ RSpec.describe Asciidoctor::Standoc do
       <link target="http://example.com">Link</link>
       <link target="http://example.com" alt="tip">Link</link>
       <link target='https://asciidoctor.org/now_this__link_works.html'/>
-      <link target="http://example.com" updatetype="true">Link</link>
-      <link target="../example" updatetype="true"/>
-      <link target="../example" updatetype="true">Link</link></p>
+      <link target="http://example.com" update-type="true">Link</link>
+      <link target="../example" update-type="true"/>
+      <link target="../example" update-type="true">Link</link></p>
       </p>
       </sections>
       </standard-document>

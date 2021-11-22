@@ -23,7 +23,6 @@ require "equivalent-xml"
 require "metanorma"
 require "metanorma/standoc"
 require "rexml/document"
-require "byebug"
 
 Dir[File.expand_path("./support/**/**/*.rb", __dir__)]
   .sort.each { |f| require f }

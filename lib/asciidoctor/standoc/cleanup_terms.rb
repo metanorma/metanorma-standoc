@@ -41,8 +41,8 @@ module Asciidoctor
       def split_termdefinitions(xmldoc)
         xmldoc.xpath("//definition").each do |d|
           n = d.children.first
-            .add_previous_sibling("<nonverbalrepresentation/>").first
-          v = d.children.first.add_previous_sibling("<verbaldefinition/>").first
+            .add_previous_sibling("<non-verbal-representation/>").first
+          v = d.children.first.add_previous_sibling("<verbal-definition/>").first
           nonverb = false
           d.elements.each do |e|
             nonverb = split_termdefinitions1(e, n, v, nonverb)
@@ -52,7 +52,7 @@ module Asciidoctor
 
       def split_termdefinitions1(elem, nonverbal, verbal, nonverb)
         case elem.name
-        when "nonverbalrepresentation", "verbaldefinition" then return nonverb
+        when "non-verbal-representation", "verbal-definition" then return nonverb
         when "figure", "table", "formula"
           nonverbal << elem.remove
           nonverb = true

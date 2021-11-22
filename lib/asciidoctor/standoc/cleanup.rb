@@ -76,7 +76,7 @@ module Asciidoctor
            street city state country postcode identifier referenceFrom surname
            referenceTo docidentifier docnumber prefix initial addition forename
            title draft secretariat title-main title-intro title-part
-           verbaldefinition nonverbalrepresentation}.freeze
+           verbal-definition non-verbal-representation}.freeze
 
       # it seems Nokogiri::XML is treating the content of <script> as cdata,
       # because of its use in HTML. Bad nokogiri. Undoing that, since we use

@@ -15,14 +15,10 @@ module Asciidoctor
 
       def inline_anchor(node)
         case node.type
-        when :ref
-          inline_anchor_ref node
-        when :xref
-          inline_anchor_xref node
-        when :link
-          inline_anchor_link node
-        when :bibref
-          inline_anchor_bibref node
+        when :ref then inline_anchor_ref node
+        when :xref then inline_anchor_xref node
+        when :link then inline_anchor_link node
+        when :bibref then inline_anchor_bibref node
         end
       end
 
@@ -50,7 +46,12 @@ module Asciidoctor
         m.nil? and return { target: t, type: "inline", text: node.text }
         droploc = m[:drop].nil? && m[:drop2].nil? ? nil : true
         f = m[:fn].nil? ? "inline" : "footnote"
-        c = %i[case fn drop drop2].any? { |x| !m[x].nil? } ? m[:text] : node.text
+        c = if %i[case fn drop drop2].any? do |x|
+                 !m[x].nil?
+               end
+              m[:text]
+            else node.text
+            end
         { target: t, type: f, case: m[:case]&.sub(/%$/, ""), droploc: droploc,
           text: c }
       end
@@ -58,8 +59,9 @@ module Asciidoctor
       def inline_anchor_link(node)
         contents = node.text
         contents = "" if node.target.gsub(%r{^mailto:}, "") == node.text
-        attributes = { "target": node.target, "alt": node.attr("title"),
-                       "updatetype": node.attr("updatetype") }
+        attributes = { target: node.target, alt: node.attr("title"),
+                       "update-type": node.attr("updatetype") ||
+                         node.attr("update-type") }
         noko do |xml|
           xml.link **attr_code(attributes) do |l|
             l << contents

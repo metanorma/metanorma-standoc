@@ -46,8 +46,8 @@ module Asciidoctor
       end
 
       def term_dl_to_designation_metadata(prev, dlist)
-        %w(absent geographicArea).each { |a| dl_to_attrs(related2pref(prev), dlist, a) }
-        %w(fieldofapplication usageinfo).reverse.each do |a|
+        %w(absent geographic-area).each { |a| dl_to_attrs(related2pref(prev), dlist, a) }
+        %w(field-of-application usage-info).reverse.each do |a|
           dl_to_elems(prev.at("./expression"), prev, dlist, a)
         end
       end
@@ -65,7 +65,7 @@ module Asciidoctor
         %w(language script type isInternational).each do |a|
           dl_to_attrs(prev, dlist, a)
         end
-        %w(abbreviationType pronunciation).reverse.each do |a|
+        %w(abbreviation-type pronunciation).reverse.each do |a|
           dl_to_elems(prev.at("./expression/name"), prev, dlist, a)
         end
         g = dlist.at("./dt[text()='grammar']/following::dd//dl") and
@@ -77,7 +77,7 @@ module Asciidoctor
         prev.at(".//expression") or return
         prev.at(".//expression") << "<grammar><sentinel/></grammar>"
         %w(gender isPreposition isParticiple isAdjective isAdverb isNoun
-           grammarValue).reverse.each do |a|
+           grammar-value).reverse.each do |a|
           dl_to_elems(prev.at(".//expression/grammar/*"), prev.elements.last,
                       dlist, a)
         end

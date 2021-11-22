@@ -355,7 +355,7 @@ RSpec.describe Asciidoctor::Standoc do
              <term id='term-term1'>
                <preferred><expression><name>Term1</name></expression></preferred>
                <definition>
-                 <verbaldefinition>
+                 <verbal-definition>
                  <p id='_'>first definition</p>
                  <termsource status='identical' type="authoritative">
                    <origin bibitemid='ISO2191' type='inline' citeas=''>
@@ -366,10 +366,10 @@ RSpec.describe Asciidoctor::Standoc do
                      </localityStack>
                    </origin>
                  </termsource>
-                 </verbaldefinition>
+                 </verbal-definition>
                </definition>
                <definition>
-               <verbaldefinition>
+               <verbal-definition>
                  <p id='_'>second definition</p>
                  <termsource status='identical' type="authoritative">
                    <origin bibitemid='ISO2191' type='inline' citeas=''>
@@ -380,7 +380,7 @@ RSpec.describe Asciidoctor::Standoc do
                      </localityStack>
                    </origin>
                  </termsource>
-                 </verbaldefinition>
+                 </verbal-definition>
                </definition>
                <termnote id='_'>
                  <p id='_'>This is a note</p>
@@ -550,9 +550,9 @@ RSpec.describe Asciidoctor::Standoc do
                    </expression>
                  </preferred>
                  <definition>
-                   <verbaldefinition>
+                   <verbal-definition>
                      <p id='_'>definition2</p>
-                   </verbaldefinition>
+                   </verbal-definition>
                  </definition>
                  <termnote id='_'>
                    <p id='_'>Note 2</p>
@@ -1254,7 +1254,7 @@ RSpec.describe Asciidoctor::Standoc do
              the following terms and definitions apply.</p>
                <term id="term-term1">
                <preferred><expression><name>Term1</name></expression></preferred>
-               <definition><verbaldefinition><p id='_'>Definition 0</p></verbaldefinition></definition>
+               <definition><verbal-definition><p id='_'>Definition 0</p></verbal-definition></definition>
                <termsource status="identical" type="authoritative">
                <origin bibitemid="ISO2191" type="inline" citeas="">
                <localityStack>
@@ -1273,9 +1273,9 @@ RSpec.describe Asciidoctor::Standoc do
              <term id='term-term2'>
         <preferred><expression><name>Term2</name></expression></preferred>
         <definition>
-        <verbaldefinition>
+        <verbal-definition>
           <p id='_'>Definition</p>
-          </verbaldefinition>
+          </verbal-definition>
         </definition>
         <termsource status='identical' type="authoritative">
           <origin citeas=''>
@@ -1329,7 +1329,7 @@ RSpec.describe Asciidoctor::Standoc do
              the following terms and definitions apply.</p>
                <term id="term-term1">
                <preferred><expression><name>Term1</name></expression></preferred>
-               <definition><verbaldefinition><p id='_'>Definition 0</p></verbaldefinition></definition>
+               <definition><verbal-definition><p id='_'>Definition 0</p></verbal-definition></definition>
                <termsource status="modified" type="authoritative">
                <origin bibitemid="ISO2191" type="inline" citeas="">
                <localityStack>
@@ -1343,9 +1343,9 @@ RSpec.describe Asciidoctor::Standoc do
              </term>
              <term id='term-term2'>
         <preferred><expression><name>Term2</name></expression></preferred>
-        <definition><verbaldefinition>
+        <definition><verbal-definition>
           <p id='_'>Definition</p>
-        </verbaldefinition></definition>
+        </verbal-definition></definition>
         <termsource status='modified' type="authoritative">
           <origin citeas=''>
             <termref base='IEV' target='xyz'/>
@@ -1395,7 +1395,7 @@ RSpec.describe Asciidoctor::Standoc do
             <name>Term1</name>
           </expression>
         </preferred>
-        <definition><verbaldefinition><p id='_'>Definition 0</p></verbaldefinition></definition>
+        <definition><verbal-definition><p id='_'>Definition 0</p></verbal-definition></definition>
         <termsource status='generalisation' type='authoritative'>
           <origin bibitemid='ISO2191' type='inline' citeas=''>
             <localityStack>
@@ -1415,9 +1415,9 @@ RSpec.describe Asciidoctor::Standoc do
             <name>Term2</name>
           </expression>
         </preferred>
-        <definition><verbaldefinition>
+        <definition><verbal-definition>
           <p id='_'>Definition</p>
-        </verbaldefinition></definition>
+        </verbal-definition></definition>
         <termsource status='modified' type='lineage'>
           <origin citeas=''>
             <termref base='IEV' target='xyz'/>
