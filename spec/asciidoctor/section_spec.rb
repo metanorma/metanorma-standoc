@@ -1137,7 +1137,7 @@ RSpec.describe Asciidoctor::Standoc do
                <title>Basic concepts</title>
                <term id='term-date'>
                  <preferred><expression><name>date</name></expression></preferred>
-                 <definition><verbaldefinition>
+                 <definition><verbal-definition>
                    <p id='_'>
                      <em>time</em>
                       (
@@ -1152,7 +1152,7 @@ RSpec.describe Asciidoctor::Standoc do
                      <xref target='term-time-scale'/>
                      )
                    </p>
-                 </verbaldefinition></definition>
+                 </verbal-definition></definition>
                </term>
              </terms>
            </clause>

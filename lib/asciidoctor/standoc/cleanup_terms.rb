@@ -21,6 +21,7 @@ module Asciidoctor
       def termdefinition_cleanup(xmldoc)
         generate_termdefinitions(xmldoc)
         split_termdefinitions(xmldoc)
+        alternate_termdefinitions(xmldoc)
       end
 
       TERMDEF_BLOCKS =
@@ -40,27 +41,28 @@ module Asciidoctor
 
       def split_termdefinitions(xmldoc)
         xmldoc.xpath("//definition").each do |d|
-          n = d.children.first
-            .add_previous_sibling("<nonverbalrepresentation/>").first
-          v = d.children.first.add_previous_sibling("<verbaldefinition/>").first
-          nonverb = false
-          d.elements.each do |e|
-            nonverb = split_termdefinitions1(e, n, v, nonverb)
+          if d.at("./p | ./ol | ./dl | ./ul")
+            d.children = "<verbal-definition>#{d.children}</verbal-definition>"
+          else
+            d.children = "<non-verbal-representation>"\
+                         "#{d.children}</non-verbal-representation>"
           end
         end
       end
 
-      def split_termdefinitions1(elem, nonverbal, verbal, nonverb)
-        case elem.name
-        when "nonverbalrepresentation", "verbaldefinition" then return nonverb
-        when "figure", "table", "formula"
-          nonverbal << elem.remove
-          nonverb = true
-        when "termsource"
-          (nonverb ? nonverbal : verbal) << elem.remove
-        else verbal << elem.remove
+      def alternate_termdefinitions(xmldoc)
+        xmldoc.xpath("//term").each do |t|
+          t.xpath("./definition").each do |d|
+            d1 = d.next_element or next
+            if (v = d.at("./verbal-definition")) &&
+                !d.at("./non-verbal-representation") &&
+                !d1.at("./verbal-definition") &&
+                nv = d1.at("./non-verbal-representation")
+              v.next = nv.remove
+              d1.remove
+            end
+          end
         end
-        nonverb
       end
 
       def termdocsource_cleanup(xmldoc)
@@ -101,8 +103,8 @@ module Asciidoctor
         term_termsource_to_designation(xmldoc)
         term_designation_reorder(xmldoc)
         termdef_from_termbase(xmldoc)
-        termdef_stem_cleanup(xmldoc)
         termdomain_cleanup(xmldoc)
+        termdef_stem_cleanup(xmldoc)
         termdefinition_cleanup(xmldoc)
         termdomain1_cleanup(xmldoc)
         termnote_example_cleanup(xmldoc)

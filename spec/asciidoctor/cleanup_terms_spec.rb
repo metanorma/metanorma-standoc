@@ -15,12 +15,12 @@ RSpec.describe Asciidoctor::Standoc do
       script:: Latn
       type:: prefix
       isInternational:: true
-      abbreviationType:: acronym
+      abbreviation-type:: acronym
       pronunciation:: fəɹst
       domain:: Hydraulics
       subject:: pipes
-      fieldofapplication:: Field
-      usageinfo:: This is usage.
+      field-of-application:: Field
+      usage-info:: This is usage.
 
       [.source]
       <<ISO2191,section=1>>
@@ -33,7 +33,7 @@ RSpec.describe Asciidoctor::Standoc do
       type:: suffix
       domain:: Hydraulics1
       subject: pipes1
-      usageinfo:: This is usage 1.
+      usage-info:: This is usage 1.
       absent:: true
 
       deprecated:[Fourth Designation]
@@ -42,13 +42,13 @@ RSpec.describe Asciidoctor::Standoc do
       language:: jp
       script:: Japn
       type:: full
-      fieldofapplication:: Field
+      field-of-application:: Field
       grammar::
       gender::: masculine, feminine
       isPreposition::: false
       isNoun::: true
-      grammarValue::: irregular declension
-      geographicArea:: AUS
+      grammar-value::: irregular declension
+      geographic-area:: AUS
 
       related:see[<<second>>,Fifth Designation]
 
@@ -57,7 +57,7 @@ RSpec.describe Asciidoctor::Standoc do
       grammar::
       gender::: neuter
       isVerb::: true
-      geographicArea:: GRC
+      geographic-area:: GRC
 
       [.source]
       <<ISO2191,section=2>>
@@ -71,7 +71,7 @@ RSpec.describe Asciidoctor::Standoc do
       === Second Term
 
       [%metadata]
-      usageinfo::
+      usage-info::
       +
       --
       Usage Info 1.
@@ -90,11 +90,11 @@ RSpec.describe Asciidoctor::Standoc do
               <preferred language='fr' script='Latn' type='prefix' isInternational="true">
                 <expression>
                   <name>First Designation</name>
-            <abbreviationType>acronym</abbreviationType>
+            <abbreviation-type>acronym</abbreviation-type>
             <pronunciation>f&#601;&#633;st</pronunciation>
                 </expression>
-                <fieldofapplication>Field</fieldofapplication>
-                <usageinfo>This is usage.</usageinfo>
+                <field-of-application>Field</field-of-application>
+                <usage-info>This is usage.</usage-info>
                         <termsource status='identical' type='authoritative'>
           <origin bibitemid='ISO2191' type='inline' citeas=''>
             <localityStack>
@@ -109,9 +109,9 @@ RSpec.describe Asciidoctor::Standoc do
                 <expression>
                   <name>Third Designation</name>
                 </expression>
-                <usageinfo>This is usage 1.</usageinfo>
+                <usage-info>This is usage 1.</usage-info>
               </admitted>
-              <deprecates language='jp' script='Japn' type='full' geographicArea="AUS">
+              <deprecates language='jp' script='Japn' type='full' geographic-area="AUS">
                 <expression>
                   <name>Fourth Designation</name>
             <grammar>
@@ -119,13 +119,13 @@ RSpec.describe Asciidoctor::Standoc do
               <gender>feminine</gender>
               <isPreposition>false</isPreposition>
               <isNoun>true</isNoun>
-              <grammarValue>irregular declension</grammarValue>
+              <grammar-value>irregular declension</grammar-value>
             </grammar>
                 </expression>
-                <fieldofapplication>Field</fieldofapplication>
+                <field-of-application>Field</field-of-application>
               </deprecates>
                       <related type='abbreviation'>
-          <preferred geographicArea="GRC">
+          <preferred geographic-area="GRC">
             <expression>
               <name>Fifth Designation</name>
               <grammar>
@@ -146,9 +146,9 @@ RSpec.describe Asciidoctor::Standoc do
         </related>
               <domain>Hydraulics</domain>
               <subject>pipes</subject>
-              <definition><verbaldefinition>
+              <definition><verbal-definition>
                 <p id='_'>Definition</p>
-              </verbaldefinition></definition>
+              </verbal-definition></definition>
           <termsource status='identical' type='authoritative'>
           <origin bibitemid='ISO2191' type='inline' citeas=''>
             <localityStack>
@@ -164,10 +164,10 @@ RSpec.describe Asciidoctor::Standoc do
           <expression>
             <name>Second Term</name>
           </expression>
-        <usageinfo>
+        <usage-info>
           <p id='_'>Usage Info 1.</p>
           <p id='_'>Usage Info 2.</p>
-        </usageinfo>
+        </usage-info>
         </preferred>
       </term>
           </terms>
@@ -260,9 +260,9 @@ RSpec.describe Asciidoctor::Standoc do
             <tt>seventh-designation</tt>
           </strong>
         </related>
-          <definition><verbaldefinition>
+          <definition><verbal-definition>
             <p id='_'>Definition</p>
-          </verbaldefinition></definition>
+          </verbal-definition></definition>
         </term>
       </terms>
       <clause id='_' inline-header='false' obligation='normative'>
@@ -366,9 +366,9 @@ RSpec.describe Asciidoctor::Standoc do
                 </preferred>
                 <xref target='second'/>
               </related>
-              <definition><verbaldefinition>
+              <definition><verbal-definition>
                 <p id='_'>Definition</p>
-              </verbaldefinition></definition>
+              </verbal-definition></definition>
             </term>
           </terms>
         </sections>
@@ -429,9 +429,9 @@ RSpec.describe Asciidoctor::Standoc do
               <related type='see'>
                 <xref target='second'/>
               </related>
-              <definition><verbaldefinition>
+              <definition><verbal-definition>
                 <p id='_'>Definition</p>
-              </verbaldefinition></definition>
+              </verbal-definition></definition>
             </term>
           </terms>
         </sections>
@@ -531,13 +531,13 @@ RSpec.describe Asciidoctor::Standoc do
                  <xref target='second'/>
                </related>
                <definition>
-                 <verbaldefinition><p id='_'>Definition</p></verbaldefinition>
-                 <nonverbalrepresentation>
-                 <figure id='_'>
-                   <name>Caption</name>
-                   <pre id='_'>&lt;LITERAL&gt; FIGURATIVE</pre>
-                 </figure>
-                 </nonverbalrepresentation>
+                 <verbal-definition>
+                   <figure id='_'>
+                     <name>Caption</name>
+                     <pre id='_'>&lt;LITERAL&gt; FIGURATIVE</pre>
+                   </figure>
+                   <p id='_'>Definition</p>
+                 </verbal-definition>
                </definition>
              </term>
           </terms>
@@ -560,11 +560,11 @@ RSpec.describe Asciidoctor::Standoc do
       script:: Latn
       type:: prefix
       isInternational:: true
-      abbreviationType:: acronym
+      abbreviation-type:: acronym
       pronunciation:: fəɹst
       domain:: Hydraulics
       subject:: pipes
-      usageinfo:: This is usage.
+      usage-info:: This is usage.
 
       related:see[Fifth Designation]
 
@@ -583,7 +583,7 @@ RSpec.describe Asciidoctor::Standoc do
       gender::: masculine, feminine
       isPreposition::: false
       isNoun::: true
-      grammarValue::: irregular declension
+      grammar-value::: irregular declension
 
       alt:[Third Designation]
 
@@ -593,7 +593,7 @@ RSpec.describe Asciidoctor::Standoc do
       type:: suffix
       domain:: Hydraulics1
       subject: pipes1
-      usageinfo:: This is usage 1.
+      usage-info:: This is usage 1.
 
       preferred:[Second Designation]
 
@@ -613,10 +613,10 @@ RSpec.describe Asciidoctor::Standoc do
               <preferred language='fr' script='Latn' type='prefix' isInternational="true">
                 <expression>
                   <name>First Designation</name>
-                  <abbreviationType>acronym</abbreviationType>
+                  <abbreviation-type>acronym</abbreviation-type>
                   <pronunciation>f&#601;&#633;st</pronunciation>
                 </expression>
-                <usageinfo>This is usage.</usageinfo>
+                <usage-info>This is usage.</usage-info>
               </preferred>
               <preferred type='abbreviation'>
                 <expression>
@@ -627,7 +627,7 @@ RSpec.describe Asciidoctor::Standoc do
                 <expression>
                   <name>Third Designation</name>
                 </expression>
-                <usageinfo>This is usage 1.</usageinfo>
+                <usage-info>This is usage 1.</usage-info>
               </admitted>
               <deprecates language='jp' script='Japn' type='full'>
                 <expression>
@@ -637,7 +637,7 @@ RSpec.describe Asciidoctor::Standoc do
                     <gender>feminine</gender>
                     <isPreposition>false</isPreposition>
                     <isNoun>true</isNoun>
-                    <grammarValue>irregular declension</grammarValue>
+                    <grammar-value>irregular declension</grammar-value>
                   </grammar>
                 </expression>
               </deprecates>
@@ -651,9 +651,9 @@ RSpec.describe Asciidoctor::Standoc do
               </related>
               <domain>Hydraulics</domain>
               <subject>pipes</subject>
-              <definition><verbaldefinition>
+              <definition><verbal-definition>
                 <p id='_'>Definition</p>
-              </verbaldefinition></definition>
+              </verbal-definition></definition>
             </term>
           </terms>
         </sections>
@@ -696,7 +696,7 @@ RSpec.describe Asciidoctor::Standoc do
         <mn>91</mn>
       </mrow>
       </msub></math></stem></name></letter-symbol></admitted>
-             <definition><verbaldefinition><p id="_">Time</p></verbaldefinition></definition></term>
+             <definition><verbal-definition><p id="_">Time</p></verbal-definition></definition></term>
              </terms>
              </sections>
              </standard-document>
@@ -728,15 +728,15 @@ RSpec.describe Asciidoctor::Standoc do
                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
                <term id="term-tempus">
                <preferred><expression><name>Tempus</name></expression></preferred>
-               <domain>relativity</domain><definition><verbaldefinition><p id="_"> Time</p></verbaldefinition></definition>
+               <domain>relativity</domain><definition><verbal-definition><p id="_"> Time</p></verbal-definition></definition>
              </term>
              <term id='term-tempus1'>
         <preferred><expression><name>Tempus1</name></expression></preferred>
         <domain>relativity2</domain>
-        <definition><verbaldefinition>
+        <definition><verbal-definition>
           <p id='_'>Time2</p>
           <p id='_'> </p>
-        </verbaldefinition></definition>
+        </verbal-definition></definition>
       </term>
              </terms>
              </sections>
@@ -791,8 +791,26 @@ RSpec.describe Asciidoctor::Standoc do
          <mn>90</mn>
        </mrow>
       </msub></math></stem></name></letter-symbol></preferred>
+             <admitted>
+         <letter-symbol>
+           <name>
+             <stem type='MathML'>
+               <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                 <msub>
+                   <mrow>
+                     <mi>t</mi>
+                   </mrow>
+                   <mrow>
+                     <mi>A</mi>
+                   </mrow>
+                 </msub>
+               </math>
+             </stem>
+           </name>
+         </letter-symbol>
+       </admitted>
       <definition>
-      <verbaldefinition>
+      <verbal-definition>
       <p id="_">This paragraph is extraneous</p>
                   <ul id='_'>
               <li>
@@ -811,17 +829,7 @@ RSpec.describe Asciidoctor::Standoc do
               </dd>
             </dl>
             <p id='_'>This is a concluding paragraph</p>
-      </verbaldefinition>
-      <nonverbalrepresentation><formula id="_">
-               <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
-               <mrow>
-        <mi>t</mi>
-      </mrow>
-      <mrow>
-        <mi>A</mi>
-      </mrow>
-      </msub></math></stem>
-             </formula></nonverbalrepresentation>
+      </verbal-definition>
             </definition>
              </term>
              </terms>
@@ -862,7 +870,7 @@ RSpec.describe Asciidoctor::Standoc do
         <title>Terms and definitions</title>
         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
         <term id="term-term"><preferred><expression><name>Term</name></expression></preferred>
-        <definition><verbaldefinition><p id='_'>Definition</p></verbaldefinition></definition>
+        <definition><verbal-definition><p id='_'>Definition</p></verbal-definition></definition>
       <termnote id="_">
         <p id="_">Note</p>
       </termnote><termnote id="_">
@@ -901,7 +909,10 @@ RSpec.describe Asciidoctor::Standoc do
 
       [.source]
       <<ISO2191,section=1>>
+      --
 
+      [.definition]
+      --
       |===
       | A | B
 
@@ -944,7 +955,7 @@ RSpec.describe Asciidoctor::Standoc do
                   </expression>
                 </preferred>
                 <definition>
-                  <verbaldefinition>
+                  <verbal-definition>
                     <p id='_'>Definition</p>
                     <termsource status='identical' type='authoritative'>
                       <origin bibitemid='ISO2191' type='inline' citeas=''>
@@ -955,8 +966,8 @@ RSpec.describe Asciidoctor::Standoc do
                         </localityStack>
                       </origin>
                     </termsource>
-                  </verbaldefinition>
-                  <nonverbalrepresentation>
+                  </verbal-definition>
+                  <non-verbal-representation>
                     <table id='_'>
                       <thead>
                         <tr>
@@ -971,7 +982,7 @@ RSpec.describe Asciidoctor::Standoc do
                         </tr>
                       </tbody>
                     </table>
-                  </nonverbalrepresentation>
+                  </non-verbal-representation>
                 </definition>
                 <termsource status='identical' type='authoritative'>
                   <origin bibitemid='ISO2191' type='inline' citeas=''>
@@ -990,7 +1001,7 @@ RSpec.describe Asciidoctor::Standoc do
                   </expression>
                 </preferred>
                 <definition>
-                  <nonverbalrepresentation>
+                  <non-verbal-representation>
                     <figure id='_'>
                       <pre id='_'>Literal</pre>
                     </figure>
@@ -1012,7 +1023,7 @@ RSpec.describe Asciidoctor::Standoc do
                         </localityStack>
                       </origin>
                     </termsource>
-                  </nonverbalrepresentation>
+                  </non-verbal-representation>
                 </definition>
               </term>
             </terms>
@@ -1023,4 +1034,170 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "differentiates stem expressions before, after, and within verbal definitions" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Terms and definitions
+
+      === Term
+
+      stem:[lambda]
+
+      [.definition]
+      --
+
+      Definition
+
+      stem:[mu]
+      --
+
+      [.definition]
+      --
+
+      stem:[nu]
+      --
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <sections>
+           <terms id='_' obligation='normative'>
+             <title>Terms and definitions</title>
+             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+             <term id='term-term'>
+               <preferred>
+                 <expression>
+                   <name>Term</name>
+                 </expression>
+               </preferred>
+               <admitted>
+                 <letter-symbol>
+                   <name>
+                     <stem type='MathML'>
+                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                         <mi>&#955;</mi>
+                       </math>
+                     </stem>
+                   </name>
+                 </letter-symbol>
+               </admitted>
+               <definition>
+                 <verbal-definition>
+                   <p id='_'>Definition</p>
+                   <p id='_'>
+                     <stem type='MathML'>
+                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                         <mi>&#956;</mi>
+                       </math>
+                     </stem>
+                   </p>
+                 </verbal-definition>
+               </definition>
+               <definition>
+                 <verbal-definition>
+                   <p id='_'>
+                     <stem type='MathML'>
+                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                         <mi>&#957;</mi>
+                       </math>
+                     </stem>
+                   </p>
+                 </verbal-definition>
+               </definition>
+             </term>
+           </terms>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "differentiates formuals before, after, and within verbal definitions" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Terms and definitions
+
+      === Term
+
+      [stem]
+      ++++
+      lambda
+      ++++
+
+      [.definition]
+      --
+
+      Definition
+
+      [stem]
+      ++++
+      mu
+      ++++
+      --
+
+      [.definition]
+      --
+
+      [stem]
+      ++++
+      nu
+      ++++
+      --
+
+    INPUT
+    output = <<~OUTPUT
+          #{BLANK_HDR}
+            <sections>
+        <terms id='_' obligation='normative'>
+          <title>Terms and definitions</title>
+          <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+          <term id='term-term'>
+            <preferred>
+              <expression>
+                <name>Term</name>
+              </expression>
+            </preferred>
+            <admitted>
+              <letter-symbol>
+                <name>
+                  <stem type='MathML'>
+                    <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                      <mi>&#955;</mi>
+                    </math>
+                  </stem>
+                </name>
+              </letter-symbol>
+            </admitted>
+            <definition>
+              <verbal-definition>
+                <p id='_'>Definition</p>
+                <formula id='_'>
+                  <stem type='MathML'>
+                    <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                      <mi>&#956;</mi>
+                    </math>
+                  </stem>
+                </formula>
+              </verbal-definition>
+              <non-verbal-representation>
+                <formula id='_'>
+                  <stem type='MathML'>
+                    <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                      <mi>&#957;</mi>
+                    </math>
+                  </stem>
+                </formula>
+              </non-verbal-representation>
+            </definition>
+          </term>
+        </terms>
+      </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
 end
