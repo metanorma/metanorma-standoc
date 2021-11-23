@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = Gem::Requirement.new(">= 2.5.0")
 
   spec.add_dependency "asciidoctor", "~> 2.0.0"
-  spec.add_dependency "iev", "~> 0.2.1"
+  spec.add_dependency "iev", "~> 0.3.0"
   spec.add_dependency "isodoc", "~> 1.8.0"
   spec.add_dependency "metanorma-plugin-datastruct"
   spec.add_dependency "metanorma-plugin-lutaml"

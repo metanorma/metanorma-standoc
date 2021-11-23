@@ -1,5 +1,5 @@
 require "htmlentities"
-require "uri"
+require "uri" if /^2\./.match?(RUBY_VERSION)
 require "mime/types"
 require "base64"
 
