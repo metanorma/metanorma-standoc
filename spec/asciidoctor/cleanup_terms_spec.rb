@@ -45,6 +45,7 @@ RSpec.describe Asciidoctor::Standoc do
       field-of-application:: Field
       grammar::
       gender::: masculine, feminine
+      number::: singular, plural
       isPreposition::: false
       isNoun::: true
       grammar-value::: irregular declension
@@ -117,6 +118,8 @@ RSpec.describe Asciidoctor::Standoc do
             <grammar>
               <gender>masculine</gender>
               <gender>feminine</gender>
+              <number>singular</number>
+              <number>plural</number>
               <isPreposition>false</isPreposition>
               <isNoun>true</isNoun>
               <grammar-value>irregular declension</grammar-value>

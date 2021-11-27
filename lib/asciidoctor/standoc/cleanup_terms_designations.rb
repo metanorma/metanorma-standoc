@@ -89,20 +89,21 @@ module Asciidoctor
       def term_dl_to_expression_grammar(prev, dlist)
         prev.at(".//expression") or return
         prev.at(".//expression") << "<grammar><sentinel/></grammar>"
-        %w(gender isPreposition isParticiple isAdjective isAdverb isNoun
+        %w(gender number isPreposition isParticiple isAdjective isAdverb isNoun
            grammar-value).reverse.each do |a|
           dl_to_elems(prev.at(".//expression/grammar/*"), prev.elements.last,
                       dlist, a)
         end
-        term_dl_to_designation_gender(prev)
+        term_dl_to_designation_category(prev, "gender")
+        term_dl_to_designation_category(prev, "number")
+        prev.at(".//expression/grammar/sentinel").remove
       end
 
-      def term_dl_to_designation_gender(prev)
-        gender = prev.at(".//expression/grammar/gender")
-        /,/.match?(gender&.text) and
-          gender.replace(gender.text.split(/,\s*/)
-            .map { |x| "<gender>#{x}</gender>" }.join)
-        prev.at(".//expression/grammar/sentinel").remove
+      def term_dl_to_designation_category(prev, category)
+        cat = prev.at(".//expression/grammar/#{category}")
+        /,/.match?(cat&.text) and
+          cat.replace(cat.text.split(/,\s*/)
+            .map { |x| "<#{category}>#{x}</#{category}>" }.join)
       end
 
       def term_to_letter_symbol(prev, dlist)
