@@ -6,8 +6,10 @@ module Asciidoctor
     module Cleanup
       def termdomain_cleanup(xmldoc)
         xmldoc.xpath("//p/domain").each do |a|
-          prev = a.parent.previous
+          parent = a.parent
+          prev = parent.previous
           prev.next = a.remove
+          parent.text.strip.empty? and parent.remove
         end
       end
 

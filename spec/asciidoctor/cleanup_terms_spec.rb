@@ -735,7 +735,6 @@ RSpec.describe Asciidoctor::Standoc do
         <domain>relativity2</domain>
         <definition><verbal-definition>
           <p id='_'>Time2</p>
-          <p id='_'> </p>
         </verbal-definition></definition>
       </term>
              </terms>
