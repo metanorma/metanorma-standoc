@@ -113,6 +113,27 @@ module Asciidoctor
         term_children_cleanup(xmldoc)
         termdocsource_cleanup(xmldoc)
       end
+
+      def index_cleanup(xmldoc)
+        return unless @index_terms
+
+        xmldoc.xpath("//preferred").each do |p|
+          index_cleanup1(p.at("./expression/name | ./letter-symbol/name"),
+                         p.xpath("./field-of-application | ./usage-info")
+            &.map(&:text)&.join(", "))
+        end
+        xmldoc.xpath("//definitions/dl/dt").each do |p|
+          index_cleanup1(p, "")
+        end
+      end
+
+      def index_cleanup1(term, fieldofappl)
+        return unless term
+
+        idx = term.children.dup
+        fieldofappl.empty? or idx << ", &#x3c;#{fieldofappl}&#x3e;"
+        term << "<index><primary>#{idx.to_xml}</primary></index>"
+      end
     end
   end
 end

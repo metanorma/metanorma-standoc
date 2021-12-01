@@ -124,6 +124,7 @@ module Asciidoctor
         @output_dir = outputdir node
         @no_isobib_cache = node.attr("no-isobib-cache")
         @no_isobib = node.attr("no-isobib")
+        @index_terms = node.attr("index-terms")
         @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
         @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
         @bibdb = nil

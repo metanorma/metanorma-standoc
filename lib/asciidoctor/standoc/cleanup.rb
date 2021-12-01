@@ -48,6 +48,7 @@ module Asciidoctor
         termdef_cleanup(xmldoc)
         RelatonIev::iev_cleanup(xmldoc, @bibdb)
         element_name_cleanup(xmldoc)
+        index_cleanup(xmldoc)
         bpart_cleanup(xmldoc)
         quotesource_cleanup(xmldoc)
         callout_cleanup(xmldoc)
