@@ -1202,4 +1202,151 @@ RSpec.describe Asciidoctor::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
+
+  it "automatically indexes term indexes" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR.sub(/:nodoc:\n/, ":nodoc:\n:index-terms:\n")}
+
+      == Terms and definitions
+
+      === Term
+
+      [stem]
+      ++++
+      lambda
+      ++++
+
+      admitted:[x]
+
+      === Term2
+
+      preferred:[stem:[mu_0 // 2]]
+
+      == Symbols and Abbreviated Terms
+
+      x^2^:: Definition
+    INPUT
+    output = <<~OUTPUT
+           <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='1.11.2'>
+         <bibdata type='standard'>
+           <title language='en' format='text/plain'>Document title</title>
+           <language>en</language>
+           <script>Latn</script>
+           <status>
+             <stage>published</stage>
+           </status>
+           <copyright>
+             <from>2021</from>
+           </copyright>
+           <ext>
+             <doctype>article</doctype>
+           </ext>
+         </bibdata>
+         <sections>
+           <terms id='_' obligation='normative'>
+             <title>Terms and definitions</title>
+             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+             <term id='term-term'>
+               <preferred>
+                 <expression>
+                   <name>
+                     Term
+                     <index>
+                       <primary>Term</primary>
+                     </index>
+                   </name>
+                 </expression>
+               </preferred>
+               <admitted>
+                 <letter-symbol>
+                   <name>
+                     <stem type='MathML'>
+                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                         <mi>&#955;</mi>
+                       </math>
+                     </stem>
+                   </name>
+                 </letter-symbol>
+               </admitted>
+               <definition>
+                 <verbal-definition>
+                   <p id='_'>admitted:[x]</p>
+                 </verbal-definition>
+               </definition>
+             </term>
+             <term id='term-term2'>
+               <preferred>
+                 <expression>
+                   <name>
+                     Term2
+                     <index>
+                       <primary>Term2</primary>
+                     </index>
+                   </name>
+                 </expression>
+               </preferred>
+               <preferred>
+                 <letter-symbol>
+                   <name>
+                     <stem type='MathML'>
+                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                         <msub>
+                           <mrow>
+                             <mi>&#956;</mi>
+                           </mrow>
+                           <mrow>
+                             <mn>0</mn>
+                           </mrow>
+                         </msub>
+                         <mo>/</mo>
+                         <mn>2</mn>
+                       </math>
+                     </stem>
+                     <index>
+                       <primary>
+                         <stem type='MathML'>
+                           <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                             <msub>
+                               <mrow>
+                                 <mi>&#956;</mi>
+                               </mrow>
+                               <mrow>
+                                 <mn>0</mn>
+                               </mrow>
+                             </msub>
+                             <mo>/</mo>
+                             <mn>2</mn>
+                           </math>
+                         </stem>
+                       </primary>
+                     </index>
+                   </name>
+                 </letter-symbol>
+               </preferred>
+             </term>
+           </terms>
+           <definitions id='_' obligation='normative'>
+             <title>Symbols and abbreviated terms</title>
+             <dl id='_'>
+               <dt id='symbol-x2'>
+                 x
+                 <sup>2</sup>
+                 <index>
+                   <primary>
+                     x
+                     <sup>2</sup>
+                   </primary>
+                 </index>
+               </dt>
+               <dd>
+                 <p id='_'>Definition</p>
+               </dd>
+             </dl>
+           </definitions>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
 end
