@@ -82,7 +82,7 @@ module Asciidoctor
             .each_with_object({}) do |x, m|
             m[x.gsub(/-/, "").to_i] = node.attr(x)
           end
-        doc_extract_attributes(node).merge(attrs)
+        html_extract_attributes(node).merge(attrs)
       end
 
       def doc_converter(node)
