@@ -1015,4 +1015,28 @@ RSpec.describe Asciidoctor::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
+
+  it "updates anchor reference along with anchor to match content" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [[samplecode]]
+      .Sample Code
+      ====
+
+      [source,ruby]
+      --
+      puts "Hello, world."
+      %w{a b c}.each do |x| <1>
+        puts x
+      end
+      --
+      <1> This is an annotation
+      ====
+    INPUT
+    output = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    callout_id = output.at("//xmlns:callout/@target").text
+    annotation_id = output.at("//xmlns:annotation/@id").text
+    expect(callout_id).to eq(annotation_id)
+  end
 end
