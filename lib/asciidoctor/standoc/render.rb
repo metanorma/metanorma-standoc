@@ -80,7 +80,7 @@ module Asciidoctor
              pdf-allow-print pdf-allow-print-hq pdf-allow-fill-in-forms
              pdf-allow-access-content pdf-encrypt-metadata)
             .each_with_object({}) do |x, m|
-            m[x.gsub(/-/, "_").to_i] = node.attr(x)
+            m[x.gsub(/-/, "").to_i] = node.attr(x)
           end
         doc_extract_attributes(node).merge(attrs)
       end
