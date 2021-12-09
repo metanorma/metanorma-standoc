@@ -159,15 +159,25 @@ module Asciidoctor
       end
 
       def contenthash_id_cleanup(doc)
-        ids = doc.xpath("//*[@id]").each_with_object({}) do |x, m|
+        ids = contenthash_id_make(doc)
+        contenthash_id_update_refs(doc, ids)
+      end
+
+      def contenthash_id_make(doc)
+        doc.xpath("//*[@id]").each_with_object({}) do |x, m|
           next unless guid?(x["id"])
 
           m[x["id"]] = contenthash(x)
           x["id"] = m[x["id"]]
         end
-        [%w(review from), %(review to), %(callout target), %(eref bibitemid),
-         %(citation bibitemid), %(xref target), %(xref to)].each do |a|
-          doc.xpath("//#{a[0]}").each { |x| ids[a[1]] and x[a[1]] = ids[a[1]] }
+      end
+
+      def contenthash_id_update_refs(doc, ids)
+        [%w(review from), %w(review to), %w(callout target), %w(eref bibitemid),
+         %w(citation bibitemid), %w(xref target), %w(xref to)].each do |a|
+          doc.xpath("//#{a[0]}").each do |x|
+            ids[x[a[1]]] and x[a[1]] = ids[x[a[1]]]
+          end
         end
       end
 
