@@ -686,6 +686,36 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "tag and multilingual processing attributes on term" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [heading="terms, definitions, symbols and abbreviated terms"]
+      == Terms, Definitions, Symbols Section
+
+      [language=en,tag=x123,multilingual-rendering=all-columns]
+      === Term
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+               <sections>
+           <terms id='_' obligation='normative'>
+             <title>Terms and definitions</title>
+             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+             <term id='term-term' language='en' tag='x123' multilingual-rendering='all-columns'>
+               <preferred>
+                 <expression>
+                   <name>Term</name>
+                 </expression>
+               </preferred>
+             </term>
+           </terms>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "varies terms & symbols title" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1229,5 +1259,4 @@ RSpec.describe Asciidoctor::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
-
 end
