@@ -54,8 +54,12 @@ module Asciidoctor
                           node.level == 1
                           true
                         end),
-                preface: (
-                           node.role == "preface" || node.attr("style") == "preface" ? true : nil) }
+                tag: node&.attr("tag"),
+                "multilingual-rendering": node&.attr("multilingual-rendering"),
+                preface: (if node.role == "preface" ||
+                          node.attr("style") == "preface"
+                            true
+                          end) }
         return ret unless node.attributes["change"]
 
         ret.merge(change: node.attributes["change"],
