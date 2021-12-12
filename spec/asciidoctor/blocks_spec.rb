@@ -1444,7 +1444,7 @@ OUTPUT
       ====
     INPUT
     output = <<~"OUTPUT"
-                  #{BLANK_HDR}
+     #{BLANK_HDR}
              <sections>
         <recommendation id="_" unnumbered="true" type="verification" model="ogc" tag='X' multilingual-rendering='common'>
         <label>/ogc/recommendation/wfs/2</label>
@@ -1452,7 +1452,16 @@ OUTPUT
       <subject>developer, implementer</subject>
       <inherit>/ss/584/2015/level/1</inherit>
       <inherit>/ss/584/2015/level/2</inherit>
-        <description><p id="_">I recommend this</p></description>
+        <description><p id="_">I recommend this</p>
+        <ol id='_' type='arabic'>
+          <li>
+            <p id='_'>List</p>
+          </li>
+          <li>
+            <p id='_'>List</p>
+          </li>
+        </ol>
+      </description>
       </recommendation>
              </sections>
              </standard-document>
@@ -1470,6 +1479,9 @@ OUTPUT
       .Title
       ====
       I recommend this
+
+      . List
+      . List
       ====
     INPUT
     output = <<~OUTPUT
