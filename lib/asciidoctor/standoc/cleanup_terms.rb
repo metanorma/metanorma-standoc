@@ -27,7 +27,8 @@ module Asciidoctor
       end
 
       TERMDEF_BLOCKS =
-        "./p | ./ol | ./dl | ./ul | ./figure | ./formula | ./table".freeze
+        "./p | ./ol | ./dl[not(@metadata = 'true')] | ./ul | ./figure | "\
+        "./formula | ./table".freeze
 
       def generate_termdefinitions(xmldoc)
         xmldoc.xpath("//term[not(definition)]").each do |d|

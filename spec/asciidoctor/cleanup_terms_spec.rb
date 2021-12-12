@@ -88,8 +88,8 @@ RSpec.describe Asciidoctor::Standoc do
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <term id='term-first-designation'>
-              <preferred language='fr' script='Latn' type='prefix' isInternational="true">
-                <expression>
+              <preferred>
+                <expression language='fr' script='Latn' type='prefix' isInternational="true">
                   <name>First Designation</name>
             <abbreviation-type>acronym</abbreviation-type>
             <pronunciation>f&#601;&#633;st</pronunciation>
@@ -106,14 +106,14 @@ RSpec.describe Asciidoctor::Standoc do
           </origin>
         </termsource>
               </preferred>
-              <admitted language='he' script='Hebr' type='suffix' absent="true">
-                <expression>
+              <admitted absent="true">
+                <expression language='he' script='Hebr' type='suffix'>
                   <name>Third Designation</name>
                 </expression>
                 <usage-info>This is usage 1.</usage-info>
               </admitted>
-              <deprecates language='jp' script='Japn' type='full' geographic-area="AUS">
-                <expression>
+              <deprecates geographic-area="AUS">
+                <expression language='jp' script='Japn' type='full'>
                   <name>Fourth Designation</name>
             <grammar>
               <gender>masculine</gender>
@@ -127,9 +127,9 @@ RSpec.describe Asciidoctor::Standoc do
                 </expression>
                 <field-of-application>Field</field-of-application>
               </deprecates>
-                      <related type='abbreviation'>
+                      <related type='see'>
           <preferred geographic-area="GRC">
-            <expression>
+            <expression type="abbreviation">
               <name>Fifth Designation</name>
               <grammar>
                 <gender>neuter</gender>
@@ -409,8 +409,8 @@ RSpec.describe Asciidoctor::Standoc do
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <term id='second'>
-              <preferred isInternational='true'>
-                <expression>
+              <preferred>
+                <expression isInternational='true'>
                   <name/>
                 </expression>
               </preferred>
@@ -502,8 +502,8 @@ RSpec.describe Asciidoctor::Standoc do
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
              <term id='second'>
-               <preferred isInternational='true'>
-                 <graphical-symbol>
+               <preferred>
+                 <graphical-symbol isInternational='true'>
                    <figure id='_'>
                      <pre id='_'>&lt;LITERAL&gt; FIGURATIVE</pre>
                    </figure>
@@ -556,6 +556,7 @@ RSpec.describe Asciidoctor::Standoc do
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
 
+      [[des1]]
       === First Designation
 
       [%metadata]
@@ -569,7 +570,7 @@ RSpec.describe Asciidoctor::Standoc do
       subject:: pipes
       usage-info:: This is usage.
 
-      related:see[Fifth Designation]
+      related:see[<<des1>>,Fifth Designation]
 
       [%metadata]
       grammar::
@@ -612,28 +613,28 @@ RSpec.describe Asciidoctor::Standoc do
           <terms id='_' obligation='normative'>
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-            <term id='term-first-designation'>
-              <preferred language='fr' script='Latn' type='prefix' isInternational="true">
-                <expression>
+            <term id='des1'>
+              <preferred>
+                <expression language='fr' script='Latn' type='prefix' isInternational="true">
                   <name>First Designation</name>
                   <abbreviation-type>acronym</abbreviation-type>
                   <pronunciation>f&#601;&#633;st</pronunciation>
                 </expression>
                 <usage-info>This is usage.</usage-info>
               </preferred>
-              <preferred type='abbreviation'>
-                <expression>
+              <preferred>
+                <expression type='abbreviation'>
                   <name>Second Designation</name>
                 </expression>
               </preferred>
-              <admitted language='he' script='Hebr' type='suffix'>
-                <expression>
+              <admitted>
+                <expression language='he' script='Hebr' type='suffix'>
                   <name>Third Designation</name>
                 </expression>
                 <usage-info>This is usage 1.</usage-info>
               </admitted>
-              <deprecates language='jp' script='Japn' type='full'>
-                <expression>
+              <deprecates>
+                <expression language='jp' script='Japn' type='full'>
                   <name>Fourth Designation</name>
                   <grammar>
                     <gender>masculine</gender>
@@ -645,12 +646,8 @@ RSpec.describe Asciidoctor::Standoc do
                 </expression>
               </deprecates>
               <related type='see'>
-                <strong>
-                  term
-                  <tt>Fifth Designation</tt>
-                   not resolved via ID
-                  <tt>fifth-designation</tt>
-                </strong>
+              <preferred><expression><name>Fifth Designation</name><grammar><gender>neuter</gender></grammar></expression>
+              </preferred><xref target='des1'/>
               </related>
               <domain>Hydraulics</domain>
               <subject>pipes</subject>

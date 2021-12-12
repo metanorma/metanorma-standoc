@@ -37,7 +37,8 @@ module Asciidoctor
       def term_dl_to_metadata(xmldoc)
         xmldoc.xpath("//term[dl[@metadata = 'true']]").each do |t|
           t.xpath("./dl[@metadata = 'true']").each do |dl|
-            prev = dl_to_designation(dl) or next
+            prev = related2pref(dl_to_designation(dl)) or next
+            #require "debug"; binding.b if prev.parent.name == "related"
             term_dl_to_designation_metadata(prev, dl)
             term_dl_to_term_metadata(prev, dl)
             term_dl_to_expression_metadata(prev, dl)
@@ -58,7 +59,7 @@ module Asciidoctor
 
       def term_dl_to_designation_metadata(prev, dlist)
         %w(absent geographic-area).each do |a|
-          dl_to_attrs(related2pref(prev), dlist, a)
+          dl_to_attrs(prev, dlist, a)
         end
         %w(field-of-application usage-info).reverse.each do |a|
           dl_to_elems(prev.at("./expression"), prev, dlist, a)
@@ -75,15 +76,28 @@ module Asciidoctor
       end
 
       def term_dl_to_expression_metadata(prev, dlist)
-        %w(language script type isInternational).each do |a|
-          dl_to_attrs(prev, dlist, a)
+        term_dl_to_expression_root_metadata(prev, dlist)
+        term_dl_to_expression_name_metadata(prev, dlist)
+        term_to_letter_symbol(prev, dlist)
+      end
+
+      def term_dl_to_expression_root_metadata(prev, dlist)
+        %w(isInternational).each do |a|
+          p = prev.at("./expression | ./letter-symbol | ./graphical-symbol")
+          dl_to_attrs(p, dlist, a)
         end
+        %w(language script type).each do |a|
+          p = prev.at("./expression") or next
+          dl_to_attrs(p, dlist, a)
+        end
+      end
+
+      def term_dl_to_expression_name_metadata(prev, dlist)
         %w(abbreviation-type pronunciation).reverse.each do |a|
           dl_to_elems(prev.at("./expression/name"), prev, dlist, a)
         end
         g = dlist.at("./dt[text()='grammar']/following::dd//dl") and
           term_dl_to_expression_grammar(prev, g)
-        term_to_letter_symbol(prev, dlist)
       end
 
       def term_dl_to_expression_grammar(prev, dlist)
@@ -172,7 +186,7 @@ module Asciidoctor
       end
 
       def related2pref(elem)
-        elem.name == "related" ? elem = elem.at("./preferred") : elem
+        elem&.name == "related" ? elem = elem.at("./preferred") : elem
       end
     end
   end
