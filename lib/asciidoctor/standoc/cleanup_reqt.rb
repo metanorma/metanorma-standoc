@@ -48,10 +48,10 @@ module Asciidoctor
       end
 
       def requirement_description_wrap(reqt, text)
-        return if text.element? && (reqt_subpart(text.name) ||
+        return if (text.element? && (reqt_subpart(text.name) ||
                 %w(requirement recommendation
-                   permission).include?(text.name)) ||
-          text.text.strip.empty?
+                   permission).include?(text.name))) ||
+          (text.text.strip.empty? && !text.at(".//xref | .//eref | .//link"))
 
         t = Nokogiri::XML::Element.new("description", reqt)
         text.before(t)
