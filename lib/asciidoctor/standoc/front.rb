@@ -94,7 +94,7 @@ module Asciidoctor
 
       def metadata_script(node, xml)
         xml.script (node.attr("script") ||
-                    default_script(node.attr("language")))
+                    Metanorma::Utils.default_script(node.attr("language")))
       end
 
       def relaton_relations

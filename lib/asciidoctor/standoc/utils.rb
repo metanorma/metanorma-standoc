@@ -64,22 +64,6 @@ module Asciidoctor
         conv
       end
 
-      def default_script(lang)
-        case lang
-        when "ar", "fa" then "Arab"
-        when "ur" then "Aran"
-        when "ru", "bg" then "Cyrl"
-        when "hi" then "Deva"
-        when "el" then "Grek"
-        when "zh" then "Hans"
-        when "ko" then "Kore"
-        when "he" then "Hebr"
-        when "ja" then "Jpan"
-        else
-          "Latn"
-        end
-      end
-
       def dl_to_attrs(elem, dlist, name)
         e = dlist.at("./dt[text()='#{name}']") or return
         val = e.at("./following::dd/p") || e.at("./following::dd") or return
