@@ -1224,7 +1224,7 @@ RSpec.describe Asciidoctor::Standoc do
       x^2^:: Definition
     INPUT
     output = <<~OUTPUT
-           <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='1.11.2'>
+           <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
          <bibdata type='standard'>
            <title language='en' format='text/plain'>Document title</title>
            <language>en</language>
