@@ -1453,14 +1453,6 @@ OUTPUT
       <inherit>/ss/584/2015/level/1</inherit>
       <inherit>/ss/584/2015/level/2</inherit>
         <description><p id="_">I recommend this</p>
-        <ol id='_' type='arabic'>
-          <li>
-            <p id='_'>List</p>
-          </li>
-          <li>
-            <p id='_'>List</p>
-          </li>
-        </ol>
       </description>
       </recommendation>
              </sections>
@@ -1480,8 +1472,8 @@ OUTPUT
       ====
       I recommend this
 
-      . List
-      . List
+      . http://www.example.com[]
+      . <<ABC>>
       ====
     INPUT
     output = <<~OUTPUT
@@ -1490,7 +1482,20 @@ OUTPUT
         <requirement id="ABC" subsequence="A" number="3" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common'>
               <title>Title</title>
         <inherit>/ss/584/2015/level/1 &amp; /ss/584/2015/level/2</inherit>
-        <description><p id="_">I recommend this</p></description>
+        <description><p id="_">I recommend this</p>
+                       <ol id='_' type='arabic'>
+                 <li>
+                   <p id='_'>
+                     <link target='http://www.example.com'/>
+                   </p>
+                 </li>
+                 <li>
+                   <p id='_'>
+                     <xref target='ABC'/>
+                   </p>
+                 </li>
+               </ol>
+      </description>
       </requirement>
              </sections>
              </standard-document>
@@ -1538,6 +1543,9 @@ OUTPUT
       [.permission]
       =====
       I also permit this
+
+      . List
+      . List
       =====
 
       [requirement,type="general",label="/req/core/quantities-uom"]
@@ -1553,7 +1561,16 @@ OUTPUT
         <p id="_">Example 2</p>
       </example></description>
       <permission id="_">
-        <description><p id="_">I also permit this</p></description>
+        <description><p id="_">I also permit this</p>
+                  <ol id='_' type='arabic'>
+            <li>
+              <p id='_'>List</p>
+            </li>
+            <li>
+              <p id='_'>List</p>
+            </li>
+          </ol>
+        </description>
       </permission>
       <requirement id='_' type='general'>
       <label>/req/core/quantities-uom</label>
