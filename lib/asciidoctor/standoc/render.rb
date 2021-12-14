@@ -73,16 +73,14 @@ module Asciidoctor
       end
 
       def pdf_extract_attributes(node)
-        attrs =
-          %w(pdf-encrypt pdf-encryption-length pdf-user-password
-             pdf-owner-password pdf-allow-copy-content pdf-allow-edit-content
-             pdf-allow-assemble-document pdf-allow-edit-annotations
-             pdf-allow-print pdf-allow-print-hq pdf-allow-fill-in-forms
-             pdf-allow-access-content pdf-encrypt-metadata)
-            .each_with_object({}) do |x, m|
-            m[x.gsub(/-/, "").to_i] = node.attr(x)
-          end
-        html_extract_attributes(node).merge(attrs)
+        %w(pdf-encrypt pdf-encryption-length pdf-user-password
+           pdf-owner-password pdf-allow-copy-content pdf-allow-edit-content
+           pdf-allow-assemble-document pdf-allow-edit-annotations
+           pdf-allow-print pdf-allow-print-hq pdf-allow-fill-in-forms
+           pdf-allow-access-content pdf-encrypt-metadata)
+          .each_with_object({}) do |x, m|
+          m[x.gsub(/-/, "").to_i] = node.attr(x)
+        end
       end
 
       def doc_converter(node)

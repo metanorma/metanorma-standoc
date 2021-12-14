@@ -705,6 +705,114 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "differentiates stem-only and mixed terms" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      === stem:[t_90]
+
+      Time
+
+      === stem:[t_90]-sensitivity
+
+      Sensitivity
+
+      === sensitivity to stem:[t_90]
+
+      Sensitivity #2
+    INPUT
+    output = <<~OUTPUT
+             #{BLANK_HDR}
+               <sections>
+           <terms id='_' obligation='normative'>
+             <title>Terms and definitions</title>
+             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+             <term id='term-_-t90-'>
+               <preferred>
+                 <letter-symbol>
+                   <name>
+                     <stem type='MathML'>
+                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                         <msub>
+                           <mrow>
+                             <mi>t</mi>
+                           </mrow>
+                           <mrow>
+                             <mn>90</mn>
+                           </mrow>
+                         </msub>
+                       </math>
+                     </stem>
+                   </name>
+                 </letter-symbol>
+               </preferred>
+               <definition>
+                 <verbal-definition>
+                   <p id='_'>Time</p>
+                 </verbal-definition>
+               </definition>
+             </term>
+             <term id='term-t90-sensitivity'>
+               <preferred>
+                 <expression>
+                   <name>
+                     <stem type='MathML'>
+                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                         <msub>
+                           <mrow>
+                             <mi>t</mi>
+                           </mrow>
+                           <mrow>
+                             <mn>90</mn>
+                           </mrow>
+                         </msub>
+                       </math>
+                     </stem>
+                     -sensitivity
+                   </name>
+                 </expression>
+               </preferred>
+               <definition>
+                 <verbal-definition>
+                   <p id='_'>Sensitivity</p>
+                 </verbal-definition>
+               </definition>
+             </term>
+             <term id='term-sensitivity-to-t90'>
+               <preferred>
+                 <expression>
+                   <name>
+                     sensitivity to 
+                     <stem type='MathML'>
+                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                         <msub>
+                           <mrow>
+                             <mi>t</mi>
+                           </mrow>
+                           <mrow>
+                             <mn>90</mn>
+                           </mrow>
+                         </msub>
+                       </math>
+                     </stem>
+                   </name>
+                 </expression>
+               </preferred>
+               <definition>
+                 <verbal-definition>
+                   <p id='_'>Sensitivity #2</p>
+                 </verbal-definition>
+               </definition>
+             </term>
+           </terms>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "moves term domains out of the term definition paragraph" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
