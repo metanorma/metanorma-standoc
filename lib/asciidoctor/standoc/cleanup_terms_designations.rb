@@ -2,6 +2,17 @@ module Asciidoctor
   module Standoc
     module Cleanup
       def termdef_stem_cleanup(xmldoc)
+        termdef_stem2admitted(xmldoc)
+        xmldoc.xpath("//term//expression/name[stem]").each do |n|
+          test = n.dup
+          test.at("./stem").remove
+          next unless test.text.strip.empty?
+
+          n.parent.name = "letter-symbol"
+        end
+      end
+
+      def termdef_stem2admitted(xmldoc)
         xmldoc.xpath("//term/p/stem").each do |a|
           if initial_formula(a.parent)
             parent = a.parent
@@ -9,12 +20,8 @@ module Asciidoctor
           end
         end
         xmldoc.xpath("//term/formula").each do |a|
-          if initial_formula(a)
+          initial_formula(a) and
             a.replace("<admitted>#{term_expr(a.children.to_xml)}</admitted>")
-          end
-        end
-        xmldoc.xpath("//term//expression/name[stem]").each do |n|
-          n.parent.name = "letter-symbol"
         end
       end
 
@@ -38,7 +45,6 @@ module Asciidoctor
         xmldoc.xpath("//term[dl[@metadata = 'true']]").each do |t|
           t.xpath("./dl[@metadata = 'true']").each do |dl|
             prev = related2pref(dl_to_designation(dl)) or next
-            #require "debug"; binding.b if prev.parent.name == "related"
             term_dl_to_designation_metadata(prev, dl)
             term_dl_to_term_metadata(prev, dl)
             term_dl_to_expression_metadata(prev, dl)
