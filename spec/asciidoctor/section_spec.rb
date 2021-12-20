@@ -1259,4 +1259,37 @@ RSpec.describe Asciidoctor::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
+
+  it "handles floating titles" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Clause 1
+
+      [discrete]
+      == I am a _floating_ title
+
+      === Clause 2
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+            <sections>
+              <clause id="_" inline-header="false" obligation="normative">
+              <title>Clause 1</title>
+                    <p id='_' type='floating-title'>
+        I am a
+        <em>floating</em>
+         title
+      </p>
+      <clause id='_' inline-header='false' obligation='normative'>
+        <title>Clause 2</title>
+      </clause>
+            </clause>
+            </sections>
+            </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
 end
