@@ -849,6 +849,47 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes document relations by description" do
+    mock_relaton_relation_descriptions
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :normatively-cited-in: ABC
+
+    INPUT
+    output = <<~OUTPUT
+      <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+      <bibdata type='standard'>
+        <title language='en' format='text/plain'>Document title</title>
+        <language>en</language>
+        <script>Latn</script>
+        <status>
+          <stage>published</stage>
+        </status>
+        <copyright>
+          <from>2021</from>
+        </copyright>
+        <relation type='isCitedIn'>
+          <description>normatively cited in</description>
+          <bibitem>
+            <title>--</title>
+            <docidentifier>ABC</docidentifier>
+          </bibitem>
+        </relation>
+        <ext>
+          <doctype>article</doctype>
+        </ext>
+      </bibdata>
+      <sections> </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "reads scripts into blank HTML document" do
     FileUtils.rm_f "test.html"
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
@@ -984,6 +1025,13 @@ QU1FOiB0ZXN0Cgo=
     allow_any_instance_of(::Asciidoctor::Standoc::Front)
       .to receive(:default_publisher).and_return(
         "International Standards Organization",
+      )
+  end
+
+  def mock_relaton_relation_descriptions
+    allow_any_instance_of(::Asciidoctor::Standoc::Front)
+      .to receive(:relaton_relation_descriptions).and_return(
+        "normatively-cited-in" => "isCitedIn",
       )
   end
 end

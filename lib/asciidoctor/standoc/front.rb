@@ -120,15 +120,19 @@ module Asciidoctor
       end
 
       def metadata_getrelation(node, xml, type, desc = nil)
-        docs = node.attr(desc || type) || return
+        docs = node.attr(desc || type) or return
         HTMLEntities.new.decode(docs).split(/;\s*/).each do |d|
-          id = d.split(/,\s*/)
-          xml.relation **{ type: relation_normalise(type) } do |r|
-            desc.nil? or r.description relation_normalise(desc)
-            fetch_ref(r, d, nil, **{}) or r.bibitem do |b|
-              b.title id[1] || "--"
-              b.docidentifier id[0]
-            end
+          metadata_getrelation1(d, xml, type, desc)
+        end
+      end
+
+      def metadata_getrelation1(doc, xml, type, desc)
+        id = doc.split(/,\s*/)
+        xml.relation **{ type: relation_normalise(type) } do |r|
+          desc.nil? or r.description desc.gsub(/-/, " ")
+          fetch_ref(r, doc, nil, **{}) or r.bibitem do |b|
+            b.title id[1] || "--"
+            b.docidentifier id[0]
           end
         end
       end
