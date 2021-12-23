@@ -190,6 +190,19 @@ module Asciidoctor
           xml_section << content
         end
       end
+
+      def floating_title_attrs(node)
+        attr_code(id_attr(node).merge(align: node.attr("align"),
+                                      type: "floating-title"))
+      end
+
+      def floating_title(node)
+        noko do |xml|
+          xml.p **floating_title_attrs(node) do |xml_t|
+            xml_t << node.title
+          end
+        end.join("\n")
+      end
     end
   end
 end
