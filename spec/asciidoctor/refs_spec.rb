@@ -735,7 +735,8 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes dated ISO reference and joint ISO/IEC references" do
-    VCR.use_cassette("dated_iso_ref_joint_iso_iec", match_requests_on: %i[method uri body]) do
+    VCR.use_cassette("dated_iso_ref_joint_iso_iec",
+                     match_requests_on: %i[method uri body]) do
       input = <<~INPUT
         #{ISOBIB_BLANK_HDR}
         [bibliography]
@@ -1977,6 +1978,43 @@ RSpec.describe Asciidoctor::Standoc do
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)
+    end
+  end
+
+  it "processes formatting within bibliographic references" do
+    VCR.use_cassette "isobib_get_123_1" do
+      input = <<~INPUT
+        #{ISOBIB_BLANK_HDR}
+        [bibliography]
+        == Normative References
+
+        * [[[reference,ISO 123]]] _Standard_
+
+        == Section
+
+        <<reference,_reference_>>
+        <<reference,_**reference**_>>
+        <<reference,_A_ stem:[x^2]>>
+        <<reference,_A_ footnote:[_B_]>>
+        <<reference,clause=3.4.2, ISO 9000:2005 footnote:[Superseded by ISO 9000:2015.]>>
+
+      INPUT
+      output = <<~OUTPUT
+       #{BLANK_HDR}
+       <sections>
+       <clause id="_" inline-header="false" obligation="normative">
+       <title>Section</title>
+       <p id="_"><eref type="inline" bibitemid="reference" citeas="ISO 123"><em>reference</em></eref>
+       <eref type="inline" bibitemid="reference" citeas="ISO 123"><em><strong>reference</strong></em></eref>
+       <eref type="inline" bibitemid="reference" citeas="ISO 123"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math></stem></eref>
+       <eref type="inline" bibitemid="reference" citeas="ISO 123"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></eref>
+       <eref type="inline" bibitemid="reference" citeas="ISO 123"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></eref></p>
+       </clause></sections>
+       </standard-document>
+      OUTPUT
+      a = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+      a.at("//xmlns:bibliography").remove
+      expect((strip_guid(a.to_xml))).to be_equivalent_to(output)
     end
   end
 

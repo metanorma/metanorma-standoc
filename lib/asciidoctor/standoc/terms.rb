@@ -105,8 +105,14 @@ module Asciidoctor
         else
           attrs = term_source_attrs(node, seen_xref)
           attrs.delete(:text)
-          xml_t.origin seen_xref.children[0].content, **attr_code(attrs)
+          xml_t.origin **attr_code(attrs) do |o|
+            o << seen_xref.children[0].children.to_xml
+          end
         end
+        add_term_source_mod(xml_t, match)
+      end
+
+      def add_term_source_mod(xml_t, match)
         match[:text] && xml_t.modification do |mod|
           mod.p { |p| p << match[:text].sub(/^\s+/, "") }
         end

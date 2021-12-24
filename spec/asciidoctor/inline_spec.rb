@@ -389,6 +389,61 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to(output)
   end
 
+  it "processes formatting within crossreferences" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [[reference]]
+      == Section
+
+      <<reference,_reference_>>
+      <<reference,_**reference**_>>
+      <<reference,_A_ stem:[x^2]>>
+      <<reference,_A_ footnote:[_B_]>>
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections>
+       <clause id="reference" inline-header="false" obligation="normative">
+       <title>Section</title>
+       <p id="_"><xref target="reference"><em>reference</em></xref>
+       <xref target="reference"><em><strong>reference</strong></em></xref>
+       <xref target="reference"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math></stem></xref>
+       <xref target="reference"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></xref></p>
+       </clause>
+       </sections>
+      </standard-document>
+    OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
+  end
+
+  it "processes formatting within crossreferences to non-existent anchor" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Section
+
+      <<reference,_reference_>>
+      <<reference,_**reference**_>>
+      <<reference,_A_ stem:[x^2]>>
+      <<reference,_A_ footnote:[_B_]>>
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+             <sections>
+       <clause id="_" inline-header="false" obligation="normative">
+       <title>Section</title>
+       <p id="_"><xref target="reference"><em>reference</em></xref>
+       <xref target="reference"><em><strong>reference</strong></em></xref>
+       <xref target="reference"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math></stem></xref>
+       <xref target="reference"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></xref></p>
+       </clause>
+       </sections>
+       </standard-document>
+    OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
+  end
+
   it "processes bibliographic anchors" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -418,6 +473,120 @@ RSpec.describe Asciidoctor::Standoc do
       </references>
       </bibliography>
       </standard-document>
+    OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
+  end
+
+  it "processes formatting within bibliographic references" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Section
+
+      <<reference,_reference_>>
+      <<reference,_**reference**_>>
+      <<reference,_A_ stem:[x^2]>>
+      <<reference,_A_ footnote:[_B_]>>
+      <<reference,clause=3.4.2, ISO 9000:2005 footnote:[Superseded by ISO 9000:2015.]>>
+
+      [bibliography]
+      == Normative References
+
+      * [[[reference,ABC]]] Reference
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+             <sections><clause id="_" inline-header="false" obligation="normative">
+       <title>Section</title>
+       <p id="_"><eref type="inline" bibitemid="reference" citeas="ABC"><em>reference</em></eref>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><em><strong>reference</strong></em></eref>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math></stem></eref>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></eref>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></eref></p>
+       </clause>
+       </sections><bibliography><references id="_" normative="true" obligation="informative">
+       <title>Normative references</title><p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+       <bibitem id="reference">
+       <formattedref format="application/x-isodoc+xml">Reference</formattedref>
+       <docidentifier>ABC</docidentifier>
+       </bibitem>
+       </references></bibliography>
+       </standard-document>
+    OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
+  end
+
+  it "processes formatting within term sources" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      === Term1
+
+      [.source]
+      <<reference,_reference_>>
+
+      [.source]
+      <<reference,_**reference**_>>
+
+      [.source]
+      <<reference,_A_ stem:[x^2]>>
+
+      [.source]
+      <<reference,_A_ footnote:[_B_]>>
+
+      [.source]
+      <<reference,clause=3.4.2, ISO 9000:2005 footnote:[Superseded by ISO 9000:2015.]>>
+
+      [bibliography]
+      == Normative References
+
+      * [[[reference,ABC]]] Reference
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+             <sections><terms id="_" obligation="normative">
+       <title>Terms and definitions</title><p id="_">For the purposes of this document,
+           the following terms and definitions apply.</p>
+
+       <term id="term-term1"><preferred><expression><name>Term1</name></expression><termsource status="identical" type="authoritative">
+       <origin bibitemid="reference" type="inline" citeas="ABC">
+       <em>reference</em>
+       </origin>
+       </termsource><termsource status="identical" type="authoritative">
+       <origin bibitemid="reference" type="inline" citeas="ABC">
+       <em>
+         <strong>reference</strong>
+       </em>
+       </origin>
+       </termsource><termsource status="identical" type="authoritative">
+       <origin bibitemid="reference" type="inline" citeas="ABC"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math></stem></origin>
+       </termsource><termsource status="identical" type="authoritative">
+       <origin bibitemid="reference" type="inline" citeas="ABC"><em>A</em><fn reference="1">
+         <p id="_">
+           <em>B</em>
+         </p>
+       </fn></origin>
+       </termsource><termsource status="identical" type="authoritative">
+       <origin bibitemid="reference" type="inline" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack>ISO 9000:2005<fn reference="2">
+         <p id="_">Superseded by ISO 9000:2015.</p>
+       </fn></origin>
+       </termsource></preferred>
+
+
+
+       </term>
+       </terms>
+       </sections><bibliography><references id="_" normative="true" obligation="informative">
+       <title>Normative references</title><p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+       <bibitem id="reference">
+       <formattedref format="application/x-isodoc+xml">Reference</formattedref>
+       <docidentifier>ABC</docidentifier>
+
+       </bibitem>
+       </references></bibliography>
+       </standard-document>
     OUTPUT
     expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(output)
