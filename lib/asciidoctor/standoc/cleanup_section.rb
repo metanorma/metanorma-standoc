@@ -9,7 +9,7 @@ module Asciidoctor
     module Cleanup
       def make_preface(xml, sect)
         if xml.at("//foreword | //introduction | //acknowledgements | "\
-            "//*[@preface]")
+                  "//*[@preface]")
           preface = sect.add_previous_sibling("<preface/>").first
           f = xml.at("//foreword") and preface.add_child f.remove
           f = xml.at("//introduction") and preface.add_child f.remove
@@ -178,6 +178,33 @@ module Asciidoctor
         xmldoc.xpath("//sections//*[@beforeclauses = 'true']").each do |x|
           x.delete("beforeclauses")
           ins.previous = x.remove
+        end
+      end
+
+      def floatingtitle_cleanup(xmldoc)
+        pop_floating_title(xmldoc)
+        floating_title_preface2sections(xmldoc)
+      end
+
+      def pop_floating_title(xmldoc)
+        loop do
+          found = false
+          xmldoc.xpath("//floating-title").each do |t|
+            next unless t.next_element.nil?
+            next if %w(sections annex preface).include? t.parent.name
+
+            t.parent.parent << t
+            found = true
+          end
+          break unless found
+        end
+      end
+
+      def floating_title_preface2sections(xmldoc)
+        t = xmldoc.at("//preface/floating-title") or return
+        s = xmldoc.at("//sections")
+        unless t.next_element
+          s.children.first.previous = t.remove
         end
       end
     end

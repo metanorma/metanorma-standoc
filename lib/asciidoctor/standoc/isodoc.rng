@@ -690,8 +690,22 @@
             <ref name="terms"/>
             <ref name="term-clause"/>
             <ref name="definitions"/>
+            <ref name="floating-title"/>
           </choice>
         </oneOrMore>
+      </element>
+    </define>
+    <define name="floating-tile">
+      <element name="floating-title">
+        <attribute name="id">
+          <data type="ID"/>
+        </attribute>
+        <attribute name="depth">
+          <data type="int"/>
+        </attribute>
+        <zeroOrMore>
+          <ref name="TextElement"/>
+        </zeroOrMore>
       </element>
     </define>
     <define name="references">
@@ -1680,6 +1694,7 @@
           <ref name="clause-subsection"/>
           <ref name="terms"/>
           <ref name="definitions"/>
+          <ref name="floating-title"/>
         </choice>
       </oneOrMore>
     </choice>
@@ -1722,6 +1737,7 @@
           <ref name="terms"/>
           <ref name="definitions"/>
           <ref name="references"/>
+          <ref name="floating-title"/>
         </choice>
       </zeroOrMore>
     </group>
