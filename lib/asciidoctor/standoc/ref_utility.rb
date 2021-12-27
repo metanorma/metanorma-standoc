@@ -66,7 +66,8 @@ module Asciidoctor
 
       def analyse_ref_repo_path(ret)
         return ret unless m =
-                            /^(?<type>repo|path):\((?<key>[^,]+),?(?<id>.*)\)$/.match(ret[:id])
+                            /^(?<type>repo|path):\((?<key>[^,]+),?(?<id>.*)\)$/
+                              .match(ret[:id])
 
         id = m[:id].empty? ? m[:key].sub(%r{^[^/]+/}, "") : m[:id]
         ret.merge(id: id, type: m[:type], key: m[:key], nofetch: true)
@@ -85,6 +86,32 @@ module Asciidoctor
         return ret if code.blank?
 
         analyse_ref_nofetch(analyse_ref_repo_path(analyse_ref_numeric(ret)))
+      end
+
+      # if no year is supplied, interpret as no_year reference
+      def no_year_generic_ref(code)
+        /^(BSI|BS)\b/.match?(code)
+      end
+
+      def plaintxt
+        { format: "text/plain" }
+      end
+
+      def ref_attributes(match)
+        { id: match[:anchor], type: "standard" }
+      end
+
+      MALFORMED_REF =
+        "no anchor on reference, markup may be malformed: see "\
+        "https://www.metanorma.com/author/topics/document-format/bibliography/ , "\
+        "https://www.metanorma.com/author/iso/topics/markup/#bibliographies".freeze
+
+      def ref_normalise(ref)
+        ref.gsub(/&amp;amp;/, "&amp;").gsub(%r{^<em>(.*)</em>}, "\\1")
+      end
+
+      def ref_normalise_no_format(ref)
+        ref.gsub(/&amp;amp;/, "&amp;")
       end
     end
   end

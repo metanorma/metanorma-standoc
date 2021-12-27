@@ -970,8 +970,9 @@ RSpec.describe Asciidoctor::Standoc do
                <formattedref format='application/x-isodoc+xml'>
                  <em>Standard</em>
                </formattedref>
-               <docidentifier type='ISO'>ISO/IEC TR 12382:1992</docidentifier>
-               <docnumber>12382:1992</docnumber>
+               <docidentifier type='ISO'>ISO/IEC TR 12382</docidentifier>
+               <docnumber>12382</docnumber>
+                <date type='published'><on>1992</on></date>
              </bibitem>
              <bibitem id='iso124' type='standard'>
                <fetched/>
@@ -1112,8 +1113,6 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   it "processes all-parts ISO reference" do
-    # stub_fetch_ref(all_parts: true)
-
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
@@ -1171,8 +1170,111 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes BSI reference with year" do
+    VCR.use_cassette("bsi16341",
+                     match_requests_on: %i[method uri body]) do
+      input = <<~INPUT
+        #{ISOBIB_BLANK_HDR}
+        [bibliography]
+        == Normative References
+
+        * [[[iso124,BSI BS EN ISO 19011:2018]]] _Standard_
+        * [[[iso123,BSI BS EN 16341]]] _Standard_
+        * [[[ref_2,BSI BS EN ISO 14044:2006+A1:2018]]], _Environmental management – Life cycle assessment – Requirements and guidelines_
+      INPUT
+      output = <<~OUTPUT
+        #{BLANK_HDR}
+          <sections> </sections>
+                  <bibliography>
+           <references id='_' normative='true' obligation='informative'>
+             <title>Normative references</title>
+             <p id='_'>
+               The following documents are referred to in the text in such a way that
+               some or all of their content constitutes requirements of this document.
+               For dated references, only the edition cited applies. For undated
+               references, the latest edition of the referenced document (including any
+               amendments) applies.
+             </p>
+             <bibitem id='iso123'>
+               <formattedref format='application/x-isodoc+xml'>
+                 <em>Standard</em>
+               </formattedref>
+               <docidentifier type='BSI'>BS EN 16341</docidentifier>
+               <docnumber>16341</docnumber>
+             </bibitem>
+             <bibitem id='iso124' type='standard'>
+               <fetched/>
+               <title type='title-main' format='text/plain' language='en' script='Latn'>Guidelines for auditing management systems</title>
+               <title type='main' format='text/plain' language='en' script='Latn'>Guidelines for auditing management systems</title>
+               <uri type='src'>https://shop.bsigroup.com/products/guidelines-for-auditing-management-systems</uri>
+               <docidentifier type='BSI'>BS EN ISO 19011:2018&#8201;&#8212;&#8201;TC</docidentifier>
+               <docidentifier type='ISBN'>978 0 580 97125 9</docidentifier>
+               <date type='published'>
+                 <on>2018-07-31</on>
+               </date>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>British Standards Institution</name>
+                   <abbreviation>BSI</abbreviation>
+                   <uri>https://www.bsigroup.com/</uri>
+                 </organization>
+               </contributor>
+               <language>en</language>
+               <script>Latn</script>
+               <abstract format='text/plain' language='en' script='Latn'>
+                 What is this standard about? It provides guidance for any organization
+                 that wants to plan and conduct management systems audits or manage an
+                 audit programme. Who is this standard for? Organizations that use ISO
+                 management system standards (e.g. 9001, 14001, 45001, 27001, etc),
+                 from the very smallest to multi-national, multi-site global
+                 conglomerates. Why should you use this standard? It provides guidance
+                 on auditing management systems and includes: The principles of
+                 auditing Managing an audit programme Conducting management system
+                 audits Guidance on evaluating the competence of individuals involved
+                 in the audit process. This includes the individual(s) managing the
+                 audit programme, auditors and audit teams. NOTE: It&#8217;s possible
+                 to apply this document to other types of audits as long as special
+                 consideration is given to the specific competence needed. What&#8217;s
+                 changed since the last update? The main changes are: Addition of the
+                 risk-based approach to the principles of auditing Expansion of
+                 guidance on managing an audit programme, including audit programme
+                 risk Expansion of the guidance on conducting an audit, particularly
+                 the section on audit planning Expansion of the generic competence
+                 requirements for auditors Adjusted terminology to reflect the process
+                 and not the object (thing) Removal of the annex containing competence
+                 requirements for auditing specific management system disciplines (due
+                 to the large number of individual management system standards, it
+                 would not be practical to include competence requirements for all
+                 disciplines) Expansion of Annex A to provide guidance on auditing
+                 (new) concepts such as organizational context, leadership and
+                 commitment, virtual audits, compliance and supply chain
+               </abstract>
+               <status>
+                 <stage>Current</stage>
+               </status>
+               <copyright>
+                 <from>2018</from>
+                 <owner>
+                   <organization>
+                     <name>British Standards Institution</name>
+                     <abbreviation>BSI</abbreviation>
+                     <uri>https://www.bsigroup.com/</uri>
+                   </organization>
+                 </owner>
+               </copyright>
+               <place>London</place>
+             </bibitem>
+           </references>
+         </bibliography>
+        </standard-document>
+      OUTPUT
+      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+        .to be_equivalent_to xmlpp(output)
+    end
+  end
+
   it "processes RFC reference in Normative References" do
-    # mock_rfcbib_get_rfc8341
     VCR.use_cassette "rfcbib_get_rfc8341" do
       input = <<~INPUT
         #{ISOBIB_BLANK_HDR}
@@ -1336,8 +1438,8 @@ RSpec.describe Asciidoctor::Standoc do
       [bibliography]
       == Normative References
 
-      * [[[iso123,XYZ 123:1066 (all parts)]]] _Standard_
-      * [[[iso124,(1)XYZ 123:1066 (all parts)]]] _Standard_
+      * [[[iso123,XYZ 123:1966 (all parts)]]] _Standard_
+      * [[[iso124,(1)XYZ 123:1966]]] _Standard_
     INPUT
     output = <<~OUTPUT
              #{BLANK_HDR}
@@ -1349,16 +1451,20 @@ RSpec.describe Asciidoctor::Standoc do
                <formattedref format="application/x-isodoc+xml">
                  <em>Standard</em>
                </formattedref>
-               <docidentifier>XYZ 123:1066 (all parts)</docidentifier>
-               <docnumber>123:1066 (all parts)</docnumber>
+               <docidentifier>XYZ 123:1966 (all parts)</docidentifier>
+               <docnumber>123:1966 (all parts)</docnumber>
+               <date type='published'><on>1966</on></date>
              </bibitem>
              <bibitem id='iso124'>
         <formattedref format='application/x-isodoc+xml'>
           <em>Standard</em>
         </formattedref>
         <docidentifier type='metanorma'>[1]</docidentifier>
-        <docidentifier>XYZ 123:1066 (all parts)</docidentifier>
-               <docnumber>123:1066 (all parts)</docnumber>
+        <docidentifier>XYZ 123</docidentifier>
+        <docnumber>123</docnumber>
+                      <date type='published'>
+         <on>1966</on>
+       </date>
       </bibitem>
              </references>
              </bibliography>
@@ -2000,17 +2106,17 @@ RSpec.describe Asciidoctor::Standoc do
 
       INPUT
       output = <<~OUTPUT
-       #{BLANK_HDR}
-       <sections>
-       <clause id="_" inline-header="false" obligation="normative">
-       <title>Section</title>
-       <p id="_"><eref type="inline" bibitemid="reference" citeas="ISO 123"><em>reference</em></eref>
-       <eref type="inline" bibitemid="reference" citeas="ISO 123"><em><strong>reference</strong></em></eref>
-       <eref type="inline" bibitemid="reference" citeas="ISO 123"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math></stem></eref>
-       <eref type="inline" bibitemid="reference" citeas="ISO 123"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></eref>
-       <eref type="inline" bibitemid="reference" citeas="ISO 123"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></eref></p>
-       </clause></sections>
-       </standard-document>
+        #{BLANK_HDR}
+        <sections>
+        <clause id="_" inline-header="false" obligation="normative">
+        <title>Section</title>
+        <p id="_"><eref type="inline" bibitemid="reference" citeas="ISO 123"><em>reference</em></eref>
+        <eref type="inline" bibitemid="reference" citeas="ISO 123"><em><strong>reference</strong></em></eref>
+        <eref type="inline" bibitemid="reference" citeas="ISO 123"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math></stem></eref>
+        <eref type="inline" bibitemid="reference" citeas="ISO 123"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></eref>
+        <eref type="inline" bibitemid="reference" citeas="ISO 123"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></eref></p>
+        </clause></sections>
+        </standard-document>
       OUTPUT
       a = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       a.at("//xmlns:bibliography").remove
