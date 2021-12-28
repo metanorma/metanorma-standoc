@@ -116,7 +116,7 @@ module Asciidoctor
       end
 
       def refitem_render(xml, match, code)
-        xml.bibitem **attr_code(id: match[:anchor]) do |t|
+        xml.bibitem **attr_code(id: match[:anchor], hidden: code[:hidden]) do |t|
           t.formattedref **{ format: "application/x-isodoc+xml" } do |i|
             i << ref_normalise_no_format(match[:text])
           end
@@ -137,12 +137,12 @@ module Asciidoctor
       def refitem1code(_item, match)
         code = analyse_ref_code(match[:code])
         ((code[:id] && code[:numeric]) || code[:nofetch]) and
-          return { code: nil, match: match, analyse_code: code }
+          return { code: nil, match: match, analyse_code: code,
+                   hidden: code[:hidden] }
         year = refitem1yr(code[:id])
-        { code: code[:id], analyse_code: code,
-          #year: year,
-          #no_year: year.nil? ? nil : no_year_generic_ref(code[:id]),
-          title: match[:text], match: match,
+        { code: code[:id], analyse_code: code, year: year,
+          no_year: year.nil? ? nil : no_year_generic_ref(code[:id]),
+          title: match[:text], match: match, hidden: code[:hidden],
           usrlbl: match[:usrlbl], lang: (@lang || :all) }
       end
 
@@ -212,7 +212,6 @@ module Asciidoctor
         refs = node.items.each_with_object([]) do |b, m|
           m << reference1code(b.text, node)
         end
-        warn refs
         results = refs.each_with_index.with_object(Queue.new) do |(ref, i), res|
           fetch_ref_async(ref.merge(ord: i), i, res)
         end
@@ -221,18 +220,22 @@ module Asciidoctor
 
       def reference(node)
         refs, results = reference_preproc(node)
+        ret = reference_queue(refs, results)
         noko do |xml|
-          ret = refs.each.with_object([]) do |_, m|
-            ref, i, doc = results.pop
-            m[i.to_i] = { ref: ref }
-            if doc.is_a?(RelatonBib::RequestError)
-              @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: "\
-                                            "no access to online site")
-            else m[i.to_i][:doc] = doc
-            end
-          end
           ret.each { |b| reference1out(b, xml) }
         end.join
+      end
+
+      def reference_queue(refs, results)
+        refs.each.with_object([]) do |_, m|
+          ref, i, doc = results.pop
+          m[i.to_i] = { ref: ref }
+          if doc.is_a?(RelatonBib::RequestError)
+            @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: "\
+                                          "no access to online site")
+          else m[i.to_i][:doc] = doc
+          end
+        end
       end
     end
   end

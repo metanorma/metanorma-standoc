@@ -119,7 +119,7 @@ module Asciidoctor
       def use_retrieved_relaton(item, xml)
         xml.parent.add_child(smart_render_xml(item[:doc], item[:ref][:code],
                                               item[:ref]))
-        use_my_anchor(xml, item[:ref][:match][:anchor])
+        use_my_anchor(xml, item[:ref][:match][:anchor], item.dig(:ref, :analyse_code, :hidden))
       end
 
       def init_bib_caches(node)

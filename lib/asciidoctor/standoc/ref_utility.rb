@@ -31,8 +31,9 @@ module Asciidoctor
         end
       end
 
-      def use_my_anchor(ref, id)
+      def use_my_anchor(ref, id, hidden)
         ref.parent.elements.last["id"] = id
+        hidden and ref.parent.elements.last["hidden"] = hidden
         ref
       end
 
@@ -55,13 +56,21 @@ module Asciidoctor
       end
 
       def mn_code(code)
-        code.sub(/^\(/, "[").sub(/\).*$/, "]").sub(/^nofetch\((.+)\)$/, "\\1")
+        code.sub(/^\(/, "[").sub(/\).*$/, "]")
+          .sub(/^hidden\((.+)\)$/, "\\1")
+          .sub(/^nofetch\((.+)\)$/, "\\1")
       end
 
       def analyse_ref_nofetch(ret)
         return ret unless m = /^nofetch\((?<id>.+)\)$/.match(ret[:id])
 
         ret.merge(id: m[:id], nofetch: true)
+      end
+
+      def analyse_ref_hidden(ret)
+        return ret unless m = /^hidden\((?<id>.+)\)$/.match(ret[:id])
+
+        ret.merge(id: m[:id], hidden: true)
       end
 
       def analyse_ref_repo_path(ret)
@@ -80,12 +89,15 @@ module Asciidoctor
       end
 
       # ref id = (usrlbl)code[:-]year
-      # code = nofetch(code) | (repo|path):(key,code) | \[? number \]? | ident
+      # code = nofetch(code) | hidden(code) | (repo|path):(key,code) |
+      # \[? number \]? | ident
       def analyse_ref_code(code)
         ret = { id: code }
         return ret if code.blank?
 
-        analyse_ref_nofetch(analyse_ref_repo_path(analyse_ref_numeric(ret)))
+        analyse_ref_nofetch(
+          analyse_ref_hidden(analyse_ref_repo_path(analyse_ref_numeric(ret))),
+        )
       end
 
       # if no year is supplied, interpret as no_year reference
