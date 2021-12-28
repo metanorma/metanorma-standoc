@@ -695,19 +695,6 @@
         </oneOrMore>
       </element>
     </define>
-    <define name="floating-tile">
-      <element name="floating-title">
-        <attribute name="id">
-          <data type="ID"/>
-        </attribute>
-        <attribute name="depth">
-          <data type="int"/>
-        </attribute>
-        <zeroOrMore>
-          <ref name="TextElement"/>
-        </zeroOrMore>
-      </element>
-    </define>
     <define name="references">
       <element name="references">
         <optional>
@@ -2548,6 +2535,19 @@
       <oneOrMore>
         <ref name="BasicBlock"/>
       </oneOrMore>
+    </element>
+  </define>
+  <define name="floating-title">
+    <element name="floating-title">
+      <attribute name="id">
+        <data type="ID"/>
+      </attribute>
+      <attribute name="depth">
+        <data type="int"/>
+      </attribute>
+      <zeroOrMore>
+        <ref name="TextElement"/>
+      </zeroOrMore>
     </element>
   </define>
 </grammar>
