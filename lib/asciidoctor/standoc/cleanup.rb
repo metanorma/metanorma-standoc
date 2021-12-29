@@ -35,6 +35,7 @@ module Asciidoctor
         ref_cleanup(xmldoc)
         note_cleanup(xmldoc)
         clausebefore_cleanup(xmldoc)
+        floatingtitle_cleanup(xmldoc)
         bibitem_cleanup(xmldoc)
         normref_cleanup(xmldoc)
         biblio_cleanup(xmldoc)
