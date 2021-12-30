@@ -140,8 +140,8 @@ module Asciidoctor
           return { code: nil, match: match, analyse_code: code,
                    hidden: code[:hidden] }
         year = refitem1yr(code[:id])
-        { code: code[:id], analyse_code: code, year: year,
-          no_year: year.nil? ? nil : no_year_generic_ref(code[:id]),
+        { code: code[:id], analyse_code: code,
+          year: year,
           title: match[:text], match: match, hidden: code[:hidden],
           usrlbl: match[:usrlbl], lang: (@lang || :all) }
       end

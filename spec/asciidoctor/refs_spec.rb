@@ -1041,7 +1041,9 @@ RSpec.describe Asciidoctor::Standoc do
         == Bibliography
 
         * [[[iso125,hidden(ISO 125)]]] _Standard_
-        * [[[iso126,ISO 124]]] _Standard_
+        * [[[iso126,hidden(XYZ)]]] _Standard_
+        * [[[iso127,ISO 124]]] _Standard_
+        * [[[iso128,ABC]]] _Standard_
       INPUT
       output = <<~OUTPUT
         #{BLANK_HDR}
@@ -1257,7 +1259,13 @@ RSpec.describe Asciidoctor::Standoc do
                <docidentifier type='ISO'>ISO 125</docidentifier>
                <docnumber>125</docnumber>
              </bibitem>
-             <bibitem id='iso126' type='standard'>
+                   <bibitem id='iso126' hidden='true'>
+        <formattedref format='application/x-isodoc+xml'>
+          <em>Standard</em>
+        </formattedref>
+        <docidentifier>XYZ</docidentifier>
+      </bibitem>
+             <bibitem id='iso127' type='standard'>
                <fetched/>
                <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
@@ -1352,6 +1360,12 @@ RSpec.describe Asciidoctor::Standoc do
                </relation>
                <place>Geneva</place>
              </bibitem>
+                   <bibitem id='iso128'>
+        <formattedref format='application/x-isodoc+xml'>
+          <em>Standard</em>
+        </formattedref>
+        <docidentifier>ABC</docidentifier>
+      </bibitem>
            </references>
          </bibliography>
        </standard-document>
@@ -1516,97 +1530,15 @@ RSpec.describe Asciidoctor::Standoc do
 
         * [[[iso124,BSI BS EN ISO 19011:2018]]] _Standard_
         * [[[iso123,BSI BS EN 16341]]] _Standard_
-        * [[[ref_2,BSI BS EN ISO 14044:2006+A1:2018]]], _Environmental management – Life cycle assessment – Requirements and guidelines_
+        * [[[ref_2,BSI BS EN ISO 14044:2006+A1:2020]]], _Environmental management – Life cycle assessment – Requirements and guidelines_
       INPUT
-      output = <<~OUTPUT
-        #{BLANK_HDR}
-          <sections> </sections>
-                  <bibliography>
-           <references id='_' normative='true' obligation='informative'>
-             <title>Normative references</title>
-             <p id='_'>
-               The following documents are referred to in the text in such a way that
-               some or all of their content constitutes requirements of this document.
-               For dated references, only the edition cited applies. For undated
-               references, the latest edition of the referenced document (including any
-               amendments) applies.
-             </p>
-             <bibitem id='iso123'>
-               <formattedref format='application/x-isodoc+xml'>
-                 <em>Standard</em>
-               </formattedref>
-               <docidentifier type='BSI'>BS EN 16341</docidentifier>
-               <docnumber>16341</docnumber>
-             </bibitem>
-             <bibitem id='iso124' type='standard'>
-               <fetched/>
-               <title type='title-main' format='text/plain' language='en' script='Latn'>Guidelines for auditing management systems</title>
-               <title type='main' format='text/plain' language='en' script='Latn'>Guidelines for auditing management systems</title>
-               <uri type='src'>https://shop.bsigroup.com/products/guidelines-for-auditing-management-systems</uri>
-               <docidentifier type='BSI'>BS EN ISO 19011:2018&#8201;&#8212;&#8201;TC</docidentifier>
-               <docidentifier type='ISBN'>978 0 580 97125 9</docidentifier>
-               <date type='published'>
-                 <on>2018-07-31</on>
-               </date>
-               <contributor>
-                 <role type='publisher'/>
-                 <organization>
-                   <name>British Standards Institution</name>
-                   <abbreviation>BSI</abbreviation>
-                   <uri>https://www.bsigroup.com/</uri>
-                 </organization>
-               </contributor>
-               <language>en</language>
-               <script>Latn</script>
-               <abstract format='text/plain' language='en' script='Latn'>
-                 What is this standard about? It provides guidance for any organization
-                 that wants to plan and conduct management systems audits or manage an
-                 audit programme. Who is this standard for? Organizations that use ISO
-                 management system standards (e.g. 9001, 14001, 45001, 27001, etc),
-                 from the very smallest to multi-national, multi-site global
-                 conglomerates. Why should you use this standard? It provides guidance
-                 on auditing management systems and includes: The principles of
-                 auditing Managing an audit programme Conducting management system
-                 audits Guidance on evaluating the competence of individuals involved
-                 in the audit process. This includes the individual(s) managing the
-                 audit programme, auditors and audit teams. NOTE: It&#8217;s possible
-                 to apply this document to other types of audits as long as special
-                 consideration is given to the specific competence needed. What&#8217;s
-                 changed since the last update? The main changes are: Addition of the
-                 risk-based approach to the principles of auditing Expansion of
-                 guidance on managing an audit programme, including audit programme
-                 risk Expansion of the guidance on conducting an audit, particularly
-                 the section on audit planning Expansion of the generic competence
-                 requirements for auditors Adjusted terminology to reflect the process
-                 and not the object (thing) Removal of the annex containing competence
-                 requirements for auditing specific management system disciplines (due
-                 to the large number of individual management system standards, it
-                 would not be practical to include competence requirements for all
-                 disciplines) Expansion of Annex A to provide guidance on auditing
-                 (new) concepts such as organizational context, leadership and
-                 commitment, virtual audits, compliance and supply chain
-               </abstract>
-               <status>
-                 <stage>Current</stage>
-               </status>
-               <copyright>
-                 <from>2018</from>
-                 <owner>
-                   <organization>
-                     <name>British Standards Institution</name>
-                     <abbreviation>BSI</abbreviation>
-                     <uri>https://www.bsigroup.com/</uri>
-                   </organization>
-                 </owner>
-               </copyright>
-               <place>London</place>
-             </bibitem>
-           </references>
-         </bibliography>
-        </standard-document>
-      OUTPUT
-      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-        .to be_equivalent_to xmlpp(output)
+      output = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+        .xpath("//xmlns:docidentifier[@type = 'BSI']").map(&:text)
+      expect(output).to include("BS EN ISO 14044:2006+A2:2020")
+      expect(output).to include("BS EN 16341:2012")
+      expect(output).to include("BS EN 16341")
+      expect(output).not_to include("BS EN ISO 19011")
+      expect(output).to include("BS EN ISO 19011:2018")
     end
   end
 
@@ -1644,7 +1576,7 @@ RSpec.describe Asciidoctor::Standoc do
                      </uri>
                      <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
                      <docidentifier type='IETF'>RFC 8341</docidentifier>
-                     <docidentifier type='rfc-anchor'>RFC8341</docidentifier>
+                     <docidentifier type='IETF' scope="anchor">RFC8341</docidentifier>
                      <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
                      <docnumber>RFC8341</docnumber>
                      <date type='published'>
@@ -1706,7 +1638,7 @@ RSpec.describe Asciidoctor::Standoc do
                      <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
                      <docidentifier type='IETF'>RFC 8341</docidentifier>
                      <docidentifier type='metanorma'>[1]</docidentifier>
-                     <docidentifier type='rfc-anchor'>RFC8341</docidentifier>
+                     <docidentifier type='IETF' scope="anchor">RFC8341</docidentifier>
                      <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
                      <docnumber>RFC8341</docnumber>
                      <date type='published'>
