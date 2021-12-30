@@ -222,6 +222,9 @@ RSpec.describe Asciidoctor::Standoc do
       :isbn: ISBN-13
       :isbn10: ISBN-10
       :classification: a:b, c
+      :toclevels: 2
+      :doctoclevels: 3
+      :htmltoclevels: 4
     INPUT
     output = <<~OUTPUT
           <?xml version="1.0" encoding="UTF-8"?>
@@ -481,6 +484,20 @@ RSpec.describe Asciidoctor::Standoc do
         </ics>
         </ext>
       </bibdata>
+       <misc-container>
+   <presentation-metadata>
+     <name>TOC Heading Levels</name>
+     <value>2</value>
+   </presentation-metadata>
+   <presentation-metadata>
+     <name>TOC Heading Levels</name>
+     <value>2</value>
+   </presentation-metadata>
+   <presentation-metadata>
+     <name>TOC Heading Levels</name>
+     <value>2</value>
+   </presentation-metadata>
+ </misc-container>
       <sections/>
       </standard-document>
     OUTPUT

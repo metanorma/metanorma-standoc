@@ -63,6 +63,9 @@ module Asciidoctor
                    Metanorma::Utils.default_script(node.attr("language")))
         @isodoc = isodoc(@lang, @script, node.attr("i18nyaml"))
         @i18n = @isodoc.i18n
+        @htmltoclevels = node.attr("htmltoclevels")
+        @doctoclevels = node.attr("doctoclevels")
+        @toclevels = node.attr("toclevels")
       end
 
       def document(node)
