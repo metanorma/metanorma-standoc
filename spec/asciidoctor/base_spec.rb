@@ -26,7 +26,7 @@ RSpec.describe Asciidoctor::Standoc do
                <stage>published</stage>
              </status>
              <copyright>
-               <from>2021</from>
+               <from>#{Time.now.year}</from>
              </copyright>
              <ext>
                <doctype>article</doctype>
@@ -759,7 +759,7 @@ RSpec.describe Asciidoctor::Standoc do
             <stage>published</stage>
           </status>
           <copyright>
-            <from>2021</from>
+            <from>#{Time.now.year}</from>
           </copyright>
           <ext>
             <doctype>article</doctype>
@@ -887,7 +887,7 @@ RSpec.describe Asciidoctor::Standoc do
           <stage>published</stage>
         </status>
         <copyright>
-          <from>2021</from>
+          <from>#{Time.now.year}</from>
         </copyright>
         <relation type='isCitedIn'>
           <description>normatively cited in</description>
