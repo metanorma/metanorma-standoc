@@ -1,4 +1,4 @@
-module Asciidoctor
+module Metanorma
   module Standoc
     class PlantUMLBlockMacroBackend
       # https://stackoverflow.com/questions/2108727/which-in-ruby-checking-if-program-exists-in-path-from-ruby

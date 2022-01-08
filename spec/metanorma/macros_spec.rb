@@ -1,7 +1,7 @@
 require "spec_helper"
 
-RSpec.describe Asciidoctor::Standoc do
-  it "processes the Asciidoctor::Standoc inline macros" do
+RSpec.describe Metanorma::Standoc do
+  it "processes the Metanorma::Standoc inline macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       preferred:[term0]
@@ -55,7 +55,7 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "processes the Asciidoctor::Standoc index macros" do
+  it "processes the Metanorma::Standoc index macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       index:also[]
@@ -127,7 +127,7 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "processes the Asciidoctor::Standoc variant macros" do
+  it "processes the Metanorma::Standoc variant macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == lang:en[English] lang:fr-Latn[Français]
@@ -163,7 +163,7 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "processes the Asciidoctor::Standoc concept and related macros" do
+  it "processes the Metanorma::Standoc concept and related macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
@@ -332,7 +332,7 @@ RSpec.describe Asciidoctor::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "processes the Asciidoctor::Standoc concept macros for acronyms" do
+  it "processes the Metanorma::Standoc concept macros for acronyms" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 

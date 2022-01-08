@@ -2,7 +2,7 @@ require "spec_helper"
 require "relaton_iec"
 require "fileutils"
 
-RSpec.describe Asciidoctor::Standoc do
+RSpec.describe Metanorma::Standoc do
   it "applies smartquotes by default" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -778,7 +778,7 @@ RSpec.describe Asciidoctor::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect(Asciidoctor::Standoc::Converter.new(nil, *OPTIONS)
+    expect(Metanorma::Standoc::Converter.new(nil, *OPTIONS)
       .cleanup(Nokogiri::XML(input)).to_xml)
       .to be_equivalent_to xmlpp(output)
   end
@@ -836,7 +836,7 @@ RSpec.describe Asciidoctor::Standoc do
       </bibliography>
       </standard-document>
     OUTPUT
-    expect(Asciidoctor::Standoc::Converter.new(nil, *OPTIONS)
+    expect(Metanorma::Standoc::Converter.new(nil, *OPTIONS)
       .cleanup(Nokogiri::XML(input)).to_xml)
       .to be_equivalent_to xmlpp(output)
   end
@@ -1865,7 +1865,7 @@ RSpec.describe Asciidoctor::Standoc do
   private
 
   def mock_mathml_italicise(string)
-    allow_any_instance_of(::Asciidoctor::Standoc::Cleanup)
+    allow_any_instance_of(::Metanorma::Standoc::Cleanup)
       .to receive(:mathml_mi_italics).and_return(string)
   end
 

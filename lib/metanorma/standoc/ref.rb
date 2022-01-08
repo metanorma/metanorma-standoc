@@ -1,6 +1,6 @@
 require_relative "ref_date_id"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Refs
       def iso_publisher(bib, code)

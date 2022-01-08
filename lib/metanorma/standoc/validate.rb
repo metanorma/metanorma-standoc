@@ -1,10 +1,10 @@
-require "asciidoctor/standoc/utils"
+require "metanorma/standoc/utils"
 require_relative "./validate_section"
 require "nokogiri"
 require "jing"
 require "iev"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Validate
       SOURCELOCALITY = "./origin//locality[@type = 'clause']/"\

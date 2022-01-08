@@ -1,7 +1,7 @@
 require "date"
 require "htmlentities"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Cleanup
       def para_cleanup(xmldoc)

@@ -1,7 +1,7 @@
 require "set"
 require "relaton_bib"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Cleanup
       def biblio_reorder(xmldoc)

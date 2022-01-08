@@ -1,7 +1,7 @@
 require_relative "term_lookup_cleanup"
 require_relative "cleanup_terms_designations"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Cleanup
       def termdomain_cleanup(xmldoc)
@@ -100,7 +100,7 @@ module Asciidoctor
 
       def termdef_cleanup(xmldoc)
         termdef_unnest_cleanup(xmldoc)
-        Asciidoctor::Standoc::TermLookupCleanup.new(xmldoc, @log).call
+        Metanorma::Standoc::TermLookupCleanup.new(xmldoc, @log).call
         term_nonverbal_designations(xmldoc)
         term_dl_to_metadata(xmldoc)
         term_termsource_to_designation(xmldoc)

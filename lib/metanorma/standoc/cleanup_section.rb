@@ -4,7 +4,7 @@ require "json"
 require "mathml2asciimath"
 require_relative "cleanup_section_names"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Cleanup
       def make_preface(xml, sect)

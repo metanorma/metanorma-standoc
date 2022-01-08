@@ -1,6 +1,6 @@
 require "nokogiri"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Validate
       def section_validate(doc)

@@ -1,4 +1,4 @@
-module Asciidoctor
+module Metanorma
   module Standoc
     module Blocks
       def termnote_attrs(node)

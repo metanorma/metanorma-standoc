@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require "erb"
-require "asciidoctor/standoc/datamodel/plantuml_renderer"
+require "metanorma/standoc/datamodel/plantuml_renderer"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Datamodel
       class DiagramPreprocessor < Asciidoctor::Extensions::Preprocessor
@@ -16,7 +16,7 @@ module Asciidoctor
         #  into plantuml block
         def process(document, reader)
           input_lines = reader.readlines.to_enum
-          Reader.new(processed_lines(document, input_lines))
+          Asciidoctor::Reader.new(processed_lines(document, input_lines))
         end
 
         private
@@ -92,7 +92,7 @@ module Asciidoctor
           all_imports = format_import_directives(view_hash["imports"],
                                                  include_path)
           prepare_view_hash(view_hash, all_imports)
-          Asciidoctor::Datamodel::PlantumlRenderer
+          Metanorma::Datamodel::PlantumlRenderer
             .new(view_hash, File.join(yaml_directory, ".."))
             .render
             .split("\n")

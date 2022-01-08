@@ -266,7 +266,7 @@ ISO_123_DATED = <<~XML.freeze
          </bibdata>
 XML
 
-RSpec.describe Asciidoctor::Standoc do
+RSpec.describe Metanorma::Standoc do
   it "does not activate biblio caches if isobib disabled" do
     FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore1")
     FileUtils.mv(File.expand_path("~/.relaton/cache"),

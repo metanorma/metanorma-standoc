@@ -2,7 +2,7 @@
 
 require "erb"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Datamodel
       class AttributesTablePreprocessor < Asciidoctor::Extensions::Preprocessor
@@ -15,7 +15,7 @@ module Asciidoctor
         #  into yaml2text blocks
         def process(document, reader)
           input_lines = reader.readlines.to_enum
-          Reader.new(processed_lines(document, input_lines))
+          Asciidoctor::Reader.new(processed_lines(document, input_lines))
         end
 
         private

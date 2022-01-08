@@ -2,7 +2,7 @@ require "spec_helper"
 require "relaton_iec"
 require "fileutils"
 
-RSpec.describe Asciidoctor::Standoc do
+RSpec.describe Metanorma::Standoc do
   it "processes term and designation metadata and term sources" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}

@@ -1,4 +1,4 @@
-module Asciidoctor
+module Metanorma
   module Standoc
     module Cleanup
       # extending localities to cover ISO referencing

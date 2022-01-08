@@ -1,4 +1,4 @@
-module Asciidoctor
+module Metanorma
   module Standoc
     module Section
       def in_terms?

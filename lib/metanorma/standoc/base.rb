@@ -10,7 +10,7 @@ require "metanorma-utils"
 require "isodoc/xslfo_convert"
 require_relative "render"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Base
       XML_ROOT_TAG = "standard-document".freeze

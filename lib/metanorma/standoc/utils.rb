@@ -5,7 +5,7 @@ require "json"
 require "pathname"
 require "uuidtools"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Utils
       def convert(node, transform = nil, opts = {})

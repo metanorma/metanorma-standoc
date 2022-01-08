@@ -1,7 +1,7 @@
 require "spec_helper"
 require "open3"
 
-RSpec.describe Asciidoctor::Standoc do
+RSpec.describe Metanorma::Standoc do
   it "processes format-specific pass blocks" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}

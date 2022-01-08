@@ -1,4 +1,4 @@
-module Asciidoctor
+module Metanorma
   module Standoc
     module Cleanup
       def external_terms_boilerplate(sources)

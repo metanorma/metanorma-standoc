@@ -1,4 +1,4 @@
-module Asciidoctor
+module Metanorma
   module Standoc
     module Cleanup
       # Indices sort after letter but before any following

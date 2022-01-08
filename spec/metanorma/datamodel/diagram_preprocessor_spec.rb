@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Asciidoctor::Standoc::Datamodel::DiagramPreprocessor do
+RSpec.describe Metanorma::Standoc::Datamodel::DiagramPreprocessor do
   describe "#process" do
     context "when simple models without relations" do
       let(:datamodel_file) do

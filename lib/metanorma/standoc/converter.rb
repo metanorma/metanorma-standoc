@@ -1,81 +1,81 @@
 require "asciidoctor"
 require "metanorma/util"
 require "metanorma/standoc/version"
-require "asciidoctor/standoc/base"
-require "asciidoctor/standoc/front"
-require "asciidoctor/standoc/lists"
-require "asciidoctor/standoc/ref"
-require "asciidoctor/standoc/inline"
-require "asciidoctor/standoc/blocks"
-require "asciidoctor/standoc/section"
-require "asciidoctor/standoc/table"
-require "asciidoctor/standoc/validate"
-require "asciidoctor/standoc/utils"
-require "asciidoctor/standoc/cleanup"
-require "asciidoctor/standoc/reqt"
+require "metanorma/standoc/base"
+require "metanorma/standoc/front"
+require "metanorma/standoc/lists"
+require "metanorma/standoc/ref"
+require "metanorma/standoc/inline"
+require "metanorma/standoc/blocks"
+require "metanorma/standoc/section"
+require "metanorma/standoc/table"
+require "metanorma/standoc/validate"
+require "metanorma/standoc/utils"
+require "metanorma/standoc/cleanup"
+require "metanorma/standoc/reqt"
 require_relative "./macros"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     # A {Converter} implementation that generates Standoc output, and a document
     # schema encapsulation of the document for validation
     class Converter
       Asciidoctor::Extensions.register do
-        preprocessor Asciidoctor::Standoc::Datamodel::AttributesTablePreprocessor
-        preprocessor Asciidoctor::Standoc::Datamodel::DiagramPreprocessor
+        preprocessor Metanorma::Standoc::Datamodel::AttributesTablePreprocessor
+        preprocessor Metanorma::Standoc::Datamodel::DiagramPreprocessor
         preprocessor Metanorma::Plugin::Datastruct::Json2TextPreprocessor
         preprocessor Metanorma::Plugin::Datastruct::Yaml2TextPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlUmlAttributesTablePreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlUmlDatamodelDescriptionPreprocessor
-        inline_macro Asciidoctor::Standoc::PreferredTermInlineMacro
-        inline_macro Asciidoctor::Standoc::AltTermInlineMacro
-        inline_macro Asciidoctor::Standoc::DeprecatedTermInlineMacro
-        inline_macro Asciidoctor::Standoc::RelatedTermInlineMacro
-        inline_macro Asciidoctor::Standoc::DomainTermInlineMacro
-        inline_macro Asciidoctor::Standoc::InheritInlineMacro
-        inline_macro Asciidoctor::Standoc::HTML5RubyMacro
-        inline_macro Asciidoctor::Standoc::ConceptInlineMacro
-        inline_macro Asciidoctor::Standoc::AutonumberInlineMacro
-        inline_macro Asciidoctor::Standoc::VariantInlineMacro
-        inline_macro Asciidoctor::Standoc::FootnoteBlockInlineMacro
-        inline_macro Asciidoctor::Standoc::TermRefInlineMacro
-        inline_macro Asciidoctor::Standoc::SymbolRefInlineMacro
-        inline_macro Asciidoctor::Standoc::IndexXrefInlineMacro
-        inline_macro Asciidoctor::Standoc::IndexRangeInlineMacro
-        inline_macro Asciidoctor::Standoc::AddMacro
-        inline_macro Asciidoctor::Standoc::DelMacro
-        inline_macro Asciidoctor::Standoc::FormInputMacro
-        inline_macro Asciidoctor::Standoc::FormLabelMacro
-        inline_macro Asciidoctor::Standoc::FormTextareaMacro
-        inline_macro Asciidoctor::Standoc::FormSelectMacro
-        inline_macro Asciidoctor::Standoc::FormOptionMacro
-        inline_macro Asciidoctor::Standoc::ToCInlineMacro
-        inline_macro Asciidoctor::Standoc::PassInlineMacro
+        inline_macro Metanorma::Standoc::PreferredTermInlineMacro
+        inline_macro Metanorma::Standoc::AltTermInlineMacro
+        inline_macro Metanorma::Standoc::DeprecatedTermInlineMacro
+        inline_macro Metanorma::Standoc::RelatedTermInlineMacro
+        inline_macro Metanorma::Standoc::DomainTermInlineMacro
+        inline_macro Metanorma::Standoc::InheritInlineMacro
+        inline_macro Metanorma::Standoc::HTML5RubyMacro
+        inline_macro Metanorma::Standoc::ConceptInlineMacro
+        inline_macro Metanorma::Standoc::AutonumberInlineMacro
+        inline_macro Metanorma::Standoc::VariantInlineMacro
+        inline_macro Metanorma::Standoc::FootnoteBlockInlineMacro
+        inline_macro Metanorma::Standoc::TermRefInlineMacro
+        inline_macro Metanorma::Standoc::SymbolRefInlineMacro
+        inline_macro Metanorma::Standoc::IndexXrefInlineMacro
+        inline_macro Metanorma::Standoc::IndexRangeInlineMacro
+        inline_macro Metanorma::Standoc::AddMacro
+        inline_macro Metanorma::Standoc::DelMacro
+        inline_macro Metanorma::Standoc::FormInputMacro
+        inline_macro Metanorma::Standoc::FormLabelMacro
+        inline_macro Metanorma::Standoc::FormTextareaMacro
+        inline_macro Metanorma::Standoc::FormSelectMacro
+        inline_macro Metanorma::Standoc::FormOptionMacro
+        inline_macro Metanorma::Standoc::ToCInlineMacro
+        inline_macro Metanorma::Standoc::PassInlineMacro
         inline_macro Metanorma::Plugin::Lutaml::LutamlFigureInlineMacro
         inline_macro Metanorma::Plugin::Lutaml::LutamlTableInlineMacro
         block_macro Metanorma::Plugin::Lutaml::LutamlDiagramBlockMacro
-        block Asciidoctor::Standoc::ToDoAdmonitionBlock
-        treeprocessor Asciidoctor::Standoc::ToDoInlineAdmonitionBlock
-        block Asciidoctor::Standoc::PlantUMLBlockMacro
+        block Metanorma::Standoc::ToDoAdmonitionBlock
+        treeprocessor Metanorma::Standoc::ToDoInlineAdmonitionBlock
+        block Metanorma::Standoc::PlantUMLBlockMacro
         block Metanorma::Plugin::Lutaml::LutamlDiagramBlock
-        block Asciidoctor::Standoc::PseudocodeBlockMacro
+        block Metanorma::Standoc::PseudocodeBlockMacro
       end
 
       include ::Asciidoctor::Converter
       include ::Asciidoctor::Writer
 
-      include ::Asciidoctor::Standoc::Base
-      include ::Asciidoctor::Standoc::Front
-      include ::Asciidoctor::Standoc::Lists
-      include ::Asciidoctor::Standoc::Refs
-      include ::Asciidoctor::Standoc::Inline
-      include ::Asciidoctor::Standoc::Blocks
-      include ::Asciidoctor::Standoc::Section
-      include ::Asciidoctor::Standoc::Table
-      include ::Asciidoctor::Standoc::Utils
-      include ::Asciidoctor::Standoc::Cleanup
-      include ::Asciidoctor::Standoc::Validate
+      include ::Metanorma::Standoc::Base
+      include ::Metanorma::Standoc::Front
+      include ::Metanorma::Standoc::Lists
+      include ::Metanorma::Standoc::Refs
+      include ::Metanorma::Standoc::Inline
+      include ::Metanorma::Standoc::Blocks
+      include ::Metanorma::Standoc::Section
+      include ::Metanorma::Standoc::Table
+      include ::Metanorma::Standoc::Utils
+      include ::Metanorma::Standoc::Cleanup
+      include ::Metanorma::Standoc::Validate
 
       register_for "standoc"
 

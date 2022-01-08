@@ -1,6 +1,6 @@
 require "csv"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     class PreferredTermInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl

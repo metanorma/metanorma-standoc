@@ -4,7 +4,7 @@ require "htmlentities"
 require "pathname"
 require_relative "./front_contributor"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Front
       def metadata_id(node, xml)

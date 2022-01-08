@@ -2,7 +2,7 @@ require "uri" if /^2\./.match?(RUBY_VERSION)
 require_relative "ref_sect"
 require_relative "terms"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Section
       @biblio = false

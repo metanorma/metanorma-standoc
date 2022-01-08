@@ -1,4 +1,4 @@
-module Asciidoctor
+module Metanorma
   module Standoc
     class FormInputMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl

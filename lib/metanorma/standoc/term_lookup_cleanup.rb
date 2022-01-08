@@ -1,8 +1,8 @@
 # frozen_string_literal: true.
-require "asciidoctor/standoc/utils"
+require "metanorma/standoc/utils"
 
 
-module Asciidoctor
+module Metanorma
   module Standoc
     # Intelligent term lookup xml modifier
     class TermLookupCleanup

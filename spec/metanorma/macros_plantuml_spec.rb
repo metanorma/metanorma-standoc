@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe Asciidoctor::Standoc do
+RSpec.describe Metanorma::Standoc do
   it "processes the PlantUML macro" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -383,14 +383,14 @@ RSpec.describe Asciidoctor::Standoc do
   private
 
   def mock_plantuml_disabled
-    expect(Asciidoctor::Standoc::PlantUMLBlockMacroBackend)
+    expect(Metanorma::Standoc::PlantUMLBlockMacroBackend)
       .to receive(:plantuml_installed?) do
       raise "PlantUML not installed"
     end
   end
 
   def mock_localdir_unwritable
-    expect(Asciidoctor::Standoc::Utils).to receive(:localdir) do
+    expect(Metanorma::Standoc::Utils).to receive(:localdir) do
       "/"
     end.exactly(2).times
   end

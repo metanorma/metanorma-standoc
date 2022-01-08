@@ -1,4 +1,4 @@
-module Asciidoctor
+module Metanorma
   module Standoc
     module Cleanup
       def svgmap_cleanup(xmldoc)

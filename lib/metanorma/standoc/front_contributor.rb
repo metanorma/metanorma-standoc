@@ -4,7 +4,7 @@ require "htmlentities"
 require "pathname"
 require "csv"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Front
       def committee_component(compname, node, out)

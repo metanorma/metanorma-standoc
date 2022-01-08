@@ -2,7 +2,7 @@
 
 require "erb"
 
-module Asciidoctor
+module Metanorma
   module Datamodel
     class PlantumlRenderer
       TEMPLATES_PATH = File.expand_path("../views/datamodel", __dir__).freeze

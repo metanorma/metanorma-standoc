@@ -2,7 +2,7 @@ require "htmlentities"
 require "uri" if /^2\./.match?(RUBY_VERSION)
 require_relative "./blocks_notes"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Blocks
       def id_attr(node = nil)

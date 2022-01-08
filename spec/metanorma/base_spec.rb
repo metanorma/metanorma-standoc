@@ -1,7 +1,7 @@
 require "spec_helper"
 require "fileutils"
 
-RSpec.describe Asciidoctor::Standoc do
+RSpec.describe Metanorma::Standoc do
   it "has a version number" do
     expect(Metanorma::Standoc::VERSION).not_to be nil
   end
@@ -1017,21 +1017,21 @@ QU1FOiB0ZXN0Cgo=
 
   it "process mn2pdf attributes" do
     node = Nokogiri::XML("<fake/>").at("fake")
-    node[Asciidoctor::Standoc::Base::FONTS_MANIFEST] =
+    node[Metanorma::Standoc::Base::FONTS_MANIFEST] =
       "passed/as/font/manifest/to/mn2pdf.jar"
 
-    options = Asciidoctor::Standoc::Converter
+    options = Metanorma::Standoc::Converter
       .new(:standoc, header_footer: true)
       .doc_extract_attributes(node)
 
     expect(options.dig(:mn2pdf, :font_manifest))
-      .to eq(node[Asciidoctor::Standoc::Base::FONTS_MANIFEST])
+      .to eq(node[Metanorma::Standoc::Base::FONTS_MANIFEST])
   end
 
   private
 
   def mock_org_abbrevs
-    allow_any_instance_of(::Asciidoctor::Standoc::Front)
+    allow_any_instance_of(::Metanorma::Standoc::Front)
       .to receive(:org_abbrev).and_return(
         { "International Standards Organization" => "ISO",
           "International Electrotechnical Commission" => "IEC" },
@@ -1039,14 +1039,14 @@ QU1FOiB0ZXN0Cgo=
   end
 
   def mock_default_publisher
-    allow_any_instance_of(::Asciidoctor::Standoc::Front)
+    allow_any_instance_of(::Metanorma::Standoc::Front)
       .to receive(:default_publisher).and_return(
         "International Standards Organization",
       )
   end
 
   def mock_relaton_relation_descriptions
-    allow_any_instance_of(::Asciidoctor::Standoc::Front)
+    allow_any_instance_of(::Metanorma::Standoc::Front)
       .to receive(:relaton_relation_descriptions).and_return(
         "normatively-cited-in" => "isCitedIn",
       )

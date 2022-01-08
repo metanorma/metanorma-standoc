@@ -1,7 +1,7 @@
 require "metanorma-utils"
 require "digest"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Cleanup
       def empty_text_before_first_element(elem)

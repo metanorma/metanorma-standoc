@@ -2,7 +2,7 @@ require "spec_helper"
 require "relaton_iec"
 require "fileutils"
 
-RSpec.describe Asciidoctor::Standoc do
+RSpec.describe Metanorma::Standoc do
   it "generates error file" do
     FileUtils.rm_f "spec/assets/xref_error.err"
     Asciidoctor.convert_file "spec/assets/xref_error.adoc",
@@ -334,7 +334,7 @@ RSpec.describe Asciidoctor::Standoc do
   end
 
   # it "No warning if attributes on formatted strong or stem extraneous to Metanomra XML" do
-  #   expect { Asciidoctor::Standoc::Converter.new(nil,nil).validate(Nokogiri::XML(<<~INPUT)) }.not_to output('found attribute "close", but no attributes allowed here').to_stderr
+  #   expect { Metanorma::Standoc::Converter.new(nil,nil).validate(Nokogiri::XML(<<~INPUT)) }.not_to output('found attribute "close", but no attributes allowed here').to_stderr
   #   <standard-document>
   #   <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfenced open="(" close=")"><mi>r</mi></mfenced></stem>
   #   </standard-document>

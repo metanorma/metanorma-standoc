@@ -2,7 +2,7 @@ require "spec_helper"
 require "relaton_iso"
 require "relaton_ietf"
 
-RSpec.describe Asciidoctor::Standoc do
+RSpec.describe Metanorma::Standoc do
   it "processes simple ISO reference" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}

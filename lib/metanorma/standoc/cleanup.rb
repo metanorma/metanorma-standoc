@@ -20,7 +20,7 @@ require_relative "./cleanup_text"
 require_relative "./cleanup_toc"
 require "relaton_iev"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Cleanup
       def cleanup(xmldoc)

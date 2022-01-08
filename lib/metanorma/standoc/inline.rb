@@ -6,7 +6,7 @@ require "base64"
 require "English"
 require "latexmath"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Inline
       def refid?(ref)

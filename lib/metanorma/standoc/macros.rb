@@ -12,7 +12,7 @@ require_relative "./datamodel/diagram_preprocessor"
 require "metanorma-plugin-datastruct"
 require "metanorma-plugin-lutaml"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     class InheritInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
@@ -122,7 +122,7 @@ module Asciidoctor
       end
     end
 
-    class AutonumberInlineMacro < Extensions::InlineMacroProcessor
+    class AutonumberInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :autonumber
       parse_content_as :text
@@ -133,7 +133,7 @@ module Asciidoctor
       end
     end
 
-    class VariantInlineMacro < Extensions::InlineMacroProcessor
+    class VariantInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :lang
       parse_content_as :text

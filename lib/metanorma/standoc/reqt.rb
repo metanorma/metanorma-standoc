@@ -3,7 +3,7 @@ require "uri" if /^2\./.match?(RUBY_VERSION)
 require "mime/types"
 require "base64"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Blocks
       def reqt_subpart(name)

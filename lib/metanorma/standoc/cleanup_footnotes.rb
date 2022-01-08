@@ -2,7 +2,7 @@ require "date"
 require "htmlentities"
 require "json"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Cleanup
       def footnote_content(fn)

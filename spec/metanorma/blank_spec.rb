@@ -1,7 +1,7 @@
 require "spec_helper"
 require "fileutils"
 
-RSpec.describe Asciidoctor::Standoc do
+RSpec.describe Metanorma::Standoc do
   it "processes a blank document" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}

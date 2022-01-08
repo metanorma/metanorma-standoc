@@ -1,7 +1,7 @@
 require "spec_helper"
 require "fileutils"
 
-RSpec.describe Asciidoctor::Standoc do
+RSpec.describe Metanorma::Standoc do
   it "processes svgmap" do
     FileUtils.cp "spec/fixtures/action_schemaexpg1.svg",
                  "action_schemaexpg1.svg"

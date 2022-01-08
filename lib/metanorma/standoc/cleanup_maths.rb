@@ -13,7 +13,7 @@ require_relative "./cleanup_inline"
 require_relative "./cleanup_amend"
 require "relaton_iev"
 
-module Asciidoctor
+module Metanorma
   module Standoc
     module Cleanup
       def asciimath2mathml(text)
