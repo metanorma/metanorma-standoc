@@ -1,4 +1,4 @@
-require_relative "ref_date_id"
+require_relative "ref_utility"
 
 module Metanorma
   module Standoc
@@ -12,14 +12,6 @@ module Metanorma
             end
           end
         end
-      end
-
-      def plaintxt
-        { format: "text/plain" }
-      end
-
-      def ref_attributes(match)
-        { id: match[:anchor], type: "standard" }
       end
 
       def isorefrender1(bib, match, year, allp = "")
@@ -116,6 +108,7 @@ module Metanorma
           bib.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), **{ type: "URI" }
           bib.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), **{ type: "citation" }
         end
+        code[:id].sub!(/[:-](19|20)[0-9][0-9]$/, "")
         docid(bib, match[:usrlbl]) if match[:usrlbl]
         docid(bib, /^\d+$/.match?(code[:id]) ? "[#{code[:id]}]" : code[:id])
         code[:type] == "repo" and
@@ -123,36 +116,40 @@ module Metanorma
       end
 
       def refitem_render(xml, match, code)
-        xml.bibitem **attr_code(id: match[:anchor]) do |t|
+        xml.bibitem **attr_code(id: match[:anchor],
+                                hidden: code[:hidden]) do |t|
           t.formattedref **{ format: "application/x-isodoc+xml" } do |i|
             i << ref_normalise_no_format(match[:text])
           end
+          yr_match = /[:-](?<year>(19|20)[0-9][0-9])\b/.match(code[:id])
           refitem_render1(match, code, t)
           docnumber(t, code[:id]) unless /^\d+$|^\(.+\)$/.match?(code[:id])
+          conditional_date(t, yr_match || match, false)
         end
       end
 
-      MALFORMED_REF = "no anchor on reference, markup may be malformed: see "\
-                      "https://www.metanorma.com/author/topics/document-format/bibliography/ , "\
-                      "https://www.metanorma.com/author/iso/topics/markup/#bibliographies".freeze
-
       # TODO: alternative where only title is available
       def refitemcode(item, node)
-        m = NON_ISO_REF.match(item) and return refitem1code(item, m)
+        m = NON_ISO_REF.match(item) and return refitem1code(item, m).compact
         @log.add("AsciiDoc Input", node, "#{MALFORMED_REF}: #{item}")
         {}
       end
 
       def refitem1code(_item, match)
         code = analyse_ref_code(match[:code])
-        if (code[:id] && code[:numeric]) || code[:nofetch]
-          { code: nil, match: match, analyse_code: code }
-        else
-          { code: code[:id], analyse_code: code,
-            year: match.names.include?("year") ? match[:year] : nil,
-            title: match[:text], match: match,
-            usrlbl: match[:usrlbl], lang: (@lang || :all) }
-        end
+        ((code[:id] && code[:numeric]) || code[:nofetch]) and
+          return { code: nil, match: match, analyse_code: code,
+                   hidden: code[:hidden] }
+        year = refitem1yr(code[:id])
+        { code: code[:id], analyse_code: code,
+          year: year,
+          title: match[:text], match: match, hidden: code[:hidden],
+          usrlbl: match[:usrlbl], lang: (@lang || :all) }
+      end
+
+      def refitem1yr(code)
+        yr_match = /[:-](?<year>(19|20)[0-9][0-9])\b/.match(code)
+        yr_match ? yr_match[:year] : nil
       end
 
       def refitemout(item, xml)
@@ -161,14 +158,6 @@ module Metanorma
         item[:doc] or return refitem_render(xml, item[:ref][:match],
                                             item[:ref][:analyse_code])
         use_retrieved_relaton(item, xml)
-      end
-
-      def ref_normalise(ref)
-        ref.gsub(/&amp;amp;/, "&amp;").gsub(%r{^<em>(.*)</em>}, "\\1")
-      end
-
-      def ref_normalise_no_format(ref)
-        ref.gsub(/&amp;amp;/, "&amp;")
       end
 
       ISO_REF =
@@ -191,8 +180,7 @@ module Metanorma
         (<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>,?\s?)?(?<text>.*)$}xm.freeze
 
       NON_ISO_REF = %r{^<ref\sid="(?<anchor>[^"]+)">
-      \[(?<usrlbl>\([^)]+\))?(?<code>[^\]]+?)
-      ([:-](?<year>(19|20)[0-9][0-9][0-9-]*))?\]</ref>,?\s*(?<text>.*)$}xm
+      \[(?<usrlbl>\([^)]+\))?(?<code>[^\]]+?)\]</ref>,?\s*(?<text>.*)$}xm
         .freeze
 
       def reference1_matches(item)
@@ -233,18 +221,22 @@ module Metanorma
 
       def reference(node)
         refs, results = reference_preproc(node)
+        ret = reference_queue(refs, results)
         noko do |xml|
-          ret = refs.each.with_object([]) do |_, m|
-            ref, i, doc = results.pop
-            m[i.to_i] = { ref: ref }
-            if doc.is_a?(RelatonBib::RequestError)
-              @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: "\
-                                            "no access to online site")
-            else m[i.to_i][:doc] = doc
-            end
-          end
           ret.each { |b| reference1out(b, xml) }
         end.join
+      end
+
+      def reference_queue(refs, results)
+        refs.each.with_object([]) do |_, m|
+          ref, i, doc = results.pop
+          m[i.to_i] = { ref: ref }
+          if doc.is_a?(RelatonBib::RequestError)
+            @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: "\
+                                          "no access to online site")
+          else m[i.to_i][:doc] = doc
+          end
+        end
       end
     end
   end
