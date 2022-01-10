@@ -32,6 +32,19 @@
         <ref name="DocumentType"/>
       </element>
     </define>
+    <define name="bibitem">
+      <element name="bibitem">
+        <attribute name="id">
+          <data type="ID"/>
+        </attribute>
+        <optional>
+          <attribute name="hidden">
+            <data type="boolean"/>
+          </attribute>
+        </optional>
+        <ref name="BibliographicItem"/>
+      </element>
+    </define>
     <define name="section-title">
       <element name="title">
         <zeroOrMore>

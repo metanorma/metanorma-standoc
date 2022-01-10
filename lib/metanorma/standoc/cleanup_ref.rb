@@ -54,7 +54,7 @@ module Metanorma
                      "//annex//references").each do |r|
           next if r["normative"] == "true"
 
-          r.xpath("./bibitem").each do |b|
+          r.xpath("./bibitem[not(@hidden = 'true')]").each do |b|
             i += 1
             next unless docid = b.at("./docidentifier[@type = 'metanorma']")
             next unless /^\[\d+\]$/.match?(docid.text)
