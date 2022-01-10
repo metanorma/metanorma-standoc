@@ -12,3 +12,26 @@ spec/examples/rice_files/
 Gemfile.lock
 
 .rubocop-https--*
+
+/.err
+/action_schemaexpg1.svg
+/action_schemaexpg2.svg
+/address_class_profile.presentation.xml
+/address_component_profile.presentation.xml
+/blank_definition_profile.presentation.xml
+/common_models_diagram.presentation.xml
+/plantuml/
+/relaton/
+/spec/assets/lutaml/
+/spec/assets/plantuml*.png
+/spec/assets/xref_error.*
+/test.doc
+/test.err
+/test.html
+/test.pdf
+/test.presentation.xml
+/test.xml
+/test.xml.abort
+/test/
+/top_down_diagram.presentation.xml
+/xref_error.*
