@@ -723,91 +723,91 @@ RSpec.describe Metanorma::Standoc do
       Sensitivity #2
     INPUT
     output = <<~OUTPUT
-             #{BLANK_HDR}
-               <sections>
-           <terms id='_' obligation='normative'>
-             <title>Terms and definitions</title>
-             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-             <term id='term-_-t90-'>
-               <preferred>
-                 <letter-symbol>
-                   <name>
-                     <stem type='MathML'>
-                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                         <msub>
-                           <mrow>
-                             <mi>t</mi>
-                           </mrow>
-                           <mrow>
-                             <mn>90</mn>
-                           </mrow>
-                         </msub>
-                       </math>
-                     </stem>
-                   </name>
-                 </letter-symbol>
-               </preferred>
-               <definition>
-                 <verbal-definition>
-                   <p id='_'>Time</p>
-                 </verbal-definition>
-               </definition>
-             </term>
-             <term id='term-t90-sensitivity'>
-               <preferred>
-                 <expression>
-                   <name>
-                     <stem type='MathML'>
-                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                         <msub>
-                           <mrow>
-                             <mi>t</mi>
-                           </mrow>
-                           <mrow>
-                             <mn>90</mn>
-                           </mrow>
-                         </msub>
-                       </math>
-                     </stem>
-                     -sensitivity
-                   </name>
-                 </expression>
-               </preferred>
-               <definition>
-                 <verbal-definition>
-                   <p id='_'>Sensitivity</p>
-                 </verbal-definition>
-               </definition>
-             </term>
-             <term id='term-sensitivity-to-t90'>
-               <preferred>
-                 <expression>
-                   <name>
-                     sensitivity to 
-                     <stem type='MathML'>
-                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                         <msub>
-                           <mrow>
-                             <mi>t</mi>
-                           </mrow>
-                           <mrow>
-                             <mn>90</mn>
-                           </mrow>
-                         </msub>
-                       </math>
-                     </stem>
-                   </name>
-                 </expression>
-               </preferred>
-               <definition>
-                 <verbal-definition>
-                   <p id='_'>Sensitivity #2</p>
-                 </verbal-definition>
-               </definition>
-             </term>
-           </terms>
-         </sections>
-       </standard-document>
+            #{BLANK_HDR}
+              <sections>
+          <terms id='_' obligation='normative'>
+            <title>Terms and definitions</title>
+            <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+            <term id='term-_-t90-'>
+              <preferred>
+                <letter-symbol>
+                  <name>
+                    <stem type='MathML'>
+                      <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                        <msub>
+                          <mrow>
+                            <mi>t</mi>
+                          </mrow>
+                          <mrow>
+                            <mn>90</mn>
+                          </mrow>
+                        </msub>
+                      </math>
+                    </stem>
+                  </name>
+                </letter-symbol>
+              </preferred>
+              <definition>
+                <verbal-definition>
+                  <p id='_'>Time</p>
+                </verbal-definition>
+              </definition>
+            </term>
+            <term id='term-t90-sensitivity'>
+              <preferred>
+                <expression>
+                  <name>
+                    <stem type='MathML'>
+                      <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                        <msub>
+                          <mrow>
+                            <mi>t</mi>
+                          </mrow>
+                          <mrow>
+                            <mn>90</mn>
+                          </mrow>
+                        </msub>
+                      </math>
+                    </stem>
+                    -sensitivity
+                  </name>
+                </expression>
+              </preferred>
+              <definition>
+                <verbal-definition>
+                  <p id='_'>Sensitivity</p>
+                </verbal-definition>
+              </definition>
+            </term>
+            <term id='term-sensitivity-to-t90'>
+              <preferred>
+                <expression>
+                  <name>
+                    sensitivity to#{' '}
+                    <stem type='MathML'>
+                      <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                        <msub>
+                          <mrow>
+                            <mi>t</mi>
+                          </mrow>
+                          <mrow>
+                            <mn>90</mn>
+                          </mrow>
+                        </msub>
+                      </math>
+                    </stem>
+                  </name>
+                </expression>
+              </preferred>
+              <definition>
+                <verbal-definition>
+                  <p id='_'>Sensitivity #2</p>
+                </verbal-definition>
+              </definition>
+            </term>
+          </terms>
+        </sections>
+      </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -1332,124 +1332,124 @@ RSpec.describe Metanorma::Standoc do
       x^2^:: Definition
     INPUT
     output = <<~OUTPUT
-           <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
-         <bibdata type='standard'>
-           <title language='en' format='text/plain'>Document title</title>
-           <language>en</language>
-           <script>Latn</script>
-           <status>
-             <stage>published</stage>
-           </status>
-           <copyright>
-             <from>#{Time.now.year}</from>
-           </copyright>
-           <ext>
-             <doctype>article</doctype>
-           </ext>
-         </bibdata>
-         <sections>
-           <terms id='_' obligation='normative'>
-             <title>Terms and definitions</title>
-             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-             <term id='term-term'>
-               <preferred>
-                 <expression>
-                   <name>
-                     Term
-                     <index>
-                       <primary>Term</primary>
-                     </index>
-                   </name>
-                 </expression>
-               </preferred>
-               <admitted>
-                 <letter-symbol>
-                   <name>
-                     <stem type='MathML'>
-                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                         <mi>&#955;</mi>
-                       </math>
-                     </stem>
-                   </name>
-                 </letter-symbol>
-               </admitted>
-               <definition>
-                 <verbal-definition>
-                   <p id='_'>admitted:[x]</p>
-                 </verbal-definition>
-               </definition>
-             </term>
-             <term id='term-term2'>
-               <preferred>
-                 <expression>
-                   <name>
-                     Term2
-                     <index>
-                       <primary>Term2</primary>
-                     </index>
-                   </name>
-                 </expression>
-               </preferred>
-               <preferred>
-                 <letter-symbol>
-                   <name>
-                     <stem type='MathML'>
-                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                         <msub>
-                           <mrow>
-                             <mi>&#956;</mi>
-                           </mrow>
-                           <mrow>
-                             <mn>0</mn>
-                           </mrow>
-                         </msub>
-                         <mo>/</mo>
-                         <mn>2</mn>
-                       </math>
-                     </stem>
-                     <index>
-                       <primary>
-                         <stem type='MathML'>
-                           <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                             <msub>
-                               <mrow>
-                                 <mi>&#956;</mi>
-                               </mrow>
-                               <mrow>
-                                 <mn>0</mn>
-                               </mrow>
-                             </msub>
-                             <mo>/</mo>
-                             <mn>2</mn>
-                           </math>
-                         </stem>
-                       </primary>
-                     </index>
-                   </name>
-                 </letter-symbol>
-               </preferred>
-             </term>
-           </terms>
-           <definitions id='_' obligation='normative'>
-             <title>Symbols and abbreviated terms</title>
-             <dl id='_'>
-               <dt id='symbol-x2'>
-                 x
-                 <sup>2</sup>
-                 <index>
-                   <primary>
-                     x
-                     <sup>2</sup>
-                   </primary>
-                 </index>
-               </dt>
-               <dd>
-                 <p id='_'>Definition</p>
-               </dd>
-             </dl>
-           </definitions>
-         </sections>
-       </standard-document>
+          <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
+        <bibdata type='standard'>
+          <title language='en' format='text/plain'>Document title</title>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+            <stage>published</stage>
+          </status>
+          <copyright>
+            <from>#{Time.now.year}</from>
+          </copyright>
+          <ext>
+            <doctype>article</doctype>
+          </ext>
+        </bibdata>
+        <sections>
+          <terms id='_' obligation='normative'>
+            <title>Terms and definitions</title>
+            <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+            <term id='term-term'>
+              <preferred>
+                <expression>
+                  <name>
+                    Term
+                    <index>
+                      <primary>Term</primary>
+                    </index>
+                  </name>
+                </expression>
+              </preferred>
+              <admitted>
+              <expression>
+          <name>x</name>
+        </expression>
+        </admitted>
+              <admitted>
+                <letter-symbol>
+                  <name>
+                    <stem type='MathML'>
+                      <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                        <mi>&#955;</mi>
+                      </math>
+                    </stem>
+                  </name>
+                </letter-symbol>
+              </admitted>
+            </term>
+            <term id='term-term2'>
+              <preferred>
+                <expression>
+                  <name>
+                    Term2
+                    <index>
+                      <primary>Term2</primary>
+                    </index>
+                  </name>
+                </expression>
+              </preferred>
+              <preferred>
+                <letter-symbol>
+                  <name>
+                    <stem type='MathML'>
+                      <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                        <msub>
+                          <mrow>
+                            <mi>&#956;</mi>
+                          </mrow>
+                          <mrow>
+                            <mn>0</mn>
+                          </mrow>
+                        </msub>
+                        <mo>/</mo>
+                        <mn>2</mn>
+                      </math>
+                    </stem>
+                    <index>
+                      <primary>
+                        <stem type='MathML'>
+                          <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                            <msub>
+                              <mrow>
+                                <mi>&#956;</mi>
+                              </mrow>
+                              <mrow>
+                                <mn>0</mn>
+                              </mrow>
+                            </msub>
+                            <mo>/</mo>
+                            <mn>2</mn>
+                          </math>
+                        </stem>
+                      </primary>
+                    </index>
+                  </name>
+                </letter-symbol>
+              </preferred>
+            </term>
+          </terms>
+          <definitions id='_' obligation='normative'>
+            <title>Symbols and abbreviated terms</title>
+            <dl id='_'>
+              <dt id='symbol-x2'>
+                x
+                <sup>2</sup>
+                <index>
+                  <primary>
+                    x
+                    <sup>2</sup>
+                  </primary>
+                </index>
+              </dt>
+              <dd>
+                <p id='_'>Definition</p>
+              </dd>
+            </dl>
+          </definitions>
+        </sections>
+      </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)

@@ -27,6 +27,19 @@ module Metanorma
       end
     end
 
+    class AdmittedTermInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :admitted
+      parse_content_as :text
+      using_format :short
+
+      def process(parent, _target, attrs)
+        out = Asciidoctor::Inline.new(parent, :quoted,
+                                      attrs["text"]).convert
+        %{<admitted><expression><name>#{out}</name></expression></admitted>}
+      end
+    end
+
     class DeprecatedTermInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :deprecated
