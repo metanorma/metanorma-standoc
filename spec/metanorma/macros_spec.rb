@@ -6,6 +6,7 @@ RSpec.describe Metanorma::Standoc do
       #{ASCIIDOC_BLANK_HDR}
       preferred:[term0]
       alt:[term1]
+      admitted:[term1a]
       deprecated:[term2]
       domain:[term3]
       inherit:[<<ref1>>]
@@ -23,6 +24,7 @@ RSpec.describe Metanorma::Standoc do
           <title>Foreword</title>
           <preferred><expression><name>term0</name></expression></preferred>
           <admitted><expression><name>term1</name></expression></admitted>
+          <admitted><expression><name>term1a</name></expression></admitted>
           <deprecates><expression><name>term2</name></expression></deprecates>
           <domain>term3</domain>
           <inherit>
