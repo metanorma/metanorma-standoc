@@ -193,7 +193,7 @@ module Metanorma
             next unless t.next_element.nil?
             next if %w(sections annex preface).include? t.parent.name
 
-            t.parent.parent << t
+            t.parent.next = t.remove
             found = true
           end
           break unless found
