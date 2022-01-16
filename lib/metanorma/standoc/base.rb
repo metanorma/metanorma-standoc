@@ -66,6 +66,7 @@ module Metanorma
         @htmltoclevels = node.attr("htmltoclevels")
         @doctoclevels = node.attr("doctoclevels")
         @toclevels = node.attr("toclevels")
+        @metadata_attrs = metadata_attrs(node)
       end
 
       def document(node)
@@ -133,6 +134,19 @@ module Metanorma
         xml.sections do |s|
           s << node.content if node.blocks?
         end
+      end
+
+      def metadata_attrs(node)
+        node.attributes.each_with_object([]) do |(k, v), ret|
+          %w(presentation semantic).each do |t|
+            next unless /^#{t}-metadata-/.match?(k)
+
+            k = k.sub(/^#{t}-metadata-/, "")
+            csv_split(v, ",")&.each do |c|
+              ret << "<#{t}-metadata><#{k}>#{c}</#{k}></#{t}-metadata>"
+            end
+          end
+        end.join
       end
 
       private

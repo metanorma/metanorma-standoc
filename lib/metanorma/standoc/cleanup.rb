@@ -63,6 +63,7 @@ module Metanorma
         svgmap_cleanup(xmldoc)
         boilerplate_cleanup(xmldoc)
         toc_cleanup(xmldoc)
+        metadata_cleanup(xmldoc)
         smartquotes_cleanup(xmldoc)
         variant_cleanup(xmldoc)
         para_cleanup(xmldoc)
@@ -135,11 +136,21 @@ module Metanorma
 
       def variant_space_cleanup(xmldoc)
         xmldoc.xpath("//*[variant]").each do |c|
-          if c&.next&.text? && c&.next&.next&.name == "variant"
+          next if c.next.nil? || c.next.next.nil?
+
+          if c.next.text? && c.next.next.name == "variant"
             c.next.text.gsub(/\s/, "").empty? and
               c.next.remove
           end
         end
+      end
+
+      def metadata_cleanup(xmldoc)
+        return if @metadata_attrs.nil? || @metadata_attrs.empty?
+
+        ins = xmldoc.at("//misc-container") ||
+          xmldoc.at("//bibdata").after("<misc-container/>").next_element
+        ins << @metadata_attrs
       end
     end
   end
