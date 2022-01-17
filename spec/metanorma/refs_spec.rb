@@ -1252,13 +1252,108 @@ RSpec.describe Metanorma::Standoc do
            </references>
            <references id='_' normative='false' obligation='informative'>
              <title>Bibliography</title>
-             <bibitem id='iso125' hidden='true'>
-               <formattedref format='application/x-isodoc+xml'>
-                 <em>Standard</em>
-               </formattedref>
-               <docidentifier type='ISO'>ISO 125</docidentifier>
-               <docnumber>125</docnumber>
+                  <bibitem id='iso125' type='standard' hidden='true'>
+       <fetched/>
+       <title type='title-intro' format='text/plain' language='en' script='Latn'>Natural rubber latex concentrate</title>
+       <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of alkalinity</title>
+       <title type='main' format='text/plain' language='en' script='Latn'>
+         Natural rubber latex concentrate&#8201;&#8212;&#8201;Determination of
+         alkalinity
+       </title>
+       <uri type='src'>https://www.iso.org/standard/72849.html</uri>
+       <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
+       <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
+       <docidentifier type='ISO'>ISO 125</docidentifier>
+       <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7:en</docidentifier>
+       <docnumber>125</docnumber>
+       <contributor>
+         <role type='publisher'/>
+         <organization>
+           <name>International Organization for Standardization</name>
+           <abbreviation>ISO</abbreviation>
+           <uri>www.iso.org</uri>
+         </organization>
+       </contributor>
+       <edition>7</edition>
+       <language>en</language>
+       <script>Latn</script>
+       <status>
+         <stage>60</stage>
+         <substage>60</substage>
+       </status>
+       <copyright>
+         <from>2020</from>
+         <owner>
+           <organization>
+             <name>ISO</name>
+           </organization>
+         </owner>
+       </copyright>
+       <relation type='obsoletes'>
+         <bibitem type='standard'>
+           <formattedref format='text/plain'>ISO 125:2011</formattedref>
+         </bibitem>
+       </relation>
+       <relation type='instance'>
+         <bibitem type='standard'>
+           <fetched/>
+           <title type='title-intro' format='text/plain' language='en' script='Latn'>Natural rubber latex concentrate</title>
+           <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of alkalinity</title>
+           <title type='main' format='text/plain' language='en' script='Latn'>
+             Natural rubber latex concentrate&#8201;&#8212;&#8201;Determination
+             of alkalinity
+           </title>
+           <uri type='src'>https://www.iso.org/standard/72849.html</uri>
+           <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
+           <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
+           <docidentifier type='ISO'>ISO 125:2020</docidentifier>
+           <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7:en</docidentifier>
+           <docnumber>125</docnumber>
+           <date type='published'>
+             <on>2020-02</on>
+           </date>
+           <contributor>
+             <role type='publisher'/>
+             <organization>
+               <name>International Organization for Standardization</name>
+               <abbreviation>ISO</abbreviation>
+               <uri>www.iso.org</uri>
+             </organization>
+           </contributor>
+           <edition>7</edition>
+           <language>en</language>
+           <script>Latn</script>
+           <abstract format='text/plain' language='en' script='Latn'>
+             This document specifies a method for the determination of the
+             alkalinity of natural rubber latex concentrate. The method is not
+             necessarily suitable for latices from natural sources other than
+             Hevea brasiliensis or for synthetic rubber latices, compounded
+             latex, vulcanized latex or artificial dispersions of rubber. NOTE
+             A method for the determination of the alkalinity of
+             polychloroprene latex is specified in ISO 13773.
+           </abstract>
+           <status>
+             <stage>60</stage>
+             <substage>60</substage>
+           </status>
+           <copyright>
+             <from>2020</from>
+             <owner>
+               <organization>
+                 <name>ISO</name>
+               </organization>
+             </owner>
+           </copyright>
+           <relation type='obsoletes'>
+             <bibitem type='standard'>
+               <formattedref format='text/plain'>ISO 125:2011</formattedref>
              </bibitem>
+           </relation>
+           <place>Geneva</place>
+         </bibitem>
+       </relation>
+       <place>Geneva</place>
+     </bibitem>
                    <bibitem id='iso126' hidden='true'>
         <formattedref format='application/x-isodoc+xml'>
           <em>Standard</em>
