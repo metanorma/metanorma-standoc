@@ -1,7 +1,6 @@
 require "spec_helper"
 
 RSpec.describe Metanorma::Standoc do
-=begin
   it "processes the Metanorma::Standoc inline macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1354,7 +1353,7 @@ RSpec.describe Metanorma::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
-=end
+
   it "processes recursive embed macro with includes" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1366,11 +1365,27 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-        <sections>
-          <clause id='clause1' inline-header='false' obligation='normative'>
-            <title>Clause</title>
-          </clause>
-        </sections>
+               <sections>
+           <clause id='clause1' inline-header='false' obligation='normative'>
+             <title>Clause</title>
+           </clause>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Clause 1</title>
+             <p id='_'>X</p>
+           </clause>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Clause 2</title>
+             <p id='_'>X</p>
+           </clause>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Clause 3</title>
+             <p id='_'>X</p>
+           </clause>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Clause 4</title>
+             <p id='_'>X</p>
+           </clause>
+         </sections>
       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))

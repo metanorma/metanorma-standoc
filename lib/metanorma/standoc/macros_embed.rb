@@ -4,7 +4,7 @@ module Metanorma
       def process(doc, reader)
         return reader if reader.eof?
 
-        lines = reader.readlines.to_enum
+        lines = reader.readlines
         while !lines.grep(/^embed::/).empty?
           headings = lines.grep(/^== /).map(&:strip)
           lines = lines.map do |line|
