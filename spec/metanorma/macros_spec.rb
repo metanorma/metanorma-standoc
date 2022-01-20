@@ -1311,7 +1311,7 @@ RSpec.describe Metanorma::Standoc do
       [[clause1]]
       == Clause 1
 
-      embed:[spec/assets/xref_error.adoc]
+      embed::[spec/assets/xref_error.adoc]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -1339,7 +1339,7 @@ RSpec.describe Metanorma::Standoc do
       [[clause1]]
       == Clause
 
-      embed:[spec/assets/xref_error.adoc]
+      embed::[spec/assets/xref_error.adoc]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}

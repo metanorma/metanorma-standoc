@@ -5,16 +5,18 @@ module Metanorma
         return reader if reader.eof?
 
         lines = reader.read_lines
-        headings = lines.grep(/^== /).map(&:strip)
-        replacement_lines = lines.map do |line|
-          /^embed:\[/.match?(line) ? embed(line, doc, reader, headings) : line
-        end.flatten
-        reader.unshift_lines replacement_lines
+        while !lines.grep(/^embed::\[/).empty?
+          headings = lines.grep(/^== /).map(&:strip)
+          lines = lines.map do |line|
+            /^embed::\[/.match?(line) ? embed(line, doc, reader, headings) : line
+          end.flatten
+        end
+        reader.unshift_lines lines
         reader
       end
 
       def filename(line, doc, reader)
-        m = /^embed:\[([^\]]+)\]/.match(line)
+        m = /^embed::\[([^\]]+)\]/.match(line)
         f = doc.normalize_system_path m[1], reader.dir, nil,
                                       target_name: "include file"
         File.exist?(f) ? f : nil
