@@ -1,0 +1,8 @@
+= X
+A
+
+== Clause 1
+
+X
+
+embed::spec/assets/a2.adoc[]

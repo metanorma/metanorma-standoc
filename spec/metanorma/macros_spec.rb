@@ -1311,7 +1311,7 @@ RSpec.describe Metanorma::Standoc do
       [[clause1]]
       == Clause 1
 
-      embed:[spec/assets/xref_error.adoc]
+      embed::spec/assets/xref_error.adoc[]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -1339,7 +1339,7 @@ RSpec.describe Metanorma::Standoc do
       [[clause1]]
       == Clause
 
-      embed:[spec/assets/xref_error.adoc]
+      embed::spec/assets/xref_error.adoc[]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -1353,6 +1353,45 @@ RSpec.describe Metanorma::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
+
+  it "processes recursive embed macro with includes" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [[clause1]]
+      == Clause
+
+      embed::spec/assets/a1.adoc[]
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+               <sections>
+           <clause id='clause1' inline-header='false' obligation='normative'>
+             <title>Clause</title>
+           </clause>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Clause 1</title>
+             <p id='_'>X</p>
+           </clause>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Clause 2</title>
+             <p id='_'>X</p>
+           </clause>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Clause 3</title>
+             <p id='_'>X</p>
+           </clause>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Clause 4</title>
+             <p id='_'>X</p>
+           </clause>
+         </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
 
   describe "term inline macros" do
     subject(:convert) do
