@@ -11,7 +11,7 @@ module Metanorma
             /^embed::/.match?(line) ? embed(line, doc, reader, headings) : line
           end.flatten
         end
-        reader.unshift_lines lines
+        reader.unshift_lines lines.map(&:chomp)
         reader
       end
 
