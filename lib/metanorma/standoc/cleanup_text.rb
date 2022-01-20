@@ -28,28 +28,6 @@ module Metanorma
       end
 
       # "abc<tag/>", def => "abc",<tag/> def
-=begin
-      def uninterrupt_quotes_around_xml(xmldoc)
-        xmldoc.xpath("//*[following::text()[1]"\
-                     "[starts-with(., '\"') or starts-with(., \"'\")]]")
-          .each do |x|
-          next if !x.ancestors("pre, tt, sourcecode, stem, figure").empty?
-
-          uninterrupt_quotes_around_xml1(x)
-        end
-      end
-=end
-=begin
-      def uninterrupt_quotes_around_xml(xmldoc)
-        xmldoc.traverse do |n|
-          next unless n.element? && n&.next&.text? &&
-            n.ancestors("pre, tt, sourcecode, stem, figure").empty?
-          next unless /^['"]/.match?(n.next.text)
-
-          uninterrupt_quotes_around_xml1(n)
-        end
-      end
-=end
       def uninterrupt_quotes_around_xml(xmldoc)
         xmldoc.traverse do |n|
           next unless n.text? && n&.previous&.element?

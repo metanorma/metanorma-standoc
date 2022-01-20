@@ -1625,7 +1625,7 @@ RSpec.describe Metanorma::Standoc do
 
         * [[[iso124,BSI BS EN ISO 19011:2018]]] _Standard_
         * [[[iso123,BSI BS EN 16341]]] _Standard_
-        * [[[ref_2,BSI BS EN ISO 14044:2006+A1:2020]]], _Environmental management – Life cycle assessment – Requirements and guidelines_
+        * [[[ref_2,BSI BS EN ISO 14044:2006+A2:2020]]], _Environmental management – Life cycle assessment – Requirements and guidelines_
       INPUT
       output = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
         .xpath("//xmlns:docidentifier[@type = 'BSI']").map(&:text)

@@ -1304,6 +1304,56 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes embed macro" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [[clause1]]
+      == Clause 1
+
+      embed:[spec/assets/xref_error.adoc]
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <clause id='clause1' inline-header='false' obligation='normative'>
+            <title>Clause 1</title>
+          </clause>
+          <clause id='_' inline-header='false' obligation='normative'>
+            <title>Clause</title>
+            <p id='_'>
+              <xref target='a'>b</xref>
+            </p>
+          </clause>
+        </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes embed macro with overwriting" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [[clause1]]
+      == Clause
+
+      embed:[spec/assets/xref_error.adoc]
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <clause id='clause1' inline-header='false' obligation='normative'>
+            <title>Clause</title>
+          </clause>
+        </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   describe "term inline macros" do
     subject(:convert) do
       xmlpp(
