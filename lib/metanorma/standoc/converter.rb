@@ -61,6 +61,7 @@ module Metanorma
         block Metanorma::Standoc::PlantUMLBlockMacro
         block Metanorma::Plugin::Lutaml::LutamlDiagramBlock
         block Metanorma::Standoc::PseudocodeBlockMacro
+        preprocessor Metanorma::Standoc::EmbedIncludeProcessor
       end
 
       include ::Asciidoctor::Converter
