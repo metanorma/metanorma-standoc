@@ -1657,7 +1657,7 @@ RSpec.describe Metanorma::Standoc do
         <clause id="_" inline-header="false" obligation="normative">
           <title>Clause 4</title>
           <p id="_">
-          <eref type="inline" bibitemid="iso123" citeas="IETF RFC 8341"/>
+          <eref type="inline" bibitemid="iso123" citeas="RFC 8341"/>
         </p>
         </clause>
         </sections><bibliography><references id="_" obligation="informative" normative="true">
@@ -1670,8 +1670,8 @@ RSpec.describe Metanorma::Standoc do
                        https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
                      </uri>
                      <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
-                     <docidentifier type='IETF'>RFC 8341</docidentifier>
-                     <docidentifier type='IETF' scope='anchor'>RFC8341</docidentifier>
+                     <docidentifier type='RFC'>RFC 8341</docidentifier>
+                     <docidentifier type='RFC' scope='anchor'>RFC8341</docidentifier>
                      <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
                      <docnumber>RFC8341</docnumber>
                      <date type='published'>
@@ -1731,9 +1731,9 @@ RSpec.describe Metanorma::Standoc do
                        https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
                      </uri>
                      <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
-                     <docidentifier type='IETF'>RFC 8341</docidentifier>
+                     <docidentifier type='RFC'>RFC 8341</docidentifier>
                      <docidentifier type='metanorma'>[1]</docidentifier>
-                     <docidentifier type='IETF' scope='anchor'>RFC8341</docidentifier>
+                     <docidentifier type='RFC' scope='anchor'>RFC8341</docidentifier>
                      <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
                      <docnumber>RFC8341</docnumber>
                      <date type='published'>
@@ -2660,7 +2660,7 @@ RSpec.describe Metanorma::Standoc do
               <bibitem id="RFC8341">
           <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>
           <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
-          <docidentifier type="IETF">RFC 8341</docidentifier>
+          <docidentifier type="RFC">RFC 8341</docidentifier>
           <date type="published">
             <on>2018</on>
           </date>

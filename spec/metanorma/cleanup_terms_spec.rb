@@ -924,7 +924,7 @@ RSpec.describe Metanorma::Standoc do
                 <p id='_'>This is a list</p>
               </li>
             </ul>
-            <ol id='_' type='arabic'>
+            <ol id='_'>
               <li>
                 <p id='_'>This too is a list</p>
               </li>

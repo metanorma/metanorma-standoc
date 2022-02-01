@@ -673,7 +673,7 @@ RSpec.describe Metanorma::Standoc do
       <sections>
          <admonition id="ABC" type="safety precautions" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common'>
         <name>Precautions</name><p id="_">While werewolves are hardy community members, keep in mind the following dietary concerns:</p>
-       <ol id="_" type="arabic">
+       <ol id="_">
          <li>
            <p id="_">They are allergic to cinnamon.</p>
          </li>
@@ -1483,7 +1483,7 @@ OUTPUT
               <title>Title</title>
         <inherit>/ss/584/2015/level/1 &amp; /ss/584/2015/level/2</inherit>
         <description><p id="_">I recommend this</p>
-                       <ol id='_' type='arabic'>
+                       <ol id='_'>
                  <li>
                    <p id='_'>
                      <link target='http://www.example.com'/>
@@ -1562,7 +1562,7 @@ OUTPUT
       </example></description>
       <permission id="_">
         <description><p id="_">I also permit this</p>
-                  <ol id='_' type='arabic'>
+                  <ol id='_'>
             <li>
               <p id='_'>List</p>
             </li>

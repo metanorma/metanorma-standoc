@@ -45,6 +45,7 @@ module Metanorma
         end.join("\n")
       end
 
+      # will not use Asciidoctor list styling by default
       def olist_style(style)
         return "alphabet" if style == "loweralpha"
         return "roman" if style == "lowerroman"
@@ -55,8 +56,7 @@ module Metanorma
       end
 
       def ol_attrs(node)
-        attr_code(id_attr(node).merge(keep_attrs(node)
-          .merge(type: olist_style(node.style))))
+        attr_code(id_attr(node).merge(keep_attrs(node)))
       end
 
       def olist(node)

@@ -15,7 +15,7 @@
           <image src='spec/assets/requirements//EAID_0E029ABF_C35A_49e3_9EEA_FFD4F32780A8.png' id='_' mimetype='image/png' height='auto' width='auto'/>
         </figure>
         <p id='_'>The Wrapper nested package package is organized into 1 packages:</p>
-        <ol id='_' type='arabic'>
+        <ol id='_'>
           <li>
             <p id='_'>ISO 19135 Procedures for item registration XML package</p>
           </li>
