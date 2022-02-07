@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - FC1C:687B:3368D1:47BB30:61DC1925
+      - A152:1CCB:C9BA2:4A383D:62007811
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 10 Jan 2022 11:31:49 GMT
+      - Mon, 07 Feb 2022 01:38:26 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11252-MEL
+      - cache-mel11283-MEL
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1641814309.391903,VS0,VE467
+      - S1644197906.601813,VS0,VE412
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 8dd513635b83f379bfb924a5e093eb5c0ac905f3
+      - 1d695eee270f4e82f6483bdf7c1b757893d232e0
       Expires:
-      - Mon, 10 Jan 2022 11:36:49 GMT
+      - Mon, 07 Feb 2022 01:43:26 GMT
       Source-Age:
       - '0'
     body:
@@ -84,7 +84,7 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Mon, 10 Jan 2022 11:31:49 GMT
+  recorded_at: Mon, 07 Feb 2022 01:38:25 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
@@ -126,29 +126,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - FC1C:687B:3368D1:47BB30:61DC1925
+      - A152:1CCB:C9BA2:4A383D:62007811
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 10 Jan 2022 11:31:49 GMT
+      - Mon, 07 Feb 2022 01:38:26 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11234-MEL
+      - cache-mel11232-MEL
       X-Cache:
       - HIT
       X-Cache-Hits:
       - '1'
       X-Timer:
-      - S1641814309.398580,VS0,VE461
+      - S1644197906.601791,VS0,VE412
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 37d6d3d456681743ba5ae1dc4f12be0469f053c7
+      - bb72d7ec4a606b2103089ec7c76f2af92fb76ded
       Expires:
-      - Mon, 10 Jan 2022 11:36:49 GMT
+      - Mon, 07 Feb 2022 01:43:26 GMT
       Source-Age:
       - '0'
     body:
@@ -169,5 +169,5 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Mon, 10 Jan 2022 11:31:49 GMT
+  recorded_at: Mon, 07 Feb 2022 01:38:25 GMT
 recorded_with: VCR 5.0.0
