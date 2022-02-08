@@ -1307,10 +1307,10 @@ RSpec.describe Metanorma::Standoc do
                <title>Clause 1.2</title>
              </clause>
            </clause>
+           <floating-title id='_' depth='1' type='floating-title'>Another top-level floating title</floating-title>
            <clause id='_' inline-header='false' obligation='normative'>
              <title>Clause 2</title>
            </clause>
-           <floating-title id='_' depth='1' type='floating-title'>Another top-level floating title</floating-title>
          </sections>
          </standard-document>
     OUTPUT
