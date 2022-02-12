@@ -1039,4 +1039,141 @@ RSpec.describe Metanorma::Standoc do
     annotation_id = output.at("//xmlns:annotation/@id").text
     expect(callout_id).to eq(annotation_id)
   end
+
+  it "deduplicates identifiers in inline SVGs" do
+    input = <<~INPUT
+      #{BLANK_HDR}
+        <sections>
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256">
+         <defs>
+           <linearGradient id="gradient1">
+             <stop class="stop1" offset="0%" xlink:href="#gradient1"/>
+             <stop class="stop2" offset="100%"/>
+             <style>url(#gradient1)</style>
+           </linearGradient>
+         </defs>
+         <circle fill="url(#gradient1)" cx="128" cy="128" r="100" />
+       </svg>
+               <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256">
+         <defs>
+           <linearGradient id="gradient2">
+             <stop class="stop1" offset="0%" xlink:href="#gradient2"/>
+             <stop class="stop2" offset="100%"/>
+             <style>url(#gradient2)</style>
+           </linearGradient>
+         </defs>
+         <circle fill="url(#gradient2)" cx="128" cy="128" r="100" />
+       </svg>
+             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256">
+         <defs>
+           <linearGradient id="gradient1">
+             <stop class="stop1" offset="0%" xlink:href="#gradient1"/>
+             <stop class="stop2" offset="100%"/>
+             <style>url(#gradient1)</style>
+           </linearGradient>
+         </defs>
+         <circle fill="url(#gradient1)" cx="128" cy="128" r="100" />
+       </svg>
+             </sections>
+      </standard-document>
+    INPUT
+    output = <<~OUTPUT
+        #{BLANK_HDR}
+           <sections>
+           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 256 256">
+        <defs>
+          <linearGradient id="gradient1">
+            <stop class="stop1" offset="0%" xlink:href="#gradient1"/>
+            <stop class="stop2" offset="100%"/>
+            <style>url(#gradient1)</style>
+          </linearGradient>
+        </defs>
+        <circle fill="url(#gradient1)" cx="128" cy="128" r="100"/>
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 256 256">
+        <defs>
+          <linearGradient id="gradient2">
+            <stop class="stop1" offset="0%" xlink:href="#gradient2"/>
+            <stop class="stop2" offset="100%"/>
+            <style>url(#gradient2)</style>
+          </linearGradient>
+        </defs>
+        <circle fill="url(#gradient2)" cx="128" cy="128" r="100"/>
+      </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 256 256">
+        <defs>
+          <linearGradient id="gradient1_inject_1">
+            <stop class="stop1" offset="0%" xlink:href="#gradient1_inject_1"/>
+            <stop class="stop2" offset="100%"/>
+            <style>url(#gradient1_inject_1)</style>
+          </linearGradient>
+        </defs>
+        <circle fill="url(#gradient1_inject_1)" cx="128" cy="128" r="100"/>
+      </svg>
+            </sections>
+           </standard-document>
+    OUTPUT
+    expect(Metanorma::Standoc::Converter.new(nil, *OPTIONS)
+      .cleanup(Nokogiri::XML(input)).to_xml)
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "deduplicates identifiers in embedded SVGs" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR.sub(/:data-uri-image: false/, ':data-uri-image: true')}
+
+      image::spec/fixtures/action_schemaexpg1.svg[]
+
+      image::spec/examples/rice_images/rice_image1.png[]
+
+      image::spec/fixtures/action_schemaexpg1.svg[]
+    INPUT
+
+    output = <<~OUTPUT
+       #{BLANK_HDR}
+                <sections>
+          <figure id='_'>
+            <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve'>
+              <style/>
+              <image/>
+              <a xlink:href='mn://action_schema'>
+                <rect x='123.28' y='273.93' class='st0' width='88.05' height='41.84'/>
+              </a>
+              <a xlink:href='mn://basic_attribute_schema'>
+                <rect x='324.69' y='450.52' class='st0' width='132.62' height='40.75'/>
+              </a>
+              <a xlink:href='mn://support_resource_schema'>
+                <rect x='324.69' y='528.36' class='st0' width='148.16' height='40.75'/>
+              </a>
+            </svg>
+          </figure>
+          <figure id='_'>
+              <image/>
+          </figure>
+          <figure id='_'>
+            <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1_inject_1' x='0px' y='0px' viewBox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve'>
+              <style/>
+              <image/>
+              <a xlink:href='mn://action_schema'>
+                <rect x='123.28' y='273.93' class='st0' width='88.05' height='41.84'/>
+              </a>
+              <a xlink:href='mn://basic_attribute_schema'>
+                <rect x='324.69' y='450.52' class='st0' width='132.62' height='40.75'/>
+              </a>
+              <a xlink:href='mn://support_resource_schema'>
+                <rect x='324.69' y='528.36' class='st0' width='148.16' height='40.75'/>
+              </a>
+            </svg>
+          </figure>
+        </sections>
+      </standard-document>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.xpath("//*[local-name() = 'image']").each do |x|
+      x.replace("<image/>")
+    end
+    expect(xmlpp(strip_guid(xml.to_xml)
+      .gsub(%r{<style.*?</style>}m, "<style/>")))
+      .to be_equivalent_to xmlpp(output)
+  end
 end
