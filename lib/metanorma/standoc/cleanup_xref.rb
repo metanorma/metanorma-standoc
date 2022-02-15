@@ -49,7 +49,9 @@ module Metanorma
         elem["bibitemid"] = elem["target"]
         if ref = @anchors&.dig(elem["target"], :xref)
           elem["citeas"] = HTMLEntities.new.encode(ref, :hexadecimal)
-        else xref_to_eref1(elem)
+        else
+          elem["citeas"] = ""
+          xref_to_eref1(elem)
         end
         elem.delete("target")
         extract_localities(elem) unless elem.children.empty?
