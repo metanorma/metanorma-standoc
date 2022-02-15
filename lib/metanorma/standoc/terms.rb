@@ -92,7 +92,7 @@ module Metanorma
         end
       end
 
-      def term_source_attrs(_node, seen_xref)
+      def termsource_origin_attrs(_node, seen_xref)
         { case: seen_xref.children[0]["case"],
           droploc: seen_xref.children[0]["droploc"],
           bibitemid: seen_xref.children[0]["target"],
@@ -103,7 +103,7 @@ module Metanorma
         if seen_xref.children[0].name == "concept"
           xml_t.origin { |o| o << seen_xref.children[0].to_xml }
         else
-          attrs = term_source_attrs(node, seen_xref)
+          attrs = termsource_origin_attrs(node, seen_xref)
           attrs.delete(:text)
           xml_t.origin **attr_code(attrs) do |o|
             o << seen_xref.children[0].children.to_xml
@@ -135,13 +135,16 @@ module Metanorma
         matched
       end
 
+      def termsource_attrs(node, matched)
+        status = node.attr("status") ||
+          (matched[:text] ? "modified" : "identical")
+        { status: status, type: node.attr("type") || "authoritative" }
+      end
+
       def termsource(node)
-        matched = extract_termsource_refs(node.content, node) || return
+        matched = extract_termsource_refs(node.content, node) or return
         noko do |xml|
-          status = node.attr("status") ||
-            (matched[:text] ? "modified" : "identical")
-          attrs = { status: status, type: node.attr("type") || "authoritative" }
-          xml.termsource **attrs do |xml_t|
+          xml.termsource **termsource_attrs(node, matched) do |xml_t|
             seen_xref = Nokogiri::XML.fragment(matched[:xref])
             add_term_source(node, xml_t, seen_xref, matched)
           end
