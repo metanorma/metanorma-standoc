@@ -585,7 +585,7 @@ RSpec.describe Metanorma::Standoc do
           <title type='main' format='text/plain' language='en' script='Latn'>International Electrotechnical Vocabulary (IEV) — Part 102: Mathematics — General concepts and linear algebra</title>
           <uri type="src">https://webstore.iec.ch/publication/160</uri>
           <uri type="obp">/preview/info_iec60050-102%7Bed1.0%7Db.pdf</uri>
-          <docidentifier type="IEC">IEC 60050-102:2007</docidentifier>
+          <docidentifier type="IEC" primary="true">IEC 60050-102:2007</docidentifier>
           <docidentifier type='URN'>urn:iec:std:iec:60050-102:2007:::en</docidentifier>
           <date type="published">
             <on>2007-08-27</on>
@@ -624,7 +624,7 @@ RSpec.describe Metanorma::Standoc do
           <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 103: Mathematics — Functions</title>
           <uri type="src">https://webstore.iec.ch/publication/161</uri>
           <uri type="obp">/preview/info_iec60050-103%7Bed1.0%7Db.pdf</uri>
-          <docidentifier type="IEC">IEC 60050-103:2009</docidentifier>
+          <docidentifier type="IEC" primary="true">IEC 60050-103:2009</docidentifier>
           <docidentifier type='URN'>urn:iec:std:iec:60050-103:2009:::en</docidentifier>
           <date type="published">
             <on>2009-12-14</on>

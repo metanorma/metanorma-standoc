@@ -131,6 +131,7 @@ module Metanorma
       # TODO: alternative where only title is available
       def refitemcode(item, node)
         m = NON_ISO_REF.match(item) and return refitem1code(item, m).compact
+        m = NON_ISO_REF1.match(item) and return refitem1code(item, m).compact
         @log.add("AsciiDoc Input", node, "#{MALFORMED_REF}: #{item}")
         {}
       end
@@ -180,7 +181,11 @@ module Metanorma
         (<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>,?\s?)?(?<text>.*)$}xm.freeze
 
       NON_ISO_REF = %r{^<ref\sid="(?<anchor>[^"]+)">
-      \[(?<usrlbl>\([^)]+\))?(?<code>[^\]]+?)\]</ref>,?\s*(?<text>.*)$}xm
+      \[(?<usrlbl>\([^)]+\))?(?<code>.+?)\]</ref>,?\s*(?<text>.*)$}xm
+        .freeze
+
+      NON_ISO_REF1 = %r{^<ref\sid="(?<anchor>[^"]+)">
+      (?<usrlbl>\([^)]+\))?(?<code>.+?)</ref>,?\s*(?<text>.*)$}xm
         .freeze
 
       def reference1_matches(item)
