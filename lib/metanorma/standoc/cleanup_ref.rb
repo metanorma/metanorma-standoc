@@ -117,7 +117,7 @@ module Metanorma
           # isopub = ref.at(ISO_PUBLISHER_XPATH)
           docid = ref.at("./docidentifier[@type = 'metanorma']") ||
             ref.at("./docidentifier[not(@type = 'DOI')]") or next
-          reference = format_ref(docid.text, docid["type"])
+          reference = format_ref(docid.children.to_xml, docid["type"])
           @anchors[ref["id"]] = { xref: reference }
         end
       end

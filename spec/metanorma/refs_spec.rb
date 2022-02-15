@@ -1046,430 +1046,429 @@ RSpec.describe Metanorma::Standoc do
         * [[[iso128,ABC]]] _Standard_
       INPUT
       output = <<~OUTPUT
-        #{BLANK_HDR}
-        <sections>
+           #{BLANK_HDR}
+           <sections>
 
-        </sections><bibliography><references id="_" normative="true" obligation="informative" >
-          <title>Normative references</title>
-        #{NORM_REF_BOILERPLATE}
-                     <bibitem id='iso123' type='standard' hidden='true'>
-               <fetched/>
-               <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
-               <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
-               <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber&#8201;&#8212;&#8201;Determination of total solids content</title>
-               <uri type='src'>https://www.iso.org/standard/61884.html</uri>
-               <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
-               <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
-               <docidentifier type='ISO' primary="true">ISO 124</docidentifier>
-               <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
-               <docnumber>124</docnumber>
-               <contributor>
-                 <role type='publisher'/>
-                 <organization>
-                   <name>International Organization for Standardization</name>
-                   <abbreviation>ISO</abbreviation>
-                   <uri>www.iso.org</uri>
-                 </organization>
-               </contributor>
-               <edition>7</edition>
-               <language>en</language>
-               <script>Latn</script>
-               <status>
-                 <stage>90</stage>
-                 <substage>93</substage>
-               </status>
-               <copyright>
-                 <from>2014</from>
-                 <owner>
-                   <organization>
-                     <name>ISO</name>
-                   </organization>
-                 </owner>
-               </copyright>
-               <relation type='obsoletes'>
-                 <bibitem type='standard'>
-                   <formattedref format='text/plain'>ISO 124:2011</formattedref>
-                 </bibitem>
-               </relation>
-               <relation type='instance'>
-                 <bibitem type='standard'>
-                   <fetched/>
-                   <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
-                   <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
-                   <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber&#8201;&#8212;&#8201;Determination of total solids content</title>
-                   <uri type='src'>https://www.iso.org/standard/61884.html</uri>
-                   <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
-                   <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
-                   <docidentifier type='ISO' primary="true">ISO 124:2014</docidentifier>
-                   <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
-                   <docnumber>124</docnumber>
-                   <date type='published'>
-                     <on>2014-03</on>
-                   </date>
-                   <contributor>
-                     <role type='publisher'/>
-                     <organization>
-                       <name>International Organization for Standardization</name>
-                       <abbreviation>ISO</abbreviation>
-                       <uri>www.iso.org</uri>
-                     </organization>
-                   </contributor>
-                   <edition>7</edition>
-                   <language>en</language>
-                   <script>Latn</script>
-                   <abstract format='text/plain' language='en' script='Latn'>
-                     ISO 124:2014 specifies methods for the determination of the total
-                     solids content of natural rubber field and concentrated latices
-                     and synthetic rubber latex. These methods are not necessarily
-                     suitable for latex from natural sources other than the Hevea
-                     brasiliensis, for vulcanized latex, for compounded latex, or for
-                     artificial dispersions of rubber.
-                   </abstract>
-                   <status>
-                     <stage>90</stage>
-                     <substage>93</substage>
-                   </status>
-                   <copyright>
-                     <from>2014</from>
-                     <owner>
-                       <organization>
-                         <name>ISO</name>
-                       </organization>
-                     </owner>
-                   </copyright>
-                   <relation type='obsoletes'>
-                     <bibitem type='standard'>
-                       <formattedref format='text/plain'>ISO 124:2011</formattedref>
-                     </bibitem>
-                   </relation>
-                   <place>Geneva</place>
-                 </bibitem>
-               </relation>
-               <place>Geneva</place>
-             </bibitem>
-             <bibitem id='iso124' type='standard'>
-               <fetched/>
-               <title type='title-intro' format='text/plain' language='en' script='Latn'>Natural rubber latex concentrate</title>
-               <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of alkalinity</title>
-               <title type='main' format='text/plain' language='en' script='Latn'>
-                 Natural rubber latex concentrate&#8201;&#8212;&#8201;Determination of
-                 alkalinity
-               </title>
-               <uri type='src'>https://www.iso.org/standard/72849.html</uri>
-               <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
-               <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
-               <docidentifier type='ISO' primary="true">ISO 125</docidentifier>
-               <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7:en</docidentifier>
-               <docnumber>125</docnumber>
-               <contributor>
-                 <role type='publisher'/>
-                 <organization>
-                   <name>International Organization for Standardization</name>
-                   <abbreviation>ISO</abbreviation>
-                   <uri>www.iso.org</uri>
-                 </organization>
-               </contributor>
-               <edition>7</edition>
-               <language>en</language>
-               <script>Latn</script>
-               <status>
-                 <stage>60</stage>
-                 <substage>60</substage>
-               </status>
-               <copyright>
-                 <from>2020</from>
-                 <owner>
-                   <organization>
-                     <name>ISO</name>
-                   </organization>
-                 </owner>
-               </copyright>
-               <relation type='obsoletes'>
-                 <bibitem type='standard'>
-                   <formattedref format='text/plain'>ISO 125:2011</formattedref>
-                 </bibitem>
-               </relation>
-               <relation type='instance'>
-                 <bibitem type='standard'>
-                   <fetched/>
-                   <title type='title-intro' format='text/plain' language='en' script='Latn'>Natural rubber latex concentrate</title>
-                   <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of alkalinity</title>
-                   <title type='main' format='text/plain' language='en' script='Latn'>
-                     Natural rubber latex concentrate&#8201;&#8212;&#8201;Determination
-                     of alkalinity
-                   </title>
-                   <uri type='src'>https://www.iso.org/standard/72849.html</uri>
-                   <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
-                   <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
-                   <docidentifier type='ISO' primary="true">ISO 125:2020</docidentifier>
-                   <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7:en</docidentifier>
-                   <docnumber>125</docnumber>
-                   <date type='published'>
-                     <on>2020-02</on>
-                   </date>
-                   <contributor>
-                     <role type='publisher'/>
-                     <organization>
-                       <name>International Organization for Standardization</name>
-                       <abbreviation>ISO</abbreviation>
-                       <uri>www.iso.org</uri>
-                     </organization>
-                   </contributor>
-                   <edition>7</edition>
-                   <language>en</language>
-                   <script>Latn</script>
-                   <abstract format='text/plain' language='en' script='Latn'>
-                     This document specifies a method for the determination of the
-                     alkalinity of natural rubber latex concentrate. The method is not
-                     necessarily suitable for latices from natural sources other than
-                     Hevea brasiliensis or for synthetic rubber latices, compounded
-                     latex, vulcanized latex or artificial dispersions of rubber. NOTE
-                     A method for the determination of the alkalinity of
-                     polychloroprene latex is specified in ISO 13773.
-                   </abstract>
-                   <status>
-                     <stage>60</stage>
-                     <substage>60</substage>
-                   </status>
-                   <copyright>
-                     <from>2020</from>
-                     <owner>
-                       <organization>
-                         <name>ISO</name>
-                       </organization>
-                     </owner>
-                   </copyright>
-                   <relation type='obsoletes'>
-                     <bibitem type='standard'>
-                       <formattedref format='text/plain'>ISO 125:2011</formattedref>
-                     </bibitem>
-                   </relation>
-                   <place>Geneva</place>
-                 </bibitem>
-               </relation>
-               <place>Geneva</place>
-             </bibitem>
-           </references>
-           <references id='_' normative='false' obligation='informative'>
-             <title>Bibliography</title>
-                  <bibitem id='iso125' type='standard' hidden='true'>
-       <fetched/>
-       <title type='title-intro' format='text/plain' language='en' script='Latn'>Natural rubber latex concentrate</title>
-       <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of alkalinity</title>
-       <title type='main' format='text/plain' language='en' script='Latn'>
-         Natural rubber latex concentrate&#8201;&#8212;&#8201;Determination of
-         alkalinity
-       </title>
-       <uri type='src'>https://www.iso.org/standard/72849.html</uri>
-       <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
-       <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
-       <docidentifier type='ISO' primary="true">ISO 125</docidentifier>
-       <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7:en</docidentifier>
-       <docnumber>125</docnumber>
-       <contributor>
-         <role type='publisher'/>
-         <organization>
-           <name>International Organization for Standardization</name>
-           <abbreviation>ISO</abbreviation>
-           <uri>www.iso.org</uri>
-         </organization>
-       </contributor>
-       <edition>7</edition>
-       <language>en</language>
-       <script>Latn</script>
-       <status>
-         <stage>60</stage>
-         <substage>60</substage>
-       </status>
-       <copyright>
-         <from>2020</from>
-         <owner>
-           <organization>
-             <name>ISO</name>
-           </organization>
-         </owner>
-       </copyright>
-       <relation type='obsoletes'>
-         <bibitem type='standard'>
-           <formattedref format='text/plain'>ISO 125:2011</formattedref>
+           </sections><bibliography><references id="_" normative="true" obligation="informative" >
+             <title>Normative references</title>
+           #{NORM_REF_BOILERPLATE}
+                        <bibitem id='iso123' type='standard' hidden='true'>
+                  <fetched/>
+                  <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
+                  <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
+                  <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber&#8201;&#8212;&#8201;Determination of total solids content</title>
+                  <uri type='src'>https://www.iso.org/standard/61884.html</uri>
+                  <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
+                  <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
+                  <docidentifier type='ISO' primary="true">ISO 124</docidentifier>
+                  <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
+                  <docnumber>124</docnumber>
+                  <contributor>
+                    <role type='publisher'/>
+                    <organization>
+                      <name>International Organization for Standardization</name>
+                      <abbreviation>ISO</abbreviation>
+                      <uri>www.iso.org</uri>
+                    </organization>
+                  </contributor>
+                  <edition>7</edition>
+                  <language>en</language>
+                  <script>Latn</script>
+                  <status>
+                    <stage>90</stage>
+                    <substage>93</substage>
+                  </status>
+                  <copyright>
+                    <from>2014</from>
+                    <owner>
+                      <organization>
+                        <name>ISO</name>
+                      </organization>
+                    </owner>
+                  </copyright>
+                  <relation type='obsoletes'>
+                    <bibitem type='standard'>
+                      <formattedref format='text/plain'>ISO 124:2011</formattedref>
+                    </bibitem>
+                  </relation>
+                  <relation type='instance'>
+                    <bibitem type='standard'>
+                      <fetched/>
+                      <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
+                      <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
+                      <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber&#8201;&#8212;&#8201;Determination of total solids content</title>
+                      <uri type='src'>https://www.iso.org/standard/61884.html</uri>
+                      <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
+                      <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
+                      <docidentifier type='ISO' primary="true">ISO 124:2014</docidentifier>
+                      <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
+                      <docnumber>124</docnumber>
+                      <date type='published'>
+                        <on>2014-03</on>
+                      </date>
+                      <contributor>
+                        <role type='publisher'/>
+                        <organization>
+                          <name>International Organization for Standardization</name>
+                          <abbreviation>ISO</abbreviation>
+                          <uri>www.iso.org</uri>
+                        </organization>
+                      </contributor>
+                      <edition>7</edition>
+                      <language>en</language>
+                      <script>Latn</script>
+                      <abstract format='text/plain' language='en' script='Latn'>
+                        ISO 124:2014 specifies methods for the determination of the total
+                        solids content of natural rubber field and concentrated latices
+                        and synthetic rubber latex. These methods are not necessarily
+                        suitable for latex from natural sources other than the Hevea
+                        brasiliensis, for vulcanized latex, for compounded latex, or for
+                        artificial dispersions of rubber.
+                      </abstract>
+                      <status>
+                        <stage>90</stage>
+                        <substage>93</substage>
+                      </status>
+                      <copyright>
+                        <from>2014</from>
+                        <owner>
+                          <organization>
+                            <name>ISO</name>
+                          </organization>
+                        </owner>
+                      </copyright>
+                      <relation type='obsoletes'>
+                        <bibitem type='standard'>
+                          <formattedref format='text/plain'>ISO 124:2011</formattedref>
+                        </bibitem>
+                      </relation>
+                      <place>Geneva</place>
+                    </bibitem>
+                  </relation>
+                  <place>Geneva</place>
+                </bibitem>
+                <bibitem id='iso124' type='standard'>
+                  <fetched/>
+                  <title type='title-intro' format='text/plain' language='en' script='Latn'>Natural rubber latex concentrate</title>
+                  <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of alkalinity</title>
+                  <title type='main' format='text/plain' language='en' script='Latn'>
+                    Natural rubber latex concentrate&#8201;&#8212;&#8201;Determination of
+                    alkalinity
+                  </title>
+                  <uri type='src'>https://www.iso.org/standard/72849.html</uri>
+                  <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
+                  <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
+                  <docidentifier type='ISO' primary="true">ISO 125</docidentifier>
+                  <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7:en</docidentifier>
+                  <docnumber>125</docnumber>
+                  <contributor>
+                    <role type='publisher'/>
+                    <organization>
+                      <name>International Organization for Standardization</name>
+                      <abbreviation>ISO</abbreviation>
+                      <uri>www.iso.org</uri>
+                    </organization>
+                  </contributor>
+                  <edition>7</edition>
+                  <language>en</language>
+                  <script>Latn</script>
+                  <status>
+                    <stage>60</stage>
+                    <substage>60</substage>
+                  </status>
+                  <copyright>
+                    <from>2020</from>
+                    <owner>
+                      <organization>
+                        <name>ISO</name>
+                      </organization>
+                    </owner>
+                  </copyright>
+                  <relation type='obsoletes'>
+                    <bibitem type='standard'>
+                      <formattedref format='text/plain'>ISO 125:2011</formattedref>
+                    </bibitem>
+                  </relation>
+                  <relation type='instance'>
+                    <bibitem type='standard'>
+                      <fetched/>
+                      <title type='title-intro' format='text/plain' language='en' script='Latn'>Natural rubber latex concentrate</title>
+                      <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of alkalinity</title>
+                      <title type='main' format='text/plain' language='en' script='Latn'>
+                        Natural rubber latex concentrate&#8201;&#8212;&#8201;Determination
+                        of alkalinity
+                      </title>
+                      <uri type='src'>https://www.iso.org/standard/72849.html</uri>
+                      <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
+                      <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
+                      <docidentifier type='ISO' primary="true">ISO 125:2020</docidentifier>
+                      <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7:en</docidentifier>
+                      <docnumber>125</docnumber>
+                      <date type='published'>
+                        <on>2020-02</on>
+                      </date>
+                      <contributor>
+                        <role type='publisher'/>
+                        <organization>
+                          <name>International Organization for Standardization</name>
+                          <abbreviation>ISO</abbreviation>
+                          <uri>www.iso.org</uri>
+                        </organization>
+                      </contributor>
+                      <edition>7</edition>
+                      <language>en</language>
+                      <script>Latn</script>
+                      <abstract format='text/plain' language='en' script='Latn'>
+                        This document specifies a method for the determination of the
+                        alkalinity of natural rubber latex concentrate. The method is not
+                        necessarily suitable for latices from natural sources other than
+                        Hevea brasiliensis or for synthetic rubber latices, compounded
+                        latex, vulcanized latex or artificial dispersions of rubber. NOTE
+                        A method for the determination of the alkalinity of
+                        polychloroprene latex is specified in ISO 13773.
+                      </abstract>
+                      <status>
+                        <stage>60</stage>
+                        <substage>60</substage>
+                      </status>
+                      <copyright>
+                        <from>2020</from>
+                        <owner>
+                          <organization>
+                            <name>ISO</name>
+                          </organization>
+                        </owner>
+                      </copyright>
+                      <relation type='obsoletes'>
+                        <bibitem type='standard'>
+                          <formattedref format='text/plain'>ISO 125:2011</formattedref>
+                        </bibitem>
+                      </relation>
+                      <place>Geneva</place>
+                    </bibitem>
+                  </relation>
+                  <place>Geneva</place>
+                </bibitem>
+              </references>
+              <references id='_' normative='false' obligation='informative'>
+                <title>Bibliography</title>
+                     <bibitem id='iso125' type='standard' hidden='true'>
+          <fetched/>
+          <title type='title-intro' format='text/plain' language='en' script='Latn'>Natural rubber latex concentrate</title>
+          <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of alkalinity</title>
+          <title type='main' format='text/plain' language='en' script='Latn'>
+            Natural rubber latex concentrate&#8201;&#8212;&#8201;Determination of
+            alkalinity
+          </title>
+          <uri type='src'>https://www.iso.org/standard/72849.html</uri>
+          <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
+          <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
+          <docidentifier type='ISO' primary="true">ISO 125</docidentifier>
+          <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7:en</docidentifier>
+          <docnumber>125</docnumber>
+          <contributor>
+            <role type='publisher'/>
+            <organization>
+              <name>International Organization for Standardization</name>
+              <abbreviation>ISO</abbreviation>
+              <uri>www.iso.org</uri>
+            </organization>
+          </contributor>
+          <edition>7</edition>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+            <stage>60</stage>
+            <substage>60</substage>
+          </status>
+          <copyright>
+            <from>2020</from>
+            <owner>
+              <organization>
+                <name>ISO</name>
+              </organization>
+            </owner>
+          </copyright>
+          <relation type='obsoletes'>
+            <bibitem type='standard'>
+              <formattedref format='text/plain'>ISO 125:2011</formattedref>
+            </bibitem>
+          </relation>
+          <relation type='instance'>
+            <bibitem type='standard'>
+              <fetched/>
+              <title type='title-intro' format='text/plain' language='en' script='Latn'>Natural rubber latex concentrate</title>
+              <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of alkalinity</title>
+              <title type='main' format='text/plain' language='en' script='Latn'>
+                Natural rubber latex concentrate&#8201;&#8212;&#8201;Determination
+                of alkalinity
+              </title>
+              <uri type='src'>https://www.iso.org/standard/72849.html</uri>
+              <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
+              <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
+              <docidentifier type='ISO' primary="true">ISO 125:2020</docidentifier>
+              <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7:en</docidentifier>
+              <docnumber>125</docnumber>
+              <date type='published'>
+                <on>2020-02</on>
+              </date>
+              <contributor>
+                <role type='publisher'/>
+                <organization>
+                  <name>International Organization for Standardization</name>
+                  <abbreviation>ISO</abbreviation>
+                  <uri>www.iso.org</uri>
+                </organization>
+              </contributor>
+              <edition>7</edition>
+              <language>en</language>
+              <script>Latn</script>
+              <abstract format='text/plain' language='en' script='Latn'>
+                This document specifies a method for the determination of the
+                alkalinity of natural rubber latex concentrate. The method is not
+                necessarily suitable for latices from natural sources other than
+                Hevea brasiliensis or for synthetic rubber latices, compounded
+                latex, vulcanized latex or artificial dispersions of rubber. NOTE
+                A method for the determination of the alkalinity of
+                polychloroprene latex is specified in ISO 13773.
+              </abstract>
+              <status>
+                <stage>60</stage>
+                <substage>60</substage>
+              </status>
+              <copyright>
+                <from>2020</from>
+                <owner>
+                  <organization>
+                    <name>ISO</name>
+                  </organization>
+                </owner>
+              </copyright>
+              <relation type='obsoletes'>
+                <bibitem type='standard'>
+                  <formattedref format='text/plain'>ISO 125:2011</formattedref>
+                </bibitem>
+              </relation>
+              <place>Geneva</place>
+            </bibitem>
+          </relation>
+          <place>Geneva</place>
+        </bibitem>
+                      <bibitem id='iso126' hidden='true'>
+           <formattedref format='application/x-isodoc+xml'>
+             <em>Standard</em>
+           </formattedref>
+           <docidentifier>XYZ</docidentifier>
          </bibitem>
-       </relation>
-       <relation type='instance'>
-         <bibitem type='standard'>
-           <fetched/>
-           <title type='title-intro' format='text/plain' language='en' script='Latn'>Natural rubber latex concentrate</title>
-           <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of alkalinity</title>
-           <title type='main' format='text/plain' language='en' script='Latn'>
-             Natural rubber latex concentrate&#8201;&#8212;&#8201;Determination
-             of alkalinity
-           </title>
-           <uri type='src'>https://www.iso.org/standard/72849.html</uri>
-           <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
-           <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
-           <docidentifier type='ISO' primary="true">ISO 125:2020</docidentifier>
-           <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7:en</docidentifier>
-           <docnumber>125</docnumber>
-           <date type='published'>
-             <on>2020-02</on>
-           </date>
-           <contributor>
-             <role type='publisher'/>
-             <organization>
-               <name>International Organization for Standardization</name>
-               <abbreviation>ISO</abbreviation>
-               <uri>www.iso.org</uri>
-             </organization>
-           </contributor>
-           <edition>7</edition>
-           <language>en</language>
-           <script>Latn</script>
-           <abstract format='text/plain' language='en' script='Latn'>
-             This document specifies a method for the determination of the
-             alkalinity of natural rubber latex concentrate. The method is not
-             necessarily suitable for latices from natural sources other than
-             Hevea brasiliensis or for synthetic rubber latices, compounded
-             latex, vulcanized latex or artificial dispersions of rubber. NOTE
-             A method for the determination of the alkalinity of
-             polychloroprene latex is specified in ISO 13773.
-           </abstract>
-           <status>
-             <stage>60</stage>
-             <substage>60</substage>
-           </status>
-           <copyright>
-             <from>2020</from>
-             <owner>
-               <organization>
-                 <name>ISO</name>
-               </organization>
-             </owner>
-           </copyright>
-           <relation type='obsoletes'>
-             <bibitem type='standard'>
-               <formattedref format='text/plain'>ISO 125:2011</formattedref>
-             </bibitem>
-           </relation>
-           <place>Geneva</place>
+                <bibitem id='iso127' type='standard'>
+                  <fetched/>
+                  <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
+                  <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
+                  <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber&#8201;&#8212;&#8201;Determination of total solids content</title>
+                  <uri type='src'>https://www.iso.org/standard/61884.html</uri>
+                  <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
+                  <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
+                  <docidentifier type='ISO' primary="true">ISO 124</docidentifier>
+                  <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
+                  <docnumber>124</docnumber>
+                  <contributor>
+                    <role type='publisher'/>
+                    <organization>
+                      <name>International Organization for Standardization</name>
+                      <abbreviation>ISO</abbreviation>
+                      <uri>www.iso.org</uri>
+                    </organization>
+                  </contributor>
+                  <edition>7</edition>
+                  <language>en</language>
+                  <script>Latn</script>
+                  <status>
+                    <stage>90</stage>
+                    <substage>93</substage>
+                  </status>
+                  <copyright>
+                    <from>2014</from>
+                    <owner>
+                      <organization>
+                        <name>ISO</name>
+                      </organization>
+                    </owner>
+                  </copyright>
+                  <relation type='obsoletes'>
+                    <bibitem type='standard'>
+                      <formattedref format='text/plain'>ISO 124:2011</formattedref>
+                    </bibitem>
+                  </relation>
+                  <relation type='instance'>
+                    <bibitem type='standard'>
+                      <fetched/>
+                      <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
+                      <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
+                      <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber&#8201;&#8212;&#8201;Determination of total solids content</title>
+                      <uri type='src'>https://www.iso.org/standard/61884.html</uri>
+                      <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
+                      <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
+                      <docidentifier type='ISO' primary="true">ISO 124:2014</docidentifier>
+                      <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
+                      <docnumber>124</docnumber>
+                      <date type='published'>
+                        <on>2014-03</on>
+                      </date>
+                      <contributor>
+                        <role type='publisher'/>
+                        <organization>
+                          <name>International Organization for Standardization</name>
+                          <abbreviation>ISO</abbreviation>
+                          <uri>www.iso.org</uri>
+                        </organization>
+                      </contributor>
+                      <edition>7</edition>
+                      <language>en</language>
+                      <script>Latn</script>
+                      <abstract format='text/plain' language='en' script='Latn'>
+                        ISO 124:2014 specifies methods for the determination of the total
+                        solids content of natural rubber field and concentrated latices
+                        and synthetic rubber latex. These methods are not necessarily
+                        suitable for latex from natural sources other than the Hevea
+                        brasiliensis, for vulcanized latex, for compounded latex, or for
+                        artificial dispersions of rubber.
+                      </abstract>
+                      <status>
+                        <stage>90</stage>
+                        <substage>93</substage>
+                      </status>
+                      <copyright>
+                        <from>2014</from>
+                        <owner>
+                          <organization>
+                            <name>ISO</name>
+                          </organization>
+                        </owner>
+                      </copyright>
+                      <relation type='obsoletes'>
+                        <bibitem type='standard'>
+                          <formattedref format='text/plain'>ISO 124:2011</formattedref>
+                        </bibitem>
+                      </relation>
+                      <place>Geneva</place>
+                    </bibitem>
+                  </relation>
+                  <place>Geneva</place>
+                </bibitem>
+                      <bibitem id='iso128'>
+           <formattedref format='application/x-isodoc+xml'>
+             <em>Standard</em>
+           </formattedref>
+           <docidentifier>ABC</docidentifier>
          </bibitem>
-       </relation>
-       <place>Geneva</place>
-     </bibitem>
-                   <bibitem id='iso126' hidden='true'>
-        <formattedref format='application/x-isodoc+xml'>
-          <em>Standard</em>
-        </formattedref>
-        <docidentifier>XYZ</docidentifier>
-      </bibitem>
-             <bibitem id='iso127' type='standard'>
-               <fetched/>
-               <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
-               <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
-               <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber&#8201;&#8212;&#8201;Determination of total solids content</title>
-               <uri type='src'>https://www.iso.org/standard/61884.html</uri>
-               <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
-               <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
-               <docidentifier type='ISO' primary="true">ISO 124</docidentifier>
-               <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
-               <docnumber>124</docnumber>
-               <contributor>
-                 <role type='publisher'/>
-                 <organization>
-                   <name>International Organization for Standardization</name>
-                   <abbreviation>ISO</abbreviation>
-                   <uri>www.iso.org</uri>
-                 </organization>
-               </contributor>
-               <edition>7</edition>
-               <language>en</language>
-               <script>Latn</script>
-               <status>
-                 <stage>90</stage>
-                 <substage>93</substage>
-               </status>
-               <copyright>
-                 <from>2014</from>
-                 <owner>
-                   <organization>
-                     <name>ISO</name>
-                   </organization>
-                 </owner>
-               </copyright>
-               <relation type='obsoletes'>
-                 <bibitem type='standard'>
-                   <formattedref format='text/plain'>ISO 124:2011</formattedref>
-                 </bibitem>
-               </relation>
-               <relation type='instance'>
-                 <bibitem type='standard'>
-                   <fetched/>
-                   <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
-                   <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
-                   <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber&#8201;&#8212;&#8201;Determination of total solids content</title>
-                   <uri type='src'>https://www.iso.org/standard/61884.html</uri>
-                   <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
-                   <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
-                   <docidentifier type='ISO' primary="true">ISO 124:2014</docidentifier>
-                   <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
-                   <docnumber>124</docnumber>
-                   <date type='published'>
-                     <on>2014-03</on>
-                   </date>
-                   <contributor>
-                     <role type='publisher'/>
-                     <organization>
-                       <name>International Organization for Standardization</name>
-                       <abbreviation>ISO</abbreviation>
-                       <uri>www.iso.org</uri>
-                     </organization>
-                   </contributor>
-                   <edition>7</edition>
-                   <language>en</language>
-                   <script>Latn</script>
-                   <abstract format='text/plain' language='en' script='Latn'>
-                     ISO 124:2014 specifies methods for the determination of the total
-                     solids content of natural rubber field and concentrated latices
-                     and synthetic rubber latex. These methods are not necessarily
-                     suitable for latex from natural sources other than the Hevea
-                     brasiliensis, for vulcanized latex, for compounded latex, or for
-                     artificial dispersions of rubber.
-                   </abstract>
-                   <status>
-                     <stage>90</stage>
-                     <substage>93</substage>
-                   </status>
-                   <copyright>
-                     <from>2014</from>
-                     <owner>
-                       <organization>
-                         <name>ISO</name>
-                       </organization>
-                     </owner>
-                   </copyright>
-                   <relation type='obsoletes'>
-                     <bibitem type='standard'>
-                       <formattedref format='text/plain'>ISO 124:2011</formattedref>
-                     </bibitem>
-                   </relation>
-                   <place>Geneva</place>
-                 </bibitem>
-               </relation>
-               <place>Geneva</place>
-             </bibitem>
-                   <bibitem id='iso128'>
-        <formattedref format='application/x-isodoc+xml'>
-          <em>Standard</em>
-        </formattedref>
-        <docidentifier>ABC</docidentifier>
-      </bibitem>
-           </references>
-         </bibliography>
-       </standard-document>
+              </references>
+            </bibliography>
+          </standard-document>
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)
     end
   end
-
 
   it "processes draft ISO reference" do
     # stub_fetch_ref no_year: true, note: "The standard is in press"
@@ -2485,6 +2484,54 @@ RSpec.describe Metanorma::Standoc do
     end
   end
 
+  it "have formatted reference tag" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      <<iso124>>
+
+      [bibliography]
+      == Bibliography
+
+      * [[[iso124,(*A*.footnote:[hello])XYZ]]] _Standard_
+    INPUT
+    output = <<~OUTPUT
+         #{BLANK_HDR}
+         <preface>
+           <foreword id='_' obligation='informative'>
+             <title>Foreword</title>
+             <p id='_'>
+               <eref type='inline' bibitemid='iso124' citeas='[&amp;#x3c;strong&amp;#x3e;A&amp;#x3c;/strong&amp;#x3e;.&amp;#x3c;fn reference=&amp;#x22;1&amp;#x22;&amp;#x3e;&amp;#xa;  &amp;#x3c;p&amp;#x3e;hello&amp;#x3c;/p&amp;#x3e;&amp;#xa;&amp;#x3c;/fn&amp;#x3e;]'/>
+             </p>
+           </foreword>
+         </preface>
+         <sections> </sections>
+         <bibliography>
+           <references id='_' normative='false' obligation='informative'>
+             <title>Bibliography</title>
+             <bibitem id='iso124'>
+               <formattedref format='application/x-isodoc+xml'>
+                 <em>Standard</em>
+               </formattedref>
+               <docidentifier type='metanorma'>
+                 [
+                 <strong>A</strong>
+                 .
+                 <fn reference='1'>
+                   <p id='_'>hello</p>
+                 </fn>
+                 ]
+               </docidentifier>
+               <docidentifier>XYZ</docidentifier>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   private
 
   def mock_isobib_get_123
@@ -2503,7 +2550,7 @@ RSpec.describe Metanorma::Standoc do
     end
   end
 
-  def mock_isobib_get_123_no_docid(n)
+  def mock_isobib_get_123_no_docid(times)
     expect(RelatonIso::IsoBibliography).to receive(:get)
       .with("ISO 123", nil, { code: "ISO 123",
                               lang: "en",
@@ -2516,10 +2563,10 @@ RSpec.describe Metanorma::Standoc do
       RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
         <bibitem type=\"standard\" id=\"ISO123\">\n  <uri type=\"src\">https://www.iso.org/standard/23281.html</uri>\n  <uri type=\"obp\">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>\n  <uri type=\"rss\">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type=\"published\">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type=\"publisher\"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type=\"obsoletes\">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type=\"updates\">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
-    end.exactly(n).times
+    end.exactly(times).times
   end
 
-  def mock_isobib_get_123_no_docid_lbl(n)
+  def mock_isobib_get_123_no_docid_lbl(times)
     expect(RelatonIso::IsoBibliography).to receive(:get)
       .with("ISO 123", nil, { code: "ISO 123",
                               lang: "en",
@@ -2532,7 +2579,7 @@ RSpec.describe Metanorma::Standoc do
       RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
         <bibitem type=\"standard\" id=\"ISO123\">\n  <uri type=\"src\">https://www.iso.org/standard/23281.html</uri>\n  <uri type=\"obp\">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>\n  <uri type=\"rss\">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type=\"published\">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type=\"publisher\"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type=\"obsoletes\">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type=\"updates\">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
-    end.exactly(n).times
+    end.exactly(times).times
   end
 
   def mock_isobib_get_124

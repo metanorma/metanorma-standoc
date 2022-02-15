@@ -1288,7 +1288,7 @@ RSpec.describe Metanorma::Standoc do
              <sourcecode id='L__xf6_we'>
                <name>
                  See
-                 <eref type='inline' bibitemid='L__xf6_wner2016' citeas='L&#246;wner et al. 2016'/>
+                 <eref type='inline' bibitemid='L__xf6_wner2016' citeas='L&amp;#xf6;wner et al. 2016'/>
                </name>
                ABC
              </sourcecode>
