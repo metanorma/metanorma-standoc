@@ -2496,21 +2496,7 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso124,(*A*.footnote:[hello])XYZ]]] _Standard_
     INPUT
     output = <<~OUTPUT
-           <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='2.0.2'>
-         <bibdata type='standard'>
-           <title language='en' format='text/plain'>Document title</title>
-           <language>en</language>
-           <script>Latn</script>
-           <status>
-             <stage>published</stage>
-           </status>
-           <copyright>
-             <from>2022</from>
-           </copyright>
-           <ext>
-             <doctype>article</doctype>
-           </ext>
-         </bibdata>
+         #{BLANK_HDR}
          <preface>
            <foreword id='_' obligation='informative'>
              <title>Foreword</title>
