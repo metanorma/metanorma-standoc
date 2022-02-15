@@ -99,8 +99,10 @@ module Metanorma
       SVG_NS = "http://www.w3.org/2000/svg".freeze
 
       def svg_uniqueids(xmldoc)
+        # only keep non-unique identifiers
         ids = xmldoc.xpath("//m:svg//*/@id | //svg/@id", "m" => SVG_NS)
-          .group_by(&:itself).transform_values(&:count).delete_if { |_, v| v < 2 }
+          .map(&:text).group_by(&:itself).transform_values(&:count)
+          .delete_if { |_, v| v < 2 }
         xmldoc.xpath("//m:svg", "m" => SVG_NS).each_with_index do |s, i|
           ids = svg_uniqueids1(s, i, ids)
         end

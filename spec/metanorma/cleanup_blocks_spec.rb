@@ -1039,7 +1039,6 @@ RSpec.describe Metanorma::Standoc do
     annotation_id = output.at("//xmlns:annotation/@id").text
     expect(callout_id).to eq(annotation_id)
   end
-
   it "deduplicates identifiers in inline SVGs" do
     input = <<~INPUT
       #{BLANK_HDR}
@@ -1078,40 +1077,40 @@ RSpec.describe Metanorma::Standoc do
       </standard-document>
     INPUT
     output = <<~OUTPUT
-        #{BLANK_HDR}
-           <sections>
-           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 256 256">
-        <defs>
-          <linearGradient id="gradient1">
-            <stop class="stop1" offset="0%" xlink:href="#gradient1"/>
-            <stop class="stop2" offset="100%"/>
-            <style>url(#gradient1)</style>
-          </linearGradient>
-        </defs>
-        <circle fill="url(#gradient1)" cx="128" cy="128" r="100"/>
-      </svg>
-      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 256 256">
-        <defs>
-          <linearGradient id="gradient2">
-            <stop class="stop1" offset="0%" xlink:href="#gradient2"/>
-            <stop class="stop2" offset="100%"/>
-            <style>url(#gradient2)</style>
-          </linearGradient>
-        </defs>
-        <circle fill="url(#gradient2)" cx="128" cy="128" r="100"/>
-      </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 256 256">
-        <defs>
-          <linearGradient id="gradient1_inject_1">
-            <stop class="stop1" offset="0%" xlink:href="#gradient1_inject_1"/>
-            <stop class="stop2" offset="100%"/>
-            <style>url(#gradient1_inject_1)</style>
-          </linearGradient>
-        </defs>
-        <circle fill="url(#gradient1_inject_1)" cx="128" cy="128" r="100"/>
-      </svg>
-            </sections>
-           </standard-document>
+      #{BLANK_HDR}
+                 <sections>
+                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 256 256">
+         <defs>
+           <linearGradient id="gradient1_inject_0">
+             <stop class="stop1" offset="0%" xlink:href="#gradient1_inject_0"/>
+             <stop class="stop2" offset="100%"/>
+             <style>url(#gradient1_inject_0)</style>
+           </linearGradient>
+         </defs>
+         <circle fill="url(#gradient1_inject_0)" cx="128" cy="128" r="100"/>
+       </svg>
+               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 256 256">
+         <defs>
+           <linearGradient id="gradient2">
+             <stop class="stop1" offset="0%" xlink:href="#gradient2"/>
+             <stop class="stop2" offset="100%"/>
+             <style>url(#gradient2)</style>
+           </linearGradient>
+         </defs>
+         <circle fill="url(#gradient2)" cx="128" cy="128" r="100"/>
+       </svg>
+             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 256 256">
+         <defs>
+           <linearGradient id="gradient1_inject_2">
+             <stop class="stop1" offset="0%" xlink:href="#gradient1_inject_2"/>
+             <stop class="stop2" offset="100%"/>
+             <style>url(#gradient1_inject_2)</style>
+           </linearGradient>
+         </defs>
+         <circle fill="url(#gradient1_inject_2)" cx="128" cy="128" r="100"/>
+       </svg>
+             </sections>
+      </standard-document>
     OUTPUT
     expect(Metanorma::Standoc::Converter.new(nil, *OPTIONS)
       .cleanup(Nokogiri::XML(input)).to_xml)
