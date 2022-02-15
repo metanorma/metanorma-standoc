@@ -47,14 +47,19 @@ module Metanorma
 
       def xref_to_eref(elem)
         elem["bibitemid"] = elem["target"]
-        unless elem["citeas"] = @anchors&.dig(elem["target"], :xref)
-          @internal_eref_namespaces.include?(elem["type"]) or
-            @log.add("Crossreferences", elem,
-                     "#{elem['target']} does not have a corresponding "\
-                     "anchor ID in the bibliography!")
+        if ref = @anchors&.dig(elem["target"], :xref)
+          elem["citeas"] = HTMLEntities.new.encode(ref, :hexadecimal)
+        else xref_to_eref1(elem)
         end
         elem.delete("target")
         extract_localities(elem) unless elem.children.empty?
+      end
+
+      def xref_to_eref1(elem)
+        @internal_eref_namespaces.include?(elem["type"]) or
+          @log.add("Crossreferences", elem,
+                   "#{elem['target']} does not have a corresponding "\
+                   "anchor ID in the bibliography!")
       end
 
       def xref_cleanup(xmldoc)
