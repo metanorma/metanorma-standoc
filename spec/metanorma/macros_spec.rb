@@ -1522,6 +1522,67 @@ RSpec.describe Metanorma::Standoc do
       end
     end
 
+    context "terms with index terms" do
+      let(:input) do
+        <<~XML
+          #{ASCIIDOC_BLANK_HDR}
+
+          == Terms and Definitions
+
+          === name(((name)))
+
+          == Main
+
+          term:[name] is a term
+
+          {{name}} is a term
+        XML
+      end
+      let(:output) do
+        <<~XML
+          #{BLANK_HDR}
+          <sections>
+            <terms id='_' obligation='normative'>
+              <title>Terms and definitions</title>
+              <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+              <term id='term-name'>
+                <preferred><expression><name>name
+           <index>
+               <primary>name</primary>
+             </index>
+           </name>
+                </expression></preferred>
+              </term>
+            </terms>
+            <clause id='_' inline-header='false' obligation='normative'>
+              <title>Main</title>
+              <p id='_'>
+              <concept>
+              <refterm>name</refterm>
+              <renderterm>name</renderterm>
+              <xref target='term-name'/>
+              </concept>
+              is a term
+              </p>
+              <p id='_'>
+              <concept>
+              <refterm>name</refterm>
+              <renderterm>name</renderterm>
+              <xref target='term-name'/>
+              </concept>
+              is a term
+              </p>
+            </clause>
+          </sections>
+          </standard-document>
+        XML
+      end
+
+      it "strips index terms in terms anchors" do
+        expect(convert).to(be_equivalent_to(xmlpp(output)))
+      end
+    end
+
     context "multiply exising ids in document" do
       let(:input) do
         <<~XML

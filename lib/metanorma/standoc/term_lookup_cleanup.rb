@@ -58,7 +58,7 @@ module Metanorma
 
       def set_termxref_tags_target
         xmldoc.xpath("//termxref").each do |node|
-          target = normalize_ref_id(node.text)
+          target = normalize_ref_id(node)
           if termlookup[:term][target].nil? && termlookup[:symbol][target].nil?
             remove_missing_ref(node, target)
             next
@@ -141,7 +141,7 @@ module Metanorma
       end
 
       def normalize_id_and_memorize_init(node, res_table, text_selector, prefix)
-        term_text = normalize_ref_id(node.at(text_selector).text)
+        term_text = normalize_ref_id(node.at(text_selector))
         unless AUTOMATIC_GENERATED_ID_REGEXP.match(node["id"]).nil? &&
             !node["id"].nil?
           id = unique_text_id(term_text, prefix)
@@ -155,12 +155,14 @@ module Metanorma
         node.xpath(text_selector).each_with_index do |p, i|
           next unless i.positive?
 
-          res_table[normalize_ref_id(p.text)] = node["id"]
+          res_table[normalize_ref_id(p)] = node["id"]
         end
       end
 
-      def normalize_ref_id(text)
-        Metanorma::Utils::to_ncname(text.downcase.gsub(/[[:space:]]/, "-"))
+      def normalize_ref_id(term)
+        t = term.dup
+        t.xpath(".//index").map(&:remove)
+        Metanorma::Utils::to_ncname(t.text.downcase.gsub(/[[:space:]]/, "-"))
       end
 
       def unique_text_id(text, prefix)
