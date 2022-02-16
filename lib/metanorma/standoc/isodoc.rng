@@ -1098,6 +1098,16 @@
     </define>
   </include>
   <!-- end overrides -->
+  <define name="image" combine="choice">
+    <element name="svg">
+      <oneOrMore>
+        <choice>
+          <text/>
+          <ref name="AnyElement"/>
+        </choice>
+      </oneOrMore>
+    </element>
+  </define>
   <define name="MultilingualRenderingType">
     <choice>
       <value>common</value>

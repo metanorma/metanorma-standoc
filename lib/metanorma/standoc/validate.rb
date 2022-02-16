@@ -120,19 +120,24 @@ module Metanorma
         end
       end
 
+      SVG_NS = "http://www.w3.org/2000/svg".freeze
+
       # RelaxNG cannot cope well with wildcard attributes. So we strip
       # any attributes from FormattedString instances (which can contain
       # xs:any markup, and are signalled with @format) before validation.
       def formattedstr_strip(doc)
         doc.xpath("//*[@format] | //stem | //bibdata//description | "\
                   "//formattedref | //bibdata//note | //bibdata/abstract | "\
-                  "//bibitem/abstract | //bibitem/note | //misc-container")
-          .each do |n|
+                  "//bibitem/abstract | //bibitem/note | //misc-container",
+                  "m" => SVG_NS).each do |n|
           n.elements.each do |e|
             e.traverse do |e1|
               e1.element? and e1.each { |k, _v| e1.delete(k) }
             end
           end
+        end
+        doc.xpath("//m:svg", "m" => SVG_NS).each do |n|
+          n.replace("<svg/>")
         end
         doc
       end
