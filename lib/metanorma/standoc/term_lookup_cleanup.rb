@@ -78,7 +78,7 @@ module Metanorma
 
       def remove_missing_ref_term(node, target)
         log.add("AsciiDoc Input", node,
-                %(Error: Term reference in `term[#{target}]` missing: \
+                %(Error: Term reference to `#{target}` missing: \
                 "#{target}" is not defined in document))
         node.name = "strong"
         node&.at("../xrefrender")&.remove
