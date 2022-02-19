@@ -282,7 +282,7 @@ RSpec.describe Metanorma::Standoc do
               </localityStack>
               the reference,xyz</eref>
        <eref type='inline' bibitemid='iso216' citeas='ISO 216'>
-         <localityStack>
+         <localityStack connective="and">
            <locality type='whole'/>
            <locality type='clause'>
              <referenceFrom>3</referenceFrom>
@@ -298,7 +298,7 @@ RSpec.describe Metanorma::Standoc do
            <referenceFrom>the reference</referenceFrom>
            </locality>
          </localityStack>
-         <localityStack>
+         <localityStack connective="and">
            <locality type='whole'/>
            <locality type='clause'>
              <referenceFrom>3</referenceFrom>
