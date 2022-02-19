@@ -155,32 +155,6 @@
         <ref name="XrefBody"/>
       </element>
     </define>
-    <define name="XrefBody">
-      <zeroOrMore>
-        <ref name="XrefTarget"/>
-      </zeroOrMore>
-      <oneOrMore>
-        <ref name="PureTextElement"/>
-      </oneOrMore>
-    </define>
-    <define name="XrefTarget">
-      <element name="location">
-        <attribute name="target">
-          <data type="string">
-            <param name="pattern">\i\c*|\c+#\c+</param>
-          </data>
-        </attribute>
-        <attribute name="connective">
-          <choice>
-            <value>and</value>
-            <value>or</value>
-            <value>from</value>
-            <value>to</value>
-            <value/>
-          </choice>
-        </attribute>
-      </element>
-    </define>
     <define name="erefType">
       <optional>
         <attribute name="normative">
@@ -2699,6 +2673,32 @@
       <zeroOrMore>
         <ref name="TextElement"/>
       </zeroOrMore>
+    </element>
+  </define>
+  <define name="XrefBody">
+    <zeroOrMore>
+      <ref name="XrefTarget"/>
+    </zeroOrMore>
+    <oneOrMore>
+      <ref name="PureTextElement"/>
+    </oneOrMore>
+  </define>
+  <define name="XrefTarget">
+    <element name="location">
+      <attribute name="target">
+        <data type="string">
+          <param name="pattern">\i\c*|\c+#\c+</param>
+        </data>
+      </attribute>
+      <attribute name="connective">
+        <choice>
+          <value>and</value>
+          <value>or</value>
+          <value>from</value>
+          <value>to</value>
+          <value/>
+        </choice>
+      </attribute>
     </element>
   </define>
 </grammar>
