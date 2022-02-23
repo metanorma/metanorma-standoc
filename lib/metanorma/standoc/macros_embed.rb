@@ -56,7 +56,7 @@ module Metanorma
         lines.each_with_index.with_object([]) do |(l, i), m|
           if headings.include?(l.strip)
             skip = true
-            m.unshift while !m.empty? && /^\S/.match?(m[-1])
+            m.pop while !m.empty? && /^\S/.match?(m[-1])
           elsif skip && /^== |^embed::|^include::/.match?(l)
             skip = false
             j = i
