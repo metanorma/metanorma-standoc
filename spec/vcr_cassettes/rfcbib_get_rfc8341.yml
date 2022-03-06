@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - A152:1CCB:C9BA2:4A383D:62007811
+      - C9D2:7C73:1B109C:2960FB:62243B52
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 07 Feb 2022 01:38:26 GMT
+      - Sun, 06 Mar 2022 04:40:50 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11283-MEL
+      - cache-mel11260-MEL
       X-Cache:
-      - MISS
+      - HIT
       X-Cache-Hits:
-      - '0'
+      - '1'
       X-Timer:
-      - S1644197906.601813,VS0,VE412
+      - S1646541651.638598,VS0,VE251
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 1d695eee270f4e82f6483bdf7c1b757893d232e0
+      - 07ecaabf1b0cf5a3a1bd4d7afc59e3e070fd74a5
       Expires:
-      - Mon, 07 Feb 2022 01:43:26 GMT
+      - Sun, 06 Mar 2022 04:45:50 GMT
       Source-Age:
       - '0'
     body:
@@ -84,7 +84,7 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Mon, 07 Feb 2022 01:38:25 GMT
+  recorded_at: Sun, 06 Mar 2022 04:40:50 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
@@ -126,29 +126,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - A152:1CCB:C9BA2:4A383D:62007811
+      - C9D2:7C73:1B109C:2960FB:62243B52
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 07 Feb 2022 01:38:26 GMT
+      - Sun, 06 Mar 2022 04:40:50 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11232-MEL
+      - cache-mel11246-MEL
       X-Cache:
-      - HIT
+      - MISS
       X-Cache-Hits:
-      - '1'
+      - '0'
       X-Timer:
-      - S1644197906.601791,VS0,VE412
+      - S1646541651.628146,VS0,VE262
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - bb72d7ec4a606b2103089ec7c76f2af92fb76ded
+      - e194d1b2ca158c9ebdbdda23d18a1ff74b39bd22
       Expires:
-      - Mon, 07 Feb 2022 01:43:26 GMT
+      - Sun, 06 Mar 2022 04:45:50 GMT
       Source-Age:
       - '0'
     body:
@@ -169,5 +169,5 @@ http_interactions:
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
     http_version:
-  recorded_at: Mon, 07 Feb 2022 01:38:25 GMT
+  recorded_at: Sun, 06 Mar 2022 04:40:50 GMT
 recorded_with: VCR 5.0.0

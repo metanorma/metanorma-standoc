@@ -85,7 +85,16 @@ module Metanorma
         biblio_nested(xmldoc)
         biblio_renumber(xmldoc)
         biblio_linkonly(xmldoc)
+        biblio_hidden_inherit(xmldoc)
         biblio_no_ext(xmldoc)
+      end
+
+      def biblio_hidden_inherit(xmldoc)
+        xmldoc.xpath("//references[@hidden = 'true']").each do |r|
+          r.xpath("./bibitem").each do |b|
+            b["hidden"] = true
+          end
+        end
       end
 
       def biblio_linkonly(xmldoc)

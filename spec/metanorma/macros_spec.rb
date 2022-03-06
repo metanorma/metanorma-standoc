@@ -1423,7 +1423,7 @@ RSpec.describe Metanorma::Standoc do
           </sections>
           <bibliography>
             <references hidden='true' normative='true'>
-              <bibitem id='_' type='standard'>
+              <bibitem id='_' type='standard' hidden="true">
                 <fetched/>
                 <title type='title-intro' format='text/plain' language='en' script='Latn'>Acoustics</title>
                 <title type='title-main' format='text/plain' language='en' script='Latn'>Expression of physical and subjective magnitudes of sound or noise in air</title>
@@ -1514,7 +1514,7 @@ RSpec.describe Metanorma::Standoc do
                 </relation>
                 <place>Geneva</place>
               </bibitem>
-              <bibitem id='_'>
+              <bibitem id='_' hidden="true">
                 <formattedref format='application/x-isodoc+xml'/>
                 <docidentifier type='ISO'>iso:std:iso:13485:en</docidentifier>
                 <docnumber>13485:en</docnumber>
