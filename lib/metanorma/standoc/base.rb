@@ -70,15 +70,34 @@ module Metanorma
       end
 
       def document(node)
-        init(node)
-        ret = makexml(node).to_xml(encoding: "UTF-8", indent: 2)
-        outputs(node, ret) unless node.attr("nodoc") || !node.attr("docfile")
+        ret = document1(node)
         clean_exit
         ret
       rescue StandardError => e
         @log.add("Fatal Error", nil, e.message)
         clean_exit
         raise e
+      end
+
+      def document1(node)
+        init(node)
+        ret = insert_xml_cr(makexml(node)
+          .to_xml(encoding: "UTF-8", indent: 2,
+                  save_with: Nokogiri::XML::Node::SaveOptions::AS_XML))
+        outputs(node, ret) unless node.attr("nodoc") || !node.attr("docfile")
+        ret
+      end
+
+      def insert_xml_cr(doc)
+        doc
+          .gsub(%r{(</(clause|table|figure|p|bibitem|ul|ol|dl|dt|dd|li|example|
+                       sourcecode|formula|quote|references|annex|appendix|title|
+                       name|note|thead|tbody|tfoot|th|td|form|requirement|
+                       recommendation|permission|imagemap|svgmap|preferred|
+                       admitted|related|deprecates|letter-symbol|domain|
+                       graphical-symbol|expression|abbreviation-type|subject|
+                       pronunciation|grammar|term|terms|termnote|termexample|
+                       termsource|origin|termref|modification)>)}x, "\\1\n")
       end
 
       def version

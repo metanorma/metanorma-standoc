@@ -19,9 +19,7 @@ module Metanorma
           xml.table **attr_code(table_attrs(node)) do |xml_table|
             colgroup(node, xml_table)
             table_name(node, xml_table)
-            %i(head body foot).reject do |tblsec|
-              node.rows[tblsec].empty?
-            end
+            %i(head body foot).reject { |tblsec| node.rows[tblsec].empty? }
             table_head_body_and_foot node, xml_table
           end
         end
@@ -50,12 +48,12 @@ module Metanorma
         end
       end
 
-      def table_cell1(cell, thd)
-        thd << if cell.style == :asciidoc
-                 cell.content
-               else
-                 cell.text
-               end
+      def table_cell1(cell)
+        if cell.style == :asciidoc
+          cell.content
+        else
+          cell.text
+        end
       end
 
       def table_cell(node, xml_tr, tblsec)
@@ -65,7 +63,7 @@ module Metanorma
         cell_tag = "td"
         cell_tag = "th" if tblsec == :head || node.style == :header
         xml_tr.send cell_tag, **attr_code(cell_attributes) do |thd|
-          table_cell1(node, thd)
+          thd << table_cell1(node)
         end
       end
 

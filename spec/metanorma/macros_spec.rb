@@ -748,7 +748,7 @@ RSpec.describe Metanorma::Standoc do
         <definitions id='clause1' obligation='normative'>
           <title>Symbols and abbreviated terms</title>
           <dl id='_'>
-            <dt id='symbol-_-__x230a_x__x230b_-'>
+            <dt id='symbol-__x230a_-x-__x230b_'>
               <stem type='MathML'>
                 <math xmlns='http://www.w3.org/1998/Math/MathML'>
                   <mo>&#8970;</mo>
@@ -770,7 +770,7 @@ RSpec.describe Metanorma::Standoc do
                  function.
               </p>
             </dd>
-            <dt id='symbol-_-__x2308_x__x2309_-'>
+            <dt id='symbol-__x2308_-x-__x2309_'>
               <stem type='MathML'>
                 <math xmlns='http://www.w3.org/1998/Math/MathML'>
                   <mo>&#8968;</mo>
