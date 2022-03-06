@@ -214,18 +214,17 @@ module Metanorma
         end
       end
 
-      def reference_preproc(node)
+      def reference(node)
         refs = node.items.each_with_object([]) do |b, m|
           m << reference1code(b.text, node)
         end
+        reference_populate(refs)
+      end
+
+      def reference_populate(refs)
         results = refs.each_with_index.with_object(Queue.new) do |(ref, i), res|
           fetch_ref_async(ref.merge(ord: i), i, res)
         end
-        [refs, results]
-      end
-
-      def reference(node)
-        refs, results = reference_preproc(node)
         ret = reference_queue(refs, results)
         noko do |xml|
           ret.each { |b| reference1out(b, xml) }

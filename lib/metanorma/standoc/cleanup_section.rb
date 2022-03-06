@@ -54,7 +54,7 @@ module Metanorma
       end
 
       def make_bibliography(xml, sect)
-        if xml.at("//sections/references")
+        if xml.at("//sections/references | //xref[@hidden]")
           biblio = sect.add_next_sibling("<bibliography/>").first
           xml.xpath("//sections/references").each do |r|
             biblio.add_child r.remove
