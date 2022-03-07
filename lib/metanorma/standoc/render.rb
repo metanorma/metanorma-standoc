@@ -70,9 +70,7 @@ module Metanorma
         }
 
         if fonts_manifest = node.attr(FONTS_MANIFEST)
-          attrs[IsoDoc::XslfoPdfConvert::MN2PDF_OPTIONS] = {
-            IsoDoc::XslfoPdfConvert::MN2PDF_FONT_MANIFEST => fonts_manifest,
-          }
+          attrs[IsoDoc::XslfoPdfConvert::MN2PDF_FONT_MANIFEST] = fonts_manifest
         end
 
         attrs

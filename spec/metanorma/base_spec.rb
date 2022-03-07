@@ -1051,7 +1051,7 @@ QU1FOiB0ZXN0Cgo=
       .new(:standoc, header_footer: true)
       .doc_extract_attributes(node)
 
-    expect(options.dig(:mn2pdf, :font_manifest))
+    expect(options[:font_manifest])
       .to eq(node[Metanorma::Standoc::Base::FONTS_MANIFEST])
   end
 

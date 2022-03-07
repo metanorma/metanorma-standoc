@@ -728,7 +728,7 @@ RSpec.describe Metanorma::Standoc do
           <terms id='_' obligation='normative'>
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-            <term id='term-_-t90-'>
+            <term id='term-t90'>
               <preferred>
                 <letter-symbol>
                   <name>

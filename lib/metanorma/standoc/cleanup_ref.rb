@@ -16,7 +16,7 @@ module Metanorma
         insert = refs&.at("./bibitem")&.previous_element
         refs.xpath("./bibitem").each(&:remove)
         bib.reverse.each do |b|
-          insert and insert.next = b.to_xml or
+          (insert and insert.next = b.to_xml) or
             refs.children.first.add_previous_sibling b.to_xml
         end
         extract_notes_from_biblio(refs)
@@ -84,7 +84,37 @@ module Metanorma
         biblio_reorder(xmldoc)
         biblio_nested(xmldoc)
         biblio_renumber(xmldoc)
+        biblio_linkonly(xmldoc)
+        biblio_hidden_inherit(xmldoc)
         biblio_no_ext(xmldoc)
+      end
+
+      def biblio_hidden_inherit(xmldoc)
+        xmldoc.xpath("//references[@hidden = 'true']").each do |r|
+          r.xpath("./bibitem").each do |b|
+            b["hidden"] = true
+          end
+        end
+      end
+
+      def biblio_linkonly(xmldoc)
+        return unless xmldoc.at("//xref[@hidden]")
+
+        ins = xmldoc.at("//bibliography")
+          .add_child("<references hidden='true' normative='true'/>").first
+        refs = xmldoc.xpath("//xref[@hidden]").each_with_object([]) do |x, m|
+          @refids << x["target"]
+          m << { id: x["target"], ref: x["hidden"] }
+          x.delete("hidden")
+        end
+        ins << insert_hidden_bibitems(refs)
+      end
+
+      def insert_hidden_bibitems(bib)
+        refs = bib.each_with_object([]) do |b, m|
+          m << reference1code(%(<ref id="#{b[:id]}">[#{b[:ref]}]</ref>), nil)
+        end
+        reference_populate(refs)
       end
 
       def biblio_no_ext(xmldoc)
@@ -114,7 +144,6 @@ module Metanorma
 
       def reference_names(xmldoc)
         xmldoc.xpath("//bibitem[not(ancestor::bibitem)]").each do |ref|
-          # isopub = ref.at(ISO_PUBLISHER_XPATH)
           docid = ref.at("./docidentifier[@type = 'metanorma']") ||
             ref.at("./docidentifier[not(@type = 'DOI')]") or next
           reference = format_ref(docid.children.to_xml, docid["type"])

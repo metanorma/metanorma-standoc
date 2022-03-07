@@ -748,7 +748,7 @@ RSpec.describe Metanorma::Standoc do
         <definitions id='clause1' obligation='normative'>
           <title>Symbols and abbreviated terms</title>
           <dl id='_'>
-            <dt id='symbol-_-__x230a_x__x230b_-'>
+            <dt id='symbol-__x230a_-x-__x230b_'>
               <stem type='MathML'>
                 <math xmlns='http://www.w3.org/1998/Math/MathML'>
                   <mo>&#8970;</mo>
@@ -770,7 +770,7 @@ RSpec.describe Metanorma::Standoc do
                  function.
               </p>
             </dd>
-            <dt id='symbol-_-__x2308_x__x2309_-'>
+            <dt id='symbol-__x2308_-x-__x2309_'>
               <stem type='MathML'>
                 <math xmlns='http://www.w3.org/1998/Math/MathML'>
                   <mo>&#8968;</mo>
@@ -1392,6 +1392,142 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes std-link macro" do
+    VCR.use_cassette "std-link" do
+      input = <<~INPUT
+        #{ISOBIB_BLANK_HDR}
+
+        [[clause1]]
+        == Clause
+
+        std-link:[ISO 131]
+        std-link:[iso:std:iso:13485:en,droploc%clause=4,text]
+      INPUT
+      output = <<~OUTPUT
+         #{BLANK_HDR}
+                  <sections>
+            <clause id='clause1' inline-header='false' obligation='normative'>
+              <title>Clause</title>
+              <p id='_'>
+                <eref type='inline' bibitemid='_' citeas='ISO 131'/>
+                <eref type='inline' droploc='true' bibitemid='_' citeas='iso:std:iso:13485:en'>
+                  <localityStack>
+                    <locality type='clause'>
+                      <referenceFrom>4</referenceFrom>
+                    </locality>
+                  </localityStack>
+                  text
+                </eref>
+              </p>
+            </clause>
+          </sections>
+          <bibliography>
+            <references hidden='true' normative='true'>
+              <bibitem id='_' type='standard' hidden="true">
+                <fetched/>
+                <title type='title-intro' format='text/plain' language='en' script='Latn'>Acoustics</title>
+                <title type='title-main' format='text/plain' language='en' script='Latn'>Expression of physical and subjective magnitudes of sound or noise in air</title>
+                <title type='main' format='text/plain' language='en' script='Latn'>
+                  Acoustics — Expression of physical and subjective magnitudes of sound
+                  or noise in air
+                </title>
+                <uri type='src'>https://www.iso.org/standard/3944.html</uri>
+                <uri type='rss'>https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
+                <docidentifier type='ISO' primary='true'>ISO 131</docidentifier>
+                <docidentifier type='URN'>urn:iso:std:iso:131:stage-95.99:ed-1:en</docidentifier>
+                <docnumber>131</docnumber>
+                <contributor>
+                  <role type='publisher'/>
+                  <organization>
+                    <name>International Organization for Standardization</name>
+                    <abbreviation>ISO</abbreviation>
+                    <uri>www.iso.org</uri>
+                  </organization>
+                </contributor>
+                <edition>1</edition>
+                <language>en</language>
+                <script>Latn</script>
+                <status>
+                  <stage>95</stage>
+                  <substage>99</substage>
+                </status>
+                <copyright>
+                  <from>1979</from>
+                  <owner>
+                    <organization>
+                      <name>ISO</name>
+                    </organization>
+                  </owner>
+                </copyright>
+                <relation type='obsoletes'>
+                  <bibitem type='standard'>
+                    <formattedref format='text/plain'>ISO/R 357:1963</formattedref>
+                  </bibitem>
+                </relation>
+                <relation type='instance'>
+                  <bibitem type='standard'>
+                    <fetched/>
+                    <title type='title-intro' format='text/plain' language='en' script='Latn'>Acoustics</title>
+                    <title type='title-main' format='text/plain' language='en' script='Latn'>Expression of physical and subjective magnitudes of sound or noise in air</title>
+                    <title type='main' format='text/plain' language='en' script='Latn'>
+                      Acoustics — Expression of physical and subjective magnitudes of
+                      sound or noise in air
+                    </title>
+                    <uri type='src'>https://www.iso.org/standard/3944.html</uri>
+                    <uri type='rss'>https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
+                    <docidentifier type='ISO' primary='true'>ISO 131:1979</docidentifier>
+                    <docidentifier type='URN'>urn:iso:std:iso:131:stage-95.99:ed-1:en</docidentifier>
+                    <docnumber>131</docnumber>
+                    <date type='published'>
+                      <on>1979-11</on>
+                    </date>
+                    <contributor>
+                      <role type='publisher'/>
+                      <organization>
+                        <name>International Organization for Standardization</name>
+                        <abbreviation>ISO</abbreviation>
+                        <uri>www.iso.org</uri>
+                      </organization>
+                    </contributor>
+                    <edition>1</edition>
+                    <language>en</language>
+                    <script>Latn</script>
+                    <status>
+                      <stage>95</stage>
+                      <substage>99</substage>
+                    </status>
+                    <copyright>
+                      <from>1979</from>
+                      <owner>
+                        <organization>
+                          <name>ISO</name>
+                        </organization>
+                      </owner>
+                    </copyright>
+                    <relation type='obsoletes'>
+                      <bibitem type='standard'>
+                        <formattedref format='text/plain'>ISO/R 357:1963</formattedref>
+                      </bibitem>
+                    </relation>
+                    <place>Geneva</place>
+                  </bibitem>
+                </relation>
+                <place>Geneva</place>
+              </bibitem>
+              <bibitem id='_' hidden="true">
+                <formattedref format='application/x-isodoc+xml'/>
+                <docidentifier type='ISO'>iso:std:iso:13485:en</docidentifier>
+                <docnumber>13485:en</docnumber>
+              </bibitem>
+            </references>
+          </bibliography>
+        </standard-document>
+      OUTPUT
+      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))
+                  .gsub(%r{ bibitemid="_[^"]+"}, ' bibitemid="_"')))
+        .to be_equivalent_to xmlpp(output)
+    end
+  end
 
   describe "term inline macros" do
     subject(:convert) do

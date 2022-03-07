@@ -56,9 +56,9 @@ module Metanorma
       TERM_CLAUSE = "//sections/terms | "\
                     "//sections/clause[descendant::terms]".freeze
 
-      NORM_REF = "//bibliography/references[@normative = 'true'] | "\
-                 "//bibliography/clause[.//references[@normative = 'true']]"
-        .freeze
+      NORM_REF =
+        "//bibliography/references[@normative = 'true'][not(@hidden)] | "\
+        "//bibliography/clause[.//references[@normative = 'true']]".freeze
 
       def boilerplate_isodoc(xmldoc)
         x = xmldoc.dup

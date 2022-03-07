@@ -82,7 +82,7 @@ module Metanorma
             .match(l) && (ignore = !ignore)
           next if l.empty? || l.match(/ \+$/) || /^\[.*\]$/.match?(l) || ignore
           next if i == lines.size - 1 ||
-            i < lines.size - 1 && lines[i + 1].empty?
+            (i < lines.size - 1 && lines[i + 1].empty?)
 
           lines[i] += " +"
         end
@@ -199,6 +199,18 @@ module Metanorma
         format = target || "metanorma"
         out = Asciidoctor::Inline.new(parent, :quoted, attrs[1]).convert
         %{<passthrough formats="#{format}">#{out}</passthrough>}
+      end
+    end
+
+    class StdLinkInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :"std-link"
+      parse_content_as :text
+      using_format :short
+
+      def process(parent, _target, attrs)
+        create_anchor(parent, "hidden%#{attrs['text']}",
+                      type: :xref, target: "_#{UUIDTools::UUID.random_create}")
       end
     end
   end

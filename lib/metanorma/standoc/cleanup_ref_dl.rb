@@ -15,19 +15,20 @@ module Metanorma
         end
       end
 
-      def validate_ref_dl(bib, c)
+      def validate_ref_dl(bib, clause)
         id = bib["id"]
-        id ||= c["id"] unless /^_/.match?(c["id"]) # do not accept implicit id
+        # do not accept implicit id
+        id ||= clause["id"] unless /^_/.match?(clause["id"])
         unless id
-          @log.add("Anchors", c,
-                   "The following reference is missing an anchor:\n" + c.to_xml)
+          @log.add("Anchors", clause,
+                   "The following reference is missing an anchor:\n#{clause.to_xml}")
           return
         end
         @refids << id
         bib["title"] or
-          @log.add("Bibliography", c, "Reference #{id} is missing a title")
+          @log.add("Bibliography", clause, "Reference #{id} is missing a title")
         bib["docid"] or
-          @log.add("Bibliography", c,
+          @log.add("Bibliography", clause,
                    "Reference #{id} is missing a document identifier (docid)")
       end
 
@@ -76,27 +77,30 @@ module Metanorma
       end
 
       # definition list, with at most one level of unordered lists
-      def dl_bib_extract(c, nested = false)
-        dl = c.at("./dl") or return
+      def dl_bib_extract(clause, nested = false)
+        dl = clause.at("./dl") or return
         bib = {}
         key = ""
         dl.xpath("./dt | ./dd").each do |dtd|
           (dtd.name == "dt" and key = dtd.text.sub(/:+$/, "")) or
             add_to_hash(bib, key, dd_bib_extract(dtd))
         end
-        c.xpath("./clause").each do |c1|
+        clause.xpath("./clause").each do |c1|
           key = c1&.at("./title")&.text&.downcase&.strip
           next unless %w(contributor relation series).include? key
 
           add_to_hash(bib, key, dl_bib_extract(c1, true))
         end
-        if !nested && c.at("./title")
-          title = c.at("./title").remove.children.to_xml
-          bib["title"] = [bib["title"]] if bib["title"].is_a? Hash
-          bib["title"] = [bib["title"]] if bib["title"].is_a? String
-          bib["title"] = [] unless bib["title"]
-          bib["title"] << title if !title.empty?
-        end
+        dl_bib_extract_title(bib, clause, nested)
+      end
+
+      def dl_bib_extract_title(bib, clause, nested)
+        (!nested && clause.at("./title")) or return bib
+        title = clause.at("./title").remove.children.to_xml
+        bib["title"] = [bib["title"]] if bib["title"].is_a?(Hash) ||
+          bib["title"].is_a?(String)
+        bib["title"] = [] unless bib["title"]
+        bib["title"] << title if !title.empty?
         bib
       end
     end

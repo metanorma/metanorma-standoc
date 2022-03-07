@@ -162,7 +162,8 @@ module Metanorma
       def normalize_ref_id(term)
         t = term.dup
         t.xpath(".//index").map(&:remove)
-        Metanorma::Utils::to_ncname(t.text.downcase.gsub(/[[:space:]]/, "-"))
+        Metanorma::Utils::to_ncname(t.text.strip.downcase
+          .gsub(/[[:space:]]+/, "-"))
       end
 
       def unique_text_id(text, prefix)

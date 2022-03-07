@@ -53,6 +53,7 @@ module Metanorma
         inline_macro Metanorma::Standoc::FormOptionMacro
         inline_macro Metanorma::Standoc::ToCInlineMacro
         inline_macro Metanorma::Standoc::PassInlineMacro
+        inline_macro Metanorma::Standoc::StdLinkInlineMacro
         inline_macro Metanorma::Plugin::Lutaml::LutamlFigureInlineMacro
         inline_macro Metanorma::Plugin::Lutaml::LutamlTableInlineMacro
         block_macro Metanorma::Plugin::Lutaml::LutamlDiagramBlockMacro

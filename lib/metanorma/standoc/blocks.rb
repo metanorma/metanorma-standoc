@@ -174,11 +174,11 @@ module Metanorma
       def paragraph(node)
         return termsource(node) if node.role == "source"
 
-        noko do |xml|
+        ret = noko do |xml|
           xml.p **para_attrs(node) do |xml_t|
             xml_t << node.content
           end
-        end.join("\n")
+        end.join
       end
 
       def quote_attrs(node)
@@ -203,7 +203,7 @@ module Metanorma
             quote_attribution(node, q)
             wrap_in_para(node, q)
           end
-        end.join("\n")
+        end.join
       end
 
       def listing_attrs(node)

@@ -40,20 +40,29 @@ module Metanorma
       end
 
       def inline_anchor_xref_attrs(node)
-        m = /^(?<drop>droploc%)?(?<case>capital%|lowercase%)?(?<drop2>droploc%)?
-          (?<fn>fn:?\s*)?(?<text>.*)$/x.match node.text
+        m = inline_anchor_xref_match(node)
         t = node.target.gsub(/^#/, "").gsub(%r{(\.xml|\.adoc)(#.*$)}, "\\2")
         m.nil? and return { target: t, type: "inline", text: node.text }
-        droploc = m[:drop].nil? && m[:drop2].nil? ? nil : true
-        f = m[:fn].nil? ? "inline" : "footnote"
-        c = if %i[case fn drop drop2].any? do |x|
-                 !m[x].nil?
-               end
-              m[:text]
-            else node.text
-            end
-        { target: t, type: f, case: m[:case]&.sub(/%$/, ""), droploc: droploc,
-          text: c }
+        { target: t, type: m[:fn].nil? ? "inline" : "footnote",
+          case: m[:case]&.sub(/%$/, ""),
+          droploc: m[:drop].nil? && m[:drop2].nil? ? nil : true,
+          text: inline_anchor_xref_text(m, node),
+          hidden: m[:hidden] }
+      end
+
+      def inline_anchor_xref_match(node)
+        /^(hidden%(?<hidden>[^,]+),?)?
+          (?<drop>droploc%)?(?<case>capital%|lowercase%)?(?<drop2>droploc%)?
+          (?<fn>fn:?\s*)?(?<text>.*)$/x.match node.text
+      end
+
+      def inline_anchor_xref_text(match, node)
+        if %i[case fn drop drop2 hidden].any? do |x|
+             !match[x].nil?
+           end
+          match[:text]
+        else node.text
+        end
       end
 
       def inline_anchor_link(node)

@@ -282,7 +282,7 @@ RSpec.describe Metanorma::Standoc do
               </localityStack>
               the reference,xyz</eref>
        <eref type='inline' bibitemid='iso216' citeas='ISO 216'>
-         <localityStack>
+         <localityStack connective="and">
            <locality type='whole'/>
            <locality type='clause'>
              <referenceFrom>3</referenceFrom>
@@ -298,7 +298,7 @@ RSpec.describe Metanorma::Standoc do
            <referenceFrom>the reference</referenceFrom>
            </locality>
          </localityStack>
-         <localityStack>
+         <localityStack connective="and">
            <locality type='whole'/>
            <locality type='clause'>
              <referenceFrom>3</referenceFrom>
@@ -1116,7 +1116,7 @@ RSpec.describe Metanorma::Standoc do
       <dd>
         <p id='_'>Definition 7</p>
       </dd>
-      <dt id="symbol-_-n-">
+      <dt id="symbol-n">
         <stem type='MathML'>
           <math xmlns='http://www.w3.org/1998/Math/MathML'>
             <mi>n</mi>
@@ -1178,7 +1178,7 @@ RSpec.describe Metanorma::Standoc do
               <dd>
                 <p id='_'>Definition 5</p>
               </dd>
-              <dt  id='symbol-_-xm-'><stem type='MathML'>
+              <dt  id='symbol-x-m'><stem type='MathML'>
               <math xmlns='http://www.w3.org/1998/Math/MathML'>
         <msub>
           <mrow>
@@ -1193,7 +1193,7 @@ RSpec.describe Metanorma::Standoc do
               <dd>
                 <p id='_'>Definition 4</p>
               </dd>
-              <dt  id='symbol-_-x1-'><stem type='MathML'>
+              <dt  id='symbol-x-1'><stem type='MathML'>
                <math xmlns='http://www.w3.org/1998/Math/MathML'>
          <msub>
            <mrow>
@@ -1212,7 +1212,7 @@ RSpec.describe Metanorma::Standoc do
               <dd>
                 <p id='_'>Definition 2</p>
               </dd>
-              <dt  id='symbol-_-__x3b1_-'>
+              <dt  id='symbol-__x3b1_'>
               <stem type='MathML'>
         <math xmlns='http://www.w3.org/1998/Math/MathML'>
           <mi>α</mi>
@@ -1829,7 +1829,7 @@ RSpec.describe Metanorma::Standoc do
            </ext>
          </bibdata>
          <preface>
-           <note id='_f91b621e-d8cb-30bf-eef6-7d0150204829'>
+           <note id='_bb3ed901-4b80-a321-5646-b70dd8a071ee'>
              <p id='_76d95913-a379-c60f-5144-1f09655cafa6'>
                Note which is very important
                <xref target='_76d95913-a379-c60f-5144-1f09655cafa6'/>
@@ -1845,7 +1845,7 @@ RSpec.describe Metanorma::Standoc do
            </introduction>
          </preface>
          <sections>
-           <admonition id='_068def71-3ec8-0395-8853-0e2d3ef5b841' type='important'>
+           <admonition id='_638b98b1-4d1e-7006-1b7f-b7e6fcbe1670' type='important'>
              <p id='_69ec375e-c992-5be3-76dd-a2311f9bb6cc'>Notice which is very important</p>
            </admonition>
            <clause id='_scope' type='scope' inline-header='false' obligation='normative'>
@@ -1858,7 +1858,7 @@ RSpec.describe Metanorma::Standoc do
     input1 = xmlpp(Asciidoctor.convert(input, *OPTIONS))
       .sub(/<p id='([^']+)'>(\s+)Note which is very important(\s+)<xref target='a'/,
            "<p id='\\1'>\\2Note which is very important\\3<xref target='\\1'")
-    expect(input1)
+    expect(xmlpp(input1))
       .to be_equivalent_to xmlpp(output)
   end
 
