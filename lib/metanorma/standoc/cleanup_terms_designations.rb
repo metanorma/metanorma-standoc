@@ -182,10 +182,12 @@ module Metanorma
 
       def term_designation_reorder(xmldoc)
         xmldoc.xpath("//term").each do |t|
-          %w(preferred admitted deprecates related)
+          des = %w(preferred admitted deprecates related)
             .each_with_object([]) do |tag, m|
             t.xpath("./#{tag}").each { |x| m << x.remove }
-          end.reverse.each do |x|
+          end.reverse
+          t << " "
+          des.each do |x|
             t.children.first.previous = x
           end
         end
