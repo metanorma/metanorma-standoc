@@ -100,9 +100,9 @@ module Metanorma
 
       def document1(node)
         init(node)
-        ret = insert_xml_cr(makexml(node)
+        ret = makexml(node)
           .to_xml(encoding: "UTF-8", indent: 2,
-                  save_with: Nokogiri::XML::Node::SaveOptions::AS_XML))
+                  save_with: Nokogiri::XML::Node::SaveOptions::AS_XML)
         outputs(node, ret) unless node.attr("nodoc") || !node.attr("docfile")
         ret
       end
@@ -117,6 +117,7 @@ module Metanorma
                        graphical-symbol|expression|abbreviation-type|subject|
                        pronunciation|grammar|term|terms|termnote|termexample|
                        termsource|origin|termref|modification)>)}x, "\\1\n")
+          .gsub(%r{(<(title|name))}x, "\n\\1")
       end
 
       def version
@@ -148,7 +149,7 @@ module Metanorma
 
       def makexml(node)
         result = makexml1(node)
-        ret1 = cleanup(Nokogiri::XML(result))
+        ret1 = cleanup(Nokogiri::XML(insert_xml_cr(result)))
         ret1.root.add_namespace(nil, xml_namespace)
         validate(ret1) unless @novalid
         ret1
