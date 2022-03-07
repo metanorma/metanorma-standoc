@@ -444,6 +444,37 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to(output)
   end
 
+  it "processes combinations of crossreferences" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Section
+
+      <<ref1;to!ref2>>
+      <<from!ref1;to!ref2,text>>
+      <<ref1;ref2>>
+      <<ref1;and!ref2>>
+      <<ref1;or!ref2,text>>
+      <<from!ref1;to!ref2;and!ref3;to!ref4>>
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+       <sections>
+       <clause id="_" inline-header="false" obligation="normative">
+       <title>Section</title>
+       <p id="_"><xref target="ref1"><location target="ref1" connective="from"/><location target="ref2" connective="to"/></xref>
+       <xref target="ref1"><location target="ref1" connective="from"/><location target="ref2" connective="to"/>text</xref>
+       <xref target="ref1"><location target="ref1" connective="and"/><location target="ref2" connective="and"/></xref>
+       <xref target="ref1"><location target="ref1" connective="and"/><location target="ref2" connective="and"/></xref>
+       <xref target="ref1"><location target="ref1" connective="and"/><location target="ref2" connective="or"/>text</xref>
+       <xref target="ref1"><location target="ref1" connective="from"/><location target="ref2" connective="to"/><location target="ref3" connective="and"/><location target="ref4" connective="to"/></xref></p>
+       </clause>
+       </sections>
+       </standard-document>
+    OUTPUT
+    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(output)
+  end
+
   it "processes bibliographic anchors" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
