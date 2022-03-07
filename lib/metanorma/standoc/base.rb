@@ -31,12 +31,38 @@ module Metanorma
         @refids = Set.new
         @anchors = {}
         @internal_eref_namespaces = []
+        @seen_headers = []
         @draft = node.attributes.has_key?("draft")
         @novalid = node.attr("novalid")
         @smartquotes = node.attr("smartquotes") != "false"
         @keepasciimath = node.attr("mn-keep-asciimath") &&
           node.attr("mn-keep-asciimath") != "false"
+        @index_terms = node.attr("index-terms")
+        @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
+        @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
+        @datauriimage = node.attr("data-uri-image") != "false"
+        @boilerplateauthority = node.attr("boilerplate-authority")
+        @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
+        @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
+        init_toc(node)
+        init_output(node)
+        init_i18n(node)
+        init_biblio(node)
+        @metadata_attrs = metadata_attrs(node)
+      end
+
+      def init_toc(node)
+        @htmltoclevels = node.attr("htmltoclevels")
+        @doctoclevels = node.attr("doctoclevels")
+        @toclevels = node.attr("toclevels")
+        @tocfigures = node.attr("toc-figures")
+        @toctables = node.attr("toc-tables")
+        @tocrecommendations = node.attr("toc-recommendations")
+      end
+
+      def init_output(node)
         @fontheader = default_fonts(node)
+        @log = Metanorma::Utils::Log.new
         @files_to_delete = []
         @filename = if node.attr("docfile")
                       File.basename(node.attr("docfile"))&.gsub(/\.adoc$/, "")
@@ -44,29 +70,22 @@ module Metanorma
                     end
         @localdir = Metanorma::Utils::localdir(node)
         @output_dir = outputdir node
-        @no_isobib_cache = node.attr("no-isobib-cache")
-        @no_isobib = node.attr("no-isobib")
-        @index_terms = node.attr("index-terms")
-        @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
-        @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
-        @bibdb = nil
-        @seen_headers = []
-        @datauriimage = node.attr("data-uri-image") != "false"
-        @boilerplateauthority = node.attr("boilerplate-authority")
-        @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
-        @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
-        @log = Metanorma::Utils::Log.new
-        init_bib_caches(node)
-        init_iev_caches(node)
+      end
+
+      def init_i18n(node)
         @lang = (node.attr("language") || "en")
         @script = (node.attr("script") ||
                    Metanorma::Utils.default_script(node.attr("language")))
         @isodoc = isodoc(@lang, @script, node.attr("i18nyaml"))
         @i18n = @isodoc.i18n
-        @htmltoclevels = node.attr("htmltoclevels")
-        @doctoclevels = node.attr("doctoclevels")
-        @toclevels = node.attr("toclevels")
-        @metadata_attrs = metadata_attrs(node)
+      end
+
+      def init_biblio(node)
+        @no_isobib_cache = node.attr("no-isobib-cache")
+        @no_isobib = node.attr("no-isobib")
+        @bibdb = nil
+        init_bib_caches(node)
+        init_iev_caches(node)
       end
 
       def document(node)

@@ -23,13 +23,16 @@ RSpec.describe Metanorma::Standoc::Processor do
   end
 
   it "generates IsoDoc XML from a blank document" do
-    expect(processor.input_to_isodoc(<<~"INPUT", "test")).to be_equivalent_to <<~"OUTPUT"
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
     INPUT
+    output = <<~"OUTPUT"
           #{BLANK_HDR}
       <sections/>
       </iso-standard>
     OUTPUT
+    expect(processor.input_to_isodoc(input, "test"))
+      .to be_equivalent_to output
   end
 
   it "generates HTML from IsoDoc XML" do
@@ -45,16 +48,17 @@ RSpec.describe Metanorma::Standoc::Processor do
        </sections>
        </iso-standard>
     INPUT
-    expect(File.read("test.html", encoding: "utf-8").gsub(%r{^.*<main}m, "<main").gsub(
-             %r{</main>.*}m, "</main>"
-           )).to be_equivalent_to <<~"OUTPUT"
-                 <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-                   <p class="zzSTDTitle1"></p>
-                   <div id="H"><h1>Terms, Definitions, Symbols and Abbreviated Terms</h1><h2 class="TermNum" id="J"></h2>
-               <p class="Terms" style="text-align:left;">Term2</p>
-             </div>
-                 </main>
-           OUTPUT
+    expect(File.read("test.html", encoding: "utf-8")
+      .gsub(%r{^.*<main}m, "<main")
+      .gsub(%r{</main>.*}m, "</main>"))
+      .to be_equivalent_to <<~"OUTPUT"
+            <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+              <p class="zzSTDTitle1"></p>
+              <div id="H"><h1>Terms, Definitions, Symbols and Abbreviated Terms</h1><h2 class="TermNum" id="J"></h2>
+          <p class="Terms" style="text-align:left;">Term2</p>
+        </div>
+            </main>
+      OUTPUT
   end
 
   it "generates HTML from IsoDoc XML" do
@@ -70,8 +74,8 @@ RSpec.describe Metanorma::Standoc::Processor do
        </sections>
        </iso-standard>
     INPUT
-    expect(File.read("test.doc",
-                     encoding: "utf-8")).to match(/Terms, Definitions, Symbols and Abbreviated Terms/)
+    expect(File.read("test.doc", encoding: "utf-8"))
+      .to match(/Terms, Definitions, Symbols and Abbreviated Terms/)
   end
 
   it "generates XML from IsoDoc XML" do

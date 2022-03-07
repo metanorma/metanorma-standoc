@@ -25,6 +25,9 @@ module Metanorma
           sectionsplit: node.attr("sectionsplit"),
           baseassetpath: node.attr("base-asset-path"),
           aligncrosselements: node.attr("align-cross-elements"),
+          tocfigures: @tocfigures,
+          toctables: @toctables,
+          tocrecommendations: @tocrecommendations,
         }
       end
 
@@ -61,6 +64,9 @@ module Metanorma
           bare: node.attr("bare"),
           baseassetpath: node.attr("base-asset-path"),
           aligncrosselements: node.attr("align-cross-elements"),
+          tocfigures: @tocfigures,
+          toctables: @toctables,
+          tocrecommendations: @tocrecommendations,
         }
 
         if fonts_manifest = node.attr(FONTS_MANIFEST)
