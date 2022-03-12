@@ -140,7 +140,7 @@ module Metanorma
       parse_content_as :text
 
       def process(parent, target, attrs)
-        /^(?<lang>[^-]*)(-(?<script>.*))?$/ =~ target
+        /^(?<lang>[^-]*)(?:-(?<script>.*))?$/ =~ target
         out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
         if script
           %{<variant lang=#{lang} script=#{script}>#{out}</variant>}

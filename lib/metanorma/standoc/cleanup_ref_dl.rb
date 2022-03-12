@@ -15,16 +15,21 @@ module Metanorma
         end
       end
 
+      # do not accept implicit id
       def validate_ref_dl(bib, clause)
         id = bib["id"]
-        # do not accept implicit id
         id ||= clause["id"] unless /^_/.match?(clause["id"])
         unless id
           @log.add("Anchors", clause,
-                   "The following reference is missing an anchor:\n#{clause.to_xml}")
+                   "The following reference is missing an anchor:\n"\
+                   "#{clause.to_xml}")
           return
         end
         @refids << id
+        validate_ref_dl1(bib, id, clause)
+      end
+
+      def validate_ref_dl1(bib, id, clause)
         bib["title"] or
           @log.add("Bibliography", clause, "Reference #{id} is missing a title")
         bib["docid"] or
