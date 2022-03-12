@@ -188,7 +188,7 @@ module Metanorma
 
       def quote_attribution(node, out)
         if node.attr("citetitle")
-          m = /^(?<cite>[^,]+)(,(?<text>.*$))?$/m.match node.attr("citetitle")
+          m = /^(?<cite>[^,]+)(?:,(?<text>.*$))?$/m.match node.attr("citetitle")
           out.source **attr_code(target: m[:cite], type: "inline") do |s|
             s <<  m[:text]
           end

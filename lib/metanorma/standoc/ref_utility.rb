@@ -2,7 +2,7 @@ module Metanorma
   module Standoc
     module Refs
       def set_date_range(date, text)
-        matched = /^(?<from>[0-9]+)(-+(?<to>[0-9]+))?$/.match text
+        matched = /^(?<from>[0-9]+)(?:-+(?<to>[0-9]+))?$/.match text
         return unless matched[:from]
 
         if matched[:to]
@@ -113,10 +113,11 @@ module Metanorma
         { id: match[:anchor], type: "standard" }
       end
 
-      MALFORMED_REF =
-        "no anchor on reference, markup may be malformed: see "\
-        "https://www.metanorma.com/author/topics/document-format/bibliography/ , "\
-        "https://www.metanorma.com/author/iso/topics/markup/#bibliographies".freeze
+      MALFORMED_REF = <<~REF.freeze
+        no anchor on reference, markup may be malformed: see
+        https://www.metanorma.com/author/topics/document-format/bibliography/ ,
+        https://www.metanorma.com/author/iso/topics/markup/#bibliographies
+      REF
 
       def ref_normalise(ref)
         ref.gsub(/&amp;amp;/, "&amp;").gsub(%r{^<em>(.*)</em>}, "\\1")

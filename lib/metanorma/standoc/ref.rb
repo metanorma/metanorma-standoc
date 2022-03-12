@@ -121,7 +121,7 @@ module Metanorma
           t.formattedref **{ format: "application/x-isodoc+xml" } do |i|
             i << ref_normalise_no_format(match[:text])
           end
-          yr_match = /[:-](?<year>(19|20)[0-9][0-9])\b/.match(code[:id])
+          yr_match = /[:-](?<year>(?:19|20)[0-9][0-9])\b/.match(code[:id])
           refitem_render1(match, code, t)
           docnumber(t, code[:id]) unless /^\d+$|^\(.+\)$/.match?(code[:id])
           conditional_date(t, yr_match || match, false)
@@ -149,7 +149,7 @@ module Metanorma
       end
 
       def refitem1yr(code)
-        yr_match = /[:-](?<year>(19|20)[0-9][0-9])\b/.match(code)
+        yr_match = /[:-](?<year>(?:19|20)[0-9][0-9])\b/.match(code)
         yr_match ? yr_match[:year] : nil
       end
 
@@ -163,20 +163,20 @@ module Metanorma
 
       ISO_REF =
         %r{^<ref\sid="(?<anchor>[^"]+)">
-      \[(?<usrlbl>\([^)]+\))?(?<code>(ISO|IEC)[^0-9]*\s[0-9-]+|IEV)
-      (:(?<year>[0-9][0-9-]+))?\]</ref>,?\s*(?<text>.*)$}xm.freeze
+      \[(?<usrlbl>\([^)]+\))?(?<code>(?:ISO|IEC)[^0-9]*\s[0-9-]+|IEV)
+      (?::(?<year>[0-9][0-9-]+))?\]</ref>,?\s*(?<text>.*)$}xm.freeze
 
       ISO_REF_NO_YEAR =
         %r{^<ref\sid="(?<anchor>[^"]+)">
-      \[(?<usrlbl>\([^)]+\))?(?<code>(ISO|IEC)[^0-9]*\s[0-9-]+):
-      (--|&\#821[12];)\]</ref>,?\s*
-        (<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>)?,?\s?(?<text>.*)$}xm
+      \[(?<usrlbl>\([^)]+\))?(?<code>(?:ISO|IEC)[^0-9]*\s[0-9-]+):
+      (?:--|&\#821[12];)\]</ref>,?\s*
+        (?:<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>)?,?\s?(?<text>.*)$}xm
           .freeze
 
       ISO_REF_ALL_PARTS =
         %r{^<ref\sid="(?<anchor>[^"]+)">
-      \[(?<usrlbl>\([^)]+\))?(?<code>(ISO|IEC)[^0-9]*\s[0-9]+)
-      (:(?<year>--|&\#821[12];|[0-9][0-9-]+))?\s
+      \[(?<usrlbl>\([^)]+\))?(?<code>(?:ISO|IEC)[^0-9]*\s[0-9]+)
+      (?::(?<year>--|&\#821[12];|[0-9][0-9-]+))?\s
       \(all\sparts\)\]</ref>,?\s*
         (<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>,?\s?)?(?<text>.*)$}xm.freeze
 
