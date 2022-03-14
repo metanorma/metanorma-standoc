@@ -149,6 +149,8 @@ RSpec.describe Metanorma::Standoc do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
+      "*word*",
+
       "((ppt))",
 
       "((ppm))", "((ppt))"
@@ -160,16 +162,15 @@ RSpec.describe Metanorma::Standoc do
       ....
     INPUT
     output = <<~OUTPUT
-            #{BLANK_HDR}
-                   <sections>
-                              <p id='_'>
-                 &#8220;ppt&#8221;,
+      #{BLANK_HDR}
+        <sections>
+          <p id='_'>“<strong>word</strong>”,</p>
+          <p id='_'>&#8220;ppt&#8221;,
                  <index>
                    <primary>ppt</primary>
                  </index>
                </p>
-               <p id='_'>
-                 &#8220;ppm&#8221;,
+          <p id='_'>&#8220;ppm&#8221;,
                  <index>
                    <primary>ppm</primary>
                  </index>
@@ -178,12 +179,11 @@ RSpec.describe Metanorma::Standoc do
                    <primary>ppt</primary>
                  </index>
                </p>
-               <p id='_'>
-        &#8220;ppm
+          <p id='_'>&#8220;ppm
         <index>
           <primary>ppm</primary>
         </index>
-        &#8220;&#160;
+        &#8221;&#160;
       </p>
       <figure id='_'>
         <pre id='_'>((ppm))",</pre>
