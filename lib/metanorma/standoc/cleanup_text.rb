@@ -31,12 +31,17 @@ module Metanorma
       def uninterrupt_quotes_around_xml(xmldoc)
         xmldoc.traverse do |n|
           next unless n.text? && n&.previous&.element?
-          next unless /^['"]/.match?(n.text)
-          next unless n.previous.ancestors("pre, tt, sourcecode, stem, figure")
-            .empty?
+          next if uninterrupt_quotes_around_xml_skip(n)
 
           uninterrupt_quotes_around_xml1(n.previous)
         end
+      end
+
+      def uninterrupt_quotes_around_xml_skip(elem)
+        !(/^['"]/.match?(elem.text) &&
+          elem.previous.ancestors("pre, tt, sourcecode, stem, figure, bibdata")
+          .empty? &&
+          (elem.previous.text.strip.empty? || elem.previous.name == "index"))
       end
 
       def uninterrupt_quotes_around_xml1(elem)
@@ -49,17 +54,33 @@ module Metanorma
         prev.content = "#{prev.text}#{m[1]}"
       end
 
+      def block?(elem)
+        %w(title name variant-title clause figure annex example introduction
+           foreword acknowledgements note li th td dt dd p quote label
+           abstract preferred admitted related deprecates field-of-application
+           usage-info expression pronunciation grammar-value domain
+           definition termnote termexample modification description
+           newcontent floating-title).include? elem.name
+      end
+
       def dumb2smart_quotes(xmldoc)
-        (xmldoc.xpath("//*[child::text()]") - xmldoc.xpath(IGNORE_DUMBQUOTES))
-          .each do |x|
-          x.children.each do |n|
-            next unless n.text?
+        prev = ""
+        xmldoc.traverse do |x|
+          block?(x) and prev = ""
+          next unless x.text?
 
-            /[-'"(<>]|\.\.|\dx/.match(n) or next
-
-            n.replace(Metanorma::Utils::smartformat(n.text))
-          end
+          x.ancestors("pre, tt, sourcecode, stem, figure, bibdata").empty? and
+            dumb2smart_quotes1(x, prev)
+          prev = x.text if x.ancestors("index").empty?
         end
+      end
+
+      def dumb2smart_quotes1(curr, prev)
+        /[-'"(<>]|\.\.|\dx/.match?(curr.text) or return
+
+        /^["']/.match?(curr.text) && prev.match?(/\S$/) and
+          curr.content = curr.text.sub(/^"/, "”").sub(/"’"/, "‘")
+        curr.replace(Metanorma::Utils::smartformat(curr.text))
       end
 
       def dumbquote_cleanup(xmldoc)
