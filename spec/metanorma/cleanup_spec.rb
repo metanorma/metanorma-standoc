@@ -9,13 +9,21 @@ RSpec.describe Metanorma::Standoc do
       == "Quotation" A's
 
       '24:00:00'.
+
+      _emphasis_ *strong* `monospace` "double quote" 'single quote'
     INPUT
     output = <<~OUTPUT
-             #{BLANK_HDR}
+      #{BLANK_HDR}
                     <sections>
         <clause id="_" inline-header="false" obligation="normative">
         <title>“Quotation” A’s</title>
         <p id='_'>‘24:00:00’.</p>
+        <p id='_'>
+       <em>emphasis</em>
+       <strong>strong</strong>
+       <tt>monospace</tt>
+        “double quote” ‘single quote’
+       </p>
       </clause>
              </sections>
              </standard-document>
