@@ -92,7 +92,7 @@ module Metanorma
       end
 
       class << self
-        attr_accessor :_file
+        attr_accessor :_file, :embed_hdr
       end
 
       def self.inherited(konv) # rubocop:disable Lint/MissingSuper

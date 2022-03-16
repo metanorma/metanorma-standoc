@@ -22,9 +22,10 @@ module Metanorma
           para.set_attr("name", "todo")
           para.set_attr("caption", "TODO")
           para.lines[0].sub!(/^TODO: /, "")
-          todo = Asciidoctor::Block.new(parent, :admonition, attributes: para.attributes,
-                                                             source: para.lines,
-                                                             content_model: :compound)
+          todo = Asciidoctor::Block
+            .new(parent, :admonition, attributes: para.attributes,
+                                      source: para.lines,
+                                      content_model: :compound)
           parent.blocks[parent.blocks.index(para)] = todo
         end
       end

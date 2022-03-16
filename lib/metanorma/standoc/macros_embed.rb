@@ -5,13 +5,24 @@ module Metanorma
         return reader if reader.eof?
 
         lines = reader.readlines
-        while !lines.grep(/^embed::/).empty?
-          headings = lines.grep(/^== /).map(&:strip)
-          lines = lines.map do |line|
-            /^embed::/.match?(line) ? embed(line, doc, reader, headings) : line
-          end.flatten
+        headings = lines.grep(/^== /).map(&:strip)
+        ret = lines.each_with_object({ lines: [], hdr: [] }) do |line, m|
+          process1(line, m, doc, reader, headings)
         end
-        ::Asciidoctor::Reader.new lines
+        #doc.converter.embed_hdr = ret[:hdr]
+        doc.attributes["embed_hdr"] = ret[:hdr]
+        ::Asciidoctor::Reader.new ret[:lines].flatten
+      end
+
+      def process1(line, acc, doc, reader, headings)
+        if /^embed::/.match?(line)
+          e = embed(line, doc, reader, headings)
+          acc[:lines] << e[:lines]
+          acc[:hdr] << e[:hdr]
+        else
+          acc[:lines] << line
+        end
+        acc
       end
 
       def filename(line, doc, reader)
@@ -27,26 +38,36 @@ module Metanorma
         end
       end
 
-      def embed(line, doc, reader, headings)
-        inc_path = filename(line, doc, reader) or return line
-        lines = filter_sections(read(inc_path), headings)
-        doc = Asciidoctor::Document.new [], { safe: :safe }
-        reader = ::Asciidoctor::PreprocessorReader.new doc, lines
-        strip_header(reader.read_lines)
-      end
-
       def read(inc_path)
         ::File.open inc_path, "r" do |fd|
           readlines_safe(fd).map(&:chomp)
         end
       end
 
+      def embed(line, doc, reader, headings)
+        inc_path = filename(line, doc, reader) or return line
+        lines = filter_sections(read(inc_path), headings)
+        doc = Asciidoctor::Document.new [], { safe: :safe }
+        reader = ::Asciidoctor::PreprocessorReader.new doc, lines
+        ret = strip_header(reader.read_lines)
+        embed_recurse(ret, doc, reader, headings)
+      end
+
+      def embed_recurse(ret, doc, reader, headings)
+        ret1 = ret[:lines].each_with_object({ lines: [], hdr: [] }) do |line, m|
+          process1(line, m, doc, reader, headings)
+        end
+        { lines: ret1[:lines],
+          hdr: { text: ret[:hdr].join("\n"), child: ret1[:hdr] } }
+      end
+
       def strip_header(lines)
-        return lines unless !lines.empty? && lines.first.start_with?("= ")
+        return { lines: lines, hdr: nil } unless !lines.empty? &&
+          lines.first.start_with?("= ")
 
         skip = true
-        lines.each_with_object([]) do |l, m|
-          m << l unless skip
+        lines.each_with_object({ hdr: [], lines: [] }) do |l, m|
+          m[skip ? :hdr : :lines] << l
           skip = false if !/\S/.match?(l)
         end
       end

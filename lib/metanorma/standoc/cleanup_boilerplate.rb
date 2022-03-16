@@ -133,6 +133,7 @@ module Metanorma
       def bibdata_cleanup(xmldoc)
         bibdata_anchor_cleanup(xmldoc)
         bibdata_docidentifier_cleanup(xmldoc)
+        bibdata_embed_hdr_cleanup(xmldoc)
         biblio_indirect_erefs(xmldoc, @internal_eref_namespaces&.uniq)
       end
 
@@ -190,8 +191,8 @@ module Metanorma
       def resolve_local_indirect_erefs(xmldoc, refs, prefix)
         refs.each_with_object([]) do |r, m|
           id = r.sub(/^#{prefix}_/, "")
-          if n = xmldoc.at("//*[@id = '#{id}']") and
-              n.at("./ancestor-or-self::*[@type = '#{prefix}']")
+          n = xmldoc.at("//*[@id = '#{id}']")
+          if n&.at("./ancestor-or-self::*[@type = '#{prefix}']")
             xmldoc.xpath("//eref[@bibitemid = '#{r}']").each do |e|
               indirect_eref_to_xref(e, id)
             end
@@ -206,6 +207,29 @@ module Metanorma
           refs = resolve_local_indirect_erefs(xmldoc, refs, prefix)
           refs.empty? and next
           insert_indirect_biblio(xmldoc, refs, prefix)
+        end
+      end
+
+      def bibdata_embed_hdr_cleanup(xmldoc)
+        return if @embed_hdr.nil? || @embed_hdr.empty?
+
+        embed_recurse(xmldoc.at("//bibdata"), @embed_hdr.first)
+      end
+
+      def hdr2bibitem(hdr)
+        xml = Asciidoctor
+          .convert(hdr[:text], backend: Processor.new.asciidoctor_backend,
+                               header_footer: true)
+        b = Nokogiri::XML(xml).at("//xmlns:bibdata")
+        b.name = "bibitem"
+        b.delete("type")
+        embed_recurse(b, hdr)
+        b.to_xml
+      end
+
+      def embed_recurse(bibitem, node)
+        node[:child].map { |x| hdr2bibitem(x) }.each do |x|
+          bibitem << "<relation type='derivedFrom'>#{x}</relation>"
         end
       end
     end

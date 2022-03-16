@@ -9,12 +9,6 @@ module Metanorma
                   </passthrough>}mx) { HTMLEntities.new.decode($1) }
       end
 
-      IGNORE_DUMBQUOTES =
-        "//pre | //pre//* | //tt | //tt//* | "\
-        "//sourcecode | //sourcecode//* | //bibdata//* | //stem | "\
-        "//stem//* | //figure[@class = 'pseudocode'] | "\
-        "//figure[@class = 'pseudocode']//*".freeze
-
       def smartquotes_cleanup(xmldoc)
         xmldoc.xpath("//date").each { |d| Metanorma::Utils::endash_date(d) }
         if @smartquotes then smartquotes_cleanup1(xmldoc)

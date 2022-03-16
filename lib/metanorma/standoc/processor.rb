@@ -3,6 +3,10 @@ require "metanorma/processor"
 module Metanorma
   module Standoc
     class Processor < Metanorma::Processor
+      class << self
+        attr_reader :asciidoctor_backend
+            end
+
       def initialize # rubocop:disable Lint/MissingSuper
         @short = :standoc
         @input_format = :asciidoc
@@ -22,7 +26,8 @@ module Metanorma
       end
 
       def html_path(file)
-        File.join(File.dirname(__FILE__), "..", "..", "isodoc", "html", file)
+        File.join(File.dirname(__FILE__), "..", "..", "isodoc", "html",
+                  file)
       end
 
       def output(isodoc_node, inname, outname, format, options = {})
