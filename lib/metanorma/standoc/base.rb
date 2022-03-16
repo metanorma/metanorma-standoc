@@ -26,29 +26,40 @@ module Metanorma
       end
 
       def init(node)
-        @fn_number ||= 0
-        @draft = false
-        @refids = Set.new
-        @anchors = {}
-        @internal_eref_namespaces = []
-        @seen_headers = []
-        @draft = node.attributes.has_key?("draft")
-        @novalid = node.attr("novalid")
-        @smartquotes = node.attr("smartquotes") != "false"
-        @keepasciimath = node.attr("mn-keep-asciimath") &&
-          node.attr("mn-keep-asciimath") != "false"
-        @index_terms = node.attr("index-terms")
-        @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
-        @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
-        @datauriimage = node.attr("data-uri-image") != "false"
-        @boilerplateauthority = node.attr("boilerplate-authority")
-        @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
-        @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
+        init_vars
+        init_misc(node)
+        init_processing(node)
         init_toc(node)
         init_output(node)
         init_i18n(node)
         init_biblio(node)
         @metadata_attrs = metadata_attrs(node)
+      end
+
+      def init_vars
+        @fn_number ||= 0
+        @refids = Set.new
+        @anchors = {}
+        @internal_eref_namespaces = []
+        @seen_headers = []
+        @embed_hdr = []
+      end
+
+      def init_misc(node)
+        @draft = node.attributes.has_key?("draft")
+        @index_terms = node.attr("index-terms")
+        @boilerplateauthority = node.attr("boilerplate-authority")
+        @embed_hdr = node.attr("embed_hdr")
+      end
+
+      def init_processing(node)
+        @novalid = node.attr("novalid")
+        @smartquotes = node.attr("smartquotes") != "false"
+        @keepasciimath = node.attr("mn-keep-asciimath") &&
+          node.attr("mn-keep-asciimath") != "false"
+        @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
+        @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
+        @datauriimage = node.attr("data-uri-image") != "false"
       end
 
       def init_toc(node)

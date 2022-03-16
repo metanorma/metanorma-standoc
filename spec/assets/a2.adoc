@@ -1,8 +1,10 @@
-= X
-A
+= A2
+A2
 
 == Clause 2
 
 X
 
 embed::spec/assets/a3.adoc[]
+
+embed::spec/assets/a3a.adoc[]
