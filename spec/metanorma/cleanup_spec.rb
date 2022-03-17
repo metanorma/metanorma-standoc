@@ -159,6 +159,8 @@ RSpec.describe Metanorma::Standoc do
 
       "*word*",
 
+      "link:http://example.com[]",
+
       "((ppt))",
 
       "((ppm))", "((ppt))"
@@ -173,6 +175,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
         <sections>
           <p id='_'>“<strong>word</strong>”,</p>
+           <p id='_'>“<link target='http://example.com'/>”,</p>
           <p id='_'>&#8220;ppt&#8221;,
                  <index>
                    <primary>ppt</primary>
