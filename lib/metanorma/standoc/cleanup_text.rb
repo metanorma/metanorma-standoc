@@ -35,7 +35,9 @@ module Metanorma
         !(/^['"]/.match?(elem.text) &&
           elem.previous.ancestors("pre, tt, sourcecode, stem, figure, bibdata")
           .empty? &&
-          (elem.previous.text.strip.empty? || elem.previous.name == "index"))
+          ((elem.previous.text.strip.empty? &&
+            !empty_tag_with_text_content?(elem.previous)) ||
+           elem.previous.name == "index"))
       end
 
       def uninterrupt_quotes_around_xml1(elem)
@@ -57,10 +59,15 @@ module Metanorma
            newcontent floating-title).include? elem.name
       end
 
+      def empty_tag_with_text_content?(elem)
+        %w(eref xref termref link).include? elem.name
+      end
+
       def dumb2smart_quotes(xmldoc)
         prev = ""
         xmldoc.traverse do |x|
           block?(x) and prev = ""
+          empty_tag_with_text_content?(x) and prev = "dummy"
           next unless x.text?
 
           x.ancestors("pre, tt, sourcecode, stem, figure, bibdata").empty? and
