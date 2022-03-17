@@ -3,6 +3,7 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
+=begin
   it "processes term and designation metadata and term sources" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -180,8 +181,9 @@ RSpec.describe Metanorma::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
-
-  it "permits multiple preferred terms, and treats them as synonyms in concepts" do
+=end
+  it "permits multiple preferred terms and admitted terms, "\
+     "and treats them as synonyms in concepts" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
@@ -209,6 +211,9 @@ RSpec.describe Metanorma::Standoc do
       {{First Designation}}
 
       {{Second Designation}}
+
+      {{Third Designation}}
+
     INPUT
     output = <<~OUTPUT
          #{BLANK_HDR}
@@ -279,8 +284,15 @@ RSpec.describe Metanorma::Standoc do
         </p>
         <p id='_'>
           <concept>
-            <refterm>Second Designation</refterm>
+            <refterm>First Designation</refterm>
             <renderterm>Second Designation</renderterm>
+            <xref target='term-first-designation'/>
+          </concept>
+        </p>
+        <p id='_'>
+          <concept>
+            <refterm>First Designation</refterm>
+            <renderterm>Third Designation</renderterm>
             <xref target='term-first-designation'/>
           </concept>
         </p>

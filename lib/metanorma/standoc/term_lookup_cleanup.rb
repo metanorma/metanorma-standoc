@@ -1,7 +1,6 @@
 # frozen_string_literal: true.
 require "metanorma/standoc/utils"
 
-
 module Metanorma
   module Standoc
     # Intelligent term lookup xml modifier
@@ -110,15 +109,15 @@ module Metanorma
         if type == "term" || ((!type || node.parent.name == "related") && t)
           node["target"] = t
         elsif type == "symbol" ||
-          ((!type || node.parent.name == "related") && s)
+            ((!type || node.parent.name == "related") && s)
           node["target"] = s
         end
       end
 
       def replace_automatic_generated_ids_terms
         r = xmldoc.xpath("//term").each.with_object({}) do |n, res|
-          normalize_id_and_memorize(n, res, "./preferred//name",
-                                    "term")
+          normalize_id_and_memorize(n, res, "./preferred//name", "term")
+          normalize_id_and_memorize(n, res, "./admitted//name", "term")
         end
         s = xmldoc.xpath("//definitions//dt").each.with_object({}) do |n, res|
           normalize_id_and_memorize(n, res, ".", "symbol")
@@ -127,11 +126,13 @@ module Metanorma
       end
 
       def pref_secondary2primary
+        term = ""
         xmldoc.xpath("//term").each.with_object({}) do |n, res|
           n.xpath("./preferred//name").each_with_index do |p, i|
             i.zero? and term = p.text
             i.positive? and res[p.text] = term
           end
+          n.xpath("./admitted//name").each { |p| res[p.text] = term }
         end
       end
 
@@ -141,7 +142,7 @@ module Metanorma
       end
 
       def normalize_id_and_memorize_init(node, res_table, text_selector, prefix)
-        term_text = normalize_ref_id(node.at(text_selector))
+        term_text = normalize_ref_id(node.at(text_selector)) or return
         unless AUTOMATIC_GENERATED_ID_REGEXP.match(node["id"]).nil? &&
             !node["id"].nil?
           id = unique_text_id(term_text, prefix)
@@ -160,6 +161,8 @@ module Metanorma
       end
 
       def normalize_ref_id(term)
+        return nil if term.nil?
+
         t = term.dup
         t.xpath(".//index").map(&:remove)
         Metanorma::Utils::to_ncname(t.text.strip.downcase
