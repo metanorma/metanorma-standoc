@@ -73,7 +73,6 @@ module Metanorma
 
       def maxrowcols_validate(table, maxcols)
         cells2d = table.xpath(".//tr").each_with_object([]) { |_r, m| m << {} }
-        warn table.to_xml
         table.xpath(".//tr").each_with_index do |tr, r|
           curr = 0
           tr.xpath("./td | ./th").each do |td|
@@ -115,7 +114,6 @@ module Metanorma
 
       # if maxcols or maxrows negative, do not check them
       def maxcols_check(col, maxcols, tcell)
-        warn "col #{col}, maxcols #{maxcols}"
         if maxcols.positive? && col > maxcols
           @log.add("Table", tcell, "Table exceeds maximum number of columns "\
                                    "defined (#{maxcols})")
