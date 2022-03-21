@@ -36,7 +36,7 @@ module Metanorma
           xml.review **sidebar_attrs(node) do |r|
             wrap_in_para(node, r)
           end
-        end
+        end.join("\n")
       end
 
       def todo_attrs(node)
@@ -53,7 +53,7 @@ module Metanorma
           xml.review **todo_attrs(node) do |r|
             wrap_in_para(node, r)
           end
-        end
+        end.join("\n")
       end
 
       def termnote(node)
