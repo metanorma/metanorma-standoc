@@ -2,7 +2,7 @@ module Metanorma
   module Standoc
     module Cleanup
       def textcleanup(result)
-        text = result.flatten.map { |l| l.sub(/\s*$/, "") } * "\n"
+        text = result.flatten.map { |l| l.sub(/\s*\Z/, "") } * "\n"
         !@keepasciimath and text = asciimath2mathml(text)
         text = text.gsub(/\s+<fn /, "<fn ")
         text.gsub(%r{<passthrough\s+formats="metanorma">([^<]*)
@@ -32,7 +32,7 @@ module Metanorma
       end
 
       def uninterrupt_quotes_around_xml_skip(elem)
-        !(/^['"]/.match?(elem.text) &&
+        !(/\A['"]/.match?(elem.text) &&
           elem.previous.ancestors("pre, tt, sourcecode, stem, figure, bibdata")
           .empty? &&
           ((elem.previous.text.strip.empty? &&
@@ -42,11 +42,11 @@ module Metanorma
 
       def uninterrupt_quotes_around_xml1(elem)
         prev = elem.at(".//preceding::text()[1]") or return
-        /\S$/.match?(prev.text) or return
+        /\S\Z/.match?(prev.text) or return
         foll = elem.at(".//following::text()[1]")
-        m = /^(["'][[:punct:]]*)(\s|$)/
+        m = /\A(["'][[:punct:]]*)(\s|\Z)/
           .match(HTMLEntities.new.decode(foll&.text)) or return
-        foll.content = foll.text.sub(/^(["'][[:punct:]]*)/, "")
+        foll.content = foll.text.sub(/\A(["'][[:punct:]]*)/, "")
         prev.content = "#{prev.text}#{m[1]}"
       end
 
@@ -79,8 +79,8 @@ module Metanorma
       def dumb2smart_quotes1(curr, prev)
         /[-'"(<>]|\.\.|\dx/.match?(curr.text) or return
 
-        /^["']/.match?(curr.text) && prev.match?(/\S$/) and
-          curr.content = curr.text.sub(/^"/, "”").sub(/"’"/, "‘")
+        /\A["']/.match?(curr.text) && prev.match?(/\S\Z/) and
+          curr.content = curr.text.sub(/\A"/, "”").sub(/\A'/, "‘")
         curr.replace(Metanorma::Utils::smartformat(curr.text))
       end
 
