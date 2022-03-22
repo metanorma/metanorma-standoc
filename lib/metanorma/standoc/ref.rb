@@ -108,7 +108,7 @@ module Metanorma
           bib.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), **{ type: "URI" }
           bib.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), **{ type: "citation" }
         end
-        code[:id].sub!(/[:-](19|20)[0-9][0-9]$/, "")
+        # code[:id].sub!(/[:-](19|20)[0-9][0-9]$/, "")
         docid(bib, match[:usrlbl]) if match[:usrlbl]
         docid(bib, /^\d+$/.match?(code[:id]) ? "[#{code[:id]}]" : code[:id])
         code[:type] == "repo" and
@@ -123,7 +123,8 @@ module Metanorma
           end
           yr_match = /[:-](?<year>(?:19|20)[0-9][0-9])\b/.match(code[:id])
           refitem_render1(match, code, t)
-          docnumber(t, code[:id]) unless /^\d+$|^\(.+\)$/.match?(code[:id])
+          /^\d+$|^\(.+\)$/.match?(code[:id]) or
+            docnumber(t, code[:id].sub(/[:-](19|20)[0-9][0-9]$/, ""))
           conditional_date(t, yr_match || match, false)
         end
       end

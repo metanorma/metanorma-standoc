@@ -970,7 +970,7 @@ RSpec.describe Metanorma::Standoc do
                <formattedref format='application/x-isodoc+xml'>
                  <em>Standard</em>
                </formattedref>
-               <docidentifier type='ISO'>ISO/IEC TR 12382</docidentifier>
+               <docidentifier type='ISO'>ISO/IEC TR 12382:1992</docidentifier>
                <docnumber>12382</docnumber>
                 <date type='published'><on>1992</on></date>
              </bibitem>
@@ -1820,7 +1820,7 @@ RSpec.describe Metanorma::Standoc do
           <em>Standard</em>
         </formattedref>
         <docidentifier type='metanorma'>[1]</docidentifier>
-        <docidentifier>XYZ 123</docidentifier>
+        <docidentifier>XYZ 123:1966</docidentifier>
         <docnumber>123</docnumber>
                       <date type='published'>
          <on>1966</on>
