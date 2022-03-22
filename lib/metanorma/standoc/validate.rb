@@ -64,7 +64,7 @@ module Metanorma
 
       def max_td_count(table)
         max = 0
-        table.xpath(".//tr").each do |tr|
+        table.xpath("./tr").each do |tr|
           n = tr.xpath("./td | ./th").size
           max < n and max = n
         end
@@ -72,8 +72,8 @@ module Metanorma
       end
 
       def maxrowcols_validate(table, maxcols)
-        cells2d = table.xpath(".//tr").each_with_object([]) { |_r, m| m << {} }
-        table.xpath(".//tr").each_with_index do |tr, r|
+        cells2d = table.xpath("./*/tr").each_with_object([]) { |_r, m| m << {} }
+        table.xpath("./*/tr").each_with_index do |tr, r|
           curr = 0
           tr.xpath("./td | ./th").each do |td|
             curr = maxcols_validate1(td, r, curr, cells2d, maxcols)

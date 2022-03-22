@@ -126,7 +126,7 @@ module Metanorma
           file = File.join(@localdir,
                            @boilerplateauthority)
         end
-        (!file.nil? and File.exists?(file)) or return
+        (!file.nil? and File.exist?(file)) or return
         conv.populate_template(File.read(file, encoding: "UTF-8"), nil)
       end
 
