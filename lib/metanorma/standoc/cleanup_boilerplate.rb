@@ -213,7 +213,8 @@ module Metanorma
       def bibdata_embed_hdr_cleanup(xmldoc)
         return if @embed_hdr.nil? || @embed_hdr.empty?
 
-        embed_recurse(xmldoc.at("//bibdata"), @embed_hdr.first)
+        xmldoc.at("//bibdata") << "<relation type='derivedFrom'>"\
+                                  "#{hdr2bibitem(@embed_hdr.first)}</relation>"
       end
 
       def hdr2bibitem(hdr)

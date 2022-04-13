@@ -1314,18 +1314,48 @@ RSpec.describe Metanorma::Standoc do
       embed::spec/assets/xref_error.adoc[]
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR}
-        <sections>
-          <clause id='clause1' inline-header='false' obligation='normative'>
-            <title>Clause 1</title>
-          </clause>
-          <clause id='_' inline-header='false' obligation='normative'>
-            <title>Clause</title>
-            <p id='_'>
-              <xref target='a'>b</xref>
-            </p>
-          </clause>
-        </sections>
+      <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
+       <bibdata type='standard'>
+         <title language='en' format='text/plain'>Document title</title>
+         <language>en</language>
+         <script>Latn</script>
+         <status>
+           <stage>published</stage>
+         </status>
+         <copyright>
+           <from>2022</from>
+         </copyright>
+         <ext>
+           <doctype>article</doctype>
+         </ext>
+         <relation type='derivedFrom'>
+           <bibitem>
+             <title language='en' format='text/plain'>X</title>
+             <language>en</language>
+             <script>Latn</script>
+             <status>
+               <stage>published</stage>
+             </status>
+             <copyright>
+               <from>2022</from>
+             </copyright>
+             <ext>
+               <doctype>article</doctype>
+             </ext>
+           </bibitem>
+         </relation>
+              </bibdata>
+              <sections>
+                <clause id='clause1' inline-header='false' obligation='normative'>
+                  <title>Clause 1</title>
+                </clause>
+                <clause id='_' inline-header='false' obligation='normative'>
+                  <title>Clause</title>
+                  <p id='_'>
+                    <xref target='a'>b</xref>
+                  </p>
+                </clause>
+              </sections>
       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
@@ -1342,12 +1372,42 @@ RSpec.describe Metanorma::Standoc do
       embed::spec/assets/xref_error.adoc[]
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR}
-        <sections>
-          <clause id='clause1' inline-header='false' obligation='normative'>
-            <title>Clause</title>
-          </clause>
-        </sections>
+      <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
+              <bibdata type='standard'>
+                  <title language='en' format='text/plain'>Document title</title>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+            <stage>published</stage>
+          </status>
+          <copyright>
+            <from>2022</from>
+          </copyright>
+          <ext>
+            <doctype>article</doctype>
+          </ext>
+          <relation type='derivedFrom'>
+            <bibitem>
+              <title language='en' format='text/plain'>X</title>
+              <language>en</language>
+              <script>Latn</script>
+              <status>
+                <stage>published</stage>
+              </status>
+              <copyright>
+                <from>2022</from>
+              </copyright>
+              <ext>
+                <doctype>article</doctype>
+              </ext>
+            </bibitem>
+          </relation>
+              </bibdata>
+              <sections>
+                <clause id='clause1' inline-header='false' obligation='normative'>
+                  <title>Clause</title>
+                </clause>
+              </sections>
       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
@@ -1380,7 +1440,7 @@ RSpec.describe Metanorma::Standoc do
            </ext>
            <relation type='derivedFrom'>
              <bibitem>
-               <title language='en' format='text/plain'>A2</title>
+               <title language='en' format='text/plain'>X</title>
                <language>en</language>
                <script>Latn</script>
                <status>
@@ -1394,7 +1454,7 @@ RSpec.describe Metanorma::Standoc do
                </ext>
                <relation type='derivedFrom'>
                  <bibitem>
-                   <title language='en' format='text/plain'>A3</title>
+                   <title language='en' format='text/plain'>A2</title>
                    <language>en</language>
                    <script>Latn</script>
                    <status>
@@ -1406,22 +1466,38 @@ RSpec.describe Metanorma::Standoc do
                    <ext>
                      <doctype>article</doctype>
                    </ext>
-                 </bibitem>
-               </relation>
-               <relation type='derivedFrom'>
-                 <bibitem>
-                   <title language='en' format='text/plain'>A3a</title>
-                   <language>en</language>
-                   <script>Latn</script>
-                   <status>
-                     <stage>published</stage>
-                   </status>
-                   <copyright>
-                     <from>2022</from>
-                   </copyright>
-                   <ext>
-                     <doctype>article</doctype>
-                   </ext>
+                   <relation type='derivedFrom'>
+                      <bibitem>
+                        <title language='en' format='text/plain'>A3</title>
+                        <language>en</language>
+                        <script>Latn</script>
+                        <status>
+                          <stage>published</stage>
+                        </status>
+                        <copyright>
+                          <from>2022</from>
+                        </copyright>
+                        <ext>
+                          <doctype>article</doctype>
+                        </ext>
+                      </bibitem>
+                    </relation>
+                    <relation type='derivedFrom'>
+                      <bibitem>
+                        <title language='en' format='text/plain'>A3a</title>
+                        <language>en</language>
+                        <script>Latn</script>
+                        <status>
+                          <stage>published</stage>
+                        </status>
+                        <copyright>
+                          <from>2022</from>
+                        </copyright>
+                        <ext>
+                          <doctype>article</doctype>
+                        </ext>
+                      </bibitem>
+                    </relation>
                  </bibitem>
                </relation>
              </bibitem>
@@ -1444,11 +1520,11 @@ RSpec.describe Metanorma::Standoc do
              <p id='_'>X</p>
            </clause>
            <clause id='_' inline-header='false' obligation='normative'>
-              <title>Clause 3a</title>
+              <title>Clause 4</title>
               <p id='_'>X</p>
             </clause>
            <clause id='_' inline-header='false' obligation='normative'>
-             <title>Clause 4</title>
+             <title>Clause 3a</title>
              <p id='_'>X</p>
            </clause>
          </sections>

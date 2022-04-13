@@ -163,8 +163,9 @@ RSpec.describe Metanorma::Standoc do
         scale::: medium scale
       place:: bib place
       extent::
-        type::: section
-        reference_from::: 7
+        locality:::
+          type:::: section
+          reference_from:::: 7
       accesslocation::
         . accesslocation1
         . accesslocation2
@@ -439,8 +440,10 @@ RSpec.describe Metanorma::Standoc do
           <scale>medium scale</scale>
         </medium>
         <place>bib place</place>
-        <extent type="section">
+        <extent>
+          <locality type="section">
           <referenceFrom>7</referenceFrom>
+          </locality>
         </extent>
         <accesslocation>accesslocation1</accesslocation>
         <accesslocation>accesslocation2</accesslocation>
@@ -534,8 +537,8 @@ RSpec.describe Metanorma::Standoc do
       medium.size:: medium size
       medium.scale:: medium scale
       place:: bib place
-      extent.type:: section
-      extent.reference_from:: 7
+      extent.locality.type:: section
+      extent.locality.reference_from:: 7
       accesslocation:: accesslocation1
       accesslocation:: accesslocation2
       classification.type:: type
@@ -757,8 +760,10 @@ RSpec.describe Metanorma::Standoc do
           <scale>medium scale</scale>
         </medium>
         <place>bib place</place>
-        <extent type="section">
+        <extent>
+        <locality type="section">
           <referenceFrom>7</referenceFrom>
+          </locality>
         </extent>
         <accesslocation>accesslocation1</accesslocation>
         <accesslocation>accesslocation2</accesslocation>
