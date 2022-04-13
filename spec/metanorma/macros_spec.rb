@@ -1534,8 +1534,103 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes embed macro with document in a different flavour" do
+    require "metanorma-iso"
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [[clause1]]
+      == Clause 1
+
+      embed::spec/assets/iso.adoc[]
+    INPUT
+    output = <<~OUTPUT
+      <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
+       <bibdata type='standard'>
+         <title language='en' format='text/plain'>Document title</title>
+         <language>en</language>
+         <script>Latn</script>
+         <status>
+           <stage>published</stage>
+         </status>
+         <copyright>
+           <from>2022</from>
+         </copyright>
+         <ext>
+           <doctype>article</doctype>
+         </ext>
+                    <relation type='derivedFrom'>
+             <bibitem>
+               <title language='en' format='text/plain' type='main'>
+                 Medical devices — Quality management systems — Requirements for
+                 regulatory purposes
+               </title>
+               <title language='en' format='text/plain' type='title-main'>
+                 Medical devices — Quality management systems — Requirements for
+                 regulatory purposes
+               </title>
+               <title language='fr' format='text/plain' type='main'>
+                 Dispositifs médicaux — Systèmes de management de la qualité —
+                 Exigences à des fins réglementaires
+               </title>
+               <title language='fr' format='text/plain' type='title-main'>
+                 Dispositifs médicaux — Systèmes de management de la qualité —
+                 Exigences à des fins réglementaires
+               </title>
+               <contributor>
+                 <role type='author'/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                 </organization>
+               </contributor>
+               <language>en</language>
+               <script>Latn</script>
+               <status>
+                 <stage abbreviation='IS'>60</stage>
+                 <substage>60</substage>
+               </status>
+               <copyright>
+                 <from>2022</from>
+                 <owner>
+                   <organization>
+                     <name>International Organization for Standardization</name>
+                     <abbreviation>ISO</abbreviation>
+                   </organization>
+                 </owner>
+               </copyright>
+               <ext>
+                 <doctype>article</doctype>
+                 <editorialgroup>
+                   <technical-committee/>
+                   <subcommittee/>
+                   <workgroup/>
+                 </editorialgroup>
+                 <stagename>International standard</stagename>
+               </ext>
+             </bibitem>
+           </relation>
+              </bibdata>
+              <sections>
+                <clause id='clause1' inline-header='false' obligation='normative'>
+                  <title>Clause 1</title>
+                </clause>
+              </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes std-link macro" do
-    VCR.use_cassette "std-link" do
+    VCR.use_cassette("std-link", match_requests_on: %i[method uri body]) do
       input = <<~INPUT
         #{ISOBIB_BLANK_HDR}
 

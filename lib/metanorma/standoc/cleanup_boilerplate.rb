@@ -111,7 +111,7 @@ module Metanorma
         return if xml.at("//boilerplate")
 
         preface = xml.at("//preface") || xml.at("//sections") ||
-          xml.at("//annex") || xml.at("//references") || return
+          xml.at("//annex") || xml.at("//references") or return
         b = boilerplate(xml, isodoc) or return
         preface.previous = b
       end
@@ -162,11 +162,11 @@ module Metanorma
       end
 
       def insert_indirect_biblio(xmldoc, refs, prefix)
-        ins = xmldoc.at("bibliography") or
-          xmldoc.root << "<bibliography/>" and ins = xmldoc.at("bibliography")
-        ins = ins.add_child("<references hidden='true' normative='false'/>").first
+        i = xmldoc.at("bibliography") or
+          xmldoc.root << "<bibliography/>" and i = xmldoc.at("bibliography")
+        i = i.add_child("<references hidden='true' normative='false'/>").first
         refs.each do |x|
-          ins << <<~BIB
+          i << <<~BIB
             <bibitem id="#{x}" type="internal">
             <docidentifier type="repository">#{x.sub(/^#{prefix}_/, "#{prefix}/")}</docidentifier>
             </bibitem>
@@ -219,13 +219,20 @@ module Metanorma
 
       def hdr2bibitem(hdr)
         xml = Asciidoctor
-          .convert(hdr[:text], backend: Processor.new.asciidoctor_backend,
+          .convert(hdr[:text], backend: hdr2bibitem_type(hdr),
                                header_footer: true)
         b = Nokogiri::XML(xml).at("//xmlns:bibdata")
         b.name = "bibitem"
         b.delete("type")
         embed_recurse(b, hdr)
         b.to_xml
+      end
+
+      def hdr2bibitem_type(hdr)
+        m = /:mn-document-class: (\S+)/.match(hdr[:text])
+        if m then m[1].to_sym
+        else Processor.new.asciidoctor_backend
+        end
       end
 
       def embed_recurse(bibitem, node)
