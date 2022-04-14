@@ -28,6 +28,8 @@ module Metanorma
           tocfigures: @tocfigures,
           toctables: @toctables,
           tocrecommendations: @tocrecommendations,
+          fonts: node.attr("fonts"),
+          fontlicenseagreement: node.attr("font-license-agreement"),
         }
       end
 
@@ -67,6 +69,8 @@ module Metanorma
           tocfigures: @tocfigures,
           toctables: @toctables,
           tocrecommendations: @tocrecommendations,
+          fonts: node.attr("fonts"),
+          fontlicenseagreement: node.attr("font-license-agreement"),
         }
 
         if fonts_manifest = node.attr(FONTS_MANIFEST)
@@ -81,7 +85,8 @@ module Metanorma
            pdf-owner-password pdf-allow-copy-content pdf-allow-edit-content
            pdf-allow-assemble-document pdf-allow-edit-annotations
            pdf-allow-print pdf-allow-print-hq pdf-allow-fill-in-forms
-           pdf-allow-access-content pdf-encrypt-metadata)
+           pdf-allow-access-content pdf-encrypt-metadata fonts
+           font-license-agreement)
           .each_with_object({}) do |x, m|
           m[x.gsub(/-/, "").to_i] = node.attr(x)
         end

@@ -22,7 +22,8 @@ module Metanorma
       end
 
       def version
-        "Metanorma::Standoc #{Metanorma::Standoc::VERSION}/IsoDoc #{IsoDoc::VERSION}"
+        "Metanorma::Standoc #{Metanorma::Standoc::VERSION}/"\
+          "IsoDoc #{IsoDoc::VERSION}"
       end
 
       def html_path(file)
