@@ -9,7 +9,6 @@ module Metanorma
         ret = lines.each_with_object({ lines: [], hdr: [] }) do |line, m|
           process1(line, m, doc, reader, headings)
         end
-        #doc.converter.embed_hdr = ret[:hdr]
         doc.attributes["embed_hdr"] = ret[:hdr]
         ::Asciidoctor::Reader.new ret[:lines].flatten
       end
@@ -83,8 +82,7 @@ module Metanorma
             j = i
             j -= 1 while j >= 0 && /^\S/.match?(m[j])
             lines[j..i].each { |n| m << n }
-          else
-            skip or m << l
+          else skip or m << l
           end
         end
       end

@@ -51,7 +51,7 @@ module Metanorma
       end
 
       def inline_anchor_xref_match(node)
-        /^(hidden%(?<hidden>[^,]+),?)?
+        /^(?:hidden%(?<hidden>[^,]+),?)?
           (?<drop>droploc%)?(?<case>capital%|lowercase%)?(?<drop2>droploc%)?
           (?<fn>fn:?\s*)?(?<text>.*)$/x.match node.text
       end
@@ -81,10 +81,9 @@ module Metanorma
       def inline_anchor_bibref(node)
         eref_contents = (node.text || node.target || node.id)
           &.sub(/^\[?([^\[\]]+?)\]?$/, "[\\1]")
-        eref_attributes = { id: node.target || node.id }
         @refids << (node.target || node.id)
         noko do |xml|
-          xml.ref **attr_code(eref_attributes) do |r|
+          xml.ref **attr_code(id: node.target || node.id) do |r|
             r << eref_contents
           end
         end.join
@@ -229,12 +228,16 @@ module Metanorma
         noko do |xml|
           node.type == :visible and xml << node.text
           terms = (node.attr("terms") || [node.text]).map { |x| xml_encode(x) }
-          xml.index do |i|
-            i.primary { |x| x << terms[0] }
-            a = terms[1] and i.secondary { |x| x << a }
-            a = terms[2] and i.tertiary { |x| x << a }
-          end
+          inline_indexterm1(xml, terms)
         end.join
+      end
+
+      def inline_indexterm1(xml, terms)
+        xml.index do |i|
+          i.primary { |x| x << terms[0] }
+          a = terms[1] and i.secondary { |x| x << a }
+          a = terms[2] and i.tertiary { |x| x << a }
+        end
       end
     end
   end

@@ -4,12 +4,12 @@ module Metanorma
       # extending localities to cover ISO referencing
       LOCALITY_REGEX_STR = <<~REGEXP.freeze
         ^(((?<conn>and|or|from|to)!)?
-            (?<locality>section|clause|part|paragraph|chapter|page|
+            (?<locality>section|clause|part|paragraph|chapter|page|line|
                       table|annex|figure|example|note|formula|list|time|anchor|
                       locality:[^ \\t\\n\\r:,;=]+)(\\s+|=)
                (?<ref>[^"][^ \\t\\n,:;-]*|"[^"]+")
                  (-(?<to>[^"][^ \\t\\n,:;-]*|"[^"]"))?|
-          (?<locality2>whole|locality:[^ \\t\\n\\r:,;=]+))(?<punct>[,:;]?)\\s*
+          (?<locality2>whole|title|locality:[^ \\t\\n\\r:,;=]+))(?<punct>[,:;]?)\\s*
          (?<text>.*)$
       REGEXP
       LOCALITY_RE = Regexp.new(LOCALITY_REGEX_STR.gsub(/\s/, ""),
@@ -160,8 +160,7 @@ module Metanorma
 
       def origin_cleanup(xmldoc)
         xmldoc.xpath("//origin/concept[termref]").each do |x|
-          t = x.at("./termref")
-          x.replace(t)
+          x.replace(x.at("./termref"))
         end
         xmldoc.xpath("//origin").each do |x|
           x["citeas"] = @anchors&.dig(x["bibitemid"], :xref) or
