@@ -2,7 +2,6 @@ require "isodoc"
 
 module IsoDoc
   module Standoc
-
     # A {Converter} implementation that generates HTML output, and a document
     # schema encapsulation of the document for validation
     #
@@ -12,8 +11,8 @@ module IsoDoc
         super
       end
 
-      def pdf_stylesheet(docxml)
-          "base.standard.xsl"
+      def pdf_stylesheet(_docxml)
+        "base.standard.xsl"
       end
     end
   end

@@ -261,14 +261,11 @@ private
 
 def get_xml(search, code, opts)
   c = code.gsub(%r{[/\s:-]}, "_").sub(%r{_+$}, "").downcase
-  o = opts.keys.join "_"
-  file = examples_path("#{[c, o].join '_'}.xml")
+  file = examples_path("#{[c, opts.keys.join('_')].join '_'}.xml")
   if File.exist? file
     File.read file
   else
-    result = search.call(code)
-    hit = result&.first&.first
-    xml = hit.to_xml nil, opts
+    xml = search.call(code)&.first&.first&.to_xml nil, opts
     File.write file, xml
     xml
   end

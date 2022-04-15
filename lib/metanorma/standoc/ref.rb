@@ -87,10 +87,10 @@ module Metanorma
         end
       end
 
-      def isorefmatches3_1(xml, match, yr, _hasyr, _ref)
+      def isorefmatches3_1(xml, match, year, _hasyr, _ref)
         xml.bibitem(**attr_code(ref_attributes(match))) do |t|
-          isorefrender1(t, match, yr, " (all parts)")
-          conditional_date(t, match, yr == "--")
+          isorefrender1(t, match, year, " (all parts)")
+          conditional_date(t, match, year == "--")
           iso_publisher(t, match[:code])
           if match.names.include?("fn") && match[:fn]
             t.note(**plaintxt.merge(type: "Unpublished-Status")) do |p|
@@ -179,7 +179,7 @@ module Metanorma
       \[(?<usrlbl>\([^)]+\))?(?<code>(?:ISO|IEC)[^0-9]*\s[0-9]+)
       (?::(?<year>--|&\#821[12];|[0-9][0-9-]+))?\s
       \(all\sparts\)\]</ref>,?\s*
-        (<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>,?\s?)?(?<text>.*)$}xm.freeze
+        (?:<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>,?\s?)?(?<text>.*)$}xm.freeze
 
       NON_ISO_REF = %r{^<ref\sid="(?<anchor>[^"]+)">
       \[(?<usrlbl>\([^)]+\))?(?<code>.+?)\]</ref>,?\s*(?<text>.*)$}xm
