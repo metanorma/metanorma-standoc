@@ -109,7 +109,7 @@ module Metanorma
       def preprocess_attrs(target)
         m = /^(?<id>&lt;&lt;.+?&gt;&gt;)?(?<rest>.*)$/.match(target)
         ret = { id: m[:id]&.sub(/^&lt;&lt;/, "")&.sub(/&gt;&gt;$/, "") }
-        if m2 = /^(?<rest>.*?)(?<opt>,opt(ion)?s=.+)$/
+        if m2 = /^(?<rest>.*?)(?<opt>,opt(?:ion)?s=.+)$/
             .match(m[:rest].sub(/^,/, ""))
           ret[:opt] = CSV.parse_line(m2[:opt].sub(/^,opt(ion)?s=/, "")
             .sub(/^"(.+)"$/, "\\1").sub(/^'(.+)'$/, "\\1"))

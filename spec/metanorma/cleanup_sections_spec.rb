@@ -27,7 +27,7 @@ RSpec.describe Metanorma::Standoc do
           <p id='_'>So am I</p>
         </li>
       </ul>
-             <term id="term-time">
+             <term id="term-Time">
              <preferred><expression><name>Time</name></expression></preferred>
                <definition><verbal-definition><p id="_">This paragraph is extraneous</p></verbal-definition></definition>
              </term></terms>
@@ -520,7 +520,7 @@ RSpec.describe Metanorma::Standoc do
                      </fn>
                    </title>
                    <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-                   <term id='term-term1'>
+                   <term id='term-Term1'>
                      <preferred><expression><name>Term1</name></expression></preferred>
                    </term>
                  </terms>
@@ -795,7 +795,7 @@ RSpec.describe Metanorma::Standoc do
                   <terms id='_' obligation='normative'>
                     <title>Terms and definitions</title>
                     <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-                    <term id='term-term1'>
+                    <term id='term-Term1'>
                       <preferred><expression><name>Term1</name></expression></preferred>
                     </term>
                   </terms>
@@ -1032,7 +1032,7 @@ RSpec.describe Metanorma::Standoc do
                       Pour les besoins du présent document, les termes et définitions suivants
                       s’appliquent.
                     </p>
-                    <term id='term-term1'>
+                    <term id='term-Term1'>
                       <preferred><expression><name>Term1</name></expression></preferred>
                     </term>
                   </terms>
@@ -1266,7 +1266,7 @@ RSpec.describe Metanorma::Standoc do
                   <terms id='_' obligation='normative'>
                     <title>术语和定义</title>
                     <p id='_'>下列术语和定义适用于本文件。</p>
-                    <term id='term-term1'>
+                    <term id='term-Term1'>
                       <preferred><expression><name>Term1</name></expression></preferred>
                     </term>
                   </terms>
@@ -1500,7 +1500,7 @@ RSpec.describe Metanorma::Standoc do
                   <terms id='_' obligation='normative'>
                     <title>Terms and definitions</title>
                     <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-                    <term id='term-term1'>
+                    <term id='term-Term1'>
                       <preferred><expression><name>Term1</name></expression></preferred>
                     </term>
                   </terms>

@@ -165,7 +165,7 @@ module Metanorma
 
         t = term.dup
         t.xpath(".//index").map(&:remove)
-        Metanorma::Utils::to_ncname(t.text.strip.downcase
+        Metanorma::Utils::to_ncname(t.text.strip
           .gsub(/[[:space:]]+/, "-"))
       end
 

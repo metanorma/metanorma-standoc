@@ -3,7 +3,6 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
-=begin
   it "processes term and designation metadata and term sources" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -88,7 +87,7 @@ RSpec.describe Metanorma::Standoc do
           <terms id='_' obligation='normative'>
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-            <term id='term-first-designation'>
+            <term id='term-First-Designation'>
               <preferred>
                 <expression language='fr' script='Latn' type='prefix' isInternational="true">
                   <name>First Designation</name>
@@ -181,7 +180,7 @@ RSpec.describe Metanorma::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
-=end
+
   it "permits multiple preferred terms and admitted terms, "\
      "and treats them as synonyms in concepts" do
     input = <<~INPUT
@@ -221,7 +220,7 @@ RSpec.describe Metanorma::Standoc do
                    <terms id='_' obligation='normative'>
         <title>Terms and definitions</title>
         <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-        <term id='term-first-designation'>
+        <term id='term-First-Designation'>
           <preferred>
             <expression>
               <name>First Designation</name>
@@ -257,7 +256,7 @@ RSpec.describe Metanorma::Standoc do
             term
             <tt>Sixth Designation</tt>
              not resolved via ID
-            <tt>sixth-designation</tt>
+            <tt>Sixth-Designation</tt>
           </strong>
         </related>
         <related type='contrast'>
@@ -265,7 +264,7 @@ RSpec.describe Metanorma::Standoc do
             term
             <tt>Seventh Designation</tt>
              not resolved via ID
-            <tt>seventh-designation</tt>
+            <tt>Seventh-Designation</tt>
           </strong>
         </related>
           <definition><verbal-definition>
@@ -279,26 +278,101 @@ RSpec.describe Metanorma::Standoc do
           <concept>
             <refterm>First Designation</refterm>
             <renderterm>First Designation</renderterm>
-            <xref target='term-first-designation'/>
+            <xref target='term-First-Designation'/>
           </concept>
         </p>
         <p id='_'>
           <concept>
             <refterm>First Designation</refterm>
             <renderterm>Second Designation</renderterm>
-            <xref target='term-first-designation'/>
+            <xref target='term-First-Designation'/>
           </concept>
         </p>
         <p id='_'>
           <concept>
             <refterm>First Designation</refterm>
             <renderterm>Third Designation</renderterm>
-            <xref target='term-first-designation'/>
+            <xref target='term-First-Designation'/>
           </concept>
         </p>
       </clause>
          </sections>
          </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "respects case in tagging of concepts" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      === First Designation
+
+      Definition
+
+      === First designation
+
+      Definition
+
+      == Clause
+
+      {{First Designation}}
+
+      {{First designation}}
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <terms id='_' obligation='normative'>
+            <title>Terms and definitions</title>
+            <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+            <term id='term-First-Designation'>
+              <preferred>
+                <expression>
+                  <name>First Designation</name>
+                </expression>
+              </preferred>
+              <definition>
+                <verbal-definition>
+                  <p id='_'>Definition</p>
+                </verbal-definition>
+              </definition>
+            </term>
+            <term id='term-First-designation'>
+              <preferred>
+                <expression>
+                  <name>First designation</name>
+                </expression>
+              </preferred>
+              <definition>
+                <verbal-definition>
+                  <p id='_'>Definition</p>
+                </verbal-definition>
+              </definition>
+            </term>
+          </terms>
+          <clause id='_' inline-header='false' obligation='normative'>
+            <title>Clause</title>
+            <p id='_'>
+              <concept>
+                <refterm>First Designation</refterm>
+                <renderterm>First Designation</renderterm>
+                <xref target='term-First-Designation'/>
+              </concept>
+            </p>
+            <p id='_'>
+              <concept>
+                <refterm>First designation</refterm>
+                <renderterm>First designation</renderterm>
+                <xref target='term-First-designation'/>
+              </concept>
+            </p>
+          </clause>
+        </sections>
+      </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -339,7 +413,7 @@ RSpec.describe Metanorma::Standoc do
           <terms id='_' obligation='normative'>
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-            <term id='term-first-designation'>
+            <term id='term-First-Designation'>
               <preferred>
                 <letter-symbol>
                   <name>First Designation</name>
@@ -846,11 +920,11 @@ RSpec.describe Metanorma::Standoc do
                <terms id="_" obligation="normative">
                <title>Terms and definitions</title>
                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-               <term id="term-tempus">
+               <term id="term-Tempus">
                <preferred><expression><name>Tempus</name></expression></preferred>
                <domain>relativity</domain><definition><verbal-definition><p id="_"> Time</p></verbal-definition></definition>
              </term>
-             <term id='term-tempus1'>
+             <term id='term-Tempus1'>
         <preferred><expression><name>Tempus1</name></expression></preferred>
         <domain>relativity2</domain>
         <definition><verbal-definition>
@@ -988,7 +1062,7 @@ RSpec.describe Metanorma::Standoc do
       <terms id="_" obligation="normative">
         <title>Terms and definitions</title>
         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-        <term id="term-term"><preferred><expression><name>Term</name></expression></preferred>
+        <term id="term-Term"><preferred><expression><name>Term</name></expression></preferred>
         <definition><verbal-definition><p id='_'>Definition</p></verbal-definition></definition>
       <termnote id="_">
         <p id="_">Note</p>
@@ -1067,7 +1141,7 @@ RSpec.describe Metanorma::Standoc do
             <terms id='_' obligation='normative'>
               <title>Terms and definitions</title>
               <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-              <term id='term-term'>
+              <term id='term-Term'>
                 <preferred>
                   <expression>
                     <name>Term</name>
@@ -1113,7 +1187,7 @@ RSpec.describe Metanorma::Standoc do
                   </origin>
                 </termsource>
               </term>
-              <term id='term-term-2'>
+              <term id='term-Term-2'>
                 <preferred>
                   <expression>
                     <name>Term 2</name>
@@ -1184,7 +1258,7 @@ RSpec.describe Metanorma::Standoc do
            <terms id='_' obligation='normative'>
              <title>Terms and definitions</title>
              <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-             <term id='term-term'>
+             <term id='term-Term'>
                <preferred>
                  <expression>
                    <name>Term</name>
@@ -1273,7 +1347,7 @@ RSpec.describe Metanorma::Standoc do
         <terms id='_' obligation='normative'>
           <title>Terms and definitions</title>
           <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-          <term id='term-term'>
+          <term id='term-Term'>
             <preferred>
               <expression>
                 <name>Term</name>
@@ -1363,7 +1437,7 @@ RSpec.describe Metanorma::Standoc do
           <terms id='_' obligation='normative'>
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-            <term id='term-term'>
+            <term id='term-Term'>
               <preferred>
                 <expression>
                   <name>
@@ -1391,7 +1465,7 @@ RSpec.describe Metanorma::Standoc do
                 </letter-symbol>
               </admitted>
             </term>
-            <term id='term-term2'>
+            <term id='term-Term2'>
               <preferred>
                 <expression>
                   <name>

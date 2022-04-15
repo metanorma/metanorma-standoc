@@ -352,7 +352,7 @@ RSpec.describe Metanorma::Standoc do
            <terms id='_' obligation='normative'>
              <title>Terms and definitions</title>
              <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-             <term id='term-term1'>
+             <term id='term-Term1'>
                <preferred><expression><name>Term1</name></expression></preferred>
                <definition>
                  <verbal-definition>
@@ -423,7 +423,7 @@ RSpec.describe Metanorma::Standoc do
               <terms id="_" obligation="normative">
               <title>Terms and definitions</title>
               <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-              <term id="term-term1">
+              <term id="term-Term1">
               <preferred><expression><name>Term1</name></expression></preferred>
               <termnote id="_">
               <p id="_">This is a note</p>
@@ -498,7 +498,7 @@ RSpec.describe Metanorma::Standoc do
                     <sections>
         <terms id="_" obligation="normative"><title>Terms, definitions and symbols</title>
       <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-      <term id="term-term1">
+      <term id="term-Term1">
         <preferred><expression><name>Term1</name></expression></preferred>
       </term>
       <definitions id="_" obligation="normative" type="symbols">
@@ -543,7 +543,7 @@ RSpec.describe Metanorma::Standoc do
                <note id='_'>
                  <p id='_'>Note 1</p>
                </note>
-               <term id='term-term11'>
+               <term id='term-Term11'>
                  <preferred>
                    <expression>
                      <name>Term11</name>
@@ -709,7 +709,7 @@ RSpec.describe Metanorma::Standoc do
         <terms id="_" obligation="normative">
         <title>Terms and definitions</title>
       <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-        <term id="term-term1">
+        <term id="term-Term1">
         <preferred><expression><name>Term1</name></expression></preferred>
       <termexample id="ABC" tag='X' multilingual-rendering='common'>
         <p id="_">This is an example</p>
@@ -769,7 +769,7 @@ RSpec.describe Metanorma::Standoc do
                     #{BLANK_HDR}
       <sections>
         <terms id="_" obligation="normative"><title>Terms, definitions and symbols</title>
-      <p id="_">For the purposes of this document, the following terms and definitions apply.</p><term id="term-term1">
+      <p id="_">For the purposes of this document, the following terms and definitions apply.</p><term id="term-Term1">
         <preferred><expression><name>Term1</name></expression></preferred>
       </term>
       <definitions id="_" obligation="normative" type="symbols">
@@ -1252,7 +1252,7 @@ RSpec.describe Metanorma::Standoc do
                <terms id="_" obligation="normative">
                <title>Terms and definitions</title><p id="_">For the purposes of this document,
              the following terms and definitions apply.</p>
-               <term id="term-term1">
+               <term id="term-Term1">
                <preferred><expression><name>Term1</name></expression></preferred>
                <definition><verbal-definition><p id='_'>Definition 0</p></verbal-definition></definition>
                <termsource status="identical" type="authoritative">
@@ -1270,7 +1270,7 @@ RSpec.describe Metanorma::Standoc do
               </origin>
              </termsource>
              </term>
-             <term id='term-term2'>
+             <term id='term-Term2'>
         <preferred><expression><name>Term2</name></expression></preferred>
         <definition>
         <verbal-definition>
@@ -1327,7 +1327,7 @@ RSpec.describe Metanorma::Standoc do
                <title>Terms and definitions</title>
                <p id="_">For the purposes of this document,
              the following terms and definitions apply.</p>
-               <term id="term-term1">
+               <term id="term-Term1">
                <preferred><expression><name>Term1</name></expression></preferred>
                <definition><verbal-definition><p id='_'>Definition 0</p></verbal-definition></definition>
                <termsource status="modified" type="authoritative">
@@ -1341,7 +1341,7 @@ RSpec.describe Metanorma::Standoc do
                </modification>
              </termsource>
              </term>
-             <term id='term-term2'>
+             <term id='term-Term2'>
         <preferred><expression><name>Term2</name></expression></preferred>
         <definition><verbal-definition>
           <p id='_'>Definition</p>
@@ -1363,8 +1363,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-
-    it "processes term source attributes" do
+  it "processes term source attributes" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Terms and Definitions
@@ -1384,53 +1383,53 @@ RSpec.describe Metanorma::Standoc do
       {{<<IEV:xyz>>}}, with adjustments
     INPUT
     output = <<~OUTPUT
-            #{BLANK_HDR}
-              <sections>
-    <terms id='_' obligation='normative'>
-      <title>Terms and definitions</title>
-      <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-      <term id='term-term1'>
-        <preferred>
-          <expression>
-            <name>Term1</name>
-          </expression>
-        </preferred>
-        <definition><verbal-definition><p id='_'>Definition 0</p></verbal-definition></definition>
-        <termsource status='generalisation' type='authoritative'>
-          <origin bibitemid='ISO2191' type='inline' citeas=''>
-            <localityStack>
-              <locality type='section'>
-                <referenceFrom>1</referenceFrom>
-              </locality>
-            </localityStack>
-          </origin>
-          <modification>
-            <p id='_'>with adjustments</p>
-          </modification>
-        </termsource>
-      </term>
-      <term id='term-term2'>
-        <preferred>
-          <expression>
-            <name>Term2</name>
-          </expression>
-        </preferred>
-        <definition><verbal-definition>
-          <p id='_'>Definition</p>
-        </verbal-definition></definition>
-        <termsource status='modified' type='lineage'>
-          <origin citeas=''>
-            <termref base='IEV' target='xyz'/>
-          </origin>
-          <modification>
-            <p id='_'>with adjustments</p>
-          </modification>
-        </termsource>
-      </term>
-    </terms>
-  </sections>
-            </standard-document>
-OUTPUT
+                #{BLANK_HDR}
+                  <sections>
+        <terms id='_' obligation='normative'>
+          <title>Terms and definitions</title>
+          <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+          <term id='term-Term1'>
+            <preferred>
+              <expression>
+                <name>Term1</name>
+              </expression>
+            </preferred>
+            <definition><verbal-definition><p id='_'>Definition 0</p></verbal-definition></definition>
+            <termsource status='generalisation' type='authoritative'>
+              <origin bibitemid='ISO2191' type='inline' citeas=''>
+                <localityStack>
+                  <locality type='section'>
+                    <referenceFrom>1</referenceFrom>
+                  </locality>
+                </localityStack>
+              </origin>
+              <modification>
+                <p id='_'>with adjustments</p>
+              </modification>
+            </termsource>
+          </term>
+          <term id='term-Term2'>
+            <preferred>
+              <expression>
+                <name>Term2</name>
+              </expression>
+            </preferred>
+            <definition><verbal-definition>
+              <p id='_'>Definition</p>
+            </verbal-definition></definition>
+            <termsource status='modified' type='lineage'>
+              <origin citeas=''>
+                <termref base='IEV' target='xyz'/>
+              </origin>
+              <modification>
+                <p id='_'>with adjustments</p>
+              </modification>
+            </termsource>
+          </term>
+        </terms>
+      </sections>
+                </standard-document>
+    OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
@@ -1444,19 +1443,19 @@ OUTPUT
       ====
     INPUT
     output = <<~"OUTPUT"
-     #{BLANK_HDR}
-             <sections>
-        <recommendation id="_" unnumbered="true" type="verification" model="ogc" tag='X' multilingual-rendering='common'>
-        <label>/ogc/recommendation/wfs/2</label>
-      <subject>user</subject>
-      <subject>developer, implementer</subject>
-      <inherit>/ss/584/2015/level/1</inherit>
-      <inherit>/ss/584/2015/level/2</inherit>
-        <description><p id="_">I recommend this</p>
-      </description>
-      </recommendation>
-             </sections>
-             </standard-document>
+      #{BLANK_HDR}
+              <sections>
+         <recommendation id="_" unnumbered="true" type="verification" model="ogc" tag='X' multilingual-rendering='common'>
+         <label>/ogc/recommendation/wfs/2</label>
+       <subject>user</subject>
+       <subject>developer, implementer</subject>
+       <inherit>/ss/584/2015/level/1</inherit>
+       <inherit>/ss/584/2015/level/2</inherit>
+         <description><p id="_">I recommend this</p>
+       </description>
+       </recommendation>
+              </sections>
+              </standard-document>
     OUTPUT
 
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))

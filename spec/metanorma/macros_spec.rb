@@ -370,12 +370,12 @@ RSpec.describe Metanorma::Standoc do
                                   <concept>
                  <refterm>Clause1</refterm>
                  <renderterm>Clause1</renderterm>
-                 <xref target='term-clause1'/>
+                 <xref target='term-Clause1'/>
                </concept>
                <concept>
                  <refterm>Clause1</refterm>
                  <renderterm>Clause 1</renderterm>
-                 <xref target='term-clause1'/>
+                 <xref target='term-Clause1'/>
                </concept>
                <concept>
                  <refterm>Clause 2</refterm>
@@ -396,12 +396,12 @@ RSpec.describe Metanorma::Standoc do
                <concept>
                  <refterm>Clause1</refterm>
                  <renderterm>Clause1</renderterm>
-                 <xref target='symbol-clause1'/>
+                 <xref target='symbol-Clause1'/>
                </concept>
                <concept>
                  <refterm>Clause1</refterm>
                  <renderterm>word</renderterm>
-                 <xref target='symbol-clause1'/>
+                 <xref target='symbol-Clause1'/>
                </concept>
                <concept>
                  <refterm>Clause 2</refterm>
@@ -446,14 +446,14 @@ RSpec.describe Metanorma::Standoc do
                  <terms id='_' obligation='normative'>
                    <title>Terms and definitions</title>
                    <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-                   <term id='term-clause1'>
+                   <term id='term-Clause1'>
                      <preferred><expression><name>Clause1</name></expression></preferred>
                    </term>
                  </terms>
                  <definitions id='_' obligation='normative'>
                    <title>Symbols and abbreviated terms</title>
                    <dl id='_'>
-                     <dt id="symbol-clause1">Clause1</dt>
+                     <dt id="symbol-Clause1">Clause1</dt>
                      <dd>
                        <p id='_'>A</p>
                      </dd>

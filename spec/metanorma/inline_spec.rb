@@ -581,7 +581,7 @@ RSpec.describe Metanorma::Standoc do
        <title>Terms and definitions</title><p id="_">For the purposes of this document,
            the following terms and definitions apply.</p>
 
-       <term id="term-term1"><preferred><expression><name>Term1</name></expression><termsource status="identical" type="authoritative">
+       <term id="term-Term1"><preferred><expression><name>Term1</name></expression><termsource status="identical" type="authoritative">
        <origin bibitemid="reference" type="inline" citeas="ABC">
        <em>reference</em>
        </origin>

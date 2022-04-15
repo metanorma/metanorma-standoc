@@ -124,7 +124,7 @@ RSpec.describe Metanorma::Standoc do
         <title>Terms and definitions</title>
         <p id="_">For the purposes of this document,
              the following terms and definitions apply.</p>
-        <term id="term-term1">
+        <term id="term-Term1">
         <preferred><expression><name>Term1</name></expression></preferred>
       </term>
       </terms>
@@ -146,14 +146,14 @@ RSpec.describe Metanorma::Standoc do
         <title>Intro 4</title>
         <terms id="_" obligation="normative">
         <title>Intro 5</title>
-        <term id="term-term1-1">
+        <term id="term-Term1-1">
         <preferred><expression><name>Term1</name></expression></preferred>
       </term>
       </terms>
       </clause>
       <terms id="_" obligation="normative">
         <title>Normal Terms</title>
-        <term id="term-term2">
+        <term id="term-Term2">
         <preferred><expression><name>Term2</name></expression></preferred>
       </term>
       </terms>
@@ -277,7 +277,7 @@ RSpec.describe Metanorma::Standoc do
              <terms id='_' number='3bis' obligation='normative'>
                <title>Terms and definitions</title>
                <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-               <term id='term-term1' number='4bis'>
+               <term id='term-Term1' number='4bis'>
                  <preferred><expression><name>Term1</name></expression></preferred>
                </term>
              </terms>
@@ -290,7 +290,7 @@ RSpec.describe Metanorma::Standoc do
                    <title>Intro 1</title>
                  </clause>
                </clause>
-               <term id='term-intro-2' number='8bis'>
+               <term id='term-Intro-2' number='8bis'>
                  <preferred><expression><name>Intro 2</name></expression></preferred>
                </term>
                <definitions id='_' number='9bis' obligation='normative'>
@@ -477,7 +477,7 @@ RSpec.describe Metanorma::Standoc do
                <title>Terms and definitions</title>
                <p id="_">For the purposes of this document,
              the following terms and definitions apply.</p>
-               <term id="term-term1" language="en" script="Latn">
+               <term id="term-Term1" language="en" script="Latn">
                <preferred><expression><name>Term1</name></expression></preferred>
              </term>
              </terms>
@@ -499,14 +499,14 @@ RSpec.describe Metanorma::Standoc do
                <title>Intro 4</title>
                <terms id="_" language="en" script="Latn" obligation="normative">
                <title>Intro 5</title>
-               <term id="term-term1-1">
+               <term id="term-Term1-1">
                <preferred><expression><name>Term1</name></expression></preferred>
              </term>
              </terms>
              </clause>
              <terms id="_" language="en" script="Latn" obligation="normative">
                <title>Normal Terms</title>
-               <term id="term-term2">
+               <term id="term-Term2">
                <preferred><expression><name>Term2</name></expression></preferred>
              </term>
              </terms>
@@ -632,7 +632,7 @@ RSpec.describe Metanorma::Standoc do
           <terms id='_' obligation='normative'>
             <title>Terms and definitions</title>
             <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-            <term id='term-term1'>
+            <term id='term-Term1'>
               <preferred><expression><name>Term1</name></expression></preferred>
             </term>
           </terms>
@@ -641,7 +641,7 @@ RSpec.describe Metanorma::Standoc do
         <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <terms id='_' obligation='normative'>
               <title>Normal Terms</title>
-              <term id='term-term2'>
+              <term id='term-Term2'>
                 <preferred><expression><name>Term2</name></expression></preferred>
               </term>
             </terms>
@@ -701,7 +701,7 @@ RSpec.describe Metanorma::Standoc do
            <terms id='_' obligation='normative'>
              <title>Terms and definitions</title>
              <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-             <term id='term-term' language='en' tag='x123' multilingual-rendering='all-columns'>
+             <term id='term-Term' language='en' tag='x123' multilingual-rendering='all-columns'>
                <preferred>
                  <expression>
                    <name>Term</name>
@@ -733,7 +733,7 @@ RSpec.describe Metanorma::Standoc do
           <terms id='_' obligation='normative'>
             <title>Terms, definitions and symbols</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-            <term id='term-term'>
+            <term id='term-Term'>
               <preferred><expression><name>Term</name></expression></preferred>
             </term>
             <definitions id='_' obligation="normative" type="symbols">
@@ -765,7 +765,7 @@ RSpec.describe Metanorma::Standoc do
           <terms id='_' obligation='normative'>
             <title>Terms, definitions and abbreviated terms</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-            <term id='term-term'>
+            <term id='term-Term'>
               <preferred><expression><name>Term</name></expression></preferred>
             </term>
             <definitions id='_' obligation="normative" type="abbreviated_terms">
@@ -798,7 +798,7 @@ RSpec.describe Metanorma::Standoc do
           <terms id='_' obligation='normative'>
             <title>Terms, definitions, symbols and abbreviated terms</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-            <term id='term-term'>
+            <term id='term-Term'>
               <preferred><expression><name>Term</name></expression></preferred>
             </term>
             <definitions id='_' type='abbreviated_terms' obligation='normative'>
@@ -959,7 +959,7 @@ RSpec.describe Metanorma::Standoc do
              <terms id="_" obligation="normative">
                 <title>Terms and definitions</title><p id="_">For the purposes of this document, the terms and definitions
         given in <eref bibitemid="iso1234"/> and <eref bibitemid="iso5678"/> and the following apply.</p>
-        <term id="term-term1">
+        <term id="term-Term1">
         <preferred><expression><name>Term1</name></expression></preferred>
       </term>
              </terms></sections>

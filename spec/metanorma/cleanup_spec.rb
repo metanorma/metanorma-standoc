@@ -435,7 +435,7 @@ RSpec.describe Metanorma::Standoc do
         <terms id="_" obligation="normative">
         <title>Terms and definitions</title>
         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-        <term id="term-term1">
+        <term id="term-Term1">
         <preferred><expression><name>Term1</name></expression></preferred>
         <definition><verbal-definition><p id='_'>Definition 0</p></verbal-definition></definition>
         <termsource status="identical" type="authoritative">
@@ -554,7 +554,7 @@ RSpec.describe Metanorma::Standoc do
           <sections>
         <terms id="_" obligation="normative"><title>Terms and definitions</title>
          <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-         <term id="term-automation1">
+         <term id="term-Automation1">
           <preferred><expression><name>Automation1</name></expression></preferred>
           <definition><verbal-definition><p id='_'>Definition 1</p></verbal-definition></definition>
           <termsource status="identical" type="authoritative">
@@ -565,7 +565,7 @@ RSpec.describe Metanorma::Standoc do
         </origin>
         </termsource>
         </term>
-        <term id="term-automation2">
+        <term id="term-Automation2">
           <preferred><expression><name>Automation2</name></expression></preferred>
           <definition><verbal-definition><p id='_'>Definition 2</p></verbal-definition></definition>
           <termsource status="identical" type="authoritative">
@@ -576,7 +576,7 @@ RSpec.describe Metanorma::Standoc do
         </origin>
         </termsource>
         </term>
-        <term id="term-automation3">
+        <term id="term-Automation3">
           <preferred><expression><name>Automation3</name></expression></preferred>
           <definition><verbal-definition><p id='_'>Definition 3</p></verbal-definition></definition>
           <termsource status="identical" type="authoritative">
@@ -1149,7 +1149,7 @@ RSpec.describe Metanorma::Standoc do
               <dd>
                 <p id='_'>Definition 3</p>
               </dd>
-              <dt id='symbol-xa'>Xa</dt>
+              <dt id='symbol-Xa'>Xa</dt>
               <dd>
                 <p id='_'>Definition 2</p>
               </dd>
