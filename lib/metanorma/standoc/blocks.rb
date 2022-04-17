@@ -96,6 +96,7 @@ module Metanorma
         return svgmap_example(node) if role == "svgmap"
         return form(node) if role == "form"
         return termdefinition(node) if role == "definition"
+        return figure_example(node) if role == "figure"
 
         reqt_subpart(role) and return requirement_subpart(node)
         example_proper(node)
@@ -139,6 +140,15 @@ module Metanorma
       def example_proper(node)
         noko do |xml|
           xml.example **example_attrs(node) do |ex|
+            node.title.nil? or ex.name { |name| name << node.title }
+            wrap_in_para(node, ex)
+          end
+        end.join("\n")
+      end
+
+      def figure_example(node)
+        noko do |xml|
+          xml.figure **figure_attrs(node) do |ex|
             node.title.nil? or ex.name { |name| name << node.title }
             wrap_in_para(node, ex)
           end
