@@ -50,10 +50,8 @@ module Metanorma
       # only numeric references are renumbered
       def biblio_renumber(xmldoc)
         i = 0
-        xmldoc.xpath("//bibliography//references | //clause//references | "\
-                     "//annex//references").each do |r|
-          next if r["normative"] == "true"
-
+        xmldoc.xpath("//references[not(@normative = 'true')]"\
+                     "[not(@hidden = 'true')]").each do |r|
           r.xpath("./bibitem[not(@hidden = 'true')]").each do |b|
             i += 1
             next unless docid = b.at("./docidentifier[@type = 'metanorma']")
