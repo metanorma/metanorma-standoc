@@ -73,11 +73,21 @@ module Metanorma
         end
       end
 
+      def single_subfigure_cleanup(xmldoc)
+        xmldoc.xpath("//figure[figure]").each do |e|
+          s = e.xpath("./figure")
+          return unless s.size == 1
+
+          s[0].replace(s[0].children)
+        end
+      end
+
       def figure_cleanup(xmldoc)
         figure_footnote_cleanup(xmldoc)
         figure_dl_cleanup1(xmldoc)
         figure_dl_cleanup2(xmldoc)
         subfigure_cleanup(xmldoc)
+        single_subfigure_cleanup(xmldoc)
       end
 
       ELEMS_ALLOW_NOTES = %w[p formula ul ol dl figure].freeze
