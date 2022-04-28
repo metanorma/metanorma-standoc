@@ -12,12 +12,8 @@ module Metanorma
       end
 
       def note_attrs(node)
-        attr_code(
-          termnote_attrs(node).merge(
-            type: node.attr("type"),
-            beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil,
-          ),
-        )
+        attr_code(termnote_attrs(node).merge(admonition_core_attrs(node)
+          .merge(type: node.attr("type"))))
       end
 
       def sidebar_attrs(node)
@@ -74,12 +70,16 @@ module Metanorma
 
       def admonition_attrs(node)
         attr_code(keep_attrs(node).merge(id_attr(node)
-          .merge(
-            type: admonition_name(node),
-            notag: node.attr("notag") == "true" ? "true" : nil,
-            coverpage: node.attr("coverpage") == "true" ? "true" : nil,
-            beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil,
-          )))
+          .merge(admonition_core_attrs(node)
+          .merge(type: admonition_name(node)))))
+      end
+
+      def admonition_core_attrs(node)
+        { notag: node.attr("notag") == "true" ? "true" : nil,
+          coverpage: node.attr("coverpage") == "true" ? "true" : nil,
+          beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil,
+          unnumbered: node.attr("unnumbered") ||
+            (node.attr("notag") == "true") || nil }
       end
 
       def admonition_name(node)
