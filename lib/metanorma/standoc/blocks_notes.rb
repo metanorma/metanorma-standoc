@@ -73,15 +73,21 @@ module Metanorma
       end
 
       def admonition_attrs(node)
+        attr_code(keep_attrs(node).merge(id_attr(node)
+          .merge(
+            type: admonition_name(node),
+            notag: node.attr("notag") == "true" ? "true" : nil,
+            coverpage: node.attr("coverpage") == "true" ? "true" : nil,
+            beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil,
+          )))
+      end
+
+      def admonition_name(node)
         name = node.attr("name")
         a = node.attr("type") and ["danger", "safety precautions"].each do |t|
           name = t if a.casecmp(t).zero?
         end
-        attr_code(keep_attrs(node).merge(id_attr(node)
-          .merge(
-            type: name,
-            beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil,
-          )))
+        name
       end
 
       def admonition(node)
