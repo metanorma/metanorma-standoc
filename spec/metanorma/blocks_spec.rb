@@ -658,7 +658,7 @@ RSpec.describe Metanorma::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [CAUTION,type=Safety Precautions,keep-with-next="true",keep-lines-together="true",tag=X,multilingual-rendering=common]
+      [CAUTION,type=Safety Precautions,keep-with-next="true",keep-lines-together="true",tag=X,multilingual-rendering=common,notag=true]
       .Precautions
       ====
       While werewolves are hardy community members, keep in mind the following dietary concerns:
@@ -671,7 +671,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
-         <admonition id="ABC" type="safety precautions" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common'>
+         <admonition id="ABC" type="safety precautions" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common' notag="true" unnumbered="true">
         <name>Precautions</name><p id="_">While werewolves are hardy community members, keep in mind the following dietary concerns:</p>
        <ol id="_" type="arabic">
          <li>

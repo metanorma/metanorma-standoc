@@ -158,12 +158,12 @@ module Metanorma
       def preface_clausebefore_cleanup(xmldoc)
         return unless xmldoc.at("//preface")
 
-        unless ins = xmldoc.at("//preface").children.first
-          xmldoc.at("//preface") << " "
-          ins = xmldoc.at("//preface").children.first
-        end
+        ins = insert_before(xmldoc, "//preface")
         xmldoc.xpath("//preface//*[@beforeclauses = 'true']").each do |x|
           x.delete("beforeclauses")
+          ins.previous = x.remove
+        end
+        xmldoc.xpath("//*[@coverpage = 'true']").each do |x|
           ins.previous = x.remove
         end
       end
@@ -171,14 +171,19 @@ module Metanorma
       def sections_clausebefore_cleanup(xmldoc)
         return unless xmldoc.at("//sections")
 
-        unless ins = xmldoc.at("//sections").children.first
-          xmldoc.at("//sections") << " "
-          ins = xmldoc.at("//sections").children.first
-        end
+        ins = insert_before(xmldoc, "//sections")
         xmldoc.xpath("//sections//*[@beforeclauses = 'true']").each do |x|
           x.delete("beforeclauses")
           ins.previous = x.remove
         end
+      end
+
+      def insert_before(xmldoc, xpath)
+        unless ins = xmldoc.at(xpath).children.first
+          xmldoc.at(xpath) << " "
+          ins = xmldoc.at(xpath).children.first
+        end
+        ins
       end
 
       def floatingtitle_cleanup(xmldoc)

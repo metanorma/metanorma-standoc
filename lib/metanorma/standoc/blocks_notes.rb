@@ -12,12 +12,8 @@ module Metanorma
       end
 
       def note_attrs(node)
-        attr_code(
-          termnote_attrs(node).merge(
-            type: node.attr("type"),
-            beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil,
-          ),
-        )
+        attr_code(termnote_attrs(node).merge(admonition_core_attrs(node)
+          .merge(type: node.attr("type"))))
       end
 
       def sidebar_attrs(node)
@@ -73,15 +69,25 @@ module Metanorma
       end
 
       def admonition_attrs(node)
+        attr_code(keep_attrs(node).merge(id_attr(node)
+          .merge(admonition_core_attrs(node)
+          .merge(type: admonition_name(node)))))
+      end
+
+      def admonition_core_attrs(node)
+        { notag: node.attr("notag") == "true" ? "true" : nil,
+          coverpage: node.attr("coverpage") == "true" ? "true" : nil,
+          beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil,
+          unnumbered: node.attr("unnumbered") ||
+            (node.attr("notag") == "true") || nil }
+      end
+
+      def admonition_name(node)
         name = node.attr("name")
         a = node.attr("type") and ["danger", "safety precautions"].each do |t|
           name = t if a.casecmp(t).zero?
         end
-        attr_code(keep_attrs(node).merge(id_attr(node)
-          .merge(
-            type: name,
-            beforeclauses: node.attr("beforeclauses") == "true" ? "true" : nil,
-          )))
+        name
       end
 
       def admonition(node)

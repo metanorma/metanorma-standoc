@@ -985,6 +985,12 @@ RSpec.describe Metanorma::Standoc do
       ====
       Notice which is very important
       ====
+
+      [IMPORTANT,coverpage=true]
+      ====
+      Notice which is also very important
+      ====
+
     INPUT
     output = <<~OUTPUT
         #{BLANK_HDR}
@@ -992,6 +998,9 @@ RSpec.describe Metanorma::Standoc do
           <note id='_'>
             <p id='_'>Note which is very important</p>
           </note>
+          <admonition id='_' type='important' coverpage='true'>
+            <p id='_'>Notice which is also very important</p>
+          </admonition>
           <foreword id='_' obligation='informative'>
             <title>Foreword</title>
             <p id='_'>Foreword</p>
