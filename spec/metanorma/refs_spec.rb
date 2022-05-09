@@ -1665,9 +1665,6 @@ RSpec.describe Metanorma::Standoc do
               <bibitem id='iso123' type='standard'>
                      <fetched/>
                      <title format='text/plain' language='en' script='Latn'>Network Configuration Access Control Model</title>
-                     <uri type='xml'>
-                       https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
-                     </uri>
                      <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
                      <docidentifier type='RFC' primary="true">RFC 8341</docidentifier>
                      <docidentifier type='RFC' scope='anchor'>RFC8341</docidentifier>
@@ -1725,9 +1722,6 @@ RSpec.describe Metanorma::Standoc do
                    <bibitem id='iso124' type='standard'>
                      <fetched/>
                      <title format='text/plain' language='en' script='Latn'>Network Configuration Access Control Model</title>
-                     <uri type='xml'>
-                       https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
-                     </uri>
                      <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
                      <docidentifier type='RFC' primary="true">RFC 8341</docidentifier>
                      <docidentifier type='metanorma'>[1]</docidentifier>
