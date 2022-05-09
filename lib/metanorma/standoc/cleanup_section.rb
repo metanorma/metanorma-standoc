@@ -125,11 +125,8 @@ module Metanorma
       end
 
       def obligations_cleanup_info(xml)
-        s = xml.at("//foreword") and s["obligation"] = "informative"
-        s = xml.at("//introduction") and s["obligation"] = "informative"
-        s = xml.at("//acknowledgements") and s["obligation"] = "informative"
-        xml.xpath("//references").each { |r| r["obligation"] = "informative" }
-        xml.xpath("//preface//clause").each do |r|
+        xml.xpath("//foreword | //introduction | //acknowledgements | "\
+                  "//references | //preface//clause").each do |r|
           r["obligation"] = "informative"
         end
       end

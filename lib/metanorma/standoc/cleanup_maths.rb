@@ -20,8 +20,8 @@ module Metanorma
         text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>}m) do
           "<amathstem>#{HTMLEntities.new.decode($1)}</amathstem>"
         end
-        text = Html2Doc.asciimath_to_mathml(text,
-                                            ["<amathstem>", "</amathstem>"])
+        text = Html2Doc.new({})
+          .asciimath_to_mathml(text, ["<amathstem>", "</amathstem>"])
         x =  Nokogiri::XML(text)
         x.xpath("//*[local-name() = 'math'][not(parent::stem)]").each do |y|
           y.wrap("<stem type='MathML'></stem>")
@@ -68,10 +68,11 @@ module Metanorma
       def mi_italicise?(char)
         return false if char.length > 1
 
-        if /\p{Greek}/.match?(char)
+        case char
+        when /\p{Greek}/
           (/\p{Lower}/.match(char) && !mathml_mi_italics[:lowergreek]) ||
             (/\p{Upper}/.match(char) && !mathml_mi_italics[:uppergreek])
-        elsif /\p{Latin}/.match?(char)
+        when /\p{Latin}/
           (/\p{Lower}/.match(char) && !mathml_mi_italics[:lowerroman]) ||
             (/\p{Upper}/.match(char) && !mathml_mi_italics[:upperroman])
         else false

@@ -2,8 +2,8 @@ require "spec_helper"
 require "relaton_iso"
 
 RSpec.describe Metanorma::Standoc do
-    it "processes simple dl reference" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+  it "processes simple dl reference" do
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -36,6 +36,7 @@ RSpec.describe Metanorma::Standoc do
           completename::::: Jack
 
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
       </sections><bibliography><references id="_" obligation="informative" normative="true">
@@ -69,10 +70,12 @@ RSpec.describe Metanorma::Standoc do
       </bibliography>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes complex dl reference" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       == Clause
@@ -292,6 +295,7 @@ RSpec.describe Metanorma::Standoc do
         script::: Latn
 
     INPUT
+    output = <<~OUTPUT
             #{BLANK_HDR}
             <sections>
         <clause id='_' inline-header='false' obligation='normative'>
@@ -455,10 +459,12 @@ RSpec.describe Metanorma::Standoc do
       </bibitem></references></bibliography>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes complex dl reference with dot path keys" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [bibliography]
       == Normative References
@@ -621,6 +627,7 @@ RSpec.describe Metanorma::Standoc do
       series.formattedref.script:: Latn
 
     INPUT
+    output = <<~OUTPUT
             #{BLANK_HDR}
             <sections>
             </sections><bibliography><references id="_" obligation="informative" normative="true">
@@ -775,10 +782,12 @@ RSpec.describe Metanorma::Standoc do
       </bibitem></references></bibliography>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes mix of dl and default references" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       == Section
@@ -818,6 +827,7 @@ RSpec.describe Metanorma::Standoc do
           completename::::: Jack
 
     INPUT
+    output = <<~OUTPUT
                 #{BLANK_HDR}
            <sections>
          <clause id='_' inline-header='false' obligation='normative'>
@@ -864,5 +874,7 @@ RSpec.describe Metanorma::Standoc do
        </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 end
