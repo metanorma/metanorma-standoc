@@ -56,7 +56,7 @@ module Metanorma
         m = %w(disabled value)
           .map { |a| attr[a] ? " #{a}='#{attr[a]}'" : nil }.compact
         out = Asciidoctor::Inline.new(parent, :quoted, attr["text"]).convert
-        %{<option #{m.join}">#{out}</option>}
+        %{<option #{m.join}>#{out}</option>}
       end
     end
   end

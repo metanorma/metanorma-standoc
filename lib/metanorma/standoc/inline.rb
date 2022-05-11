@@ -79,7 +79,8 @@ module Metanorma
       end
 
       def inline_anchor_bibref(node)
-        eref_contents = (node.text || node.target || node.id)
+        eref_contents = HTMLEntities.new
+          .decode(node.text || node.target || node.id)
           &.sub(/^\[?([^\[\]]+?)\]?$/, "[\\1]")
         @refids << (node.target || node.id)
         noko do |xml|

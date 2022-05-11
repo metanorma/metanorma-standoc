@@ -130,7 +130,7 @@ module Metanorma
 
       def process(parent, target, attrs)
         out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
-        %{<autonumber type=#{target}>#{out}</autonumber>}
+        %{<autonumber type='#{target}'>#{out}</autonumber>}
       end
     end
 
@@ -143,9 +143,9 @@ module Metanorma
         /^(?<lang>[^-]*)(?:-(?<script>.*))?$/ =~ target
         out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
         if script
-          %{<variant lang=#{lang} script=#{script}>#{out}</variant>}
+          %{<variant lang='#{lang}' script='#{script}'>#{out}</variant>}
         else
-          %{<variant lang=#{lang}>#{out}</variant>}
+          %{<variant lang='#{lang}'>#{out}</variant>}
         end
       end
     end

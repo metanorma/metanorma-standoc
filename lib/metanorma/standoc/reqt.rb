@@ -64,14 +64,16 @@ module Metanorma
       def requirement_elems(node, out)
         node.title and out.title { |t| t << node.title }
         a = node.attr("label") and out.label do |l|
-          l << a
+          l << out.text(a)
         end
         a = node.attr("subject") and csv_split(a)&.each do |subj|
-          out.subject { |s| s << subj }
+          out.subject { |s| s << out.text(subj) }
         end
         a = HTMLEntities.new.decode(node.attr("inherit")) and
           csv_split(a)&.each do |i|
-            out.inherit { |inh| inh << i }
+            out.inherit do |inh|
+              inh << HTMLEntities.new.encode(i, :hexadecimal)
+            end
           end
         classif = node.attr("classification") and
           requirement_classification(classif, out)

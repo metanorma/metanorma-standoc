@@ -53,7 +53,7 @@ module Metanorma
                    permission).include?(text.name))) ||
           (text.text.strip.empty? && !text.at(".//xref | .//eref | .//link"))
 
-        t = Nokogiri::XML::Element.new("description", reqt)
+        t = Nokogiri::XML::Element.new("description", reqt.document)
         text.before(t)
         t.children = text.remove
       end
