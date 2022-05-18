@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 13A4:0621:13A70D:1A1D60:626AA2C5
+      - B2D8:30CD:13DB4:1A3A3:6283A8E9
       Accept-Ranges:
       - bytes
       Date:
-      - Thu, 28 Apr 2022 14:20:54 GMT
+      - Tue, 17 May 2022 13:53:46 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11220-MEL
+      - cache-mel11223-MEL
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1651155654.656895,VS0,VE460
+      - S1652795626.617154,VS0,VE407
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 9d9d7ed25260798a8cfd21f9f57e7e6507244354
+      - b270fd8236a703665ca7c424ebc3ed934e05798a
       Expires:
-      - Thu, 28 Apr 2022 14:25:54 GMT
+      - Tue, 17 May 2022 13:58:46 GMT
       Source-Age:
       - '0'
     body:
@@ -83,7 +83,7 @@ http_interactions:
         <seriesInfo name='RFC' value='8341'/>
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
-  recorded_at: Thu, 28 Apr 2022 14:20:54 GMT
+  recorded_at: Tue, 17 May 2022 13:53:45 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
@@ -125,29 +125,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 13A4:0621:13A70D:1A1D60:626AA2C5
+      - B2D8:30CD:13DB4:1A3A3:6283A8E9
       Accept-Ranges:
       - bytes
       Date:
-      - Thu, 28 Apr 2022 14:20:54 GMT
+      - Tue, 17 May 2022 13:53:46 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11223-MEL
+      - cache-mel11268-MEL
       X-Cache:
       - HIT
       X-Cache-Hits:
       - '1'
       X-Timer:
-      - S1651155654.656669,VS0,VE460
+      - S1652795626.624661,VS0,VE405
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - e4c5f7f9bb15de30eeb686e1cf38db2ce483a09e
+      - 6f23e5c52acf11ad2b5590e23232cbc0ef942009
       Expires:
-      - Thu, 28 Apr 2022 14:25:54 GMT
+      - Tue, 17 May 2022 13:58:46 GMT
       Source-Age:
       - '0'
     body:
@@ -167,5 +167,5 @@ http_interactions:
         <seriesInfo name='RFC' value='8341'/>
         <seriesInfo name='DOI' value='10.17487/RFC8341'/>
         </reference>
-  recorded_at: Thu, 28 Apr 2022 14:20:54 GMT
+  recorded_at: Tue, 17 May 2022 13:53:45 GMT
 recorded_with: VCR 6.1.0

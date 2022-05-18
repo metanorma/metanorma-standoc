@@ -213,5 +213,17 @@ module Metanorma
                       type: :xref, target: "_#{UUIDTools::UUID.random_create}")
       end
     end
+
+    class NamedEscapePreprocessor < Asciidoctor::Extensions::Preprocessor
+      def process(_document, reader)
+        c = HTMLEntities.new
+        lines = reader.readlines.map do |l|
+          l.split(/(&[A-Za-z][^;]*;)/).map do |s|
+            /^&[A-Za-z]/.match?(s) ? c.encode(c.decode(s), :hexadecimal) : s
+          end.join
+        end
+        ::Asciidoctor::Reader.new lines
+      end
+    end
   end
 end

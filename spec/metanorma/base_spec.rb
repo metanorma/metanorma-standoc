@@ -6,6 +6,42 @@ RSpec.describe Metanorma::Standoc do
     expect(Metanorma::Standoc::VERSION).not_to be nil
   end
 
+  it "processes named entities" do
+    FileUtils.rm_f "test.doc"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :novalid:
+      :no-pdf:
+
+      Text &times; text
+    INPUT
+    output = <<~OUTPUT
+      <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
+        <bibdata type='standard'>
+          <title language='en' format='text/plain'>Document title</title>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+            <stage>published</stage>
+          </status>
+          <copyright>
+            <from>#{Time.now.year}</from>
+          </copyright>
+          <ext>
+            <doctype>article</doctype>
+          </ext>
+        </bibdata>
+        <sections>
+        <p id='_'>Text × text</p>
+        </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "assigns default scripts to major languages" do
     FileUtils.rm_f "test.doc"
     input = <<~INPUT

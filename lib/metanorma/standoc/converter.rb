@@ -63,6 +63,7 @@ module Metanorma
         block Metanorma::Plugin::Lutaml::LutamlDiagramBlock
         block Metanorma::Standoc::PseudocodeBlockMacro
         preprocessor Metanorma::Standoc::EmbedIncludeProcessor
+        preprocessor Metanorma::Standoc::NamedEscapePreprocessor
       end
 
       include ::Asciidoctor::Converter
