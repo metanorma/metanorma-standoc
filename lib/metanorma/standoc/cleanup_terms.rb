@@ -93,7 +93,9 @@ module Metanorma
       def termnote_example_cleanup(xmldoc)
         %w(note example).each do |w|
           xmldoc.xpath("//term#{w}[not(ancestor::term)]").each do |x|
-            x.name = w
+            if x["keepasterm"] then x.delete("keepasterm")
+            else x.name = w
+            end
           end
         end
       end

@@ -440,6 +440,32 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes term notes outside of terms sections" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Clause
+
+      [NOTE%termnote]
+      ====
+      XYZ
+      ====
+    INPUT
+    output = <<~OUTPUT
+                   #{BLANK_HDR}
+            <sections>
+                <clause id='_' inline-header='false' obligation='normative'>
+      <title>Clause</title>
+      <termnote id='_'>
+        <p id='_'>XYZ</p>
+      </termnote>
+    </clause>
+            </sections>
+            </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes term notes as plain notes in nonterm clauses" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -717,6 +743,32 @@ RSpec.describe Metanorma::Standoc do
       </terms>
       </sections>
       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes term examples outside of terms sections" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Clause
+
+      [%termexample]
+      ====
+      XYZ
+      ====
+    INPUT
+    output = <<~OUTPUT
+                   #{BLANK_HDR}
+            <sections>
+                <clause id='_' inline-header='false' obligation='normative'>
+      <title>Clause</title>
+      <termexample id='_'>
+        <p id='_'>XYZ</p>
+      </termexample>
+    </clause>
+            </sections>
+            </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)

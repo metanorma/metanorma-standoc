@@ -80,14 +80,17 @@ module Metanorma
 
       def term_example(node)
         noko do |xml|
-          xml.termexample **attr_code(id_attr(node)) do |ex|
+          xml.termexample **attr_code(id_attr(node)
+            .merge(
+              keepasterm: node.option?("termexample") ? "true" : nil,
+            )) do |ex|
             wrap_in_para(node, ex)
           end
         end.join("\n")
       end
 
       def example(node)
-        return term_example(node) if in_terms?
+        return term_example(node) if in_terms? || node.option?("termexample")
 
         role = node.role || node.attr("style")
         %w(recommendation requirement permission).include?(role) and
