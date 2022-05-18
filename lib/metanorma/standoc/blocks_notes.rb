@@ -8,6 +8,7 @@ module Metanorma
             number: node.attr("number"),
             subsequence: node.attr("subsequence"),
             "keep-separate": node.attr("keep-separate"),
+            keepasterm: node.option?("termnote") ? "true" : nil,
           )))
       end
 
@@ -61,6 +62,8 @@ module Metanorma
       end
 
       def note(node)
+        return termnote(node) if node.option?("termnote")
+
         noko do |xml|
           xml.note **note_attrs(node) do |c|
             wrap_in_para(node, c)
