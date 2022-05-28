@@ -18,15 +18,10 @@ module Metanorma
         (document.find_by context: :paragraph).each do |para|
           next unless /^TODO: /.match? para.lines[0]
 
-          parent = para.parent
           para.set_attr("name", "todo")
           para.set_attr("caption", "TODO")
           para.lines[0].sub!(/^TODO: /, "")
-          todo = Asciidoctor::Block
-            .new(parent, :admonition, attributes: para.attributes,
-                                      source: para.lines,
-                                      content_model: :compound)
-          parent.blocks[parent.blocks.index(para)] = todo
+          para.context = :admonition
         end
       end
     end
