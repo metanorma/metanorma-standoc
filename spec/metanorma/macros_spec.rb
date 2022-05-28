@@ -818,7 +818,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
            #{BLANK_HDR}
            <sections><review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z">
-        <p id="_"/>
+        <p id="_">Note1</p>
       </review>
       <review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z">
         <p id="_">Note2</p>
