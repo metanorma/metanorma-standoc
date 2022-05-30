@@ -25,6 +25,7 @@ module Metanorma
     module Cleanup
       def cleanup(xmldoc)
         element_name_cleanup(xmldoc)
+        passthrough_cleanup(xmldoc)
         sections_cleanup(xmldoc)
         obligations_cleanup(xmldoc)
         table_cleanup(xmldoc)

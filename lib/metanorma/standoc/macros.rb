@@ -191,6 +191,7 @@ module Metanorma
       end
     end
 
+    # inject ZWNJ to prevent Asciidoctor from attempting regex substitutions
     class PassInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :"pass-format"
@@ -198,7 +199,21 @@ module Metanorma
       def process(parent, target, attrs)
         format = target || "metanorma"
         out = Asciidoctor::Inline.new(parent, :quoted, attrs[1]).convert
-        %{<passthrough formats="#{format}">#{out}</passthrough>}
+          .gsub(/((?![<>&])[[:punct:]])/, "\\1&#x200c;")
+        %{<passthrough-inline formats="#{format}">#{out}</passthrough-inline>}
+      end
+    end
+
+    class IdentifierInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :identifier
+      parse_content_as :raw
+      using_format :short
+
+      def process(parent, _target, attrs)
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+          .gsub(/((?![<>&])[[:punct:]])/, "\\1&#x200c;")
+        %{<identifier>#{out}</identifier>}
       end
     end
 

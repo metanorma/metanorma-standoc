@@ -185,6 +185,23 @@ module Metanorma
         Digest::MD5.hexdigest("#{elem.path}////#{elem.text}")
           .sub(/^(.{8})(.{4})(.{4})(.{4})(.{12})$/, "_\\1-\\2-\\3-\\4-\\5")
       end
+
+      def passthrough_cleanup(doc)
+        doc.xpath("//passthrough-inline").each do |p|
+          p.name = "passthrough"
+          p.children = select_odd_chars(p.children.to_xml)
+        end
+        doc.xpath("//identifier").each do |p|
+          p.children = select_odd_chars(p.children.to_xml)
+        end
+      end
+
+      private
+
+      # skip ZWNJ inserted to prevent regexes operating in asciidoctor
+      def select_odd_chars(text)
+        text.gsub(/(?!&)([[:punct:]])\u200c/, "\\1")
+      end
     end
   end
 end

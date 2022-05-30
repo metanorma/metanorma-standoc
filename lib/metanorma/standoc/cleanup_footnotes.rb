@@ -5,12 +5,15 @@ require "json"
 module Metanorma
   module Standoc
     module Cleanup
-      def footnote_content(fn)
-        c = fn.children.respond_to?(:to_xml) ? fn.children.to_xml : fn.children
+      def footnote_content(fnote)
+        c = if fnote.children.respond_to?(:to_xml)
+              fnote.children.to_xml
+            else fn.children
+            end
         c.gsub(/ id="[^"]+"/, "")
       end
 
-      # include footnotes inside figure if they are the only content 
+      # include footnotes inside figure if they are the only content
       # of the paras following
       def figure_footnote_cleanup(xmldoc)
         nomatches = false
@@ -18,7 +21,9 @@ module Metanorma
           q = "//figure/following-sibling::*[1][self::p and *[1][self::fn]]"
           nomatches = true
           xmldoc.xpath(q).each do |s|
-            next if s.children.map { |c| c.text? && /[[:alpha:]]/.match(c.text) }.any?
+            next if s.children.map do |c|
+                      c.text? && /[[:alpha:]]/.match(c.text)
+                    end.any?
 
             s.previous_element << s.first_element_child.remove
             s.remove
@@ -27,16 +32,16 @@ module Metanorma
         end
       end
 
-      def table_footnote_renumber1(fn, i, seen)
-        content = footnote_content(fn)
+      def table_footnote_renumber1(fnote, i, seen)
+        content = footnote_content(fnote)
         if seen[content] then outnum = seen[content]
         else
           i += 1
           outnum = i
           seen[content] = outnum
         end
-        fn["reference"] = (outnum - 1 + "a".ord).chr
-        fn["table"] = true
+        fnote["reference"] = (outnum - 1 + "a".ord).chr
+        fnote["table"] = true
         [i, seen]
       end
 
@@ -84,7 +89,7 @@ module Metanorma
 
       def footnote_block_cleanup(xmldoc)
         xmldoc.xpath("//footnoteblock").each do |f|
-          f.name = 'fn'
+          f.name = "fn"
           if id = xmldoc.at("//*[@id = '#{f.text}']")
             f.children = id.remove.children
           else

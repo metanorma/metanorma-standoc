@@ -36,6 +36,7 @@ module Metanorma
         inline_macro Metanorma::Standoc::DomainTermInlineMacro
         inline_macro Metanorma::Standoc::InheritInlineMacro
         inline_macro Metanorma::Standoc::HTML5RubyMacro
+        inline_macro Metanorma::Standoc::IdentifierInlineMacro
         inline_macro Metanorma::Standoc::ConceptInlineMacro
         inline_macro Metanorma::Standoc::AutonumberInlineMacro
         inline_macro Metanorma::Standoc::VariantInlineMacro

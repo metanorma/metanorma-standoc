@@ -240,10 +240,12 @@ module Metanorma
       end
 
       def pass(node)
+        c = HTMLEntities.new
         noko do |xml|
           xml.passthrough **attr_code(formats:
                                       node.attr("format") || "metanorma") do |p|
-            p << HTMLEntities.new.encode(node.content, :basic, :hexadecimal)
+            p << c.encode(c.decode(node.content),
+                          :basic, :hexadecimal)
           end
         end
       end
