@@ -685,13 +685,13 @@ RSpec.describe Metanorma::Standoc do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
-      pass-format:rfc,html[<abc>X &gt; Y</abc>]
+      pass-format:rfc,html[<abc>X &gt; Y</abc> http://www.example.com (c)]
     INPUT
     output = <<~OUTPUT
        #{BLANK_HDR}
       <sections>
       <p id='_'>
-      <passthrough formats='rfc,html'>&lt;abc&gt;X &gt; Y&lt;/abc&gt;</passthrough>
+      <passthrough formats='rfc,html'>&lt;abc&gt;X &gt; Y&lt;/abc&gt; http://www.example.com (c)</passthrough>
       </p>
       </sections>
       </standard-document>

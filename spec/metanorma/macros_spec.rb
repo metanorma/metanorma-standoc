@@ -12,6 +12,7 @@ RSpec.describe Metanorma::Standoc do
       inherit:[<<ref1>>]
       autonumber:table[3]
       add:[a <<clause>>] del:[B]
+      identifier:[a http://example.com]
 
       [bibliography]
       == Bibliography
@@ -36,6 +37,7 @@ RSpec.describe Metanorma::Standoc do
                       <xref target='clause'/>
                     </add>
                     <del>B</del>
+                    <identifier>a http://example.com</identifier>
         </foreword>
       </preface>
       <sections> </sections>

@@ -5,8 +5,11 @@ module Metanorma
         text = result.flatten.map { |l| l.sub(/\s*\Z/, "") } * "\n"
         !@keepasciimath and text = asciimath2mathml(text)
         text = text.gsub(/\s+<fn /, "<fn ")
-        text.gsub(%r{<passthrough\s+formats="metanorma">([^<]*)
-                  </passthrough>}mx) { HTMLEntities.new.decode($1) }
+        %w(passthrough passthrough-inline).each do |v|
+          text.gsub!(%r{<#{v}\s+formats="metanorma">([^<]*)
+                    </#{v}>}mx) { HTMLEntities.new.decode($1) }
+        end
+        text
       end
 
       def smartquotes_cleanup(xmldoc)
@@ -33,7 +36,8 @@ module Metanorma
 
       def uninterrupt_quotes_around_xml_skip(elem)
         !(/\A['"]/.match?(elem.text) &&
-          elem.previous.ancestors("pre, tt, sourcecode, stem, figure, bibdata")
+          elem.previous.ancestors("pre, tt, sourcecode, stem, figure, bibdata,
+                                  passthrough, identifer")
           .empty? &&
           ((elem.previous.text.strip.empty? &&
             !empty_tag_with_text_content?(elem.previous)) ||
@@ -70,7 +74,8 @@ module Metanorma
           empty_tag_with_text_content?(x) and prev = "dummy"
           next unless x.text?
 
-          x.ancestors("pre, tt, sourcecode, stem, figure, bibdata").empty? and
+          x.ancestors("pre, tt, sourcecode, stem, figure, bibdata, passthrough,
+                      identifier").empty? and
             dumb2smart_quotes1(x, prev)
           prev = x.text if x.ancestors("index").empty?
         end

@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Metanorma::Standoc do
   it "processes basic tables" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       .Table Name
       |===
@@ -11,6 +11,7 @@ RSpec.describe Metanorma::Standoc do
       h|1 |2 |3
       |===
     INPUT
+    output = <<~OUTPUT
            #{BLANK_HDR}
       <sections>
         <table id="_">
@@ -33,10 +34,12 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes table widths" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [width=75%]
       |===
@@ -57,6 +60,7 @@ RSpec.describe Metanorma::Standoc do
       |===
 
     INPUT
+    output = <<~OUTPUT
                   #{BLANK_HDR}
         <sections>
           <table id='_' width='75%'>
@@ -93,10 +97,12 @@ RSpec.describe Metanorma::Standoc do
       </standard-document>
 
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes column widths in tables" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [cols=".<,.^,^.>"]
       |===
@@ -120,6 +126,7 @@ RSpec.describe Metanorma::Standoc do
       |1 |2 |3
       |===
     INPUT
+    output = <<~OUTPUT
            #{BLANK_HDR}
            <sections>
           <table id='_'>
@@ -178,10 +185,12 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "inserts header rows in a table with a name and no header" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [headerrows=2]
       .Table Name
@@ -191,6 +200,7 @@ RSpec.describe Metanorma::Standoc do
       h|1 |2 |3
       |===
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
              <sections>
            <table id="_">
@@ -217,10 +227,12 @@ RSpec.describe Metanorma::Standoc do
          </sections>
          </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "inserts header rows in a table without a name and no header" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [headerrows=2]
       |===
@@ -229,6 +241,7 @@ RSpec.describe Metanorma::Standoc do
       h|1 |2 |3
       |===
     INPUT
+    output = <<~OUTPUT
       #{BLANK_HDR}
              <sections>
            <table id="_"><thead><tr>
@@ -253,10 +266,12 @@ RSpec.describe Metanorma::Standoc do
          </sections>
          </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes complex tables" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [cols="<.^,^.<,^.>,^,^",options="header,footer",headerrows=2,alt="An extensive summary, and illustration, of tables",subsequence="A",options="unnumbered",summary="This is an extremely long, convoluted summary",width=70%,number="3",keep-with-next=true,keep-lines-together=true]
       .Maximum _permissible_ mass fraction of defects
@@ -286,6 +301,7 @@ RSpec.describe Metanorma::Standoc do
       5+a| Live insects shall not be present. Dead insects shall be included in extraneous matter.
       |===
     INPUT
+    output = <<~OUTPUT
                   #{BLANK_HDR}
              <sections>
                <table id="_" alt="An extensive summary, and illustration, of tables" unnumbered="true" subsequence="A" summary="This is an extremely long, convoluted summary" width="70%" number="3" keep-with-next="true" keep-lines-together="true">
@@ -452,5 +468,7 @@ RSpec.describe Metanorma::Standoc do
              </sections>
              </standard-document>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 end
