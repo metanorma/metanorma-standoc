@@ -4,6 +4,7 @@ RSpec.describe Metanorma::Standoc do
   it "processes simple lists" do
     output = Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       #{ASCIIDOC_BLANK_HDR}
+      .Unordered list
       * List 1
       * List 2
       * List 3
@@ -12,10 +13,12 @@ RSpec.describe Metanorma::Standoc do
       * [x] also checked
       * [ ] not checked
 
+      .Ordered list
       . List A
       . List B
       . List C
 
+      .Definition list
       List D:: List E
       List F:: List G
 
@@ -24,6 +27,7 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
         <sections>
           <ul id='_'>
+            <name>Unordered list</name>
             <li>
               <p id='_'>List 1</p>
             </li>
@@ -41,7 +45,10 @@ RSpec.describe Metanorma::Standoc do
             </li>
             <li uncheckedcheckbox='true' checkedcheckbox='false'>
               <p id='_'>not checked</p>
+              </li>
+              </ul>
               <ol id='_' type='arabic'>
+                <name>Ordered list</name>
                 <li>
                   <p id='_'>List A</p>
                 </li>
@@ -50,7 +57,10 @@ RSpec.describe Metanorma::Standoc do
                 </li>
                 <li>
                   <p id='_'>List C</p>
+                  </li>
+                  </ol>
                   <dl id='_'>
+                    <name>Definition list</name>
                     <dt>List D</dt>
                     <dd>
                       <p id='_'>List E</p>
@@ -60,10 +70,6 @@ RSpec.describe Metanorma::Standoc do
                       <p id='_'>List G</p>
                     </dd>
                   </dl>
-                </li>
-              </ol>
-            </li>
-          </ul>
         </sections>
       </standard-document>
     OUTPUT

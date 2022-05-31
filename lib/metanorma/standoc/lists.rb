@@ -38,9 +38,8 @@ module Metanorma
 
         noko do |xml|
           xml.ul **ul_attrs(node) do |xml_ul|
-            node.items.each do |item|
-              ul_li(xml_ul, item)
-            end
+            list_caption(node, xml_ul)
+            node.items.each { |item| ul_li(xml_ul, item) }
           end
         end.join("\n")
       end
@@ -62,6 +61,7 @@ module Metanorma
       def olist(node)
         noko do |xml|
           xml.ol **ol_attrs(node) do |xml_ol|
+            list_caption(node, xml_ol)
             node.items.each { |item| li(xml_ol, item) }
           end
         end.join("\n")
@@ -98,6 +98,7 @@ module Metanorma
       def dlist(node)
         noko do |xml|
           xml.dl **dl_attrs(node) do |xml_dl|
+            list_caption(node, xml_dl)
             node.items.each do |terms, dd|
               dt(terms, xml_dl)
               dd(dd, xml_dl)
@@ -114,6 +115,10 @@ module Metanorma
             end
           end
         end.join("\n")
+      end
+
+      def list_caption(node, out)
+        a = node.title and out.name { |n| n << a }
       end
     end
   end
