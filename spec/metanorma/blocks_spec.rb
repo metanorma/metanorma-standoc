@@ -304,7 +304,7 @@ RSpec.describe Metanorma::Standoc do
            <from>#{Date.today.year}</from>
          </copyright>
          <ext>
-         <doctype>article</doctype>
+         <doctype>standard</doctype>
          </ext>
        </bibdata>
        <sections><p id="foreword">Foreword</p>

@@ -161,7 +161,7 @@ BLANK_HDR = <<~"HDR".freeze
       <from>#{Time.new.year}</from>
     </copyright>
     <ext>
-    <doctype>article</doctype>
+    <doctype>standard</doctype>
     </ext>
   </bibdata>
 HDR

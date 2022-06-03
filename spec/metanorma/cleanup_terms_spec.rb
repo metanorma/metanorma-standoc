@@ -1430,7 +1430,7 @@ RSpec.describe Metanorma::Standoc do
             <from>#{Time.now.year}</from>
           </copyright>
           <ext>
-            <doctype>article</doctype>
+            <doctype>standard</doctype>
           </ext>
         </bibdata>
         <sections>
