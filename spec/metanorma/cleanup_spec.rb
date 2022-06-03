@@ -1042,7 +1042,7 @@ RSpec.describe Metanorma::Standoc do
             </bibitem>
           </relation>
           <ext>
-            <doctype>article</doctype>
+            <doctype>standard</doctype>
           </ext>
         </bibdata>
         <sections> </sections>
@@ -1085,7 +1085,7 @@ RSpec.describe Metanorma::Standoc do
             <from>#{Date.today.year}</from>
           </copyright>
           <ext>
-            <doctype>article</doctype>
+            <doctype>standard</doctype>
           </ext>
         </bibdata>
         <boilerplate>
@@ -1281,7 +1281,7 @@ RSpec.describe Metanorma::Standoc do
             <from>#{Time.now.year}</from>
           </copyright>
           <ext>
-            <doctype>article</doctype>
+            <doctype>standard</doctype>
           </ext>
         </bibdata>
                  <sections>
@@ -1382,7 +1382,7 @@ RSpec.describe Metanorma::Standoc do
                    <from>#{Time.now.year}</from>
                  </copyright>
                  <ext>
-                   <doctype>article</doctype>
+                   <doctype>standard</doctype>
                  </ext>
                </bibdata>
                <sections> </sections>
@@ -1836,7 +1836,7 @@ RSpec.describe Metanorma::Standoc do
              <from>#{Time.now.year}</from>
            </copyright>
            <ext>
-             <doctype>article</doctype>
+             <doctype>standard</doctype>
            </ext>
          </bibdata>
          <preface>

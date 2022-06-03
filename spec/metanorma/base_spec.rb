@@ -30,7 +30,7 @@ RSpec.describe Metanorma::Standoc do
             <from>#{Time.now.year}</from>
           </copyright>
           <ext>
-            <doctype>article</doctype>
+            <doctype>standard</doctype>
           </ext>
         </bibdata>
         <sections>
@@ -65,7 +65,7 @@ RSpec.describe Metanorma::Standoc do
                <from>#{Time.now.year}</from>
              </copyright>
              <ext>
-               <doctype>article</doctype>
+               <doctype>standard</doctype>
              </ext>
            </bibdata>
            <sections> </sections>
@@ -161,7 +161,7 @@ RSpec.describe Metanorma::Standoc do
             </owner>
           </copyright>
           <ext>
-            <doctype>article</doctype>
+            <doctype>standard</doctype>
           </ext>
         </bibdata>
         <sections> </sections>
@@ -504,7 +504,7 @@ RSpec.describe Metanorma::Standoc do
            <keyword>b</keyword>
            <keyword>c</keyword>
            <ext>
-           <doctype>article</doctype>
+           <doctype>standard</doctype>
              <editorialgroup>
                <technical-committee number="1" type="A">TC</technical-committee>
                <technical-committee number="11" type="A1">TC1</technical-committee>
@@ -825,7 +825,7 @@ RSpec.describe Metanorma::Standoc do
             <from>#{Time.now.year}</from>
           </copyright>
           <ext>
-            <doctype>article</doctype>
+            <doctype>standard</doctype>
           </ext>
         </bibdata>
         <sections> </sections>
@@ -960,7 +960,7 @@ RSpec.describe Metanorma::Standoc do
           </bibitem>
         </relation>
         <ext>
-          <doctype>article</doctype>
+          <doctype>standard</doctype>
         </ext>
       </bibdata>
       <sections> </sections>

@@ -1328,7 +1328,7 @@ RSpec.describe Metanorma::Standoc do
            <from>2022</from>
          </copyright>
          <ext>
-           <doctype>article</doctype>
+           <doctype>standard</doctype>
          </ext>
          <relation type='derivedFrom'>
            <bibitem>
@@ -1342,7 +1342,7 @@ RSpec.describe Metanorma::Standoc do
                <from>2022</from>
              </copyright>
              <ext>
-               <doctype>article</doctype>
+               <doctype>standard</doctype>
              </ext>
            </bibitem>
          </relation>
@@ -1386,7 +1386,7 @@ RSpec.describe Metanorma::Standoc do
             <from>2022</from>
           </copyright>
           <ext>
-            <doctype>article</doctype>
+            <doctype>standard</doctype>
           </ext>
           <relation type='derivedFrom'>
             <bibitem>
@@ -1400,7 +1400,7 @@ RSpec.describe Metanorma::Standoc do
                 <from>2022</from>
               </copyright>
               <ext>
-                <doctype>article</doctype>
+                <doctype>standard</doctype>
               </ext>
             </bibitem>
           </relation>
@@ -1438,7 +1438,7 @@ RSpec.describe Metanorma::Standoc do
              <from>2022</from>
            </copyright>
            <ext>
-             <doctype>article</doctype>
+             <doctype>standard</doctype>
            </ext>
            <relation type='derivedFrom'>
              <bibitem>
@@ -1452,7 +1452,7 @@ RSpec.describe Metanorma::Standoc do
                  <from>2022</from>
                </copyright>
                <ext>
-                 <doctype>article</doctype>
+                 <doctype>standard</doctype>
                </ext>
                <relation type='derivedFrom'>
                  <bibitem>
@@ -1466,7 +1466,7 @@ RSpec.describe Metanorma::Standoc do
                      <from>2022</from>
                    </copyright>
                    <ext>
-                     <doctype>article</doctype>
+                     <doctype>standard</doctype>
                    </ext>
                    <relation type='derivedFrom'>
                       <bibitem>
@@ -1480,7 +1480,7 @@ RSpec.describe Metanorma::Standoc do
                           <from>2022</from>
                         </copyright>
                         <ext>
-                          <doctype>article</doctype>
+                          <doctype>standard</doctype>
                         </ext>
                       </bibitem>
                     </relation>
@@ -1496,7 +1496,7 @@ RSpec.describe Metanorma::Standoc do
                           <from>2022</from>
                         </copyright>
                         <ext>
-                          <doctype>article</doctype>
+                          <doctype>standard</doctype>
                         </ext>
                       </bibitem>
                     </relation>
@@ -1559,7 +1559,7 @@ RSpec.describe Metanorma::Standoc do
            <from>2022</from>
          </copyright>
          <ext>
-           <doctype>article</doctype>
+           <doctype>standard</doctype>
          </ext>
                     <relation type='derivedFrom'>
              <bibitem>
@@ -1609,7 +1609,7 @@ RSpec.describe Metanorma::Standoc do
                  </owner>
                </copyright>
                <ext>
-                 <doctype>article</doctype>
+                 <doctype>standard</doctype>
                  <editorialgroup>
                    <technical-committee/>
                    <subcommittee/>

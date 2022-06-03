@@ -171,7 +171,9 @@ module Metanorma
       end
 
       def doctype(node)
-        node.attr("doctype")&.gsub(/\s+/, "-")&.downcase
+        ret = node.attr("doctype")&.gsub(/\s+/, "-")&.downcase || "standard"
+        ret = "standard" if ret == "article"
+        ret
       end
 
       def front(node, xml)
