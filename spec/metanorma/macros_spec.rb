@@ -1611,10 +1611,17 @@ RSpec.describe Metanorma::Standoc do
                <ext>
                  <doctype>standard</doctype>
                  <editorialgroup>
+                   <agency>ISO</agency>
                    <technical-committee/>
                    <subcommittee/>
                    <workgroup/>
                  </editorialgroup>
+                 <approvalgroup>
+           <agency>ISO</agency>
+           <technical-committee/>
+           <subcommittee/>
+           <workgroup/>
+         </approvalgroup>
                  <stagename>International standard</stagename>
                </ext>
              </bibitem>
