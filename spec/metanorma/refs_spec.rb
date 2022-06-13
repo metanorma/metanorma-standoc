@@ -1656,127 +1656,121 @@ RSpec.describe Metanorma::Standoc do
         <clause id="_" inline-header="false" obligation="normative">
           <title>Clause 4</title>
           <p id="_">
-          <eref type="inline" bibitemid="iso123" citeas="RFC 8341"/>
+          <eref type="inline" bibitemid="iso123" citeas="IETF RFC 8341"/>
         </p>
         </clause>
         </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title>Normative references</title>
               #{NORM_REF_BOILERPLATE}
-              <bibitem id='iso123' type='standard'>
-                     <fetched/>
-                     <title format='text/plain' language='en' script='Latn'>Network Configuration Access Control Model</title>
-                     <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
-                     <docidentifier type='RFC' primary="true">RFC 8341</docidentifier>
-                     <docidentifier type='RFC' scope='anchor'>RFC8341</docidentifier>
-                     <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
-                     <docnumber>RFC8341</docnumber>
-                     <date type='published'>
-                       <on>2018-03</on>
-                     </date>
-                     <contributor>
-                       <role type='publisher'/>
-                       <organization>
-                         <name>Internet Engineering Task Force</name>
-                         <abbreviation>IETF</abbreviation>
-                       </organization>
-                     </contributor>
-                     <contributor>
-                       <role type='author'/>
-                       <person>
-                         <name>
-                           <completename language='en'>A. Bierman</completename>
-                         </name>
-                       </person>
-                     </contributor>
-                     <contributor>
-                       <role type='author'/>
-                       <person>
-                         <name>
-                           <completename language='en'>M. Bjorklund</completename>
-                         </name>
-                       </person>
-                     </contributor>
-                     <language>en</language>
-                     <script>Latn</script>
-                     <abstract format='text/html' language='en' script='Latn'>
-                       <p id='_'>
-                       The standardization of network configuration interfaces for use with
-                       the Network Configuration Protocol (NETCONF) or the RESTCONF protocol
-                       requires a structured and secure operating environment that promotes
-                       human usability and multi-vendor interoperability. There is a need for
-                       standard mechanisms to restrict NETCONF or RESTCONF protocol access
-                       for particular users to a preconfigured subset of all available
-                       NETCONF or RESTCONF protocol operations and content. This document
-                       defines such an access control model.</p>
-                       <p id='_'>This document obsoletes RFC 6536.</p>
-                     </abstract>
-                     <series type='main'>
-                       <title format='text/plain' language='en' script='Latn'>STD</title>
-                       <number>91</number>
-                     </series>
-                     <series type='main'>
-                       <title format='text/plain' language='en' script='Latn'>RFC</title>
-                       <number>8341</number>
-                     </series>
-                   </bibitem>
-                   <bibitem id='iso124' type='standard'>
-                     <fetched/>
-                     <title format='text/plain' language='en' script='Latn'>Network Configuration Access Control Model</title>
-                     <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
-                     <docidentifier type='RFC' primary="true">RFC 8341</docidentifier>
-                     <docidentifier type='metanorma'>[1]</docidentifier>
-                     <docidentifier type='RFC' scope='anchor'>RFC8341</docidentifier>
-                     <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
-                     <docnumber>RFC8341</docnumber>
-                     <date type='published'>
-                       <on>2018-03</on>
-                     </date>
-                     <contributor>
-                       <role type='publisher'/>
-                       <organization>
-                         <name>Internet Engineering Task Force</name>
-                         <abbreviation>IETF</abbreviation>
-                       </organization>
-                     </contributor>
-                     <contributor>
-                       <role type='author'/>
-                       <person>
-                         <name>
-                           <completename language='en'>A. Bierman</completename>
-                         </name>
-                       </person>
-                     </contributor>
-                     <contributor>
-                       <role type='author'/>
-                       <person>
-                         <name>
-                           <completename language='en'>M. Bjorklund</completename>
-                         </name>
-                       </person>
-                     </contributor>
-                     <language>en</language>
-                     <script>Latn</script>
-                     <abstract format='text/html' language='en' script='Latn'>
-                     <p id='_'>
-                       The standardization of network configuration interfaces for use with
-                       the Network Configuration Protocol (NETCONF) or the RESTCONF protocol
-                       requires a structured and secure operating environment that promotes
-                       human usability and multi-vendor interoperability. There is a need for
-                       standard mechanisms to restrict NETCONF or RESTCONF protocol access
-                       for particular users to a preconfigured subset of all available
-                       NETCONF or RESTCONF protocol operations and content. This document
-                       defines such an access control model.</p>
-                      <p id='_'>This document obsoletes RFC 6536.</p>
-                     </abstract>
-                     <series type='main'>
-                       <title format='text/plain' language='en' script='Latn'>STD</title>
-                       <number>91</number>
-                     </series>
-                     <series type='main'>
-                       <title format='text/plain' language='en' script='Latn'>RFC</title>
-                       <number>8341</number>
-                     </series>
-                   </bibitem>
+             <bibitem id='iso123' type='standard'>
+               <fetched/>
+               <title type='main' format='text/plain'>Network Configuration Access Control Model</title>
+               <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
+               <docidentifier type='IETF' primary='true'>RFC 8341</docidentifier>
+               <docidentifier type='IETF' scope='anchor'>RFC8341</docidentifier>
+               <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
+               <docnumber>RFC8341</docnumber>
+               <date type='published'>
+                 <on>2018-03</on>
+               </date>
+               <contributor>
+                 <role type='author'/>
+                 <person>
+                   <name>
+                     <completename language='en' script='Latn'>A. Bierman</completename>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type='author'/>
+                 <person>
+                   <name>
+                     <completename language='en' script='Latn'>M. Bjorklund</completename>
+                   </name>
+                 </person>
+               </contributor>
+               <language>en</language>
+               <script>Latn</script>
+               <abstract format='text/html' language='en' script='Latn'>
+                 <p id='_'>
+                   The standardization of network configuration interfaces for use with
+                   the Network Configuration Protocol (NETCONF) or the RESTCONF
+                   protocol requires a structured and secure operating environment that
+                   promotes human usability and multi-vendor interoperability. There is
+                   a need for standard mechanisms to restrict NETCONF or RESTCONF
+                   protocol access for particular users to a preconfigured subset of
+                   all available NETCONF or RESTCONF protocol operations and content.
+                   This document defines such an access control model.
+                 </p>
+                 <p id='_'>This document obsoletes RFC 6536.</p>
+               </abstract>
+               <series>
+                 <title format='text/plain'>STD</title>
+                 <number>91</number>
+               </series>
+               <series>
+                 <title format='text/plain'>RFC</title>
+                 <number>8341</number>
+               </series>
+               <keyword>NETCONF RESTCONF</keyword>
+               <keyword>YANG</keyword>
+               <keyword>XML</keyword>
+             </bibitem>
+             <bibitem id='iso124' type='standard'>
+               <fetched/>
+               <title type='main' format='text/plain'>Network Configuration Access Control Model</title>
+               <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
+               <docidentifier type='IETF' primary='true'>RFC 8341</docidentifier>
+               <docidentifier type='metanorma'>[1]</docidentifier>
+               <docidentifier type='IETF' scope='anchor'>RFC8341</docidentifier>
+               <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
+               <docnumber>RFC8341</docnumber>
+               <date type='published'>
+                 <on>2018-03</on>
+               </date>
+               <contributor>
+                 <role type='author'/>
+                 <person>
+                   <name>
+                     <completename language='en' script='Latn'>A. Bierman</completename>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type='author'/>
+                 <person>
+                   <name>
+                     <completename language='en' script='Latn'>M. Bjorklund</completename>
+                   </name>
+                 </person>
+               </contributor>
+               <language>en</language>
+               <script>Latn</script>
+               <abstract format='text/html' language='en' script='Latn'>
+                 <p id='_'>
+                   The standardization of network configuration interfaces for use with
+                   the Network Configuration Protocol (NETCONF) or the RESTCONF
+                   protocol requires a structured and secure operating environment that
+                   promotes human usability and multi-vendor interoperability. There is
+                   a need for standard mechanisms to restrict NETCONF or RESTCONF
+                   protocol access for particular users to a preconfigured subset of
+                   all available NETCONF or RESTCONF protocol operations and content.
+                   This document defines such an access control model.
+                 </p>
+                 <p id='_'>This document obsoletes RFC 6536.</p>
+               </abstract>
+               <series>
+                 <title format='text/plain'>STD</title>
+                 <number>91</number>
+               </series>
+               <series>
+                 <title format='text/plain'>RFC</title>
+                 <number>8341</number>
+               </series>
+               <keyword>NETCONF RESTCONF</keyword>
+               <keyword>YANG</keyword>
+               <keyword>XML</keyword>
+             </bibitem>
                  </references>
                </bibliography>
              </standard-document>
@@ -2495,7 +2489,7 @@ RSpec.describe Metanorma::Standoc do
            <foreword id='_' obligation='informative'>
              <title>Foreword</title>
              <p id='_'>
-               <eref type='inline' bibitemid='iso124' citeas='[&amp;#x3c;strong&amp;#x3e;A&amp;#x3c;/strong&amp;#x3e;.&amp;#x3c;fn reference=&amp;#x22;1&amp;#x22;&amp;#x3e;&amp;#x3c;p&amp;#x3e;hello&amp;#x3c;/p&amp;#x3e;&amp;#xa;&amp;#x3c;/fn&amp;#x3e;]'/>
+               <eref type='inline' bibitemid='iso124' citeas='[&lt;strong&gt;A&lt;/strong&gt;.&lt;fn reference=&quot;1&quot;&gt;&lt;p&gt;hello&lt;/p&gt;&#10;&lt;/fn&gt;]'/>
              </p>
            </foreword>
          </preface>

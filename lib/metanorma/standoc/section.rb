@@ -152,7 +152,7 @@ module Metanorma
         attrs[:bibitem] = true if node.option? "bibitem"
         attrs[:level] = node.attr("level")
         set_obligation(attrs, node)
-        xml.send "clause", **attr_code(attrs) do |xml_section|
+        xml.send :clause, **attr_code(attrs) do |xml_section|
           xml_section.title { |n| n << node.title } unless node.title.nil?
           xml_section << node.content
         end
