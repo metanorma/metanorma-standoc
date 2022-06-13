@@ -71,7 +71,7 @@ module Metanorma
         c = HTMLEntities.new
         elem["bibitemid"] = elem["target"]
         if ref = @anchors&.dig(elem["target"], :xref)
-          elem["citeas"] = c.encode(c.decode(ref), :hexadecimal)
+          elem["citeas"] = c.decode(ref)
         else
           elem["citeas"] = ""
           xref_to_eref1(elem)

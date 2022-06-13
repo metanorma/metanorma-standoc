@@ -1656,7 +1656,7 @@ RSpec.describe Metanorma::Standoc do
         <clause id="_" inline-header="false" obligation="normative">
           <title>Clause 4</title>
           <p id="_">
-          <eref type="inline" bibitemid="iso123" citeas="RFC 8341"/>
+          <eref type="inline" bibitemid="iso123" citeas="IETF RFC 8341"/>
         </p>
         </clause>
         </sections><bibliography><references id="_" obligation="informative" normative="true">
@@ -2489,7 +2489,7 @@ RSpec.describe Metanorma::Standoc do
            <foreword id='_' obligation='informative'>
              <title>Foreword</title>
              <p id='_'>
-               <eref type='inline' bibitemid='iso124' citeas='[&amp;#x3c;strong&amp;#x3e;A&amp;#x3c;/strong&amp;#x3e;.&amp;#x3c;fn reference=&amp;#x22;1&amp;#x22;&amp;#x3e;&amp;#x3c;p&amp;#x3e;hello&amp;#x3c;/p&amp;#x3e;&amp;#xa;&amp;#x3c;/fn&amp;#x3e;]'/>
+               <eref type='inline' bibitemid='iso124' citeas='[&lt;strong&gt;A&lt;/strong&gt;.&lt;fn reference=&quot;1&quot;&gt;&lt;p&gt;hello&lt;/p&gt;&#10;&lt;/fn&gt;]'/>
              </p>
            </foreword>
          </preface>
