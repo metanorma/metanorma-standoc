@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
+    uri: https://raw.githubusercontent.com/ietf-ribose/relaton-data-rfcs/main/data/RFC8341.yaml
     body:
       encoding: US-ASCII
       string: ''
@@ -23,7 +23,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '606'
+      - '786'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -31,7 +31,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"917849434ef8ee04a3bcadf9ae049ece388743c0c3d6cc3be9719aa90d0c2aa3"
+      - W/"d06272fbf6b2fbdea1ac21ee1bcd6ba52a388ea4d4fe8543a1ab2a431fc9c7fb"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -41,95 +41,11 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - B2D8:30CD:13DB4:1A3A3:6283A8E9
+      - B4C2:7441:35D8:65EC:62A702EA
       Accept-Ranges:
       - bytes
       Date:
-      - Tue, 17 May 2022 13:53:46 GMT
-      Via:
-      - 1.1 varnish
-      X-Served-By:
-      - cache-mel11223-MEL
-      X-Cache:
-      - MISS
-      X-Cache-Hits:
-      - '0'
-      X-Timer:
-      - S1652795626.617154,VS0,VE407
-      Vary:
-      - Authorization,Accept-Encoding,Origin
-      Access-Control-Allow-Origin:
-      - "*"
-      X-Fastly-Request-Id:
-      - b270fd8236a703665ca7c424ebc3ed934e05798a
-      Expires:
-      - Tue, 17 May 2022 13:58:46 GMT
-      Source-Age:
-      - '0'
-    body:
-      encoding: ASCII-8BIT
-      string: |
-        <?xml version='1.0' encoding='UTF-8'?>
-
-        <reference  anchor='RFC8341' target='https://www.rfc-editor.org/info/rfc8341'>
-        <front>
-        <title>Network Configuration Access Control Model</title>
-        <author initials='A.' surname='Bierman' fullname='A. Bierman'><organization /></author>
-        <author initials='M.' surname='Bjorklund' fullname='M. Bjorklund'><organization /></author>
-        <date year='2018' month='March' />
-        <abstract><t>The standardization of network configuration interfaces for use with the Network Configuration Protocol (NETCONF) or the RESTCONF protocol requires a structured and secure operating environment that promotes human usability and multi-vendor interoperability.  There is a need for standard mechanisms to restrict NETCONF or RESTCONF protocol access for particular users to a preconfigured subset of all available NETCONF or RESTCONF protocol operations and content.  This document defines such an access control model.</t><t>This document obsoletes RFC 6536.</t></abstract>
-        </front>
-        <seriesInfo name='STD' value='91'/>
-        <seriesInfo name='RFC' value='8341'/>
-        <seriesInfo name='DOI' value='10.17487/RFC8341'/>
-        </reference>
-  recorded_at: Tue, 17 May 2022 13:53:45 GMT
-- request:
-    method: get
-    uri: https://raw.githubusercontent.com/relaton/relaton-data-ietf/master/data/reference.RFC.8341.xml
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Host:
-      - raw.githubusercontent.com
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '606'
-      Cache-Control:
-      - max-age=300
-      Content-Security-Policy:
-      - default-src 'none'; style-src 'unsafe-inline'; sandbox
-      Content-Type:
-      - text/plain; charset=utf-8
-      Etag:
-      - W/"917849434ef8ee04a3bcadf9ae049ece388743c0c3d6cc3be9719aa90d0c2aa3"
-      Strict-Transport-Security:
-      - max-age=31536000
-      X-Content-Type-Options:
-      - nosniff
-      X-Frame-Options:
-      - deny
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Github-Request-Id:
-      - B2D8:30CD:13DB4:1A3A3:6283A8E9
-      Accept-Ranges:
-      - bytes
-      Date:
-      - Tue, 17 May 2022 13:53:46 GMT
+      - Mon, 13 Jun 2022 09:27:06 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
@@ -139,33 +55,293 @@ http_interactions:
       X-Cache-Hits:
       - '1'
       X-Timer:
-      - S1652795626.624661,VS0,VE405
+      - S1655112426.375181,VS0,VE327
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 6f23e5c52acf11ad2b5590e23232cbc0ef942009
+      - 3cd9f423ce09126a57456fdf28fc9e94f022cc8c
       Expires:
-      - Tue, 17 May 2022 13:58:46 GMT
+      - Mon, 13 Jun 2022 09:32:06 GMT
       Source-Age:
       - '0'
     body:
       encoding: ASCII-8BIT
       string: |
-        <?xml version='1.0' encoding='UTF-8'?>
-
-        <reference  anchor='RFC8341' target='https://www.rfc-editor.org/info/rfc8341'>
-        <front>
-        <title>Network Configuration Access Control Model</title>
-        <author initials='A.' surname='Bierman' fullname='A. Bierman'><organization /></author>
-        <author initials='M.' surname='Bjorklund' fullname='M. Bjorklund'><organization /></author>
-        <date year='2018' month='March' />
-        <abstract><t>The standardization of network configuration interfaces for use with the Network Configuration Protocol (NETCONF) or the RESTCONF protocol requires a structured and secure operating environment that promotes human usability and multi-vendor interoperability.  There is a need for standard mechanisms to restrict NETCONF or RESTCONF protocol access for particular users to a preconfigured subset of all available NETCONF or RESTCONF protocol operations and content.  This document defines such an access control model.</t><t>This document obsoletes RFC 6536.</t></abstract>
-        </front>
-        <seriesInfo name='STD' value='91'/>
-        <seriesInfo name='RFC' value='8341'/>
-        <seriesInfo name='DOI' value='10.17487/RFC8341'/>
-        </reference>
-  recorded_at: Tue, 17 May 2022 13:53:45 GMT
+        ---
+        id: RFC8341
+        title:
+        - type: main
+          content: Network Configuration Access Control Model
+          format: text/plain
+        link:
+        - content: https://www.rfc-editor.org/info/rfc8341
+          type: src
+        type: standard
+        docid:
+        - id: RFC 8341
+          type: IETF
+          primary: true
+        - id: RFC8341
+          type: IETF
+          scope: anchor
+        - id: 10.17487/RFC8341
+          type: DOI
+        docnumber: RFC8341
+        date:
+        - type: published
+          value: 2018-03
+        contributor:
+        - person:
+            name:
+              initial:
+              - content: A
+                language:
+                - en
+                script:
+                - Latn
+              surname:
+                content: Bierman
+                language:
+                - en
+                script:
+                - Latn
+              completename:
+                content: A. Bierman
+                language:
+                - en
+                script:
+                - Latn
+          role:
+          - author
+        - person:
+            name:
+              initial:
+              - content: M
+                language:
+                - en
+                script:
+                - Latn
+              surname:
+                content: Bjorklund
+                language:
+                - en
+                script:
+                - Latn
+              completename:
+                content: M. Bjorklund
+                language:
+                - en
+                script:
+                - Latn
+          role:
+          - author
+        revdate: 2018-03
+        language:
+        - en
+        script:
+        - Latn
+        abstract:
+        - content: "<p>The standardization of network configuration interfaces for use with
+            the Network Configuration Protocol (NETCONF) or the RESTCONF protocol requires
+            a structured and secure operating environment that promotes human usability and
+            multi-vendor interoperability. There is a need for standard mechanisms to restrict
+            NETCONF or RESTCONF protocol access for particular users to a preconfigured subset
+            of all available NETCONF or RESTCONF protocol operations and content. This document
+            defines such an access control model.</p><p>This document obsoletes RFC 6536.</p>"
+          language:
+          - en
+          script:
+          - Latn
+          format: text/html
+        series:
+        - title:
+            content: STD
+            format: text/plain
+          number: '91'
+        - title:
+            content: RFC
+            format: text/plain
+          number: '8341'
+        fetched: '2022-06-12'
+        keyword:
+        - NETCONF RESTCONF
+        - YANG
+        - XML
+        editorialgroup:
+        - name: netconf
+  recorded_at: Mon, 13 Jun 2022 09:27:06 GMT
+- request:
+    method: get
+    uri: https://raw.githubusercontent.com/ietf-ribose/relaton-data-rfcs/main/data/RFC8341.yaml
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - raw.githubusercontent.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '786'
+      Cache-Control:
+      - max-age=300
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Etag:
+      - W/"d06272fbf6b2fbdea1ac21ee1bcd6ba52a388ea4d4fe8543a1ab2a431fc9c7fb"
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Github-Request-Id:
+      - B4C2:7441:35D8:65EC:62A702EA
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Mon, 13 Jun 2022 09:27:06 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - cache-mel11224-MEL
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1655112426.371907,VS0,VE331
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Fastly-Request-Id:
+      - 798a3117670f57bca446fc678c091744e928afa8
+      Expires:
+      - Mon, 13 Jun 2022 09:32:06 GMT
+      Source-Age:
+      - '0'
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        ---
+        id: RFC8341
+        title:
+        - type: main
+          content: Network Configuration Access Control Model
+          format: text/plain
+        link:
+        - content: https://www.rfc-editor.org/info/rfc8341
+          type: src
+        type: standard
+        docid:
+        - id: RFC 8341
+          type: IETF
+          primary: true
+        - id: RFC8341
+          type: IETF
+          scope: anchor
+        - id: 10.17487/RFC8341
+          type: DOI
+        docnumber: RFC8341
+        date:
+        - type: published
+          value: 2018-03
+        contributor:
+        - person:
+            name:
+              initial:
+              - content: A
+                language:
+                - en
+                script:
+                - Latn
+              surname:
+                content: Bierman
+                language:
+                - en
+                script:
+                - Latn
+              completename:
+                content: A. Bierman
+                language:
+                - en
+                script:
+                - Latn
+          role:
+          - author
+        - person:
+            name:
+              initial:
+              - content: M
+                language:
+                - en
+                script:
+                - Latn
+              surname:
+                content: Bjorklund
+                language:
+                - en
+                script:
+                - Latn
+              completename:
+                content: M. Bjorklund
+                language:
+                - en
+                script:
+                - Latn
+          role:
+          - author
+        revdate: 2018-03
+        language:
+        - en
+        script:
+        - Latn
+        abstract:
+        - content: "<p>The standardization of network configuration interfaces for use with
+            the Network Configuration Protocol (NETCONF) or the RESTCONF protocol requires
+            a structured and secure operating environment that promotes human usability and
+            multi-vendor interoperability. There is a need for standard mechanisms to restrict
+            NETCONF or RESTCONF protocol access for particular users to a preconfigured subset
+            of all available NETCONF or RESTCONF protocol operations and content. This document
+            defines such an access control model.</p><p>This document obsoletes RFC 6536.</p>"
+          language:
+          - en
+          script:
+          - Latn
+          format: text/html
+        series:
+        - title:
+            content: STD
+            format: text/plain
+          number: '91'
+        - title:
+            content: RFC
+            format: text/plain
+          number: '8341'
+        fetched: '2022-06-12'
+        keyword:
+        - NETCONF RESTCONF
+        - YANG
+        - XML
+        editorialgroup:
+        - name: netconf
+  recorded_at: Mon, 13 Jun 2022 09:27:06 GMT
 recorded_with: VCR 6.1.0
