@@ -84,7 +84,8 @@ module Metanorma
         if ref[:code].nil? || ref[:no_year] || @bibdb.nil?
           res << [ref, idx, nil]
         else
-          @bibdb.fetch_async(ref[:code], ref[:year], ref) do |doc|
+          @bibdb.fetch_async(HTMLEntities.new.decode(ref[:code]),
+                             ref[:year], ref) do |doc|
             res << [ref, idx, doc]
           end
         end
