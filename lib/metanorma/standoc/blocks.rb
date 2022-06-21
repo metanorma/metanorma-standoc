@@ -38,9 +38,7 @@ module Metanorma
         role == "form" and return form(node)
         role == "definition" and return termdefinition(node)
         result = []
-        node.blocks.each do |b|
-          result << send(b.context, b)
-        end
+        node.blocks.each { |b| result << send(b.context, b) }
         result
       end
 
@@ -82,7 +80,7 @@ module Metanorma
         noko do |xml|
           xml.termexample **attr_code(id_attr(node)
             .merge(
-              keepasterm: node.option?("termexample") ? "true" : nil,
+              keepasterm: node.option?("termexample") || nil,
             )) do |ex|
             wrap_in_para(node, ex)
           end
@@ -244,8 +242,7 @@ module Metanorma
         noko do |xml|
           xml.passthrough **attr_code(formats:
                                       node.attr("format") || "metanorma") do |p|
-            p << c.encode(c.decode(node.content),
-                          :basic, :hexadecimal)
+            p << c.encode(c.decode(node.content), :basic, :hexadecimal)
           end
         end
       end
