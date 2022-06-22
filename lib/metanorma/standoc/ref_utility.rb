@@ -31,9 +31,11 @@ module Metanorma
         end
       end
 
-      def use_my_anchor(ref, id, hidden)
+      def use_my_anchor(ref, id, opt)
         ref.parent.elements.last["id"] = id
-        hidden and ref.parent.elements.last["hidden"] = hidden
+        opt[:hidden] and ref.parent.elements.last["hidden"] = opt[:hidden]
+        opt[:dropid] and
+          ref.parent.elements.last["suppress_identifier"] = opt[:dropid]
         ref
       end
 
@@ -57,6 +59,7 @@ module Metanorma
 
       def mn_code(code)
         code.sub(/^\(/, "[").sub(/\).*$/, "]")
+          .sub(/^dropid\((.+)\)$/, "\\1")
           .sub(/^hidden\((.+)\)$/, "\\1")
           .sub(/^nofetch\((.+)\)$/, "\\1")
       end
@@ -71,6 +74,12 @@ module Metanorma
         return ret unless m = /^hidden\((?<id>.+)\)$/.match(ret[:id])
 
         ret.merge(id: m[:id], hidden: true)
+      end
+
+      def analyse_ref_dropid(ret)
+        return ret unless m = /^dropid\((?<id>.+)\)$/.match(ret[:id])
+
+        ret.merge(id: m[:id], dropid: true)
       end
 
       def analyse_ref_repo_path(ret)
@@ -89,14 +98,16 @@ module Metanorma
       end
 
       # ref id = (usrlbl)code[:-]year
-      # code = nofetch(code) | hidden(code) | (repo|path):(key,code) |
+      # code = nofetch(code) | hidden(code) | dropid(code) | (repo|path):(key,code) |
       # \[? number \]? | ident
       def analyse_ref_code(code)
         ret = { id: code }
         return ret if code.blank?
 
         analyse_ref_nofetch(
-          analyse_ref_hidden(analyse_ref_repo_path(analyse_ref_numeric(ret))),
+          analyse_ref_hidden(
+            analyse_ref_dropid(analyse_ref_repo_path(analyse_ref_numeric(ret))),
+          ),
         )
       end
 
@@ -110,7 +121,11 @@ module Metanorma
       end
 
       def ref_attributes(match)
-        { id: match[:anchor], type: "standard" }
+
+code = analyse_ref_code(match[:code])
+
+        { id: match[:anchor], type: "standard",
+          suppress_identifier: code[:dropid] || nil }
       end
 
       MALFORMED_REF = <<~REF.freeze
