@@ -1026,6 +1026,24 @@ RSpec.describe Metanorma::Standoc do
     end
   end
 
+  it "suppress identifier on bibitem" do
+    VCR.use_cassette "dated_iso_ref_joint_iso_iec1" do
+      input = <<~INPUT
+        #{ISOBIB_BLANK_HDR}
+        [bibliography]
+        == Normative References
+
+        * [[[iso123,dropid(ABC)]]] _Standard_
+        * [[[iso124,dropid(ISO 124:2014)]]] _Standard_
+      INPUT
+      doc = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+      expect(doc.at("//xmlns:bibitem[@id = 'iso123']/@suppress_identifier")&.text)
+        .to eq("true")
+      expect(doc.at("//xmlns:bibitem[@id = 'iso124']/@suppress_identifier")&.text)
+        .to eq("true")
+    end
+  end
+
   it "hides individual references" do
     VCR.use_cassette "hide_refs",
                      match_requests_on: %i[method uri body] do

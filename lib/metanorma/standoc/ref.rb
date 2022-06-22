@@ -82,7 +82,8 @@ module Metanorma
       def isorefmatches3out(item, xml)
         if item[:doc] then use_retrieved_relaton(item, xml)
         else
-          isorefmatches3_1(xml, item[:ref][:match], item[:ref][:yr],
+          isorefmatches3_1(xml, item[:ref][:match],
+                           item[:ref][:yr],
                            item[:ref][:hasyr], item[:doc])
         end
       end
@@ -117,6 +118,7 @@ module Metanorma
 
       def refitem_render(xml, match, code)
         xml.bibitem **attr_code(id: match[:anchor],
+                                suppress_identifier: code[:dropid],
                                 hidden: code[:hidden]) do |t|
           t.formattedref **{ format: "application/x-isodoc+xml" } do |i|
             i << ref_normalise_no_format(match[:text])
