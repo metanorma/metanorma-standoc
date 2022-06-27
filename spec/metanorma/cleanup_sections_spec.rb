@@ -1713,7 +1713,7 @@ RSpec.describe Metanorma::Standoc do
                      <li>
                        <p id='_'>
                          <xref target='cl2'>
-                           Clause 
+                           Clause#{' '}
                            <em>A</em>
                            <stem type='MathML'>
                              <math xmlns='http://www.w3.org/1998/Math/MathML'>
@@ -1726,7 +1726,7 @@ RSpec.describe Metanorma::Standoc do
                          <li>
                            <p id='_'>
                              <xref target='a1'>
-                               Clause 
+                               Clause#{' '}
                                <em>A</em>
                                <stem type='MathML'>
                                  <math xmlns='http://www.w3.org/1998/Math/MathML'>
@@ -1766,7 +1766,7 @@ RSpec.describe Metanorma::Standoc do
              <title>Clause2</title>
              <variant-title type='sub'>&#8220;A&#8221; &#8216;B&#8217;</variant-title>
              <variant-title type='toc'>
-               Clause 
+               Clause#{' '}
                <em>A</em>
                <stem type='MathML'>
                  <math xmlns='http://www.w3.org/1998/Math/MathML'>
@@ -1780,7 +1780,7 @@ RSpec.describe Metanorma::Standoc do
          <annex id='a1' inline-header='false' obligation='normative'>
            <title>Clause</title>
            <variant-title type='toc'>
-             Clause 
+             Clause#{' '}
              <em>A</em>
              <stem type='MathML'>
                <math xmlns='http://www.w3.org/1998/Math/MathML'>
@@ -1794,5 +1794,56 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes bibliography annex" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [appendix]
+      == Bibliography
+
+      [bibliography]
+      === Bibliography
+    INPUT
+    output = <<~OUTPUT
+      <annex id='_' obligation='' language='' script=''>
+          <title>Bibliography</title>
+          <references id='_' normative='false' obligation='informative'>
+            <title>Bibliography</title>
+          </references>
+      </annex>
+    OUTPUT
+    ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xmlpp(strip_guid(ret.at("//xmlns:annex").to_xml)))
+      .to be_equivalent_to(output)
+  end
+
+  it "processes terms annex" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [appendix]
+      == Terms and definitions
+
+      === Terms and definitions
+    INPUT
+    output = <<~OUTPUT
+      <annex id='_' obligation='' language='' script=''>
+        <terms id='_' obligation='normative'>
+          <title>Terms and definitions</title>
+          <term id='term-Terms-and-definitions'>
+            <preferred>
+              <expression>
+                <name>Terms and definitions</name>
+              </expression>
+            </preferred>
+          </term>
+        </terms>
+      </annex>
+    OUTPUT
+    ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xmlpp(strip_guid(ret.at("//xmlns:annex").to_xml)))
+      .to be_equivalent_to(output)
   end
 end
