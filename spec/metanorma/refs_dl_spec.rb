@@ -102,6 +102,7 @@ RSpec.describe Metanorma::Standoc do
       docid::
         type::: ISO
         id::: TC211
+        primary::: true
       docnumber:: 211
       edition:: 1
       language::
@@ -317,7 +318,7 @@ RSpec.describe Metanorma::Standoc do
         <uri type="src">https://www.iso.org/standard/53798.html</uri>
         <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:53798:en</uri>
         <uri type="rss">https://www.iso.org/contents/data/standard/05/37/53798.detail.rss</uri>
-        <docidentifier type="ISO">TC211</docidentifier>
+        <docidentifier type='ISO' primary='true'>TC211</docidentifier>
         <docnumber>211</docnumber>
         <date type="issued">
           <on>2014</on>

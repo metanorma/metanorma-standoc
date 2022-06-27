@@ -2543,6 +2543,7 @@ RSpec.describe Metanorma::Standoc do
       #{ASCIIDOC_BLANK_HDR}
       == Section
 
+      <<ref1,clause=3-5>>
       <<ref1,clause=3;to!clause=5>>
       <<ref1,from!clause=3;to!clause=5,text>>
       <<ref1,clause=3;clause=5>>
@@ -2561,6 +2562,14 @@ RSpec.describe Metanorma::Standoc do
           <clause id='_' inline-header='false' obligation='normative'>
             <title>Section</title>
             <p id='_'>
+            <eref type='inline' bibitemid='ref1' citeas='XYZ'>
+               <localityStack>
+                 <locality type='clause'>
+                   <referenceFrom>3</referenceFrom>
+                   <referenceTo>5</referenceTo>
+                 </locality>
+               </localityStack>
+             </eref>
               <eref type='inline' bibitemid='ref1' citeas='XYZ'>
                 <localityStack connective='from'>
                   <locality type='clause'>

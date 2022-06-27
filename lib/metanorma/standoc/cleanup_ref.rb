@@ -80,6 +80,7 @@ module Metanorma
 
       def biblio_cleanup(xmldoc)
         biblio_reorder(xmldoc)
+        biblio_annex(xmldoc)
         biblio_nested(xmldoc)
         biblio_renumber(xmldoc)
         biblio_linkonly(xmldoc)
@@ -117,6 +118,16 @@ module Metanorma
 
       def biblio_no_ext(xmldoc)
         xmldoc.xpath("//bibitem/ext").each(&:remove)
+      end
+
+      def biblio_annex(xmldoc)
+        xmldoc.xpath("//annex[references/references]").each do |t|
+          next unless t.xpath("./clause | ./references | ./terms").size == 1
+
+          r = t.at("./references")
+          r.xpath("./references").each { |b| b["normative"] = r["normative"] }
+          r.replace(r.elements)
+        end
       end
 
       def biblio_nested(xmldoc)

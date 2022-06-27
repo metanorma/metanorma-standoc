@@ -13,14 +13,16 @@ module Metanorma
         c.gsub(/ id="[^"]+"/, "")
       end
 
+      FIGURE_FN_XPATH =
+        "//figure/following-sibling::*[1][self::p and *[1][self::fn]]".freeze
+
       # include footnotes inside figure if they are the only content
       # of the paras following
       def figure_footnote_cleanup(xmldoc)
         nomatches = false
         until nomatches
-          q = "//figure/following-sibling::*[1][self::p and *[1][self::fn]]"
           nomatches = true
-          xmldoc.xpath(q).each do |s|
+          xmldoc.xpath(FIGURE_FN_XPATH).each do |s|
             next if s.children.map do |c|
                       c.text? && /[[:alpha:]]/.match(c.text)
                     end.any?
@@ -32,17 +34,17 @@ module Metanorma
         end
       end
 
-      def table_footnote_renumber1(fnote, i, seen)
+      def table_footnote_renumber1(fnote, idx, seen)
         content = footnote_content(fnote)
         if seen[content] then outnum = seen[content]
         else
-          i += 1
-          outnum = i
+          idx += 1
+          outnum = idx
           seen[content] = outnum
         end
         fnote["reference"] = (outnum - 1 + "a".ord).chr
         fnote["table"] = true
-        [i, seen]
+        [idx, seen]
       end
 
       def table_footnote_renumber(xmldoc)
@@ -55,18 +57,18 @@ module Metanorma
         end
       end
 
-      def other_footnote_renumber1(fn, i, seen)
-        unless fn["table"]
-          content = footnote_content(fn)
-          if seen[content] then outnum = seen[content]
-          else
-            i += 1
-            outnum = i
-            seen[content] = outnum
-          end
-          fn["reference"] = outnum.to_s
+      def other_footnote_renumber1(fnote, idx, seen)
+        return [idx, seen] if fnote["table"]
+
+        content = footnote_content(fnote)
+        if seen[content] then outnum = seen[content]
+        else
+          idx += 1
+          outnum = idx
+          seen[content] = outnum
         end
-        [i, seen]
+        fnote["reference"] = outnum.to_s
+        [idx, seen]
       end
 
       def other_footnote_renumber(xmldoc)

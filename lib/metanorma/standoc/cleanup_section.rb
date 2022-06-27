@@ -118,6 +118,12 @@ module Metanorma
         change_clauses(xml)
       end
 
+      def single_clause_annex(xml)
+        xml.xpath("//annex").each do |a|
+          single_clause_annex1(a)
+        end
+      end
+
       def obligations_cleanup(xml)
         obligations_cleanup_info(xml)
         obligations_cleanup_norm(xml)
