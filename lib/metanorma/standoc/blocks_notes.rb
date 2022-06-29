@@ -94,7 +94,7 @@ module Metanorma
       end
 
       def admonition(node)
-        return termnote(node) if in_terms?
+        return termnote(node) if in_terms? && node.attr("name") == "note"
         return note(node) if node.attr("name") == "note"
         return todo(node) if node.attr("name") == "todo"
 
