@@ -59,6 +59,8 @@ module Metanorma
         inline_macro Metanorma::Plugin::Lutaml::LutamlTableInlineMacro
         block_macro Metanorma::Plugin::Lutaml::LutamlDiagramBlockMacro
         block Metanorma::Standoc::ToDoAdmonitionBlock
+        block Metanorma::Standoc::EditorAdmonitionBlock
+        treeprocessor Metanorma::Standoc::EditorInlineAdmonitionBlock
         treeprocessor Metanorma::Standoc::ToDoInlineAdmonitionBlock
         block Metanorma::Standoc::PlantUMLBlockMacro
         block Metanorma::Plugin::Lutaml::LutamlDiagramBlock

@@ -167,6 +167,38 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes the macro for editorial notes" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      EDITOR: Note1
+
+      [EDITOR]
+      ====
+      Note2
+      ====
+
+      [EDITOR]
+      Note3
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <sections>
+           <admonition id='_' type='editorial'>
+             <p id='_'>Note1</p>
+           </admonition>
+           <admonition id='_' type='editorial'>
+             <p id='_'>Note2</p>
+           </admonition>
+           <admonition id='_' type='editorial'>
+             <p id='_'>Note3</p>
+           </admonition>
+         </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes the Metanorma::Standoc concept and related macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
