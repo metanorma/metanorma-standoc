@@ -412,6 +412,8 @@ RSpec.describe Metanorma::Standoc do
 
       NOTE: This is a note
 
+      WARNING: This is not a note
+
       [NOTE,keep-separate=true,tag=X,multilingual-rendering=common]
       ====
       XYZ
@@ -428,6 +430,9 @@ RSpec.describe Metanorma::Standoc do
               <termnote id="_">
               <p id="_">This is a note</p>
             </termnote>
+            <admonition id='_' type='warning'>
+          <p id='_'>This is not a note</p>
+        </admonition>
              <termnote id='_' tag='X' multilingual-rendering='common'>
         <p id='_'>XYZ</p>
       </termnote>
