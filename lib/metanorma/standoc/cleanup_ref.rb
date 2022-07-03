@@ -154,6 +154,11 @@ module Metanorma
       def reference_names(xmldoc)
         xmldoc.xpath("//bibitem[not(ancestor::bibitem)]").each do |ref|
           docid = ref.at("./docidentifier[@type = 'metanorma']") ||
+            ref.at("./docidentifier[@primary = 'true'][@language = '#{@lang}']") ||
+            ref.at("./docidentifier[@primary = 'true'][not(@language)]") ||
+            ref.at("./docidentifier[@primary = 'true']") ||
+            ref.at("./docidentifier[not(@type = 'DOI')][@language = '#{@lang}']") ||
+            ref.at("./docidentifier[not(@type = 'DOI')][not(@language)]") ||
             ref.at("./docidentifier[not(@type = 'DOI')]") or next
           reference = format_ref(docid.children.to_xml, docid["type"])
           @anchors[ref["id"]] = { xref: reference }

@@ -3,110 +3,237 @@ require "relaton_iso"
 require "relaton_ietf"
 
 RSpec.describe Metanorma::Standoc do
-  it "processes simple ISO reference" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      [bibliography]
-      == Normative References
+    it "processes simple ISO reference" do
+      input = <<~INPUT
+        #{ASCIIDOC_BLANK_HDR}
+        [bibliography]
+        == Normative References
 
-      * [[[iso123,ISO 123]]] _Standard_
-      * [[[iso124,(1)ISO 123]]] _Standard_
-    INPUT
-    output = <<~OUTPUT
+        * [[[iso123,ISO 123]]] _Standard_
+        * [[[iso124,(1)ISO 123]]] _Standard_
+      INPUT
+      output = <<~OUTPUT
+              #{BLANK_HDR}
+              <sections>
+              </sections><bibliography><references id="_" obligation="informative" normative="true">
+                <title>Normative references</title>
+                #{NORM_REF_BOILERPLATE}
+                <bibitem id="iso123" type="standard">
+                 <title format="text/plain">Standard</title>
+                 <docidentifier>ISO 123</docidentifier>
+                 <docnumber>123</docnumber>
+                 <contributor>
+                   <role type="publisher"/>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </contributor>
+               </bibitem>
+               <bibitem id='iso124' type='standard'>
+          <title format='text/plain'>Standard</title>
+          <docidentifier type='metanorma'>[1]</docidentifier>
+          <docidentifier>ISO 123</docidentifier>
+                 <docnumber>123</docnumber>
+          <contributor>
+            <role type='publisher'/>
+            <organization>
+              <name>ISO</name>
+            </organization>
+          </contributor>
+        </bibitem>
+              </references>
+              </bibliography>
+              </standard-document>
+      OUTPUT
+      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+        .to be_equivalent_to xmlpp(output)
+    end
+
+    it "processes simple ISO reference with date range" do
+      input = <<~INPUT
+        #{ASCIIDOC_BLANK_HDR}
+        [bibliography]
+        == Normative References
+
+        * [[[iso123,ISO 123:1066-1067]]] _Standard_
+        * [[[iso124,(1)ISO 123:1066-1067]]] _Standard_
+      INPUT
+      output = <<~OUTPUT
             #{BLANK_HDR}
             <sections>
             </sections><bibliography><references id="_" obligation="informative" normative="true">
               <title>Normative references</title>
               #{NORM_REF_BOILERPLATE}
               <bibitem id="iso123" type="standard">
-               <title format="text/plain">Standard</title>
-               <docidentifier>ISO 123</docidentifier>
+                <title format="text/plain">Standard</title>
+        <docidentifier>ISO 123:1066-1067</docidentifier>
                <docnumber>123</docnumber>
-               <contributor>
-                 <role type="publisher"/>
-                 <organization>
-                   <name>ISO</name>
-                 </organization>
-               </contributor>
-             </bibitem>
-             <bibitem id='iso124' type='standard'>
-        <title format='text/plain'>Standard</title>
-        <docidentifier type='metanorma'>[1]</docidentifier>
-        <docidentifier>ISO 123</docidentifier>
-               <docnumber>123</docnumber>
+        <date type="published">
+          <from>1066</from>
+          <to>1067</to>
+        </date>
         <contributor>
-          <role type='publisher'/>
+          <role type="publisher"/>
           <organization>
             <name>ISO</name>
           </organization>
         </contributor>
-      </bibitem>
+             </bibitem>
+             <bibitem id="iso124" type="standard">
+                <title format="text/plain">Standard</title>
+                <docidentifier type='metanorma'>[1]</docidentifier>
+        <docidentifier>ISO 123:1066-1067</docidentifier>
+               <docnumber>123</docnumber>
+        <date type="published">
+          <from>1066</from>
+          <to>1067</to>
+        </date>
+        <contributor>
+          <role type="publisher"/>
+          <organization>
+            <name>ISO</name>
+          </organization>
+        </contributor>
+             </bibitem>
             </references>
             </bibliography>
             </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
+      OUTPUT
+      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+        .to be_equivalent_to xmlpp(output)
+    end
 
-  it "processes simple ISO reference with date range" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      [bibliography]
-      == Normative References
+    it "repairs simple fetched ISO reference" do
+      mock_isobib_get_123_no_docid(2)
+      mock_isobib_get_123_no_docid_lbl(2)
+      input = <<~"INPUT"
+        #{ISOBIB_BLANK_HDR}
 
-      * [[[iso123,ISO 123:1066-1067]]] _Standard_
-      * [[[iso124,(1)ISO 123:1066-1067]]] _Standard_
-    INPUT
-    output = <<~OUTPUT
-          #{BLANK_HDR}
-          <sections>
-          </sections><bibliography><references id="_" obligation="informative" normative="true">
-            <title>Normative references</title>
-            #{NORM_REF_BOILERPLATE}
-            <bibitem id="iso123" type="standard">
-              <title format="text/plain">Standard</title>
-      <docidentifier>ISO 123:1066-1067</docidentifier>
-             <docnumber>123</docnumber>
-      <date type="published">
-        <from>1066</from>
-        <to>1067</to>
-      </date>
-      <contributor>
-        <role type="publisher"/>
-        <organization>
-          <name>ISO</name>
-        </organization>
-      </contributor>
-           </bibitem>
-           <bibitem id="iso124" type="standard">
-              <title format="text/plain">Standard</title>
-              <docidentifier type='metanorma'>[1]</docidentifier>
-      <docidentifier>ISO 123:1066-1067</docidentifier>
-             <docnumber>123</docnumber>
-      <date type="published">
-        <from>1066</from>
-        <to>1067</to>
-      </date>
-      <contributor>
-        <role type="publisher"/>
-        <organization>
-          <name>ISO</name>
-        </organization>
-      </contributor>
-           </bibitem>
+        <<iso123>>
+        <<iso124>>
 
-          </references>
-          </bibliography>
+        [bibliography]
+        == Normative References
+
+        * [[[iso123,ISO 123]]] _Standard_
+        * [[[iso124,(1)ISO 123]]] _Standard_
+      INPUT
+      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+        .to be_equivalent_to xmlpp(<<~"OUTPUT")
+                 #{BLANK_HDR}
+                 <preface>
+            <foreword id='_' obligation='informative'>
+              <title>Foreword</title>
+              <p id='_'>
+                <eref type='inline' bibitemid='iso123' citeas='ISO 123'/>
+                <eref type='inline' bibitemid='iso124' citeas='[1]'/>
+              </p>
+            </foreword>
+          </preface>
+                 <sections>
+                 </sections><bibliography><references id="_" obligation="informative" normative="true"><title>Normative references</title>
+                  #{NORM_REF_BOILERPLATE}
+          <bibitem type="standard" id="iso123">
+            <uri type="src">https://www.iso.org/standard/23281.html</uri>
+            <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+            <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+            <date type="published">
+              <on>2001</on>
+            </date>
+            <contributor>
+              <role type="publisher"/>
+              <organization>
+                <name>International Organization for Standardization</name>
+                <abbreviation>ISO</abbreviation>
+                <uri>www.iso.org</uri>
+              </organization>
+            </contributor>
+            <edition>3</edition>
+            <language>en</language>
+            <language>fr</language>
+            <script>Latn</script>
+            <status>
+              <stage>Published</stage>
+            </status>
+            <copyright>
+              <from>2001</from>
+              <owner>
+                <organization>
+                  <name>ISO</name>
+                  <abbreviation/>
+                </organization>
+              </owner>
+            </copyright>
+            <relation type="obsoletes">
+              <bibitem type="standard">
+                <formattedref format="text/plain">ISO 123:1985</formattedref>
+              </bibitem>
+            </relation>
+            <relation type="updates">
+              <bibitem type="standard">
+                <formattedref format="text/plain">ISO 123:2001</formattedref>
+              </bibitem>
+            </relation>
+          <docidentifier>ISO 123</docidentifier>
+          <title><em>Standard</em></title>
+          </bibitem>
+          <bibitem type="standard" id="iso124">
+            <uri type="src">https://www.iso.org/standard/23281.html</uri>
+            <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+            <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+            <date type="published">
+              <on>2001</on>
+            </date>
+            <contributor>
+              <role type="publisher"/>
+              <organization>
+                <name>International Organization for Standardization</name>
+                <abbreviation>ISO</abbreviation>
+                <uri>www.iso.org</uri>
+              </organization>
+            </contributor>
+            <edition>3</edition>
+            <language>en</language>
+            <language>fr</language>
+            <script>Latn</script>
+            <status>
+              <stage>Published</stage>
+            </status>
+            <copyright>
+              <from>2001</from>
+              <owner>
+                <organization>
+                  <name>ISO</name>
+                  <abbreviation/>
+                </organization>
+              </owner>
+            </copyright>
+            <relation type="obsoletes">
+              <bibitem type="standard">
+                <formattedref format="text/plain">ISO 123:1985</formattedref>
+              </bibitem>
+            </relation>
+            <relation type="updates">
+              <bibitem type="standard">
+                <formattedref format="text/plain">ISO 123:2001</formattedref>
+              </bibitem>
+            </relation>
+          <docidentifier>ISO 123</docidentifier>
+           <docidentifier type='metanorma'>[1]</docidentifier>
+          <title><em>Standard</em></title>
+          </bibitem>
+          </references></bibliography>
           </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
+        OUTPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to output(/ERROR: No document identifier retrieved for ISO 123/)
+        .to_stderr
+    end
 
-  it "repairs simple fetched ISO reference" do
-    mock_isobib_get_123_no_docid(2)
-    mock_isobib_get_123_no_docid_lbl(2)
+  it "customises docidentifier by language" do
+    mock_rfcbib_get_rfc8342(3)
+    mock_rfcbib_get_rfc8343(3)
     input = <<~"INPUT"
       #{ISOBIB_BLANK_HDR}
 
@@ -116,120 +243,21 @@ RSpec.describe Metanorma::Standoc do
       [bibliography]
       == Normative References
 
-      * [[[iso123,ISO 123]]] _Standard_
-      * [[[iso124,(1)ISO 123]]] _Standard_
+      * [[[iso123,ISO 8342]]] _Standard_
+      * [[[iso124,ISO 8343]]] _Standard_
     INPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
-               #{BLANK_HDR}
-               <preface>
-          <foreword id='_' obligation='informative'>
-            <title>Foreword</title>
-            <p id='_'>
-              <eref type='inline' bibitemid='iso123' citeas='ISO 123'/>
-              <eref type='inline' bibitemid='iso124' citeas='[1]'/>
-            </p>
-          </foreword>
-        </preface>
-               <sections>
-               </sections><bibliography><references id="_" obligation="informative" normative="true"><title>Normative references</title>
-                #{NORM_REF_BOILERPLATE}
-        <bibitem type="standard" id="iso123">
-          <uri type="src">https://www.iso.org/standard/23281.html</uri>
-          <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-          <date type="published">
-            <on>2001</on>
-          </date>
-          <contributor>
-            <role type="publisher"/>
-            <organization>
-              <name>International Organization for Standardization</name>
-              <abbreviation>ISO</abbreviation>
-              <uri>www.iso.org</uri>
-            </organization>
-          </contributor>
-          <edition>3</edition>
-          <language>en</language>
-          <language>fr</language>
-          <script>Latn</script>
-          <status>
-            <stage>Published</stage>
-          </status>
-          <copyright>
-            <from>2001</from>
-            <owner>
-              <organization>
-                <name>ISO</name>
-                <abbreviation/>
-              </organization>
-            </owner>
-          </copyright>
-          <relation type="obsoletes">
-            <bibitem type="standard">
-              <formattedref format="text/plain">ISO 123:1985</formattedref>
-            </bibitem>
-          </relation>
-          <relation type="updates">
-            <bibitem type="standard">
-              <formattedref format="text/plain">ISO 123:2001</formattedref>
-            </bibitem>
-          </relation>
-        <docidentifier>ISO 123</docidentifier>
-        <title><em>Standard</em></title>
-        </bibitem>
-        <bibitem type="standard" id="iso124">
-          <uri type="src">https://www.iso.org/standard/23281.html</uri>
-          <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-          <date type="published">
-            <on>2001</on>
-          </date>
-          <contributor>
-            <role type="publisher"/>
-            <organization>
-              <name>International Organization for Standardization</name>
-              <abbreviation>ISO</abbreviation>
-              <uri>www.iso.org</uri>
-            </organization>
-          </contributor>
-          <edition>3</edition>
-          <language>en</language>
-          <language>fr</language>
-          <script>Latn</script>
-          <status>
-            <stage>Published</stage>
-          </status>
-          <copyright>
-            <from>2001</from>
-            <owner>
-              <organization>
-                <name>ISO</name>
-                <abbreviation/>
-              </organization>
-            </owner>
-          </copyright>
-          <relation type="obsoletes">
-            <bibitem type="standard">
-              <formattedref format="text/plain">ISO 123:1985</formattedref>
-            </bibitem>
-          </relation>
-          <relation type="updates">
-            <bibitem type="standard">
-              <formattedref format="text/plain">ISO 123:2001</formattedref>
-            </bibitem>
-          </relation>
-        <docidentifier>ISO 123</docidentifier>
-         <docidentifier type='metanorma'>[1]</docidentifier>
-        <title><em>Standard</em></title>
-        </bibitem>
-        </references></bibliography>
-        </standard-document>
-      OUTPUT
-    expect do
-      Asciidoctor.convert(input, *OPTIONS)
-    end.to output(/ERROR: No document identifier retrieved for ISO 123/)
-      .to_stderr
+    doc = Asciidoctor.convert(input
+      .sub(/:novalid:/, ":language: de\n:novalid:"), *OPTIONS)
+    expect(doc).to include '<eref type="inline" bibitemid="iso123" citeas="ISO 8342-DE"/>'
+    expect(doc).to include '<eref type="inline" bibitemid="iso124" citeas="ISO 8343-DE"/>'
+    doc = Asciidoctor.convert(input
+  .sub(/:novalid:/, ":language: fr\n:novalid:"), *OPTIONS)
+    expect(doc).to include '<eref type="inline" bibitemid="iso123" citeas="ISO 8342-EN"/>'
+    expect(doc).to include '<eref type="inline" bibitemid="iso124" citeas="ISO 8343-FR"/>'
+    doc = Asciidoctor.convert(input
+      .sub(/:novalid:/, ":language: en\n:novalid:"), *OPTIONS)
+    expect(doc).to include '<eref type="inline" bibitemid="iso123" citeas="ISO 8342-EN"/>'
+    expect(doc).to include '<eref type="inline" bibitemid="iso124" citeas="ISO 8341"/>'
   end
 
   it "fetches simple ISO reference" do
@@ -1489,7 +1517,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes draft ISO reference" do
-    # stub_fetch_ref no_year: true, note: "The standard is in press"
+    stub_fetch_ref no_year: true, note: "The standard is in press"
 
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -2223,8 +2251,8 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "overrides normative status of bibliographies" do
-    # mock_isobib_get_123_no_docid(1)
-    # mock_isobib_get_123_no_docid_lbl(1)
+    mock_isobib_get_123_no_docid(1)
+    mock_isobib_get_123_no_docid_lbl(1)
     VCR.use_cassette "isobib_get_123_1" do
       input = <<~INPUT
         #{ISOBIB_BLANK_HDR}
@@ -2676,22 +2704,6 @@ RSpec.describe Metanorma::Standoc do
 
   private
 
-  def mock_isobib_get_123
-    expect(RelatonIso::IsoBibliography).to receive(:get)
-      .with("ISO 123", nil, { code: "ISO 123",
-                              lang: "en",
-                              match: anything,
-                              process: 1,
-                              ord: anything,
-                              title: "<em>Standard</em>",
-                              usrlbl: nil,
-                              year: nil }) do
-      IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
-        <bibitem type=\"standard\" id=\"ISO123\">\n  <title format=\"text/plain\" language=\"en\" script=\"Latn\">Rubber latex -- Sampling</title>\n  <title format=\"text/plain\" language=\"fr\" script=\"Latn\">Latex de caoutchouc -- ?chantillonnage</title>\n  <uri type=\"src\">https://www.iso.org/standard/23281.html</uri>\n  <uri type=\"obp\">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>\n  <uri type=\"rss\">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <docidentifier>ISO 123</docidentifier>\n  <date type=\"published\">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type=\"publisher\"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status>Published</status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type=\"obsoletes\">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type=\"updates\">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n</bibitem>
-      OUTPUT
-    end
-  end
-
   def mock_isobib_get_123_no_docid(times)
     expect(RelatonIso::IsoBibliography).to receive(:get)
       .with("ISO 123", nil, { code: "ISO 123",
@@ -2724,136 +2736,43 @@ RSpec.describe Metanorma::Standoc do
     end.exactly(times).times
   end
 
-  def mock_isobib_get_124
-    expect(RelatonIso::IsoBibliography).to receive(:get)
-      .with("ISO 124",
-            "2014", anything) do
-      IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
-                   <bibitem type="standard" id="iso124">
-           <title format="text/plain" language="en" script="Latn">Latex, rubber -- Determination of total solids content</title>
-           <title format="text/plain" language="fr" script="Latn">Latex de caoutchouc -- Détermination des matières solides totales</title>
-           <uri type="src">https://www.iso.org/standard/61884.html</uri>
-           <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
-           <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
-           <docidentifier>ISO 124</docidentifier>
-           <date type="published">
-             <on>2014</on>
-           </date>
-           <contributor>
-             <role type="publisher"/>
-             <organization>
-               <name>International Organization for Standardization</name>
-               <abbreviation>ISO</abbreviation>
-               <uri>www.iso.org</uri>
-             </organization>
-           </contributor>
-           <edition>7</edition>
-           <language>en</language>
-           <language>fr</language>
-           <script>Latn</script>
-           <abstract format="text/plain" language="en" script="Latn">ISO 124:2014 specifies methods for the determination of the total solids content of natural rubber field and concentrated latices and synthetic rubber latex. These methods are not necessarily suitable for latex from natural sources other than the Hevea brasiliensis, for vulcanized latex, for compounded latex, or for artificial dispersions of rubber.</abstract>
-           <status>Published</status>
-           <copyright>
-             <from>2014</from>
-             <owner>
-               <organization>
-                 <name>ISO</name>
-                 <abbreviation/>
-               </organization>
-             </owner>
-           </copyright>
-           <relation type="obsoletes">
-             <bibitem type="standard">
-               <formattedref format="text/plain">ISO 124:2011</formattedref>
-             </bibitem>
-           </relation>
-          <ics>
-            <code>83.040.10</code>
-            <text>Latex and raw rubber</text>
-          </ics>
-        </bibitem>
-      OUTPUT
-    end
-  end
-
-  def mock_isobib_get_iec12382
-    expect(RelatonIso::IsoBibliography).to receive(:get).with(
-      "ISO/IEC TR 12382", "1992", anything
-    ) do
-      IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
-        <bibitem type="standard" id="iso123">
-           <title format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
-           <title format="text/plain" language="fr" script="Latn">Index permuté du vocabulaire des technologies de l'information</title>
-           <uri type="src">https://www.iso.org/standard/21071.html</uri>
-           <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:21071:en</uri>
-           <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
-           <docidentifier>ISO/IEC 12382</docidentifier>
-           <date type="published">
-             <on>1992</on>
-           </date>
-           <contributor>
-             <role type="publisher"/>
-             <organization>
-               <name>International Organization for Standardization</name>
-               <abbreviation>ISO</abbreviation>
-               <uri>www.iso.org</uri>
-             </organization>
-           </contributor>
-           <contributor>
-             <role type="publisher"/>
-             <organization>
-               <name>International Electrotechnical Commission</name>
-               <abbreviation>IEC</abbreviation>
-               <uri>www.iec.ch</uri>
-             </organization>
-           </contributor>
-           <edition>2</edition>
-           <language>en</language>
-           <language>fr</language>
-           <script>Latn</script>
-           <abstract format="text/plain" language="en" script="Latn">Contains a permuted index of all terms included in the parts 1 — 28 of ISO 2382. If any of these parts has been revised, the present TR refers to the revision.</abstract>
-           <status>Published</status>
-           <copyright>
-             <from>1992</from>
-             <owner>
-               <organization>
-                 <name>ISO/IEC</name>
-                 <abbreviation/>
-               </organization>
-             </owner>
-           </copyright>
-           <relation type="updates">
-             <bibitem type="standard">
-               <formattedref format="text/plain">ISO/IEC TR 12382:1992</formattedref>
-             </bibitem>
-           </relation>
-          <ics>
-            <code>35.020</code>
-            <text>Information technology (IT) in general</text>
-          </ics>
-          <ics>
-            <code>01.040.35</code>
-            <text>Information technology (Vocabularies)</text>
-          </ics>
-         </bibitem>
-      OUTPUT
-    end
-  end
-
-  def mock_rfcbib_get_rfc8341
-    expect(IETFBib::RfcBibliography).to receive(:get).with("RFC 8341", nil,
-                                                           anything) do
-      IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
-              <bibitem id="RFC8341">
+  def mock_rfcbib_get_rfc8342(times)
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 8342", nil,
+                                                              anything) do
+      RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
+              <bibitem id="RFC8342">
           <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>
           <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
-          <docidentifier type="RFC">RFC 8341</docidentifier>
+          <docidentifier type="ISO">ISO 8341</docidentifier>
+          <docidentifier type="ISO" primary="true">ISO 8342-EN</docidentifier>
+          <docidentifier type="ISO" language="fr">ISO 8342-FR</docidentifier>
+          <docidentifier type="ISO" primary="true" language="de">ISO 8342-DE</docidentifier>
           <date type="published">
             <on>2018</on>
           </date>
           <status>published</status>
         </bibitem>
       OUTPUT
-    end
+    end.exactly(times).times
+  end
+
+  def mock_rfcbib_get_rfc8343(times)
+    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 8343", nil,
+                                                              anything) do
+      RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
+              <bibitem id="RFC8343">
+          <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>
+          <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
+          <docidentifier type="ISO">ISO 8341</docidentifier>
+          <docidentifier type="ISO">ISO 8343-EN</docidentifier>
+          <docidentifier type="ISO" language="fr">ISO 8343-FR</docidentifier>
+          <docidentifier type="ISO" language="de">ISO 8343-DE</docidentifier>
+          <date type="published">
+            <on>2018</on>
+          </date>
+          <status>published</status>
+        </bibitem>
+      OUTPUT
+    end.exactly(times).times
   end
 end
