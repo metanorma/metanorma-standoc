@@ -248,7 +248,7 @@ def stub_fetch_ref(**opts)
   hit_pages = double("hit_pages")
   expect(hit_pages).to receive(:first).and_return(hit_page).at_least :once
 
-  expect(Isobib::IsoBibliography).to receive(:search)
+  expect(RelatonIso::IsoBibliography).to receive(:search)
     .and_wrap_original do |search, *args|
     code = args[0]
     expect(code).to be_instance_of String

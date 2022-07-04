@@ -43,7 +43,6 @@ RSpec.describe Metanorma::Standoc do
         <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="iso123" type="standard">
-        <fetched/>
         <title type='title-main' format='text/plain'>Standard</title>
         <title type='main' format='text/plain'>Standard</title>
          <docidentifier type="ISO">ISO 123</docidentifier>
@@ -257,6 +256,7 @@ RSpec.describe Metanorma::Standoc do
       ==== Relation
       type:: updates
       bibitem::
+        title::: Geographic information
         formattedref::: ISO 19115:2003
         bib_locality:::
           type:::: page
@@ -268,6 +268,7 @@ RSpec.describe Metanorma::Standoc do
       bibitem::
         type::: standard
         formattedref::: ISO 19115:2003/Cor 1:2006
+        title::: Geographic information
 
       ==== Series
       type:: main
@@ -290,6 +291,7 @@ RSpec.describe Metanorma::Standoc do
 
       ==== Series
       type:: alt
+      title:: seriestitle
       formattedref::
         content::: serieref
         language::: en
@@ -418,12 +420,14 @@ RSpec.describe Metanorma::Standoc do
         </copyright>
         <relation type="updates">
           <bibitem>
-            <formattedref format="text/plain">ISO 19115:2003</formattedref>
+            <title type='title-main' format='text/plain'>Geographic information</title>
+            <title type='main' format='text/plain'>Geographic information</title>
             </bibitem>
         </relation>
         <relation type="updates">
           <bibitem type="standard">
-            <formattedref format="text/plain">ISO 19115:2003/Cor 1:2006</formattedref>
+          <title type='title-main' format='text/plain'>Geographic information</title>
+          <title type='main' format='text/plain'>Geographic information</title>
           </bibitem>
         </relation>
         <series type="main">
@@ -438,6 +442,7 @@ RSpec.describe Metanorma::Standoc do
         </series>
         <series type="alt">
           <formattedref format="text/plain" language="en" script="Latn">serieref</formattedref>
+          <title format='text/plain'>seriestitle</title>
         </series>
         <medium>
           <form>medium form</form>
@@ -597,6 +602,7 @@ RSpec.describe Metanorma::Standoc do
       contributor.role:: author
       relation::
       relation.type:: updates
+      relation.bibitem.title:: Geographic information
       relation.bibitem.formattedref:: ISO 19115:2003
       relation.bibitem.bib_locality.type:: page
       relation.bibitem.bib_locality.reference_from:: 7
@@ -604,6 +610,7 @@ RSpec.describe Metanorma::Standoc do
       relation::
       relation.type:: updates
       relation.bibitem.type:: standard
+      relation.bibitem.title:: Geographic information
       relation.bibitem.formattedref:: ISO 19115:2003/Cor 1:2006
       series::
       series.type:: main
@@ -623,6 +630,7 @@ RSpec.describe Metanorma::Standoc do
       series.partnumber:: part5678
       series::
       series.type:: alt
+      series.title:: seriestitle
       series.formattedref.content:: serieref
       series.formattedref.language:: en
       series.formattedref.script:: Latn
@@ -741,12 +749,14 @@ RSpec.describe Metanorma::Standoc do
         </copyright>
         <relation type="updates">
           <bibitem>
-            <formattedref format="text/plain">ISO 19115:2003</formattedref>
+            <title type='title-main' format='text/plain'>Geographic information</title>
+            <title type='main' format='text/plain'>Geographic information</title>
           </bibitem>
         </relation>
         <relation type="updates">
           <bibitem type="standard">
-            <formattedref format="text/plain">ISO 19115:2003/Cor 1:2006</formattedref>
+          <title type='title-main' format='text/plain'>Geographic information</title>
+          <title type='main' format='text/plain'>Geographic information</title>
           </bibitem>
         </relation>
         <series type="main">
@@ -761,6 +771,7 @@ RSpec.describe Metanorma::Standoc do
         </series>
         <series type="alt">
           <formattedref format="text/plain" language="en" script="Latn">serieref</formattedref>
+          <title format='text/plain'>seriestitle</title>
         </series>
         <medium>
           <form>medium form</form>
@@ -843,7 +854,6 @@ RSpec.describe Metanorma::Standoc do
                <docidentifier>B</docidentifier>
              </bibitem>
              <bibitem id='iso123' type='standard'>
-               <fetched/>
                <title type='title-main' format='text/plain'>Standard</title>
                <title type='main' format='text/plain'>Standard</title>
                <docidentifier type='ISO'>ISO 123</docidentifier>
