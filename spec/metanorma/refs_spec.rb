@@ -1517,7 +1517,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes draft ISO reference" do
-    stub_fetch_ref no_year: true, note: "The standard is in press"
+    #stub_fetch_ref no_year: true, note: "The standard is in press"
 
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1998,6 +1998,7 @@ RSpec.describe Metanorma::Standoc do
 
       * [[[iso123,repo:(ab/ISO 123)]]] _Standard_
       * [[[iso124,repo:(ab/ISO 124,id)]]] _Standard_
+      * [[[iso125,dropid(repo:(ab/ISO 124,id))]]] _Standard_
     INPUT
     output = <<~OUTPUT
            #{BLANK_HDR}
@@ -2043,6 +2044,13 @@ RSpec.describe Metanorma::Standoc do
                      <docnumber>123</docnumber>
                    </bibitem>
                    <bibitem id='iso124'>
+                     <formattedref format='application/x-isodoc+xml'>
+                      <em>Standard</em>
+                    </formattedref>
+                    <docidentifier>id</docidentifier>
+                    <docidentifier type='repository'>ab/ISO 124</docidentifier>
+                  </bibitem>
+                  <bibitem id='iso125' suppress_identifier='true'>
                      <formattedref format='application/x-isodoc+xml'>
                        <em>Standard</em>
                      </formattedref>
