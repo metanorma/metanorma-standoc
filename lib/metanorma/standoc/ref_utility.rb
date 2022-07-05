@@ -104,9 +104,9 @@ module Metanorma
         ret = { id: code }
         return ret if code.blank?
 
-        analyse_ref_nofetch(
-          analyse_ref_hidden(
-            analyse_ref_dropid(analyse_ref_repo_path(analyse_ref_numeric(ret))),
+        analyse_ref_numeric(
+          analyse_ref_repo_path(
+            analyse_ref_dropid(analyse_ref_hidden(analyse_ref_nofetch(ret))),
           ),
         )
       end
@@ -121,8 +121,7 @@ module Metanorma
       end
 
       def ref_attributes(match)
-
-code = analyse_ref_code(match[:code])
+        code = analyse_ref_code(match[:code])
 
         { id: match[:anchor], type: "standard",
           suppress_identifier: code[:dropid] || nil }
