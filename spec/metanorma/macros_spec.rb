@@ -1706,7 +1706,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='src'>https://www.iso.org/standard/3944.html</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
                 <docidentifier type='ISO' primary='true'>ISO 131</docidentifier>
-                <docidentifier type='URN'>urn:iso:std:iso:131:stage-95.99:ed-1:en</docidentifier>
+                <docidentifier type='URN'>urn:iso:std:iso:131:stage-95.99:ed-1</docidentifier>
                 <docnumber>131</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -1734,6 +1734,7 @@ RSpec.describe Metanorma::Standoc do
                 <relation type='obsoletes'>
                   <bibitem type='standard'>
                     <formattedref format='text/plain'>ISO/R 357:1963</formattedref>
+                    <docidentifier type='ISO' primary='true'>ISO/R 357:1963</docidentifier>
                   </bibitem>
                 </relation>
                 <relation type='instance'>
@@ -1748,7 +1749,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='src'>https://www.iso.org/standard/3944.html</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
                     <docidentifier type='ISO' primary='true'>ISO 131:1979</docidentifier>
-                    <docidentifier type='URN'>urn:iso:std:iso:131:stage-95.99:ed-1:en</docidentifier>
+                    <docidentifier type='URN'>urn:iso:std:iso:131:stage-95.99:ed-1</docidentifier>
                     <docnumber>131</docnumber>
                     <date type='published'>
                       <on>1979-11</on>
@@ -1779,6 +1780,7 @@ RSpec.describe Metanorma::Standoc do
                     <relation type='obsoletes'>
                       <bibitem type='standard'>
                         <formattedref format='text/plain'>ISO/R 357:1963</formattedref>
+                        <docidentifier type='ISO' primary='true'>ISO/R 357:1963</docidentifier>
                       </bibitem>
                     </relation>
                     <place>Geneva</place>

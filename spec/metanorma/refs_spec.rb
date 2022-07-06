@@ -3,233 +3,233 @@ require "relaton_iso"
 require "relaton_ietf"
 
 RSpec.describe Metanorma::Standoc do
-    it "processes simple ISO reference" do
-      input = <<~INPUT
-        #{ASCIIDOC_BLANK_HDR}
-        [bibliography]
-        == Normative References
+  it "processes simple ISO reference" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [bibliography]
+      == Normative References
 
-        * [[[iso123,ISO 123]]] _Standard_
-        * [[[iso124,(1)ISO 123]]] _Standard_
-      INPUT
-      output = <<~OUTPUT
-              #{BLANK_HDR}
-              <sections>
-              </sections><bibliography><references id="_" obligation="informative" normative="true">
-                <title>Normative references</title>
-                #{NORM_REF_BOILERPLATE}
-                <bibitem id="iso123" type="standard">
-                 <title format="text/plain">Standard</title>
-                 <docidentifier>ISO 123</docidentifier>
-                 <docnumber>123</docnumber>
-                 <contributor>
-                   <role type="publisher"/>
-                   <organization>
-                     <name>ISO</name>
-                   </organization>
-                 </contributor>
-               </bibitem>
-               <bibitem id='iso124' type='standard'>
-          <title format='text/plain'>Standard</title>
-          <docidentifier type='metanorma'>[1]</docidentifier>
-          <docidentifier>ISO 123</docidentifier>
-                 <docnumber>123</docnumber>
-          <contributor>
-            <role type='publisher'/>
-            <organization>
-              <name>ISO</name>
-            </organization>
-          </contributor>
-        </bibitem>
-              </references>
-              </bibliography>
-              </standard-document>
-      OUTPUT
-      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-        .to be_equivalent_to xmlpp(output)
-    end
-
-    it "processes simple ISO reference with date range" do
-      input = <<~INPUT
-        #{ASCIIDOC_BLANK_HDR}
-        [bibliography]
-        == Normative References
-
-        * [[[iso123,ISO 123:1066-1067]]] _Standard_
-        * [[[iso124,(1)ISO 123:1066-1067]]] _Standard_
-      INPUT
-      output = <<~OUTPUT
+      * [[[iso123,ISO 123]]] _Standard_
+      * [[[iso124,(1)ISO 123]]] _Standard_
+    INPUT
+    output = <<~OUTPUT
             #{BLANK_HDR}
             <sections>
             </sections><bibliography><references id="_" obligation="informative" normative="true">
               <title>Normative references</title>
               #{NORM_REF_BOILERPLATE}
               <bibitem id="iso123" type="standard">
-                <title format="text/plain">Standard</title>
-        <docidentifier>ISO 123:1066-1067</docidentifier>
+               <title format="text/plain">Standard</title>
+               <docidentifier>ISO 123</docidentifier>
                <docnumber>123</docnumber>
-        <date type="published">
-          <from>1066</from>
-          <to>1067</to>
-        </date>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>ISO</name>
+                 </organization>
+               </contributor>
+             </bibitem>
+             <bibitem id='iso124' type='standard'>
+        <title format='text/plain'>Standard</title>
+        <docidentifier type='metanorma'>[1]</docidentifier>
+        <docidentifier>ISO 123</docidentifier>
+               <docnumber>123</docnumber>
         <contributor>
-          <role type="publisher"/>
+          <role type='publisher'/>
           <organization>
             <name>ISO</name>
           </organization>
         </contributor>
-             </bibitem>
-             <bibitem id="iso124" type="standard">
-                <title format="text/plain">Standard</title>
-                <docidentifier type='metanorma'>[1]</docidentifier>
-        <docidentifier>ISO 123:1066-1067</docidentifier>
-               <docnumber>123</docnumber>
-        <date type="published">
-          <from>1066</from>
-          <to>1067</to>
-        </date>
-        <contributor>
-          <role type="publisher"/>
-          <organization>
-            <name>ISO</name>
-          </organization>
-        </contributor>
-             </bibitem>
+      </bibitem>
             </references>
             </bibliography>
             </standard-document>
-      OUTPUT
-      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-        .to be_equivalent_to xmlpp(output)
-    end
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
 
-    it "repairs simple fetched ISO reference" do
-      mock_isobib_get_123_no_docid(2)
-      mock_isobib_get_123_no_docid_lbl(2)
-      input = <<~"INPUT"
-        #{ISOBIB_BLANK_HDR}
+  it "processes simple ISO reference with date range" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [bibliography]
+      == Normative References
 
-        <<iso123>>
-        <<iso124>>
-
-        [bibliography]
-        == Normative References
-
-        * [[[iso123,ISO 123]]] _Standard_
-        * [[[iso124,(1)ISO 123]]] _Standard_
-      INPUT
-      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-        .to be_equivalent_to xmlpp(<<~"OUTPUT")
-                 #{BLANK_HDR}
-                 <preface>
-            <foreword id='_' obligation='informative'>
-              <title>Foreword</title>
-              <p id='_'>
-                <eref type='inline' bibitemid='iso123' citeas='ISO 123'/>
-                <eref type='inline' bibitemid='iso124' citeas='[1]'/>
-              </p>
-            </foreword>
-          </preface>
-                 <sections>
-                 </sections><bibliography><references id="_" obligation="informative" normative="true"><title>Normative references</title>
-                  #{NORM_REF_BOILERPLATE}
-          <bibitem type="standard" id="iso123">
-            <uri type="src">https://www.iso.org/standard/23281.html</uri>
-            <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-            <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-            <date type="published">
-              <on>2001</on>
-            </date>
-            <contributor>
-              <role type="publisher"/>
-              <organization>
-                <name>International Organization for Standardization</name>
-                <abbreviation>ISO</abbreviation>
-                <uri>www.iso.org</uri>
-              </organization>
-            </contributor>
-            <edition>3</edition>
-            <language>en</language>
-            <language>fr</language>
-            <script>Latn</script>
-            <status>
-              <stage>Published</stage>
-            </status>
-            <copyright>
-              <from>2001</from>
-              <owner>
-                <organization>
-                  <name>ISO</name>
-                  <abbreviation/>
-                </organization>
-              </owner>
-            </copyright>
-            <relation type="obsoletes">
-              <bibitem type="standard">
-                <formattedref format="text/plain">ISO 123:1985</formattedref>
-              </bibitem>
-            </relation>
-            <relation type="updates">
-              <bibitem type="standard">
-                <formattedref format="text/plain">ISO 123:2001</formattedref>
-              </bibitem>
-            </relation>
-          <docidentifier>ISO 123</docidentifier>
-          <title><em>Standard</em></title>
-          </bibitem>
-          <bibitem type="standard" id="iso124">
-            <uri type="src">https://www.iso.org/standard/23281.html</uri>
-            <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-            <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-            <date type="published">
-              <on>2001</on>
-            </date>
-            <contributor>
-              <role type="publisher"/>
-              <organization>
-                <name>International Organization for Standardization</name>
-                <abbreviation>ISO</abbreviation>
-                <uri>www.iso.org</uri>
-              </organization>
-            </contributor>
-            <edition>3</edition>
-            <language>en</language>
-            <language>fr</language>
-            <script>Latn</script>
-            <status>
-              <stage>Published</stage>
-            </status>
-            <copyright>
-              <from>2001</from>
-              <owner>
-                <organization>
-                  <name>ISO</name>
-                  <abbreviation/>
-                </organization>
-              </owner>
-            </copyright>
-            <relation type="obsoletes">
-              <bibitem type="standard">
-                <formattedref format="text/plain">ISO 123:1985</formattedref>
-              </bibitem>
-            </relation>
-            <relation type="updates">
-              <bibitem type="standard">
-                <formattedref format="text/plain">ISO 123:2001</formattedref>
-              </bibitem>
-            </relation>
-          <docidentifier>ISO 123</docidentifier>
-           <docidentifier type='metanorma'>[1]</docidentifier>
-          <title><em>Standard</em></title>
-          </bibitem>
-          </references></bibliography>
+      * [[[iso123,ISO 123:1066-1067]]] _Standard_
+      * [[[iso124,(1)ISO 123:1066-1067]]] _Standard_
+    INPUT
+    output = <<~OUTPUT
+          #{BLANK_HDR}
+          <sections>
+          </sections><bibliography><references id="_" obligation="informative" normative="true">
+            <title>Normative references</title>
+            #{NORM_REF_BOILERPLATE}
+            <bibitem id="iso123" type="standard">
+              <title format="text/plain">Standard</title>
+      <docidentifier>ISO 123:1066-1067</docidentifier>
+             <docnumber>123</docnumber>
+      <date type="published">
+        <from>1066</from>
+        <to>1067</to>
+      </date>
+      <contributor>
+        <role type="publisher"/>
+        <organization>
+          <name>ISO</name>
+        </organization>
+      </contributor>
+           </bibitem>
+           <bibitem id="iso124" type="standard">
+              <title format="text/plain">Standard</title>
+              <docidentifier type='metanorma'>[1]</docidentifier>
+      <docidentifier>ISO 123:1066-1067</docidentifier>
+             <docnumber>123</docnumber>
+      <date type="published">
+        <from>1066</from>
+        <to>1067</to>
+      </date>
+      <contributor>
+        <role type="publisher"/>
+        <organization>
+          <name>ISO</name>
+        </organization>
+      </contributor>
+           </bibitem>
+          </references>
+          </bibliography>
           </standard-document>
-        OUTPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to output(/ERROR: No document identifier retrieved for ISO 123/)
-        .to_stderr
-    end
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "repairs simple fetched ISO reference" do
+    mock_isobib_get_123_no_docid(2)
+    mock_isobib_get_123_no_docid_lbl(2)
+    input = <<~"INPUT"
+      #{ISOBIB_BLANK_HDR}
+
+      <<iso123>>
+      <<iso124>>
+
+      [bibliography]
+      == Normative References
+
+      * [[[iso123,ISO 123]]] _Standard_
+      * [[[iso124,(1)ISO 123]]] _Standard_
+    INPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(<<~"OUTPUT")
+               #{BLANK_HDR}
+               <preface>
+          <foreword id='_' obligation='informative'>
+            <title>Foreword</title>
+            <p id='_'>
+              <eref type='inline' bibitemid='iso123' citeas='ISO 123'/>
+              <eref type='inline' bibitemid='iso124' citeas='[1]'/>
+            </p>
+          </foreword>
+        </preface>
+               <sections>
+               </sections><bibliography><references id="_" obligation="informative" normative="true"><title>Normative references</title>
+                #{NORM_REF_BOILERPLATE}
+        <bibitem type="standard" id="iso123">
+          <uri type="src">https://www.iso.org/standard/23281.html</uri>
+          <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+          <date type="published">
+            <on>2001</on>
+          </date>
+          <contributor>
+            <role type="publisher"/>
+            <organization>
+              <name>International Organization for Standardization</name>
+              <abbreviation>ISO</abbreviation>
+              <uri>www.iso.org</uri>
+            </organization>
+          </contributor>
+          <edition>3</edition>
+          <language>en</language>
+          <language>fr</language>
+          <script>Latn</script>
+          <status>
+            <stage>Published</stage>
+          </status>
+          <copyright>
+            <from>2001</from>
+            <owner>
+              <organization>
+                <name>ISO</name>
+                <abbreviation/>
+              </organization>
+            </owner>
+          </copyright>
+          <relation type="obsoletes">
+            <bibitem type="standard">
+              <formattedref format="text/plain">ISO 123:1985</formattedref>
+            </bibitem>
+          </relation>
+          <relation type="updates">
+            <bibitem type="standard">
+              <formattedref format="text/plain">ISO 123:2001</formattedref>
+            </bibitem>
+          </relation>
+        <docidentifier>ISO 123</docidentifier>
+        <title><em>Standard</em></title>
+        </bibitem>
+        <bibitem type="standard" id="iso124">
+          <uri type="src">https://www.iso.org/standard/23281.html</uri>
+          <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+          <date type="published">
+            <on>2001</on>
+          </date>
+          <contributor>
+            <role type="publisher"/>
+            <organization>
+              <name>International Organization for Standardization</name>
+              <abbreviation>ISO</abbreviation>
+              <uri>www.iso.org</uri>
+            </organization>
+          </contributor>
+          <edition>3</edition>
+          <language>en</language>
+          <language>fr</language>
+          <script>Latn</script>
+          <status>
+            <stage>Published</stage>
+          </status>
+          <copyright>
+            <from>2001</from>
+            <owner>
+              <organization>
+                <name>ISO</name>
+                <abbreviation/>
+              </organization>
+            </owner>
+          </copyright>
+          <relation type="obsoletes">
+            <bibitem type="standard">
+              <formattedref format="text/plain">ISO 123:1985</formattedref>
+            </bibitem>
+          </relation>
+          <relation type="updates">
+            <bibitem type="standard">
+              <formattedref format="text/plain">ISO 123:2001</formattedref>
+            </bibitem>
+          </relation>
+        <docidentifier>ISO 123</docidentifier>
+         <docidentifier type='metanorma'>[1]</docidentifier>
+        <title><em>Standard</em></title>
+        </bibitem>
+        </references></bibliography>
+        </standard-document>
+      OUTPUT
+    expect do
+      Asciidoctor.convert(input, *OPTIONS)
+    end.to output(/ERROR: No document identifier retrieved for ISO 123/)
+      .to_stderr
+  end
 
   it "customises docidentifier by language" do
     mock_rfcbib_get_rfc8342(3)
@@ -285,7 +285,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
-                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
+                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -313,6 +313,7 @@ RSpec.describe Metanorma::Standoc do
                 <relation type='obsoletes'>
                   <bibitem type='standard'>
                     <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                    <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
                   </bibitem>
                 </relation>
                 <relation type='instance'>
@@ -325,7 +326,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
-                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
+                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
                       <on>2001-05</on>
@@ -363,6 +364,7 @@ RSpec.describe Metanorma::Standoc do
                     <relation type='obsoletes'>
                       <bibitem type='standard'>
                         <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                        <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
                       </bibitem>
                     </relation>
                     <place>Geneva</place>
@@ -380,7 +382,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
                 <docidentifier type='metanorma'>[1]</docidentifier>
-                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
+                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -408,6 +410,7 @@ RSpec.describe Metanorma::Standoc do
                 <relation type='obsoletes'>
                   <bibitem type='standard'>
                     <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                    <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
                   </bibitem>
                 </relation>
                 <relation type='instance'>
@@ -420,7 +423,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
-                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
+                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
                       <on>2001-05</on>
@@ -458,6 +461,7 @@ RSpec.describe Metanorma::Standoc do
                     <relation type='obsoletes'>
                       <bibitem type='standard'>
                         <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                        <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
                       </bibitem>
                     </relation>
                     <place>Geneva</place>
@@ -515,7 +519,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
-                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:fr</docidentifier>
+                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -544,6 +548,7 @@ RSpec.describe Metanorma::Standoc do
                 <relation type='obsoletes'>
                   <bibitem type='standard'>
                     <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                    <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
                   </bibitem>
                 </relation>
                 <relation type='instance'>
@@ -556,7 +561,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
-                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:fr</docidentifier>
+                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
                       <on>2001-05</on>
@@ -599,6 +604,7 @@ RSpec.describe Metanorma::Standoc do
                     <relation type='obsoletes'>
                       <bibitem type='standard'>
                         <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                        <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
                       </bibitem>
                     </relation>
                     <place>Geneva</place>
@@ -616,7 +622,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
                 <docidentifier type='metanorma'>[1]</docidentifier>
-                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:fr</docidentifier>
+                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -645,6 +651,7 @@ RSpec.describe Metanorma::Standoc do
                 <relation type='obsoletes'>
                   <bibitem type='standard'>
                     <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                    <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
                   </bibitem>
                 </relation>
                 <relation type='instance'>
@@ -657,7 +664,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
-                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:fr</docidentifier>
+                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
                       <on>2001-05</on>
@@ -700,6 +707,7 @@ RSpec.describe Metanorma::Standoc do
                     <relation type='obsoletes'>
                       <bibitem type='standard'>
                         <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                        <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
                       </bibitem>
                     </relation>
                     <place>Geneva</place>
@@ -790,7 +798,7 @@ RSpec.describe Metanorma::Standoc do
           <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:21071:en</uri>
           <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
           <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
-          <docidentifier type='URN'>urn:iso:std:iso-iec:tr:12382:stage-90.93:ed-2:en</docidentifier>
+          <docidentifier type='URN'>urn:iso:std:iso-iec:tr:12382:stage-90.93:ed-2</docidentifier>
           <docnumber>12382</docnumber>
           <date type="published">
             <on>1992-12</on>
@@ -838,7 +846,7 @@ RSpec.describe Metanorma::Standoc do
           <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
           <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
           <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
-          <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
+          <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
           <docnumber>124</docnumber>
           <date type="published">
             <on>2014-03</on>
@@ -870,6 +878,7 @@ RSpec.describe Metanorma::Standoc do
           <relation type="obsoletes">
             <bibitem type="standard">
               <formattedref format="text/plain">ISO 124:2011</formattedref>
+              <docidentifier type='ISO' primary='true'>ISO 124:2011</docidentifier>
             </bibitem>
           </relation>
           <place>Geneva</place>
@@ -883,7 +892,7 @@ RSpec.describe Metanorma::Standoc do
           <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
           <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
           <docidentifier type='metanorma'>[1]</docidentifier>
-          <docidentifier type='URN'>urn:iso:std:iso-iec:tr:12382:stage-90.93:ed-2:en</docidentifier>
+          <docidentifier type='URN'>urn:iso:std:iso-iec:tr:12382:stage-90.93:ed-2</docidentifier>
           <docnumber>12382</docnumber>
           <date type="published">
             <on>1992-12</on>
@@ -932,7 +941,7 @@ RSpec.describe Metanorma::Standoc do
           <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
           <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
           <docidentifier type='metanorma'>[1]</docidentifier>
-          <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
+          <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
           <docnumber>124</docnumber>
           <date type="published">
             <on>2014-03</on>
@@ -964,6 +973,7 @@ RSpec.describe Metanorma::Standoc do
           <relation type="obsoletes">
             <bibitem type="standard">
               <formattedref format="text/plain">ISO 124:2011</formattedref>
+              <docidentifier type='ISO' primary='true'>ISO 124:2011</docidentifier>
             </bibitem>
           </relation>
           <place>Geneva</place>
@@ -1011,7 +1021,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
                <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                <docidentifier type='ISO' primary="true">ISO 124:2014</docidentifier>
-               <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
+               <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
                <docnumber>124</docnumber>
                <date type='published'>
                  <on>2014-03</on>
@@ -1043,6 +1053,7 @@ RSpec.describe Metanorma::Standoc do
                <relation type='obsoletes'>
                  <bibitem type='standard'>
                    <formattedref format='text/plain'>ISO 124:2011</formattedref>
+                   <docidentifier type='ISO' primary='true'>ISO 124:2011</docidentifier>
                  </bibitem>
                </relation>
                  <place>Geneva</place>
@@ -1107,7 +1118,7 @@ RSpec.describe Metanorma::Standoc do
                   <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
                   <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                   <docidentifier type='ISO' primary="true">ISO 124</docidentifier>
-                  <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
+                  <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
                   <docnumber>124</docnumber>
                   <contributor>
                     <role type='publisher'/>
@@ -1135,6 +1146,7 @@ RSpec.describe Metanorma::Standoc do
                   <relation type='obsoletes'>
                     <bibitem type='standard'>
                       <formattedref format='text/plain'>ISO 124:2011</formattedref>
+                      <docidentifier type='ISO' primary='true'>ISO 124:2011</docidentifier>
                     </bibitem>
                   </relation>
                   <relation type='instance'>
@@ -1147,7 +1159,7 @@ RSpec.describe Metanorma::Standoc do
                       <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
                       <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                       <docidentifier type='ISO' primary="true">ISO 124:2014</docidentifier>
-                      <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
+                      <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
                       <docnumber>124</docnumber>
                       <date type='published'>
                         <on>2014-03</on>
@@ -1186,6 +1198,7 @@ RSpec.describe Metanorma::Standoc do
                       <relation type='obsoletes'>
                         <bibitem type='standard'>
                           <formattedref format='text/plain'>ISO 124:2011</formattedref>
+                          <docidentifier type='ISO' primary='true'>ISO 124:2011</docidentifier>
                         </bibitem>
                       </relation>
                       <place>Geneva</place>
@@ -1205,7 +1218,7 @@ RSpec.describe Metanorma::Standoc do
                   <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
                   <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
                   <docidentifier type='ISO' primary="true">ISO 125</docidentifier>
-                  <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7:en</docidentifier>
+                  <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7</docidentifier>
                   <docnumber>125</docnumber>
                   <contributor>
                     <role type='publisher'/>
@@ -1233,6 +1246,7 @@ RSpec.describe Metanorma::Standoc do
                   <relation type='obsoletes'>
                     <bibitem type='standard'>
                       <formattedref format='text/plain'>ISO 125:2011</formattedref>
+                       <docidentifier type='ISO' primary='true'>ISO 125:2011</docidentifier>
                     </bibitem>
                   </relation>
                   <relation type='instance'>
@@ -1248,7 +1262,7 @@ RSpec.describe Metanorma::Standoc do
                       <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
                       <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
                       <docidentifier type='ISO' primary="true">ISO 125:2020</docidentifier>
-                      <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7:en</docidentifier>
+                      <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7</docidentifier>
                       <docnumber>125</docnumber>
                       <date type='published'>
                         <on>2020-02</on>
@@ -1288,6 +1302,7 @@ RSpec.describe Metanorma::Standoc do
                       <relation type='obsoletes'>
                         <bibitem type='standard'>
                           <formattedref format='text/plain'>ISO 125:2011</formattedref>
+                           <docidentifier type='ISO' primary='true'>ISO 125:2011</docidentifier>
                         </bibitem>
                       </relation>
                       <place>Geneva</place>
@@ -1310,7 +1325,7 @@ RSpec.describe Metanorma::Standoc do
           <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
           <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
           <docidentifier type='ISO' primary="true">ISO 125</docidentifier>
-          <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7:en</docidentifier>
+          <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7</docidentifier>
           <docnumber>125</docnumber>
           <contributor>
             <role type='publisher'/>
@@ -1338,6 +1353,7 @@ RSpec.describe Metanorma::Standoc do
           <relation type='obsoletes'>
             <bibitem type='standard'>
               <formattedref format='text/plain'>ISO 125:2011</formattedref>
+               <docidentifier type='ISO' primary='true'>ISO 125:2011</docidentifier>
             </bibitem>
           </relation>
           <relation type='instance'>
@@ -1353,7 +1369,7 @@ RSpec.describe Metanorma::Standoc do
               <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
               <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
               <docidentifier type='ISO' primary="true">ISO 125:2020</docidentifier>
-              <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7:en</docidentifier>
+              <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7</docidentifier>
               <docnumber>125</docnumber>
               <date type='published'>
                 <on>2020-02</on>
@@ -1393,6 +1409,7 @@ RSpec.describe Metanorma::Standoc do
               <relation type='obsoletes'>
                 <bibitem type='standard'>
                   <formattedref format='text/plain'>ISO 125:2011</formattedref>
+                   <docidentifier type='ISO' primary='true'>ISO 125:2011</docidentifier>
                 </bibitem>
               </relation>
               <place>Geneva</place>
@@ -1415,7 +1432,7 @@ RSpec.describe Metanorma::Standoc do
                   <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
                   <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                   <docidentifier type='ISO' primary="true">ISO 124</docidentifier>
-                  <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
+                  <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
                   <docnumber>124</docnumber>
                   <contributor>
                     <role type='publisher'/>
@@ -1443,6 +1460,7 @@ RSpec.describe Metanorma::Standoc do
                   <relation type='obsoletes'>
                     <bibitem type='standard'>
                       <formattedref format='text/plain'>ISO 124:2011</formattedref>
+                      <docidentifier type='ISO' primary='true'>ISO 124:2011</docidentifier>
                     </bibitem>
                   </relation>
                   <relation type='instance'>
@@ -1455,7 +1473,7 @@ RSpec.describe Metanorma::Standoc do
                       <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
                       <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                       <docidentifier type='ISO' primary="true">ISO 124:2014</docidentifier>
-                      <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
+                      <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
                       <docnumber>124</docnumber>
                       <date type='published'>
                         <on>2014-03</on>
@@ -1494,6 +1512,7 @@ RSpec.describe Metanorma::Standoc do
                       <relation type='obsoletes'>
                         <bibitem type='standard'>
                           <formattedref format='text/plain'>ISO 124:2011</formattedref>
+                          <docidentifier type='ISO' primary='true'>ISO 124:2011</docidentifier>
                         </bibitem>
                       </relation>
                       <place>Geneva</place>
@@ -1517,7 +1536,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes draft ISO reference" do
-    #stub_fetch_ref no_year: true, note: "The standard is in press"
+    # stub_fetch_ref no_year: true, note: "The standard is in press"
 
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -2259,9 +2278,9 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "overrides normative status of bibliographies" do
-    mock_isobib_get_123_no_docid(1)
-    mock_isobib_get_123_no_docid_lbl(1)
-    VCR.use_cassette "isobib_get_123_1" do
+    #mock_isobib_get_123_no_docid(1)
+    #mock_isobib_get_123_no_docid_lbl(1)
+    VCR.use_cassette "isobib_get_123_2" do
       input = <<~INPUT
         #{ISOBIB_BLANK_HDR}
 
@@ -2290,7 +2309,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
-                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
+                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -2318,6 +2337,7 @@ RSpec.describe Metanorma::Standoc do
                 <relation type='obsoletes'>
                   <bibitem type='standard'>
                     <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                    <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
                   </bibitem>
                 </relation>
                 <relation type='instance'>
@@ -2330,7 +2350,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
-                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
+                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
                       <on>2001-05</on>
@@ -2368,6 +2388,7 @@ RSpec.describe Metanorma::Standoc do
                     <relation type='obsoletes'>
                       <bibitem type='standard'>
                         <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                        <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
                       </bibitem>
                     </relation>
                     <place>Geneva</place>
@@ -2395,7 +2416,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
                 <docidentifier type='metanorma'>[1]</docidentifier>
-                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
+                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -2423,6 +2444,7 @@ RSpec.describe Metanorma::Standoc do
                 <relation type='obsoletes'>
                   <bibitem type='standard'>
                     <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                    <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
                   </bibitem>
                 </relation>
                 <relation type='instance'>
@@ -2435,7 +2457,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
-                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
+                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
                       <on>2001-05</on>
@@ -2473,6 +2495,7 @@ RSpec.describe Metanorma::Standoc do
                     <relation type='obsoletes'>
                       <bibitem type='standard'>
                         <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                        <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
                       </bibitem>
                     </relation>
                     <place>Geneva</place>

@@ -50,7 +50,7 @@ ISO_124_DATED = <<~XML.freeze
          <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
          <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
          <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
-         <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7:en</docidentifier>
+         <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
          <docnumber>124</docnumber>
          <date type="published">
            <on>2014-03</on>
@@ -82,6 +82,7 @@ ISO_124_DATED = <<~XML.freeze
          <relation type="obsoletes">
            <bibitem type="standard">
              <formattedref format="text/plain">ISO 124:2011</formattedref>
+             <docidentifier type='ISO' primary='true'>ISO 124:2011</docidentifier>
            </bibitem>
          </relation>
          <place>Geneva</place>
@@ -95,7 +96,7 @@ ISO_124_DATED = <<~XML.freeze
              <text>Latex and raw rubber</text>
            </ics>
            <structuredidentifier type="ISO">
-             <project-number part="">ISO 124</project-number>
+             <project-number>ISO 124</project-number>
            </structuredidentifier>
          </ext>
        </bibdata>
@@ -209,7 +210,7 @@ ISO_123_DATED = <<~XML.freeze
            <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
            <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
            <docidentifier type="ISO" primary="true">ISO 123:2001</docidentifier>
-           <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3:en</docidentifier>
+           <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
            <docnumber>123</docnumber>
            <date type="published">
              <on>2001-05</on>
@@ -247,6 +248,7 @@ ISO_123_DATED = <<~XML.freeze
            <relation type="obsoletes">
              <bibitem type="standard">
                <formattedref format="text/plain">ISO 123:1985</formattedref>
+               <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
              </bibitem>
            </relation>
            <place>Geneva</place>
@@ -260,7 +262,7 @@ ISO_123_DATED = <<~XML.freeze
                <text>Latex and raw rubber</text>
              </ics>
              <structuredidentifier type="ISO">
-               <project-number part="">ISO 123</project-number>
+               <project-number>ISO 123</project-number>
              </structuredidentifier>
            </ext>
          </bibdata>
