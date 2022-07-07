@@ -100,9 +100,13 @@ module Metanorma
         end
       end
 
+      def termlookup_cleanup(xmldoc)
+        Metanorma::Standoc::TermLookupCleanup.new(xmldoc, @log).call
+      end
+
       def termdef_cleanup(xmldoc)
         termdef_unnest_cleanup(xmldoc)
-        Metanorma::Standoc::TermLookupCleanup.new(xmldoc, @log).call
+        termlookup_cleanup(xmldoc)
         term_nonverbal_designations(xmldoc)
         term_dl_to_metadata(xmldoc)
         term_termsource_to_designation(xmldoc)
