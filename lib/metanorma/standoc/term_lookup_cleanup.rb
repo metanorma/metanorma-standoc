@@ -68,7 +68,7 @@ module Metanorma
       end
 
       def remove_missing_ref(node, target)
-        if node.at("../concept[@type = 'symbol']")
+        if node.at("./parent::concept[@type = 'symbol']")
           remove_missing_ref_symbol(node, target)
         else
           remove_missing_ref_term(node, target)

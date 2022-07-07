@@ -498,7 +498,9 @@ RSpec.describe Metanorma::Standoc do
         | a | a | a | a
         |===
       INPUT
-      expect { Asciidoctor.convert(input, *OPTIONS) }.not_to raise_error(SystemExit)
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.not_to raise_error(SystemExit)
     rescue SystemExit
     end
     expect(File.read("test.err"))
@@ -682,5 +684,62 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     expect(File.read("test.err"))
       .to include "Metadata definition list does not follow a term designation"
+  end
+
+  it "Warning if related term missing" do
+    FileUtils.rm_f "test.err"
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      #{VALIDATING_BLANK_HDR}
+
+      == Terms and definitions
+
+      === Term 1
+
+      related:see[xyz]
+
+      Definition
+
+    INPUT
+    expect(File.read("test.err"))
+      .to include "Error: Term reference to `xyz` missing:"
+
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      #{VALIDATING_BLANK_HDR}
+
+      == Terms and definitions
+
+      === Term 1
+
+      symbol:[xyz]
+
+      Definition
+
+    INPUT
+    expect(File.read("test.err"))
+      .to include "Symbol reference in `symbol[xyz]` missing:"
+
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      #{VALIDATING_BLANK_HDR}
+
+      == Terms and definitions
+
+      === Term 1
+
+      related:see[xyz]
+      symbol:[xyz1]
+
+      Definition
+
+      === xyz
+
+      == Symbols and abbreviated terms
+
+      xyz1:: B
+
+    INPUT
+    expect(File.read("test.err"))
+      .not_to include "Error: Term reference to `xyz` missing:"
+    expect(File.read("test.err"))
+      .not_to include "Symbol reference in `symbol[xyz]` missing:"
   end
 end
