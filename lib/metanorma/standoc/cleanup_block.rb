@@ -66,7 +66,7 @@ module Metanorma
       def subfigure_cleanup(xmldoc)
         xmldoc.xpath("//example[figure]").each do |e|
           next unless e.elements.map(&:name).reject do |m|
-            %w(name figure).include? m
+            %w(name figure index).include? m
           end.empty?
 
           e.name = "figure"

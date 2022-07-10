@@ -1092,22 +1092,29 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-             <sections>
-        <figure id="figureC-2"><name>Stages of gelatinization</name><figure id="_">
-        <name>Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
-        <image src="spec/examples/rice_images/rice_image3_1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
-      </figure>
-      <p id="_">Text</p>
-      <figure id="_">
-        <name>Intermediate stages: Some fully gelatinized kernels are visible</name>
-        <image src="spec/examples/rice_images/rice_image3_2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
-      </figure>
-      <figure id="_">
-        <name>Final stages: All kernels are fully gelatinized</name>
-        <image src="spec/examples/rice_images/rice_image3_3.png" id="_" mimetype="image/png" height="auto" width="auto"/>
-      </figure></figure>
-      </sections>
-      </standard-document>
+               <sections>
+           <figure id='_'>
+             <image src='spec/examples/rice_images/rice_image3_1.png' id='_' mimetype='image/png' height='auto' width='auto'/>
+           </figure>
+           <example id='_'>
+             <p id='_'>
+               indexterm
+               <index>
+                 <primary>indexterm</primary>
+               </index>
+             </p>
+             <figure id='_'>
+               <image src='spec/examples/rice_images/rice_image3_3.png' id='_' mimetype='image/png' height='auto' width='auto'/>
+             </figure>
+           </example>
+           <figure id='_'>
+             <index>
+               <primary>indexterm2</primary>
+             </index>
+             <image src='spec/examples/rice_images/rice_image3_2.png' id='_' mimetype='image/png' height='auto' width='auto'/>
+           </figure>
+         </sections>
+       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
