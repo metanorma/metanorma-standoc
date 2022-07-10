@@ -178,6 +178,46 @@ module Metanorma
           end
         end
       end
+
+      def block_index_cleanup(xmldoc)
+        xmldoc.xpath("//quote | //td | //th | //formula | //li | //dt | "\
+                     "//dd | //example | //note | //figure | //sourcecode | "\
+                     "//admonition | //termnote | //termexample | //form  | "\
+                     "//requirement | //recommendation | //permission | "\
+                     "//imagemap | //svgmap").each do |b|
+          b.xpath("./p[indexterm]").each do |p|
+            indexterm_para?(p) or next
+            p.replace(p.children)
+          end
+        end
+      end
+
+      def indexterm_para?(para)
+        p = para.dup
+        p.xpath("./index").each(&:remove)
+        p.text.strip.empty?
+      end
+
+      def include_indexterm?(elem)
+        return false if elem.nil?
+
+        !%w(image literal sourcecode).include?(elem.name)
+      end
+
+      def para_index_cleanup(xmldoc)
+        xmldoc.xpath("//p[index]").select { |p| indexterm_para?(p) }
+          .each do |p|
+            para_index_cleanup1(p, p.previous_element, p.next_element)
+          end
+      end
+
+      def para_index_cleanup1(para, prev, foll)
+        if include_indexterm?(prev)
+          prev << para.remove.children
+        elsif include_indexterm?(foll) && !foll.children.empty?
+          foll.children.first.previous = para.remove.children
+        end
+      end
     end
   end
 end
