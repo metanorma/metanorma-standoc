@@ -1210,6 +1210,12 @@ RSpec.describe Metanorma::Standoc do
 
       --
 
+      == Clause 2
+
+      Paragraph
+
+      ((index))
+
     INPUT
 
     output = <<~OUTPUT
@@ -1239,6 +1245,16 @@ RSpec.describe Metanorma::Standoc do
                </p>
              </note>
            </clause>
+           <clause id='_' inline-header='false' obligation='normative'>
+              <title>Clause 2</title>
+              <p id='_'>Paragraph</p>
+              <p id='_'>
+                index
+                <index>
+                  <primary>index</primary>
+                </index>
+              </p>
+            </clause>
          </sections>
        </standard-document>
     OUTPUT
