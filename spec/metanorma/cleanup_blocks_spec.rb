@@ -1184,4 +1184,87 @@ RSpec.describe Metanorma::Standoc do
       .gsub(%r{<style.*?</style>}m, "<style/>")))
       .to be_equivalent_to xmlpp(output)
   end
+
+  it "removes paras with indexterms" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Clause 1
+
+      Paragraph
+
+      (((index)))
+
+      [NOTE]
+      --
+
+      (((index)))
+
+      Note
+      --
+
+      [NOTE]
+      --
+
+      (((index)))
+
+      --
+
+      == Clause 2
+
+      Paragraph
+
+      ((index))
+
+    INPUT
+
+    output = <<~OUTPUT
+       #{BLANK_HDR}
+               <sections>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Clause 1</title>
+             <p id='_'>
+               Paragraph
+               <index>
+                 <primary>index</primary>
+               </index>
+             </p>
+             <note id='_'>
+               <p id='_'>
+                 <index>
+                   <primary>index</primary>
+                 </index>
+                 Note
+               </p>
+             </note>
+             <note id='_'>
+               <p id='_'>
+                 <index>
+                   <primary>index</primary>
+                 </index>
+               </p>
+             </note>
+           </clause>
+           <clause id='_' inline-header='false' obligation='normative'>
+              <title>Clause 2</title>
+              <p id='_'>Paragraph</p>
+              <p id='_'>
+                index
+                <index>
+                  <primary>index</primary>
+                </index>
+              </p>
+            </clause>
+         </sections>
+       </standard-document>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.xpath("//*[local-name() = 'image']").each do |x|
+      x.replace("<image/>")
+    end
+    expect(xmlpp(strip_guid(xml.to_xml)
+      .gsub(%r{<style.*?</style>}m, "<style/>")))
+      .to be_equivalent_to xmlpp(output)
+  end
+
 end

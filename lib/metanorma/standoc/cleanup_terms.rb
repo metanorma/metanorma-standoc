@@ -121,7 +121,7 @@ module Metanorma
         termdocsource_cleanup(xmldoc)
       end
 
-      def index_cleanup(xmldoc)
+      def term_index_cleanup(xmldoc)
         return unless @index_terms
 
         xmldoc.xpath("//preferred").each do |p|
