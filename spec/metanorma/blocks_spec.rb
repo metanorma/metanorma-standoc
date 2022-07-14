@@ -1070,6 +1070,56 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "ignores index terms when processing figures marked up as examples" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      ====
+      image::spec/examples/rice_images/rice_image3_1.png[]
+      ====
+
+      ====
+      ((indexterm))
+
+      image::spec/examples/rice_images/rice_image3_3.png[]
+      ====
+
+      ====
+      (((indexterm2)))
+
+      image::spec/examples/rice_images/rice_image3_2.png[]
+      ====
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+               <sections>
+           <figure id='_'>
+             <image src='spec/examples/rice_images/rice_image3_1.png' id='_' mimetype='image/png' height='auto' width='auto'/>
+           </figure>
+           <example id='_'>
+             <p id='_'>
+               indexterm
+               <index>
+                 <primary>indexterm</primary>
+               </index>
+             </p>
+             <figure id='_'>
+               <image src='spec/examples/rice_images/rice_image3_3.png' id='_' mimetype='image/png' height='auto' width='auto'/>
+             </figure>
+           </example>
+           <figure id='_'>
+             <index>
+               <primary>indexterm2</primary>
+             </index>
+             <image src='spec/examples/rice_images/rice_image3_2.png' id='_' mimetype='image/png' height='auto' width='auto'/>
+           </figure>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes images" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
