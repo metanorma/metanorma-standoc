@@ -928,7 +928,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "skips embedded blocks when supplying line breaks in pseudocode" do
+  it "skips embedded blocks and other exceptions when supplying line breaks in pseudocode" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
@@ -938,60 +938,79 @@ RSpec.describe Metanorma::Standoc do
       ++++
       bar X' = (1)/(v) sum_(i = 1)^(v) t_(i)
       ++++
+
+      A ::
+      B ::: C +
+      D
       ====
     INPUT
     output = <<~OUTPUT
-              #{BLANK_HDR}
-              <sections>
-      <figure id='_' class='pseudocode'>
-       <formula id='_'>
-         <stem type='MathML'>
-           <math xmlns='http://www.w3.org/1998/Math/MathML'>
-           <mover accent="true">
-                           <mrow>
-                             <mi>X</mi>
-                           </mrow>
-                             <mo>¯</mo>
-                         </mover>
-                         <mo>′</mo>
-                         <mo>=</mo>
-                         <mfrac>
-                           <mrow>
-                             <mn>1</mn>
-                           </mrow>
-                           <mrow>
-                             <mi>v</mi>
-                           </mrow>
-                         </mfrac>
-                         <munderover>
-                           <mrow>
-                             <mo>∑</mo>
-                           </mrow>
-                           <mrow>
-                             <mrow>
-                               <mi>i</mi>
-                               <mo>=</mo>
-                               <mn>1</mn>
-                             </mrow>
-                           </mrow>
-                           <mrow>
-                             <mi>v</mi>
-                           </mrow>
-                         </munderover>
-                         <msub>
-                           <mrow>
-                             <mi>t</mi>
-                           </mrow>
-                           <mrow>
-                             <mi>i</mi>
-                           </mrow>
-                         </msub>
-           </math>
-         </stem>
-       </formula>
-                 </figure>
-      </sections>
-      </standard-document>
+       #{BLANK_HDR}
+               <sections>
+       <figure id='_' class='pseudocode'>
+        <formula id='_'>
+          <stem type='MathML'>
+            <math xmlns='http://www.w3.org/1998/Math/MathML'>
+            <mover accent="true">
+                            <mrow>
+                              <mi>X</mi>
+                            </mrow>
+                              <mo>¯</mo>
+                          </mover>
+                          <mo>′</mo>
+                          <mo>=</mo>
+                          <mfrac>
+                            <mrow>
+                              <mn>1</mn>
+                            </mrow>
+                            <mrow>
+                              <mi>v</mi>
+                            </mrow>
+                          </mfrac>
+                          <munderover>
+                            <mrow>
+                              <mo>∑</mo>
+                            </mrow>
+                            <mrow>
+                              <mrow>
+                                <mi>i</mi>
+                                <mo>=</mo>
+                                <mn>1</mn>
+                              </mrow>
+                            </mrow>
+                            <mrow>
+                              <mi>v</mi>
+                            </mrow>
+                          </munderover>
+                          <msub>
+                            <mrow>
+                              <mi>t</mi>
+                            </mrow>
+                            <mrow>
+                              <mi>i</mi>
+                            </mrow>
+                          </msub>
+            </math>
+          </stem>
+        </formula>
+                       <dl id='_'>
+        <dt>A </dt>
+        <dd>
+          <dl id='_'>
+            <dt>B </dt>
+            <dd>
+              <p id='_'>
+                C
+                <br/>
+                 D
+              </p>
+            </dd>
+          </dl>
+        </dd>
+      </dl>
+                  </figure>
+       </sections>
+       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)

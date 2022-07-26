@@ -79,9 +79,9 @@ module Metanorma
         ignore = false
         lines.each_with_index do |l, i|
           /^(--+|====+|\|===|\.\.\.\.+|\*\*\*\*+|\+\+\+\++|````+|____\+)$/
-            .match(l) && (ignore = !ignore)
-          next if l.empty? || l.match(/ \+$/) || /^\[.*\]$/.match?(l) || ignore
-          next if i == lines.size - 1 ||
+            .match?(l) and (ignore = !ignore)
+          next if l.empty? || l.match(/ \+$|::\s*$/) ||
+            /^\[.*\]$/.match?(l) || ignore || i == lines.size - 1 ||
             (i < lines.size - 1 && lines[i + 1].empty?)
 
           lines[i] += " +"
