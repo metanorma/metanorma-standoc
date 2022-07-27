@@ -29,6 +29,7 @@ module Metanorma
         preprocessor Metanorma::Plugin::Lutaml::LutamlUmlAttributesTablePreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlUmlDatamodelDescriptionPreprocessor
         inline_macro Metanorma::Standoc::PreferredTermInlineMacro
+        inline_macro Metanorma::Standoc::SpanInlineMacro
         inline_macro Metanorma::Standoc::AltTermInlineMacro
         inline_macro Metanorma::Standoc::AdmittedTermInlineMacro
         inline_macro Metanorma::Standoc::DeprecatedTermInlineMacro

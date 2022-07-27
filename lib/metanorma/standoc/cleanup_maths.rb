@@ -1,17 +1,4 @@
-require "nokogiri"
-require "pathname"
-require "html2doc"
 require "asciimath2unitsml"
-require_relative "./cleanup_block"
-require_relative "./cleanup_footnotes"
-require_relative "./cleanup_ref"
-require_relative "./cleanup_ref_dl"
-require_relative "./cleanup_boilerplate"
-require_relative "./cleanup_section"
-require_relative "./cleanup_terms"
-require_relative "./cleanup_inline"
-require_relative "./cleanup_amend"
-require "relaton_iev"
 
 module Metanorma
   module Standoc

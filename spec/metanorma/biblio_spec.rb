@@ -840,7 +840,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-                #{BLANK_HDR}
+      #{BLANK_HDR}
            <sections>
          <clause id='_' inline-header='false' obligation='normative'>
            <title>Section</title>
@@ -884,6 +884,89 @@ RSpec.describe Metanorma::Standoc do
          </clause>
        </sections>
       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes microformatting of formatted references" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [bibliography]
+      === Normative References
+
+      * [[[A, B]]], s:surname[Wozniak], s:initials[S.] & s:givenname[Steve] s:surname[Jobs]. s:pubyear[1996]. s:title[_Work_]. In s:surname.editor[Gates], s:initials.editor[W. H], Collected Essays. s:docid.ISO[ISO 1234]. s:pubplace[Geneva]: s:publisher[International Standardization Organization]. s:uri.citation[http://www.example.com].
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <sections> </sections>
+         <bibliography>
+           <references id='_' normative='true' obligation='informative'>
+             <title>Normative references</title>
+             <p id='_'>
+               The following documents are referred to in the text in such a way that
+               some or all of their content constitutes requirements of this document.
+               For dated references, only the edition cited applies. For undated
+               references, the latest edition of the referenced document (including any
+               amendments) applies.
+             </p>
+             <bibitem id='A'>
+               <formattedref format='application/x-isodoc+xml'>
+                 Wozniak, S. &amp; Steve Jobs. 1996.
+                 <em>Work</em>
+                 . In Gates, W. H, Collected Essays. ISO 1234. Geneva: International
+                 Standardization Organization.
+                 <link target='http://www.example.com'/>
+                 .
+               </formattedref>
+               <title>
+                 <em>Work</em>
+               </title>
+               <uri type='citation'>
+                 <link target='http://www.example.com'/>
+               </uri>
+               <docidentifier>B</docidentifier>
+               <docidentifier type='ISO'>ISO 1234</docidentifier>
+               <date type='published'>1996</date>
+               <contributor>
+                 <role type='author'/>
+                 <person>
+                   <name>
+                     <initial>S.</initial>
+                     <surname>Wozniak</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type='author'/>
+                 <person>
+                   <name>
+                     <forename>Steve</forename>
+                     <surname>Jobs</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type='editor'/>
+                 <person>
+                   <name>
+                     <initial>W. H</initial>
+                     <surname>Gates</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>International Standardization Organization</name>
+                 </organization>
+               </contributor>
+               <place/>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)

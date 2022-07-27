@@ -153,16 +153,20 @@ module Metanorma
 
       def reference_names(xmldoc)
         xmldoc.xpath("//bibitem[not(ancestor::bibitem)]").each do |ref|
-          docid = ref.at("./docidentifier[@type = 'metanorma']") ||
-            ref.at("./docidentifier[@primary = 'true'][@language = '#{@lang}']") ||
-            ref.at("./docidentifier[@primary = 'true'][not(@language)]") ||
-            ref.at("./docidentifier[@primary = 'true']") ||
-            ref.at("./docidentifier[not(@type = 'DOI')][@language = '#{@lang}']") ||
-            ref.at("./docidentifier[not(@type = 'DOI')][not(@language)]") ||
-            ref.at("./docidentifier[not(@type = 'DOI')]") or next
+          docid = select_docid(ref) or next
           reference = format_ref(docid.children.to_xml, docid["type"])
           @anchors[ref["id"]] = { xref: reference }
         end
+      end
+
+      def select_docid(ref)
+        ref.at("./docidentifier[@type = 'metanorma']") ||
+          ref.at("./docidentifier[@primary = 'true'][@language = '#{@lang}']") ||
+          ref.at("./docidentifier[@primary = 'true'][not(@language)]") ||
+          ref.at("./docidentifier[@primary = 'true']") ||
+          ref.at("./docidentifier[not(@type = 'DOI')][@language = '#{@lang}']") ||
+          ref.at("./docidentifier[not(@type = 'DOI')][not(@language)]") ||
+          ref.at("./docidentifier[not(@type = 'DOI')]")
       end
 
       def fetch_termbase(_termbase, _id)
@@ -170,12 +174,7 @@ module Metanorma
       end
 
       def read_local_bibitem(uri)
-        return nil if %r{^https?://}.match?(uri)
-
-        file = "#{@localdir}#{uri}.rxl"
-        File.file?(file) or file = "#{@localdir}#{uri}.xml"
-        File.file?(file) or return nil
-        xml = Nokogiri::XML(File.read(file, encoding: "utf-8"))
+        xml = read_local_bibitem_file(uri) or return nil
         ret = xml.at("//*[local-name() = 'bibdata']") or return nil
         ret = Nokogiri::XML(ret.to_xml
           .sub(%r{(<bibdata[^>]*?) xmlns=("[^"]+"|'[^']+')}, "\\1")).root
@@ -184,6 +183,15 @@ module Metanorma
         ins.previous = %{<uri type="citation">#{uri}</uri>}
         ret&.at("./*[local-name() = 'ext']")&.remove
         ret
+      end
+
+      def read_local_bibitem_file(uri)
+        return nil if %r{^https?://}.match?(uri)
+
+        file = "#{@localdir}#{uri}.rxl"
+        File.file?(file) or file = "#{@localdir}#{uri}.xml"
+        File.file?(file) or return nil
+        Nokogiri::XML(File.read(file, encoding: "utf-8"))
       end
 
       # if citation uri points to local file, get bibitem from it
@@ -206,6 +214,7 @@ module Metanorma
       def bibitem_cleanup(xmldoc)
         bibitem_nested_id(xmldoc)
         ref_dl_cleanup(xmldoc)
+        formattedref_spans(xmldoc)
         fetch_local_bibitem(xmldoc)
       end
     end
