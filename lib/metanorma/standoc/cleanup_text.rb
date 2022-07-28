@@ -34,11 +34,13 @@ module Metanorma
         end
       end
 
+      IGNORE_QUOTES_ELEMENTS =
+        %w(pre tt sourcecode stem figure bibdata passthrough identifier).freeze
+
       def uninterrupt_quotes_around_xml_skip(elem)
         !(/\A['"]/.match?(elem.text) &&
-          elem.previous.ancestors("pre, tt, sourcecode, stem, figure, bibdata,
-                                  passthrough, identifer")
-          .empty? &&
+          elem.previous.path.split(%r{/})[1..-2]
+          .intersection(IGNORE_QUOTES_ELEMENTS).empty? &&
           ((elem.previous.text.strip.empty? &&
             !empty_tag_with_text_content?(elem.previous)) ||
            elem.previous.name == "index"))
@@ -74,10 +76,10 @@ module Metanorma
           empty_tag_with_text_content?(x) and prev = "dummy"
           next unless x.text?
 
-          x.ancestors("pre, tt, sourcecode, stem, figure, bibdata, passthrough,
-                      identifier").empty? and
+          ancestors = x.path.split(%r{/})[1..-2]
+          ancestors.intersection(IGNORE_QUOTES_ELEMENTS).empty? and
             dumb2smart_quotes1(x, prev)
-          prev = x.text if x.ancestors("index").empty?
+          prev = x.text unless ancestors.include?("index")
         end
       end
 
