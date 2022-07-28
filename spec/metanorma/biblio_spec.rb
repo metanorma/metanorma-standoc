@@ -896,7 +896,7 @@ RSpec.describe Metanorma::Standoc do
       [bibliography]
       === Normative References
 
-      * [[[A, B]]], s:surname[Wozniak], s:initials[S.] & s:givenname[Steve] s:surname[Jobs]. s:pubyear[1996]. s:title[_Work_]. In s:surname.editor[Gates], s:initials.editor[W. H], Collected Essays. s:docid.ISO[ISO 1234]. s:pubplace[Geneva]: s:publisher[International Standardization Organization]. s:uri.citation[http://www.example.com].
+      * [[[A, B]]], s:surname[Wozniak], s:initials[S.] & s:givenname[Steve] s:surname[Jobs]. s:pubyear[1996]. s:title[_Work_]. In s:surname.editor[Gates], s:initials.editor[W. H], Collected Essays. s:docid.ISO[ISO 1234]. s:pubplace[Geneva]: s:publisher[International Standardization Organization]. s:uri.citation[http://www.example.com]. s:type[inbook]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -911,7 +911,7 @@ RSpec.describe Metanorma::Standoc do
                references, the latest edition of the referenced document (including any
                amendments) applies.
              </p>
-             <bibitem id='A'>
+             <bibitem id='A' type="inbook">
                <formattedref format='application/x-isodoc+xml'>
                  Wozniak, S. &amp; Steve Jobs. 1996.
                  <em>Work</em>

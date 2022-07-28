@@ -110,7 +110,7 @@ module Metanorma
 
       def formattedref_spans(xmldoc)
         xmldoc.xpath("//bibitem[formattedref//span]").each do |b|
-          b << spans_to_bibitem(spans_preprocess(extract_content(b)))
+          spans_to_bibitem(b, spans_preprocess(extract_content(b)))
         end
       end
 
@@ -120,12 +120,10 @@ module Metanorma
 
       def extract_spans(bib)
         bib.xpath("./formattedref//span").each_with_object([]) do |s, m|
-          m << { key: s["class"].sub(/\..*$/, ""),
-                 type: if /\./.match?(s["class"])
-                         s["class"].sub(/^.*?\./, "")
-                       end,
+          keys = s["class"].split(".", 2)
+          m << { key: keys[0], type: keys[1],
                  val: s.children.to_xml }
-          s.replace(s.children)
+          (s["class"] == "type" and s.remove) or s.replace(s.children)
         end
       end
 
@@ -143,7 +141,7 @@ module Metanorma
           when "uri", "docid"
             ret[s[:key].to_sym] << { type: s[:type], val: s[:val] }
           when "pubyear" then ret[:date] << { type: "published", val: s[:val] }
-          when "pubplace", "title" then ret[s[:key].to_sym] = s[:val]
+          when "pubplace", "title", "type" then ret[s[:key].to_sym] = s[:val]
           when "publisher"
             ret[:contributor] << { role: "publisher", entity: "organization",
                                    name: s[:val] }
@@ -169,7 +167,7 @@ module Metanorma
           contrib[-1][:role] != (span[:type] || "author")
       end
 
-      def spans_to_bibitem(spans)
+      def spans_to_bibitem(bib, spans)
         ret = ""
         spans[:title] and ret += "<title>#{spans[:title]}</title>"
         spans[:uri].each { |s| ret += span_to_docid(s, "uri") }
@@ -177,7 +175,8 @@ module Metanorma
         spans[:date].each { |s| ret += span_to_docid(s, "date") }
         spans[:contributor].each { |s| ret += span_to_contrib(s) }
         spans[:pubplace] and ret += "<place>#{spans[:place]}</place>"
-        ret
+        spans[:type] and bib["type"] = spans[:type]
+        bib << ret
       end
 
       def span_to_docid(span, key)
