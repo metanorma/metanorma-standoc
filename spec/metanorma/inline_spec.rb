@@ -59,6 +59,8 @@ RSpec.describe Metanorma::Standoc do
       [underline]#underline#
       [smallcap]#smallcap#
       [keyword]#keyword#
+      [css font-family:"Noto Sans JP"]#text#
+      [css font-family:'Noto Sans JP']#text#
     INPUT
     output = <<~OUTPUT
            #{BLANK_HDR}
@@ -80,6 +82,8 @@ RSpec.describe Metanorma::Standoc do
       <underline>underline</underline>
       <smallcap>smallcap</smallcap>
       <keyword>keyword</keyword>
+      <span style="font-family:&quot;Noto Sans JP&quot;">text</span>
+      <span style="font-family:'Noto Sans JP'">text</span>
       </sections>
       </standard-document>
     OUTPUT

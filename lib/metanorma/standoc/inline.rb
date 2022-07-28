@@ -191,6 +191,10 @@ module Metanorma
             when "underline" then xml.underline { |s| s << node.text }
             when "smallcap" then xml.smallcap { |s| s << node.text }
             when "keyword" then xml.keyword { |s| s << node.text }
+            when /^css /
+              xml.span **{ style: node.role.sub(/^css /, "") } do |s|
+                s << node.text
+              end
             else
               xml << node.text
             end
