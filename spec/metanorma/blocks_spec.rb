@@ -764,7 +764,7 @@ RSpec.describe Metanorma::Standoc do
       ====
     INPUT
     output = <<~OUTPUT
-                   #{BLANK_HDR}
+      #{BLANK_HDR}
             <sections>
                 <clause id='_' inline-header='false' obligation='normative'>
       <title>Clause</title>
@@ -940,6 +940,9 @@ RSpec.describe Metanorma::Standoc do
 
       .Final stages: All kernels are fully gelatinized
       image::spec/examples/rice_images/rice_image3_3.png[]
+
+      [%key]
+      A:: B
       ====
     INPUT
     output = <<~OUTPUT
@@ -956,7 +959,14 @@ RSpec.describe Metanorma::Standoc do
       <figure id="_">
         <name>Final stages: All kernels are fully gelatinized</name>
         <image src="spec/examples/rice_images/rice_image3_3.png" id="_" mimetype="image/png" height="auto" width="auto"/>
-      </figure></figure>
+      </figure>
+      <dl id='_' key='true'>
+        <dt>A</dt>
+        <dd>
+          <p id='_'>B</p>
+        </dd>
+      </dl>
+      </figure>
       </sections>
       </standard-document>
     OUTPUT
