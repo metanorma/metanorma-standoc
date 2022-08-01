@@ -50,6 +50,7 @@ module Metanorma
         @index_terms = node.attr("index-terms")
         @boilerplateauthority = node.attr("boilerplate-authority")
         @embed_hdr = node.attr("embed_hdr")
+        @document_scheme = node.attr("document-scheme")
       end
 
       def init_processing(node)
