@@ -76,8 +76,12 @@ module Metanorma
         end
       end
 
+      def requirement_metadata1_attrs
+        %w(obligation model type)
+      end
+
       def requirement_metadata1_tags
-        %w(label subject inherit)
+        %w(identifier subject inherit)
       end
 
       def requirement_metadata1(reqt, dlist, ins)
@@ -85,13 +89,14 @@ module Metanorma
           reqt.children.first.previous = " "
           ins = reqt.children.first
         end
-        %w(obligation model type).each do |a|
+        requirement_metadata1_attrs.each do |a|
           dl_to_attrs(reqt, dlist, a)
         end
         requirement_metadata1_tags.each do |a|
           ins = dl_to_elems(ins, reqt, dlist, a)
         end
-        reqt_dl_to_classif(ins, reqt, dlist)
+        ins = reqt_dl_to_classif(ins, reqt, dlist)
+        reqt_dl_to_classif1(ins, reqt, dlist)
       end
 
       def reqt_dl_to_classif(ins, reqt, dlist)
@@ -103,6 +108,20 @@ module Metanorma
                        "<value>#{r[1]}</value></classification>"
             ins = ins.next
           end
+        end
+        ins
+      end
+
+      def reqt_dl_to_classif1(ins, reqt, dlist)
+        if a = reqt.at("./classification[last()]") then ins = a end
+        dlist.xpath("./dt").each do |e|
+          next if (requirement_metadata1_attrs + requirement_metadata1_tags +
+                   %w(classification)).include?(e.text)
+
+          val = e.at("./following::dd/p") || e.at("./following::dd")
+          ins.next = "<classification><tag>#{e.text}</tag>"\
+                     "<value>#{val.text}</value></classification>"
+          ins = ins.next
         end
         ins
       end

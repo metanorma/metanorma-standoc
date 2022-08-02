@@ -1609,7 +1609,7 @@ RSpec.describe Metanorma::Standoc do
   it "processes recommendation" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [.recommendation,label="/ogc/recommendation/wfs/2",subject="user;developer, implementer",inherit="/ss/584/2015/level/1; /ss/584/2015/level/2",options="unnumbered",type=verification,model=ogc,tag=X,multilingual-rendering=common]
+      [.recommendation,identifier="/ogc/recommendation/wfs/2",subject="user;developer, implementer",inherit="/ss/584/2015/level/1; /ss/584/2015/level/2",options="unnumbered",type=verification,model=ogc,tag=X,multilingual-rendering=common]
       ====
       I recommend this
       ====
@@ -1618,7 +1618,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
               <sections>
          <recommendation id="_" unnumbered="true" type="verification" model="ogc" tag='X' multilingual-rendering='common'>
-         <label>/ogc/recommendation/wfs/2</label>
+         <identifier>/ogc/recommendation/wfs/2</identifier>
        <subject>user</subject>
        <subject>developer, implementer</subject>
        <inherit>/ss/584/2015/level/1</inherit>
@@ -1719,7 +1719,7 @@ RSpec.describe Metanorma::Standoc do
       . List
       =====
 
-      [requirement,type="general",label="/req/core/quantities-uom"]
+      [requirement,type="general",identifier="/req/core/quantities-uom"]
       ======
       ======
       ====
@@ -1744,7 +1744,7 @@ RSpec.describe Metanorma::Standoc do
         </description>
       </permission>
       <requirement id='_' type='general'>
-      <label>/req/core/quantities-uom</label>
+      <identifier>/req/core/quantities-uom</identifier>
       </requirement>
       </permission>
       </sections>
@@ -1760,7 +1760,7 @@ RSpec.describe Metanorma::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [.recommendation,label="/ogc/recommendation/wfs/2",subject="user",classification="control-class:Technical;priority:P0;family:System &amp; Communications Protection,System and Communications Protocols",obligation="permission,recommendation",filename="reqt1.rq"]
+      [.recommendation,identifier="/ogc/recommendation/wfs/2",subject="user",classification="control-class:Technical;priority:P0;family:System &amp; Communications Protection,System and Communications Protocols",obligation="permission,recommendation",filename="reqt1.rq"]
       ====
       I recommend _this_.
 
@@ -1819,7 +1819,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~"OUTPUT"
          #{BLANK_HDR}
                  <sections>
-                 <recommendation id="ABC"  obligation="permission,recommendation" filename="reqt1.rq"><label>/ogc/recommendation/wfs/2</label><subject>user</subject>
+                 <recommendation id="ABC"  obligation="permission,recommendation" filename="reqt1.rq"><identifier>/ogc/recommendation/wfs/2</identifier><subject>user</subject>
           <classification><tag>control-class</tag><value>Technical</value></classification><classification><tag>priority</tag><value>P0</value></classification><classification><tag>family</tag><value>System &amp; Communications Protection</value></classification><classification><tag>family</tag><value>System and Communications Protocols</value></classification>
                   <description><p id="_">I recommend <em>this</em>.</p>
                  </description><specification exclude="false" type="tabular" keep-with-next="true" keep-lines-together="true"><p id="_">This is the object of the recommendation:</p><table id="_">  <tbody>    <tr>      <td valign="top" align="left">Object</td>      <td valign="top" align="left">Value</td>    </tr>    <tr>      <td valign="top" align="left">Mission</td>      <td valign="top" align="left">Accomplished</td>    </tr>  </tbody></table></specification><description>

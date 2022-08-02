@@ -803,7 +803,7 @@ RSpec.describe Metanorma::Standoc do
       [%metadata]
       model:: ogc
       type:: class
-      label:: http://www.opengis.net/spec/waterml/2.0/req/xsd-xml-rules[*req/core*]
+      identifier:: http://www.opengis.net/spec/waterml/2.0/req/xsd-xml-rules[*req/core*]
       subject:: Encoding of logical models
       inherit:: urn:iso:dis:iso:19156:clause:7.2.2
       inherit:: urn:iso:dis:iso:19156:clause:8
@@ -812,6 +812,7 @@ RSpec.describe Metanorma::Standoc do
       inherit:: http://www.opengis.net/spec/SWE/2.0/req/core/core-concepts-used
       inherit:: <<ref2>>
       inherit:: <<ref3>>
+      target:: ABC
       classification:: priority:P0
       classification:: domain:Hydrology,Groundwater
       classification:: control-class:Technical
@@ -826,11 +827,11 @@ RSpec.describe Metanorma::Standoc do
         <clause id='_' inline-header='false' obligation='normative'>
           <title>Clause</title>
           <requirement id='_' subsequence='A' obligation='recommendation,requirement' model='ogc' type='class'>
-            <label>
+            <identifier>
               <link target='http://www.opengis.net/spec/waterml/2.0/req/xsd-xml-rules'>
                 <strong>req/core</strong>
               </link>
-            </label>
+            </identifier>
             <subject>Encoding of logical models</subject>
             <inherit>/ss/584/2015/level/1 &amp; /ss/584/2015/level/2</inherit>
             <inherit>urn:iso:dis:iso:19156:clause:7.2.2</inherit>
@@ -849,21 +850,25 @@ RSpec.describe Metanorma::Standoc do
               <xref target='ref3'/>
             </inherit>
             <classification>
-              <tag>control-class</tag>
-              <value>Technical</value>
-            </classification>
-            <classification>
-              <tag>domain</tag>
-              <value>Groundwater</value>
-            </classification>
-            <classification>
-              <tag>domain</tag>
-              <value>Hydrology</value>
-            </classification>
-            <classification>
-              <tag>priority</tag>
-              <value>P0</value>
-            </classification>
+                 <tag>priority</tag>
+                 <value>P0</value>
+               </classification>
+               <classification>
+                 <tag>domain</tag>
+                 <value>Hydrology</value>
+               </classification>
+               <classification>
+                 <tag>domain</tag>
+                 <value>Groundwater</value>
+               </classification>
+               <classification>
+                 <tag>control-class</tag>
+                 <value>Technical</value>
+               </classification>
+               <classification>
+                 <tag>target</tag>
+                 <value>ABC</value>
+               </classification>
             <description>
               <p id='_'>I recommend this</p>
             </description>

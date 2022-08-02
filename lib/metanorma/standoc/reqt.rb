@@ -7,7 +7,7 @@ module Metanorma
   module Standoc
     module Blocks
       def reqt_subpart(name)
-        %w(specification measurement-target verification import label title
+        %w(specification measurement-target verification import identifier title
            description component subject inherit classification).include? name
       end
 
@@ -63,7 +63,7 @@ module Metanorma
 
       def requirement_elems(node, out)
         node.title and out.title { |t| t << node.title }
-        a = node.attr("label") and out.label do |l|
+        a = node.attr("identifier") and out.identifier do |l|
           l << out.text(a)
         end
         a = node.attr("subject") and csv_split(a)&.each do |subj|
