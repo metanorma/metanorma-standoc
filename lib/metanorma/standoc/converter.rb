@@ -94,6 +94,7 @@ module Metanorma
         basebackend "html"
         outfilesuffix ".xml"
         @libdir = File.dirname(self.class::_file || __FILE__)
+                @c = HTMLEntities.new
       end
 
       class << self

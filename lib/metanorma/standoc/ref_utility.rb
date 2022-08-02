@@ -53,7 +53,7 @@ module Metanorma
 
       def docnumber(bib, code)
         bib.docnumber do |d|
-          d << HTMLEntities.new.decode(code).sub(/^[^\d]*/, "")
+          d << @c.decode(code).sub(/^[^\d]*/, "")
         end
       end
 

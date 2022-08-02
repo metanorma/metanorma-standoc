@@ -7,7 +7,7 @@ module Metanorma
         text = text.gsub(/\s+<fn /, "<fn ")
         %w(passthrough passthrough-inline).each do |v|
           text.gsub!(%r{<#{v}\s+formats="metanorma">([^<]*)
-                    </#{v}>}mx) { HTMLEntities.new.decode($1) }
+                    </#{v}>}mx) { @c.decode($1) }
         end
         text
       end
@@ -51,7 +51,7 @@ module Metanorma
         /\S\Z/.match?(prev.text) or return
         foll = elem.at(".//following::text()[1]")
         m = /\A(["'][[:punct:]]*)(\s|\Z)/
-          .match(HTMLEntities.new.decode(foll&.text)) or return
+          .match(@c.decode(foll&.text)) or return
         foll.content = foll.text.sub(/\A(["'][[:punct:]]*)/, "")
         prev.content = "#{prev.text}#{m[1]}"
       end

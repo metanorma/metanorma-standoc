@@ -79,8 +79,8 @@ module Metanorma
       end
 
       def inline_anchor_bibref(node)
-        eref_contents = HTMLEntities.new
-          .decode(node.text || node.target || node.id)
+        eref_contents =
+          @c.decode(node.text || node.target || node.id)
           &.sub(/^\[?([^\[\]]+?)\]?$/, "[\\1]")
         @refids << (node.target || node.id)
         noko do |xml|
@@ -125,14 +125,14 @@ module Metanorma
       end
 
       def xml_encode(text)
-        HTMLEntities.new.encode(text, :basic, :hexadecimal)
+        @c.encode(text, :basic, :hexadecimal)
           .gsub(/&amp;gt;/, ">").gsub(/&amp;lt;/, "<").gsub(/&amp;amp;/, "&")
           .gsub(/&gt;/, ">").gsub(/&lt;/, "<").gsub(/&amp;/, "&")
           .gsub(/&quot;/, '"').gsub(/&#xa;/, "\n").gsub(/&amp;#/, "&#")
       end
 
       def latex_parse1(text)
-        lxm_input = Unicode2LaTeX.unicode2latex(HTMLEntities.new.decode(text))
+        lxm_input = Unicode2LaTeX.unicode2latex(@c.decode(text))
         results = Latexmath.parse(lxm_input).to_mathml
         results.nil? and
           @log.add("Math", nil,
