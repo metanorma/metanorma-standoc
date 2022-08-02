@@ -45,7 +45,8 @@ module Metanorma
 
       def figure_dl_cleanup1(xmldoc)
         q = "//figure/following-sibling::*[self::dl]"
-        xmldoc.xpath(q).each do |s|
+        q1 = "//figure/figure/following-sibling::*[self::dl]"
+        (xmldoc.xpath(q) - xmldoc.xpath(q1)).each do |s|
           s["key"] == "true" and s.previous_element << s.remove
         end
       end
@@ -65,8 +66,9 @@ module Metanorma
       # examples containing only figures become subfigures of figures
       def subfigure_cleanup(xmldoc)
         xmldoc.xpath("//example[figure]").each do |e|
-          next unless e.elements.map(&:name).reject do |m|
-            %w(name figure index).include? m
+          next unless e.elements.reject do |m|
+            %w(name figure index note).include?(m.name) ||
+              (m.name == "dl" && m["key"] == "true")
           end.empty?
 
           e.name = "figure"
@@ -84,9 +86,9 @@ module Metanorma
 
       def figure_cleanup(xmldoc)
         figure_footnote_cleanup(xmldoc)
+        subfigure_cleanup(xmldoc)
         figure_dl_cleanup1(xmldoc)
         figure_dl_cleanup2(xmldoc)
-        subfigure_cleanup(xmldoc)
         single_subfigure_cleanup(xmldoc)
       end
 
