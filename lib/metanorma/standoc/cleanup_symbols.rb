@@ -11,7 +11,7 @@ module Metanorma
             n.replace(grkletters(MathML2AsciiMath.m2a(n.to_xml)))
         end
         ret = Nokogiri::XML(key.to_xml)
-        HTMLEntities.new.decode(ret.text.downcase)
+        @c.decode(ret.text.downcase)
           .gsub(/[\[\]{}<>()]/, "").gsub(/\s/m, "")
           .gsub(/[[:punct:]]|[_^]/, ":\\0").gsub(/`/, "")
           .gsub(/[0-9]+/, "þ\\0")

@@ -30,7 +30,7 @@ module Metanorma
 
       def req_classif_parse(classif)
         ret = []
-        HTMLEntities.new.decode(classif).split(/;\s*/).each do |c|
+        @c.decode(classif).split(/;\s*/).each do |c|
           c1 = c.split(/:\s*/)
           next unless c1.size == 2
 
@@ -69,10 +69,10 @@ module Metanorma
         a = node.attr("subject") and csv_split(a)&.each do |subj|
           out.subject { |s| s << out.text(subj) }
         end
-        a = HTMLEntities.new.decode(node.attr("inherit")) and
+        a = @c.decode(node.attr("inherit")) and
           csv_split(a)&.each do |i|
             out.inherit do |inh|
-              inh << HTMLEntities.new.encode(i, :hexadecimal)
+              inh << @c.encode(i, :hexadecimal)
             end
           end
         classif = node.attr("classification") and

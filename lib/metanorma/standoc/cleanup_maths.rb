@@ -5,7 +5,7 @@ module Metanorma
     module Cleanup
       def asciimath2mathml(text)
         text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>}m) do
-          "<amathstem>#{HTMLEntities.new.decode($1)}</amathstem>"
+          "<amathstem>#{@c.decode($1)}</amathstem>"
         end
         text = Html2Doc.new({})
           .asciimath_to_mathml(text, ["<amathstem>", "</amathstem>"])
@@ -47,7 +47,7 @@ module Metanorma
       def mathml_italicise(xml)
         xml.xpath(".//m:mi[not(ancestor::*[@mathvariant])]",
                   "m" => MATHML_NS).each do |i|
-          char = HTMLEntities.new.decode(i.text)
+          char = @c.decode(i.text)
           i["mathvariant"] = "normal" if mi_italicise?(char)
         end
       end

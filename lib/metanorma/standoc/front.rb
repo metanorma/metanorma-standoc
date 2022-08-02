@@ -121,7 +121,7 @@ module Metanorma
 
       def metadata_getrelation(node, xml, type, desc = nil)
         docs = node.attr(desc || type) or return
-        HTMLEntities.new.decode(docs).split(/;\s*/).each do |d|
+        @c.decode(docs).split(/;\s*/).each do |d|
           metadata_getrelation1(d, xml, type, desc)
         end
       end
