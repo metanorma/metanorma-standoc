@@ -12,7 +12,7 @@ module Metanorma
 
       def requirement_identifier(xmldoc)
         xmldoc.xpath(REQRECPER).each do |r|
-          r.xpath("./identifier[link]").each do |i|
+          r.xpath("./identifier[link] | ./inherit[link]").each do |i|
             i.children = i.at("./link/@target").text
           end
         end

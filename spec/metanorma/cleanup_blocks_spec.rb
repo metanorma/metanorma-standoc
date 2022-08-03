@@ -832,13 +832,9 @@ RSpec.describe Metanorma::Standoc do
             <inherit>/ss/584/2015/level/1 &amp; /ss/584/2015/level/2</inherit>
             <inherit>urn:iso:dis:iso:19156:clause:7.2.2</inherit>
             <inherit>urn:iso:dis:iso:19156:clause:8</inherit>
-            <inherit>
-              <link target='http://www.opengis.net/doc/IS/GML/3.2/clause/2.4'/>
-            </inherit>
+            <inherit>http://www.opengis.net/doc/IS/GML/3.2/clause/2.4</inherit>
             <inherit>O&amp;M Abstract model, OGC 10-004r3, clause D.3.4</inherit>
-            <inherit>
-              <link target='http://www.opengis.net/spec/SWE/2.0/req/core/core-concepts-used'/>
-            </inherit>
+            <inherit>http://www.opengis.net/spec/SWE/2.0/req/core/core-concepts-used</inherit>
             <inherit>
               <xref target='ref2'/>
             </inherit>
