@@ -84,6 +84,10 @@ module Metanorma
         %w(identifier subject inherit)
       end
 
+      def requirement_metadata_component_tags
+        []
+      end
+
       def requirement_metadata1(reqt, dlist, ins)
         unless ins
           reqt.children.first.previous = " "
@@ -116,7 +120,8 @@ module Metanorma
         if a = reqt.at("./classification[last()]") then ins = a end
         dlist.xpath("./dt").each do |e|
           next if (requirement_metadata1_attrs + requirement_metadata1_tags +
-                   %w(classification)).include?(e.text)
+                   requirement_metadata_component_tags + %w(classification))
+            .include?(e.text)
 
           val = e.at("./following::dd/p") || e.at("./following::dd")
           ins.next = "<classification><tag>#{e.text}</tag>"\
