@@ -5,9 +5,18 @@ module Metanorma
         requirement_metadata(xmldoc)
         requirement_inherit(xmldoc)
         requirement_descriptions(xmldoc)
+        requirement_identifier(xmldoc)
       end
 
       REQRECPER = "//requirement | //recommendation | //permission".freeze
+
+      def requirement_identifier(xmldoc)
+        xmldoc.xpath(REQRECPER).each do |r|
+          r.xpath("./identifier[link]").each do |i|
+            i.children = i.at("./link/@target").text
+          end
+        end
+      end
 
       def requirement_inherit(xmldoc)
         xmldoc.xpath(REQRECPER).each do |r|
