@@ -812,7 +812,7 @@ RSpec.describe Metanorma::Standoc do
       inherit:: http://www.opengis.net/spec/SWE/2.0/req/core/core-concepts-used
       inherit:: <<ref2>>
       inherit:: <<ref3>>
-      target:: ABC
+      target:: http://www.example.com
       classification:: priority:P0
       classification:: domain:Hydrology,Groundwater
       classification:: control-class:Technical
@@ -859,7 +859,7 @@ RSpec.describe Metanorma::Standoc do
                </classification>
                <classification>
                  <tag>target</tag>
-                 <value>ABC</value>
+                 <value><link target='http://www.example.com'/></value>
                </classification>
             <description>
               <p id='_'>I recommend this</p>
