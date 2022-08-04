@@ -812,7 +812,7 @@ RSpec.describe Metanorma::Standoc do
       inherit:: http://www.opengis.net/spec/SWE/2.0/req/core/core-concepts-used
       inherit:: <<ref2>>
       inherit:: <<ref3>>
-      target:: ABC
+      target:: http://www.example.com
       classification:: priority:P0
       classification:: domain:Hydrology,Groundwater
       classification:: control-class:Technical
@@ -827,22 +827,14 @@ RSpec.describe Metanorma::Standoc do
         <clause id='_' inline-header='false' obligation='normative'>
           <title>Clause</title>
           <requirement id='_' subsequence='A' obligation='recommendation,requirement' model='ogc' type='class'>
-            <identifier>
-              <link target='http://www.opengis.net/spec/waterml/2.0/req/xsd-xml-rules'>
-                <strong>req/core</strong>
-              </link>
-            </identifier>
+            <identifier>http://www.opengis.net/spec/waterml/2.0/req/xsd-xml-rules</identifier>
             <subject>Encoding of logical models</subject>
             <inherit>/ss/584/2015/level/1 &amp; /ss/584/2015/level/2</inherit>
             <inherit>urn:iso:dis:iso:19156:clause:7.2.2</inherit>
             <inherit>urn:iso:dis:iso:19156:clause:8</inherit>
-            <inherit>
-              <link target='http://www.opengis.net/doc/IS/GML/3.2/clause/2.4'/>
-            </inherit>
+            <inherit>http://www.opengis.net/doc/IS/GML/3.2/clause/2.4</inherit>
             <inherit>O&amp;M Abstract model, OGC 10-004r3, clause D.3.4</inherit>
-            <inherit>
-              <link target='http://www.opengis.net/spec/SWE/2.0/req/core/core-concepts-used'/>
-            </inherit>
+            <inherit>http://www.opengis.net/spec/SWE/2.0/req/core/core-concepts-used</inherit>
             <inherit>
               <xref target='ref2'/>
             </inherit>
@@ -867,7 +859,7 @@ RSpec.describe Metanorma::Standoc do
                </classification>
                <classification>
                  <tag>target</tag>
-                 <value>ABC</value>
+                 <value><link target='http://www.example.com'/></value>
                </classification>
             <description>
               <p id='_'>I recommend this</p>

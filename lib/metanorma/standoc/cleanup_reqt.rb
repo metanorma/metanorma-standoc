@@ -5,9 +5,18 @@ module Metanorma
         requirement_metadata(xmldoc)
         requirement_inherit(xmldoc)
         requirement_descriptions(xmldoc)
+        requirement_identifier(xmldoc)
       end
 
       REQRECPER = "//requirement | //recommendation | //permission".freeze
+
+      def requirement_identifier(xmldoc)
+        xmldoc.xpath(REQRECPER).each do |r|
+          r.xpath("./identifier[link] | ./inherit[link]").each do |i|
+            i.children = i.at("./link/@target").text
+          end
+        end
+      end
 
       def requirement_inherit(xmldoc)
         xmldoc.xpath(REQRECPER).each do |r|
@@ -107,7 +116,7 @@ module Metanorma
         if a = reqt.at("./classification[last()]") then ins = a end
         dlist.xpath("./dt[text()='classification']").each do |e|
           val = e.at("./following::dd/p") || e.at("./following::dd")
-          req_classif_parse(val.text).each do |r|
+          req_classif_parse(val.children.to_xml).each do |r|
             ins.next = "<classification><tag>#{r[0]}</tag>"\
                        "<value>#{r[1]}</value></classification>"
             ins = ins.next
@@ -125,7 +134,7 @@ module Metanorma
 
           val = e.at("./following::dd/p") || e.at("./following::dd")
           ins.next = "<classification><tag>#{e.text}</tag>"\
-                     "<value>#{val.text}</value></classification>"
+                     "<value>#{val.children.to_xml}</value></classification>"
           ins = ins.next
         end
         ins
