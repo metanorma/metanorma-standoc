@@ -131,7 +131,7 @@ module Metanorma
         global = !@no_isobib_cache && !node.attr("local-cache-only")
         local = node.attr("local-cache") || node.attr("local-cache-only")
         local = nil if @no_isobib_cache
-        @bibdb = Relaton::DbCache.init_bib_caches(
+        @bibdb = Relaton::Db.init_bib_caches(
           local_cache: local,
           flush_caches: node.attr("flush-caches"),
           global_cache: global,
