@@ -23,12 +23,11 @@ Gem::Specification.new do |spec|
   spec.bindir        = "bin"
   spec.require_paths = ["lib"]
   spec.files         = `git ls-files`.split("\n")
-  spec.test_files    = `git ls-files -- {spec}/*`.split("\n")
   spec.required_ruby_version = Gem::Requirement.new(">= 2.5.0")
 
   spec.add_dependency "asciidoctor", "~> 2.0.0"
   spec.add_dependency "iev", "~> 0.3.0"
-  spec.add_dependency "isodoc", "~> 2.1.0"
+  spec.add_dependency "isodoc", "~> 2.2.0"
   spec.add_dependency "metanorma-plugin-datastruct", "~> 0.2.0"
   spec.add_dependency "metanorma-plugin-lutaml"
   spec.add_dependency "ruby-jing"
@@ -55,5 +54,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "timecop", "~> 0.9"
   spec.add_development_dependency "vcr", "~> 6.1.0"
   spec.add_development_dependency "webmock"
-  #spec.metadata["rubygems_mfa_required"] = "true"
+  # spec.metadata["rubygems_mfa_required"] = "true"
+  spec.metadata["rubygems_mfa_required"] = "true"
 end
