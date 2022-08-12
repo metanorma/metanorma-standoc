@@ -30,7 +30,9 @@ RSpec.describe Metanorma::Standoc do
         [[abc]]
         == Clause 2
       INPUT
-      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
     rescue SystemExit
     end
     expect(File.read("test.err"))
@@ -387,7 +389,9 @@ RSpec.describe Metanorma::Standoc do
         {{<<def>>,term}}
         {{<<ghi>>,term}}
       INPUT
-      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
     rescue SystemExit
     end
     expect(File.read("test.err"))
@@ -420,7 +424,9 @@ RSpec.describe Metanorma::Standoc do
         related:see[<<def>>,term]
         related:see[<<ghi>>,term]
       INPUT
-      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
     rescue SystemExit
     end
     expect(File.read("test.err"))
@@ -448,7 +454,9 @@ RSpec.describe Metanorma::Standoc do
         [[abc]]
         == Clause 2
       INPUT
-      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
     rescue SystemExit
     end
     expect(File.read("test.err"))
@@ -470,7 +478,9 @@ RSpec.describe Metanorma::Standoc do
         == Normative references
         * [[[A,1]]]
       INPUT
-      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
     rescue SystemExit
     end
     expect(File.read("test.err"))
@@ -493,7 +503,6 @@ RSpec.describe Metanorma::Standoc do
         [cols="1,1,1,1"]
         |===
         3.2+| a | a
-
         | a
         | a | a | a | a
         |===
@@ -507,6 +516,37 @@ RSpec.describe Metanorma::Standoc do
       .not_to include "Table exceeds maximum number of columns defined"
     expect(File.read("test.err"))
       .not_to include "Table rows in table are inconsistent: check rowspan"
+    expect(File.read("test.err"))
+      .not_to include "Table rows in table cannot go outside thead: check rowspan"
+  end
+
+  it "warns if rowspan goes across thead" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        == Clause
+
+        [cols="1,1,1,1",headerrows=2]
+        |===
+        3.3+| a | a
+
+        | a
+        | a | a | a | a
+        |===
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+    expect(File.read("test.err"))
+      .to include "Table rows in table cannot go outside thead: check rowspan"
   end
 
   xit "warns and aborts if columns out of bounds against colgroup" do

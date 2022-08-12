@@ -15,8 +15,7 @@ module Metanorma
         attr_code(id_attr(node).merge(
                     unnumbered: node.option?("unnumbered") ? "true" : nil,
                     number: node.attr("number"),
-                    subsequence: node.attr("subsequence"),
-                  ))
+                    subsequence: node.attr("subsequence")))
       end
 
       def formula_attrs(node)
@@ -105,9 +104,8 @@ module Metanorma
 
       def svgmap_attrs(node)
         attr_code(id_attr(node)
-          .merge(id: node.id,
+          .merge(id: node.id, number: node.attr("number"),
                  unnumbered: node.option?("unnumbered") ? "true" : nil,
-                 number: node.attr("number"),
                  subsequence: node.attr("subsequence"))
         .merge(keep_attrs(node)))
       end
@@ -225,7 +223,6 @@ module Metanorma
                          filename: node.attr("filename"))))
       end
 
-      # NOTE: html escaping is performed by Nokogiri
       def listing(node)
         fragment = ::Nokogiri::XML::Builder.new do |xml|
           xml.sourcecode **listing_attrs(node) do |s|
