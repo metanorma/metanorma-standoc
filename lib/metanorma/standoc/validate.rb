@@ -1,5 +1,6 @@
 require "metanorma/standoc/utils"
 require_relative "./validate_section"
+require_relative "./validate_table"
 require "nokogiri"
 require "jing"
 require "iev"
@@ -51,75 +52,6 @@ module Metanorma
         concept_validate(doc, "related", "preferred//name")
         table_validate(doc)
         @fatalerror.empty? or clean_abort(@fatalerror.join("\n"), doc.to_xml)
-      end
-
-      def table_validate(doc)
-        doc.xpath("//table[colgroup]").each do |t|
-          maxrowcols_validate(t, t.xpath("./colgroup/col").size)
-        end
-        doc.xpath("//table[.//*[@colspan] | .//*[@rowspan]]").each do |t|
-          maxrowcols_validate(t, max_td_count(t))
-        end
-      end
-
-      def max_td_count(table)
-        max = 0
-        table.xpath("./tr").each do |tr|
-          n = tr.xpath("./td | ./th").size
-          max < n and max = n
-        end
-        max
-      end
-
-      def maxrowcols_validate(table, maxcols)
-        cells2d = table.xpath("./*/tr").each_with_object([]) { |_r, m| m << {} }
-        table.xpath("./*/tr").each_with_index do |tr, r|
-          curr = 0
-          tr.xpath("./td | ./th").each do |td|
-            curr = maxcols_validate1(td, r, curr, cells2d, maxcols)
-          end
-        end
-        maxrows_validate(table, cells2d)
-      end
-
-      # code doesn't actually do anything, since Asciidoctor refuses to generate
-      # table with inconsistent column count
-      def maxcols_validate1(tcell, row, curr, cells2d, maxcols)
-        rs = tcell&.attr("rowspan")&.to_i || 1
-        cs = tcell&.attr("colspan")&.to_i || 1
-        curr = table_tracker_update(cells2d, row, curr, rs, cs)
-        maxcols_check(curr + cs - 1, maxcols, tcell)
-        curr + cs
-      end
-
-      def table_tracker_update(cells2d, row, curr, rowspan, colspan)
-        cells2d[row] ||= {}
-        while cells2d[row][curr]
-          curr += 1
-        end
-        (row..(row + rowspan - 1)).each do |y2|
-          cells2d[y2] ||= {}
-          (curr..(curr + colspan - 1)).each { |x2| cells2d[y2][x2] = 1 }
-        end
-        curr
-      end
-
-      def maxrows_validate(table, cells2d)
-        if cells2d.any? { |x| x.size != cells2d.first.size }
-          @log.add("Table", table,
-                   "Table rows in table are inconsistent: check rowspan")
-          @fatalerror << "Table rows in table are inconsistent: check rowspan"
-        end
-      end
-
-      # if maxcols or maxrows negative, do not check them
-      def maxcols_check(col, maxcols, tcell)
-        if maxcols.positive? && col > maxcols
-          @log.add("Table", tcell, "Table exceeds maximum number of columns "\
-                                   "defined (#{maxcols})")
-          @fatalerror << "Table exceeds maximum number of columns defined "\
-                         "(#{maxcols})"
-        end
       end
 
       def norm_ref_validate(doc)
