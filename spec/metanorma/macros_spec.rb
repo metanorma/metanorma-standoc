@@ -13,7 +13,7 @@ RSpec.describe Metanorma::Standoc do
       autonumber:table[3]
       add:[a <<clause>>] del:[B]
       identifier:[a http://example.com]
-      s:category[text]
+      span:category[text]
 
       [bibliography]
       == Bibliography

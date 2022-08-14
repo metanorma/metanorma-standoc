@@ -182,7 +182,7 @@ module Metanorma
 
     class SpanInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
-      named :s
+      named :span
       parse_content_as :text
 
       def process(parent, target, attrs)
