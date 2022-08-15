@@ -1732,7 +1732,6 @@ RSpec.describe Metanorma::Standoc do
                <title type='main' format='text/plain'>Network Configuration Access Control Model</title>
                <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
                <docidentifier type='IETF' primary='true'>RFC 8341</docidentifier>
-               <docidentifier type='IETF' scope='anchor'>RFC8341</docidentifier>
                <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
                <docnumber>RFC8341</docnumber>
                <date type='published'>
@@ -1787,7 +1786,6 @@ RSpec.describe Metanorma::Standoc do
                <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
                <docidentifier type='IETF' primary='true'>RFC 8341</docidentifier>
                <docidentifier type='metanorma'>[1]</docidentifier>
-               <docidentifier type='IETF' scope='anchor'>RFC8341</docidentifier>
                <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
                <docnumber>RFC8341</docnumber>
                <date type='published'>
