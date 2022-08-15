@@ -11,18 +11,23 @@ module Metanorma
 
       def sectiontype1(node)
         node&.attr("heading")&.downcase ||
-          node.title.gsub(%r{<index>.*?</index>}m, "").gsub(/<[^>]+>/, "")
+          node.title
+            .gsub(%r{<index>.*?</index>}m, "")
+            .gsub(%r{<fn[^>]*>.*?</fn>}m, "")
+            .gsub(/<[^>]+>/, "")
             .strip.downcase
+            .sub(/\.$/, "")
       end
 
       def sectiontype(node, level = true)
         ret = sectiontype1(node)
-        ret1 = sectiontype_streamline(ret)
+        ret1 = preface_main_filter(sectiontype_streamline(ret), node)
         return ret1 if ret1 == "symbols and abbreviated terms"
         return nil unless !level || node.level == 1
         return nil if @seen_headers.include? ret
 
-        @seen_headers << ret
+        @seen_headers << ret unless ret1.nil?
+        @seen_headers_canonical << ret1 unless ret1.nil?
         ret1
       end
 
@@ -43,6 +48,31 @@ module Metanorma
         else
           ret
         end
+      end
+
+      PREFACE_CLAUSE_NAMES = %w(abstract foreword introduction
+                                acknowledgements).freeze
+
+      MAIN_CLAUSE_NAMES =
+        ["normative references", "terms and definitions", "scope",
+         "symbols and abbreviated terms", "bibliography"].freeze
+
+      def start_main_section(ret, node)
+        @preface = false if ret == "scope" && node.role != "preface" &&
+          node.attr("style") != "preface"
+        @preface = false if (PREFACE_CLAUSE_NAMES)
+          .intersection(@seen_headers_canonical + [ret]).empty?
+      end
+
+      def preface_main_filter(ret, node)
+        start_main_section(ret, node)
+        if @preface
+          self.class::MAIN_CLAUSE_NAMES.include?(ret) and return nil
+        else
+          self.class::PREFACE_CLAUSE_NAMES.include?(ret) and return nil
+        end
+
+        ret
       end
 
       def section_attributes(node)

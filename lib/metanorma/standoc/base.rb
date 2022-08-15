@@ -42,7 +42,9 @@ module Metanorma
         @anchors = {}
         @internal_eref_namespaces = []
         @seen_headers = []
+        @seen_headers_canonical = []
         @embed_hdr = []
+        @preface = true
       end
 
       def init_misc(node)
