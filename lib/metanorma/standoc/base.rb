@@ -9,6 +9,7 @@ require "fileutils"
 require "metanorma-utils"
 require "isodoc/xslfo_convert"
 require_relative "render"
+require "mn-requirements"
 
 module Metanorma
   module Standoc
@@ -43,6 +44,7 @@ module Metanorma
         @internal_eref_namespaces = []
         @seen_headers = []
         @embed_hdr = []
+        @reqt_model = nil
       end
 
       def init_misc(node)
@@ -61,6 +63,8 @@ module Metanorma
         @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
         @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
         @datauriimage = node.attr("data-uri-image") != "false"
+        @reqt_models =
+          Metanorma::Requirements.new({ default: default_requirement_model })
       end
 
       def init_toc(node)

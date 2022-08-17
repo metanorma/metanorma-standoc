@@ -44,16 +44,6 @@ module Metanorma
         node.attr("pub-uri") and person.uri node.attr("pub-uri")
       end
 
-      # , " => ," : CSV definition does not deal with space followed by quote
-      # at start of field
-      def csv_split(text, delim = ";")
-        return if text.nil?
-
-        CSV.parse_line(text&.gsub(/#{delim} "(?!")/, "#{delim}\""),
-                       liberal_parsing: true,
-                       col_sep: delim)&.compact&.map(&:strip)
-      end
-
       def metadata_author(node, xml)
         csv_split(node.attr("publisher") || default_publisher || "")
           &.each do |p|

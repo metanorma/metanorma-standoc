@@ -33,7 +33,7 @@ module Metanorma
       # We append each contained block to its parent
       def open(node)
         role = node.role || node.attr("style")
-        reqt_subpart(role) and return requirement_subpart(node)
+        reqt_subpart?(role) and return requirement_subpart(node)
         role == "form" and return form(node)
         role == "definition" and return termdefinition(node)
         result = []
@@ -98,7 +98,7 @@ module Metanorma
         return termdefinition(node) if role == "definition"
         return figure_example(node) if role == "figure"
 
-        reqt_subpart(role) and return requirement_subpart(node)
+        reqt_subpart?(role) and return requirement_subpart(node)
         example_proper(node)
       end
 

@@ -17,43 +17,20 @@ module Metanorma
         nil
       end
 
-      NOKOHEAD = <<~HERE.freeze
-        <!DOCTYPE html SYSTEM
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-        <html xmlns="http://www.w3.org/1999/xhtml">
-        <head> <title></title> <meta charset="UTF-8" /> </head>
-        <body> </body> </html>
-      HERE
-
-      # block for processing XML document fragments as XHTML,
-      # to allow for HTMLentities
-      # Unescape special chars used in Asciidoctor substitution processing
       def noko(&block)
-        doc = ::Nokogiri::XML.parse(NOKOHEAD)
-        fragment = doc.fragment("")
-        ::Nokogiri::XML::Builder.with fragment, &block
-        fragment.to_xml(encoding: "US-ASCII", indent: 0,
-                        save_with: Nokogiri::XML::Node::SaveOptions::AS_XML)
-          .lines.map do |l|
-          l.gsub(/>\n$/, ">").gsub(/\s*\n$/m, " ").gsub("&#150;", "\u0096")
-            .gsub("&#151;", "\u0097").gsub("&#x96;", "\u0096")
-            .gsub("&#x97;", "\u0097")
-        end
+        Metanorma::Utils::noko(&block)
       end
 
       def attr_code(attributes)
-        attributes.compact.transform_values do |v|
-          v.is_a?(String) ? HTMLEntities.new.decode(v) : v
-        end
+        Metanorma::Utils::attr_code(attributes)
       end
 
-      # if the contents of node are blocks, output them to out;
-      # else, wrap them in <p>
+      def csv_split(text, delim = ";")
+        Metanorma::Utils::csv_split(text, delim)
+      end
+
       def wrap_in_para(node, out)
-        if node.blocks? then out << node.content
-        else
-          out.p { |p| p << node.content }
-        end
+        Metanorma::Utils::wrap_in_para(node, out)
       end
 
       SUBCLAUSE_XPATH = "//clause[not(parent::sections)]"\
@@ -67,22 +44,11 @@ module Metanorma
       end
 
       def dl_to_attrs(elem, dlist, name)
-        e = dlist.at("./dt[text()='#{name}']") or return
-        val = e.at("./following::dd/p") || e.at("./following::dd") or return
-        elem[name] = val.text
+        Metanorma::Utils::dl_to_attrs(elem, dlist, name)
       end
 
       def dl_to_elems(ins, elem, dlist, name)
-        a = elem.at("./#{name}[last()]")
-        ins = a if a
-        dlist.xpath("./dt[text()='#{name}']").each do |e|
-          v = e.at("./following::dd")
-          e = v.elements and e.size == 1 && e.first.name == "p" and v = e.first
-          v.name = name
-          ins.next = v
-          ins = ins.next
-        end
-        ins
+        Metanorma::Utils::dl_to_elems(ins, elem, dlist, name)
       end
 
       def term_expr(elem)
