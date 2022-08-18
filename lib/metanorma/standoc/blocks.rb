@@ -90,8 +90,9 @@ module Metanorma
         return term_example(node) if in_terms? || node.option?("termexample")
 
         role = node.role || node.attr("style")
-        %w(recommendation requirement permission).include?(role) and
-          return requirement(node, role)
+        @reqt_models.requirement_roles.key?(role&.to_sym) and
+          return requirement(node, role,
+                             @reqt_models.requirement_roles[role.to_sym])
         return pseudocode_example(node) if role == "pseudocode"
         return svgmap_example(node) if role == "svgmap"
         return form(node) if role == "form"

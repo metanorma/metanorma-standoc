@@ -13,8 +13,11 @@ module Metanorma
         :default
       end
 
-      def requirement(node, obligation)
-        model = node.attr("model")&.to_sym || default_requirement_model
+      def requirement(node, obligation, type)
+        model = node.attr("model") || default_requirement_model
+        !node.attr("type") &&
+          !%w(requirement recommendation permission).include?(type) and
+          node.set_attr("type", type)
         attrs = keep_attrs(node).merge(id_unnum_attrs(node))
           .merge(model: model)
         @reqt_model = @reqt_models.model(model)
