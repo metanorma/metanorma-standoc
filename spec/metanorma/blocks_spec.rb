@@ -456,16 +456,16 @@ RSpec.describe Metanorma::Standoc do
       ====
     INPUT
     output = <<~OUTPUT
-                   #{BLANK_HDR}
-            <sections>
-                <clause id='_' inline-header='false' obligation='normative'>
-      <title>Clause</title>
-      <termnote id='_'>
-        <p id='_'>XYZ</p>
-      </termnote>
-    </clause>
-            </sections>
-            </standard-document>
+                     #{BLANK_HDR}
+              <sections>
+                  <clause id='_' inline-header='false' obligation='normative'>
+        <title>Clause</title>
+        <termnote id='_'>
+          <p id='_'>XYZ</p>
+        </termnote>
+      </clause>
+              </sections>
+              </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -764,16 +764,16 @@ RSpec.describe Metanorma::Standoc do
       ====
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR}
-            <sections>
-                <clause id='_' inline-header='false' obligation='normative'>
-      <title>Clause</title>
-      <termexample id='_'>
-        <p id='_'>XYZ</p>
-      </termexample>
-    </clause>
-            </sections>
-            </standard-document>
+        #{BLANK_HDR}
+              <sections>
+                  <clause id='_' inline-header='false' obligation='normative'>
+        <title>Clause</title>
+        <termexample id='_'>
+          <p id='_'>XYZ</p>
+        </termexample>
+      </clause>
+              </sections>
+              </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -1612,34 +1612,6 @@ RSpec.describe Metanorma::Standoc do
       </sections>
                 </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "processes recommendation" do
-    input = <<~"INPUT"
-      #{ASCIIDOC_BLANK_HDR}
-      [.recommendation,identifier="/ogc/recommendation/wfs/2",subject="user;developer, implementer",inherit="/ss/584/2015/level/1; /ss/584/2015/level/2",options="unnumbered",type=verification,model=ogc,tag=X,multilingual-rendering=common]
-      ====
-      I recommend this
-      ====
-    INPUT
-    output = <<~"OUTPUT"
-      #{BLANK_HDR}
-              <sections>
-         <recommendation id="_" unnumbered="true" type="verification" model="ogc" tag='X' multilingual-rendering='common'>
-         <identifier>/ogc/recommendation/wfs/2</identifier>
-       <subject>user</subject>
-       <subject>developer, implementer</subject>
-       <inherit>/ss/584/2015/level/1</inherit>
-       <inherit>/ss/584/2015/level/2</inherit>
-         <description><p id="_">I recommend this</p>
-       </description>
-       </recommendation>
-              </sections>
-              </standard-document>
-    OUTPUT
-
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end

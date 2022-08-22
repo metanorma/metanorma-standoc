@@ -15,7 +15,8 @@ module Metanorma
         attr_code(id_attr(node).merge(
                     unnumbered: node.option?("unnumbered") ? "true" : nil,
                     number: node.attr("number"),
-                    subsequence: node.attr("subsequence")))
+                    subsequence: node.attr("subsequence"),
+                  ))
       end
 
       def formula_attrs(node)
@@ -87,20 +88,31 @@ module Metanorma
       end
 
       def example(node)
-        return term_example(node) if in_terms? || node.option?("termexample")
-
+        (in_terms? || node.option?("termexample")) and return term_example(node)
         role = node.role || node.attr("style")
-        @reqt_models.requirement_roles.key?(role&.to_sym) and
-          return requirement(node,
-                             @reqt_models.requirement_roles[role.to_sym], role)
-        return pseudocode_example(node) if role == "pseudocode"
-        return svgmap_example(node) if role == "svgmap"
-        return form(node) if role == "form"
-        return termdefinition(node) if role == "definition"
-        return figure_example(node) if role == "figure"
-
+        ret = example_to_requirement(node, role) ||
+          example_by_role(node, role) and return ret
         reqt_subpart?(role) and return requirement_subpart(node)
         example_proper(node)
+      end
+
+      def example_by_role(node, role)
+        case role
+        when "pseudocode" then pseudocode_example(node)
+        when "svgmap" then svgmap_example(node)
+        when "form" then form(node)
+        when "definition" then termdefinition(node)
+        when "figure" then figure_example(node)
+        end
+      end
+
+      def example_to_requirement(node, role)
+        return unless @reqt_models.requirement_roles.key?(role&.to_sym)
+
+        # need to call here for proper recursion ordering
+        select_requirement_model(node)
+        requirement(node,
+                    @reqt_models.requirement_roles[role.to_sym], role)
       end
 
       def svgmap_attrs(node)

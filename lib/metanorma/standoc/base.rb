@@ -30,6 +30,7 @@ module Metanorma
         init_vars
         init_misc(node)
         init_processing(node)
+        init_reqt(node)
         init_toc(node)
         init_output(node)
         init_i18n(node)
@@ -63,8 +64,13 @@ module Metanorma
         @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
         @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
         @datauriimage = node.attr("data-uri-image") != "false"
-        @reqt_models =
-          Metanorma::Requirements.new({ default: default_requirement_model })
+      end
+
+      def init_reqt(node)
+        @default_requirement_model = (node.attr("requirements-model") ||
+                                        default_requirement_model)
+        @reqt_models = Metanorma::Requirements
+          .new({ default: @default_requirement_model })
       end
 
       def init_toc(node)
