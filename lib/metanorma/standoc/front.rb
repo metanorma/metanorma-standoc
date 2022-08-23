@@ -3,6 +3,7 @@ require "nokogiri"
 require "htmlentities"
 require "pathname"
 require_relative "./front_contributor"
+require "isoics"
 
 module Metanorma
   module Standoc
@@ -48,7 +49,10 @@ module Metanorma
       def metadata_ics(node, xml)
         ics = node.attr("library-ics")
         ics&.split(/,\s*/)&.each do |i|
-          xml.ics { |elem| elem.code i }
+           xml.ics do |elem|
+            elem.code i
+            icsdata = Isoics.fetch i
+            elem.text_ icsdata.description
         end
       end
 
