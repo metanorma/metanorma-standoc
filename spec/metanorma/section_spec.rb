@@ -77,6 +77,8 @@ RSpec.describe Metanorma::Standoc do
 
       == Terms and Definitions
 
+      == Acknowledgements
+
       [appendix]
       == Annex
 
@@ -174,6 +176,9 @@ RSpec.describe Metanorma::Standoc do
       </clause></clause>
       <clause id="_" inline-header="false" obligation="normative">
         <title>Terms and Definitions</title>
+      </clause>
+      <clause id='_' inline-header='false' obligation='normative'>
+        <title>Acknowledgements</title>
       </clause>
       </sections><annex id="_" inline-header="false" obligation="normative">
         <title>Annex</title>
