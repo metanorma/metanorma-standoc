@@ -235,7 +235,7 @@ RSpec.describe Metanorma::Standoc do
       person::
         name:::
           language:::: en
-          initial:::: A.
+          formatted_initials:::: A.
           surname:::: Bierman
         affiliation:::
       +
@@ -377,8 +377,8 @@ RSpec.describe Metanorma::Standoc do
           <role type="author"/>
           <person>
             <name>
-              <initial language="en">A.</initial>
-              <surname language="en">Bierman</surname>
+              <formatted-initials>A.</formatted-initials>
+              <surname>Bierman</surname>
             </name>
             <affiliation>
               <description language="en" script="Latn">Affiliation description</description>
@@ -590,7 +590,7 @@ RSpec.describe Metanorma::Standoc do
       contributor.role:: publisher
       contributor::
       contributor.person.name.language:: en
-      contributor.person.name.initial:: A.
+      contributor.person.name.formatted_initials:: A.
       contributor.person.name.surname:: Bierman
       contributor.person.affiliation.organization.name:: IETF
       contributor.person.affiliation.organization.abbreviation:: IETF
@@ -706,8 +706,8 @@ RSpec.describe Metanorma::Standoc do
           <role type="author"/>
           <person>
             <name>
-              <initial language="en">A.</initial>
-              <surname language="en">Bierman</surname>
+              <formatted-initials>A.</formatted-initials>
+              <surname>Bierman</surname>
             </name>
             <affiliation>
               <description language="en" script="Latn">Affiliation description</description>
@@ -933,7 +933,7 @@ RSpec.describe Metanorma::Standoc do
                  <role type='author'/>
                  <person>
                    <name>
-                     <initial>S.</initial>
+                     <formatted-initials>S.</formatted-initials>
                      <surname>Wozniak</surname>
                    </name>
                  </person>
@@ -951,7 +951,7 @@ RSpec.describe Metanorma::Standoc do
                  <role type='editor'/>
                  <person>
                    <name>
-                     <initial>W. H</initial>
+                     <formatted-initials>W. H</formatted-initials>
                      <surname>Gates</surname>
                    </name>
                  </person>

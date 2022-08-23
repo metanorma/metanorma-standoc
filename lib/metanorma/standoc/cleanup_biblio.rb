@@ -145,7 +145,7 @@ module Metanorma
           when "publisher"
             ret[:contributor] << { role: "publisher", entity: "organization",
                                    name: s[:val] }
-          when "surname", "initials", "givenname"
+          when "surname", "initials", "givenname", "formatted-initials"
             ret[:contributor] = spans_preprocess_contrib(s, ret[:contributor])
           end
         end
@@ -153,6 +153,8 @@ module Metanorma
       end
 
       def spans_preprocess_contrib(span, contrib)
+        span[:key] = "formatted-initials" if span[:key] == "initials"
+
         spans_preprocess_new_contrib?(span, contrib) and
           contrib << { role: span[:type] || "author", entity: "person" }
         contrib[-1][span[:key].to_sym] = span[:val]
@@ -162,7 +164,7 @@ module Metanorma
       def spans_preprocess_new_contrib?(span, contrib)
         contrib.empty? ||
           (if span[:key] == "surname" then contrib[-1][:surname]
-           else (contrib[-1][:initials] || contrib[-1][:givenname])
+           else (contrib[-1][:"formatted-initials"] || contrib[-1][:givenname])
            end) ||
           contrib[-1][:role] != (span[:type] || "author")
       end
@@ -190,14 +192,18 @@ module Metanorma
       def span_to_contrib(span)
         e = if span[:entity] == "organization"
               "<organization><name>#{span[:name]}</name></organization>"
-            else
-              pre = (span[:initials] and
-                     "<initial>#{span[:initials]}</initial>") ||
-                "<forename>#{span[:givenname]}</forename>"
-              "<person><name>#{pre}<surname>#{span[:surname]}</surname></name>"\
-                "</person>"
+            else span_to_person(span)
             end
         "<contributor><role type='#{span[:role]}'/>#{e}</contributor>"
+      end
+
+      def span_to_person(span)
+        pre = (span[:"formatted-initials"] and
+                     "<formatted-initials>"\
+                     "#{span[:"formatted-initials"]}</formatted-initials>") ||
+          "<forename>#{span[:givenname]}</forename>"
+        "<person><name>#{pre}<surname>#{span[:surname]}</surname></name>"\
+          "</person>"
       end
     end
   end
