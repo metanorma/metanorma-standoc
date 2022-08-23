@@ -23,7 +23,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '778'
+      - '754'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -31,7 +31,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"6a43130302ce1d2dc27672bd7b353016364ab833e2dc2bcf1a85620bba618e55"
+      - W/"0a9e1ae56f51f33cedb11573e16d5d4fbffdf58bb2d8fe23a531c82fa636e9f9"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 9170:3A4F:4AA5B:6EF85:62FA1F10
+      - 657C:7C43:167131:24B673:630395DE
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 15 Aug 2022 10:25:20 GMT
+      - Mon, 22 Aug 2022 14:42:38 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11230-MEL
+      - cache-mel11235-MEL
       X-Cache:
-      - HIT
+      - MISS
       X-Cache-Hits:
-      - '1'
+      - '0'
       X-Timer:
-      - S1660559121.526959,VS0,VE315
+      - S1661179359.503221,VS0,VE320
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - d4969ebb701e51624fa5f7a156befe9592b64c73
+      - 63860644dfcca91c1f0ccd3daf30b391d9eabbac
       Expires:
-      - Mon, 15 Aug 2022 10:30:20 GMT
+      - Mon, 22 Aug 2022 14:47:38 GMT
       Source-Age:
       - '0'
     body:
@@ -72,9 +72,9 @@ http_interactions:
         ---
         id: RFC8341
         title:
-        - type: main
-          content: Network Configuration Access Control Model
+        - content: Network Configuration Access Control Model
           format: text/plain
+          type: main
         link:
         - content: https://www.rfc-editor.org/info/rfc8341
           type: src
@@ -92,12 +92,6 @@ http_interactions:
         contributor:
         - person:
             name:
-              initial:
-              - content: A.
-                language:
-                - en
-                script:
-                - Latn
               surname:
                 content: Bierman
                 language:
@@ -114,12 +108,6 @@ http_interactions:
           - author
         - person:
             name:
-              initial:
-              - content: M.
-                language:
-                - en
-                script:
-                - Latn
               surname:
                 content: Bjorklund
                 language:
@@ -161,14 +149,14 @@ http_interactions:
             content: RFC
             format: text/plain
           number: '8341'
-        fetched: '2022-08-14'
+        fetched: '2022-08-21'
         keyword:
-        - NETCONF RESTCONF
-        - YANG
-        - XML
+        - content: NETCONF RESTCONF
+        - content: YANG
+        - content: XML
         editorialgroup:
         - name: netconf
-  recorded_at: Mon, 15 Aug 2022 10:25:20 GMT
+  recorded_at: Mon, 22 Aug 2022 14:42:38 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-rfcs/main/data/RFC8341.yaml
@@ -192,7 +180,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '778'
+      - '754'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -200,7 +188,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"6a43130302ce1d2dc27672bd7b353016364ab833e2dc2bcf1a85620bba618e55"
+      - W/"0a9e1ae56f51f33cedb11573e16d5d4fbffdf58bb2d8fe23a531c82fa636e9f9"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -210,29 +198,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 9170:3A4F:4AA5B:6EF85:62FA1F10
+      - 657C:7C43:167131:24B673:630395DE
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 15 Aug 2022 10:25:20 GMT
+      - Mon, 22 Aug 2022 14:42:38 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11260-MEL
+      - cache-mel11280-MEL
       X-Cache:
-      - MISS
+      - HIT
       X-Cache-Hits:
-      - '0'
+      - '1'
       X-Timer:
-      - S1660559121.525539,VS0,VE317
+      - S1661179359.510352,VS0,VE313
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 296581e3aea4b74236cf528516f5d228359b242a
+      - 9bc5c96c38cddc62744df479ff48dc4d74cdc8f4
       Expires:
-      - Mon, 15 Aug 2022 10:30:20 GMT
+      - Mon, 22 Aug 2022 14:47:38 GMT
       Source-Age:
       - '0'
     body:
@@ -241,9 +229,9 @@ http_interactions:
         ---
         id: RFC8341
         title:
-        - type: main
-          content: Network Configuration Access Control Model
+        - content: Network Configuration Access Control Model
           format: text/plain
+          type: main
         link:
         - content: https://www.rfc-editor.org/info/rfc8341
           type: src
@@ -261,12 +249,6 @@ http_interactions:
         contributor:
         - person:
             name:
-              initial:
-              - content: A.
-                language:
-                - en
-                script:
-                - Latn
               surname:
                 content: Bierman
                 language:
@@ -283,12 +265,6 @@ http_interactions:
           - author
         - person:
             name:
-              initial:
-              - content: M.
-                language:
-                - en
-                script:
-                - Latn
               surname:
                 content: Bjorklund
                 language:
@@ -330,12 +306,12 @@ http_interactions:
             content: RFC
             format: text/plain
           number: '8341'
-        fetched: '2022-08-14'
+        fetched: '2022-08-21'
         keyword:
-        - NETCONF RESTCONF
-        - YANG
-        - XML
+        - content: NETCONF RESTCONF
+        - content: YANG
+        - content: XML
         editorialgroup:
         - name: netconf
-  recorded_at: Mon, 15 Aug 2022 10:25:20 GMT
+  recorded_at: Mon, 22 Aug 2022 14:42:38 GMT
 recorded_with: VCR 6.1.0
