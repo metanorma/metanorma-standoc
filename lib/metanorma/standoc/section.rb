@@ -10,6 +10,8 @@ module Metanorma
       @norm_ref = false
 
       def sectiontype1(node)
+        return "abstract" if node.attr("style") == "abstract"
+
         node&.attr("heading")&.downcase ||
           node.title
             .gsub(%r{<index>.*?</index>}m, "")
@@ -55,11 +57,11 @@ module Metanorma
 
       MAIN_CLAUSE_NAMES =
         ["normative references", "terms and definitions", "scope",
-         "symbols and abbreviated terms", "bibliography"].freeze
+         "symbols and abbreviated terms", "clause", "bibliography"].freeze
 
       def start_main_section(ret, node)
-        @preface = false if ret == "scope" && node.role != "preface" &&
-          node.attr("style") != "preface"
+        @preface = false if MAIN_CLAUSE_NAMES.include?(ret) &&
+          node.role != "preface" && node.attr("style") != "preface"
         @preface = false if (PREFACE_CLAUSE_NAMES)
           .intersection(@seen_headers_canonical + [ret]).empty?
       end
