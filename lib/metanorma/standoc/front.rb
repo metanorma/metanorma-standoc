@@ -49,10 +49,11 @@ module Metanorma
       def metadata_ics(node, xml)
         ics = node.attr("library-ics")
         ics&.split(/,\s*/)&.each do |i|
-           xml.ics do |elem|
+          xml.ics do |elem|
             elem.code i
             icsdata = Isoics.fetch i
             elem.text_ icsdata.description
+          end
         end
       end
 
