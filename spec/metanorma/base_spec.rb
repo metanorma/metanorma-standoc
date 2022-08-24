@@ -222,7 +222,7 @@ RSpec.describe Metanorma::Standoc do
       :iteration: 3
       :language: en
       :title: Main Title -- Title
-      :library-ics: 1,2,3
+      :library-ics: 01.040.11,11.060.01
       :fullname: Fred Flintstone
       :role: author
       :affiliation: Slate Rock and Gravel Company
@@ -509,14 +509,13 @@ RSpec.describe Metanorma::Standoc do
                <technical-committee number="1" type="A">TC</technical-committee>
                <technical-committee number="11" type="A1">TC1</technical-committee>
              </editorialgroup>
-             <ics>
-               <code>1</code>
+                             <ics>
+               <code>01.040.11</code>
+               <text>Health care technology (Vocabularies)</text>
              </ics>
              <ics>
-               <code>2</code>
-             </ics>
-             <ics>
-               <code>3</code>
+               <code>11.060.01</code>
+               <text>Dentistry in general</text>
              </ics>
              </ext>
            </bibdata>
