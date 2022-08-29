@@ -31,6 +31,13 @@ module Metanorma
         @reqt_model = nil unless nested
         ret
       end
+
+      def requirement_validate(docxml)
+        docxml.xpath("//requirement | //recommendation | //permission")
+          .each do |r|
+          @reqt_models.model(r["model"]).validate(r, @log)
+        end
+      end
     end
   end
 end
