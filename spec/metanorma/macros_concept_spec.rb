@@ -6,6 +6,9 @@ RSpec.describe Metanorma::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       {{clause1}}
+      {{clause two}}
+      {{clause
+      two}}
       term:[clause1]
       {{clause1,w\[o\]rd}}
       term:[clause1,w[o&#93;rd]
@@ -39,6 +42,22 @@ RSpec.describe Metanorma::Standoc do
           <tt>clause1</tt>
         </strong>
           </concept>
+          <concept>
+          <strong>
+            term
+            <tt>clause two</tt>
+             not resolved via ID
+            <tt>clause-two</tt>
+          </strong>
+        </concept>
+        <concept>
+          <strong>
+            term
+            <tt>clause two</tt>
+             not resolved via ID
+            <tt>clause-two</tt>
+          </strong>
+        </concept>
           <concept>
           <strong>
           term
