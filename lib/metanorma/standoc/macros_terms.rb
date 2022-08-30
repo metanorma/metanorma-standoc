@@ -103,16 +103,16 @@ module Metanorma
     class ConceptInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :concept
-      match /\{\{(?<content>|.*?[^\\])\}\}/
+      match /\{\{(?<content>|.*?[^\\])\}\}/m
       using_format :short
 
       def preprocess_attrs(target)
-        m = /^(?<id>&lt;&lt;.+?&gt;&gt;)?(?<rest>.*)$/.match(target)
+        m = /^(?<id>&lt;&lt;.+?&gt;&gt;)?(?<rest>.*)$/m.match(target)
         ret = { id: m[:id]&.sub(/^&lt;&lt;/, "")&.sub(/&gt;&gt;$/, "") }
-        if m2 = /^(?<rest>.*?)(?<opt>,opt(?:ion)?s=.+)$/
+        if m2 = /^(?<rest>.*?)(?<opt>,opt(?:ion)?s=.+)$/m
             .match(m[:rest].sub(/^,/, ""))
           ret[:opt] = CSV.parse_line(m2[:opt].sub(/^,opt(ion)?s=/, "")
-            .sub(/^"(.+)"$/, "\\1").sub(/^'(.+)'$/, "\\1"))
+            .sub(/^"(.+)"$/m, "\\1").sub(/^'(.+)'$/m, "\\1"))
           begin
             attrs = CSV.parse_line(m2[:rest]) || []
           rescue StandardError
@@ -125,6 +125,7 @@ module Metanorma
             raise "error processing #{m[:rest]} as CSV"
           end
         end
+        attrs.map! { |x| x.gsub(/\s+/, " ") }
         ret.merge(term: attrs[0], word: attrs[1] || attrs[0],
                   render: attrs[2])
       end
