@@ -71,7 +71,7 @@ module Metanorma
       def init_reqt(node)
         @default_requirement_model = (node.attr("requirements-model") ||
                                         default_requirement_model)
-        @reqt_models = Metanorma::Requirements
+        @reqt_models = requirements_processor
           .new({ default: @default_requirement_model })
       end
 
@@ -110,6 +110,10 @@ module Metanorma
         @bibdb = nil
         init_bib_caches(node)
         init_iev_caches(node)
+      end
+
+      def requirements_processor
+        Metanorma::Requirements
       end
 
       def document(node)
