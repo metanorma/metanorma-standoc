@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "concurrent-ruby"
   spec.add_dependency "latexmath"
   spec.add_dependency "mathml2asciimath"
-  spec.add_dependency "mn-requirements", "~> 0.0.1"
+  spec.add_dependency "mn-requirements", "~> 0.1.0"
   spec.add_dependency "relaton-cli", "~> 1.13.0"
   spec.add_dependency "relaton-iev", "~> 1.1.0"
   spec.add_dependency "unicode2latex", "~> 0.0.1"
