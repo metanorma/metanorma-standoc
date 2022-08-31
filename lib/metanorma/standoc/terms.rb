@@ -56,15 +56,21 @@ module Metanorma
           return nonterm_term_def_subclause_parse(attrs, xml, node)
         node.role == "boilerplate" and
           return terms_boilerplate_parse(attrs, xml, node)
-        st = sectiontype(node, false)
-        return symbols_parse(attrs, xml, node) if @definitions
-
-        sub = node.find_by(context: :section) { |s| s.level == node.level + 1 }
-        sub.empty? || (return term_def_parse(attrs, xml, node, false))
-        st == "symbols and abbreviated terms" and
+        @definitions and return symbols_parse(attrs, xml, node)
+        term_contains_subclauses(node) and
+          return term_def_parse(attrs, xml, node, false)
+        case sectiontype(node, false)
+        when "symbols and abbreviated terms"
           return symbols_parse(attrs, xml, node)
-        st == "terms and definitions" and return clause_parse(attrs, xml, node)
+        when "terms and definitions"
+          return clause_parse(attrs, xml, node)
+        end
         term_def_subclause_parse1(attrs, xml, node)
+      end
+
+      def term_contains_subclauses(node)
+        sub = node.find_by(context: :section) { |s| s.level == node.level + 1 }
+        !sub.empty?
       end
 
       def term_def_subclause_parse1(attrs, xml, node)
