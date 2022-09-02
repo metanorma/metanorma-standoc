@@ -25,9 +25,6 @@ module Metanorma
         preprocessor Metanorma::Standoc::Datamodel::DiagramPreprocessor
         preprocessor Metanorma::Plugin::Datastruct::Json2TextPreprocessor
         preprocessor Metanorma::Plugin::Datastruct::Yaml2TextPreprocessor
-        preprocessor Metanorma::Plugin::Lutaml::LutamlPreprocessor
-        preprocessor Metanorma::Plugin::Lutaml::LutamlUmlAttributesTablePreprocessor
-        preprocessor Metanorma::Plugin::Lutaml::LutamlUmlDatamodelDescriptionPreprocessor
         inline_macro Metanorma::Standoc::PreferredTermInlineMacro
         inline_macro Metanorma::Standoc::SpanInlineMacro
         inline_macro Metanorma::Standoc::AltTermInlineMacro
@@ -56,15 +53,11 @@ module Metanorma
         inline_macro Metanorma::Standoc::ToCInlineMacro
         inline_macro Metanorma::Standoc::PassInlineMacro
         inline_macro Metanorma::Standoc::StdLinkInlineMacro
-        inline_macro Metanorma::Plugin::Lutaml::LutamlFigureInlineMacro
-        inline_macro Metanorma::Plugin::Lutaml::LutamlTableInlineMacro
-        block_macro Metanorma::Plugin::Lutaml::LutamlDiagramBlockMacro
         block Metanorma::Standoc::ToDoAdmonitionBlock
         block Metanorma::Standoc::EditorAdmonitionBlock
         treeprocessor Metanorma::Standoc::EditorInlineAdmonitionBlock
         treeprocessor Metanorma::Standoc::ToDoInlineAdmonitionBlock
         block Metanorma::Standoc::PlantUMLBlockMacro
-        block Metanorma::Plugin::Lutaml::LutamlDiagramBlock
         block Metanorma::Standoc::PseudocodeBlockMacro
         preprocessor Metanorma::Standoc::EmbedIncludeProcessor
         preprocessor Metanorma::Standoc::NamedEscapePreprocessor
