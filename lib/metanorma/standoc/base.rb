@@ -160,8 +160,11 @@ module Metanorma
       end
 
       def clean_abort(msg, file = nil)
-        file and
-          File.open("#{@filename}.xml.abort", "w:UTF-8") { |f| f.write(file) }
+        if file
+          doc = file.to_xml(encoding: "UTF-8", indent: 2,
+                            save_with: Nokogiri::XML::Node::SaveOptions::AS_XML)
+          File.open("#{@filename}.xml.abort", "w:UTF-8") { |f| f.write(doc) }
+        end
         clean_exit
         abort(msg)
       end

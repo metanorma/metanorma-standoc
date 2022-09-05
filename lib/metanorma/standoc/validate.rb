@@ -55,7 +55,8 @@ module Metanorma
         table_validate(doc)
         requirement_validate(doc)
         image_validate(doc)
-        @fatalerror.empty? or clean_abort(@fatalerror.join("\n"), doc.to_xml)
+        @fatalerror.empty? or
+          clean_abort(@fatalerror.join("\n"), doc)
       end
 
       def norm_ref_validate(doc)
@@ -108,7 +109,7 @@ module Metanorma
         Tempfile.open(["tmp", ".xml"], encoding: "UTF-8") do |f|
           schema_validate1(f, doc, schema)
         rescue Jing::Error => e
-          clean_abort("Jing failed with error: #{e}", doc.to_xml)
+          clean_abort("Jing failed with error: #{e}", doc)
         ensure
           f.close!
         end
