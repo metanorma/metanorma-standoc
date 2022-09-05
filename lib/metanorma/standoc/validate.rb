@@ -4,6 +4,8 @@ require_relative "./validate_table"
 require "nokogiri"
 require "jing"
 require "iev"
+require "pngcheck"
+require "png"
 
 module Metanorma
   module Standoc
@@ -52,6 +54,7 @@ module Metanorma
         concept_validate(doc, "related", "preferred//name")
         table_validate(doc)
         requirement_validate(doc)
+        image_validate(doc)
         @fatalerror.empty? or clean_abort(@fatalerror.join("\n"), doc.to_xml)
       end
 
@@ -153,6 +156,20 @@ module Metanorma
           @log.add("Anchors", x.parent,
                    "Crossreference target #{x.text} is undefined")
         end
+      end
+
+      def image_validate(doc)
+        doc.xpath("//image[@mimetype = 'image/png']").each do |i|
+          d = Metanorma::Utils::datauri(i["src"], @localdir)
+          png_validate1(i, Base64.strict_decode64(d.sub(/^.+?base64,/, "")))
+        end
+      end
+
+      def png_validate1(img, buffer)
+        PngCheck.check_buffer(buffer)
+      rescue PngCheck::CorruptPngError => e
+        @log.add("Images", img.parent, "Corrupt PNG image")
+        @fatalerror << "Exception #{e.message}"
       end
 
       def validate(doc)
