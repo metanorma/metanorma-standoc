@@ -84,8 +84,8 @@ module Metanorma
         dl = clause.at("./dl") or return
         key = ""
         bib = dl.xpath("./dt | ./dd").each_with_object({}) do |dtd, m|
-          (dtd.name == "dt" and key = dtd.text.sub(/:+$/, "")) or
-            add_to_hash(m, key, dd_bib_extract(dtd))
+          (dtd.name == "dt" and key = dtd.text.sub(/:+$/, "")) and next
+          add_to_hash(m, key, dd_bib_extract(dtd))
         end
         clause.xpath("./clause").each do |c1|
           key = c1&.at("./title")&.text&.downcase&.strip
