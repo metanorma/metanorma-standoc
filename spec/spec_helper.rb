@@ -20,7 +20,6 @@ require "asciidoctor"
 require "metanorma-standoc"
 require "rspec/matchers"
 require "equivalent-xml"
-#require "metanorma"
 require "metanorma/standoc"
 require "rexml/document"
 
