@@ -162,6 +162,7 @@ module Metanorma
       def image_validate(doc)
         doc.xpath("//image[@mimetype = 'image/png']").each do |i|
           d = Metanorma::Utils::datauri(i["src"], @localdir)
+          warn d
           png_validate1(i, Base64.strict_decode64(d.sub(/^.+?base64,/, "")))
         end
       end
