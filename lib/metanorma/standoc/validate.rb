@@ -159,25 +159,46 @@ module Metanorma
       end
 
       def image_validate(doc)
-        doc.xpath("//image[@mimetype = 'image/png']").each do |i|
-          d = Metanorma::Utils::datauri(i["src"], @localdir)
+        image_exists(doc)
+        png_validate(doc)
+      end
 
-          # Skip if `datauri` returns `nil` as the image is not found
-          next unless d
-
-          # FIXME: this decode call comes immediately after encoding the
-          # datauri, which should not happen!
-          decoded = Metanorma::Utils::decode_datauri(d)
-          next unless decoded
-
-          png_validate(i, decoded[:data])
+      def image_exists(doc)
+        doc.xpath("//image").each do |i|
+          Metanorma::Utils::url?(i["src"]) and next
+          Metanorma::Utils::datauri?(i["src"]) and next
+          expand_path(i["src"]) and next
+          @log.add("Images", i.parent,
+                   "Image not found: #{i['src']}")
+          @fatalerror << "Image not found: #{i['src']}"
         end
       end
 
-      def png_validate(img, buffer)
+      def expand_path(loc)
+        relative_path = File.join(@localdir, loc)
+        [loc, relative_path].detect do |p|
+          File.exist?(p) ? p : nil
+        end
+      end
+
+      def png_validate(doc)
+        doc.xpath("//image[@mimetype = 'image/png']").each do |i|
+          Metanorma::Utils::url?(i["src"]) and next
+          decoded = if Metanorma::Utils::datauri?(i["src"])
+                      Metanorma::Utils::decode_datauri(i["src"])[:data]
+                    else
+                      path = expand_path(i["src"]) or next
+                      File.binread(path)
+                    end
+          png_validate1(i, decoded)
+        end
+      end
+
+      def png_validate1(img, buffer)
         PngCheck.check_buffer(buffer)
       rescue PngCheck::CorruptPngError => e
-        @log.add("Images", img.parent, "Corrupt PNG image detected: #{e.message}")
+        @log.add("Images", img.parent,
+                 "Corrupt PNG image detected: #{e.message}")
       end
 
       def validate(doc)

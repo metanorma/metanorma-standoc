@@ -1,2 +1,0 @@
-gem "metanorma-utils", git: "https://github.com/metanorma/metanorma-utils"
-gem "relaton-iso", ">=1.13.2"
