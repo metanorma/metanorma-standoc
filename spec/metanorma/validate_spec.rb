@@ -1,5 +1,4 @@
 require "spec_helper"
-require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
@@ -786,22 +785,22 @@ RSpec.describe Metanorma::Standoc do
   it "warns and aborts if corrupt PNG" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :no-pdf:
 
-        == Clause
-        image::spec/assets/corrupt.png[]
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
 
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
+      == Clause
+      image::spec/assets/corrupt.png[]
+
+    INPUT
+
+    expect do
+      Asciidoctor.convert(input, *OPTIONS)
+    end.not_to raise_error
+
     warn File.read("test.err")
     expect(File.read("test.err"))
       .to include "Corrupt PNG image"
@@ -811,22 +810,22 @@ RSpec.describe Metanorma::Standoc do
   it "does not warn and abort if not corrupt PNG" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :no-pdf:
 
-        == Clause
-        image::spec/assets/correct.png[]
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
 
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.not_to raise_error
-    rescue SystemExit, RuntimeError
-    end
+      == Clause
+      image::spec/assets/correct.png[]
+
+    INPUT
+
+    expect do
+      Asciidoctor.convert(input, *OPTIONS)
+    end.not_to raise_error
+
     expect(File.read("test.err"))
       .not_to include "Corrupt PNG image"
     expect(File.exist?("test.xml")).to be true

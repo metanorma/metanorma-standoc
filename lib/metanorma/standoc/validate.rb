@@ -177,8 +177,7 @@ module Metanorma
       def png_validate(img, buffer)
         PngCheck.check_buffer(buffer)
       rescue PngCheck::CorruptPngError => e
-        @log.add("Images", img.parent, "Corrupt PNG image detected")
-        @fatalerror << "Exception #{e.message}"
+        @log.add("Images", img.parent, "Corrupt PNG image detected: #{e.message}")
       end
 
       def validate(doc)
