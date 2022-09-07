@@ -5,7 +5,6 @@ require "nokogiri"
 require "jing"
 require "iev"
 require "pngcheck"
-require "png"
 
 module Metanorma
   module Standoc
@@ -162,15 +161,23 @@ module Metanorma
       def image_validate(doc)
         doc.xpath("//image[@mimetype = 'image/png']").each do |i|
           d = Metanorma::Utils::datauri(i["src"], @localdir)
-          # d.chars.to_a.each_slice(80).to_a.map { |s| s.join }.each { |s| warn s }
-          png_validate1(i, Base64.strict_decode64(d.sub(/^.+?base64,/, "")))
+
+          # Skip if `datauri` returns `nil` as the image is not found
+          next unless d
+
+          # FIXME: this decode call comes immediately after encoding the
+          # datauri, which should not happen!
+          decoded = Metanorma::Utils::decode_datauri(d)
+          next unless decoded
+
+          png_validate(i, decoded[:data])
         end
       end
 
-      def png_validate1(img, buffer)
+      def png_validate(img, buffer)
         PngCheck.check_buffer(buffer)
       rescue PngCheck::CorruptPngError => e
-        @log.add("Images", img.parent, "Corrupt PNG image")
+        @log.add("Images", img.parent, "Corrupt PNG image detected")
         @fatalerror << "Exception #{e.message}"
       end
 
