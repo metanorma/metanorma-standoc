@@ -23,7 +23,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '754'
+      - '814'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -31,7 +31,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"0a9e1ae56f51f33cedb11573e16d5d4fbffdf58bb2d8fe23a531c82fa636e9f9"
+      - W/"7c4d063cbcc5a6e9c70c1afee35744139dd434c825ea3ce523adb0ca7f5cab3a"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 657C:7C43:167131:24B673:630395DE
+      - 7282:5CBA:096B:C9A0:6318838D
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 22 Aug 2022 14:42:38 GMT
+      - Wed, 07 Sep 2022 11:42:06 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11235-MEL
+      - cache-mel11277-MEL
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1661179359.503221,VS0,VE320
+      - S1662550926.914532,VS0,VE310
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 63860644dfcca91c1f0ccd3daf30b391d9eabbac
+      - 7d7bd2bc9c3ac9d77283b4ece1e3df47b19e79ba
       Expires:
-      - Mon, 22 Aug 2022 14:47:38 GMT
+      - Wed, 07 Sep 2022 11:47:06 GMT
       Source-Age:
       - '0'
     body:
@@ -92,6 +92,15 @@ http_interactions:
         contributor:
         - person:
             name:
+              given:
+                forename:
+                - language:
+                  - en
+                  script:
+                  - Latn
+                  initial: A
+                formatted_initials:
+                  content: A.
               surname:
                 content: Bierman
                 language:
@@ -108,6 +117,15 @@ http_interactions:
           - author
         - person:
             name:
+              given:
+                forename:
+                - language:
+                  - en
+                  script:
+                  - Latn
+                  initial: M
+                formatted_initials:
+                  content: M.
               surname:
                 content: Bjorklund
                 language:
@@ -149,14 +167,14 @@ http_interactions:
             content: RFC
             format: text/plain
           number: '8341'
-        fetched: '2022-08-21'
+        fetched: '2022-09-06'
         keyword:
         - content: NETCONF RESTCONF
         - content: YANG
         - content: XML
         editorialgroup:
         - name: netconf
-  recorded_at: Mon, 22 Aug 2022 14:42:38 GMT
+  recorded_at: Wed, 07 Sep 2022 11:42:06 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-rfcs/main/data/RFC8341.yaml
@@ -180,7 +198,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '754'
+      - '814'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -188,7 +206,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"0a9e1ae56f51f33cedb11573e16d5d4fbffdf58bb2d8fe23a531c82fa636e9f9"
+      - W/"7c4d063cbcc5a6e9c70c1afee35744139dd434c825ea3ce523adb0ca7f5cab3a"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -198,29 +216,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 657C:7C43:167131:24B673:630395DE
+      - 7282:5CBA:096B:C9A0:6318838D
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 22 Aug 2022 14:42:38 GMT
+      - Wed, 07 Sep 2022 11:42:06 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11280-MEL
+      - cache-mel11226-MEL
       X-Cache:
       - HIT
       X-Cache-Hits:
       - '1'
       X-Timer:
-      - S1661179359.510352,VS0,VE313
+      - S1662550926.920970,VS0,VE303
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 9bc5c96c38cddc62744df479ff48dc4d74cdc8f4
+      - 31612b526bb8fb7554000be856bb6403babfb499
       Expires:
-      - Mon, 22 Aug 2022 14:47:38 GMT
+      - Wed, 07 Sep 2022 11:47:06 GMT
       Source-Age:
       - '0'
     body:
@@ -249,6 +267,15 @@ http_interactions:
         contributor:
         - person:
             name:
+              given:
+                forename:
+                - language:
+                  - en
+                  script:
+                  - Latn
+                  initial: A
+                formatted_initials:
+                  content: A.
               surname:
                 content: Bierman
                 language:
@@ -265,6 +292,15 @@ http_interactions:
           - author
         - person:
             name:
+              given:
+                forename:
+                - language:
+                  - en
+                  script:
+                  - Latn
+                  initial: M
+                formatted_initials:
+                  content: M.
               surname:
                 content: Bjorklund
                 language:
@@ -306,12 +342,12 @@ http_interactions:
             content: RFC
             format: text/plain
           number: '8341'
-        fetched: '2022-08-21'
+        fetched: '2022-09-06'
         keyword:
         - content: NETCONF RESTCONF
         - content: YANG
         - content: XML
         editorialgroup:
         - name: netconf
-  recorded_at: Mon, 22 Aug 2022 14:42:38 GMT
+  recorded_at: Wed, 07 Sep 2022 11:42:06 GMT
 recorded_with: VCR 6.1.0

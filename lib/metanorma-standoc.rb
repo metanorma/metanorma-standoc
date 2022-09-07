@@ -3,6 +3,7 @@ require_relative "isodoc/pdf_convert"
 require_relative "metanorma/standoc/converter"
 require_relative "metanorma/standoc/version"
 require "asciidoctor/extensions"
+require "metanorma"
 
 if defined? Metanorma::Registry
   require_relative "metanorma/standoc"
