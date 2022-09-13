@@ -5,7 +5,11 @@ require "spec_helper"
 RSpec.describe Metanorma::Standoc::Datamodel::DiagramPreprocessor do
   it "processes the PlantUML macro" do
     input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :no-isobib:
 
       [plantuml]
       ....
