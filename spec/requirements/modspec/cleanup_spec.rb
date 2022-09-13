@@ -2,6 +2,62 @@ require "spec_helper"
 require "fileutils"
 
 RSpec.describe Metanorma::Requirements::Modspec do
+  it "uses  component types specific to Modspec" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [[A]]
+      [requirement,model=ogc]
+      ====
+      [[B]]
+      [.component,class=Test method type]
+      --
+      Manual Inspection
+      --
+
+      [[C]]
+      [.component,class=Test method]
+      --
+      Step #2
+      --
+
+      [[D]]
+      [component,class=step]
+      --
+      Step
+      --
+
+      [[E]]
+      [component,class=guidance]
+      --
+      Guidance
+      --
+      ====
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <sections>
+           <requirement id='A' model='ogc' type=''>
+             <component exclude='false' class='Test method type'>
+               <p id='_'>Manual Inspection</p>
+             </component>
+             <component exclude='false' class='Test method'>
+               <p id='_'>Step #2</p>
+             </component>
+             <component exclude='false' class='step'>
+               <p id='_'>Step</p>
+             </component>
+             <component exclude='false' class='guidance'>
+               <p id='_'>Guidance</p>
+             </component>
+           </requirement>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "extends requirement dl syntax" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -27,6 +83,7 @@ RSpec.describe Metanorma::Requirements::Modspec do
       . Candidate test subject is a witch
       . Widget has been suitably calibrated for aerodynamics
       part:: Determine travel distance by flight path
+      guidance:: Guidance
       description:: Interpolated description
       recommendation:: /label/1
       part:: Widget has been suitably calibrated for aerodynamics
@@ -123,6 +180,7 @@ RSpec.describe Metanorma::Requirements::Modspec do
              <component class='part'>
                  <p id='_'>Determine travel distance by flight path</p>
              </component>
+             <component class='guidance'><p id='_'>Guidance</p></component>
              <description>
                  <p id='_'>Interpolated description</p>
              </description>
