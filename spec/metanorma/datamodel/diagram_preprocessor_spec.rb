@@ -3,6 +3,60 @@
 require "spec_helper"
 
 RSpec.describe Metanorma::Standoc::Datamodel::DiagramPreprocessor do
+  it "processes the PlantUML macro" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [plantuml]
+      ....
+      @startuml
+      Alice -> Bob: Authentication Request
+      Bob --> Alice: Authentication Response
+
+      Alice -> Bob: Another authentication Request
+      Alice <-- Bob: another authentication Response
+      @enduml
+      ....
+
+      [plantuml]
+      ....
+      Alice -> Bob: Authentication Request
+      Bob --> Alice: Authentication Response
+
+      Alice -> Bob: Another authentication Request
+      Alice <-- Bob: another authentication Response
+      ....
+
+      [plantuml]
+      ....
+      @startuml filename
+      Alice -> Bob: Authentication Request
+      Bob --> Alice: Authentication Response
+
+      Alice -> Bob: Another authentication Request
+      Alice <-- Bob: another authentication Response
+      @enduml
+      ....
+    INPUT
+    output = <<~OUTPUT
+             #{BLANK_HDR}
+             <sections><figure id="_">
+        <image src="plantuml/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+      </figure>
+      <figure id="_">
+        <image src="plantuml/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+      </figure>
+      <figure id="_">
+        <image src="plantuml/filename.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+      </figure>
+              </sections>
+             </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))
+      .gsub(%r{plantuml/plantuml[^./]+\.}, "plantuml/_.")))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   describe "#process" do
     context "when simple models without relations" do
       let(:datamodel_file) do
