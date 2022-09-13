@@ -64,6 +64,28 @@ module Metanorma
           xmldoc.xpath("//image").each do |i|
             # do not datauri encode SVG, we need to deduplicate its IDs
             unless read_in_if_svg(i, @localdir)
+              warn "i[src]"
+warn i["src"]
+local_path = i["src"]
+        relative_path = File.join(@localdir, i["src"])
+
+        # Check whether just the local path or the other specified relative path
+        # works.
+        path = [local_path, relative_path].detect do |p|
+          File.exist?(p) ? p : nil
+        end
+              warn "path"
+        warn path
+              warn "Marcel"
+        warn Marcel::MimeType.for(Pathname.new(path))
+              warn "binread"
+              warn File.binread(path).size
+        bin = File.binread(path)
+              warn "data"
+        data = Base64.strict_encode64(bin)
+        warn data
+        warn "end"
+
               i["src"] = Metanorma::Utils::datauri(i["src"], @localdir)
             end
           end
