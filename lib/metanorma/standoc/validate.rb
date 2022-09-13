@@ -185,6 +185,7 @@ module Metanorma
         doc.xpath("//image[@mimetype = 'image/png']").each do |i|
           Metanorma::Utils::url?(i["src"]) and next
           decoded = if Metanorma::Utils::datauri?(i["src"])
+                      warn i["src"]
                       Metanorma::Utils::decode_datauri(i["src"])[:data]
                     else
                       path = expand_path(i["src"]) or next
