@@ -76,6 +76,10 @@ local_path = i["src"]
         end
               warn "path"
         warn path
+        warn "exist?"
+        File.exist?(path)
+        warn "size"
+        File.size(path)
               warn "Marcel"
         warn Marcel::MimeType.for(Pathname.new(path))
               warn "binread"
