@@ -30,6 +30,7 @@ module Metanorma
           tocrecommendations: @tocrecommendations,
           fonts: node.attr("fonts"),
           fontlicenseagreement: node.attr("font-license-agreement"),
+          localizenumber: node.attr("localize-number"),
         }
       end
 
