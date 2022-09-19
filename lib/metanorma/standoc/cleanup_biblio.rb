@@ -110,7 +110,10 @@ module Metanorma
 
       def formattedref_spans(xmldoc)
         xmldoc.xpath("//bibitem[formattedref//span]").each do |b|
-          spans_to_bibitem(b, spans_preprocess(extract_content(b)))
+          spans = spans_preprocess(extract_content(b))
+          ret = spans_to_bibitem(spans)
+          spans[:type] and b["type"] = spans[:type]
+          b << ret
         end
       end
 
@@ -120,11 +123,17 @@ module Metanorma
 
       def extract_spans(bib)
         bib.xpath("./formattedref//span").each_with_object([]) do |s, m|
-          keys = s["class"].split(".", 2)
-          m << { key: keys[0], type: keys[1],
-                 val: s.children.to_xml }
-          (s["class"] == "type" and s.remove) or s.replace(s.children)
+          next if s.at("./ancestor::span")
+
+          extract_spans1(s, m)
         end
+      end
+
+      def extract_spans1(span, acc)
+        keys = span["class"].split(".", 2)
+        acc << { key: keys[0], type: keys[1],
+                 val: span.children.to_xml }
+        (span["class"] == "type" and span.remove) or span.replace(span.children)
       end
 
       def extract_docid(bib)
@@ -134,21 +143,61 @@ module Metanorma
         end
       end
 
+      def empty_span_hash
+        { contrib: [], docid: [], uri: [], date: [], extent: {}, in: {} }
+      end
+
       def spans_preprocess(spans)
-        ret = { contributor: [], docid: [], uri: [], date: [] }
-        spans.each do |s|
-          case s[:key]
-          when "uri", "docid"
-            ret[s[:key].to_sym] << { type: s[:type], val: s[:val] }
-          when "pubyear" then ret[:date] << { type: "published", val: s[:val] }
-          when "pubplace", "title", "type" then ret[s[:key].to_sym] = s[:val]
-          when "publisher"
-            ret[:contributor] << { role: "publisher", entity: "organization",
-                                   name: s[:val] }
-          when "surname", "initials", "givenname", "formatted-initials"
-            ret[:contributor] = spans_preprocess_contrib(s, ret[:contributor])
-          end
+        ret = empty_span_hash
+        spans.each { |s| span_preprocess1(s, ret) }
+        host_rearrange(ret)
+      end
+
+      def span_preprocess1(span, ret)
+        case span[:key]
+        when "uri", "docid"
+          ret[span[:key].to_sym] << { type: span[:type], val: span[:val] }
+        when "date"
+          ret[span[:key].to_sym] << { type: span[:type] || "published",
+                                      val: span[:val] }
+        when "pages", "volume", "issue"
+          ret[:extent][span[:key].to_sym] ||= []
+          ret[:extent][span[:key].to_sym] << span[:val]
+        when "pubplace", "title", "type", "series"
+          ret[span[:key].to_sym] = span[:val]
+        when "in_title"
+          ret[:in][:title] = span[:val]
+        when "publisher"
+          ret[:contrib] << { role: "publisher", entity: "organization",
+                             name: span[:val] }
+        when "surname", "initials", "givenname", "formatted-initials"
+          ret[:contrib] = spans_preprocess_contrib(span, ret[:contrib])
+        when "organization"
+          ret[:contrib] = spans_preprocess_org(span, ret[:contrib])
+        when "in_surname", "in_initials", "in_givenname",
+          "in_formatted-initials"
+          ret[:in][:contrib] ||= []
+          span[:key].sub!(/^in_/, "")
+          ret[:in][:contrib] =
+            spans_preprocess_contrib(span, ret[:in][:contrib])
+        when "in_organization"
+          ret[:in][:contrib] ||= []
+          span[:key].sub!(/^in_/, "")
+          ret[:in][:contrib] =
+            spans_preprocess_org(span, ret[:in][:contrib])
         end
+      end
+
+      def host_rearrange(ret)
+        ret[:in][:title] or return ret
+        ret[:in].merge!(empty_span_hash, { type: "misc" }) { |_, old, _| old }
+
+        %i(series).each do |k|
+          ret[:in][k] = ret[k]
+          ret.delete(k)
+        end
+        /^in/.match?(ret[:type]) and ret[:in][:type] =
+                                       ret[:type].sub(/^in/, "")
         ret
       end
 
@@ -169,16 +218,55 @@ module Metanorma
           contrib[-1][:role] != (span[:type] || "author")
       end
 
-      def spans_to_bibitem(bib, spans)
+      def spans_preprocess_org(span, contrib)
+        contrib << { role: span[:type] || "author", entity: "organization",
+                     name: span[:val] }
+        contrib
+      end
+
+      def spans_to_bibitem(spans)
         ret = ""
         spans[:title] and ret += "<title>#{spans[:title]}</title>"
+        ret += spans_to_bibitem_docid(spans)
+        spans[:contrib].each { |s| ret += span_to_contrib(s) }
+        spans[:series] and
+          ret += "<series><title>#{spans[:series]}</title></series>"
+        spans[:pubplace] and ret += "<place>#{spans[:pubplace]}</place>"
+        ret += spans_to_bibitem_host(spans)
+        ret + spans_to_bibitem_extent(spans[:extent])
+      end
+
+      def spans_to_bibitem_host(spans)
+        return "" if spans[:in].empty?
+
+        ret =
+          "<relation type='includedIn'><bibitem type='#{spans[:in][:type]}'>"
+        spans[:in].delete(:type)
+        ret + "#{spans_to_bibitem(spans[:in])}</bibitem></relation>"
+      end
+
+      def spans_to_bibitem_docid(spans)
+        ret = ""
         spans[:uri].each { |s| ret += span_to_docid(s, "uri") }
         spans[:docid].each { |s| ret += span_to_docid(s, "docidentifier") }
         spans[:date].each { |s| ret += span_to_docid(s, "date") }
-        spans[:contributor].each { |s| ret += span_to_contrib(s) }
-        spans[:pubplace] and ret += "<place>#{spans[:place]}</place>"
-        spans[:type] and bib["type"] = spans[:type]
-        bib << ret
+        ret
+      end
+
+      def spans_to_bibitem_extent(spans)
+        ret = ""
+        { volume: "volume", issue: "issue", pages: "page" }.each do |k, v|
+          spans[k]&.each { |s| ret += span_to_extent(s, v) }
+        end
+        ret
+      end
+
+      def span_to_extent(span, key)
+        values = span.split(/[-–]/)
+        ret = "<extent type='#{key}'><referenceFrom>#{values[0]}</referenceFrom>"
+        values[1] and
+          ret += "<referenceTo>#{values[1]}</referenceTo>"
+        "#{ret}</extent>"
       end
 
       def span_to_docid(span, key)
