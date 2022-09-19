@@ -896,12 +896,12 @@ RSpec.describe Metanorma::Standoc do
       [bibliography]
       === Normative References
 
-      * [[[A, B]]], span:surname[Wozniak], span:initials[S.] & span:givenname[Steve] span:surname[Jobs]. span:pubyear[1996]. span:title[_Work_]. In span:surname.editor[Gates], span:initials.editor[W. H], Collected Essays. span:docid.ISO[ISO 1234]. span:pubplace[Geneva]: span:publisher[International Standardization Organization]. span:uri.citation[http://www.example.com]. span:type[inbook]
+      * [[[A, B]]], span:surname[Wozniak], span:initials[S.] & span:givenname[Steve] span:surname[Jobs]. span:date.issued[1991]. span:date[1996]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] & span:in_organization[UNICEF], span:in_title[Collected Essays]. _span:series[Bibliographers Anonymous]_. span:docid.ISO[ISO 1234]. span:pubplace[Geneva]: span:publisher[International Standardization Organization]. span:uri.citation[http://www.example.com]. span:volume[4] span:issue[2–3] span:pages[12-13] span:pages[19]. span:type[inbook]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
          <sections> </sections>
-         <bibliography>
+                  <bibliography>
            <references id='_' normative='true' obligation='informative'>
              <title>Normative references</title>
              <p id='_'>
@@ -911,14 +911,15 @@ RSpec.describe Metanorma::Standoc do
                references, the latest edition of the referenced document (including any
                amendments) applies.
              </p>
-             <bibitem id='A' type="inbook">
+             <bibitem id='A' type='inbook'>
                <formattedref format='application/x-isodoc+xml'>
-                 Wozniak, S. &amp; Steve Jobs. 1996.
+                 Wozniak, S. &amp; Steve Jobs. 1991. 1996.
                  <em>Work</em>
-                 . In Gates, W. H, Collected Essays. ISO 1234. Geneva: International
-                 Standardization Organization.
+                 . Gates, W. H &amp; UNICEF, Collected Essays.
+                 <em>Bibliographers Anonymous</em>
+                 . ISO 1234. Geneva: International Standardization Organization.
                  <link target='http://www.example.com'/>
-                 .
+                 . 4 2–3 12-13 19.
                </formattedref>
                <title>
                  <em>Work</em>
@@ -928,6 +929,7 @@ RSpec.describe Metanorma::Standoc do
                </uri>
                <docidentifier>B</docidentifier>
                <docidentifier type='ISO'>ISO 1234</docidentifier>
+               <date type='issued'>1991</date>
                <date type='published'>1996</date>
                <contributor>
                  <role type='author'/>
@@ -948,21 +950,49 @@ RSpec.describe Metanorma::Standoc do
                  </person>
                </contributor>
                <contributor>
-                 <role type='editor'/>
-                 <person>
-                   <name>
-                     <formatted-initials>W. H</formatted-initials>
-                     <surname>Gates</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
                  <role type='publisher'/>
                  <organization>
                    <name>International Standardization Organization</name>
                  </organization>
                </contributor>
-               <place/>
+               <place>Geneva</place>
+               <relation type='includedIn'>
+                 <bibitem type='book'>
+                   <title>Collected Essays</title>
+                   <contributor>
+                     <role type='editor'/>
+                     <person>
+                       <name>
+                         <formatted-initials>W. H</formatted-initials>
+                         <surname>Gates</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type='author'/>
+                     <organization>
+                       <name>UNICEF</name>
+                     </organization>
+                   </contributor>
+                   <series>
+                     <title>Bibliographers Anonymous</title>
+                   </series>
+                 </bibitem>
+               </relation>
+               <extent type='volume'>
+                 <referenceFrom>4</referenceFrom>
+               </extent>
+               <extent type='issue'>
+                 <referenceFrom>2</referenceFrom>
+                 <referenceTo>3</referenceTo>
+               </extent>
+               <extent type='page'>
+                 <referenceFrom>12</referenceFrom>
+                 <referenceTo>13</referenceTo>
+               </extent>
+               <extent type='page'>
+                 <referenceFrom>19</referenceFrom>
+               </extent>
              </bibitem>
            </references>
          </bibliography>
