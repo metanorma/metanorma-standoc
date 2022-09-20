@@ -77,13 +77,22 @@ module Metanorma
           next if doc.at("//term[@id = '#{x['target']}']")
           next if doc.at("//definitions//dt[@id = '#{x['target']}']")
 
-          @log.add("Anchors", x,
-                   "#{tag.capitalize} #{x&.at("../#{refterm}")&.text} is "\
-                   "pointing to #{x['target']}, which is not a term or symbol")
+          @log.add("Anchors", x, concept_validate_msg(doc, tag, refterm, x))
           found = true
         end
         found and
           @fatalerror << "#{tag.capitalize} not cross-referencing term or symbol"
+      end
+
+      def concept_validate_msg(doc, tag, refterm, xref)
+        ret = <<~LOG
+          #{tag.capitalize} #{xref.at("../#{refterm}")&.text} is pointing to #{xref['target']}, which is not a term or symbol
+        LOG
+        if doc.at("//*[@id = '#{xref['target']}']")&.name == "terms"
+          ret = ret.strip
+          ret += ". Did you mean to point to a subterm?"
+        end
+        ret
       end
 
       def repeat_id_validate1(ids, elem)

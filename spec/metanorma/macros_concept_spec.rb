@@ -847,7 +847,7 @@ RSpec.describe Metanorma::Standoc do
       end
     end
 
-    context "multiply exising ids in document" do
+    context "multiply existing ids in document" do
       let(:input) do
         <<~XML
           #{ASCIIDOC_BLANK_HDR}
