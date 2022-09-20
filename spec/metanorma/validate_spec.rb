@@ -381,18 +381,31 @@ RSpec.describe Metanorma::Standoc do
         == Clause 1
         [[ghi]]A:: B
 
+        == Terms and Definitions
+
+        [[jkl]]
+        === Term1
+
+        ==== Term2
+
         == Symbols and Abbreviated Terms
         [[def]]DEF:: def
 
+        {{<<jkl>>,term1}}
         {{<<abc>>,term}}
         {{<<def>>,term}}
         {{<<ghi>>,term}}
+        {{Terms and Definitions}}
       INPUT
       expect do
         Asciidoctor.convert(input, *OPTIONS)
       end.to raise_error(SystemExit)
     rescue SystemExit
     end
+    expect(File.read("test.err"))
+      .to include %(Term reference to `Terms-and-Definitions` missing: "Terms-and-Definitions" is not defined in document. Did you mean to point to a subterm?)
+    expect(File.read("test.err"))
+      .to include "Concept term1 is pointing to jkl, which is not a term or symbol. Did you mean to point to a subterm?"
     expect(File.read("test.err"))
       .to include "Concept term is pointing to abc, which is not a term or symbol"
     expect(File.read("test.err"))
@@ -741,6 +754,26 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     expect(File.read("test.err"))
       .to include "Error: Term reference to `xyz` missing:"
+    expect(File.read("test.err"))
+      .not_to include "Did you mean to point to a subterm?"
+
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      #{VALIDATING_BLANK_HDR}
+
+      [[xyz]]
+      == Terms and definitions
+
+      === Term 1
+
+      related:see[xyz]
+
+      Definition
+
+    INPUT
+    expect(File.read("test.err"))
+      .to include "Error: Term reference to `xyz` missing:"
+    expect(File.read("test.err"))
+      .to include "Did you mean to point to a subterm?"
 
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       #{VALIDATING_BLANK_HDR}

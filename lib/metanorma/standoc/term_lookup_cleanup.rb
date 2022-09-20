@@ -42,7 +42,8 @@ module Metanorma
           refterm = n.at("./refterm") or next
           p = @termlookup[:secondary2primary][refterm.text] and
             refterm.children = p
-          refterm.replace("<preferred><expression><name>#{refterm.children.to_xml}"\
+          refterm.replace("<preferred><expression>"\
+                          "<name>#{refterm.children.to_xml}"\
                           "</name></expression></preferred>")
         end
       end
@@ -69,33 +70,51 @@ module Metanorma
 
       def remove_missing_ref(node, target)
         if node.at("./parent::concept[@type = 'symbol']")
+          log.add("AsciiDoc Input", node,
+                  remove_missing_ref_msg(node, target, :symbol))
           remove_missing_ref_symbol(node, target)
         else
+          log.add("AsciiDoc Input", node,
+                  remove_missing_ref_msg(node, target, :term))
           remove_missing_ref_term(node, target)
         end
       end
 
+      def remove_missing_ref_msg(node, target, type)
+        type == :symbol and return <<~LOG
+          Error: Symbol reference in `symbol[#{target}]` missing: "#{target}" is not defined in document
+        LOG
+        ret = <<~LOG
+          Error: Term reference to `#{target}` missing: "#{target}" is not defined in document
+        LOG
+        remove_missing_ref_msg1(node, target, ret)
+      end
+
+      def remove_missing_ref_msg1(node, target, ret)
+        target2 = "_#{target.downcase.gsub(/-/, '_')}"
+        if node.document.at("//*[@id = '#{target}']")&.name == "terms" ||
+            node.document.at("//*[@id = '#{target2}']")&.name == "terms"
+          ret.strip!
+          ret += ". Did you mean to point to a subterm?"
+        end
+        ret
+      end
+
       def remove_missing_ref_term(node, target)
-        log.add("AsciiDoc Input", node,
-                %(Error: Term reference to `#{target}` missing: \
-                "#{target}" is not defined in document))
         node.name = "strong"
-        node&.at("../xrefrender")&.remove
-        display = node&.at("../renderterm")&.remove&.children
-        display = [] if display.nil? || display&.to_xml == node.text
+        node.at("../xrefrender")&.remove
+        display = node.at("../renderterm")&.remove&.children
+        display = [] if display.nil? || display.to_xml == node.text
         d = display.empty? ? "" : ", display <tt>#{display.to_xml}</tt>"
         node.children = "term <tt>#{node.text}</tt>#{d} "\
                         "not resolved via ID <tt>#{target}</tt>"
       end
 
       def remove_missing_ref_symbol(node, target)
-        log.add("AsciiDoc Input", node,
-                %(Error: Symbol reference in `symbol[#{target}]` missing: \
-                "#{target}" is not defined in document))
         node.name = "strong"
-        node&.at("../xrefrender")&.remove
-        display = node&.at("../renderterm")&.remove&.children
-        display = [] if display.nil? || display&.to_xml == node.text
+        node.at("../xrefrender")&.remove
+        display = node.at("../renderterm")&.remove&.children
+        display = [] if display.nil? || display.to_xml == node.text
         d = display.empty? ? "" : ", display <tt>#{display.to_xml}</tt>"
         node.children = "symbol <tt>#{node.text}</tt>#{d} "\
                         "not resolved via ID <tt>#{target}</tt>"
