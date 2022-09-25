@@ -6,6 +6,13 @@ RSpec.describe Metanorma::Standoc do
     expect(Metanorma::Standoc::VERSION).not_to be nil
   end
 
+  it "applies Asciidoctor substitutions" do
+    expect(Metanorma::Utils.asciidoc_sub("A -- B"))
+      .to eq "A&#8201;&#8212;&#8201;B"
+    expect(Metanorma::Utils.asciidoc_sub("*A* stem:[x]"))
+      .to eq "<strong>A</strong> <stem type=\"AsciiMath\">x</stem>"
+  end
+
   it "processes named entities" do
     FileUtils.rm_f "test.doc"
     input = <<~INPUT
