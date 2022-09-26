@@ -23,7 +23,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '814'
+      - '796'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -31,7 +31,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"7c4d063cbcc5a6e9c70c1afee35744139dd434c825ea3ce523adb0ca7f5cab3a"
+      - W/"83eefad2f7aea32526c507930899bc4979c8ef71a83bc144878cc72c285654e3"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 7282:5CBA:096B:C9A0:6318838D
+      - CD68:18AA:498D:7413:63316F62
       Accept-Ranges:
       - bytes
       Date:
-      - Wed, 07 Sep 2022 11:42:06 GMT
+      - Mon, 26 Sep 2022 09:22:42 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11277-MEL
+      - cache-mel11258-MEL
       X-Cache:
-      - MISS
+      - HIT
       X-Cache-Hits:
-      - '0'
+      - '1'
       X-Timer:
-      - S1662550926.914532,VS0,VE310
+      - S1664184162.276886,VS0,VE549
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 7d7bd2bc9c3ac9d77283b4ece1e3df47b19e79ba
+      - 1842d235d4744b728e80eca16402fe540d9f5040
       Expires:
-      - Wed, 07 Sep 2022 11:47:06 GMT
+      - Mon, 26 Sep 2022 09:27:42 GMT
       Source-Age:
       - '0'
     body:
@@ -167,14 +167,13 @@ http_interactions:
             content: RFC
             format: text/plain
           number: '8341'
-        fetched: '2022-09-06'
         keyword:
         - content: NETCONF RESTCONF
         - content: YANG
         - content: XML
         editorialgroup:
         - name: netconf
-  recorded_at: Wed, 07 Sep 2022 11:42:06 GMT
+  recorded_at: Mon, 26 Sep 2022 09:22:42 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-rfcs/main/data/RFC8341.yaml
@@ -198,7 +197,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '814'
+      - '796'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -206,7 +205,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"7c4d063cbcc5a6e9c70c1afee35744139dd434c825ea3ce523adb0ca7f5cab3a"
+      - W/"83eefad2f7aea32526c507930899bc4979c8ef71a83bc144878cc72c285654e3"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -216,29 +215,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 7282:5CBA:096B:C9A0:6318838D
+      - CD68:18AA:498D:7413:63316F62
       Accept-Ranges:
       - bytes
       Date:
-      - Wed, 07 Sep 2022 11:42:06 GMT
+      - Mon, 26 Sep 2022 09:22:42 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11226-MEL
+      - cache-mel11260-MEL
       X-Cache:
-      - HIT
+      - MISS
       X-Cache-Hits:
-      - '1'
+      - '0'
       X-Timer:
-      - S1662550926.920970,VS0,VE303
+      - S1664184162.277262,VS0,VE549
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 31612b526bb8fb7554000be856bb6403babfb499
+      - 6a1f0578a02bac7c2868244fe36d22919cf3b9f3
       Expires:
-      - Wed, 07 Sep 2022 11:47:06 GMT
+      - Mon, 26 Sep 2022 09:27:42 GMT
       Source-Age:
       - '0'
     body:
@@ -342,12 +341,11 @@ http_interactions:
             content: RFC
             format: text/plain
           number: '8341'
-        fetched: '2022-09-06'
         keyword:
         - content: NETCONF RESTCONF
         - content: YANG
         - content: XML
         editorialgroup:
         - name: netconf
-  recorded_at: Wed, 07 Sep 2022 11:42:06 GMT
+  recorded_at: Mon, 26 Sep 2022 09:22:42 GMT
 recorded_with: VCR 6.1.0

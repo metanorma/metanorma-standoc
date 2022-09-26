@@ -3,6 +3,7 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
+=begin
   it "appends any initial user-supplied text to boilerplate in terms and definitions" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1354,7 +1355,7 @@ RSpec.describe Metanorma::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
-
+=end
   it "processes section names, internationalisation file" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR.sub(/:nodoc:/, ":no-pdf:\n:i18nyaml: spec/assets/i18n.yaml")}

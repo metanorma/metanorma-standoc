@@ -4,7 +4,7 @@ module Metanorma
       def external_terms_boilerplate(sources)
         @i18n.l10n(
           @i18n.external_terms_boilerplate.gsub(/%/, sources || "???"),
-          @lang, @script
+          @lang, @script, @locale
         )
       end
 
@@ -64,7 +64,7 @@ module Metanorma
         x = xmldoc.dup
         x.root.add_namespace(nil, self.class::XML_NAMESPACE)
         xml = Nokogiri::XML(x.to_xml)
-        @isodoc ||= isodoc(@lang, @script)
+        @isodoc ||= isodoc(@lang, @script, @locale)
         @isodoc.info(xml, nil)
         @isodoc
       end

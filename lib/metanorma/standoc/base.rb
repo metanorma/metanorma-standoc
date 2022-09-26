@@ -100,7 +100,8 @@ module Metanorma
         @lang = (node.attr("language") || "en")
         @script = (node.attr("script") ||
                    Metanorma::Utils.default_script(node.attr("language")))
-        @isodoc = isodoc(@lang, @script, node.attr("i18nyaml"))
+        @locale = node.attr("locale")
+        @isodoc = isodoc(@lang, @script, @locale, node.attr("i18nyaml"))
         @i18n = @isodoc.i18n
       end
 
