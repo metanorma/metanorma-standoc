@@ -95,6 +95,7 @@ module Metanorma
 
       def metadata_language(node, xml)
         xml.language (node.attr("language") || "en")
+        l = node.attr("locale") and xml.locale l
       end
 
       def metadata_script(node, xml)
