@@ -554,6 +554,7 @@ RSpec.describe Metanorma::Standoc do
       :tc-docnumber: 2000
       :language: el
       :script: Grek
+      :locale: CY
       :publisher: IEC;IETF;ISO
       :uri: A
       :xml-uri: B
@@ -689,6 +690,7 @@ RSpec.describe Metanorma::Standoc do
                      <revision-date>2000-01</revision-date>
                    </version>
                    <language>el</language>
+                   <locale>CY</locale>
                    <script>Grek</script>
                    <abstract><p>This is the abstract of the document</p>
                    <p>This is the second paragraph of the abstract of the document.</p></abstract>
