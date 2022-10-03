@@ -174,7 +174,8 @@ module Metanorma
       end
 
       def figure_attrs(node)
-        attr_code(id_unnum_attrs(node).merge(keep_attrs(node)))
+        attr_code(id_unnum_attrs(node).merge(keep_attrs(node))
+          .merge(class: node.attr("class")))
       end
 
       def image(node)
