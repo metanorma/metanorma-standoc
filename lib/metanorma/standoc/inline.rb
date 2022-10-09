@@ -4,7 +4,7 @@ require "unicode2latex"
 require "mime/types"
 require "base64"
 require "English"
-#require "plurimath"
+require "plurimath"
 
 module Metanorma
   module Standoc

@@ -155,8 +155,8 @@ RSpec.describe Metanorma::Standoc do
             </sections>
              </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "normalises inline stem, straight quotes" do
@@ -197,8 +197,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
            </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "normalises inline stem, smart quotes" do
@@ -239,8 +239,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
            </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "generates desired smart quotes for 'dd'" do
