@@ -1135,7 +1135,7 @@ RSpec.describe Metanorma::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [%unnumbered,number=3]
+      [%unnumbered,number=3,class=plate]
       .Split-it-right sample divider
       image::spec/examples/rice_images/rice_image1.png[alttext]
 
@@ -1143,7 +1143,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
               <sections>
-         <figure id="ABC" unnumbered="true" number="3">
+         <figure id="ABC" unnumbered="true" number="3" class="plate">
          <name>Split-it-right sample divider</name>
                   <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto" alt="alttext"/>
        </figure>
