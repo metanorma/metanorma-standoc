@@ -980,18 +980,26 @@ RSpec.describe Metanorma::Standoc do
                  </bibitem>
                </relation>
                <extent type='volume'>
-                 <referenceFrom>4</referenceFrom>
+                 <locality>
+                   <referenceFrom>4</referenceFrom>
+                 </locality>
                </extent>
                <extent type='issue'>
-                 <referenceFrom>2</referenceFrom>
-                 <referenceTo>3</referenceTo>
+                 <locality>
+                   <referenceFrom>2</referenceFrom>
+                   <referenceTo>3</referenceTo>
+                 </locality>
                </extent>
                <extent type='page'>
-                 <referenceFrom>12</referenceFrom>
-                 <referenceTo>13</referenceTo>
+                 <locality>
+                   <referenceFrom>12</referenceFrom>
+                   <referenceTo>13</referenceTo>
+                 </locality>
                </extent>
                <extent type='page'>
-                 <referenceFrom>19</referenceFrom>
+                 <locality>
+                   <referenceFrom>19</referenceFrom>
+                 </locality>
                </extent>
              </bibitem>
            </references>
