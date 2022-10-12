@@ -35,7 +35,7 @@ module Metanorma
 
       def li_bookmark_cleanup(xmldoc)
         xmldoc.xpath("//li[descendant::bookmark]").each do |x|
-          if x.at("./*[1][local-name() = 'p']/"\
+          if x.at("./*[1][local-name() = 'p']/" \
                   "*[1][local-name() = 'bookmark']") &&
               empty_text_before_first_element(x.elements[0])
             bookmark_to_id(x, x.elements[0].elements[0])
@@ -45,7 +45,7 @@ module Metanorma
 
       def dt_bookmark_cleanup(xmldoc)
         xmldoc.xpath("//dt[descendant::bookmark]").each do |x|
-          if x.at("./*[1][local-name() = 'p']/"\
+          if x.at("./*[1][local-name() = 'p']/" \
                   "*[1][local-name() = 'bookmark']") &&
               empty_text_before_first_element(x.elements[0])
             bookmark_to_id(x, x.elements[0].elements[0])

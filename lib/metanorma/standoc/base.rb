@@ -56,6 +56,7 @@ module Metanorma
         @boilerplateauthority = node.attr("boilerplate-authority")
         @embed_hdr = node.attr("embed_hdr")
         @document_scheme = node.attr("document-scheme")
+        @xrefstyle = node.attr("xrefstyle")
       end
 
       def init_processing(node)

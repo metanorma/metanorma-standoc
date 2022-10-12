@@ -1,7 +1,6 @@
 require "spec_helper"
 
 RSpec.describe Metanorma::Standoc do
-=begin
   it "handles spacing around markup" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -337,7 +336,7 @@ RSpec.describe Metanorma::Standoc do
     expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(output)
   end
-=end
+
   it "processes crossreferences" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -389,6 +388,68 @@ RSpec.describe Metanorma::Standoc do
              </clause>
              </sections>
              </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
+  end
+
+  it "processes crossreferences style" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [[reference]]
+      == Section
+
+      Inline Reference to <<reference>>
+      Inline Reference to <<reference,style=basic%>>
+      Inline Reference to <<reference,style=basic>>
+      Inline Reference to <<reference,style=%>>
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <clause id='reference' inline-header='false' obligation='normative'>
+            <title>Section</title>
+            <p id='_'>
+              Inline Reference to
+              <xref target='reference'/>
+               Inline Reference to
+              <xref target='reference' style='basic'/>
+               Inline Reference to
+              <xref target='reference'>style=basic</xref>
+               Inline Reference to
+              <xref target='reference'>style=%</xref>
+            </p>
+          </clause>
+        </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
+  end
+
+  it "processes crossreferences style as document attribute" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR.sub(/:nodoc:/, ":nodoc:\n:xrefstyle: full")}
+      [[reference]]
+      == Section
+
+      Inline Reference to <<reference>>
+      Inline Reference to <<reference,style=basic%>>
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <clause id='reference' inline-header='false' obligation='normative'>
+            <title>Section</title>
+            <p id='_'>
+              Inline Reference to
+              <xref target='reference'/>
+               Inline Reference to
+              <xref target='reference' style='basic'/>
+            </p>
+          </clause>
+        </sections>
+      </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(xmlpp(output))
