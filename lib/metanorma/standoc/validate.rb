@@ -9,7 +9,7 @@ require "pngcheck"
 module Metanorma
   module Standoc
     module Validate
-      SOURCELOCALITY = "./origin//locality[@type = 'clause']/"\
+      SOURCELOCALITY = "./origin//locality[@type = 'clause']/" \
                        "referenceFrom".freeze
 
       def init_iev
@@ -24,7 +24,7 @@ module Metanorma
         @iev = init_iev or return
         xmldoc.xpath("//term").each do |t|
           t.xpath(".//termsource").each do |src|
-            (/^IEC 60050-/.match(src&.at("./origin/@citeas")&.text) &&
+            (/^IEC 60050-/.match(src.at("./origin/@citeas")&.text) &&
           loc = src.xpath(SOURCELOCALITY)&.text) or next
             iev_validate1(t, loc, xmldoc)
           end
@@ -33,9 +33,9 @@ module Metanorma
 
       def iev_validate1(term, loc, xmldoc)
         iev = @iev.fetch(loc,
-                         xmldoc&.at("//language")&.text || "en") or return
+                         xmldoc.at("//language")&.text || "en") or return
         pref = term.xpath("./preferred//name").inject([]) do |m, x|
-          m << x&.text&.downcase
+          m << x.text&.downcase
         end
         pref.include?(iev.downcase) or
           @log.add("Bibliography", term, %(Term "#{pref[0]}" does not match ) +
@@ -54,8 +54,22 @@ module Metanorma
         table_validate(doc)
         requirement_validate(doc)
         image_validate(doc)
+        math_validate(doc)
         @fatalerror.empty? or
           clean_abort(@fatalerror.join("\n"), doc)
+      end
+
+      MATHML_NS = "http://www.w3.org/1998/Math/MathML".freeze
+
+      def math_validate(doc)
+        doc.xpath("//m:math", "m" => MATHML_NS).each do |m|
+          math = m.to_xml.gsub(/ xmlns=["'][^"']+["']/, "")
+            .gsub(%r{<[^:/]+:}, "<").gsub(%r{</[^:/]+:}, "</")
+          Plurimath::Math.parse(math, "mathml")
+        rescue StandardError => e
+          @log.add("Mathematics", m, "Invalid MathML: #{math}\n #{e}")
+          @fatalerror << "Invalid MathML: #{math}"
+        end
       end
 
       def norm_ref_validate(doc)
@@ -97,7 +111,7 @@ module Metanorma
 
       def repeat_id_validate1(ids, elem)
         if ids[elem["id"]]
-          @log.add("Anchors", elem, "Anchor #{elem['id']} has already been "\
+          @log.add("Anchors", elem, "Anchor #{elem['id']} has already been " \
                                     "used at line #{ids[elem['id']]}")
           @fatalerror << "Multiple instances of same ID: #{elem['id']}"
         else
@@ -137,8 +151,8 @@ module Metanorma
       SVG_NS = "http://www.w3.org/2000/svg".freeze
 
       WILDCARD_ATTRS =
-        "//*[@format] | //stem | //bibdata//description | "\
-        "//formattedref | //bibdata//note | //bibdata/abstract | "\
+        "//*[@format] | //stem | //bibdata//description | " \
+        "//formattedref | //bibdata//note | //bibdata/abstract | " \
         "//bibitem/abstract | //bibitem/note | //misc-container".freeze
 
       # RelaxNG cannot cope well with wildcard attributes. So we strip

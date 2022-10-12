@@ -114,6 +114,33 @@ RSpec.describe Metanorma::Standoc do
     expect(errf).not_to include "The following reference is missing an anchor"
   end
 
+  it "warns and aborts if malformed MathML" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :stem:
+
+        [stem]
+        ++++
+        <math><mn>...</mn></math>
+        ++++
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err"))
+      .to include "Invalid MathML"
+    expect(File.read("test.err"))
+      .to include "<mn>...</mn>"
+    expect(File.exist?("test.xml")).to be false
+  end
+
   #   it "warns about malformed LaTeX" do
   #   FileUtils.rm_f "test.err"
   #   Asciidoctor.convert(<<~"INPUT", *OPTIONS)
