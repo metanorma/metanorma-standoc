@@ -12,22 +12,22 @@ RSpec.describe Metanorma::Standoc do
       === Standard
       id:: iso123
       docid::
-        type::: ISO
-        id::: ISO 123
+      type::: ISO
+      id::: ISO 123
       type:: standard
       contributor::
-        role::: publisher
-        organization:::
-          name:::: ISO
+      role::: publisher
+      organization:::
+      name:::: ISO
       contributor::
-        role::: author
-        person:::
-          name::::
+      role::: author
+      person:::
+      name::::
       +
       --
       completename::
-        language::: en
-        content::: Fred
+      language::: en
+      content::: Fred
       --
       contributor::
         role::: author
@@ -89,118 +89,118 @@ RSpec.describe Metanorma::Standoc do
       === Other Title
       fetched:: 2019-06-30
       title::
-        type::: main
-        content::: Geographic information
+      type::: main
+      content::: Geographic information
       title::
-        type::: subtitle
-        content::: Geographic information subtitle
-        language::: en
-        script::: Latn
-        format::: text/plain
+      type::: subtitle
+      content::: Geographic information subtitle
+      language::: en
+      script::: Latn
+      format::: text/plain
       type:: standard
       docid::
-        type::: ISO
-        id::: TC211
-        primary::: true
+      type::: ISO
+      id::: TC211
+      primary::: true
       docnumber:: 211
       edition:: 1
       language::
-        . en
-        . fr
+      . en
+      . fr
       script:: Latn
       version::
-        revision_date::: 2019-04-01
-        draft::: draft
+      revision_date::: 2019-04-01
+      draft::: draft
       biblionote::
-        type::: bibnote
-        content:::
+      type::: bibnote
+      content:::
       +
       --
       Mark set a major league
       home run record in 1998.
       --
       docstatus::
-        stage::: stage
-        substage::: substage
-        iteration::: iteration
+      stage::: stage
+      substage::: substage
+      iteration::: iteration
       date::
-        type::: issued
-        value::: 2014
+      type::: issued
+      value::: 2014
       date::
-        type::: published
-        from::: 2014-04
-        to::: 2014-05
+      type::: published
+      from::: 2014-04
+      to::: 2014-05
       date::
-        type::: accessed
-        value::: 2015-05-20
+      type::: accessed
+      value::: 2015-05-20
       abstract::
-        content:::
+      content:::
       +
       --
       ISO 19115-1:2014 defines the schema required for ...
       --
       abstract::
-        content::: L'ISO 19115-1:2014 définit le schéma requis pour ...
-        language::: fr
-        script::: Latn
-        format::: text/plain
+      content::: L'ISO 19115-1:2014 définit le schéma requis pour ...
+      language::: fr
+      script::: Latn
+      format::: text/plain
       copyright::
-         owner:::
-           name:::: International Organization for Standardization
-           abbreviation:::: ISO
-           url:::: www.iso.org
-         from::: 2014
-         to::: #{Time.now.year}
+      owner:::
+      name:::: International Organization for Standardization
+      abbreviation:::: ISO
+      url:::: www.iso.org
+      from::: 2014
+      to::: #{Time.now.year}
       link::
-        type::: src
-        content::: https://www.iso.org/standard/53798.html
+      type::: src
+      content::: https://www.iso.org/standard/53798.html
       link::
-        type::: obp
-        content::: https://www.iso.org/obp/ui/#!iso:std:53798:en
+      type::: obp
+      content::: https://www.iso.org/obp/ui/#!iso:std:53798:en
       link::
-        type::: rss
-        content::: https://www.iso.org/contents/data/standard/05/37/53798.detail.rss
+      type::: rss
+      content::: https://www.iso.org/contents/data/standard/05/37/53798.detail.rss
       medium::
-        form::: medium form
-        size::: medium size
-        scale::: medium scale
+      form::: medium form
+      size::: medium size
+      scale::: medium scale
       place:: bib place
       extent::
-        locality:::
-          type:::: section
-          reference_from:::: 7
+      locality:::
+      type:::: section
+      reference_from:::: 7
       accesslocation::
-        . accesslocation1
-        . accesslocation2
+      . accesslocation1
+      . accesslocation2
       classification::
-        type::: type
-        value::: value
+      type::: type
+      value::: value
       validity::
-        begins::: 2010-10-10 12:21
-        ends::: 2011-02-03 18:30
+      begins::: 2010-10-10 12:21
+      ends::: 2011-02-03 18:30
 
 
       ==== Contributor
       organization::
-        name::: International Organization for Standardization
-        url::: www.iso.org
-        abbreviation::: ISO
-        subdivision::: division
+      name::: International Organization for Standardization
+      url::: www.iso.org
+      abbreviation::: ISO
+      subdivision::: division
       role::
-        type::: publisher
-        description::: Publisher role
+      type::: publisher
+      description::: Publisher role
 
       ==== Contributor
       person::
-        name:::
-          completename::::
+      name:::
+      completename::::
       +
       --
       content:: A. Bierman
       language:: en
       --
-        affiliation:::
-          organization::::
+      affiliation:::
+      organization::::
       +
       --
       name:: IETF
@@ -209,81 +209,81 @@ RSpec.describe Metanorma::Standoc do
       type::: uri
       id::: www.ietf.org
       --
-          description:::: Affiliation description
-        contact:::
-          street::::
-            . 8 Street St
-          city:::: City
-          postcode:::: 123456
-          country:::: Country
-          state:::: State
-        contact:::
-          type:::: phone
-          value:::: 223322
+      description:::: Affiliation description
+      contact:::
+      street::::
+      . 8 Street St
+      city:::: City
+      postcode:::: 123456
+      country:::: Country
+      state:::: State
+      contact:::
+      type:::: phone
+      value:::: 223322
       role:: author
 
       ==== Contributor
       organization::
-        name::: IETF
-        abbreviation::: IETF
-        identifier:::
-          type:::: uri
-          id:::: www.ietf.org
+      name::: IETF
+      abbreviation::: IETF
+      identifier:::
+      type:::: uri
+      id:::: www.ietf.org
       role:: publisher
 
       ==== Contributor
       person::
-        name:::
-          language:::: en
-          formatted_initials:::: A.
-          surname:::: Bierman
-        affiliation:::
+      name:::
+      language:::: en
+      formatted_initials:::: A.
+      surname:::: Bierman
+      affiliation:::
       +
       --
       organization::
-        name::: IETF
-        abbreviation::: IETF
+      name::: IETF
+      abbreviation::: IETF
       description::
-        content::: Affiliation description
-        language::: en
-        script::: Latn
+      content::: Affiliation description
+      language::: en
+      script::: Latn
       --
-        identifier:::
-          type:::: uri
-          id:::: www.person.com
+      identifier:::
+      type:::: uri
+      id:::: www.person.com
       role:: author
 
       ==== Relation
       type:: updates
       bibitem::
-        title::: Geographic information
-        formattedref::: ISO 19115:2003
-        bib_locality:::
-          type:::: page
-          reference_from:::: 7
-          reference_to:::: 10
+      title::: Geographic information
+      formattedref::: ISO 19115:2003
+      bib_locality:::
+      type:::: page
+      reference_from:::: 7
+      reference_to:::: 10
 
       ==== Relation
       type:: updates
       bibitem::
-        type::: standard
-        formattedref::: ISO 19115:2003/Cor 1:2006
-        title::: Geographic information
+      type::: standard
+      formattedref::: ISO 19115:2003/Cor 1:2006
+      title::: Geographic information
 
       ==== Series
       type:: main
       title::
-        type::: original
-        content::: ISO/IEC FDIS 10118-3
-        language::: en
-        script::: Latn
-        format::: text/plain
+      type::: original
+      content::: ISO/IEC FDIS 10118-3
+      language::: en
+      script::: Latn
+      format::: text/plain
       place:: Serie's place
       organization:: Serie's organization
       abbreviation::
-        content::: ABVR
-        language::: en
-        script::: Latn
+      content::: ABVR
+      language::: en
+      script::: Latn
       from:: 2009-02-01
       to:: 2010-12-20
       number:: serie1234
@@ -293,9 +293,9 @@ RSpec.describe Metanorma::Standoc do
       type:: alt
       title:: seriestitle
       formattedref::
-        content::: serieref
-        language::: en
-        script::: Latn
+      content::: serieref
+      language::: en
+      script::: Latn
 
     INPUT
     output = <<~OUTPUT
@@ -815,28 +815,28 @@ RSpec.describe Metanorma::Standoc do
       ==== Standard
       id:: iso123
       docid::
-        type::: ISO
-        id::: ISO 123
+      type::: ISO
+      id::: ISO 123
       type:: standard
       contributor::
-        role::: publisher
-        organization:::
-          name:::: ISO
+      role::: publisher
+      organization:::
+      name:::: ISO
       contributor::
-        role::: author
-        person:::
-          name::::
+      role::: author
+      person:::
+      name::::
       +
       --
       completename::
-        language::: en
-        content::: Fred
+      language::: en
+      content::: Fred
       --
       contributor::
-        role::: author
-        person:::
-        name::::
-          completename::::: Jack
+      role::: author
+      person:::
+      name::::
+      completename::::: Jack
 
     INPUT
     output = <<~OUTPUT
