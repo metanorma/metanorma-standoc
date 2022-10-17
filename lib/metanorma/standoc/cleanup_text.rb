@@ -43,7 +43,7 @@ module Metanorma
           .intersection(IGNORE_QUOTES_ELEMENTS).empty? &&
           ((elem.previous.text.strip.empty? &&
             !empty_tag_with_text_content?(elem.previous)) ||
-           elem.previous.name == "index"))
+           ignoretext?(elem.previous)))
       end
 
       def uninterrupt_quotes_around_xml1(elem)
@@ -56,13 +56,20 @@ module Metanorma
         prev.content = "#{prev.text}#{m[1]}"
       end
 
+      IGNORE_TEXT_ELEMENTS =
+        %w(index fn).freeze
+
+      def ignoretext?(elem)
+        IGNORE_TEXT_ELEMENTS.include? elem.name
+      end
+
       def block?(elem)
         %w(title name variant-title clause figure annex example introduction
            foreword acknowledgements note li th td dt dd p quote label
            abstract preferred admitted related deprecates field-of-application
            usage-info expression pronunciation grammar-value domain
            definition termnote termexample modification description
-           newcontent floating-title).include? elem.name
+           newcontent floating-title tab).include? elem.name
       end
 
       def empty_tag_with_text_content?(elem)
@@ -79,7 +86,7 @@ module Metanorma
           ancestors = x.path.split(%r{/})[1..-2]
           ancestors.intersection(IGNORE_QUOTES_ELEMENTS).empty? and
             dumb2smart_quotes1(x, prev)
-          prev = x.text unless ancestors.include?("index")
+          prev = x.text if ancestors.intersection(IGNORE_TEXT_ELEMENTS).empty?
         end
       end
 
