@@ -9,7 +9,7 @@ require "pngcheck"
 module Metanorma
   module Standoc
     module Validate
-      SOURCELOCALITY = "./origin//locality[@type = 'clause']/"\
+      SOURCELOCALITY = "./origin//locality[@type = 'clause']/" \
                        "referenceFrom".freeze
 
       def init_iev
@@ -24,7 +24,7 @@ module Metanorma
         @iev = init_iev or return
         xmldoc.xpath("//term").each do |t|
           t.xpath(".//termsource").each do |src|
-            (/^IEC 60050-/.match(src&.at("./origin/@citeas")&.text) &&
+            (/^IEC 60050-/.match(src.at("./origin/@citeas")&.text) &&
           loc = src.xpath(SOURCELOCALITY)&.text) or next
             iev_validate1(t, loc, xmldoc)
           end
@@ -33,9 +33,9 @@ module Metanorma
 
       def iev_validate1(term, loc, xmldoc)
         iev = @iev.fetch(loc,
-                         xmldoc&.at("//language")&.text || "en") or return
+                         xmldoc.at("//language")&.text || "en") or return
         pref = term.xpath("./preferred//name").inject([]) do |m, x|
-          m << x&.text&.downcase
+          m << x.text&.downcase
         end
         pref.include?(iev.downcase) or
           @log.add("Bibliography", term, %(Term "#{pref[0]}" does not match ) +
@@ -97,7 +97,7 @@ module Metanorma
 
       def repeat_id_validate1(ids, elem)
         if ids[elem["id"]]
-          @log.add("Anchors", elem, "Anchor #{elem['id']} has already been "\
+          @log.add("Anchors", elem, "Anchor #{elem['id']} has already been " \
                                     "used at line #{ids[elem['id']]}")
           @fatalerror << "Multiple instances of same ID: #{elem['id']}"
         else
@@ -137,8 +137,8 @@ module Metanorma
       SVG_NS = "http://www.w3.org/2000/svg".freeze
 
       WILDCARD_ATTRS =
-        "//*[@format] | //stem | //bibdata//description | "\
-        "//formattedref | //bibdata//note | //bibdata/abstract | "\
+        "//*[@format] | //stem | //bibdata//description | " \
+        "//formattedref | //bibdata//note | //bibdata/abstract | " \
         "//bibitem/abstract | //bibitem/note | //misc-container".freeze
 
       # RelaxNG cannot cope well with wildcard attributes. So we strip
@@ -213,7 +213,7 @@ module Metanorma
       def validate(doc)
         content_validate(doc)
         schema_validate(formattedstr_strip(doc.dup),
-                        File.join(File.dirname(__FILE__), "isodoc.rng"))
+                        File.join(File.dirname(__FILE__), "isodoc-compile.rng"))
       end
     end
   end
