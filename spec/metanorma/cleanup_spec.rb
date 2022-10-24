@@ -167,6 +167,9 @@ RSpec.describe Metanorma::Standoc do
 
       "((ppm))"&#xa0;
 
+      "stem:[3]".
+      footnote:[The mole]
+
       ....
       ((ppm))",
       ....
@@ -195,6 +198,14 @@ RSpec.describe Metanorma::Standoc do
           <primary>ppm</primary>
         </index>
         &#8221;&#160;
+      </p>
+         <p id='_'>“<stem type='MathML'>
+       <math xmlns='http://www.w3.org/1998/Math/MathML'>
+         <mn>3</mn>
+       </math>
+      </stem>”.<fn reference='1'>
+       <p id='_'>The mole</p>
+      </fn>
       </p>
       <figure id='_'>
         <pre id='_'>((ppm))",</pre>
