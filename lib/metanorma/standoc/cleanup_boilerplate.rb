@@ -53,11 +53,11 @@ module Metanorma
         end
       end
 
-      TERM_CLAUSE = "//sections/terms | "\
+      TERM_CLAUSE = "//sections/terms | " \
                     "//sections/clause[descendant::terms]".freeze
 
       NORM_REF =
-        "//bibliography/references[@normative = 'true'][not(@hidden)] | "\
+        "//bibliography/references[@normative = 'true'][not(@hidden)] | " \
         "//bibliography/clause[.//references[@normative = 'true']]".freeze
 
       def boilerplate_isodoc(xmldoc)
@@ -79,7 +79,7 @@ module Metanorma
 
       def unwrap_boilerplate_clauses(xmldoc, xpath)
         xmldoc.xpath(xpath).each do |f|
-          f.xpath(".//clause[@type = 'boilerplate'] | "\
+          f.xpath(".//clause[@type = 'boilerplate'] | " \
                   ".//note[@type = 'boilerplate']").each do |c|
             c&.at("./title")&.remove
             c.replace(c.children)
@@ -175,9 +175,9 @@ module Metanorma
       end
 
       def indirect_eref_to_xref(eref, ident)
-        loc = eref&.at("./localityStack[locality[@type = 'anchor']]")
+        loc = eref.at("./localityStack[locality[@type = 'anchor']]")
           &.remove&.text ||
-          eref&.at("./locality[@type = 'anchor']")&.remove&.text || ident
+          eref.at("./locality[@type = 'anchor']")&.remove&.text || ident
         eref.name = "xref"
         eref.delete("bibitemid")
         eref.delete("citeas")
@@ -213,7 +213,7 @@ module Metanorma
       def bibdata_embed_hdr_cleanup(xmldoc)
         return if @embed_hdr.nil? || @embed_hdr.empty?
 
-        xmldoc.at("//bibdata") << "<relation type='derivedFrom'>"\
+        xmldoc.at("//bibdata") << "<relation type='derivedFrom'>" \
                                   "#{hdr2bibitem(@embed_hdr.first)}</relation>"
       end
 
