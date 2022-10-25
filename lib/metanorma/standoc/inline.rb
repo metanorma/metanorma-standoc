@@ -45,6 +45,7 @@ module Metanorma
         m.nil? and return { target: t, type: "inline", text: node.text }
         { target: t, type: m[:fn].nil? ? "inline" : "footnote",
           case: m[:case]&.sub(/%$/, ""),
+          style: m[:style]&.sub(/^style=/, "")&.sub(/%$/, "") || @xrefstyle,
           droploc: m[:drop].nil? && m[:drop2].nil? ? nil : true,
           text: inline_anchor_xref_text(m, node),
           hidden: m[:hidden] }
@@ -52,12 +53,13 @@ module Metanorma
 
       def inline_anchor_xref_match(node)
         /^(?:hidden%(?<hidden>[^,]+),?)?
+          (?<style>style=[^%]+%)?
           (?<drop>droploc%)?(?<case>capital%|lowercase%)?(?<drop2>droploc%)?
           (?<fn>fn:?\s*)?(?<text>.*)$/x.match node.text
       end
 
       def inline_anchor_xref_text(match, node)
-        if %i[case fn drop drop2 hidden].any? do |x|
+        if %i[case fn drop drop2 hidden style].any? do |x|
              !match[x].nil?
            end
           match[:text]

@@ -389,8 +389,70 @@ RSpec.describe Metanorma::Standoc do
              </sections>
              </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
+  end
+
+  it "processes crossreferences style" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [[reference]]
+      == Section
+
+      Inline Reference to <<reference>>
+      Inline Reference to <<reference,style=basic%>>
+      Inline Reference to <<reference,style=basic>>
+      Inline Reference to <<reference,style=%>>
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <clause id='reference' inline-header='false' obligation='normative'>
+            <title>Section</title>
+            <p id='_'>
+              Inline Reference to
+              <xref target='reference'/>
+               Inline Reference to
+              <xref target='reference' style='basic'/>
+               Inline Reference to
+              <xref target='reference'>style=basic</xref>
+               Inline Reference to
+              <xref target='reference'>style=%</xref>
+            </p>
+          </clause>
+        </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
+  end
+
+  it "processes crossreferences style as document attribute" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR.sub(/:nodoc:/, ":nodoc:\n:xrefstyle: full")}
+      [[reference]]
+      == Section
+
+      Inline Reference to <<reference>>
+      Inline Reference to <<reference,style=basic%>>
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <clause id='reference' inline-header='false' obligation='normative'>
+            <title>Section</title>
+            <p id='_'>
+              Inline Reference to
+              <xref target='reference'/>
+               Inline Reference to
+              <xref target='reference' style='basic'/>
+            </p>
+          </clause>
+        </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "processes formatting within crossreferences" do
@@ -417,8 +479,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
       </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "processes formatting within crossreferences to non-existent anchor" do
@@ -444,8 +506,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
        </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "processes combinations of crossreferences" do
@@ -475,8 +537,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
        </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "processes bibliographic anchors" do

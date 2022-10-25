@@ -129,8 +129,8 @@ RSpec.describe Metanorma::Standoc do
       expect(
         xmlpp(
           strip_guid(Asciidoctor.convert(input, *OPTIONS))
-                      .gsub(%r{"[^".]+spec/assets/lutaml/[^./"]+\.png},
-                            '"spec/assets/_.png'),
+                      .gsub(%r{spec/assets/lutaml/[^./]+\.png},
+                            "spec/assets/_.png"),
         ),
       ).to(be_equivalent_to(xmlpp(output)))
     end
@@ -169,8 +169,8 @@ RSpec.describe Metanorma::Standoc do
       expect(
         xmlpp(
           strip_guid(Asciidoctor.convert(input, *OPTIONS))
-                      .gsub(%r{"[^".]+spec/assets/lutaml/[^./"]+\.png},
-                            '"spec/assets/_.png'),
+          .gsub(%r{spec/assets/lutaml/[^./]+\.png},
+                            "spec/assets/_.png"),
         ),
       ).to(be_equivalent_to(xmlpp(output)))
     end

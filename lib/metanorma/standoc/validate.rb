@@ -138,7 +138,7 @@ module Metanorma
       end
 
       def schema_validate1(file, doc, schema)
-        file.write(doc.to_xml)
+        file.write(to_xml(doc))
         file.close
         errors = Jing.new(schema, encoding: "UTF-8").validate(file.path)
         warn "Syntax Valid!" if errors.none?
@@ -227,7 +227,7 @@ module Metanorma
       def validate(doc)
         content_validate(doc)
         schema_validate(formattedstr_strip(doc.dup),
-                        File.join(File.dirname(__FILE__), "isodoc.rng"))
+                        File.join(File.dirname(__FILE__), "isodoc-compile.rng"))
       end
     end
   end

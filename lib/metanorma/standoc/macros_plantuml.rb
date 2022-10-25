@@ -1,21 +1,22 @@
 module Metanorma
   module Standoc
     class PlantUMLBlockMacroBackend
-      # https://stackoverflow.com/questions/2108727/which-in-ruby-checking-if-program-exists-in-path-from-ruby
       def self.plantuml_installed?
-        cmd = "plantuml"
-        exts = ENV["PATHEXT"] ? ENV["PATHEXT"].split(";") : [""]
-        ENV["PATH"].split(File::PATH_SEPARATOR).each do |path|
-          exts.each do |ext|
-            exe = File.join(path, "#{cmd}#{ext}")
-            return exe if File.executable?(exe) && !File.directory?(exe)
-          end
+        unless which("plantuml")
+          raise "PlantUML not installed"
         end
-        raise "PlantUML not installed"
+      end
+
+      def self.plantuml_bin
+        if Gem.win_platform? || which("plantumlc")
+          "plantumlc"
+        else
+          "plantuml"
+        end
       end
 
       def self.run(umlfile, outfile)
-        system "plantuml #{umlfile.path}" or (warn $? and return false)
+        system "#{plantuml_bin} #{umlfile.path}" or (warn $? and return false)
         i = 0
         until !Gem.win_platform? || File.exist?(outfile) || i == 15
           sleep(1)
@@ -83,6 +84,18 @@ module Metanorma
           memo[key] = attrs[key] if attrs.has_key? key
           memo
         end
+      end
+
+      # https://stackoverflow.com/questions/2108727/which-in-ruby-checking-if-program-exists-in-path-from-ruby
+      def self.which(cmd)
+        exts = ENV["PATHEXT"] ? ENV["PATHEXT"].split(";") : [""]
+        ENV["PATH"].split(File::PATH_SEPARATOR).each do |path|
+          exts.each do |ext|
+            exe = File.join(path, "#{cmd}#{ext}")
+            return exe if File.executable?(exe) && !File.directory?(exe)
+          end
+        end
+        nil
       end
     end
 

@@ -23,7 +23,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '796'
+      - '802'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -31,7 +31,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"83eefad2f7aea32526c507930899bc4979c8ef71a83bc144878cc72c285654e3"
+      - W/"8aca43afba1b5d6651d55189852eee9b1ba4a6c6150a1dbe6f7efbd43919a662"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - CD68:18AA:498D:7413:63316F62
+      - BFAC:0566:2FB00:75316:635669DB
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 26 Sep 2022 09:22:42 GMT
+      - Mon, 24 Oct 2022 10:32:59 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11258-MEL
+      - cache-mel11266-MEL
       X-Cache:
-      - HIT
+      - MISS
       X-Cache-Hits:
       - '1'
       X-Timer:
-      - S1664184162.276886,VS0,VE549
+      - S1666607580.566504,VS0,VE215
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 1842d235d4744b728e80eca16402fe540d9f5040
+      - 28263a6b9fd8e8f12787b35586402e801f685270
       Expires:
-      - Mon, 26 Sep 2022 09:27:42 GMT
+      - Mon, 24 Oct 2022 10:37:59 GMT
       Source-Age:
       - '0'
     body:
@@ -101,6 +101,10 @@ http_interactions:
                   initial: A
                 formatted_initials:
                   content: A.
+                  language:
+                  - en
+                  script:
+                  - Latn
               surname:
                 content: Bierman
                 language:
@@ -126,6 +130,10 @@ http_interactions:
                   initial: M
                 formatted_initials:
                   content: M.
+                  language:
+                  - en
+                  script:
+                  - Latn
               surname:
                 content: Bjorklund
                 language:
@@ -173,7 +181,7 @@ http_interactions:
         - content: XML
         editorialgroup:
         - name: netconf
-  recorded_at: Mon, 26 Sep 2022 09:22:42 GMT
+  recorded_at: Mon, 24 Oct 2022 10:32:59 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-rfcs/main/data/RFC8341.yaml
@@ -197,7 +205,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '796'
+      - '802'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -205,7 +213,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"83eefad2f7aea32526c507930899bc4979c8ef71a83bc144878cc72c285654e3"
+      - W/"8aca43afba1b5d6651d55189852eee9b1ba4a6c6150a1dbe6f7efbd43919a662"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -215,29 +223,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - CD68:18AA:498D:7413:63316F62
+      - BFAC:0566:2FB00:75316:635669DB
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 26 Sep 2022 09:22:42 GMT
+      - Mon, 24 Oct 2022 10:32:59 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11260-MEL
+      - cache-mel11248-MEL
       X-Cache:
-      - MISS
+      - HIT
       X-Cache-Hits:
-      - '0'
+      - '1'
       X-Timer:
-      - S1664184162.277262,VS0,VE549
+      - S1666607580.567014,VS0,VE215
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 6a1f0578a02bac7c2868244fe36d22919cf3b9f3
+      - 90c846a407be798331027ae9ab55baccb0262c68
       Expires:
-      - Mon, 26 Sep 2022 09:27:42 GMT
+      - Mon, 24 Oct 2022 10:37:59 GMT
       Source-Age:
       - '0'
     body:
@@ -275,6 +283,10 @@ http_interactions:
                   initial: A
                 formatted_initials:
                   content: A.
+                  language:
+                  - en
+                  script:
+                  - Latn
               surname:
                 content: Bierman
                 language:
@@ -300,6 +312,10 @@ http_interactions:
                   initial: M
                 formatted_initials:
                   content: M.
+                  language:
+                  - en
+                  script:
+                  - Latn
               surname:
                 content: Bjorklund
                 language:
@@ -347,5 +363,5 @@ http_interactions:
         - content: XML
         editorialgroup:
         - name: netconf
-  recorded_at: Mon, 26 Sep 2022 09:22:42 GMT
+  recorded_at: Mon, 24 Oct 2022 10:32:59 GMT
 recorded_with: VCR 6.1.0

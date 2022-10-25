@@ -35,7 +35,6 @@ Gem::Specification.new do |spec|
   # relaton-cli not just relaton, to avoid circular reference in metanorma
   spec.add_dependency "asciimath2unitsml", "~> 0.4.0"
   spec.add_dependency "concurrent-ruby"
-  spec.add_dependency "mn-requirements", "~> 0.1.4"
   spec.add_dependency "plurimath"
   spec.add_dependency "pngcheck"
   spec.add_dependency "relaton-cli", "~> 1.13.0"

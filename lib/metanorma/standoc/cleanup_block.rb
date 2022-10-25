@@ -7,7 +7,8 @@ module Metanorma
       def para_cleanup(xmldoc)
         ["//p[not(ancestor::bibdata)]", "//ol[not(ancestor::bibdata)]",
          "//ul[not(ancestor::bibdata)]", "//quote[not(ancestor::bibdata)]",
-         "//note[not(ancestor::bibitem or "\
+         "//dl[not(ancestor::bibdata)]",
+         "//note[not(ancestor::bibitem or " \
          "ancestor::table or ancestor::bibdata)]"].each do |w|
           inject_id(xmldoc, w)
         end
@@ -106,7 +107,7 @@ module Metanorma
           prev = n.previous_element || next
           n.parent = prev if ELEMS_ALLOW_NOTES.include? prev.name
         end
-        xmldoc.xpath("//note[@keep-separate] | "\
+        xmldoc.xpath("//note[@keep-separate] | " \
                      "//termnote[@keep-separate]").each do |n|
           n.delete("keep-separate")
         end
@@ -182,10 +183,10 @@ module Metanorma
       end
 
       def block_index_cleanup(xmldoc)
-        xmldoc.xpath("//quote | //td | //th | //formula | //li | //dt | "\
-                     "//dd | //example | //note | //figure | //sourcecode | "\
-                     "//admonition | //termnote | //termexample | //form  | "\
-                     "//requirement | //recommendation | //permission | "\
+        xmldoc.xpath("//quote | //td | //th | //formula | //li | //dt | " \
+                     "//dd | //example | //note | //figure | //sourcecode | " \
+                     "//admonition | //termnote | //termexample | //form  | " \
+                     "//requirement | //recommendation | //permission | " \
                      "//imagemap | //svgmap").each do |b|
           b.xpath("./p[indexterm]").each do |p|
             indexterm_para?(p) or next
