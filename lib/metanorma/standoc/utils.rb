@@ -33,7 +33,12 @@ module Metanorma
         Metanorma::Utils::wrap_in_para(node, out)
       end
 
-      SUBCLAUSE_XPATH = "//clause[not(parent::sections)]"\
+      def to_xml(node)
+        node.to_xml(encoding: "UTF-8", indent: 2,
+                    save_with: Nokogiri::XML::Node::SaveOptions::AS_XML)
+      end
+
+      SUBCLAUSE_XPATH = "//clause[not(parent::sections)]" \
                         "[not(ancestor::boilerplate)]".freeze
 
       def isodoc(lang, script, locale, i18nyaml = nil)
