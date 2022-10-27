@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.bindir        = "bin"
   spec.require_paths = ["lib"]
   spec.files         = `git ls-files`.split("\n")
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.5.0")
+  spec.required_ruby_version = Gem::Requirement.new(">= 2.7.0")
 
   spec.add_dependency "asciidoctor", "~> 2.0.0"
   spec.add_dependency "iev", "~> 0.3.0"
