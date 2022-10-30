@@ -152,8 +152,7 @@ module Metanorma
       def metadata_cleanup(xmldoc)
         return if @metadata_attrs.nil? || @metadata_attrs.empty?
 
-        ins = xmldoc.at("//misc-container") ||
-          xmldoc.at("//bibdata").after("<misc-container/>").next_element
+        ins = add_misc_container(xmldoc)
         ins << @metadata_attrs
       end
     end

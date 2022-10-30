@@ -52,8 +52,8 @@ module Metanorma
         end
       end
 
-      PREFACE_CLAUSE_NAMES = %w(abstract foreword introduction
-                                acknowledgements).freeze
+      PREFACE_CLAUSE_NAMES =
+        %w(abstract foreword introduction misc-container acknowledgements).freeze
 
       MAIN_CLAUSE_NAMES =
         ["normative references", "terms and definitions", "scope",
@@ -62,7 +62,7 @@ module Metanorma
       def start_main_section(ret, node)
         @preface = false if self.class::MAIN_CLAUSE_NAMES.include?(ret) &&
           node.role != "preface" && node.attr("style") != "preface"
-        @preface = false if (self.class::PREFACE_CLAUSE_NAMES)
+        @preface = false if self.class::PREFACE_CLAUSE_NAMES
           .intersection(@seen_headers_canonical + [ret]).empty?
       end
 
@@ -106,6 +106,7 @@ module Metanorma
         a = section_attributes(node)
         noko do |xml|
           case sectiontype(node)
+          when "misc-container" then misccontainer_parse(a, xml, node)
           when "introduction" then introduction_parse(a, xml, node)
           when "foreword" then foreword_parse(a, xml, node)
           when "scope" then scope_parse(a, xml, node)
@@ -162,6 +163,12 @@ module Metanorma
             xml_abstract << content
           end
         end.join("\n")
+      end
+
+      def misccontainer_parse(_attrs, xml, node)
+        xml.send :"misc-container-clause" do |xml_section|
+          xml_section << node.content
+        end
       end
 
       def indexsect_parse(attrs, xml, node)
