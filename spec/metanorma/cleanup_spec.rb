@@ -1926,7 +1926,7 @@ RSpec.describe Metanorma::Standoc do
                <xref target='id1'/>
                <xref target='id1' style='id'/>
                <xref target='id1' type='inline'/>
-               <xref target='id1' type='inline'/>
+               <xref target='id1' type='inline' style="id">http://www.example.com</xref>
              </p>
            </clause>
          </sections>
