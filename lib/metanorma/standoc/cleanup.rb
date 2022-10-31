@@ -27,31 +27,33 @@ module Metanorma
       def cleanup(xmldoc)
         element_name_cleanup(xmldoc)
         passthrough_cleanup(xmldoc)
-        sections_cleanup(xmldoc)
+        sections_cleanup(xmldoc) # feeds: obligations_cleanup, toc_cleanup
         obligations_cleanup(xmldoc)
         para_index_cleanup(xmldoc)
         block_index_cleanup(xmldoc)
         table_cleanup(xmldoc)
         formula_cleanup(xmldoc)
         form_cleanup(xmldoc)
-        sourcecode_cleanup(xmldoc)
+        sourcecode_cleanup(xmldoc) # feeds: callout_cleanup
         figure_cleanup(xmldoc)
+        requirement_cleanup(xmldoc) # feeds: xref_cleanup
         element_name_cleanup(xmldoc)
-        ref_cleanup(xmldoc)
+        ref_cleanup(xmldoc) # feeds: bibitem_cleanup
         note_cleanup(xmldoc)
         clausebefore_cleanup(xmldoc)
         floatingtitle_cleanup(xmldoc)
-        bibitem_cleanup(xmldoc)
+        bibitem_cleanup(xmldoc) # feeds: normref_cleanup, biblio_cleanup,
+        # reference_names, bpart_cleanup
         normref_cleanup(xmldoc)
         biblio_cleanup(xmldoc)
         reference_names(xmldoc)
-        symbols_cleanup(xmldoc)
-        xref_cleanup(xmldoc)
-        concept_cleanup(xmldoc)
-        related_cleanup(xmldoc)
-        origin_cleanup(xmldoc)
+        symbols_cleanup(xmldoc) # feeds: termdef_cleanup
+        xref_cleanup(xmldoc) # feeds: concept_cleanup, origin_cleanup
+        concept_cleanup(xmldoc) # feeds: related_cleanup, termdef_cleanup
+        related_cleanup(xmldoc) # feeds: termdef_cleanup
+        origin_cleanup(xmldoc) # feeds: termdef_cleanup
         bookmark_cleanup(xmldoc)
-        termdef_cleanup(xmldoc)
+        termdef_cleanup(xmldoc) # feeds: iev_cleanup, term_index_cleanup
         RelatonIev::iev_cleanup(xmldoc, @bibdb)
         element_name_cleanup(xmldoc)
         term_index_cleanup(xmldoc)
@@ -61,10 +63,9 @@ module Metanorma
         footnote_cleanup(xmldoc)
         mathml_cleanup(xmldoc)
         script_cleanup(xmldoc)
-        docidentifier_cleanup(xmldoc)
-        requirement_cleanup(xmldoc)
+        docidentifier_cleanup(xmldoc) # feeds: bibdata_cleanup
         bibdata_cleanup(xmldoc)
-        svgmap_cleanup(xmldoc)
+        svgmap_cleanup(xmldoc) # feeds: img_cleanup
         boilerplate_cleanup(xmldoc)
         toc_cleanup(xmldoc)
         metadata_cleanup(xmldoc)
@@ -128,8 +129,8 @@ module Metanorma
 
       def variant_cleanup1(elem)
         elem.xpath("./variant").each do |n|
-          if n.at_xpath("preceding-sibling::node()"\
-                        "[not(self::text()[not(normalize-space())])][1]"\
+          if n.at_xpath("preceding-sibling::node()" \
+                        "[not(self::text()[not(normalize-space())])][1]" \
                         "[self::variantwrap]")
             n.previous_element << n
           else
