@@ -130,9 +130,7 @@ module Metanorma
 
       def document1(node)
         init(node)
-        ret = makexml(node)
-          .to_xml(encoding: "UTF-8", indent: 2,
-                  save_with: Nokogiri::XML::Node::SaveOptions::AS_XML)
+        ret = to_xml(makexml(node))
         outputs(node, ret) unless node.attr("nodoc") || !node.attr("docfile")
         ret
       end
@@ -163,8 +161,7 @@ module Metanorma
 
       def clean_abort(msg, file = nil)
         if file
-          doc = file.to_xml(encoding: "UTF-8", indent: 2,
-                            save_with: Nokogiri::XML::Node::SaveOptions::AS_XML)
+          doc = to_xml(file)
           File.open("#{@filename}.xml.abort", "w:UTF-8") { |f| f.write(doc) }
         end
         clean_exit

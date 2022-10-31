@@ -49,7 +49,8 @@ module Metanorma
       def span_preprocess1(span, ret)
         case span[:key]
         when "uri", "docid"
-          ret[span[:key].to_sym] << { type: span[:type], val: span[:val] }
+          val = link_unwrap(Nokogiri::XML.fragment(span[:val])).to_xml
+          ret[span[:key].to_sym] << { type: span[:type], val: val }
         when "date"
           ret[span[:key].to_sym] << { type: span[:type] || "published",
                                       val: span[:val] }

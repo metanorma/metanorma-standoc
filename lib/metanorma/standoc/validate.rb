@@ -124,7 +124,7 @@ module Metanorma
       end
 
       def schema_validate1(file, doc, schema)
-        file.write(doc.to_xml)
+        file.write(to_xml(doc))
         file.close
         errors = Jing.new(schema, encoding: "UTF-8").validate(file.path)
         warn "Syntax Valid!" if errors.none?
