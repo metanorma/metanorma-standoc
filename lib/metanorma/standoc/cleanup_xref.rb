@@ -20,10 +20,10 @@ module Metanorma
       end
 
       def extract_localities(elem)
-        f = elem&.children&.first or return
+        f = elem.children&.first or return
         f.text? or return
         head = f.remove.text
-        tail = elem&.children&.remove
+        tail = elem.children&.remove
         extract_localities1(elem, head)
         tail and elem << tail
       end
@@ -90,6 +90,19 @@ module Metanorma
         xref_compound_cleanup(xmldoc)
         xref_cleanup1(xmldoc)
         xref_compound_wrapup(xmldoc)
+        eref_stack(xmldoc)
+      end
+
+      def eref_stack(xmldoc)
+        xmldoc.xpath("//eref[eref]").each do |e|
+          e.name = "erefstack"
+          e.delete("bibitemid")
+          e.delete("citeas")
+          e.xpath("./eref").each do |e1|
+            e1["type"] = e["type"]
+          end
+          e.delete("type")
+        end
       end
 
       def xref_compound_cleanup(xmldoc)

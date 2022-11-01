@@ -31,7 +31,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"8aca43afba1b5d6651d55189852eee9b1ba4a6c6150a1dbe6f7efbd43919a662"
+      - W/"335efcaed1f17ab8d769db0ecaad1edb78c95f8c8362e37b4624a5a3666c60d2"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - BFAC:0566:2FB00:75316:635669DB
+      - 3BCE:2358:21AC7F:3974DE:636127B1
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 24 Oct 2022 10:32:59 GMT
+      - Tue, 01 Nov 2022 14:05:37 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11266-MEL
+      - cache-mel11223-MEL
       X-Cache:
-      - MISS
+      - HIT
       X-Cache-Hits:
       - '1'
       X-Timer:
-      - S1666607580.566504,VS0,VE215
+      - S1667311538.558812,VS0,VE345
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 28263a6b9fd8e8f12787b35586402e801f685270
+      - 98f59c2383ae71570f403bc3c599b7fc43b3fee7
       Expires:
-      - Mon, 24 Oct 2022 10:37:59 GMT
+      - Tue, 01 Nov 2022 14:10:37 GMT
       Source-Age:
       - '0'
     body:
@@ -118,7 +118,7 @@ http_interactions:
                 script:
                 - Latn
           role:
-          - author
+          - type: author
         - person:
             name:
               given:
@@ -147,7 +147,7 @@ http_interactions:
                 script:
                 - Latn
           role:
-          - author
+          - type: author
         revdate: 2018-03
         language:
         - en
@@ -181,7 +181,7 @@ http_interactions:
         - content: XML
         editorialgroup:
         - name: netconf
-  recorded_at: Mon, 24 Oct 2022 10:32:59 GMT
+  recorded_at: Tue, 01 Nov 2022 14:05:37 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-rfcs/main/data/RFC8341.yaml
@@ -213,7 +213,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"8aca43afba1b5d6651d55189852eee9b1ba4a6c6150a1dbe6f7efbd43919a662"
+      - W/"335efcaed1f17ab8d769db0ecaad1edb78c95f8c8362e37b4624a5a3666c60d2"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -223,29 +223,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - BFAC:0566:2FB00:75316:635669DB
+      - 3BCE:2358:21AC7F:3974DE:636127B1
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 24 Oct 2022 10:32:59 GMT
+      - Tue, 01 Nov 2022 14:05:37 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11248-MEL
+      - cache-mel11277-MEL
       X-Cache:
-      - HIT
+      - MISS
       X-Cache-Hits:
-      - '1'
+      - '0'
       X-Timer:
-      - S1666607580.567014,VS0,VE215
+      - S1667311538.558707,VS0,VE345
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 90c846a407be798331027ae9ab55baccb0262c68
+      - 31006b51def4b04c3222b07a4b895d03dda06b26
       Expires:
-      - Mon, 24 Oct 2022 10:37:59 GMT
+      - Tue, 01 Nov 2022 14:10:37 GMT
       Source-Age:
       - '0'
     body:
@@ -300,7 +300,7 @@ http_interactions:
                 script:
                 - Latn
           role:
-          - author
+          - type: author
         - person:
             name:
               given:
@@ -329,7 +329,7 @@ http_interactions:
                 script:
                 - Latn
           role:
-          - author
+          - type: author
         revdate: 2018-03
         language:
         - en
@@ -363,5 +363,5 @@ http_interactions:
         - content: XML
         editorialgroup:
         - name: netconf
-  recorded_at: Mon, 24 Oct 2022 10:32:59 GMT
+  recorded_at: Tue, 01 Nov 2022 14:05:37 GMT
 recorded_with: VCR 6.1.0
