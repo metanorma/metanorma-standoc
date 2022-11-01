@@ -31,8 +31,8 @@ module Metanorma
           amend.children = "<description>#{amend.children.to_xml}</description>"
           return
         end
-        pre = q&.xpath("./preceding-sibling::*")&.remove
-        post = q&.xpath("./following-sibling::*")&.remove
+        pre = q.xpath("./preceding-sibling::*")&.remove
+        post = q.xpath("./following-sibling::*")&.remove
         pre.empty? or amend << "<description>#{pre.to_xml}</description>"
         amend << q.remove
         post.empty? or amend << "<description>#{post.to_xml}</description>"

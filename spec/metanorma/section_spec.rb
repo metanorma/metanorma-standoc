@@ -8,6 +8,10 @@ RSpec.describe Metanorma::Standoc do
 
       Text
 
+      == Misc-Container
+
+      Content
+
       [abstract]
       == Abstract
 
@@ -99,6 +103,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
             #{BLANK_HDR.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>')}
+              <misc-container><p id='_'>Content</p></misc-container>
           <preface><abstract id="_">
           <title>Abstract</title>
         <p id="_">Text</p>
