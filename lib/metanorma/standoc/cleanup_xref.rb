@@ -92,6 +92,19 @@ module Metanorma
         xref_compound_cleanup(xmldoc)
         xref_cleanup1(xmldoc)
         xref_compound_wrapup(xmldoc)
+        eref_stack(xmldoc)
+      end
+
+      def eref_stack(xmldoc)
+        xmldoc.xpath("//eref[eref]").each do |e|
+          e.name = "erefstack"
+          e.delete("bibitemid")
+          e.delete("citeas")
+          e.xpath("./eref").each do |e1|
+            e1["type"] = e["type"]
+          end
+          e.delete("type")
+        end
       end
 
       def anchor_alias(xmldoc)

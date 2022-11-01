@@ -139,6 +139,7 @@ module Metanorma
 
       def ref_normalise_no_format(ref)
         ref.gsub(/&amp;amp;/, "&amp;")
+          .gsub(/>\n/, "> \n")
       end
     end
   end
