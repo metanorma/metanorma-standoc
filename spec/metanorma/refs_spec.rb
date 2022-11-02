@@ -2535,7 +2535,9 @@ RSpec.describe Metanorma::Standoc do
         <title>Section</title>
         <p id="_"><eref type="inline" bibitemid="reference" citeas="ISO 123"><em>reference</em></eref>
         <eref type="inline" bibitemid="reference" citeas="ISO 123"><em><strong>reference</strong></em></eref>
-        <eref type="inline" bibitemid="reference" citeas="ISO 123"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math></stem></eref>
+        <eref type="inline" bibitemid="reference" citeas="ISO 123"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math>
+        <asciimath>x^2</asciimath>
+        </stem></eref>
         <eref type="inline" bibitemid="reference" citeas="ISO 123"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></eref>
         <eref type="inline" bibitemid="reference" citeas="ISO 123"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></eref></p>
         </clause></sections>

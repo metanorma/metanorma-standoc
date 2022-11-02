@@ -109,6 +109,7 @@ RSpec.describe Metanorma::Standoc do
                 <mn>1</mn>
                 <mo>%</mo>
               </math>
+            <asciimath>r = 1 % r = 1 %</asciimath>
             </stem>
           </formula>
           <formula id='_' unnumbered='true'>

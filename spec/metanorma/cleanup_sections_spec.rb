@@ -1630,6 +1630,7 @@ RSpec.describe Metanorma::Standoc do
                    <math xmlns='http://www.w3.org/1998/Math/MathML'>
                      <mi>x</mi>
                    </math>
+                 <asciimath>x</asciimath>
                  </stem>
                </variant-title>
                <p id='_'>Text</p>
@@ -1645,6 +1646,7 @@ RSpec.describe Metanorma::Standoc do
                <math xmlns='http://www.w3.org/1998/Math/MathML'>
                  <mi>y</mi>
                </math>
+             <asciimath>y</asciimath>
              </stem>
            </variant-title>
            <p id='_'>Text</p>
@@ -1719,6 +1721,7 @@ RSpec.describe Metanorma::Standoc do
                              <math xmlns='http://www.w3.org/1998/Math/MathML'>
                                <mi>x</mi>
                              </math>
+                           <asciimath>x</asciimath>
                            </stem>
                          </xref>
                        </p>
@@ -1726,12 +1729,13 @@ RSpec.describe Metanorma::Standoc do
                          <li>
                            <p id='_'>
                              <xref target='a1'>
-                               Clause#{' '}
+                               Clause
                                <em>A</em>
                                <stem type='MathML'>
                                  <math xmlns='http://www.w3.org/1998/Math/MathML'>
                                    <mi>y</mi>
                                  </math>
+                               <asciimath>y</asciimath>
                                </stem>
                              </xref>
                            </p>
@@ -1766,12 +1770,13 @@ RSpec.describe Metanorma::Standoc do
              <title>Clause2</title>
              <variant-title type='sub'>&#8220;A&#8221; &#8216;B&#8217;</variant-title>
              <variant-title type='toc'>
-               Clause#{' '}
+               Clause
                <em>A</em>
                <stem type='MathML'>
                  <math xmlns='http://www.w3.org/1998/Math/MathML'>
                    <mi>x</mi>
                  </math>
+               <asciimath>x</asciimath>
                </stem>
              </variant-title>
              <p id='_'>Text</p>
@@ -1780,12 +1785,13 @@ RSpec.describe Metanorma::Standoc do
          <annex id='a1' inline-header='false' obligation='normative'>
            <title>Clause</title>
            <variant-title type='toc'>
-             Clause#{' '}
+             Clause
              <em>A</em>
              <stem type='MathML'>
                <math xmlns='http://www.w3.org/1998/Math/MathML'>
                  <mi>y</mi>
                </math>
+             <asciimath>y</asciimath>
              </stem>
            </variant-title>
            <p id='_'>Text</p>

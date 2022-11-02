@@ -316,7 +316,9 @@ RSpec.describe Metanorma::Standoc do
       <mrow>
         <mo>max</mo>
       </mrow>
-      </msub></math></stem></th>
+      </msub></math>
+      <asciimath>w_max</asciimath>
+      </stem></th>
                  </tr>
                <tr>
                    <th valign="middle" align="left">in husked rice</th>

@@ -352,6 +352,7 @@ RSpec.describe Metanorma::Standoc do
                            </mrow>
                          </msub>
            </math>
+           <asciimath>bar X' = (1)/(v) sum_(i = 1)^(v) t_(i)</asciimath>
          </stem>
        </formula>
                  </figure>
