@@ -203,7 +203,7 @@ RSpec.describe Metanorma::Standoc do
        <math xmlns='http://www.w3.org/1998/Math/MathML'>
          <mn>3</mn>
        </math>
-      </stem>”.<fn reference='1'>
+      <asciimath>3</asciimath></stem>”.<fn reference='1'>
        <p id='_'>The mole</p>
       </fn>
       </p>
@@ -254,28 +254,12 @@ RSpec.describe Metanorma::Standoc do
         <eref type='inline' case='capital' droploc='true' bibitemid='iso216' citeas='ISO 216:2001'/>
       </p>
       </foreword></preface><sections>
-      </sections><bibliography><references id="_" obligation="informative" normative="true">
-        <title>Normative references</title>
-        #{NORM_REF_BOILERPLATE}
-        <bibitem id="iso216" type="standard">
-         <title format="text/plain">Reference</title>
-         <docidentifier>ISO 216:2001</docidentifier>
-         <docnumber>216</docnumber>
-         <date type="published">
-           <on>2001</on>
-         </date>
-         <contributor>
-           <role type="publisher"/>
-           <organization>
-             <name>ISO</name>
-           </organization>
-         </contributor>
-       </bibitem>
-      </references>
-      </bibliography>
+      </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:bibliography")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -368,25 +352,12 @@ RSpec.describe Metanorma::Standoc do
       </eref>
               </p>
             </foreword></preface><sections>
-            </sections><bibliography><references id="_" obligation="informative" normative="true">
-              <title>Normative references</title>
-              #{NORM_REF_BOILERPLATE}
-              <bibitem id="iso216" type="standard">
-               <title format="text/plain">Reference</title>
-               <docidentifier>ISO 216</docidentifier>
-               <docnumber>216</docnumber>
-               <contributor>
-                 <role type="publisher"/>
-                 <organization>
-                   <name>ISO</name>
-                 </organization>
-               </contributor>
-             </bibitem>
-            </references>
-            </bibliography>
+            </sections>
             </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:bibliography")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -408,23 +379,44 @@ RSpec.describe Metanorma::Standoc do
                <eref type="inline" bibitemid="iso216" citeas="ISO 216"/>
              </p>
              </foreword></preface><sections>
-             </sections><bibliography><references id="_" obligation="informative" normative="false">
-        <title>Bibliography</title>
-        <bibitem id="iso216" type="standard">
-        <title format="text/plain">Reference</title>
-        <docidentifier>ISO 216</docidentifier>
-               <docnumber>216</docnumber>
-        <contributor>
-          <role type="publisher"/>
-          <organization>
-            <name>ISO</name>
-          </organization>
-        </contributor>
-      </bibitem>
-      </references></bibliography>
+             </sections>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:bibliography")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes erefstack" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      <<from!iso216;to!iso216>>
+
+      [bibliography]
+      == Clause
+      * [[[iso216,ISO 216]]], _Reference_
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <preface>
+           <foreword id='_' obligation='informative'>
+             <title>Foreword</title>
+             <p id='_'>
+               <erefstack>
+                 <eref connective='from' bibitemid='iso216' citeas='ISO 216' type='inline'/>
+                 <eref connective='to' bibitemid='iso216' citeas='ISO 216' type='inline'/>
+               </erefstack>
+             </p>
+           </foreword>
+         </preface>
+         <sections> </sections>
+       </standard-document>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:bibliography")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -776,7 +768,9 @@ RSpec.describe Metanorma::Standoc do
       <mrow>
         <mi>r</mi>
       </mrow>
-      </mfrac></math></stem>
+      </mfrac></math>
+      <asciimath>1/r</asciimath>
+      </stem>
              </p>
              </sections>
              </standard-document>
@@ -787,14 +781,14 @@ RSpec.describe Metanorma::Standoc do
 
   it "cleans up text MathML" do
     input = <<~INPUT
-      #{BLANK_HDR}
+      #{BLANK_HDR.sub(/<standard-document [^>]+>/, "<standard-document>")}
       <sections>
       <stem type="MathML">&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;&lt;mfrac&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;/mfrac&gt;&lt;/math&gt;</stem>
       </sections>
       </standard-document>
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR}
+      #{BLANK_HDR.sub(/<standard-document [^>]+>/, "<standard-document>")}
       <sections>
       <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mi>r</mi></mfrac></math></stem>
       </sections>
@@ -822,6 +816,7 @@ RSpec.describe Metanorma::Standoc do
                 </mrow>
               </mstyle>
             </math>
+           <asciimath>sf "unitsml(cd)"</asciimath>
           </stem>
         </p>
       </sections>
@@ -1138,11 +1133,12 @@ RSpec.describe Metanorma::Standoc do
       <dd>
         <p id='_'>Definition 7</p>
       </dd>
-      <dt id="symbol-n">
+      <dt id="symbol-n-n">
         <stem type='MathML'>
           <math xmlns='http://www.w3.org/1998/Math/MathML'>
             <mi>n</mi>
           </math>
+           <asciimath>n</asciimath>
         </stem>
       </dt>
       <dd>
@@ -1191,63 +1187,70 @@ RSpec.describe Metanorma::Standoc do
       x:: Definition 5
     INPUT
     output = <<~OUTPUT
-        #{BLANK_HDR}
-        <sections>
-          <definitions id='L' obligation="normative">
-            <title>Symbols and abbreviated terms</title>
-            <dl id='_'>
-              <dt  id='symbol-x'>x</dt>
-              <dd>
-                <p id='_'>Definition 5</p>
-              </dd>
-              <dt  id='symbol-x-m'><stem type='MathML'>
-              <math xmlns='http://www.w3.org/1998/Math/MathML'>
-        <msub>
-          <mrow>
-        <mi>x</mi>
-      </mrow>
-      <mrow>
-        <mi>m</mi>
-      </mrow>
-        </msub>
-      </math>
-              </stem></dt>
-              <dd>
-                <p id='_'>Definition 4</p>
-              </dd>
-              <dt  id='symbol-x-1'><stem type='MathML'>
-               <math xmlns='http://www.w3.org/1998/Math/MathML'>
-         <msub>
-           <mrow>
-        <mi>x</mi>
-      </mrow>
-      <mrow>
-        <mn>1</mn>
-      </mrow>
-         </msub>
-       </math>
-              </stem></dt>
-              <dd>
-                <p id='_'>Definition 3</p>
-              </dd>
-              <dt  id='symbol-xa'>xa</dt>
-              <dd>
-                <p id='_'>Definition 2</p>
-              </dd>
-              <dt  id='symbol-__x3b1_'>
-              <stem type='MathML'>
-        <math xmlns='http://www.w3.org/1998/Math/MathML'>
-          <mi>α</mi>
-        </math>
-      </stem>
-              </dt>
-              <dd>
-                <p id='_'>Definition 1</p>
-              </dd>
-            </dl>
-          </definitions>
-        </sections>
-      </standard-document>
+      #{BLANK_HDR}
+                 <sections>
+           <definitions id='L' obligation='normative'>
+             <title>Symbols and abbreviated terms</title>
+             <dl id='_'>
+               <dt id='symbol-x'>x</dt>
+               <dd>
+                 <p id='_'>Definition 5</p>
+               </dd>
+               <dt id='symbol-x-m-x_m'>
+                 <stem type='MathML'>
+                   <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                     <msub>
+                       <mrow>
+                         <mi>x</mi>
+                       </mrow>
+                       <mrow>
+                         <mi>m</mi>
+                       </mrow>
+                     </msub>
+                   </math>
+                   <asciimath>x_m</asciimath>
+                 </stem>
+               </dt>
+               <dd>
+                 <p id='_'>Definition 4</p>
+               </dd>
+               <dt id='symbol-x-1-x_1'>
+                 <stem type='MathML'>
+                   <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                     <msub>
+                       <mrow>
+                         <mi>x</mi>
+                       </mrow>
+                       <mrow>
+                         <mn>1</mn>
+                       </mrow>
+                     </msub>
+                   </math>
+                   <asciimath>x_1</asciimath>
+                 </stem>
+               </dt>
+               <dd>
+                 <p id='_'>Definition 3</p>
+               </dd>
+               <dt id='symbol-xa'>xa</dt>
+               <dd>
+                 <p id='_'>Definition 2</p>
+               </dd>
+               <dt id='symbol-__x3b1_-alpha'>
+                 <stem type='MathML'>
+                   <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                     <mi>α</mi>
+                   </math>
+                   <asciimath>alpha</asciimath>
+                 </stem>
+               </dt>
+               <dd>
+                 <p id='_'>Definition 1</p>
+               </dd>
+             </dl>
+           </definitions>
+         </sections>
+       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)

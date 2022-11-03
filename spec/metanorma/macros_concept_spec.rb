@@ -603,13 +603,14 @@ RSpec.describe Metanorma::Standoc do
         <definitions id='clause1' obligation='normative'>
           <title>Symbols and abbreviated terms</title>
           <dl id='_'>
-            <dt id='symbol-__x230a_-x-__x230b_'>
+            <dt id='symbol-__x230a_-x-__x230b_-___-x-___'>
               <stem type='MathML'>
                 <math xmlns='http://www.w3.org/1998/Math/MathML'>
                   <mo>&#8970;</mo>
                   <mi>x</mi>
                   <mo>&#8971;</mo>
                 </math>
+                <asciimath>|__ x __|</asciimath>
               </stem>
             </dt>
             <dd>
@@ -619,19 +620,21 @@ RSpec.describe Metanorma::Standoc do
                   <math xmlns='http://www.w3.org/1998/Math/MathML'>
                     <mi>x</mi>
                   </math>
+                  <asciimath>x</asciimath>
                 </stem>
                 ; also known as the
                 <em>floor</em>
                  function.
               </p>
             </dd>
-            <dt id='symbol-__x2308_-x-__x2309_'>
+            <dt id='symbol-__x2308_-x-__x2309_-__-x-__'>
               <stem type='MathML'>
                 <math xmlns='http://www.w3.org/1998/Math/MathML'>
                   <mo>&#8968;</mo>
                   <mi>x</mi>
                   <mo>&#8969;</mo>
                 </math>
+                <asciimath>|~ x ~|</asciimath>
               </stem>
             </dt>
             <dd>
@@ -642,6 +645,7 @@ RSpec.describe Metanorma::Standoc do
                   <math xmlns='http://www.w3.org/1998/Math/MathML'>
                     <mi>x</mi>
                   </math>
+                   <asciimath>x</asciimath>
                 </stem>
                 ; also known as the
                 <em>ceiling</em>

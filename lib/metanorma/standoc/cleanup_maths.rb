@@ -8,16 +8,24 @@ module Metanorma
           "<amathstem>#{@c.decode($1)}</amathstem>"
         end
         text = Html2Doc.new({})
-          .asciimath_to_mathml(text, ["<amathstem>", "</amathstem>"])
-        x =  Nokogiri::XML(text)
+          .asciimath_to_mathml(text, ["<amathstem>", "</amathstem>"],
+                               retain_asciimath: true)
+        asciimath2mathml_wrap(text)
+      end
+
+      def asciimath2mathml_wrap(text)
+        x = Nokogiri::XML(text)
         x.xpath("//*[local-name() = 'math'][not(parent::stem)]").each do |y|
           y.wrap("<stem type='MathML'></stem>")
         end
-        x.to_xml
+        x.xpath("//stem").each do |y|
+          y.next_element&.name == "asciimath" and y << y.next_element
+        end
+        to_xml(x)
       end
 
       def xml_unescape_mathml(xml)
-        return if xml.children.any? { |y| y.element? }
+        return if xml.children.any?(&:element?)
 
         math = xml.text.gsub(/&lt;/, "<").gsub(/&gt;/, ">")
           .gsub(/&quot;/, '"').gsub(/&apos;/, "'").gsub(/&amp;/, "&")

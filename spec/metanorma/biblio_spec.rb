@@ -924,9 +924,7 @@ RSpec.describe Metanorma::Standoc do
                <title>
                  <em>Work</em>
                </title>
-               <uri type='citation'>
-                 <link target='http://www.example.com'/>
-               </uri>
+               <uri type='citation'>http://www.example.com</uri>
                <docidentifier>B</docidentifier>
                <docidentifier type='ISO'>ISO 1234</docidentifier>
                <date type='issued'>1991</date>

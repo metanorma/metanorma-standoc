@@ -443,6 +443,7 @@ RSpec.describe Metanorma::Standoc do
                     </mrow>
                   </msub>
                 </math>
+                <asciimath>t_90</asciimath>
               </stem>
             </name>
                 </letter-symbol>
@@ -766,14 +767,16 @@ RSpec.describe Metanorma::Standoc do
                <terms id="_" obligation="normative">
                <title>Terms and definitions</title>
                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-               <term id="term-t90"><preferred><letter-symbol><name><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
+               <term id="term-t90t_90"><preferred><letter-symbol><name><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
                <mrow>
         <mi>t</mi>
       </mrow>
       <mrow>
         <mn>90</mn>
       </mrow>
-      </msub></math></stem></name></letter-symbol></preferred>
+      </msub></math>
+      <asciimath>t_90</asciimath>
+      </stem></name></letter-symbol></preferred>
       <admitted><letter-symbol><name><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
       <mrow>
         <mi>t</mi>
@@ -781,7 +784,9 @@ RSpec.describe Metanorma::Standoc do
       <mrow>
         <mn>91</mn>
       </mrow>
-      </msub></math></stem></name></letter-symbol></admitted>
+      </msub></math>
+      <asciimath>t_91</asciimath>
+      </stem></name></letter-symbol></admitted>
              <definition><verbal-definition><p id="_">Time</p></verbal-definition></definition></term>
              </terms>
              </sections>
@@ -814,7 +819,7 @@ RSpec.describe Metanorma::Standoc do
           <terms id='_' obligation='normative'>
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-            <term id='term-t90'>
+            <term id='term-t90t_90'>
               <preferred>
                 <letter-symbol>
                   <name>
@@ -829,6 +834,7 @@ RSpec.describe Metanorma::Standoc do
                           </mrow>
                         </msub>
                       </math>
+                      <asciimath>t_90</asciimath>
                     </stem>
                   </name>
                 </letter-symbol>
@@ -839,7 +845,7 @@ RSpec.describe Metanorma::Standoc do
                 </verbal-definition>
               </definition>
             </term>
-            <term id='term-t90-sensitivity'>
+            <term id='term-t90t_90-sensitivity'>
               <preferred>
                 <expression>
                   <name>
@@ -854,6 +860,7 @@ RSpec.describe Metanorma::Standoc do
                           </mrow>
                         </msub>
                       </math>
+                      <asciimath>t_90</asciimath>
                     </stem>
                     -sensitivity
                   </name>
@@ -865,11 +872,11 @@ RSpec.describe Metanorma::Standoc do
                 </verbal-definition>
               </definition>
             </term>
-            <term id='term-sensitivity-to-t90'>
+            <term id='term-sensitivity-to-t90t_90'>
               <preferred>
                 <expression>
                   <name>
-                    sensitivity to#{' '}
+                    sensitivity to
                     <stem type='MathML'>
                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
                         <msub>
@@ -881,6 +888,7 @@ RSpec.describe Metanorma::Standoc do
                           </mrow>
                         </msub>
                       </math>
+                      <asciimath>t_90</asciimath>
                     </stem>
                   </name>
                 </expression>
@@ -976,14 +984,15 @@ RSpec.describe Metanorma::Standoc do
                <terms id="_" obligation="normative">
                <title>Terms and definitions</title>
                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-               <term id="term-t90"><preferred><letter-symbol><name><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
+               <term id="term-t90t_90"><preferred><letter-symbol><name><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub>
                 <mrow>
          <mi>t</mi>
        </mrow>
        <mrow>
          <mn>90</mn>
        </mrow>
-      </msub></math></stem></name></letter-symbol></preferred>
+      </msub></math>
+      <asciimath>t_90</asciimath></stem></name></letter-symbol></preferred>
              <admitted>
          <letter-symbol>
            <name>
@@ -998,6 +1007,7 @@ RSpec.describe Metanorma::Standoc do
                    </mrow>
                  </msub>
                </math>
+               <asciimath>t_A</asciimath>
              </stem>
            </name>
          </letter-symbol>
@@ -1205,6 +1215,7 @@ RSpec.describe Metanorma::Standoc do
                           <mo>=</mo>
                           <mi>y</mi>
                         </math>
+                        <asciimath>x = y</asciimath>
                       </stem>
                     </formula>
                     <termsource status='identical' type='authoritative'>
@@ -1271,6 +1282,7 @@ RSpec.describe Metanorma::Standoc do
                        <math xmlns='http://www.w3.org/1998/Math/MathML'>
                          <mi>&#955;</mi>
                        </math>
+                       <asciimath>lambda</asciimath>
                      </stem>
                    </name>
                  </letter-symbol>
@@ -1283,6 +1295,7 @@ RSpec.describe Metanorma::Standoc do
                        <math xmlns='http://www.w3.org/1998/Math/MathML'>
                          <mi>&#956;</mi>
                        </math>
+                       <asciimath>mu</asciimath>
                      </stem>
                    </p>
                  </verbal-definition>
@@ -1294,6 +1307,7 @@ RSpec.describe Metanorma::Standoc do
                        <math xmlns='http://www.w3.org/1998/Math/MathML'>
                          <mi>&#957;</mi>
                        </math>
+                       <asciimath>nu</asciimath>
                      </stem>
                    </p>
                  </verbal-definition>
@@ -1360,6 +1374,7 @@ RSpec.describe Metanorma::Standoc do
                     <math xmlns='http://www.w3.org/1998/Math/MathML'>
                       <mi>&#955;</mi>
                     </math>
+                    <asciimath>lambda</asciimath>
                   </stem>
                 </name>
               </letter-symbol>
@@ -1372,6 +1387,7 @@ RSpec.describe Metanorma::Standoc do
                     <math xmlns='http://www.w3.org/1998/Math/MathML'>
                       <mi>&#956;</mi>
                     </math>
+                    <asciimath>mu</asciimath>
                   </stem>
                 </formula>
               </verbal-definition>
@@ -1381,6 +1397,7 @@ RSpec.describe Metanorma::Standoc do
                     <math xmlns='http://www.w3.org/1998/Math/MathML'>
                       <mi>&#957;</mi>
                     </math>
+                    <asciimath>nu</asciimath>
                   </stem>
                 </formula>
               </non-verbal-representation>
@@ -1460,6 +1477,7 @@ RSpec.describe Metanorma::Standoc do
                       <math xmlns='http://www.w3.org/1998/Math/MathML'>
                         <mi>&#955;</mi>
                       </math>
+                       <asciimath>lambda</asciimath>
                     </stem>
                   </name>
                 </letter-symbol>
@@ -1492,6 +1510,7 @@ RSpec.describe Metanorma::Standoc do
                         <mo>/</mo>
                         <mn>2</mn>
                       </math>
+                      <asciimath>mu_0 // 2</asciimath>
                     </stem>
                     <index>
                       <primary>
@@ -1508,6 +1527,7 @@ RSpec.describe Metanorma::Standoc do
                             <mo>/</mo>
                             <mn>2</mn>
                           </math>
+                          <asciimath>mu_0 // 2</asciimath>
                         </stem>
                       </primary>
                     </index>

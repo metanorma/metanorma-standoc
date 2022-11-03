@@ -285,7 +285,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
-                <docidentifier type='URN'>urn:iso:std:iso:123:ed-3</docidentifier>
+                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -326,7 +326,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
-                    <docidentifier type='URN'>urn:iso:std:iso:123:ed-3</docidentifier>
+                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
                       <on>2001-05</on>
@@ -382,7 +382,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
                 <docidentifier type='metanorma'>[1]</docidentifier>
-                <docidentifier type='URN'>urn:iso:std:iso:123:ed-3</docidentifier>
+                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -423,7 +423,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
-                    <docidentifier type='URN'>urn:iso:std:iso:123:ed-3</docidentifier>
+                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
                       <on>2001-05</on>
@@ -519,7 +519,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
-                <docidentifier type='URN'>urn:iso:std:iso:123:ed-3</docidentifier>
+                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -561,7 +561,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
-                    <docidentifier type='URN'>urn:iso:std:iso:123:ed-3</docidentifier>
+                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
                       <on>2001-05</on>
@@ -622,7 +622,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
                 <docidentifier type='metanorma'>[1]</docidentifier>
-                <docidentifier type='URN'>urn:iso:std:iso:123:ed-3</docidentifier>
+                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -664,7 +664,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
-                    <docidentifier type='URN'>urn:iso:std:iso:123:ed-3</docidentifier>
+                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
                       <on>2001-05</on>
@@ -798,7 +798,7 @@ RSpec.describe Metanorma::Standoc do
           <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:21071:en</uri>
           <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
           <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
-          <docidentifier type='URN'>urn:iso:std:iso-iec:tr:12382:ed-2</docidentifier>
+          <docidentifier type='URN'>urn:iso:std:iso-iec:tr:12382:stage-90.93:ed-2</docidentifier>
           <docnumber>12382</docnumber>
           <date type="published">
             <on>1992-12</on>
@@ -846,7 +846,7 @@ RSpec.describe Metanorma::Standoc do
           <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
           <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
           <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
-          <docidentifier type='URN'>urn:iso:std:iso:124:ed-7</docidentifier>
+          <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
           <docnumber>124</docnumber>
           <date type="published">
             <on>2014-03</on>
@@ -892,7 +892,7 @@ RSpec.describe Metanorma::Standoc do
           <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
           <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
           <docidentifier type='metanorma'>[1]</docidentifier>
-          <docidentifier type='URN'>urn:iso:std:iso-iec:tr:12382:ed-2</docidentifier>
+          <docidentifier type='URN'>urn:iso:std:iso-iec:tr:12382:stage-90.93:ed-2</docidentifier>
           <docnumber>12382</docnumber>
           <date type="published">
             <on>1992-12</on>
@@ -941,7 +941,7 @@ RSpec.describe Metanorma::Standoc do
           <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
           <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
           <docidentifier type='metanorma'>[1]</docidentifier>
-          <docidentifier type='URN'>urn:iso:std:iso:124:ed-7</docidentifier>
+          <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
           <docnumber>124</docnumber>
           <date type="published">
             <on>2014-03</on>
@@ -1021,7 +1021,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
                <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                <docidentifier type='ISO' primary="true">ISO 124:2014</docidentifier>
-               <docidentifier type='URN'>urn:iso:std:iso:124:ed-7</docidentifier>
+               <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
                <docnumber>124</docnumber>
                <date type='published'>
                  <on>2014-03</on>
@@ -1118,7 +1118,7 @@ RSpec.describe Metanorma::Standoc do
                   <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
                   <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                   <docidentifier type='ISO' primary="true">ISO 124</docidentifier>
-                  <docidentifier type='URN'>urn:iso:std:iso:124:ed-7</docidentifier>
+                  <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
                   <docnumber>124</docnumber>
                   <contributor>
                     <role type='publisher'/>
@@ -1159,7 +1159,7 @@ RSpec.describe Metanorma::Standoc do
                       <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
                       <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                       <docidentifier type='ISO' primary="true">ISO 124:2014</docidentifier>
-                      <docidentifier type='URN'>urn:iso:std:iso:124:ed-7</docidentifier>
+                      <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
                       <docnumber>124</docnumber>
                       <date type='published'>
                         <on>2014-03</on>
@@ -1218,7 +1218,7 @@ RSpec.describe Metanorma::Standoc do
                   <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
                   <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
                   <docidentifier type='ISO' primary="true">ISO 125</docidentifier>
-                  <docidentifier type='URN'>urn:iso:std:iso:125:ed-7</docidentifier>
+                  <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7</docidentifier>
                   <docnumber>125</docnumber>
                   <contributor>
                     <role type='publisher'/>
@@ -1262,7 +1262,7 @@ RSpec.describe Metanorma::Standoc do
                       <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
                       <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
                       <docidentifier type='ISO' primary="true">ISO 125:2020</docidentifier>
-                      <docidentifier type='URN'>urn:iso:std:iso:125:ed-7</docidentifier>
+                      <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7</docidentifier>
                       <docnumber>125</docnumber>
                       <date type='published'>
                         <on>2020-02</on>
@@ -1325,7 +1325,7 @@ RSpec.describe Metanorma::Standoc do
           <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
           <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
           <docidentifier type='ISO' primary="true">ISO 125</docidentifier>
-          <docidentifier type='URN'>urn:iso:std:iso:125:ed-7</docidentifier>
+          <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7</docidentifier>
           <docnumber>125</docnumber>
           <contributor>
             <role type='publisher'/>
@@ -1369,7 +1369,7 @@ RSpec.describe Metanorma::Standoc do
               <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
               <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
               <docidentifier type='ISO' primary="true">ISO 125:2020</docidentifier>
-              <docidentifier type='URN'>urn:iso:std:iso:125:ed-7</docidentifier>
+              <docidentifier type='URN'>urn:iso:std:iso:125:stage-60.60:ed-7</docidentifier>
               <docnumber>125</docnumber>
               <date type='published'>
                 <on>2020-02</on>
@@ -1432,7 +1432,7 @@ RSpec.describe Metanorma::Standoc do
                   <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
                   <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                   <docidentifier type='ISO' primary="true">ISO 124</docidentifier>
-                  <docidentifier type='URN'>urn:iso:std:iso:124:ed-7</docidentifier>
+                  <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
                   <docnumber>124</docnumber>
                   <contributor>
                     <role type='publisher'/>
@@ -1473,7 +1473,7 @@ RSpec.describe Metanorma::Standoc do
                       <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
                       <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                       <docidentifier type='ISO' primary="true">ISO 124:2014</docidentifier>
-                      <docidentifier type='URN'>urn:iso:std:iso:124:ed-7</docidentifier>
+                      <docidentifier type='URN'>urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
                       <docnumber>124</docnumber>
                       <date type='published'>
                         <on>2014-03</on>
@@ -2307,7 +2307,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
-                <docidentifier type='URN'>urn:iso:std:iso:123:ed-3</docidentifier>
+                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -2348,7 +2348,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
-                    <docidentifier type='URN'>urn:iso:std:iso:123:ed-3</docidentifier>
+                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
                       <on>2001-05</on>
@@ -2414,7 +2414,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
                 <docidentifier type='metanorma'>[1]</docidentifier>
-                <docidentifier type='URN'>urn:iso:std:iso:123:ed-3</docidentifier>
+                <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -2455,7 +2455,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
-                    <docidentifier type='URN'>urn:iso:std:iso:123:ed-3</docidentifier>
+                    <docidentifier type='URN'>urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
                       <on>2001-05</on>
@@ -2535,7 +2535,9 @@ RSpec.describe Metanorma::Standoc do
         <title>Section</title>
         <p id="_"><eref type="inline" bibitemid="reference" citeas="ISO 123"><em>reference</em></eref>
         <eref type="inline" bibitemid="reference" citeas="ISO 123"><em><strong>reference</strong></em></eref>
-        <eref type="inline" bibitemid="reference" citeas="ISO 123"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math></stem></eref>
+        <eref type="inline" bibitemid="reference" citeas="ISO 123"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math>
+        <asciimath>x^2</asciimath>
+        </stem></eref>
         <eref type="inline" bibitemid="reference" citeas="ISO 123"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></eref>
         <eref type="inline" bibitemid="reference" citeas="ISO 123"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></eref></p>
         </clause></sections>
