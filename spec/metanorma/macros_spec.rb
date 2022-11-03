@@ -352,6 +352,7 @@ RSpec.describe Metanorma::Standoc do
                            </mrow>
                          </msub>
            </math>
+           <asciimath>bar X' = (1)/(v) sum_(i = 1)^(v) t_(i)</asciimath>
          </stem>
        </formula>
                  </figure>
@@ -975,7 +976,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='src'>https://www.iso.org/standard/3944.html</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
                 <docidentifier type='ISO' primary='true'>ISO 131</docidentifier>
-                <docidentifier type='URN'>urn:iso:std:iso:131:stage-95.99:ed-1</docidentifier>
+                <docidentifier type='URN'>urn:iso:std:iso:131:ed-1</docidentifier>
                 <docnumber>131</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -1018,7 +1019,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='src'>https://www.iso.org/standard/3944.html</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
                     <docidentifier type='ISO' primary='true'>ISO 131:1979</docidentifier>
-                    <docidentifier type='URN'>urn:iso:std:iso:131:stage-95.99:ed-1</docidentifier>
+                    <docidentifier type='URN'>urn:iso:std:iso:131:ed-1</docidentifier>
                     <docnumber>131</docnumber>
                     <date type='published'>
                       <on>1979-11</on>

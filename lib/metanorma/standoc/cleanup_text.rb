@@ -35,7 +35,8 @@ module Metanorma
       end
 
       IGNORE_QUOTES_ELEMENTS =
-        %w(pre tt sourcecode stem figure bibdata passthrough identifier).freeze
+        %w(pre tt sourcecode stem asciimath figure bibdata passthrough
+           identifier).freeze
 
       def uninterrupt_quotes_around_xml_skip(elem)
         !(/\A['"]/.match?(elem.text) &&
@@ -100,9 +101,14 @@ module Metanorma
 
       def dumbquote_cleanup(xmldoc)
         xmldoc.traverse do |n|
-          next unless n.text?
+          next unless n.text? && /\u2019/.match?(n.text)
 
-          n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'")) # .
+          # n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'")) # .
+          n.replace(@c.encode(
+                      @c.decode(n.text)
+            .gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'"),
+                      :basic, :hexadecimal
+                    ))
         end
       end
     end

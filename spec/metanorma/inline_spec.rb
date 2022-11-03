@@ -34,8 +34,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes inline_quoted formatting" do
@@ -104,17 +104,18 @@ RSpec.describe Metanorma::Standoc do
             <stem type='MathML'>
               <math xmlns='http://www.w3.org/1998/Math/MathML'>
                 <mi>n</mi>
-                <mo/>
+                <mo>&lt;</mo>
                 <mn>1</mn>
                 <mtext> for all text </mtext>
               </math>
+              <asciimath>n &lt; 1 " for all text "</asciimath>
             </stem>
           </p>
         </sections>
       </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "properly handles inline substitution" do
@@ -129,8 +130,10 @@ RSpec.describe Metanorma::Standoc do
                   #{BLANK_HDR}
             <sections>
             <p id="_">
-                <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math></stem><br/>
-                <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math></stem>
+                <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math><asciimath>n &lt; 1</asciimath></stem><br/>
+                <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math>
+                <latexmath>n &lt; 1</latexmath>
+        </stem>
                 <stem type='MathML'>
         <math xmlns='http://www.w3.org/1998/Math/MathML'>
           <msup>
@@ -150,13 +153,14 @@ RSpec.describe Metanorma::Standoc do
             </mrow>
           </msup>
         </math>
+        <asciimath>"‌"^199 "Hg"^+</asciimath>
       </stem>
               </p>
             </sections>
              </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "normalises inline stem, straight quotes" do
@@ -168,37 +172,15 @@ RSpec.describe Metanorma::Standoc do
       stem:["&#x200c;"^199 "Hg"^+]
     INPUT
     output = <<~OUTPUT
-                #{BLANK_HDR}
-          <sections>
-          <p id="_">
-              <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math></stem>
-              <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math></stem>
-              <stem type='MathML'>
-      <math xmlns='http://www.w3.org/1998/Math/MathML'>
-        <msup>
-          <mrow>
-            <mtext>‌</mtext>
-          </mrow>
-          <mrow>
-            <mn>199</mn>
-          </mrow>
-        </msup>
-        <msup>
-          <mrow>
-            <mtext>Hg</mtext>
-          </mrow>
-          <mrow>
-            <mo>+</mo>
-          </mrow>
-        </msup>
-      </math>
-      </stem>
-            </p>
-          </sections>
-           </standard-document>
+      #{BLANK_HDR}
+             <sections><p id="_"><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math><asciimath>n &lt; 1</asciimath></stem>
+       <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>n</mi><mo>&lt;</mo><mn>1</mn></mrow></math><latexmath>n &lt; 1</latexmath></stem>
+       <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mtext>‌</mtext></mrow><mrow><mn>199</mn></mrow></msup><msup><mrow><mtext>Hg</mtext></mrow><mrow><mo>+</mo></mrow></msup></math><asciimath>"‌"^199 "Hg"^+</asciimath></stem></p>
+       </sections>
+       </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "normalises inline stem, smart quotes" do
@@ -213,8 +195,11 @@ RSpec.describe Metanorma::Standoc do
                 #{BLANK_HDR}
           <sections>
           <p id="_">
-              <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math></stem>
-              <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math></stem>
+              <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math>
+              <asciimath>n &lt; 1</asciimath></stem>
+              <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math>
+              <latexmath>n &lt; 1</latexmath>
+              </stem>
               <stem type='MathML'>
       <math xmlns='http://www.w3.org/1998/Math/MathML'>
         <msup>
@@ -234,13 +219,14 @@ RSpec.describe Metanorma::Standoc do
           </mrow>
         </msup>
       </math>
+      <asciimath>"&#x200c;"^199 "Hg"^+</asciimath>
       </stem>
             </p>
           </sections>
            </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "generates desired smart quotes for 'dd'" do
@@ -255,8 +241,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes breaks" do
@@ -473,7 +459,7 @@ RSpec.describe Metanorma::Standoc do
        <title>Section</title>
        <p id="_"><xref target="reference"><em>reference</em></xref>
        <xref target="reference"><em><strong>reference</strong></em></xref>
-       <xref target="reference"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math></stem></xref>
+       <xref target="reference"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math><asciimath>x^2</asciimath></stem></xref>
        <xref target="reference"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></xref></p>
        </clause>
        </sections>
@@ -500,7 +486,7 @@ RSpec.describe Metanorma::Standoc do
        <title>Section</title>
        <p id="_"><xref target="reference"><em>reference</em></xref>
        <xref target="reference"><em><strong>reference</strong></em></xref>
-       <xref target="reference"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math></stem></xref>
+       <xref target="reference"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math><asciimath>x^2</asciimath></stem></xref>
        <xref target="reference"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></xref></p>
        </clause>
        </sections>
@@ -597,7 +583,7 @@ RSpec.describe Metanorma::Standoc do
        <title>Section</title>
        <p id="_"><eref type="inline" bibitemid="reference" citeas="ABC"><em>reference</em></eref>
        <eref type="inline" bibitemid="reference" citeas="ABC"><em><strong>reference</strong></em></eref>
-       <eref type="inline" bibitemid="reference" citeas="ABC"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math></stem></eref>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math><asciimath>x^2</asciimath></stem></eref>
        <eref type="inline" bibitemid="reference" citeas="ABC"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></eref>
        <eref type="inline" bibitemid="reference" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></eref></p>
        </clause>
@@ -610,8 +596,8 @@ RSpec.describe Metanorma::Standoc do
        </references></bibliography>
        </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes formatting within term sources" do
@@ -658,7 +644,7 @@ RSpec.describe Metanorma::Standoc do
        </em>
        </origin>
        </termsource><termsource status="identical" type="authoritative">
-       <origin bibitemid="reference" type="inline" citeas="ABC"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math></stem></origin>
+       <origin bibitemid="reference" type="inline" citeas="ABC"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math><asciimath>x^2</asciimath></stem></origin>
        </termsource><termsource status="identical" type="authoritative">
        <origin bibitemid="reference" type="inline" citeas="ABC"><em>A</em><fn reference="1">
          <p id="_">
@@ -685,8 +671,8 @@ RSpec.describe Metanorma::Standoc do
        </references></bibliography>
        </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes footnotes" do
@@ -739,12 +725,12 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
          #{BLANK_HDR}
         <sections>
-            <p id="_">See<index><primary>See</primary></index> Index <em>term</em><index><primary><em>term</em></primary></index> and<index><primary>A<sub>B</sub></primary><secondary><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>α</mi></math></stem></secondary><tertiary>Ⲁ</tertiary></index>.</p>
+            <p id="_">See<index><primary>See</primary></index> Index <em>term</em><index><primary><em>term</em></primary></index> and<index><primary>A<sub>B</sub></primary><secondary><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>α</mi></math><asciimath>alpha</asciimath></stem></secondary><tertiary>Ⲁ</tertiary></index>.</p>
         </sections>
       </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes format-specific inline pass" do

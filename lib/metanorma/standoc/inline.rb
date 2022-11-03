@@ -174,6 +174,7 @@ module Metanorma
             .elements[0]
           math.delete("alttext")
           s.parent.children = math
+          s << "<latexmath>#{text}</latexmath>"
         end
       end
 
