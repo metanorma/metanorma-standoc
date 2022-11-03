@@ -115,6 +115,8 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "warns and aborts if malformed MathML" do
+    mock_plurimath_error
+
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"
     begin
@@ -126,7 +128,12 @@ RSpec.describe Metanorma::Standoc do
 
         [stem]
         ++++
-        <math><mn>...</mn></math>
+        <math><mn>1<mn>3</mn>2</mn></math>
+        ++++
+
+        [stem]
+        ++++
+        sum x
         ++++
       INPUT
       expect do
@@ -909,5 +916,12 @@ RSpec.describe Metanorma::Standoc do
     expect(File.read("test.err"))
       .to include "Image not found"
     expect(File.exist?("test.xml")).to be false
+  end
+
+  private
+
+  def mock_plurimath_error
+    allow_any_instance_of(::Plurimath::Math)
+      .to receive(:parse).and_raise(StandardError)
   end
 end
