@@ -31,6 +31,7 @@ module Metanorma
           fonts: node.attr("fonts"),
           fontlicenseagreement: node.attr("font-license-agreement"),
           localizenumber: node.attr("localize-number"),
+          modspecidentifierbase: node.attr("modspec-identifier-base"),
         }
       end
 
