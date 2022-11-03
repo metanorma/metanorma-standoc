@@ -75,8 +75,8 @@ module Metanorma
         a = elem.parent.at("./asciimath")
         l = elem.parent.at("./latexmath")
         orig = ""
-        a and orig += "\n\tAsciimath: #{@c.decode(a.children.to_xml)}"
-        l and orig += "\n\tLatexmath: #{@c.decode(l.children.to_xml)}"
+        a and orig += "\n\tAsciimath original: #{@c.decode(a.children.to_xml)}"
+        l and orig += "\n\tLatexmath original: #{@c.decode(l.children.to_xml)}"
         @log.add("Mathematics", elem,
                  "Invalid MathML: #{math}\n #{error}#{orig}")
         @fatalerror << "Invalid MathML: #{math}"

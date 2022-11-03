@@ -115,7 +115,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "warns and aborts if malformed MathML" do
-    mock_plurimath_error
+    mock_plurimath_error(2)
 
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"
@@ -144,7 +144,11 @@ RSpec.describe Metanorma::Standoc do
     expect(File.read("test.err"))
       .to include "Invalid MathML"
     expect(File.read("test.err"))
-      .to include "<mn>...</mn>"
+      .to include "<mn>1<mn>3</mn>2</mn>"
+    expect(File.read("test.err"))
+      .to include "Asciimath original: sum x"
+    expect(File.read("test.err"))
+      .to include "<mo>∑</mo>"
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -920,8 +924,10 @@ RSpec.describe Metanorma::Standoc do
 
   private
 
-  def mock_plurimath_error
-    allow_any_instance_of(::Plurimath::Math)
-      .to receive(:parse).and_raise(StandardError)
+  def mock_plurimath_error(times)
+    expect(::Plurimath::Math)
+      .to receive(:parse) do
+        raise(StandardError)
+      end.exactly(times).times
   end
 end
