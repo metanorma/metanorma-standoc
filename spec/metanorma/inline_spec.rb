@@ -131,7 +131,9 @@ RSpec.describe Metanorma::Standoc do
             <sections>
             <p id="_">
                 <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math><asciimath>n &lt; 1</asciimath></stem><br/>
-                <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math></stem>
+                <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math>
+                <latexmath>n &lt; 1</latexmath>
+        </stem>
                 <stem type='MathML'>
         <math xmlns='http://www.w3.org/1998/Math/MathML'>
           <msup>
@@ -172,7 +174,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
              <sections><p id="_"><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math><asciimath>n &lt; 1</asciimath></stem>
-       <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>n</mi><mo>&lt;</mo><mn>1</mn></mrow></math></stem>
+       <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>n</mi><mo>&lt;</mo><mn>1</mn></mrow></math><latexmath>n &lt; 1</latexmath></stem>
        <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mtext>‌</mtext></mrow><mrow><mn>199</mn></mrow></msup><msup><mrow><mtext>Hg</mtext></mrow><mrow><mo>+</mo></mrow></msup></math><asciimath>"‌"^199 "Hg"^+</asciimath></stem></p>
        </sections>
        </standard-document>
@@ -196,6 +198,7 @@ RSpec.describe Metanorma::Standoc do
               <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math>
               <asciimath>n &lt; 1</asciimath></stem>
               <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math>
+              <latexmath>n &lt; 1</latexmath>
               </stem>
               <stem type='MathML'>
       <math xmlns='http://www.w3.org/1998/Math/MathML'>

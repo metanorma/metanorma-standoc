@@ -236,6 +236,11 @@ RSpec.describe Metanorma::Standoc do
                   <mo>]</mo>
                 </mrow>
               </math>
+              <latexmath>
+          M = \\begin{bmatrix} -\\sin λ_0 \\cos λ_0 0 \\\\ -\\sin φ_0 \\cos λ_0 -\\sin
+          φ_0 \\sin λ_0 \\cos φ_0 \\\\ \\cos φ_0 \\cos λ_0 \\cos φ_0 \\sin λ_0 \\sin φ_0
+          \\end{bmatrix}
+        </latexmath>
             </stem>
           </formula>
         </sections>
