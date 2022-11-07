@@ -1027,7 +1027,7 @@ RSpec.describe Metanorma::Standoc do
                     <p id='_'>Text</p>
                   </clause>
                   <terms id='_' obligation='normative'>
-                    <title>Terms et définitions</title>
+                    <title>Termes et définitions</title>
                     <p id='_'>
                       Pour les besoins du présent document, les termes et définitions suivants
                       s’appliquent.

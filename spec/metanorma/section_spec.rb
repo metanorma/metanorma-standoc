@@ -1057,7 +1057,7 @@ RSpec.describe Metanorma::Standoc do
           <p id="_">Foreword</p>
         </foreword></preface><sections>
         <terms id="_" obligation="normative">
-          <title>Terms et définitions</title>
+          <title>Termes et définitions</title>
          <p id="_">Pour les besoins du présent document, les termes et définitions de <eref bibitemid="iso1234"/> et <eref bibitemid="iso5678"/> s’appliquent.</p>
         </terms></sections>
         </standard-document>
