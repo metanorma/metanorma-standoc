@@ -83,7 +83,7 @@ module Metanorma
       end
 
       def pdf_extract_attributes(node)
-        %w(pdf-encrypt pdf-encryption-length pdf-user-password
+        pdf_options = %w(pdf-encrypt pdf-encryption-length pdf-user-password
            pdf-owner-password pdf-allow-copy-content pdf-allow-edit-content
            pdf-allow-assemble-document pdf-allow-edit-annotations
            pdf-allow-print pdf-allow-print-hq pdf-allow-fill-in-forms
@@ -92,6 +92,8 @@ module Metanorma
           .each_with_object({}) do |x, m|
           m[x.gsub(/-/, "").to_i] = node.attr(x)
         end
+
+        pdf_options.merge(fonts_manifest_option(node) || {})
       end
 
       def doc_converter(node)
@@ -120,6 +122,12 @@ module Metanorma
                                     nil, false, "#{@filename}.doc")
         pdf_converter(node)&.convert("#{@filename}.presentation.xml",
                                      nil, false, "#{@filename}.pdf")
+      end
+
+      def fonts_manifest_option(node)
+        if node.attr(FONTS_MANIFEST)
+          { mn2pdf: { font_manifest: node.attr(FONTS_MANIFEST) } }
+        end
       end
     end
   end
