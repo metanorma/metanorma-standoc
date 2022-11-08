@@ -1887,6 +1887,58 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "aliases anchors" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Misc-Container
+
+      [[_misccontainer_anchor_aliases]]
+      |===
+      | id1 | http://www.example.com | %2
+      |===
+
+      [[id1]]
+      == Clause 1
+
+      <<id1>>
+      <<id1,style=id%>>
+      xref:http://www.example.com[]
+      xref:http://www.example.com[style=id%]
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <misc-container>
+           <table id='_'>
+             <tbody>
+               <tr>
+                 <td valign='top' align='left'>id1</td>
+                 <td valign='top' align='left'>
+                   <link target='http://www.example.com'/>
+                 </td>
+                 <td valign='top' align='left'>%2</td>
+               </tr>
+             </tbody>
+           </table>
+         </misc-container>
+         <sections>
+           <clause id='id1' inline-header='false' obligation='normative'>
+             <title>Clause 1</title>
+             <p id='_'>
+               <xref target='id1'/>
+               <xref target='id1' style='id'/>
+               <xref target='id1' type='inline'/>
+               <xref target='id1' type='inline' style="id">http://www.example.com</xref>
+             </p>
+           </clause>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   private
 
   def mock_mathml_italicise(string)

@@ -429,7 +429,7 @@ RSpec.describe Metanorma::Standoc do
             <title>Section</title>
             <p id='_'>
               Inline Reference to
-              <xref target='reference'/>
+              <xref target='reference' style='full'/>
                Inline Reference to
               <xref target='reference' style='basic'/>
             </p>

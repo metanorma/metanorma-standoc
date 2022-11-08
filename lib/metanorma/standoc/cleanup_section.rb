@@ -7,7 +7,7 @@ module Metanorma
   module Standoc
     module Cleanup
       def make_preface(xml, sect)
-        if xml.at("//foreword | //introduction | //acknowledgements | "\
+        if xml.at("//foreword | //introduction | //acknowledgements | " \
                   "//*[@preface]")
           preface = sect.add_previous_sibling("<preface/>").first
           f = xml.at("//foreword") and preface.add_child f.remove
@@ -32,13 +32,16 @@ module Metanorma
           abstract = xml.at("//abstract[not(ancestor::bibitem)]").remove
           preface.prepend_child abstract.remove
           bibabstract = bibabstract_location(xml)
-          dupabstract = abstract.dup
-          dupabstract.traverse { |n| n.remove_attribute("id") }
-          dupabstract.remove_attribute("language")
-          dupabstract.remove_attribute("script")
-          dupabstract&.at("./title")&.remove
-          bibabstract.next = dupabstract
+          bibabstract.next = clean_abstract(abstract.dup)
         end
+      end
+
+      def clean_abstract(dupabstract)
+        dupabstract.traverse { |n| n.remove_attribute("id") }
+        dupabstract.remove_attribute("language")
+        dupabstract.remove_attribute("script")
+        dupabstract.at("./title")&.remove
+        dupabstract
       end
 
       def bibabstract_location(xml)
@@ -46,7 +49,7 @@ module Metanorma
           xml.at("//bibdata/contributor[not(following-sibling::contributor)]") ||
           xml.at("//bibdata/date[not(following-sibling::date)]") ||
           xml.at("//docnumber") ||
-          xml.at("//bibdata/docidentifier"\
+          xml.at("//bibdata/docidentifier" \
                  "[not(following-sibling::docidentifier)]") ||
           xml.at("//bibdata/uri[not(following-sibling::uri)]") ||
           xml.at("//bibdata/title[not(following-sibling::title)]")
@@ -110,11 +113,18 @@ module Metanorma
       end
 
       def sections_cleanup(xml)
+        misccontainer_cleanup(xml)
         sections_order_cleanup(xml)
         sections_level_cleanup(xml)
         sections_names_cleanup(xml)
         sections_variant_title_cleanup(xml)
         change_clauses(xml)
+      end
+
+      def misccontainer_cleanup(xml)
+        m = xml.at("//misc-container-clause") or return
+        ins = add_misc_container(xml)
+        ins << m.remove.children
       end
 
       def single_clause_annex(xml)
@@ -130,7 +140,7 @@ module Metanorma
       end
 
       def obligations_cleanup_info(xml)
-        xml.xpath("//foreword | //introduction | //acknowledgements | "\
+        xml.xpath("//foreword | //introduction | //acknowledgements | " \
                   "//references | //preface//clause").each do |r|
           r["obligation"] = "informative"
         end

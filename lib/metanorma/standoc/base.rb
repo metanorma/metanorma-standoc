@@ -41,6 +41,7 @@ module Metanorma
       def init_vars
         @fn_number ||= 0
         @refids = Set.new
+        @anchor_alias = {}
         @anchors = {}
         @internal_eref_namespaces = []
         @seen_headers = []

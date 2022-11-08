@@ -80,8 +80,7 @@ module Metanorma
       def toc_metadata(xmldoc)
         return unless @htmltoclevels || @doctoclevels || @toclevels
 
-        ins = xmldoc.at("//misc-container") ||
-          xmldoc.at("//bibdata").after("<misc-container/>").next_element
+        ins = add_misc_container(xmldoc)
         toc_metadata1(ins)
       end
 

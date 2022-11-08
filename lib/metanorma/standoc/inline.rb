@@ -40,30 +40,44 @@ module Metanorma
       end
 
       def inline_anchor_xref_attrs(node)
-        m = inline_anchor_xref_match(node)
+        text = concatenate_attributes_to_xref_text(node)
+        m = inline_anchor_xref_match(text)
         t = node.target.gsub(/^#/, "").gsub(%r{(\.xml|\.adoc)(#.*$)}, "\\2")
-        m.nil? and return { target: t, type: "inline", text: node.text }
-        { target: t, type: m[:fn].nil? ? "inline" : "footnote",
-          case: m[:case]&.sub(/%$/, ""),
-          style: m[:style]&.sub(/^style=/, "")&.sub(/%$/, "") || @xrefstyle,
-          droploc: m[:drop].nil? && m[:drop2].nil? ? nil : true,
-          text: inline_anchor_xref_text(m, node),
-          hidden: m[:hidden] }
+        m.nil? and return { target: t, type: "inline", text: text }
+        inline_anchor_xref_attrs1(m, t, text)
       end
 
-      def inline_anchor_xref_match(node)
+      def concatenate_attributes_to_xref_text(node)
+        node.attributes.each_with_object([]) do |(k, v), m|
+          next if %w(path fragment refid).include?(k)
+
+          m << "#{k}=#{v}%"
+        end.map { |x| x.sub(/%+/, "%") }.join + (node.text || "")
+      end
+
+      def inline_anchor_xref_attrs1(match, target, text)
+        { target: target,
+          type: match[:fn].nil? ? "inline" : "footnote",
+          case: match[:case]&.sub(/%$/, ""),
+          style: match[:style]&.sub(/^style=/, "")&.sub(/%$/, "") || @xrefstyle,
+          droploc: match[:drop].nil? && match[:drop2].nil? ? nil : true,
+          text: inline_anchor_xref_text(match, text),
+          hidden: match[:hidden] }
+      end
+
+      def inline_anchor_xref_match(text)
         /^(?:hidden%(?<hidden>[^,]+),?)?
           (?<style>style=[^%]+%)?
           (?<drop>droploc%)?(?<case>capital%|lowercase%)?(?<drop2>droploc%)?
-          (?<fn>fn:?\s*)?(?<text>.*)$/x.match node.text
+          (?<fn>fn:?\s*)?(?<text>.*)$/x.match text
       end
 
-      def inline_anchor_xref_text(match, node)
+      def inline_anchor_xref_text(match, text)
         if %i[case fn drop drop2 hidden style].any? do |x|
              !match[x].nil?
            end
           match[:text]
-        else node.text
+        else text
         end
       end
 
