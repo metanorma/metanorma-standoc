@@ -64,7 +64,7 @@ module Metanorma
       def math_validate(doc)
         doc.xpath("//m:math", "m" => MATHML_NS).each do |m|
           math = m.to_xml.gsub(/ xmlns=["'][^"']+["']/, "")
-            .gsub(%r{<[^:/]+:}, "<").gsub(%r{</[^:/]+:}, "</")
+            .gsub(%r{<[^:/>]+:}, "<").gsub(%r{</[^:/>]+:}, "</")
           Plurimath::Math.parse(math, "mathml")
         rescue StandardError => e
           math_validate_error(math, m, e)
