@@ -20,16 +20,16 @@ module Metanorma
       end
 
       def extract_localities(elem)
-        f = elem.children&.first or return
+        elem.children.empty? and return
+        f = elem.children.first
         f.text? or return
         head = f.remove.text
-        tail = elem.children&.remove
+        tail = elem.children.remove
         extract_localities1(elem, head)
         tail and elem << tail
       end
 
       def extract_localities1(elem, text)
-        elem.children.empty? and return
         b = elem.add_child("<localityStack/>").first if LOCALITY_RE.match text
         while (m = LOCALITY_RE.match text)
           add_locality(b, m)
