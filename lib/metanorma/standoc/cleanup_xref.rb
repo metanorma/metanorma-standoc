@@ -20,10 +20,11 @@ module Metanorma
       end
 
       def extract_localities(elem)
-        f = elem.children&.first or return
+        elem.children.empty? and return
+        f = elem.children.first
         f.text? or return
         head = f.remove.text
-        tail = elem.children&.remove
+        tail = elem.children.remove
         extract_localities1(elem, head)
         tail and elem << tail
       end
@@ -76,8 +77,8 @@ module Metanorma
           elem["citeas"] = ""
           xref_to_eref1(elem)
         end
-        elem.delete("target")
-        extract_localities(elem) unless elem.children.empty?
+        elem.delete("target").delete("style")
+        extract_localities(elem)
       end
 
       def xref_to_eref1(elem)
@@ -208,7 +209,7 @@ module Metanorma
             @log.add("Crossreferences", x,
                      "#{x['bibitemid']} does not have a corresponding anchor " \
                      "ID in the bibliography!")
-          x.children.empty? or extract_localities(x)
+          extract_localities(x)
         end
       end
     end
