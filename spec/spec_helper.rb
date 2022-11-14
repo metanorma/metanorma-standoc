@@ -21,7 +21,6 @@ require "metanorma-standoc"
 require "rspec/matchers"
 require "equivalent-xml"
 require "metanorma/standoc"
-require "rexml/document"
 
 Dir[File.expand_path("./support/**/**/*.rb", __dir__)]
   .sort.each { |f| require f }
@@ -56,12 +55,18 @@ def strip_src(xml)
 end
 
 def xmlpp(xml)
-  s = ""
-  f = REXML::Formatters::Pretty.new(2)
-  f.compact = true
-  f.write(REXML::Document.new(xml
+   xsl = <<~XSL
+    <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+      <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
+      <xsl:strip-space elements="*"/>
+      <xsl:template match="/">
+        <xsml:copy-of select="."/>
+      </xsl:template>
+    </xsl:stylesheet>
+  XSL
+  Nokogiri::XSLT(xsl).transform(Nokogiri::XML(xml))
+    .to_xml(indent: 2, encoding: "UTF-8")
     .gsub(%r{<fetched>[^<]+</fetched>}, "<fetched/>")), s)
-  s
 end
 
 ASCIIDOC_BLANK_HDR = <<~"HDR".freeze
