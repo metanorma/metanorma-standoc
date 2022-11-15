@@ -1822,7 +1822,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     expect(xmlpp(strip_guid(ret.at("//xmlns:annex").to_xml)))
-      .to be_equivalent_to(output)
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "processes terms annex" do
@@ -1850,6 +1850,6 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     expect(xmlpp(strip_guid(ret.at("//xmlns:annex").to_xml)))
-      .to be_equivalent_to(output)
+      .to be_equivalent_to(xmlpp(output))
   end
 end

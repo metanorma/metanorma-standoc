@@ -794,8 +794,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect(Metanorma::Standoc::Converter.new(nil, *OPTIONS)
-      .cleanup(Nokogiri::XML(input)).to_xml)
+    expect(xmlpp(Metanorma::Standoc::Converter.new(nil, *OPTIONS)
+      .cleanup(Nokogiri::XML(input)).to_xml))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -853,8 +853,8 @@ RSpec.describe Metanorma::Standoc do
       </bibliography>
       </standard-document>
     OUTPUT
-    expect(Metanorma::Standoc::Converter.new(nil, *OPTIONS)
-      .cleanup(Nokogiri::XML(input)).to_xml)
+    expect(xmlpp(Metanorma::Standoc::Converter.new(nil, *OPTIONS)
+      .cleanup(Nokogiri::XML(input)).to_xml))
       .to be_equivalent_to xmlpp(output)
   end
 
