@@ -55,7 +55,7 @@ def strip_src(xml)
 end
 
 def xmlpp(xml)
-   xsl = <<~XSL
+  xsl = <<~XSL
     <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
       <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
       <xsl:strip-space elements="*"/>
@@ -66,7 +66,7 @@ def xmlpp(xml)
   XSL
   Nokogiri::XSLT(xsl).transform(Nokogiri::XML(xml))
     .to_xml(indent: 2, encoding: "UTF-8")
-    .gsub(%r{<fetched>[^<]+</fetched>}, "<fetched/>")), s)
+    .gsub(%r{<fetched>[^<]+</fetched>}, "<fetched/>")
 end
 
 ASCIIDOC_BLANK_HDR = <<~"HDR".freeze
