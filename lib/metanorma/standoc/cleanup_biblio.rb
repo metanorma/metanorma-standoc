@@ -152,16 +152,16 @@ module Metanorma
         { volume: "volume", issue: "issue", pages: "page" }.each do |k, v|
           spans[k]&.each { |s| ret += span_to_extent(s, v) }
         end
-        ret
+        "<extent>#{ret}</extent>"
       end
 
       def span_to_extent(span, key)
         values = span.split(/[-–]/)
-        ret = "<extent type='#{key}'><locality>" \
+        ret = "<locality type='#{key}'>" \
               "<referenceFrom>#{values[0]}</referenceFrom>"
         values[1] and
           ret += "<referenceTo>#{values[1]}</referenceTo>"
-        "#{ret}</locality></extent>"
+        "#{ret}</locality>"
       end
 
       def span_to_docid(span, key)

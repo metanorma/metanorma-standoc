@@ -977,25 +977,19 @@ RSpec.describe Metanorma::Standoc do
                    </series>
                  </bibitem>
                </relation>
-               <extent type='volume'>
-                 <locality>
+               <extent>
+                 <locality type='volume'>
                    <referenceFrom>4</referenceFrom>
                  </locality>
-               </extent>
-               <extent type='issue'>
-                 <locality>
+                 <locality  type='issue'>
                    <referenceFrom>2</referenceFrom>
                    <referenceTo>3</referenceTo>
                  </locality>
-               </extent>
-               <extent type='page'>
-                 <locality>
+                 <locality type='page'>
                    <referenceFrom>12</referenceFrom>
                    <referenceTo>13</referenceTo>
                  </locality>
-               </extent>
-               <extent type='page'>
-                 <locality>
+                 <locality type='page'>
                    <referenceFrom>19</referenceFrom>
                  </locality>
                </extent>
