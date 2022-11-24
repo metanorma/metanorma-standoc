@@ -52,7 +52,7 @@ module Metanorma
         concept_validate(doc, "concept", "refterm")
         concept_validate(doc, "related", "preferred//name")
         table_validate(doc)
-        requirement_validate(doc)
+        @fatalerror += requirement_validate(doc)
         image_validate(doc)
         @fatalerror.empty? or
           clean_abort(@fatalerror.join("\n"), doc)
