@@ -96,6 +96,7 @@ module Metanorma
                     end
         @localdir = Metanorma::Utils::localdir(node)
         @output_dir = outputdir node
+        @fatalerror = []
       end
 
       def init_i18n(node)

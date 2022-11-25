@@ -122,7 +122,7 @@ module Metanorma
         ret = ""
         spans[:title] and ret += "<title>#{spans[:title]}</title>"
         ret += spans_to_bibitem_docid(spans)
-        spans[:contrib].each { |s| ret += span_to_contrib(s) }
+        spans[:contrib].each { |s| ret += span_to_contrib(s, spans[:title]) }
         spans[:series] and
           ret += "<series><title>#{spans[:series]}</title></series>"
         spans[:pubplace] and ret += "<place>#{spans[:pubplace]}</place>"
@@ -172,15 +172,24 @@ module Metanorma
         end
       end
 
-      def span_to_contrib(span)
+      def span_to_contrib(span, title)
         e = if span[:entity] == "organization"
               "<organization><name>#{span[:name]}</name></organization>"
-            else span_to_person(span)
+            else span_to_person(span, title)
             end
         "<contributor><role type='#{span[:role]}'/>#{e}</contributor>"
       end
 
-      def span_to_person(span)
+      def validate_span_to_person(span, title)
+        span[:surname] and return
+        msg = "Missing surname: issue with biliographic markup " \
+              "in \"#{title}\": #{span}"
+        @log.add("Bibliography", nil, msg)
+        @fatalerror << msg
+      end
+
+      def span_to_person(span, title)
+        validate_span_to_person(span, title)
         pre = (span[:"formatted-initials"] and
                      "<formatted-initials>" \
                      "#{span[:"formatted-initials"]}</formatted-initials>") ||

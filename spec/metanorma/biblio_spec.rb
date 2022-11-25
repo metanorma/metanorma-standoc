@@ -1001,4 +1001,33 @@ RSpec.describe Metanorma::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
+
+  it "aborts on missing surname in span notation" do
+    input = <<~INPUT
+      #{VALIDATING_BLANK_HDR}
+
+      [bibliography]
+      == Bibliography
+      * [[[ferre-bigorra,1]]],
+      span:initials[J.] span:surname[Ferré-Bigorra], span:initials[M.] span:surname:[Casals], span:initials[G.] span:surname[Gangolells],
+      span:title[The adoption of urban digital twins].
+      span:type[inproceedings]
+      In: span:in_title[Cities].
+      vol. span:volume[131],
+      pp. span:page[103905],
+      span:date[2022].
+      doi: span:uri.doi[10.1016/j.cities.2022.103905].
+    INPUT
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err"))
+      .to include "Missing surname: issue with biliographic markup in The adoption of urban digital twins"
+    expect(File.exist?("test.xml")).to be false
+  end
 end
