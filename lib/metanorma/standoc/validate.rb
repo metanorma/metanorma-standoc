@@ -43,7 +43,6 @@ module Metanorma
       end
 
       def content_validate(doc)
-        @fatalerror = []
         xref_validate(doc)
         section_validate(doc)
         norm_ref_validate(doc)

@@ -98,6 +98,7 @@ RSpec.describe Metanorma::Standoc do
              </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .gsub(%r{<image[^>]+?/>}m, "<image/>")
       .gsub(%r{<image.*?</image>}m, "<image/>")
       .gsub(%r{<style.*?</style>}m, "<style/>"))
       .to be_equivalent_to xmlpp(output)

@@ -44,11 +44,11 @@ module Metanorma
       end
 
       NO_SYMABBR = "[.//definitions[not(@type)]]".freeze
-      SYMABBR = "[.//definitions[@type = 'symbols']]"\
+      SYMABBR = "[.//definitions[@type = 'symbols']]" \
                 "[.//definitions[@type = 'abbreviated_terms']]".freeze
-      SYMnoABBR = "[.//definitions[@type = 'symbols']]"\
+      SYMnoABBR = "[.//definitions[@type = 'symbols']]" \
                   "[not(.//definitions[@type = 'abbreviated_terms'])]".freeze
-      ABBRnoSYM = "[.//definitions[@type = 'abbreviated_terms']]"\
+      ABBRnoSYM = "[.//definitions[@type = 'abbreviated_terms']]" \
                   "[not(.//definitions[@type = 'symbols'])]".freeze
 
       def section_names_terms_cleanup(xml)
