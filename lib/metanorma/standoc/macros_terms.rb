@@ -74,7 +74,7 @@ module Metanorma
 
       def process(_parent, _target, attrs)
         termref = attrs["termxref"] || attrs["name"]
-        "<concept type='term'><termxref>#{attrs['name']}</termxref>"\
+        "<concept type='term'><termxref>#{attrs['name']}</termxref>" \
           "<renderterm>#{termref}</renderterm><xrefrender/></concept>"
       end
     end
@@ -87,7 +87,7 @@ module Metanorma
 
       def process(_parent, _target, attrs)
         termref = attrs["termxref"] || attrs["name"]
-        "<concept type='symbol'><termxref>#{attrs['name']}</termxref>"\
+        "<concept type='symbol'><termxref>#{attrs['name']}</termxref>" \
           "<renderterm>#{termref}</renderterm><xrefrender/></concept>"
       end
     end
@@ -113,50 +113,40 @@ module Metanorma
             .match(m[:rest].sub(/^,/, ""))
           ret[:opt] = CSV.parse_line(m2[:opt].sub(/^,opt(ion)?s=/, "")
             .sub(/^"(.+)"$/m, "\\1").sub(/^'(.+)'$/m, "\\1"))
-          begin
-            attrs = CSV.parse_line(m2[:rest]) || []
-          rescue StandardError
-            raise "error processing #{m2[:rest]} as CSV"
-          end
-        else
-          begin
-            attrs = CSV.parse_line(m[:rest].sub(/^,/, "")) || []
-          rescue StandardError
-            raise "error processing #{m[:rest]} as CSV"
-          end
+          attrs = preprocess_attrs_csv(m2[:rest])
+        else attrs = preprocess_attrs_csv(m[:rest])
         end
         attrs.map! { |x| x.gsub(/\s+/, " ") }
         ret.merge(term: attrs[0], word: attrs[1] || attrs[0],
                   render: attrs[2])
       end
 
+      def preprocess_attrs_csv(line)
+        CSV.parse_line(line.sub(/^,/, "")) || []
+      rescue StandardError
+        raise "error processing #{line} as CSV"
+      end
+
       def generate_attrs(opts)
         ret = ""
-        opts.include?("noital") and ret += " ital='false'"
-        opts.include?("noref") and ret += " ref='false'"
-        opts.include?("ital") and ret += " ital='true'"
-        opts.include?("ref") and ret += " ref='true'"
-        opts.include?("nolinkmention") and ret += " linkmention='false'"
-        opts.include?("linkmention") and ret += " linkmention='true'"
-        opts.include?("nolinkref") and ret += " linkref='false'"
-        opts.include?("linkref") and ret += " linkref='true'"
+        %w(ital ref linkmention linkref).each do |x|
+          opts.include?("no#{x}") and ret += " #{x}='false'"
+          opts.include?(x) and ret += " #{x}='true'"
+        end
         ret
       end
 
       def process(parent, target, _attrs)
         attrs = preprocess_attrs(target)
-        term = Asciidoctor::Inline.new(parent, :quoted,
-                                       attrs[:term]).convert
-        word = Asciidoctor::Inline.new(parent, :quoted,
-                                       attrs[:word]).convert
-        xref = Asciidoctor::Inline.new(parent, :quoted,
-                                       attrs[:render]).convert
+        term, word, render = %i(term word render).each_with_object([]) do |x, m|
+          m << Asciidoctor::Inline.new(parent, :quoted, attrs[x]).convert
+        end
         opt = generate_attrs(attrs[:opt] || [])
-        if attrs[:id] then "<concept#{opt} key='#{attrs[:id]}'><refterm>"\
-          "#{term}</refterm><renderterm>#{word}</renderterm>"\
-          "<xrefrender>#{xref}</xrefrender></concept>"
-        else "<concept#{opt}><termxref>#{term}</termxref><renderterm>"\
-          "#{word}</renderterm><xrefrender>#{xref}</xrefrender></concept>"
+        if attrs[:id] then "<concept#{opt} key='#{attrs[:id]}'><refterm>" \
+          "#{term}</refterm><renderterm>#{word}</renderterm>" \
+          "<xrefrender>#{render}</xrefrender></concept>"
+        else "<concept#{opt}><termxref>#{term}</termxref><renderterm>" \
+          "#{word}</renderterm><xrefrender>#{render}</xrefrender></concept>"
         end
       rescue StandardError => e
         raise("processing {{#{target}}}: #{e.message}")
@@ -182,9 +172,9 @@ module Metanorma
         out = preprocess_attrs(attrs["text"])
         term = Asciidoctor::Inline.new(parent, :quoted,
                                        out[:term]).convert
-        if out[:id] then "<related type='#{target}' key='#{out[:id]}'>"\
+        if out[:id] then "<related type='#{target}' key='#{out[:id]}'>" \
           "<refterm>#{term}</refterm></related>"
-        else "<related type='#{target}'><termxref>#{term}</termxref>"\
+        else "<related type='#{target}'><termxref>#{term}</termxref>" \
           "<xrefrender>#{term}</xrefrender></related>"
         end
       rescue StandardError => e

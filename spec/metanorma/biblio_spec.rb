@@ -894,7 +894,7 @@ RSpec.describe Metanorma::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [bibliography]
-      === Normative References
+      == Normative References
 
       * [[[A, B]]], span:surname[Wozniak], span:initials[S.] & span:givenname[Steve] span:surname[Jobs]. span:date.issued[1991]. span:date[1996]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] & span:in_organization[UNICEF], span:in_title[Collected Essays]. _span:series[Bibliographers Anonymous]_. span:docid.ISO[ISO 1234]. span:pubplace[Geneva]: span:publisher[International Standardization Organization]. span:uri.citation[http://www.example.com]. span:volume[4] span:issue[2–3] span:pages[12-13] span:pages[19]. span:type[inbook]
     INPUT
@@ -1002,6 +1002,116 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes microformatting of full names references" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [bibliography]
+      == Normative References
+
+      * [[[A, B]]], span:surname[Wozniak], span:initials[S.] span:fullname[A.D. Hope] span:fullname[A D Navarro Cortez] span:fullname[A. D. Hope] & span:givenname[Steve] span:surname[Jobs]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] span:in_fullname.editor[J. Edgar Hoover] & span:in_fullname.editor[UNICEF], span:in_title[Collected Essays].
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+       <sections/>
+         <bibliography>
+           <references id="_" normative="true" obligation="informative">
+             <title>Normative references</title>
+             <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+             <bibitem id="A">
+               <formattedref format="application/x-isodoc+xml">Wozniak, S. A.D. Hope A D Navarro Cortez A. D. Hope &amp; Steve Jobs. <em>Work</em>. Gates, W. H J. Edgar Hoover &amp; UNICEF, Collected Essays.</formattedref>
+               <title>
+                 <em>Work</em>
+               </title>
+               <docidentifier>B</docidentifier>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <formatted-initials>S.</formatted-initials>
+                     <surname>Wozniak</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <formatted-initials>A. D.</formatted-initials>
+                     <surname>Hope</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>A</forename>
+                     <forename>D</forename>
+                     <forename>Navarro</forename>
+                     <surname>Cortez</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <formatted-initials>A. D.</formatted-initials>
+                     <surname>Hope</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>Steve</forename>
+                     <surname>Jobs</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <relation type="includedIn">
+                 <bibitem type="misc">
+                   <title>Collected Essays</title>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <formatted-initials>W. H</formatted-initials>
+                         <surname>Gates</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename>J.</forename>
+                         <forename>Edgar</forename>
+                         <surname>Hoover</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <surname>UNICEF</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                 </bibitem>
+               </relation>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "aborts on missing surname in span notation" do
     input = <<~INPUT
       #{VALIDATING_BLANK_HDR}
@@ -1027,7 +1137,8 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err"))
-      .to include "Missing surname: issue with biliographic markup in The adoption of urban digital twins"
+      .to include "Missing surname: issue with bibliographic markup in " \
+                  "\"The adoption of urban digital twins\""
     expect(File.exist?("test.xml")).to be false
   end
 end

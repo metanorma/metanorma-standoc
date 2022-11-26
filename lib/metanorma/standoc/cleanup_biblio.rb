@@ -66,6 +66,8 @@ module Metanorma
                              name: span[:val] }
         when "surname", "initials", "givenname", "formatted-initials"
           ret[:contrib] = spans_preprocess_contrib(span, ret[:contrib])
+        when "fullname"
+          ret[:contrib] = spans_preprocess_fullname(span, ret[:contrib])
         when "organization"
           ret[:contrib] = spans_preprocess_org(span, ret[:contrib])
         when "in_surname", "in_initials", "in_givenname",
@@ -74,11 +76,18 @@ module Metanorma
           span[:key].sub!(/^in_/, "")
           ret[:in][:contrib] =
             spans_preprocess_contrib(span, ret[:in][:contrib])
+        when "in_fullname"
+          ret[:in][:contrib] ||= []
+          span[:key].sub!(/^in_/, "")
+          ret[:in][:contrib] =
+            spans_preprocess_fullname(span, ret[:in][:contrib])
         when "in_organization"
           ret[:in][:contrib] ||= []
           span[:key].sub!(/^in_/, "")
           ret[:in][:contrib] =
             spans_preprocess_org(span, ret[:in][:contrib])
+        else
+          warn "unrecognised `span:#{span["key"]}`"
         end
       end
 
@@ -100,7 +109,12 @@ module Metanorma
 
         spans_preprocess_new_contrib?(span, contrib) and
           contrib << { role: span[:type] || "author", entity: "person" }
-        contrib[-1][span[:key].to_sym] = span[:val]
+        if span[:key] == "givenname" && contrib[-1][span[:key].to_sym]
+          contrib[-1][span[:key].to_sym] =
+            Array(contrib[-1][span[:key].to_sym]) + span[:val]
+        else
+          contrib[-1][span[:key].to_sym] = span[:val]
+        end
         contrib
       end
 
@@ -110,6 +124,19 @@ module Metanorma
            else (contrib[-1][:"formatted-initials"] || contrib[-1][:givenname])
            end) ||
           contrib[-1][:role] != (span[:type] || "author")
+      end
+
+      def spans_preprocess_fullname(span, contrib)
+        name = span[:val].gsub(/\.(?=\p{Alpha})/, ". ").split(/ /)
+        out = { role: span[:type] || "author", entity: "person",
+                surname: name[-1] }
+        if name.size > 1 && name[0..-2].all? { |x| /\.$/.match?(x) }
+          out[:"formatted-initials"] = name[0..-2].join(" ")
+        else
+          out[:givenname] = name[0..-2]
+        end
+        contrib << out
+        contrib
       end
 
       def spans_preprocess_org(span, contrib)
@@ -152,6 +179,8 @@ module Metanorma
         { volume: "volume", issue: "issue", pages: "page" }.each do |k, v|
           spans[k]&.each { |s| ret += span_to_extent(s, v) }
         end
+        return "" if ret.empty?
+
         "<extent>#{ret}</extent>"
       end
 
@@ -182,7 +211,7 @@ module Metanorma
 
       def validate_span_to_person(span, title)
         span[:surname] and return
-        msg = "Missing surname: issue with biliographic markup " \
+        msg = "Missing surname: issue with bibliographic markup " \
               "in \"#{title}\": #{span}"
         @log.add("Bibliography", nil, msg)
         @fatalerror << msg
@@ -193,7 +222,7 @@ module Metanorma
         pre = (span[:"formatted-initials"] and
                      "<formatted-initials>" \
                      "#{span[:"formatted-initials"]}</formatted-initials>") ||
-          "<forename>#{span[:givenname]}</forename>"
+          Array(span[:givenname]).map { |x| "<forename>#{x}</forename>" }.join
         "<person><name>#{pre}<surname>#{span[:surname]}</surname></name>" \
           "</person>"
       end

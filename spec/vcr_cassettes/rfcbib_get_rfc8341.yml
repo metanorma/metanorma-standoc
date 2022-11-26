@@ -23,7 +23,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '802'
+      - '826'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -31,7 +31,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"335efcaed1f17ab8d769db0ecaad1edb78c95f8c8362e37b4624a5a3666c60d2"
+      - W/"3915cee27f8f92130f95fe9f98a7ae6f9647b8f528c765eb14bf38a58b9cc13a"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 3BCE:2358:21AC7F:3974DE:636127B1
+      - E1AC:470D:2FFED:EE341:63821113
       Accept-Ranges:
       - bytes
       Date:
-      - Tue, 01 Nov 2022 14:05:37 GMT
+      - Sat, 26 Nov 2022 13:13:55 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11223-MEL
+      - cache-mel11261-MEL
       X-Cache:
-      - HIT
+      - MISS
       X-Cache-Hits:
-      - '1'
+      - '0'
       X-Timer:
-      - S1667311538.558812,VS0,VE345
+      - S1669468435.463361,VS0,VE316
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 98f59c2383ae71570f403bc3c599b7fc43b3fee7
+      - b54bea09a50ce3562867bb5dc135bcb4a506b1e4
       Expires:
-      - Tue, 01 Nov 2022 14:10:37 GMT
+      - Sat, 26 Nov 2022 13:18:55 GMT
       Source-Age:
       - '0'
     body:
@@ -148,6 +148,11 @@ http_interactions:
                 - Latn
           role:
           - type: author
+        - organization:
+            name:
+            - content: RFC Series
+          role:
+          - type: authorizer
         revdate: 2018-03
         language:
         - en
@@ -181,7 +186,7 @@ http_interactions:
         - content: XML
         editorialgroup:
         - name: netconf
-  recorded_at: Tue, 01 Nov 2022 14:05:37 GMT
+  recorded_at: Sat, 26 Nov 2022 13:13:55 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-rfcs/main/data/RFC8341.yaml
@@ -205,7 +210,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '802'
+      - '826'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -213,7 +218,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"335efcaed1f17ab8d769db0ecaad1edb78c95f8c8362e37b4624a5a3666c60d2"
+      - W/"3915cee27f8f92130f95fe9f98a7ae6f9647b8f528c765eb14bf38a58b9cc13a"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -223,29 +228,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 3BCE:2358:21AC7F:3974DE:636127B1
+      - E1AC:470D:2FFED:EE341:63821113
       Accept-Ranges:
       - bytes
       Date:
-      - Tue, 01 Nov 2022 14:05:37 GMT
+      - Sat, 26 Nov 2022 13:13:55 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11277-MEL
+      - cache-mel11242-MEL
       X-Cache:
-      - MISS
+      - HIT
       X-Cache-Hits:
-      - '0'
+      - '1'
       X-Timer:
-      - S1667311538.558707,VS0,VE345
+      - S1669468435.463523,VS0,VE316
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 31006b51def4b04c3222b07a4b895d03dda06b26
+      - cc53c0fd0b1a2432bf45cf5667d869ded209c67b
       Expires:
-      - Tue, 01 Nov 2022 14:10:37 GMT
+      - Sat, 26 Nov 2022 13:18:55 GMT
       Source-Age:
       - '0'
     body:
@@ -330,6 +335,11 @@ http_interactions:
                 - Latn
           role:
           - type: author
+        - organization:
+            name:
+            - content: RFC Series
+          role:
+          - type: authorizer
         revdate: 2018-03
         language:
         - en
@@ -363,5 +373,5 @@ http_interactions:
         - content: XML
         editorialgroup:
         - name: netconf
-  recorded_at: Tue, 01 Nov 2022 14:05:37 GMT
+  recorded_at: Sat, 26 Nov 2022 13:13:55 GMT
 recorded_with: VCR 6.1.0

@@ -1344,8 +1344,8 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
        </standard-document>
     OUTPUT
-    expect(strip_guid(xmlpp(Asciidoctor.convert(input, *OPTIONS)
-      .gsub(/<p id="_[^"]+">/, "").gsub("</p>", ""))))
+    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)
+      .gsub(/<p id="_[^"]+">/, "").gsub("</p>", "")))
       .to be_equivalent_to(xmlpp(output))
     expect { Asciidoctor.convert(input, *OPTIONS) }
       .to output(%r{normalised identifier in <clause id="a_b" inline-header="false" obligation="normative"/> from a:b})
@@ -1857,7 +1857,7 @@ RSpec.describe Metanorma::Standoc do
            <note id='_2cfe95f6-7ad6-aa57-8207-6f7d7928aa8e'>
              <p id='_76d95913-a379-c60f-5144-1f09655cafa6'>
                Note which is very important
-               <xref target='_76d95913-a379-c60f-5144-1f09655cafa6'/>
+               <xref target='a'/>
              </p>
            </note>
            <foreword id='_96b556cb-657c-985b-351b-ed70d8bd6fdd' obligation='informative'>
@@ -1881,8 +1881,6 @@ RSpec.describe Metanorma::Standoc do
        </standard-document>
     OUTPUT
     input1 = xmlpp(Asciidoctor.convert(input, *OPTIONS))
-      .sub(/<p id='([^']+)'>(\s+)Note which is very important(\s+)<xref target='a'/,
-           "<p id='\\1'>\\2Note which is very important\\3<xref target='\\1'")
     expect(xmlpp(input1))
       .to be_equivalent_to xmlpp(output)
   end
