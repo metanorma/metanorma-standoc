@@ -212,6 +212,41 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes sections: explicit foreword section, and preface section at start" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [.preface]
+      == Frontispiece
+
+      == Foreword
+
+      Text
+
+      == Scope
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+               <preface>
+             <foreword id="_" obligation="informative">
+               <title>Foreword</title>
+               <p id="_">Text</p>
+             </foreword>
+             <clause id="_" inline-header="false" obligation="informative">
+               <title>Frontispiece</title>
+             </clause>
+           </preface>
+           <sections>
+             <clause id="_" type="scope" inline-header="false" obligation="normative">
+               <title>Scope</title>
+             </clause>
+           </sections>
+         </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes sections with number attributes" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1204,7 +1239,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "leaves alone special titles in preface or appendix" do
+  it "ignore special titles in preface but not appendix" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
@@ -1227,13 +1262,13 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
         <preface>
-          <terms id='t1' obligation='normative'>
-            <title>Terms and definitions</title>
-            <term id='t2'>
-              <preferred><expression><name>Term1</name></expression></preferred>
-            </term>
-          </terms>
-        </preface>
+           <clause id="t1" inline-header="false" obligation="informative">
+             <title>Terms and definitions</title>
+             <clause id="t2" inline-header="false" obligation="informative">
+               <title>Term1</title>
+             </clause>
+           </clause>
+         </preface>
         <sections> </sections>
         <annex id='_' obligation='' language='fr' script=''>
           <definitions id='sym' language='fr' obligation="normative">
