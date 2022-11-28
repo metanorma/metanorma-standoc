@@ -37,6 +37,7 @@ module Metanorma
         reqt_subpart?(role) and return requirement_subpart(node)
         role == "form" and return form(node)
         role == "definition" and return termdefinition(node)
+        role == "boilerplate" and return boilerplate_note(node)
         result = []
         node.blocks.each { |b| result << send(b.context, b) }
         result

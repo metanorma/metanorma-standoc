@@ -89,7 +89,8 @@ module Metanorma
 
       def termdef_boilerplate_insert(xmldoc, isodoc, once = false)
         xmldoc.xpath(self.class::TERM_CLAUSE).each do |f|
-          next if f.at("./clause[@type = 'boilerplate']")
+          next if f.at("./clause[@type = 'boilerplate'] | " \
+                       "./note[@type = 'boilerplate']")
 
           term_defs_boilerplate(f.at("./title"),
                                 xmldoc.xpath(".//termdocsource"),
