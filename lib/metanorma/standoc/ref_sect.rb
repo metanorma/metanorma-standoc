@@ -75,7 +75,7 @@ module Metanorma
         xml.parent.add_child(smart_render_xml(hit, code, opts))
         xml
       rescue RelatonBib::RequestError
-        @log.add("Bibliography", nil, "Could not retrieve #{code}: "\
+        @log.add("Bibliography", nil, "Could not retrieve #{code}: " \
                                       "no access to online site")
         nil
       end
