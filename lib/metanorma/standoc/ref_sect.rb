@@ -78,7 +78,7 @@ module Metanorma
         nil
       end
 
-      def fetch_ref1(code, year, **opts)
+      def fetch_ref1(code, year, opts)
         if opts[:localfile]
           @local_bibdb.get(code, opts[:localfile])
         else @bibdb&.fetch(code, year, opts)
