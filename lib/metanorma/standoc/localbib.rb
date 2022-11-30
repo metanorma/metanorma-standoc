@@ -22,7 +22,7 @@ module Metanorma
       end
 
       def init_file_bibdb_config(defn, key)
-        /=/.match?(defn) or defn = "file=#{key}"
+        /=/.match?(defn) or defn = "file=#{defn}"
         values = defn.split(",").map { |item| item.split /\s*=\s*/ }.to_h
         values["key"] = key
         values["format"] ||= "bibtex" # all we currently suppoort
@@ -64,7 +64,13 @@ module Metanorma
       end
 
       def get(id, file = default)
-        @file_bibdb[file]&.at("//*[@id = '#{id}']")
+        ret = @file_bibdb.dig(file, id) and return ret
+
+        msg = "Cannot find reference #{id} for local relaton " \
+              "data source #{file}"
+        @parent.fatalerror << msg
+        @parent.log.add("Bibliography", nil, msg)
+        Nokogiri::XML("<bibitem/>")
       end
     end
   end

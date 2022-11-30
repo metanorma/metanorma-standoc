@@ -42,10 +42,9 @@ module Metanorma
       end
 
       def isorefmatches2code(match)
-        { code: match[:code], no_year: true,
+        { code: match[:code], no_year: true, lang: (@lang || :all),
           note: match[:fn], year: nil, match: match,
-          title: match[:text], usrlbl: match[:usrlbl],
-          lang: (@lang || :all) }
+          title: match[:text], usrlbl: match[:usrlbl] }
       end
 
       def isorefmatches2out(item, xml)
@@ -145,7 +144,7 @@ module Metanorma
           return { code: nil, match: match, analyse_code: code,
                    hidden: code[:hidden] }
         year = refitem1yr(code[:id])
-        { code: code[:id], analyse_code: code,
+        { code: code[:id], analyse_code: code, localfile: code[:localfile],
           year: year,
           title: match[:text], match: match, hidden: code[:hidden],
           usrlbl: match[:usrlbl], lang: (@lang || :all) }

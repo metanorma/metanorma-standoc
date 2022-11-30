@@ -84,6 +84,31 @@ RSpec.describe Metanorma::Standoc do
     expect(File.exist?("test.xml")).to be false
   end
 
+  it "aborts on missing reference in localbib" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+        :relaton-data-source: spec/assets/manual.bib
+
+        [bibliography]
+        == Bibliography
+        * [[[A, local-file(xyz)]]]
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err"))
+      .to include "Cannot find reference xyz for local relaton data source default"
+    expect(File.exist?("test.xml")).to be false
+  end
+
   it "warns about missing fields in asciibib" do
     FileUtils.rm_f "test.err"
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
