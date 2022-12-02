@@ -220,7 +220,13 @@ module Metanorma
         refs = node.items.each_with_object([]) do |b, m|
           m << reference1code(b.text, node)
         end
-        reference_populate(refs)
+        reference_populate(reference_normalise(refs))
+      end
+
+      def reference_normalise(refs)
+        refs.each do |r|
+          r[:code] = @c.decode(r[:code]).gsub(/\u2009\u2014\u2009/, " -- ")
+        end
       end
 
       def reference_populate(refs)
@@ -238,7 +244,7 @@ module Metanorma
           ref, i, doc = results.pop
           m[i.to_i] = { ref: ref }
           if doc.is_a?(RelatonBib::RequestError)
-            @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: "\
+            @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: " \
                                           "no access to online site")
           else m[i.to_i][:doc] = doc
           end

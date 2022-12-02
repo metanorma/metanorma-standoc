@@ -980,7 +980,66 @@ RSpec.describe Metanorma::Standoc do
         </bibitem>
         </references></bibliography>
         </standard-document>
+      OUTPUT
+      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+        .to be_equivalent_to xmlpp(output)
+    end
+  end
 
+  it "processes document identifiers ignoring Asciidoctor substitutions" do
+    VCR.use_cassette "bipm" do
+      input = <<~INPUT
+        #{ISOBIB_BLANK_HDR}
+        [bibliography]
+        == Normative References
+
+        * [[[iso123,BIPM CCTF -- Meeting 5 (1970)]]] _Standard_
+      INPUT
+      output = <<~OUTPUT
+               #{BLANK_HDR}
+                      <sections>
+               </sections><bibliography><references id="_" obligation="informative" normative="true">
+                 <title>Normative references</title>
+                #{NORM_REF_BOILERPLATE}
+                             <bibitem id="iso123" type="proceedings">
+               <fetched/>
+               <title format="text/plain" language="en" script="Latn">5th meeting of the CCTF then CCDS</title>
+               <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/cc/cctf/5-1970</uri>
+               <uri type="citation" language="fr" script="Latn">https://www.bipm.org/fr/committees/cc/cctf/5-1970</uri>
+               <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cctf/meetings-en/meeting-5.yml</uri>
+               <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cctf/meetings-fr/meeting-5.yml</uri>
+               <docidentifier type="BIPM" primary="true">CCTF — Meeting 5 (1970)</docidentifier>
+               <docidentifier type="BIPM" primary="true" language="en" script="Latn">CCTF — Meeting 5 (1970)</docidentifier>
+               <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CCTF — Réunion 5 (1970)</docidentifier>
+               <docnumber>CCTF — Meeting 5 (1970)</docnumber>
+               <date type="published">
+                 <on>1970-06-19</on>
+               </date>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>Bureau International des Poids et Mesures</name>
+                   <abbreviation>BIPM</abbreviation>
+                   <uri>www.bipm.org</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <organization>
+                   <name language="en" script="Latn">Consultative Committee for the Definition of the Second</name>
+                   <abbreviation>CCDS</abbreviation>
+                 </organization>
+               </contributor>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <place>
+                 <city>Paris</city>
+               </place>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)

@@ -95,7 +95,7 @@ module Metanorma
       end
 
       def fetch_ref_async1(ref, idx, res)
-        @bibdb.fetch_async(@c.decode(ref[:code]), ref[:year], ref) do |doc|
+        @bibdb.fetch_async(ref[:code], ref[:year], ref) do |doc|
           res << [ref, idx, doc]
         end
       end

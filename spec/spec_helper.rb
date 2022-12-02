@@ -65,7 +65,7 @@ XSL = Nokogiri::XSLT(<<~XSL.freeze)
 XSL
 
 def xmlpp(xml)
-  XSL.transform(Nokogiri::XML(xml))
+  XSL.transform(Nokogiri::XML(xml, &:noblanks))
     .to_xml(indent: 2, encoding: "UTF-8")
     .gsub(%r{<fetched>[^<]+</fetched>}, "<fetched/>")
 end
