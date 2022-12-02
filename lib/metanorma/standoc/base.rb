@@ -9,6 +9,7 @@ require "fileutils"
 require "metanorma-utils"
 require "isodoc/xslfo_convert"
 require_relative "render"
+require_relative "localbib"
 require "mn-requirements"
 
 module Metanorma
@@ -17,6 +18,8 @@ module Metanorma
       XML_ROOT_TAG = "standard-document".freeze
       XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
       FONTS_MANIFEST = "fonts-manifest".freeze
+
+      attr_accessor :log, :fatalerror
 
       def xml_root_tag
         self.class::XML_ROOT_TAG
@@ -32,7 +35,7 @@ module Metanorma
         init_processing(node)
         init_reqt(node)
         init_toc(node)
-        init_output(node)
+        init_output(node) # feeds init_biblio
         init_i18n(node)
         init_biblio(node)
         @metadata_attrs = metadata_attrs(node)
@@ -114,6 +117,8 @@ module Metanorma
         @bibdb = nil
         init_bib_caches(node)
         init_iev_caches(node)
+        @local_bibdb =
+          ::Metanorma::Standoc::LocalBiblio.new(node, @localdir, self)
       end
 
       def requirements_processor
@@ -227,8 +232,7 @@ module Metanorma
       def outputdir(node)
         if node.attr("output_dir").nil_or_empty?
           Metanorma::Utils::localdir(node)
-        else
-          File.join(node.attr("output_dir"), "")
+        else File.join(node.attr("output_dir"), "")
         end
       end
     end

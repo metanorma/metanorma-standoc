@@ -1141,4 +1141,200 @@ RSpec.describe Metanorma::Standoc do
                   "\"The adoption of urban digital twins\""
     expect(File.exist?("test.xml")).to be false
   end
+
+  it "processes single relaton data source" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :data-uri-image: false
+      :relaton-data-source: spec/assets/manual.bib
+
+
+      [bibliography]
+      == Normative References
+
+      * [[[A, local-file(ISOTC211)]]]
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+               <sections/>
+         <bibliography>
+           <references id="_" normative="true" obligation="informative">
+             <title>Normative references</title>
+             <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+             <bibitem id="A" type="manual">
+               <title type="main" format="text/plain">Geographic information</title>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>A.</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>Arnold</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>Arnold</forename>
+                     <forename>B</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>Institute of Electrical and Electronics Engineers</name>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="distributor">
+                   <description>sponsor</description>
+                 </role>
+                 <organization>
+                   <name>World Wide Web Consortium</name>
+                 </organization>
+               </contributor>
+               <docidentifier>ISOTC211</docidentifier>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes multiple relaton data sources" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :data-uri-image: false
+      :relaton-data-source-bib1: spec/assets/manual.bib
+      :relaton-data-source-bib2: file=spec/assets/techreport.bib
+
+      [bibliography]
+      == Normative References
+
+      * [[[A, local-file(bib1, ISOTC211)]]]
+      * [[[B, local-file(bib2, ISOTC211t)]]]
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections/>
+         <bibliography>
+           <references id="_" normative="true" obligation="informative">
+             <title>Normative references</title>
+             <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+             <bibitem id="A" type="manual">
+               <title type="main" format="text/plain">Geographic information</title>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>A.</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>Arnold</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>Arnold</forename>
+                     <forename>B</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>Institute of Electrical and Electronics Engineers</name>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="distributor">
+                   <description>sponsor</description>
+                 </role>
+                 <organization>
+                   <name>World Wide Web Consortium</name>
+                 </organization>
+               </contributor>
+               <docidentifier>ISOTC211</docidentifier>
+             </bibitem>
+             <bibitem id="B" type="techreport">
+               <title type="main" format="text/plain">Techreport Geographic information</title>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>A.</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>Arnold</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>Arnold</forename>
+                     <forename>B</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>Institute of Electrical and Electronics Engineers</name>
+                 </organization>
+               </contributor>
+               <edition>Edition 1</edition>
+               <docidentifier>ISOTC211t</docidentifier>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
 end
