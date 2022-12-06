@@ -19,8 +19,8 @@ RSpec.describe Metanorma::Standoc do
       term:[blah,word]
       {{blah,term,word}}
       {{blah,term,word,xref}}
-      {{blah,term,word,xref,options="noital,noref,nolinkmention,nolinkref"}}
-      {{blah,term,word,xref,options="ital,ref,linkmention,linkref"}}
+      {{blah,term,word,xref,options="noital,nobold,noref,nolinkmention,nolinkref"}}
+      {{blah,term,word,xref,options="ital,bold,ref,linkmention,linkref"}}
 
       related:contrast[blah]
 
@@ -146,7 +146,7 @@ RSpec.describe Metanorma::Standoc do
                    <tt>blah</tt>
                  </strong>
                </concept>
-               <concept ital='false' ref='false' linkmention='false' linkref='false'>
+               <concept ital='false' bold='false' ref='false' linkmention='false' linkref='false'>
                  <strong>
                    term
                    <tt>blah</tt>
@@ -156,7 +156,7 @@ RSpec.describe Metanorma::Standoc do
                    <tt>blah</tt>
                  </strong>
                </concept>
-               <concept ital='true' ref='true' linkmention='true' linkref='true'>
+               <concept ital='true' bold='true' ref='true' linkmention='true' linkref='true'>
                  <strong>
                    term
                    <tt>blah</tt>
