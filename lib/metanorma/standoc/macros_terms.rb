@@ -129,7 +129,7 @@ module Metanorma
 
       def generate_attrs(opts)
         ret = ""
-        %w(ital ref linkmention linkref).each do |x|
+        %w(ital bold ref linkmention linkref).each do |x|
           opts.include?("no#{x}") and ret += " #{x}='false'"
           opts.include?(x) and ret += " #{x}='true'"
         end
