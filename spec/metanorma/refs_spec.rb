@@ -267,8 +267,8 @@ RSpec.describe Metanorma::Standoc do
         [bibliography]
         == Normative References
 
-        * [[[iso123,ISO 123]]] _Standard_
-        * [[[iso124,(1)ISO 123]]] _Standard_
+        * [[[iso123, ISO 123]]] _Standard_
+        * [[[iso124,(1)ISO 123 ]]] _Standard_
       INPUT
       output = <<~OUTPUT
                 #{BLANK_HDR}

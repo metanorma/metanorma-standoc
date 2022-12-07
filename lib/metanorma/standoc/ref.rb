@@ -225,7 +225,8 @@ module Metanorma
 
       def reference_normalise(refs)
         refs.each do |r|
-          r[:code] = @c.decode(r[:code]).gsub(/\u2009\u2014\u2009/, " -- ")
+          r[:code] = @c.decode(r[:code])
+            .gsub(/\u2009\u2014\u2009/, " -- ").strip
         end
       end
 
