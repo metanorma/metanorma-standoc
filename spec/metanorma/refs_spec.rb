@@ -2635,7 +2635,7 @@ RSpec.describe Metanorma::Standoc do
            <foreword id='_' obligation='informative'>
              <title>Foreword</title>
              <p id='_'>
-               <eref type='inline' bibitemid='iso124' citeas='[&lt;strong&gt;A&lt;/strong&gt;.&lt;fn reference=&quot;1&quot;&gt;&lt;p&gt;hello&lt;/p&gt;&#10;&lt;/fn&gt;]'/>
+               <eref type="inline" bibitemid="iso124" citeas="[&lt;strong&gt;A&lt;/strong&gt;.]"/>
              </p>
            </foreword>
          </preface>

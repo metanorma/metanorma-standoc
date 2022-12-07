@@ -50,7 +50,7 @@ module Metanorma
       # only numeric references are renumbered
       def biblio_renumber(xmldoc)
         i = 0
-        xmldoc.xpath("//references[not(@normative = 'true')]"\
+        xmldoc.xpath("//references[not(@normative = 'true')]" \
                      "[not(@hidden = 'true')]").each do |r|
           r.xpath("./bibitem[not(@hidden = 'true')]").each do |b|
             i += 1
@@ -139,6 +139,11 @@ module Metanorma
       end
 
       def format_ref(ref, type)
+        ret = Nokogiri::XML.fragment(ref)
+        ret.traverse do |x|
+          x.remove if x.name == "fn"
+        end
+        ref = to_xml(ret)
         return @isodoc.docid_prefix(type, ref) if type != "metanorma"
         return "[#{ref}]" if /^\d+$/.match(ref) && !/^\[.*\]$/.match(ref)
 
@@ -146,9 +151,9 @@ module Metanorma
       end
 
       ISO_PUBLISHER_XPATH =
-        "./contributor[role/@type = 'publisher']/"\
-        "organization[abbreviation = 'ISO' or abbreviation = 'IEC' or "\
-        "name = 'International Organization for Standardization' or "\
+        "./contributor[role/@type = 'publisher']/" \
+        "organization[abbreviation = 'ISO' or abbreviation = 'IEC' or " \
+        "name = 'International Organization for Standardization' or " \
         "name = 'International Electrotechnical Commission']".freeze
 
       def reference_names(xmldoc)
