@@ -72,10 +72,9 @@ module Metanorma
 
       def concept_validate(doc, tag, refterm)
         found = false
+        concept_validate_ids(doc)
         doc.xpath("//#{tag}/xref").each do |x|
-          next if doc.at("//term[@id = '#{x['target']}']")
-          next if doc.at("//definitions//dt[@id = '#{x['target']}']")
-
+          @concept_ids[x["target"]] and next
           @log.add("Anchors", x, concept_validate_msg(doc, tag, refterm, x))
           found = true
         end
@@ -83,11 +82,19 @@ module Metanorma
           @fatalerror << "#{tag.capitalize} not cross-referencing term or symbol"
       end
 
-      def concept_validate_msg(doc, tag, refterm, xref)
+      def concept_validate_ids(doc)
+        @concept_ids ||= doc.xpath("//term | //definitions//dt")
+          .each_with_object({}) { |x, m| m[x["id"]] = true }
+        @concept_terms_tags ||= doc.xpath("//terms")
+          .each_with_object({}) { |t, m| m[t["id"]] = true }
+        nil
+      end
+
+      def concept_validate_msg(_doc, tag, refterm, xref)
         ret = <<~LOG
           #{tag.capitalize} #{xref.at("../#{refterm}")&.text} is pointing to #{xref['target']}, which is not a term or symbol
         LOG
-        if doc.at("//*[@id = '#{xref['target']}']")&.name == "terms"
+        if @concept_terms_tags[xref["target"]]
           ret = ret.strip
           ret += ". Did you mean to point to a subterm?"
         end
