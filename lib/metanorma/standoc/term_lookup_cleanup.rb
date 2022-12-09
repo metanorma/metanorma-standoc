@@ -16,6 +16,9 @@ module Metanorma
         @log = log
         @termlookup = { term: {}, symbol: {}, secondary2primary: {} }
         @idhash = {}
+        @terms_tags = xmldoc.xpath("//terms").each_with_object({}) do |t, m|
+          m[t["id"]] = true
+        end
       end
 
       def call
@@ -42,8 +45,8 @@ module Metanorma
           refterm = n.at("./refterm") or next
           p = @termlookup[:secondary2primary][refterm.text] and
             refterm.children = p
-          refterm.replace("<preferred><expression>"\
-                          "<name>#{refterm.children.to_xml}"\
+          refterm.replace("<preferred><expression>" \
+                          "<name>#{refterm.children.to_xml}" \
                           "</name></expression></preferred>")
         end
       end
@@ -90,10 +93,9 @@ module Metanorma
         remove_missing_ref_msg1(node, target, ret)
       end
 
-      def remove_missing_ref_msg1(node, target, ret)
+      def remove_missing_ref_msg1(_node, target, ret)
         target2 = "_#{target.downcase.gsub(/-/, '_')}"
-        if node.document.at("//*[@id = '#{target}']")&.name == "terms" ||
-            node.document.at("//*[@id = '#{target2}']")&.name == "terms"
+        if @terms_tags[target] || @terms_tags[target2]
           ret.strip!
           ret += ". Did you mean to point to a subterm?"
         end
@@ -106,7 +108,7 @@ module Metanorma
         display = node.at("../renderterm")&.remove&.children
         display = [] if display.nil? || display.to_xml == node.text
         d = display.empty? ? "" : ", display <tt>#{display.to_xml}</tt>"
-        node.children = "term <tt>#{node.text}</tt>#{d} "\
+        node.children = "term <tt>#{node.text}</tt>#{d} " \
                         "not resolved via ID <tt>#{target}</tt>"
       end
 
@@ -116,7 +118,7 @@ module Metanorma
         display = node.at("../renderterm")&.remove&.children
         display = [] if display.nil? || display.to_xml == node.text
         d = display.empty? ? "" : ", display <tt>#{display.to_xml}</tt>"
-        node.children = "symbol <tt>#{node.text}</tt>#{d} "\
+        node.children = "symbol <tt>#{node.text}</tt>#{d} " \
                         "not resolved via ID <tt>#{target}</tt>"
       end
 
