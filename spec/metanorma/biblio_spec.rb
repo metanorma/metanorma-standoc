@@ -896,41 +896,32 @@ RSpec.describe Metanorma::Standoc do
       [bibliography]
       == Normative References
 
-      * [[[A, B]]], span:surname[Wozniak], span:initials[S.] & span:givenname[Steve] span:surname[Jobs]. span:date.issued[1991]. span:date[1996]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] & span:in_organization[UNICEF], span:in_title[Collected Essays]. _span:series[Bibliographers Anonymous]_. span:docid.ISO[ISO 1234]. span:pubplace[Geneva]: span:publisher[International Standardization Organization]. span:uri.citation[http://www.example.com]. span:volume[4] span:issue[2–3] span:pages[12-13] span:pages[19]. span:type[inbook]
+      * [[[A, B]]], span:surname[Wozniak], span:initials[S.] & span:givenname[Steve] span:surname[Jobs]. span:date.issued[1991-1992]. span:date[1996]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] & span:in_organization[UNICEF], span:in_title[Collected Essays]. _span:series[Bibliographers Anonymous]_. span:docid.ISO[ISO 1234]. span:pubplace[Geneva]: span:publisher[International Standardization Organization]. span:uri.citation[http://www.example.com]. span:volume[4] span:issue[2–3] span:pages[12-13] span:pages[19]. span:type[inbook]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
          <sections> </sections>
                   <bibliography>
-           <references id='_' normative='true' obligation='informative'>
+           <references id="_" normative="true" obligation="informative">
              <title>Normative references</title>
-             <p id='_'>
-               The following documents are referred to in the text in such a way that
-               some or all of their content constitutes requirements of this document.
-               For dated references, only the edition cited applies. For undated
-               references, the latest edition of the referenced document (including any
-               amendments) applies.
-             </p>
-             <bibitem id='A' type='inbook'>
-               <formattedref format='application/x-isodoc+xml'>
-                 Wozniak, S. &amp; Steve Jobs. 1991. 1996.
-                 <em>Work</em>
-                 . Gates, W. H &amp; UNICEF, Collected Essays.
-                 <em>Bibliographers Anonymous</em>
-                 . ISO 1234. Geneva: International Standardization Organization.
-                 <link target='http://www.example.com'/>
-                 . 4 2–3 12-13 19.
-               </formattedref>
+             <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+             <bibitem id="A" type="inbook">
+               <formattedref format="application/x-isodoc+xml">Wozniak, S. &amp; Steve Jobs. 1991-1992. 1996. <em>Work</em>. Gates, W. H &amp; UNICEF, Collected Essays. <em>Bibliographers Anonymous</em>. ISO 1234. Geneva: International Standardization Organization. <link target="http://www.example.com"/>. 4 2–3 12-13 19. </formattedref>
                <title>
                  <em>Work</em>
                </title>
-               <uri type='citation'>http://www.example.com</uri>
+               <uri type="citation">http://www.example.com</uri>
                <docidentifier>B</docidentifier>
-               <docidentifier type='ISO'>ISO 1234</docidentifier>
-               <date type='issued'>1991</date>
-               <date type='published'>1996</date>
+               <docidentifier type="ISO">ISO 1234</docidentifier>
+               <date type="issued">
+                 <from>1991</from>
+                 <to>1992</to>
+               </date>
+               <date type="published">
+                 <on>1996</on>
+               </date>
                <contributor>
-                 <role type='author'/>
+                 <role type="author"/>
                  <person>
                    <name>
                      <formatted-initials>S.</formatted-initials>
@@ -939,7 +930,7 @@ RSpec.describe Metanorma::Standoc do
                  </person>
                </contributor>
                <contributor>
-                 <role type='author'/>
+                 <role type="author"/>
                  <person>
                    <name>
                      <forename>Steve</forename>
@@ -948,17 +939,17 @@ RSpec.describe Metanorma::Standoc do
                  </person>
                </contributor>
                <contributor>
-                 <role type='publisher'/>
+                 <role type="publisher"/>
                  <organization>
                    <name>International Standardization Organization</name>
                  </organization>
                </contributor>
                <place>Geneva</place>
-               <relation type='includedIn'>
-                 <bibitem type='book'>
+               <relation type="includedIn">
+                 <bibitem type="book">
                    <title>Collected Essays</title>
                    <contributor>
-                     <role type='editor'/>
+                     <role type="editor"/>
                      <person>
                        <name>
                          <formatted-initials>W. H</formatted-initials>
@@ -967,7 +958,7 @@ RSpec.describe Metanorma::Standoc do
                      </person>
                    </contributor>
                    <contributor>
-                     <role type='author'/>
+                     <role type="author"/>
                      <organization>
                        <name>UNICEF</name>
                      </organization>
@@ -978,18 +969,18 @@ RSpec.describe Metanorma::Standoc do
                  </bibitem>
                </relation>
                <extent>
-                 <locality type='volume'>
+                 <locality type="volume">
                    <referenceFrom>4</referenceFrom>
                  </locality>
-                 <locality  type='issue'>
+                 <locality type="issue">
                    <referenceFrom>2</referenceFrom>
                    <referenceTo>3</referenceTo>
                  </locality>
-                 <locality type='page'>
+                 <locality type="page">
                    <referenceFrom>12</referenceFrom>
                    <referenceTo>13</referenceTo>
                  </locality>
-                 <locality type='page'>
+                 <locality type="page">
                    <referenceFrom>19</referenceFrom>
                  </locality>
                </extent>

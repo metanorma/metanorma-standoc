@@ -87,7 +87,7 @@ module Metanorma
           ret[:in][:contrib] =
             spans_preprocess_org(span, ret[:in][:contrib])
         else
-          warn "unrecognised `span:#{span["key"]}`"
+          warn "unrecognised `span:#{span['key']}`"
         end
       end
 
@@ -170,7 +170,7 @@ module Metanorma
         ret = ""
         spans[:uri].each { |s| ret += span_to_docid(s, "uri") }
         spans[:docid].each { |s| ret += span_to_docid(s, "docidentifier") }
-        spans[:date].each { |s| ret += span_to_docid(s, "date") }
+        spans[:date].each { |s| ret += span_to_date(s) }
         ret
       end
 
@@ -199,6 +199,17 @@ module Metanorma
         else
           "<#{key}>#{span[:val]}</#{key}>"
         end
+      end
+
+      def span_to_date(span)
+        val = if /[-–]/.match?(span[:val])
+                from, to = span[:val].split(/[-–]/, 2)
+                "<from>#{from}</from><to>#{to}</to>"
+              else
+                "<on>#{span[:val]}</on>"
+              end
+        type = span[:type] ? " type='#{span[:type]}'" : ""
+        "<date#{type}>#{val}</date>"
       end
 
       def span_to_contrib(span, title)
