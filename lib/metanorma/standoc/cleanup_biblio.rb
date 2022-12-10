@@ -202,8 +202,8 @@ module Metanorma
       end
 
       def span_to_date(span)
-        val = if /[-–]/.match?(span[:val])
-                from, to = span[:val].split(/[-–]/, 2)
+        val = if /[-–](?=\d{4})/.match?(span[:val])
+                from, to = span[:val].split(/[-–](?=\d{4})/, 2)
                 "<from>#{from}</from><to>#{to}</to>"
               else
                 "<on>#{span[:val]}</on>"
