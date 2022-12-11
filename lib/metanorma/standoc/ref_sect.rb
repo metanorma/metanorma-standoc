@@ -107,7 +107,8 @@ module Metanorma
       end
 
       def emend_biblio_id(xml, code)
-        unless xml.at("/bibitem/docidentifier[not(@type = 'DOI')][text()]")
+        unless xml.at("/bibitem/docidentifier[not(@type = 'DOI')][text()]") ||
+            /^doi:/.match?(code)
           @log.add("Bibliography", nil,
                    "ERROR: No document identifier retrieved for #{code}")
           xml.root << "<docidentifier>#{code}</docidentifier>"
