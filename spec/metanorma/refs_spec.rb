@@ -1072,6 +1072,24 @@ RSpec.describe Metanorma::Standoc do
                    <name>CNRI Acct</name>
                  </organization>
                </contributor>
+               <relation type="includedIn">
+         <bibitem>
+           <title format="text/plain">D-Lib Magazine</title>
+         </bibitem>
+       </relation>
+       <series>
+         <title format="text/plain">D-Lib Magazine</title>
+       </series>
+       <extent>
+         <localityStack>
+           <locality type="volume">
+             <referenceFrom>16</referenceFrom>
+           </locality>
+           <locality type="issue">
+             <referenceFrom>11/12</referenceFrom>
+           </locality>
+         </localityStack>
+       </extent>
              </bibitem>
            </references>
          </bibliography>
