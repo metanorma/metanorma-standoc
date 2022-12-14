@@ -1353,19 +1353,33 @@ RSpec.describe Metanorma::Standoc do
 
       [[ABC]]
       .Caption
-      [source%unnumbered,ruby,number=3,filename=sourcecode1.rb,keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
+      [source%unnumbered%linenums,ruby,number=3,filename=sourcecode1.rb,keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
       --
       puts "Hello, world."
       %w{a b c}.each do |x|
         puts x
       end
       --
+
+      [source]
+      --
+      puts "Hello, world."
+      %w{a b c}.each do |x|
+        puts x
+      end
+      --
+
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-         <sourcecode id="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common'>
+         <sourcecode id="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common' linenums='true'>
         <name>Caption</name>puts "Hello, world."
+       %w{a b c}.each do |x|
+         puts x
+       end</sourcecode>
+         <sourcecode id="_">
+        puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
        end</sourcecode>

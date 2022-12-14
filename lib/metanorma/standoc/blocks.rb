@@ -233,6 +233,7 @@ module Metanorma
       def listing_attrs(node)
         attr_code(id_attr(node).merge(keep_attrs(node)
                   .merge(lang: node.attr("language"),
+                         linenums: node.option?("linenums") ? "true" : nil,
                          unnumbered: node.option?("unnumbered") ? "true" : nil,
                          number: node.attr("number"),
                          filename: node.attr("filename"))))
