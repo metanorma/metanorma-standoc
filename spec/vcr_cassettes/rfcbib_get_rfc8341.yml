@@ -23,7 +23,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '826'
+      - '853'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -31,7 +31,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"3915cee27f8f92130f95fe9f98a7ae6f9647b8f528c765eb14bf38a58b9cc13a"
+      - W/"cfd58a2eaa2892b3c6cc6bb240f4e3a1e0ffd450cf6a2b5b9819bf44fcac8b6b"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -41,35 +41,36 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - E1AC:470D:2FFED:EE341:63821113
+      - 821E:6A60:651B2:DA32A:6399AB04
       Accept-Ranges:
       - bytes
       Date:
-      - Sat, 26 Nov 2022 13:13:55 GMT
+      - Wed, 14 Dec 2022 10:52:52 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11261-MEL
+      - cache-mel11252-MEL
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1669468435.463361,VS0,VE316
+      - S1671015172.280582,VS0,VE319
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - b54bea09a50ce3562867bb5dc135bcb4a506b1e4
+      - 5b5248275adff1961e74d094d9825a5226cb6387
       Expires:
-      - Sat, 26 Nov 2022 13:18:55 GMT
+      - Wed, 14 Dec 2022 10:57:52 GMT
       Source-Age:
       - '0'
     body:
       encoding: ASCII-8BIT
       string: |
         ---
+        schema-version: v1.2.1
         id: RFC8341
         title:
         - content: Network Configuration Access Control Model
@@ -186,7 +187,9 @@ http_interactions:
         - content: XML
         editorialgroup:
         - name: netconf
-  recorded_at: Sat, 26 Nov 2022 13:13:55 GMT
+        ext:
+          schema-version: v1.0.0
+  recorded_at: Wed, 14 Dec 2022 10:52:52 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-rfcs/main/data/RFC8341.yaml
@@ -210,7 +213,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '826'
+      - '853'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -218,7 +221,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"3915cee27f8f92130f95fe9f98a7ae6f9647b8f528c765eb14bf38a58b9cc13a"
+      - W/"cfd58a2eaa2892b3c6cc6bb240f4e3a1e0ffd450cf6a2b5b9819bf44fcac8b6b"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -228,35 +231,36 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - E1AC:470D:2FFED:EE341:63821113
+      - 821E:6A60:651B2:DA32A:6399AB04
       Accept-Ranges:
       - bytes
       Date:
-      - Sat, 26 Nov 2022 13:13:55 GMT
+      - Wed, 14 Dec 2022 10:52:52 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11242-MEL
+      - cache-mel11266-MEL
       X-Cache:
       - HIT
       X-Cache-Hits:
       - '1'
       X-Timer:
-      - S1669468435.463523,VS0,VE316
+      - S1671015172.281356,VS0,VE318
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - cc53c0fd0b1a2432bf45cf5667d869ded209c67b
+      - ea8fff2a9c9c5314d06ddf78b0fbb60ecb9c9f2d
       Expires:
-      - Sat, 26 Nov 2022 13:18:55 GMT
+      - Wed, 14 Dec 2022 10:57:52 GMT
       Source-Age:
       - '0'
     body:
       encoding: ASCII-8BIT
       string: |
         ---
+        schema-version: v1.2.1
         id: RFC8341
         title:
         - content: Network Configuration Access Control Model
@@ -373,5 +377,7 @@ http_interactions:
         - content: XML
         editorialgroup:
         - name: netconf
-  recorded_at: Sat, 26 Nov 2022 13:13:55 GMT
+        ext:
+          schema-version: v1.0.0
+  recorded_at: Wed, 14 Dec 2022 10:52:52 GMT
 recorded_with: VCR 6.1.0

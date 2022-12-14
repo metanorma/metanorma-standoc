@@ -40,7 +40,7 @@ module Metanorma
 
       def uninterrupt_quotes_around_xml_skip(elem)
         !(/\A['"]/.match?(elem.text) &&
-          elem.previous.path.split(%r{/})[1..-2]
+          elem.previous.path.gsub(/\[\d+\]/, "").split(%r{/})[1..-2]
           .intersection(IGNORE_QUOTES_ELEMENTS).empty? &&
           ((elem.previous.text.strip.empty? &&
             !empty_tag_with_text_content?(elem.previous)) ||
@@ -82,12 +82,12 @@ module Metanorma
         xmldoc.traverse do |x|
           block?(x) and prev = ""
           empty_tag_with_text_content?(x) and prev = "dummy"
-          next unless x.text?
+          x.text? or next
 
-          ancestors = x.path.split(%r{/})[1..-2]
-          ancestors.intersection(IGNORE_QUOTES_ELEMENTS).empty? and
-            dumb2smart_quotes1(x, prev)
-          prev = x.text if ancestors.intersection(IGNORE_TEXT_ELEMENTS).empty?
+          ancestors = x.path.gsub(/\[\d+\]/, "").split(%r{/})[1..-2]
+          ancestors.intersection(IGNORE_QUOTES_ELEMENTS).empty? or next
+          dumb2smart_quotes1(x, prev)
+          prev = x.text
         end
       end
 
@@ -103,7 +103,6 @@ module Metanorma
         xmldoc.traverse do |n|
           next unless n.text? && /\u2019/.match?(n.text)
 
-          # n.replace(n.text.gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'")) # .
           n.replace(@c.encode(
                       @c.decode(n.text)
             .gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'"),
