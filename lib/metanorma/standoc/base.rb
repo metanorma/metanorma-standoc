@@ -61,6 +61,7 @@ module Metanorma
         @embed_hdr = node.attr("embed_hdr")
         @document_scheme = node.attr("document-scheme")
         @xrefstyle = node.attr("xrefstyle")
+        @source_linenums = node.attr("source-linenums-option") == "true"
       end
 
       def init_processing(node)
