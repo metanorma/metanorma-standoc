@@ -20,7 +20,7 @@ module Metanorma
           htmltoclevels: node.attr("htmltoclevels") || node.attr("toclevels"),
           doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
           breakupurlsintables: node.attr("break-up-urls-in-tables"),
-          suppressasciimathdup: node.attr("suppress-asciimath-dup"),
+          suppressasciimathdup: node.attr("suppress-asciimath-dup") == "true",
           bare: node.attr("bare"),
           sectionsplit: node.attr("sectionsplit"),
           baseassetpath: node.attr("base-asset-path"),
@@ -32,7 +32,7 @@ module Metanorma
           fontlicenseagreement: node.attr("font-license-agreement"),
           localizenumber: node.attr("localize-number"),
           modspecidentifierbase: node.attr("modspec-identifier-base"),
-          sourcehighlighter: node.attr("source-highlighter") || true,
+          sourcehighlighter: node.attr("source-highlighter") != "false",
         }
       end
 
