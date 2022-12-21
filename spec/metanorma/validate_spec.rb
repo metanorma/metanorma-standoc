@@ -183,6 +183,20 @@ RSpec.describe Metanorma::Standoc do
     expect(errf).not_to include "The following reference is missing an anchor"
   end
 
+  it "warns about malformed biblio span" do
+    FileUtils.rm_f "test.err"
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      #{VALIDATING_BLANK_HDR}
+
+      [bibliography]
+      == Normative References
+
+      * [[[A, B]]], span:surname1[Wozniak]
+    INPUT
+    errf = File.read("test.err")
+    expect(errf).to include "unrecognised key 'surname1' in `span:surname1[Wozniak]"
+  end
+
   #   it "warns about malformed LaTeX" do
   #   FileUtils.rm_f "test.err"
   #   Asciidoctor.convert(<<~"INPUT", *OPTIONS)

@@ -87,7 +87,9 @@ module Metanorma
           ret[:in][:contrib] =
             spans_preprocess_org(span, ret[:in][:contrib])
         else
-          warn "unrecognised `span:#{span['key']}`"
+          msg = "unrecognised key '#{span[:key]}' in `span:#{span[:key]}[#{span[:val]}]`"
+          warn msg
+          @log.add("Bibliography", nil, msg)
         end
       end
 
