@@ -3,7 +3,7 @@ module Metanorma
     module Cleanup
       def formattedref_spans(xmldoc)
         xmldoc.xpath("//bibitem[formattedref//span]").each do |b|
-          spans = spans_preprocess(extract_content(b))
+          spans = spans_preprocess(extract_content(b), b)
           ret = spans_to_bibitem(spans)
           spans[:type] and b["type"] = spans[:type]
           b << ret
@@ -40,13 +40,13 @@ module Metanorma
         { contrib: [], docid: [], uri: [], date: [], extent: {}, in: {} }
       end
 
-      def spans_preprocess(spans)
+      def spans_preprocess(spans, bib)
         ret = empty_span_hash
-        spans.each { |s| span_preprocess1(s, ret) }
+        spans.each { |s| span_preprocess1(s, ret, bib) }
         host_rearrange(ret)
       end
 
-      def span_preprocess1(span, ret)
+      def span_preprocess1(span, ret, bib)
         case span[:key]
         when "uri", "docid"
           val = link_unwrap(Nokogiri::XML.fragment(span[:val])).to_xml
@@ -88,8 +88,7 @@ module Metanorma
             spans_preprocess_org(span, ret[:in][:contrib])
         else
           msg = "unrecognised key '#{span[:key]}' in `span:#{span[:key]}[#{span[:val]}]`"
-          warn msg
-          @log.add("Bibliography", nil, msg)
+          @log.add("Bibliography", bib, msg)
         end
       end
 
