@@ -231,7 +231,8 @@ module Metanorma
       end
 
       def listing_attrs(node)
-        linenums = (node.option?("linenums") || @source_linenums)
+        linenums = node.option?("linenums") || node.attributes[3] ||
+          @source_linenums
         attr_code(id_attr(node).merge(keep_attrs(node)
                   .merge(lang: node.attr("language"),
                          linenums: linenums ? "true" : nil,
