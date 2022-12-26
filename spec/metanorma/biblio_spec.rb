@@ -896,7 +896,7 @@ RSpec.describe Metanorma::Standoc do
       [bibliography]
       == Normative References
 
-      * [[[A, B]]], span:surname[Wozniak], span:initials[S.] & span:givenname[Steve] span:surname[Jobs]. span:date.issued[1991-1992]. span:date[1996-01-02]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] & span:in_organization[UNICEF], span:in_title[Collected Essays]. _span:series[Bibliographers Anonymous]_. span:docid.ISO[ISO 1234]. span:pubplace[Geneva]: span:publisher[International Standardization Organization]. span:uri.citation[http://www.example.com]. span:volume[4] span:issue[2–3] span:pages[12-13] span:pages[19]. span:type[inbook]
+      * [[[A, B]]], span:surname[Wozniak], span:initials[S.], span:surname[Jobs], span:givenname[Steve] & span:surname[Hoover], span:initials[J.] span:givenname[Edgar]. span:date.issued[1991-1992]. span:date[1996-01-02]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] & span:in_organization[UNICEF], span:in_title[Collected Essays]. _span:series[Bibliographers Anonymous]_. span:docid.ISO[ISO 1234]. span:pubplace[Geneva]: span:publisher[International Standardization Organization]. span:uri.citation[http://www.example.com]. span:volume[4] span:issue[2–3] span:pages[12-13] span:pages[19]. span:type[inbook]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -906,7 +906,7 @@ RSpec.describe Metanorma::Standoc do
              <title>Normative references</title>
              <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
              <bibitem id="A" type="inbook">
-               <formattedref format="application/x-isodoc+xml">Wozniak, S. &amp; Steve Jobs. 1991-1992. 1996-01-02. <em>Work</em>. Gates, W. H &amp; UNICEF, Collected Essays. <em>Bibliographers Anonymous</em>. ISO 1234. Geneva: International Standardization Organization. <link target="http://www.example.com"/>. 4 2–3 12-13 19. </formattedref>
+               <formattedref format="application/x-isodoc+xml">Wozniak, S., Jobs, Steve &amp; Hoover, J. Edgar. 1991-1992. 1996-01-02. <em>Work</em>. Gates, W. H &amp; UNICEF, Collected Essays. <em>Bibliographers Anonymous</em>. ISO 1234. Geneva: International Standardization Organization. <link target="http://www.example.com"/>. 4 2–3 12-13 19. </formattedref>
                <title>
                  <em>Work</em>
                </title>
@@ -935,6 +935,16 @@ RSpec.describe Metanorma::Standoc do
                    <name>
                      <forename>Steve</forename>
                      <surname>Jobs</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>J.</forename>
+                     <forename>Edgar</forename>
+                     <surname>Hoover</surname>
                    </name>
                  </person>
                </contributor>
@@ -1000,7 +1010,7 @@ RSpec.describe Metanorma::Standoc do
       [bibliography]
       == Normative References
 
-      * [[[A, B]]], span:surname[Wozniak], span:initials[S.] span:fullname[A.D. Hope] span:fullname[A D Navarro Cortez] span:fullname[A. D. Hope] & span:givenname[Steve] span:surname[Jobs]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] span:in_fullname.editor[J. Edgar Hoover] & span:in_fullname.editor[UNICEF], span:in_title[Collected Essays].
+      * [[[A, B]]], span:surname[Wozniak], span:initials[S.] span:fullname[A.D. Hope] span:fullname[A D Navarro Cortez] span:fullname[A. D. Hope] & span:surname[Jobs], span:givenname[Steve]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] span:in_fullname.editor[J. Edgar Hoover] & span:in_fullname.editor[UNICEF], span:in_title[Collected Essays].
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -1010,7 +1020,7 @@ RSpec.describe Metanorma::Standoc do
              <title>Normative references</title>
              <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
              <bibitem id="A">
-               <formattedref format="application/x-isodoc+xml">Wozniak, S. A.D. Hope A D Navarro Cortez A. D. Hope &amp; Steve Jobs. <em>Work</em>. Gates, W. H J. Edgar Hoover &amp; UNICEF, Collected Essays.</formattedref>
+               <formattedref format="application/x-isodoc+xml">Wozniak, S. A.D. Hope A D Navarro Cortez A. D. Hope &amp; Jobs, Steve. <em>Work</em>. Gates, W. H J. Edgar Hoover &amp; UNICEF, Collected Essays.</formattedref>
                <title>
                  <em>Work</em>
                </title>
@@ -1110,7 +1120,7 @@ RSpec.describe Metanorma::Standoc do
       [bibliography]
       == Bibliography
       * [[[ferre-bigorra,1]]],
-      span:initials[J.] span:surname[Ferré-Bigorra], span:initials[M.] span:surname:[Casals], span:initials[G.] span:surname[Gangolells],
+      span:initials[J.]
       span:title[The adoption of urban digital twins].
       span:type[inproceedings]
       In: span:in_title[Cities].
