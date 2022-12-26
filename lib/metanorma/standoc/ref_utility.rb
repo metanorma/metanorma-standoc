@@ -110,8 +110,7 @@ module Metanorma
       # dropid(code) | # (repo|path):(key,code) | local-file(source,? key)
       def analyse_ref_code(code)
         ret = { id: code }
-        return ret if code.blank?
-
+        code.nil? || code.empty? and return ret
         analyse_ref_numeric(
           analyse_ref_repo_path(
             analyse_ref_dropid(

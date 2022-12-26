@@ -1,0 +1,158 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.crossref.org/works/10.1045%2Fnovember2010-massart
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday/v1.10.2 Serrano/v1.0.0 (mailto:open.source@ribose.com)
+      X-User-Agent:
+      - Faraday/v1.10.2 Serrano/v1.0.0 (mailto:open.source@ribose.com)
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 13 Dec 2022 14:29:01 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '778'
+      Set-Cookie:
+      - AWSALB=PgLe8MnLpWSQeQbnsZ2w32YCDCzh3Low6WsKQI7HhigAuoqL7tkYwZd1rckGNeN5Sv2bB7Hun06cKPXFIZkD4NGzp6V6xfUcSRNjrcVzm5+2qr8MXHmcW+CPo8S9;
+        Expires=Tue, 20 Dec 2022 14:29:01 GMT; Path=/
+      - AWSALBCORS=PgLe8MnLpWSQeQbnsZ2w32YCDCzh3Low6WsKQI7HhigAuoqL7tkYwZd1rckGNeN5Sv2bB7Hun06cKPXFIZkD4NGzp6V6xfUcSRNjrcVzm5+2qr8MXHmcW+CPo8S9;
+        Expires=Tue, 20 Dec 2022 14:29:01 GMT; Path=/; SameSite=None
+      Access-Control-Expose-Headers:
+      - Link
+      Access-Control-Allow-Headers:
+      - X-Requested-With, Accept, Accept-Encoding, Accept-Charset, Accept-Language,
+        Accept-Ranges, Cache-Control
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept-Encoding
+      Server:
+      - Jetty(9.4.40.v20210413)
+      X-Ratelimit-Limit:
+      - '50'
+      X-Ratelimit-Interval:
+      - 1s
+      X-Api-Pool:
+      - polite
+      X-Rate-Limit-Limit:
+      - '50'
+      X-Rate-Limit-Interval:
+      - 1s
+      Permissions-Policy:
+      - interest-cohort=()
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2022,4,3]],"date-time":"2022-04-03T21:05:49Z","timestamp":1649019949313},"reference-count":0,"publisher":"CNRI
+        Acct","issue":"11\/12","content-domain":{"domain":[],"crossmark-restriction":false},"short-container-title":["D-Lib
+        Magazine"],"DOI":"10.1045\/november2010-massart","type":"journal-article","created":{"date-parts":[[2010,11,15]],"date-time":"2010-11-15T18:04:37Z","timestamp":1289844277000},"source":"Crossref","is-referenced-by-count":1,"title":["Taming
+        the Metadata Beast: ILOX"],"prefix":"10.1045","volume":"16","author":[{"given":"David","family":"Massart","sequence":"first","affiliation":[]},{"given":"Elena","family":"Shulman","sequence":"additional","affiliation":[]},{"given":"Nick","family":"Nicholas","sequence":"additional","affiliation":[]},{"given":"Nigel","family":"Ward","sequence":"additional","affiliation":[]},{"given":"Fr\u00e9d\u00e9ric","family":"Bergeron","sequence":"additional","affiliation":[]}],"member":"72","published-online":{"date-parts":[[2010,11]]},"container-title":["D-Lib
+        Magazine"],"original-title":[],"language":"en","deposited":{"date-parts":[[2010,11,15]],"date-time":"2010-11-15T18:04:40Z","timestamp":1289844280000},"score":1,"resource":{"primary":{"URL":"http:\/\/www.dlib.org\/dlib\/november10\/massart\/11massart.html"}},"subtitle":[],"short-title":[],"issued":{"date-parts":[[2010,11]]},"references-count":0,"journal-issue":{"issue":"11\/12","published-online":{"date-parts":[[2010,10]]}},"URL":"http:\/\/dx.doi.org\/10.1045\/november2010-massart","relation":{},"ISSN":["1082-9873"],"issn-type":[{"value":"1082-9873","type":"electronic"}],"subject":["Library
+        and Information Sciences"],"published":{"date-parts":[[2010,11]]}}}'
+  recorded_at: Tue, 13 Dec 2022 14:29:01 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works?filter=type:book&query.bibliographic=%22D-Lib%20Magazine,%20CNRI%20Acct,%20,%202010%22&rows=5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 13 Dec 2022 14:29:16 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2544'
+      Access-Control-Expose-Headers:
+      - Link
+      Access-Control-Allow-Headers:
+      - X-Requested-With, Accept, Accept-Encoding, Accept-Charset, Accept-Language,
+        Accept-Ranges, Cache-Control
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept-Encoding
+      Server:
+      - Jetty(9.4.40.v20210413)
+      X-Ratelimit-Limit:
+      - '50'
+      X-Ratelimit-Interval:
+      - 1s
+      X-Api-Pool:
+      - public
+      X-Rate-Limit-Limit:
+      - '50'
+      X-Rate-Limit-Interval:
+      - 1s
+      Permissions-Policy:
+      - interest-cohort=()
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: '{"status":"ok","message-type":"work-list","message-version":"1.0.0","message":{"facets":{},"total-results":25410,"items":[{"indexed":{"date-parts":[[2022,4,1]],"date-time":"2022-04-01T22:47:36Z","timestamp":1648853256263},"reference-count":0,"publisher":"Ex
+        Officina Ioannis Hervagii","content-domain":{"domain":[],"crossmark-restriction":false},"published-print":{"date-parts":[[1533]]},"DOI":"10.24157\/arc_8103","type":"book","created":{"date-parts":[[2018,3,28]],"date-time":"2018-03-28T16:41:35Z","timestamp":1522255295000},"source":"Crossref","is-referenced-by-count":0,"title":["Ivlii
+        firmicima terni ivnioris sicvli v.c. ad mavortivm lollianum astronomi[co]n
+        lib. viii, per nicolavm prvcknervm astrologum nuper ab innumeris mendis uindicati,
+        his accesservnt, Clavdii Ptolemaei Pheludiensis Alexandrini [Greek text],
+        quod Quadripartitum uocant, lib. IIII, De inerrantium stellarum significationibus,
+        lib. I, Centiloquium eiusdem, Ex Arabibvs et Chaldaeis, Hermetis uetustissimi
+        astrologi centum aphoris. lib. I, Bethem Centiloquium, Eivsdem de horis planetarum
+        liber alius, Almansoris astrologi propositiones ad saracenorum regem, Zahelis
+        arabis de electionibus lib. I, Messahalah de ratione circuli &amp; stellarum,
+        &amp; qualiter in hoc seculo operentur, lib. I, Omar de natiuitatibus lib.
+        III, Marci Manilii poet\u00e6 disertissimi Astronomic[o]n lib. v, Postremo,
+        Othonis Brvnfelsii de diffinitionibus &amp; terminis astrologi\u00e6 libellus
+        isagogicus."],"prefix":"10.24157","author":[{"given":"Julius","family":"Firmicus
+        Maternus","sequence":"first","affiliation":[]},{"family":"Ptolemy","sequence":"additional","affiliation":[]},{"family":"Hermes,
+        Trismegistus","sequence":"additional","affiliation":[]},{"given":"Otto","family":"Brunfels","sequence":"additional","affiliation":[]}],"member":"10242","deposited":{"date-parts":[[2018,9,24]],"date-time":"2018-09-24T16:49:25Z","timestamp":1537807765000},"score":15.333823,"resource":{"primary":{"URL":"http:\/\/www.arcadianlibraryonline.com\/da-volume?docid=ARC_8103"}},"issued":{"date-parts":[[1533]]},"references-count":0,"URL":"http:\/\/dx.doi.org\/10.24157\/arc_8103","published":{"date-parts":[[1533]]}},{"indexed":{"date-parts":[[2022,4,2]],"date-time":"2022-04-02T18:19:42Z","timestamp":1648923582572},"reference-count":0,"publisher":"Per
+        Ioannem Hervagium","content-domain":{"domain":[],"crossmark-restriction":false},"published-print":{"date-parts":[[1551]]},"DOI":"10.24157\/arc_16795","type":"book","created":{"date-parts":[[2018,3,28]],"date-time":"2018-03-28T16:41:35Z","timestamp":1522255295000},"source":"Crossref","is-referenced-by-count":0,"title":["Iulii
+        Firmici Materni Iunioris Siculi V. C. ad Mavortium Lollianum, astronomic\u03c9n
+        libri VIII, per Nicolaum Prucknerum astrologum nuper ab innumeris mendis vindicati.\/
+        His accesserunt,\/ Claudii Ptolemaei Pheludiensis Alexandrini [Greek word],
+        quod quadripartitum vocant, lib. IIII.\/ De inerrantium stellarum significationibus,
+        lib. I.\/ Centiloquium eiusdem.\/ Ex Arabibus et Chaldaeis.\/ Hermetis vetustissimi
+        astrologi centum aphoris. lib. I.\/ Bethem Centiloquium.\/ Eiusdem de horis
+        planetarum liber alius.\/ Almanzoris astrologi propositiones ad Saracenorum
+        regem.\/ Zahelis Arabis de electionibus lib. I.\/ Messahalah de ratione circuli
+        et stellarum, et qualiter in hoc seculo operentur, lib. I.\/ Omar de nativitatibus
+        lib. III.\/ Marci Manilii po\u00ebt\u00e6 disertissimi astronomic\u03c9n lib.
+        V.\/ Postremo, Othonis Brunfelsii de diffinitionibus et terminis astrologi\u00e6
+        libellus isagogicus."],"prefix":"10.24157","author":[{"given":"Julius","family":"Firmicus
+        Maternus","sequence":"first","affiliation":[]},{"family":"Bethen","sequence":"additional","affiliation":[]},{"family":"Omar
+        Tiberiadis","sequence":"additional","affiliation":[]},{"family":"Marcus Manilius","sequence":"additional","affiliation":[]}],"member":"10242","deposited":{"date-parts":[[2018,9,24]],"date-time":"2018-09-24T16:49:25Z","timestamp":1537807765000},"score":14.763083,"resource":{"primary":{"URL":"http:\/\/www.arcadianlibraryonline.com\/da-volume?docid=ARC_16795"}},"editor":[{"given":"Nicolaus","family":"Pruckner","sequence":"additional","affiliation":[]}],"issued":{"date-parts":[[1551]]},"references-count":0,"URL":"http:\/\/dx.doi.org\/10.24157\/arc_16795","published":{"date-parts":[[1551]]}},{"indexed":{"date-parts":[[2022,10,25]],"date-time":"2022-10-25T04:20:21Z","timestamp":1666671621692},"publisher-location":"Boston","reference-count":0,"publisher":"Houghton
+        Mifflin Company","content-domain":{"domain":[],"crossmark-restriction":false},"published-print":{"date-parts":[[1920]]},"DOI":"10.1037\/11009-000","type":"book","created":{"date-parts":[[2006,6,12]],"date-time":"2006-06-12T15:37:58Z","timestamp":1150126678000},"source":"Crossref","is-referenced-by-count":1,"title":["Human
+        psychology (lib. ed.)."],"prefix":"10.1037","author":[{"given":"Howard C.","family":"Warren","sequence":"first","affiliation":[]}],"member":"15","deposited":{"date-parts":[[2022,10,24]],"date-time":"2022-10-24T15:08:37Z","timestamp":1666624117000},"score":14.553822,"resource":{"primary":{"URL":"http:\/\/content.apa.org\/books\/11009-000"}},"issued":{"date-parts":[[1920]]},"references-count":0,"alternative-id":["2006-05086-000"],"URL":"http:\/\/dx.doi.org\/10.1037\/11009-000","published":{"date-parts":[[1920]]}},{"indexed":{"date-parts":[[2022,4,1]],"date-time":"2022-04-01T11:35:41Z","timestamp":1648812941157},"publisher-location":"London","reference-count":0,"publisher":"Palgrave
+        Macmillan UK","isbn-type":[{"value":"9781349576326","type":"print"},{"value":"9781137527691","type":"electronic"}],"license":[{"start":{"date-parts":[[2016,1,1]],"date-time":"2016-01-01T00:00:00Z","timestamp":1451606400000},"content-version":"tdm","delay-in-days":0,"URL":"http:\/\/www.springer.com\/tdm"}],"content-domain":{"domain":[],"crossmark-restriction":false},"published-print":{"date-parts":[[2016]]},"DOI":"10.1057\/9781137527691","type":"book","created":{"date-parts":[[2016,5,23]],"date-time":"2016-05-23T06:20:52Z","timestamp":1463984452000},"source":"Crossref","is-referenced-by-count":1,"title":["The
+        Lib-Lab Pact"],"prefix":"10.1057","author":[{"given":"Jonathan","family":"Kirkup","sequence":"first","affiliation":[]}],"member":"297","link":[{"URL":"http:\/\/link.springer.com\/content\/pdf\/10.1057\/9781137527691.pdf","content-type":"application\/pdf","content-version":"vor","intended-application":"text-mining"},{"URL":"http:\/\/link.springer.com\/content\/pdf\/10.1057\/9781137527691","content-type":"unspecified","content-version":"vor","intended-application":"similarity-checking"}],"deposited":{"date-parts":[[2019,4,2]],"date-time":"2019-04-02T22:40:46Z","timestamp":1554244846000},"score":14.060616,"resource":{"primary":{"URL":"http:\/\/link.springer.com\/10.1057\/9781137527691"}},"issued":{"date-parts":[[2016]]},"ISBN":["9781349576326","9781137527691"],"references-count":0,"URL":"http:\/\/dx.doi.org\/10.1057\/9781137527691","published":{"date-parts":[[2016]]}},{"indexed":{"date-parts":[[2022,10,21]],"date-time":"2022-10-21T04:32:39Z","timestamp":1666326759544},"reference-count":0,"publisher":"University
+        of Hawaii Press","isbn-type":[{"value":"9780824860752","type":"electronic"}],"license":[{"start":{"date-parts":[[2017,12,18]],"date-time":"2017-12-18T00:00:00Z","timestamp":1513555200000},"content-version":"unspecified","delay-in-days":0,"URL":"http:\/\/creativecommons.org\/licenses\/by-nc-nd\/4.0"}],"content-domain":{"domain":[],"crossmark-restriction":false},"published-print":{"date-parts":[[2017,12,31]]},"DOI":"10.1515\/9780824860752","type":"book","created":{"date-parts":[[2019,8,24]],"date-time":"2019-08-24T17:02:37Z","timestamp":1566666157000},"source":"Crossref","is-referenced-by-count":0,"title":["The
+        Other Women''s Lib"],"prefix":"10.1515","author":[{"given":"Julia C.","family":"Bullock","sequence":"first","affiliation":[]}],"member":"374","published-online":{"date-parts":[[2017,12,18]]},"link":[{"URL":"https:\/\/www.degruyter.com\/view\/title\/530921","content-type":"text\/html","content-version":"vor","intended-application":"text-mining"},{"URL":"https:\/\/www.degruyter.com\/document\/doi\/10.1515\/9780824860752\/pdf","content-type":"unspecified","content-version":"vor","intended-application":"similarity-checking"}],"deposited":{"date-parts":[[2022,10,20]],"date-time":"2022-10-20T04:49:31Z","timestamp":1666241371000},"score":12.524472,"resource":{"primary":{"URL":"https:\/\/www.degruyter.com\/document\/doi\/10.1515\/9780824860752\/html"}},"subtitle":["Gender
+        and Body in Japanese Women''s Fiction"],"issued":{"date-parts":[[2017,12,18]]},"ISBN":["9780824860752"],"references-count":0,"alternative-id":["10.1515\/9780824860752"],"URL":"http:\/\/dx.doi.org\/10.1515\/9780824860752","published":{"date-parts":[[2017,12,18]]}}],"items-per-page":5,"query":{"start-index":0,"search-terms":null}}}'
+  recorded_at: Tue, 13 Dec 2022 14:29:16 GMT
+recorded_with: VCR 6.1.0
