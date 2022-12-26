@@ -110,9 +110,9 @@ module Metanorma
 
         spans_preprocess_new_contrib?(span, contrib) and
           contrib << { role: span[:type] || "author", entity: "person" }
-        if span[:key] == "givenname" && contrib[-1][span[:key].to_sym]
-          contrib[-1][span[:key].to_sym] =
-            Array(contrib[-1][span[:key].to_sym]) + span[:val]
+        if multiple_givennames?(span, contrib)
+          contrib[-1][:givenname] = [contrib[-1][:givenname],
+                                     span[:val]].flatten
         else
           contrib[-1][span[:key].to_sym] = span[:val]
         end
@@ -121,10 +121,19 @@ module Metanorma
 
       def spans_preprocess_new_contrib?(span, contrib)
         contrib.empty? ||
-          (if span[:key] == "surname" then contrib[-1][:surname]
-           else (contrib[-1][:"formatted-initials"] || contrib[-1][:givenname])
-           end) ||
+          (span[:key] == "surname" && contrib[-1][:surname]) ||
           contrib[-1][:role] != (span[:type] || "author")
+      end
+
+      def multiple_givennames?(span, contrib)
+        (%w(formatted-initials givenname).include?(span[:key]) &&
+          (contrib[-1][:"formatted-initials"] || contrib[-1][:givenname])) or
+          return false
+        if contrib[-1][:"formatted-initials"]
+          contrib[-1][:givenname] = contrib[-1][:"formatted-initials"]
+          contrib[-1].delete(:"formatted-initials")
+        end
+        true
       end
 
       def spans_preprocess_fullname(span, contrib)
