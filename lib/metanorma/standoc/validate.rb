@@ -13,9 +13,8 @@ module Metanorma
                        "referenceFrom".freeze
 
       def init_iev
-        return nil if @no_isobib
-        return @iev if @iev
-
+        @no_isobib and return nil
+        @iev and return @iev
         @iev = Iev::Db.new(@iev_globalname, @iev_localname) unless @no_isobib
         @iev
       end
@@ -43,6 +42,8 @@ module Metanorma
       end
 
       def content_validate(doc)
+        nested_asset_validate_basic(doc)
+        nested_note_validate(doc)
         xref_validate(doc)
         section_validate(doc)
         norm_ref_validate(doc)
@@ -57,12 +58,36 @@ module Metanorma
           clean_abort(@fatalerror.join("\n"), doc)
       end
 
+      def nested_asset_validate_basic(doc)
+        a = "//formula | //example | //figure | //termnote | //termexample | " \
+            "//table"
+        doc.xpath("#{a} | //note").each do |m|
+          m.xpath(a.gsub(%r{//}, ".//")).each do |n|
+            nested_asset_report(m, n, doc)
+          end
+        end
+      end
+
+      def nested_note_validate(doc)
+        doc.xpath("//termnote | //note").each do |m|
+          m.xpath(".//note").each do |n|
+            nested_asset_report(m, n, doc)
+          end
+        end
+      end
+
+      def nested_asset_report(outer, inner, _doc)
+        outer.name == "figure" && inner.name == "figure" and return
+        err = "There is an instance of #{inner.name} nested within #{outer.name}"
+        @log.add("Syntax", inner, err)
+        @fatalerror << "#{err}:\n#{inner.to_xml}"
+      end
+
       def norm_ref_validate(doc)
         found = false
         doc.xpath("//references[@normative = 'true']/bibitem").each do |b|
-          next unless docid = b.at("./docidentifier[@type = 'metanorma']")
-          next unless /^\[\d+\]$/.match?(docid.text)
-
+          docid = b.at("./docidentifier[@type = 'metanorma']") or next
+          /^\[\d+\]$/.match?(docid.text) or next
           @log.add("Bibliography", b,
                    "Numeric reference in normative references")
           found = true
@@ -106,8 +131,7 @@ module Metanorma
           @log.add("Anchors", elem, "Anchor #{elem['id']} has already been " \
                                     "used at line #{ids[elem['id']]}")
           @fatalerror << "Multiple instances of same ID: #{elem['id']}"
-        else
-          ids[elem["id"]] = elem.line
+        else ids[elem["id"]] = elem.line
         end
         ids
       end
@@ -166,8 +190,7 @@ module Metanorma
       def xref_validate(doc)
         ids = doc.xpath("//*/@id").each_with_object({}) { |x, m| m[x.text] = 1 }
         doc.xpath("//xref/@target | //xref/@to").each do |x|
-          next if ids[x.text]
-
+          ids[x.text] and next
           @log.add("Anchors", x.parent,
                    "Crossreference target #{x.text} is undefined")
         end

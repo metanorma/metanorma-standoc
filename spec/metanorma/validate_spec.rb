@@ -753,20 +753,6 @@ RSpec.describe Metanorma::Standoc do
       :no-pdf:
 
       footnoteblock:[id1]
-
-      [[id2]]
-      [NOTE]
-      --
-      |===
-      |a |b
-
-      |c |d
-      |===
-
-      * A
-      * B
-      * C
-      --
     INPUT
     expect(File.read("test.err"))
       .to include "Could not resolve footnoteblock:[id1]"
@@ -781,23 +767,40 @@ RSpec.describe Metanorma::Standoc do
       :no-pdf:
 
       <<id1>>
-
-      [[id2]]
-      [NOTE]
-      --
-      |===
-      |a |b
-
-      |c |d
-      |===
-
-      * A
-      * B
-      * C
-      --
     INPUT
     expect(File.read("test.err"))
       .to include "Crossreference target id1 is undefined"
+  end
+
+  it "Aborts if illegal nessting of assets within assets" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+        = Document title
+        Author
+        :docfile: test.adoc
+        :no-pdf:
+
+        [[id2]]
+        [NOTE]
+        --
+        |===
+        |a |b
+
+        |c |d
+        |===
+
+        * A
+        * B
+        * C
+        --
+      INPUT
+      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+    expect(File.read("test.err"))
+      .to include "There is an instance of table nested within note"
   end
 
   it "Warning if metadata deflist not after a designation" do
