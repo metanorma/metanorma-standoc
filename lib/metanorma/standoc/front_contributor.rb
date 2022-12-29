@@ -39,7 +39,7 @@ module Metanorma
         end
         node.attr("pub-phone") and person.phone node.attr("pub-phone")
         node.attr("pub-fax") and
-          person.phone node.attr("pub-fax"), **{ type: "fax" }
+          person.phone node.attr("pub-fax"), type: "fax"
         node.attr("pub-email") and person.email node.attr("pub-email")
         node.attr("pub-uri") and person.uri node.attr("pub-uri")
       end
@@ -48,7 +48,7 @@ module Metanorma
         csv_split(node.attr("publisher") || default_publisher || "")
           &.each do |p|
           xml.contributor do |c|
-            c.role **{ type: "author" }
+            c.role type: "author"
             c.organization do |a|
               organization(a, p, false, node, !node.attr("publisher"))
             end
@@ -69,13 +69,13 @@ module Metanorma
 
       def personal_role(node, contrib, suffix)
         type = node.attr("role#{suffix}")&.downcase || "author"
-        contrib.role **{ type: type }
+        contrib.role type: type
       end
 
       def personal_contact(node, suffix, person)
         node.attr("phone#{suffix}") and person.phone node.attr("phone#{suffix}")
         node.attr("fax#{suffix}") and
-          person.phone node.attr("fax#{suffix}"), **{ type: "fax" }
+          person.phone node.attr("fax#{suffix}"), type: "fax"
         node.attr("email#{suffix}") and person.email node.attr("email#{suffix}")
         node.attr("contributor-uri#{suffix}") and
           person.uri node.attr("contributor-uri#{suffix}")
@@ -156,7 +156,7 @@ module Metanorma
         publishers = node.attr("publisher") || default_publisher || return
         csv_split(publishers)&.each do |p|
           xml.contributor do |c|
-            c.role **{ type: "publisher" }
+            c.role type: "publisher"
             c.organization do |a|
               organization(a, p, true, node, !node.attr("publisher"))
             end

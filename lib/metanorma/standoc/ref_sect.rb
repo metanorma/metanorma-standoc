@@ -120,12 +120,16 @@ module Metanorma
         end
       end
 
+      # supply title if missing;
+      # add title with spans in it as formattedref, to emend bibitem with later
       def emend_biblio_title(xml, code, title)
         unless xml.at("/bibitem/title[text()]")
           @log.add("Bibliography", nil,
                    "ERROR: No title retrieved for #{code}")
           xml.root << "<title>#{title || '(MISSING TITLE)'}</title>"
         end
+        /<span class=/.match?(title) and
+          xml.root << "<formattedref>#{title}</formattedref>"
       end
 
       def emend_biblio_usrlbl(xml, usrlbl)
