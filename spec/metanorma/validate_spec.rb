@@ -772,19 +772,49 @@ RSpec.describe Metanorma::Standoc do
       .to include "Crossreference target id1 is undefined"
   end
 
-  it "Aborts if illegal nessting of assets within assets" do
+  it "Warns if illegal nessting of assets within assets" do
+    FileUtils.rm_f "test.err"
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      <<id2>>
+
+      [[id2]]
+      [NOTE]
+      --
+      |===
+      |a |b
+
+      |c |d
+      |===
+
+      * A
+      * B
+      * C
+      --
+    INPUT
+    expect(File.read("test.err"))
+      .to include "There is an instance of table nested within note"
+  end
+
+  it "Aborts if illegal nesting of assets within assets with crossreferencing" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"
     begin
-      Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      input = <<~INPUT
         = Document title
         Author
         :docfile: test.adoc
         :no-pdf:
 
-        [[id2]]
+        <<id2>>
+
         [NOTE]
         --
+        [[id2]]
         |===
         |a |b
 
@@ -800,7 +830,8 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err"))
-      .to include "There is an instance of table nested within note"
+      .to include "There is a crossreference to an instance of table " \
+                  "nested within note"
   end
 
   it "Warning if metadata deflist not after a designation" do

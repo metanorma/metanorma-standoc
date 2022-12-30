@@ -42,12 +42,11 @@ module Metanorma
       end
 
       def content_validate(doc)
-        nested_asset_validate_basic(doc)
-        nested_note_validate(doc)
-        xref_validate(doc)
+        repeat_id_validate(doc.root) # feeds xref_validate
+        xref_validate(doc) # feeds nested_asset_validate
+        nested_asset_validate(doc)
         section_validate(doc)
         norm_ref_validate(doc)
-        repeat_id_validate(doc.root)
         iev_validate(doc.root)
         concept_validate(doc, "concept", "refterm")
         concept_validate(doc, "related", "preferred//name")
@@ -56,6 +55,11 @@ module Metanorma
         image_validate(doc)
         @fatalerror.empty? or
           clean_abort(@fatalerror.join("\n"), doc)
+      end
+
+      def nested_asset_validate(doc)
+        nested_asset_validate_basic(doc)
+        nested_note_validate(doc)
       end
 
       def nested_asset_validate_basic(doc)
@@ -78,9 +82,14 @@ module Metanorma
 
       def nested_asset_report(outer, inner, _doc)
         outer.name == "figure" && inner.name == "figure" and return
-        err = "There is an instance of #{inner.name} nested within #{outer.name}"
+        err =
+          "There is an instance of #{inner.name} nested within #{outer.name}"
         @log.add("Syntax", inner, err)
-        @fatalerror << "#{err}:\n#{inner.to_xml}"
+        i = @doc_xrefs[inner["id"]] or return
+        err2 = "There is a crossreference to an instance of #{inner.name} " \
+               "nested within #{outer.name}: #{i.to_xml}"
+        @log.add("Style", i, err2)
+        @fatalerror << err2
       end
 
       def norm_ref_validate(doc)
@@ -103,8 +112,8 @@ module Metanorma
           @log.add("Anchors", x, concept_validate_msg(doc, tag, refterm, x))
           found = true
         end
-        found and
-          @fatalerror << "#{tag.capitalize} not cross-referencing term or symbol"
+        found and @fatalerror << "#{tag.capitalize} not cross-referencing " \
+                                 "term or symbol"
       end
 
       def concept_validate_ids(doc)
@@ -126,20 +135,19 @@ module Metanorma
         ret
       end
 
-      def repeat_id_validate1(ids, elem)
-        if ids[elem["id"]]
+      def repeat_id_validate1(elem)
+        if @doc_ids[elem["id"]]
           @log.add("Anchors", elem, "Anchor #{elem['id']} has already been " \
-                                    "used at line #{ids[elem['id']]}")
+                                    "used at line #{@doc_ids[elem['id']]}")
           @fatalerror << "Multiple instances of same ID: #{elem['id']}"
-        else ids[elem["id"]] = elem.line
         end
-        ids
+        @doc_ids[elem["id"]] = elem.line
       end
 
       def repeat_id_validate(doc)
-        ids = {}
+        @doc_ids = {}
         doc.xpath("//*[@id]").each do |x|
-          ids = repeat_id_validate1(ids, x)
+          repeat_id_validate1(x)
         end
       end
 
@@ -188,11 +196,12 @@ module Metanorma
 
       # manually check for xref/@target, xref/@to integrity
       def xref_validate(doc)
-        ids = doc.xpath("//*/@id").each_with_object({}) { |x, m| m[x.text] = 1 }
-        doc.xpath("//xref/@target | //xref/@to").each do |x|
-          ids[x.text] and next
+        @doc_xrefs = doc.xpath("//xref/@target | //xref/@to")
+          .each_with_object({}) do |x, m|
+          m[x.text] = x
+          @doc_ids[x] and next
           @log.add("Anchors", x.parent,
-                   "Crossreference target #{x.text} is undefined")
+                   "Crossreference target #{x} is undefined")
         end
       end
 
