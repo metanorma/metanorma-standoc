@@ -60,6 +60,14 @@ module Metanorma
         "<expression><name>#{elem}</name></expression>"
       end
 
+      def link_unwrap(para)
+        elems = para.elements
+        if elems.size == 1 && elems[0].name == "link"
+          para.at("./link").replace(elems[0]["target"].strip)
+        end
+        para
+      end
+
       class EmptyAttr
         def attr(_any_attribute)
           nil

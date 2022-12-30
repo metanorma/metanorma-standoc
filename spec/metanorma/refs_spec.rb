@@ -998,102 +998,313 @@ RSpec.describe Metanorma::Standoc do
         * [[[ref1,doi:10.1045/november2010-massart]]] _Standard_
       INPUT
       output = <<~OUTPUT
-        #{BLANK_HDR}
-                       <sections>
-           <clause id="_" inline-header="false" obligation="normative">
-             <title>Section</title>
-           </clause>
-         </sections>
-         <bibliography>
-           <references id="_" normative="false" obligation="informative">
-             <title>Bibliography</title>
-             <bibitem type="article" id="ref1">
+         #{BLANK_HDR}
+                        <sections>
+            <clause id="_" inline-header="false" obligation="normative">
+              <title>Section</title>
+            </clause>
+          </sections>
+          <bibliography>
+            <references id="_" normative="false" obligation="informative">
+              <title>Bibliography</title>
+              <bibitem type="article" id="ref1">
+                <fetched/>
+                <title type="main" format="text/plain" language="en" script="Latn">Taming the Metadata Beast: ILOX</title>
+                <uri type="DOI">http://dx.doi.org/10.1045/november2010-massart</uri>
+                <docidentifier type="DOI" primary="true">10.1045/november2010-massart</docidentifier>
+                <date type="created">
+                  <on>2010-11-15</on>
+                </date>
+                <date type="issued">
+                  <on>2010-11</on>
+                </date>
+                <date type="published">
+                  <on>2010-11</on>
+                </date>
+                <contributor>
+                  <role type="author"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">David</forename>
+                      <surname language="en" script="Latn">Massart</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="author"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Elena</forename>
+                      <surname language="en" script="Latn">Shulman</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="author"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Nick</forename>
+                      <surname language="en" script="Latn">Nicholas</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="author"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Nigel</forename>
+                      <surname language="en" script="Latn">Ward</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="author"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Frédéric</forename>
+                      <surname language="en" script="Latn">Bergeron</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                    <name>CNRI Acct</name>
+                  </organization>
+                </contributor>
+                <relation type="includedIn">
+          <bibitem>
+            <title format="text/plain">D-Lib Magazine</title>
+          </bibitem>
+        </relation>
+        <series>
+          <title format="text/plain">D-Lib Magazine</title>
+        </series>
+        <extent>
+          <localityStack>
+            <locality type="volume">
+              <referenceFrom>16</referenceFrom>
+            </locality>
+            <locality type="issue">
+              <referenceFrom>11/12</referenceFrom>
+            </locality>
+          </localityStack>
+        </extent>
+              </bibitem>
+            </references>
+          </bibliography>
+          </standard-document>
+      OUTPUT
+      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+        .to be_equivalent_to xmlpp(output)
+    end
+  end
+
+  it "emends citations through span notation" do
+    VCR.use_cassette "doi2" do
+      input = <<~INPUT
+        #{ISOBIB_BLANK_HDR}
+        == Section
+
+        [bibliography]
+        == Bibliography
+
+        * [[[ref1,doi:10.1515/9783110889406.257]]] _Standard_
+        * [[[ref2,doi:10.1515/9783110889406.257]]] span:surname.editor[Johnson] span:givenname.editor[Boris] span:pubplace[Vienna] span:volume[2] span:in_title[Nested Title] span:in_surname.editor[Jones] span:in_givenname.editor[John] span:in_surname.editor[James] span:in_givenname.editor[Jim] span:date.issued[1234] span:type[book]
+      INPUT
+      output = <<~OUTPUT
+          #{BLANK_HDR}
+          <sections>
+            <clause id="_" inline-header="false" obligation="normative">
+              <title>Section</title>
+            </clause>
+          </sections>
+          <bibliography>
+            <references id="_" normative="false" obligation="informative">
+              <title>Bibliography</title>
+                           <bibitem type="inbook" id="ref1">
                <fetched/>
-               <title type="main" format="text/plain" language="en" script="Latn">Taming the Metadata Beast: ILOX</title>
-               <uri type="DOI">http://dx.doi.org/10.1045/november2010-massart</uri>
-               <docidentifier type="DOI" primary="true">10.1045/november2010-massart</docidentifier>
+               <title type="main" format="text/plain" language="en" script="Latn">Gender and public space in a bilingual school</title>
+               <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
+               <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
                <date type="created">
-                 <on>2010-11-15</on>
-               </date>
-               <date type="issued">
-                 <on>2010-11</on>
-               </date>
-               <date type="published">
-                 <on>2010-11</on>
+                 <on>2011-03-18</on>
                </date>
                <contributor>
                  <role type="author"/>
                  <person>
                    <name>
-                     <forename language="en" script="Latn">David</forename>
-                     <surname language="en" script="Latn">Massart</surname>
+                     <forename language="en" script="Latn">Monica</forename>
+                     <surname language="en" script="Latn">Heller</surname>
                    </name>
                  </person>
                </contributor>
                <contributor>
-                 <role type="author"/>
+                 <role type="editor"/>
                  <person>
                    <name>
-                     <forename language="en" script="Latn">Elena</forename>
-                     <surname language="en" script="Latn">Shulman</surname>
+                     <forename language="en" script="Latn">Aneta</forename>
+                     <surname language="en" script="Latn">Pavlenko</surname>
                    </name>
                  </person>
                </contributor>
                <contributor>
-                 <role type="author"/>
+                 <role type="editor"/>
                  <person>
                    <name>
-                     <forename language="en" script="Latn">Nick</forename>
-                     <surname language="en" script="Latn">Nicholas</surname>
+                     <forename language="en" script="Latn">Adrian</forename>
+                     <surname language="en" script="Latn">Blackledge</surname>
                    </name>
                  </person>
                </contributor>
                <contributor>
-                 <role type="author"/>
+                 <role type="editor"/>
                  <person>
                    <name>
-                     <forename language="en" script="Latn">Nigel</forename>
-                     <surname language="en" script="Latn">Ward</surname>
+                     <forename language="en" script="Latn">Ingrid</forename>
+                     <surname language="en" script="Latn">Piller</surname>
                    </name>
                  </person>
                </contributor>
                <contributor>
-                 <role type="author"/>
+                 <role type="editor"/>
                  <person>
                    <name>
-                     <forename language="en" script="Latn">Frédéric</forename>
-                     <surname language="en" script="Latn">Bergeron</surname>
+                     <forename language="en" script="Latn">Marya</forename>
+                     <surname language="en" script="Latn">Teutsch-Dwyer</surname>
                    </name>
                  </person>
                </contributor>
                <contributor>
                  <role type="publisher"/>
                  <organization>
-                   <name>CNRI Acct</name>
+                   <name>DE GRUYTER MOUTON</name>
                  </organization>
                </contributor>
                <relation type="includedIn">
-         <bibitem>
-           <title format="text/plain">D-Lib Magazine</title>
-         </bibitem>
-       </relation>
-       <series>
-         <title format="text/plain">D-Lib Magazine</title>
-       </series>
-       <extent>
+                 <bibitem>
+                   <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename language="en" script="Latn">Aneta</forename>
+                         <surname language="en" script="Latn">Pavlenko</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename language="en" script="Latn">Adrian</forename>
+                         <surname language="en" script="Latn">Blackledge</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename language="en" script="Latn">Ingrid</forename>
+                         <surname language="en" script="Latn">Piller</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename language="en" script="Latn">Marya</forename>
+                         <surname language="en" script="Latn">Teutsch-Dwyer</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                 </bibitem>
+               </relation>
+               <series>
+                 <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
+               </series>
+               <place>
+                 <city>Berlin</city>
+                 <region>New York</region>
+               </place>
+             </bibitem>
+             <bibitem type="book" id="ref2">
+               <fetched/>
+               <title type="main" format="text/plain" language="en" script="Latn">Gender and public space in a bilingual school</title>
+               <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
+               <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
+               <date type="created">
+                 <on>2011-03-18</on>
+               </date>
+               <date type="isssued">
+                 <on>1234</on>
+               </date>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename language="en" script="Latn">Monica</forename>
+                     <surname language="en" script="Latn">Heller</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="editor"/>
+                 <person>
+                   <name>
+                     <forename>Boris</forename>
+                     <surname>Johnson</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>DE GRUYTER MOUTON</name>
+                 </organization>
+               </contributor>
+               <relation type="includedIn">
+                 <bibitem>
+                   <title format="text/plain">Nested Title</title>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename>John</forename>
+                         <surname>Jones</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename>Jim</forename>
+                         <surname>James</forename>
+                       </name>
+                     </person>
+                   </contributor>
+                 </bibitem>
+               </relation>
+               <series>
+                 <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
+               </series>
+               <place>
+                 <city>Vienna</city>
+               </place>
+               <extent>
          <localityStack>
            <locality type="volume">
-             <referenceFrom>16</referenceFrom>
-           </locality>
-           <locality type="issue">
-             <referenceFrom>11/12</referenceFrom>
+             <referenceFrom>2</referenceFrom>
            </locality>
          </localityStack>
-       </extent>
+          </extent>
              </bibitem>
-           </references>
-         </bibliography>
-         </standard-document>
+            </references>
+          </bibliography>
+        </standard-document>
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)

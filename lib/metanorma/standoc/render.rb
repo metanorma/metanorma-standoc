@@ -85,12 +85,12 @@ module Metanorma
 
       def pdf_extract_attributes(node)
         pdf_options = %w(pdf-encrypt pdf-encryption-length pdf-user-password
-           pdf-owner-password pdf-allow-copy-content pdf-allow-edit-content
-           pdf-allow-assemble-document pdf-allow-edit-annotations
-           pdf-allow-print pdf-allow-print-hq pdf-allow-fill-in-forms
-           pdf-allow-access-content pdf-encrypt-metadata fonts
-           font-license-agreement)
-          .each_with_object({}) do |x, m|
+                         pdf-owner-password pdf-allow-copy-content
+                         pdf-allow-edit-content pdf-allow-fill-in-forms
+                         pdf-allow-assemble-document pdf-allow-edit-annotations
+                         pdf-allow-print pdf-allow-print-hq
+                         pdf-allow-access-content pdf-encrypt-metadata fonts
+                         font-license-agreement).each_with_object({}) do |x, m|
           m[x.gsub(/-/, "").to_i] = node.attr(x)
         end
 

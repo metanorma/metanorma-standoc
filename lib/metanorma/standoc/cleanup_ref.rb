@@ -1,9 +1,36 @@
 require "set"
 require "relaton_bib"
+require_relative "merge_bibitems"
+require_relative "spans_to_bibitem"
 
 module Metanorma
   module Standoc
     module Cleanup
+      def formattedref_spans(xmldoc)
+        xmldoc.xpath("//bibitem[formattedref//span]").each do |b|
+          ret = new_bibitem_from_formattedref_spans(b)
+          merge_bibitem_from_formattedref_spans(b, ret)
+        end
+      end
+
+      def new_bibitem_from_formattedref_spans(bib)
+        ret = SpansToBibitem.new(bib).convert
+        ret.err.each do |e|
+          @log.add("Bibliography", bib, e[:msg])
+          e[:fatal] and @fatalerror << e[:msg]
+        end
+        ret.out
+      end
+
+      def merge_bibitem_from_formattedref_spans(bib, new)
+        new["type"] and bib["type"] = new["type"]
+        if bib.at("./title") # there already is a fetched record here: merge
+          bib.children = MergeBibitems
+            .new(bib.to_xml, new.to_xml).merge.to_noko.children
+        else bib << new.children.to_xml
+        end
+      end
+
       def biblio_reorder(xmldoc)
         xmldoc.xpath("//references[@normative = 'false']").each do |r|
           biblio_reorder1(r)
@@ -54,9 +81,8 @@ module Metanorma
                      "[not(@hidden = 'true')]").each do |r|
           r.xpath("./bibitem[not(@hidden = 'true')]").each do |b|
             i += 1
-            next unless docid = b.at("./docidentifier[@type = 'metanorma']")
-            next unless /^\[\d+\]$/.match?(docid.text)
-
+            docid = b.at("./docidentifier[@type = 'metanorma']") or next
+            /^\[\d+\]$/.match?(docid.text) or next
             docid.children = "[#{i}]"
           end
         end
@@ -97,8 +123,7 @@ module Metanorma
       end
 
       def biblio_linkonly(xmldoc)
-        return unless xmldoc.at("//xref[@hidden]")
-
+        xmldoc.at("//xref[@hidden]") or return
         ins = xmldoc.at("//bibliography")
           .add_child("<references hidden='true' normative='true'/>").first
         refs = xmldoc.xpath("//xref[@hidden]").each_with_object([]) do |x, m|
@@ -122,8 +147,7 @@ module Metanorma
 
       def biblio_annex(xmldoc)
         xmldoc.xpath("//annex[references/references]").each do |t|
-          next unless t.xpath("./clause | ./references | ./terms").size == 1
-
+          t.xpath("./clause | ./references | ./terms").size == 1 or next
           r = t.at("./references")
           r.xpath("./references").each { |b| b["normative"] = r["normative"] }
           r.replace(r.elements)
@@ -140,9 +164,7 @@ module Metanorma
 
       def format_ref(ref, type)
         ret = Nokogiri::XML.fragment(ref)
-        ret.traverse do |x|
-          x.remove if x.name == "fn"
-        end
+        ret.traverse { |x| x.remove if x.name == "fn"}
         ref = to_xml(ret)
         return @isodoc.docid_prefix(type, ref) if type != "metanorma"
         return "[#{ref}]" if /^\d+$/.match(ref) && !/^\[.*\]$/.match(ref)
@@ -191,8 +213,7 @@ module Metanorma
       end
 
       def read_local_bibitem_file(uri)
-        return nil if %r{^https?://}.match?(uri)
-
+        %r{^https?://}.match?(uri) and return nil
         file = "#{@localdir}#{uri}.rxl"
         File.file?(file) or file = "#{@localdir}#{uri}.xml"
         File.file?(file) or return nil

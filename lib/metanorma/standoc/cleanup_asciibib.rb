@@ -54,14 +54,6 @@ module Metanorma
         end
       end
 
-      def link_unwrap(para)
-        elems = para.elements
-        if elems.size == 1 && elems[0].name == "link"
-          para.at("./link").replace(elems[0]["target"].strip)
-        end
-        para
-      end
-
       def dd_bib_extract(dtd)
         return nil if dtd.children.empty?
 
