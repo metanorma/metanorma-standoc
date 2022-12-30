@@ -1119,6 +1119,66 @@ RSpec.describe Metanorma::Standoc do
               <title>Section</title>
             </clause>
           </sections>
+                   <bibliography>
+           <references id="_" normative="false" obligation="informative">
+             <title>Bibliography</title>
+             <bibitem id="ref1">
+               <formattedref format="application/x-isodoc+xml">
+                 <em>Standard</em>
+               </formattedref>
+               <docidentifier type="DOI">doi:10.1515/9783110889406.257</docidentifier>
+               <docnumber>10.1515/9783110889406.257</docnumber>
+             </bibitem>
+             <bibitem id="ref2" type="book">
+               <formattedref format="application/x-isodoc+xml">Johnson Boris Vienna 2 Nested Title Jones John James Jim 1234 </formattedref>
+               <docnumber>10.1515/9783110889406.257</docnumber>
+               <docidentifier type="DOI">doi:10.1515/9783110889406.257</docidentifier>
+               <date type="issued">
+                 <on>1234</on>
+               </date>
+               <contributor>
+                 <role type="editor"/>
+                 <person>
+                   <name>
+                     <forename>Boris</forename>
+                     <surname>Johnson</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <place>Vienna</place>
+               <relation type="includedIn">
+                 <bibitem type="misc">
+                   <title>Nested Title</title>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename>John</forename>
+                         <surname>Jones</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename>Jim</forename>
+                         <surname>James</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                 </bibitem>
+               </relation>
+               <extent>
+                 <locality type="volume">
+                   <referenceFrom>2</referenceFrom>
+                 </locality>
+               </extent>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
+          <!--
           <bibliography>
             <references id="_" normative="false" obligation="informative">
               <title>Bibliography</title>
@@ -1305,6 +1365,7 @@ RSpec.describe Metanorma::Standoc do
             </references>
           </bibliography>
         </standard-document>
+        -->
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)
