@@ -13,11 +13,9 @@ module Metanorma
       end
 
       def replace_title(doc, xpath, text, first = false)
-        return unless text
-
+        text or return
         doc.xpath(xpath).each_with_index do |node, i|
-          next if first && !i.zero?
-
+          first && !i.zero? and next
           title = get_or_make_title(node)
           fn = title.xpath("./fn")
           fn.each(&:remove)
