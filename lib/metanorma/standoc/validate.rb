@@ -80,11 +80,16 @@ module Metanorma
         end
       end
 
-      def nested_asset_report(outer, inner, _doc)
+      def nested_asset_report(outer, inner, doc)
         outer.name == "figure" && inner.name == "figure" and return
+        outer.name != "formula" && inner.name == "formula" and return
         err =
           "There is an instance of #{inner.name} nested within #{outer.name}"
         @log.add("Syntax", inner, err)
+        nested_asset_xref_report(outer, inner, doc)
+      end
+
+      def nested_asset_xref_report(outer, inner, _doc)
         i = @doc_xrefs[inner["id"]] or return
         err2 = "There is a crossreference to an instance of #{inner.name} " \
                "nested within #{outer.name}: #{i.to_xml}"
