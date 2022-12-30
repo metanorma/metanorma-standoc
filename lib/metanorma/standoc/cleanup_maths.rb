@@ -110,93 +110,57 @@ module Metanorma
         { multiplier: :space }
       end
 
+      MATHVARIANT_OVERRIDE = {
+        bold: { normal: "bold", italic: "bold-italic", fraktur: "bold-fraktur",
+                script: "bold-script", "sans-serif": "bold-sans-serif",
+                "sans-serif-italic": "sans-serif-bold-italic" },
+        italic: { normal: "italic", bod: "bold-italic",
+                  "sans-serif": "sans-serif-italic",
+                  "bold-sans-serif": "sans-serif-bold-italic" },
+        "bold-italic": { normal: "bold-italic", bold: "bold-italic",
+                         italic: "bold-italic",
+                         "sans-serif": "sans-serif-bold-italic",
+                         "bold-sans-serif": "sans-serif-bold-italic",
+                         "sans-serif-italic": "sans-serif-bold-italic" },
+        fraktur: { normal: "fraktur", bold: "bold-fraktur" },
+        "bold-fraktur": { normal: "bold-fraktur", fraktur: "bold-fraktur" },
+        script: { normal: "script", bold: "bold-script" },
+        "bold-script": { normal: "script", script: "bold-script" },
+        "sans-serif": { normal: "sans-serif", bold: "bold-sans-serif",
+                        italic: "sans-serif-italic",
+                        "bold-italic": "sans-serif-bold-italic" },
+        "bold-sans-serif": { normal: "bold-sans-serif", bold: "bold-sans-serif",
+                             "sans-serif": "bold-sans-serif",
+                             italic: "sans-serif-bold-italic",
+                             "bold-italic": "sans-serif-bold-italic",
+                             "sans-serif-italic": "sans-serif-bold-italic" },
+        "sans-serif-italic": { normal: "sans-serif-italic",
+                               italic: "sans-serif-italic",
+                               "sans-serif": "sans-serif-italic",
+                               bold: "sans-serif-bold-italic",
+                               "bold-italic": "sans-serif-bold-italic",
+                               "sans-serif-bold": "sans-serif-bold-italic" },
+        "sans-serif-bold-italic": { normal: "sans-serif-bold-italic",
+                                    italic: "sans-serif-bold-italic",
+                                    "sans-serif": "sans-serif-bold-italic",
+                                    "sans-serif-italic": "sans-serif-bold-italic",
+                                    bold: "sans-serif-bold-italic",
+                                    "bold-italic": "sans-serif-bold-italic",
+                                    "sans-serif-bold": "sans-serif-bold-italic" },
+      }.freeze
+
       def mathvariant_override(inner, outer)
-        case outer
-        when "bold"
-          case inner
-          when "normal" then "bold"
-          when "italic" then "bold-italic"
-          when "fraktur" then "bold-fraktur"
-          when "script" then "bold-script"
-          when "sans-serif" then "bold-sans-serif"
-          when "sans-serif-italic" then "sans-serif-bold-italic"
-          else inner
-          end
-        when "italic"
-          case inner
-          when "normal" then "italic"
-          when "bold" then "bold-italic"
-          when "sans-serif" then "sans-serif-italic"
-          when "bold-sans-serif" then "sans-serif-bold-italic"
-          else inner
-          end
-        when "bold-italic"
-          case inner
-          when "normal", "bold", "italic" then "bold-italic"
-          when "sans-serif", "bold-sans-serif", "sans-serif-italic"
-            "sans-serif-bold-italic"
-          else inner
-          end
-        when "fraktur"
-          case inner
-          when "normal" then "fraktur"
-          when "bold" then "bold-fraktur"
-          else inner
-          end
-        when "bold-fraktur"
-          case inner
-          when "normal", "fraktur" then "bold-fraktur"
-          else inner
-          end
-        when "script"
-          case inner
-          when "normal" then "script"
-          when "bold" then "bold-script"
-          else inner
-          end
-        when "bold-script"
-          case inner
-          when "normal", "script" then "bold-script"
-          else inner
-          end
-        when "sans-serif"
-          case inner
-          when "normal" then "sans-serif"
-          when "bold" then "bold-sans-serif"
-          when "italic" then "sans-serif-italic"
-          when "bold-italic" then "sans-serif-bold-italic"
-          else inner
-          end
-        when "bold-sans-serif"
-          case inner
-          when "normal", "bold", "sans-serif" then "bold-sans-serif"
-          when "italic", "bold-italic", "sans-serif-italic"
-            "sans-serif-bold-italic"
-          else inner
-          end
-        when "sans-serif-italic"
-          case inner
-          when "normal", "italic", "sans-serif" then "sans-serif-italic"
-          when "bold", "bold-italic", "sans-serif-bold"
-            "sans-serif-bold-italic"
-          else inner
-          end
-        when "sans-serif-bold-italic"
-          case inner
-          when "normal", "italic", "sans-serif", "sans-serif-italic",
-          "bold", "bold-italic", "sans-serif-bold"
-            "sans-serif-bold-italic"
-          else inner
-          end
-        else inner
-        end
+        o = outer.to_sym
+        i = inner.to_sym
+        MATHVARIANT_OVERRIDE[o] or return inner
+        MATHVARIANT_OVERRIDE[o][i] || inner
       end
 
       def mathml_mathvariant(math)
         math.xpath(".//*[@mathvariant]").each do |outer|
           outer.xpath(".//*[@mathvariant]").each do |inner|
             inner["mathvariant"] =
-              mathvariant_override(outer["mathvariant"], inner["mathvariant"])
+              mathvariant_override(inner["mathvariant"], outer["mathvariant"])
           end
         end
       end
