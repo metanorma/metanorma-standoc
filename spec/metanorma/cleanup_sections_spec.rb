@@ -113,6 +113,56 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
+
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [bibliography]
+      == Normative References
+
+      [.boilerplate]
+      --
+      This is extraneous information
+      --
+
+      * [[[iso216,ISO 216]]], _Reference_
+
+      This is also extraneous information
+    INPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "preserves user-supplied boilerplate in Terms & Definitions" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and definitions
+
+      [.boilerplate]
+      --
+      This is extraneous information
+      --
+
+      === Term 1
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+               <sections>
+           <terms id="_" obligation="normative">
+             <title>Terms and definitions</title>
+             <p id="_">This is extraneous information</p>
+             <term id="term-Term-1">
+               <preferred>
+                 <expression>
+                   <name>Term 1</name>
+                 </expression>
+               </preferred>
+             </term>
+           </terms>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "sorts references with their notes in Bibliography" do
@@ -1822,7 +1872,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     expect(xmlpp(strip_guid(ret.at("//xmlns:annex").to_xml)))
-      .to be_equivalent_to(output)
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "processes terms annex" do
@@ -1850,6 +1900,6 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     expect(xmlpp(strip_guid(ret.at("//xmlns:annex").to_xml)))
-      .to be_equivalent_to(output)
+      .to be_equivalent_to(xmlpp(output))
   end
 end

@@ -54,19 +54,21 @@ def strip_src(xml)
   xml.gsub(/\ssrc="[^"]+"/, ' src="_"')
 end
 
+XSL = Nokogiri::XSLT(<<~XSL.freeze)
+  <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
+    <xsl:strip-space elements="*"/>
+    <xsl:template match="/">
+      <xsl:copy-of select="."/>
+    </xsl:template>
+  </xsl:stylesheet>
+XSL
+
 def xmlpp(xml)
- xsl = <<~XSL
-    <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-      <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
-      <xsl:strip-space elements="*"/>
-      <xsl:template match="/">
-        <xsml:copy-of select="."/>
-      </xsl:template>
-    </xsl:stylesheet>
-  XSL
-  Nokogiri::XSLT(xsl).transform(Nokogiri::XML(xml))
+  XSL.transform(Nokogiri::XML(xml, &:noblanks))
     .to_xml(indent: 2, encoding: "UTF-8")
     .gsub(%r{<fetched>[^<]+</fetched>}, "<fetched/>")
+    .gsub(%r{ schema-version="[^"]+"}, "")
 end
 
 ASCIIDOC_BLANK_HDR = <<~"HDR".freeze

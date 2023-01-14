@@ -71,6 +71,11 @@ module Metanorma
         end.join("\n")
       end
 
+      def boilerplate_note(node)
+        node.set_attr("type", "boilerplate")
+        note(node)
+      end
+
       def admonition_attrs(node)
         attr_code(keep_attrs(node).merge(id_attr(node)
           .merge(admonition_core_attrs(node)

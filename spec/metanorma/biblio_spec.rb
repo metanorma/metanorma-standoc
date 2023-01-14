@@ -894,43 +894,34 @@ RSpec.describe Metanorma::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [bibliography]
-      === Normative References
+      == Normative References
 
-      * [[[A, B]]], span:surname[Wozniak], span:initials[S.] & span:givenname[Steve] span:surname[Jobs]. span:date.issued[1991]. span:date[1996]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] & span:in_organization[UNICEF], span:in_title[Collected Essays]. _span:series[Bibliographers Anonymous]_. span:docid.ISO[ISO 1234]. span:pubplace[Geneva]: span:publisher[International Standardization Organization]. span:uri.citation[http://www.example.com]. span:volume[4] span:issue[2–3] span:pages[12-13] span:pages[19]. span:type[inbook]
+      * [[[A, B]]], span:surname[Wozniak], span:initials[S.], span:surname[Jobs], span:givenname[Steve] & span:surname[Hoover], span:initials[J.] span:givenname[Edgar]. span:date.issued[1991-1992]. span:date[1996-01-02]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] & span:in_organization[UNICEF], span:in_title[Collected Essays]. _span:series[Bibliographers Anonymous]_. span:docid.ISO[ISO 1234]. span:pubplace[Geneva]: span:publisher[International Standardization Organization]. span:uri.citation[http://www.example.com]. span:volume[4] span:issue[2–3] span:pages[12-13] span:pages[19]. span:type[inbook]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
          <sections> </sections>
                   <bibliography>
-           <references id='_' normative='true' obligation='informative'>
+           <references id="_" normative="true" obligation="informative">
              <title>Normative references</title>
-             <p id='_'>
-               The following documents are referred to in the text in such a way that
-               some or all of their content constitutes requirements of this document.
-               For dated references, only the edition cited applies. For undated
-               references, the latest edition of the referenced document (including any
-               amendments) applies.
-             </p>
-             <bibitem id='A' type='inbook'>
-               <formattedref format='application/x-isodoc+xml'>
-                 Wozniak, S. &amp; Steve Jobs. 1991. 1996.
-                 <em>Work</em>
-                 . Gates, W. H &amp; UNICEF, Collected Essays.
-                 <em>Bibliographers Anonymous</em>
-                 . ISO 1234. Geneva: International Standardization Organization.
-                 <link target='http://www.example.com'/>
-                 . 4 2–3 12-13 19.
-               </formattedref>
+             <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+             <bibitem id="A" type="inbook">
+               <formattedref format="application/x-isodoc+xml">Wozniak, S., Jobs, Steve &amp; Hoover, J. Edgar. 1991-1992. 1996-01-02. <em>Work</em>. Gates, W. H &amp; UNICEF, Collected Essays. <em>Bibliographers Anonymous</em>. ISO 1234. Geneva: International Standardization Organization. <link target="http://www.example.com"/>. 4 2–3 12-13 19. </formattedref>
                <title>
                  <em>Work</em>
                </title>
-               <uri type='citation'>http://www.example.com</uri>
+               <uri type="citation">http://www.example.com</uri>
                <docidentifier>B</docidentifier>
-               <docidentifier type='ISO'>ISO 1234</docidentifier>
-               <date type='issued'>1991</date>
-               <date type='published'>1996</date>
+               <docidentifier type="ISO">ISO 1234</docidentifier>
+               <date type="issued">
+                 <from>1991</from>
+                 <to>1992</to>
+               </date>
+               <date type="published">
+                 <on>1996-01-02</on>
+               </date>
                <contributor>
-                 <role type='author'/>
+                 <role type="author"/>
                  <person>
                    <name>
                      <formatted-initials>S.</formatted-initials>
@@ -939,7 +930,7 @@ RSpec.describe Metanorma::Standoc do
                  </person>
                </contributor>
                <contributor>
-                 <role type='author'/>
+                 <role type="author"/>
                  <person>
                    <name>
                      <forename>Steve</forename>
@@ -948,17 +939,27 @@ RSpec.describe Metanorma::Standoc do
                  </person>
                </contributor>
                <contributor>
-                 <role type='publisher'/>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>J.</forename>
+                     <forename>Edgar</forename>
+                     <surname>Hoover</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
                  <organization>
                    <name>International Standardization Organization</name>
                  </organization>
                </contributor>
                <place>Geneva</place>
-               <relation type='includedIn'>
-                 <bibitem type='book'>
+               <relation type="includedIn">
+                 <bibitem type="book">
                    <title>Collected Essays</title>
                    <contributor>
-                     <role type='editor'/>
+                     <role type="editor"/>
                      <person>
                        <name>
                          <formatted-initials>W. H</formatted-initials>
@@ -967,7 +968,7 @@ RSpec.describe Metanorma::Standoc do
                      </person>
                    </contributor>
                    <contributor>
-                     <role type='author'/>
+                     <role type="author"/>
                      <organization>
                        <name>UNICEF</name>
                      </organization>
@@ -977,28 +978,358 @@ RSpec.describe Metanorma::Standoc do
                    </series>
                  </bibitem>
                </relation>
-               <extent type='volume'>
-                 <locality>
+               <extent>
+                 <locality type="volume">
                    <referenceFrom>4</referenceFrom>
                  </locality>
-               </extent>
-               <extent type='issue'>
-                 <locality>
+                 <locality type="issue">
                    <referenceFrom>2</referenceFrom>
                    <referenceTo>3</referenceTo>
                  </locality>
-               </extent>
-               <extent type='page'>
-                 <locality>
+                 <locality type="page">
                    <referenceFrom>12</referenceFrom>
                    <referenceTo>13</referenceTo>
                  </locality>
-               </extent>
-               <extent type='page'>
-                 <locality>
+                 <locality type="page">
                    <referenceFrom>19</referenceFrom>
                  </locality>
                </extent>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes microformatting of full names references" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [bibliography]
+      == Normative References
+
+      * [[[A, B]]], span:surname[Wozniak], span:initials[S.] span:fullname[A.D. Hope] span:fullname[A D Navarro Cortez] span:fullname[A. D. Hope] & span:surname[Jobs], span:givenname[Steve]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] span:in_fullname.editor[J. Edgar Hoover] & span:in_fullname.editor[UNICEF], span:in_title[Collected Essays].
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+       <sections/>
+         <bibliography>
+           <references id="_" normative="true" obligation="informative">
+             <title>Normative references</title>
+             <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+             <bibitem id="A">
+               <formattedref format="application/x-isodoc+xml">Wozniak, S. A.D. Hope A D Navarro Cortez A. D. Hope &amp; Jobs, Steve. <em>Work</em>. Gates, W. H J. Edgar Hoover &amp; UNICEF, Collected Essays.</formattedref>
+               <title>
+                 <em>Work</em>
+               </title>
+               <docidentifier>B</docidentifier>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <formatted-initials>S.</formatted-initials>
+                     <surname>Wozniak</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <formatted-initials>A. D.</formatted-initials>
+                     <surname>Hope</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>A</forename>
+                     <forename>D</forename>
+                     <forename>Navarro</forename>
+                     <surname>Cortez</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <formatted-initials>A. D.</formatted-initials>
+                     <surname>Hope</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>Steve</forename>
+                     <surname>Jobs</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <relation type="includedIn">
+                 <bibitem type="misc">
+                   <title>Collected Essays</title>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <formatted-initials>W. H</formatted-initials>
+                         <surname>Gates</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename>J.</forename>
+                         <forename>Edgar</forename>
+                         <surname>Hoover</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <surname>UNICEF</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                 </bibitem>
+               </relation>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "aborts on missing surname in span notation" do
+    input = <<~INPUT
+      #{VALIDATING_BLANK_HDR}
+
+      [bibliography]
+      == Bibliography
+      * [[[ferre-bigorra,1]]],
+      span:initials[J.]
+      span:title[The adoption of urban digital twins].
+      span:type[inproceedings]
+      In: span:in_title[Cities].
+      vol. span:volume[131],
+      pp. span:page[103905],
+      span:date[2022].
+      doi: span:uri.doi[10.1016/j.cities.2022.103905].
+    INPUT
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err"))
+      .to include "Missing surname: issue with bibliographic markup in " \
+                  "\"The adoption of urban digital twins\""
+    expect(File.exist?("test.xml")).to be false
+  end
+
+  it "processes single relaton data source" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :data-uri-image: false
+      :relaton-data-source: spec/assets/manual.bib
+
+
+      [bibliography]
+      == Normative References
+
+      * [[[A, local-file(ISOTC211)]]]
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+               <sections/>
+         <bibliography>
+           <references id="_" normative="true" obligation="informative">
+             <title>Normative references</title>
+             <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+             <bibitem id="A" type="manual">
+               <title type="main" format="text/plain">Geographic information</title>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>A.</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>Arnold</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>Arnold</forename>
+                     <forename>B</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>Institute of Electrical and Electronics Engineers</name>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="distributor">
+                   <description>sponsor</description>
+                 </role>
+                 <organization>
+                   <name>World Wide Web Consortium</name>
+                 </organization>
+               </contributor>
+               <docidentifier>ISOTC211</docidentifier>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes multiple relaton data sources" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :data-uri-image: false
+      :relaton-data-source-bib1: spec/assets/manual.bib
+      :relaton-data-source-bib2: file=spec/assets/techreport.bib
+
+      [bibliography]
+      == Normative References
+
+      * [[[A, local-file(bib1, ISOTC211)]]]
+      * [[[B, local-file(bib2, ISOTC211t)]]]
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections/>
+         <bibliography>
+           <references id="_" normative="true" obligation="informative">
+             <title>Normative references</title>
+             <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+             <bibitem id="A" type="manual">
+               <title type="main" format="text/plain">Geographic information</title>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>A.</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>Arnold</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>Arnold</forename>
+                     <forename>B</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>Institute of Electrical and Electronics Engineers</name>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="distributor">
+                   <description>sponsor</description>
+                 </role>
+                 <organization>
+                   <name>World Wide Web Consortium</name>
+                 </organization>
+               </contributor>
+               <docidentifier>ISOTC211</docidentifier>
+             </bibitem>
+             <bibitem id="B" type="techreport">
+               <title type="main" format="text/plain">Techreport Geographic information</title>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>A.</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>Arnold</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename>Arnold</forename>
+                     <forename>B</forename>
+                     <surname>Bierman</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>Institute of Electrical and Electronics Engineers</name>
+                 </organization>
+               </contributor>
+               <edition>Edition 1</edition>
+               <docidentifier>ISOTC211t</docidentifier>
              </bibitem>
            </references>
          </bibliography>

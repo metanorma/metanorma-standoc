@@ -77,7 +77,7 @@ module Metanorma
       def related_cleanup(xmldoc)
         xmldoc.xpath("//related[not(termxref)]").each do |x|
           term = x.at("./refterm")
-          term.replace("<preferred>#{term_expr(term.children.to_xml)}"\
+          term.replace("<preferred>#{term_expr(term.children.to_xml)}" \
                        "</preferred>")
           concept_cleanup1(x)
         end
@@ -119,8 +119,8 @@ module Metanorma
         "#{pref}##{suff}"
       end
 
-      IDREF = "//*/@id | //review/@from | //review/@to | "\
-              "//callout/@target | //citation/@bibitemid | "\
+      IDREF = "//*/@id | //review/@from | //review/@to | " \
+              "//callout/@target | //citation/@bibitemid | " \
               "//eref/@bibitemid".freeze
 
       def anchor_cleanup(elem)

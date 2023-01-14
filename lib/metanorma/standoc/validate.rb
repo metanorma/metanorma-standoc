@@ -13,9 +13,8 @@ module Metanorma
                        "referenceFrom".freeze
 
       def init_iev
-        return nil if @no_isobib
-        return @iev if @iev
-
+        @no_isobib and return nil
+        @iev and return @iev
         @iev = Iev::Db.new(@iev_globalname, @iev_localname) unless @no_isobib
         @iev
       end
@@ -43,16 +42,16 @@ module Metanorma
       end
 
       def content_validate(doc)
-        @fatalerror = []
-        xref_validate(doc)
+        repeat_id_validate(doc.root) # feeds xref_validate
+        xref_validate(doc) # feeds nested_asset_validate
+        nested_asset_validate(doc)
         section_validate(doc)
         norm_ref_validate(doc)
-        repeat_id_validate(doc.root)
         iev_validate(doc.root)
         concept_validate(doc, "concept", "refterm")
         concept_validate(doc, "related", "preferred//name")
         table_validate(doc)
-        requirement_validate(doc)
+        @fatalerror += requirement_validate(doc)
         image_validate(doc)
         math_validate(doc)
         @fatalerror.empty? or
@@ -82,12 +81,51 @@ module Metanorma
         @fatalerror << "Invalid MathML: #{math}"
       end
 
+      def nested_asset_validate(doc)
+        nested_asset_validate_basic(doc)
+        nested_note_validate(doc)
+      end
+
+      def nested_asset_validate_basic(doc)
+        a = "//formula | //example | //figure | //termnote | //termexample | " \
+            "//table"
+        doc.xpath("#{a} | //note").each do |m|
+          m.xpath(a.gsub(%r{//}, ".//")).each do |n|
+            nested_asset_report(m, n, doc)
+          end
+        end
+      end
+
+      def nested_note_validate(doc)
+        doc.xpath("//termnote | //note").each do |m|
+          m.xpath(".//note").each do |n|
+            nested_asset_report(m, n, doc)
+          end
+        end
+      end
+
+      def nested_asset_report(outer, inner, doc)
+        outer.name == "figure" && inner.name == "figure" and return
+        outer.name != "formula" && inner.name == "formula" and return
+        err =
+          "There is an instance of #{inner.name} nested within #{outer.name}"
+        @log.add("Syntax", inner, err)
+        nested_asset_xref_report(outer, inner, doc)
+      end
+
+      def nested_asset_xref_report(outer, inner, _doc)
+        i = @doc_xrefs[inner["id"]] or return
+        err2 = "There is a crossreference to an instance of #{inner.name} " \
+               "nested within #{outer.name}: #{i.to_xml}"
+        @log.add("Style", i, err2)
+        @fatalerror << err2
+      end
+
       def norm_ref_validate(doc)
         found = false
         doc.xpath("//references[@normative = 'true']/bibitem").each do |b|
-          next unless docid = b.at("./docidentifier[@type = 'metanorma']")
-          next unless /^\[\d+\]$/.match?(docid.text)
-
+          docid = b.at("./docidentifier[@type = 'metanorma']") or next
+          /^\[\d+\]$/.match?(docid.text) or next
           @log.add("Bibliography", b,
                    "Numeric reference in normative references")
           found = true
@@ -97,43 +135,48 @@ module Metanorma
 
       def concept_validate(doc, tag, refterm)
         found = false
+        concept_validate_ids(doc)
         doc.xpath("//#{tag}/xref").each do |x|
-          next if doc.at("//term[@id = '#{x['target']}']")
-          next if doc.at("//definitions//dt[@id = '#{x['target']}']")
-
+          @concept_ids[x["target"]] and next
           @log.add("Anchors", x, concept_validate_msg(doc, tag, refterm, x))
           found = true
         end
-        found and
-          @fatalerror << "#{tag.capitalize} not cross-referencing term or symbol"
+        found and @fatalerror << "#{tag.capitalize} not cross-referencing " \
+                                 "term or symbol"
       end
 
-      def concept_validate_msg(doc, tag, refterm, xref)
+      def concept_validate_ids(doc)
+        @concept_ids ||= doc.xpath("//term | //definitions//dt")
+          .each_with_object({}) { |x, m| m[x["id"]] = true }
+        @concept_terms_tags ||= doc.xpath("//terms")
+          .each_with_object({}) { |t, m| m[t["id"]] = true }
+        nil
+      end
+
+      def concept_validate_msg(_doc, tag, refterm, xref)
         ret = <<~LOG
           #{tag.capitalize} #{xref.at("../#{refterm}")&.text} is pointing to #{xref['target']}, which is not a term or symbol
         LOG
-        if doc.at("//*[@id = '#{xref['target']}']")&.name == "terms"
+        if @concept_terms_tags[xref["target"]]
           ret = ret.strip
           ret += ". Did you mean to point to a subterm?"
         end
         ret
       end
 
-      def repeat_id_validate1(ids, elem)
-        if ids[elem["id"]]
+      def repeat_id_validate1(elem)
+        if @doc_ids[elem["id"]]
           @log.add("Anchors", elem, "Anchor #{elem['id']} has already been " \
-                                    "used at line #{ids[elem['id']]}")
+                                    "used at line #{@doc_ids[elem['id']]}")
           @fatalerror << "Multiple instances of same ID: #{elem['id']}"
-        else
-          ids[elem["id"]] = elem.line
         end
-        ids
+        @doc_ids[elem["id"]] = elem.line
       end
 
       def repeat_id_validate(doc)
-        ids = {}
+        @doc_ids = {}
         doc.xpath("//*[@id]").each do |x|
-          ids = repeat_id_validate1(ids, x)
+          repeat_id_validate1(x)
         end
       end
 
@@ -182,12 +225,12 @@ module Metanorma
 
       # manually check for xref/@target, xref/@to integrity
       def xref_validate(doc)
-        ids = doc.xpath("//*/@id").each_with_object({}) { |x, m| m[x.text] = 1 }
-        doc.xpath("//xref/@target | //xref/@to").each do |x|
-          next if ids[x.text]
-
+        @doc_xrefs = doc.xpath("//xref/@target | //xref/@to")
+          .each_with_object({}) do |x, m|
+          m[x.text] = x
+          @doc_ids[x] and next
           @log.add("Anchors", x.parent,
-                   "Crossreference target #{x.text} is undefined")
+                   "Crossreference target #{x} is undefined")
         end
       end
 

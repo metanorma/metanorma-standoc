@@ -53,15 +53,17 @@ module Metanorma
       end
 
       PREFACE_CLAUSE_NAMES =
-        %w(abstract foreword introduction misc-container acknowledgements).freeze
+        %w(abstract foreword introduction misc-container
+           acknowledgements).freeze
 
       MAIN_CLAUSE_NAMES =
         ["normative references", "terms and definitions", "scope",
          "symbols and abbreviated terms", "clause", "bibliography"].freeze
 
       def start_main_section(ret, node)
-        @preface = false if self.class::MAIN_CLAUSE_NAMES.include?(ret) &&
-          node.role != "preface" && node.attr("style") != "preface"
+        return if node.role == "preface" || node.attr("style") == "preface"
+
+        @preface = false if self.class::MAIN_CLAUSE_NAMES.include?(ret)
         @preface = false if self.class::PREFACE_CLAUSE_NAMES
           .intersection(@seen_headers_canonical + [ret]).empty?
       end

@@ -13,11 +13,9 @@ module Metanorma
       end
 
       def replace_title(doc, xpath, text, first = false)
-        return unless text
-
+        text or return
         doc.xpath(xpath).each_with_index do |node, i|
-          next if first && !i.zero?
-
+          first && !i.zero? and next
           title = get_or_make_title(node)
           fn = title.xpath("./fn")
           fn.each(&:remove)
@@ -44,11 +42,11 @@ module Metanorma
       end
 
       NO_SYMABBR = "[.//definitions[not(@type)]]".freeze
-      SYMABBR = "[.//definitions[@type = 'symbols']]"\
+      SYMABBR = "[.//definitions[@type = 'symbols']]" \
                 "[.//definitions[@type = 'abbreviated_terms']]".freeze
-      SYMnoABBR = "[.//definitions[@type = 'symbols']]"\
+      SYMnoABBR = "[.//definitions[@type = 'symbols']]" \
                   "[not(.//definitions[@type = 'abbreviated_terms'])]".freeze
-      ABBRnoSYM = "[.//definitions[@type = 'abbreviated_terms']]"\
+      ABBRnoSYM = "[.//definitions[@type = 'abbreviated_terms']]" \
                   "[not(.//definitions[@type = 'symbols'])]".freeze
 
       def section_names_terms_cleanup(xml)

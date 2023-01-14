@@ -23,7 +23,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '802'
+      - '853'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -31,7 +31,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"335efcaed1f17ab8d769db0ecaad1edb78c95f8c8362e37b4624a5a3666c60d2"
+      - W/"cfd58a2eaa2892b3c6cc6bb240f4e3a1e0ffd450cf6a2b5b9819bf44fcac8b6b"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -41,35 +41,36 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 3BCE:2358:21AC7F:3974DE:636127B1
+      - 821E:6A60:651B2:DA32A:6399AB04
       Accept-Ranges:
       - bytes
       Date:
-      - Tue, 01 Nov 2022 14:05:37 GMT
+      - Wed, 14 Dec 2022 10:52:52 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11223-MEL
+      - cache-mel11252-MEL
       X-Cache:
-      - HIT
+      - MISS
       X-Cache-Hits:
-      - '1'
+      - '0'
       X-Timer:
-      - S1667311538.558812,VS0,VE345
+      - S1671015172.280582,VS0,VE319
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 98f59c2383ae71570f403bc3c599b7fc43b3fee7
+      - 5b5248275adff1961e74d094d9825a5226cb6387
       Expires:
-      - Tue, 01 Nov 2022 14:10:37 GMT
+      - Wed, 14 Dec 2022 10:57:52 GMT
       Source-Age:
       - '0'
     body:
       encoding: ASCII-8BIT
       string: |
         ---
+        schema-version: v1.2.1
         id: RFC8341
         title:
         - content: Network Configuration Access Control Model
@@ -148,6 +149,11 @@ http_interactions:
                 - Latn
           role:
           - type: author
+        - organization:
+            name:
+            - content: RFC Series
+          role:
+          - type: authorizer
         revdate: 2018-03
         language:
         - en
@@ -181,7 +187,9 @@ http_interactions:
         - content: XML
         editorialgroup:
         - name: netconf
-  recorded_at: Tue, 01 Nov 2022 14:05:37 GMT
+        ext:
+          schema-version: v1.0.0
+  recorded_at: Wed, 14 Dec 2022 10:52:52 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-rfcs/main/data/RFC8341.yaml
@@ -205,7 +213,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '802'
+      - '853'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -213,7 +221,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"335efcaed1f17ab8d769db0ecaad1edb78c95f8c8362e37b4624a5a3666c60d2"
+      - W/"cfd58a2eaa2892b3c6cc6bb240f4e3a1e0ffd450cf6a2b5b9819bf44fcac8b6b"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -223,35 +231,36 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 3BCE:2358:21AC7F:3974DE:636127B1
+      - 821E:6A60:651B2:DA32A:6399AB04
       Accept-Ranges:
       - bytes
       Date:
-      - Tue, 01 Nov 2022 14:05:37 GMT
+      - Wed, 14 Dec 2022 10:52:52 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11277-MEL
+      - cache-mel11266-MEL
       X-Cache:
-      - MISS
+      - HIT
       X-Cache-Hits:
-      - '0'
+      - '1'
       X-Timer:
-      - S1667311538.558707,VS0,VE345
+      - S1671015172.281356,VS0,VE318
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 31006b51def4b04c3222b07a4b895d03dda06b26
+      - ea8fff2a9c9c5314d06ddf78b0fbb60ecb9c9f2d
       Expires:
-      - Tue, 01 Nov 2022 14:10:37 GMT
+      - Wed, 14 Dec 2022 10:57:52 GMT
       Source-Age:
       - '0'
     body:
       encoding: ASCII-8BIT
       string: |
         ---
+        schema-version: v1.2.1
         id: RFC8341
         title:
         - content: Network Configuration Access Control Model
@@ -330,6 +339,11 @@ http_interactions:
                 - Latn
           role:
           - type: author
+        - organization:
+            name:
+            - content: RFC Series
+          role:
+          - type: authorizer
         revdate: 2018-03
         language:
         - en
@@ -363,5 +377,7 @@ http_interactions:
         - content: XML
         editorialgroup:
         - name: netconf
-  recorded_at: Tue, 01 Nov 2022 14:05:37 GMT
+        ext:
+          schema-version: v1.0.0
+  recorded_at: Wed, 14 Dec 2022 10:52:52 GMT
 recorded_with: VCR 6.1.0

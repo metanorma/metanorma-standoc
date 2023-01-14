@@ -69,41 +69,73 @@ module Metanorma
         return nil if opts[:no_year]
 
         code = code.sub(/^\([^)]+\)/, "")
-        hit = @bibdb&.fetch(code, year, opts)
-        return nil if hit.nil?
-
+        hit = fetch_ref1(code, year, opts) or return nil
         xml.parent.add_child(smart_render_xml(hit, code, opts))
         xml
       rescue RelatonBib::RequestError
-        @log.add("Bibliography", nil, "Could not retrieve #{code}: "\
+        @log.add("Bibliography", nil, "Could not retrieve #{code}: " \
                                       "no access to online site")
         nil
       end
 
+      def fetch_ref1(code, year, opts)
+        if opts[:localfile]
+          @local_bibdb.get(code, opts[:localfile])
+        else @bibdb&.fetch(code, year, opts)
+        end
+      end
+
+      def fetchable_ref_code?(ref)
+        ref[:code].nil? || ref[:code].empty? || ref[:no_year] ||
+          (@bibdb.nil? && !ref[:localfile])
+      end
+
       def fetch_ref_async(ref, idx, res)
-        if ref[:code].nil? || ref[:no_year] || @bibdb.nil?
+        if fetchable_ref_code?(ref)
           res << [ref, idx, nil]
-        else
-          @bibdb.fetch_async(@c.decode(ref[:code]),
-                             ref[:year], ref) do |doc|
-            res << [ref, idx, doc]
-          end
+        elsif ref[:localfile]
+          res << [ref, idx, @local_bibdb.get(ref[:code], ref[:localfile])]
+        else fetch_ref_async1(ref, idx, res)
+        end
+      end
+
+      def fetch_ref_async1(ref, idx, res)
+        @bibdb.fetch_async(ref[:code], ref[:year], ref) do |doc|
+          res << [ref, idx, doc]
         end
       end
 
       def emend_biblio(xml, code, title, usrlbl)
-        unless xml.at("/bibitem/docidentifier[not(@type = 'DOI')][text()]")
+        emend_biblio_id(xml, code)
+        emend_biblio_title(xml, code, title)
+        emend_biblio_usrlbl(xml, usrlbl)
+      end
+
+      def emend_biblio_id(xml, code)
+        unless xml.at("/bibitem/docidentifier[not(@type = 'DOI')][text()]") ||
+            /^doi:/.match?(code)
           @log.add("Bibliography", nil,
                    "ERROR: No document identifier retrieved for #{code}")
           xml.root << "<docidentifier>#{code}</docidentifier>"
         end
+      end
+
+      # supply title if missing;
+      # add title with spans in it as formattedref, to emend bibitem with later
+      def emend_biblio_title(xml, code, title)
         unless xml.at("/bibitem/title[text()]")
           @log.add("Bibliography", nil,
                    "ERROR: No title retrieved for #{code}")
           xml.root << "<title>#{title || '(MISSING TITLE)'}</title>"
         end
-        usrlbl and xml.at("/bibitem/docidentifier").next =
-                     "<docidentifier type='metanorma'>#{mn_code(usrlbl)}</docidentifier>"
+        /<span class=/.match?(title) and
+          xml.root << "<formattedref>#{title}</formattedref>"
+      end
+
+      def emend_biblio_usrlbl(xml, usrlbl)
+        usrlbl or return
+        xml.at("/bibitem/docidentifier").next =
+          "<docidentifier type='metanorma'>#{mn_code(usrlbl)}</docidentifier>"
       end
 
       def smart_render_xml(xml, code, opts)

@@ -98,6 +98,7 @@ RSpec.describe Metanorma::Standoc do
              </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .gsub(%r{<image[^>]+?/>}m, "<image/>")
       .gsub(%r{<image.*?</image>}m, "<image/>")
       .gsub(%r{<style.*?</style>}m, "<style/>"))
       .to be_equivalent_to xmlpp(output)
@@ -885,6 +886,7 @@ RSpec.describe Metanorma::Standoc do
     annotation_id = output.at("//xmlns:annotation/@id").text
     expect(callout_id).to eq(annotation_id)
   end
+
   it "deduplicates identifiers in inline SVGs" do
     input = <<~INPUT
       #{BLANK_HDR}
@@ -958,8 +960,8 @@ RSpec.describe Metanorma::Standoc do
              </sections>
       </standard-document>
     OUTPUT
-    expect(Metanorma::Standoc::Converter.new(nil, *OPTIONS)
-      .cleanup(Nokogiri::XML(input)).to_xml)
+    expect(xmlpp(Metanorma::Standoc::Converter.new(nil, *OPTIONS)
+      .cleanup(Nokogiri::XML(input)).to_xml))
       .to be_equivalent_to xmlpp(output)
   end
 

@@ -49,8 +49,7 @@ module Metanorma
 
       def concatenate_attributes_to_xref_text(node)
         node.attributes.each_with_object([]) do |(k, v), m|
-          next if %w(path fragment refid).include?(k)
-
+          %w(path fragment refid).include?(k) and next
           m << "#{k}=#{v}%"
         end.map { |x| x.sub(/%+/, "%") }.join + (node.text || "")
       end
@@ -116,7 +115,7 @@ module Metanorma
         @fn_number ||= 0
         noko do |xml|
           @fn_number += 1
-          xml.fn **{ reference: @fn_number } do |fn|
+          xml.fn reference: @fn_number do |fn|
             fn.p { |p| p << node.text }
           end
         end.join
@@ -162,16 +161,16 @@ module Metanorma
         if /&lt;([^:>&]+:)?math(\s+[^>&]+)?&gt; |
           <([^:>&]+:)?math(\s+[^>&]+)?>/x.match? text
           math = xml_encode(text)
-          xml.stem math, **{ type: "MathML" }
+          xml.stem math, type: "MathML"
         elsif style == :latexmath then latex_parse(text, xml)
         else
-          xml.stem text&.gsub(/&amp;#/, "&#"), **{ type: "AsciiMath" }
+          xml.stem text&.gsub(/&amp;#/, "&#"), type: "AsciiMath"
         end
       end
 
       def latex_parse(text, xml)
-        latex = latex_parse1(text) or return xml.stem **{ type: "MathML" }
-        xml.stem **{ type: "MathML" } do |s|
+        latex = latex_parse1(text) or return xml.stem type: "MathML"
+        xml.stem type: "MathML" do |s|
           math = Nokogiri::XML.fragment(latex.sub(/<\?[^>]+>/, ""))
             .elements[0]
           math.delete("alttext")
@@ -211,7 +210,7 @@ module Metanorma
             when "smallcap" then xml.smallcap { |s| s << node.text }
             when "keyword" then xml.keyword { |s| s << node.text }
             when /^css /
-              xml.span **{ style: node.role.sub(/^css /, "") } do |s|
+              xml.span style: node.role.sub(/^css /, "") do |s|
                 s << node.text
               end
             else

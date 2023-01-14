@@ -37,6 +37,7 @@ module Metanorma
         reqt_subpart?(role) and return requirement_subpart(node)
         role == "form" and return form(node)
         role == "definition" and return termdefinition(node)
+        role == "boilerplate" and return boilerplate_note(node)
         result = []
         node.blocks.each { |b| result << send(b.context, b) }
         result
@@ -230,8 +231,11 @@ module Metanorma
       end
 
       def listing_attrs(node)
+        linenums = node.option?("linenums") || node.attributes[3] ||
+          @source_linenums
         attr_code(id_attr(node).merge(keep_attrs(node)
                   .merge(lang: node.attr("language"),
+                         linenums: linenums ? "true" : nil,
                          unnumbered: node.option?("unnumbered") ? "true" : nil,
                          number: node.attr("number"),
                          filename: node.attr("filename"))))

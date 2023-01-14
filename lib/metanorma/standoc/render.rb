@@ -19,8 +19,8 @@ module Metanorma
           datauriimage: node.attr("data-uri-image") != "false",
           htmltoclevels: node.attr("htmltoclevels") || node.attr("toclevels"),
           doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
-          break_up_urls_in_tables: node.attr("break-up-urls-in-tables"),
-          suppressasciimathdup: node.attr("suppress-asciimath-dup"),
+          breakupurlsintables: node.attr("break-up-urls-in-tables"),
+          suppressasciimathdup: node.attr("suppress-asciimath-dup") == "true",
           bare: node.attr("bare"),
           sectionsplit: node.attr("sectionsplit"),
           baseassetpath: node.attr("base-asset-path"),
@@ -32,6 +32,7 @@ module Metanorma
           fontlicenseagreement: node.attr("font-license-agreement"),
           localizenumber: node.attr("localize-number"),
           modspecidentifierbase: node.attr("modspec-identifier-base"),
+          sourcehighlighter: node.attr("source-highlighter") != "false",
         }
       end
 
@@ -63,7 +64,7 @@ module Metanorma
           olstyle: node.attr("olstyle"),
           htmltoclevels: node.attr("htmltoclevels") || node.attr("toclevels"),
           doctoclevels: node.attr("doctoclevels") || node.attr("toclevels"),
-          break_up_urls_in_tables: node.attr("break-up-urls-in-tables"),
+          breakupurlsintables: node.attr("break-up-urls-in-tables"),
           suppressasciimathdup: node.attr("suppress-asciimath-dup"),
           bare: node.attr("bare"),
           baseassetpath: node.attr("base-asset-path"),
@@ -84,12 +85,12 @@ module Metanorma
 
       def pdf_extract_attributes(node)
         pdf_options = %w(pdf-encrypt pdf-encryption-length pdf-user-password
-           pdf-owner-password pdf-allow-copy-content pdf-allow-edit-content
-           pdf-allow-assemble-document pdf-allow-edit-annotations
-           pdf-allow-print pdf-allow-print-hq pdf-allow-fill-in-forms
-           pdf-allow-access-content pdf-encrypt-metadata fonts
-           font-license-agreement)
-          .each_with_object({}) do |x, m|
+                         pdf-owner-password pdf-allow-copy-content
+                         pdf-allow-edit-content pdf-allow-fill-in-forms
+                         pdf-allow-assemble-document pdf-allow-edit-annotations
+                         pdf-allow-print pdf-allow-print-hq
+                         pdf-allow-access-content pdf-encrypt-metadata fonts
+                         font-license-agreement).each_with_object({}) do |x, m|
           m[x.gsub(/-/, "").to_i] = node.attr(x)
         end
 

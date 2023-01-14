@@ -62,6 +62,14 @@ module Metanorma
           .sub(/^dropid\((.+)\)$/, "\\1")
           .sub(/^hidden\((.+)\)$/, "\\1")
           .sub(/^nofetch\((.+)\)$/, "\\1")
+          .sub(/^local-file\((.+)\)$/, "\\1")
+      end
+
+      def analyse_ref_localfile(ret)
+        m = /^local-file\((?:(?<source>[^,]+),\s*)?(?<id>.+)\)$/.match(ret[:id])
+        m or return ret
+
+        ret.merge(id: m[:id], localfile: (m[:source] || "default"))
       end
 
       def analyse_ref_nofetch(ret)
@@ -98,15 +106,18 @@ module Metanorma
       end
 
       # ref id = (usrlbl)code[:-]year
-      # code = nofetch(code) | hidden(code) | dropid(code) | (repo|path):(key,code) |
-      # \[? number \]? | ident
+      # code = \[? number \]? | ident | nofetch(code) | hidden(code) |
+      # dropid(code) | # (repo|path):(key,code) | local-file(source,? key)
       def analyse_ref_code(code)
         ret = { id: code }
-        return ret if code.blank?
-
+        code.nil? || code.empty? and return ret
         analyse_ref_numeric(
           analyse_ref_repo_path(
-            analyse_ref_dropid(analyse_ref_hidden(analyse_ref_nofetch(ret))),
+            analyse_ref_dropid(
+              analyse_ref_hidden(
+                analyse_ref_nofetch(analyse_ref_localfile(ret)),
+              ),
+            ),
           ),
         )
       end

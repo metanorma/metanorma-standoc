@@ -6,7 +6,7 @@ module Metanorma
       def iso_publisher(bib, code)
         code.sub(/ .*$/, "").split("/").each do |abbrev|
           bib.contributor do |c|
-            c.role **{ type: "publisher" }
+            c.role type: "publisher"
             c.organization do |org|
               organization(org, abbrev, true)
             end
@@ -33,7 +33,7 @@ module Metanorma
         else
           xml.bibitem **attr_code(ref_attributes(item[:ref][:match])) do |t|
             isorefrender1(t, item[:ref][:match], item[:ref][:year])
-            item[:ref][:year] and t.date **{ type: "published" } do |d|
+            item[:ref][:year] and t.date type: "published" do |d|
               set_date_range(d, item[:ref][:year])
             end
             iso_publisher(t, item[:ref][:match][:code])
@@ -42,10 +42,9 @@ module Metanorma
       end
 
       def isorefmatches2code(match)
-        { code: match[:code], no_year: true,
+        { code: match[:code], no_year: true, lang: (@lang || :all),
           note: match[:fn], year: nil, match: match,
-          title: match[:text], usrlbl: match[:usrlbl],
-          lang: (@lang || :all) }
+          title: match[:text], usrlbl: match[:usrlbl] }
       end
 
       def isorefmatches2out(item, xml)
@@ -57,7 +56,7 @@ module Metanorma
       def isorefmatches2_1(xml, match)
         xml.bibitem **attr_code(ref_attributes(match)) do |t|
           isorefrender1(t, match, "--")
-          t.date **{ type: "published" } do |d|
+          t.date type: "published" do |d|
             d.on "--"
           end
           iso_publisher(t, match[:code])
@@ -98,7 +97,7 @@ module Metanorma
               p << (match[:fn]).to_s
             end
           end
-          t.extent **{ type: "part" } do |e|
+          t.extent type: "part" do |e|
             e.referenceFrom "all"
           end
         end
@@ -106,21 +105,21 @@ module Metanorma
 
       def refitem_render1(match, code, bib)
         if code[:type] == "path"
-          bib.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), **{ type: "URI" }
-          bib.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), **{ type: "citation" }
+          bib.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), type: "URI"
+          bib.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), type: "citation"
         end
         # code[:id].sub!(/[:-](19|20)[0-9][0-9]$/, "")
         docid(bib, match[:usrlbl]) if match[:usrlbl]
         docid(bib, /^\d+$/.match?(code[:id]) ? "[#{code[:id]}]" : code[:id])
         code[:type] == "repo" and
-          bib.docidentifier code[:key], **{ type: "repository" }
+          bib.docidentifier code[:key], type: "repository"
       end
 
       def refitem_render(xml, match, code)
         xml.bibitem **attr_code(id: match[:anchor],
                                 suppress_identifier: code[:dropid],
                                 hidden: code[:hidden]) do |t|
-          t.formattedref **{ format: "application/x-isodoc+xml" } do |i|
+          t.formattedref format: "application/x-isodoc+xml" do |i|
             i << ref_normalise_no_format(match[:text])
           end
           yr_match = /[:-](?<year>(?:19|20)[0-9][0-9])\b/.match(code[:id])
@@ -145,7 +144,7 @@ module Metanorma
           return { code: nil, match: match, analyse_code: code,
                    hidden: code[:hidden] }
         year = refitem1yr(code[:id])
-        { code: code[:id], analyse_code: code,
+        { code: code[:id], analyse_code: code, localfile: code[:localfile],
           year: year,
           title: match[:text], match: match, hidden: code[:hidden],
           usrlbl: match[:usrlbl], lang: (@lang || :all) }
@@ -157,8 +156,7 @@ module Metanorma
       end
 
       def refitemout(item, xml)
-        return nil if item[:ref][:match].nil?
-
+        item[:ref][:match].nil? and return nil
         item[:doc] or return refitem_render(xml, item[:ref][:match],
                                             item[:ref][:analyse_code])
         use_retrieved_relaton(item, xml)
@@ -221,7 +219,14 @@ module Metanorma
         refs = node.items.each_with_object([]) do |b, m|
           m << reference1code(b.text, node)
         end
-        reference_populate(refs)
+        reference_populate(reference_normalise(refs))
+      end
+
+      def reference_normalise(refs)
+        refs.each do |r|
+          r[:code] = @c.decode(r[:code])
+            .gsub(/\u2009\u2014\u2009/, " -- ").strip
+        end
       end
 
       def reference_populate(refs)
@@ -239,7 +244,7 @@ module Metanorma
           ref, i, doc = results.pop
           m[i.to_i] = { ref: ref }
           if doc.is_a?(RelatonBib::RequestError)
-            @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: "\
+            @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: " \
                                           "no access to online site")
           else m[i.to_i][:doc] = doc
           end

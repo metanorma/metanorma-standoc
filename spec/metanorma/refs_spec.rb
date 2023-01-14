@@ -267,8 +267,8 @@ RSpec.describe Metanorma::Standoc do
         [bibliography]
         == Normative References
 
-        * [[[iso123,ISO 123]]] _Standard_
-        * [[[iso124,(1)ISO 123]]] _Standard_
+        * [[[iso123, ISO 123]]] _Standard_
+        * [[[iso124,(1)ISO 123 ]]] _Standard_
       INPUT
       output = <<~OUTPUT
                 #{BLANK_HDR}
@@ -980,7 +980,452 @@ RSpec.describe Metanorma::Standoc do
         </bibitem>
         </references></bibliography>
         </standard-document>
+      OUTPUT
+      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+        .to be_equivalent_to xmlpp(output)
+    end
+  end
 
+  it "processes DOI references" do
+    VCR.use_cassette "doi" do
+      input = <<~INPUT
+        #{ISOBIB_BLANK_HDR}
+        == Section
+
+        [bibliography]
+        == Bibliography
+
+        * [[[ref1,doi:10.1045/november2010-massart]]] _Standard_
+      INPUT
+      output = <<~OUTPUT
+         #{BLANK_HDR}
+                        <sections>
+            <clause id="_" inline-header="false" obligation="normative">
+              <title>Section</title>
+            </clause>
+          </sections>
+          <bibliography>
+            <references id="_" normative="false" obligation="informative">
+              <title>Bibliography</title>
+              <bibitem type="article" id="ref1">
+                <fetched/>
+                <title type="main" format="text/plain" language="en" script="Latn">Taming the Metadata Beast: ILOX</title>
+                <uri type="DOI">http://dx.doi.org/10.1045/november2010-massart</uri>
+                <docidentifier type="DOI" primary="true">10.1045/november2010-massart</docidentifier>
+                <date type="created">
+                  <on>2010-11-15</on>
+                </date>
+                <date type="issued">
+                  <on>2010-11</on>
+                </date>
+                <date type="published">
+                  <on>2010-11</on>
+                </date>
+                <contributor>
+                  <role type="author"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">David</forename>
+                      <surname language="en" script="Latn">Massart</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="author"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Elena</forename>
+                      <surname language="en" script="Latn">Shulman</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="author"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Nick</forename>
+                      <surname language="en" script="Latn">Nicholas</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="author"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Nigel</forename>
+                      <surname language="en" script="Latn">Ward</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="author"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Frédéric</forename>
+                      <surname language="en" script="Latn">Bergeron</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                    <name>CNRI Acct</name>
+                  </organization>
+                </contributor>
+                <relation type="includedIn">
+          <bibitem>
+            <title format="text/plain">D-Lib Magazine</title>
+          </bibitem>
+        </relation>
+        <series>
+          <title format="text/plain">D-Lib Magazine</title>
+        </series>
+        <extent>
+          <localityStack>
+            <locality type="volume">
+              <referenceFrom>16</referenceFrom>
+            </locality>
+            <locality type="issue">
+              <referenceFrom>11/12</referenceFrom>
+            </locality>
+          </localityStack>
+        </extent>
+              </bibitem>
+            </references>
+          </bibliography>
+          </standard-document>
+      OUTPUT
+      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+        .to be_equivalent_to xmlpp(output)
+    end
+  end
+
+  it "emends citations through span notation" do
+    VCR.use_cassette "doi2" do
+      input = <<~INPUT
+        #{ISOBIB_BLANK_HDR}
+        == Section
+
+        [bibliography]
+        == Bibliography
+
+        * [[[ref1,doi:10.1515/9783110889406.257]]] _Standard_
+        * [[[ref2,doi:10.1515/9783110889406.257]]] span:surname.editor[Johnson] span:givenname.editor[Boris] span:pubplace[Vienna] span:volume[2] span:in_title[Nested Title] span:in_surname.editor[Jones] span:in_givenname.editor[John] span:in_surname.editor[James] span:in_givenname.editor[Jim] span:date.issued[1234] span:type[book]
+      INPUT
+      output = <<~OUTPUT
+          #{BLANK_HDR}
+          <sections>
+            <clause id="_" inline-header="false" obligation="normative">
+              <title>Section</title>
+            </clause>
+          </sections>
+                   <bibliography>
+           <references id="_" normative="false" obligation="informative">
+             <title>Bibliography</title>
+             <bibitem id="ref1">
+               <formattedref format="application/x-isodoc+xml">
+                 <em>Standard</em>
+               </formattedref>
+               <docidentifier type="DOI">doi:10.1515/9783110889406.257</docidentifier>
+               <docnumber>10.1515/9783110889406.257</docnumber>
+             </bibitem>
+             <bibitem id="ref2" type="book">
+               <formattedref format="application/x-isodoc+xml">Johnson Boris Vienna 2 Nested Title Jones John James Jim 1234 </formattedref>
+               <docnumber>10.1515/9783110889406.257</docnumber>
+               <docidentifier type="DOI">doi:10.1515/9783110889406.257</docidentifier>
+               <date type="issued">
+                 <on>1234</on>
+               </date>
+               <contributor>
+                 <role type="editor"/>
+                 <person>
+                   <name>
+                     <forename>Boris</forename>
+                     <surname>Johnson</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <place>Vienna</place>
+               <relation type="includedIn">
+                 <bibitem type="misc">
+                   <title>Nested Title</title>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename>John</forename>
+                         <surname>Jones</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename>Jim</forename>
+                         <surname>James</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                 </bibitem>
+               </relation>
+               <extent>
+                 <locality type="volume">
+                   <referenceFrom>2</referenceFrom>
+                 </locality>
+               </extent>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
+          <!--
+          <bibliography>
+            <references id="_" normative="false" obligation="informative">
+              <title>Bibliography</title>
+                           <bibitem type="inbook" id="ref1">
+               <fetched/>
+               <title type="main" format="text/plain" language="en" script="Latn">Gender and public space in a bilingual school</title>
+               <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
+               <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
+               <date type="created">
+                 <on>2011-03-18</on>
+               </date>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename language="en" script="Latn">Monica</forename>
+                     <surname language="en" script="Latn">Heller</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="editor"/>
+                 <person>
+                   <name>
+                     <forename language="en" script="Latn">Aneta</forename>
+                     <surname language="en" script="Latn">Pavlenko</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="editor"/>
+                 <person>
+                   <name>
+                     <forename language="en" script="Latn">Adrian</forename>
+                     <surname language="en" script="Latn">Blackledge</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="editor"/>
+                 <person>
+                   <name>
+                     <forename language="en" script="Latn">Ingrid</forename>
+                     <surname language="en" script="Latn">Piller</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="editor"/>
+                 <person>
+                   <name>
+                     <forename language="en" script="Latn">Marya</forename>
+                     <surname language="en" script="Latn">Teutsch-Dwyer</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>DE GRUYTER MOUTON</name>
+                 </organization>
+               </contributor>
+               <relation type="includedIn">
+                 <bibitem>
+                   <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename language="en" script="Latn">Aneta</forename>
+                         <surname language="en" script="Latn">Pavlenko</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename language="en" script="Latn">Adrian</forename>
+                         <surname language="en" script="Latn">Blackledge</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename language="en" script="Latn">Ingrid</forename>
+                         <surname language="en" script="Latn">Piller</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename language="en" script="Latn">Marya</forename>
+                         <surname language="en" script="Latn">Teutsch-Dwyer</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                 </bibitem>
+               </relation>
+               <series>
+                 <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
+               </series>
+               <place>
+                 <city>Berlin</city>
+                 <region>New York</region>
+               </place>
+             </bibitem>
+             <bibitem type="book" id="ref2">
+               <fetched/>
+               <title type="main" format="text/plain" language="en" script="Latn">Gender and public space in a bilingual school</title>
+               <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
+               <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
+               <date type="created">
+                 <on>2011-03-18</on>
+               </date>
+               <date type="isssued">
+                 <on>1234</on>
+               </date>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename language="en" script="Latn">Monica</forename>
+                     <surname language="en" script="Latn">Heller</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="editor"/>
+                 <person>
+                   <name>
+                     <forename>Boris</forename>
+                     <surname>Johnson</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>DE GRUYTER MOUTON</name>
+                 </organization>
+               </contributor>
+               <relation type="includedIn">
+                 <bibitem>
+                   <title format="text/plain">Nested Title</title>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename>John</forename>
+                         <surname>Jones</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename>Jim</forename>
+                         <surname>James</forename>
+                       </name>
+                     </person>
+                   </contributor>
+                 </bibitem>
+               </relation>
+               <series>
+                 <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
+               </series>
+               <place>
+                 <city>Vienna</city>
+               </place>
+               <extent>
+         <localityStack>
+           <locality type="volume">
+             <referenceFrom>2</referenceFrom>
+           </locality>
+         </localityStack>
+          </extent>
+             </bibitem>
+            </references>
+          </bibliography>
+        </standard-document>
+        -->
+      OUTPUT
+      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+        .to be_equivalent_to xmlpp(output)
+    end
+  end
+
+  it "processes document identifiers ignoring Asciidoctor substitutions" do
+    VCR.use_cassette "bipm" do
+      input = <<~INPUT
+        #{ISOBIB_BLANK_HDR}
+        [bibliography]
+        == Normative References
+
+        * [[[iso123,BIPM CCTF -- Meeting 5 (1970)]]] _Standard_
+      INPUT
+      output = <<~OUTPUT
+         #{BLANK_HDR}
+                       <sections>
+                </sections><bibliography><references id="_" obligation="informative" normative="true">
+                  <title>Normative references</title>
+                 #{NORM_REF_BOILERPLATE}
+                              <bibitem id="iso123" type="proceedings">
+                <fetched/>
+                <title format="text/plain" language="en" script="Latn">5th meeting of the CCTF then CCDS</title>
+                <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/cc/cctf/5-1970</uri>
+                <uri type="citation" language="fr" script="Latn">https://www.bipm.org/fr/committees/cc/cctf/5-1970</uri>
+                <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cctf/meetings-en/meeting-5.yml</uri>
+                <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cctf/meetings-fr/meeting-5.yml</uri>
+                <docidentifier type="BIPM" primary="true">CCTF — Meeting 5 (1970)</docidentifier>
+                <docidentifier type="BIPM" primary="true" language="en" script="Latn">CCTF — Meeting 5 (1970)</docidentifier>
+                <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CCTF — Réunion 5 (1970)</docidentifier>
+                <docnumber>CCTF — Meeting 5 (1970)</docnumber>
+                <date type="published">
+                  <on>1970-06-19</on>
+                </date>
+                <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                    <name>Bureau International des Poids et Mesures</name>
+                    <abbreviation>BIPM</abbreviation>
+                    <uri>www.bipm.org</uri>
+                  </organization>
+                </contributor>
+                <contributor>
+                  <role type="author"/>
+                  <organization>
+                    <name language="en" script="Latn">Consultative Committee for the Definition of the Second</name>
+                    <abbreviation>CCDS</abbreviation>
+                  </organization>
+                </contributor>
+                <language>en</language>
+                <language>fr</language>
+                <script>Latn</script>
+                <place>
+                  <city>Paris</city>
+                </place>
+              </bibitem>
+            </references>
+          </bibliography>
+        </standard-document>
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)
@@ -1753,6 +2198,12 @@ RSpec.describe Metanorma::Standoc do
                    </name>
                  </person>
                </contributor>
+               <contributor>
+          <role type="authorizer"/>
+          <organization>
+            <name>RFC Series</name>
+          </organization>
+        </contributor>
                <language>en</language>
                <script>Latn</script>
                <abstract format='text/html' language='en' script='Latn'>
@@ -1807,6 +2258,12 @@ RSpec.describe Metanorma::Standoc do
                    </name>
                  </person>
                </contributor>
+               <contributor>
+          <role type="authorizer"/>
+          <organization>
+            <name>RFC Series</name>
+          </organization>
+        </contributor>
                <language>en</language>
                <script>Latn</script>
                <abstract format='text/html' language='en' script='Latn'>
@@ -2564,7 +3021,7 @@ RSpec.describe Metanorma::Standoc do
            <foreword id='_' obligation='informative'>
              <title>Foreword</title>
              <p id='_'>
-               <eref type='inline' bibitemid='iso124' citeas='[&lt;strong&gt;A&lt;/strong&gt;.&lt;fn reference=&quot;1&quot;&gt;&lt;p&gt;hello&lt;/p&gt;&#10;&lt;/fn&gt;]'/>
+               <eref type="inline" bibitemid="iso124" citeas="[&lt;strong&gt;A&lt;/strong&gt;.]"/>
              </p>
            </foreword>
          </preface>

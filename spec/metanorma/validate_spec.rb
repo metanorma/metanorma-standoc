@@ -40,6 +40,75 @@ RSpec.describe Metanorma::Standoc do
       .to include %(\t<clause id="abc" inline-header="false" obligation="normative">)
   end
 
+  it "aborts on unsupported format in localbib" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+        :relaton-data-source: file=spec/assets/manual.bib,format=pizza
+
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err"))
+      .to include "Cannot process format pizza for local relaton data source default"
+    expect(File.exist?("test.xml")).to be false
+  end
+
+  it "aborts on missing file in localbib" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+        :relaton-data-source: file=spec/assets/fred.bib
+
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err"))
+      .to include "Cannot process file spec/assets/fred.bib for local relaton data source default"
+    expect(File.exist?("test.xml")).to be false
+  end
+
+  it "aborts on missing reference in localbib" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+        :relaton-data-source: spec/assets/manual.bib
+
+        [bibliography]
+        == Bibliography
+        * [[[A, local-file(xyz)]]]
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err"))
+      .to include "Cannot find reference xyz for local relaton data source default"
+    expect(File.exist?("test.xml")).to be false
+  end
+
   it "warns about missing fields in asciibib" do
     FileUtils.rm_f "test.err"
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
@@ -150,6 +219,20 @@ RSpec.describe Metanorma::Standoc do
     expect(File.read("test.err"))
       .to include "<mo>∑</mo>"
     expect(File.exist?("test.xml")).to be false
+  end
+
+  it "warns about malformed biblio span" do
+    FileUtils.rm_f "test.err"
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      #{VALIDATING_BLANK_HDR}
+
+      [bibliography]
+      == Normative References
+
+      * [[[A, B]]], span:surname1[Wozniak]
+    INPUT
+    errf = File.read("test.err")
+    expect(errf).to include "unrecognised key 'surname1' in `span:surname1[Wozniak]"
   end
 
   #   it "warns about malformed LaTeX" do
@@ -708,20 +791,6 @@ RSpec.describe Metanorma::Standoc do
       :no-pdf:
 
       footnoteblock:[id1]
-
-      [[id2]]
-      [NOTE]
-      --
-      |===
-      |a |b
-
-      |c |d
-      |===
-
-      * A
-      * B
-      * C
-      --
     INPUT
     expect(File.read("test.err"))
       .to include "Could not resolve footnoteblock:[id1]"
@@ -736,6 +805,20 @@ RSpec.describe Metanorma::Standoc do
       :no-pdf:
 
       <<id1>>
+    INPUT
+    expect(File.read("test.err"))
+      .to include "Crossreference target id1 is undefined"
+  end
+
+  it "Warns if illegal nessting of assets within assets" do
+    FileUtils.rm_f "test.err"
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      <<id2>>
 
       [[id2]]
       [NOTE]
@@ -752,7 +835,41 @@ RSpec.describe Metanorma::Standoc do
       --
     INPUT
     expect(File.read("test.err"))
-      .to include "Crossreference target id1 is undefined"
+      .to include "There is an instance of table nested within note"
+  end
+
+  it "Aborts if illegal nesting of assets within assets with crossreferencing" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :no-pdf:
+
+        <<id2>>
+
+        [NOTE]
+        --
+        [[id2]]
+        |===
+        |a |b
+
+        |c |d
+        |===
+
+        * A
+        * B
+        * C
+        --
+      INPUT
+      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+    expect(File.read("test.err"))
+      .to include "There is a crossreference to an instance of table " \
+                  "nested within note"
   end
 
   it "Warning if metadata deflist not after a designation" do
