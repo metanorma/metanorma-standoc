@@ -62,12 +62,17 @@ module Metanorma
 
       def math_validate(doc)
         doc.xpath("//m:math", "m" => MATHML_NS).each do |m|
-          math = m.to_xml.gsub(/ xmlns=["'][^"']+["']/, "")
-            .gsub(%r{<[^:/>]+:}, "<").gsub(%r{</[^:/>]+:}, "</")
+          math = mathml_sanitise(m.dup)
           Plurimath::Math.parse(math, "mathml")
         rescue StandardError => e
           math_validate_error(math, m, e)
         end
+      end
+
+      def mathml_sanitise(math)
+        math.to_xml(encoding: "US-ASCII").gsub(/ xmlns=["'][^"']+["']/, "")
+          .gsub(%r{<[^:/>]+:}, "<").gsub(%r{</[^:/>]+:}, "</")
+          #.gsub(/&#([^;]+);/) { |x| "&#x#{$1.to_i.to_s(16)};" }
       end
 
       def math_validate_error(math, elem, error)
