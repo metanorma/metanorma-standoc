@@ -2198,6 +2198,12 @@ RSpec.describe Metanorma::Standoc do
                    </name>
                  </person>
                </contributor>
+                      <contributor>
+         <role type="publisher"/>
+         <organization>
+           <name>RFC Publisher</name>
+         </organization>
+       </contributor>
                <contributor>
           <role type="authorizer"/>
           <organization>
@@ -2258,6 +2264,12 @@ RSpec.describe Metanorma::Standoc do
                    </name>
                  </person>
                </contributor>
+                      <contributor>
+         <role type="publisher"/>
+         <organization>
+           <name>RFC Publisher</name>
+         </organization>
+       </contributor>
                <contributor>
           <role type="authorizer"/>
           <organization>

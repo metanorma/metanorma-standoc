@@ -144,8 +144,7 @@ module Metanorma
       end
 
       def insert_xml_cr(doc)
-        doc
-          .gsub(%r{(</(clause|table|figure|p|bibitem|ul|ol|dl|dt|dd|li|example|
+        doc.gsub(%r{(</(clause|table|figure|p|bibitem|ul|ol|dl|dt|dd|li|example|
                        sourcecode|formula|quote|references|annex|appendix|title|
                        name|note|thead|tbody|tfoot|th|td|form|requirement|
                        recommendation|permission|imagemap|svgmap|preferred|
@@ -153,7 +152,8 @@ module Metanorma
                        graphical-symbol|expression|abbreviation-type|subject|
                        pronunciation|grammar|term|terms|termnote|termexample|
                        termsource|origin|termref|modification)>)}x, "\\1\n")
-          .gsub(%r{(<(title|name))}x, "\n\\1")
+          .gsub(%r{(<(title|name))}, "\n\\1")
+          .gsub(%r{(<sourcecode[^>]*>)\s+(<name[^>]*>[^<]+</name>)\s+}, "\\1\\2")
       end
 
       def version
