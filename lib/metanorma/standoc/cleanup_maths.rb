@@ -77,10 +77,10 @@ module Metanorma
       UNITSML_NS = "https://schema.unitsml.org/unitsml/1.0".freeze
 
       def add_misc_container(xmldoc)
-        unless ins = xmldoc.at("//misc-container")
+        unless ins = xmldoc.at("//metanorma-extension")
           a = xmldoc.at("//termdocsource") || xmldoc.at("//bibdata")
-          a.next = "<misc-container/>"
-          ins = xmldoc.at("//misc-container")
+          a.next = "<metanorma-extension/>"
+          ins = xmldoc.at("//metanorma-extension")
         end
         ins
       end

@@ -526,7 +526,7 @@ RSpec.describe Metanorma::Standoc do
              </ics>
              </ext>
            </bibdata>
-            <misc-container>
+            <metanorma-extension>
         <presentation-metadata>
           <name>TOC Heading Levels</name>
           <value>2</value>
@@ -539,7 +539,7 @@ RSpec.describe Metanorma::Standoc do
           <name>TOC Heading Levels</name>
           <value>2</value>
         </presentation-metadata>
-      </misc-container>
+      </metanorma-extension>
            <sections/>
            </standard-document>
     OUTPUT
@@ -731,7 +731,7 @@ RSpec.describe Metanorma::Standoc do
                    <subdoctype>This is a DocSubType</subdoctype>
                    </ext>
                  </bibdata>
-                   <misc-container>
+                   <metanorma-extension>
         <semantic-metadata>
           <hello-world>A</hello-world>
         </semantic-metadata>
@@ -753,7 +753,7 @@ RSpec.describe Metanorma::Standoc do
         <presentation-metadata>
           <manifold>yes</manifold>
         </presentation-metadata>
-      </misc-container>
+      </metanorma-extension>
                    <preface>
               <abstract id='_'>
               <title>Abstract</title>
