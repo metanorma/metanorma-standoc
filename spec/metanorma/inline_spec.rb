@@ -561,6 +561,142 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to(output)
   end
 
+  it "processes combinations of bibliographic crossreferences" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Section
+
+      <<ref1,clause=3-5>>
+      <<ref1,clause=3;to!clause=5>>
+      <<ref1,from!clause=3;to!clause=5,text>>
+      <<ref1,clause=3;clause=5>>
+      <<ref1,clause=3;and!clause=5>>
+      <<ref1,clause=3;or!clause=5,text>>
+      <<ref1,from!clause=3;to!clause=5;and!clause=8;to!clause=10>>
+
+      [bibliography]
+      == Bibliography
+
+      * [[[ref1,XYZ]]] _Standard_
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+            <sections>
+          <clause id='_' inline-header='false' obligation='normative'>
+            <title>Section</title>
+            <p id='_'>
+            <eref type='inline' bibitemid='ref1' citeas='XYZ'>
+               <localityStack>
+                 <locality type='clause'>
+                   <referenceFrom>3</referenceFrom>
+                   <referenceTo>5</referenceTo>
+                 </locality>
+               </localityStack>
+             </eref>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
+                <localityStack connective='from'>
+                  <locality type='clause'>
+                    <referenceFrom>3</referenceFrom>
+                  </locality>
+                </localityStack>
+                <localityStack connective='to'>
+                  <locality type='clause'>
+                    <referenceFrom>5</referenceFrom>
+                  </locality>
+                </localityStack>
+              </eref>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
+                <localityStack connective='from'>
+                  <locality type='clause'>
+                    <referenceFrom>3</referenceFrom>
+                  </locality>
+                </localityStack>
+                <localityStack connective='to'>
+                  <locality type='clause'>
+                    <referenceFrom>5</referenceFrom>
+                  </locality>
+                </localityStack>
+                text
+              </eref>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
+                <localityStack connective='and'>
+                  <locality type='clause'>
+                    <referenceFrom>3</referenceFrom>
+                  </locality>
+                </localityStack>
+                <localityStack connective='and'>
+                  <locality type='clause'>
+                    <referenceFrom>5</referenceFrom>
+                  </locality>
+                </localityStack>
+              </eref>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
+                <localityStack connective='and'>
+                  <locality type='clause'>
+                    <referenceFrom>3</referenceFrom>
+                  </locality>
+                </localityStack>
+                <localityStack connective='and'>
+                  <locality type='clause'>
+                    <referenceFrom>5</referenceFrom>
+                  </locality>
+                </localityStack>
+              </eref>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
+                <localityStack connective='and'>
+                  <locality type='clause'>
+                    <referenceFrom>3</referenceFrom>
+                  </locality>
+                </localityStack>
+                <localityStack connective='or'>
+                  <locality type='clause'>
+                    <referenceFrom>5</referenceFrom>
+                  </locality>
+                </localityStack>
+                text
+              </eref>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
+                <localityStack connective='from'>
+                  <locality type='clause'>
+                    <referenceFrom>3</referenceFrom>
+                  </locality>
+                </localityStack>
+                <localityStack connective='to'>
+                  <locality type='clause'>
+                    <referenceFrom>5</referenceFrom>
+                  </locality>
+                </localityStack>
+                <localityStack connective='and'>
+                  <locality type='clause'>
+                    <referenceFrom>8</referenceFrom>
+                  </locality>
+                </localityStack>
+                <localityStack connective='to'>
+                  <locality type='clause'>
+                    <referenceFrom>10</referenceFrom>
+                  </locality>
+                </localityStack>
+              </eref>
+            </p>
+          </clause>
+        </sections>
+        <bibliography>
+          <references id='_' normative='false' obligation='informative'>
+            <title>Bibliography</title>
+            <bibitem id='ref1'>
+              <formattedref format='application/x-isodoc+xml'>
+                <em>Standard</em>
+              </formattedref>
+              <docidentifier>XYZ</docidentifier>
+            </bibitem>
+          </references>
+        </bibliography>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes formatting within bibliographic references" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -763,6 +899,142 @@ RSpec.describe Metanorma::Standoc do
       <sections>
       <p id='_'>&lt;abc&gt;X &gt; Y &lt;/abc&gt;</p>
       </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+    it "processes combinations of crossreferences" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Section
+
+      <<ref1,clause=3-5>>
+      <<ref1,clause=3;to!clause=5>>
+      <<ref1,from!clause=3;to!clause=5,text>>
+      <<ref1,clause=3;clause=5>>
+      <<ref1,clause=3;and!clause=5>>
+      <<ref1,clause=3;or!clause=5,text>>
+      <<ref1,from!clause=3;to!clause=5;and!clause=8;to!clause=10>>
+
+      [bibliography]
+      == Bibliography
+
+      * [[[ref1,XYZ]]] _Standard_
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+            <sections>
+          <clause id='_' inline-header='false' obligation='normative'>
+            <title>Section</title>
+            <p id='_'>
+            <eref type='inline' bibitemid='ref1' citeas='XYZ'>
+               <localityStack>
+                 <locality type='clause'>
+                   <referenceFrom>3</referenceFrom>
+                   <referenceTo>5</referenceTo>
+                 </locality>
+               </localityStack>
+             </eref>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
+                <localityStack connective='from'>
+                  <locality type='clause'>
+                    <referenceFrom>3</referenceFrom>
+                  </locality>
+                </localityStack>
+                <localityStack connective='to'>
+                  <locality type='clause'>
+                    <referenceFrom>5</referenceFrom>
+                  </locality>
+                </localityStack>
+              </eref>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
+                <localityStack connective='from'>
+                  <locality type='clause'>
+                    <referenceFrom>3</referenceFrom>
+                  </locality>
+                </localityStack>
+                <localityStack connective='to'>
+                  <locality type='clause'>
+                    <referenceFrom>5</referenceFrom>
+                  </locality>
+                </localityStack>
+                text
+              </eref>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
+                <localityStack connective='and'>
+                  <locality type='clause'>
+                    <referenceFrom>3</referenceFrom>
+                  </locality>
+                </localityStack>
+                <localityStack connective='and'>
+                  <locality type='clause'>
+                    <referenceFrom>5</referenceFrom>
+                  </locality>
+                </localityStack>
+              </eref>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
+                <localityStack connective='and'>
+                  <locality type='clause'>
+                    <referenceFrom>3</referenceFrom>
+                  </locality>
+                </localityStack>
+                <localityStack connective='and'>
+                  <locality type='clause'>
+                    <referenceFrom>5</referenceFrom>
+                  </locality>
+                </localityStack>
+              </eref>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
+                <localityStack connective='and'>
+                  <locality type='clause'>
+                    <referenceFrom>3</referenceFrom>
+                  </locality>
+                </localityStack>
+                <localityStack connective='or'>
+                  <locality type='clause'>
+                    <referenceFrom>5</referenceFrom>
+                  </locality>
+                </localityStack>
+                text
+              </eref>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
+                <localityStack connective='from'>
+                  <locality type='clause'>
+                    <referenceFrom>3</referenceFrom>
+                  </locality>
+                </localityStack>
+                <localityStack connective='to'>
+                  <locality type='clause'>
+                    <referenceFrom>5</referenceFrom>
+                  </locality>
+                </localityStack>
+                <localityStack connective='and'>
+                  <locality type='clause'>
+                    <referenceFrom>8</referenceFrom>
+                  </locality>
+                </localityStack>
+                <localityStack connective='to'>
+                  <locality type='clause'>
+                    <referenceFrom>10</referenceFrom>
+                  </locality>
+                </localityStack>
+              </eref>
+            </p>
+          </clause>
+        </sections>
+        <bibliography>
+          <references id='_' normative='false' obligation='informative'>
+            <title>Bibliography</title>
+            <bibitem id='ref1'>
+              <formattedref format='application/x-isodoc+xml'>
+                <em>Standard</em>
+              </formattedref>
+              <docidentifier>XYZ</docidentifier>
+            </bibitem>
+          </references>
+        </bibliography>
       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))

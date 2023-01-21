@@ -1113,259 +1113,259 @@ RSpec.describe Metanorma::Standoc do
         * [[[ref2,doi:10.1515/9783110889406.257]]] span:surname.editor[Johnson] span:givenname.editor[Boris] span:pubplace[Vienna] span:volume[2] span:in_title[Nested Title] span:in_surname.editor[Jones] span:in_givenname.editor[John] span:in_surname.editor[James] span:in_givenname.editor[Jim] span:date.issued[1234] span:type[book]
       INPUT
       output = <<~OUTPUT
-          #{BLANK_HDR}
-          <sections>
-            <clause id="_" inline-header="false" obligation="normative">
-              <title>Section</title>
-            </clause>
-          </sections>
-                   <bibliography>
-           <references id="_" normative="false" obligation="informative">
-             <title>Bibliography</title>
-             <bibitem id="ref1">
-               <formattedref format="application/x-isodoc+xml">
-                 <em>Standard</em>
-               </formattedref>
-               <docidentifier type="DOI">doi:10.1515/9783110889406.257</docidentifier>
-               <docnumber>10.1515/9783110889406.257</docnumber>
-             </bibitem>
-             <bibitem id="ref2" type="book">
-               <formattedref format="application/x-isodoc+xml">Johnson Boris Vienna 2 Nested Title Jones John James Jim 1234 </formattedref>
-               <docnumber>10.1515/9783110889406.257</docnumber>
-               <docidentifier type="DOI">doi:10.1515/9783110889406.257</docidentifier>
-               <date type="issued">
-                 <on>1234</on>
-               </date>
-               <contributor>
-                 <role type="editor"/>
-                 <person>
-                   <name>
-                     <forename>Boris</forename>
-                     <surname>Johnson</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <place>Vienna</place>
-               <relation type="includedIn">
-                 <bibitem type="misc">
-                   <title>Nested Title</title>
-                   <contributor>
-                     <role type="editor"/>
-                     <person>
-                       <name>
-                         <forename>John</forename>
-                         <surname>Jones</surname>
-                       </name>
-                     </person>
-                   </contributor>
-                   <contributor>
-                     <role type="editor"/>
-                     <person>
-                       <name>
-                         <forename>Jim</forename>
-                         <surname>James</surname>
-                       </name>
-                     </person>
-                   </contributor>
-                 </bibitem>
-               </relation>
-               <extent>
-                 <locality type="volume">
-                   <referenceFrom>2</referenceFrom>
-                 </locality>
-               </extent>
-             </bibitem>
-           </references>
-         </bibliography>
-       </standard-document>
-          <!--
-          <bibliography>
+           #{BLANK_HDR}
+           <sections>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title>Section</title>
+             </clause>
+           </sections>
+                    <bibliography>
             <references id="_" normative="false" obligation="informative">
               <title>Bibliography</title>
-                           <bibitem type="inbook" id="ref1">
-               <fetched/>
-               <title type="main" format="text/plain" language="en" script="Latn">Gender and public space in a bilingual school</title>
-               <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
-               <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
-               <date type="created">
-                 <on>2011-03-18</on>
-               </date>
-               <contributor>
-                 <role type="author"/>
-                 <person>
-                   <name>
-                     <forename language="en" script="Latn">Monica</forename>
-                     <surname language="en" script="Latn">Heller</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type="editor"/>
-                 <person>
-                   <name>
-                     <forename language="en" script="Latn">Aneta</forename>
-                     <surname language="en" script="Latn">Pavlenko</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type="editor"/>
-                 <person>
-                   <name>
-                     <forename language="en" script="Latn">Adrian</forename>
-                     <surname language="en" script="Latn">Blackledge</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type="editor"/>
-                 <person>
-                   <name>
-                     <forename language="en" script="Latn">Ingrid</forename>
-                     <surname language="en" script="Latn">Piller</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type="editor"/>
-                 <person>
-                   <name>
-                     <forename language="en" script="Latn">Marya</forename>
-                     <surname language="en" script="Latn">Teutsch-Dwyer</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type="publisher"/>
-                 <organization>
-                   <name>DE GRUYTER MOUTON</name>
-                 </organization>
-               </contributor>
-               <relation type="includedIn">
-                 <bibitem>
-                   <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
-                   <contributor>
-                     <role type="editor"/>
-                     <person>
-                       <name>
-                         <forename language="en" script="Latn">Aneta</forename>
-                         <surname language="en" script="Latn">Pavlenko</surname>
-                       </name>
-                     </person>
-                   </contributor>
-                   <contributor>
-                     <role type="editor"/>
-                     <person>
-                       <name>
-                         <forename language="en" script="Latn">Adrian</forename>
-                         <surname language="en" script="Latn">Blackledge</surname>
-                       </name>
-                     </person>
-                   </contributor>
-                   <contributor>
-                     <role type="editor"/>
-                     <person>
-                       <name>
-                         <forename language="en" script="Latn">Ingrid</forename>
-                         <surname language="en" script="Latn">Piller</surname>
-                       </name>
-                     </person>
-                   </contributor>
-                   <contributor>
-                     <role type="editor"/>
-                     <person>
-                       <name>
-                         <forename language="en" script="Latn">Marya</forename>
-                         <surname language="en" script="Latn">Teutsch-Dwyer</surname>
-                       </name>
-                     </person>
-                   </contributor>
-                 </bibitem>
-               </relation>
-               <series>
-                 <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
-               </series>
-               <place>
-                 <city>Berlin</city>
-                 <region>New York</region>
-               </place>
-             </bibitem>
-             <bibitem type="book" id="ref2">
-               <fetched/>
-               <title type="main" format="text/plain" language="en" script="Latn">Gender and public space in a bilingual school</title>
-               <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
-               <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
-               <date type="created">
-                 <on>2011-03-18</on>
-               </date>
-               <date type="isssued">
-                 <on>1234</on>
-               </date>
-               <contributor>
-                 <role type="author"/>
-                 <person>
-                   <name>
-                     <forename language="en" script="Latn">Monica</forename>
-                     <surname language="en" script="Latn">Heller</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type="editor"/>
-                 <person>
-                   <name>
-                     <forename>Boris</forename>
-                     <surname>Johnson</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type="publisher"/>
-                 <organization>
-                   <name>DE GRUYTER MOUTON</name>
-                 </organization>
-               </contributor>
-               <relation type="includedIn">
-                 <bibitem>
-                   <title format="text/plain">Nested Title</title>
-                   <contributor>
-                     <role type="editor"/>
-                     <person>
-                       <name>
-                         <forename>John</forename>
-                         <surname>Jones</surname>
-                       </name>
-                     </person>
-                   </contributor>
-                   <contributor>
-                     <role type="editor"/>
-                     <person>
-                       <name>
-                         <forename>Jim</forename>
-                         <surname>James</forename>
-                       </name>
-                     </person>
-                   </contributor>
-                 </bibitem>
-               </relation>
-               <series>
-                 <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
-               </series>
-               <place>
-                 <city>Vienna</city>
-               </place>
-               <extent>
-         <localityStack>
-           <locality type="volume">
-             <referenceFrom>2</referenceFrom>
-           </locality>
-         </localityStack>
-          </extent>
-             </bibitem>
+              <bibitem id="ref1">
+                <formattedref format="application/x-isodoc+xml">
+                  <em>Standard</em>
+                </formattedref>
+                <docidentifier type="DOI">doi:10.1515/9783110889406.257</docidentifier>
+                <docnumber>10.1515/9783110889406.257</docnumber>
+              </bibitem>
+              <bibitem id="ref2" type="book">
+                <formattedref format="application/x-isodoc+xml">Johnson Boris Vienna 2 Nested Title Jones John James Jim 1234 </formattedref>
+                <docnumber>10.1515/9783110889406.257</docnumber>
+                <docidentifier type="DOI">doi:10.1515/9783110889406.257</docidentifier>
+                <date type="issued">
+                  <on>1234</on>
+                </date>
+                <contributor>
+                  <role type="editor"/>
+                  <person>
+                    <name>
+                      <forename>Boris</forename>
+                      <surname>Johnson</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <place>Vienna</place>
+                <relation type="includedIn">
+                  <bibitem type="misc">
+                    <title>Nested Title</title>
+                    <contributor>
+                      <role type="editor"/>
+                      <person>
+                        <name>
+                          <forename>John</forename>
+                          <surname>Jones</surname>
+                        </name>
+                      </person>
+                    </contributor>
+                    <contributor>
+                      <role type="editor"/>
+                      <person>
+                        <name>
+                          <forename>Jim</forename>
+                          <surname>James</surname>
+                        </name>
+                      </person>
+                    </contributor>
+                  </bibitem>
+                </relation>
+                <extent>
+                  <locality type="volume">
+                    <referenceFrom>2</referenceFrom>
+                  </locality>
+                </extent>
+              </bibitem>
             </references>
           </bibliography>
         </standard-document>
-        -->
+           <!--
+           <bibliography>
+             <references id="_" normative="false" obligation="informative">
+               <title>Bibliography</title>
+                            <bibitem type="inbook" id="ref1">
+                <fetched/>
+                <title type="main" format="text/plain" language="en" script="Latn">Gender and public space in a bilingual school</title>
+                <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
+                <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
+                <date type="created">
+                  <on>2011-03-18</on>
+                </date>
+                <contributor>
+                  <role type="author"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Monica</forename>
+                      <surname language="en" script="Latn">Heller</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="editor"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Aneta</forename>
+                      <surname language="en" script="Latn">Pavlenko</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="editor"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Adrian</forename>
+                      <surname language="en" script="Latn">Blackledge</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="editor"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Ingrid</forename>
+                      <surname language="en" script="Latn">Piller</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="editor"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Marya</forename>
+                      <surname language="en" script="Latn">Teutsch-Dwyer</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                    <name>DE GRUYTER MOUTON</name>
+                  </organization>
+                </contributor>
+                <relation type="includedIn">
+                  <bibitem>
+                    <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
+                    <contributor>
+                      <role type="editor"/>
+                      <person>
+                        <name>
+                          <forename language="en" script="Latn">Aneta</forename>
+                          <surname language="en" script="Latn">Pavlenko</surname>
+                        </name>
+                      </person>
+                    </contributor>
+                    <contributor>
+                      <role type="editor"/>
+                      <person>
+                        <name>
+                          <forename language="en" script="Latn">Adrian</forename>
+                          <surname language="en" script="Latn">Blackledge</surname>
+                        </name>
+                      </person>
+                    </contributor>
+                    <contributor>
+                      <role type="editor"/>
+                      <person>
+                        <name>
+                          <forename language="en" script="Latn">Ingrid</forename>
+                          <surname language="en" script="Latn">Piller</surname>
+                        </name>
+                      </person>
+                    </contributor>
+                    <contributor>
+                      <role type="editor"/>
+                      <person>
+                        <name>
+                          <forename language="en" script="Latn">Marya</forename>
+                          <surname language="en" script="Latn">Teutsch-Dwyer</surname>
+                        </name>
+                      </person>
+                    </contributor>
+                  </bibitem>
+                </relation>
+                <series>
+                  <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
+                </series>
+                <place>
+                  <city>Berlin</city>
+                  <region>New York</region>
+                </place>
+              </bibitem>
+              <bibitem type="book" id="ref2">
+                <fetched/>
+                <title type="main" format="text/plain" language="en" script="Latn">Gender and public space in a bilingual school</title>
+                <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
+                <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
+                <date type="created">
+                  <on>2011-03-18</on>
+                </date>
+                <date type="isssued">
+                  <on>1234</on>
+                </date>
+                <contributor>
+                  <role type="author"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Monica</forename>
+                      <surname language="en" script="Latn">Heller</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="editor"/>
+                  <person>
+                    <name>
+                      <forename>Boris</forename>
+                      <surname>Johnson</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                    <name>DE GRUYTER MOUTON</name>
+                  </organization>
+                </contributor>
+                <relation type="includedIn">
+                  <bibitem>
+                    <title format="text/plain">Nested Title</title>
+                    <contributor>
+                      <role type="editor"/>
+                      <person>
+                        <name>
+                          <forename>John</forename>
+                          <surname>Jones</surname>
+                        </name>
+                      </person>
+                    </contributor>
+                    <contributor>
+                      <role type="editor"/>
+                      <person>
+                        <name>
+                          <forename>Jim</forename>
+                          <surname>James</forename>
+                        </name>
+                      </person>
+                    </contributor>
+                  </bibitem>
+                </relation>
+                <series>
+                  <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
+                </series>
+                <place>
+                  <city>Vienna</city>
+                </place>
+                <extent>
+          <localityStack>
+            <locality type="volume">
+              <referenceFrom>2</referenceFrom>
+            </locality>
+          </localityStack>
+           </extent>
+              </bibitem>
+             </references>
+           </bibliography>
+         </standard-document>
+         -->
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)
@@ -1547,436 +1547,11 @@ RSpec.describe Metanorma::Standoc do
         * [[[iso127,ISO 124]]] _Standard_
         * [[[iso128,ABC]]] _Standard_
       INPUT
-      output = <<~OUTPUT
-           #{BLANK_HDR}
-           <sections>
-
-           </sections><bibliography><references id="_" normative="true" obligation="informative" >
-             <title>Normative references</title>
-           #{NORM_REF_BOILERPLATE}
-                        <bibitem id='iso123' type='standard' hidden='true'>
-                  <fetched/>
-                  <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
-                  <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
-                  <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber&#8201;&#8212;&#8201;Determination of total solids content</title>
-                  <uri type='src'>https://www.iso.org/standard/61884.html</uri>
-                  <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
-                  <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
-                  <docidentifier type='ISO' primary="true">ISO 124</docidentifier>
-                  <docidentifier type='URN'>urn:iso:std:iso:124:ed-7</docidentifier>
-                  <docnumber>124</docnumber>
-                  <contributor>
-                    <role type='publisher'/>
-                    <organization>
-                      <name>International Organization for Standardization</name>
-                      <abbreviation>ISO</abbreviation>
-                      <uri>www.iso.org</uri>
-                    </organization>
-                  </contributor>
-                  <edition>7</edition>
-                  <language>en</language>
-                  <script>Latn</script>
-                  <status>
-                    <stage>90</stage>
-                    <substage>93</substage>
-                  </status>
-                  <copyright>
-                    <from>2014</from>
-                    <owner>
-                      <organization>
-                        <name>ISO</name>
-                      </organization>
-                    </owner>
-                  </copyright>
-                  <relation type='obsoletes'>
-                    <bibitem type='standard'>
-                      <formattedref format='text/plain'>ISO 124:2011</formattedref>
-                      <docidentifier type='ISO' primary='true'>ISO 124:2011</docidentifier>
-                    </bibitem>
-                  </relation>
-                  <relation type='instance'>
-                    <bibitem type='standard'>
-                      <fetched/>
-                      <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
-                      <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
-                      <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber&#8201;&#8212;&#8201;Determination of total solids content</title>
-                      <uri type='src'>https://www.iso.org/standard/61884.html</uri>
-                      <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
-                      <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
-                      <docidentifier type='ISO' primary="true">ISO 124:2014</docidentifier>
-                      <docidentifier type='URN'>urn:iso:std:iso:124:ed-7</docidentifier>
-                      <docnumber>124</docnumber>
-                      <date type='published'>
-                        <on>2014-03</on>
-                      </date>
-                      <contributor>
-                        <role type='publisher'/>
-                        <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                        </organization>
-                      </contributor>
-                      <edition>7</edition>
-                      <language>en</language>
-                      <script>Latn</script>
-                      <abstract format='text/plain' language='en' script='Latn'>
-                        ISO 124:2014 specifies methods for the determination of the total
-                        solids content of natural rubber field and concentrated latices
-                        and synthetic rubber latex. These methods are not necessarily
-                        suitable for latex from natural sources other than the Hevea
-                        brasiliensis, for vulcanized latex, for compounded latex, or for
-                        artificial dispersions of rubber.
-                      </abstract>
-                      <status>
-                        <stage>90</stage>
-                        <substage>93</substage>
-                      </status>
-                      <copyright>
-                        <from>2014</from>
-                        <owner>
-                          <organization>
-                            <name>ISO</name>
-                          </organization>
-                        </owner>
-                      </copyright>
-                      <relation type='obsoletes'>
-                        <bibitem type='standard'>
-                          <formattedref format='text/plain'>ISO 124:2011</formattedref>
-                          <docidentifier type='ISO' primary='true'>ISO 124:2011</docidentifier>
-                        </bibitem>
-                      </relation>
-                      <place>Geneva</place>
-                    </bibitem>
-                  </relation>
-                  <place>Geneva</place>
-                </bibitem>
-                <bibitem id='iso124' type='standard'>
-                  <fetched/>
-                  <title type='title-intro' format='text/plain' language='en' script='Latn'>Natural rubber latex concentrate</title>
-                  <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of alkalinity</title>
-                  <title type='main' format='text/plain' language='en' script='Latn'>
-                    Natural rubber latex concentrate&#8201;&#8212;&#8201;Determination of
-                    alkalinity
-                  </title>
-                  <uri type='src'>https://www.iso.org/standard/72849.html</uri>
-                  <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
-                  <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
-                  <docidentifier type='ISO' primary="true">ISO 125</docidentifier>
-                  <docidentifier type='URN'>urn:iso:std:iso:125:ed-7</docidentifier>
-                  <docnumber>125</docnumber>
-                  <contributor>
-                    <role type='publisher'/>
-                    <organization>
-                      <name>International Organization for Standardization</name>
-                      <abbreviation>ISO</abbreviation>
-                      <uri>www.iso.org</uri>
-                    </organization>
-                  </contributor>
-                  <edition>7</edition>
-                  <language>en</language>
-                  <script>Latn</script>
-                  <status>
-                    <stage>60</stage>
-                    <substage>60</substage>
-                  </status>
-                  <copyright>
-                    <from>2020</from>
-                    <owner>
-                      <organization>
-                        <name>ISO</name>
-                      </organization>
-                    </owner>
-                  </copyright>
-                  <relation type='obsoletes'>
-                    <bibitem type='standard'>
-                      <formattedref format='text/plain'>ISO 125:2011</formattedref>
-                       <docidentifier type='ISO' primary='true'>ISO 125:2011</docidentifier>
-                    </bibitem>
-                  </relation>
-                  <relation type='instance'>
-                    <bibitem type='standard'>
-                      <fetched/>
-                      <title type='title-intro' format='text/plain' language='en' script='Latn'>Natural rubber latex concentrate</title>
-                      <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of alkalinity</title>
-                      <title type='main' format='text/plain' language='en' script='Latn'>
-                        Natural rubber latex concentrate&#8201;&#8212;&#8201;Determination
-                        of alkalinity
-                      </title>
-                      <uri type='src'>https://www.iso.org/standard/72849.html</uri>
-                      <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
-                      <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
-                      <docidentifier type='ISO' primary="true">ISO 125:2020</docidentifier>
-                      <docidentifier type='URN'>urn:iso:std:iso:125:ed-7</docidentifier>
-                      <docnumber>125</docnumber>
-                      <date type='published'>
-                        <on>2020-02</on>
-                      </date>
-                      <contributor>
-                        <role type='publisher'/>
-                        <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                        </organization>
-                      </contributor>
-                      <edition>7</edition>
-                      <language>en</language>
-                      <script>Latn</script>
-                      <abstract format='text/plain' language='en' script='Latn'>
-                        This document specifies a method for the determination of the
-                        alkalinity of natural rubber latex concentrate. The method is not
-                        necessarily suitable for latices from natural sources other than
-                        Hevea brasiliensis or for synthetic rubber latices, compounded
-                        latex, vulcanized latex or artificial dispersions of rubber. NOTE
-                        A method for the determination of the alkalinity of
-                        polychloroprene latex is specified in ISO 13773.
-                      </abstract>
-                      <status>
-                        <stage>60</stage>
-                        <substage>60</substage>
-                      </status>
-                      <copyright>
-                        <from>2020</from>
-                        <owner>
-                          <organization>
-                            <name>ISO</name>
-                          </organization>
-                        </owner>
-                      </copyright>
-                      <relation type='obsoletes'>
-                        <bibitem type='standard'>
-                          <formattedref format='text/plain'>ISO 125:2011</formattedref>
-                           <docidentifier type='ISO' primary='true'>ISO 125:2011</docidentifier>
-                        </bibitem>
-                      </relation>
-                      <place>Geneva</place>
-                    </bibitem>
-                  </relation>
-                  <place>Geneva</place>
-                </bibitem>
-              </references>
-              <references id='_' normative='false' obligation='informative'>
-                <title>Bibliography</title>
-                     <bibitem id='iso125' type='standard' hidden='true'>
-          <fetched/>
-          <title type='title-intro' format='text/plain' language='en' script='Latn'>Natural rubber latex concentrate</title>
-          <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of alkalinity</title>
-          <title type='main' format='text/plain' language='en' script='Latn'>
-            Natural rubber latex concentrate&#8201;&#8212;&#8201;Determination of
-            alkalinity
-          </title>
-          <uri type='src'>https://www.iso.org/standard/72849.html</uri>
-          <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
-          <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
-          <docidentifier type='ISO' primary="true">ISO 125</docidentifier>
-          <docidentifier type='URN'>urn:iso:std:iso:125:ed-7</docidentifier>
-          <docnumber>125</docnumber>
-          <contributor>
-            <role type='publisher'/>
-            <organization>
-              <name>International Organization for Standardization</name>
-              <abbreviation>ISO</abbreviation>
-              <uri>www.iso.org</uri>
-            </organization>
-          </contributor>
-          <edition>7</edition>
-          <language>en</language>
-          <script>Latn</script>
-          <status>
-            <stage>60</stage>
-            <substage>60</substage>
-          </status>
-          <copyright>
-            <from>2020</from>
-            <owner>
-              <organization>
-                <name>ISO</name>
-              </organization>
-            </owner>
-          </copyright>
-          <relation type='obsoletes'>
-            <bibitem type='standard'>
-              <formattedref format='text/plain'>ISO 125:2011</formattedref>
-               <docidentifier type='ISO' primary='true'>ISO 125:2011</docidentifier>
-            </bibitem>
-          </relation>
-          <relation type='instance'>
-            <bibitem type='standard'>
-              <fetched/>
-              <title type='title-intro' format='text/plain' language='en' script='Latn'>Natural rubber latex concentrate</title>
-              <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of alkalinity</title>
-              <title type='main' format='text/plain' language='en' script='Latn'>
-                Natural rubber latex concentrate&#8201;&#8212;&#8201;Determination
-                of alkalinity
-              </title>
-              <uri type='src'>https://www.iso.org/standard/72849.html</uri>
-              <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:72849:en</uri>
-              <uri type='rss'>https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
-              <docidentifier type='ISO' primary="true">ISO 125:2020</docidentifier>
-              <docidentifier type='URN'>urn:iso:std:iso:125:ed-7</docidentifier>
-              <docnumber>125</docnumber>
-              <date type='published'>
-                <on>2020-02</on>
-              </date>
-              <contributor>
-                <role type='publisher'/>
-                <organization>
-                  <name>International Organization for Standardization</name>
-                  <abbreviation>ISO</abbreviation>
-                  <uri>www.iso.org</uri>
-                </organization>
-              </contributor>
-              <edition>7</edition>
-              <language>en</language>
-              <script>Latn</script>
-              <abstract format='text/plain' language='en' script='Latn'>
-                This document specifies a method for the determination of the
-                alkalinity of natural rubber latex concentrate. The method is not
-                necessarily suitable for latices from natural sources other than
-                Hevea brasiliensis or for synthetic rubber latices, compounded
-                latex, vulcanized latex or artificial dispersions of rubber. NOTE
-                A method for the determination of the alkalinity of
-                polychloroprene latex is specified in ISO 13773.
-              </abstract>
-              <status>
-                <stage>60</stage>
-                <substage>60</substage>
-              </status>
-              <copyright>
-                <from>2020</from>
-                <owner>
-                  <organization>
-                    <name>ISO</name>
-                  </organization>
-                </owner>
-              </copyright>
-              <relation type='obsoletes'>
-                <bibitem type='standard'>
-                  <formattedref format='text/plain'>ISO 125:2011</formattedref>
-                   <docidentifier type='ISO' primary='true'>ISO 125:2011</docidentifier>
-                </bibitem>
-              </relation>
-              <place>Geneva</place>
-            </bibitem>
-          </relation>
-          <place>Geneva</place>
-        </bibitem>
-                      <bibitem id='iso126' hidden='true'>
-           <formattedref format='application/x-isodoc+xml'>
-             <em>Standard</em>
-           </formattedref>
-           <docidentifier>XYZ</docidentifier>
-         </bibitem>
-                <bibitem id='iso127' type='standard'>
-                  <fetched/>
-                  <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
-                  <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
-                  <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber&#8201;&#8212;&#8201;Determination of total solids content</title>
-                  <uri type='src'>https://www.iso.org/standard/61884.html</uri>
-                  <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
-                  <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
-                  <docidentifier type='ISO' primary="true">ISO 124</docidentifier>
-                  <docidentifier type='URN'>urn:iso:std:iso:124:ed-7</docidentifier>
-                  <docnumber>124</docnumber>
-                  <contributor>
-                    <role type='publisher'/>
-                    <organization>
-                      <name>International Organization for Standardization</name>
-                      <abbreviation>ISO</abbreviation>
-                      <uri>www.iso.org</uri>
-                    </organization>
-                  </contributor>
-                  <edition>7</edition>
-                  <language>en</language>
-                  <script>Latn</script>
-                  <status>
-                    <stage>90</stage>
-                    <substage>93</substage>
-                  </status>
-                  <copyright>
-                    <from>2014</from>
-                    <owner>
-                      <organization>
-                        <name>ISO</name>
-                      </organization>
-                    </owner>
-                  </copyright>
-                  <relation type='obsoletes'>
-                    <bibitem type='standard'>
-                      <formattedref format='text/plain'>ISO 124:2011</formattedref>
-                      <docidentifier type='ISO' primary='true'>ISO 124:2011</docidentifier>
-                    </bibitem>
-                  </relation>
-                  <relation type='instance'>
-                    <bibitem type='standard'>
-                      <fetched/>
-                      <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
-                      <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
-                      <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber&#8201;&#8212;&#8201;Determination of total solids content</title>
-                      <uri type='src'>https://www.iso.org/standard/61884.html</uri>
-                      <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
-                      <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
-                      <docidentifier type='ISO' primary="true">ISO 124:2014</docidentifier>
-                      <docidentifier type='URN'>urn:iso:std:iso:124:ed-7</docidentifier>
-                      <docnumber>124</docnumber>
-                      <date type='published'>
-                        <on>2014-03</on>
-                      </date>
-                      <contributor>
-                        <role type='publisher'/>
-                        <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                        </organization>
-                      </contributor>
-                      <edition>7</edition>
-                      <language>en</language>
-                      <script>Latn</script>
-                      <abstract format='text/plain' language='en' script='Latn'>
-                        ISO 124:2014 specifies methods for the determination of the total
-                        solids content of natural rubber field and concentrated latices
-                        and synthetic rubber latex. These methods are not necessarily
-                        suitable for latex from natural sources other than the Hevea
-                        brasiliensis, for vulcanized latex, for compounded latex, or for
-                        artificial dispersions of rubber.
-                      </abstract>
-                      <status>
-                        <stage>90</stage>
-                        <substage>93</substage>
-                      </status>
-                      <copyright>
-                        <from>2014</from>
-                        <owner>
-                          <organization>
-                            <name>ISO</name>
-                          </organization>
-                        </owner>
-                      </copyright>
-                      <relation type='obsoletes'>
-                        <bibitem type='standard'>
-                          <formattedref format='text/plain'>ISO 124:2011</formattedref>
-                          <docidentifier type='ISO' primary='true'>ISO 124:2011</docidentifier>
-                        </bibitem>
-                      </relation>
-                      <place>Geneva</place>
-                    </bibitem>
-                  </relation>
-                  <place>Geneva</place>
-                </bibitem>
-                      <bibitem id='iso128'>
-           <formattedref format='application/x-isodoc+xml'>
-             <em>Standard</em>
-           </formattedref>
-           <docidentifier>ABC</docidentifier>
-         </bibitem>
-              </references>
-            </bibliography>
-          </standard-document>
-      OUTPUT
-      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-        .to be_equivalent_to xmlpp(output)
+      xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+      expect(xml.at("//bibitem[@id = 'iso125']/@hidden")&.text).to eq "true"
+      expect(xml.at("//bibitem[@id = 'iso126']/@hidden")&.text).to eq "true"
+      expect(xml.at("//bibitem[@id = 'iso127']/@hidden")&.text).not_to eq "true"
+      expect(xml.at("//bibitem[@id = 'iso128']/@hidden")&.text).not_to eq "true"
     end
   end
 
@@ -2161,151 +1736,151 @@ RSpec.describe Metanorma::Standoc do
         <<iso123>>
       INPUT
       output = <<~OUTPUT
-        #{BLANK_HDR}
-        <sections>
-        <clause id="_" inline-header="false" obligation="normative">
-          <title>Clause 4</title>
-          <p id="_">
-          <eref type="inline" bibitemid="iso123" citeas="IETF RFC 8341"/>
-        </p>
-        </clause>
-        </sections><bibliography><references id="_" obligation="informative" normative="true">
-        <title>Normative references</title>
-              #{NORM_REF_BOILERPLATE}
-             <bibitem id='iso123' type='standard'>
-               <fetched/>
-               <title type='main' format='text/plain'>Network Configuration Access Control Model</title>
-               <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
-               <docidentifier type='IETF' primary='true'>RFC 8341</docidentifier>
-               <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
-               <docnumber>RFC8341</docnumber>
-               <date type='published'>
-                 <on>2018-03</on>
-               </date>
-               <contributor>
-                 <role type='author'/>
-                 <person>
-                   <name>
-                     <completename language='en' script='Latn'>A. Bierman</completename>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type='author'/>
-                 <person>
-                   <name>
-                     <completename language='en' script='Latn'>M. Bjorklund</completename>
-                   </name>
-                 </person>
-               </contributor>
-                      <contributor>
-         <role type="publisher"/>
-         <organization>
-           <name>RFC Publisher</name>
-         </organization>
-       </contributor>
-               <contributor>
-          <role type="authorizer"/>
+         #{BLANK_HDR}
+         <sections>
+         <clause id="_" inline-header="false" obligation="normative">
+           <title>Clause 4</title>
+           <p id="_">
+           <eref type="inline" bibitemid="iso123" citeas="IETF RFC 8341"/>
+         </p>
+         </clause>
+         </sections><bibliography><references id="_" obligation="informative" normative="true">
+         <title>Normative references</title>
+               #{NORM_REF_BOILERPLATE}
+              <bibitem id='iso123' type='standard'>
+                <fetched/>
+                <title type='main' format='text/plain'>Network Configuration Access Control Model</title>
+                <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
+                <docidentifier type='IETF' primary='true'>RFC 8341</docidentifier>
+                <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
+                <docnumber>RFC8341</docnumber>
+                <date type='published'>
+                  <on>2018-03</on>
+                </date>
+                <contributor>
+                  <role type='author'/>
+                  <person>
+                    <name>
+                      <completename language='en' script='Latn'>A. Bierman</completename>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type='author'/>
+                  <person>
+                    <name>
+                      <completename language='en' script='Latn'>M. Bjorklund</completename>
+                    </name>
+                  </person>
+                </contributor>
+                       <contributor>
+          <role type="publisher"/>
           <organization>
-            <name>RFC Series</name>
+            <name>RFC Publisher</name>
           </organization>
         </contributor>
-               <language>en</language>
-               <script>Latn</script>
-               <abstract format='text/html' language='en' script='Latn'>
-                 <p id='_'>
-                   The standardization of network configuration interfaces for use with
-                   the Network Configuration Protocol (NETCONF) or the RESTCONF
-                   protocol requires a structured and secure operating environment that
-                   promotes human usability and multi-vendor interoperability. There is
-                   a need for standard mechanisms to restrict NETCONF or RESTCONF
-                   protocol access for particular users to a preconfigured subset of
-                   all available NETCONF or RESTCONF protocol operations and content.
-                   This document defines such an access control model.
-                 </p>
-                 <p id='_'>This document obsoletes RFC 6536.</p>
-               </abstract>
-               <series>
-                 <title format='text/plain'>STD</title>
-                 <number>91</number>
-               </series>
-               <series>
-                 <title format='text/plain'>RFC</title>
-                 <number>8341</number>
-               </series>
-               <keyword>NETCONF RESTCONF</keyword>
-               <keyword>YANG</keyword>
-               <keyword>XML</keyword>
-             </bibitem>
-             <bibitem id='iso124' type='standard'>
-               <fetched/>
-               <title type='main' format='text/plain'>Network Configuration Access Control Model</title>
-               <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
-               <docidentifier type='IETF' primary='true'>RFC 8341</docidentifier>
-               <docidentifier type='metanorma'>[1]</docidentifier>
-               <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
-               <docnumber>RFC8341</docnumber>
-               <date type='published'>
-                 <on>2018-03</on>
-               </date>
-               <contributor>
-                 <role type='author'/>
-                 <person>
-                   <name>
-                     <completename language='en' script='Latn'>A. Bierman</completename>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type='author'/>
-                 <person>
-                   <name>
-                     <completename language='en' script='Latn'>M. Bjorklund</completename>
-                   </name>
-                 </person>
-               </contributor>
-                      <contributor>
-         <role type="publisher"/>
-         <organization>
-           <name>RFC Publisher</name>
-         </organization>
-       </contributor>
-               <contributor>
-          <role type="authorizer"/>
+                <contributor>
+           <role type="authorizer"/>
+           <organization>
+             <name>RFC Series</name>
+           </organization>
+         </contributor>
+                <language>en</language>
+                <script>Latn</script>
+                <abstract format='text/html' language='en' script='Latn'>
+                  <p id='_'>
+                    The standardization of network configuration interfaces for use with
+                    the Network Configuration Protocol (NETCONF) or the RESTCONF
+                    protocol requires a structured and secure operating environment that
+                    promotes human usability and multi-vendor interoperability. There is
+                    a need for standard mechanisms to restrict NETCONF or RESTCONF
+                    protocol access for particular users to a preconfigured subset of
+                    all available NETCONF or RESTCONF protocol operations and content.
+                    This document defines such an access control model.
+                  </p>
+                  <p id='_'>This document obsoletes RFC 6536.</p>
+                </abstract>
+                <series>
+                  <title format='text/plain'>STD</title>
+                  <number>91</number>
+                </series>
+                <series>
+                  <title format='text/plain'>RFC</title>
+                  <number>8341</number>
+                </series>
+                <keyword>NETCONF RESTCONF</keyword>
+                <keyword>YANG</keyword>
+                <keyword>XML</keyword>
+              </bibitem>
+              <bibitem id='iso124' type='standard'>
+                <fetched/>
+                <title type='main' format='text/plain'>Network Configuration Access Control Model</title>
+                <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
+                <docidentifier type='IETF' primary='true'>RFC 8341</docidentifier>
+                <docidentifier type='metanorma'>[1]</docidentifier>
+                <docidentifier type='DOI'>10.17487/RFC8341</docidentifier>
+                <docnumber>RFC8341</docnumber>
+                <date type='published'>
+                  <on>2018-03</on>
+                </date>
+                <contributor>
+                  <role type='author'/>
+                  <person>
+                    <name>
+                      <completename language='en' script='Latn'>A. Bierman</completename>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type='author'/>
+                  <person>
+                    <name>
+                      <completename language='en' script='Latn'>M. Bjorklund</completename>
+                    </name>
+                  </person>
+                </contributor>
+                       <contributor>
+          <role type="publisher"/>
           <organization>
-            <name>RFC Series</name>
+            <name>RFC Publisher</name>
           </organization>
         </contributor>
-               <language>en</language>
-               <script>Latn</script>
-               <abstract format='text/html' language='en' script='Latn'>
-                 <p id='_'>
-                   The standardization of network configuration interfaces for use with
-                   the Network Configuration Protocol (NETCONF) or the RESTCONF
-                   protocol requires a structured and secure operating environment that
-                   promotes human usability and multi-vendor interoperability. There is
-                   a need for standard mechanisms to restrict NETCONF or RESTCONF
-                   protocol access for particular users to a preconfigured subset of
-                   all available NETCONF or RESTCONF protocol operations and content.
-                   This document defines such an access control model.
-                 </p>
-                 <p id='_'>This document obsoletes RFC 6536.</p>
-               </abstract>
-               <series>
-                 <title format='text/plain'>STD</title>
-                 <number>91</number>
-               </series>
-               <series>
-                 <title format='text/plain'>RFC</title>
-                 <number>8341</number>
-               </series>
-               <keyword>NETCONF RESTCONF</keyword>
-               <keyword>YANG</keyword>
-               <keyword>XML</keyword>
-             </bibitem>
-                 </references>
-               </bibliography>
-             </standard-document>
+                <contributor>
+           <role type="authorizer"/>
+           <organization>
+             <name>RFC Series</name>
+           </organization>
+         </contributor>
+                <language>en</language>
+                <script>Latn</script>
+                <abstract format='text/html' language='en' script='Latn'>
+                  <p id='_'>
+                    The standardization of network configuration interfaces for use with
+                    the Network Configuration Protocol (NETCONF) or the RESTCONF
+                    protocol requires a structured and secure operating environment that
+                    promotes human usability and multi-vendor interoperability. There is
+                    a need for standard mechanisms to restrict NETCONF or RESTCONF
+                    protocol access for particular users to a preconfigured subset of
+                    all available NETCONF or RESTCONF protocol operations and content.
+                    This document defines such an access control model.
+                  </p>
+                  <p id='_'>This document obsoletes RFC 6536.</p>
+                </abstract>
+                <series>
+                  <title format='text/plain'>STD</title>
+                  <number>91</number>
+                </series>
+                <series>
+                  <title format='text/plain'>RFC</title>
+                  <number>8341</number>
+                </series>
+                <keyword>NETCONF RESTCONF</keyword>
+                <keyword>YANG</keyword>
+                <keyword>XML</keyword>
+              </bibitem>
+                  </references>
+                </bibliography>
+              </standard-document>
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)
@@ -2745,236 +2320,47 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "overrides normative status of bibliographies" do
-    VCR.use_cassette "isobib_get_123_2" do
-      input = <<~INPUT
-        #{ISOBIB_BLANK_HDR}
+    input = <<~INPUT
+      #{ISOBIB_BLANK_HDR}
 
-        [bibliography,normative=false]
-        == Normative References
+      [bibliography,normative=false]
+      == Normative References
 
-        * [[[iso123,ISO 123]]] _Standard_
+      * [[[iso123,A]]] _Standard_
 
-        [bibliography,normative=true]
-        == Bibliography
+      [bibliography,normative=true]
+      == Bibliography
 
-        * [[[iso124,(1)ISO 123]]] _Standard_
-      INPUT
-      output = <<~OUTPUT
-                #{BLANK_HDR}
-         <sections> </sections>
-                  <bibliography>
-            <references id='_' normative='false' obligation='informative'>
-              <title>Bibliography</title>
-              <bibitem id='iso123' type='standard'>
-                <fetched/>
-                <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
-                <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
-                <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
-                <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-                <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
-                <docidentifier type='URN'>urn:iso:std:iso:123:ed-3</docidentifier>
-                <docnumber>123</docnumber>
-                <contributor>
-                  <role type='publisher'/>
-                  <organization>
-                    <name>International Organization for Standardization</name>
-                    <abbreviation>ISO</abbreviation>
-                    <uri>www.iso.org</uri>
-                  </organization>
-                </contributor>
-                <edition>3</edition>
-                <language>en</language>
-                <script>Latn</script>
-                <status>
-                  <stage>90</stage>
-                  <substage>93</substage>
-                </status>
-                <copyright>
-                  <from>2001</from>
-                  <owner>
-                    <organization>
-                      <name>ISO</name>
-                    </organization>
-                  </owner>
-                </copyright>
-                <relation type='obsoletes'>
-                  <bibitem type='standard'>
-                    <formattedref format='text/plain'>ISO 123:1985</formattedref>
-                    <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
-                  </bibitem>
-                </relation>
-                <relation type='instance'>
-                  <bibitem type='standard'>
-                    <fetched/>
-                    <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
-                    <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
-                    <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
-                    <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                    <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-                    <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                    <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
-                    <docidentifier type='URN'>urn:iso:std:iso:123:ed-3</docidentifier>
-                    <docnumber>123</docnumber>
-                    <date type='published'>
-                      <on>2001-05</on>
-                    </date>
-                    <contributor>
-                      <role type='publisher'/>
-                      <organization>
-                        <name>International Organization for Standardization</name>
-                        <abbreviation>ISO</abbreviation>
-                        <uri>www.iso.org</uri>
-                      </organization>
-                    </contributor>
-                    <edition>3</edition>
-                    <language>en</language>
-                    <script>Latn</script>
-                    <abstract format='text/plain' language='en' script='Latn'>
-                      This International Standard specifies procedures for sampling
-                      natural rubber latex concentrate and for sampling synthetic rubber
-                      latices and artificial latices. It is also suitable for sampling
-                      rubber latex contained in drums, tank cars or tanks. The
-                      procedures may also be used for sampling plastics dispersions.
-                    </abstract>
-                    <status>
-                      <stage>90</stage>
-                      <substage>93</substage>
-                    </status>
-                    <copyright>
-                      <from>2001</from>
-                      <owner>
-                        <organization>
-                          <name>ISO</name>
-                        </organization>
-                      </owner>
-                    </copyright>
-                    <relation type='obsoletes'>
-                      <bibitem type='standard'>
-                        <formattedref format='text/plain'>ISO 123:1985</formattedref>
-                        <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
-                      </bibitem>
-                    </relation>
-                    <place>Geneva</place>
-                  </bibitem>
-                </relation>
-                <place>Geneva</place>
-              </bibitem>
-            </references>
-            <references id='_' normative='true' obligation='informative'>
-              <title>Normative references</title>
-              <p id='_'>
-                The following documents are referred to in the text in such a way that
-                some or all of their content constitutes requirements of this document.
-                For dated references, only the edition cited applies. For undated
-                references, the latest edition of the referenced document (including any
-                amendments) applies.
-              </p>
-              <bibitem id='iso124' type='standard'>
-                <fetched/>
-                <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
-                <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
-                <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
-                <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-                <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
-                <docidentifier type='metanorma'>[1]</docidentifier>
-                <docidentifier type='URN'>urn:iso:std:iso:123:ed-3</docidentifier>
-                <docnumber>123</docnumber>
-                <contributor>
-                  <role type='publisher'/>
-                  <organization>
-                    <name>International Organization for Standardization</name>
-                    <abbreviation>ISO</abbreviation>
-                    <uri>www.iso.org</uri>
-                  </organization>
-                </contributor>
-                <edition>3</edition>
-                <language>en</language>
-                <script>Latn</script>
-                <status>
-                  <stage>90</stage>
-                  <substage>93</substage>
-                </status>
-                <copyright>
-                  <from>2001</from>
-                  <owner>
-                    <organization>
-                      <name>ISO</name>
-                    </organization>
-                  </owner>
-                </copyright>
-                <relation type='obsoletes'>
-                  <bibitem type='standard'>
-                    <formattedref format='text/plain'>ISO 123:1985</formattedref>
-                    <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
-                  </bibitem>
-                </relation>
-                <relation type='instance'>
-                  <bibitem type='standard'>
-                    <fetched/>
-                    <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
-                    <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
-                    <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
-                    <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                    <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
-                    <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                    <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
-                    <docidentifier type='URN'>urn:iso:std:iso:123:ed-3</docidentifier>
-                    <docnumber>123</docnumber>
-                    <date type='published'>
-                      <on>2001-05</on>
-                    </date>
-                    <contributor>
-                      <role type='publisher'/>
-                      <organization>
-                        <name>International Organization for Standardization</name>
-                        <abbreviation>ISO</abbreviation>
-                        <uri>www.iso.org</uri>
-                      </organization>
-                    </contributor>
-                    <edition>3</edition>
-                    <language>en</language>
-                    <script>Latn</script>
-                    <abstract format='text/plain' language='en' script='Latn'>
-                      This International Standard specifies procedures for sampling
-                      natural rubber latex concentrate and for sampling synthetic rubber
-                      latices and artificial latices. It is also suitable for sampling
-                      rubber latex contained in drums, tank cars or tanks. The
-                      procedures may also be used for sampling plastics dispersions.
-                    </abstract>
-                    <status>
-                      <stage>90</stage>
-                      <substage>93</substage>
-                    </status>
-                    <copyright>
-                      <from>2001</from>
-                      <owner>
-                        <organization>
-                          <name>ISO</name>
-                        </organization>
-                      </owner>
-                    </copyright>
-                    <relation type='obsoletes'>
-                      <bibitem type='standard'>
-                        <formattedref format='text/plain'>ISO 123:1985</formattedref>
-                        <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
-                      </bibitem>
-                    </relation>
-                    <place>Geneva</place>
-                  </bibitem>
-                </relation>
-                <place>Geneva</place>
-              </bibitem>
-            </references>
-          </bibliography>
-        </standard-document>
-      OUTPUT
-      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-        .to be_equivalent_to xmlpp(output)
-    end
+      * [[[iso124,B]]] _Standard_
+    INPUT
+    output = <<~OUTPUT
+       #{BLANK_HDR}
+        <sections/>
+        <bibliography>
+          <references id="_" normative="false" obligation="informative">
+            <title>Bibliography</title>
+            <bibitem id="iso123">
+              <formattedref format="application/x-isodoc+xml">
+                <em>Standard</em>
+              </formattedref>
+              <docidentifier>A</docidentifier>
+            </bibitem>
+          </references>
+          <references id="_" normative="true" obligation="informative">
+            <title>Normative references</title>
+            <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+            <bibitem id="iso124">
+              <formattedref format="application/x-isodoc+xml">
+                <em>Standard</em>
+              </formattedref>
+              <docidentifier>B</docidentifier>
+            </bibitem>
+          </references>
+        </bibliography>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes formatting within bibliographic references" do
@@ -3059,142 +2445,6 @@ RSpec.describe Metanorma::Standoc do
            </references>
          </bibliography>
        </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "processes combinations of crossreferences" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      == Section
-
-      <<ref1,clause=3-5>>
-      <<ref1,clause=3;to!clause=5>>
-      <<ref1,from!clause=3;to!clause=5,text>>
-      <<ref1,clause=3;clause=5>>
-      <<ref1,clause=3;and!clause=5>>
-      <<ref1,clause=3;or!clause=5,text>>
-      <<ref1,from!clause=3;to!clause=5;and!clause=8;to!clause=10>>
-
-      [bibliography]
-      == Bibliography
-
-      * [[[ref1,XYZ]]] _Standard_
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR}
-            <sections>
-          <clause id='_' inline-header='false' obligation='normative'>
-            <title>Section</title>
-            <p id='_'>
-            <eref type='inline' bibitemid='ref1' citeas='XYZ'>
-               <localityStack>
-                 <locality type='clause'>
-                   <referenceFrom>3</referenceFrom>
-                   <referenceTo>5</referenceTo>
-                 </locality>
-               </localityStack>
-             </eref>
-              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
-                <localityStack connective='from'>
-                  <locality type='clause'>
-                    <referenceFrom>3</referenceFrom>
-                  </locality>
-                </localityStack>
-                <localityStack connective='to'>
-                  <locality type='clause'>
-                    <referenceFrom>5</referenceFrom>
-                  </locality>
-                </localityStack>
-              </eref>
-              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
-                <localityStack connective='from'>
-                  <locality type='clause'>
-                    <referenceFrom>3</referenceFrom>
-                  </locality>
-                </localityStack>
-                <localityStack connective='to'>
-                  <locality type='clause'>
-                    <referenceFrom>5</referenceFrom>
-                  </locality>
-                </localityStack>
-                text
-              </eref>
-              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
-                <localityStack connective='and'>
-                  <locality type='clause'>
-                    <referenceFrom>3</referenceFrom>
-                  </locality>
-                </localityStack>
-                <localityStack connective='and'>
-                  <locality type='clause'>
-                    <referenceFrom>5</referenceFrom>
-                  </locality>
-                </localityStack>
-              </eref>
-              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
-                <localityStack connective='and'>
-                  <locality type='clause'>
-                    <referenceFrom>3</referenceFrom>
-                  </locality>
-                </localityStack>
-                <localityStack connective='and'>
-                  <locality type='clause'>
-                    <referenceFrom>5</referenceFrom>
-                  </locality>
-                </localityStack>
-              </eref>
-              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
-                <localityStack connective='and'>
-                  <locality type='clause'>
-                    <referenceFrom>3</referenceFrom>
-                  </locality>
-                </localityStack>
-                <localityStack connective='or'>
-                  <locality type='clause'>
-                    <referenceFrom>5</referenceFrom>
-                  </locality>
-                </localityStack>
-                text
-              </eref>
-              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
-                <localityStack connective='from'>
-                  <locality type='clause'>
-                    <referenceFrom>3</referenceFrom>
-                  </locality>
-                </localityStack>
-                <localityStack connective='to'>
-                  <locality type='clause'>
-                    <referenceFrom>5</referenceFrom>
-                  </locality>
-                </localityStack>
-                <localityStack connective='and'>
-                  <locality type='clause'>
-                    <referenceFrom>8</referenceFrom>
-                  </locality>
-                </localityStack>
-                <localityStack connective='to'>
-                  <locality type='clause'>
-                    <referenceFrom>10</referenceFrom>
-                  </locality>
-                </localityStack>
-              </eref>
-            </p>
-          </clause>
-        </sections>
-        <bibliography>
-          <references id='_' normative='false' obligation='informative'>
-            <title>Bibliography</title>
-            <bibitem id='ref1'>
-              <formattedref format='application/x-isodoc+xml'>
-                <em>Standard</em>
-              </formattedref>
-              <docidentifier>XYZ</docidentifier>
-            </bibitem>
-          </references>
-        </bibliography>
-      </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
