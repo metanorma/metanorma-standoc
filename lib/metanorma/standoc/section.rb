@@ -53,8 +53,8 @@ module Metanorma
       end
 
       PREFACE_CLAUSE_NAMES =
-        %w(abstract foreword introduction misc-container
-           acknowledgements).freeze
+        %w(abstract foreword introduction metanorma-extension
+           misc-container acknowledgements).freeze
 
       MAIN_CLAUSE_NAMES =
         ["normative references", "terms and definitions", "scope",
@@ -108,7 +108,8 @@ module Metanorma
         a = section_attributes(node)
         noko do |xml|
           case sectiontype(node)
-          when "misc-container" then misccontainer_parse(a, xml, node)
+          when "misc-container", "metanorma-extension"
+            misccontainer_parse(a, xml, node)
           when "introduction" then introduction_parse(a, xml, node)
           when "foreword" then foreword_parse(a, xml, node)
           when "scope" then scope_parse(a, xml, node)
