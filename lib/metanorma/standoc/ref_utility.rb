@@ -25,7 +25,7 @@ module Metanorma
 
       def conditional_date(bib, match, noyr)
         if match.names.include?("year") && !match[:year].nil?
-          bib.date(**{ type: "published" }) do |d|
+          bib.date(type: "published") do |d|
             (noyr and d.on "--") or set_date_range(d, norm_year(match[:year]))
           end
         end
@@ -151,6 +151,12 @@ module Metanorma
       def ref_normalise_no_format(ref)
         ref.gsub(/&amp;amp;/, "&amp;")
           .gsub(/>\n/, "> \n")
+      end
+
+      def skip_docid
+        <<~XPATH.strip.freeze
+          @type = 'DOI' or @type = 'doi' or @type = 'ISSN' or @type = 'issn' or @type = 'ISBN' or @type = 'isbn' or starts-with(@type, 'ISSN.') or starts-with(@type, 'ISBN.') or starts-with(@type, 'issn.') or starts-with(@type, 'isbn.')
+        XPATH
       end
     end
   end
