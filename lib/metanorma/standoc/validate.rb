@@ -182,7 +182,7 @@ module Metanorma
       WILDCARD_ATTRS =
         "//*[@format] | //stem | //bibdata//description | " \
         "//formattedref | //bibdata//note | //bibdata/abstract | " \
-        "//bibitem/abstract | //bibitem/note | //misc-container".freeze
+        "//bibitem/abstract | //bibitem/note | //metanorma-extension".freeze
 
       # RelaxNG cannot cope well with wildcard attributes. So we strip
       # any attributes from FormattedString instances (which can contain

@@ -1427,7 +1427,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-      <misc-container>
+      <metanorma-extension>
            <UnitsML xmlns='https://schema.unitsml.org/unitsml/1.0'>
              <UnitSet>
                <Unit xml:id='U_m.kg-2' dimensionURL='#D_LM-2'>
@@ -1476,7 +1476,7 @@ RSpec.describe Metanorma::Standoc do
                </Prefix>
              </PrefixSet>
            </UnitsML>
-         </misc-container>
+         </metanorma-extension>
          <sections>
            <formula id='_'>
              <stem type='MathML'>
@@ -1907,7 +1907,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-         <misc-container>
+         <metanorma-extension>
            <table id='_'>
              <tbody>
                <tr>
@@ -1919,7 +1919,7 @@ RSpec.describe Metanorma::Standoc do
                </tr>
              </tbody>
            </table>
-         </misc-container>
+         </metanorma-extension>
          <sections>
            <clause id='id1' inline-header='false' obligation='normative'>
              <title>Clause 1</title>
