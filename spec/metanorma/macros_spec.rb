@@ -30,7 +30,7 @@ RSpec.describe Metanorma::Standoc do
           <deprecates><expression><name>term2</name></expression></deprecates>
           <domain>term3</domain>
           <inherit>
-            <eref type='inline' bibitemid='ref1' citeas='XYZ 123'/>
+            <eref type='inline' bibitemid='ref1' citeas='XYZ&#xa0;123'/>
           </inherit>
           <autonumber type='table'>3</autonumber>
           <add>
@@ -951,7 +951,7 @@ RSpec.describe Metanorma::Standoc do
             <clause id='clause1' inline-header='false' obligation='normative'>
               <title>Clause</title>
               <p id='_'>
-                <eref type='inline' bibitemid='_' citeas='ISO 131'/>
+                <eref type='inline' bibitemid='_' citeas='ISO&#xa0;131'/>
                 <eref type='inline' droploc='true' bibitemid='_' citeas='iso:std:iso:13485:en'>
                   <localityStack>
                     <locality type='clause'>

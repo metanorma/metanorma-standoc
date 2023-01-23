@@ -125,7 +125,7 @@ RSpec.describe Metanorma::Standoc do
           <foreword id='_' obligation='informative'>
             <title>Foreword</title>
             <p id='_'>
-              <eref type='inline' bibitemid='iso123' citeas='ISO 123'/>
+              <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123'/>
               <eref type='inline' bibitemid='iso124' citeas='[1]'/>
             </p>
           </foreword>
@@ -248,16 +248,16 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     doc = Asciidoctor.convert(input
       .sub(/:novalid:/, ":language: de\n:novalid:"), *OPTIONS)
-    expect(doc).to include '<eref type="inline" bibitemid="iso123" citeas="ISO 8342-DE"/>'
-    expect(doc).to include '<eref type="inline" bibitemid="iso124" citeas="ISO 8343-DE"/>'
+    expect(doc).to include '<eref type="inline" bibitemid="iso123" citeas="ISO 8342-DE"/>'
+    expect(doc).to include '<eref type="inline" bibitemid="iso124" citeas="ISO 8343-DE"/>'
     doc = Asciidoctor.convert(input
   .sub(/:novalid:/, ":language: fr\n:novalid:"), *OPTIONS)
-    expect(doc).to include '<eref type="inline" bibitemid="iso123" citeas="ISO 8342-EN"/>'
-    expect(doc).to include '<eref type="inline" bibitemid="iso124" citeas="ISO 8343-FR"/>'
+    expect(doc).to include '<eref type="inline" bibitemid="iso123" citeas="ISO 8342-EN"/>'
+    expect(doc).to include '<eref type="inline" bibitemid="iso124" citeas="ISO 8343-FR"/>'
     doc = Asciidoctor.convert(input
       .sub(/:novalid:/, ":language: en\n:novalid:"), *OPTIONS)
-    expect(doc).to include '<eref type="inline" bibitemid="iso123" citeas="ISO 8342-EN"/>'
-    expect(doc).to include '<eref type="inline" bibitemid="iso124" citeas="ISO 8341"/>'
+    expect(doc).to include '<eref type="inline" bibitemid="iso123" citeas="ISO 8342-EN"/>'
+    expect(doc).to include '<eref type="inline" bibitemid="iso124" citeas="ISO 8341"/>'
   end
 
   it "fetches simple ISO reference" do
@@ -1009,12 +1009,11 @@ RSpec.describe Metanorma::Standoc do
               <title>Bibliography</title>
               <bibitem type="article" id="ref1">
                 <fetched/>
-                <title type="main" format="text/plain" language="en" script="Latn">Taming the Metadata Beast: ILOX</title>
+                <title type="main" format="text/plain" script="Latn">Taming the Metadata Beast: ILOX</title>
                 <uri type="DOI">http://dx.doi.org/10.1045/november2010-massart</uri>
+                <uri type="src">http://www.dlib.org/dlib/november10/massart/11massart.html</uri>
                 <docidentifier type="DOI" primary="true">10.1045/november2010-massart</docidentifier>
-                <date type="created">
-                  <on>2010-11-15</on>
-                </date>
+                <docidentifier type="issn.electronic">1082-9873</docidentifier>
                 <date type="issued">
                   <on>2010-11</on>
                 </date>
@@ -1072,11 +1071,6 @@ RSpec.describe Metanorma::Standoc do
                     <name>CNRI Acct</name>
                   </organization>
                 </contributor>
-                <relation type="includedIn">
-          <bibitem>
-            <title format="text/plain">D-Lib Magazine</title>
-          </bibitem>
-        </relation>
         <series>
           <title format="text/plain">D-Lib Magazine</title>
         </series>
@@ -1119,73 +1113,14 @@ RSpec.describe Metanorma::Standoc do
                <title>Section</title>
              </clause>
            </sections>
-                    <bibliography>
+                     <bibliography>
             <references id="_" normative="false" obligation="informative">
               <title>Bibliography</title>
-              <bibitem id="ref1">
-                <formattedref format="application/x-isodoc+xml">
-                  <em>Standard</em>
-                </formattedref>
-                <docidentifier type="DOI">doi:10.1515/9783110889406.257</docidentifier>
-                <docnumber>10.1515/9783110889406.257</docnumber>
-              </bibitem>
-              <bibitem id="ref2" type="book">
-                <formattedref format="application/x-isodoc+xml">Johnson Boris Vienna 2 Nested Title Jones John James Jim 1234 </formattedref>
-                <docnumber>10.1515/9783110889406.257</docnumber>
-                <docidentifier type="DOI">doi:10.1515/9783110889406.257</docidentifier>
-                <date type="issued">
-                  <on>1234</on>
-                </date>
-                <contributor>
-                  <role type="editor"/>
-                  <person>
-                    <name>
-                      <forename>Boris</forename>
-                      <surname>Johnson</surname>
-                    </name>
-                  </person>
-                </contributor>
-                <place>Vienna</place>
-                <relation type="includedIn">
-                  <bibitem type="misc">
-                    <title>Nested Title</title>
-                    <contributor>
-                      <role type="editor"/>
-                      <person>
-                        <name>
-                          <forename>John</forename>
-                          <surname>Jones</surname>
-                        </name>
-                      </person>
-                    </contributor>
-                    <contributor>
-                      <role type="editor"/>
-                      <person>
-                        <name>
-                          <forename>Jim</forename>
-                          <surname>James</surname>
-                        </name>
-                      </person>
-                    </contributor>
-                  </bibitem>
-                </relation>
-                <extent>
-                  <locality type="volume">
-                    <referenceFrom>2</referenceFrom>
-                  </locality>
-                </extent>
-              </bibitem>
-            </references>
-          </bibliography>
-        </standard-document>
-           <!--
-           <bibliography>
-             <references id="_" normative="false" obligation="informative">
-               <title>Bibliography</title>
-                            <bibitem type="inbook" id="ref1">
+              <bibitem type="inbook" id="ref1">
                 <fetched/>
-                <title type="main" format="text/plain" language="en" script="Latn">Gender and public space in a bilingual school</title>
+                <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
                 <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
+                <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
                 <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
                 <date type="created">
                   <on>2011-03-18</on>
@@ -1282,23 +1217,23 @@ RSpec.describe Metanorma::Standoc do
                     </contributor>
                   </bibitem>
                 </relation>
-                <series>
-                  <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
-                </series>
                 <place>
                   <city>Berlin</city>
-                  <region>New York</region>
+                </place>
+                <place>
+                  <city>New York</city>
                 </place>
               </bibitem>
               <bibitem type="book" id="ref2">
                 <fetched/>
-                <title type="main" format="text/plain" language="en" script="Latn">Gender and public space in a bilingual school</title>
+                <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
                 <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
+                <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
                 <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
                 <date type="created">
                   <on>2011-03-18</on>
                 </date>
-                <date type="isssued">
+                <date type="issued">
                   <on>1234</on>
                 </date>
                 <contributor>
@@ -1326,7 +1261,7 @@ RSpec.describe Metanorma::Standoc do
                   </organization>
                 </contributor>
                 <relation type="includedIn">
-                  <bibitem>
+                  <bibitem type="misc">
                     <title format="text/plain">Nested Title</title>
                     <contributor>
                       <role type="editor"/>
@@ -1342,30 +1277,24 @@ RSpec.describe Metanorma::Standoc do
                       <person>
                         <name>
                           <forename>Jim</forename>
-                          <surname>James</forename>
+                          <surname>James</surname>
                         </name>
                       </person>
                     </contributor>
                   </bibitem>
                 </relation>
-                <series>
-                  <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
-                </series>
-                <place>
-                  <city>Vienna</city>
-                </place>
+                <place>Vienna</place>
                 <extent>
-          <localityStack>
-            <locality type="volume">
-              <referenceFrom>2</referenceFrom>
-            </locality>
-          </localityStack>
-           </extent>
+                  <localityStack>
+                    <locality type="volume">
+                      <referenceFrom>2</referenceFrom>
+                    </locality>
+                  </localityStack>
+                </extent>
               </bibitem>
-             </references>
-           </bibliography>
-         </standard-document>
-         -->
+            </references>
+          </bibliography>
+        </standard-document>
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)
@@ -1548,10 +1477,10 @@ RSpec.describe Metanorma::Standoc do
         * [[[iso128,ABC]]] _Standard_
       INPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-      expect(xml.at("//bibitem[@id = 'iso125']/@hidden")&.text).to eq "true"
-      expect(xml.at("//bibitem[@id = 'iso126']/@hidden")&.text).to eq "true"
-      expect(xml.at("//bibitem[@id = 'iso127']/@hidden")&.text).not_to eq "true"
-      expect(xml.at("//bibitem[@id = 'iso128']/@hidden")&.text).not_to eq "true"
+      expect(xml.at("//xmlns:bibitem[@id = 'iso125']/@hidden")&.text).to eq "true"
+      expect(xml.at("//xmlns:bibitem[@id = 'iso126']/@hidden")&.text).to eq "true"
+      expect(xml.at("//xmlns:bibitem[@id = 'iso127']/@hidden")&.text).not_to eq "true"
+      expect(xml.at("//xmlns:bibitem[@id = 'iso128']/@hidden")&.text).not_to eq "true"
     end
   end
 
@@ -1741,7 +1670,7 @@ RSpec.describe Metanorma::Standoc do
          <clause id="_" inline-header="false" obligation="normative">
            <title>Clause 4</title>
            <p id="_">
-           <eref type="inline" bibitemid="iso123" citeas="IETF RFC 8341"/>
+           <eref type="inline" bibitemid="iso123" citeas="IETF&#xa0;RFC&#xa0;8341"/>
          </p>
          </clause>
          </sections><bibliography><references id="_" obligation="informative" normative="true">
@@ -2067,8 +1996,8 @@ RSpec.describe Metanorma::Standoc do
                  <clause id='_' type='scope' inline-header='false' obligation='normative'>
                    <title>Scope</title>
                    <p id='_'>
-                     <eref type='inline' bibitemid='iso123' citeas='ISO 123'/>
-                     <eref type='inline' bibitemid='iso123' citeas='ISO 123'>
+                     <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123'/>
+                     <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123'>
                        <localityStack>
                          <locality type='clause'>
                            <referenceFrom>1</referenceFrom>
@@ -2151,10 +2080,10 @@ RSpec.describe Metanorma::Standoc do
           <clause id='_' type="scope" inline-header='false' obligation='normative'>
             <title>Scope</title>
             <p id='_'>
-              <eref type='inline' bibitemid='iso123' citeas='ISO 123 (all parts)'/>
+              <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123&#xa0;(all&#xa0;parts)'/>
             </p>
             <p id='_'>
-              <eref type='inline' bibitemid='iso124' citeas='ISO 124'>
+              <eref type='inline' bibitemid='iso124' citeas='ISO&#xa0;124'>
                 <localityStack>
                   <locality type='clause'>
                     <referenceFrom>1</referenceFrom>
@@ -2163,7 +2092,7 @@ RSpec.describe Metanorma::Standoc do
               </eref>
             </p>
             <p id='_'>
-              <eref type='inline' bibitemid='iso123' citeas='ISO 123 (all parts)'>
+              <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123&#xa0;(all&#xa0;parts)'>
                 <localityStack>
               <locality type='anchor'>
         <referenceFrom>xyz</referenceFrom>
@@ -2172,7 +2101,7 @@ RSpec.describe Metanorma::Standoc do
               </eref>
             </p>
             <p id='_'>
-              <eref type='inline' bibitemid='iso124' citeas='ISO 124'>
+              <eref type='inline' bibitemid='iso124' citeas='ISO&#xa0;124'>
                 <localityStack>
                   <locality type='clause'>
                     <referenceFrom>1</referenceFrom>
@@ -2386,13 +2315,13 @@ RSpec.describe Metanorma::Standoc do
         <sections>
         <clause id="_" inline-header="false" obligation="normative">
         <title>Section</title>
-        <p id="_"><eref type="inline" bibitemid="reference" citeas="ISO 123"><em>reference</em></eref>
-        <eref type="inline" bibitemid="reference" citeas="ISO 123"><em><strong>reference</strong></em></eref>
-        <eref type="inline" bibitemid="reference" citeas="ISO 123"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math>
+        <p id="_"><eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><em>reference</em></eref>
+        <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><em><strong>reference</strong></em></eref>
+        <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math>
         <asciimath>x^2</asciimath>
         </stem></eref>
-        <eref type="inline" bibitemid="reference" citeas="ISO 123"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></eref>
-        <eref type="inline" bibitemid="reference" citeas="ISO 123"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></eref></p>
+        <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></eref>
+        <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></eref></p>
         </clause></sections>
         </standard-document>
       OUTPUT

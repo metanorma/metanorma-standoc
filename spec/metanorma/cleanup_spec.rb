@@ -250,8 +250,8 @@ RSpec.describe Metanorma::Standoc do
         <preface><foreword id="_" obligation="informative">
         <title>Foreword</title>
         <p id="_">
-        <eref type="inline" bibitemid="iso216" citeas="ISO 216:2001"/>
-        <eref type='inline' case='capital' droploc='true' bibitemid='iso216' citeas='ISO 216:2001'/>
+        <eref type="inline" bibitemid="iso216" citeas="ISO&#xa0;216:2001"/>
+        <eref type='inline' case='capital' droploc='true' bibitemid='iso216' citeas='ISO&#xa0;216:2001'/>
       </p>
       </foreword></preface><sections>
       </sections>
@@ -282,12 +282,12 @@ RSpec.describe Metanorma::Standoc do
             <preface><foreword id="_" obligation="informative">
               <title>Foreword</title>
               <p id="_">
-              <eref type="inline" bibitemid="iso216" citeas="ISO 216">
+              <eref type="inline" bibitemid="iso216" citeas="ISO&#xa0;216">
               <localityStack>
               <locality type="whole"/><locality type="clause"><referenceFrom>3</referenceFrom></locality><locality type="example"><referenceFrom>9</referenceFrom><referenceTo>11</referenceTo></locality><locality type="locality:prelude"><referenceFrom>33 a</referenceFrom></locality><locality type="locality:entirety"/>
               </localityStack>
               the reference,xyz</eref>
-       <eref type='inline' bibitemid='iso216' citeas='ISO 216'>
+       <eref type='inline' bibitemid='iso216' citeas='ISO&#xa0;216'>
          <localityStack connective="and">
            <locality type='whole'/>
            <locality type='clause'>
@@ -320,15 +320,15 @@ RSpec.describe Metanorma::Standoc do
          </localityStack>
          the reference,xyz
        </eref>
-      <eref type='inline' bibitemid='iso216' citeas='ISO 216'>
+      <eref type='inline' bibitemid='iso216' citeas='ISO&#xa0;216'>
         <em>whole</em>
       </eref>
-      <eref type='inline' bibitemid='iso216' citeas='ISO 216'>
+      <eref type='inline' bibitemid='iso216' citeas='ISO&#xa0;216'>
         a
         <em>whole</em>
          flagon
       </eref>
-      <eref type='inline' bibitemid='iso216' citeas='ISO 216'>
+      <eref type='inline' bibitemid='iso216' citeas='ISO&#xa0;216'>
         <localityStack>
           <locality type='whole'/>
           <locality type='clause'>
@@ -339,7 +339,7 @@ RSpec.describe Metanorma::Standoc do
         <em>whole</em>
          flagon
       </eref>
-      <eref type='inline' case='capital' droploc='true' bibitemid='iso216' citeas='ISO 216'>
+      <eref type='inline' case='capital' droploc='true' bibitemid='iso216' citeas='ISO&#xa0;216'>
         <localityStack>
           <locality type='whole'/>
           <locality type='clause'>
@@ -376,7 +376,7 @@ RSpec.describe Metanorma::Standoc do
              <foreword id="_" obligation="informative">
                <title>Foreword</title>
                <p id="_">
-               <eref type="inline" bibitemid="iso216" citeas="ISO 216"/>
+               <eref type="inline" bibitemid="iso216" citeas="ISO&#xa0;216"/>
              </p>
              </foreword></preface><sections>
              </sections>
@@ -405,8 +405,8 @@ RSpec.describe Metanorma::Standoc do
              <title>Foreword</title>
              <p id='_'>
                <erefstack>
-                 <eref connective='from' bibitemid='iso216' citeas='ISO 216' type='inline'/>
-                 <eref connective='to' bibitemid='iso216' citeas='ISO 216' type='inline'/>
+                 <eref connective='from' bibitemid='iso216' citeas='ISO&#xa0;216' type='inline'/>
+                 <eref connective='to' bibitemid='iso216' citeas='ISO&#xa0;216' type='inline'/>
                </erefstack>
              </p>
            </foreword>
@@ -561,7 +561,7 @@ RSpec.describe Metanorma::Standoc do
           <preferred><expression><name>Automation1</name></expression></preferred>
           <definition><verbal-definition><p id='_'>Definition 1</p></verbal-definition></definition>
           <termsource status="identical" type="authoritative">
-          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">
+          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC&#xa0;60050-103:2009">
           <localityStack>
         <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
           </localityStack>
@@ -572,7 +572,7 @@ RSpec.describe Metanorma::Standoc do
           <preferred><expression><name>Automation2</name></expression></preferred>
           <definition><verbal-definition><p id='_'>Definition 2</p></verbal-definition></definition>
           <termsource status="identical" type="authoritative">
-          <origin bibitemid="IEC60050-102" type="inline" citeas="IEC 60050-102:2007">
+          <origin bibitemid="IEC60050-102" type="inline" citeas="IEC&#xa0;60050-102:2007">
           <localityStack>
         <locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality>
           </localityStack>
@@ -583,7 +583,7 @@ RSpec.describe Metanorma::Standoc do
           <preferred><expression><name>Automation3</name></expression></preferred>
           <definition><verbal-definition><p id='_'>Definition 3</p></verbal-definition></definition>
           <termsource status="identical" type="authoritative">
-          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">
+          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC&#xa0;60050-103:2009">
           <localityStack>
         <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
           </localityStack>
@@ -877,7 +877,7 @@ RSpec.describe Metanorma::Standoc do
       <sections><clause id="_" inline-header="false" obligation="normative">
         <title>Clause</title>
         <p id="_"><eref type="inline" bibitemid="iso123" citeas="[2]"/>
-      <eref type="inline" bibitemid="iso124" citeas="ISO 124"/></p>
+      <eref type="inline" bibitemid="iso124" citeas="ISO&#xa0;124"/></p>
       </clause>
       </sections><bibliography><references id="_" obligation="informative" normative="false">
         <title>Bibliography</title>
@@ -942,8 +942,8 @@ RSpec.describe Metanorma::Standoc do
         <sections><clause id="_" inline-header="false" obligation="normative">
              <title>Clause</title>
              <p id="_"><eref type="inline" bibitemid="iso123" citeas="[2]"/>
-           <eref type="inline" bibitemid="iso124" citeas="ISO 124"/>
-           <eref type="inline" bibitemid="iso125" citeas="ISO 125"/>
+           <eref type="inline" bibitemid="iso124" citeas="ISO&#xa0;124"/>
+           <eref type="inline" bibitemid="iso125" citeas="ISO&#xa0;125"/>
            <eref type="inline" bibitemid="iso126" citeas="[4]"/></p>
            </clause>
            </sections><bibliography><clause id="_" obligation="informative"><title>Bibliography</title><references id="_" obligation="informative" normative="false">
@@ -1313,7 +1313,7 @@ RSpec.describe Metanorma::Standoc do
              <sourcecode id='L__xf6_we'>
                <name>
                  See
-                 <eref type='inline' bibitemid='L__xf6_wner2016' citeas='Löwner et al. 2016'/>
+                 <eref type='inline' bibitemid='L__xf6_wner2016' citeas='Löwner&#xa0;et&#xa0;al.&#xa0;2016'/>
                </name>
                ABC
              </sourcecode>

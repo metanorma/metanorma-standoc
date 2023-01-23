@@ -23,7 +23,7 @@ module Metanorma
         @iev = init_iev or return
         xmldoc.xpath("//term").each do |t|
           t.xpath(".//termsource").each do |src|
-            (/^IEC 60050-/.match(src.at("./origin/@citeas")&.text) &&
+            (/^IEC[  ]60050-/.match(src.at("./origin/@citeas")&.text) &&
           loc = src.xpath(SOURCELOCALITY)&.text) or next
             iev_validate1(t, loc, xmldoc)
           end
