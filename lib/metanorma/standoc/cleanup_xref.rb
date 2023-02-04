@@ -77,7 +77,8 @@ module Metanorma
           elem["citeas"] = ""
           xref_to_eref1(elem)
         end
-        elem.delete("target").delete("style")
+        elem.delete("target")
+        elem.delete("style")
         extract_localities(elem)
       end
 
