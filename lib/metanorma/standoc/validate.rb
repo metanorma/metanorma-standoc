@@ -204,7 +204,7 @@ module Metanorma
         @doc_xrefs = doc.xpath("//xref/@target | //xref/@to")
           .each_with_object({}) do |x, m|
           m[x.text] = x
-          @doc_ids[x] and next
+          @doc_ids[x.text] and next
           @log.add("Anchors", x.parent,
                    "Crossreference target #{x} is undefined")
         end

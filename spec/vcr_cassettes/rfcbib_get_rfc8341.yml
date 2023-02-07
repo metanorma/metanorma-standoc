@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 267A:02C5:1A705:299BE:63C3FEEC
+      - 9AFA:5427:73196:F5993:63DE68F5
       Accept-Ranges:
       - bytes
       Date:
-      - Sun, 15 Jan 2023 13:26:04 GMT
+      - Sat, 04 Feb 2023 14:17:25 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11230-MEL
+      - cache-mel11239-MEL
       X-Cache:
       - HIT
       X-Cache-Hits:
       - '1'
       X-Timer:
-      - S1673789165.640100,VS0,VE286
+      - S1675520246.585016,VS0,VE291
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - fb6938837ebe190a7c8b5c29836d1587a5d13802
+      - 4b6aa4e1a45f8a4cbfed4abba164174c378af1c0
       Expires:
-      - Sun, 15 Jan 2023 13:31:04 GMT
+      - Sat, 04 Feb 2023 14:22:25 GMT
       Source-Age:
       - '0'
     body:
@@ -194,7 +194,7 @@ http_interactions:
         - name: netconf
         ext:
           schema-version: v1.0.0
-  recorded_at: Sun, 15 Jan 2023 13:26:04 GMT
+  recorded_at: Sat, 04 Feb 2023 14:17:25 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-rfcs/main/data/RFC8341.yaml
@@ -236,29 +236,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 267A:02C5:1A705:299BE:63C3FEEC
+      - 9AFA:5427:73196:F5993:63DE68F5
       Accept-Ranges:
       - bytes
       Date:
-      - Sun, 15 Jan 2023 13:26:04 GMT
+      - Sat, 04 Feb 2023 14:17:25 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11250-MEL
+      - cache-mel11227-MEL
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1673789165.638066,VS0,VE288
+      - S1675520246.578159,VS0,VE297
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - bc3ce38415705ad1485f8e795f4932ec6ab86536
+      - e4cd67c5b18c6704d68e55759a453fc671705316
       Expires:
-      - Sun, 15 Jan 2023 13:31:04 GMT
+      - Sat, 04 Feb 2023 14:22:25 GMT
       Source-Age:
       - '0'
     body:
@@ -389,5 +389,5 @@ http_interactions:
         - name: netconf
         ext:
           schema-version: v1.0.0
-  recorded_at: Sun, 15 Jan 2023 13:26:04 GMT
+  recorded_at: Sat, 04 Feb 2023 14:17:25 GMT
 recorded_with: VCR 6.1.0
