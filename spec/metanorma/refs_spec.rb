@@ -1302,7 +1302,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes document identifiers ignoring Asciidoctor substitutions" do
-    VCR.use_cassette "bipm" do
+    VCR.use_cassette "bipm", match_requests_on: %i[method uri body] do
       input = <<~INPUT
         #{ISOBIB_BLANK_HDR}
         [bibliography]
