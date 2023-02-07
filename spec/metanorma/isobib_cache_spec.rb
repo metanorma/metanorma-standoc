@@ -333,17 +333,17 @@ RSpec.describe Metanorma::Standoc do
     relaton_bib_file1 = File.expand_path("~/.relaton-bib.pstore1")
     iev_file          = File.expand_path("~/.iev/cache")
     iev_file1         = File.expand_path("~/.iev.pstore1")
-    FileUtils.rm_rf relaton_bib_file1 if File.exist? relaton_bib_file1
+    FileUtils.rm_rf relaton_bib_file1
     File.exist? relaton_bib_file and
       FileUtils.mv relaton_bib_file, relaton_bib_file1
-    FileUtils.rm_rf iev_file1 if File.exist? iev_file1
+    FileUtils.rm_rf iev_file1
     FileUtils.mv iev_file, iev_file1 if File.exist? iev_file
 
-    File.open("#{Dir.home}/.relaton/cache", "w") { |f| f.write "XXX" }
+    File.write("#{Dir.home}/.relaton/cache", "XXX")
     FileUtils.rm_rf File.expand_path("~/.iev/cache")
 
     # mock_isobib_get_123
-    VCR.use_cassette "isobib_get_123_2001" do
+    VCR.use_cassette "isobib_get_123_2001_and_iev" do
       Asciidoctor.convert(<<~"INPUT", *OPTIONS)
         #{FLUSH_CACHE_ISOBIB_BLANK_HDR}
         [bibliography]
@@ -351,23 +351,22 @@ RSpec.describe Metanorma::Standoc do
 
         * [[[iso123,ISO 123:2001]]] _Standard_
       INPUT
+      expect(File.exist?("#{Dir.home}/.relaton/cache")).to be true
+      expect(File.exist?("#{Dir.home}/.iev/cache")).to be false
+
+      Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+        [bibliography]
+        == Normative References
+        * [[[iev,IEV]]], _iev_
+
+        == Terms and definitions
+        === Automation
+
+        [.source]
+        <<iev,clause="103-01-02">>
+      INPUT
+      expect(File.exist?("#{Dir.home}/.iev/cache")).to be true
     end
-    expect(File.exist?("#{Dir.home}/.relaton/cache")).to be true
-    expect(File.exist?("#{Dir.home}/.iev/cache")).to be false
-
-    mock_open_uri("103-01-02")
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
-      [bibliography]
-      == Normative References
-      * [[[iev,IEV]]], _iev_
-
-      == Terms and definitions
-      === Automation
-
-      [.source]
-      <<iev,clause="103-01-02">>
-    INPUT
-    expect(File.exist?("#{Dir.home}/.iev/cache")).to be true
 
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
     entry = db.load_entry("ISO(ISO 123:2001)")
@@ -429,7 +428,8 @@ RSpec.describe Metanorma::Standoc do
     FileUtils.mv File.expand_path("~/.relaton/cache"),
                  File.expand_path("~/.relaton-bib.pstore1"), force: true
     FileUtils.rm_rf "relaton/cache"
-    VCR.use_cassette "isobib_get_123_2001" do
+    VCR.use_cassette("isobib_get_123_2001",
+                     match_requests_on: %i[method uri body])  do
       Asciidoctor.convert(<<~"INPUT", *OPTIONS)
         #{CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
