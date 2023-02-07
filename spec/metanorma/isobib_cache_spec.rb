@@ -428,8 +428,8 @@ RSpec.describe Metanorma::Standoc do
     FileUtils.mv File.expand_path("~/.relaton/cache"),
                  File.expand_path("~/.relaton-bib.pstore1"), force: true
     FileUtils.rm_rf "relaton/cache"
-    VCR.use_cassette("isobib_get_123_2001",
-                     match_requests_on: %i[method uri body])  do
+    VCR.use_cassette("isobib_get_123_2001a",
+                     match_requests_on: %i[method uri body]) do
       Asciidoctor.convert(<<~"INPUT", *OPTIONS)
         #{CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
@@ -452,7 +452,7 @@ RSpec.describe Metanorma::Standoc do
 
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
     entry = db.load_entry("ISO(ISO 123:2001)")
-    expect(entry).to_not be nil
+    expect(entry).to_not be_nil
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"),
