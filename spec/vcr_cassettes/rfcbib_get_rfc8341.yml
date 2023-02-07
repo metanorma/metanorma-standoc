@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 9AFA:5427:73196:F5993:63DE68F5
+      - 4E66:0C0E:4C73F:A2D02:63E1A989
       Accept-Ranges:
       - bytes
       Date:
-      - Sat, 04 Feb 2023 14:17:25 GMT
+      - Tue, 07 Feb 2023 01:29:45 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11239-MEL
+      - cache-mel11225-MEL
       X-Cache:
-      - HIT
+      - MISS
       X-Cache-Hits:
-      - '1'
+      - '0'
       X-Timer:
-      - S1675520246.585016,VS0,VE291
+      - S1675733385.097983,VS0,VE297
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 4b6aa4e1a45f8a4cbfed4abba164174c378af1c0
+      - b3d4e2e7b30d98c0e2984554fb36846504b59dcf
       Expires:
-      - Sat, 04 Feb 2023 14:22:25 GMT
+      - Tue, 07 Feb 2023 01:34:45 GMT
       Source-Age:
       - '0'
     body:
@@ -194,7 +194,7 @@ http_interactions:
         - name: netconf
         ext:
           schema-version: v1.0.0
-  recorded_at: Sat, 04 Feb 2023 14:17:25 GMT
+  recorded_at: Tue, 07 Feb 2023 01:29:45 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-rfcs/main/data/RFC8341.yaml
@@ -236,29 +236,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 9AFA:5427:73196:F5993:63DE68F5
+      - 4E66:0C0E:4C73F:A2D02:63E1A989
       Accept-Ranges:
       - bytes
       Date:
-      - Sat, 04 Feb 2023 14:17:25 GMT
+      - Tue, 07 Feb 2023 01:29:45 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11227-MEL
+      - cache-mel11270-MEL
       X-Cache:
-      - MISS
+      - HIT
       X-Cache-Hits:
-      - '0'
+      - '1'
       X-Timer:
-      - S1675520246.578159,VS0,VE297
+      - S1675733385.109517,VS0,VE285
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - e4cd67c5b18c6704d68e55759a453fc671705316
+      - ac27a87528606e079cf86a4069d72e14ef1d4cf8
       Expires:
-      - Sat, 04 Feb 2023 14:22:25 GMT
+      - Tue, 07 Feb 2023 01:34:45 GMT
       Source-Age:
       - '0'
     body:
@@ -389,5 +389,5 @@ http_interactions:
         - name: netconf
         ext:
           schema-version: v1.0.0
-  recorded_at: Sat, 04 Feb 2023 14:17:25 GMT
+  recorded_at: Tue, 07 Feb 2023 01:29:45 GMT
 recorded_with: VCR 6.1.0

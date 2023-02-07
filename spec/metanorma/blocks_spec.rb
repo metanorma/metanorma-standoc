@@ -704,6 +704,11 @@ RSpec.describe Metanorma::Standoc do
       . More than two glasses of orange juice in 24 hours makes them howl in harmony with alarms and sirens.
       . Celery makes them sad.
       ====
+
+      [TIP,type=Box]
+      ====
+      This is a box
+      ====
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -721,6 +726,9 @@ RSpec.describe Metanorma::Standoc do
            <p id="_">Celery makes them sad.</p>
          </li>
        </ol></admonition>
+           <admonition id="_" type="box">
+      <p id="_">This is a box</p>
+       </admonition>
        </sections>
        </standard-document>
 

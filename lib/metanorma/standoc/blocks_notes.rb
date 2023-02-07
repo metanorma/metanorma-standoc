@@ -91,11 +91,8 @@ module Metanorma
       end
 
       def admonition_name(node)
-        name = node.attr("name")
-        a = node.attr("type") and ["danger", "safety precautions"].each do |t|
-          name = t if a.casecmp(t).zero?
-        end
-        name
+        ret = node.attr("type") || node.attr("name")
+        ret&.downcase
       end
 
       def admonition(node)
