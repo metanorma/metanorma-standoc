@@ -80,7 +80,7 @@ module Metanorma
         types = MIME::Types.type_for(path) or return false
         types.first == "image/svg+xml" or return false
         svg = File.read(path, encoding: "utf-8") or return false
-        img.replace(Nokogiri::XML(svg).root.to_xml)
+        img.replace(Nokogiri::XML(svg).root)
         true
       end
 
