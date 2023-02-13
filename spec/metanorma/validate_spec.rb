@@ -995,9 +995,29 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
 
-    warn File.read("test.err")
     expect(File.read("test.err"))
       .to include "Image not found"
     expect(File.exist?("test.xml")).to be false
+  end
+
+  it "warns of explicit style set on ordered list" do
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      #{VALIDATING_BLANK_HDR}
+
+      == Clause
+      [arabic]
+      . A
+    INPUT
+    expect(File.read("test.err"))
+      .to include "Style override set for ordered list"
+
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      #{VALIDATING_BLANK_HDR}
+
+      == Clause
+      . A
+    INPUT
+    expect(File.read("test.err"))
+      .not_to include "Style override set for ordered list"
   end
 end
