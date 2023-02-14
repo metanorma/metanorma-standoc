@@ -9,12 +9,17 @@ module Metanorma
   module Standoc
     module Front
       def metadata_id(node, xml)
+        id = node.attr("docidentifier") || metadata_id_build(node)
+        xml.docidentifier id
+        xml.docnumber node.attr("docnumber")
+      end
+
+      def metadata_id_build(node)
         part, subpart = node&.attr("partnumber")&.split(/-/)
         id = node.attr("docnumber") || ""
         id += "-#{part}" if part
         id += "-#{subpart}" if subpart
-        xml.docidentifier id
-        xml.docnumber node.attr("docnumber")
+        id
       end
 
       def metadata_other_id(node, xml)
@@ -69,7 +74,7 @@ module Metanorma
 
       def metadata_date1(node, xml, type)
         date = node.attr("#{type}-date")
-        date and xml.date **{ type: type } do |d|
+        date and xml.date type: type do |d|
           d.on date
         end
       end
@@ -87,7 +92,7 @@ module Metanorma
 
           type, date = node.attr(a).split(/ /, 2)
           type or next
-          xml.date **{ type: type } do |d|
+          xml.date type: type do |d|
             d.on date
           end
         end
@@ -134,7 +139,7 @@ module Metanorma
 
       def metadata_getrelation1(doc, xml, type, desc)
         id = doc.split(/,\s*/)
-        xml.relation **{ type: relation_normalise(type) } do |r|
+        xml.relation type: relation_normalise(type) do |r|
           desc.nil? or r.description desc.gsub(/-/, " ")
           fetch_ref(r, doc, nil, **{}) or r.bibitem do |b|
             b.title id[1] || "--"
