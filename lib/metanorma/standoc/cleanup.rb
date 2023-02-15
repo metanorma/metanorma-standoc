@@ -60,6 +60,7 @@ module Metanorma
         quotesource_cleanup(xmldoc)
         callout_cleanup(xmldoc)
         footnote_cleanup(xmldoc)
+        ol_cleanup(xmldoc)
         mathml_cleanup(xmldoc)
         script_cleanup(xmldoc)
         docidentifier_cleanup(xmldoc) # feeds: bibdata_cleanup
