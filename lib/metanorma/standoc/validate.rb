@@ -97,18 +97,6 @@ module Metanorma
         @fatalerror << err2
       end
 
-      def norm_ref_validate(doc)
-        found = false
-        doc.xpath("//references[@normative = 'true']/bibitem").each do |b|
-          docid = b.at("./docidentifier[@type = 'metanorma']") or next
-          /^\[\d+\]$/.match?(docid.text) or next
-          @log.add("Bibliography", b,
-                   "Numeric reference in normative references")
-          found = true
-        end
-        found and @fatalerror << "Numeric reference in normative references"
-      end
-
       def concept_validate(doc, tag, refterm)
         found = false
         concept_validate_ids(doc)

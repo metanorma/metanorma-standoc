@@ -843,7 +843,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "processes subdivisions" do
+  it "processes subdivisions; override docnumber with docidentifier" do
     mock_default_publisher
     input = <<~INPUT
       = Document title
@@ -853,6 +853,7 @@ RSpec.describe Metanorma::Standoc do
       :novalid:
       :revdate: 2000-01
       :published-date: 1000-01
+      :docidentifier: OVERRIDE-DOCIDENTIFIER
       :docnumber: 1000
       :partnumber: 1-1
       :tc-docnumber: 2000
@@ -873,7 +874,7 @@ RSpec.describe Metanorma::Standoc do
              <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
         <bibdata type='standard'>
           <title language='en' format='text/plain'>Document title</title>
-          <docidentifier>1000-1-1</docidentifier>
+          <docidentifier>OVERRIDE-DOCIDENTIFIER</docidentifier>
           <docnumber>1000</docnumber>
           <date type='published'>
             <on>1000-01</on>
