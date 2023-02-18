@@ -466,7 +466,6 @@ RSpec.describe Metanorma::Standoc do
        <sections>
           <p id='_'>
             <fn reference='1'>[ERROR]</fn>
-          </p>
           <note id='id2'>
             <table id='_'>
               <thead>
@@ -494,6 +493,7 @@ RSpec.describe Metanorma::Standoc do
               </li>
             </ul>
           </note>
+          </p>
         </sections>
       </standard-document>
     OUTPUT
