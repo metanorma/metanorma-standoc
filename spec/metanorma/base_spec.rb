@@ -232,6 +232,8 @@ RSpec.describe Metanorma::Standoc do
       :library-ics: 01.040.11,11.060.01
       :fullname: Fred Flintstone
       :role: author
+      :contributor-credentials: PhD, F.R.Pharm.S.
+      :contributor-position: Vice President, Medical Devices Quality & Compliance -- Strategic programmes
       :affiliation: Slate Rock and Gravel Company
       :affiliation_abbrev: SRG
       :affiliation_subdiv: Hermeneutics Unit; Exegetical Subunit
@@ -243,6 +245,8 @@ RSpec.describe Metanorma::Standoc do
       :givenname_2: Barney
       :initials_2: B. X.
       :role_2: editor
+      :contributor-credentials_2: PhD, F.R.Pharm.S.
+      :contributor-position_2: Former Chair ISO TC 210
       :affiliation_2: Rockhead and Quarry Cave Construction Company
       :affiliation_abbrev_2: RQCCC
       :affiliation_subdiv_2: Hermeneutics Unit; Exegetical Subunit
@@ -344,7 +348,9 @@ RSpec.describe Metanorma::Standoc do
                <name>
                  <completename>Fred Flintstone</completename>
                </name>
+               <credentials>PhD, F.R.Pharm.S.</credentials>
                 <affiliation>
+                <name>Vice President, Medical Devices Quality &amp;amp; Compliance -- Strategic programmes</name>
               <organization>
                 <name>Slate Rock and Gravel Company</name>
                 <abbreviation>SRG</abbreviation>
@@ -370,7 +376,9 @@ RSpec.describe Metanorma::Standoc do
                  <initial>B. X.</initial>
                  <surname>Rubble</surname>
                </name>
+               <credentials>PhD, F.R.Pharm.S.</credentials>
            <affiliation>
+             <name>Former Chair ISO TC 210</name>
              <organization>
                <name>Rockhead and Quarry Cave Construction Company</name>
                <abbreviation>RQCCC</abbreviation>

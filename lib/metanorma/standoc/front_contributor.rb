@@ -86,6 +86,7 @@ module Metanorma
           personal_role(node, c, suffix)
           c.person do |p|
             person_name(node, xml, suffix, p)
+            person_credentials(node, xml, suffix, p)
             person_affiliation(node, xml, suffix, p)
             personal_contact(node, suffix, p)
           end
@@ -104,9 +105,17 @@ module Metanorma
         end
       end
 
+      def person_credentials(node, _xml, suffix, person)
+        c = node.attr("contributor-credentials#{suffix}") and
+          person.credentials c
+      end
+
       def person_affiliation(node, _xml, suffix, person)
-        node.attr("affiliation#{suffix}") and person.affiliation do |a|
-          a.organization do |o|
+        aff = node.attr("affiliation#{suffix}")
+        pos = node.attr("contributor-position#{suffix}")
+        (aff || pos) and person.affiliation do |a|
+          pos and a.name pos
+          aff and a.organization do |o|
             person_organization(node, suffix, o)
           end
         end
