@@ -100,8 +100,7 @@ module Metanorma
       # it is moved inside its preceding block if it is not delimited
       # (so there was no way of making that block include the note)
       def note_cleanup(xmldoc)
-        q = "//note[following-sibling::*[not(local-name() = 'note')]]"
-        xmldoc.xpath(q).each do |n|
+        xmldoc.xpath("//note").each do |n|
           next if n["keep-separate"] == "true" || !n.ancestors("table").empty?
 
           prev = n.previous_element || next
