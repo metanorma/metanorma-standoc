@@ -1067,7 +1067,6 @@ RSpec.describe Metanorma::Standoc do
                <index>
                  <primary>index</primary>
                </index>
-             </p>
              <note id='_'>
                <p id='_'>
                  <index>
@@ -1083,6 +1082,7 @@ RSpec.describe Metanorma::Standoc do
                  </index>
                </p>
              </note>
+             </p>
            </clause>
            <clause id='_' inline-header='false' obligation='normative'>
               <title>Clause 2</title>
