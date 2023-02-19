@@ -26,6 +26,15 @@ module Metanorma
         end
       end
 
+      def make_colophon(xml)
+        xml.at("//clause[@colophon]") or return
+        colophon = xml.root.add_child("<colophon/>").first
+        xml.xpath("//*[@colophon]").each do |c|
+          c.delete("colophon")
+          colophon.add_child c.remove
+        end
+      end
+
       def make_abstract(xml, sect)
         if xml.at("//abstract[not(ancestor::bibitem)]")
           preface = sect.at("//preface") ||
@@ -77,6 +86,7 @@ module Metanorma
         make_annexes(xml)
         make_indexsect(xml, s)
         make_bibliography(xml, s)
+        make_colophon(xml)
         xml.xpath("//sections/annex").reverse_each { |r| s.next = r.remove }
       end
 
