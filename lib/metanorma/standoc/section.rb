@@ -92,6 +92,10 @@ module Metanorma
                         end),
                 tag: node&.attr("tag"),
                 "multilingual-rendering": node&.attr("multilingual-rendering"),
+                colophon: (if node.role == "colophon" ||
+                          node.attr("style") == "colophon"
+                            true
+                          end),
                 preface: (if node.role == "preface" ||
                           node.attr("style") == "preface"
                             true
