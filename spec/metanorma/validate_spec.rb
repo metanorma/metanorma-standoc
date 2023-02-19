@@ -11,7 +11,7 @@ RSpec.describe Metanorma::Standoc do
                                failure_level: 4, mkdirs: true, to_file: nil }
     expect(File.exist?("spec/assets/xref_error.err")).to be true
   end
-=begin
+
   it "provides context for log" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"
@@ -999,7 +999,7 @@ RSpec.describe Metanorma::Standoc do
       .to include "Image not found"
     expect(File.exist?("test.xml")).to be false
   end
-=end
+
   it "warns of explicit style set on ordered list" do
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       #{VALIDATING_BLANK_HDR}
