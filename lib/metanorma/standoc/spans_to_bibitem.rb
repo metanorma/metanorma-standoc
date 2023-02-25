@@ -9,11 +9,18 @@ module Metanorma
         def initialize(bib)
           @bib = bib
           @err = []
-          @spans = spans_preprocess(extract_content(bib))
+          @spans = spans_preprocess(extract_spans(bib))
+          ids = spans_preprocess(extract_docid(bib))
+          @spans[:docid] = override_docids(ids[:docid], @spans[:docid])
         end
 
-        def extract_content(bib)
-          extract_docid(bib) + extract_spans(bib)
+        def override_docids(old, new)
+          ret = new
+          keys = new.map { |a| a[:type] }
+          old.each do |e|
+            keys.include?(e[:type]) or ret << e
+          end
+          ret
         end
 
         def extract_spans(bib)

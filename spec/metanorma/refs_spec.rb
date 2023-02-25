@@ -1104,7 +1104,7 @@ RSpec.describe Metanorma::Standoc do
         == Bibliography
 
         * [[[ref1,doi:10.1515/9783110889406.257]]] _Standard_
-        * [[[ref2,doi:10.1515/9783110889406.257]]] span:surname.editor[Johnson] span:givenname.editor[Boris] span:pubplace[Vienna] span:volume[2] span:in_title[Nested Title] span:in_surname.editor[Jones] span:in_givenname.editor[John] span:in_surname.editor[James] span:in_givenname.editor[Jim] span:date.issued[1234] span:type[book]
+        * [[[ref2,doi:10.1515/9783110889406.257]]] span:surname.editor[Johnson] span:givenname.editor[Boris] span:pubplace[Vienna] span:volume[2] span:in_title[Nested Title] span:in_surname.editor[Jones] span:in_givenname.editor[John] span:in_surname.editor[James] span:in_givenname.editor[Jim] span:date.issued[1234] span:type[book] span:docid.DOI[DOI-ANON]
       INPUT
       output = <<~OUTPUT
            #{BLANK_HDR}
@@ -1229,7 +1229,7 @@ RSpec.describe Metanorma::Standoc do
                 <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
                 <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
                 <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
-                <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
+                <docidentifier type="DOI">DOI-ANON</docidentifier>
                 <date type="created">
                   <on>2011-03-18</on>
                 </date>
@@ -1301,6 +1301,7 @@ RSpec.describe Metanorma::Standoc do
     end
   end
 
+  # that class of docids has been rescinded?
   it "processes document identifiers ignoring Asciidoctor substitutions" do
     VCR.use_cassette "bipm", match_requests_on: %i[method uri body] do
       input = <<~INPUT
@@ -1308,7 +1309,7 @@ RSpec.describe Metanorma::Standoc do
         [bibliography]
         == Normative References
 
-        * [[[iso123,BIPM CCTF -- Meeting 5 (1970)]]] _Standard_
+        * [[[iso123,BIPM CIPM -- Resolution (1879)]]] _Standard_
       INPUT
       output = <<~OUTPUT
          #{BLANK_HDR}
@@ -1317,44 +1318,44 @@ RSpec.describe Metanorma::Standoc do
                   <title>Normative references</title>
                  #{NORM_REF_BOILERPLATE}
                               <bibitem id="iso123" type="proceedings">
-                <fetched/>
-                <title format="text/plain" language="en" script="Latn">5th meeting of the CCTF then CCDS</title>
-                <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/cc/cctf/5-1970</uri>
-                <uri type="citation" language="fr" script="Latn">https://www.bipm.org/fr/committees/cc/cctf/5-1970</uri>
-                <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cctf/meetings-en/meeting-5.yml</uri>
-                <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cctf/meetings-fr/meeting-5.yml</uri>
-                <docidentifier type="BIPM" primary="true">CCTF — Meeting 5 (1970)</docidentifier>
-                <docidentifier type="BIPM" primary="true" language="en" script="Latn">CCTF — Meeting 5 (1970)</docidentifier>
-                <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CCTF — Réunion 5 (1970)</docidentifier>
-                <docnumber>CCTF — Meeting 5 (1970)</docnumber>
-                <date type="published">
-                  <on>1970-06-19</on>
-                </date>
-                <contributor>
-                  <role type="publisher"/>
-                  <organization>
-                    <name>Bureau International des Poids et Mesures</name>
-                    <abbreviation>BIPM</abbreviation>
-                    <uri>www.bipm.org</uri>
-                  </organization>
-                </contributor>
-                <contributor>
-                  <role type="author"/>
-                  <organization>
-                    <name language="en" script="Latn">Consultative Committee for the Definition of the Second</name>
-                    <abbreviation>CCDS</abbreviation>
-                  </organization>
-                </contributor>
-                <language>en</language>
-                <language>fr</language>
-                <script>Latn</script>
-                <place>
-                  <city>Paris</city>
-                </place>
-              </bibitem>
-            </references>
-          </bibliography>
-        </standard-document>
+               <fetched/>
+               <title format="text/plain" language="en" script="Latn">Signes abréviatifs pour les poids et mesures métriques</title>
+               <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/ci/cipm/4-1879/resolution-</uri>
+               <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-4.yml</uri>
+               <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-4.yml</uri>
+               <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM4.pdf/47e647d4-26c2-d3d6-b367-e749fb22b261</uri>
+               <docidentifier type="BIPM" primary="true">CIPM — Resolution (1879)</docidentifier>
+               <docidentifier type="BIPM" primary="true" language="en" script="Latn">CIPM — Resolution (1879)</docidentifier>
+               <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CIPM — Résolution (1879)</docidentifier>
+               <docnumber>CIPM — Resolution (1879)</docnumber>
+               <date type="published">
+                 <on>1879-10-13</on>
+               </date>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>Bureau International des Poids et Mesures</name>
+                   <abbreviation>BIPM</abbreviation>
+                   <uri>www.bipm.org</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <organization>
+                   <name language="en" script="Latn">International Committee for Weights and Measures</name>
+                   <abbreviation>CIPM</abbreviation>
+                 </organization>
+               </contributor>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <place>
+                 <city>Paris</city>
+               </place>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)
