@@ -11,19 +11,23 @@ module Metanorma
         if xml.at("//foreword | //introduction | //acknowledgements | " \
                   "//*[@preface]")
           preface = sect.add_previous_sibling("<preface/>").first
-          f = xml.at("//foreword") and preface.add_child f.remove
-          f = xml.at("//introduction") and preface.add_child f.remove
+          f = xml.at("//foreword") and to_preface(preface, f)
+          f = xml.at("//introduction") and to_preface(preface, f)
           move_clauses_into_preface(xml, preface)
-          f = xml.at("//acknowledgements") and preface.add_child f.remove
+          f = xml.at("//acknowledgements") and to_preface(preface, f)
         end
         make_abstract(xml, sect)
       end
 
       def move_clauses_into_preface(xml, preface)
         xml.xpath("//*[@preface]").each do |c|
-          c.delete("preface")
-          preface.add_child c.remove
+          to_preface(preface, c)
         end
+      end
+
+      def to_preface(preface, clause)
+        clause.delete("preface")
+        preface.add_child clause.remove
       end
 
       def make_colophon(xml)
