@@ -108,8 +108,7 @@ RSpec.describe Metanorma::Standoc do
       == Thematic Index
     INPUT
     output = <<~OUTPUT
-            #{BLANK_HDR.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>')}
-              <metanorma-extension><p id='_'>Content</p></metanorma-extension>
+            #{BLANK_HDR.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>').sub(/<metanorma-extension>/, "<metanorma-extension><p id='_'>Content</p>")}
           <preface><abstract id="_">
           <title>Abstract</title>
         <p id="_">Text</p>

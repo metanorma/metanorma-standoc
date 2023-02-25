@@ -10,22 +10,7 @@ RSpec.describe Metanorma::Standoc do
       text, including **__nest__**ed markup.
     INPUT
     output = <<~OUTPUT
-            <?xml version="1.0" encoding="UTF-8"?>
-      <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
-      <bibdata type="standard">
-      <title language="en" format="text/plain">Document title</title>
-      <language>en</language>
-      <script>Latn</script>
-      <status>
-      <stage>published</stage>
-      </status>
-      <copyright>
-      <from>#{Date.today.year}</from>
-      </copyright>
-      <ext>
-      <doctype>standard</doctype>
-      </ext>
-      </bibdata>
+      #{BLANK_HDR}
       <sections>
       <p id="_">This is
       a paragraph with <xref target="x"/>

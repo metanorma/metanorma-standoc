@@ -25,21 +25,7 @@ RSpec.describe Metanorma::Standoc do
       Text &times; text
     INPUT
     output = <<~OUTPUT
-      <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
-        <bibdata type='standard'>
-          <title language='en' format='text/plain'>Document title</title>
-          <language>en</language>
-          <script>Latn</script>
-          <status>
-            <stage>published</stage>
-          </status>
-          <copyright>
-            <from>#{Time.now.year}</from>
-          </copyright>
-          <ext>
-            <doctype>standard</doctype>
-          </ext>
-        </bibdata>
+      #{BLANK_HDR}
         <sections>
         <p id='_'>Text × text</p>
         </sections>
@@ -78,7 +64,9 @@ RSpec.describe Metanorma::Standoc do
            <sections> </sections>
          </standard-document>
     OUTPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -174,7 +162,9 @@ RSpec.describe Metanorma::Standoc do
         <sections> </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -540,12 +530,12 @@ RSpec.describe Metanorma::Standoc do
           <value>2</value>
         </presentation-metadata>
         <presentation-metadata>
-          <name>TOC Heading Levels</name>
-          <value>2</value>
+          <name>HTML TOC Heading Levels</name>
+          <value>4</value>
         </presentation-metadata>
         <presentation-metadata>
-          <name>TOC Heading Levels</name>
-          <value>2</value>
+          <name>DOC TOC Heading Levels</name>
+          <value>3</value>
         </presentation-metadata>
       </metanorma-extension>
            <sections/>
@@ -740,6 +730,18 @@ RSpec.describe Metanorma::Standoc do
                    </ext>
                  </bibdata>
                    <metanorma-extension>
+                       <presentation-metadata>
+      <name>TOC Heading Levels</name>
+      <value>2</value>
+    </presentation-metadata>
+    <presentation-metadata>
+      <name>HTML TOC Heading Levels</name>
+      <value>2</value>
+    </presentation-metadata>
+    <presentation-metadata>
+      <name>DOC TOC Heading Levels</name>
+      <value>2</value>
+    </presentation-metadata>
         <semantic-metadata>
           <hello-world>A</hello-world>
         </semantic-metadata>
@@ -847,7 +849,9 @@ RSpec.describe Metanorma::Standoc do
         <sections> </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -942,7 +946,9 @@ RSpec.describe Metanorma::Standoc do
         <sections> </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -983,7 +989,9 @@ RSpec.describe Metanorma::Standoc do
       <sections> </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 

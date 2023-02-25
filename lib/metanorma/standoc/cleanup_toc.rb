@@ -86,9 +86,9 @@ module Metanorma
 
       def toc_metadata1(ins)
         [[@toclevels, "TOC Heading Levels"],
-         [@toclevels, "TOC Heading Levels"],
-         [@toclevels, "TOC Heading Levels"]].each do |n|
-          n[0] and ins << "<presentation-metadata><name>#{n[1]}</name>"\
+         [@htmltoclevels, "HTML TOC Heading Levels"],
+         [@doctoclevels, "DOC TOC Heading Levels"]].each do |n|
+          n[0] and ins << "<presentation-metadata><name>#{n[1]}</name>" \
                           "<value>#{n[0]}</value></presentation-metadata>"
         end
       end
