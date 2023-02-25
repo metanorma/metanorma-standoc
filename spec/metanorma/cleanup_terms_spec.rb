@@ -1435,21 +1435,7 @@ RSpec.describe Metanorma::Standoc do
       x^2^:: Definition
     INPUT
     output = <<~OUTPUT
-          <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
-        <bibdata type='standard'>
-          <title language='en' format='text/plain'>Document title</title>
-          <language>en</language>
-          <script>Latn</script>
-          <status>
-            <stage>published</stage>
-          </status>
-          <copyright>
-            <from>#{Time.now.year}</from>
-          </copyright>
-          <ext>
-            <doctype>standard</doctype>
-          </ext>
-        </bibdata>
+        #{BLANK_HDR}
         <sections>
           <terms id='_' obligation='normative'>
             <title>Terms and definitions</title>

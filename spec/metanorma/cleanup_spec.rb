@@ -371,16 +371,16 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso216,ISO 216]]], _Reference_
     INPUT
     output = <<~OUTPUT
-             #{BLANK_HDR}
-             <preface>
-             <foreword id="_" obligation="informative">
-               <title>Foreword</title>
-               <p id="_">
-               <eref type="inline" bibitemid="iso216" citeas="ISO&#xa0;216"/>
-             </p>
-             </foreword></preface><sections>
-             </sections>
-             </standard-document>
+      #{BLANK_HDR}
+      <preface>
+      <foreword id="_" obligation="informative">
+        <title>Foreword</title>
+        <p id="_">
+        <eref type="inline" bibitemid="iso216" citeas="ISO&#xa0;216"/>
+      </p>
+      </foreword></preface><sections>
+      </sections>
+      </standard-document>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:bibliography")&.remove
@@ -781,14 +781,14 @@ RSpec.describe Metanorma::Standoc do
 
   it "cleans up text MathML" do
     input = <<~INPUT
-      #{BLANK_HDR.sub(/<standard-document [^>]+>/, "<standard-document>")}
+      #{BLANK_HDR.sub(/<standard-document [^>]+>/, '<standard-document>')}
       <sections>
       <stem type="MathML">&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;&lt;mfrac&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;/mfrac&gt;&lt;/math&gt;</stem>
       </sections>
       </standard-document>
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR.sub(/<standard-document [^>]+>/, "<standard-document>")}
+      #{BLANK_HDR.sub(/<standard-document [^>]+>/, '<standard-document>')}
       <sections>
       <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mi>r</mi></mfrac></math></stem>
       </sections>
@@ -1060,7 +1060,9 @@ RSpec.describe Metanorma::Standoc do
         </bibliography>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -1104,7 +1106,9 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -1283,21 +1287,7 @@ RSpec.describe Metanorma::Standoc do
       * [[[Löwner2016,Löwner et al. 2016]]], Löwner, M.-O., Gröger, G., Benner, J., Biljecki, F., Nagel, C., 2016: *Proposal for a new LOD and multi-representation concept for CityGML*. In: Proceedings of the 11th 3D Geoinfo Conference 2016, ISPRS Annals of the Photogrammetry, Remote Sensing and Spatial Information Sciences, Vol. IV-2/W1, 3–12. https://doi.org/10.5194/isprs-annals-IV-2-W1-3-2016
     INPUT
     output = <<~OUTPUT
-      <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
-        <bibdata type='standard'>
-          <title language='en' format='text/plain'>Document title</title>
-          <language>en</language>
-          <script>Latn</script>
-          <status>
-            <stage>published</stage>
-          </status>
-          <copyright>
-            <from>#{Time.now.year}</from>
-          </copyright>
-          <ext>
-            <doctype>standard</doctype>
-          </ext>
-        </bibdata>
+      #{BLANK_HDR}
                  <sections>
            <clause id='a_b' inline-header='false' obligation='normative'>
              <title>A</title>
@@ -1402,7 +1392,9 @@ RSpec.describe Metanorma::Standoc do
                <sections> </sections>
                </standard-document>
     OUTPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -1426,7 +1418,7 @@ RSpec.describe Metanorma::Standoc do
       ++++
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR}
+      #{BLANK_HDR.sub(/<metanorma-extension>/, <<~EXT
       <metanorma-extension>
            <UnitsML xmlns='https://schema.unitsml.org/unitsml/1.0'>
              <UnitSet>
@@ -1476,7 +1468,8 @@ RSpec.describe Metanorma::Standoc do
                </Prefix>
              </PrefixSet>
            </UnitsML>
-         </metanorma-extension>
+           EXT
+           )}
          <sections>
            <formula id='_'>
              <stem type='MathML'>
@@ -1838,21 +1831,7 @@ RSpec.describe Metanorma::Standoc do
       ====
     INPUT
     output = <<~OUTPUT
-      <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version="#{Metanorma::Standoc::VERSION}">
-         <bibdata type='standard'>
-           <title language='en' format='text/plain'>Document title</title>
-           <language>en</language>
-           <script>Latn</script>
-           <status>
-             <stage>published</stage>
-           </status>
-           <copyright>
-             <from>#{Time.now.year}</from>
-           </copyright>
-           <ext>
-             <doctype>standard</doctype>
-           </ext>
-         </bibdata>
+         #{BLANK_HDR}
          <preface>
            <note id='_2cfe95f6-7ad6-aa57-8207-6f7d7928aa8e'>
              <p id='_76d95913-a379-c60f-5144-1f09655cafa6'>
@@ -1906,20 +1885,21 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR}
-         <metanorma-extension>
-           <table id='_'>
-             <tbody>
-               <tr>
-                 <td valign='top' align='left'>id1</td>
-                 <td valign='top' align='left'>
-                   <link target='http://www.example.com'/>
-                 </td>
-                 <td valign='top' align='left'>%2</td>
-               </tr>
-             </tbody>
-           </table>
-         </metanorma-extension>
+      #{BLANK_HDR.sub(/<metanorma-extension>/, <<~EXT
+        <metanorma-extension>
+          <table id='_'>
+            <tbody>
+              <tr>
+                <td valign='top' align='left'>id1</td>
+                <td valign='top' align='left'>
+                  <link target='http://www.example.com'/>
+                </td>
+                <td valign='top' align='left'>%2</td>
+              </tr>
+            </tbody>
+          </table>
+      EXT
+      )}
          <sections>
            <clause id='id1' inline-header='false' obligation='normative'>
              <title>Clause 1</title>
@@ -1940,7 +1920,7 @@ RSpec.describe Metanorma::Standoc do
   private
 
   def mock_mathml_italicise(string)
-    allow_any_instance_of(::Metanorma::Standoc::Cleanup)
+    allow_any_instance_of(Metanorma::Standoc::Cleanup)
       .to receive(:mathml_mi_italics).and_return(string)
   end
 
