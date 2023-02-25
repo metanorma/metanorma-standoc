@@ -35,7 +35,7 @@ module Metanorma
         end
 
         def merge1(old, new)
-          %i(link docidentifier date title series).each do |k|
+          %i(link docid date title series).each do |k|
             merge_by_type(old, new, k, :type)
           end
           merge_extent(old, new)

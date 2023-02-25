@@ -174,7 +174,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "moves notes inside preceding blocks, if they are not at clause end, and the blocks are not delimited" do
+  it "moves notes inside preceding blocks, if the blocks are not delimited" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
