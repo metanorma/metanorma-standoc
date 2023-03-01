@@ -13,18 +13,29 @@ module Metanorma
       end
 
       def strip_initial_space(elem)
-        return unless elem.children[0].text?
-
+        elem.children[0].text? or return
         if /\S/.match?(elem.children[0].text)
-          elem.children[0].content = elem.children[0].text.gsub(/^ /, "")
+          elem.children[0].content = elem.children[0].text.lstrip
         else
           elem.children[0].remove
         end
       end
 
       def bookmark_cleanup(xmldoc)
+        redundant_bookmark_cleanup(xmldoc)
         li_bookmark_cleanup(xmldoc)
         dt_bookmark_cleanup(xmldoc)
+      end
+
+      def redundant_bookmark_cleanup(xmldoc)
+        xmldoc.xpath("//bookmark").each do |b|
+          p = b
+          while !p.xml? && p = p.parent
+            p["id"] == b["id"] or next
+            b.remove
+            break
+          end
+        end
       end
 
       def bookmark_to_id(elem, bookmark)
@@ -103,8 +114,8 @@ module Metanorma
       end
 
       def concept_eref_cleanup(elem)
-        t = elem&.at("./xrefrender")&.remove&.children&.to_xml
-        l = elem&.at("./locality")&.remove&.children&.to_xml
+        t = elem.at("./xrefrender")&.remove&.children&.to_xml
+        l = elem.at("./locality")&.remove&.children&.to_xml
         elem.add_child "<eref bibitemid='#{elem['key']}'>#{l}</eref>"
         extract_localities(elem.elements[-1])
         elem.elements[-1].add_child(t) if t

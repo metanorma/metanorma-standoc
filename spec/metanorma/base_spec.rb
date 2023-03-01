@@ -340,7 +340,7 @@ RSpec.describe Metanorma::Standoc do
                </name>
                <credentials>PhD, F.R.Pharm.S.</credentials>
                 <affiliation>
-                <name>Vice President, Medical Devices Quality &amp;amp; Compliance -- Strategic programmes</name>
+                <name>Vice President, Medical Devices Quality &amp; Compliance -- Strategic programmes</name>
               <organization>
                 <name>Slate Rock and Gravel Company</name>
                 <abbreviation>SRG</abbreviation>

@@ -1,8 +1,10 @@
 = X
 A
+:docidentifier: DOCIDENTIFIER-1
 
 == Clause 1
 
-X
+<<B>>
 
+[[B]]
 embed::spec/assets/a2.adoc[]

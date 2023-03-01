@@ -818,13 +818,16 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "processes recursive embed macro with includes" do
+  it "processes recursive embed macro with includes, xrefs to embedded documents" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       [[clause1]]
       == Clause
+      <<A>>
+      <<A,B>>
 
+      [[A]]
       embed::spec/assets/a1.adoc[]
     INPUT
     output = <<~OUTPUT
@@ -845,6 +848,7 @@ RSpec.describe Metanorma::Standoc do
            <relation type='derivedFrom'>
              <bibitem>
                <title language='en' format='text/plain'>X</title>
+               <docidentifier>DOCIDENTIFIER-1</docidentifier>
                <language>en</language>
                <script>Latn</script>
                <status>
@@ -859,6 +863,7 @@ RSpec.describe Metanorma::Standoc do
                <relation type='derivedFrom'>
                  <bibitem>
                    <title language='en' format='text/plain'>A2</title>
+                   <docidentifier>DOCIDENTIFIER-2</docidentifier>
                    <language>en</language>
                    <script>Latn</script>
                    <status>
@@ -910,12 +915,18 @@ RSpec.describe Metanorma::Standoc do
          <sections>
            <clause id='clause1' inline-header='false' obligation='normative'>
              <title>Clause</title>
+                   <p id="_">
+        <xref target="A">DOCIDENTIFIER-1</xref>
+        <xref target="A">B</xref>
+      </p>
            </clause>
-           <clause id='_' inline-header='false' obligation='normative'>
+           <clause id='A' inline-header='false' obligation='normative'>
              <title>Clause 1</title>
-             <p id='_'>X</p>
+                  <p id="_">
+       <xref target="B">DOCIDENTIFIER-2</xref>
+     </p>
            </clause>
-           <clause id='_' inline-header='false' obligation='normative'>
+           <clause id='B' inline-header='false' obligation='normative'>
              <title>Clause 2</title>
              <p id='_'>X</p>
            </clause>
