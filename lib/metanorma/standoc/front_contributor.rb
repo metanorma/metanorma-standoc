@@ -114,7 +114,7 @@ module Metanorma
         aff = node.attr("affiliation#{suffix}")
         pos = node.attr("contributor-position#{suffix}")
         (aff || pos) and person.affiliation do |a|
-          pos and a.name pos
+          pos and a.name { |n| n << pos }
           aff and a.organization do |o|
             person_organization(node, suffix, o)
           end
