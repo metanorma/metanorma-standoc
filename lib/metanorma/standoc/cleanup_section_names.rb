@@ -17,7 +17,7 @@ module Metanorma
         doc.xpath(xpath).each_with_index do |node, i|
           first && !i.zero? and next
           title = get_or_make_title(node)
-          fn = title.xpath("./fn")
+          fn = title.xpath("./fn | ./bookmark")
           fn.each(&:remove)
           title.children = text
           fn.each { |n| title << n }

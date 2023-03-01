@@ -1419,57 +1419,57 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR.sub(/<metanorma-extension>/, <<~EXT
-      <metanorma-extension>
-           <UnitsML xmlns='https://schema.unitsml.org/unitsml/1.0'>
-             <UnitSet>
-               <Unit xml:id='U_m.kg-2' dimensionURL='#D_LM-2'>
-                 <UnitSystem name='SI' type='SI_derived' xml:lang='en-US'/>
-                 <UnitName xml:lang='en'>m*kg^-2</UnitName>
-                 <UnitSymbol type='HTML'>
-                   m&#160;kg
-                   <sup>&#8722;2</sup>
-                 </UnitSymbol>
-                 <UnitSymbol type='MathML'>
-                   <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                     <mrow>
-                       <mi mathvariant='normal'>m</mi>
-                       <mo rspace='thickmathspace'>&#8290;</mo>
-                       <msup>
-                         <mrow>
-                           <mi mathvariant='normal'>kg</mi>
-                         </mrow>
-                         <mrow>
-                           <mo>&#8722;</mo>
-                           <mn>2</mn>
-                         </mrow>
-                       </msup>
-                     </mrow>
-                   </math>
-                 </UnitSymbol>
-                 <RootUnits>
-                   <EnumeratedRootUnit unit='meter'/>
-                   <EnumeratedRootUnit unit='gram' prefix='k' powerNumerator='-2'/>
-                 </RootUnits>
-               </Unit>
-             </UnitSet>
-             <DimensionSet>
-               <Dimension xml:id='D_LM-2'>
-                 <Length symbol='L' powerNumerator='1'/>
-                 <Mass symbol='M' powerNumerator='-2'/>
-               </Dimension>
-             </DimensionSet>
-             <PrefixSet>
-               <Prefix prefixBase='10' prefixPower='3' xml:id='NISTp10_3'>
-                 <PrefixName xml:lang='en'>kilo</PrefixName>
-                 <PrefixSymbol type='ASCII'>k</PrefixSymbol>
-                 <PrefixSymbol type='unicode'>k</PrefixSymbol>
-                 <PrefixSymbol type='LaTeX'>k</PrefixSymbol>
-                 <PrefixSymbol type='HTML'>k</PrefixSymbol>
-               </Prefix>
-             </PrefixSet>
-           </UnitsML>
-           EXT
-           )}
+        <metanorma-extension>
+             <UnitsML xmlns='https://schema.unitsml.org/unitsml/1.0'>
+               <UnitSet>
+                 <Unit xml:id='U_m.kg-2' dimensionURL='#D_LM-2'>
+                   <UnitSystem name='SI' type='SI_derived' xml:lang='en-US'/>
+                   <UnitName xml:lang='en'>m*kg^-2</UnitName>
+                   <UnitSymbol type='HTML'>
+                     m&#160;kg
+                     <sup>&#8722;2</sup>
+                   </UnitSymbol>
+                   <UnitSymbol type='MathML'>
+                     <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                       <mrow>
+                         <mi mathvariant='normal'>m</mi>
+                         <mo rspace='thickmathspace'>&#8290;</mo>
+                         <msup>
+                           <mrow>
+                             <mi mathvariant='normal'>kg</mi>
+                           </mrow>
+                           <mrow>
+                             <mo>&#8722;</mo>
+                             <mn>2</mn>
+                           </mrow>
+                         </msup>
+                       </mrow>
+                     </math>
+                   </UnitSymbol>
+                   <RootUnits>
+                     <EnumeratedRootUnit unit='meter'/>
+                     <EnumeratedRootUnit unit='gram' prefix='k' powerNumerator='-2'/>
+                   </RootUnits>
+                 </Unit>
+               </UnitSet>
+               <DimensionSet>
+                 <Dimension xml:id='D_LM-2'>
+                   <Length symbol='L' powerNumerator='1'/>
+                   <Mass symbol='M' powerNumerator='-2'/>
+                 </Dimension>
+               </DimensionSet>
+               <PrefixSet>
+                 <Prefix prefixBase='10' prefixPower='3' xml:id='NISTp10_3'>
+                   <PrefixName xml:lang='en'>kilo</PrefixName>
+                   <PrefixSymbol type='ASCII'>k</PrefixSymbol>
+                   <PrefixSymbol type='unicode'>k</PrefixSymbol>
+                   <PrefixSymbol type='LaTeX'>k</PrefixSymbol>
+                   <PrefixSymbol type='HTML'>k</PrefixSymbol>
+                 </Prefix>
+               </PrefixSet>
+             </UnitsML>
+      EXT
+      )}
          <sections>
            <formula id='_'>
              <stem type='MathML'>
@@ -1831,33 +1831,33 @@ RSpec.describe Metanorma::Standoc do
       ====
     INPUT
     output = <<~OUTPUT
-         #{BLANK_HDR}
-         <preface>
-           <note id='_2cfe95f6-7ad6-aa57-8207-6f7d7928aa8e'>
-             <p id='_76d95913-a379-c60f-5144-1f09655cafa6'>
-               Note which is very important
-               <xref target='a'/>
-             </p>
-           </note>
-           <foreword id='_96b556cb-657c-985b-351b-ed70d8bd6fdd' obligation='informative'>
-             <title>Foreword</title>
-             <p id='_d2f825bf-3e18-6143-8777-34e59928d48c'>Foreword</p>
-           </foreword>
-           <introduction id='_introduction' obligation='informative'>
-             <title>Introduction</title>
-             <p id='_272021ab-1bfa-78ae-e860-ed770e36f3d2'>Introduction</p>
-           </introduction>
-         </preface>
-         <sections>
-           <admonition id='_6abb9105-854c-e79c-c351-73a56d6ca81f' type='important'>
-             <p id='_69ec375e-c992-5be3-76dd-a2311f9bb6cc'>Notice which is very important</p>
-           </admonition>
-           <clause id='_scope' type='scope' inline-header='false' obligation='normative'>
-             <title>Scope</title>
-             <p id='_fdcef9f1-c898-da99-eff6-f3e6abde7799'>Scope statement</p>
-           </clause>
-         </sections>
-       </standard-document>
+        #{BLANK_HDR}
+        <preface>
+          <note id='_2cfe95f6-7ad6-aa57-8207-6f7d7928aa8e'>
+            <p id='_76d95913-a379-c60f-5144-1f09655cafa6'>
+              Note which is very important
+              <xref target='a'/>
+            </p>
+          </note>
+          <foreword id='_96b556cb-657c-985b-351b-ed70d8bd6fdd' obligation='informative'>
+            <title>Foreword</title>
+            <p id='_d2f825bf-3e18-6143-8777-34e59928d48c'>Foreword</p>
+          </foreword>
+          <introduction id='_introduction' obligation='informative'>
+            <title>Introduction</title>
+            <p id='_272021ab-1bfa-78ae-e860-ed770e36f3d2'>Introduction</p>
+          </introduction>
+        </preface>
+        <sections>
+          <admonition id='_6abb9105-854c-e79c-c351-73a56d6ca81f' type='important'>
+            <p id='_69ec375e-c992-5be3-76dd-a2311f9bb6cc'>Notice which is very important</p>
+          </admonition>
+          <clause id='_scope' type='scope' inline-header='false' obligation='normative'>
+            <title>Scope</title>
+            <p id='_fdcef9f1-c898-da99-eff6-f3e6abde7799'>Scope statement</p>
+          </clause>
+        </sections>
+      </standard-document>
     OUTPUT
     input1 = xmlpp(Asciidoctor.convert(input, *OPTIONS))
     expect(xmlpp(input1))
@@ -1915,6 +1915,50 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
+  end
+
+  it "removes redundant bookmarks" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [appendix]
+      == Annex [[bookmark]]
+
+    INPUT
+    output = <<~OUTPUT
+      <annex id="bookmark" inline-header="false" obligation="normative">
+        <title>Annex</title>
+      </annex>
+    OUTPUT
+    ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xmlpp(strip_guid(ret.at("//xmlns:annex").to_xml)))
+      .to be_equivalent_to(xmlpp(output))
+
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [appendix]
+      [[annex]]
+      == Annex [[bookmark]]
+
+    INPUT
+    output = <<~OUTPUT
+      <annex id='_' obligation='' language='' script=''>
+        <terms id='_' obligation='normative'>
+          <title>Terms and definitions</title>
+          <term id='term-Terms-and-definitions'>
+            <preferred>
+              <expression>
+                <name>Terms and definitions</name>
+              </expression>
+            </preferred>
+          </term>
+        </terms>
+      </annex>
+    OUTPUT
+    ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xmlpp(strip_guid(ret.at("//xmlns:annex").to_xml)))
+      .to be_equivalent_to(xmlpp(output))
   end
 
   private
