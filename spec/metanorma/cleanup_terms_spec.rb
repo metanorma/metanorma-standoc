@@ -3,6 +3,128 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
+  it "deals with different levels of mixed order terms" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Terms, definitions, symbols and abbreviations
+
+      === Terms and definitions
+
+      [.boilerplate]
+      ==== [Supplied boilerplate]
+      NOTE: These terms and definitions are taken from a published British Standard.
+
+      For the purposes of this British Standard, the following terms and definitions
+      apply.
+
+      ==== competent person
+
+      person, suitably trained and qualified by knowledge and practical experience,
+      and provided with the necessary instructions, to enable the required task(s) to
+      be carried out correctly
+
+      ==== dampers
+
+      ===== fire damper
+
+      moveable closure within a duct which is operated automatically or manually and
+      is designed to prevent the passage of fire
+
+      ===== smoke damper
+
+      moveable closure within a duct which is operated automatically or manually and
+      is designed to prevent or allow the passage of smoke
+
+      ==== ductwork
+
+      system of enclosures of any cross-sectional shape for the distribution or
+      extraction of air and/or smoke
+
+      === Symbols
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <sections>
+           <clause id="_" obligation="normative">
+             <title>Terms, definitions and symbols</title>
+             <p id="_">For the purposes of this document,
+           the following terms and definitions apply.</p>
+             <terms id="_" obligation="normative">
+               <title>Terms and definitions</title>
+               <note id="_">
+                 <p id="_">These terms and definitions are taken from a published British Standard.</p>
+               </note>
+               <p id="_">For the purposes of this British Standard, the following terms and definitions
+       apply.</p>
+               <term id="term-competent-person">
+                 <preferred>
+                   <expression>
+                     <name>competent person</name>
+                   </expression>
+                 </preferred>
+                 <definition>
+                   <verbal-definition>
+                     <p id="_">person, suitably trained and qualified by knowledge and practical experience,
+       and provided with the necessary instructions, to enable the required task(s) to
+       be carried out correctly</p>
+                   </verbal-definition>
+                 </definition>
+               </term>
+               <terms id="_" obligation="normative">
+                 <title>dampers</title>
+                 <term id="term-fire-damper">
+                   <preferred>
+                     <expression>
+                       <name>fire damper</name>
+                     </expression>
+                   </preferred>
+                   <definition>
+                     <verbal-definition>
+                       <p id="_">moveable closure within a duct which is operated automatically or manually and
+       is designed to prevent the passage of fire</p>
+                     </verbal-definition>
+                   </definition>
+                 </term>
+                 <term id="term-smoke-damper">
+                   <preferred>
+                     <expression>
+                       <name>smoke damper</name>
+                     </expression>
+                   </preferred>
+                   <definition>
+                     <verbal-definition>
+                       <p id="_">moveable closure within a duct which is operated automatically or manually and
+       is designed to prevent or allow the passage of smoke</p>
+                     </verbal-definition>
+                   </definition>
+                 </term>
+               </terms>
+               <term id="term-ductwork">
+                 <preferred>
+                   <expression>
+                     <name>ductwork</name>
+                   </expression>
+                 </preferred>
+                 <definition>
+                   <verbal-definition>
+                     <p id="_">system of enclosures of any cross-sectional shape for the distribution or
+       extraction of air and/or smoke</p>
+                   </verbal-definition>
+                 </definition>
+               </term>
+             </terms>
+             <definitions id="_" type="symbols" obligation="normative">
+               <title>Symbols</title>
+             </definitions>
+           </clause>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes term and designation metadata and term sources" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -181,7 +303,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "permits multiple preferred terms and admitted terms, "\
+  it "permits multiple preferred terms and admitted terms, " \
      "and treats them as synonyms in concepts" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
