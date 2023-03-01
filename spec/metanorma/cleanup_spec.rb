@@ -1943,17 +1943,8 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <annex id='_' obligation='' language='' script=''>
-        <terms id='_' obligation='normative'>
-          <title>Terms and definitions</title>
-          <term id='term-Terms-and-definitions'>
-            <preferred>
-              <expression>
-                <name>Terms and definitions</name>
-              </expression>
-            </preferred>
-          </term>
-        </terms>
+      <annex id="annex" inline-header="false" obligation="normative">
+        <title>Annex <bookmark id="bookmark"/></title>
       </annex>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
