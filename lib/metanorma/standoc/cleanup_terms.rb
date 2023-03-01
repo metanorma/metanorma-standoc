@@ -74,7 +74,7 @@ module Metanorma
       end
 
       def term_children_cleanup(xmldoc)
-        xmldoc.xpath("//terms[terms]").each { |t| t.name = "clause" }
+        xmldoc.xpath("//terms[terms][not(term)]").each { |t| t.name = "clause" }
         xmldoc.xpath("//term").each do |t|
           %w(termnote termexample termsource term).each do |w|
             t.xpath("./#{w}").each { |n| t << n.remove }
