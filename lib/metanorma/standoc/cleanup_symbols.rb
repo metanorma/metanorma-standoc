@@ -4,11 +4,14 @@ module Metanorma
       # Indices sort after letter but before any following
       # letter (x, x_m, x_1, xa); we use colon to force that sort order.
       # Numbers sort *after* letters; we use thorn to force that sort order.
+      # Capitals sort before their corresponding lowercase.
       def symbol_key(sym)
-        @c.decode(asciimath_key(sym).text.downcase)
+        @c.decode(asciimath_key(sym).text)
           .gsub(/[\[\]{}<>()]/, "").gsub(/\s/m, "")
           .gsub(/[[:punct:]]|[_^]/, ":\\0").gsub(/`/, "")
           .gsub(/[0-9]+/, "þ\\0")
+          .tr("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz",
+              "ABCFEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
       end
 
       def asciimath_key(sym)

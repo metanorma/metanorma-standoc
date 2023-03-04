@@ -1173,8 +1173,25 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    doc = Asciidoctor.convert(input, *OPTIONS)
+    expect(xmlpp(strip_guid(doc)))
       .to be_equivalent_to xmlpp(output)
+    sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
+    expect(sym).to be_equivalent_to <<~OUTPUT
+       <dt id="symbol-m">m</dt><dt id="symbol-n-n">
+         <stem type="MathML">
+           <math xmlns="http://www.w3.org/1998/Math/MathML">
+             <mi>n</mi>
+           </math>
+           <asciimath>n</asciimath>
+         </stem>
+       </dt>
+       <dt id="symbol-Xa">Xa</dt>
+       <dt id="symbol-x">x</dt>
+       <dt id="symbol-x_m_">x_m_</dt>
+       <dt id="symbol-x_1_">x_1_</dt>
+       <dt id="symbol-__x3b1_">α</dt>
+    OUTPUT
   end
 
   it "sorts symbols lists #2" do
@@ -1256,8 +1273,50 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    doc = Asciidoctor.convert(input, *OPTIONS)
+    expect(xmlpp(strip_guid(doc)))
       .to be_equivalent_to xmlpp(output)
+    sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
+    expect(sym).to be_equivalent_to <<~OUTPUT
+      <dt id="symbol-x">x</dt><dt id="symbol-x-m-x_m">
+         <stem type="MathML">
+           <math xmlns="http://www.w3.org/1998/Math/MathML">
+             <msub>
+               <mrow>
+                 <mi>x</mi>
+               </mrow>
+               <mrow>
+                 <mi>m</mi>
+               </mrow>
+             </msub>
+           </math>
+           <asciimath>x_m</asciimath>
+         </stem>
+       </dt>
+       <dt id="symbol-x-1-x_1">
+         <stem type="MathML">
+           <math xmlns="http://www.w3.org/1998/Math/MathML">
+             <msub>
+               <mrow>
+                 <mi>x</mi>
+               </mrow>
+               <mrow>
+                 <mn>1</mn>
+               </mrow>
+             </msub>
+           </math>
+           <asciimath>x_1</asciimath>
+         </stem>
+       </dt>
+       <dt id="symbol-xa">xa</dt><dt id="symbol-__x3b1_-alpha">
+         <stem type="MathML">
+           <math xmlns="http://www.w3.org/1998/Math/MathML">
+             <mi>α</mi>
+           </math>
+           <asciimath>alpha</asciimath>
+         </stem>
+       </dt>
+    OUTPUT
   end
 
   it "fixes illegal anchors" do
