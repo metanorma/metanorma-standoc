@@ -1,4 +1,3 @@
-require "htmlentities"
 require "uri" if /^2\./.match?(RUBY_VERSION)
 require_relative "./blocks_notes"
 
@@ -43,11 +42,15 @@ module Metanorma
         result
       end
 
+      def form_attrs(node)
+        attr_code(id_attr(node)
+          .merge(class: node.attr("class"),
+                 name: node.attr("name"), action: node.attr("action")))
+      end
+
       def form(node)
         noko do |xml|
-          xml.form **attr_code(id_attr(node)
-            .merge(class: node.attr("class"),
-                   name: node.attr("name"), action: node.attr("action"))) do |f|
+          xml.form **form_attrs(node) do |f|
             f << node.content
           end
         end
@@ -108,8 +111,7 @@ module Metanorma
       end
 
       def example_to_requirement(node, role)
-        return unless @reqt_models.requirement_roles.key?(role&.to_sym)
-
+        @reqt_models.requirement_roles.key?(role&.to_sym) or return
         # need to call here for proper recursion ordering
         select_requirement_model(node)
         requirement(node,
@@ -169,8 +171,7 @@ module Metanorma
       end
 
       def figure_title(node, out)
-        return if node.title.nil?
-
+        node.title.nil? and return
         out.name { |name| name << node.title }
       end
 
@@ -196,8 +197,7 @@ module Metanorma
       end
 
       def paragraph(node)
-        return termsource(node) if node.role == "source"
-
+        node.role == "source" and return termsource(node)
         noko do |xml|
           xml.p **para_attrs(node) do |xml_t|
             xml_t << node.content

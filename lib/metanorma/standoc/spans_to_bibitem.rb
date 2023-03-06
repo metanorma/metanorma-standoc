@@ -1,4 +1,4 @@
-require_relative "spans_to_bibitem_preprocess"
+require_relative "spans_to_bibitem_preprocessing"
 
 module Metanorma
   module Standoc

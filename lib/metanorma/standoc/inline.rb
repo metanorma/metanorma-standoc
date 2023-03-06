@@ -1,5 +1,4 @@
 require "asciidoctor/extensions"
-require "htmlentities"
 require "unicode2latex"
 require "mime/types"
 require "base64"
@@ -137,13 +136,6 @@ module Metanorma
 
       def thematic_break(_node)
         noko { |xml| xml.hr }.join
-      end
-
-      def xml_encode(text)
-        @c.encode(text, :basic, :hexadecimal)
-          .gsub(/&amp;gt;/, ">").gsub(/&amp;lt;/, "<").gsub(/&amp;amp;/, "&")
-          .gsub(/&gt;/, ">").gsub(/&lt;/, "<").gsub(/&amp;/, "&")
-          .gsub(/&quot;/, '"').gsub(/&#xa;/, "\n").gsub(/&amp;#/, "&#")
       end
 
       def latex_parse1(text)
