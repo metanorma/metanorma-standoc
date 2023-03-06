@@ -68,6 +68,13 @@ module Metanorma
         para
       end
 
+       def xml_encode(text)
+        @c.encode(text, :basic, :hexadecimal)
+          .gsub(/&amp;gt;/, ">").gsub(/&amp;lt;/, "<").gsub(/&amp;amp;/, "&")
+          .gsub(/&gt;/, ">").gsub(/&lt;/, "<").gsub(/&amp;/, "&")
+          .gsub(/&quot;/, '"').gsub(/&#xa;/, "\n").gsub(/&amp;#/, "&#")
+      end
+
       class EmptyAttr
         def attr(_any_attribute)
           nil

@@ -335,86 +335,66 @@ RSpec.describe Metanorma::Standoc do
 
   it "Warning if terms mismatches IEV" do
     FileUtils.rm_f "test.err"
-    FileUtils.mv File.expand_path("~/.iev/cache"),
-                 File.expand_path("~/.iev.pstore1"), force: true
-    FileUtils.rm_f "test_iev/pstore"
-    mock_open_uri("103-01-02")
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
-      = Document title
-      Author
-      :docfile: test.adoc
-      :no-pdf:
+    VCR.use_cassette "iev_103-01-02", :record => :new_episodes do
+      Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+        = Document title
+        Author
+        :docfile: test.adoc
+        :no-pdf:
 
-      [bibliography]
-      == Normative References
-      * [[[iev,IEV]]], _iev_
+        [bibliography]
+        == Normative References
+        * [[[iev,IEV]]], _iev_
 
-      == Terms and definitions
-      === Automation
+        == Terms and definitions
+        === Automation
 
-      [.source]
-      <<iev,clause="103-01-02">>
-    INPUT
-    expect(File.read("test.err"))
-      .to include 'Term "automation" does not match IEV 103-01-02 "functional"'
-    FileUtils.mv File.expand_path("~/.iev.pstore1"),
-                 File.expand_path("~/.iev/cache"), force: true
-  end
+        [.source]
+        <<iev,clause="103-01-02">>
+      INPUT
+      expect(File.read("test.err"))
+        .to include 'Term "automation" does not match IEV 103-01-02 "functional"'
 
-  it "No warning if English term matches IEV" do
-    FileUtils.rm_f "test.err"
-    FileUtils.mv File.expand_path("~/.iev/cache"),
-                 File.expand_path("~/.iev.pstore1"), force: true
-    FileUtils.rm_f "test_iev/cache"
-    mock_open_uri("103-01-02")
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
-      = Document title
-      Author
-      :docfile: test.adoc
-      :no-pdf:
+      FileUtils.rm_f "test.err"
+      Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+        = Document title
+        Author
+        :docfile: test.adoc
+        :no-pdf:
 
-      [bibliography]
-      == Normative References
-      * [[[iev,IEV]]], _iev_
+        [bibliography]
+        == Normative References
+        * [[[iev,IEV]]], _iev_
 
-      == Terms and definitions
-      === Functional
+        == Terms and definitions
+        === Functional
 
-      [.source]
-      <<iev,clause="103-01-02">>
-    INPUT
-    expect(File.read("test.err")).not_to include "does not match IEV 103-01-02"
-    FileUtils.mv File.expand_path("~/.iev.pstore1"),
-                 File.expand_path("~/.iev/cache"), force: true
-  end
+        [.source]
+        <<iev,clause="103-01-02">>
+      INPUT
+      expect(File.read("test.err")).not_to include "does not match IEV 103-01-02"
 
-  it "No warning if French term matches IEV" do
-    FileUtils.rm_f "test.err"
-    FileUtils.mv File.expand_path("~/.iev/cache"),
-                 File.expand_path("~/.iev.pstore1"), force: true
-    FileUtils.rm_f "test_iev/cache"
-    mock_open_uri("103-01-02")
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :language: fr
+      FileUtils.rm_f "test.err"
+      Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+        :language: fr
 
-      [bibliography]
-      == Normative References
-      * [[[iev,IEV]]], _iev_
+        [bibliography]
+        == Normative References
+        * [[[iev,IEV]]], _iev_
 
-      == Terms and definitions
-      === Fonctionnelle, f
+        == Terms and definitions
+        === Fonctionnelle, f
 
-      [.source]
-      <<iev,clause="103-01-02">>
-    INPUT
-    expect(File.read("test.err"))
-      .not_to include "does not match IEV 103-01-02"
-    FileUtils.mv File.expand_path("~/.iev.pstore1"),
-                 File.expand_path("~/.iev/cache"), force: true
+        [.source]
+        <<iev,clause="103-01-02">>
+      INPUT
+      expect(File.read("test.err"))
+        .not_to include "does not match IEV 103-01-02"
+    end
   end
 
   # it "No warning if attributes on formatted strong or stem extraneous to Metanomra XML" do
