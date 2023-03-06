@@ -896,7 +896,7 @@ RSpec.describe Metanorma::Standoc do
       [bibliography]
       == Normative References
 
-      * [[[A, B]]], span:surname[Wozniak], span:initials[S.], span:surname[Jobs], span:givenname[Steve] & span:surname[Hoover], span:initials[J.] span:givenname[Edgar]. span:date.issued[1991-1992]. span:date[1996-01-02]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] & span:in_organization[UNICEF], span:in_title[Collected Essays]. _span:series[Bibliographers Anonymous]_. span:docid.ISO[ISO 1234]. span:pubplace[Geneva]: span:publisher[International Standardization Organization]. span:uri.citation[http://www.example.com]. span:volume[4] span:issue[2–3] span:pages[12-13] span:pages[19]. span:type[inbook]
+      * [[[A, B]]], span:surname[Wozniak], span:initials[S.], span:surname[Jobs], span:givenname[Steve] & span:surname[Hoover], span:initials[J.] span:givenname[Edgar]. span:date.issued[1991-1992]. span:date[1996-01-02]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] & span:in_organization[UNICEF], span:in_title[Collected Essays]. _span:series[Bibliographers Anonymous]_. span:edition[4], span:version[draft]. span:note[Also available in paperback.] span:docid.ISO[ISO 1234]. span:pubplace[Geneva]: span:publisher[International Standardization Organization]. span:uri.citation[http://www.example.com]. span:volume[4] span:issue[2–3] span:pages[12-13] span:pages[19]. span:type[inbook]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
