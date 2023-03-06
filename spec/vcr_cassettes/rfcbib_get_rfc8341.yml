@@ -23,7 +23,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '864'
+      - '2526'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 31A6:BDA7:8FCFBE:9AF5D1:6404EE14
+      - 5212:337C:18956:29865:6405C5EE
       Accept-Ranges:
       - bytes
       Date:
-      - Sun, 05 Mar 2023 19:31:32 GMT
+      - Mon, 06 Mar 2023 10:52:30 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-fra-eddf8230077-FRA
+      - cache-mel11221-MEL
       X-Cache:
-      - MISS
+      - HIT
       X-Cache-Hits:
-      - '0'
+      - '1'
       X-Timer:
-      - S1678044692.443147,VS0,VE181
+      - S1678099950.237624,VS0,VE313
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - dcf21869e0fd60e9cc665bd0ed00b8dd8fd8163d
+      - e33874380c2f2212f6a3aaa2fe0d71ee901d42b3
       Expires:
-      - Sun, 05 Mar 2023 19:36:32 GMT
+      - Mon, 06 Mar 2023 10:57:30 GMT
       Source-Age:
       - '0'
     body:
@@ -194,7 +194,7 @@ http_interactions:
         - name: netconf
         ext:
           schema-version: v1.0.0
-  recorded_at: Sun, 05 Mar 2023 19:31:32 GMT
+  recorded_at: Mon, 06 Mar 2023 10:52:30 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-rfcs/main/data/RFC8341.yaml
@@ -218,7 +218,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '864'
+      - '2526'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -236,29 +236,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 31A6:BDA7:8FCFBE:9AF5D1:6404EE14
+      - 5212:337C:18956:29865:6405C5EE
       Accept-Ranges:
       - bytes
       Date:
-      - Sun, 05 Mar 2023 19:31:32 GMT
+      - Mon, 06 Mar 2023 10:52:30 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-fra-eddf8230027-FRA
+      - cache-mel11222-MEL
       X-Cache:
-      - HIT
+      - MISS
       X-Cache-Hits:
-      - '1'
+      - '0'
       X-Timer:
-      - S1678044692.447640,VS0,VE176
+      - S1678099950.237608,VS0,VE313
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - c39c323e7236fd759fa77dedafdf71d8b7ca7779
+      - ff310e429edf94af8bc2f3b62f25c6b01afb0ce4
       Expires:
-      - Sun, 05 Mar 2023 19:36:32 GMT
+      - Mon, 06 Mar 2023 10:57:30 GMT
       Source-Age:
       - '0'
     body:
@@ -389,5 +389,5 @@ http_interactions:
         - name: netconf
         ext:
           schema-version: v1.0.0
-  recorded_at: Sun, 05 Mar 2023 19:31:32 GMT
+  recorded_at: Mon, 06 Mar 2023 10:52:30 GMT
 recorded_with: VCR 6.1.0
