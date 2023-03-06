@@ -63,8 +63,7 @@ module Metanorma
       end
 
       def nested_asset_validate_basic(doc)
-        a = "//formula | //example | //figure | //termnote | //termexample | " \
-            "//table"
+        a = "//example | //figure | //termnote | //termexample | //table"
         doc.xpath("#{a} | //note").each do |m|
           m.xpath(a.gsub(%r{//}, ".//")).each do |n|
             nested_asset_report(m, n, doc)
@@ -82,7 +81,6 @@ module Metanorma
 
       def nested_asset_report(outer, inner, doc)
         outer.name == "figure" && inner.name == "figure" and return
-        outer.name != "formula" && inner.name == "formula" and return
         err =
           "There is an instance of #{inner.name} nested within #{outer.name}"
         @log.add("Syntax", inner, err)
