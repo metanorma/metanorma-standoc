@@ -335,7 +335,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "Warning if terms mismatches IEV" do
     FileUtils.rm_f "test.err"
-    VCR.use_cassette "iev_103-01-02" do
+    VCR.use_cassette "iev_103-01-02", :record => :new_episodes do
       Asciidoctor.convert(<<~"INPUT", *OPTIONS)
         = Document title
         Author
