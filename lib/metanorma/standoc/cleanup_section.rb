@@ -86,6 +86,7 @@ module Metanorma
 
       def sections_order_cleanup(xml)
         s = xml.at("//sections")
+        pop_floating_title(xml)
         make_preface(xml, s)
         make_annexes(xml)
         make_indexsect(xml, s)
@@ -214,7 +215,6 @@ module Metanorma
       end
 
       def floatingtitle_cleanup(xmldoc)
-        pop_floating_title(xmldoc)
         floating_title_preface2sections(xmldoc)
       end
 
