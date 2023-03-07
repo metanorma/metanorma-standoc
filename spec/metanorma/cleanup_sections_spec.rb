@@ -1775,7 +1775,7 @@ RSpec.describe Metanorma::Standoc do
                      <li>
                        <p id='_'>
                          <xref target='cl2'>
-                           Clause#{' '}
+                           Clause
                            <em>A</em>
                            <stem type='MathML'>
                              <math xmlns='http://www.w3.org/1998/Math/MathML'>
@@ -1910,6 +1910,37 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     expect(xmlpp(strip_guid(ret.at("//xmlns:annex").to_xml)))
+      .to be_equivalent_to(xmlpp(output))
+  end
+
+  it "puts floating title before scope into sections container" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Foreword
+
+      [discrete%section]
+      == Basic layout and preliminary elements
+
+      == Scope
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+               <preface>
+           <foreword id="_" obligation="informative">
+             <title>Foreword</title>
+           </foreword>
+         </preface>
+         <sections>
+           <floating-title id="_" depth="1" type="floating-title">Basic layout and preliminary elements</floating-title>
+           <clause id="_" type="scope" inline-header="false" obligation="normative">
+             <title>Scope</title>
+           </clause>
+         </sections>
+       </standard-document>
+    OUTPUT
+    ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xmlpp(strip_guid(ret.to_xml)))
       .to be_equivalent_to(xmlpp(output))
   end
 end
