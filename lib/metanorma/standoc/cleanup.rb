@@ -26,7 +26,8 @@ module Metanorma
       def cleanup(xmldoc)
         element_name_cleanup(xmldoc)
         passthrough_cleanup(xmldoc)
-        sections_cleanup(xmldoc) # feeds: obligations_cleanup, toc_cleanup
+        sections_cleanup(xmldoc) # feeds: obligations_cleanup, toc_cleanup,
+        # floatingtitle_cleanup
         obligations_cleanup(xmldoc)
         para_index_cleanup(xmldoc)
         block_index_cleanup(xmldoc)
