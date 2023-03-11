@@ -40,7 +40,7 @@ module Metanorma
           end
           merge_extent(old, new)
           merge_contributor(old, new)
-          %i(place).each do |k|
+          %i(place biblionote version edition).each do |k|
             merge_simple(old, new, k)
           end
           merge_relations(old, new)
