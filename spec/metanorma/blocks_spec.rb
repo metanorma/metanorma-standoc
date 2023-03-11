@@ -72,7 +72,7 @@ RSpec.describe Metanorma::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [stem%inequality,number=3,keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
+      [stem%inequality,number=3,keep-with-next=true,keep-lines-together=true,tag=X,columns=1,multilingual-rendering=common]
       ++++
       r = 1 %
       r = 1 %
@@ -97,7 +97,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
            #{BLANK_HDR}
            <sections>
-          <formula id='ABC' number='3' keep-with-next='true' keep-lines-together='true' inequality='true' tag='X' multilingual-rendering='common'>
+          <formula id='ABC' number='3' keep-with-next='true' keep-lines-together='true' inequality='true' tag='X' columns='1' multilingual-rendering='common'>
             <stem type='MathML'>
               <math xmlns='http://www.w3.org/1998/Math/MathML'>
                 <mi>r</mi>
@@ -422,7 +422,7 @@ RSpec.describe Metanorma::Standoc do
 
       WARNING: This is not a note
 
-      [NOTE,keep-separate=true,tag=X,multilingual-rendering=common]
+      [NOTE,keep-separate=true,tag=X,columns=1,multilingual-rendering=common]
       ====
       XYZ
       ====
@@ -441,7 +441,7 @@ RSpec.describe Metanorma::Standoc do
             <admonition id='_' type='warning'>
           <p id='_'>This is not a note</p>
         </admonition>
-             <termnote id='_' tag='X' multilingual-rendering='common'>
+             <termnote id='_' tag='X' columns='1' multilingual-rendering='common'>
         <p id='_'>XYZ</p>
       </termnote>
             </term>
@@ -616,7 +616,7 @@ RSpec.describe Metanorma::Standoc do
       [[ABC]]
       NOTE: This is a note
 
-      [NOTE,keep-separate=true,number=7,subsequence=A,beforeclauses=true,keep-with-next=true,keep-lines-together=true,type=classified,tag=X,multilingual-rendering=common]
+      [NOTE,keep-separate=true,number=7,subsequence=A,beforeclauses=true,keep-with-next=true,keep-lines-together=true,type=classified,tag=X,columns=1,multilingual-rendering=common]
       ====
       XYZ
       ====
@@ -629,7 +629,7 @@ RSpec.describe Metanorma::Standoc do
              <p id="_">This is a note</p>
            </note>
            </foreword></preface><sections>
-             <note id='_' number="7" subsequence="A" keep-with-next="true" keep-lines-together="true" type="classified" tag='X' multilingual-rendering='common'>
+             <note id='_' number="7" subsequence="A" keep-with-next="true" keep-lines-together="true" type="classified" tag='X' columns='1' multilingual-rendering='common'>
         <p id='_'>XYZ</p>
       </note>
            <clause id="_" inline-header="false" obligation="normative">
@@ -651,7 +651,7 @@ RSpec.describe Metanorma::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [alt=Literal,keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
+      [alt=Literal,keep-with-next=true,keep-lines-together=true,tag=X,columns=1,multilingual-rendering=common]
       ....
       <LITERAL>
       FIGURATIVE
@@ -660,7 +660,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-           <figure id="ABC" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common'>
+           <figure id="ABC" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common'>
         <pre alt="Literal" id="_">&lt;LITERAL&gt;
         FIGURATIVE
         </pre>
@@ -697,7 +697,7 @@ RSpec.describe Metanorma::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [CAUTION,type=Safety Precautions,keep-with-next="true",keep-lines-together="true",tag=X,multilingual-rendering=common,notag=true]
+      [CAUTION,type=Safety Precautions,keep-with-next="true",keep-lines-together="true",tag=X,columns=1,multilingual-rendering=common,notag=true]
       .Precautions
       ====
       While werewolves are hardy community members, keep in mind the following dietary concerns:
@@ -715,7 +715,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
-         <admonition id="ABC" type="safety precautions" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common' notag="true" unnumbered="true">
+         <admonition id="ABC" type="safety precautions" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' notag="true" unnumbered="true">
         <name>Precautions</name><p id="_">While werewolves are hardy community members, keep in mind the following dietary concerns:</p>
        <ol id="_" type="arabic">
          <li>
@@ -747,7 +747,7 @@ RSpec.describe Metanorma::Standoc do
       === Term1
 
       [[ABC]]
-      [example,tag=X,multilingual-rendering=common]
+      [example,tag=X,columns=1,multilingual-rendering=common]
       This is an example
     INPUT
     output = <<~OUTPUT
@@ -758,7 +758,7 @@ RSpec.describe Metanorma::Standoc do
       <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
         <term id="term-Term1">
         <preferred><expression><name>Term1</name></expression></preferred>
-      <termexample id="ABC" tag='X' multilingual-rendering='common'>
+      <termexample id="ABC" tag='X' columns='1' multilingual-rendering='common'>
         <p id="_">This is an example</p>
       </termexample></term>
       </terms>
@@ -863,7 +863,7 @@ RSpec.describe Metanorma::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [example,subsequence=A,keep-with-next=true,keep-lines-together=next,tag=X,multilingual-rendering=common]
+      [example,subsequence=A,keep-with-next=true,keep-lines-together=next,tag=X,columns=1,multilingual-rendering=common]
       .Title
       ====
       This is an example
@@ -884,7 +884,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-         <example id="ABC" subsequence="A"  keep-with-next='true' keep-lines-together='next' tag='X' multilingual-rendering='common'>
+         <example id="ABC" subsequence="A"  keep-with-next='true' keep-lines-together='next' tag='X' columns='1' multilingual-rendering='common'>
          <name>Title</name>
         <p id="_">This is an example</p>
        <p id="_">Amen</p></example>
@@ -1195,7 +1195,7 @@ RSpec.describe Metanorma::Standoc do
   it "accepts attributes on images" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
-      [height=4,width=3,alt="IMAGE",filename="riceimg1.png",titleattr="TITLE",tag=X,multilingual-rendering=common]
+      [height=4,width=3,alt="IMAGE",filename="riceimg1.png",titleattr="TITLE",tag=X,columns=1,multilingual-rendering=common]
       .Caption
       image::spec/examples/rice_images/rice_image1.png[]
 
@@ -1203,7 +1203,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
               <sections>
-         <figure id="_" tag='X' multilingual-rendering='common'><name>Caption</name>
+         <figure id="_" tag='X' columns='1' multilingual-rendering='common'><name>Caption</name>
          <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="4" width="3" title="TITLE" alt="IMAGE" filename="riceimg1.png"/>
        </figure>
        </sections>
@@ -1314,13 +1314,13 @@ RSpec.describe Metanorma::Standoc do
   it "accepts attributes on paragraphs" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
-      [align=right,keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
+      [align=right,keep-with-next=true,keep-lines-together=true,tag=X,columns=1,multilingual-rendering=common]
       This para is right-aligned.
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
-         <p align="right" id="_" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common'>This para is right-aligned.</p>
+         <p align="right" id="_" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common'>This para is right-aligned.</p>
        </sections>
       </standard-document>
     OUTPUT
@@ -1333,7 +1333,7 @@ RSpec.describe Metanorma::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [[ABC]]
-      [quote, ISO, "ISO7301,section 1",align="right",keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
+      [quote, ISO, "ISO7301,section 1",align="right",keep-with-next=true,keep-lines-together=true,tag=X,columns=1,multilingual-rendering=common]
       ____
       Block quotation
       ____
@@ -1341,7 +1341,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-         <quote id="ABC" align="right" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common'>
+         <quote id="ABC" align="right" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common'>
          <source type="inline" bibitemid="ISO7301" citeas="">
          <localityStack>
         <locality type="section"><referenceFrom>1</referenceFrom></locality>
@@ -1363,7 +1363,7 @@ RSpec.describe Metanorma::Standoc do
 
       [[ABC]]
       .Caption
-      [source%unnumbered%linenums,ruby,number=3,filename=sourcecode1.rb,keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
+      [source%unnumbered%linenums,ruby,number=3,filename=sourcecode1.rb,keep-with-next=true,keep-lines-together=true,tag=X,columns=1,multilingual-rendering=common]
       --
       puts "Hello, world."
       %w{a b c}.each do |x|
@@ -1383,7 +1383,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-         <sourcecode id="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common' linenums='true'>
+         <sourcecode id="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' linenums='true'>
         <name>Caption</name>puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
@@ -1406,7 +1406,7 @@ RSpec.describe Metanorma::Standoc do
 
       [[ABC]]
       .Caption
-      [source%unnumbered%linenums,ruby,number=3,filename=sourcecode1.rb,keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
+      [source%unnumbered%linenums,ruby,number=3,filename=sourcecode1.rb,keep-with-next=true,keep-lines-together=true,tag=X,columns=1,multilingual-rendering=common]
       --
       puts "Hello, world."
       %w{a b c}.each do |x|
@@ -1426,7 +1426,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-         <sourcecode id="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common' linenums='true'>
+         <sourcecode id="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' linenums='true'>
         <name>Caption</name>puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
