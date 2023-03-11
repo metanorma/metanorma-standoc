@@ -7,6 +7,7 @@ module Metanorma
       def id_attr(node = nil)
         { id: Metanorma::Utils::anchor_or_uuid(node),
           tag: node&.attr("tag"),
+          columns: node&.attr("columns"),
           "multilingual-rendering": node&.attr("multilingual-rendering") }
       end
 
