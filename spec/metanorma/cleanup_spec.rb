@@ -250,8 +250,8 @@ RSpec.describe Metanorma::Standoc do
         <preface><foreword id="_" obligation="informative">
         <title>Foreword</title>
         <p id="_">
-        <eref type="inline" bibitemid="iso216" citeas="ISO 216:2001"/>
-        <eref type='inline' case='capital' droploc='true' bibitemid='iso216' citeas='ISO 216:2001'/>
+        <eref type="inline" bibitemid="iso216" citeas="ISO&#xa0;216:2001"/>
+        <eref type='inline' case='capital' droploc='true' bibitemid='iso216' citeas='ISO&#xa0;216:2001'/>
       </p>
       </foreword></preface><sections>
       </sections>
@@ -282,12 +282,12 @@ RSpec.describe Metanorma::Standoc do
             <preface><foreword id="_" obligation="informative">
               <title>Foreword</title>
               <p id="_">
-              <eref type="inline" bibitemid="iso216" citeas="ISO 216">
+              <eref type="inline" bibitemid="iso216" citeas="ISO&#xa0;216">
               <localityStack>
               <locality type="whole"/><locality type="clause"><referenceFrom>3</referenceFrom></locality><locality type="example"><referenceFrom>9</referenceFrom><referenceTo>11</referenceTo></locality><locality type="locality:prelude"><referenceFrom>33 a</referenceFrom></locality><locality type="locality:entirety"/>
               </localityStack>
               the reference,xyz</eref>
-       <eref type='inline' bibitemid='iso216' citeas='ISO 216'>
+       <eref type='inline' bibitemid='iso216' citeas='ISO&#xa0;216'>
          <localityStack connective="and">
            <locality type='whole'/>
            <locality type='clause'>
@@ -320,15 +320,15 @@ RSpec.describe Metanorma::Standoc do
          </localityStack>
          the reference,xyz
        </eref>
-      <eref type='inline' bibitemid='iso216' citeas='ISO 216'>
+      <eref type='inline' bibitemid='iso216' citeas='ISO&#xa0;216'>
         <em>whole</em>
       </eref>
-      <eref type='inline' bibitemid='iso216' citeas='ISO 216'>
+      <eref type='inline' bibitemid='iso216' citeas='ISO&#xa0;216'>
         a
         <em>whole</em>
          flagon
       </eref>
-      <eref type='inline' bibitemid='iso216' citeas='ISO 216'>
+      <eref type='inline' bibitemid='iso216' citeas='ISO&#xa0;216'>
         <localityStack>
           <locality type='whole'/>
           <locality type='clause'>
@@ -339,7 +339,7 @@ RSpec.describe Metanorma::Standoc do
         <em>whole</em>
          flagon
       </eref>
-      <eref type='inline' case='capital' droploc='true' bibitemid='iso216' citeas='ISO 216'>
+      <eref type='inline' case='capital' droploc='true' bibitemid='iso216' citeas='ISO&#xa0;216'>
         <localityStack>
           <locality type='whole'/>
           <locality type='clause'>
@@ -371,16 +371,16 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso216,ISO 216]]], _Reference_
     INPUT
     output = <<~OUTPUT
-             #{BLANK_HDR}
-             <preface>
-             <foreword id="_" obligation="informative">
-               <title>Foreword</title>
-               <p id="_">
-               <eref type="inline" bibitemid="iso216" citeas="ISO 216"/>
-             </p>
-             </foreword></preface><sections>
-             </sections>
-             </standard-document>
+      #{BLANK_HDR}
+      <preface>
+      <foreword id="_" obligation="informative">
+        <title>Foreword</title>
+        <p id="_">
+        <eref type="inline" bibitemid="iso216" citeas="ISO&#xa0;216"/>
+      </p>
+      </foreword></preface><sections>
+      </sections>
+      </standard-document>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:bibliography")&.remove
@@ -405,8 +405,8 @@ RSpec.describe Metanorma::Standoc do
              <title>Foreword</title>
              <p id='_'>
                <erefstack>
-                 <eref connective='from' bibitemid='iso216' citeas='ISO 216' type='inline'/>
-                 <eref connective='to' bibitemid='iso216' citeas='ISO 216' type='inline'/>
+                 <eref connective='from' bibitemid='iso216' citeas='ISO&#xa0;216' type='inline'/>
+                 <eref connective='to' bibitemid='iso216' citeas='ISO&#xa0;216' type='inline'/>
                </erefstack>
              </p>
            </foreword>
@@ -561,7 +561,7 @@ RSpec.describe Metanorma::Standoc do
           <preferred><expression><name>Automation1</name></expression></preferred>
           <definition><verbal-definition><p id='_'>Definition 1</p></verbal-definition></definition>
           <termsource status="identical" type="authoritative">
-          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">
+          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC&#xa0;60050-103:2009">
           <localityStack>
         <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
           </localityStack>
@@ -572,7 +572,7 @@ RSpec.describe Metanorma::Standoc do
           <preferred><expression><name>Automation2</name></expression></preferred>
           <definition><verbal-definition><p id='_'>Definition 2</p></verbal-definition></definition>
           <termsource status="identical" type="authoritative">
-          <origin bibitemid="IEC60050-102" type="inline" citeas="IEC 60050-102:2007">
+          <origin bibitemid="IEC60050-102" type="inline" citeas="IEC&#xa0;60050-102:2007">
           <localityStack>
         <locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality>
           </localityStack>
@@ -583,7 +583,7 @@ RSpec.describe Metanorma::Standoc do
           <preferred><expression><name>Automation3</name></expression></preferred>
           <definition><verbal-definition><p id='_'>Definition 3</p></verbal-definition></definition>
           <termsource status="identical" type="authoritative">
-          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC 60050-103:2009">
+          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC&#xa0;60050-103:2009">
           <localityStack>
         <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
           </localityStack>
@@ -592,87 +592,91 @@ RSpec.describe Metanorma::Standoc do
         </term></terms></sections><bibliography><references id="_" obligation="informative" normative="true">
           <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
-          <bibitem type="standard" id="IEC60050-102">
-          <fetched/>
-          <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
-          <title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics — General concepts and linear algebra</title>
-          <title type='main' format='text/plain' language='en' script='Latn'>International Electrotechnical Vocabulary (IEV) — Part 102: Mathematics — General concepts and linear algebra</title>
-          <uri type="src">https://webstore.iec.ch/publication/160</uri>
-          <uri type="obp">/preview/info_iec60050-102%7Bed1.0%7Db.pdf</uri>
-          <docidentifier type="IEC" primary="true">IEC 60050-102:2007</docidentifier>
-          <docidentifier type='URN'>urn:iec:std:iec:60050-102:2007:::en</docidentifier>
-          <date type="published">
-            <on>2007-08-27</on>
-          </date>
-          <contributor>
-            <role type="publisher"/>
-            <organization>
-              <name>International Electrotechnical Commission</name>
-              <abbreviation>IEC</abbreviation>
-              <uri>www.iec.ch</uri>
-            </organization>
-          </contributor>
-          <edition>1.0</edition>
-          <language>en</language>
-          <script>Latn</script>
-          <abstract format="text/plain" language="en" script="Latn">This part of IEC 60050 gives the general mathematical terminology used in the fields of electricity, electronics and telecommunications, together with basic concepts in linear algebra. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Another part will deal with functions.&#13; It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
-          <status>
-            <stage>60</stage>
-            <substage>60</substage>
-          </status>
-          <copyright>
-            <from>2007</from>
-            <owner>
-              <organization>
-              <name>International Electrotechnical Commission</name>
-              <abbreviation>IEC</abbreviation>
-              <uri>www.iec.ch</uri>
-              </organization>
-            </owner>
-          </copyright>
-          <place>Geneva</place>
-        </bibitem><bibitem type="standard" id="IEC60050-103">
-          <fetched/>
-          <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
-          <title type="title-part" format="text/plain" language="en" script="Latn">Part 103: Mathematics — Functions</title>
-          <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 103: Mathematics — Functions</title>
-          <uri type="src">https://webstore.iec.ch/publication/161</uri>
-          <uri type="obp">/preview/info_iec60050-103%7Bed1.0%7Db.pdf</uri>
-          <docidentifier type="IEC" primary="true">IEC 60050-103:2009</docidentifier>
-          <docidentifier type='URN'>urn:iec:std:iec:60050-103:2009:::en</docidentifier>
-          <date type="published">
-            <on>2009-12-14</on>
-          </date>
-          <contributor>
-            <role type="publisher"/>
-            <organization>
-            <name>International Electrotechnical Commission</name>
-        <abbreviation>IEC</abbreviation>
-        <uri>www.iec.ch</uri>
-            </organization>
-          </contributor>
-          <edition>1.0</edition>
-          <language>en</language>
-          <script>Latn</script>
-          <abstract format="text/plain" language="en" script="Latn">IEC 60050-103:2009 gives the terminology relative to functions of one or more variables. Together with IEC 60050-102, it covers the mathematical terminology used in the fields of electricity, electronics and telecommunications. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Mathematical symbols are generally in accordance with IEC 60027-1 and ISO 80000-2. This standard cancels and replaces Sections 101-13, 101-14 and 101-15 of International Standard IEC 60050-101:1998. It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
-          <status>
-            <stage>60</stage>
-            <substage>60</substage>
-          </status>
-          <copyright>
-            <from>2009</from>
-            <owner>
-              <organization>
-              <name>International Electrotechnical Commission</name>
-        <abbreviation>IEC</abbreviation>
-        <uri>www.iec.ch</uri>
-              </organization>
-            </owner>
-          </copyright>
-          <place>Geneva</place>
-        </bibitem>
-        </references></bibliography>
-        </standard-document>
+                     <bibitem id="IEC60050-102" type="standard">
+               <fetched/>
+               <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 102: Mathematics — General concepts and linear algebra</title>
+               <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV) — Partie 102: Mathématiques — Concepts généraux et algèbre linéaire</title>
+               <uri type="src">https://webstore.iec.ch/publication/160</uri>
+               <uri type="obp">https://webstore.iec.ch/preview/info_iec60050-102{ed1.0}b.pdf</uri>
+               <docidentifier type="IEC" primary="true">IEC 60050-102:2007</docidentifier>
+               <docidentifier type="URN">urn:iec:std:iec:60050-102:2007-08:::</docidentifier>
+               <date type="published">
+                 <on>2007-08-27</on>
+               </date>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Electrotechnical Commission</name>
+                   <abbreviation>IEC</abbreviation>
+                   <uri>www.iec.ch</uri>
+                 </organization>
+               </contributor>
+               <edition>1</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <abstract format="text/html" language="en" script="Latn">This part of IEC 60050 gives the general mathematical terminology used in the fields of electricity, electronics and telecommunications, together with basic concepts in linear algebra. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Another part will deal with functions.<br/>It has the status of a horizontal standard in accordance with&lt;a href=”http://webstore.iec.ch/webstore/webstore.nsf/Artnum_PK/36435?opendocument”&gt;IEC Guide 108.&lt;/&gt;</abstract>
+               <abstract format="text/html" language="fr" script="Latn">Cette partie de la CEI 60050 donne la terminologie mathématique générale utilisée dans les domaines de l’électricité, de l’électronique et des télécommunications, ainsi que les concepts fondamentaux d’algèbre linéaire. Elle maintient une distinction nette entre les concepts mathématiques et les concepts physiques, même si certains termes sont employés dans les deux cas. Une autre partie traitera des fonctions.<br/>Elle a le statut de norme horizontale conformément au  Guide IEC 108.</abstract>
+               <status>
+                 <stage>PUBLISHED</stage>
+               </status>
+               <copyright>
+                 <from>2007</from>
+                 <owner>
+                   <organization>
+                     <name>International Electrotechnical Commission</name>
+                     <abbreviation>IEC</abbreviation>
+                     <uri>www.iec.ch</uri>
+                   </organization>
+                 </owner>
+               </copyright>
+               <place>Geneva</place>
+             </bibitem>
+             <bibitem id="IEC60050-103" type="standard">
+               <fetched/>
+               <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 103: Mathematics — Functions</title>
+               <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV) — Partie 103: Mathématiques — Fonctions</title>
+               <title type="main" format="text/plain" language="es" script="Latn">Versión Oficial En español — Vocabulario Electrotécnico Internacional. Parte 103: Matemáticas. Funciones.</title>
+               <uri type="src">https://webstore.iec.ch/publication/161</uri>
+               <uri type="obp">https://webstore.iec.ch/preview/info_iec60050-103{ed1.0}b.pdf</uri>
+               <docidentifier type="IEC" primary="true">IEC 60050-103:2009</docidentifier>
+               <docidentifier type="URN">urn:iec:std:iec:60050-103:2009-12:::</docidentifier>
+               <date type="published">
+                 <on>2009-12-14</on>
+               </date>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Electrotechnical Commission</name>
+                   <abbreviation>IEC</abbreviation>
+                   <uri>www.iec.ch</uri>
+                 </organization>
+               </contributor>
+               <edition>1</edition>
+               <language>en</language>
+               <language>fr</language>
+               <language>es</language>
+               <script>Latn</script>
+               <abstract format="text/html" language="en" script="Latn">IEC 60050-103:2009 gives the terminology relative to functions of one or more variables. Together with IEC 60050-102, it covers the mathematical terminology used in the fields of electricity, electronics and telecommunications. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Mathematical symbols are generally in accordance with IEC 60027-1 and ISO 80000-2. This standard cancels and replaces Sections 101-13, 101-14 and 101-15 of International Standard IEC 60050-101:1998.<br/>It has the status of a horizontal standard in accordance with  IEC Guide 108.</abstract>
+               <abstract format="text/html" language="fr" script="Latn">La CEI 60050-103:2009 donne la terminologie relative aux fonctions d’une ou plusieurs variables. Conjointement avec la CEI 60050-102, elle couvre la terminologie mathématique utilisée dans les domaines de l’électricité, de l’électronique et des télécommunications. Elle maintient une distinction nette entre les concepts mathématiques et les concepts physiques, même si certains termes sont employés dans les deux cas. Les symboles mathématiques sont généralement conformes à la CEI 60027-1 et à l’ISO 80000-2. Cette norme annule et remplace les sections 101-13, 101-14 et 101-15 de la norme internationale CEI 60050-101:1998.<br/>Elle a le statut de norme horizontale conformément au  Guide IEC 108.</abstract>
+               <status>
+                 <stage>PUBLISHED</stage>
+               </status>
+               <copyright>
+                 <from>2009</from>
+                 <owner>
+                   <organization>
+                     <name>International Electrotechnical Commission</name>
+                     <abbreviation>IEC</abbreviation>
+                     <uri>www.iec.ch</uri>
+                   </organization>
+                 </owner>
+               </copyright>
+               <place>Geneva</place>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)
@@ -781,14 +785,14 @@ RSpec.describe Metanorma::Standoc do
 
   it "cleans up text MathML" do
     input = <<~INPUT
-      #{BLANK_HDR.sub(/<standard-document [^>]+>/, "<standard-document>")}
+      #{BLANK_HDR.sub(/<standard-document [^>]+>/, '<standard-document>')}
       <sections>
       <stem type="MathML">&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;&lt;mfrac&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;/mfrac&gt;&lt;/math&gt;</stem>
       </sections>
       </standard-document>
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR.sub(/<standard-document [^>]+>/, "<standard-document>")}
+      #{BLANK_HDR.sub(/<standard-document [^>]+>/, '<standard-document>')}
       <sections>
       <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mi>r</mi></mfrac></math></stem>
       </sections>
@@ -877,7 +881,7 @@ RSpec.describe Metanorma::Standoc do
       <sections><clause id="_" inline-header="false" obligation="normative">
         <title>Clause</title>
         <p id="_"><eref type="inline" bibitemid="iso123" citeas="[2]"/>
-      <eref type="inline" bibitemid="iso124" citeas="ISO 124"/></p>
+      <eref type="inline" bibitemid="iso124" citeas="ISO&#xa0;124"/></p>
       </clause>
       </sections><bibliography><references id="_" obligation="informative" normative="false">
         <title>Bibliography</title>
@@ -942,8 +946,8 @@ RSpec.describe Metanorma::Standoc do
         <sections><clause id="_" inline-header="false" obligation="normative">
              <title>Clause</title>
              <p id="_"><eref type="inline" bibitemid="iso123" citeas="[2]"/>
-           <eref type="inline" bibitemid="iso124" citeas="ISO 124"/>
-           <eref type="inline" bibitemid="iso125" citeas="ISO 125"/>
+           <eref type="inline" bibitemid="iso124" citeas="ISO&#xa0;124"/>
+           <eref type="inline" bibitemid="iso125" citeas="ISO&#xa0;125"/>
            <eref type="inline" bibitemid="iso126" citeas="[4]"/></p>
            </clause>
            </sections><bibliography><clause id="_" obligation="informative"><title>Bibliography</title><references id="_" obligation="informative" normative="false">
@@ -1060,7 +1064,9 @@ RSpec.describe Metanorma::Standoc do
         </bibliography>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -1104,7 +1110,9 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -1169,8 +1177,25 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    doc = Asciidoctor.convert(input, *OPTIONS)
+    expect(xmlpp(strip_guid(doc)))
       .to be_equivalent_to xmlpp(output)
+    sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
+    expect(sym).to be_equivalent_to <<~OUTPUT
+       <dt id="symbol-m">m</dt><dt id="symbol-n-n">
+         <stem type="MathML">
+           <math xmlns="http://www.w3.org/1998/Math/MathML">
+             <mi>n</mi>
+           </math>
+           <asciimath>n</asciimath>
+         </stem>
+       </dt>
+       <dt id="symbol-Xa">Xa</dt>
+       <dt id="symbol-x">x</dt>
+       <dt id="symbol-x_m_">x_m_</dt>
+       <dt id="symbol-x_1_">x_1_</dt>
+       <dt id="symbol-__x3b1_">α</dt>
+    OUTPUT
   end
 
   it "sorts symbols lists #2" do
@@ -1252,8 +1277,50 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    doc = Asciidoctor.convert(input, *OPTIONS)
+    expect(xmlpp(strip_guid(doc)))
       .to be_equivalent_to xmlpp(output)
+    sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
+    expect(sym).to be_equivalent_to <<~OUTPUT
+      <dt id="symbol-x">x</dt><dt id="symbol-x-m-x_m">
+         <stem type="MathML">
+           <math xmlns="http://www.w3.org/1998/Math/MathML">
+             <msub>
+               <mrow>
+                 <mi>x</mi>
+               </mrow>
+               <mrow>
+                 <mi>m</mi>
+               </mrow>
+             </msub>
+           </math>
+           <asciimath>x_m</asciimath>
+         </stem>
+       </dt>
+       <dt id="symbol-x-1-x_1">
+         <stem type="MathML">
+           <math xmlns="http://www.w3.org/1998/Math/MathML">
+             <msub>
+               <mrow>
+                 <mi>x</mi>
+               </mrow>
+               <mrow>
+                 <mn>1</mn>
+               </mrow>
+             </msub>
+           </math>
+           <asciimath>x_1</asciimath>
+         </stem>
+       </dt>
+       <dt id="symbol-xa">xa</dt><dt id="symbol-__x3b1_-alpha">
+         <stem type="MathML">
+           <math xmlns="http://www.w3.org/1998/Math/MathML">
+             <mi>α</mi>
+           </math>
+           <asciimath>alpha</asciimath>
+         </stem>
+       </dt>
+    OUTPUT
   end
 
   it "fixes illegal anchors" do
@@ -1283,21 +1350,7 @@ RSpec.describe Metanorma::Standoc do
       * [[[Löwner2016,Löwner et al. 2016]]], Löwner, M.-O., Gröger, G., Benner, J., Biljecki, F., Nagel, C., 2016: *Proposal for a new LOD and multi-representation concept for CityGML*. In: Proceedings of the 11th 3D Geoinfo Conference 2016, ISPRS Annals of the Photogrammetry, Remote Sensing and Spatial Information Sciences, Vol. IV-2/W1, 3–12. https://doi.org/10.5194/isprs-annals-IV-2-W1-3-2016
     INPUT
     output = <<~OUTPUT
-      <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
-        <bibdata type='standard'>
-          <title language='en' format='text/plain'>Document title</title>
-          <language>en</language>
-          <script>Latn</script>
-          <status>
-            <stage>published</stage>
-          </status>
-          <copyright>
-            <from>#{Time.now.year}</from>
-          </copyright>
-          <ext>
-            <doctype>standard</doctype>
-          </ext>
-        </bibdata>
+      #{BLANK_HDR}
                  <sections>
            <clause id='a_b' inline-header='false' obligation='normative'>
              <title>A</title>
@@ -1313,7 +1366,7 @@ RSpec.describe Metanorma::Standoc do
              <sourcecode id='L__xf6_we'>
                <name>
                  See
-                 <eref type='inline' bibitemid='L__xf6_wner2016' citeas='Löwner et al. 2016'/>
+                 <eref type='inline' bibitemid='L__xf6_wner2016' citeas='Löwner&#xa0;et&#xa0;al.&#xa0;2016'/>
                </name>
                ABC
              </sourcecode>
@@ -1402,7 +1455,9 @@ RSpec.describe Metanorma::Standoc do
                <sections> </sections>
                </standard-document>
     OUTPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -1426,57 +1481,58 @@ RSpec.describe Metanorma::Standoc do
       ++++
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR}
-      <misc-container>
-           <UnitsML xmlns='https://schema.unitsml.org/unitsml/1.0'>
-             <UnitSet>
-               <Unit xml:id='U_m.kg-2' dimensionURL='#D_LM-2'>
-                 <UnitSystem name='SI' type='SI_derived' xml:lang='en-US'/>
-                 <UnitName xml:lang='en'>m*kg^-2</UnitName>
-                 <UnitSymbol type='HTML'>
-                   m&#160;kg
-                   <sup>&#8722;2</sup>
-                 </UnitSymbol>
-                 <UnitSymbol type='MathML'>
-                   <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                     <mrow>
-                       <mi mathvariant='normal'>m</mi>
-                       <mo rspace='thickmathspace'>&#8290;</mo>
-                       <msup>
-                         <mrow>
-                           <mi mathvariant='normal'>kg</mi>
-                         </mrow>
-                         <mrow>
-                           <mo>&#8722;</mo>
-                           <mn>2</mn>
-                         </mrow>
-                       </msup>
-                     </mrow>
-                   </math>
-                 </UnitSymbol>
-                 <RootUnits>
-                   <EnumeratedRootUnit unit='meter'/>
-                   <EnumeratedRootUnit unit='gram' prefix='k' powerNumerator='-2'/>
-                 </RootUnits>
-               </Unit>
-             </UnitSet>
-             <DimensionSet>
-               <Dimension xml:id='D_LM-2'>
-                 <Length symbol='L' powerNumerator='1'/>
-                 <Mass symbol='M' powerNumerator='-2'/>
-               </Dimension>
-             </DimensionSet>
-             <PrefixSet>
-               <Prefix prefixBase='10' prefixPower='3' xml:id='NISTp10_3'>
-                 <PrefixName xml:lang='en'>kilo</PrefixName>
-                 <PrefixSymbol type='ASCII'>k</PrefixSymbol>
-                 <PrefixSymbol type='unicode'>k</PrefixSymbol>
-                 <PrefixSymbol type='LaTeX'>k</PrefixSymbol>
-                 <PrefixSymbol type='HTML'>k</PrefixSymbol>
-               </Prefix>
-             </PrefixSet>
-           </UnitsML>
-         </misc-container>
+      #{BLANK_HDR.sub(/<metanorma-extension>/, <<~EXT
+        <metanorma-extension>
+             <UnitsML xmlns='https://schema.unitsml.org/unitsml/1.0'>
+               <UnitSet>
+                 <Unit xml:id='U_m.kg-2' dimensionURL='#D_LM-2'>
+                   <UnitSystem name='SI' type='SI_derived' xml:lang='en-US'/>
+                   <UnitName xml:lang='en'>m*kg^-2</UnitName>
+                   <UnitSymbol type='HTML'>
+                     m&#160;kg
+                     <sup>&#8722;2</sup>
+                   </UnitSymbol>
+                   <UnitSymbol type='MathML'>
+                     <math xmlns='http://www.w3.org/1998/Math/MathML'>
+                       <mrow>
+                         <mi mathvariant='normal'>m</mi>
+                         <mo rspace='thickmathspace'>&#8290;</mo>
+                         <msup>
+                           <mrow>
+                             <mi mathvariant='normal'>kg</mi>
+                           </mrow>
+                           <mrow>
+                             <mo>&#8722;</mo>
+                             <mn>2</mn>
+                           </mrow>
+                         </msup>
+                       </mrow>
+                     </math>
+                   </UnitSymbol>
+                   <RootUnits>
+                     <EnumeratedRootUnit unit='meter'/>
+                     <EnumeratedRootUnit unit='gram' prefix='k' powerNumerator='-2'/>
+                   </RootUnits>
+                 </Unit>
+               </UnitSet>
+               <DimensionSet>
+                 <Dimension xml:id='D_LM-2'>
+                   <Length symbol='L' powerNumerator='1'/>
+                   <Mass symbol='M' powerNumerator='-2'/>
+                 </Dimension>
+               </DimensionSet>
+               <PrefixSet>
+                 <Prefix prefixBase='10' prefixPower='3' xml:id='NISTp10_3'>
+                   <PrefixName xml:lang='en'>kilo</PrefixName>
+                   <PrefixSymbol type='ASCII'>k</PrefixSymbol>
+                   <PrefixSymbol type='unicode'>k</PrefixSymbol>
+                   <PrefixSymbol type='LaTeX'>k</PrefixSymbol>
+                   <PrefixSymbol type='HTML'>k</PrefixSymbol>
+                 </Prefix>
+               </PrefixSet>
+             </UnitsML>
+      EXT
+      )}
          <sections>
            <formula id='_'>
              <stem type='MathML'>
@@ -1838,47 +1894,33 @@ RSpec.describe Metanorma::Standoc do
       ====
     INPUT
     output = <<~OUTPUT
-      <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version="#{Metanorma::Standoc::VERSION}">
-         <bibdata type='standard'>
-           <title language='en' format='text/plain'>Document title</title>
-           <language>en</language>
-           <script>Latn</script>
-           <status>
-             <stage>published</stage>
-           </status>
-           <copyright>
-             <from>#{Time.now.year}</from>
-           </copyright>
-           <ext>
-             <doctype>standard</doctype>
-           </ext>
-         </bibdata>
-         <preface>
-           <note id='_2cfe95f6-7ad6-aa57-8207-6f7d7928aa8e'>
-             <p id='_76d95913-a379-c60f-5144-1f09655cafa6'>
-               Note which is very important
-               <xref target='a'/>
-             </p>
-           </note>
-           <foreword id='_96b556cb-657c-985b-351b-ed70d8bd6fdd' obligation='informative'>
-             <title>Foreword</title>
-             <p id='_d2f825bf-3e18-6143-8777-34e59928d48c'>Foreword</p>
-           </foreword>
-           <introduction id='_introduction' obligation='informative'>
-             <title>Introduction</title>
-             <p id='_272021ab-1bfa-78ae-e860-ed770e36f3d2'>Introduction</p>
-           </introduction>
-         </preface>
-         <sections>
-           <admonition id='_6abb9105-854c-e79c-c351-73a56d6ca81f' type='important'>
-             <p id='_69ec375e-c992-5be3-76dd-a2311f9bb6cc'>Notice which is very important</p>
-           </admonition>
-           <clause id='_scope' type='scope' inline-header='false' obligation='normative'>
-             <title>Scope</title>
-             <p id='_fdcef9f1-c898-da99-eff6-f3e6abde7799'>Scope statement</p>
-           </clause>
-         </sections>
-       </standard-document>
+        #{BLANK_HDR}
+        <preface>
+          <note id='_2cfe95f6-7ad6-aa57-8207-6f7d7928aa8e'>
+            <p id='_76d95913-a379-c60f-5144-1f09655cafa6'>
+              Note which is very important
+              <xref target='a'/>
+            </p>
+          </note>
+          <foreword id='_96b556cb-657c-985b-351b-ed70d8bd6fdd' obligation='informative'>
+            <title>Foreword</title>
+            <p id='_d2f825bf-3e18-6143-8777-34e59928d48c'>Foreword</p>
+          </foreword>
+          <introduction id='_introduction' obligation='informative'>
+            <title>Introduction</title>
+            <p id='_272021ab-1bfa-78ae-e860-ed770e36f3d2'>Introduction</p>
+          </introduction>
+        </preface>
+        <sections>
+          <admonition id='_6abb9105-854c-e79c-c351-73a56d6ca81f' type='important'>
+            <p id='_69ec375e-c992-5be3-76dd-a2311f9bb6cc'>Notice which is very important</p>
+          </admonition>
+          <clause id='_scope' type='scope' inline-header='false' obligation='normative'>
+            <title>Scope</title>
+            <p id='_fdcef9f1-c898-da99-eff6-f3e6abde7799'>Scope statement</p>
+          </clause>
+        </sections>
+      </standard-document>
     OUTPUT
     input1 = xmlpp(Asciidoctor.convert(input, *OPTIONS))
     expect(xmlpp(input1))
@@ -1906,20 +1948,21 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR}
-         <misc-container>
-           <table id='_'>
-             <tbody>
-               <tr>
-                 <td valign='top' align='left'>id1</td>
-                 <td valign='top' align='left'>
-                   <link target='http://www.example.com'/>
-                 </td>
-                 <td valign='top' align='left'>%2</td>
-               </tr>
-             </tbody>
-           </table>
-         </misc-container>
+      #{BLANK_HDR.sub(/<metanorma-extension>/, <<~EXT
+        <metanorma-extension>
+          <table id='_'>
+            <tbody>
+              <tr>
+                <td valign='top' align='left'>id1</td>
+                <td valign='top' align='left'>
+                  <link target='http://www.example.com'/>
+                </td>
+                <td valign='top' align='left'>%2</td>
+              </tr>
+            </tbody>
+          </table>
+      EXT
+      )}
          <sections>
            <clause id='id1' inline-header='false' obligation='normative'>
              <title>Clause 1</title>
@@ -1937,10 +1980,45 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "removes redundant bookmarks" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [appendix]
+      == Annex [[bookmark]]
+
+    INPUT
+    output = <<~OUTPUT
+      <annex id="bookmark" inline-header="false" obligation="normative">
+        <title>Annex</title>
+      </annex>
+    OUTPUT
+    ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xmlpp(strip_guid(ret.at("//xmlns:annex").to_xml)))
+      .to be_equivalent_to(xmlpp(output))
+
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [appendix]
+      [[annex]]
+      == Annex [[bookmark]]
+
+    INPUT
+    output = <<~OUTPUT
+      <annex id="annex" inline-header="false" obligation="normative">
+        <title>Annex <bookmark id="bookmark"/></title>
+      </annex>
+    OUTPUT
+    ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xmlpp(strip_guid(ret.at("//xmlns:annex").to_xml)))
+      .to be_equivalent_to(xmlpp(output))
+  end
+
   private
 
   def mock_mathml_italicise(string)
-    allow_any_instance_of(::Metanorma::Standoc::Cleanup)
+    allow_any_instance_of(Metanorma::Standoc::Cleanup)
       .to receive(:mathml_mi_italics).and_return(string)
   end
 

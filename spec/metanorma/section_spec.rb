@@ -26,6 +26,12 @@ RSpec.describe Metanorma::Standoc do
       [.preface]
       == Dedication
 
+      [.colophon]
+      == First Colophon Section
+
+      [.colophon]
+      == Second Colophon Section
+
       == Scope
 
       Text
@@ -102,8 +108,7 @@ RSpec.describe Metanorma::Standoc do
       == Thematic Index
     INPUT
     output = <<~OUTPUT
-            #{BLANK_HDR.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>')}
-              <misc-container><p id='_'>Content</p></misc-container>
+            #{BLANK_HDR.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>').sub(/<metanorma-extension>/, "<metanorma-extension><p id='_'>Content</p>")}
           <preface><abstract id="_">
           <title>Abstract</title>
         <p id="_">Text</p>
@@ -206,6 +211,14 @@ RSpec.describe Metanorma::Standoc do
       <indexsect id='_' type='thematic'>
         <title>Thematic Index</title>
       </indexsect>
+        <colophon>
+        <clause id="_" inline-header="false" obligation="normative">
+          <title>First Colophon Section</title>
+        </clause>
+        <clause id="_" inline-header="false" obligation="normative">
+          <title>Second Colophon Section</title>
+        </clause>
+      </colophon>
       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))

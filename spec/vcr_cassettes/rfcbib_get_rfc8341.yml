@@ -23,7 +23,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '853'
+      - '2526'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -31,7 +31,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"cfd58a2eaa2892b3c6cc6bb240f4e3a1e0ffd450cf6a2b5b9819bf44fcac8b6b"
+      - W/"3b45956ff3457c0a23080cf0804113ece4941987c29ff90011f7bee294cd99b1"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 821E:6A60:651B2:DA32A:6399AB04
+      - 5212:337C:18956:29865:6405C5EE
       Accept-Ranges:
       - bytes
       Date:
-      - Wed, 14 Dec 2022 10:52:52 GMT
+      - Mon, 06 Mar 2023 10:52:30 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11252-MEL
+      - cache-mel11221-MEL
       X-Cache:
-      - MISS
+      - HIT
       X-Cache-Hits:
-      - '0'
+      - '1'
       X-Timer:
-      - S1671015172.280582,VS0,VE319
+      - S1678099950.237624,VS0,VE313
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 5b5248275adff1961e74d094d9825a5226cb6387
+      - e33874380c2f2212f6a3aaa2fe0d71ee901d42b3
       Expires:
-      - Wed, 14 Dec 2022 10:57:52 GMT
+      - Mon, 06 Mar 2023 10:57:30 GMT
       Source-Age:
       - '0'
     body:
@@ -151,6 +151,11 @@ http_interactions:
           - type: author
         - organization:
             name:
+            - content: RFC Publisher
+          role:
+          - type: publisher
+        - organization:
+            name:
             - content: RFC Series
           role:
           - type: authorizer
@@ -189,7 +194,7 @@ http_interactions:
         - name: netconf
         ext:
           schema-version: v1.0.0
-  recorded_at: Wed, 14 Dec 2022 10:52:52 GMT
+  recorded_at: Mon, 06 Mar 2023 10:52:30 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-rfcs/main/data/RFC8341.yaml
@@ -213,7 +218,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '853'
+      - '2526'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -221,7 +226,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"cfd58a2eaa2892b3c6cc6bb240f4e3a1e0ffd450cf6a2b5b9819bf44fcac8b6b"
+      - W/"3b45956ff3457c0a23080cf0804113ece4941987c29ff90011f7bee294cd99b1"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -231,29 +236,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 821E:6A60:651B2:DA32A:6399AB04
+      - 5212:337C:18956:29865:6405C5EE
       Accept-Ranges:
       - bytes
       Date:
-      - Wed, 14 Dec 2022 10:52:52 GMT
+      - Mon, 06 Mar 2023 10:52:30 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11266-MEL
+      - cache-mel11222-MEL
       X-Cache:
-      - HIT
+      - MISS
       X-Cache-Hits:
-      - '1'
+      - '0'
       X-Timer:
-      - S1671015172.281356,VS0,VE318
+      - S1678099950.237608,VS0,VE313
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - ea8fff2a9c9c5314d06ddf78b0fbb60ecb9c9f2d
+      - ff310e429edf94af8bc2f3b62f25c6b01afb0ce4
       Expires:
-      - Wed, 14 Dec 2022 10:57:52 GMT
+      - Mon, 06 Mar 2023 10:57:30 GMT
       Source-Age:
       - '0'
     body:
@@ -341,6 +346,11 @@ http_interactions:
           - type: author
         - organization:
             name:
+            - content: RFC Publisher
+          role:
+          - type: publisher
+        - organization:
+            name:
             - content: RFC Series
           role:
           - type: authorizer
@@ -379,5 +389,5 @@ http_interactions:
         - name: netconf
         ext:
           schema-version: v1.0.0
-  recorded_at: Wed, 14 Dec 2022 10:52:52 GMT
+  recorded_at: Mon, 06 Mar 2023 10:52:30 GMT
 recorded_with: VCR 6.1.0

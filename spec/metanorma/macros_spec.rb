@@ -30,7 +30,7 @@ RSpec.describe Metanorma::Standoc do
           <deprecates><expression><name>term2</name></expression></deprecates>
           <domain>term3</domain>
           <inherit>
-            <eref type='inline' bibitemid='ref1' citeas='XYZ 123'/>
+            <eref type='inline' bibitemid='ref1' citeas='XYZ&#xa0;123'/>
           </inherit>
           <autonumber type='table'>3</autonumber>
           <add>
@@ -466,7 +466,6 @@ RSpec.describe Metanorma::Standoc do
        <sections>
           <p id='_'>
             <fn reference='1'>[ERROR]</fn>
-          </p>
           <note id='id2'>
             <table id='_'>
               <thead>
@@ -494,6 +493,7 @@ RSpec.describe Metanorma::Standoc do
               </li>
             </ul>
           </note>
+          </p>
         </sections>
       </standard-document>
     OUTPUT
@@ -758,7 +758,9 @@ RSpec.describe Metanorma::Standoc do
               </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -810,17 +812,22 @@ RSpec.describe Metanorma::Standoc do
               </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "processes recursive embed macro with includes" do
+  it "processes recursive embed macro with includes, xrefs to embedded documents" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       [[clause1]]
       == Clause
+      <<A>>
+      <<A,B>>
 
+      [[A]]
       embed::spec/assets/a1.adoc[]
     INPUT
     output = <<~OUTPUT
@@ -841,6 +848,7 @@ RSpec.describe Metanorma::Standoc do
            <relation type='derivedFrom'>
              <bibitem>
                <title language='en' format='text/plain'>X</title>
+               <docidentifier>DOCIDENTIFIER-1</docidentifier>
                <language>en</language>
                <script>Latn</script>
                <status>
@@ -855,6 +863,7 @@ RSpec.describe Metanorma::Standoc do
                <relation type='derivedFrom'>
                  <bibitem>
                    <title language='en' format='text/plain'>A2</title>
+                   <docidentifier>DOCIDENTIFIER-2</docidentifier>
                    <language>en</language>
                    <script>Latn</script>
                    <status>
@@ -906,12 +915,18 @@ RSpec.describe Metanorma::Standoc do
          <sections>
            <clause id='clause1' inline-header='false' obligation='normative'>
              <title>Clause</title>
+                   <p id="_">
+        <xref target="A">DOCIDENTIFIER-1</xref>
+        <xref target="A">B</xref>
+      </p>
            </clause>
-           <clause id='_' inline-header='false' obligation='normative'>
+           <clause id='A' inline-header='false' obligation='normative'>
              <title>Clause 1</title>
-             <p id='_'>X</p>
+                  <p id="_">
+       <xref target="B">DOCIDENTIFIER-2</xref>
+     </p>
            </clause>
-           <clause id='_' inline-header='false' obligation='normative'>
+           <clause id='B' inline-header='false' obligation='normative'>
              <title>Clause 2</title>
              <p id='_'>X</p>
            </clause>
@@ -930,7 +945,9 @@ RSpec.describe Metanorma::Standoc do
          </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -951,7 +968,7 @@ RSpec.describe Metanorma::Standoc do
             <clause id='clause1' inline-header='false' obligation='normative'>
               <title>Clause</title>
               <p id='_'>
-                <eref type='inline' bibitemid='_' citeas='ISO 131'/>
+                <eref type='inline' bibitemid='_' citeas='ISO&#xa0;131'/>
                 <eref type='inline' droploc='true' bibitemid='_' citeas='iso:std:iso:13485:en'>
                   <localityStack>
                     <locality type='clause'>
@@ -976,7 +993,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='src'>https://www.iso.org/standard/3944.html</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
                 <docidentifier type='ISO' primary='true'>ISO 131</docidentifier>
-                <docidentifier type='URN'>urn:iso:std:iso:131:ed-1</docidentifier>
+                <docidentifier type="URN">urn:iso:std:iso:131:stage-95.99:ed-1</docidentifier>
                 <docnumber>131</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -1019,7 +1036,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='src'>https://www.iso.org/standard/3944.html</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
                     <docidentifier type='ISO' primary='true'>ISO 131:1979</docidentifier>
-                    <docidentifier type='URN'>urn:iso:std:iso:131:ed-1</docidentifier>
+                    <docidentifier type="URN">urn:iso:std:iso:131:stage-95.99:ed-1</docidentifier>
                     <docnumber>131</docnumber>
                     <date type='published'>
                       <on>1979-11</on>

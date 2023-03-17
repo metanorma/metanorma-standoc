@@ -22,10 +22,8 @@ module Metanorma
             @log.add("Crossreferences", nil,
                      "term source #{s['bibitemid']} not referenced")
         end
-        a = if source.empty? && term.nil?
-              @i18n.no_terms_boilerplate
-            else
-              term_defs_boilerplate_cont(source, term, isodoc)
+        a = if source.empty? && term.nil? then @i18n.no_terms_boilerplate
+            else term_defs_boilerplate_cont(source, term, isodoc)
             end
         a and div.next = a
       end
@@ -81,7 +79,7 @@ module Metanorma
         xmldoc.xpath(xpath).each do |f|
           f.xpath(".//clause[@type = 'boilerplate'] | " \
                   ".//note[@type = 'boilerplate']").each do |c|
-            c&.at("./title")&.remove
+            c.at("./title")&.remove
             c.replace(c.children)
           end
         end
@@ -89,13 +87,12 @@ module Metanorma
 
       def termdef_boilerplate_insert(xmldoc, isodoc, once = false)
         xmldoc.xpath(self.class::TERM_CLAUSE).each do |f|
-          next if f.at("./clause[@type = 'boilerplate'] | " \
-                       "./note[@type = 'boilerplate']")
-
+          f.at("./clause[@type = 'boilerplate'] | " \
+               "./note[@type = 'boilerplate']") and next
           term_defs_boilerplate(f.at("./title"),
                                 xmldoc.xpath(".//termdocsource"),
                                 f.at(".//term"), f.at(".//p"), isodoc)
-          break if once
+          once and break
         end
       end
 
@@ -109,8 +106,7 @@ module Metanorma
       end
 
       def initial_boilerplate(xml, isodoc)
-        return if xml.at("//boilerplate")
-
+        xml.at("//boilerplate") and return
         preface = xml.at("//preface") || xml.at("//sections") ||
           xml.at("//annex") || xml.at("//references") or return
         b = boilerplate(xml, isodoc) or return
@@ -123,10 +119,8 @@ module Metanorma
 
       def boilerplate(xml, conv)
         file = boilerplate_file(xml)
-        if @boilerplateauthority
-          file = File.join(@localdir,
-                           @boilerplateauthority)
-        end
+        @boilerplateauthority and
+          file = File.join(@localdir, @boilerplateauthority)
         (!file.nil? and File.exist?(file)) or return
         conv.populate_template(File.read(file, encoding: "UTF-8"), nil)
       end
@@ -134,7 +128,8 @@ module Metanorma
       def bibdata_cleanup(xmldoc)
         bibdata_anchor_cleanup(xmldoc)
         bibdata_docidentifier_cleanup(xmldoc)
-        bibdata_embed_hdr_cleanup(xmldoc)
+        bibdata_embed_hdr_cleanup(xmldoc) # feeds bibdata_embed_id_cleanup
+        bibdata_embed_id_cleanup(xmldoc)
         biblio_indirect_erefs(xmldoc, @internal_eref_namespaces&.uniq)
       end
 
@@ -147,8 +142,7 @@ module Metanorma
       def bibdata_docidentifier_cleanup(xmldoc)
         ins = xmldoc.at("//bibdata/docidentifier")
         xmldoc.xpath("//bibdata/docidentifier").each_with_index do |b, i|
-          next if i.zero?
-
+          i.zero? and next
           ins.next = b.remove
           ins = ins.next
         end
@@ -212,8 +206,7 @@ module Metanorma
       end
 
       def bibdata_embed_hdr_cleanup(xmldoc)
-        return if @embed_hdr.nil? || @embed_hdr.empty?
-
+        (@embed_hdr.nil? || @embed_hdr.empty?) and return
         xmldoc.at("//bibdata") << "<relation type='derivedFrom'>" \
                                   "#{hdr2bibitem(@embed_hdr.first)}</relation>"
       end
@@ -239,6 +232,19 @@ module Metanorma
       def embed_recurse(bibitem, node)
         node[:child].map { |x| hdr2bibitem(x) }.each do |x|
           bibitem << "<relation type='derivedFrom'>#{x}</relation>"
+        end
+      end
+
+      def bibdata_embed_id_cleanup(xmldoc)
+        @embed_id.nil? and return
+        bibdata = xmldoc.at("//bibdata")
+        #require "debug"; binding.b
+        @embed_id.each do |d|
+          bibdata = bibdata.at("./relation[@type = 'derivedFrom']/bibitem")
+          ident = bibdata.at("./docidentifier[@primary = 'true']") ||
+            bibdata.at("./docidentifier")
+          xmldoc.xpath("//xref[@target = '#{d}'][normalize-space(text()) = '']")
+            .each { |x| x << ident.text }
         end
       end
     end

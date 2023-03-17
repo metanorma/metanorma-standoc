@@ -2,25 +2,47 @@ module Metanorma
   module Standoc
     class EmbedIncludeProcessor < Asciidoctor::Extensions::Preprocessor
       def process(doc, reader)
-        return reader if reader.eof?
-
+        reader.eof? and return reader
         lines = reader.readlines
         headings = lines.grep(/^== /).map(&:strip)
-        ret = lines.each_with_object({ lines: [], hdr: [] }) do |line, m|
-          process1(line, m, doc, reader, headings)
+        ret = lines.each_with_object(embed_acc(doc, reader)) do |line, m|
+          process_line(line, m, headings)
         end
+        return_to_document(doc, ret)
+      end
+
+      def embed_acc(doc, reader)
+        { lines: [], hdr: [], id: [],
+          doc: doc, reader: reader, prev: nil }
+      end
+
+      # presupposes single embed
+      def return_to_document(doc, ret)
         doc.attributes["embed_hdr"] = ret[:hdr]
+        doc.attributes["embed_id"] = ret[:id]
         ::Asciidoctor::Reader.new ret[:lines].flatten
       end
 
-      def process1(line, acc, doc, reader, headings)
+      def process_line(line, acc, headings)
         if /^embed::/.match?(line)
-          e = embed(line, doc, reader, headings)
-          acc[:lines] << e[:lines]
-          acc[:hdr] << e[:hdr]
+          e = embed(line, acc[:doc], acc[:reader], headings)
+          acc = process_embed(acc, e, acc[:prev])
         else
           acc[:lines] << line
         end
+        acc[:prev] = line
+        acc
+      end
+
+      def process_embed(acc, embed, prev)
+        if /^\[\[.+\]\]/.match?(prev) # anchor
+          acc[:id] << prev.sub(/^\[\[/, "").sub(/\]\]$/, "")
+          i = embed[:lines].index { |x| /^== /.match?(x) } and
+            embed[:lines][i] += " #{prev}" # => bookmark
+        end
+        acc[:lines] << embed[:lines]
+        acc[:hdr] << embed[:hdr]
+        acc[:id] += embed[:id]
         acc
       end
 
@@ -48,15 +70,15 @@ module Metanorma
         lines = filter_sections(read(inc_path), headings)
         doc = Asciidoctor::Document.new [], { safe: :safe }
         reader = ::Asciidoctor::PreprocessorReader.new doc, lines
-        ret = strip_header(reader.read_lines)
+        ret = embed_acc(doc, reader).merge(strip_header(reader.read_lines))
         embed_recurse(ret, doc, reader, headings)
       end
 
       def embed_recurse(ret, doc, reader, headings)
-        ret1 = ret[:lines].each_with_object({ lines: [], hdr: [] }) do |line, m|
-          process1(line, m, doc, reader, headings)
+        ret1 = ret[:lines].each_with_object(embed_acc(doc, reader)) do |line, m|
+          process_line(line, m, headings)
         end
-        { lines: ret1[:lines],
+        { lines: ret1[:lines], id: ret[:id] + ret1[:id],
           hdr: { text: ret[:hdr].join("\n"), child: ret1[:hdr] } }
       end
 

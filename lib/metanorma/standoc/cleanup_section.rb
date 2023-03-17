@@ -10,18 +10,31 @@ module Metanorma
         if xml.at("//foreword | //introduction | //acknowledgements | " \
                   "//*[@preface]")
           preface = sect.add_previous_sibling("<preface/>").first
-          f = xml.at("//foreword") and preface.add_child f.remove
-          f = xml.at("//introduction") and preface.add_child f.remove
+          f = xml.at("//foreword") and to_preface(preface, f)
+          f = xml.at("//introduction") and to_preface(preface, f)
           move_clauses_into_preface(xml, preface)
-          f = xml.at("//acknowledgements") and preface.add_child f.remove
+          f = xml.at("//acknowledgements") and to_preface(preface, f)
         end
         make_abstract(xml, sect)
       end
 
       def move_clauses_into_preface(xml, preface)
         xml.xpath("//*[@preface]").each do |c|
-          c.delete("preface")
-          preface.add_child c.remove
+          to_preface(preface, c)
+        end
+      end
+
+      def to_preface(preface, clause)
+        clause.delete("preface")
+        preface.add_child clause.remove
+      end
+
+      def make_colophon(xml)
+        xml.at("//clause[@colophon]") or return
+        colophon = xml.root.add_child("<colophon/>").first
+        xml.xpath("//*[@colophon]").each do |c|
+          c.delete("colophon")
+          colophon.add_child c.remove
         end
       end
 
@@ -72,10 +85,12 @@ module Metanorma
 
       def sections_order_cleanup(xml)
         s = xml.at("//sections")
+        pop_floating_title(xml)
         make_preface(xml, s)
         make_annexes(xml)
         make_indexsect(xml, s)
         make_bibliography(xml, s)
+        make_colophon(xml)
         xml.xpath("//sections/annex").reverse_each { |r| s.next = r.remove }
       end
 
@@ -199,7 +214,6 @@ module Metanorma
       end
 
       def floatingtitle_cleanup(xmldoc)
-        pop_floating_title(xmldoc)
         floating_title_preface2sections(xmldoc)
       end
 

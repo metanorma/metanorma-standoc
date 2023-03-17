@@ -77,7 +77,8 @@ module Metanorma
           elem["citeas"] = ""
           xref_to_eref1(elem)
         end
-        elem.delete("target").delete("style")
+        elem.delete("target")
+        elem.delete("style")
         extract_localities(elem)
       end
 
@@ -109,7 +110,7 @@ module Metanorma
       end
 
       def anchor_alias(xmldoc)
-        t = xmldoc.at("//misc-container/table[@id = " \
+        t = xmldoc.at("//metanorma-extension/table[@id = " \
                       "'_misccontainer_anchor_aliases']") or return
         key = ""
         t.xpath("./tbody/tr").each do |tr|

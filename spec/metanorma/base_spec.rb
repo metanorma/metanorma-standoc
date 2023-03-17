@@ -25,21 +25,7 @@ RSpec.describe Metanorma::Standoc do
       Text &times; text
     INPUT
     output = <<~OUTPUT
-      <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
-        <bibdata type='standard'>
-          <title language='en' format='text/plain'>Document title</title>
-          <language>en</language>
-          <script>Latn</script>
-          <status>
-            <stage>published</stage>
-          </status>
-          <copyright>
-            <from>#{Time.now.year}</from>
-          </copyright>
-          <ext>
-            <doctype>standard</doctype>
-          </ext>
-        </bibdata>
+      #{BLANK_HDR}
         <sections>
         <p id='_'>Text × text</p>
         </sections>
@@ -78,7 +64,9 @@ RSpec.describe Metanorma::Standoc do
            <sections> </sections>
          </standard-document>
     OUTPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -174,7 +162,9 @@ RSpec.describe Metanorma::Standoc do
         <sections> </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -232,6 +222,8 @@ RSpec.describe Metanorma::Standoc do
       :library-ics: 01.040.11,11.060.01
       :fullname: Fred Flintstone
       :role: author
+      :contributor-credentials: PhD, F.R.Pharm.S.
+      :contributor-position: Vice President, Medical Devices Quality & Compliance -- Strategic programmes
       :affiliation: Slate Rock and Gravel Company
       :affiliation_abbrev: SRG
       :affiliation_subdiv: Hermeneutics Unit; Exegetical Subunit
@@ -243,6 +235,8 @@ RSpec.describe Metanorma::Standoc do
       :givenname_2: Barney
       :initials_2: B. X.
       :role_2: editor
+      :contributor-credentials_2: PhD, F.R.Pharm.S.
+      :contributor-position_2: Former Chair ISO TC 210
       :affiliation_2: Rockhead and Quarry Cave Construction Company
       :affiliation_abbrev_2: RQCCC
       :affiliation_subdiv_2: Hermeneutics Unit; Exegetical Subunit
@@ -344,7 +338,9 @@ RSpec.describe Metanorma::Standoc do
                <name>
                  <completename>Fred Flintstone</completename>
                </name>
+               <credentials>PhD, F.R.Pharm.S.</credentials>
                 <affiliation>
+                <name>Vice President, Medical Devices Quality &amp; Compliance -- Strategic programmes</name>
               <organization>
                 <name>Slate Rock and Gravel Company</name>
                 <abbreviation>SRG</abbreviation>
@@ -370,7 +366,9 @@ RSpec.describe Metanorma::Standoc do
                  <initial>B. X.</initial>
                  <surname>Rubble</surname>
                </name>
+               <credentials>PhD, F.R.Pharm.S.</credentials>
            <affiliation>
+             <name>Former Chair ISO TC 210</name>
              <organization>
                <name>Rockhead and Quarry Cave Construction Company</name>
                <abbreviation>RQCCC</abbreviation>
@@ -526,20 +524,20 @@ RSpec.describe Metanorma::Standoc do
              </ics>
              </ext>
            </bibdata>
-            <misc-container>
+            <metanorma-extension>
         <presentation-metadata>
           <name>TOC Heading Levels</name>
           <value>2</value>
         </presentation-metadata>
         <presentation-metadata>
-          <name>TOC Heading Levels</name>
-          <value>2</value>
+          <name>HTML TOC Heading Levels</name>
+          <value>4</value>
         </presentation-metadata>
         <presentation-metadata>
-          <name>TOC Heading Levels</name>
-          <value>2</value>
+          <name>DOC TOC Heading Levels</name>
+          <value>3</value>
         </presentation-metadata>
-      </misc-container>
+      </metanorma-extension>
            <sections/>
            </standard-document>
     OUTPUT
@@ -731,7 +729,19 @@ RSpec.describe Metanorma::Standoc do
                    <subdoctype>This is a DocSubType</subdoctype>
                    </ext>
                  </bibdata>
-                   <misc-container>
+                   <metanorma-extension>
+                       <presentation-metadata>
+      <name>TOC Heading Levels</name>
+      <value>2</value>
+    </presentation-metadata>
+    <presentation-metadata>
+      <name>HTML TOC Heading Levels</name>
+      <value>2</value>
+    </presentation-metadata>
+    <presentation-metadata>
+      <name>DOC TOC Heading Levels</name>
+      <value>2</value>
+    </presentation-metadata>
         <semantic-metadata>
           <hello-world>A</hello-world>
         </semantic-metadata>
@@ -753,7 +763,7 @@ RSpec.describe Metanorma::Standoc do
         <presentation-metadata>
           <manifold>yes</manifold>
         </presentation-metadata>
-      </misc-container>
+      </metanorma-extension>
                    <preface>
               <abstract id='_'>
               <title>Abstract</title>
@@ -839,11 +849,13 @@ RSpec.describe Metanorma::Standoc do
         <sections> </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "processes subdivisions" do
+  it "processes subdivisions; override docnumber with docidentifier" do
     mock_default_publisher
     input = <<~INPUT
       = Document title
@@ -853,6 +865,7 @@ RSpec.describe Metanorma::Standoc do
       :novalid:
       :revdate: 2000-01
       :published-date: 1000-01
+      :docidentifier: OVERRIDE-DOCIDENTIFIER
       :docnumber: 1000
       :partnumber: 1-1
       :tc-docnumber: 2000
@@ -873,7 +886,7 @@ RSpec.describe Metanorma::Standoc do
              <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
         <bibdata type='standard'>
           <title language='en' format='text/plain'>Document title</title>
-          <docidentifier>1000-1-1</docidentifier>
+          <docidentifier>OVERRIDE-DOCIDENTIFIER</docidentifier>
           <docnumber>1000</docnumber>
           <date type='published'>
             <on>1000-01</on>
@@ -933,7 +946,9 @@ RSpec.describe Metanorma::Standoc do
         <sections> </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -974,7 +989,9 @@ RSpec.describe Metanorma::Standoc do
       <sections> </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
 

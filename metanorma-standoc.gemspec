@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "asciidoctor", "~> 2.0.0"
   spec.add_dependency "iev", "~> 0.3.0"
-  spec.add_dependency "isodoc", "~> 2.4.0"
+  spec.add_dependency "isodoc", "~> 2.5.0"
   spec.add_dependency "metanorma"
   spec.add_dependency "metanorma-plugin-datastruct", "~> 0.2.0"
   spec.add_dependency "metanorma-plugin-lutaml"
@@ -40,7 +40,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "concurrent-ruby"
   spec.add_dependency "plurimath"
   spec.add_dependency "pngcheck"
-  spec.add_dependency "relaton-cli", "~> 1.14.0"
+  spec.add_dependency "relaton-cli", "~> 1.15.0"
   spec.add_dependency "relaton-iev", "~> 1.1.0"
   spec.add_dependency "unicode2latex", "~> 0.0.1"
 

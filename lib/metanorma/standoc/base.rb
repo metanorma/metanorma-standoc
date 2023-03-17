@@ -59,6 +59,7 @@ module Metanorma
         @index_terms = node.attr("index-terms")
         @boilerplateauthority = node.attr("boilerplate-authority")
         @embed_hdr = node.attr("embed_hdr")
+        @embed_id = node.attr("embed_id")
         @document_scheme = node.attr("document-scheme")
         @xrefstyle = node.attr("xrefstyle")
         @source_linenums = node.attr("source-linenums-option") == "true"
@@ -82,12 +83,18 @@ module Metanorma
       end
 
       def init_toc(node)
-        @htmltoclevels = node.attr("htmltoclevels")
-        @doctoclevels = node.attr("doctoclevels")
-        @toclevels = node.attr("toclevels")
+        @htmltoclevels = node.attr("htmltoclevels") ||
+          node.attr("toclevels") || toc_default[:html_levels]
+        @doctoclevels = node.attr("doctoclevels") ||
+          node.attr("toclevels") || toc_default[:word_levels]
+        @toclevels = node.attr("toclevels") || toc_default[:word_levels]
         @tocfigures = node.attr("toc-figures")
         @toctables = node.attr("toc-tables")
         @tocrecommendations = node.attr("toc-recommendations")
+      end
+
+      def toc_default
+        { word_levels: 2, html_levels: 2 }
       end
 
       def init_output(node)
@@ -144,8 +151,7 @@ module Metanorma
       end
 
       def insert_xml_cr(doc)
-        doc
-          .gsub(%r{(</(clause|table|figure|p|bibitem|ul|ol|dl|dt|dd|li|example|
+        doc.gsub(%r{(</(clause|table|figure|p|bibitem|ul|ol|dl|dt|dd|li|example|
                        sourcecode|formula|quote|references|annex|appendix|title|
                        name|note|thead|tbody|tfoot|th|td|form|requirement|
                        recommendation|permission|imagemap|svgmap|preferred|
@@ -153,7 +159,8 @@ module Metanorma
                        graphical-symbol|expression|abbreviation-type|subject|
                        pronunciation|grammar|term|terms|termnote|termexample|
                        termsource|origin|termref|modification)>)}x, "\\1\n")
-          .gsub(%r{(<(title|name))}x, "\n\\1")
+          .gsub(%r{(<(title|name))}, "\n\\1")
+          .gsub(%r{(<sourcecode[^>]*>)\s+(<name[^>]*>[^<]+</name>)\s+}, "\\1\\2")
       end
 
       def version

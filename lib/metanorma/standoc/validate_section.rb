@@ -40,7 +40,7 @@ module Metanorma
       end
 
       def hanging_para_style(root)
-        root.xpath("//clause | //annex | //foreword | //introduction | "\
+        root.xpath("//clause | //annex | //foreword | //introduction | " \
                    "//acknowledgements").each do |c|
           next unless c.at("./clause")
           next if c.elements.reject do |n|
@@ -49,6 +49,18 @@ module Metanorma
 
           style_warning(c, "Hanging paragraph in clause")
         end
+      end
+
+      def norm_ref_validate(doc)
+        found = false
+        doc.xpath("//references[@normative = 'true']/bibitem").each do |b|
+          docid = b.at("./docidentifier[@type = 'metanorma']") or next
+          /^\[\d+\]$/.match?(docid.text) or next
+          @log.add("Bibliography", b,
+                   "Numeric reference in normative references")
+          found = true
+        end
+        found and @fatalerror << "Numeric reference in normative references"
       end
     end
   end

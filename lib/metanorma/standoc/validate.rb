@@ -23,7 +23,7 @@ module Metanorma
         @iev = init_iev or return
         xmldoc.xpath("//term").each do |t|
           t.xpath(".//termsource").each do |src|
-            (/^IEC 60050-/.match(src.at("./origin/@citeas")&.text) &&
+            (/^IEC[  ]60050-/.match(src.at("./origin/@citeas")&.text) &&
           loc = src.xpath(SOURCELOCALITY)&.text) or next
             iev_validate1(t, loc, xmldoc)
           end
@@ -92,8 +92,7 @@ module Metanorma
       end
 
       def nested_asset_validate_basic(doc)
-        a = "//formula | //example | //figure | //termnote | //termexample | " \
-            "//table"
+        a = "//example | //figure | //termnote | //termexample | //table"
         doc.xpath("#{a} | //note").each do |m|
           m.xpath(a.gsub(%r{//}, ".//")).each do |n|
             nested_asset_report(m, n, doc)
@@ -111,7 +110,6 @@ module Metanorma
 
       def nested_asset_report(outer, inner, doc)
         outer.name == "figure" && inner.name == "figure" and return
-        outer.name != "formula" && inner.name == "formula" and return
         err =
           "There is an instance of #{inner.name} nested within #{outer.name}"
         @log.add("Syntax", inner, err)
@@ -124,18 +122,6 @@ module Metanorma
                "nested within #{outer.name}: #{i.to_xml}"
         @log.add("Style", i, err2)
         @fatalerror << err2
-      end
-
-      def norm_ref_validate(doc)
-        found = false
-        doc.xpath("//references[@normative = 'true']/bibitem").each do |b|
-          docid = b.at("./docidentifier[@type = 'metanorma']") or next
-          /^\[\d+\]$/.match?(docid.text) or next
-          @log.add("Bibliography", b,
-                   "Numeric reference in normative references")
-          found = true
-        end
-        found and @fatalerror << "Numeric reference in normative references"
       end
 
       def concept_validate(doc, tag, refterm)
@@ -211,7 +197,7 @@ module Metanorma
       WILDCARD_ATTRS =
         "//*[@format] | //stem | //bibdata//description | " \
         "//formattedref | //bibdata//note | //bibdata/abstract | " \
-        "//bibitem/abstract | //bibitem/note | //misc-container".freeze
+        "//bibitem/abstract | //bibitem/note | //metanorma-extension".freeze
 
       # RelaxNG cannot cope well with wildcard attributes. So we strip
       # any attributes from FormattedString instances (which can contain
@@ -233,7 +219,7 @@ module Metanorma
         @doc_xrefs = doc.xpath("//xref/@target | //xref/@to")
           .each_with_object({}) do |x, m|
           m[x.text] = x
-          @doc_ids[x] and next
+          @doc_ids[x.text] and next
           @log.add("Anchors", x.parent,
                    "Crossreference target #{x} is undefined")
         end

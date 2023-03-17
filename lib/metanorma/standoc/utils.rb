@@ -18,7 +18,7 @@ module Metanorma
       end
 
       def noko(&block)
-        Metanorma::Utils::noko(&block)
+        Metanorma::Utils::noko(@script, &block)
       end
 
       def attr_code(attributes)
@@ -66,6 +66,13 @@ module Metanorma
           para.at("./link").replace(elems[0]["target"].strip)
         end
         para
+      end
+
+       def xml_encode(text)
+        @c.encode(text, :basic, :hexadecimal)
+          .gsub(/&amp;gt;/, ">").gsub(/&amp;lt;/, "<").gsub(/&amp;amp;/, "&")
+          .gsub(/&gt;/, ">").gsub(/&lt;/, "<").gsub(/&amp;/, "&")
+          .gsub(/&quot;/, '"').gsub(/&#xa;/, "\n").gsub(/&amp;#/, "&#")
       end
 
       class EmptyAttr

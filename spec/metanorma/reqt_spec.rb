@@ -11,7 +11,7 @@ RSpec.describe Metanorma::Standoc do
       ====
     INPUT
     output = <<~"OUTPUT"
-      #{BLANK_HDR}
+      #{BLANK_HDR.sub(/<metanorma-extension>.*<\/metanorma-extension>/m, '')}
        <sections>
          <recommendation id="_" unnumbered="true" type="verification" model="ogc" tag='X' multilingual-rendering='common'>
          <identifier>/ogc/recommendation/wfs/2</identifier>
@@ -26,7 +26,7 @@ RSpec.describe Metanorma::Standoc do
               </standard-document>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    xml.at("//xmlns:misc-container")&.remove
+    xml.at("//xmlns:metanorma-extension")&.remove
     expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
