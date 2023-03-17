@@ -18,7 +18,7 @@ module Metanorma
       end
 
       def noko(&block)
-        Metanorma::Utils::noko(&block)
+        Metanorma::Utils::noko(@script, &block)
       end
 
       def attr_code(attributes)
