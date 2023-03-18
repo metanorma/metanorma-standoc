@@ -499,6 +499,7 @@ RSpec.describe Metanorma::Standoc do
     FileUtils.rm_rf "test.iev.pstore"
     # mock_iev
     VCR.use_cassette("separates_iev_citations_by_top_level_clause",
+                     :record => :new_episodes,
                     match_requests_on: %i[method uri body]) do
       input = <<~INPUT
         #{CACHED_ISOBIB_BLANK_HDR}

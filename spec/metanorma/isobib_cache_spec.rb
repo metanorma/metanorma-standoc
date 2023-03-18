@@ -344,6 +344,7 @@ RSpec.describe Metanorma::Standoc do
 
     # mock_isobib_get_123
     VCR.use_cassette("isobib_get_123_2001_and_iev",
+                     :record => :new_episodes,
                      match_requests_on: %i[method uri body]) do
       Asciidoctor.convert(<<~"INPUT", *OPTIONS)
         #{FLUSH_CACHE_ISOBIB_BLANK_HDR}
