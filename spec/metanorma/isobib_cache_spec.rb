@@ -343,7 +343,8 @@ RSpec.describe Metanorma::Standoc do
     FileUtils.rm_rf File.expand_path("~/.iev/cache")
 
     # mock_isobib_get_123
-    VCR.use_cassette "isobib_get_123_2001_and_iev" do
+    VCR.use_cassette("isobib_get_123_2001_and_iev",
+                     match_requests_on: %i[method uri body]) do
       Asciidoctor.convert(<<~"INPUT", *OPTIONS)
         #{FLUSH_CACHE_ISOBIB_BLANK_HDR}
         [bibliography]
