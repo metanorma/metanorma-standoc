@@ -153,7 +153,9 @@ module Metanorma
         if /&lt;([^:>&]+:)?math(\s+[^>&]+)?&gt; |
           <([^:>&]+:)?math(\s+[^>&]+)?>/x.match? text
           math = xml_encode(text)
-          xml.stem math, type: "MathML"
+          xml.stem type: "MathML" do |s|
+            s << math
+          end
         elsif style == :latexmath then latex_parse(text, xml)
         else
           xml.stem text&.gsub(/&amp;#/, "&#"), type: "AsciiMath"

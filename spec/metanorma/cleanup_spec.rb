@@ -176,42 +176,18 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-        <sections>
-          <p id='_'>“<strong>word</strong>”,</p>
-           <p id='_'>“<link target='http://example.com'/>”,</p>
-          <p id='_'>&#8220;ppt&#8221;,
-                 <index>
-                   <primary>ppt</primary>
-                 </index>
-               </p>
-          <p id='_'>&#8220;ppm&#8221;,
-                 <index>
-                   <primary>ppm</primary>
-                 </index>
-                  &#8220;ppt&#8221;
-                 <index>
-                   <primary>ppt</primary>
-                 </index>
-               </p>
-          <p id='_'>&#8220;ppm
-        <index>
-          <primary>ppm</primary>
-        </index>
-        &#8221;&#160;
-      </p>
-         <p id='_'>“<stem type='MathML'>
-       <math xmlns='http://www.w3.org/1998/Math/MathML'>
-         <mn>3</mn>
-       </math>
-      <asciimath>3</asciimath></stem>”.<fn reference='1'>
-       <p id='_'>The mole</p>
-      </fn>
-      </p>
-      <figure id='_'>
-        <pre id='_'>((ppm))",</pre>
-      </figure>
-            </sections>
-            </standard-document>
+                     <sections>
+           <p id="_">“<strong>word</strong>”,</p>
+           <p id="_">“<link target="http://example.com"/>”,</p>
+           <p id="_">“ppt”,<index><primary>ppt</primary></index></p>
+           <p id="_">“ppm”,<index><primary>ppm</primary></index> “ppt”<index><primary>ppt</primary></index></p>
+           <p id="_">“ppm<index><primary>ppm</primary></index>” </p>
+           <p id="_">“<stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mstyle displaystyle="true"><mn>3</mn></mstyle></math><asciimath>3</asciimath></stem>”.<fn reference="1"><p id="_">The mole</p></fn></p>
+           <figure id="_">
+             <pre id="_">((ppm))",</pre>
+           </figure>
+         </sections>
+       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -615,7 +591,7 @@ RSpec.describe Metanorma::Standoc do
                <language>en</language>
                <language>fr</language>
                <script>Latn</script>
-               <abstract format="text/html" language="en" script="Latn">This part of IEC 60050 gives the general mathematical terminology used in the fields of electricity, electronics and telecommunications, together with basic concepts in linear algebra. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Another part will deal with functions.<br/>It has the status of a horizontal standard in accordance with&lt;a href=”http://webstore.iec.ch/webstore/webstore.nsf/Artnum_PK/36435?opendocument”&gt;IEC Guide 108.&lt;/&gt;</abstract>
+               <abstract format="text/html" language="en" script="Latn">This part of IEC 60050 gives the general mathematical terminology used in the fields of electricity, electronics and telecommunications, together with basic concepts in linear algebra. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Another part will deal with functions.<br/>It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
                <abstract format="text/html" language="fr" script="Latn">Cette partie de la CEI 60050 donne la terminologie mathématique générale utilisée dans les domaines de l’électricité, de l’électronique et des télécommunications, ainsi que les concepts fondamentaux d’algèbre linéaire. Elle maintient une distinction nette entre les concepts mathématiques et les concepts physiques, même si certains termes sont employés dans les deux cas. Une autre partie traitera des fonctions.<br/>Elle a le statut de norme horizontale conformément au  Guide IEC 108.</abstract>
                <status>
                  <stage>PUBLISHED</stage>
@@ -763,21 +739,22 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
              #{BLANK_HDR}
-             <sections>
-               <p id="_">
-               <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac>
-      <mrow>
-        <mn>1</mn>
-      </mrow>
-      <mrow>
-        <mi>r</mi>
-      </mrow>
-      </mfrac></math>
-      <asciimath>1/r</asciimath>
-      </stem>
-             </p>
-             </sections>
-             </standard-document>
+                      <sections>
+           <p id="_">
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                 <mstyle displaystyle="true">
+                   <mfrac>
+                     <mn>1</mn>
+                     <mi>r</mi>
+                   </mfrac>
+                 </mstyle>
+               </math>
+               <asciimath>1/r</asciimath>
+             </stem>
+           </p>
+         </sections>
+       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -811,19 +788,21 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
             <sections>
-        <p id='_'>
-          <stem type='MathML'>
-            <math xmlns='http://www.w3.org/1998/Math/MathML'>
-              <mstyle mathvariant='sans-serif'>
-                <mrow xref='U_NISTu7'>
-                  <mi mathvariant='sans-serif'>cd</mi>
-                </mrow>
-              </mstyle>
-            </math>
-           <asciimath>sf "unitsml(cd)"</asciimath>
-          </stem>
-        </p>
-      </sections>
+          <p id="_">
+            <stem type="MathML">
+              <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                <mstyle displaystyle="true">
+                  <mstyle mathvariant="sans-serif">
+                    <mrow xref="U_NISTu7">
+                      <mi mathvariant="sans-serif">cd</mi>
+                    </mrow>
+                  </mstyle>
+                </mstyle>
+              </math>
+              <asciimath>sf "unitsml(cd)"</asciimath>
+            </stem>
+          </p>
+        </sections>
     OUTPUT
     expect(xmlpp(strip_guid(Nokogiri::XML(
       Asciidoctor.convert(input, *OPTIONS),
@@ -1143,8 +1122,10 @@ RSpec.describe Metanorma::Standoc do
       </dd>
       <dt id="symbol-n-n">
         <stem type='MathML'>
-          <math xmlns='http://www.w3.org/1998/Math/MathML'>
+          <math xmlns='http://www.w3.org/1998/Math/MathML'  display="block">
+          <mstyle displaystyle="true">
             <mi>n</mi>
+            </mstyle>
           </math>
            <asciimath>n</asciimath>
         </stem>
@@ -1152,6 +1133,10 @@ RSpec.describe Metanorma::Standoc do
       <dd>
         <p id='_'>Definition 6</p>
       </dd>
+                   <dt id='symbol-Xa'>Xa</dt>
+              <dd>
+                <p id='_'>Definition 2</p>
+              </dd>
               <dt id="symbol-x">x</dt>
               <dd>
                 <p id='_'>Definition 5</p>
@@ -1163,10 +1148,6 @@ RSpec.describe Metanorma::Standoc do
               <dt id='symbol-x_1_'>x_1_</dt>
               <dd>
                 <p id='_'>Definition 3</p>
-              </dd>
-              <dt id='symbol-Xa'>Xa</dt>
-              <dd>
-                <p id='_'>Definition 2</p>
               </dd>
               <dt  id='symbol-__x3b1_'>α</dt>
               <dd>
@@ -1182,19 +1163,16 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
     sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
     expect(sym).to be_equivalent_to <<~OUTPUT
-       <dt id="symbol-m">m</dt><dt id="symbol-n-n">
+           <dt id="symbol-m">m</dt><dt id="symbol-n-n">
          <stem type="MathML">
-           <math xmlns="http://www.w3.org/1998/Math/MathML">
-             <mi>n</mi>
-           </math>
+           <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+         <mstyle displaystyle="true">
+           <mi>n</mi>
+         </mstyle>
+       </math>
            <asciimath>n</asciimath>
          </stem>
-       </dt>
-       <dt id="symbol-Xa">Xa</dt>
-       <dt id="symbol-x">x</dt>
-       <dt id="symbol-x_m_">x_m_</dt>
-       <dt id="symbol-x_1_">x_1_</dt>
-       <dt id="symbol-__x3b1_">α</dt>
+       </dt><dt id="symbol-Xa">Xa</dt><dt id="symbol-x">x</dt><dt id="symbol-x_m_">x_m_</dt><dt id="symbol-x_1_">x_1_</dt><dt id="symbol-__x3b1_">α</dt>
     OUTPUT
   end
 
@@ -1213,110 +1191,104 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-                 <sections>
-           <definitions id='L' obligation='normative'>
-             <title>Symbols and abbreviated terms</title>
-             <dl id='_'>
-               <dt id='symbol-x'>x</dt>
-               <dd>
-                 <p id='_'>Definition 5</p>
-               </dd>
-               <dt id='symbol-x-m-x_m'>
-                 <stem type='MathML'>
-                   <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                     <msub>
-                       <mrow>
-                         <mi>x</mi>
-                       </mrow>
-                       <mrow>
-                         <mi>m</mi>
-                       </mrow>
-                     </msub>
-                   </math>
-                   <asciimath>x_m</asciimath>
-                 </stem>
-               </dt>
-               <dd>
-                 <p id='_'>Definition 4</p>
-               </dd>
-               <dt id='symbol-x-1-x_1'>
-                 <stem type='MathML'>
-                   <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                     <msub>
-                       <mrow>
-                         <mi>x</mi>
-                       </mrow>
-                       <mrow>
-                         <mn>1</mn>
-                       </mrow>
-                     </msub>
-                   </math>
-                   <asciimath>x_1</asciimath>
-                 </stem>
-               </dt>
-               <dd>
-                 <p id='_'>Definition 3</p>
-               </dd>
-               <dt id='symbol-xa'>xa</dt>
-               <dd>
-                 <p id='_'>Definition 2</p>
-               </dd>
-               <dt id='symbol-__x3b1_-alpha'>
-                 <stem type='MathML'>
-                   <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                     <mi>α</mi>
-                   </math>
-                   <asciimath>alpha</asciimath>
-                 </stem>
-               </dt>
-               <dd>
-                 <p id='_'>Definition 1</p>
-               </dd>
-             </dl>
-           </definitions>
-         </sections>
-       </standard-document>
+                <sections>
+            <definitions id="L" obligation="normative">
+              <title>Symbols and abbreviated terms</title>
+              <dl id="_">
+                <dt id="symbol-x">x</dt>
+                <dd>
+                  <p id="_">Definition 5</p>
+                </dd>
+                <dt id="symbol-x-m-x_m">
+                  <stem type="MathML">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                      <mstyle displaystyle="true">
+                        <msub>
+                          <mi>x</mi>
+                          <mi>m</mi>
+                        </msub>
+                      </mstyle>
+                    </math>
+                    <asciimath>x_m</asciimath>
+                  </stem>
+                </dt>
+                <dd>
+                  <p id="_">Definition 4</p>
+                </dd>
+                <dt id="symbol-x-1-x_1">
+                  <stem type="MathML">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                      <mstyle displaystyle="true">
+                        <msub>
+                          <mi>x</mi>
+                          <mn>1</mn>
+                        </msub>
+                      </mstyle>
+                    </math>
+                    <asciimath>x_1</asciimath>
+                  </stem>
+                </dt>
+                <dd>
+                  <p id="_">Definition 3</p>
+                </dd>
+                <dt id="symbol-xa">xa</dt>
+                <dd>
+                  <p id="_">Definition 2</p>
+                </dd>
+                <dt id="symbol-__x3b1_-alpha">
+                  <stem type="MathML">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                      <mstyle displaystyle="true">
+                        <mi>α</mi>
+                      </mstyle>
+                    </math>
+                    <asciimath>alpha</asciimath>
+                  </stem>
+                </dt>
+                <dd>
+                  <p id="_">Definition 1</p>
+                </dd>
+              </dl>
+            </definitions>
+          </sections>
+        </standard-document>
     OUTPUT
     doc = Asciidoctor.convert(input, *OPTIONS)
     expect(xmlpp(strip_guid(doc)))
       .to be_equivalent_to xmlpp(output)
     sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
     expect(sym).to be_equivalent_to <<~OUTPUT
-      <dt id="symbol-x">x</dt><dt id="symbol-x-m-x_m">
+           <dt id="symbol-x">x</dt><dt id="symbol-x-m-x_m">
          <stem type="MathML">
-           <math xmlns="http://www.w3.org/1998/Math/MathML">
-             <msub>
-               <mrow>
-                 <mi>x</mi>
-               </mrow>
-               <mrow>
-                 <mi>m</mi>
-               </mrow>
-             </msub>
-           </math>
+           <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+         <mstyle displaystyle="true">
+           <msub>
+             <mi>x</mi>
+             <mi>m</mi>
+           </msub>
+         </mstyle>
+       </math>
            <asciimath>x_m</asciimath>
          </stem>
-       </dt>
-       <dt id="symbol-x-1-x_1">
+       </dt><dt id="symbol-x-1-x_1">
          <stem type="MathML">
-           <math xmlns="http://www.w3.org/1998/Math/MathML">
-             <msub>
-               <mrow>
-                 <mi>x</mi>
-               </mrow>
-               <mrow>
-                 <mn>1</mn>
-               </mrow>
-             </msub>
-           </math>
+           <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+         <mstyle displaystyle="true">
+           <msub>
+             <mi>x</mi>
+             <mn>1</mn>
+           </msub>
+         </mstyle>
+       </math>
            <asciimath>x_1</asciimath>
          </stem>
-       </dt>
-       <dt id="symbol-xa">xa</dt><dt id="symbol-__x3b1_-alpha">
+       </dt><dt id="symbol-xa">xa</dt><dt id="symbol-__x3b1_-alpha">
          <stem type="MathML">
-           <math xmlns="http://www.w3.org/1998/Math/MathML">
-             <mi>α</mi>
-           </math>
+           <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+         <mstyle displaystyle="true">
+           <mi>α</mi>
+         </mstyle>
+       </math>
            <asciimath>alpha</asciimath>
          </stem>
        </dt>
@@ -1610,26 +1582,10 @@ RSpec.describe Metanorma::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(<<~"OUTPUT")
         #{BLANK_HDR}
-          <sections>
-            <formula id='_'>
-              <stem type='MathML'>
-                <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                  <mi>A</mi>
-                  <mo>+</mo>
-                  <mi>a</mi>
-                  <mo>+</mo>
-                  <mi>Α</mi>
-                  <mo>+</mo>
-                  <mi>α</mi>
-                  <mo>+</mo>
-                  <mi>AB</mi>
-                  <mstyle mathvariant='italic'>
-          <mrow>
-            <mi>Α</mi>
-          </mrow>
-        </mstyle>
-                </math>
-              </stem>
+                 <sections>
+            <formula id="_">
+              <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mi>A</mi><mo>+</mo><mi>a</mi><mo>+</mo><mi>Α</mi><mo>+</mo><mi>α</mi><mo>+</mo><mi>AB</mi><mstyle mathvariant="italic"><mrow><mi>Α</mi></mrow></mstyle></stem>
             </formula>
           </sections>
         </standard-document>

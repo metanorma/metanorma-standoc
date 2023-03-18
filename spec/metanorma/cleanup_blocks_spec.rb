@@ -190,15 +190,31 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
              #{BLANK_HDR}
-          <sections><formula id="_">
-        <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo></math>
-        <asciimath>r = 1 % r = 1 %</asciimath>
-        </stem>
-      <note id="_">
-        <p id="_">That formula does not do much</p>
-      </note></formula>
-             <p id="_">Indeed.</p></sections>
-             </standard-document>
+                      <sections>
+           <formula id="_">
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                 <mstyle displaystyle="true">
+                   <mi>r</mi>
+                   <mo>=</mo>
+                   <mn>1</mn>
+                   <mi>%</mi>
+                   <mi>r</mi>
+                   <mo>=</mo>
+                   <mn>1</mn>
+                   <mi>%</mi>
+                 </mstyle>
+               </math>
+               <asciimath>r = 1 %
+       r = 1 %</asciimath>
+             </stem>
+             <note id="_">
+               <p id="_">That formula does not do much</p>
+             </note>
+           </formula>
+           <p id="_">Indeed.</p>
+         </sections>
+       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -223,16 +239,31 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
              #{BLANK_HDR}
-          <sections><formula id="_">
-        <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo></math>
-        <asciimath>r = 1 % r = 1 %</asciimath>
-        </stem>
-      </formula>
-      <note id="_">
-        <p id="_">That formula does not do much</p>
-      </note>
-             <p id="_">Indeed.</p></sections>
-             </standard-document>
+                      <sections>
+           <formula id="_">
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                 <mstyle displaystyle="true">
+                   <mi>r</mi>
+                   <mo>=</mo>
+                   <mn>1</mn>
+                   <mi>%</mi>
+                   <mi>r</mi>
+                   <mo>=</mo>
+                   <mn>1</mn>
+                   <mi>%</mi>
+                 </mstyle>
+               </math>
+               <asciimath>r = 1 %
+       r = 1 %</asciimath>
+             </stem>
+           </formula>
+           <note id="_">
+             <p id="_">That formula does not do much</p>
+           </note>
+           <p id="_">Indeed.</p>
+         </sections>
+       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -606,63 +637,78 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-      <sections>
-          <formula id='_'>
-            <stem type='MathML'>
-              <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                <mi>F</mi>
-                <mi>or</mi>
-                <mi>μ</mi>
-                <mi>l</mi>
-                <mi>a</mi>
-              </math>
-            <asciimath>Formula</asciimath>
-            </stem>
-            <dl id='_' key='true'>
-              <dt>a</dt>
-              <dd>
-                <p id='_'>b</p>
-              </dd>
-            </dl>
-          </formula>
-          <formula id='_'>
-            <stem type='MathML'>
-              <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                <mi>F</mi>
-                <mi>or</mi>
-                <mi>μ</mi>
-                <mi>l</mi>
-                <mi>a</mi>
-              </math>
-            <asciimath>Formula</asciimath>
-            </stem>
-            <dl id='_' key='true'>
-              <dt>a</dt>
-              <dd>
-                <p id='_'>b</p>
-              </dd>
-            </dl>
-          </formula>
-          <formula id='_'>
-            <stem type='MathML'>
-              <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                <mi>F</mi>
-                <mi>or</mi>
-                <mi>μ</mi>
-                <mi>l</mi>
-                <mi>a</mi>
-              </math>
-            <asciimath>Formula</asciimath>
-            </stem>
-          </formula>
-          <dl id='_'>
-            <dt>a</dt>
-            <dd>
-              <p id='_'>b</p>
-            </dd>
-          </dl>
-        </sections>
-      </standard-document>
+               <sections>
+           <formula id="_">
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                 <mstyle displaystyle="true">
+                   <mi>F</mi>
+                   <mi>o</mi>
+                   <mstyle mathvariant="normal">
+                     <munder>
+                       <mi>a</mi>
+                       <mo>¯</mo>
+                     </munder>
+                   </mstyle>
+                 </mstyle>
+               </math>
+               <asciimath>Formula</asciimath>
+             </stem>
+             <dl id="_" key="true">
+               <dt>a</dt>
+               <dd>
+                 <p id="_">b</p>
+               </dd>
+             </dl>
+           </formula>
+           <formula id="_">
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                 <mstyle displaystyle="true">
+                   <mi>F</mi>
+                   <mi>o</mi>
+                   <mstyle mathvariant="normal">
+                     <munder>
+                       <mi>a</mi>
+                       <mo>¯</mo>
+                     </munder>
+                   </mstyle>
+                 </mstyle>
+               </math>
+               <asciimath>Formula</asciimath>
+             </stem>
+             <dl id="_" key="true">
+               <dt>a</dt>
+               <dd>
+                 <p id="_">b</p>
+               </dd>
+             </dl>
+           </formula>
+           <formula id="_">
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                 <mstyle displaystyle="true">
+                   <mi>F</mi>
+                   <mi>o</mi>
+                   <mstyle mathvariant="normal">
+                     <munder>
+                       <mi>a</mi>
+                       <mo>¯</mo>
+                     </munder>
+                   </mstyle>
+                 </mstyle>
+               </math>
+               <asciimath>Formula</asciimath>
+             </stem>
+           </formula>
+           <dl id="_">
+             <dt>a</dt>
+             <dd>
+               <p id="_">b</p>
+             </dd>
+           </dl>
+         </sections>
+       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)

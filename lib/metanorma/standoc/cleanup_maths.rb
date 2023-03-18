@@ -11,6 +11,16 @@ module Metanorma
           .asciimath_to_mathml(text, ["<amathstem>", "</amathstem>"],
                                retain_asciimath: true)
         asciimath2mathml_wrap(text)
+      rescue StandardError => e
+        asciimath2mathml_err(text, e)
+        text
+      end
+
+      def asciimath2mathml_err(text, expr)
+        err = "Malformed MathML: #{expr}\n#{text}"
+        @log.add("Maths", nil, err)
+        @fatalerror << err
+        warn err
       end
 
       def asciimath2mathml_wrap(text)
