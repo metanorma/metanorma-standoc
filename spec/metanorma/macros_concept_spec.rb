@@ -599,63 +599,48 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
             #{BLANK_HDR}
-            <sections>
-        <definitions id='clause1' obligation='normative'>
-          <title>Symbols and abbreviated terms</title>
-          <dl id='_'>
-            <dt id='symbol-__x230a_-x-__x230b_-___-x-___'>
-              <stem type='MathML'>
-                <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                  <mo>&#8970;</mo>
-                  <mi>x</mi>
-                  <mo>&#8971;</mo>
-                </math>
-                <asciimath>|__ x __|</asciimath>
-              </stem>
-            </dt>
-            <dd>
-              <p id='_'>
-                A function that returns the largest integer less than or equal to
-                <stem type='MathML'>
-                  <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                    <mi>x</mi>
-                  </math>
-                  <asciimath>x</asciimath>
-                </stem>
-                ; also known as the
-                <em>floor</em>
-                 function.
-              </p>
-            </dd>
-            <dt id='symbol-__x2308_-x-__x2309_-__-x-__'>
-              <stem type='MathML'>
-                <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                  <mo>&#8968;</mo>
-                  <mi>x</mi>
-                  <mo>&#8969;</mo>
-                </math>
-                <asciimath>|~ x ~|</asciimath>
-              </stem>
-            </dt>
-            <dd>
-              <p id='_'>
-                A function that returns the smallest integer greater than or equal
-                to
-                <stem type='MathML'>
-                  <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                    <mi>x</mi>
-                  </math>
-                   <asciimath>x</asciimath>
-                </stem>
-                ; also known as the
-                <em>ceiling</em>
-                 function.
-              </p>
-            </dd>
-          </dl>
-        </definitions>
-      </sections>
-            </standard-document>
+                      <sections>
+            <definitions id="clause1" obligation="normative">
+              <title>Symbols and abbreviated terms</title>
+              <dl id="_">
+                <dt id="symbol-__x230a_-x-__x230b_-___-x-___">
+                  <stem type="MathML">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                      <mstyle displaystyle="true">
+                        <mo>⌊</mo>
+                        <mi>x</mi>
+                        <mo>⌋</mo>
+                      </mstyle>
+                    </math>
+                    <asciimath>|__ x __|</asciimath>
+                  </stem>
+                </dt>
+                <dd>
+                  <p id="_">A function that returns the largest integer less than or equal to
+        <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mstyle displaystyle="true"><mi>x</mi></mstyle></math><asciimath>x</asciimath></stem>
+        ; also known as the <em>floor</em> function.</p>
+                </dd>
+                <dt id="symbol-__x2308_-x-__x2309_-__-x-__">
+                  <stem type="MathML">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                      <mstyle displaystyle="true">
+                        <mo>⌈</mo>
+                        <mi>x</mi>
+                        <mo>⌉</mo>
+                      </mstyle>
+                    </math>
+                    <asciimath>|~ x ~|</asciimath>
+                  </stem>
+                </dt>
+                <dd>
+                  <p id="_">A function that returns the smallest integer greater than or equal to
+        <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mstyle displaystyle="true"><mi>x</mi></mstyle></math><asciimath>x</asciimath></stem>
+        ; also known as the <em>ceiling</em> function.</p>
+                </dd>
+              </dl>
+            </definitions>
+          </sections>
+        </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)

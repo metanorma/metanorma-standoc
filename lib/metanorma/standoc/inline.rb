@@ -3,7 +3,7 @@ require "unicode2latex"
 require "mime/types"
 require "base64"
 require "English"
-require "latexmath"
+require "plurimath"
 
 module Metanorma
   module Standoc
@@ -140,18 +140,22 @@ module Metanorma
 
       def latex_parse1(text)
         lxm_input = Unicode2LaTeX.unicode2latex(@c.decode(text))
-        results = Latexmath.parse(lxm_input).to_mathml
-        results.nil? and
+        results = Plurimath::Math.parse(lxm_input, "latex").to_mathml
+        if results.nil?
           @log.add("Math", nil,
                    "latexmlmath failed to process equation:\n#{lxm_input}")
-        results&.sub(%r{<math ([^>]+ )?display="block"}, "<math \\1")
+          return
+        end
+        results.sub(%r{<math ([^>]+ )?display="block"}, "<math \\1")
       end
 
       def stem_parse(text, xml, style)
         if /&lt;([^:>&]+:)?math(\s+[^>&]+)?&gt; |
           <([^:>&]+:)?math(\s+[^>&]+)?>/x.match? text
           math = xml_encode(text)
-          xml.stem math, type: "MathML"
+          xml.stem type: "MathML" do |s|
+            s << math
+          end
         elsif style == :latexmath then latex_parse(text, xml)
         else
           xml.stem text&.gsub(/&amp;#/, "&#"), type: "AsciiMath"

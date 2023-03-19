@@ -1676,40 +1676,22 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-         <sections>
-           <clause id='_' inline-header='false' obligation='normative'>
+               <sections>
+           <clause id="_" inline-header="false" obligation="normative">
              <title>Clause</title>
-             <p id='_'>Text</p>
-             <clause id='_' inline-header='false' obligation='normative'>
+             <p id="_">Text</p>
+             <clause id="_" inline-header="false" obligation="normative">
                <title>Subclause</title>
-               <variant-title type='sub'>&#8220;A&#8221; &#8216;B&#8217;</variant-title>
-               <variant-title type='toc'>
-                 Clause
-                 <em>A</em>
-                 <stem type='MathML'>
-                   <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                     <mi>x</mi>
-                   </math>
-                 <asciimath>x</asciimath>
-                 </stem>
-               </variant-title>
-               <p id='_'>Text</p>
+               <variant-title type="sub">“A” ‘B’</variant-title>
+               <variant-title type="toc">Clause <em>A</em><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mstyle displaystyle="true"><mi>x</mi></mstyle></math><asciimath>x</asciimath></stem></variant-title>
+               <p id="_">Text</p>
              </clause>
            </clause>
          </sections>
-         <annex id='_' inline-header='false' obligation='normative'>
+         <annex id="_" inline-header="false" obligation="normative">
            <title>Clause</title>
-           <variant-title type='toc'>
-             Clause
-             <em>A</em>
-             <stem type='MathML'>
-               <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                 <mi>y</mi>
-               </math>
-             <asciimath>y</asciimath>
-             </stem>
-           </variant-title>
-           <p id='_'>Text</p>
+           <variant-title type="toc">Clause <em>A</em><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mstyle displaystyle="true"><mi>y</mi></mstyle></math><asciimath>y</asciimath></stem></variant-title>
+           <p id="_">Text</p>
          </annex>
        </standard-document>
     OUTPUT
@@ -1761,43 +1743,25 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-         <sections>
-           <clause id='_' inline-header='false' obligation='normative'>
+               <sections>
+           <clause id="_" inline-header="false" obligation="normative">
              <title>Clause</title>
-             <p id='_'>Text</p>
-             <clause id='_' type='toc' inline-header='false' obligation='normative'>
+             <p id="_">Text</p>
+             <clause id="_" type="toc" inline-header="false" obligation="normative">
                <title>Table of contents</title>
-               <p id='_'>Text at the start</p>
-               <clause id='_' inline-header='false' obligation='normative'>
+               <p id="_">Text at the start</p>
+               <clause id="_" inline-header="false" obligation="normative">
                  <title>Toc 1</title>
                  <toc>
-                   <ul id='_'>
+                   <ul id="_">
                      <li>
-                       <p id='_'>
-                         <xref target='cl2'>
-                           Clause
-                           <em>A</em>
-                           <stem type='MathML'>
-                             <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                               <mi>x</mi>
-                             </math>
-                           <asciimath>x</asciimath>
-                           </stem>
-                         </xref>
+                       <p id="_">
+                         <xref target="cl2">Clause <em>A</em><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mstyle displaystyle="true"><mi>x</mi></mstyle></math><asciimath>x</asciimath></stem></xref>
                        </p>
-                       <ul id='_'>
+                       <ul id="_">
                          <li>
-                           <p id='_'>
-                             <xref target='a1'>
-                               Clause
-                               <em>A</em>
-                               <stem type='MathML'>
-                                 <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                                   <mi>y</mi>
-                                 </math>
-                               <asciimath>y</asciimath>
-                               </stem>
-                             </xref>
+                           <p id="_">
+                             <xref target="a1">Clause <em>A</em><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mstyle displaystyle="true"><mi>y</mi></mstyle></math><asciimath>y</asciimath></stem></xref>
                            </p>
                          </li>
                        </ul>
@@ -1805,18 +1769,18 @@ RSpec.describe Metanorma::Standoc do
                    </ul>
                  </toc>
                </clause>
-               <clause id='_' inline-header='false' obligation='normative'>
+               <clause id="_" inline-header="false" obligation="normative">
                  <title>Toc 2</title>
                  <toc>
-                   <ul id='_'>
+                   <ul id="_">
                      <li>
-                       <p id='_'>
-                         <xref target='cl2'>some text</xref>
+                       <p id="_">
+                         <xref target="cl2">some text</xref>
                        </p>
-                       <ul id='_'>
+                       <ul id="_">
                          <li>
-                           <p id='_'>
-                             <xref target='a1'>some more text</xref>
+                           <p id="_">
+                             <xref target="a1">some more text</xref>
                            </p>
                          </li>
                        </ul>
@@ -1826,35 +1790,17 @@ RSpec.describe Metanorma::Standoc do
                </clause>
              </clause>
            </clause>
-           <clause id='cl2' inline-header='false' obligation='normative'>
+           <clause id="cl2" inline-header="false" obligation="normative">
              <title>Clause2</title>
-             <variant-title type='sub'>&#8220;A&#8221; &#8216;B&#8217;</variant-title>
-             <variant-title type='toc'>
-               Clause
-               <em>A</em>
-               <stem type='MathML'>
-                 <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                   <mi>x</mi>
-                 </math>
-               <asciimath>x</asciimath>
-               </stem>
-             </variant-title>
-             <p id='_'>Text</p>
+             <variant-title type="sub">“A” ‘B’</variant-title>
+             <variant-title type="toc">Clause <em>A</em><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mstyle displaystyle="true"><mi>x</mi></mstyle></math><asciimath>x</asciimath></stem></variant-title>
+             <p id="_">Text</p>
            </clause>
          </sections>
-         <annex id='a1' inline-header='false' obligation='normative'>
+         <annex id="a1" inline-header="false" obligation="normative">
            <title>Clause</title>
-           <variant-title type='toc'>
-             Clause
-             <em>A</em>
-             <stem type='MathML'>
-               <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                 <mi>y</mi>
-               </math>
-             <asciimath>y</asciimath>
-             </stem>
-           </variant-title>
-           <p id='_'>Text</p>
+           <variant-title type="toc">Clause <em>A</em><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mstyle displaystyle="true"><mi>y</mi></mstyle></math><asciimath>y</asciimath></stem></variant-title>
+           <p id="_">Text</p>
          </annex>
        </standard-document>
     OUTPUT

@@ -183,6 +183,46 @@ RSpec.describe Metanorma::Standoc do
     expect(errf).not_to include "The following reference is missing an anchor"
   end
 
+  it "warns and aborts if malformed MathML" do
+    mock_plurimath_error(2)
+
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :stem:
+
+        [stem]
+        ++++
+        <math><mew>1<mn>3</mn>2</mn></math>
+        ++++
+
+        [stem]
+        ++++
+        sum x
+        ++++
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+=begin
+    expect(File.read("test.err"))
+      .to include "Invalid MathML"
+    expect(File.read("test.err"))
+      .to include "<mew>1<mn>3</mn>2</mn>"
+    expect(File.read("test.err"))
+      .to include "Asciimath original: sum x"
+    expect(File.read("test.err"))
+      .to include "<mo>∑</mo>"
+=end
+    expect(File.exist?("test.xml")).to be false
+  end
+
   it "warns about malformed biblio span" do
     FileUtils.rm_f "test.err"
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
@@ -999,5 +1039,15 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     expect(File.read("test.err"))
       .not_to include "Style override set for ordered list"
+  end
+
+  private
+
+  def mock_plurimath_error(times)
+    expect(::Plurimath::Math)
+      .to receive(:parse) do
+        raise(StandardError)
+      end.exactly(times).times
+
   end
 end

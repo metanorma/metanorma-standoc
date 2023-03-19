@@ -53,8 +53,37 @@ module Metanorma
         table_validate(doc)
         @fatalerror += requirement_validate(doc)
         image_validate(doc)
+        math_validate(doc)
         @fatalerror.empty? or
           clean_abort(@fatalerror.join("\n"), doc)
+      end
+
+      MATHML_NS = "http://www.w3.org/1998/Math/MathML".freeze
+
+      def math_validate(doc)
+        doc.xpath("//m:math", "m" => MATHML_NS).each do |m|
+          math = mathml_sanitise(m.dup)
+          Plurimath::Math.parse(math, "mathml").to_mathml
+        rescue StandardError => e
+          math_validate_error(math, m, e)
+        end
+      end
+
+      def mathml_sanitise(math)
+        math.to_xml(encoding: "US-ASCII").gsub(/ xmlns=["'][^"']+["']/, "")
+          .gsub(%r{<[^:/>]+:}, "<").gsub(%r{</[^:/>]+:}, "</")
+          #.gsub(/&#([^;]+);/) { |x| "&#x#{$1.to_i.to_s(16)};" }
+      end
+
+      def math_validate_error(math, elem, error)
+        a = elem.parent.at("./asciimath")
+        l = elem.parent.at("./latexmath")
+        orig = ""
+        a and orig += "\n\tAsciimath original: #{@c.decode(a.children.to_xml)}"
+        l and orig += "\n\tLatexmath original: #{@c.decode(l.children.to_xml)}"
+        @log.add("Mathematics", elem,
+                 "Invalid MathML: #{math}\n #{error}#{orig}")
+        @fatalerror << "Invalid MathML: #{math}"
       end
 
       def nested_asset_validate(doc)

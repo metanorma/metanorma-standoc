@@ -58,7 +58,7 @@ RSpec.describe Metanorma::Standoc do
       super<sup>script</sup>
       sub<sub>script</sub>
       sub<sub><em>scr</em>ipt</sub>
-      <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub> <mrow> <mrow> <mi mathvariant="bold-italic">F</mi> </mrow> </mrow> <mrow> <mrow> <mi mathvariant="bold-italic">Α</mi> </mrow> </mrow> </msub> </math></stem>
+      <stem type="MathML"><mml:math><mml:msub xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"> <mml:mrow> <mml:mrow> <mml:mi mathvariant="bold-italic">F</mml:mi> </mml:mrow> </mml:mrow> <mml:mrow> <mml:mrow> <mml:mi mathvariant="bold-italic">Α</mml:mi> </mml:mrow> </mml:mrow> </mml:msub> </mml:math></stem>
       mark
       <admitted><expression><name>alt</name></expression></admitted>
       <deprecates><expression><name>deprecated</name></expression></deprecates>
@@ -87,12 +87,14 @@ RSpec.describe Metanorma::Standoc do
         <sections>
           <p id='_'>
             <stem type='MathML'>
-              <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                <mi>n</mi>
-                <mo>&lt;</mo>
-                <mn>1</mn>
-                <mtext> for all text </mtext>
-              </math>
+                   <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+         <mstyle displaystyle="true">
+           <mi>n</mi>
+           <mo>&lt;</mo>
+           <mn>1</mn>
+           <mtext> for all text </mtext>
+         </mstyle>
+       </math>
               <asciimath>n &lt; 1 " for all text "</asciimath>
             </stem>
           </p>
@@ -112,40 +114,51 @@ RSpec.describe Metanorma::Standoc do
       stem:["&#x200c;"^199 "Hg"^+]
     INPUT
     output = <<~OUTPUT
-                  #{BLANK_HDR}
-            <sections>
+             #{BLANK_HDR}
+          <sections>
             <p id="_">
-                <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math><asciimath>n &lt; 1</asciimath></stem><br/>
-                <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math>
+              <stem type="MathML">
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                  <mstyle displaystyle="true">
+                    <mi>n</mi>
+                    <mo>&lt;</mo>
+                    <mn>1</mn>
+                  </mstyle>
+                </math>
+                <asciimath>n &lt; 1</asciimath>
+              </stem>
+              <br/>
+              <stem type="MathML">
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                  <mstyle displaystyle="true">
+                    <mi>n</mi>
+                    <mo>&lt;</mo>
+                    <mn>1</mn>
+                  </mstyle>
+                </math>
                 <latexmath>n &lt; 1</latexmath>
-        </stem>
-                <stem type='MathML'>
-        <math xmlns='http://www.w3.org/1998/Math/MathML'>
-          <msup>
-            <mrow>
-              <mtext>‌</mtext>
-            </mrow>
-            <mrow>
-              <mn>199</mn>
-            </mrow>
-          </msup>
-          <msup>
-            <mrow>
-              <mtext>Hg</mtext>
-            </mrow>
-            <mrow>
-              <mo>+</mo>
-            </mrow>
-          </msup>
-        </math>
-        <asciimath>"‌"^199 "Hg"^+</asciimath>
-      </stem>
-              </p>
-            </sections>
-             </standard-document>
+              </stem>
+              <stem type="MathML">
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                  <mstyle displaystyle="true">
+                    <msup>
+                      <mtext>‌</mtext>
+                      <mn>199</mn>
+                    </msup>
+                    <msup>
+                      <mtext>Hg</mtext>
+                      <mo>+</mo>
+                    </msup>
+                  </mstyle>
+                </math>
+                <asciimath>"‌"^199 "Hg"^+</asciimath>
+              </stem>
+            </p>
+          </sections>
+        </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "normalises inline stem, straight quotes" do
@@ -158,14 +171,49 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-             <sections><p id="_"><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math><asciimath>n &lt; 1</asciimath></stem>
-       <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>n</mi><mo>&lt;</mo><mn>1</mn></mrow></math><latexmath>n &lt; 1</latexmath></stem>
-       <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mtext>‌</mtext></mrow><mrow><mn>199</mn></mrow></msup><msup><mrow><mtext>Hg</mtext></mrow><mrow><mo>+</mo></mrow></msup></math><asciimath>"‌"^199 "Hg"^+</asciimath></stem></p>
-       </sections>
-       </standard-document>
+                 <sections>
+            <p id="_">
+              <stem type="MathML">
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                  <mstyle displaystyle="true">
+                    <mi>n</mi>
+                    <mo>&lt;</mo>
+                    <mn>1</mn>
+                  </mstyle>
+                </math>
+                <asciimath>n &lt; 1</asciimath>
+              </stem>
+              <stem type="MathML">
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                  <mstyle displaystyle="true">
+                    <mi>n</mi>
+                    <mo>&lt;</mo>
+                    <mn>1</mn>
+                  </mstyle>
+                </math>
+                <latexmath>n &lt; 1</latexmath>
+              </stem>
+              <stem type="MathML">
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                  <mstyle displaystyle="true">
+                    <msup>
+                      <mtext>‌</mtext>
+                      <mn>199</mn>
+                    </msup>
+                    <msup>
+                      <mtext>Hg</mtext>
+                      <mo>+</mo>
+                    </msup>
+                  </mstyle>
+                </math>
+                <asciimath>"‌"^199 "Hg"^+</asciimath>
+              </stem>
+            </p>
+          </sections>
+        </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "normalises inline stem, smart quotes" do
@@ -180,29 +228,30 @@ RSpec.describe Metanorma::Standoc do
                 #{BLANK_HDR}
           <sections>
           <p id="_">
-              <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;</mo><mn>1</mn></math>
+              <stem type="MathML">
+                     <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+         <mstyle displaystyle="true">
+           <mi>n</mi>
+           <mo>&lt;</mo>
+           <mn>1</mn>
+         </mstyle>
+         </math>
               <asciimath>n &lt; 1</asciimath></stem>
-              <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML">   <mrow>     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mrow> </math>
+              <stem type="MathML"> <math xmlns="http://www.w3.org/1998/Math/MathML">   <mstyle displaystyle="true">     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mstyle> </math>
               <latexmath>n &lt; 1</latexmath>
               </stem>
               <stem type='MathML'>
-      <math xmlns='http://www.w3.org/1998/Math/MathML'>
-        <msup>
-          <mrow>
-            <mtext>‌</mtext>
-          </mrow>
-          <mrow>
-            <mn>199</mn>
-          </mrow>
-        </msup>
-        <msup>
-          <mrow>
-            <mtext>Hg</mtext>
-          </mrow>
-          <mrow>
-            <mo>+</mo>
-          </mrow>
-        </msup>
+              <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                               <mstyle displaystyle="true">
+                    <msup>
+                      <mtext>‌</mtext>
+                      <mn>199</mn>
+                    </msup>
+                    <msup>
+                      <mtext>Hg</mtext>
+                      <mo>+</mo>
+                    </msup>
+                  </mstyle>
       </math>
       <asciimath>"&#x200c;"^199 "Hg"^+</asciimath>
       </stem>
@@ -211,7 +260,7 @@ RSpec.describe Metanorma::Standoc do
            </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "generates desired smart quotes for 'dd'" do
@@ -444,7 +493,16 @@ RSpec.describe Metanorma::Standoc do
        <title>Section</title>
        <p id="_"><xref target="reference"><em>reference</em></xref>
        <xref target="reference"><em><strong>reference</strong></em></xref>
-       <xref target="reference"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math><asciimath>x^2</asciimath></stem></xref>
+       <xref target="reference"><em>A</em> <stem type="MathML">
+                           <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                      <mstyle displaystyle="true">
+                        <msup>
+                          <mi>x</mi>
+                          <mn>2</mn>
+                        </msup>
+                      </mstyle>
+                    </math>
+          <asciimath>x^2</asciimath></stem></xref>
        <xref target="reference"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></xref></p>
        </clause>
        </sections>
@@ -471,7 +529,16 @@ RSpec.describe Metanorma::Standoc do
        <title>Section</title>
        <p id="_"><xref target="reference"><em>reference</em></xref>
        <xref target="reference"><em><strong>reference</strong></em></xref>
-       <xref target="reference"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math><asciimath>x^2</asciimath></stem></xref>
+       <xref target="reference"><em>A</em> <stem type="MathML">
+                           <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                      <mstyle displaystyle="true">
+                        <msup>
+                          <mi>x</mi>
+                          <mn>2</mn>
+                        </msup>
+                      </mstyle>
+                    </math>
+        <asciimath>x^2</asciimath></stem></xref>
        <xref target="reference"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></xref></p>
        </clause>
        </sections>
@@ -704,7 +771,16 @@ RSpec.describe Metanorma::Standoc do
        <title>Section</title>
        <p id="_"><eref type="inline" bibitemid="reference" citeas="ABC"><em>reference</em></eref>
        <eref type="inline" bibitemid="reference" citeas="ABC"><em><strong>reference</strong></em></eref>
-       <eref type="inline" bibitemid="reference" citeas="ABC"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math><asciimath>x^2</asciimath></stem></eref>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><em>A</em> <stem type="MathML">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                      <mstyle displaystyle="true">
+                        <msup>
+                          <mi>x</mi>
+                          <mn>2</mn>
+                        </msup>
+                      </mstyle>
+                    </math>
+        <asciimath>x^2</asciimath></stem></eref>
        <eref type="inline" bibitemid="reference" citeas="ABC"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></eref>
        <eref type="inline" bibitemid="reference" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></eref></p>
        </clause>
@@ -765,7 +841,18 @@ RSpec.describe Metanorma::Standoc do
        </em>
        </origin>
        </termsource><termsource status="identical" type="authoritative">
-       <origin bibitemid="reference" type="inline" citeas="ABC"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow></msup></math><asciimath>x^2</asciimath></stem></origin>
+       <origin bibitemid="reference" type="inline" citeas="ABC"><em>A</em> <stem type="MathML">
+                               <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                          <mstyle displaystyle="true">
+                            <msup>
+                              <mi>x</mi>
+                              <mn>2</mn>
+                            </msup>
+                          </mstyle>
+                        </math>
+                        <asciimath>x^2</asciimath>
+                      </stem>
+                      </origin>
        </termsource><termsource status="identical" type="authoritative">
        <origin bibitemid="reference" type="inline" citeas="ABC"><em>A</em><fn reference="1">
          <p id="_">
@@ -846,7 +933,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
          #{BLANK_HDR}
         <sections>
-            <p id="_">See<index><primary>See</primary></index> Index <em>term</em><index><primary><em>term</em></primary></index> and<index><primary>A<sub>B</sub></primary><secondary><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>α</mi></math><asciimath>alpha</asciimath></stem></secondary><tertiary>Ⲁ</tertiary></index>.</p>
+        <p id="_">See<index><primary>See</primary></index> Index <em>term</em><index><primary><em>term</em></primary></index> and<index><primary>A<sub>B</sub></primary><secondary><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mstyle displaystyle="true"><mi>α</mi></mstyle></math><asciimath>alpha</asciimath></stem></secondary><tertiary>Ⲁ</tertiary></index>.</p>
         </sections>
       </standard-document>
     OUTPUT
