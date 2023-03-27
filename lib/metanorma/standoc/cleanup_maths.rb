@@ -25,6 +25,9 @@ module Metanorma
 
       def asciimath2mathml_wrap(text)
         x = Nokogiri::XML(text)
+        x.xpath("//*[local-name() = 'math'][@display]").each do |y|
+          y.delete("display")
+        end
         x.xpath("//*[local-name() = 'math'][not(parent::stem)]").each do |y|
           y.wrap("<stem type='MathML'></stem>")
         end
@@ -53,7 +56,9 @@ module Metanorma
       end
 
       def mathml_namespace(stem)
-        stem.xpath("./math").each { |x| x.default_namespace = MATHML_NS }
+        stem.xpath("./*[local-name() = 'math']").each do |x|
+          x.default_namespace = MATHML_NS
+        end
       end
 
       def mathml_mi_italics
