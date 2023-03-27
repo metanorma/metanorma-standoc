@@ -23,7 +23,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '2526'
+      - '2591'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -31,7 +31,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"3b45956ff3457c0a23080cf0804113ece4941987c29ff90011f7bee294cd99b1"
+      - W/"acf92650e0a2c5c1726e00bc47be1657486cae4c5219d763d9c802b4d82caf7c"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 5212:337C:18956:29865:6405C5EE
+      - 4FF4:5B01:87F79:A086C:642167FB
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 06 Mar 2023 10:52:30 GMT
+      - Mon, 27 Mar 2023 09:55:07 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11221-MEL
+      - cache-mel11244-MEL
       X-Cache:
       - HIT
       X-Cache-Hits:
       - '1'
       X-Timer:
-      - S1678099950.237624,VS0,VE313
+      - S1679910907.357579,VS0,VE306
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - e33874380c2f2212f6a3aaa2fe0d71ee901d42b3
+      - ab9fd8a44017a714d68f6fd3290f5fe72bf99824
       Expires:
-      - Mon, 06 Mar 2023 10:57:30 GMT
+      - Mon, 27 Mar 2023 10:00:07 GMT
       Source-Age:
       - '0'
     body:
@@ -182,6 +182,10 @@ http_interactions:
             content: STD
             format: text/plain
           number: '91'
+        - type: stream
+          title:
+            content: IETF
+            format: text/plain
         - title:
             content: RFC
             format: text/plain
@@ -194,7 +198,7 @@ http_interactions:
         - name: netconf
         ext:
           schema-version: v1.0.0
-  recorded_at: Mon, 06 Mar 2023 10:52:30 GMT
+  recorded_at: Mon, 27 Mar 2023 09:55:07 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-rfcs/main/data/RFC8341.yaml
@@ -218,7 +222,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '2526'
+      - '2591'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -226,7 +230,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"3b45956ff3457c0a23080cf0804113ece4941987c29ff90011f7bee294cd99b1"
+      - W/"acf92650e0a2c5c1726e00bc47be1657486cae4c5219d763d9c802b4d82caf7c"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -236,29 +240,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 5212:337C:18956:29865:6405C5EE
+      - 4FF4:5B01:87F79:A086C:642167FB
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 06 Mar 2023 10:52:30 GMT
+      - Mon, 27 Mar 2023 09:55:07 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11222-MEL
+      - cache-mel11246-MEL
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1678099950.237608,VS0,VE313
+      - S1679910907.356739,VS0,VE307
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - ff310e429edf94af8bc2f3b62f25c6b01afb0ce4
+      - 14fd914992212f603a189118967c26a592e3772b
       Expires:
-      - Mon, 06 Mar 2023 10:57:30 GMT
+      - Mon, 27 Mar 2023 10:00:07 GMT
       Source-Age:
       - '0'
     body:
@@ -377,6 +381,10 @@ http_interactions:
             content: STD
             format: text/plain
           number: '91'
+        - type: stream
+          title:
+            content: IETF
+            format: text/plain
         - title:
             content: RFC
             format: text/plain
@@ -389,5 +397,5 @@ http_interactions:
         - name: netconf
         ext:
           schema-version: v1.0.0
-  recorded_at: Mon, 06 Mar 2023 10:52:30 GMT
+  recorded_at: Mon, 27 Mar 2023 09:55:07 GMT
 recorded_with: VCR 6.1.0

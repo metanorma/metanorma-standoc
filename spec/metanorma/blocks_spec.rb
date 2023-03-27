@@ -99,7 +99,7 @@ RSpec.describe Metanorma::Standoc do
                     <sections>
            <formula id="ABC" tag="X" columns="1" multilingual-rendering="common" number="3" keep-with-next="true" keep-lines-together="true" inequality="true">
              <stem type="MathML">
-               <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
                  <mstyle displaystyle="true">
                    <mi>r</mi>
                    <mo>=</mo>

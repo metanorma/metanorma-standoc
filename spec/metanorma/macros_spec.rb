@@ -307,57 +307,43 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
               #{BLANK_HDR}
-              <sections>
-      <figure id='_' class='pseudocode'>
-       <formula id='_'>
-         <stem type='MathML'>
-           <math xmlns='http://www.w3.org/1998/Math/MathML'>
-           <mover accent="true">
-                           <mrow>
-                             <mi>X</mi>
-                           </mrow>
-                             <mo>¯</mo>
-                         </mover>
-                         <mo>′</mo>
+                       <sections>
+           <figure id="_" class="pseudocode">
+             <formula id="_">
+               <stem type="MathML">
+                 <math xmlns="http://www.w3.org/1998/Math/MathML">
+                   <mstyle displaystyle="true">
+                     <mover>
+                       <mi>X</mi>
+                       <mo>¯</mo>
+                     </mover>
+                     <mo>′</mo>
+                     <mo>=</mo>
+                     <mfrac>
+                       <mn>1</mn>
+                       <mi>v</mi>
+                     </mfrac>
+                     <munderover>
+                       <mo>∑</mo>
+                       <mrow>
+                         <mi>i</mi>
                          <mo>=</mo>
-                         <mfrac>
-                           <mrow>
-                             <mn>1</mn>
-                           </mrow>
-                           <mrow>
-                             <mi>v</mi>
-                           </mrow>
-                         </mfrac>
-                         <munderover>
-                           <mrow>
-                             <mo>∑</mo>
-                           </mrow>
-                           <mrow>
-                             <mrow>
-                               <mi>i</mi>
-                               <mo>=</mo>
-                               <mn>1</mn>
-                             </mrow>
-                           </mrow>
-                           <mrow>
-                             <mi>v</mi>
-                           </mrow>
-                         </munderover>
-                         <msub>
-                           <mrow>
-                             <mi>t</mi>
-                           </mrow>
-                           <mrow>
-                             <mi>i</mi>
-                           </mrow>
-                         </msub>
-           </math>
-           <asciimath>bar X' = (1)/(v) sum_(i = 1)^(v) t_(i)</asciimath>
-         </stem>
-       </formula>
-                 </figure>
-      </sections>
-      </standard-document>
+                         <mn>1</mn>
+                       </mrow>
+                       <mi>v</mi>
+                     </munderover>
+                     <msub>
+                       <mi>t</mi>
+                       <mi>i</mi>
+                     </msub>
+                   </mstyle>
+                 </math>
+                 <asciimath>bar X' = (1)/(v) sum_(i = 1)^(v) t_(i)</asciimath>
+               </stem>
+             </formula>
+           </figure>
+         </sections>
+       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)

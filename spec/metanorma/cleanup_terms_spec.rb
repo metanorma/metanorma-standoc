@@ -555,7 +555,7 @@ RSpec.describe Metanorma::Standoc do
                 <letter-symbol>
                 <name>
                                       <stem type="MathML">
-                        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                        <math xmlns="http://www.w3.org/1998/Math/MathML">
                           <mstyle displaystyle="true">
                             <msub>
                               <mi>t</mi>
@@ -893,7 +893,7 @@ RSpec.describe Metanorma::Standoc do
                   <letter-symbol>
                     <name>
                       <stem type="MathML">
-                        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                        <math xmlns="http://www.w3.org/1998/Math/MathML">
                           <mstyle displaystyle="true">
                             <msub>
                               <mi>t</mi>
@@ -910,7 +910,7 @@ RSpec.describe Metanorma::Standoc do
                   <letter-symbol>
                     <name>
                       <stem type="MathML">
-                        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                        <math xmlns="http://www.w3.org/1998/Math/MathML">
                           <mstyle displaystyle="true">
                             <msub>
                               <mi>t</mi>
@@ -966,7 +966,7 @@ RSpec.describe Metanorma::Standoc do
                  <letter-symbol>
                    <name>
                      <stem type="MathML">
-                       <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                       <math xmlns="http://www.w3.org/1998/Math/MathML">
                          <mstyle displaystyle="true">
                            <msub>
                              <mi>t</mi>
@@ -988,7 +988,7 @@ RSpec.describe Metanorma::Standoc do
              <term id="term-t-90-t_90-sensitivity">
                <preferred>
                  <expression>
-                   <name><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mstyle displaystyle="true"><msub><mi>t</mi><mn>90</mn></msub></mstyle></math><asciimath>t_90</asciimath></stem>-sensitivity</name>
+                   <name><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><msub><mi>t</mi><mn>90</mn></msub></mstyle></math><asciimath>t_90</asciimath></stem>-sensitivity</name>
                  </expression>
                </preferred>
                <definition>
@@ -1000,7 +1000,7 @@ RSpec.describe Metanorma::Standoc do
              <term id="term-sensitivity-to-t-90-t_90">
                <preferred>
                  <expression>
-                   <name>sensitivity to <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mstyle displaystyle="true"><msub><mi>t</mi><mn>90</mn></msub></mstyle></math><asciimath>t_90</asciimath></stem></name>
+                   <name>sensitivity to <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><msub><mi>t</mi><mn>90</mn></msub></mstyle></math><asciimath>t_90</asciimath></stem></name>
                  </expression>
                </preferred>
                <definition>
@@ -1096,7 +1096,7 @@ RSpec.describe Metanorma::Standoc do
                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
                <term id="term-t-90-t_90"><preferred><letter-symbol><name>
                                      <stem type="MathML">
-                        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                        <math xmlns="http://www.w3.org/1998/Math/MathML">
                           <mstyle displaystyle="true">
                             <msub>
                               <mi>t</mi>
@@ -1111,7 +1111,7 @@ RSpec.describe Metanorma::Standoc do
          <letter-symbol>
            <name>
                                  <stem type="MathML">
-                        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                        <math xmlns="http://www.w3.org/1998/Math/MathML">
                           <mstyle displaystyle="true">
                             <msub>
                               <mi>t</mi>
@@ -1322,7 +1322,7 @@ RSpec.describe Metanorma::Standoc do
                     </figure>
                     <formula id='_'>
                       <stem type='MathML'>
-                        <math xmlns='http://www.w3.org/1998/Math/MathML' display="block">
+                        <math xmlns='http://www.w3.org/1998/Math/MathML'>
                         <mstyle displaystyle="true">
                           <mi>x</mi>
                           <mo>=</mo>
@@ -1394,7 +1394,7 @@ RSpec.describe Metanorma::Standoc do
                   <letter-symbol>
                     <name>
                       <stem type="MathML">
-                        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                        <math xmlns="http://www.w3.org/1998/Math/MathML">
                           <mstyle displaystyle="true">
                             <mi>λ</mi>
                           </mstyle>
@@ -1409,7 +1409,7 @@ RSpec.describe Metanorma::Standoc do
                     <p id="_">Definition</p>
                     <p id="_">
                       <stem type="MathML">
-                        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                        <math xmlns="http://www.w3.org/1998/Math/MathML">
                           <mstyle displaystyle="true">
                             <mi>μ</mi>
                           </mstyle>
@@ -1423,7 +1423,7 @@ RSpec.describe Metanorma::Standoc do
                   <verbal-definition>
                     <p id="_">
                       <stem type="MathML">
-                        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                        <math xmlns="http://www.w3.org/1998/Math/MathML">
                           <mstyle displaystyle="true">
                             <mi>ν</mi>
                           </mstyle>
@@ -1493,7 +1493,7 @@ RSpec.describe Metanorma::Standoc do
                   <letter-symbol>
                     <name>
                       <stem type="MathML">
-                        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                        <math xmlns="http://www.w3.org/1998/Math/MathML">
                           <mstyle displaystyle="true">
                             <mi>λ</mi>
                           </mstyle>
@@ -1508,7 +1508,7 @@ RSpec.describe Metanorma::Standoc do
                     <p id="_">Definition</p>
                     <formula id="_">
                       <stem type="MathML">
-                        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                        <math xmlns="http://www.w3.org/1998/Math/MathML">
                           <mstyle displaystyle="true">
                             <mi>μ</mi>
                           </mstyle>
@@ -1520,7 +1520,7 @@ RSpec.describe Metanorma::Standoc do
                   <non-verbal-representation>
                     <formula id="_">
                       <stem type="MathML">
-                        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                        <math xmlns="http://www.w3.org/1998/Math/MathML">
                           <mstyle displaystyle="true">
                             <mi>ν</mi>
                           </mstyle>
@@ -1584,7 +1584,7 @@ RSpec.describe Metanorma::Standoc do
                   <letter-symbol>
                     <name>
                       <stem type="MathML">
-                        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                        <math xmlns="http://www.w3.org/1998/Math/MathML">
                           <mstyle displaystyle="true">
                             <mi>λ</mi>
                           </mstyle>
@@ -1605,7 +1605,7 @@ RSpec.describe Metanorma::Standoc do
                   <letter-symbol>
                     <name>
                       <stem type="MathML">
-                        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                        <math xmlns="http://www.w3.org/1998/Math/MathML">
                           <mstyle displaystyle="true">
                             <msub>
                               <mi>μ</mi>
@@ -1620,7 +1620,7 @@ RSpec.describe Metanorma::Standoc do
                       <index>
                         <primary>
                           <stem type="MathML">
-                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML">
                               <mstyle displaystyle="true">
                                 <msub>
                                   <mi>μ</mi>

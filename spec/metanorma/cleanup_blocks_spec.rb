@@ -193,7 +193,7 @@ RSpec.describe Metanorma::Standoc do
                       <sections>
            <formula id="_">
              <stem type="MathML">
-               <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
                  <mstyle displaystyle="true">
                    <mi>r</mi>
                    <mo>=</mo>
@@ -242,7 +242,7 @@ RSpec.describe Metanorma::Standoc do
                       <sections>
            <formula id="_">
              <stem type="MathML">
-               <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
                  <mstyle displaystyle="true">
                    <mi>r</mi>
                    <mo>=</mo>
@@ -640,7 +640,7 @@ RSpec.describe Metanorma::Standoc do
                <sections>
            <formula id="_">
              <stem type="MathML">
-               <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
                  <mstyle displaystyle="true">
                    <mi>F</mi>
                    <mi>o</mi>
@@ -663,7 +663,7 @@ RSpec.describe Metanorma::Standoc do
            </formula>
            <formula id="_">
              <stem type="MathML">
-               <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
                  <mstyle displaystyle="true">
                    <mi>F</mi>
                    <mi>o</mi>
@@ -686,7 +686,7 @@ RSpec.describe Metanorma::Standoc do
            </formula>
            <formula id="_">
              <stem type="MathML">
-               <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
                  <mstyle displaystyle="true">
                    <mi>F</mi>
                    <mi>o</mi>

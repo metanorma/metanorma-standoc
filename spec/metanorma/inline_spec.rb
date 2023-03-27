@@ -87,7 +87,7 @@ RSpec.describe Metanorma::Standoc do
         <sections>
           <p id='_'>
             <stem type='MathML'>
-                   <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
          <mstyle displaystyle="true">
            <mi>n</mi>
            <mo>&lt;</mo>
@@ -118,7 +118,7 @@ RSpec.describe Metanorma::Standoc do
           <sections>
             <p id="_">
               <stem type="MathML">
-                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
                   <mstyle displaystyle="true">
                     <mi>n</mi>
                     <mo>&lt;</mo>
@@ -139,7 +139,7 @@ RSpec.describe Metanorma::Standoc do
                 <latexmath>n &lt; 1</latexmath>
               </stem>
               <stem type="MathML">
-                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
                   <mstyle displaystyle="true">
                     <msup>
                       <mtext>‌</mtext>
@@ -174,7 +174,7 @@ RSpec.describe Metanorma::Standoc do
                  <sections>
             <p id="_">
               <stem type="MathML">
-                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
                   <mstyle displaystyle="true">
                     <mi>n</mi>
                     <mo>&lt;</mo>
@@ -194,7 +194,7 @@ RSpec.describe Metanorma::Standoc do
                 <latexmath>n &lt; 1</latexmath>
               </stem>
               <stem type="MathML">
-                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
                   <mstyle displaystyle="true">
                     <msup>
                       <mtext>‌</mtext>
@@ -229,7 +229,7 @@ RSpec.describe Metanorma::Standoc do
           <sections>
           <p id="_">
               <stem type="MathML">
-                     <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                     <math xmlns="http://www.w3.org/1998/Math/MathML">
          <mstyle displaystyle="true">
            <mi>n</mi>
            <mo>&lt;</mo>
@@ -241,7 +241,7 @@ RSpec.describe Metanorma::Standoc do
               <latexmath>n &lt; 1</latexmath>
               </stem>
               <stem type='MathML'>
-              <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
                                <mstyle displaystyle="true">
                     <msup>
                       <mtext>‌</mtext>
@@ -494,7 +494,7 @@ RSpec.describe Metanorma::Standoc do
        <p id="_"><xref target="reference"><em>reference</em></xref>
        <xref target="reference"><em><strong>reference</strong></em></xref>
        <xref target="reference"><em>A</em> <stem type="MathML">
-                           <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                           <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
                         <msup>
                           <mi>x</mi>
@@ -530,7 +530,7 @@ RSpec.describe Metanorma::Standoc do
        <p id="_"><xref target="reference"><em>reference</em></xref>
        <xref target="reference"><em><strong>reference</strong></em></xref>
        <xref target="reference"><em>A</em> <stem type="MathML">
-                           <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                           <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
                         <msup>
                           <mi>x</mi>
@@ -772,7 +772,7 @@ RSpec.describe Metanorma::Standoc do
        <p id="_"><eref type="inline" bibitemid="reference" citeas="ABC"><em>reference</em></eref>
        <eref type="inline" bibitemid="reference" citeas="ABC"><em><strong>reference</strong></em></eref>
        <eref type="inline" bibitemid="reference" citeas="ABC"><em>A</em> <stem type="MathML">
-                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
                         <msup>
                           <mi>x</mi>
@@ -842,7 +842,7 @@ RSpec.describe Metanorma::Standoc do
        </origin>
        </termsource><termsource status="identical" type="authoritative">
        <origin bibitemid="reference" type="inline" citeas="ABC"><em>A</em> <stem type="MathML">
-                               <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                               <math xmlns="http://www.w3.org/1998/Math/MathML">
                           <mstyle displaystyle="true">
                             <msup>
                               <mi>x</mi>
@@ -933,7 +933,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
          #{BLANK_HDR}
         <sections>
-        <p id="_">See<index><primary>See</primary></index> Index <em>term</em><index><primary><em>term</em></primary></index> and<index><primary>A<sub>B</sub></primary><secondary><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mstyle displaystyle="true"><mi>α</mi></mstyle></math><asciimath>alpha</asciimath></stem></secondary><tertiary>Ⲁ</tertiary></index>.</p>
+        <p id="_">See<index><primary>See</primary></index> Index <em>term</em><index><primary><em>term</em></primary></index> and<index><primary>A<sub>B</sub></primary><secondary><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><mi>α</mi></mstyle></math><asciimath>alpha</asciimath></stem></secondary><tertiary>Ⲁ</tertiary></index>.</p>
         </sections>
       </standard-document>
     OUTPUT
