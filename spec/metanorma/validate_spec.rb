@@ -210,16 +210,14 @@ RSpec.describe Metanorma::Standoc do
       end.to raise_error(SystemExit)
     rescue SystemExit, RuntimeError
     end
-=begin
-    expect(File.read("test.err"))
-      .to include "Invalid MathML"
-    expect(File.read("test.err"))
-      .to include "<mew>1<mn>3</mn>2</mn>"
-    expect(File.read("test.err"))
-      .to include "Asciimath original: sum x"
-    expect(File.read("test.err"))
-      .to include "<mo>∑</mo>"
-=end
+    #     expect(File.read("test.err"))
+    #       .to include "Invalid MathML"
+    #     expect(File.read("test.err"))
+    #       .to include "<mew>1<mn>3</mn>2</mn>"
+    #     expect(File.read("test.err"))
+    #       .to include "Asciimath original: sum x"
+    #     expect(File.read("test.err"))
+    #       .to include "<mo>∑</mo>"
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -308,22 +306,101 @@ RSpec.describe Metanorma::Standoc do
     expect(File.read("test.err")).to include "Figure should have title"
   end
 
-  it "warns that callouts do not match annotations" do
+  it "aborts if callouts do not match annotations" do
+    FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
-      #{VALIDATING_BLANK_HDR}
-      [source,ruby]
-      --
-      puts "Hello, world." <1>
-      %w{a b c}.each do |x|
-        puts x
-      end
-      --
-      <1> This is one callout
-      <2> This is another callout
-    INPUT
+    begin
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
+        [source,ruby]
+        --
+        puts "Hello, world." <1>
+        %w{a b c}.each do |x|
+          puts x
+        end
+        --
+        <1> This is one callout
+        <2> This is another callout
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
     expect(File.read("test.err"))
-      .to include "mismatch of callouts and annotations"
+      .to include "mismatch of callouts (1) and annotations (2)"
+    expect(File.exist?("test.xml")).to be false
+
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
+        [source,ruby]
+        --
+        puts "Hello, world." <1>
+        %w{a b c}.each do |x|
+          puts x
+        end <2>
+        --
+        <1> This is one callout
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err"))
+      .to include "mismatch of callouts (2) and annotations (1)"
+    expect(File.exist?("test.xml")).to be false
+
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
+        [source,ruby]
+        --
+        puts "Hello, world." <1>
+        %w{a b c}.each do |x|
+          puts x
+        end <2>
+        --
+        <1> This is one callout
+        <3> This is another callout
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.not_to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err"))
+      .not_to include "mismatch of callouts"
+    #expect(File.exist?("test.xml")).to be true
+
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
+        [source,ruby]
+        --
+        puts "Hello, world." <1>
+        %w{a b c}.each do |x|
+          puts x
+        end <2>
+        --
+        <1> This is one callout
+        <2> This is another callout
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.not_to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err"))
+      .not_to include "mismatch of callouts"
+    #expect(File.exist?("test.xml")).to be true
   end
 
   it "warns that term source is not a real reference" do
@@ -375,7 +452,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "Warning if terms mismatches IEV" do
     FileUtils.rm_f "test.err"
-    VCR.use_cassette "iev_103-01-02", :record => :new_episodes do
+    VCR.use_cassette "iev_103-01-02", record: :new_episodes do
       Asciidoctor.convert(<<~"INPUT", *OPTIONS)
         = Document title
         Author
@@ -1044,10 +1121,9 @@ RSpec.describe Metanorma::Standoc do
   private
 
   def mock_plurimath_error(times)
-    expect(::Plurimath::Math)
+    expect(Plurimath::Math)
       .to receive(:parse) do
         raise(StandardError)
       end.exactly(times).times
-
   end
 end
