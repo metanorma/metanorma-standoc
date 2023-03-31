@@ -18,7 +18,7 @@ module Metanorma
       end
 
       def callouts_error(elem, callouts, annotations)
-        if callouts.size != annotations.size
+        if callouts.size != annotations.size && !annotations.empty?
           err = "mismatch of callouts (#{callouts.size}) and annotations " \
                 "(#{annotations.size})"
           @log.add("AsciiDoc Input", elem, err)

@@ -401,6 +401,26 @@ RSpec.describe Metanorma::Standoc do
     expect(File.read("test.err"))
       .not_to include "mismatch of callouts"
     #expect(File.exist?("test.xml")).to be true
+
+        FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
+        [source,ruby]
+        --
+        puts "Hello, world." <1>
+        %w{a b c}.each do |x|
+          puts x
+        end <2>
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.not_to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err"))
+      .not_to include "mismatch of callouts"
   end
 
   it "warns that term source is not a real reference" do
