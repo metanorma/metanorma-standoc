@@ -46,8 +46,22 @@ module Metanorma
       def table_cleanup(xmldoc)
         dl1_table_cleanup(xmldoc)
         dl2_table_cleanup(xmldoc)
+        sources_table_cleanup(xmldoc)
         notes_table_cleanup(xmldoc)
         header_rows_cleanup(xmldoc)
+      end
+
+      def sources_table_cleanup(xmldoc)
+        nomatches = false
+        until nomatches
+          nomatches = true
+          xmldoc.xpath("//table/following-sibling::*[1]" \
+                       "[self::termsource]").each do |n|
+            n.previous_element << n.remove
+            nomatches = false
+            # will be renamed source from termsource later
+          end
+        end
       end
 
       # move notes into table
@@ -55,7 +69,7 @@ module Metanorma
         nomatches = false
         until nomatches
           nomatches = true
-          xmldoc.xpath("//table/following-sibling::*[1]"\
+          xmldoc.xpath("//table/following-sibling::*[1]" \
                        "[self::note[not(@keep-separate = 'true')]]").each do |n|
             n.delete("keep-separate")
             n.previous_element << n.remove

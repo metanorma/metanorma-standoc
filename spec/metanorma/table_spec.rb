@@ -300,167 +300,187 @@ RSpec.describe Metanorma::Standoc do
 
       5+a| Live insects shall not be present. Dead insects shall be included in extraneous matter.
       |===
+
+      [.source,status=generalisation]
+      <<ISO2191,section=1>>, with adjustments
+
+      NOTE: Hello
     INPUT
     output = <<~OUTPUT
-                  #{BLANK_HDR}
-             <sections>
-               <table id="_" alt="An extensive summary, and illustration, of tables" unnumbered="true" subsequence="A" summary="This is an extremely long, convoluted summary" width="70%" number="3" keep-with-next="true" keep-lines-together="true">
-               <name>Maximum <em>permissible</em> mass fraction of defects</name>
-               <thead>
-                 <tr>
-                   <th rowspan="2" valign="middle" align="left">Defect</th>
-                   <th colspan="4" valign="top" align="center">Maximum permissible mass fraction of defects in husked rice<br/>
-                   <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><msub><mi>w</mi><mrow><mi>max</mi></mrow></msub></mstyle></math><asciimath>w_max</asciimath></stem></th>
-                 </tr>
-               <tr>
-                   <th valign="middle" align="left">in husked rice</th>
-                   <th valign="top" align="center">in milled rice (non-glutinous)</th>
-                   <th valign="bottom" align="center">in husked parboiled rice</th>
-                   <th valign="top" align="center">in milled parboiled rice</th>
-                 </tr></thead>
-               <tbody>
+       #{BLANK_HDR}
+              <sections>
+                <table id="_" alt="An extensive summary, and illustration, of tables" unnumbered="true" subsequence="A" summary="This is an extremely long, convoluted summary" width="70%" number="3" keep-with-next="true" keep-lines-together="true">
+                <name>Maximum <em>permissible</em> mass fraction of defects</name>
+                <thead>
+                  <tr>
+                    <th rowspan="2" valign="middle" align="left">Defect</th>
+                    <th colspan="4" valign="top" align="center">Maximum permissible mass fraction of defects in husked rice<br/>
+                    <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><msub><mi>w</mi><mrow><mi>max</mi></mrow></msub></mstyle></math><asciimath>w_max</asciimath></stem></th>
+                  </tr>
+                <tr>
+                    <th valign="middle" align="left">in husked rice</th>
+                    <th valign="top" align="center">in milled rice (non-glutinous)</th>
+                    <th valign="bottom" align="center">in husked parboiled rice</th>
+                    <th valign="top" align="center">in milled parboiled rice</th>
+                  </tr></thead>
+                <tbody>
 
-                 <tr>
-                   <td valign="middle" align="left">Extraneous matter: organic<fn reference="a">
-               <p id="_">Organic extraneous matter includes foreign seeds, husks, bran, parts of straw, etc.</p>
-             </fn></td>
-                   <td valign="top" align="center">1,0</td>
-                   <td valign="bottom" align="center">0,5</td>
-                   <td valign="top" align="center">1,0</td>
-                   <td valign="top" align="center">0,5</td>
-                 </tr>
-                 <tr>
-                   <td valign="middle" align="left">Extraneous matter: inorganic<fn reference="b">
-               <p id="_">Inorganic extraneous matter includes stones, sand, dust, etc.</p>
-             </fn></td>
-                   <td valign="top" align="center">0,5</td>
-                   <td valign="bottom" align="center">0,5</td>
-                   <td valign="top" align="center">0,5</td>
-                   <td valign="top" align="center">0,5</td>
-                 </tr>
-                 <tr>
-                   <td valign="middle" align="left">Paddy</td>
-                   <td valign="top" align="center">2,5</td>
-                   <td valign="bottom" align="center">0,3</td>
-                   <td valign="top" align="center">2,5</td>
-                   <td valign="top" align="center">0,3</td>
-                 </tr>
-                 <tr>
-                   <td valign="middle" align="left">Husked rice, non-parboiled</td>
-                   <td valign="top" align="center">Not applicable</td>
-                   <td valign="bottom" align="center">1,0</td>
-                   <td valign="top" align="center">1,0</td>
-                   <td valign="top" align="center">1,0</td>
-                 </tr>
-                 <tr>
-                   <td valign="middle" align="left">Milled rice, non-parboiled</td>
-                   <td valign="top" align="center">1,0</td>
-                   <td valign="bottom" align="center">Not applicable</td>
-                   <td valign="top" align="center">1,0</td>
-                   <td valign="top" align="center">1,0</td>
-                 </tr>
-                 <tr>
-                   <td valign="middle" align="left">Husked rice, parboiled</td>
-                   <td valign="top" align="center">1,0</td>
-                   <td valign="bottom" align="center">1,0</td>
-                   <td valign="top" align="center">Not applicable</td>
-                   <td valign="top" align="center">1,0</td>
-                 </tr>
-                 <tr>
-                   <td valign="middle" align="left">Milled rice, parboiled</td>
-                   <td valign="top" align="center">1,0</td>
-                   <td valign="bottom" align="center">1,0</td>
-                   <td valign="top" align="center">1,0</td>
-                   <td valign="top" align="center">Not applicable</td>
-                 </tr>
-                 <tr>
-                   <td valign="middle" align="left">Chips</td>
-                   <td valign="top" align="center">0,1</td>
-                   <td valign="bottom" align="center">0,1</td>
-                   <td valign="top" align="center">0,1</td>
-                   <td valign="top" align="center">0,1</td>
-                 </tr>
-                 <tr>
-                   <td valign="middle" align="left">HDK</td>
-                   <td valign="top" align="center">2,0<fn reference="c">
-               <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
-             </fn></td>
-                   <td valign="bottom" align="center">2,0</td>
-                   <td valign="top" align="center">2,0<fn reference="c">
-               <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
-             </fn></td>
-                   <td valign="top" align="center">2,0</td>
-                 </tr>
-                 <tr>
-                   <td valign="middle" align="left">Damaged kernels</td>
-                   <td valign="top" align="center">4,0</td>
-                   <td valign="bottom" align="center">3,0</td>
-                   <td valign="top" align="center">4,0</td>
-                   <td valign="top" align="center">3,0</td>
-                 </tr>
-                 <tr>
-                   <td valign="middle" align="left">Immature and/or malformed kernels</td>
-                   <td valign="top" align="center">8,0</td>
-                   <td valign="bottom" align="center">2,0</td>
-                   <td valign="top" align="center">8,0</td>
-                   <td valign="top" align="center">2,0</td>
-                 </tr>
-                 <tr>
-                   <td valign="middle" align="left">Chalky kernels</td>
-                   <td valign="top" align="center">5,0<fn reference="c">
-               <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
-             </fn></td>
-                   <td valign="bottom" align="center">5,0</td>
-                   <td valign="top" align="center">Not applicable</td>
-                   <td valign="top" align="center">Not applicable</td>
-                 </tr>
-                 <tr>
-                   <td valign="middle" align="left">Red kernels and red-streaked kernels</td>
-                   <td valign="top" align="center">12,0</td>
-                   <td valign="bottom" align="center">12,0</td>
-                   <td valign="top" align="center">12,0<fn reference="c">
-               <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
-             </fn></td>
-                   <td valign="top" align="center">12,0</td>
-                 </tr>
-                 <tr>
-                   <td valign="middle" align="left">Partly gelatinized kernels</td>
-                   <td valign="top" align="center">Not applicable</td>
-                   <td valign="bottom" align="center">Not applicable</td>
-                   <td valign="top" align="center">11,0<fn reference="c">
-               <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
-             </fn></td>
-                   <td valign="top" align="center">11,0</td>
-                 </tr>
-                 <tr>
-                   <td valign="middle" align="left">Pecks</td>
-                   <td valign="top" align="center">Not applicable</td>
-                   <td valign="bottom" align="center">Not applicable</td>
-                   <td valign="top" align="center">4,0</td>
-                   <td valign="top" align="center">2,0</td>
-                 </tr>
-                 <tr>
-                   <td valign="middle" align="left">Waxy rice</td>
-                   <td valign="top" align="center">1,0<fn reference="c">
-               <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
-             </fn></td>
-                   <td valign="bottom" align="center">1,0</td>
-                   <td valign="top" align="center">1,0<fn reference="c">
-               <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
-             </fn></td>
-                   <td valign="top" align="center">1,0</td>
-                 </tr>
-               </tbody>
-               <tfoot>
-                 <tr>
-                   <td colspan="5" valign="middle" align="left">
-                     <p id="_">Live insects shall not be present. Dead insects shall be included in extraneous matter.</p>
-                   </td>
-                 </tr>
-               </tfoot>
-             </table>
-             </sections>
-             </standard-document>
+                  <tr>
+                    <td valign="middle" align="left">Extraneous matter: organic<fn reference="a">
+                <p id="_">Organic extraneous matter includes foreign seeds, husks, bran, parts of straw, etc.</p>
+              </fn></td>
+                    <td valign="top" align="center">1,0</td>
+                    <td valign="bottom" align="center">0,5</td>
+                    <td valign="top" align="center">1,0</td>
+                    <td valign="top" align="center">0,5</td>
+                  </tr>
+                  <tr>
+                    <td valign="middle" align="left">Extraneous matter: inorganic<fn reference="b">
+                <p id="_">Inorganic extraneous matter includes stones, sand, dust, etc.</p>
+              </fn></td>
+                    <td valign="top" align="center">0,5</td>
+                    <td valign="bottom" align="center">0,5</td>
+                    <td valign="top" align="center">0,5</td>
+                    <td valign="top" align="center">0,5</td>
+                  </tr>
+                  <tr>
+                    <td valign="middle" align="left">Paddy</td>
+                    <td valign="top" align="center">2,5</td>
+                    <td valign="bottom" align="center">0,3</td>
+                    <td valign="top" align="center">2,5</td>
+                    <td valign="top" align="center">0,3</td>
+                  </tr>
+                  <tr>
+                    <td valign="middle" align="left">Husked rice, non-parboiled</td>
+                    <td valign="top" align="center">Not applicable</td>
+                    <td valign="bottom" align="center">1,0</td>
+                    <td valign="top" align="center">1,0</td>
+                    <td valign="top" align="center">1,0</td>
+                  </tr>
+                  <tr>
+                    <td valign="middle" align="left">Milled rice, non-parboiled</td>
+                    <td valign="top" align="center">1,0</td>
+                    <td valign="bottom" align="center">Not applicable</td>
+                    <td valign="top" align="center">1,0</td>
+                    <td valign="top" align="center">1,0</td>
+                  </tr>
+                  <tr>
+                    <td valign="middle" align="left">Husked rice, parboiled</td>
+                    <td valign="top" align="center">1,0</td>
+                    <td valign="bottom" align="center">1,0</td>
+                    <td valign="top" align="center">Not applicable</td>
+                    <td valign="top" align="center">1,0</td>
+                  </tr>
+                  <tr>
+                    <td valign="middle" align="left">Milled rice, parboiled</td>
+                    <td valign="top" align="center">1,0</td>
+                    <td valign="bottom" align="center">1,0</td>
+                    <td valign="top" align="center">1,0</td>
+                    <td valign="top" align="center">Not applicable</td>
+                  </tr>
+                  <tr>
+                    <td valign="middle" align="left">Chips</td>
+                    <td valign="top" align="center">0,1</td>
+                    <td valign="bottom" align="center">0,1</td>
+                    <td valign="top" align="center">0,1</td>
+                    <td valign="top" align="center">0,1</td>
+                  </tr>
+                  <tr>
+                    <td valign="middle" align="left">HDK</td>
+                    <td valign="top" align="center">2,0<fn reference="c">
+                <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
+              </fn></td>
+                    <td valign="bottom" align="center">2,0</td>
+                    <td valign="top" align="center">2,0<fn reference="c">
+                <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
+              </fn></td>
+                    <td valign="top" align="center">2,0</td>
+                  </tr>
+                  <tr>
+                    <td valign="middle" align="left">Damaged kernels</td>
+                    <td valign="top" align="center">4,0</td>
+                    <td valign="bottom" align="center">3,0</td>
+                    <td valign="top" align="center">4,0</td>
+                    <td valign="top" align="center">3,0</td>
+                  </tr>
+                  <tr>
+                    <td valign="middle" align="left">Immature and/or malformed kernels</td>
+                    <td valign="top" align="center">8,0</td>
+                    <td valign="bottom" align="center">2,0</td>
+                    <td valign="top" align="center">8,0</td>
+                    <td valign="top" align="center">2,0</td>
+                  </tr>
+                  <tr>
+                    <td valign="middle" align="left">Chalky kernels</td>
+                    <td valign="top" align="center">5,0<fn reference="c">
+                <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
+              </fn></td>
+                    <td valign="bottom" align="center">5,0</td>
+                    <td valign="top" align="center">Not applicable</td>
+                    <td valign="top" align="center">Not applicable</td>
+                  </tr>
+                  <tr>
+                    <td valign="middle" align="left">Red kernels and red-streaked kernels</td>
+                    <td valign="top" align="center">12,0</td>
+                    <td valign="bottom" align="center">12,0</td>
+                    <td valign="top" align="center">12,0<fn reference="c">
+                <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
+              </fn></td>
+                    <td valign="top" align="center">12,0</td>
+                  </tr>
+                  <tr>
+                    <td valign="middle" align="left">Partly gelatinized kernels</td>
+                    <td valign="top" align="center">Not applicable</td>
+                    <td valign="bottom" align="center">Not applicable</td>
+                    <td valign="top" align="center">11,0<fn reference="c">
+                <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
+              </fn></td>
+                    <td valign="top" align="center">11,0</td>
+                  </tr>
+                  <tr>
+                    <td valign="middle" align="left">Pecks</td>
+                    <td valign="top" align="center">Not applicable</td>
+                    <td valign="bottom" align="center">Not applicable</td>
+                    <td valign="top" align="center">4,0</td>
+                    <td valign="top" align="center">2,0</td>
+                  </tr>
+                  <tr>
+                    <td valign="middle" align="left">Waxy rice</td>
+                    <td valign="top" align="center">1,0<fn reference="c">
+                <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
+              </fn></td>
+                    <td valign="bottom" align="center">1,0</td>
+                    <td valign="top" align="center">1,0<fn reference="c">
+                <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
+              </fn></td>
+                    <td valign="top" align="center">1,0</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="5" valign="middle" align="left">
+                      <p id="_">Live insects shall not be present. Dead insects shall be included in extraneous matter.</p>
+                    </td>
+                  </tr>
+                </tfoot>
+                     <source status="generalisation">
+        <origin bibitemid="ISO2191" type="inline" citeas="">
+          <localityStack>
+            <locality type="section">
+              <referenceFrom>1</referenceFrom>
+            </locality>
+          </localityStack>
+        </origin>
+        <modification>
+          <p id="_">with adjustments</p>
+        </modification>
+      </source>
+      <note id="_">
+        <p id="_">Hello</p>
+      </note>
+              </table>
+              </sections>
+              </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)

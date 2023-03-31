@@ -31,11 +31,12 @@ module Metanorma
         obligations_cleanup(xmldoc)
         para_index_cleanup(xmldoc)
         block_index_cleanup(xmldoc)
-        table_cleanup(xmldoc)
+        table_cleanup(xmldoc) # feeds: blocksource_cleanup
         formula_cleanup(xmldoc)
         form_cleanup(xmldoc)
         sourcecode_cleanup(xmldoc) # feeds: callout_cleanup
         figure_cleanup(xmldoc)
+        blocksource_cleanup(xmldoc)
         requirement_cleanup(xmldoc) # feeds: xref_cleanup
         element_name_cleanup(xmldoc)
         ref_cleanup(xmldoc) # feeds: bibitem_cleanup

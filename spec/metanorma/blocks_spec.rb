@@ -1099,6 +1099,9 @@ RSpec.describe Metanorma::Standoc do
 
       .Final stages: All kernels are fully gelatinized
       image::spec/examples/rice_images/rice_image3_3.png[]
+
+      [.source,status=generalisation]
+      <<ISO2191,section=1>>, with adjustments
       ====
     INPUT
     output = <<~OUTPUT
@@ -1116,7 +1119,20 @@ RSpec.describe Metanorma::Standoc do
       <figure id="_">
         <name>Final stages: All kernels are fully gelatinized</name>
         <image src="spec/examples/rice_images/rice_image3_3.png" id="_" mimetype="image/png" height="auto" width="auto"/>
-      </figure></figure>
+      </figure>
+      <source status="generalisation">
+        <origin bibitemid="ISO2191" type="inline" citeas="">
+          <localityStack>
+            <locality type="section">
+              <referenceFrom>1</referenceFrom>
+            </locality>
+          </localityStack>
+        </origin>
+        <modification>
+          <p id="_">with adjustments</p>
+        </modification>
+      </source>
+        </figure>
       </sections>
       </standard-document>
     OUTPUT

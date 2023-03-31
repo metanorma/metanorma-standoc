@@ -228,6 +228,13 @@ module Metanorma
                    "Style override set for ordered list")
         end
       end
+
+      def blocksource_cleanup(xmldoc)
+        xmldoc.xpath("//figure//termsource | //table//termsource").each do |s|
+          s.name = "source"
+          s.delete("type")
+        end
+      end
     end
   end
 end
