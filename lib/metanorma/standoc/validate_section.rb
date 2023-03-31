@@ -13,10 +13,16 @@ module Metanorma
         root.xpath("//sourcecode").each do |x|
           callouts = x.elements.select { |e| e.name == "callout" }
           annotations = x.elements.select { |e| e.name == "annotation" }
-          if callouts.size != annotations.size
-            @log.add("AsciiDoc Input", x,
-                     "mismatch of callouts and annotations")
-          end
+          callouts_error(x, callouts, annotations)
+        end
+      end
+
+      def callouts_error(elem, callouts, annotations)
+        if callouts.size != annotations.size && !annotations.empty?
+          err = "mismatch of callouts (#{callouts.size}) and annotations " \
+                "(#{annotations.size})"
+          @log.add("AsciiDoc Input", elem, err)
+          @fatalerror << err
         end
       end
 
