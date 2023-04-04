@@ -14,21 +14,30 @@ module Metanorma
 
       def termdef_stem2admitted(xmldoc)
         xmldoc.xpath("//term/p/stem").each do |a|
-          if initial_formula(a.parent)
+          if initial_formula?(a.parent) && empty_surrounding_text?(a)
             parent = a.parent
             parent.replace("<admitted>#{term_expr(a.to_xml)}</admitted>")
           end
         end
         xmldoc.xpath("//term/formula").each do |a|
-          initial_formula(a) and
+          initial_formula?(a) and
             a.replace("<admitted>#{term_expr(a.children.to_xml)}</admitted>")
         end
       end
 
-      def initial_formula(elem)
-        elem.elements.size == 1 && # para contains just stem expression
-          !elem.at("./preceding-sibling::p | ./preceding-sibling::dl | "\
-                   "./preceding-sibling::ol | ./preceding-sibling::ul")
+      def initial_formula?(elem)
+        !elem.at("./preceding-sibling::p | ./preceding-sibling::dl | " \
+                        "./preceding-sibling::ol | ./preceding-sibling::ul")
+      end
+
+      # para contains just stem expression
+      def empty_surrounding_text?(elem)
+        %w(preceding-sibling::text() ./preceding-sibling::*/text()
+           following-sibling::text() ./following-sibling::*/text()).each do |x|
+          elem.xpath(x).map(&:text).map(&:strip).reject(&:empty?).empty? or
+            return false
+        end
+        true
       end
 
       # release termdef tags from surrounding paras
@@ -136,7 +145,7 @@ module Metanorma
       def dl_to_designation(dlist)
         prev = dlist.previous_element
         unless %w(preferred admitted deprecates related).include? prev&.name
-          @log.add("AsciiDoc Input", dlist, "Metadata definition list does "\
+          @log.add("AsciiDoc Input", dlist, "Metadata definition list does " \
                                             "not follow a term designation")
           return nil
         end
