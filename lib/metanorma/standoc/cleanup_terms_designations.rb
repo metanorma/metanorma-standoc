@@ -2,7 +2,6 @@ module Metanorma
   module Standoc
     module Cleanup
       def termdef_stem_cleanup(xmldoc)
-        termdef_stem2admitted(xmldoc)
         xmldoc.xpath("//term//expression/name[stem]").each do |n|
           test = n.dup
           test.at("./stem").remove
@@ -10,34 +9,6 @@ module Metanorma
 
           n.parent.name = "letter-symbol"
         end
-      end
-
-      def termdef_stem2admitted(xmldoc)
-        xmldoc.xpath("//term/p/stem").each do |a|
-          if initial_formula?(a.parent) && empty_surrounding_text?(a)
-            parent = a.parent
-            parent.replace("<admitted>#{term_expr(a.to_xml)}</admitted>")
-          end
-        end
-        xmldoc.xpath("//term/formula").each do |a|
-          initial_formula?(a) and
-            a.replace("<admitted>#{term_expr(a.children.to_xml)}</admitted>")
-        end
-      end
-
-      def initial_formula?(elem)
-        !elem.at("./preceding-sibling::p | ./preceding-sibling::dl | " \
-                        "./preceding-sibling::ol | ./preceding-sibling::ul")
-      end
-
-      # para contains just stem expression
-      def empty_surrounding_text?(elem)
-        %w(preceding-sibling::text() ./preceding-sibling::*/text()
-           following-sibling::text() ./following-sibling::*/text()).each do |x|
-          elem.xpath(x).map(&:text).map(&:strip).reject(&:empty?).empty? or
-            return false
-        end
-        true
       end
 
       # release termdef tags from surrounding paras

@@ -870,184 +870,6 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "processes stem-only terms as admitted" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      == Terms and Definitions
-
-      === stem:[t_90]
-
-      Definition
-
-      stem:[t_91]
-
-    INPUT
-    output = <<~OUTPUT
-            #{BLANK_HDR}
-                     <sections>
-          <terms id="_" obligation="normative">
-            <title>Terms and definitions</title>
-            <p id="_">For the purposes of this document,
-          the following terms and definitions apply.</p>
-            <term id="term-t-90-t_90">
-              <preferred>
-                <letter-symbol>
-                  <name>
-                    <stem type="MathML">
-                      <math xmlns="http://www.w3.org/1998/Math/MathML">
-                        <mstyle displaystyle="true">
-                          <msub>
-                            <mi>t</mi>
-                            <mn>90</mn>
-                          </msub>
-                        </mstyle>
-                      </math>
-                      <asciimath>t_90</asciimath>
-                    </stem>
-                  </name>
-                </letter-symbol>
-              </preferred>
-              <definition>
-                <verbal-definition>
-                  <p id="_">Definition</p>
-                  <p id="_">
-                    <stem type="MathML">
-                      <math xmlns="http://www.w3.org/1998/Math/MathML">
-                        <mstyle displaystyle="true">
-                          <msub>
-                            <mi>t</mi>
-                            <mn>91</mn>
-                          </msub>
-                        </mstyle>
-                      </math>
-                      <asciimath>t_91</asciimath>
-                    </stem>
-                  </p>
-                </verbal-definition>
-              </definition>
-            </term>
-          </terms>
-        </sections>
-      </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      == Terms and Definitions
-
-      === stem:[t_90]
-
-      stem:[t_91]
-
-      Time
-    INPUT
-    output = <<~OUTPUT
-           #{BLANK_HDR}
-                     <sections>
-          <terms id="_" obligation="normative">
-            <title>Terms and definitions</title>
-            <p id="_">For the purposes of this document,
-          the following terms and definitions apply.</p>
-            <term id="term-t-90-t_90">
-              <preferred>
-                <letter-symbol>
-                  <name>
-                    <stem type="MathML">
-                      <math xmlns="http://www.w3.org/1998/Math/MathML">
-                        <mstyle displaystyle="true">
-                          <msub>
-                            <mi>t</mi>
-                            <mn>90</mn>
-                          </msub>
-                        </mstyle>
-                      </math>
-                      <asciimath>t_90</asciimath>
-                    </stem>
-                  </name>
-                </letter-symbol>
-              </preferred>
-              <admitted>
-                <letter-symbol>
-                  <name>
-                    <stem type="MathML">
-                      <math xmlns="http://www.w3.org/1998/Math/MathML">
-                        <mstyle displaystyle="true">
-                          <msub>
-                            <mi>t</mi>
-                            <mn>91</mn>
-                          </msub>
-                        </mstyle>
-                      </math>
-                      <asciimath>t_91</asciimath>
-                    </stem>
-                  </name>
-                </letter-symbol>
-              </admitted>
-              <definition>
-                <verbal-definition>
-                  <p id="_">Time</p>
-                </verbal-definition>
-              </definition>
-            </term>
-          </terms>
-        </sections>
-      </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      == Terms and Definitions
-
-      === stem:[t_90]
-
-      This stem:[t_91]#{'  '}
-
-      Time
-    INPUT
-    output = <<~OUTPUT
-           #{BLANK_HDR}
-                     <sections>
-          <terms id="_" obligation="normative">
-            <title>Terms and definitions</title>
-            <p id="_">For the purposes of this document,
-          the following terms and definitions apply.</p>
-            <term id="term-t-90-t_90">
-              <preferred>
-                <letter-symbol>
-                  <name>
-                    <stem type="MathML">
-                      <math xmlns="http://www.w3.org/1998/Math/MathML">
-                        <mstyle displaystyle="true">
-                          <msub>
-                            <mi>t</mi>
-                            <mn>90</mn>
-                          </msub>
-                        </mstyle>
-                      </math>
-                      <asciimath>t_90</asciimath>
-                    </stem>
-                  </name>
-                </letter-symbol>
-              </preferred>
-              <definition>
-                <verbal-definition>
-                  <p id="_">This <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><msub><mi>t</mi><mn>91</mn></msub></mstyle></math><asciimath>t_91</asciimath></stem></p>
-                  <p id="_">Time</p>
-                </verbal-definition>
-              </definition>
-            </term>
-          </terms>
-        </sections>
-      </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
   it "differentiates stem-only and mixed terms" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1181,10 +1003,7 @@ RSpec.describe Metanorma::Standoc do
 
       === stem:[t_90]
 
-      [stem]
-      ++++
-      t_A
-      ++++
+      alt:[stem:[t_A]]
 
       This paragraph is extraneous
 
@@ -1501,9 +1320,7 @@ RSpec.describe Metanorma::Standoc do
                     <name>Term</name>
                   </expression>
                 </preferred>
-                <admitted>
-                  <letter-symbol>
-                    <name>
+                    <p id="_">
                       <stem type="MathML">
                         <math xmlns="http://www.w3.org/1998/Math/MathML">
                           <mstyle displaystyle="true">
@@ -1512,9 +1329,7 @@ RSpec.describe Metanorma::Standoc do
                         </math>
                         <asciimath>lambda</asciimath>
                       </stem>
-                    </name>
-                  </letter-symbol>
-                </admitted>
+                    </p>
                 <definition>
                   <verbal-definition>
                     <p id="_">Definition</p>
@@ -1553,7 +1368,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "differentiates formuals before, after, and within verbal definitions" do
+  it "differentiates formulas before, after, and within verbal definitions" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
@@ -1600,9 +1415,7 @@ RSpec.describe Metanorma::Standoc do
                   <name>Term</name>
                 </expression>
               </preferred>
-              <admitted>
-                <letter-symbol>
-                  <name>
+                  <formula id="_">
                     <stem type="MathML">
                       <math xmlns="http://www.w3.org/1998/Math/MathML">
                         <mstyle displaystyle="true">
@@ -1611,9 +1424,7 @@ RSpec.describe Metanorma::Standoc do
                       </math>
                       <asciimath>lambda</asciimath>
                     </stem>
-                  </name>
-                </letter-symbol>
-              </admitted>
+                  </formula>
               <definition>
                 <verbal-definition>
                   <p id="_">Definition</p>
@@ -1675,92 +1486,92 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-      <sections>
-                  <terms id="_" obligation="normative">
-            <title>Terms and definitions</title>
-            <p id="_">For the purposes of this document,
-          the following terms and definitions apply.</p>
-            <term id="term-Term">
-              <preferred>
-                <expression>
-                  <name>Term<index><primary>Term</primary></index></name>
-                </expression>
-              </preferred>
-              <admitted>
-                <expression>
-                  <name>x</name>
-                </expression>
-              </admitted>
-              <admitted>
-                <letter-symbol>
-                  <name>
-                    <stem type="MathML">
-                      <math xmlns="http://www.w3.org/1998/Math/MathML">
-                        <mstyle displaystyle="true">
-                          <mi>λ</mi>
-                        </mstyle>
-                      </math>
-                      <asciimath>lambda</asciimath>
-                    </stem>
-                  </name>
-                </letter-symbol>
-              </admitted>
-            </term>
-            <term id="term-Term2">
-              <preferred>
-                <expression>
-                  <name>Term2<index><primary>Term2</primary></index></name>
-                </expression>
-              </preferred>
-              <preferred>
-                <letter-symbol>
-                  <name>
-                    <stem type="MathML">
-                      <math xmlns="http://www.w3.org/1998/Math/MathML">
-                        <mstyle displaystyle="true">
-                          <msub>
-                            <mi>μ</mi>
-                            <mn>0</mn>
-                          </msub>
-                          <mo>/</mo>
-                          <mn>2</mn>
-                        </mstyle>
-                      </math>
-                      <asciimath>mu_0 // 2</asciimath>
-                    </stem>
-                    <index>
-                      <primary>
-                        <stem type="MathML">
-                          <math xmlns="http://www.w3.org/1998/Math/MathML">
-                            <mstyle displaystyle="true">
-                              <msub>
-                                <mi>μ</mi>
-                                <mn>0</mn>
-                              </msub>
-                              <mo>/</mo>
-                              <mn>2</mn>
-                            </mstyle>
-                          </math>
-                          <asciimath>mu_0 // 2</asciimath>
-                        </stem>
-                      </primary>
-                    </index>
-                  </name>
-                </letter-symbol>
-              </preferred>
-            </term>
-          </terms>
-          <definitions id="_" obligation="normative">
-            <title>Symbols and abbreviated terms</title>
-            <dl id="_">
-              <dt id="symbol-x2">x<sup>2</sup><index><primary>x<sup>2</sup></primary></index></dt>
-              <dd>
-                <p id="_">Definition</p>
-              </dd>
-            </dl>
-          </definitions>
-        </sections>
-      </standard-document>
+               <sections>
+           <terms id="_" obligation="normative">
+             <title>Terms and definitions</title>
+             <p id="_">For the purposes of this document,
+           the following terms and definitions apply.</p>
+             <term id="term-Term">
+               <preferred>
+                 <expression>
+                   <name>Term<index><primary>Term</primary></index></name>
+                 </expression>
+               </preferred>
+               <admitted>
+                 <expression>
+                   <name>x</name>
+                 </expression>
+               </admitted>
+               <definition>
+                 <non-verbal-representation>
+                   <formula id="_">
+                     <stem type="MathML">
+                       <math xmlns="http://www.w3.org/1998/Math/MathML">
+                         <mstyle displaystyle="true">
+                           <mi>λ</mi>
+                         </mstyle>
+                       </math>
+                       <asciimath>lambda</asciimath>
+                     </stem>
+                   </formula>
+                 </non-verbal-representation>
+               </definition>
+             </term>
+             <term id="term-Term2">
+               <preferred>
+                 <expression>
+                   <name>Term2<index><primary>Term2</primary></index></name>
+                 </expression>
+               </preferred>
+               <preferred>
+                 <letter-symbol>
+                   <name>
+                     <stem type="MathML">
+                       <math xmlns="http://www.w3.org/1998/Math/MathML">
+                         <mstyle displaystyle="true">
+                           <msub>
+                             <mi>μ</mi>
+                             <mn>0</mn>
+                           </msub>
+                           <mo>/</mo>
+                           <mn>2</mn>
+                         </mstyle>
+                       </math>
+                       <asciimath>mu_0 // 2</asciimath>
+                     </stem>
+                     <index>
+                       <primary>
+                         <stem type="MathML">
+                           <math xmlns="http://www.w3.org/1998/Math/MathML">
+                             <mstyle displaystyle="true">
+                               <msub>
+                                 <mi>μ</mi>
+                                 <mn>0</mn>
+                               </msub>
+                               <mo>/</mo>
+                               <mn>2</mn>
+                             </mstyle>
+                           </math>
+                           <asciimath>mu_0 // 2</asciimath>
+                         </stem>
+                       </primary>
+                     </index>
+                   </name>
+                 </letter-symbol>
+               </preferred>
+             </term>
+           </terms>
+           <definitions id="_" obligation="normative">
+             <title>Symbols and abbreviated terms</title>
+             <dl id="_">
+               <dt id="symbol-x2">x<sup>2</sup><index><primary>x<sup>2</sup></primary></index></dt>
+               <dd>
+                 <p id="_">Definition</p>
+               </dd>
+             </dl>
+           </definitions>
+         </sections>
+       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
