@@ -27,7 +27,7 @@ module Metanorma
       end
 
       TERMDEF_BLOCKS =
-        "./p | ./ol | ./dl[not(@metadata = 'true')] | ./ul | ./figure | "\
+        "./p | ./ol | ./dl[not(@metadata = 'true')] | ./ul | ./figure | " \
         "./formula | ./table".freeze
 
       def generate_termdefinitions(xmldoc)
@@ -47,7 +47,7 @@ module Metanorma
           if d.at("./p | ./ol | ./dl | ./ul")
             d.children = "<verbal-definition>#{d.children}</verbal-definition>"
           else
-            d.children = "<non-verbal-representation>"\
+            d.children = "<non-verbal-representation>" \
                          "#{d.children}</non-verbal-representation>"
           end
         end
