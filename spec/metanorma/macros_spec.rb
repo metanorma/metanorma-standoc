@@ -382,7 +382,13 @@ RSpec.describe Metanorma::Standoc do
 
       |c |d
       |===
+      --
 
+      footnoteblock:[id2]. footnoteblock:[id2]
+
+      [[id2]]
+      [NOTE]
+      --
       * A
       * B
       * C
@@ -407,19 +413,9 @@ RSpec.describe Metanorma::Standoc do
             </tr>
           </tbody>
         </table>
-        <ul id='_'>
-          <li>
-            <p id='_'>A</p>
-          </li>
-          <li>
-            <p id='_'>B</p>
-          </li>
-          <li>
-            <p id='_'>C</p>
-          </li>
-        </ul>
       </fn>
                   </p>
+                  <p id="_"><fn reference="2"><ul id="_"><li><p id="_">A</p></li><li><p id="_">B</p></li><li><p id="_">C</p></li></ul></fn>. <fn reference="2"><ul id="_"><li><p id="_">A</p></li><li><p id="_">B</p></li><li><p id="_">C</p></li></ul></fn></p>
                   </sections>
              </standard-document>
     OUTPUT
