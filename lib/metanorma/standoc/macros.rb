@@ -12,6 +12,7 @@ require_relative "./macros_embed"
 require_relative "./datamodel/attributes_table_preprocessor"
 require_relative "./datamodel/diagram_preprocessor"
 require "metanorma-plugin-datastruct"
+require "metanorma-plugin-glossarist"
 require "metanorma-plugin-lutaml"
 
 module Metanorma
