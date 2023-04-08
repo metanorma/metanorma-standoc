@@ -17,9 +17,9 @@ module Metanorma
       def asciimath_key(sym)
         key = sym.dup
         key.traverse do |n|
-          if n.name == "math"
+          if n.name == "stem" && a = n.at(".//asciimath")
             n.children = @c.encode(
-              @c.decode(grkletters(MathML2AsciiMath.m2a(n.to_xml))), :basic
+              @c.decode(grkletters(a.text)), :basic
             )
           end
         end
