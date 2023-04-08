@@ -90,16 +90,28 @@ module Metanorma
       end
 
       def footnote_block_cleanup(xmldoc)
-        xmldoc.xpath("//footnoteblock").each do |f|
+        ids = xmldoc.xpath("//footnoteblock").each_with_object([]) do |f, m|
           f.name = "fn"
+          m << f.text
           if id = xmldoc.at("//*[@id = '#{f.text}']")
-            f.children = id.remove.children
-          else
-            @log.add("Crossreferences", f,
-                     "Could not resolve footnoteblock:[#{f.text}]")
-            f.children = "[ERROR]"
+            f.children = id.dup.children
+          else footnote_block_error(f)
           end
         end
+        footnote_block_remove(xmldoc, ids)
+      end
+
+      def footnote_block_remove(xmldoc, ids)
+        ids.each do |id|
+          n = xmldoc.at("//*[@id = '#{id}']") and
+            n.remove
+        end
+      end
+
+      def footnote_block_error(fnote)
+        @log.add("Crossreferences", fnote,
+                 "Could not resolve footnoteblock:[#{fnote.text}]")
+        fnote.children = "[ERROR]"
       end
 
       def footnote_cleanup(xmldoc)
