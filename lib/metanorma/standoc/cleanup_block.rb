@@ -79,8 +79,7 @@ module Metanorma
       def single_subfigure_cleanup(xmldoc)
         xmldoc.xpath("//figure[figure]").each do |e|
           s = e.xpath("./figure")
-          return unless s.size == 1
-
+          s.size == 1 or next
           s[0].replace(s[0].children)
         end
       end
