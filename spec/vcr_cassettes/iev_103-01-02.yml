@@ -71,4 +71,594 @@ http_interactions:
       string: !binary |-
         LS0tCnNjaGVtYS12ZXJzaW9uOiB2MS4yLjEKaWQ6IElFQzYwMDUwLTEwMy0yMDA5CnRpdGxlOgotIGNvbnRlbnQ6ICdJbnRlcm5hdGlvbmFsIEVsZWN0cm90ZWNobmljYWwgVm9jYWJ1bGFyeSAoSUVWKSAtIFBhcnQgMTAzOiBNYXRoZW1hdGljcwogICAgLSBGdW5jdGlvbnMnCiAgbGFuZ3VhZ2U6CiAgLSBlbgogIHNjcmlwdDoKICAtIExhdG4KICBmb3JtYXQ6IHRleHQvcGxhaW4KICB0eXBlOiBtYWluCi0gY29udGVudDogJ1ZvY2FidWxhaXJlIEVsZWN0cm90ZWNobmlxdWUgSW50ZXJuYXRpb25hbCAoSUVWKSAtIFBhcnRpZSAxMDM6IE1hdGjDqW1hdGlxdWVzCiAgICAtIEZvbmN0aW9ucycKICBsYW5ndWFnZToKICAtIGZyCiAgc2NyaXB0OgogIC0gTGF0bgogIGZvcm1hdDogdGV4dC9wbGFpbgogIHR5cGU6IG1haW4KLSBjb250ZW50OiAnVmVyc2nDs24gT2ZpY2lhbCBFbiBlc3Bhw7FvbCAtIFZvY2FidWxhcmlvIEVsZWN0cm90w6ljbmljbyBJbnRlcm5hY2lvbmFsLgogICAgUGFydGUgMTAzOiBNYXRlbcOhdGljYXMuIEZ1bmNpb25lcy4nCiAgbGFuZ3VhZ2U6CiAgLSBlcwogIHNjcmlwdDoKICAtIExhdG4KICBmb3JtYXQ6IHRleHQvcGxhaW4KICB0eXBlOiBtYWluCmxpbms6Ci0gY29udGVudDogaHR0cHM6Ly93ZWJzdG9yZS5pZWMuY2gvcHVibGljYXRpb24vMTYxCiAgdHlwZTogc3JjCi0gY29udGVudDogaHR0cHM6Ly93ZWJzdG9yZS5pZWMuY2gvcHJldmlldy9pbmZvX2llYzYwMDUwLTEwM3tlZDEuMH1iLnBkZgogIHR5cGU6IG9icAp0eXBlOiBzdGFuZGFyZApkb2NpZDoKLSBpZDogSUVDIDYwMDUwLTEwMzoyMDA5CiAgdHlwZTogSUVDCiAgcHJpbWFyeTogdHJ1ZQotIGlkOiAndXJuOmllYzpzdGQ6aWVjOjYwMDUwLTEwMzoyMDA5LTEyOjo6JwogIHR5cGU6IFVSTgpkYXRlOgotIHR5cGU6IHB1Ymxpc2hlZAogIHZhbHVlOiAnMjAwOS0xMi0xNCcKY29udHJpYnV0b3I6Ci0gb3JnYW5pemF0aW9uOgogICAgbmFtZToKICAgIC0gY29udGVudDogSW50ZXJuYXRpb25hbCBFbGVjdHJvdGVjaG5pY2FsIENvbW1pc3Npb24KICAgIGFiYnJldmlhdGlvbjoKICAgICAgY29udGVudDogSUVDCiAgICB1cmw6IHd3dy5pZWMuY2gKICByb2xlOgogIC0gdHlwZTogcHVibGlzaGVyCmVkaXRpb246CiAgY29udGVudDogJzEnCnJldmRhdGU6ICcyMDA5LTEyLTE0JwpsYW5ndWFnZToKLSBlbgotIGZyCi0gZXMKc2NyaXB0OgotIExhdG4KYWJzdHJhY3Q6Ci0gY29udGVudDogIklFQyA2MDA1MC0xMDM6MjAwOSBnaXZlcyB0aGUgdGVybWlub2xvZ3kgcmVsYXRpdmUgdG8gZnVuY3Rpb25zIG9mIG9uZQogICAgb3IgbW9yZSB2YXJpYWJsZXMuIFRvZ2V0aGVyIHdpdGggSUVDIDYwMDUwLTEwMiwgaXQgY292ZXJzIHRoZSBtYXRoZW1hdGljYWwgdGVybWlub2xvZ3kKICAgIHVzZWQgaW4gdGhlIGZpZWxkcyBvZiBlbGVjdHJpY2l0eSwgZWxlY3Ryb25pY3MgYW5kIHRlbGVjb21tdW5pY2F0aW9ucy4gSXQgbWFpbnRhaW5zCiAgICBhIGNsZWFyIGRpc3RpbmN0aW9uIGJldHdlZW4gbWF0aGVtYXRpY2FsIGNvbmNlcHRzIGFuZCBwaHlzaWNhbCBjb25jZXB0cywgZXZlbgogICAgaWYgc29tZSB0ZXJtcyBhcmUgdXNlZCBpbiBib3RoIGNhc2VzLiBNYXRoZW1hdGljYWwgc3ltYm9scyBhcmUgZ2VuZXJhbGx5IGluIGFjY29yZGFuY2UKICAgIHdpdGggSUVDIDYwMDI3LTEgYW5kIElTTyA4MDAwMC0yLiBUaGlzIHN0YW5kYXJkIGNhbmNlbHMgYW5kIHJlcGxhY2VzIFNlY3Rpb25zCiAgICAxMDEtMTMsIDEwMS0xNCBhbmQgMTAxLTE1IG9mIEludGVybmF0aW9uYWwgU3RhbmRhcmQgSUVDIDYwMDUwLTEwMToxOTk4LjxiciAvPlxyXG5JdAogICAgaGFzIHRoZSBzdGF0dXMgb2YgYSBob3Jpem9udGFsIHN0YW5kYXJkIGluIGFjY29yZGFuY2Ugd2l0aCBJRUMgR3VpZGUgMTA4LiIKICBsYW5ndWFnZToKICAtIGVuCiAgc2NyaXB0OgogIC0gTGF0bgogIGZvcm1hdDogdGV4dC9odG1sCi0gY29udGVudDogIkxhIENFSSA2MDA1MC0xMDM6MjAwOSBkb25uZSBsYSB0ZXJtaW5vbG9naWUgcmVsYXRpdmUgYXV4IGZvbmN0aW9ucyBkJ3VuZQogICAgb3UgcGx1c2lldXJzIHZhcmlhYmxlcy4gQ29uam9pbnRlbWVudCBhdmVjIGxhIENFSSA2MDA1MC0xMDIsIGVsbGUgY291dnJlIGxhIHRlcm1pbm9sb2dpZQogICAgbWF0aMOpbWF0aXF1ZSB1dGlsaXPDqWUgZGFucyBsZXMgZG9tYWluZXMgZGUgbCfDqWxlY3RyaWNpdMOpLCBkZSBsJ8OpbGVjdHJvbmlxdWUgZXQKICAgIGRlcyB0w6lsw6ljb21tdW5pY2F0aW9ucy4gRWxsZSBtYWludGllbnQgdW5lIGRpc3RpbmN0aW9uIG5ldHRlIGVudHJlIGxlcyBjb25jZXB0cwogICAgbWF0aMOpbWF0aXF1ZXMgZXQgbGVzIGNvbmNlcHRzIHBoeXNpcXVlcywgbcOqbWUgc2kgY2VydGFpbnMgdGVybWVzIHNvbnQgZW1wbG95w6lzCiAgICBkYW5zIGxlcyBkZXV4IGNhcy4gTGVzIHN5bWJvbGVzIG1hdGjDqW1hdGlxdWVzIHNvbnQgZ8OpbsOpcmFsZW1lbnQgY29uZm9ybWVzIMOgIGxhCiAgICBDRUkgNjAwMjctMSBldCDDoCBsJ0lTTyA4MDAwMC0yLiBDZXR0ZSBub3JtZSBhbm51bGUgZXQgcmVtcGxhY2UgbGVzIHNlY3Rpb25zIDEwMS0xMywKICAgIDEwMS0xNCBldCAxMDEtMTUgZGUgbGEgbm9ybWUgaW50ZXJuYXRpb25hbGUgQ0VJIDYwMDUwLTEwMToxOTk4LjxiciAvPlxyXG5FbGxlCiAgICBhIGxlIHN0YXR1dCBkZSBub3JtZSBob3Jpem9udGFsZSBjb25mb3Jtw6ltZW50IGF1IEd1aWRlIElFQyAxMDguIgogIGxhbmd1YWdlOgogIC0gZnIKICBzY3JpcHQ6CiAgLSBMYXRuCiAgZm9ybWF0OiB0ZXh0L2h0bWwKZG9jc3RhdHVzOgogIHN0YWdlOgogICAgdmFsdWU6IFBVQkxJU0hFRApjb3B5cmlnaHQ6Ci0gb3duZXI6CiAgLSBuYW1lOgogICAgLSBjb250ZW50OiBJbnRlcm5hdGlvbmFsIEVsZWN0cm90ZWNobmljYWwgQ29tbWlzc2lvbgogICAgYWJicmV2aWF0aW9uOgogICAgICBjb250ZW50OiBJRUMKICAgIHVybDogd3d3LmllYy5jaAogIGZyb206ICcyMDA5JwpwbGFjZToKLSBHZW5ldmEKZG9jdHlwZTogaW50ZXJuYXRpb25hbC1zdGFuZGFyZAplZGl0b3JpYWxncm91cDoKICB0ZWNobmljYWxfY29tbWl0dGVlOgogIC0gbmFtZTogVEMgMQogICAgbnVtYmVyOiAxCiAgICB0eXBlOiB0ZWNobmljYWxDb21taXR0ZWUKaWNzOgotIGNvZGU6IDAxLjA0MC4wNwogIHRleHQ6IE5hdHVyYWwgYW5kIGFwcGxpZWQgc2NpZW5jZXMgKFZvY2FidWxhcmllcykKLSBjb2RlOiAnMDcuMDIwJwogIHRleHQ6IE1hdGhlbWF0aWNzCnN0cnVjdHVyZWRpZGVudGlmaWVyOgogIHByb2plY3RfbnVtYmVyOiAnNjAwNTAnCiAgcGFydDogJzEwMycKICB0eXBlOiBJRUMKZXh0OgogIHNjaGVtYS12ZXJzaW9uOiB2MS4wLjAKcHJpY2VfY29kZTogaWVjOkwK
   recorded_at: Mon, 27 Mar 2023 09:55:30 GMT
+- request:
+    method: get
+    uri: http://www.electropedia.org/iev/iev.nsf/display?ievref=103-01-02&openform
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 301
+      message: Moved Permanently
+    headers:
+      Server:
+      - CloudFront
+      Date:
+      - Mon, 10 Apr 2023 04:25:53 GMT
+      Content-Type:
+      - text/html
+      Content-Length:
+      - '167'
+      Connection:
+      - keep-alive
+      Location:
+      - https://www.electropedia.org/iev/iev.nsf/display?openform&ievref=103-01-02
+      X-Cache:
+      - Redirect from cloudfront
+      Via:
+      - 1.1 236735b52059949e1df9130ff0e7ce4e.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - HKG60-C1
+      X-Amz-Cf-Id:
+      - C5oSd8yKs57oIr-Op6KeisGRE94L4ADRa_EEaIuDyWF3GauHySAxWA==
+    body:
+      encoding: UTF-8
+      string: "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body>\r\n<center><h1>301
+        Moved Permanently</h1></center>\r\n<hr><center>CloudFront</center>\r\n</body>\r\n</html>\r\n"
+  recorded_at: Mon, 10 Apr 2023 04:25:53 GMT
+- request:
+    method: get
+    uri: https://www.electropedia.org/iev/iev.nsf/display?ievref=103-01-02&openform
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html; charset=UTF-8
+      Content-Length:
+      - '17381'
+      Connection:
+      - keep-alive
+      Server:
+      - Lotus-Domino
+      Date:
+      - Mon, 10 Apr 2023 04:57:45 GMT
+      Last-Modified:
+      - Mon, 10 Apr 2023 04:57:44 GMT
+      Expires:
+      - Tue, 01 Jan 1980 06:00:00 GMT
+      Cache-Control:
+      - no-cache
+      X-Cache:
+      - Miss from cloudfront
+      Via:
+      - 1.1 214d8a3cdb14de6b0331d1f72902cc66.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - HKG60-C1
+      X-Amz-Cf-Id:
+      - U0bs9TfOZL072yWW5G3tfqclF_tBm9xLDytdTboiX0cboYEvDWXJOA==
+    body:
+      encoding: UTF-8
+      string: "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n<html>\n<head>\n<TITLE>IEC
+        60050 - International Electrotechnical Vocabulary - Details for IEV number
+        103-01-02: \"functional\"</TITLE>\n<meta name=\"Description\" content=\"Definition
+        of functional by Electropedia. Meaning of functional. Translations of functional.
+        Equivalent terms for functional.\" />\n<meta name=\"Keywords\" content=\"functional,fonctionnelle,
+        f,دالى,Funktional, n,funcional,funzionale,汎関数,funkcjonał,funcional,funktional,funkcionál,범함수,функционал,
+        м јд,泛函, dictionary, definition, meaning, translation, term, terminology,
+        IEC 60050, Electropedia, IEV 103-01-02,IEV, International, Electrotechnical,
+        Vocabulary, VEI, Vocabulaire, Electrotechnique, Internationale, IEC, electric,
+        electronic\" />\n<meta name=\"Copyright\" content=\"IEC - International Electrotechnical
+        Commission\" />\n<meta name=\"Language\" content=\"English, French, Arabic,
+        Chinese, Czech, Finnish, German, Italian, Japanese, Norwegian, Polish, Portuguese,
+        Russian, Serbian, Slovenian, Spanish, Swedish\" />\n<SCRIPT language=\"JavaScript\">
+        \  \n\nfunction printWindow() { bV = parseInt(navigator.appVersion); if (bV
+        >= 4) window.print(); }\n\nfunction popup(name) { msgWindow=open(name,'popup','history=yes,toolbar=no,scrollbars=yes,resizable=yes,width=700,height=750');
+        }\n\n</SCRIPT>  \n\n<STYLE TYPE=\"text/css\">    \na:link {color: blue ; text-decoration:
+        none} \na:visited { color: blue  ; text-decoration: none } \na:active { color:
+        blue ; text-decoration: none } \na:hover { color: blue ; text-decoration:
+        none; background-color: #C0C0C0}\ntable {font-family: arial} \ntd { font-size:
+        11pt; font-family: Arial, Helvetica, sans-serif }\nh6 {page-break-before:
+        always;} \n</STYLE>\n\n<STYLE TYPE=\"text/css\" media=\"print\"> \n.hide {
+        display: none } \n</STYLE>\n<!-- Google Analytics -->\n<script type=\"text/javascript\">\n
+        \ var _gaq = _gaq || [];\n  _gaq.push(['_setAccount', 'UA-34400412-1']);\n
+        \ _gaq.push(['_trackPageview']);\n  (function() {\n    var ga = document.createElement('script');
+        ga.type = 'text/javascript'; ga.async = true;\n    ga.src = ('https:' == document.location.protocol
+        ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';\n    var
+        s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga,
+        s);\n  })();\n</script>\n<!-- End Google Analytics -->\n<meta name=\"Description\"
+        content=\"functional,fonctionnelle, f,دالى,Funktional, n,funcional,funzionale,汎関数,funkcjonał,funcional,funktional,funkcionál,범함수,функционал,
+        м јд,泛函\" >\n<STYLE TYPE=\"text/css\">\n@font-face {    font-family: 'liberation_serifitalic';
+        \   \nsrc: url('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_italic_macroman/LiberationSerif-Italic-webfont.eot');
+        \   \nsrc: url('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_italic_macroman/LiberationSerif-Italic-webfont.eot?#iefix')
+        format('embedded-opentype'),         \nurl('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_italic_macroman/LiberationSerif-Italic-webfont.woff')
+        format('woff'),         \nurl('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_italic_macroman/LiberationSerif-Italic-webfont.ttf')
+        format('truetype'),         \nurl('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_italic_macroman/LiberationSerif-Italic-webfont.svg#liberation_serifitalic')
+        format('svg');    \n}\n\n@font-face {    font-family: 'liberation_serifregular';
+        \   \nsrc: url('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_regular_macroman/LiberationSerif-Regular-webfont.eot');
+        \   \nsrc: url('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_regular_macroman/LiberationSerif-Regular-webfont.eot?#iefix')
+        format('embedded-opentype'),         \nurl('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_regular_macroman/LiberationSerif-Regular-webfont.woff')
+        format('woff'),         \nurl('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_regular_macroman/LiberationSerif-Regular-webfont.ttf')
+        format('truetype'),         \nurl('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_regular_macroman/LiberationSerif-Regular-webfont.svg#liberation_serifregular')
+        format('svg');    \nfont-weight: normal;    font-style: normal;}\n* {font-family:
+        \ liberation_serifregular;}body {font-family:  liberation_serifregular;}td
+        {font-family:  liberation_serifregular;}i {font-family:  liberation_serifitalic;}#copy
+        \ td { font-size:11px; }#copy  a { font-size:11px; text-decoration: none;}#copy
+        \ {border-top: 1px #c0c0c0 solid;}hr {height: 1px; color: #c0c0c0;}</STYLE><script
+        type=\"text/javascript\" src=\"/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML\"></script>\n<script
+        language=\"JavaScript\" type=\"text/javascript\">\n<!-- \ndocument._domino_target
+        = \"_self\";\nfunction _doClick(v, o, t, h) {\n  var form = document._Display;\n
+        \ if (form.onsubmit) {\n     var retVal = form.onsubmit();\n     if (typeof
+        retVal == \"boolean\" && retVal == false)\n       return false;\n  }\n  var
+        target = document._domino_target;\n  if (o.href != null) {\n    if (o.target
+        != null)\n       target = o.target;\n  } else {\n    if (t != null)\n      target
+        = t;\n  }\n  form.target = target;\n  form.__Click.value = v;\n  if (h !=
+        null)\n    form.action += h;\n  form.submit();\n  return false;\n}\n// -->\n</script>\n</head>\n<body
+        text=\"#000000\" bgcolor=\"#FFFFFF\" leftmargin=10 topmargin=0>\n\n<form method=\"post\"
+        action=\"/iev/iev.nsf/display?OpenForm&amp;Seq=1&amp;ievref=103-01-02\" name=\"_Display\">\n<input
+        type=\"hidden\" name=\"__Click\" value=\"0\" /><style>\n.Top {\n  margin:
+        auto;\n  height: 109px;\n  padding: 0px;\nfont-family: Arial, Helvetica;\n}\n.logolink
+        {\n  position: relative;\n  width: 260px;\n  height: 60px;\n  top: 20px;\n
+        \ left: 8px;\n  float: left;\n  font-family: Arial, Helvetica, sans-serif;\n}\n.logolink
+        h1 {\n  color: #000;\n  font-size: 17px;\n  font-weight: bold;\n  letter-spacing:
+        2px;\nfloat:left;\ntop:-60px;\nmargin:0;\nmargin-left:80px;\nposition:relative;\n
+        \ font-family: Arial, Helvetica, sans-serif;\n}\n.top {\n  outline: none;\n
+        \ margin: 0px;\n  padding: 0px;\n  font-family: Arial, Helvetica, sans-serif;\n
+        \ font-size: 12px;\n}\n</style><div class=\"Top\">\n  <div class=\"logolink\"><a
+        title=\"Back to homepage\" href=\"http://www.iec.ch/\">\n  <img title=\"www.iec.ch\"
+        alt=\" www.iec.ch\" src=\"/img/logo.jpg\"></a>\n    <h1>International</h1>\n
+        \   <h1>Electrotechnical</h1>\n    <h1>Commission</h1>\n  </div>\n</div>\n<table
+        width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n<tr valign=\"top\"><td
+        width=\"1%\" valign=\"middle\"><img width=\"65\" height=\"1\" src=\"/icons/ecblank.gif\"
+        border=\"0\" alt=\"\" /><br />\n</td><td width=\"1%\"><img width=\"19\" height=\"1\"
+        src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /><br />\n</td><td width=\"46%\"
+        valign=\"middle\"><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\"
+        border=\"0\" alt=\"\" /><br />\n</td><td width=\"1%\"><img width=\"19\" height=\"1\"
+        src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /><br />\n</td><td width=\"54%\"><img
+        width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\"
+        /><br />\n</td></tr>\n</table>\n<div align=\"right\"><font size=\"2\" face=\"Arial\">
+        </font><a href=\"&amp;login\"></a></div>\n<table style=\"width: 100%; margin-bottom:
+        10px;\" cellpadding=0 width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n<tr
+        valign=\"top\"><td style=\"width: 144px;\" width=\"15%\"><img src=\"/iev/iev.nsf/30c867bbcbcee00dc1257e81003e697e/$Body/0.E5A?OpenElement&amp;FieldElemFormat=gif\"
+        width=\"144\" height=\"20\" /></td><td class=\"hide\" style=\"border-top:
+        1px #c0c0c0 solid; width: 100% !important; \" width=\"85%\"><div align=\"right\"><font
+        size=\"2\" face=\"Arial\">Queries, comments, suggestions? Please </font><a
+        href=\"https://www.iec.ch/contact\"><font size=\"2\" face=\"Arial\">contact
+        us</font></a><font size=\"2\" face=\"Arial\">.</font></div></td></tr>\n</table>\n<br
+        />\n\n<input type=\"button\" value=\"   Home   \" class=\"hide\" style=\"font-size:
+        11px;\" onclick=\"window.open('/iev/iev.nsf/6d6bdd8667c378f7c12581fa003d80e7?OpenForm',
+        document._domino_target);\" />\n<input type=\"button\" onclick=\"history.back()\"
+        value=\"   Back   \" class=\"hide\" style=\"font-size: 11px;\" />\n<input
+        type=\"button\" onclick=\"printWindow()\" value=\"   Print     \" class=\"hide\"
+        style=\"font-size: 11px;\" /><style>\n\ttd.col1 {width:57px;}\n\ttd.col11
+        {width:55px;}\n\ttd.col2 {width:21px;}\n\ttd.col21 {width:19px;width:25px;
+        text-align:left;}\n\ttd.col3 {width:567px;}\n\ttd.col4 {width:57px;}\n\ttable.table1
+        {width:710px;}\n</style>\n<font face=\"\"><br>\n\n    <br />\n\n    <table
+        class =\"table1\" cellpadding=\"1\" cellspacing=\"0\" border=\"0\" cellpadding=\"0\">\n
+        \       <tr valign=\"top\">\n            <td class=\"col1\"><b><font size=\"2\"
+        color=\"#800080\" face=\"Arial\">Area</font></b></td>\n\t<td class=\"col2\"><img
+        width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\"
+        /></td>\n\t<td class=\"col3\"><b><font size=\"2\" face=\"Arial\"></font></b><a
+        href=index?openform&part=103>Mathematics - Functions</a> / General concepts
+        </td>\n            <td class=\"col4\"><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\"
+        border=\"0\" alt=\"\" /></td>\n        </tr>\n\n        <tr valign=\"top\">\n
+        \           <td colspan=\"4\"><hr></td>\n        </tr>\n        <tr valign=\"top\">\n
+        \           <td><b><font size=\"2\" color=\"#800080\" face=\"Arial\">IEV ref</font></b></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td><b><b>103-01-02</b></b></td>\n            <td><img
+        width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\"
+        /></td>\n        </tr>\n\n\n        <tr valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n
+        \       </tr>\n        <tr valign=\"top\">\n            <td><div align=\"center\"><font
+        color=\"#800080\">en</font></div></td>\n            <td><img width=\"1\" height=\"1\"
+        src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /></td>\n            <td><b>functional</b></td>\n
+        \       </tr>\n        <tr valign=\"top\">\n            <td><img width=\"1\"
+        height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /></td>\n            <td><img
+        width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\"
+        /></td>\n            <td> function for which the argument is a function and
+        the value a number<p>Note 1 to entry: An example of a functional of the function
+        <i>f</i>(<i>t</i>) is <math> <semantics> <mrow> <mstyle displaystyle='true'>
+        <mrow> <msubsup> <mo>∫</mo> <mrow> <msub> <mi>t</mi> <mn>2</mn> </msub> </mrow>
+        <mrow> <msub> <mi>t</mi> <mn>1</mn> </msub> </mrow> </msubsup> <mrow> <mi>f</mi><mo
+        stretchy='false'>(</mo><mi>t</mi><mo stretchy='false'>)</mo><mo>d</mo><mi>t</mi></mrow>
+        </mrow> </mstyle></mrow> <annotation encoding='MathType-MTEF'>MathType@MTEF@5@5@+=
+        feaagKart1ev2aaatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbbjxAHX garuavP1wzZbItLDhis9wBH5garmWu51MyVXgarqqtubsr4rNCHbGe
+        aGqipG0dh9qqWrVepG0dbbL8F4rqqrVepeea0xe9LqFf0xc9q8qqaq Fn0lXdHiVcFbIOFHK8Feea0dXdar=Jb9hs0dXdHuk9fr=xfr=xfrpe
+        WZqaaeaaciWacmGadaGadeaabaGaaqaaaOqaamaapedabaGaamOzai aacIcacaWG0bGaaiykaKqzaeGaaiizaOGaamiDaaWcbaGaamiDamaa
+        BaaameaacaaIYaaabeaaaSqaaiaadshadaWgaaadbaGaaGymaaqaba aaniabgUIiYdaaaa@40DD@
+        </annotation> </semantics> </math>.   </td>\n            <td><img width=\"1\"
+        height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /></td>\n        </tr>\n\n
+        \       <tr valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\">fr</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td> <b>fonctionnelle</b>, f</td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><img width=\"1\" height=\"1\"
+        src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /></td>\n            <td><img
+        width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\"
+        /></td>\n            <td> fonction dont l'argument est une fonction et la
+        valeur un nombre <p>Note 1 à l'article: Un exemple de fonctionnelle de la
+        fonction <i>f</i>(<i>t</i>) est <math> <semantics> <mrow> <mstyle displaystyle='true'>
+        <mrow> <msubsup> <mo>∫</mo> <mrow> <msub> <mi>t</mi> <mn>2</mn> </msub> </mrow>
+        <mrow> <msub> <mi>t</mi> <mn>1</mn> </msub> </mrow> </msubsup> <mrow> <mi>f</mi><mo
+        stretchy='false'>(</mo><mi>t</mi><mo stretchy='false'>)</mo><mo>d</mo><mi>t</mi></mrow>
+        </mrow> </mstyle></mrow> <annotation encoding='MathType-MTEF'>MathType@MTEF@5@5@+=
+        feaagKart1ev2aaatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbbjxAHX garuavP1wzZbItLDhis9wBH5garmWu51MyVXgarqqtubsr4rNCHbGe
+        aGqipG0dh9qqWrVepG0dbbL8F4rqqrVepeea0xe9LqFf0xc9q8qqaq Fn0lXdHiVcFbIOFHK8Feea0dXdar=Jb9hs0dXdHuk9fr=xfr=xfrpe
+        WZqaaeaaciWacmGadaGadeaabaGaaqaaaOqaamaapedabaGaamOzai aacIcacaWG0bGaaiykaKqzaeGaaiizaOGaamiDaaWcbaGaamiDamaa
+        BaaameaacaaIYaaabeaaaSqaaiaadshadaWgaaadbaGaaGymaaqaba aaniabgUIiYdaaaa@40DD@
+        </annotation> </semantics> </math>. </td>\n            <td><img width=\"1\"
+        height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /></td>\n        </tr>\n\n
+        \       <tr valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\">ar</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td style=\"direction:rtl; text-align:left\"
+        widthx=\"567\"> دالى</td>\n        </tr>\n\n        <tr valign=\"top\">\n
+        \           <td colspan=\"4\"><hr></td>\n        </tr>\n        <tr valign=\"top\">\n
+        \           <td><div align=\"center\"><font color=\"#800080\">cs</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td> funkcionál</td>\n        </tr>\n\n        <tr
+        valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\">de</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td> Funktional, n</td>\n        </tr>\n\n        <tr
+        valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\">es</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td> funcional</td>\n        </tr>\n\n\n        <tr
+        valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\">it</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td> funzionale</td>\n        </tr>\n\n        <tr
+        valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\"
+        face=\"Arial\">ko</font></div></td>\n            <td><img width=\"1\" height=\"1\"
+        src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /></td>\n            <td>
+        범함수</td>\n        </tr>\n\n        <tr valign=\"top\">\n            <td width=\"701\"
+        colspan=\"4\"><hr></td>\n        </tr>\n        <tr valign=\"top\">\n            <td><div
+        align=\"center\"><font color=\"#800080\">ja</font></div></td>\n            <td><img
+        width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\"
+        /></td>\n            <td lang=\"ja-jp\"> 汎関数</td>\n        </tr>\n\n\n\n\n
+        \       <tr valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\"
+        face=\"Arial\">pl</font></div></td>\n            <td><img width=\"1\" height=\"1\"
+        src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /></td>\n            <td>
+        funkcjonał</td>\n        </tr>\n        <tr valign=\"top\">\n            <td
+        colspan=\"4\"><hr></td>\n        </tr>\n        <tr valign=\"top\">\n            <td><div
+        align=\"center\"><font color=\"#800080\" face=\"Arial\">pt</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td> funcional</td>\n        </tr>\n\n\n        <tr
+        valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\">sr</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td> функционал, м јд</td>\n        </tr>\n\n
+        \       <tr valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\">sv</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td> funktional</td>\n        </tr>\n\n        <tr
+        valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\"
+        face=\"Arial\">zh</font></div></td>\n            <td><img width=\"1\" height=\"1\"
+        src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /></td>\n            <td>
+        泛函</td>\n        </tr>\n    </table>\n  \n</font><hr>\n<table width=\"100%\"
+        border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n<tr valign=\"top\"><td
+        width=\"25%\"><a href=\"/iev/iev.nsf/display?openform&amp;ievref=103-01-02&amp;login\"></a><font
+        color=\"#800080\">Publication date:</font>   2009-12  </td><td width=\"75%\"><div
+        align=\"right\"><a href=\"http://www.iec.ch/about/copyright/copyright-db_entry.htm\"
+        target=\"_blank\"><font color=\"#003399\">Copyright</font></a> © <a href=\"http://www.iec.ch/about/co/office-e.htm\"
+        target=\"_blank\"><font color=\"#003399\">IEC</font></a> 2023. All Rights
+        Reserved.</div></td></tr>\n</table>\n</form>\n</body>\n</html>\n"
+  recorded_at: Mon, 10 Apr 2023 04:25:54 GMT
+- request:
+    method: get
+    uri: http://www.electropedia.org/iev/iev.nsf/display?ievref=103-01-02&openform
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 301
+      message: Moved Permanently
+    headers:
+      Server:
+      - CloudFront
+      Date:
+      - Mon, 10 Apr 2023 04:25:56 GMT
+      Content-Type:
+      - text/html
+      Content-Length:
+      - '167'
+      Connection:
+      - keep-alive
+      Location:
+      - https://www.electropedia.org/iev/iev.nsf/display?openform&ievref=103-01-02
+      X-Cache:
+      - Redirect from cloudfront
+      Via:
+      - 1.1 236735b52059949e1df9130ff0e7ce4e.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - HKG60-C1
+      X-Amz-Cf-Id:
+      - 1rWrpAFk16yF7kWEajzBO8pSxezMatWbi7OjMKp0hNUdw9qV_8Yupg==
+    body:
+      encoding: UTF-8
+      string: "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body>\r\n<center><h1>301
+        Moved Permanently</h1></center>\r\n<hr><center>CloudFront</center>\r\n</body>\r\n</html>\r\n"
+  recorded_at: Mon, 10 Apr 2023 04:25:56 GMT
+- request:
+    method: get
+    uri: https://www.electropedia.org/iev/iev.nsf/display?ievref=103-01-02&openform
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html; charset=UTF-8
+      Content-Length:
+      - '17381'
+      Connection:
+      - keep-alive
+      Server:
+      - Lotus-Domino
+      Date:
+      - Mon, 10 Apr 2023 04:57:49 GMT
+      Last-Modified:
+      - Mon, 10 Apr 2023 04:57:47 GMT
+      Expires:
+      - Tue, 01 Jan 1980 06:00:00 GMT
+      Cache-Control:
+      - no-cache
+      X-Cache:
+      - Miss from cloudfront
+      Via:
+      - 1.1 8730481efae5d62c03ca8bf771c54e2e.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - HKG60-C1
+      X-Amz-Cf-Id:
+      - BZm8ZpLLZdCDQPJP7lbaG0bYry36f5Z7vAt5l5-Ntv0AZzhprNXF_Q==
+    body:
+      encoding: UTF-8
+      string: "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n<html>\n<head>\n<TITLE>IEC
+        60050 - International Electrotechnical Vocabulary - Details for IEV number
+        103-01-02: \"functional\"</TITLE>\n<meta name=\"Description\" content=\"Definition
+        of functional by Electropedia. Meaning of functional. Translations of functional.
+        Equivalent terms for functional.\" />\n<meta name=\"Keywords\" content=\"functional,fonctionnelle,
+        f,دالى,Funktional, n,funcional,funzionale,汎関数,funkcjonał,funcional,funktional,funkcionál,범함수,функционал,
+        м јд,泛函, dictionary, definition, meaning, translation, term, terminology,
+        IEC 60050, Electropedia, IEV 103-01-02,IEV, International, Electrotechnical,
+        Vocabulary, VEI, Vocabulaire, Electrotechnique, Internationale, IEC, electric,
+        electronic\" />\n<meta name=\"Copyright\" content=\"IEC - International Electrotechnical
+        Commission\" />\n<meta name=\"Language\" content=\"English, French, Arabic,
+        Chinese, Czech, Finnish, German, Italian, Japanese, Norwegian, Polish, Portuguese,
+        Russian, Serbian, Slovenian, Spanish, Swedish\" />\n<SCRIPT language=\"JavaScript\">
+        \  \n\nfunction printWindow() { bV = parseInt(navigator.appVersion); if (bV
+        >= 4) window.print(); }\n\nfunction popup(name) { msgWindow=open(name,'popup','history=yes,toolbar=no,scrollbars=yes,resizable=yes,width=700,height=750');
+        }\n\n</SCRIPT>  \n\n<STYLE TYPE=\"text/css\">    \na:link {color: blue ; text-decoration:
+        none} \na:visited { color: blue  ; text-decoration: none } \na:active { color:
+        blue ; text-decoration: none } \na:hover { color: blue ; text-decoration:
+        none; background-color: #C0C0C0}\ntable {font-family: arial} \ntd { font-size:
+        11pt; font-family: Arial, Helvetica, sans-serif }\nh6 {page-break-before:
+        always;} \n</STYLE>\n\n<STYLE TYPE=\"text/css\" media=\"print\"> \n.hide {
+        display: none } \n</STYLE>\n<!-- Google Analytics -->\n<script type=\"text/javascript\">\n
+        \ var _gaq = _gaq || [];\n  _gaq.push(['_setAccount', 'UA-34400412-1']);\n
+        \ _gaq.push(['_trackPageview']);\n  (function() {\n    var ga = document.createElement('script');
+        ga.type = 'text/javascript'; ga.async = true;\n    ga.src = ('https:' == document.location.protocol
+        ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';\n    var
+        s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga,
+        s);\n  })();\n</script>\n<!-- End Google Analytics -->\n<meta name=\"Description\"
+        content=\"functional,fonctionnelle, f,دالى,Funktional, n,funcional,funzionale,汎関数,funkcjonał,funcional,funktional,funkcionál,범함수,функционал,
+        м јд,泛函\" >\n<STYLE TYPE=\"text/css\">\n@font-face {    font-family: 'liberation_serifitalic';
+        \   \nsrc: url('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_italic_macroman/LiberationSerif-Italic-webfont.eot');
+        \   \nsrc: url('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_italic_macroman/LiberationSerif-Italic-webfont.eot?#iefix')
+        format('embedded-opentype'),         \nurl('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_italic_macroman/LiberationSerif-Italic-webfont.woff')
+        format('woff'),         \nurl('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_italic_macroman/LiberationSerif-Italic-webfont.ttf')
+        format('truetype'),         \nurl('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_italic_macroman/LiberationSerif-Italic-webfont.svg#liberation_serifitalic')
+        format('svg');    \n}\n\n@font-face {    font-family: 'liberation_serifregular';
+        \   \nsrc: url('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_regular_macroman/LiberationSerif-Regular-webfont.eot');
+        \   \nsrc: url('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_regular_macroman/LiberationSerif-Regular-webfont.eot?#iefix')
+        format('embedded-opentype'),         \nurl('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_regular_macroman/LiberationSerif-Regular-webfont.woff')
+        format('woff'),         \nurl('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_regular_macroman/LiberationSerif-Regular-webfont.ttf')
+        format('truetype'),         \nurl('/font/Liberation-Serif-fontfacekit/web%20fonts/liberationserif_regular_macroman/LiberationSerif-Regular-webfont.svg#liberation_serifregular')
+        format('svg');    \nfont-weight: normal;    font-style: normal;}\n* {font-family:
+        \ liberation_serifregular;}body {font-family:  liberation_serifregular;}td
+        {font-family:  liberation_serifregular;}i {font-family:  liberation_serifitalic;}#copy
+        \ td { font-size:11px; }#copy  a { font-size:11px; text-decoration: none;}#copy
+        \ {border-top: 1px #c0c0c0 solid;}hr {height: 1px; color: #c0c0c0;}</STYLE><script
+        type=\"text/javascript\" src=\"/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML\"></script>\n<script
+        language=\"JavaScript\" type=\"text/javascript\">\n<!-- \ndocument._domino_target
+        = \"_self\";\nfunction _doClick(v, o, t, h) {\n  var form = document._Display;\n
+        \ if (form.onsubmit) {\n     var retVal = form.onsubmit();\n     if (typeof
+        retVal == \"boolean\" && retVal == false)\n       return false;\n  }\n  var
+        target = document._domino_target;\n  if (o.href != null) {\n    if (o.target
+        != null)\n       target = o.target;\n  } else {\n    if (t != null)\n      target
+        = t;\n  }\n  form.target = target;\n  form.__Click.value = v;\n  if (h !=
+        null)\n    form.action += h;\n  form.submit();\n  return false;\n}\n// -->\n</script>\n</head>\n<body
+        text=\"#000000\" bgcolor=\"#FFFFFF\" leftmargin=10 topmargin=0>\n\n<form method=\"post\"
+        action=\"/iev/iev.nsf/display?OpenForm&amp;Seq=1&amp;ievref=103-01-02\" name=\"_Display\">\n<input
+        type=\"hidden\" name=\"__Click\" value=\"0\" /><style>\n.Top {\n  margin:
+        auto;\n  height: 109px;\n  padding: 0px;\nfont-family: Arial, Helvetica;\n}\n.logolink
+        {\n  position: relative;\n  width: 260px;\n  height: 60px;\n  top: 20px;\n
+        \ left: 8px;\n  float: left;\n  font-family: Arial, Helvetica, sans-serif;\n}\n.logolink
+        h1 {\n  color: #000;\n  font-size: 17px;\n  font-weight: bold;\n  letter-spacing:
+        2px;\nfloat:left;\ntop:-60px;\nmargin:0;\nmargin-left:80px;\nposition:relative;\n
+        \ font-family: Arial, Helvetica, sans-serif;\n}\n.top {\n  outline: none;\n
+        \ margin: 0px;\n  padding: 0px;\n  font-family: Arial, Helvetica, sans-serif;\n
+        \ font-size: 12px;\n}\n</style><div class=\"Top\">\n  <div class=\"logolink\"><a
+        title=\"Back to homepage\" href=\"http://www.iec.ch/\">\n  <img title=\"www.iec.ch\"
+        alt=\" www.iec.ch\" src=\"/img/logo.jpg\"></a>\n    <h1>International</h1>\n
+        \   <h1>Electrotechnical</h1>\n    <h1>Commission</h1>\n  </div>\n</div>\n<table
+        width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n<tr valign=\"top\"><td
+        width=\"1%\" valign=\"middle\"><img width=\"65\" height=\"1\" src=\"/icons/ecblank.gif\"
+        border=\"0\" alt=\"\" /><br />\n</td><td width=\"1%\"><img width=\"19\" height=\"1\"
+        src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /><br />\n</td><td width=\"46%\"
+        valign=\"middle\"><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\"
+        border=\"0\" alt=\"\" /><br />\n</td><td width=\"1%\"><img width=\"19\" height=\"1\"
+        src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /><br />\n</td><td width=\"54%\"><img
+        width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\"
+        /><br />\n</td></tr>\n</table>\n<div align=\"right\"><font size=\"2\" face=\"Arial\">
+        </font><a href=\"&amp;login\"></a></div>\n<table style=\"width: 100%; margin-bottom:
+        10px;\" cellpadding=0 width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n<tr
+        valign=\"top\"><td style=\"width: 144px;\" width=\"15%\"><img src=\"/iev/iev.nsf/30c867bbcbcee00dc1257e81003e697e/$Body/0.E5A?OpenElement&amp;FieldElemFormat=gif\"
+        width=\"144\" height=\"20\" /></td><td class=\"hide\" style=\"border-top:
+        1px #c0c0c0 solid; width: 100% !important; \" width=\"85%\"><div align=\"right\"><font
+        size=\"2\" face=\"Arial\">Queries, comments, suggestions? Please </font><a
+        href=\"https://www.iec.ch/contact\"><font size=\"2\" face=\"Arial\">contact
+        us</font></a><font size=\"2\" face=\"Arial\">.</font></div></td></tr>\n</table>\n<br
+        />\n\n<input type=\"button\" value=\"   Home   \" class=\"hide\" style=\"font-size:
+        11px;\" onclick=\"window.open('/iev/iev.nsf/6d6bdd8667c378f7c12581fa003d80e7?OpenForm',
+        document._domino_target);\" />\n<input type=\"button\" onclick=\"history.back()\"
+        value=\"   Back   \" class=\"hide\" style=\"font-size: 11px;\" />\n<input
+        type=\"button\" onclick=\"printWindow()\" value=\"   Print     \" class=\"hide\"
+        style=\"font-size: 11px;\" /><style>\n\ttd.col1 {width:57px;}\n\ttd.col11
+        {width:55px;}\n\ttd.col2 {width:21px;}\n\ttd.col21 {width:19px;width:25px;
+        text-align:left;}\n\ttd.col3 {width:567px;}\n\ttd.col4 {width:57px;}\n\ttable.table1
+        {width:710px;}\n</style>\n<font face=\"\"><br>\n\n    <br />\n\n    <table
+        class =\"table1\" cellpadding=\"1\" cellspacing=\"0\" border=\"0\" cellpadding=\"0\">\n
+        \       <tr valign=\"top\">\n            <td class=\"col1\"><b><font size=\"2\"
+        color=\"#800080\" face=\"Arial\">Area</font></b></td>\n\t<td class=\"col2\"><img
+        width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\"
+        /></td>\n\t<td class=\"col3\"><b><font size=\"2\" face=\"Arial\"></font></b><a
+        href=index?openform&part=103>Mathematics - Functions</a> / General concepts
+        </td>\n            <td class=\"col4\"><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\"
+        border=\"0\" alt=\"\" /></td>\n        </tr>\n\n        <tr valign=\"top\">\n
+        \           <td colspan=\"4\"><hr></td>\n        </tr>\n        <tr valign=\"top\">\n
+        \           <td><b><font size=\"2\" color=\"#800080\" face=\"Arial\">IEV ref</font></b></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td><b><b>103-01-02</b></b></td>\n            <td><img
+        width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\"
+        /></td>\n        </tr>\n\n\n        <tr valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n
+        \       </tr>\n        <tr valign=\"top\">\n            <td><div align=\"center\"><font
+        color=\"#800080\">en</font></div></td>\n            <td><img width=\"1\" height=\"1\"
+        src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /></td>\n            <td><b>functional</b></td>\n
+        \       </tr>\n        <tr valign=\"top\">\n            <td><img width=\"1\"
+        height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /></td>\n            <td><img
+        width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\"
+        /></td>\n            <td> function for which the argument is a function and
+        the value a number<p>Note 1 to entry: An example of a functional of the function
+        <i>f</i>(<i>t</i>) is <math> <semantics> <mrow> <mstyle displaystyle='true'>
+        <mrow> <msubsup> <mo>∫</mo> <mrow> <msub> <mi>t</mi> <mn>2</mn> </msub> </mrow>
+        <mrow> <msub> <mi>t</mi> <mn>1</mn> </msub> </mrow> </msubsup> <mrow> <mi>f</mi><mo
+        stretchy='false'>(</mo><mi>t</mi><mo stretchy='false'>)</mo><mo>d</mo><mi>t</mi></mrow>
+        </mrow> </mstyle></mrow> <annotation encoding='MathType-MTEF'>MathType@MTEF@5@5@+=
+        feaagKart1ev2aaatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbbjxAHX garuavP1wzZbItLDhis9wBH5garmWu51MyVXgarqqtubsr4rNCHbGe
+        aGqipG0dh9qqWrVepG0dbbL8F4rqqrVepeea0xe9LqFf0xc9q8qqaq Fn0lXdHiVcFbIOFHK8Feea0dXdar=Jb9hs0dXdHuk9fr=xfr=xfrpe
+        WZqaaeaaciWacmGadaGadeaabaGaaqaaaOqaamaapedabaGaamOzai aacIcacaWG0bGaaiykaKqzaeGaaiizaOGaamiDaaWcbaGaamiDamaa
+        BaaameaacaaIYaaabeaaaSqaaiaadshadaWgaaadbaGaaGymaaqaba aaniabgUIiYdaaaa@40DD@
+        </annotation> </semantics> </math>.   </td>\n            <td><img width=\"1\"
+        height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /></td>\n        </tr>\n\n
+        \       <tr valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\">fr</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td> <b>fonctionnelle</b>, f</td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><img width=\"1\" height=\"1\"
+        src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /></td>\n            <td><img
+        width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\"
+        /></td>\n            <td> fonction dont l'argument est une fonction et la
+        valeur un nombre <p>Note 1 à l'article: Un exemple de fonctionnelle de la
+        fonction <i>f</i>(<i>t</i>) est <math> <semantics> <mrow> <mstyle displaystyle='true'>
+        <mrow> <msubsup> <mo>∫</mo> <mrow> <msub> <mi>t</mi> <mn>2</mn> </msub> </mrow>
+        <mrow> <msub> <mi>t</mi> <mn>1</mn> </msub> </mrow> </msubsup> <mrow> <mi>f</mi><mo
+        stretchy='false'>(</mo><mi>t</mi><mo stretchy='false'>)</mo><mo>d</mo><mi>t</mi></mrow>
+        </mrow> </mstyle></mrow> <annotation encoding='MathType-MTEF'>MathType@MTEF@5@5@+=
+        feaagKart1ev2aaatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbbjxAHX garuavP1wzZbItLDhis9wBH5garmWu51MyVXgarqqtubsr4rNCHbGe
+        aGqipG0dh9qqWrVepG0dbbL8F4rqqrVepeea0xe9LqFf0xc9q8qqaq Fn0lXdHiVcFbIOFHK8Feea0dXdar=Jb9hs0dXdHuk9fr=xfr=xfrpe
+        WZqaaeaaciWacmGadaGadeaabaGaaqaaaOqaamaapedabaGaamOzai aacIcacaWG0bGaaiykaKqzaeGaaiizaOGaamiDaaWcbaGaamiDamaa
+        BaaameaacaaIYaaabeaaaSqaaiaadshadaWgaaadbaGaaGymaaqaba aaniabgUIiYdaaaa@40DD@
+        </annotation> </semantics> </math>. </td>\n            <td><img width=\"1\"
+        height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /></td>\n        </tr>\n\n
+        \       <tr valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\">ar</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td style=\"direction:rtl; text-align:left\"
+        widthx=\"567\"> دالى</td>\n        </tr>\n\n        <tr valign=\"top\">\n
+        \           <td colspan=\"4\"><hr></td>\n        </tr>\n        <tr valign=\"top\">\n
+        \           <td><div align=\"center\"><font color=\"#800080\">cs</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td> funkcionál</td>\n        </tr>\n\n        <tr
+        valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\">de</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td> Funktional, n</td>\n        </tr>\n\n        <tr
+        valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\">es</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td> funcional</td>\n        </tr>\n\n\n        <tr
+        valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\">it</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td> funzionale</td>\n        </tr>\n\n        <tr
+        valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\"
+        face=\"Arial\">ko</font></div></td>\n            <td><img width=\"1\" height=\"1\"
+        src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /></td>\n            <td>
+        범함수</td>\n        </tr>\n\n        <tr valign=\"top\">\n            <td width=\"701\"
+        colspan=\"4\"><hr></td>\n        </tr>\n        <tr valign=\"top\">\n            <td><div
+        align=\"center\"><font color=\"#800080\">ja</font></div></td>\n            <td><img
+        width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\"
+        /></td>\n            <td lang=\"ja-jp\"> 汎関数</td>\n        </tr>\n\n\n\n\n
+        \       <tr valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\"
+        face=\"Arial\">pl</font></div></td>\n            <td><img width=\"1\" height=\"1\"
+        src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /></td>\n            <td>
+        funkcjonał</td>\n        </tr>\n        <tr valign=\"top\">\n            <td
+        colspan=\"4\"><hr></td>\n        </tr>\n        <tr valign=\"top\">\n            <td><div
+        align=\"center\"><font color=\"#800080\" face=\"Arial\">pt</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td> funcional</td>\n        </tr>\n\n\n        <tr
+        valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\">sr</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td> функционал, м јд</td>\n        </tr>\n\n
+        \       <tr valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\">sv</font></div></td>\n
+        \           <td><img width=\"1\" height=\"1\" src=\"/icons/ecblank.gif\" border=\"0\"
+        alt=\"\" /></td>\n            <td> funktional</td>\n        </tr>\n\n        <tr
+        valign=\"top\">\n            <td colspan=\"4\"><hr></td>\n        </tr>\n
+        \       <tr valign=\"top\">\n            <td><div align=\"center\"><font color=\"#800080\"
+        face=\"Arial\">zh</font></div></td>\n            <td><img width=\"1\" height=\"1\"
+        src=\"/icons/ecblank.gif\" border=\"0\" alt=\"\" /></td>\n            <td>
+        泛函</td>\n        </tr>\n    </table>\n  \n</font><hr>\n<table width=\"100%\"
+        border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n<tr valign=\"top\"><td
+        width=\"25%\"><a href=\"/iev/iev.nsf/display?openform&amp;ievref=103-01-02&amp;login\"></a><font
+        color=\"#800080\">Publication date:</font>   2009-12  </td><td width=\"75%\"><div
+        align=\"right\"><a href=\"http://www.iec.ch/about/copyright/copyright-db_entry.htm\"
+        target=\"_blank\"><font color=\"#003399\">Copyright</font></a> © <a href=\"http://www.iec.ch/about/co/office-e.htm\"
+        target=\"_blank\"><font color=\"#003399\">IEC</font></a> 2023. All Rights
+        Reserved.</div></td></tr>\n</table>\n</form>\n</body>\n</html>\n"
+  recorded_at: Mon, 10 Apr 2023 04:25:58 GMT
 recorded_with: VCR 6.1.0
