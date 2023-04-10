@@ -42,9 +42,13 @@ module Metanorma
           outnum = idx
           seen[content] = outnum
         end
-        fnote["reference"] = (outnum - 1 + "a".ord).chr
+        fnote["reference"] = table_footnote_number(outnum)
         fnote["table"] = true
         [idx, seen]
+      end
+
+      def table_footnote_number(outnum)
+        (outnum - 1 + "a".ord).chr
       end
 
       def table_footnote_renumber(xmldoc)
