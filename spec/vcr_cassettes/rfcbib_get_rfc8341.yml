@@ -31,7 +31,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"acf92650e0a2c5c1726e00bc47be1657486cae4c5219d763d9c802b4d82caf7c"
+      - W/"883085e0ae0cf14f32fec6d67d88b878780d4f4746b5ff5e5d8f1ca56f942901"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -41,36 +41,36 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 4FF4:5B01:87F79:A086C:642167FB
+      - 6E6A:387F:3BF36A:48E31C:6438E61D
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 27 Mar 2023 09:55:07 GMT
+      - Fri, 14 Apr 2023 05:35:28 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11244-MEL
+      - cache-syd10126-SYD
       X-Cache:
-      - HIT
+      - MISS
       X-Cache-Hits:
-      - '1'
+      - '0'
       X-Timer:
-      - S1679910907.357579,VS0,VE306
+      - S1681450528.895189,VS0,VE303
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - ab9fd8a44017a714d68f6fd3290f5fe72bf99824
+      - 99633cd83918233aef85e1089e0e24a1131c6d3e
       Expires:
-      - Mon, 27 Mar 2023 10:00:07 GMT
+      - Fri, 14 Apr 2023 05:40:28 GMT
       Source-Age:
       - '0'
     body:
       encoding: ASCII-8BIT
       string: |
         ---
-        schema-version: v1.2.1
+        schema-version: v1.2.3
         id: RFC8341
         title:
         - content: Network Configuration Access Control Model
@@ -198,7 +198,7 @@ http_interactions:
         - name: netconf
         ext:
           schema-version: v1.0.0
-  recorded_at: Mon, 27 Mar 2023 09:55:07 GMT
+  recorded_at: Fri, 14 Apr 2023 05:35:28 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-rfcs/main/data/RFC8341.yaml
@@ -230,7 +230,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"acf92650e0a2c5c1726e00bc47be1657486cae4c5219d763d9c802b4d82caf7c"
+      - W/"883085e0ae0cf14f32fec6d67d88b878780d4f4746b5ff5e5d8f1ca56f942901"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -240,36 +240,36 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 4FF4:5B01:87F79:A086C:642167FB
+      - 6E6A:387F:3BF36A:48E31C:6438E61D
       Accept-Ranges:
       - bytes
       Date:
-      - Mon, 27 Mar 2023 09:55:07 GMT
+      - Fri, 14 Apr 2023 05:35:28 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11246-MEL
+      - cache-syd10168-SYD
       X-Cache:
-      - MISS
+      - HIT
       X-Cache-Hits:
-      - '0'
+      - '1'
       X-Timer:
-      - S1679910907.356739,VS0,VE307
+      - S1681450528.901467,VS0,VE297
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 14fd914992212f603a189118967c26a592e3772b
+      - e3d2c8a5bfc44ba7a00d750928d66fc0d20ce2d4
       Expires:
-      - Mon, 27 Mar 2023 10:00:07 GMT
+      - Fri, 14 Apr 2023 05:40:28 GMT
       Source-Age:
       - '0'
     body:
       encoding: ASCII-8BIT
       string: |
         ---
-        schema-version: v1.2.1
+        schema-version: v1.2.3
         id: RFC8341
         title:
         - content: Network Configuration Access Control Model
@@ -397,5 +397,5 @@ http_interactions:
         - name: netconf
         ext:
           schema-version: v1.0.0
-  recorded_at: Mon, 27 Mar 2023 09:55:07 GMT
+  recorded_at: Fri, 14 Apr 2023 05:35:28 GMT
 recorded_with: VCR 6.1.0

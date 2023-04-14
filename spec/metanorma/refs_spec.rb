@@ -2317,7 +2317,7 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       a = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       a.at("//xmlns:bibliography").remove
-      expect((strip_guid(a.to_xml))).to be_equivalent_to(output)
+      expect(strip_guid(xmlpp(a.to_xml))).to be_equivalent_to xmlpp(output)
     end
   end
 

@@ -168,9 +168,14 @@ module Metanorma
         Metanorma.versioned(Metanorma, flavour)[-1]::VERSION
       end
 
-      def clean_exit
-        @log.write("#{@output_dir}#{@filename}.err") unless @novalid
+      def schema_version
+        f = File.read(File.join(File.dirname(__FILE__), "isodoc.rng"))
+        m = / VERSION (v\S+)/.match(f)
+        m[1]
+      end
 
+      def clean_exit
+        @novalid or @log.write("#{@output_dir}#{@filename}.err")
         @files_to_delete.each { |f| FileUtils.rm f }
       end
 
@@ -185,7 +190,8 @@ module Metanorma
 
       def makexml1(node)
         result = ["<?xml version='1.0' encoding='UTF-8'?>",
-                  "<#{xml_root_tag} type='semantic' version='#{version}'>"]
+                  "<#{xml_root_tag} type='semantic' version='#{version}' " \
+                  "schema-version='#{schema_version}'>"]
         result << noko { |ixml| front node, ixml }
         result << noko { |ixml| middle node, ixml }
         result << "</#{xml_root_tag}>"
@@ -225,8 +231,7 @@ module Metanorma
       def metadata_attrs(node)
         node.attributes.each_with_object([]) do |(k, v), ret|
           %w(presentation semantic).each do |t|
-            next unless /^#{t}-metadata-/.match?(k)
-
+            /^#{t}-metadata-/.match?(k) or next
             k = k.sub(/^#{t}-metadata-/, "")
             csv_split(v, ",")&.each do |c|
               ret << "<#{t}-metadata><#{k}>#{c}</#{k}></#{t}-metadata>"

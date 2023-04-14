@@ -13,6 +13,22 @@ RSpec.describe Metanorma::Standoc do
       .to eq "<strong>A</strong> <stem type=\"AsciiMath\">x</stem>"
   end
 
+  it "processes root attributes" do
+    FileUtils.rm_f "test.doc"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :novalid:
+      :no-pdf:
+    INPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xml.root["version"]).to be_equivalent_to Metanorma::Standoc::VERSION
+    expect(xml.root["schema-version"])
+      .to be_equivalent_to Metanorma::Standoc::Converter.new(nil,
+                                                             nil).schema_version
+  end
+
   it "processes named entities" do
     FileUtils.rm_f "test.doc"
     input = <<~INPUT
@@ -600,183 +616,183 @@ RSpec.describe Metanorma::Standoc do
       == Clause 1
     INPUT
     output = <<~OUTPUT
-                     <?xml version="1.0" encoding="UTF-8"?>
-                 <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
-                 <bibdata type="standard">
-                   <title language="en" format="text/plain">Document title</title>
-                   <title language="eo" format="text/plain">Dokumenttitolo</title>
-                   <uri>A</uri>
-                   <uri type="xml">B</uri>
-                   <uri type="html">C</uri>
-                   <uri type="pdf">D</uri>
-                   <uri type="doc">E</uri>
-                   <uri type="relaton">F</uri>
-                   <docidentifier>1000-1-1</docidentifier>
-                   <docnumber>1000</docnumber>
-                   <date type='published'>
-            <on>1000-01</on>
-          </date>
-                   <contributor>
-                     <role type="author"/>
-                     <organization>
-                       <name>IEC</name>
-                     </organization>
-                   </contributor>
-                   <contributor>
-                     <role type="author"/>
-                     <organization>
-                       <name>IETF</name>
-                     </organization>
-                   </contributor>
-                   <contributor>
-                     <role type="author"/>
-                     <organization>
-                       <name>ISO</name>
-                     </organization>
-                   </contributor>
-                   <contributor>
-                    <role type='author'/>
-                    <person>
-                      <name>
-                        <completename>Fred Flintstone</completename>
-                      </name>
-                      <affiliation>
-                        <organization>
-                          <name>Slate Rock and Gravel Company</name>
-                          <address>
-                            <street>1 Infinity Loop</street>
-                            <city>Cupertino</city>
-                            <state>CA</state>
-                            <country>USA</country>
-                            <postcode>95014</postcode>
-                          </address>
-                        </organization>
-                      </affiliation>
-                    </person>
-                  </contributor>
-                  <contributor>
-                    <role type='author'/>
-                    <person>
-                      <name>
-                        <completename>Barney Rubble</completename>
-                      </name>
-                      <affiliation>
-                        <organization>
-                          <name>Slate Rock and Gravel Company</name>
-                          <address>
-                            <street>Pavillon de Breteuil</street>
-                            <city>S&#232;vres CEDEX</city>
-                            <country>France</country>
-                            <postcode>F-92312</postcode>
-                          </address>
-                        </organization>
-                      </affiliation>
-                    </person>
-                  </contributor>
-                   <contributor>
-                     <role type="publisher"/>
-                     <organization>
-                       <name>IEC</name>
-                     </organization>
-                   </contributor>
-                   <contributor>
-                     <role type="publisher"/>
-                     <organization>
-                       <name>IETF</name>
-                     </organization>
-                   </contributor>
-                   <contributor>
-                     <role type="publisher"/>
-                     <organization>
-                       <name>ISO</name>
-                     </organization>
-                   </contributor>
-                   <version>
-                     <revision-date>2000-01</revision-date>
-                   </version>
-                   <language>el</language>
-                   <locale>CY</locale>
-                   <script>Grek</script>
-                   <abstract><p>This is the abstract of the document</p>
-                   <p>This is the second paragraph of the abstract of the document.</p></abstract>
-                   <status><stage>published</stage></status>
-                   <copyright>
-                     <from>#{Date.today.year}</from>
-                     <owner>
+                       <?xml version="1.0" encoding="UTF-8"?>
+                   <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+                   <bibdata type="standard">
+                     <title language="en" format="text/plain">Document title</title>
+                     <title language="eo" format="text/plain">Dokumenttitolo</title>
+                     <uri>A</uri>
+                     <uri type="xml">B</uri>
+                     <uri type="html">C</uri>
+                     <uri type="pdf">D</uri>
+                     <uri type="doc">E</uri>
+                     <uri type="relaton">F</uri>
+                     <docidentifier>1000-1-1</docidentifier>
+                     <docnumber>1000</docnumber>
+                     <date type='published'>
+              <on>1000-01</on>
+            </date>
+                     <contributor>
+                       <role type="author"/>
                        <organization>
                          <name>IEC</name>
                        </organization>
-                     </owner>
-                   </copyright>
-                   <copyright>
-                     <from>#{Date.today.year}</from>
-                     <owner>
+                     </contributor>
+                     <contributor>
+                       <role type="author"/>
                        <organization>
                          <name>IETF</name>
                        </organization>
-                     </owner>
-                   </copyright>
-                   <copyright>
-                     <from>#{Date.today.year}</from>
-                     <owner>
+                     </contributor>
+                     <contributor>
+                       <role type="author"/>
                        <organization>
                          <name>ISO</name>
                        </organization>
-                     </owner>
-                   </copyright>
-                   <ext>
-                   <doctype>this-is-a-doctype</doctype>
-                   <subdoctype>This is a DocSubType</subdoctype>
-                   </ext>
-                 </bibdata>
-                   <metanorma-extension>
-                       <presentation-metadata>
-      <name>TOC Heading Levels</name>
-      <value>2</value>
-    </presentation-metadata>
-    <presentation-metadata>
-      <name>HTML TOC Heading Levels</name>
-      <value>2</value>
-    </presentation-metadata>
-    <presentation-metadata>
-      <name>DOC TOC Heading Levels</name>
-      <value>2</value>
-    </presentation-metadata>
-        <semantic-metadata>
-          <hello-world>A</hello-world>
-        </semantic-metadata>
-        <semantic-metadata>
-          <hello-world>B</hello-world>
-        </semantic-metadata>
-        <semantic-metadata>
-          <hello-world>C, D</hello-world>
-        </semantic-metadata>
-        <semantic-metadata>
-          <hello>what-not</hello>
-        </semantic-metadata>
-        <presentation-metadata>
-          <hello>Hello?</hello>
-        </presentation-metadata>
-        <presentation-metadata>
-          <manifold>hello, world</manifold>
-        </presentation-metadata>
-        <presentation-metadata>
-          <manifold>yes</manifold>
-        </presentation-metadata>
-      </metanorma-extension>
-                   <preface>
-              <abstract id='_'>
-              <title>Abstract</title>
-                <p id='_'>This is the abstract of the document</p>
-                <p id='_'>This is the second paragraph of the abstract of the document.</p>
-              </abstract>
-            </preface>
-            <sections>
-              <clause id='_' language='en' inline-header='false' obligation='normative'>
-                <title>Clause 1</title>
-              </clause>
-            </sections>
-          </standard-document>
+                     </contributor>
+                     <contributor>
+                      <role type='author'/>
+                      <person>
+                        <name>
+                          <completename>Fred Flintstone</completename>
+                        </name>
+                        <affiliation>
+                          <organization>
+                            <name>Slate Rock and Gravel Company</name>
+                            <address>
+                              <street>1 Infinity Loop</street>
+                              <city>Cupertino</city>
+                              <state>CA</state>
+                              <country>USA</country>
+                              <postcode>95014</postcode>
+                            </address>
+                          </organization>
+                        </affiliation>
+                      </person>
+                    </contributor>
+                    <contributor>
+                      <role type='author'/>
+                      <person>
+                        <name>
+                          <completename>Barney Rubble</completename>
+                        </name>
+                        <affiliation>
+                          <organization>
+                            <name>Slate Rock and Gravel Company</name>
+                            <address>
+                              <street>Pavillon de Breteuil</street>
+                              <city>S&#232;vres CEDEX</city>
+                              <country>France</country>
+                              <postcode>F-92312</postcode>
+                            </address>
+                          </organization>
+                        </affiliation>
+                      </person>
+                    </contributor>
+                     <contributor>
+                       <role type="publisher"/>
+                       <organization>
+                         <name>IEC</name>
+                       </organization>
+                     </contributor>
+                     <contributor>
+                       <role type="publisher"/>
+                       <organization>
+                         <name>IETF</name>
+                       </organization>
+                     </contributor>
+                     <contributor>
+                       <role type="publisher"/>
+                       <organization>
+                         <name>ISO</name>
+                       </organization>
+                     </contributor>
+                     <version>
+                       <revision-date>2000-01</revision-date>
+                     </version>
+                     <language>el</language>
+                     <locale>CY</locale>
+                     <script>Grek</script>
+                     <abstract><p>This is the abstract of the document</p>
+                     <p>This is the second paragraph of the abstract of the document.</p></abstract>
+                     <status><stage>published</stage></status>
+                     <copyright>
+                       <from>#{Date.today.year}</from>
+                       <owner>
+                         <organization>
+                           <name>IEC</name>
+                         </organization>
+                       </owner>
+                     </copyright>
+                     <copyright>
+                       <from>#{Date.today.year}</from>
+                       <owner>
+                         <organization>
+                           <name>IETF</name>
+                         </organization>
+                       </owner>
+                     </copyright>
+                     <copyright>
+                       <from>#{Date.today.year}</from>
+                       <owner>
+                         <organization>
+                           <name>ISO</name>
+                         </organization>
+                       </owner>
+                     </copyright>
+                     <ext>
+                     <doctype>this-is-a-doctype</doctype>
+                     <subdoctype>This is a DocSubType</subdoctype>
+                     </ext>
+                   </bibdata>
+                     <metanorma-extension>
+                         <presentation-metadata>
+        <name>TOC Heading Levels</name>
+        <value>2</value>
+      </presentation-metadata>
+      <presentation-metadata>
+        <name>HTML TOC Heading Levels</name>
+        <value>2</value>
+      </presentation-metadata>
+      <presentation-metadata>
+        <name>DOC TOC Heading Levels</name>
+        <value>2</value>
+      </presentation-metadata>
+          <semantic-metadata>
+            <hello-world>A</hello-world>
+          </semantic-metadata>
+          <semantic-metadata>
+            <hello-world>B</hello-world>
+          </semantic-metadata>
+          <semantic-metadata>
+            <hello-world>C, D</hello-world>
+          </semantic-metadata>
+          <semantic-metadata>
+            <hello>what-not</hello>
+          </semantic-metadata>
+          <presentation-metadata>
+            <hello>Hello?</hello>
+          </presentation-metadata>
+          <presentation-metadata>
+            <manifold>hello, world</manifold>
+          </presentation-metadata>
+          <presentation-metadata>
+            <manifold>yes</manifold>
+          </presentation-metadata>
+        </metanorma-extension>
+                     <preface>
+                <abstract id='_'>
+                <title>Abstract</title>
+                  <p id='_'>This is the abstract of the document</p>
+                  <p id='_'>This is the second paragraph of the abstract of the document.</p>
+                </abstract>
+              </preface>
+              <sections>
+                <clause id='_' language='en' inline-header='false' obligation='normative'>
+                  <title>Clause 1</title>
+                </clause>
+              </sections>
+            </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -997,7 +1013,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "reads scripts into blank HTML document" do
     FileUtils.rm_f "test.html"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -1011,7 +1027,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "uses specified fonts and assets in HTML" do
     FileUtils.rm_f "test.html"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -1046,7 +1062,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "uses specified fonts and assets in Word" do
     FileUtils.rm_f "test.doc"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -1089,7 +1105,7 @@ QU1FOiB0ZXN0Cgo=
 
   it "test submitting-organizations with delimiter in end" do
     FileUtils.rm_f "test.doc"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :no-pdf:
@@ -1119,7 +1135,7 @@ QU1FOiB0ZXN0Cgo=
   private
 
   def mock_org_abbrevs
-    allow_any_instance_of(::Metanorma::Standoc::Front)
+    allow_any_instance_of(Metanorma::Standoc::Front)
       .to receive(:org_abbrev).and_return(
         { "International Standards Organization" => "ISO",
           "International Electrotechnical Commission" => "IEC" },
@@ -1127,14 +1143,14 @@ QU1FOiB0ZXN0Cgo=
   end
 
   def mock_default_publisher
-    allow_any_instance_of(::Metanorma::Standoc::Front)
+    allow_any_instance_of(Metanorma::Standoc::Front)
       .to receive(:default_publisher).and_return(
         "International Standards Organization",
       )
   end
 
   def mock_relaton_relation_descriptions
-    allow_any_instance_of(::Metanorma::Standoc::Front)
+    allow_any_instance_of(Metanorma::Standoc::Front)
       .to receive(:relaton_relation_descriptions).and_return(
         "normatively-cited-in" => "isCitedIn",
       )
