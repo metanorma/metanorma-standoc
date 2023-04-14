@@ -72,8 +72,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "process mtext spaces" do
@@ -114,48 +114,48 @@ RSpec.describe Metanorma::Standoc do
       stem:["&#x200c;"^199 "Hg"^+]
     INPUT
     output = <<~OUTPUT
-             #{BLANK_HDR}
-          <sections>
-            <p id="_">
-              <stem type="MathML">
-                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                  <mstyle displaystyle="true">
-                    <mi>n</mi>
-                    <mo>&lt;</mo>
-                    <mn>1</mn>
-                  </mstyle>
-                </math>
-                <asciimath>n &lt; 1</asciimath>
-              </stem>
-              <br/>
-              <stem type="MathML">
-                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                  <mstyle displaystyle="true">
-                    <mi>n</mi>
-                    <mo>&lt;</mo>
-                    <mn>1</mn>
-                  </mstyle>
-                </math>
-                <latexmath>n &lt; 1</latexmath>
-              </stem>
-              <stem type="MathML">
-                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                  <mstyle displaystyle="true">
-                    <msup>
-                      <mtext>‌</mtext>
-                      <mn>199</mn>
-                    </msup>
-                    <msup>
-                      <mtext>Hg</mtext>
-                      <mo>+</mo>
-                    </msup>
-                  </mstyle>
-                </math>
-                <asciimath>"‌"^199 "Hg"^+</asciimath>
-              </stem>
-            </p>
-          </sections>
-        </standard-document>
+           #{BLANK_HDR}
+        <sections>
+          <p id="_">
+            <stem type="MathML">
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <mstyle displaystyle="true">
+                  <mi>n</mi>
+                  <mo>&lt;</mo>
+                  <mn>1</mn>
+                </mstyle>
+              </math>
+              <asciimath>n &lt; 1</asciimath>
+            </stem>
+            <br/>
+            <stem type="MathML">
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <mstyle displaystyle="true">
+                  <mi>n</mi>
+                  <mo>&lt;</mo>
+                  <mn>1</mn>
+                </mstyle>
+              </math>
+              <latexmath>n &lt; 1</latexmath>
+            </stem>
+            <stem type="MathML">
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <mstyle displaystyle="true">
+                  <msup>
+                    <mtext>‌</mtext>
+                    <mn>199</mn>
+                  </msup>
+                  <msup>
+                    <mtext>Hg</mtext>
+                    <mo>+</mo>
+                  </msup>
+                </mstyle>
+              </math>
+              <asciimath>"‌"^199 "Hg"^+</asciimath>
+            </stem>
+          </p>
+        </sections>
+      </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(xmlpp(output))
@@ -306,8 +306,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
       </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes links" do
@@ -337,8 +337,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes bookmarks" do
@@ -353,8 +353,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes crossreferences" do
@@ -609,8 +609,8 @@ RSpec.describe Metanorma::Standoc do
       </bibliography>
       </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes combinations of bibliographic crossreferences" do
@@ -921,8 +921,8 @@ RSpec.describe Metanorma::Standoc do
              </clause></sections>
              </standard-document>
     OUTPUT
-    expect((strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes index terms" do
@@ -977,7 +977,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-    it "processes combinations of crossreferences" do
+  it "processes combinations of crossreferences" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Section

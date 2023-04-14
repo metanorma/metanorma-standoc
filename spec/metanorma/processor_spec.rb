@@ -12,7 +12,7 @@ RSpec.describe Metanorma::Standoc::Processor do
   end
 
   it "registers output formats against metanorma" do
-    expect(processor.output_formats.sort.to_s).to be_equivalent_to <<~"OUTPUT"
+    expect(processor.output_formats.sort.to_s).to be_equivalent_to <<~OUTPUT
       [[:doc, "doc"], [:html, "html"], [:pdf, "pdf"], [:presentation, "presentation.xml"], [:rxl, "rxl"], [:xml, "xml"]]
     OUTPUT
   end
@@ -31,13 +31,13 @@ RSpec.describe Metanorma::Standoc::Processor do
       <sections/>
       </iso-standard>
     OUTPUT
-    expect(processor.input_to_isodoc(input, "test"))
-      .to be_equivalent_to output
+    expect(xmlpp(processor.input_to_isodoc(input, "test")))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "generates HTML from IsoDoc XML" do
     FileUtils.rm_f "test.html"
-    processor.output(<<~"INPUT", "test.xml", "test.html", :html)
+    processor.output(<<~INPUT, "test.xml", "test.html", :html)
               <iso-standard xmlns="http://riboseinc.com/isoxml">
       <sections>
       <terms id="H" obligation="normative"><title>Terms, Definitions, Symbols and Abbreviated Terms</title>
@@ -51,7 +51,7 @@ RSpec.describe Metanorma::Standoc::Processor do
     expect(File.read("test.html", encoding: "utf-8")
       .gsub(%r{^.*<main}m, "<main")
       .gsub(%r{</main>.*}m, "</main>"))
-      .to be_equivalent_to <<~"OUTPUT"
+      .to be_equivalent_to <<~OUTPUT
             <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
               <p class="zzSTDTitle1"></p>
               <div id="H"><h1>Terms, Definitions, Symbols and Abbreviated Terms</h1><h2 class="TermNum" id="J"></h2>
@@ -63,7 +63,7 @@ RSpec.describe Metanorma::Standoc::Processor do
 
   it "generates HTML from IsoDoc XML" do
     FileUtils.rm_f "test.doc"
-    processor.output(<<~"INPUT", "test.xml", "test.doc", :doc)
+    processor.output(<<~INPUT, "test.xml", "test.doc", :doc)
               <iso-standard xmlns="http://riboseinc.com/isoxml">
       <sections>
       <terms id="H" obligation="normative"><title>Terms, Definitions, Symbols and Abbreviated Terms</title>
@@ -80,7 +80,7 @@ RSpec.describe Metanorma::Standoc::Processor do
 
   it "generates XML from IsoDoc XML" do
     FileUtils.rm_f "test.xml"
-    processor.output(<<~"INPUT", "test.xml", "test.xml", :xml)
+    processor.output(<<~INPUT, "test.xml", "test.xml", :xml)
               <iso-standard xmlns="http://riboseinc.com/isoxml">
       <sections>
       <terms id="H" obligation="normative"><title>Terms, Definitions, Symbols and Abbreviated Terms</title>
