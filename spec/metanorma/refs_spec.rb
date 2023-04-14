@@ -1819,7 +1819,6 @@ RSpec.describe Metanorma::Standoc do
                </formattedref>
                <docidentifier>XYZ 123:1966 (all parts)</docidentifier>
                <docnumber>123:1966 (all parts)</docnumber>
-               <date type='published'><on>1966</on></date>
              </bibitem>
              <bibitem id='iso124'>
         <formattedref format='application/x-isodoc+xml'>
