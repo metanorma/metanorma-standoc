@@ -151,7 +151,7 @@ module Metanorma
       end
 
       def refitem1yr(code)
-        yr_match = /[:-](?<year>(?:19|20)[0-9][0-9])\b/.match(code)
+        yr_match = /[:-](?<year>(?:19|20)[0-9][0-9])\b(?!-)/.match(code)
         yr_match ? yr_match[:year] : nil
       end
 
