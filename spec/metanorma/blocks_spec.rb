@@ -133,7 +133,7 @@ RSpec.describe Metanorma::Standoc do
                </mml:math>
              </stem>
            </formula>
-           <formula id="_" subsequence="A">
+                      <formula id="_" subsequence="A">
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
                  <mstyle displaystyle="true">
@@ -145,23 +145,23 @@ RSpec.describe Metanorma::Standoc do
                          <mtd>
                            <mrow>
                              <mo>−</mo>
-                             <munder>
+                             <msub>
                                <mrow>
                                  <mi>sin</mi>
                                  <mi>λ</mi>
                                </mrow>
                                <mn>0</mn>
-                             </munder>
+                             </msub>
                            </mrow>
                          </mtd>
                          <mtd>
-                           <munder>
+                           <msub>
                              <mrow>
                                <mi>cos</mi>
                                <mi>λ</mi>
                              </mrow>
                              <mn>0</mn>
-                           </munder>
+                           </msub>
                          </mtd>
                          <mtd>
                            <mn>0</mn>
@@ -171,92 +171,92 @@ RSpec.describe Metanorma::Standoc do
                          <mtd>
                            <mrow>
                              <mo>−</mo>
-                             <munder>
+                             <msub>
                                <mrow>
                                  <mi>sin</mi>
                                  <mi>φ</mi>
                                </mrow>
                                <mn>0</mn>
-                             </munder>
+                             </msub>
                            </mrow>
-                           <munder>
+                           <msub>
                              <mrow>
                                <mi>cos</mi>
                                <mi>λ</mi>
                              </mrow>
                              <mn>0</mn>
-                           </munder>
+                           </msub>
                          </mtd>
                          <mtd>
                            <mrow>
                              <mo>−</mo>
-                             <munder>
+                             <msub>
                                <mrow>
                                  <mi>sin</mi>
                                  <mi>φ</mi>
                                </mrow>
                                <mn>0</mn>
-                             </munder>
+                             </msub>
                            </mrow>
-                           <munder>
+                           <msub>
                              <mrow>
                                <mi>sin</mi>
                                <mi>λ</mi>
                              </mrow>
                              <mn>0</mn>
-                           </munder>
+                           </msub>
                          </mtd>
                          <mtd>
-                           <munder>
+                           <msub>
                              <mrow>
                                <mi>cos</mi>
                                <mi>φ</mi>
                              </mrow>
                              <mn>0</mn>
-                           </munder>
+                           </msub>
                          </mtd>
                        </mtr>
                        <mtr>
                          <mtd>
-                           <munder>
+                           <msub>
                              <mrow>
                                <mi>cos</mi>
                                <mi>φ</mi>
                              </mrow>
                              <mn>0</mn>
-                           </munder>
-                           <munder>
+                           </msub>
+                           <msub>
                              <mrow>
                                <mi>cos</mi>
                                <mi>λ</mi>
                              </mrow>
                              <mn>0</mn>
-                           </munder>
+                           </msub>
                          </mtd>
                          <mtd>
-                           <munder>
+                           <msub>
                              <mrow>
                                <mi>cos</mi>
                                <mi>φ</mi>
                              </mrow>
                              <mn>0</mn>
-                           </munder>
-                           <munder>
+                           </msub>
+                           <msub>
                              <mrow>
                                <mi>sin</mi>
                                <mi>λ</mi>
                              </mrow>
                              <mn>0</mn>
-                           </munder>
+                           </msub>
                          </mtd>
                          <mtd>
-                           <munder>
+                           <msub>
                              <mrow>
                                <mi>sin</mi>
                                <mi>φ</mi>
                              </mrow>
                              <mn>0</mn>
-                           </munder>
+                           </msub>
                          </mtd>
                        </mtr>
                      </mtable>
