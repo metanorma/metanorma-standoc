@@ -122,7 +122,7 @@ module Metanorma
           t.formattedref format: "application/x-isodoc+xml" do |i|
             i << ref_normalise_no_format(match[:text])
           end
-          yr_match = /[:-](?<year>(?:19|20)[0-9][0-9])\b/.match(code[:id])
+          yr_match = refitem1yr(code[:id])
           refitem_render1(match, code, t)
           /^\d+$|^\(.+\)$/.match?(code[:id]) or
             docnumber(t, code[:id].sub(/[:-](19|20)[0-9][0-9]$/, ""))
@@ -143,16 +143,17 @@ module Metanorma
         ((code[:id] && code[:numeric]) || code[:nofetch]) and
           return { code: nil, match: match, analyse_code: code,
                    hidden: code[:hidden] }
-        year = refitem1yr(code[:id])
         { code: code[:id], analyse_code: code, localfile: code[:localfile],
-          year: year,
+          year: (m = refitem1yr(code[:id])) ? m[:year] : nil,
           title: match[:text], match: match, hidden: code[:hidden],
           usrlbl: match[:usrlbl], lang: (@lang || :all) }
       end
 
       def refitem1yr(code)
-        yr_match = /[:-](?<year>(?:19|20)[0-9][0-9])\b(?!-)/.match(code)
-        yr_match ? yr_match[:year] : nil
+        yr_match = /[:-](?<year>(?:19|20)[0-9][0-9])$/.match(code)
+        /[:-](?:19|20)[0-9][0-9].*?[:-](?:19|20)[0-9][0-9]$/.match(code) and
+          yr_match = nil
+        yr_match
       end
 
       def refitemout(item, xml)
