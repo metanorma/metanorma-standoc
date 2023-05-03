@@ -238,7 +238,6 @@ module Metanorma
       def bibdata_embed_id_cleanup(xmldoc)
         @embed_id.nil? and return
         bibdata = xmldoc.at("//bibdata")
-        #require "debug"; binding.b
         @embed_id.each do |d|
           bibdata = bibdata.at("./relation[@type = 'derivedFrom']/bibitem")
           ident = bibdata.at("./docidentifier[@primary = 'true']") ||

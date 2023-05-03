@@ -52,6 +52,7 @@ module Metanorma
       end
 
       def docnumber(bib, code)
+        code or return
         bib.docnumber do |d|
           d << @c.decode(code).sub(/^[^\d]*/, "")
         end
@@ -105,12 +106,59 @@ module Metanorma
         ret.merge(numeric: true)
       end
 
-      # ref id = (usrlbl)code[:-]year
-      # code = \[? number \]? | ident | nofetch(code) | hidden(code) |
-      # dropid(code) | # (repo|path):(key,code) | local-file(source,? key)
       def analyse_ref_code(code)
         ret = { id: code }
         code.nil? || code.empty? and return ret
+        analyse_ref_code_csv(ret) ||
+          analyse_ref_code_nested(ret)
+      end
+
+      def analyse_ref_code_csv(ret)
+        ret[:id].include?("=") or return nil
+        line = CSV.parse_line(ret[:id], liberal_parsing: true) or return nil
+        a = analyse_ref_code_csv_breakup(line)
+        analyse_ref_code_csv_map(a)
+      rescue StandardError
+        nil
+      end
+
+      def analyse_ref_code_csv_breakup(line)
+        line.each_with_object({}) do |x, m|
+          kv = x.split("=", 2)
+          kv.size == 1 and kv = ["code", kv.first]
+          m[kv[0].to_sym] = kv[1].delete_prefix('"').delete_suffix('"')
+            .delete_prefix("'").delete_suffix("'")
+        end
+      end
+
+      def analyse_ref_code_csv_map(source)
+        source.each_with_object({}) do |(k, v), ret|
+          case k
+          when :dropid, :hidden, :nofetch
+            ret[k] = v == "true"
+          when :repo, :path
+            ret[:type] = k.to_s
+            ret[:key] = v
+            ret[:nofetch] = true
+            source[:code] or
+              ret[:id] = v.sub(%r{^[^/]+/}, "")
+          when :"local-file"
+            ret[:localfile] = v
+          when :number
+            if source[:code] then ret[:usrlabel] = "(#{v})"
+            else ret[:numeric] = true
+            end
+          when :usrlabel
+            ret[:usrlabel] = "(#{v})"
+          when :code then ret[:id] = v
+          end
+        end
+      end
+
+      # ref id = (usrlbl)code[:-]year
+      # code = \[? number \]? | ident | nofetch(code) | hidden(code) |
+      # dropid(code) | # (repo|path):(key,code) | local-file(source,? key)
+      def analyse_ref_code_nested(ret)
         analyse_ref_numeric(
           analyse_ref_repo_path(
             analyse_ref_dropid(
