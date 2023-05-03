@@ -116,9 +116,7 @@ module Metanorma
 
       def biblio_hidden_inherit(xmldoc)
         xmldoc.xpath("//references[@hidden = 'true']").each do |r|
-          r.xpath("./bibitem").each do |b|
-            b["hidden"] = true
-          end
+          r.xpath("./bibitem").each { |b| b["hidden"] = true }
         end
       end
 
@@ -164,7 +162,7 @@ module Metanorma
 
       def format_ref(ref, type)
         ret = Nokogiri::XML.fragment(ref)
-        ret.traverse { |x| x.remove if x.name == "fn"}
+        ret.traverse { |x| x.remove if x.name == "fn" }
         ref = to_xml(ret)
         return @isodoc.docid_prefix(type, ref) if type != "metanorma"
         return "[#{ref}]" if /^\d+$/.match(ref) && !/^\[.*\]$/.match(ref)
@@ -182,18 +180,27 @@ module Metanorma
         xmldoc.xpath("//bibitem[not(ancestor::bibitem)]").each do |ref|
           docid = select_docid(ref) or next
           reference = format_ref(docid.children.to_xml, docid["type"])
-          @anchors[ref["id"]] = { xref: reference }
+          @anchors[ref["id"]] = { xref: reference, id: idtype2cit(ref) }
         end
       end
 
-      def select_docid(ref)
-        ref.at("./docidentifier[@type = 'metanorma']") ||
-          ref.at("./docidentifier[@primary = 'true'][@language = '#{@lang}']") ||
-          ref.at("./docidentifier[@primary = 'true'][not(@language)]") ||
-          ref.at("./docidentifier[@primary = 'true']") ||
-          ref.at("./docidentifier[not(@type = 'DOI')][@language = '#{@lang}']") ||
-          ref.at("./docidentifier[not(@type = 'DOI')][not(@language)]") ||
-          ref.at("./docidentifier[not(@type = 'DOI')]")
+      def idtype2cit(ref)
+        ref.xpath("./docidentifier/@type").each_with_object({}) do |t, m|
+          m[t.text] and next
+          docid = select_docid(ref, t.text) or next
+          m[t.text] = format_ref(docid.children.to_xml, docid["type"])
+        end
+      end
+
+      def select_docid(ref, type = nil)
+        type and t = "[@type = '#{type}']"
+        ref.at("./docidentifier[@type = 'metanorma']#{t}") ||
+          ref.at("./docidentifier[@primary = 'true'][@language = '#{@lang}']#{t}") ||
+          ref.at("./docidentifier[@primary = 'true'][not(@language)]#{t}") ||
+          ref.at("./docidentifier[@primary = 'true']#{t}") ||
+          ref.at("./docidentifier[not(@type = 'DOI')][@language = '#{@lang}']#{t}") ||
+          ref.at("./docidentifier[not(@type = 'DOI')][not(@language)]#{t}") ||
+          ref.at("./docidentifier[not(@type = 'DOI')]#{t}")
       end
 
       def fetch_termbase(_termbase, _id)

@@ -797,6 +797,38 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes citation styles" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Foreword
+
+      <<reference>>
+      <<reference,style=IDLONG%>>
+      <<reference,style=IDPROSE%>>
+
+      [bibliography]
+      == Normative References
+
+      * [[[reference,B]]], span:docid.IDLONG[ISO 1234 (E)]. span:docid.IDPROSE[document 1234 of the ISO].
+    INPUT
+    output = <<~OUTPUT
+      <foreword id="_" obligation="informative">
+        <title>Foreword</title>
+        <p id="_">
+          <eref type="inline" bibitemid="reference" citeas="IDLONG ISO 1234 (E)"/>
+          <eref type="inline" style="IDLONG" bibitemid="reference" citeas="IDLONG ISO 1234 (E)"/>
+          <eref type="inline" style="IDPROSE" bibitemid="reference" citeas="IDPROSE document 1234 of the ISO"/>
+        </p>
+      </foreword>
+    OUTPUT
+    expect(xmlpp(strip_guid(
+                   Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+                   .at("//xmlns:foreword").to_xml,
+                 )))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes formatting within term sources" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
