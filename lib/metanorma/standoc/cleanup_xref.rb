@@ -72,17 +72,17 @@ module Metanorma
         elem.name = name
         elem["bibitemid"] = elem["target"]
         if ref = @anchors&.dig(elem["target"], :xref)
+          t = @anchors.dig(elem["target"], :id, elem["style"]) and
+            ref = t
           elem["citeas"] = @c.decode(ref)
-        else
-          elem["citeas"] = ""
-          xref_to_eref1(elem)
+        else xref_to_eref1(elem)
         end
         elem.delete("target")
-        elem.delete("style")
         extract_localities(elem)
       end
 
       def xref_to_eref1(elem)
+        elem["citeas"] = ""
         @internal_eref_namespaces.include?(elem["type"]) or
           @log.add("Crossreferences", elem,
                    "#{elem['target']} does not have a corresponding " \
@@ -132,7 +132,7 @@ module Metanorma
 
       def xref_compound_cleanup(xmldoc)
         xmldoc.xpath("//xref").each do |x|
-          /;/.match?(x["target"]) or next
+          x["target"].include?(";") or next
           locations = x["target"].split(";")
           x["target"] = locations.first.sub(/^[^!]*!/, "")
           xref_compound_cleanup1(x, locations)
