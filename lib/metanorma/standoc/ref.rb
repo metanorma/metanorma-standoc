@@ -81,7 +81,7 @@ module Metanorma
         { code: match[:code], match: match, yr: yr, hasyr: hasyr,
           year: hasyr ? yr : nil,
           all_parts: true, no_year: yr == "--",
-          text: match[:text], usrlbl: match[:usrlbl] || code[:usrlabel],
+          title: match[:text], usrlbl: match[:usrlbl] || code[:usrlabel],
           lang: (@lang || :all) }
       end
 
