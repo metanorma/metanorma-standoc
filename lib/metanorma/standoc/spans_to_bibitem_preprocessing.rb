@@ -45,9 +45,10 @@ module Metanorma
           when "pages", "volume", "issue"
             ret[:extent][span[:key].to_sym] ||= []
             ret[:extent][span[:key].to_sym] << span[:val]
-          when "pubplace", "title", "type", "series", "edition", "version",
-            "note"
+          when "pubplace", "title", "type", "series", "edition", "version"
             ret[span[:key].to_sym] = span[:val]
+          when "note"
+            ret[span[:key].to_sym] = { type: span[:type], val: span[:val] }
           when "in_title"
             ret[:in][:title] = span[:val]
           when "publisher"

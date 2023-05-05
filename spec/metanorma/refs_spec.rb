@@ -11,6 +11,9 @@ RSpec.describe Metanorma::Standoc do
 
       * [[[iso123,ISO 123]]] _Standard_
       * [[[iso124,(1)ISO 123]]] _Standard_
+      * [[[iso124,number=2,code=ISO 123]]] _Standard_
+      * [[[iso124,number=3,ISO 123]]] _Standard_
+      * [[[iso124,usrlabel=4,ISO 123]]] _Standard_
     INPUT
     output = <<~OUTPUT
             #{BLANK_HDR}
@@ -40,6 +43,30 @@ RSpec.describe Metanorma::Standoc do
             <name>ISO</name>
           </organization>
         </contributor>
+      </bibitem>
+            <bibitem id="iso124">
+        <formattedref format="application/x-isodoc+xml">
+          <em>Standard</em>
+        </formattedref>
+        <docidentifier type='metanorma'>[2]</docidentifier>
+        <docidentifier>ISO 123</docidentifier>
+        <docnumber>123</docnumber>
+      </bibitem>
+      <bibitem id="iso124">
+        <formattedref format="application/x-isodoc+xml">
+          <em>Standard</em>
+        </formattedref>
+        <docidentifier type='metanorma'>[3]</docidentifier>
+        <docidentifier>ISO 123</docidentifier>
+        <docnumber>123</docnumber>
+      </bibitem>
+            <bibitem id="iso124">
+        <formattedref format="application/x-isodoc+xml">
+          <em>Standard</em>
+        </formattedref>
+        <docidentifier type='metanorma'>[4]</docidentifier>
+        <docidentifier>ISO 123</docidentifier>
+        <docnumber>123</docnumber>
       </bibitem>
             </references>
             </bibliography>
@@ -1107,169 +1134,169 @@ RSpec.describe Metanorma::Standoc do
         * [[[ref2,doi:10.1515/9783110889406.257]]] span:surname.editor[Johnson] span:givenname.editor[Boris] span:pubplace[Vienna] span:volume[2] span:in_title[Nested Title] span:in_surname.editor[Jones] span:in_givenname.editor[John] span:in_surname.editor[James] span:in_givenname.editor[Jim] span:date.issued[1234] span:type[book] span:docid.DOI[DOI-ANON]
       INPUT
       output = <<~OUTPUT
-        #{BLANK_HDR}
-         <sections>
-           <clause id="_" inline-header="false" obligation="normative">
-             <title>Section</title>
-           </clause>
-         </sections>
-         <bibliography>
-           <references id="_" normative="false" obligation="informative">
-             <title>Bibliography</title>
-             <bibitem id="ref1" type="inbook">
-               <fetched/>
-               <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
-               <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
-               <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
-               <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
-               <docidentifier type="ISBN">9783110170269</docidentifier>
-               <date type="issued">
-                 <on>2001-12-31</on>
-               </date>
-               <date type="published">
-                 <on>2001-12-31</on>
-               </date>
-               <contributor>
-                 <role type="author"/>
-                 <person>
-                   <name>
-                     <forename language="en" script="Latn">Monica</forename>
-                     <surname language="en" script="Latn">Heller</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type="editor"/>
-                 <person>
-                   <name>
-                     <forename language="en" script="Latn">Aneta</forename>
-                     <surname language="en" script="Latn">Pavlenko</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type="editor"/>
-                 <person>
-                   <name>
-                     <forename language="en" script="Latn">Adrian</forename>
-                     <surname language="en" script="Latn">Blackledge</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type="editor"/>
-                 <person>
-                   <name>
-                     <forename language="en" script="Latn">Ingrid</forename>
-                     <surname language="en" script="Latn">Piller</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type="editor"/>
-                 <person>
-                   <name>
-                     <forename language="en" script="Latn">Marya</forename>
-                     <surname language="en" script="Latn">Teutsch-Dwyer</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type="publisher"/>
-                 <organization>
-                   <name>DE GRUYTER MOUTON</name>
-                 </organization>
-               </contributor>
-               <relation type="includedIn">
-                 <bibitem>
-                   <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
-                 </bibitem>
-               </relation>
-               <extent>
-                 <localityStack>
-                   <locality type="page">
-                     <referenceFrom>257</referenceFrom>
-                     <referenceTo>282</referenceTo>
-                   </locality>
-                 </localityStack>
-               </extent>
-             </bibitem>
-             <bibitem id="ref2" type="book">
-               <fetched/>
-               <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
-               <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
-               <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
-               <docidentifier type="DOI">DOI-ANON</docidentifier>
-               <docidentifier type="ISBN">9783110170269</docidentifier>
-               <date type="issued">
-                 <on>1234</on>
-               </date>
-               <date type="published">
-                 <on>2001-12-31</on>
-               </date>
-               <contributor>
-                 <role type="author"/>
-                 <person>
-                   <name>
-                     <forename language="en" script="Latn">Monica</forename>
-                     <surname language="en" script="Latn">Heller</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type="editor"/>
-                 <person>
-                   <name>
-                     <forename>Boris</forename>
-                     <surname>Johnson</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type="publisher"/>
-                 <organization>
-                   <name>DE GRUYTER MOUTON</name>
-                 </organization>
-               </contributor>
-               <relation type="includedIn">
-                 <bibitem type="misc">
-                   <title format="text/plain">Nested Title</title>
-                   <contributor>
-                     <role type="editor"/>
-                     <person>
-                       <name>
-                         <forename>John</forename>
-                         <surname>Jones</surname>
-                       </name>
-                     </person>
-                   </contributor>
-                   <contributor>
-                     <role type="editor"/>
-                     <person>
-                       <name>
-                         <forename>Jim</forename>
-                         <surname>James</surname>
-                       </name>
-                     </person>
-                   </contributor>
-                 </bibitem>
-               </relation>
-               <place>Vienna</place>
-               <extent>
-                 <localityStack>
-                   <locality type="page">
-                     <referenceFrom>257</referenceFrom>
-                     <referenceTo>282</referenceTo>
-                   </locality>
-                   <locality type="volume">
-                     <referenceFrom>2</referenceFrom>
-                   </locality>
-                 </localityStack>
-               </extent>
-             </bibitem>
-           </references>
-         </bibliography>
-       </standard-document>
+         #{BLANK_HDR}
+          <sections>
+            <clause id="_" inline-header="false" obligation="normative">
+              <title>Section</title>
+            </clause>
+          </sections>
+          <bibliography>
+            <references id="_" normative="false" obligation="informative">
+              <title>Bibliography</title>
+              <bibitem id="ref1" type="inbook">
+                <fetched/>
+                <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
+                <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
+                <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
+                <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
+                <docidentifier type="ISBN">9783110170269</docidentifier>
+                <date type="issued">
+                  <on>2001-12-31</on>
+                </date>
+                <date type="published">
+                  <on>2001-12-31</on>
+                </date>
+                <contributor>
+                  <role type="author"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Monica</forename>
+                      <surname language="en" script="Latn">Heller</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="editor"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Aneta</forename>
+                      <surname language="en" script="Latn">Pavlenko</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="editor"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Adrian</forename>
+                      <surname language="en" script="Latn">Blackledge</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="editor"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Ingrid</forename>
+                      <surname language="en" script="Latn">Piller</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="editor"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Marya</forename>
+                      <surname language="en" script="Latn">Teutsch-Dwyer</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                    <name>DE GRUYTER MOUTON</name>
+                  </organization>
+                </contributor>
+                <relation type="includedIn">
+                  <bibitem>
+                    <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
+                  </bibitem>
+                </relation>
+                <extent>
+                  <localityStack>
+                    <locality type="page">
+                      <referenceFrom>257</referenceFrom>
+                      <referenceTo>282</referenceTo>
+                    </locality>
+                  </localityStack>
+                </extent>
+              </bibitem>
+              <bibitem id="ref2" type="book">
+                <fetched/>
+                <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
+                <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
+                <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
+                <docidentifier type="DOI">DOI-ANON</docidentifier>
+                <docidentifier type="ISBN">9783110170269</docidentifier>
+                <date type="issued">
+                  <on>1234</on>
+                </date>
+                <date type="published">
+                  <on>2001-12-31</on>
+                </date>
+                <contributor>
+                  <role type="author"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Monica</forename>
+                      <surname language="en" script="Latn">Heller</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="editor"/>
+                  <person>
+                    <name>
+                      <forename>Boris</forename>
+                      <surname>Johnson</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                    <name>DE GRUYTER MOUTON</name>
+                  </organization>
+                </contributor>
+                <relation type="includedIn">
+                  <bibitem type="misc">
+                    <title format="text/plain">Nested Title</title>
+                    <contributor>
+                      <role type="editor"/>
+                      <person>
+                        <name>
+                          <forename>John</forename>
+                          <surname>Jones</surname>
+                        </name>
+                      </person>
+                    </contributor>
+                    <contributor>
+                      <role type="editor"/>
+                      <person>
+                        <name>
+                          <forename>Jim</forename>
+                          <surname>James</surname>
+                        </name>
+                      </person>
+                    </contributor>
+                  </bibitem>
+                </relation>
+                <place>Vienna</place>
+                <extent>
+                  <localityStack>
+                    <locality type="page">
+                      <referenceFrom>257</referenceFrom>
+                      <referenceTo>282</referenceTo>
+                    </locality>
+                    <locality type="volume">
+                      <referenceFrom>2</referenceFrom>
+                    </locality>
+                  </localityStack>
+                </extent>
+              </bibitem>
+            </references>
+          </bibliography>
+        </standard-document>
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)
@@ -1287,50 +1314,50 @@ RSpec.describe Metanorma::Standoc do
         * [[[iso123,BIPM CIPM -- Resolution (1879)]]] _Standard_
       INPUT
       output = <<~OUTPUT
-         #{BLANK_HDR}
-                       <sections>
-                </sections><bibliography><references id="_" obligation="informative" normative="true">
-                  <title>Normative references</title>
-                 #{NORM_REF_BOILERPLATE}
-                              <bibitem id="iso123" type="proceedings">
-               <fetched/>
-               <title format="text/plain" language="en" script="Latn">Signes abréviatifs pour les poids et mesures métriques</title>
-               <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/ci/cipm/4-1879/resolution-</uri>
-               <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-4.yml</uri>
-               <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-4.yml</uri>
-               <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM4.pdf/47e647d4-26c2-d3d6-b367-e749fb22b261</uri>
-               <docidentifier type="BIPM" primary="true">CIPM — Resolution (1879)</docidentifier>
-               <docidentifier type="BIPM" primary="true" language="en" script="Latn">CIPM — Resolution (1879)</docidentifier>
-               <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CIPM — Résolution (1879)</docidentifier>
-               <docnumber>CIPM — Resolution (1879)</docnumber>
-               <date type="published">
-                 <on>1879-10-13</on>
-               </date>
-               <contributor>
-                 <role type="publisher"/>
-                 <organization>
-                   <name>Bureau International des Poids et Mesures</name>
-                   <abbreviation>BIPM</abbreviation>
-                   <uri>www.bipm.org</uri>
-                 </organization>
-               </contributor>
-               <contributor>
-                 <role type="author"/>
-                 <organization>
-                   <name language="en" script="Latn">International Committee for Weights and Measures</name>
-                   <abbreviation>CIPM</abbreviation>
-                 </organization>
-               </contributor>
-               <language>en</language>
-               <language>fr</language>
-               <script>Latn</script>
-               <place>
-                 <city>Paris</city>
-               </place>
-             </bibitem>
-           </references>
-         </bibliography>
-       </standard-document>
+          #{BLANK_HDR}
+                        <sections>
+                 </sections><bibliography><references id="_" obligation="informative" normative="true">
+                   <title>Normative references</title>
+                  #{NORM_REF_BOILERPLATE}
+                               <bibitem id="iso123" type="proceedings">
+                <fetched/>
+                <title format="text/plain" language="en" script="Latn">Signes abréviatifs pour les poids et mesures métriques</title>
+                <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/ci/cipm/4-1879/resolution-</uri>
+                <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-4.yml</uri>
+                <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-4.yml</uri>
+                <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM4.pdf/47e647d4-26c2-d3d6-b367-e749fb22b261</uri>
+                <docidentifier type="BIPM" primary="true">CIPM — Resolution (1879)</docidentifier>
+                <docidentifier type="BIPM" primary="true" language="en" script="Latn">CIPM — Resolution (1879)</docidentifier>
+                <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CIPM — Résolution (1879)</docidentifier>
+                <docnumber>CIPM — Resolution (1879)</docnumber>
+                <date type="published">
+                  <on>1879-10-13</on>
+                </date>
+                <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                    <name>Bureau International des Poids et Mesures</name>
+                    <abbreviation>BIPM</abbreviation>
+                    <uri>www.bipm.org</uri>
+                  </organization>
+                </contributor>
+                <contributor>
+                  <role type="author"/>
+                  <organization>
+                    <name language="en" script="Latn">International Committee for Weights and Measures</name>
+                    <abbreviation>CIPM</abbreviation>
+                  </organization>
+                </contributor>
+                <language>en</language>
+                <language>fr</language>
+                <script>Latn</script>
+                <place>
+                  <city>Paris</city>
+                </place>
+              </bibitem>
+            </references>
+          </bibliography>
+        </standard-document>
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)
@@ -1345,7 +1372,8 @@ RSpec.describe Metanorma::Standoc do
         == Normative References
 
         * [[[iso123,nofetch(ISO/IEC TR 12382:1992)]]] _Standard_
-        * [[[iso124,ISO 124:2014]]] _Standard_
+        * [[[iso123,nofetch=true,ISO/IEC TR 12382:1992]]] _Standard_
+        * [[[iso124,nofetch=false,code=ISO 124:2014]]] _Standard_
       INPUT
       output = <<~OUTPUT
         #{BLANK_HDR}
@@ -1355,6 +1383,14 @@ RSpec.describe Metanorma::Standoc do
           <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id='iso123'>
+               <formattedref format='application/x-isodoc+xml'>
+                 <em>Standard</em>
+               </formattedref>
+               <docidentifier type='ISO'>ISO/IEC TR 12382:1992</docidentifier>
+               <docnumber>12382</docnumber>
+                <date type='published'><on>1992</on></date>
+             </bibitem>
+                     <bibitem id='iso123'>
                <formattedref format='application/x-isodoc+xml'>
                  <em>Standard</em>
                </formattedref>
@@ -1424,11 +1460,17 @@ RSpec.describe Metanorma::Standoc do
 
         * [[[iso123,dropid(ABC)]]] _Standard_
         * [[[iso124,dropid(ISO 124:2014)]]] _Standard_
+        * [[[iso125,dropid=true,ABC]]] _Standard_
+        * [[[iso126,dropid=true,ISO 124:2014]]] _Standard_
       INPUT
       doc = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       expect(doc.at("//xmlns:bibitem[@id = 'iso123']/@suppress_identifier")&.text)
         .to eq("true")
       expect(doc.at("//xmlns:bibitem[@id = 'iso124']/@suppress_identifier")&.text)
+        .to eq("true")
+      expect(doc.at("//xmlns:bibitem[@id = 'iso125']/@suppress_identifier")&.text)
+        .to eq("true")
+      expect(doc.at("//xmlns:bibitem[@id = 'iso126']/@suppress_identifier")&.text)
         .to eq("true")
     end
   end
@@ -1448,9 +1490,9 @@ RSpec.describe Metanorma::Standoc do
         == Bibliography
 
         * [[[iso125,hidden(ISO 125)]]] _Standard_
-        * [[[iso126,hidden(XYZ)]]] _Standard_
+        * [[[iso126,hidden=true,XYZ]]] _Standard_
         * [[[iso127,ISO 124]]] _Standard_
-        * [[[iso128,ABC]]] _Standard_
+        * [[[iso128,hidden=false,ABC]]] _Standard_
       INPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       expect(xml.at("//xmlns:bibitem[@id = 'iso125']/@hidden")&.text).to eq "true"
@@ -1848,7 +1890,7 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso123,2]]] _Standard_
       * [[[iso124,(B)]]] _Standard_
       * [[[iso125,1]]] _Standard_
-      * [[[iso126,(A1)]]] _Standard_
+      * [[[iso126,usrlabel=A1]]] _Standard_
       * [[[iso127,(4)XYZ 123:1066 (all parts)]]] _Standard_
     INPUT
     output = <<~OUTPUT
@@ -1970,8 +2012,11 @@ RSpec.describe Metanorma::Standoc do
       == Normative References
 
       * [[[iso123,repo:(ab/ISO 123)]]] _Standard_
+      * [[[iso123a,repo=ab/ISO 123]]] _Standard_
       * [[[iso124,repo:(ab/ISO 124,id)]]] _Standard_
+      * [[[iso124a,repo=ab/ISO 124,code=id]]] _Standard_
       * [[[iso125,dropid(repo:(ab/ISO 124,id))]]] _Standard_
+      * [[[iso125a,dropid=true,repo=ab/ISO 124,id]]] _Standard_
     INPUT
     output = <<~OUTPUT
            #{BLANK_HDR}
@@ -2016,6 +2061,14 @@ RSpec.describe Metanorma::Standoc do
                      <docidentifier type='repository'>ab/ISO 123</docidentifier>
                      <docnumber>123</docnumber>
                    </bibitem>
+                   <bibitem id='iso123a'>
+                     <formattedref format='application/x-isodoc+xml'>
+                       <em>Standard</em>
+                     </formattedref>
+                     <docidentifier type='ISO'>ISO 123</docidentifier>
+                     <docidentifier type='repository'>ab/ISO 123</docidentifier>
+                     <docnumber>123</docnumber>
+                   </bibitem>
                    <bibitem id='iso124'>
                      <formattedref format='application/x-isodoc+xml'>
                       <em>Standard</em>
@@ -2023,7 +2076,21 @@ RSpec.describe Metanorma::Standoc do
                     <docidentifier>id</docidentifier>
                     <docidentifier type='repository'>ab/ISO 124</docidentifier>
                   </bibitem>
+                  <bibitem id='iso124a'>
+                     <formattedref format='application/x-isodoc+xml'>
+                      <em>Standard</em>
+                    </formattedref>
+                    <docidentifier>id</docidentifier>
+                    <docidentifier type='repository'>ab/ISO 124</docidentifier>
+                  </bibitem>
                   <bibitem id='iso125' suppress_identifier='true'>
+                     <formattedref format='application/x-isodoc+xml'>
+                       <em>Standard</em>
+                     </formattedref>
+                     <docidentifier>id</docidentifier>
+                     <docidentifier type='repository'>ab/ISO 124</docidentifier>
+                   </bibitem>
+                   <bibitem id='iso125a' suppress_identifier='true'>
                      <formattedref format='application/x-isodoc+xml'>
                        <em>Standard</em>
                      </formattedref>
@@ -2055,7 +2122,7 @@ RSpec.describe Metanorma::Standoc do
       == Normative References
 
       * [[[iso123,path:(spec/assets/iso123,ISO 123)]]] _Standard_
-      * [[[iso124,path:(a/b.adoc,ISO 124)]]] _Standard_
+      * [[[iso124,path=a/b.adoc,ISO 124]]] _Standard_
     INPUT
     output = <<~OUTPUT
            #{BLANK_HDR}
@@ -2325,11 +2392,13 @@ RSpec.describe Metanorma::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       <<iso124>>
+      <<iso125>>
 
       [bibliography]
       == Bibliography
 
       * [[[iso124,(*A*.footnote:[hello])XYZ]]] _Standard_
+      * [[[iso125,usrlabel="*A*.footnote:[hello]",XYZ]]] _Standard_
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -2338,6 +2407,7 @@ RSpec.describe Metanorma::Standoc do
              <title>Foreword</title>
              <p id='_'>
                <eref type="inline" bibitemid="iso124" citeas="[&lt;strong&gt;A&lt;/strong&gt;.]"/>
+               <eref type="inline" bibitemid="iso125" citeas="[&lt;strong&gt;A&lt;/strong&gt;.]"/>
              </p>
            </foreword>
          </preface>
@@ -2346,6 +2416,21 @@ RSpec.describe Metanorma::Standoc do
            <references id='_' normative='false' obligation='informative'>
              <title>Bibliography</title>
              <bibitem id='iso124'>
+               <formattedref format='application/x-isodoc+xml'>
+                 <em>Standard</em>
+               </formattedref>
+               <docidentifier type='metanorma'>
+                 [
+                 <strong>A</strong>
+                 .
+                 <fn reference='1'>
+                   <p id='_'>hello</p>
+                 </fn>
+                 ]
+               </docidentifier>
+               <docidentifier>XYZ</docidentifier>
+             </bibitem>
+             <bibitem id='iso125'>
                <formattedref format='application/x-isodoc+xml'>
                  <em>Standard</em>
                </formattedref>
@@ -2375,6 +2460,7 @@ RSpec.describe Metanorma::Standoc do
       .with("ISO 123", nil, { code: "ISO 123",
                               lang: "en",
                               match: anything,
+                              analyse_code: anything,
                               process: 1,
                               ord: anything,
                               title: "<em>Standard</em>",
@@ -2389,6 +2475,7 @@ RSpec.describe Metanorma::Standoc do
   def mock_isobib_get_123_no_docid_lbl(times)
     expect(RelatonIso::IsoBibliography).to receive(:get)
       .with("ISO 123", nil, { code: "ISO 123",
+                              analyse_code: anything,
                               lang: "en",
                               match: anything,
                               process: 1,
@@ -2405,7 +2492,7 @@ RSpec.describe Metanorma::Standoc do
   def mock_rfcbib_get_rfc8342(times)
     expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 8342", nil,
                                                               anything) do
-      RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
+      RelatonBib::XMLParser.from_xml(<<~OUTPUT)
               <bibitem id="RFC8342">
           <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>
           <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
@@ -2425,7 +2512,7 @@ RSpec.describe Metanorma::Standoc do
   def mock_rfcbib_get_rfc8343(times)
     expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 8343", nil,
                                                               anything) do
-      RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
+      RelatonBib::XMLParser.from_xml(<<~OUTPUT)
               <bibitem id="RFC8343">
           <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>
           <docidentifier type="DOI">10.17487/RFC8341</docidentifier>

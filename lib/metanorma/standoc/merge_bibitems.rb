@@ -35,12 +35,12 @@ module Metanorma
         end
 
         def merge1(old, new)
-          %i(link docid date title series).each do |k|
+          %i(link docid date title series biblionote).each do |k|
             merge_by_type(old, new, k, :type)
           end
           merge_extent(old, new)
           merge_contributor(old, new)
-          %i(place biblionote version edition).each do |k|
+          %i(place version edition).each do |k|
             merge_simple(old, new, k)
           end
           merge_relations(old, new)

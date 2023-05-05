@@ -14,25 +14,28 @@ module Metanorma
         end
       end
 
-      def isorefrender1(bib, match, year, allp = "")
+      def isorefrender1(bib, match, code, year, allp = "")
         bib.title(**plaintxt) { |i| i << ref_normalise(match[:text]) }
         docid(bib, match[:usrlbl]) if match[:usrlbl]
+        docid(bib, code[:usrlabel]) if code && code[:usrlabel]
         docid(bib, id_and_year(match[:code], year) + allp)
         docnumber(bib, match[:code])
       end
 
-      def isorefmatchescode(match)
+      def isorefmatchescode(match, _item)
+        code = analyse_ref_code(match[:code])
         yr = norm_year(match[:year])
         { code: match[:code], year: yr, match: match,
-          title: match[:text], usrlbl: match[:usrlbl],
-          lang: (@lang || :all) }
+          title: match[:text], usrlbl: match[:usrlbl] || code[:usrlabel],
+          analyse_code: code, lang: (@lang || :all) }
       end
 
       def isorefmatchesout(item, xml)
         if item[:doc] then use_retrieved_relaton(item, xml)
         else
           xml.bibitem **attr_code(ref_attributes(item[:ref][:match])) do |t|
-            isorefrender1(t, item[:ref][:match], item[:ref][:year])
+            isorefrender1(t, item[:ref][:match], item[:ref][:analyse_code],
+                          item[:ref][:year])
             item[:ref][:year] and t.date type: "published" do |d|
               set_date_range(d, item[:ref][:year])
             end
@@ -41,21 +44,24 @@ module Metanorma
         end
       end
 
-      def isorefmatches2code(match)
+      def isorefmatches2code(match, _item)
+        code = analyse_ref_code(match[:code])
         { code: match[:code], no_year: true, lang: (@lang || :all),
           note: match[:fn], year: nil, match: match,
-          title: match[:text], usrlbl: match[:usrlbl] }
+          analyse_code: code,
+          title: match[:text], usrlbl: match[:usrlbl] || code[:usrlabel] }
       end
 
       def isorefmatches2out(item, xml)
         if item[:doc] then use_retrieved_relaton(item, xml)
-        else isorefmatches2_1(xml, item[:ref][:match])
+        else isorefmatches2_1(xml, item[:ref][:match],
+                              item[:ref][:analyse_code])
         end
       end
 
-      def isorefmatches2_1(xml, match)
+      def isorefmatches2_1(xml, match, code)
         xml.bibitem **attr_code(ref_attributes(match)) do |t|
-          isorefrender1(t, match, "--")
+          isorefrender1(t, match, code, "--")
           t.date type: "published" do |d|
             d.on "--"
           end
@@ -68,13 +74,14 @@ module Metanorma
         end
       end
 
-      def isorefmatches3code(match)
+      def isorefmatches3code(match, _item)
+        code = analyse_ref_code(match[:code])
         yr = norm_year(match[:year])
         hasyr = !yr.nil? && yr != "--"
         { code: match[:code], match: match, yr: yr, hasyr: hasyr,
           year: hasyr ? yr : nil,
           all_parts: true, no_year: yr == "--",
-          text: match[:text], usrlbl: match[:usrlbl],
+          title: match[:text], usrlbl: match[:usrlbl] || code[:usrlabel],
           lang: (@lang || :all) }
       end
 
@@ -82,14 +89,15 @@ module Metanorma
         if item[:doc] then use_retrieved_relaton(item, xml)
         else
           isorefmatches3_1(xml, item[:ref][:match],
+                           item[:ref][:analyse_code],
                            item[:ref][:yr],
                            item[:ref][:hasyr], item[:doc])
         end
       end
 
-      def isorefmatches3_1(xml, match, year, _hasyr, _ref)
+      def isorefmatches3_1(xml, match, code, year, _hasyr, _ref)
         xml.bibitem(**attr_code(ref_attributes(match))) do |t|
-          isorefrender1(t, match, year, " (all parts)")
+          isorefrender1(t, match, code, year, " (all parts)")
           conditional_date(t, match, year == "--")
           iso_publisher(t, match[:code])
           if match.names.include?("fn") && match[:fn]
@@ -110,7 +118,9 @@ module Metanorma
         end
         # code[:id].sub!(/[:-](19|20)[0-9][0-9]$/, "")
         docid(bib, match[:usrlbl]) if match[:usrlbl]
-        docid(bib, /^\d+$/.match?(code[:id]) ? "[#{code[:id]}]" : code[:id])
+        docid(bib, code[:usrlabel]) if code[:usrlabel]
+        code[:id] and
+          docid(bib, /^\d+$/.match?(code[:id]) ? "[#{code[:id]}]" : code[:id])
         code[:type] == "repo" and
           bib.docidentifier code[:key], type: "repository"
       end
@@ -125,7 +135,7 @@ module Metanorma
           yr_match = refitem1yr(code[:id])
           refitem_render1(match, code, t)
           /^\d+$|^\(.+\)$/.match?(code[:id]) or
-            docnumber(t, code[:id].sub(/[:-](19|20)[0-9][0-9]$/, ""))
+            docnumber(t, code[:id]&.sub(/[:-](19|20)[0-9][0-9]$/, ""))
           conditional_date(t, yr_match || match, false)
         end
       end
@@ -146,7 +156,7 @@ module Metanorma
         { code: code[:id], analyse_code: code, localfile: code[:localfile],
           year: (m = refitem1yr(code[:id])) ? m[:year] : nil,
           title: match[:text], match: match, hidden: code[:hidden],
-          usrlbl: match[:usrlbl], lang: (@lang || :all) }
+          usrlbl: match[:usrlbl] || code[:usrlabel], lang: (@lang || :all) }
       end
 
       def refitem1yr(code)
@@ -201,13 +211,17 @@ module Metanorma
         matched, matched2, matched3 = reference1_matches(item)
         if matched3.nil? && matched2.nil? && matched.nil?
           refitemcode(item, node).merge(process: 0)
-        elsif !matched.nil? then isorefmatchescode(matched).merge(process: 1)
-        elsif !matched2.nil? then isorefmatches2code(matched2).merge(process: 2)
-        elsif !matched3.nil? then isorefmatches3code(matched3).merge(process: 3)
+        elsif !matched.nil? then isorefmatchescode(matched,
+                                                   item).merge(process: 1)
+        elsif !matched2.nil? then isorefmatches2code(matched2,
+                                                     item).merge(process: 2)
+        elsif !matched3.nil? then isorefmatches3code(matched3,
+                                                     item).merge(process: 3)
         end
       end
 
       def reference1out(item, xml)
+        item[:ref][:analyse_code] ||= analyse_ref_code(item[:ref][:code])
         case item[:ref][:process]
         when 0 then refitemout(item, xml)
         when 1 then isorefmatchesout(item, xml)
