@@ -6,10 +6,9 @@ module Metanorma
       end
 
       def nonterm_symbols_parse(attrs, xml, node)
-        defs = @definitions
-        @definitions = false
+        stash_symbols
         clause_parse(attrs, xml, node)
-        @definitions = defs
+        pop_symbols
       end
 
       def symbols_attrs(node, attr)
@@ -26,28 +25,45 @@ module Metanorma
         node.role == "nonterm" and return nonterm_symbols_parse(attr, xml, node)
         xml.definitions **attr_code(attr) do |xml_section|
           xml_section.title { |t| t << node.title }
-          defs = @definitions
-          termdefs = @term_def
+          stash_symbols
           @definitions = true
-          @term_def = false
+          stash_term_def
           xml_section << node.content
-          @definitions = defs
-          @term_def = termdefs
+          pop_symbols
+          pop_term_def
         end
       end
 
       def nonterm_term_def_subclause_parse(attrs, xml, node)
-        defs = @term_def
-        @term_def = false
+        stash_term_def
         clause_parse(attrs, xml, node)
-        @term_def = defs
+        pop_term_def
       end
 
       def terms_boilerplate_parse(attrs, xml, node)
-        defs = @term_def
-        @term_def = false
+        stash_term_def
         clause_parse(attrs.merge(type: "boilerplate"), xml, node)
-        @term_def = defs
+        pop_term_def
+      end
+
+      def stash_term_def
+        @stashed_term_def ||= []
+        @stashed_term_def.push(@term_def)
+        @term_def = false
+      end
+
+      def pop_term_def
+        @term_def = @stashed_term_def.pop
+      end
+
+      def stash_symbols
+        @stashed_definitions ||= []
+        @stashed_definitions.push(@definitions)
+        @definitions = false
+      end
+
+      def pop_symbols
+        @definitions = @stashed_definitions.pop
       end
 
       # subclause contains subclauses
@@ -106,14 +122,14 @@ module Metanorma
       end
 
       def add_term_source(node, xml_t, seen_xref, match)
-        if seen_xref.children[0].name == "concept"
-          xml_t.origin { |o| o << seen_xref.children[0].to_xml }
-        else
+        attrs = {}
+        body = seen_xref.children[0]
+        unless body.name == "concept"
           attrs = termsource_origin_attrs(node, seen_xref)
-          attrs.delete(:text)
-          xml_t.origin **attr_code(attrs) do |o|
-            o << seen_xref.children[0].children.to_xml
-          end
+          body = body.children
+        end
+        xml_t.origin **attr_code(attrs) do |o|
+          o << body.to_xml
         end
         add_term_source_mod(xml_t, match)
       end
@@ -136,15 +152,15 @@ module Metanorma
       def extract_termsource_refs(text, node)
         matched = TERM_REFERENCE_RE.match text
         matched.nil? and @log.add("AsciiDoc Input", node,
-                                  "term reference not in expected format:"\
+                                  "term reference not in expected format:" \
                                   "#{text}")
         matched
       end
 
       def termsource_attrs(node, matched)
-        status = node.attr("status") ||
+        status = node.attr("status")&.downcase ||
           (matched[:text] ? "modified" : "identical")
-        { status: status, type: node.attr("type") || "authoritative" }
+        { status: status, type: node.attr("type")&.downcase || "authoritative" }
       end
 
       def termsource(node)

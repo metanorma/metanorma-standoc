@@ -2139,6 +2139,7 @@
     <choice>
       <value>identical</value>
       <value>modified</value>
+      <value>adapted</value>
       <value>restyled</value>
       <value>context-added</value>
       <value>generalisation</value>
