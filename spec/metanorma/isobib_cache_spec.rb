@@ -328,7 +328,7 @@ RSpec.describe Metanorma::Standoc do
                  File.expand_path("~/.iev.pstore"), force: true
   end
 
-  xit "flushes biblio caches" do
+  it "flushes biblio caches" do
     relaton_bib_file  = File.expand_path("~/.relaton/cache")
     relaton_bib_file1 = File.expand_path("~/.relaton-bib.pstore1")
     iev_file          = File.expand_path("~/.iev/cache")
