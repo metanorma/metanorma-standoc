@@ -1449,7 +1449,7 @@ RSpec.describe Metanorma::Standoc do
         <mtext>unitsml(m*kg^-2)</mtext>
         <mo>+</mo>
         <mn>8</mn>
-        <mtext>unitsml(m*kg^-2)</mtext>
+        <mtext>unitsml(m*kg^-3)</mtext>
         </mrow>
       </math>
       ++++
@@ -1488,12 +1488,42 @@ RSpec.describe Metanorma::Standoc do
                      <EnumeratedRootUnit unit='gram' prefix='k' powerNumerator='-2'/>
                    </RootUnits>
                  </Unit>
-               </UnitSet>
+                 <Unit xml:id="U_m.kg-3" dimensionURL="#D_LM-3">
+                 <UnitSystem name="SI" type="SI_derived" xml:lang="en-US"/>
+                 <UnitName xml:lang="en">m*kg^-3</UnitName>
+                 <UnitSymbol type="HTML">m kg<sup>−3</sup></UnitSymbol>
+                 <UnitSymbol type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                     <mrow>
+                       <mi mathvariant="normal">m</mi>
+                       <mo rspace="thickmathspace">⁢</mo>
+                       <msup>
+                         <mrow>
+                           <mi mathvariant="normal">kg</mi>
+                         </mrow>
+                         <mrow>
+                           <mo>−</mo>
+                           <mn>3</mn>
+                         </mrow>
+                       </msup>
+                     </mrow>
+                   </math>
+                 </UnitSymbol>
+                 <RootUnits>
+                   <EnumeratedRootUnit unit="meter"/>
+                   <EnumeratedRootUnit unit="gram" prefix="k" powerNumerator="-3"/>
+                 </RootUnits>
+               </Unit>
+             </UnitSet>
                <DimensionSet>
                  <Dimension xml:id='D_LM-2'>
                    <Length symbol='L' powerNumerator='1'/>
                    <Mass symbol='M' powerNumerator='-2'/>
                  </Dimension>
+                 <Dimension xml:id="D_LM-3">
+                 <Length symbol="L" powerNumerator="1"/>
+                 <Mass symbol="M" powerNumerator="-3"/>
+               </Dimension>
                </DimensionSet>
                <PrefixSet>
                  <Prefix prefixBase='10' prefixPower='3' xml:id='NISTp10_3'>
@@ -1530,7 +1560,7 @@ RSpec.describe Metanorma::Standoc do
                    <mo>+</mo>
                    <mn>8</mn>
                    <mo rspace='thickmathspace'>&#8290;</mo>
-                   <mrow xref='U_m.kg-2'>
+                   <mrow xref='U_m.kg-3'>
                      <mi mathvariant='normal'>m</mi>
                      <mo rspace='thickmathspace'>&#8290;</mo>
                      <msup>
@@ -1539,7 +1569,7 @@ RSpec.describe Metanorma::Standoc do
                        </mrow>
                        <mrow>
                          <mo>&#8722;</mo>
-                         <mn>2</mn>
+                         <mn>3</mn>
                        </mrow>
                      </msup>
                    </mrow>

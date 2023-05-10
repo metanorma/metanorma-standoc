@@ -113,7 +113,7 @@ module Metanorma
       def gather_unitsml(unitsml, xmldoc, tag)
         tags = xmldoc.xpath(".//m:#{tag}", "m" => UNITSML_NS)
           .each_with_object({}) do |x, m|
-          m[x["id"]] = x.remove
+          m[x["xml:id"]] = x.remove
         end
         return if tags.empty?
 
