@@ -1320,44 +1320,47 @@ RSpec.describe Metanorma::Standoc do
                    <title>Normative references</title>
                   #{NORM_REF_BOILERPLATE}
                                <bibitem id="iso123" type="proceedings">
-                <fetched/>
-                <title format="text/plain" language="en" script="Latn">Signes abréviatifs pour les poids et mesures métriques</title>
-                <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/ci/cipm/4-1879/resolution-</uri>
-                <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-4.yml</uri>
-                <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-4.yml</uri>
-                <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM4.pdf/47e647d4-26c2-d3d6-b367-e749fb22b261</uri>
-                <docidentifier type="BIPM" primary="true">CIPM — Resolution (1879)</docidentifier>
-                <docidentifier type="BIPM" primary="true" language="en" script="Latn">CIPM — Resolution (1879)</docidentifier>
-                <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CIPM — Résolution (1879)</docidentifier>
-                <docnumber>CIPM — Resolution (1879)</docnumber>
-                <date type="published">
-                  <on>1879-10-13</on>
-                </date>
-                <contributor>
-                  <role type="publisher"/>
-                  <organization>
-                    <name>Bureau International des Poids et Mesures</name>
-                    <abbreviation>BIPM</abbreviation>
-                    <uri>www.bipm.org</uri>
-                  </organization>
-                </contributor>
-                <contributor>
-                  <role type="author"/>
-                  <organization>
-                    <name language="en" script="Latn">International Committee for Weights and Measures</name>
-                    <abbreviation>CIPM</abbreviation>
-                  </organization>
-                </contributor>
-                <language>en</language>
-                <language>fr</language>
-                <script>Latn</script>
-                <place>
-                  <city>Paris</city>
-                </place>
-              </bibitem>
-            </references>
-          </bibliography>
-        </standard-document>
+               <fetched/>
+               <title format="text/plain" language="en" script="Latn">Signes abréviatifs pour les poids et mesures métriques</title>
+               <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/ci/cipm/4-1879/resolution-</uri>
+               <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-4.yml</uri>
+               <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-4.yml</uri>
+               <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM4.pdf/47e647d4-26c2-d3d6-b367-e749fb22b261</uri>
+               <docidentifier type="BIPM" primary="true">CIPM RES (1879)</docidentifier>
+               <docidentifier type="BIPM" primary="true" language="en" script="Latn">CIPM RES (1879, E)</docidentifier>
+               <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CIPM RES (1879, F)</docidentifier>
+               <docidentifier type="BIPM-long" language="en" script="Latn">CIPM Resolution (1879)</docidentifier>
+               <docidentifier type="BIPM-long" language="fr" script="Latn">Résolution du CIPM (1879)</docidentifier>
+               <docidentifier type="BIPM-long">CIPM Resolution (1879) / Résolution du CIPM (1879)</docidentifier>
+               <docnumber>CIPM RES (1879)</docnumber>
+               <date type="published">
+                 <on>1879-10-13</on>
+               </date>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name language="en" script="Latn">International Bureau of Weights and Measures</name>
+                   <abbreviation>BIPM</abbreviation>
+                   <uri>www.bipm.org</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="author"/>
+                 <organization>
+                   <name language="en" script="Latn">International Committee for Weights and Measures</name>
+                   <abbreviation>CIPM</abbreviation>
+                 </organization>
+               </contributor>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <place>
+                 <city>Paris</city>
+               </place>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)

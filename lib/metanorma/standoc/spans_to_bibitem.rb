@@ -70,8 +70,9 @@ module Metanorma
           ret = ""
           spans[:edition] and ret += "<edition>#{spans[:edition]}</edition>"
           spans[:version] and ret += "<version>#{spans[:version]}</version>"
-          spans[:note] and ret += "<note type='#{spans[:note][:type]}'>" \
-                                  "#{spans[:note][:val]}</note>"
+          spans[:note] and
+            ret += "<note type='#{spans[:note][:type]}'>#{spans[:note][:val]}" \
+                   "</note>".sub(/<note type=''>/, "<note>")
           ret
         end
 
