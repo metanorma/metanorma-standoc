@@ -996,12 +996,12 @@ RSpec.describe Metanorma::Standoc do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
-      +<abc>X &gt;+ +++Y+++ pass:c[</abc>]
+      +<abc>X &gt;+ +++A<sub>b<sub>c</sub></sub>+++ pass:c[</abc>]
     INPUT
     output = <<~OUTPUT
        #{BLANK_HDR}
       <sections>
-      <p id='_'>&lt;abc&gt;X &gt; Y &lt;/abc&gt;</p>
+      <p id='_'>&lt;abc&gt;X &gt; A<sub>b<sub>c</sub></sub> &lt;/abc&gt;</p>
       </sections>
       </standard-document>
     OUTPUT
