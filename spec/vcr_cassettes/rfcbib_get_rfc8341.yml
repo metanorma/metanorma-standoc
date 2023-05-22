@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 3426:9EF7:3409699:35F73F9:64523835
+      - CD98:0EFA:333857E:3543504:646B9CD0
       Accept-Ranges:
       - bytes
       Date:
-      - Wed, 03 May 2023 10:32:21 GMT
+      - Mon, 22 May 2023 16:48:17 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-fra-eddf8230029-FRA
+      - cache-fra-eddf8230120-FRA
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1683109941.107832,VS0,VE186
+      - S1684774097.873382,VS0,VE174
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 1eb23a9c3e829ab13e245cf102b747fa568a169b
+      - b643210d901a4d834261ae24fd238a84ff649946
       Expires:
-      - Wed, 03 May 2023 10:37:21 GMT
+      - Mon, 22 May 2023 16:53:17 GMT
       Source-Age:
       - '0'
     body:
@@ -198,7 +198,7 @@ http_interactions:
         - name: netconf
         ext:
           schema-version: v1.0.0
-  recorded_at: Wed, 03 May 2023 10:32:21 GMT
+  recorded_at: Mon, 22 May 2023 16:48:16 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-rfcs/main/data/RFC8341.yaml
@@ -240,29 +240,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 3426:9EF7:3409699:35F73F9:64523835
+      - CD98:0EFA:333857E:3543504:646B9CD0
       Accept-Ranges:
       - bytes
       Date:
-      - Wed, 03 May 2023 10:32:21 GMT
+      - Mon, 22 May 2023 16:48:17 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-fra-eddf8230098-FRA
+      - cache-fra-eddf8230089-FRA
       X-Cache:
       - HIT
       X-Cache-Hits:
       - '1'
       X-Timer:
-      - S1683109941.118885,VS0,VE175
+      - S1684774097.878749,VS0,VE168
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 3a8e776bada375e9c5066e96863851d1f949866c
+      - c969ac44580b371dcaef65e7c48231cf06721f8f
       Expires:
-      - Wed, 03 May 2023 10:37:21 GMT
+      - Mon, 22 May 2023 16:53:17 GMT
       Source-Age:
       - '0'
     body:
@@ -397,5 +397,5 @@ http_interactions:
         - name: netconf
         ext:
           schema-version: v1.0.0
-  recorded_at: Wed, 03 May 2023 10:32:21 GMT
+  recorded_at: Mon, 22 May 2023 16:48:16 GMT
 recorded_with: VCR 6.1.0

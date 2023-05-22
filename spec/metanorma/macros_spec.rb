@@ -975,6 +975,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='src'>https://www.iso.org/standard/3944.html</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
                 <docidentifier type='ISO' primary='true'>ISO 131</docidentifier>
+                <docidentifier type="iso-reference">ISO 131(E)</docidentifier>
                 <docidentifier type="URN">urn:iso:std:iso:131:stage-95.99:ed-1</docidentifier>
                 <docnumber>131</docnumber>
                 <contributor>
@@ -1018,6 +1019,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='src'>https://www.iso.org/standard/3944.html</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
                     <docidentifier type='ISO' primary='true'>ISO 131:1979</docidentifier>
+                    <docidentifier type="iso-reference">ISO 131:1979(E)</docidentifier>
                     <docidentifier type="URN">urn:iso:std:iso:131:stage-95.99:ed-1</docidentifier>
                     <docnumber>131</docnumber>
                     <date type='published'>

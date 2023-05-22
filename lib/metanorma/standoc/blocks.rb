@@ -197,8 +197,9 @@ module Metanorma
                  type: node.attr("type"))))
       end
 
+      # term sources occasionally turning up as "source source"?
       def paragraph(node)
-        node.role == "source" and return termsource(node)
+        node.role&.sub(/ .*$/, "") == "source" and return termsource(node)
         noko do |xml|
           xml.p **para_attrs(node) do |xml_t|
             xml_t << node.content

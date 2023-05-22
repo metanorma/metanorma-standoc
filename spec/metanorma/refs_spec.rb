@@ -312,6 +312,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
+                <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
                 <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
@@ -353,6 +354,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
+                    <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
                     <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
@@ -409,6 +411,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
                 <docidentifier type='metanorma'>[1]</docidentifier>
+                <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
                 <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
@@ -450,6 +453,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
+                    <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
                     <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
@@ -546,6 +550,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
+                <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
                 <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
@@ -588,6 +593,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
+                    <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
                     <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
@@ -649,6 +655,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
                 <docidentifier type='metanorma'>[1]</docidentifier>
+                <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
                 <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
@@ -691,6 +698,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
+                    <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
                     <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
@@ -825,6 +833,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:21071:en</uri>
                <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
+               <docidentifier type="iso-reference">ISO/IEC 12382:1992(E)</docidentifier>
                <docidentifier type="URN">urn:iso:std:iso-iec:tr:12382:stage-90.93:ed-2</docidentifier>
                <docnumber>12382</docnumber>
                <date type="published">
@@ -873,6 +882,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
                <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
+               <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
                <docidentifier type="URN">urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
                <docnumber>124</docnumber>
                <date type="published">
@@ -919,6 +929,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
                <docidentifier type="metanorma">[1]</docidentifier>
+               <docidentifier type="iso-reference">ISO/IEC 12382:1992(E)</docidentifier>
                <docidentifier type="URN">urn:iso:std:iso-iec:tr:12382:stage-90.93:ed-2</docidentifier>
                <docnumber>12382</docnumber>
                <date type="published">
@@ -968,6 +979,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
                <docidentifier type="metanorma">[1]</docidentifier>
+               <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
                <docidentifier type="URN">urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
                <docnumber>124</docnumber>
                <date type="published">
@@ -1140,163 +1152,163 @@ RSpec.describe Metanorma::Standoc do
               <title>Section</title>
             </clause>
           </sections>
-          <bibliography>
-            <references id="_" normative="false" obligation="informative">
-              <title>Bibliography</title>
-              <bibitem id="ref1" type="inbook">
-                <fetched/>
-                <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
-                <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
-                <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
-                <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
-                <docidentifier type="ISBN">9783110170269</docidentifier>
-                <date type="issued">
-                  <on>2001-12-31</on>
-                </date>
-                <date type="published">
-                  <on>2001-12-31</on>
-                </date>
-                <contributor>
-                  <role type="author"/>
-                  <person>
-                    <name>
-                      <forename language="en" script="Latn">Monica</forename>
-                      <surname language="en" script="Latn">Heller</surname>
-                    </name>
-                  </person>
-                </contributor>
-                <contributor>
-                  <role type="editor"/>
-                  <person>
-                    <name>
-                      <forename language="en" script="Latn">Aneta</forename>
-                      <surname language="en" script="Latn">Pavlenko</surname>
-                    </name>
-                  </person>
-                </contributor>
-                <contributor>
-                  <role type="editor"/>
-                  <person>
-                    <name>
-                      <forename language="en" script="Latn">Adrian</forename>
-                      <surname language="en" script="Latn">Blackledge</surname>
-                    </name>
-                  </person>
-                </contributor>
-                <contributor>
-                  <role type="editor"/>
-                  <person>
-                    <name>
-                      <forename language="en" script="Latn">Ingrid</forename>
-                      <surname language="en" script="Latn">Piller</surname>
-                    </name>
-                  </person>
-                </contributor>
-                <contributor>
-                  <role type="editor"/>
-                  <person>
-                    <name>
-                      <forename language="en" script="Latn">Marya</forename>
-                      <surname language="en" script="Latn">Teutsch-Dwyer</surname>
-                    </name>
-                  </person>
-                </contributor>
-                <contributor>
-                  <role type="publisher"/>
-                  <organization>
-                    <name>DE GRUYTER MOUTON</name>
-                  </organization>
-                </contributor>
-                <relation type="includedIn">
-                  <bibitem>
-                    <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
-                  </bibitem>
-                </relation>
-                <extent>
-                  <localityStack>
-                    <locality type="page">
-                      <referenceFrom>257</referenceFrom>
-                      <referenceTo>282</referenceTo>
-                    </locality>
-                  </localityStack>
-                </extent>
-              </bibitem>
-              <bibitem id="ref2" type="book">
-                <fetched/>
-                <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
-                <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
-                <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
-                <docidentifier type="DOI">DOI-ANON</docidentifier>
-                <docidentifier type="ISBN">9783110170269</docidentifier>
-                <date type="issued">
-                  <on>1234</on>
-                </date>
-                <date type="published">
-                  <on>2001-12-31</on>
-                </date>
-                <contributor>
-                  <role type="author"/>
-                  <person>
-                    <name>
-                      <forename language="en" script="Latn">Monica</forename>
-                      <surname language="en" script="Latn">Heller</surname>
-                    </name>
-                  </person>
-                </contributor>
-                <contributor>
-                  <role type="editor"/>
-                  <person>
-                    <name>
-                      <forename>Boris</forename>
-                      <surname>Johnson</surname>
-                    </name>
-                  </person>
-                </contributor>
-                <contributor>
-                  <role type="publisher"/>
-                  <organization>
-                    <name>DE GRUYTER MOUTON</name>
-                  </organization>
-                </contributor>
-                <relation type="includedIn">
-                  <bibitem type="misc">
-                    <title format="text/plain">Nested Title</title>
-                    <contributor>
-                      <role type="editor"/>
-                      <person>
-                        <name>
-                          <forename>John</forename>
-                          <surname>Jones</surname>
-                        </name>
-                      </person>
-                    </contributor>
-                    <contributor>
-                      <role type="editor"/>
-                      <person>
-                        <name>
-                          <forename>Jim</forename>
-                          <surname>James</surname>
-                        </name>
-                      </person>
-                    </contributor>
-                  </bibitem>
-                </relation>
-                <place>Vienna</place>
-                <extent>
-                  <localityStack>
-                    <locality type="page">
-                      <referenceFrom>257</referenceFrom>
-                      <referenceTo>282</referenceTo>
-                    </locality>
-                    <locality type="volume">
-                      <referenceFrom>2</referenceFrom>
-                    </locality>
-                  </localityStack>
-                </extent>
-              </bibitem>
-            </references>
-          </bibliography>
-        </standard-document>
+                   <bibliography>
+           <references id="_" normative="false" obligation="informative">
+             <title>Bibliography</title>
+             <bibitem id="ref1" type="inbook">
+               <fetched/>
+               <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
+               <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
+               <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
+               <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
+               <docidentifier type="ISBN">9783110170269</docidentifier>
+               <date type="issued">
+                 <on>2001-12-31</on>
+               </date>
+               <date type="published">
+                 <on>2001-12-31</on>
+               </date>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename language="en" script="Latn">Monica</forename>
+                     <surname language="en" script="Latn">Heller</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>DE GRUYTER MOUTON</name>
+                 </organization>
+               </contributor>
+               <relation type="includedIn">
+                 <bibitem>
+                   <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename language="en" script="Latn">Aneta</forename>
+                         <surname language="en" script="Latn">Pavlenko</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename language="en" script="Latn">Adrian</forename>
+                         <surname language="en" script="Latn">Blackledge</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename language="en" script="Latn">Ingrid</forename>
+                         <surname language="en" script="Latn">Piller</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename language="en" script="Latn">Marya</forename>
+                         <surname language="en" script="Latn">Teutsch-Dwyer</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                 </bibitem>
+               </relation>
+               <extent>
+                 <localityStack>
+                   <locality type="page">
+                     <referenceFrom>257</referenceFrom>
+                     <referenceTo>282</referenceTo>
+                   </locality>
+                 </localityStack>
+               </extent>
+             </bibitem>
+             <bibitem id="ref2" type="book">
+               <fetched/>
+               <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
+               <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
+               <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
+               <docidentifier type="DOI">DOI-ANON</docidentifier>
+               <docidentifier type="ISBN">9783110170269</docidentifier>
+               <date type="issued">
+                 <on>1234</on>
+               </date>
+               <date type="published">
+                 <on>2001-12-31</on>
+               </date>
+               <contributor>
+                 <role type="author"/>
+                 <person>
+                   <name>
+                     <forename language="en" script="Latn">Monica</forename>
+                     <surname language="en" script="Latn">Heller</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>DE GRUYTER MOUTON</name>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="editor"/>
+                 <person>
+                   <name>
+                     <forename>Boris</forename>
+                     <surname>Johnson</surname>
+                   </name>
+                 </person>
+               </contributor>
+               <relation type="includedIn">
+                 <bibitem type="misc">
+                   <title format="text/plain">Nested Title</title>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename>John</forename>
+                         <surname>Jones</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                   <contributor>
+                     <role type="editor"/>
+                     <person>
+                       <name>
+                         <forename>Jim</forename>
+                         <surname>James</surname>
+                       </name>
+                     </person>
+                   </contributor>
+                 </bibitem>
+               </relation>
+               <place>Vienna</place>
+               <extent>
+                 <localityStack>
+                   <locality type="page">
+                     <referenceFrom>257</referenceFrom>
+                     <referenceTo>282</referenceTo>
+                   </locality>
+                   <locality type="volume">
+                     <referenceFrom>2</referenceFrom>
+                   </locality>
+                 </localityStack>
+               </extent>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)
@@ -1311,7 +1323,7 @@ RSpec.describe Metanorma::Standoc do
         [bibliography]
         == Normative References
 
-        * [[[iso123,BIPM CIPM -- Resolution (1879)]]] _Standard_
+        * [[[iso123,BIPM CIPM RES 1]]] _Standard_
       INPUT
       output = <<~OUTPUT
           #{BLANK_HDR}
@@ -1410,6 +1422,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
                <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                <docidentifier type='ISO' primary="true">ISO 124:2014</docidentifier>
+               <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
                <docidentifier type="URN">urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
                <docnumber>124</docnumber>
                <date type='published'>

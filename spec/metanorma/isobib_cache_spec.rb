@@ -50,6 +50,7 @@ ISO_124_DATED = <<~XML.freeze
          <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
          <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
          <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
+         <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
          <docidentifier type="URN">urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
          <docnumber>124</docnumber>
          <date type="published">
@@ -210,6 +211,7 @@ ISO_123_DATED = <<~XML.freeze
            <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
            <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
            <docidentifier type="ISO" primary="true">ISO 123:2001</docidentifier>
+           <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
            <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
            <docnumber>123</docnumber>
            <date type="published">
