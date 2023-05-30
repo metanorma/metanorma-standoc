@@ -122,7 +122,7 @@ module Metanorma
         err2 = "There is a crossreference to an instance of #{inner.name} " \
                "nested within #{outer.name}: #{i.to_xml}"
         @log.add("Style", i, err2)
-        @fatalerror << err2
+        # @fatalerror << err2
       end
 
       def concept_validate(doc, tag, refterm)

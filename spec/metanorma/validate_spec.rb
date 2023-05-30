@@ -376,7 +376,7 @@ RSpec.describe Metanorma::Standoc do
     end
     expect(File.read("test.err"))
       .not_to include "mismatch of callouts"
-    #expect(File.exist?("test.xml")).to be true
+    # expect(File.exist?("test.xml")).to be true
 
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"
@@ -400,9 +400,9 @@ RSpec.describe Metanorma::Standoc do
     end
     expect(File.read("test.err"))
       .not_to include "mismatch of callouts"
-    #expect(File.exist?("test.xml")).to be true
+    # expect(File.exist?("test.xml")).to be true
 
-        FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"
     begin
       input = <<~INPUT
@@ -473,7 +473,7 @@ RSpec.describe Metanorma::Standoc do
   it "Warning if terms mismatches IEV" do
     FileUtils.rm_f "test.err"
     VCR.use_cassette "iev_103-01-02", record: :new_episodes do
-      Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      Asciidoctor.convert(<<~INPUT, *OPTIONS)
         = Document title
         Author
         :docfile: test.adoc
@@ -493,7 +493,7 @@ RSpec.describe Metanorma::Standoc do
         .to include 'Term "automation" does not match IEV 103-01-02 "functional"'
 
       FileUtils.rm_f "test.err"
-      Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      Asciidoctor.convert(<<~INPUT, *OPTIONS)
         = Document title
         Author
         :docfile: test.adoc
@@ -512,7 +512,7 @@ RSpec.describe Metanorma::Standoc do
       expect(File.read("test.err")).not_to include "does not match IEV 103-01-02"
 
       FileUtils.rm_f "test.err"
-      Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      Asciidoctor.convert(<<~INPUT, *OPTIONS)
         = Document title
         Author
         :docfile: test.adoc
@@ -863,7 +863,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "Warning if no block for footnoteblock" do
     FileUtils.rm_f "test.err"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -877,7 +877,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "Warning if xref/@target does not point to a real identifier" do
     FileUtils.rm_f "test.err"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -891,7 +891,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "Warns if illegal nessting of assets within assets" do
     FileUtils.rm_f "test.err"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -917,35 +917,31 @@ RSpec.describe Metanorma::Standoc do
       .to include "There is an instance of table nested within note"
   end
 
-  it "Aborts if illegal nesting of assets within assets with crossreferencing" do
+  it "Warns if illegal nesting of assets within assets with crossreferencing" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :no-pdf:
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
 
-        <<id2>>
+      <<id2>>
 
-        [NOTE]
-        --
-        [[id2]]
-        |===
-        |a |b
+      [NOTE]
+      --
+      [[id2]]
+      |===
+      |a |b
 
-        |c |d
-        |===
+      |c |d
+      |===
 
-        * A
-        * B
-        * C
-        --
-      INPUT
-      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
-    rescue SystemExit
-    end
+      * A
+      * B
+      * C
+      --
+    INPUT
     expect(File.read("test.err"))
       .to include "There is a crossreference to an instance of table " \
                   "nested within note"
@@ -953,7 +949,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "Warning if metadata deflist not after a designation" do
     FileUtils.rm_f "test.err"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
