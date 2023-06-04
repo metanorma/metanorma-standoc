@@ -26,6 +26,7 @@ module Metanorma
         preprocessor Metanorma::Plugin::Datastruct::Json2TextPreprocessor
         preprocessor Metanorma::Plugin::Datastruct::Yaml2TextPreprocessor
         inline_macro Metanorma::Standoc::PreferredTermInlineMacro
+        inline_macro Metanorma::Standoc::DateInlineMacro
         inline_macro Metanorma::Standoc::SpanInlineMacro
         inline_macro Metanorma::Standoc::AltTermInlineMacro
         inline_macro Metanorma::Standoc::AdmittedTermInlineMacro

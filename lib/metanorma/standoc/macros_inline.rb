@@ -27,7 +27,7 @@ module Metanorma
 
       def process(_parent, target, attr)
         args = preprocess_attrs(attr) or return
-        ret = "<index-xref also='#{target == 'also'}'>"\
+        ret = "<index-xref also='#{target == 'also'}'>" \
               "<primary>#{args[:primary]}</primary>"
         ret += "<secondary>#{args[:secondary]}</secondary>" if args[:secondary]
         ret += "<tertiary>#{args[:tertiary]}</tertiary>" if args[:tertiary]
@@ -69,7 +69,7 @@ module Metanorma
           rpend = attributes["rpend"]
         end
 
-        "<ruby>#{target}<rp>#{rpbegin}</rp><rt>#{rt}</rt>"\
+        "<ruby>#{target}<rp>#{rpbegin}</rp><rt>#{rt}</rt>" \
           "<rp>#{rpend}</rp></ruby>"
       end
     end
@@ -98,6 +98,18 @@ module Metanorma
         else
           %{<variant lang='#{lang}'>#{out}</variant>}
         end
+      end
+    end
+
+    class DateInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :date
+      using_format :short
+
+      def process(_parent, _target, attrs)
+        format = "%F"
+        attrs.size >= 2 and format = attrs[2]
+        %{<date format='#{format}' value='#{attrs[1]}'/>}
       end
     end
 

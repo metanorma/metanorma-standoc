@@ -14,6 +14,8 @@ RSpec.describe Metanorma::Standoc do
       add:[a <<clause>>] del:[B]
       identifier:[a http://example.com]
       span:category[text]
+      date:[2012-03-04,%a-%b%s]
+      date:[2012-03-04]
 
       [bibliography]
       == Bibliography
@@ -40,6 +42,8 @@ RSpec.describe Metanorma::Standoc do
                     <del>B</del>
                     <identifier>a http://example.com</identifier>
                     <span class='category'>text</span>
+                    <date format="%a-%b%s" value="2012-03-04"/>
+                    <date format="%F" value="2012-03-04"/>
         </foreword>
       </preface>
       <sections> </sections>
