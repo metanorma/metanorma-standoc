@@ -1152,4 +1152,68 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "makes blocks unnumbered" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR.sub(/:nodoc:/, ":block-unnumbered: sourcecode , literal\n:nodoc:")}
+
+      == Clause 1
+
+      ....
+      A
+      ....
+
+      [source]
+      ----
+      A
+      ----
+
+      ====
+      A
+      ====
+
+      [source]
+      ----
+      B
+      ----
+
+      [appendix]
+      == Appendix
+
+      ....
+      A
+      ....
+
+      [source]
+      ----
+      A
+      ----
+    INPUT
+
+    output = <<~OUTPUT
+    #{BLANK_HDR}
+         <sections>
+           <clause id="_" inline-header="false" obligation="normative">
+             <title>Clause 1</title>
+             <figure id="_">
+               <pre id="_">A</pre>
+             </figure>
+             <sourcecode id="_" unnumbered="true">A</sourcecode>
+             <example id="_">
+               <p id="_">A</p>
+             </example>
+             <sourcecode id="_" unnumbered="true">B</sourcecode>
+           </clause>
+         </sections>
+         <annex id="_" inline-header="false" obligation="normative">
+           <title>Appendix</title>
+           <figure id="_">
+             <pre id="_">A</pre>
+           </figure>
+           <sourcecode id="_" unnumbered="true">A</sourcecode>
+         </annex>
+       </standard-document>
+       OUTPUT
+          expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
 end

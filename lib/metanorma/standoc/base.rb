@@ -73,6 +73,8 @@ module Metanorma
         @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
         @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
         @datauriimage = node.attr("data-uri-image") != "false"
+        @blockunnumbered = (node.attr("block-unnumbered") || "").split(",")
+          .map(&:strip)
       end
 
       def init_reqt(node)
