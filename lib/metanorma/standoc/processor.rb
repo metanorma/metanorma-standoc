@@ -5,7 +5,7 @@ module Metanorma
     class Processor < Metanorma::Processor
       class << self
         attr_reader :asciidoctor_backend
-            end
+      end
 
       def initialize # rubocop:disable Lint/MissingSuper
         @short = :standoc
@@ -22,7 +22,7 @@ module Metanorma
       end
 
       def version
-        "Metanorma::Standoc #{Metanorma::Standoc::VERSION}/"\
+        "Metanorma::Standoc #{Metanorma::Standoc::VERSION}/" \
           "IsoDoc #{IsoDoc::VERSION}"
       end
 

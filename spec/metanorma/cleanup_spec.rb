@@ -1051,7 +1051,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "imports boilerplate file" do
+  it "imports boilerplate file in XML" do
     input = <<~INPUT
       = Document title
       Author
@@ -1084,6 +1084,66 @@ RSpec.describe Metanorma::Standoc do
         <boilerplate>
           <text>10</text>
         </boilerplate>
+        <sections>
+          <clause id='_' inline-header='false' obligation='normative'>
+            <title>Clause 1</title>
+          </clause>
+        </sections>
+      </standard-document>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "imports boilerplate file in ADOC" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :docstage: 10
+      :boilerplate-authority: spec/assets/boilerplate.adoc
+
+      == Clause 1
+
+    INPUT
+    output = <<~OUTPUT
+          <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+        <bibdata type='standard'>
+          <title language='en' format='text/plain'>Document title</title>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+            <stage>10</stage>
+          </status>
+          <copyright>
+            <from>#{Date.today.year}</from>
+          </copyright>
+          <ext>
+            <doctype>standard</doctype>
+          </ext>
+        </bibdata>
+                 <boilerplate>
+           <copyright-statement>
+             <clause id="B" inline-header="false" obligation="normative">
+               <p id="_">A</p>
+             </clause>
+           </copyright-statement>
+           <license-statement>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title>clause 1</title>
+             </clause>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title>clause 2</title>
+               <p id="_">Liquid error: Unknown operator =</p>
+             </clause>
+           </license-statement>
+           <feedback-statement/>
+         </boilerplate>
         <sections>
           <clause id='_' inline-header='false' obligation='normative'>
             <title>Clause 1</title>

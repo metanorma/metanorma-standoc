@@ -1,0 +1,18 @@
+== copyright-statement
+{{ text }}
+
+[[B]]
+=== {blank}
+A
+
+== license-statement
+
+=== clause 1
+
+=== clause 2
+
+{% if 1 = 2 %}
+== legal-statement
+{% endif %}
+
+== feedback-statement

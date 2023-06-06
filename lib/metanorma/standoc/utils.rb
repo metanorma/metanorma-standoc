@@ -76,6 +76,15 @@ module Metanorma
           .gsub(/&apos;/, "'")
       end
 
+      # returns content in ADOC as Metanorma XML in Flavour,
+      # wrapped in <sections>
+      def adoc2xml(text, flavour)
+        Nokogiri::XML(text).root and return text
+        c = Asciidoctor.convert("= X\nA\n\n#{text}\n",
+                                backend: flavour, header_footer: true)
+        Nokogiri::XML(c).at("//xmlns:sections")
+      end
+
       class EmptyAttr
         def attr(_any_attribute)
           nil
