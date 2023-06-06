@@ -67,11 +67,10 @@ module Metanorma
       # examples containing only figures become subfigures of figures
       def subfigure_cleanup(xmldoc)
         xmldoc.xpath("//example[figure]").each do |e|
-          next unless e.elements.reject do |m|
+          e.elements.reject do |m|
             %w(name figure index note).include?(m.name) ||
               (m.name == "dl" && m["key"] == "true")
-          end.empty?
-
+          end.empty? or next
           e.name = "figure"
         end
       end
@@ -100,8 +99,7 @@ module Metanorma
       # (so there was no way of making that block include the note)
       def note_cleanup(xmldoc)
         xmldoc.xpath("//note").each do |n|
-          next if n["keep-separate"] == "true" || !n.ancestors("table").empty?
-
+          n["keep-separate"] == "true" || !n.ancestors("table").empty? and next
           prev = n.previous_element || next
           n.parent = prev if ELEMS_ALLOW_NOTES.include? prev.name
         end
@@ -129,7 +127,7 @@ module Metanorma
 
       def merge_annotations_into_sourcecode(xmldoc)
         xmldoc.xpath("//sourcecode").each do |x|
-          while x&.next_element&.name == "annotation"
+          while x.next_element&.name == "annotation"
             x.next_element.parent = x
           end
         end
@@ -143,9 +141,8 @@ module Metanorma
       def sourcecode_cleanup(xmldoc)
         xmldoc.xpath("//sourcecode").each do |x|
           x.traverse do |n|
-            next unless n.text?
-            next unless /#{Regexp.escape(@sourcecode_markup_start)}/
-              .match?(n.text)
+            n.text? or next
+            /#{Regexp.escape(@sourcecode_markup_start)}/.match?(n.text) or next
 
             n.replace(sourcecode_markup(n))
           end
@@ -164,8 +161,7 @@ module Metanorma
                           #{Regexp.escape(@sourcecode_markup_end)})/x)
           .each_slice(4).map.with_object([]) do |a, acc|
           acc << safe_noko(a[0], node.document)
-          next unless a.size == 4
-
+          a.size == 4 or next
           acc << Asciidoctor.convert(
             a[2], doctype: :inline, backend: (self&.backend&.to_sym || :standoc)
           )
@@ -174,7 +170,7 @@ module Metanorma
 
       def form_cleanup(xmldoc)
         xmldoc.xpath("//select").each do |s|
-          while s&.next_element&.name == "option"
+          while s.next_element&.name == "option"
             s << s.next_element
           end
         end
@@ -200,8 +196,7 @@ module Metanorma
       end
 
       def include_indexterm?(elem)
-        return false if elem.nil?
-
+        elem.nil? and return false
         !%w(image literal sourcecode).include?(elem.name)
       end
 
@@ -232,6 +227,14 @@ module Metanorma
         xmldoc.xpath("//figure//termsource | //table//termsource").each do |s|
           s.name = "source"
           s.delete("type")
+        end
+      end
+
+      def unnumbered_blocks_cleanup(xmldoc)
+        @blockunnumbered&.each do |b|
+          xmldoc.xpath("//#{b}").each do |e|
+            e["unnumbered"] ||= "true"
+          end
         end
       end
     end

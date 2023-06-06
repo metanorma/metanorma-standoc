@@ -78,7 +78,7 @@ def xmlpp(xml)
     .gsub(%r{ schema-version="[^"]+"}, "")
 end
 
-ASCIIDOC_BLANK_HDR = <<~"HDR".freeze
+ASCIIDOC_BLANK_HDR = <<~HDR.freeze
   = Document title
   Author
   :docfile: test.adoc
@@ -89,7 +89,7 @@ ASCIIDOC_BLANK_HDR = <<~"HDR".freeze
 
 HDR
 
-DUMBQUOTE_BLANK_HDR = <<~"HDR".freeze
+DUMBQUOTE_BLANK_HDR = <<~HDR.freeze
   = Document title
   Author
   :docfile: test.adoc
@@ -100,7 +100,7 @@ DUMBQUOTE_BLANK_HDR = <<~"HDR".freeze
 
 HDR
 
-ISOBIB_BLANK_HDR = <<~"HDR".freeze
+ISOBIB_BLANK_HDR = <<~HDR.freeze
   = Document title
   Author
   :docfile: test.adoc
@@ -110,7 +110,7 @@ ISOBIB_BLANK_HDR = <<~"HDR".freeze
 
 HDR
 
-FLUSH_CACHE_ISOBIB_BLANK_HDR = <<~"HDR".freeze
+FLUSH_CACHE_ISOBIB_BLANK_HDR = <<~HDR.freeze
   = Document title
   Author
   :docfile: test.adoc
@@ -120,7 +120,7 @@ FLUSH_CACHE_ISOBIB_BLANK_HDR = <<~"HDR".freeze
 
 HDR
 
-CACHED_ISOBIB_BLANK_HDR = <<~"HDR".freeze
+CACHED_ISOBIB_BLANK_HDR = <<~HDR.freeze
   = Document title
   Author
   :docfile: test.adoc
@@ -129,7 +129,7 @@ CACHED_ISOBIB_BLANK_HDR = <<~"HDR".freeze
 
 HDR
 
-LOCAL_CACHED_ISOBIB_BLANK_HDR = <<~"HDR".freeze
+LOCAL_CACHED_ISOBIB_BLANK_HDR = <<~HDR.freeze
   = Document title
   Author
   :docfile: test.adoc
@@ -139,7 +139,7 @@ LOCAL_CACHED_ISOBIB_BLANK_HDR = <<~"HDR".freeze
 
 HDR
 
-LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR = <<~"HDR".freeze
+LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR = <<~HDR.freeze
   = Document title
   Author
   :docfile: test.adoc
@@ -149,7 +149,7 @@ LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR = <<~"HDR".freeze
 
 HDR
 
-VALIDATING_BLANK_HDR = <<~"HDR".freeze
+VALIDATING_BLANK_HDR = <<~HDR.freeze
   = Document title
   Author
   :docfile: test.adoc
@@ -158,7 +158,7 @@ VALIDATING_BLANK_HDR = <<~"HDR".freeze
 
 HDR
 
-NORM_REF_BOILERPLATE = <<~"HDR".freeze
+NORM_REF_BOILERPLATE = <<~HDR.freeze
   <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
 HDR
 
