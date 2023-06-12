@@ -118,9 +118,11 @@ module Metanorma
       end
 
       def boilerplate(xml, conv)
+        # prevent infinite recursion of asciidoc boilerplate processing
+        xml.at("//metanorma-extension/semantic-metadata/" \
+               "headless[text() = 'true']") and return nil
         file = boilerplate_file(xml)
-        @boilerplateauthority and
-          file = File.join(@localdir, @boilerplateauthority)
+        @boilerplateauthority and file = File.join(@localdir, @boilerplateauthority)
         (!file.nil? and File.exist?(file)) or return
         b = conv.populate_template(File.read(file, encoding: "UTF-8"), nil)
         boilerplate_file_convert(b)

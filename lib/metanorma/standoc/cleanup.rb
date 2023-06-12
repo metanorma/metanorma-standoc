@@ -28,6 +28,7 @@ module Metanorma
         element_name_cleanup(xmldoc)
         passthrough_cleanup(xmldoc)
         unnumbered_blocks_cleanup(xmldoc)
+        metadata_cleanup(xmldoc) # feeds: boilerplate_cleanup
         sections_cleanup(xmldoc) # feeds: obligations_cleanup, toc_cleanup,
         # floatingtitle_cleanup
         obligations_cleanup(xmldoc)
@@ -70,9 +71,9 @@ module Metanorma
         docidentifier_cleanup(xmldoc) # feeds: bibdata_cleanup
         bibdata_cleanup(xmldoc)
         svgmap_cleanup(xmldoc) # feeds: img_cleanup
+        metadata_cleanup(xmldoc)
         boilerplate_cleanup(xmldoc)
         toc_cleanup(xmldoc)
-        metadata_cleanup(xmldoc)
         smartquotes_cleanup(xmldoc)
         variant_cleanup(xmldoc)
         para_cleanup(xmldoc)
