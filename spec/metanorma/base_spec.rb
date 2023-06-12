@@ -746,40 +746,40 @@ RSpec.describe Metanorma::Standoc do
                      </ext>
                    </bibdata>
                      <metanorma-extension>
-                         <presentation-metadata>
-        <name>TOC Heading Levels</name>
-        <value>2</value>
-      </presentation-metadata>
-      <presentation-metadata>
-        <name>HTML TOC Heading Levels</name>
-        <value>2</value>
-      </presentation-metadata>
-      <presentation-metadata>
-        <name>DOC TOC Heading Levels</name>
-        <value>2</value>
-      </presentation-metadata>
-          <semantic-metadata>
-            <hello-world>A</hello-world>
-          </semantic-metadata>
-          <semantic-metadata>
-            <hello-world>B</hello-world>
-          </semantic-metadata>
-          <semantic-metadata>
-            <hello-world>C, D</hello-world>
-          </semantic-metadata>
-          <semantic-metadata>
-            <hello>what-not</hello>
-          </semantic-metadata>
-          <presentation-metadata>
-            <hello>Hello?</hello>
-          </presentation-metadata>
-          <presentation-metadata>
-            <manifold>hello, world</manifold>
-          </presentation-metadata>
-          <presentation-metadata>
-            <manifold>yes</manifold>
-          </presentation-metadata>
-        </metanorma-extension>
+           <semantic-metadata>
+             <hello-world>A</hello-world>
+           </semantic-metadata>
+           <semantic-metadata>
+             <hello-world>B</hello-world>
+           </semantic-metadata>
+           <semantic-metadata>
+             <hello-world>C, D</hello-world>
+           </semantic-metadata>
+           <semantic-metadata>
+             <hello>what-not</hello>
+           </semantic-metadata>
+           <presentation-metadata>
+             <hello>Hello?</hello>
+           </presentation-metadata>
+           <presentation-metadata>
+             <manifold>hello, world</manifold>
+           </presentation-metadata>
+           <presentation-metadata>
+             <manifold>yes</manifold>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>HTML TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>DOC TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+         </metanorma-extension>
                      <preface>
                 <abstract id='_'>
                 <title>Abstract</title>

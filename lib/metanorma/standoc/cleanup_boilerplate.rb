@@ -122,7 +122,8 @@ module Metanorma
         xml.at("//metanorma-extension/semantic-metadata/" \
                "headless[text() = 'true']") and return nil
         file = boilerplate_file(xml)
-        @boilerplateauthority and file = File.join(@localdir, @boilerplateauthority)
+        @boilerplateauthority and file = File.join(@localdir,
+                                                   @boilerplateauthority)
         (!file.nil? and File.exist?(file)) or return
         b = conv.populate_template(File.read(file, encoding: "UTF-8"), nil)
         boilerplate_file_convert(b)
@@ -131,12 +132,12 @@ module Metanorma
       # If Asciidoctor, convert top clauses to tags and wrap in <boilerplate>
       def boilerplate_file_convert(file)
         Nokogiri::XML(file).root and return file
-        ret = adoc2xml(file, self.backend.to_sym)
-        to_xml(boilerplate_file_restructure(ret))
+        to_xml(boilerplate_file_restructure(file))
       end
 
       # If Asciidoctor, convert top clauses to tags and wrap in <boilerplate>
-      def boilerplate_file_restructure(ret)
+      def boilerplate_file_restructure(file)
+        ret = adoc2xml(file, backend.to_sym)
         ret.name = "boilerplate"
         ret.elements.each do |e|
           t = e.at("./xmlns:title")
