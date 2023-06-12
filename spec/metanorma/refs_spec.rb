@@ -1333,20 +1333,21 @@ RSpec.describe Metanorma::Standoc do
                   #{NORM_REF_BOILERPLATE}
                                <bibitem id="iso123" type="proceedings">
                <fetched/>
-               <title format="text/plain" language="en" script="Latn">Signes abréviatifs pour les poids et mesures métriques</title>
-               <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/ci/cipm/4-1879/resolution-</uri>
-               <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-4.yml</uri>
-               <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-4.yml</uri>
-               <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM4.pdf/47e647d4-26c2-d3d6-b367-e749fb22b261</uri>
-               <docidentifier type="BIPM" primary="true">CIPM RES (1879)</docidentifier>
-               <docidentifier type="BIPM" primary="true" language="en" script="Latn">CIPM RES (1879, E)</docidentifier>
-               <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CIPM RES (1879, F)</docidentifier>
-               <docidentifier type="BIPM-long" language="en" script="Latn">CIPM Resolution (1879)</docidentifier>
-               <docidentifier type="BIPM-long" language="fr" script="Latn">Résolution du CIPM (1879)</docidentifier>
-               <docidentifier type="BIPM-long">CIPM Resolution (1879) / Résolution du CIPM (1879)</docidentifier>
-               <docnumber>CIPM RES (1879)</docnumber>
+                              <title format="text/plain" language="en" script="Latn">Adoption of “degree Celsius”</title>
+               <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/ci/cipm/42-1948/resolution-</uri>
+               <uri type="citation" language="fr" script="Latn">https://www.bipm.org/fr/committees/ci/cipm/42-1948/resolution-</uri>
+               <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-42.yml</uri>
+               <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-42.yml</uri>
+               <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM42.pdf/7f36bfaa-e84b-a7fa-650a-edf6c3de1b46</uri>
+               <docidentifier type="BIPM" primary="true">CIPM RES (1948)</docidentifier>
+               <docidentifier type="BIPM" primary="true" language="en" script="Latn">CIPM RES (1948, E)</docidentifier>
+               <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CIPM RES (1948, F)</docidentifier>
+               <docidentifier type="BIPM-long" language="en" script="Latn">CIPM Resolution (1948)</docidentifier>
+               <docidentifier type="BIPM-long" language="fr" script="Latn">Résolution du CIPM (1948)</docidentifier>
+               <docidentifier type="BIPM-long">CIPM Resolution (1948) / Résolution du CIPM (1948)</docidentifier>
+               <docnumber>CIPM RES (1948)</docnumber>
                <date type="published">
-                 <on>1879-10-13</on>
+                 <on>1948-10-22</on>
                </date>
                <contributor>
                  <role type="publisher"/>
