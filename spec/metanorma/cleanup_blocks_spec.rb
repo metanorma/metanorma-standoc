@@ -189,32 +189,32 @@ RSpec.describe Metanorma::Standoc do
       Indeed.
     INPUT
     output = <<~OUTPUT
-             #{BLANK_HDR}
-                      <sections>
-           <formula id="_">
-             <stem type="MathML">
-               <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mstyle displaystyle="true">
-                   <mi>r</mi>
-                   <mo>=</mo>
-                   <mn>1</mn>
-                   <mi>%</mi>
-                   <mi>r</mi>
-                   <mo>=</mo>
-                   <mn>1</mn>
-                   <mi>%</mi>
-                 </mstyle>
-               </math>
-               <asciimath>r = 1 %
-       r = 1 %</asciimath>
-             </stem>
-             <note id="_">
-               <p id="_">That formula does not do much</p>
-             </note>
-           </formula>
-           <p id="_">Indeed.</p>
-         </sections>
-       </standard-document>
+            #{BLANK_HDR}
+                     <sections>
+          <formula id="_">
+            <stem type="MathML">
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <mstyle displaystyle="true">
+                  <mi>r</mi>
+                  <mo>=</mo>
+                  <mn>1</mn>
+                  <mi>%</mi>
+                  <mi>r</mi>
+                  <mo>=</mo>
+                  <mn>1</mn>
+                  <mi>%</mi>
+                </mstyle>
+              </math>
+              <asciimath>r = 1 %
+      r = 1 %</asciimath>
+            </stem>
+            <note id="_">
+              <p id="_">That formula does not do much</p>
+            </note>
+          </formula>
+          <p id="_">Indeed.</p>
+        </sections>
+      </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -238,32 +238,32 @@ RSpec.describe Metanorma::Standoc do
       Indeed.
     INPUT
     output = <<~OUTPUT
-             #{BLANK_HDR}
-                      <sections>
-           <formula id="_">
-             <stem type="MathML">
-               <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mstyle displaystyle="true">
-                   <mi>r</mi>
-                   <mo>=</mo>
-                   <mn>1</mn>
-                   <mi>%</mi>
-                   <mi>r</mi>
-                   <mo>=</mo>
-                   <mn>1</mn>
-                   <mi>%</mi>
-                 </mstyle>
-               </math>
-               <asciimath>r = 1 %
-       r = 1 %</asciimath>
-             </stem>
-           </formula>
-           <note id="_">
-             <p id="_">That formula does not do much</p>
-           </note>
-           <p id="_">Indeed.</p>
-         </sections>
-       </standard-document>
+            #{BLANK_HDR}
+                     <sections>
+          <formula id="_">
+            <stem type="MathML">
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <mstyle displaystyle="true">
+                  <mi>r</mi>
+                  <mo>=</mo>
+                  <mn>1</mn>
+                  <mi>%</mi>
+                  <mi>r</mi>
+                  <mo>=</mo>
+                  <mn>1</mn>
+                  <mi>%</mi>
+                </mstyle>
+              </math>
+              <asciimath>r = 1 %
+      r = 1 %</asciimath>
+            </stem>
+          </formula>
+          <note id="_">
+            <p id="_">That formula does not do much</p>
+          </note>
+          <p id="_">Indeed.</p>
+        </sections>
+      </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -1104,44 +1104,44 @@ RSpec.describe Metanorma::Standoc do
     INPUT
 
     output = <<~OUTPUT
-       #{BLANK_HDR}
-               <sections>
-           <clause id='_' inline-header='false' obligation='normative'>
-             <title>Clause 1</title>
-             <p id='_'>
-               Paragraph
-               <index>
-                 <primary>index</primary>
-               </index>
-             <note id='_'>
-               <p id='_'>
-                 <index>
-                   <primary>index</primary>
-                 </index>
-                 Note
-               </p>
-             </note>
-             <note id='_'>
-               <p id='_'>
-                 <index>
-                   <primary>index</primary>
-                 </index>
-               </p>
-             </note>
-             </p>
-           </clause>
-           <clause id='_' inline-header='false' obligation='normative'>
-              <title>Clause 2</title>
-              <p id='_'>Paragraph</p>
+      #{BLANK_HDR}
+              <sections>
+          <clause id='_' inline-header='false' obligation='normative'>
+            <title>Clause 1</title>
+            <p id='_'>
+              Paragraph
+              <index>
+                <primary>index</primary>
+              </index>
+            <note id='_'>
               <p id='_'>
-                index
+                <index>
+                  <primary>index</primary>
+                </index>
+                Note
+              </p>
+            </note>
+            <note id='_'>
+              <p id='_'>
                 <index>
                   <primary>index</primary>
                 </index>
               </p>
-            </clause>
-         </sections>
-       </standard-document>
+            </note>
+            </p>
+          </clause>
+          <clause id='_' inline-header='false' obligation='normative'>
+             <title>Clause 2</title>
+             <p id='_'>Paragraph</p>
+             <p id='_'>
+               index
+               <index>
+                 <primary>index</primary>
+               </index>
+             </p>
+           </clause>
+        </sections>
+      </standard-document>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.xpath("//*[local-name() = 'image']").each do |x|
@@ -1190,30 +1190,57 @@ RSpec.describe Metanorma::Standoc do
     INPUT
 
     output = <<~OUTPUT
-    #{BLANK_HDR}
-         <sections>
-           <clause id="_" inline-header="false" obligation="normative">
-             <title>Clause 1</title>
+      #{BLANK_HDR}
+           <sections>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title>Clause 1</title>
+               <figure id="_">
+                 <pre id="_">A</pre>
+               </figure>
+               <sourcecode id="_" unnumbered="true">A</sourcecode>
+               <example id="_">
+                 <p id="_">A</p>
+               </example>
+               <sourcecode id="_" unnumbered="true">B</sourcecode>
+             </clause>
+           </sections>
+           <annex id="_" inline-header="false" obligation="normative">
+             <title>Appendix</title>
              <figure id="_">
                <pre id="_">A</pre>
              </figure>
              <sourcecode id="_" unnumbered="true">A</sourcecode>
-             <example id="_">
-               <p id="_">A</p>
-             </example>
-             <sourcecode id="_" unnumbered="true">B</sourcecode>
-           </clause>
+           </annex>
+         </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "removes empty paragraphs" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      * {blank}
+      a::: b
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <ul id="_">
+             <li>
+               <dl id="_">
+                 <dt>a</dt>
+                 <dd>
+                   <p id="_">b</p>
+                 </dd>
+               </dl>
+             </li>
+           </ul>
          </sections>
-         <annex id="_" inline-header="false" obligation="normative">
-           <title>Appendix</title>
-           <figure id="_">
-             <pre id="_">A</pre>
-           </figure>
-           <sourcecode id="_" unnumbered="true">A</sourcecode>
-         </annex>
        </standard-document>
-       OUTPUT
-          expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 end
