@@ -1143,6 +1143,12 @@ RSpec.describe Metanorma::Standoc do
              </clause>
            </license-statement>
            <feedback-statement/>
+               <clause>
+            <title>Random Title</title>
+            <clause id="_" inline-header="false" obligation="normative">
+              <title>feedback-statement</title>
+            </clause>
+          </clause>
          </boilerplate>
         <sections>
           <clause id='_' inline-header='false' obligation='normative'>

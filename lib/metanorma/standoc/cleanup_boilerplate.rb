@@ -140,8 +140,8 @@ module Metanorma
         ret = adoc2xml(file, backend.to_sym)
         ret.name = "boilerplate"
         ret.elements.each do |e|
-          t = e.at("./xmlns:title")
-          e.name = t&.remove&.text
+          t = e.at("./xmlns:title") and
+            /-statement$/.match?(t.text) and e.name = t.remove.text
           e.keys.each { |a| e.delete(a) } # rubocop:disable Style/HashEachMethods
         end
         ret
