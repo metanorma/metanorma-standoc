@@ -138,13 +138,21 @@ module Metanorma
       # If Asciidoctor, convert top clauses to tags and wrap in <boilerplate>
       def boilerplate_file_restructure(file)
         ret = adoc2xml(file, backend.to_sym)
+        ns = ret.namespace.href
+        ret.traverse do |n|
+          n.element? and n.namespace.href == ns and n.namespace = nil
+        end
         ret.name = "boilerplate"
-        ret.elements.each do |e|
-          t = e.at("./xmlns:title") and
+        boilerplate_top_elements(ret)
+        ret
+      end
+
+      def boilerplate_top_elements(xml)
+        xml.elements.each do |e|
+          t = e.at("./title") and
             /-statement$/.match?(t.text) and e.name = t.remove.text
           e.keys.each { |a| e.delete(a) } # rubocop:disable Style/HashEachMethods
         end
-        ret
       end
     end
   end
