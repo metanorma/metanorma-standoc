@@ -149,8 +149,8 @@ module Metanorma
 
       def boilerplate_top_elements(xml)
         xml.elements.each do |e|
-          t = e.at("./title") and
-            /-statement$/.match?(t.text) and e.name = t.remove.text
+          (t = e.at("./title") and /-statement$/.match?(t.text)) or next
+          e.name = t.remove.text
           e.keys.each { |a| e.delete(a) } # rubocop:disable Style/HashEachMethods
         end
       end
