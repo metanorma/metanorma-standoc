@@ -11,11 +11,12 @@ A
 
 === clause 2
 
-{% if 1 = 2 %}
+{% if 1 == 2 %}
 == legal-statement
 {% endif %}
 
 == feedback-statement
+{{ pub_address}}
 
 == Random Title
 

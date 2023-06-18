@@ -1,4 +1,5 @@
 <boilerplate>
   <text>{{ stage }}</text>
+  <text>{{ pub_address }}</text>
 </boilerplate>
 

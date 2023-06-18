@@ -125,8 +125,15 @@ module Metanorma
         @boilerplateauthority and file = File.join(@localdir,
                                                    @boilerplateauthority)
         (!file.nil? and File.exist?(file)) or return
-        b = conv.populate_template(File.read(file, encoding: "UTF-8"), nil)
+        b = conv.populate_template(boilerplate_read(file), nil)
         boilerplate_file_convert(b)
+      end
+
+      def boilerplate_read(file)
+        ret = File.read(file, encoding: "UTF-8")
+        /\.adoc$/.match?(file) and
+          ret.gsub!(/(?<!\{)(\{\{[^{}]+\}\})(?!\})/, "pass:[\\1]")
+        ret
       end
 
       # If Asciidoctor, convert top clauses to tags and wrap in <boilerplate>
