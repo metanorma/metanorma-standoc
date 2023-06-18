@@ -38,7 +38,7 @@ module Metanorma
 
       def todo_attrs(node)
         date = node.attr("date") || Date.today.iso8601.gsub(/\+.*$/, "")
-        date += "T00:00:00Z" unless /T/.match? date
+        date += "T00:00:00Z" unless date.include?("T")
         attr_code(id_attr(node)
           .merge(reviewer: node.attr("reviewer") || node.attr("source") ||
                  "(Unknown)",

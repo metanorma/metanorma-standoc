@@ -12,6 +12,7 @@ module Metanorma
          "ancestor::table or ancestor::bibdata)]"].each do |w|
           inject_id(xmldoc, w)
         end
+        xmldoc.xpath("//p[not(text()) and not(node())]").each(&:remove)
       end
 
       def inject_id(xmldoc, path)
@@ -143,7 +144,6 @@ module Metanorma
           x.traverse do |n|
             n.text? or next
             /#{Regexp.escape(@sourcecode_markup_start)}/.match?(n.text) or next
-
             n.replace(sourcecode_markup(n))
           end
         end

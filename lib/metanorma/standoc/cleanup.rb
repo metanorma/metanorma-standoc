@@ -7,6 +7,7 @@ require_relative "./cleanup_footnotes"
 require_relative "./cleanup_ref"
 require_relative "./cleanup_asciibib"
 require_relative "./cleanup_boilerplate"
+require_relative "./cleanup_bibdata"
 require_relative "./cleanup_section"
 require_relative "./cleanup_terms"
 require_relative "./cleanup_symbols"
@@ -27,6 +28,7 @@ module Metanorma
         element_name_cleanup(xmldoc)
         passthrough_cleanup(xmldoc)
         unnumbered_blocks_cleanup(xmldoc)
+        metadata_cleanup(xmldoc) # feeds: boilerplate_cleanup
         sections_cleanup(xmldoc) # feeds: obligations_cleanup, toc_cleanup,
         # floatingtitle_cleanup
         obligations_cleanup(xmldoc)
@@ -71,7 +73,6 @@ module Metanorma
         svgmap_cleanup(xmldoc) # feeds: img_cleanup
         boilerplate_cleanup(xmldoc)
         toc_cleanup(xmldoc)
-        metadata_cleanup(xmldoc)
         smartquotes_cleanup(xmldoc)
         variant_cleanup(xmldoc)
         para_cleanup(xmldoc)

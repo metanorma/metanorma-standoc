@@ -35,7 +35,7 @@ module Metanorma
 
         xml_table.colgroup do |cg|
           node.columns.each do |col|
-            cg.col **{ width: "#{col.attr 'colpcwidth'}%" }
+            cg.col width: "#{col.attr 'colpcwidth'}%"
           end
         end
       end

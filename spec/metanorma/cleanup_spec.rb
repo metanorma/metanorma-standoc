@@ -1051,7 +1051,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "imports boilerplate file" do
+  it "imports boilerplate file in XML" do
     input = <<~INPUT
       = Document title
       Author
@@ -1061,6 +1061,9 @@ RSpec.describe Metanorma::Standoc do
       :no-isobib:
       :docstage: 10
       :boilerplate-authority: spec/assets/boilerplate.xml
+      :publisher: Fred
+      :pub-address: 10 Jack St + \\
+      Antarctica
 
       == Clause 1
 
@@ -1069,6 +1072,21 @@ RSpec.describe Metanorma::Standoc do
           <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
         <bibdata type='standard'>
           <title language='en' format='text/plain'>Document title</title>
+                     <contributor>
+             <role type="author"/>
+             <organization>
+               <name>Fred</name>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="publisher"/>
+             <organization>
+               <name>Fred</name>
+               <address>
+                 <formattedAddress>10 Jack St<br/>Antarctica</formattedAddress>
+               </address>
+             </organization>
+           </contributor>
           <language>en</language>
           <script>Latn</script>
           <status>
@@ -1076,6 +1094,14 @@ RSpec.describe Metanorma::Standoc do
           </status>
           <copyright>
             <from>#{Date.today.year}</from>
+                  <owner>
+        <organization>
+          <name>Fred</name>
+          <address>
+            <formattedAddress>10 Jack St<br/>Antarctica</formattedAddress>
+          </address>
+        </organization>
+      </owner>
           </copyright>
           <ext>
             <doctype>standard</doctype>
@@ -1083,6 +1109,7 @@ RSpec.describe Metanorma::Standoc do
         </bibdata>
         <boilerplate>
           <text>10</text>
+          <text>10 Jack St<br/>Antarctica</text>
         </boilerplate>
         <sections>
           <clause id='_' inline-header='false' obligation='normative'>
@@ -1093,6 +1120,63 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "imports boilerplate file in ADOC" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :docstage: 10
+      :boilerplate-authority: spec/assets/boilerplate.adoc
+      :publisher: Fred
+      :pub-address: 10 Jack St + \\
+      Antarctica
+
+      == Clause 1
+
+    INPUT
+    output = <<~OUTPUT
+      <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+                   <boilerplate>
+           <copyright-statement>
+             <clause id="B" inline-header="false" obligation="normative">
+               <p id="_">A</p>
+             </clause>
+           </copyright-statement>
+           <license-statement>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title>clause 1</title>
+             </clause>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title>clause 2</title>
+             </clause>
+           </license-statement>
+           <feedback-statement>
+             <p id="_">10 Jack St<br/>Antarctica</p>
+           </feedback-statement>
+           <clause id="_" inline-header="false" obligation="normative">
+             <title>Random Title</title>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title>feedback-statement</title>
+             </clause>
+           </clause>
+         </boilerplate>
+         <sections>
+           <clause id="_" inline-header="false" obligation="normative">
+             <title>Clause 1</title>
+           </clause>
+         </sections>
+       </standard-document>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    xml.at("//xmlns:bibdata")&.remove
     expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
