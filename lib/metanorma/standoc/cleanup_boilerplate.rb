@@ -145,13 +145,24 @@ module Metanorma
       # If Asciidoctor, convert top clauses to tags and wrap in <boilerplate>
       def boilerplate_file_restructure(file)
         ret = adoc2xml(file, backend.to_sym)
-        ns = ret.namespace.href
-        ret.traverse do |n|
-          n.element? and n.namespace.href == ns and n.namespace = nil
-        end
+        boilerplate_xml_cleanup(ret)
         ret.name = "boilerplate"
         boilerplate_top_elements(ret)
         ret
+      end
+
+      # remove Metanorma namespace, so generated doc containing boilerplate 
+      # can be queried consistently
+      # _\d+ anchor is assigned to titleless clauses, will clash with main doc
+      # instances of same
+      def boilerplate_xml_cleanup(xml)
+        ns = xml.namespace.href
+        xml.traverse do |n|
+          n.element? or next
+          n.namespace.href == ns and n.namespace = nil
+          /^_\d+$/.match?(n["id"]) and
+            n["id"] = "_#{UUIDTools::UUID.random_create}"
+        end
       end
 
       def boilerplate_top_elements(xml)
