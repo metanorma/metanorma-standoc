@@ -22,9 +22,9 @@ module Metanorma
       Asciidoctor::Extensions.register do
         preprocessor Metanorma::Standoc::Datamodel::AttributesTablePreprocessor
         preprocessor Metanorma::Standoc::Datamodel::DiagramPreprocessor
-        preprocessor Metanorma::Plugin::Glossarist::DatasetPreprocessor
         preprocessor Metanorma::Plugin::Datastruct::Json2TextPreprocessor
         preprocessor Metanorma::Plugin::Datastruct::Yaml2TextPreprocessor
+        preprocessor Metanorma::Plugin::Glossarist::DatasetPreprocessor
         inline_macro Metanorma::Standoc::PreferredTermInlineMacro
         inline_macro Metanorma::Standoc::DateInlineMacro
         inline_macro Metanorma::Standoc::SpanInlineMacro
