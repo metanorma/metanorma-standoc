@@ -162,7 +162,7 @@ RSpec.describe Metanorma::Standoc do
                 #{NORM_REF_BOILERPLATE}
         <bibitem type="standard" id="iso123">
           <uri type="src">https://www.iso.org/standard/23281.html</uri>
-          <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+          <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
           <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
           <date type="published">
             <on>2001</on>
@@ -206,7 +206,7 @@ RSpec.describe Metanorma::Standoc do
         </bibitem>
         <bibitem type="standard" id="iso124">
           <uri type="src">https://www.iso.org/standard/23281.html</uri>
-          <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+          <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
           <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
           <date type="published">
             <on>2001</on>
@@ -309,7 +309,7 @@ RSpec.describe Metanorma::Standoc do
                 <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
                 <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
                 <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+                <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
                 <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
@@ -351,7 +351,7 @@ RSpec.describe Metanorma::Standoc do
                     <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
                     <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
                     <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                    <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+                    <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
                     <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
@@ -407,7 +407,7 @@ RSpec.describe Metanorma::Standoc do
                 <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
                 <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
                 <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+                <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
                 <docidentifier type='metanorma'>[1]</docidentifier>
@@ -450,7 +450,7 @@ RSpec.describe Metanorma::Standoc do
                     <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
                     <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
                     <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                    <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+                    <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
                     <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
@@ -547,7 +547,7 @@ RSpec.describe Metanorma::Standoc do
                 <title type='title-main' format='text/plain' language='fr' script='Latn'>&#201;chantillonnage</title>
                 <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc&#8201;&#8212;&#8201;&#201;chantillonnage</title>
                 <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+                <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
                 <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
@@ -590,7 +590,7 @@ RSpec.describe Metanorma::Standoc do
                     <title type='title-main' format='text/plain' language='fr' script='Latn'>&#201;chantillonnage</title>
                     <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc&#8201;&#8212;&#8201;&#201;chantillonnage</title>
                     <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                    <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+                    <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
                     <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
@@ -651,7 +651,7 @@ RSpec.describe Metanorma::Standoc do
                 <title type='title-main' format='text/plain' language='fr' script='Latn'>&#201;chantillonnage</title>
                 <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc&#8201;&#8212;&#8201;&#201;chantillonnage</title>
                 <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+                <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
                 <docidentifier type='metanorma'>[1]</docidentifier>
@@ -695,7 +695,7 @@ RSpec.describe Metanorma::Standoc do
                     <title type='title-main' format='text/plain' language='fr' script='Latn'>&#201;chantillonnage</title>
                     <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc&#8201;&#8212;&#8201;&#201;chantillonnage</title>
                     <uri type='src'>https://www.iso.org/standard/23281.html</uri>
-                    <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+                    <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
                     <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
@@ -830,7 +830,7 @@ RSpec.describe Metanorma::Standoc do
                <title type="title-main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
                <title type="main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
                <uri type="src">https://www.iso.org/standard/21071.html</uri>
-               <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:21071:en</uri>
+               <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:21071:en</uri>
                <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
                <docidentifier type="iso-reference">ISO/IEC 12382:1992(E)</docidentifier>
@@ -879,7 +879,7 @@ RSpec.describe Metanorma::Standoc do
                <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
                <title type="main" format="text/plain" language="en" script="Latn">Latex, rubber — Determination of total solids content</title>
                <uri type="src">https://www.iso.org/standard/61884.html</uri>
-               <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
+               <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:61884:en</uri>
                <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
                <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
@@ -925,7 +925,7 @@ RSpec.describe Metanorma::Standoc do
                <title type="title-main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
                <title type="main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
                <uri type="src">https://www.iso.org/standard/21071.html</uri>
-               <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:21071:en</uri>
+               <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:21071:en</uri>
                <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
                <docidentifier type="metanorma">[1]</docidentifier>
@@ -975,7 +975,7 @@ RSpec.describe Metanorma::Standoc do
                <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
                <title type="main" format="text/plain" language="en" script="Latn">Latex, rubber — Determination of total solids content</title>
                <uri type="src">https://www.iso.org/standard/61884.html</uri>
-               <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
+               <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:61884:en</uri>
                <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
                <docidentifier type="metanorma">[1]</docidentifier>
@@ -1146,169 +1146,169 @@ RSpec.describe Metanorma::Standoc do
         * [[[ref2,doi:10.1515/9783110889406.257]]] span:surname.editor[Johnson] span:givenname.editor[Boris] span:pubplace[Vienna] span:volume[2] span:in_title[Nested Title] span:in_surname.editor[Jones] span:in_givenname.editor[John] span:in_surname.editor[James] span:in_givenname.editor[Jim] span:date.issued[1234] span:type[book] span:docid.DOI[DOI-ANON]
       INPUT
       output = <<~OUTPUT
-         #{BLANK_HDR}
-          <sections>
-            <clause id="_" inline-header="false" obligation="normative">
-              <title>Section</title>
-            </clause>
-          </sections>
-                   <bibliography>
-           <references id="_" normative="false" obligation="informative">
-             <title>Bibliography</title>
-             <bibitem id="ref1" type="inbook">
-               <fetched/>
-               <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
-               <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
-               <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
-               <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
-               <docidentifier type="ISBN">9783110170269</docidentifier>
-               <date type="issued">
-                 <on>2001-12-31</on>
-               </date>
-               <date type="published">
-                 <on>2001-12-31</on>
-               </date>
-               <contributor>
-                 <role type="author"/>
-                 <person>
-                   <name>
-                     <forename language="en" script="Latn">Monica</forename>
-                     <surname language="en" script="Latn">Heller</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type="publisher"/>
-                 <organization>
-                   <name>DE GRUYTER MOUTON</name>
-                 </organization>
-               </contributor>
-               <relation type="includedIn">
-                 <bibitem>
-                   <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
-                   <contributor>
-                     <role type="editor"/>
-                     <person>
-                       <name>
-                         <forename language="en" script="Latn">Aneta</forename>
-                         <surname language="en" script="Latn">Pavlenko</surname>
-                       </name>
-                     </person>
-                   </contributor>
-                   <contributor>
-                     <role type="editor"/>
-                     <person>
-                       <name>
-                         <forename language="en" script="Latn">Adrian</forename>
-                         <surname language="en" script="Latn">Blackledge</surname>
-                       </name>
-                     </person>
-                   </contributor>
-                   <contributor>
-                     <role type="editor"/>
-                     <person>
-                       <name>
-                         <forename language="en" script="Latn">Ingrid</forename>
-                         <surname language="en" script="Latn">Piller</surname>
-                       </name>
-                     </person>
-                   </contributor>
-                   <contributor>
-                     <role type="editor"/>
-                     <person>
-                       <name>
-                         <forename language="en" script="Latn">Marya</forename>
-                         <surname language="en" script="Latn">Teutsch-Dwyer</surname>
-                       </name>
-                     </person>
-                   </contributor>
-                 </bibitem>
-               </relation>
-               <extent>
-                 <localityStack>
-                   <locality type="page">
-                     <referenceFrom>257</referenceFrom>
-                     <referenceTo>282</referenceTo>
-                   </locality>
-                 </localityStack>
-               </extent>
-             </bibitem>
-             <bibitem id="ref2" type="book">
-               <fetched/>
-               <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
-               <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
-               <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
-               <docidentifier type="DOI">DOI-ANON</docidentifier>
-               <docidentifier type="ISBN">9783110170269</docidentifier>
-               <date type="issued">
-                 <on>1234</on>
-               </date>
-               <date type="published">
-                 <on>2001-12-31</on>
-               </date>
-               <contributor>
-                 <role type="author"/>
-                 <person>
-                   <name>
-                     <forename language="en" script="Latn">Monica</forename>
-                     <surname language="en" script="Latn">Heller</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <contributor>
-                 <role type="publisher"/>
-                 <organization>
-                   <name>DE GRUYTER MOUTON</name>
-                 </organization>
-               </contributor>
-               <contributor>
-                 <role type="editor"/>
-                 <person>
-                   <name>
-                     <forename>Boris</forename>
-                     <surname>Johnson</surname>
-                   </name>
-                 </person>
-               </contributor>
-               <relation type="includedIn">
-                 <bibitem type="misc">
-                   <title format="text/plain">Nested Title</title>
-                   <contributor>
-                     <role type="editor"/>
-                     <person>
-                       <name>
-                         <forename>John</forename>
-                         <surname>Jones</surname>
-                       </name>
-                     </person>
-                   </contributor>
-                   <contributor>
-                     <role type="editor"/>
-                     <person>
-                       <name>
-                         <forename>Jim</forename>
-                         <surname>James</surname>
-                       </name>
-                     </person>
-                   </contributor>
-                 </bibitem>
-               </relation>
-               <place>Vienna</place>
-               <extent>
-                 <localityStack>
-                   <locality type="page">
-                     <referenceFrom>257</referenceFrom>
-                     <referenceTo>282</referenceTo>
-                   </locality>
-                   <locality type="volume">
-                     <referenceFrom>2</referenceFrom>
-                   </locality>
-                 </localityStack>
-               </extent>
-             </bibitem>
-           </references>
-         </bibliography>
-       </standard-document>
+          #{BLANK_HDR}
+           <sections>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title>Section</title>
+             </clause>
+           </sections>
+                    <bibliography>
+            <references id="_" normative="false" obligation="informative">
+              <title>Bibliography</title>
+              <bibitem id="ref1" type="inbook">
+                <fetched/>
+                <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
+                <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
+                <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
+                <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
+                <docidentifier type="ISBN">9783110170269</docidentifier>
+                <date type="issued">
+                  <on>2001-12-31</on>
+                </date>
+                <date type="published">
+                  <on>2001-12-31</on>
+                </date>
+                <contributor>
+                  <role type="author"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Monica</forename>
+                      <surname language="en" script="Latn">Heller</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                    <name>DE GRUYTER MOUTON</name>
+                  </organization>
+                </contributor>
+                <relation type="includedIn">
+                  <bibitem>
+                    <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
+                    <contributor>
+                      <role type="editor"/>
+                      <person>
+                        <name>
+                          <forename language="en" script="Latn">Aneta</forename>
+                          <surname language="en" script="Latn">Pavlenko</surname>
+                        </name>
+                      </person>
+                    </contributor>
+                    <contributor>
+                      <role type="editor"/>
+                      <person>
+                        <name>
+                          <forename language="en" script="Latn">Adrian</forename>
+                          <surname language="en" script="Latn">Blackledge</surname>
+                        </name>
+                      </person>
+                    </contributor>
+                    <contributor>
+                      <role type="editor"/>
+                      <person>
+                        <name>
+                          <forename language="en" script="Latn">Ingrid</forename>
+                          <surname language="en" script="Latn">Piller</surname>
+                        </name>
+                      </person>
+                    </contributor>
+                    <contributor>
+                      <role type="editor"/>
+                      <person>
+                        <name>
+                          <forename language="en" script="Latn">Marya</forename>
+                          <surname language="en" script="Latn">Teutsch-Dwyer</surname>
+                        </name>
+                      </person>
+                    </contributor>
+                  </bibitem>
+                </relation>
+                <extent>
+                  <localityStack>
+                    <locality type="page">
+                      <referenceFrom>257</referenceFrom>
+                      <referenceTo>282</referenceTo>
+                    </locality>
+                  </localityStack>
+                </extent>
+              </bibitem>
+              <bibitem id="ref2" type="book">
+                <fetched/>
+                <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
+                <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
+                <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
+                <docidentifier type="DOI">DOI-ANON</docidentifier>
+                <docidentifier type="ISBN">9783110170269</docidentifier>
+                <date type="issued">
+                  <on>1234</on>
+                </date>
+                <date type="published">
+                  <on>2001-12-31</on>
+                </date>
+                <contributor>
+                  <role type="author"/>
+                  <person>
+                    <name>
+                      <forename language="en" script="Latn">Monica</forename>
+                      <surname language="en" script="Latn">Heller</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                    <name>DE GRUYTER MOUTON</name>
+                  </organization>
+                </contributor>
+                <contributor>
+                  <role type="editor"/>
+                  <person>
+                    <name>
+                      <forename>Boris</forename>
+                      <surname>Johnson</surname>
+                    </name>
+                  </person>
+                </contributor>
+                <relation type="includedIn">
+                  <bibitem type="misc">
+                    <title format="text/plain">Nested Title</title>
+                    <contributor>
+                      <role type="editor"/>
+                      <person>
+                        <name>
+                          <forename>John</forename>
+                          <surname>Jones</surname>
+                        </name>
+                      </person>
+                    </contributor>
+                    <contributor>
+                      <role type="editor"/>
+                      <person>
+                        <name>
+                          <forename>Jim</forename>
+                          <surname>James</surname>
+                        </name>
+                      </person>
+                    </contributor>
+                  </bibitem>
+                </relation>
+                <place>Vienna</place>
+                <extent>
+                  <localityStack>
+                    <locality type="page">
+                      <referenceFrom>257</referenceFrom>
+                      <referenceTo>282</referenceTo>
+                    </locality>
+                    <locality type="volume">
+                      <referenceFrom>2</referenceFrom>
+                    </locality>
+                  </localityStack>
+                </extent>
+              </bibitem>
+            </references>
+          </bibliography>
+        </standard-document>
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)
@@ -1326,54 +1326,54 @@ RSpec.describe Metanorma::Standoc do
         * [[[iso123,BIPM CIPM RES 1]]] _Standard_
       INPUT
       output = <<~OUTPUT
-          #{BLANK_HDR}
-                        <sections>
-                 </sections><bibliography><references id="_" obligation="informative" normative="true">
-                   <title>Normative references</title>
-                  #{NORM_REF_BOILERPLATE}
-                               <bibitem id="iso123" type="proceedings">
-               <fetched/>
-                              <title format="text/plain" language="en" script="Latn">Adoption of “degree Celsius”</title>
-               <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/ci/cipm/42-1948/resolution-</uri>
-               <uri type="citation" language="fr" script="Latn">https://www.bipm.org/fr/committees/ci/cipm/42-1948/resolution-</uri>
-               <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-42.yml</uri>
-               <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-42.yml</uri>
-               <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM42.pdf/7f36bfaa-e84b-a7fa-650a-edf6c3de1b46</uri>
-               <docidentifier type="BIPM" primary="true">CIPM RES (1948)</docidentifier>
-               <docidentifier type="BIPM" primary="true" language="en" script="Latn">CIPM RES (1948, E)</docidentifier>
-               <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CIPM RES (1948, F)</docidentifier>
-               <docidentifier type="BIPM-long" language="en" script="Latn">CIPM Resolution (1948)</docidentifier>
-               <docidentifier type="BIPM-long" language="fr" script="Latn">Résolution du CIPM (1948)</docidentifier>
-               <docidentifier type="BIPM-long">CIPM Resolution (1948) / Résolution du CIPM (1948)</docidentifier>
-               <docnumber>CIPM RES (1948)</docnumber>
+         #{BLANK_HDR}
+                         <sections>
+                  </sections><bibliography><references id="_" obligation="informative" normative="true">
+                    <title>Normative references</title>
+                   #{NORM_REF_BOILERPLATE}
+                <bibitem id="iso123" type="proceedings">
+                <fetched/>
+                               <title format="text/plain" language="en" script="Latn">Definitions of photometric units</title>
+               <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/ci/cipm/41-1946/resolution-1</uri>
+               <uri type="citation" language="fr" script="Latn">https://www.bipm.org/fr/committees/ci/cipm/41-1946/resolution-1</uri>
+               <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-41.yml</uri>
+               <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-41.yml</uri>
+               <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM41.pdf/07357119-16e6-d078-01d0-7acbca5c4d14</uri>
+               <docidentifier type="BIPM" primary="true">CIPM RES 1 (1946)</docidentifier>
+               <docidentifier type="BIPM" primary="true" language="en" script="Latn">CIPM RES 1 (1946, E)</docidentifier>
+               <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CIPM RES 1 (1946, F)</docidentifier>
+               <docidentifier type="BIPM-long" language="en" script="Latn">CIPM Resolution 1 (1946)</docidentifier>
+               <docidentifier type="BIPM-long" language="fr" script="Latn">Résolution 1 du CIPM (1946)</docidentifier>
+               <docidentifier type="BIPM-long">CIPM Resolution 1 (1946) / Résolution 1 du CIPM (1946)</docidentifier>
+               <docnumber>CIPM RES 1 (1946)</docnumber>
                <date type="published">
-                 <on>1948-10-22</on>
+                 <on>1946-10-29</on>
                </date>
-               <contributor>
-                 <role type="publisher"/>
-                 <organization>
-                   <name language="en" script="Latn">International Bureau of Weights and Measures</name>
-                   <abbreviation>BIPM</abbreviation>
-                   <uri>www.bipm.org</uri>
-                 </organization>
-               </contributor>
-               <contributor>
-                 <role type="author"/>
-                 <organization>
-                   <name language="en" script="Latn">International Committee for Weights and Measures</name>
-                   <abbreviation>CIPM</abbreviation>
-                 </organization>
-               </contributor>
-               <language>en</language>
-               <language>fr</language>
-               <script>Latn</script>
-               <place>
-                 <city>Paris</city>
-               </place>
-             </bibitem>
-           </references>
-         </bibliography>
-       </standard-document>
+                <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                    <name language="en" script="Latn">International Bureau of Weights and Measures</name>
+                    <abbreviation>BIPM</abbreviation>
+                    <uri>www.bipm.org</uri>
+                  </organization>
+                </contributor>
+                <contributor>
+                  <role type="author"/>
+                  <organization>
+                    <name language="en" script="Latn">International Committee for Weights and Measures</name>
+                    <abbreviation>CIPM</abbreviation>
+                  </organization>
+                </contributor>
+                <language>en</language>
+                <language>fr</language>
+                <script>Latn</script>
+                <place>
+                  <city>Paris</city>
+                </place>
+              </bibitem>
+            </references>
+          </bibliography>
+        </standard-document>
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)
@@ -1420,7 +1420,7 @@ RSpec.describe Metanorma::Standoc do
                <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
                <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber — Determination of total solids content</title>
                <uri type='src'>https://www.iso.org/standard/61884.html</uri>
-               <uri type='obp'>https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
+               <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:61884:en</uri>
                <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                <docidentifier type='ISO' primary="true">ISO 124:2014</docidentifier>
                <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
@@ -2484,7 +2484,7 @@ RSpec.describe Metanorma::Standoc do
                               usrlbl: nil,
                               year: nil }) do
       RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
-        <bibitem type="standard" id="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
+        <bibitem type="standard" id="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
     end.exactly(times).times
   end
@@ -2501,7 +2501,7 @@ RSpec.describe Metanorma::Standoc do
                               usrlbl: "(1)",
                               year: nil }) do
       RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
-        <bibitem type="standard" id="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
+        <bibitem type="standard" id="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
     end.exactly(times).times
   end

@@ -47,7 +47,7 @@ ISO_124_DATED = <<~XML.freeze
          <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
          <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber - Determination of total solids content</title>
          <uri type="src">https://www.iso.org/standard/61884.html</uri>
-         <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:61884:en</uri>
+         <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:61884:en</uri>
          <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
          <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
          <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
@@ -208,7 +208,7 @@ ISO_123_DATED = <<~XML.freeze
            <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
            <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex - Sampling</title>
            <uri type="src">https://www.iso.org/standard/23281.html</uri>
-           <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:23281:en</uri>
+           <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
            <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
            <docidentifier type="ISO" primary="true">ISO 123:2001</docidentifier>
            <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
@@ -346,7 +346,7 @@ RSpec.describe Metanorma::Standoc do
 
     # mock_isobib_get_123
     VCR.use_cassette("isobib_get_123_2001_and_iev",
-                     :record => :new_episodes,
+                     record: :new_episodes,
                      match_requests_on: %i[method uri body]) do
       Asciidoctor.convert(<<~"INPUT", *OPTIONS)
         #{FLUSH_CACHE_ISOBIB_BLANK_HDR}
@@ -358,7 +358,7 @@ RSpec.describe Metanorma::Standoc do
       expect(File.exist?("#{Dir.home}/.relaton/cache")).to be true
       expect(File.exist?("#{Dir.home}/.iev/cache")).to be false
 
-      Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      Asciidoctor.convert(<<~INPUT, *OPTIONS)
         [bibliography]
         == Normative References
         * [[[iev,IEV]]], _iev_
@@ -496,7 +496,7 @@ RSpec.describe Metanorma::Standoc do
                  File.expand_path("~/.relaton-bib.pstore1"), force: true
     FileUtils.rm_rf "test/cache"
     mock_isobib_get_123
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
