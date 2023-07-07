@@ -215,7 +215,14 @@ module Metanorma
       end
 
       def image_attributes(node)
-        uri = node.image_uri (node.attr("target") || node.target)
+        nodetarget = node.attr("target") || node.target
+        if Gem.win_platform? && /^[a-zA-Z]:/.match?(nodetarget)
+          nodetarget = "/" + nodetarget
+        end
+        uri = node.image_uri (nodetarget)
+        if Gem.win_platform? && /^\/[a-zA-Z]:/.match?(uri)
+          uri = uri[1..]
+        end
         types = if /^data:/.match?(uri) then Metanorma::Utils::datauri2mime(uri)
                 else MIME::Types.type_for(uri)
                 end
