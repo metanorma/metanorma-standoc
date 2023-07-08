@@ -217,7 +217,7 @@ module Metanorma
       def image_attributes(node)
         nodetarget = node.attr("target") || node.target
         if Gem.win_platform? && /^[a-zA-Z]:/.match?(nodetarget)
-          nodetarget = "/" + nodetarget
+          nodetarget.prepend("/")
         end
         uri = node.image_uri (nodetarget)
         if Gem.win_platform? && /^\/[a-zA-Z]:/.match?(uri)
