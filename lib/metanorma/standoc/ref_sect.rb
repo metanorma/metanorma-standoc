@@ -85,13 +85,14 @@ module Metanorma
         end
       end
 
-      def fetchable_ref_code?(ref)
-        ref[:code].nil? || ref[:code].empty? || ref[:no_year] ||
+      def unfetchable_ref_code?(ref)
+        ref[:code].nil? || ref[:code].empty? || ref[:no_year] || 
+          /^\(.+\)$/.match?(ref[:code]) ||
           (@bibdb.nil? && !ref[:localfile])
       end
 
       def fetch_ref_async(ref, idx, res)
-        if fetchable_ref_code?(ref)
+        if unfetchable_ref_code?(ref)
           res << [ref, idx, nil]
         elsif ref[:localfile]
           res << [ref, idx, @local_bibdb.get(ref[:code], ref[:localfile])]
