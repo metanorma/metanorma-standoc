@@ -1,7 +1,7 @@
 require "metanorma/standoc/utils"
 require_relative "./validate_section"
 require_relative "./validate_table"
-require_relative "./validate_xref"
+require_relative "./validate_term"
 require "nokogiri"
 require "jing"
 require "iev"
@@ -10,38 +10,6 @@ require "pngcheck"
 module Metanorma
   module Standoc
     module Validate
-      SOURCELOCALITY = "./origin//locality[@type = 'clause']/" \
-                       "referenceFrom".freeze
-
-      def init_iev
-        @no_isobib and return nil
-        @iev and return @iev
-        @iev = Iev::Db.new(@iev_globalname, @iev_localname) unless @no_isobib
-        @iev
-      end
-
-      def iev_validate(xmldoc)
-        @iev = init_iev or return
-        xmldoc.xpath("//term").each do |t|
-          t.xpath(".//termsource").each do |src|
-            (/^IEC[  ]60050-/.match(src.at("./origin/@citeas")&.text) &&
-          loc = src.xpath(SOURCELOCALITY)&.text) or next
-            iev_validate1(t, loc, xmldoc)
-          end
-        end
-      end
-
-      def iev_validate1(term, loc, xmldoc)
-        iev = @iev.fetch(loc,
-                         xmldoc.at("//language")&.text || "en") or return
-        pref = term.xpath("./preferred//name").inject([]) do |m, x|
-          m << x.text&.downcase
-        end
-        pref.include?(iev.downcase) or
-          @log.add("Bibliography", term, %(Term "#{pref[0]}" does not match ) +
-                   %(IEV #{loc} "#{iev}"))
-      end
-
       def content_validate(doc)
         repeat_id_validate(doc.root) # feeds xref_validate
         xref_validate(doc) # feeds nested_asset_validate
@@ -51,6 +19,7 @@ module Metanorma
         iev_validate(doc.root)
         concept_validate(doc, "concept", "refterm")
         concept_validate(doc, "related", "preferred//name")
+        preferred_validate(doc)
         table_validate(doc)
         @fatalerror += requirement_validate(doc)
         image_validate(doc)
@@ -73,7 +42,7 @@ module Metanorma
       def mathml_sanitise(math)
         math.to_xml(encoding: "US-ASCII").gsub(/ xmlns=["'][^"']+["']/, "")
           .gsub(%r{<[^:/>]+:}, "<").gsub(%r{</[^:/>]+:}, "</")
-          #.gsub(/&#([^;]+);/) { |x| "&#x#{$1.to_i.to_s(16)};" }
+        # .gsub(/&#([^;]+);/) { |x| "&#x#{$1.to_i.to_s(16)};" }
       end
 
       def math_validate_error(math, elem, error)
@@ -123,37 +92,6 @@ module Metanorma
                "nested within #{outer.name}: #{i.to_xml}"
         @log.add("Style", i, err2)
         # @fatalerror << err2
-      end
-
-      def concept_validate(doc, tag, refterm)
-        found = false
-        concept_validate_ids(doc)
-        doc.xpath("//#{tag}/xref").each do |x|
-          @concept_ids[x["target"]] and next
-          @log.add("Anchors", x, concept_validate_msg(doc, tag, refterm, x))
-          found = true
-        end
-        found and @fatalerror << "#{tag.capitalize} not cross-referencing " \
-                                 "term or symbol"
-      end
-
-      def concept_validate_ids(doc)
-        @concept_ids ||= doc.xpath("//term | //definitions//dt")
-          .each_with_object({}) { |x, m| m[x["id"]] = true }
-        @concept_terms_tags ||= doc.xpath("//terms")
-          .each_with_object({}) { |t, m| m[t["id"]] = true }
-        nil
-      end
-
-      def concept_validate_msg(_doc, tag, refterm, xref)
-        ret = <<~LOG
-          #{tag.capitalize} #{xref.at("../#{refterm}")&.text} is pointing to #{xref['target']}, which is not a term or symbol
-        LOG
-        if @concept_terms_tags[xref["target"]]
-          ret = ret.strip
-          ret += ". Did you mean to point to a subterm?"
-        end
-        ret
       end
 
       def schema_validate(doc, schema)
@@ -246,6 +184,33 @@ module Metanorma
         content_validate(doc)
         schema_validate(formattedstr_strip(doc.dup),
                         File.join(File.dirname(__FILE__), "isodoc-compile.rng"))
+      end
+
+      def repeat_id_validate1(elem)
+        if @doc_ids[elem["id"]]
+          @log.add("Anchors", elem, "Anchor #{elem['id']} has already been " \
+                                    "used at line #{@doc_ids[elem['id']]}")
+          @fatalerror << "Multiple instances of same ID: #{elem['id']}"
+        end
+        @doc_ids[elem["id"]] = elem.line
+      end
+
+      def repeat_id_validate(doc)
+        @doc_ids = {}
+        doc.xpath("//*[@id]").each do |x|
+          repeat_id_validate1(x)
+        end
+      end
+
+      # manually check for xref/@target, xref/@to integrity
+      def xref_validate(doc)
+        @doc_xrefs = doc.xpath("//xref/@target | //xref/@to")
+          .each_with_object({}) do |x, m|
+          m[x.text] = x
+          @doc_ids[x.text] and next
+          @log.add("Anchors", x.parent,
+                   "Crossreference target #{x} is undefined")
+        end
       end
     end
   end

@@ -16,6 +16,7 @@ module Metanorma
         @log = log
         @termlookup = { term: {}, symbol: {}, secondary2primary: {} }
         @idhash = {}
+        @c = HTMLEntities.new
         @terms_tags = xmldoc.xpath("//terms").each_with_object({}) do |t, m|
           m[t["id"]] = true
         end
@@ -35,7 +36,7 @@ module Metanorma
         xmldoc.xpath("//concept").each do |n|
           n.delete("type")
           refterm = n.at("./refterm") or next
-          p = @termlookup[:secondary2primary][refterm.text] and
+          p = @termlookup[:secondary2primary][@c.encode(refterm.text)] and
             refterm.children = p
         end
       end
@@ -43,7 +44,7 @@ module Metanorma
       def related_cleanup
         xmldoc.xpath("//related").each do |n|
           refterm = n.at("./refterm") or next
-          p = @termlookup[:secondary2primary][refterm.text] and
+          p = @termlookup[:secondary2primary][@c.encode(refterm.text)] and
             refterm.children = p
           refterm.replace("<preferred><expression>" \
                           "<name>#{refterm.children.to_xml}" \
@@ -61,7 +62,7 @@ module Metanorma
 
       def set_termxref_tags_target
         xmldoc.xpath("//termxref").each do |node|
-          target = normalize_ref_id(node)
+          target = normalize_ref_id1(node)
           if termlookup[:term][target].nil? && termlookup[:symbol][target].nil?
             remove_missing_ref(node, target)
             next
@@ -108,7 +109,7 @@ module Metanorma
         display = node.at("../renderterm")&.remove&.children
         display = [] if display.nil? || display.to_xml == node.text
         d = display.empty? ? "" : ", display <tt>#{display.to_xml}</tt>"
-        node.children = "term <tt>#{node.text}</tt>#{d} " \
+        node.children = "term <tt>#{@c.encode(node.text)}</tt>#{d} " \
                         "not resolved via ID <tt>#{target}</tt>"
       end
 
@@ -118,7 +119,7 @@ module Metanorma
         display = node.at("../renderterm")&.remove&.children
         display = [] if display.nil? || display.to_xml == node.text
         d = display.empty? ? "" : ", display <tt>#{display.to_xml}</tt>"
-        node.children = "symbol <tt>#{node.text}</tt>#{d} " \
+        node.children = "symbol <tt>#{@c.encode(node.text)}</tt>#{d} " \
                         "not resolved via ID <tt>#{target}</tt>"
       end
 
@@ -137,11 +138,11 @@ module Metanorma
 
       def replace_automatic_generated_ids_terms
         r = xmldoc.xpath("//term").each.with_object({}) do |n, res|
-          normalize_id_and_memorize(n, res, "./preferred//name", "term")
-          normalize_id_and_memorize(n, res, "./admitted//name", "term")
+          norm_id_memorize(n, res, "./preferred//name", "term", true)
+          norm_id_memorize(n, res, "./admitted//name", "term", true)
         end
         s = xmldoc.xpath("//definitions//dt").each.with_object({}) do |n, res|
-          normalize_id_and_memorize(n, res, ".", "symbol")
+          norm_id_memorize(n, res, ".", "symbol", false)
         end
         { term: r, symbol: s, secondary2primary: pref_secondary2primary }
       end
@@ -150,20 +151,22 @@ module Metanorma
         term = ""
         xmldoc.xpath("//term").each.with_object({}) do |n, res|
           n.xpath("./preferred//name").each_with_index do |p, i|
-            i.zero? and term = p.text
-            i.positive? and res[p.text] = term
+            i.zero? and term = domain_prefix(n, p.text)
+            i.positive? and res[domain_prefix(n, p.text)] = term
           end
-          n.xpath("./admitted//name").each { |p| res[p.text] = term }
+          n.xpath("./admitted//name").each do |p|
+            res[domain_prefix(n, p.text)] = term
+          end
         end
       end
 
-      def normalize_id_and_memorize(node, res_table, text_selector, prefix)
-        normalize_id_and_memorize_init(node, res_table, text_selector, prefix)
-        memorize_other_pref_terms(node, res_table, text_selector)
+      def norm_id_memorize(node, res_table, selector, prefix, use_domain)
+        norm_id_memorize_init(node, res_table, selector, prefix, use_domain)
+        memorize_other_pref_terms(node, res_table, selector, use_domain)
       end
 
-      def normalize_id_and_memorize_init(node, res_table, text_selector, prefix)
-        term_text = normalize_ref_id(node.at(text_selector)) or return
+      def norm_id_memorize_init(node, res_table, selector, prefix, use_domain)
+        term_text = normalize_ref_id(node, selector, use_domain) or return
         unless AUTOMATIC_GENERATED_ID_REGEXP.match(node["id"]).nil? &&
             !node["id"].nil?
           id = unique_text_id(term_text, prefix)
@@ -173,21 +176,29 @@ module Metanorma
         res_table[term_text] = node["id"]
       end
 
-      def memorize_other_pref_terms(node, res_table, text_selector)
+      def memorize_other_pref_terms(node, res_table, text_selector, use_domain)
         node.xpath(text_selector).each_with_index do |p, i|
-          next unless i.positive?
-
-          res_table[normalize_ref_id(p)] = node["id"]
+          i.positive? or next
+          res_table[normalize_ref_id1(p, use_domain ? node : nil)] = node["id"]
         end
       end
 
-      def normalize_ref_id(term)
-        return nil if term.nil?
+      def domain_prefix(node, term)
+        d = node&.at(".//domain") or return term
+        "<#{d.text}> #{term}"
+      end
 
+      def normalize_ref_id(node, selector, use_domain)
+        term = node.at(selector) or return nil
+        normalize_ref_id1(term, use_domain ? node : nil)
+      end
+
+      def normalize_ref_id1(term, node = nil)
         t = term.dup
         t.xpath(".//index").map(&:remove)
-        Metanorma::Utils::to_ncname(t.text.strip
-          .gsub(/[[:space:]]+/, "-"))
+        ret = t.text.strip
+        node and ret = domain_prefix(node, ret)
+        Metanorma::Utils::to_ncname(ret.gsub(/[[:space:]]+/, "-"))
       end
 
       def unique_text_id(text, prefix)

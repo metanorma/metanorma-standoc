@@ -1134,6 +1134,58 @@ RSpec.describe Metanorma::Standoc do
       .not_to include "Style override set for ordered list"
   end
 
+  it "warns and aborts if two identical preferred term designations" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        == Terms and Definitions
+
+        === Term1
+
+        === Term1
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+    expect(File.read("test.err"))
+      .to include "Term Term1 occurs twice as preferred designation"
+    expect(File.exist?("test.xml")).to be false
+
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        == Terms and Definitions
+
+        === Term1
+
+        === Term2
+
+        preferred:[Term1]
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+    expect(File.read("test.err"))
+      .to include "Term Term1 occurs twice as preferred designation"
+    expect(File.exist?("test.xml")).to be false
+  end
+
   private
 
   def mock_plurimath_error(times)
