@@ -762,14 +762,12 @@ RSpec.describe Metanorma::Standoc do
                <concept>
                  <refterm>&lt;Rice&gt; First Designation</refterm>
                  <renderterm>Second Designation</renderterm>
-                 <xref/>
                </concept>
              </p>
              <p id="_">
                <concept>
                  <refterm>&lt;Rice&gt; First Designation</refterm>
                  <renderterm>Third Designation</renderterm>
-                 <xref/>
                </concept>
              </p>
            </clause>

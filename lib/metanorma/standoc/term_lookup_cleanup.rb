@@ -1,11 +1,10 @@
-# frozen_string_literal: true.
 require "metanorma/standoc/utils"
 
 module Metanorma
   module Standoc
     # Intelligent term lookup xml modifier
     class TermLookupCleanup
-      AUTOMATIC_GENERATED_ID_REGEXP = /\A_/.freeze
+      AUTO_GEN_ID_REGEXP = /\A_/.freeze
       EXISTING_TERM_REGEXP = /\Aterm-/.freeze
       EXISTING_SYMBOL_REGEXP = /\Asymbol-/.freeze
 
@@ -31,6 +30,7 @@ module Metanorma
         concept_cleanup
         related_cleanup
         remove_missing_refs
+        concept_cleanup2
       end
 
       private
@@ -48,11 +48,14 @@ module Metanorma
 
       def concept_cleanup
         xmldoc.xpath("//concept").each do |n|
-          n.delete("type")
           refterm = n.at("./refterm") or next
           p = @termlookup[:secondary2primary][@c.encode(refterm.text)] and
             refterm.children = @c.encode(p)
         end
+      end
+
+      def concept_cleanup2
+        xmldoc.xpath("//concept").each { |n| n.delete("type") }
       end
 
       def related_cleanup
@@ -70,8 +73,7 @@ module Metanorma
 
       def populate_idhash
         xmldoc.xpath("//*[@id]").each_with_object({}) do |n, mem|
-          next unless /^(term|symbol)-/.match?(n["id"])
-
+          /^(term|symbol)-/.match?(n["id"]) or next
           mem[n["id"]] = true
         end
       end
@@ -86,11 +88,25 @@ module Metanorma
 
       def remove_missing_refs
         xmldoc.xpath("//refterm").each do |node|
-          target = normalize_ref_id1(node)
-          if termlookup[:term][target].nil? && termlookup[:symbol][target].nil?
-            remove_missing_ref(node, target)
-            next
-          end
+          remove_missing_ref?(node) or next
+          lookup_refterm(node)
+        end
+      end
+
+      def remove_missing_ref?(node)
+        node.at("../eref | ../termref") and return false
+        xref = node.at("../xref") or return true
+        xref["target"] && !xref["target"]&.empty? and return false
+        xref.remove # if xref supplied by user, we won't delete
+        true
+      end
+
+      def lookup_refterm(node)
+        target = normalize_ref_id1(node)
+        if termlookup[:term][target].nil? && termlookup[:symbol][target].nil?
+          remove_missing_ref(node, target)
+        else
+          x = node.at("../xrefrender") and x.name = "xref"
         end
       end
 
@@ -127,7 +143,7 @@ module Metanorma
 
       def remove_missing_ref_term(node, target, type)
         node.name = "strong"
-        node.at("../xref")&.remove
+        node.xpath("../xrefrender | ../xref").each(&:remove)
         display = node.at("../renderterm")&.remove&.children
         display = [] if display.nil? || display.to_xml == node.text
         d = display.empty? ? "" : ", display <tt>#{display.to_xml}</tt>"
@@ -190,8 +206,7 @@ module Metanorma
 
       def norm_id_memorize_init(node, res_table, selector, prefix, use_domain)
         term_text = normalize_ref_id(node, selector, use_domain) or return
-        unless AUTOMATIC_GENERATED_ID_REGEXP.match(node["id"]).nil? &&
-            !node["id"].nil?
+        unless AUTO_GEN_ID_REGEXP.match(node["id"]).nil? && !node["id"].nil?
           id = unique_text_id(term_text, prefix)
           node["id"] = id
           @idhash[id] = true
