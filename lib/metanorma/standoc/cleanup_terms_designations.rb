@@ -182,7 +182,10 @@ module Metanorma
         xmldoc.xpath("//term").each do |t|
           DESIGNATOR.each do |n|
             t.xpath("./#{n}/expression/name").each_with_object([]) do |d, m|
-              m.include?(d.text) and d.parent.parent.remove
+              if m.include?(d.text)
+                @log.add("Terms", t, "Removed duplicate designation #{d.text}")
+                d.parent.parent.remove
+              end
               m << d.text
             end
           end
