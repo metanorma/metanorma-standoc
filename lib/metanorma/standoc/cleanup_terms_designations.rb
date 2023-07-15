@@ -101,7 +101,7 @@ module Metanorma
 
       def term_dl_to_designation_category(prev, category)
         cat = prev.at(".//expression/grammar/#{category}")
-        /,/.match?(cat&.text) and
+        cat&.text&.include?(",") and
           cat.replace(cat.text.split(/,\s*/)
             .map { |x| "<#{category}>#{x}</#{category}>" }.join)
       end
@@ -148,13 +148,15 @@ module Metanorma
         end
       end
 
+      DESIGNATOR = %w(preferred admitted deprecates related).freeze
+
       def term_termsource_to_designation(xmldoc)
         xmldoc.xpath("//term/termsource").each do |t|
           p = t.previous_element
           while %w(domain subject).include? p&.name
             p = p.previous_element
           end
-          %w(preferred admitted deprecates related).include?(p&.name) or
+          DESIGNATOR.include?(p&.name) or
             next
           related2pref(p) << t.remove
         end
@@ -162,8 +164,7 @@ module Metanorma
 
       def term_designation_reorder(xmldoc)
         xmldoc.xpath("//term").each do |t|
-          des = %w(preferred admitted deprecates related)
-            .each_with_object([]) do |tag, m|
+          des = DESIGNATOR.each_with_object([]) do |tag, m|
             t.xpath("./#{tag}").each { |x| m << x.remove }
           end.reverse
           t << " "
@@ -174,7 +175,18 @@ module Metanorma
       end
 
       def related2pref(elem)
-        elem&.name == "related" ? elem = elem.at("./preferred") : elem
+        elem&.name == "related" ? elem.at("./preferred") : elem
+      end
+
+      def term_designation_redundant(xmldoc)
+        xmldoc.xpath("//term").each do |t|
+          DESIGNATOR.each do |n|
+            t.xpath("./#{n}/expression/name").each_with_object([]) do |d, m|
+              m.include?(d.text) and d.parent.parent.remove
+              m << d.text
+            end
+          end
+        end
       end
     end
   end
