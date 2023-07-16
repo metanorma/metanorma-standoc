@@ -500,6 +500,284 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "uses domains in disambiguation of concept mentions" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      === First Designation
+
+      preferred:[Second Designation]
+
+      alt:[Third Designation]
+
+      domain:[Rice]
+
+      === First Designation
+
+      preferred:[Second Designation]
+
+      alt:[Third Designation]
+
+      domain:[Wheat]
+
+      === First Designation
+
+      preferred:[Second Designation]
+
+      alt:[Third Designation]
+
+      Definition
+
+      == Clause
+
+      {{First Designation}}
+
+      {{Second Designation}}
+
+      {{Third Designation}}
+
+
+      {{<Rice> First Designation}}
+
+      {{<Rice> Second Designation}}
+
+      {{<Rice> Third Designation}}
+
+
+      {{<Wheat> First Designation}}
+
+      {{<Wheat> Second Designation}}
+
+      {{<Wheat> Third Designation}}
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <sections>
+           <terms id="_" obligation="normative">
+             <title>Terms and definitions</title>
+             <p id="_">For the purposes of this document,
+           the following terms and definitions apply.</p>
+             <term id="term-_lt_Rice_gt_-First-Designation">
+               <preferred>
+                 <expression>
+                   <name>First Designation</name>
+                 </expression>
+               </preferred>
+               <preferred>
+                 <expression>
+                   <name>Second Designation</name>
+                 </expression>
+               </preferred>
+               <admitted>
+                 <expression>
+                   <name>Third Designation</name>
+                 </expression>
+               </admitted>
+               <domain>Rice</domain>
+             </term>
+             <term id="term-_lt_Wheat_gt_-First-Designation">
+               <preferred>
+                 <expression>
+                   <name>First Designation</name>
+                 </expression>
+               </preferred>
+               <preferred>
+                 <expression>
+                   <name>Second Designation</name>
+                 </expression>
+               </preferred>
+               <admitted>
+                 <expression>
+                   <name>Third Designation</name>
+                 </expression>
+               </admitted>
+               <domain>Wheat</domain>
+             </term>
+             <term id="term-First-Designation">
+               <preferred>
+                 <expression>
+                   <name>First Designation</name>
+                 </expression>
+               </preferred>
+               <preferred>
+                 <expression>
+                   <name>Second Designation</name>
+                 </expression>
+               </preferred>
+               <admitted>
+                 <expression>
+                   <name>Third Designation</name>
+                 </expression>
+               </admitted>
+               <definition>
+                 <verbal-definition>
+                   <p id="_">Definition</p>
+                 </verbal-definition>
+               </definition>
+             </term>
+           </terms>
+                      <clause id="_" inline-header="false" obligation="normative">
+             <title>Clause</title>
+             <p id="_">
+               <concept>
+                 <refterm>First Designation</refterm>
+                 <renderterm>First Designation</renderterm>
+                 <xref target="term-First-Designation"/>
+               </concept>
+             </p>
+             <p id="_">
+               <concept>
+                 <refterm>First Designation</refterm>
+                 <renderterm>Second Designation</renderterm>
+                 <xref target="term-First-Designation"/>
+               </concept>
+             </p>
+             <p id="_">
+               <concept>
+                 <refterm>First Designation</refterm>
+                 <renderterm>Third Designation</renderterm>
+                 <xref target="term-First-Designation"/>
+               </concept>
+             </p>
+             <p id="_">
+               <concept>
+                 <refterm>&lt;Rice&gt; First Designation</refterm>
+                 <renderterm>&lt;Rice&gt; First Designation</renderterm>
+                 <xref target="term-_lt_Rice_gt_-First-Designation"/>
+               </concept>
+             </p>
+             <p id="_">
+               <concept>
+                 <refterm>&lt;Rice&gt; Second Designation</refterm>
+                 <renderterm>&lt;Rice&gt; Second Designation</renderterm>
+                 <xref target="term-_lt_Rice_gt_-First-Designation"/>
+               </concept>
+             </p>
+             <p id="_">
+               <concept>
+                 <refterm>&lt;Rice&gt; Third Designation</refterm>
+                 <renderterm>&lt;Rice&gt; Third Designation</renderterm>
+                 <xref target="term-_lt_Rice_gt_-First-Designation"/>
+               </concept>
+             </p>
+             <p id="_">
+               <concept>
+                 <refterm>&lt;Wheat&gt; First Designation</refterm>
+                 <renderterm>&lt;Wheat&gt; First Designation</renderterm>
+                 <xref target="term-_lt_Wheat_gt_-First-Designation"/>
+               </concept>
+             </p>
+             <p id="_">
+               <concept>
+                 <refterm>&lt;Wheat&gt; Second Designation</refterm>
+                 <renderterm>&lt;Wheat&gt; Second Designation</renderterm>
+                 <xref target="term-_lt_Wheat_gt_-First-Designation"/>
+               </concept>
+             </p>
+             <p id="_">
+               <concept>
+                 <refterm>&lt;Wheat&gt; Third Designation</refterm>
+                 <renderterm>&lt;Wheat&gt; Third Designation</renderterm>
+                 <xref target="term-_lt_Wheat_gt_-First-Designation"/>
+               </concept>
+             </p>
+           </clause>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "drop domains for unambiguous concept mentions" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      === First Designation
+
+      preferred:[Second Designation]
+
+      alt:[Third Designation]
+
+      domain:[Rice]
+
+      === First Designation
+
+      domain:[Wheat]
+
+      == Clause
+
+      {{First Designation}}
+
+      {{Second Designation}}
+
+      {{Third Designation}}
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <sections>
+           <terms id="_" obligation="normative">
+             <title>Terms and definitions</title>
+             <p id="_">For the purposes of this document, 
+           the following terms and definitions apply.</p>
+             <term id="term-_lt_Rice_gt_-First-Designation">
+               <preferred>
+                 <expression>
+                   <name>First Designation</name>
+                 </expression>
+               </preferred>
+               <preferred>
+                 <expression>
+                   <name>Second Designation</name>
+                 </expression>
+               </preferred>
+               <admitted>
+                 <expression>
+                   <name>Third Designation</name>
+                 </expression>
+               </admitted>
+               <domain>Rice</domain>
+             </term>
+             <term id="term-_lt_Wheat_gt_-First-Designation">
+               <preferred>
+                 <expression>
+                   <name>First Designation</name>
+                 </expression>
+               </preferred>
+               <domain>Wheat</domain>
+             </term>
+           </terms>
+           <clause id="_" inline-header="false" obligation="normative">
+             <title>Clause</title>
+             <p id="_">
+               <concept>
+                 <strong>term <tt>First Designation</tt> not resolved via ID <tt>First-Designation</tt></strong>
+               </concept>
+             </p>
+             <p id="_">
+               <concept>
+                 <refterm>&lt;Rice&gt; First Designation</refterm>
+                 <renderterm>Second Designation</renderterm>
+               </concept>
+             </p>
+             <p id="_">
+               <concept>
+                 <refterm>&lt;Rice&gt; First Designation</refterm>
+                 <renderterm>Third Designation</renderterm>
+               </concept>
+             </p>
+           </clause>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes letter-symbol designations" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -608,44 +886,58 @@ RSpec.describe Metanorma::Standoc do
       related:see[<<second>>,]
 
       Definition
+
+      === Term
+
+      preferred:[]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-        <sections>
-          <terms id='_' obligation='normative'>
-            <title>Terms and definitions</title>
-            <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-            <term id='second'>
-              <preferred>
-                <expression isInternational='true'>
-                  <name/>
-                </expression>
-              </preferred>
-              <preferred>
-                <expression>
-                  <name/>
-                </expression>
-              </preferred>
-              <admitted>
-                <expression>
-                  <name/>
-                </expression>
-              </admitted>
-              <deprecates>
-                <expression>
-                  <name> </name>
-                </expression>
-              </deprecates>
-              <related type='see'>
-                <xref target='second'/>
-              </related>
-              <definition><verbal-definition>
-                <p id='_'>Definition</p>
-              </verbal-definition></definition>
-            </term>
-          </terms>
-        </sections>
-      </standard-document>
+               <sections>
+           <terms id="_" obligation="normative">
+             <title>Terms and definitions</title>
+             <p id="_">For the purposes of this document,
+           the following terms and definitions apply.</p>
+             <term id="second">
+               <preferred>
+                 <expression isInternational="true">
+                   <name/>
+                 </expression>
+               </preferred>
+               <admitted>
+                 <expression>
+                   <name/>
+                 </expression>
+               </admitted>
+               <deprecates>
+                 <expression>
+                   <name/>
+                 </expression>
+               </deprecates>
+               <related type="see">
+                 <xref target="second"/>
+               </related>
+               <definition>
+                 <verbal-definition>
+                   <p id="_">Definition</p>
+                 </verbal-definition>
+               </definition>
+             </term>
+             <term id="term-Term">
+               <preferred>
+                 <expression>
+                   <name>Term</name>
+                 </expression>
+               </preferred>
+               <preferred>
+                 <expression>
+                   <name/>
+                 </expression>
+               </preferred>
+             </term>
+           </terms>
+         </sections>
+       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -971,11 +1263,11 @@ RSpec.describe Metanorma::Standoc do
                <terms id="_" obligation="normative">
                <title>Terms and definitions</title>
                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-               <term id="term-Tempus">
+               <term id="term-_lt_relativity_gt_-Tempus">
                <preferred><expression><name>Tempus</name></expression></preferred>
                <domain>relativity</domain><definition><verbal-definition><p id="_"> Time</p></verbal-definition></definition>
              </term>
-             <term id='term-Tempus1'>
+             <term id="term-_lt_relativity2_gt_-Tempus1">
         <preferred><expression><name>Tempus1</name></expression></preferred>
         <domain>relativity2</domain>
         <definition><verbal-definition>
@@ -1572,6 +1864,63 @@ RSpec.describe Metanorma::Standoc do
            </definitions>
          </sections>
        </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "removes identical preferred or admitted designation in a term" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR.sub(/:nodoc:\n/, ":nodoc:\n:index-terms:\n")}
+
+      == Terms and definitions
+
+      === term
+
+      preferred:[bayonet]
+
+      preferred:[term]
+
+      admitted:[x]
+
+      admitted:[y]
+
+      admitted:[x]
+
+    INPUT
+    output = <<~OUTPUT
+       #{BLANK_HDR}
+                <sections>
+            <terms id="_" obligation="normative">
+              <title>Terms and definitions</title>
+              <p id="_">For the purposes of this document,
+            the following terms and definitions apply.</p>
+              <term id="term-term">
+                <preferred>
+                  <expression>
+                    <name>term<index><primary>term</primary></index></name>
+                  </expression>
+                </preferred>
+                <preferred>
+                  <expression>
+                    <name>bayonet<index><primary>bayonet</primary></index></name>
+                  </expression>
+                </preferred>
+                <admitted>
+                  <expression>
+                    <name>x</name>
+                  </expression>
+                </admitted>
+                <admitted>
+                  <expression>
+                    <name>y</name>
+                  </expression>
+                </admitted>
+              </term>
+            </terms>
+          </sections>
+        </standard-document>
+      </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)

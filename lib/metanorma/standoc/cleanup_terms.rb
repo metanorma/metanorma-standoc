@@ -111,6 +111,7 @@ module Metanorma
         term_dl_to_metadata(xmldoc)
         term_termsource_to_designation(xmldoc)
         term_designation_reorder(xmldoc)
+        term_designation_redundant(xmldoc)
         termdef_from_termbase(xmldoc)
         termdomain_cleanup(xmldoc)
         termdef_stem_cleanup(xmldoc)

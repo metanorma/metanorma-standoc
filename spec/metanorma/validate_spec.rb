@@ -1134,6 +1134,75 @@ RSpec.describe Metanorma::Standoc do
       .not_to include "Style override set for ordered list"
   end
 
+  it "warns if two identical term designations in the same term" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    input = <<~INPUT
+      #{VALIDATING_BLANK_HDR}
+
+      == Terms and Definitions
+
+      === Term1
+
+      preferred:[Term1]
+    INPUT
+    Asciidoctor.convert(input, *OPTIONS)
+    expect(File.read("test.err"))
+      .to include "Removed duplicate designation Term1"
+  end
+
+  it "warns and aborts if two identical preferred term designations" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        == Terms and Definitions
+
+        === Term1
+
+        === Term1
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+    expect(File.read("test.err"))
+      .to include "Term Term1 occurs twice as preferred designation"
+    expect(File.exist?("test.xml")).to be false
+
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        == Terms and Definitions
+
+        === Term1
+
+        === Term2
+
+        preferred:[Term1]
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+    expect(File.read("test.err"))
+      .to include "Term Term1 occurs twice as preferred designation"
+    expect(File.exist?("test.xml")).to be false
+  end
+
   private
 
   def mock_plurimath_error(times)
