@@ -233,6 +233,7 @@ module Metanorma
       def unnumbered_blocks_cleanup(xmldoc)
         @blockunnumbered&.each do |b|
           xmldoc.xpath("//#{b}").each do |e|
+            /^[^_]/.match?(e["id"]) and e["unnumbered"] = "false"
             e["unnumbered"] ||= "true"
           end
         end
