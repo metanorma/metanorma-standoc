@@ -20,6 +20,8 @@ module Metanorma
     # schema encapsulation of the document for validation
     class Converter
       Asciidoctor::Extensions.register do
+        preprocessor Metanorma::Standoc::EmbedIncludeProcessor
+        preprocessor Metanorma::Standoc::NamedEscapePreprocessor
         preprocessor Metanorma::Standoc::Datamodel::AttributesTablePreprocessor
         preprocessor Metanorma::Standoc::Datamodel::DiagramPreprocessor
         preprocessor Metanorma::Plugin::Datastruct::Json2TextPreprocessor
@@ -60,8 +62,6 @@ module Metanorma
         treeprocessor Metanorma::Standoc::ToDoInlineAdmonitionBlock
         block Metanorma::Standoc::PlantUMLBlockMacro
         block Metanorma::Standoc::PseudocodeBlockMacro
-        preprocessor Metanorma::Standoc::EmbedIncludeProcessor
-        preprocessor Metanorma::Standoc::NamedEscapePreprocessor
       end
 
       include ::Asciidoctor::Converter
