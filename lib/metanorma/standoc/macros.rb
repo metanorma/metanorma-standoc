@@ -1,5 +1,3 @@
-require "asciidoctor/extensions"
-require "fileutils"
 require "uuidtools"
 require "yaml"
 require "csv"
