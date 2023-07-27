@@ -257,14 +257,13 @@ module Metanorma
       def reference_queue(refs, results)
         refs.each.with_object([]) do |_, m|
           ref, i, doc = results.pop
-          warn "#{i}: #{ref}\n#{doc}"
           m[i.to_i] = { ref: ref }
           if doc.is_a?(RelatonBib::RequestError)
             @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: " \
                                           "no access to online site")
             warn "#{i}: #{ref}\n#Request Error"
           else m[i.to_i][:doc] = doc
-            warn "#{i}: #{ref}\n#{doc.to_xml}"
+            warn "#{i}: #{ref}\n#{doc&.to_xml || 'NIL'}"
           end
         end
       end
