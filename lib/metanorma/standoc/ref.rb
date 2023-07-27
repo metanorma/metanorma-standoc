@@ -262,7 +262,9 @@ module Metanorma
           if doc.is_a?(RelatonBib::RequestError)
             @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: " \
                                           "no access to online site")
+            warn "#{i}: #{ref}\n#Request Error"
           else m[i.to_i][:doc] = doc
+            warn "#{i}: #{ref}\n#{doc.to_xml}"
           end
         end
       end
