@@ -257,6 +257,7 @@ module Metanorma
       def reference_queue(refs, results)
         refs.each.with_object([]) do |_, m|
           ref, i, doc = results.pop
+          warn "#{i}: #{ref}\n#{doc}"
           m[i.to_i] = { ref: ref }
           if doc.is_a?(RelatonBib::RequestError)
             @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: " \
