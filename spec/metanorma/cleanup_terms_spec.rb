@@ -327,6 +327,10 @@ RSpec.describe Metanorma::Standoc do
 
       Definition
 
+      === Sixth Designation
+
+      === Seventh Designation
+
       == Clause
 
       {{First Designation}}
@@ -337,89 +341,106 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-         #{BLANK_HDR}
-                <sections>
-                   <terms id='_' obligation='normative'>
-        <title>Terms and definitions</title>
-        <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-        <term id='term-First-Designation'>
-          <preferred>
-            <expression>
-              <name>First Designation</name>
-            </expression>
-          </preferred>
-          <preferred>
-            <expression>
-              <name>Second Designation</name>
-            </expression>
-          </preferred>
-          <admitted>
-            <expression>
-              <name>Third Designation</name>
-            </expression>
-          </admitted>
-          <admitted>
-            <expression>
-              <name>Fourth Designation</name>
-            </expression>
-          </admitted>
-          <deprecates>
-            <expression>
-              <name>Fourth Designation</name>
-            </expression>
-          </deprecates>
-          <deprecates>
-            <expression>
-              <name>Fifth Designation</name>
-            </expression>
-          </deprecates>
-        <related type='see'>
-          <strong>
-            term
-            <tt>Sixth Designation</tt>
-             not resolved via ID
-            <tt>Sixth-Designation</tt>
-          </strong>
-        </related>
-        <related type='contrast'>
-          <strong>
-            term
-            <tt>Seventh Designation</tt>
-             not resolved via ID
-            <tt>Seventh-Designation</tt>
-          </strong>
-        </related>
-          <definition><verbal-definition>
-            <p id='_'>Definition</p>
-          </verbal-definition></definition>
-        </term>
-      </terms>
-      <clause id='_' inline-header='false' obligation='normative'>
-        <title>Clause</title>
-        <p id='_'>
-          <concept>
-            <refterm>First Designation</refterm>
-            <renderterm>First Designation</renderterm>
-            <xref target='term-First-Designation'/>
-          </concept>
-        </p>
-        <p id='_'>
-          <concept>
-            <refterm>First Designation</refterm>
-            <renderterm>Second Designation</renderterm>
-            <xref target='term-First-Designation'/>
-          </concept>
-        </p>
-        <p id='_'>
-          <concept>
-            <refterm>First Designation</refterm>
-            <renderterm>Third Designation</renderterm>
-            <xref target='term-First-Designation'/>
-          </concept>
-        </p>
-      </clause>
+      #{BLANK_HDR}
+         <sections>
+           <terms id="_" obligation="normative">
+             <title>Terms and definitions</title>
+             <p id="_">For the purposes of this document,
+           the following terms and definitions apply.</p>
+             <term id="term-First-Designation">
+               <preferred>
+                 <expression>
+                   <name>First Designation</name>
+                 </expression>
+               </preferred>
+               <preferred>
+                 <expression>
+                   <name>Second Designation</name>
+                 </expression>
+               </preferred>
+               <admitted>
+                 <expression>
+                   <name>Third Designation</name>
+                 </expression>
+               </admitted>
+               <admitted>
+                 <expression>
+                   <name>Fourth Designation</name>
+                 </expression>
+               </admitted>
+               <deprecates>
+                 <expression>
+                   <name>Fourth Designation</name>
+                 </expression>
+               </deprecates>
+               <deprecates>
+                 <expression>
+                   <name>Fifth Designation</name>
+                 </expression>
+               </deprecates>
+               <related type="see">
+                 <preferred>
+                   <expression>
+                     <name>Sixth Designation</name>
+                   </expression>
+                 </preferred>
+                 <xref target="term-Sixth-Designation">Sixth Designation</xref>
+               </related>
+               <related type="contrast">
+                 <preferred>
+                   <expression>
+                     <name>Seventh Designation</name>
+                   </expression>
+                 </preferred>
+                 <xref target="term-Seventh-Designation">Seventh Designation</xref>
+               </related>
+               <definition>
+                 <verbal-definition>
+                   <p id="_">Definition</p>
+                 </verbal-definition>
+               </definition>
+             </term>
+             <term id="term-Sixth-Designation">
+               <preferred>
+                 <expression>
+                   <name>Sixth Designation</name>
+                 </expression>
+               </preferred>
+             </term>
+             <term id="term-Seventh-Designation">
+               <preferred>
+                 <expression>
+                   <name>Seventh Designation</name>
+                 </expression>
+               </preferred>
+             </term>
+           </terms>
+           <clause id="_" inline-header="false" obligation="normative">
+             <title>Clause</title>
+             <p id="_">
+               <concept>
+                 <refterm>First Designation</refterm>
+                 <renderterm>First Designation</renderterm>
+                 <xref target="term-First-Designation"/>
+               </concept>
+             </p>
+             <p id="_">
+               <concept>
+                 <refterm>First Designation</refterm>
+                 <renderterm>Second Designation</renderterm>
+                 <xref target="term-First-Designation"/>
+               </concept>
+             </p>
+             <p id="_">
+               <concept>
+                 <refterm>First Designation</refterm>
+                 <renderterm>Third Designation</renderterm>
+                 <xref target="term-First-Designation"/>
+               </concept>
+             </p>
+           </clause>
          </sections>
-         </standard-document>
+       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -650,14 +671,14 @@ RSpec.describe Metanorma::Standoc do
              </p>
              <p id="_">
                <concept>
-                 <refterm>&lt;Rice&gt; Second Designation</refterm>
+                 <refterm>&lt;Rice&gt; First Designation</refterm>
                  <renderterm>&lt;Rice&gt; Second Designation</renderterm>
                  <xref target="term-_lt_Rice_gt_-First-Designation"/>
                </concept>
              </p>
              <p id="_">
                <concept>
-                 <refterm>&lt;Rice&gt; Third Designation</refterm>
+                 <refterm>&lt;Rice&gt; First Designation</refterm>
                  <renderterm>&lt;Rice&gt; Third Designation</renderterm>
                  <xref target="term-_lt_Rice_gt_-First-Designation"/>
                </concept>
@@ -671,14 +692,14 @@ RSpec.describe Metanorma::Standoc do
              </p>
              <p id="_">
                <concept>
-                 <refterm>&lt;Wheat&gt; Second Designation</refterm>
+                 <refterm>&lt;Wheat&gt; First Designation</refterm>
                  <renderterm>&lt;Wheat&gt; Second Designation</renderterm>
                  <xref target="term-_lt_Wheat_gt_-First-Designation"/>
                </concept>
              </p>
              <p id="_">
                <concept>
-                 <refterm>&lt;Wheat&gt; Third Designation</refterm>
+                 <refterm>&lt;Wheat&gt; First Designation</refterm>
                  <renderterm>&lt;Wheat&gt; Third Designation</renderterm>
                  <xref target="term-_lt_Wheat_gt_-First-Designation"/>
                </concept>

@@ -49,7 +49,8 @@ module Metanorma
       def concept_cleanup
         xmldoc.xpath("//concept").each do |n|
           refterm = n.at("./refterm") or next
-          p = @termlookup[:secondary2primary][@c.encode(refterm.text)] and
+          lookup = normalize_ref_id_text(refterm.text.strip)
+          p = @termlookup[:secondary2primary][lookup] and
             refterm.children = @c.encode(p)
         end
       end
@@ -61,7 +62,7 @@ module Metanorma
       def related_cleanup
         xmldoc.xpath("//related").each do |n|
           refterm = n.at("./refterm") or next
-          lookup = @c.encode(refterm.text)
+          lookup = normalize_ref_id_text(refterm.text.strip)
           p = @termlookup[:secondary2primary][lookup] and
             refterm.children = @c.encode(p)
           p || @termlookup[:term][lookup] and
@@ -133,7 +134,7 @@ module Metanorma
       end
 
       def remove_missing_ref_msg1(_node, target, ret)
-        target2 = "_#{target.downcase.gsub(/-/, '_')}"
+        target2 = "_#{target.downcase.gsub('-', '_')}"
         if @terms_tags[target] || @terms_tags[target2]
           ret.strip!
           ret += ". Did you mean to point to a subterm?"
@@ -185,17 +186,20 @@ module Metanorma
 
       def pref_secondary2primary_preferred(term, res, primary)
         term.xpath("./preferred//name").each_with_index do |p, i|
-          i.positive? and res[domain_prefix(term, p.text)] = primary
-          @unique_designs[p.text] && term.at(".//domain") and
-            res[p.text] = primary
+          t = p.text.strip
+          i.positive? and
+            res[normalize_ref_id_text(domain_prefix(term, t))] = primary
+          @unique_designs[t] && term.at(".//domain") and
+            res[normalize_ref_id_text(t)] = primary
         end
       end
 
       def pref_secondary2primary_admitted(term, res, primary)
         term.xpath("./admitted//name").each do |p|
-          res[domain_prefix(term, p.text)] = primary
-          @unique_designs[p.text] && term.at(".//domain") and
-            res[p.text] = primary
+          t = p.text.strip
+          res[normalize_ref_id_text(domain_prefix(term, t))] = primary
+          @unique_designs[t] && term.at(".//domain") and
+            res[normalize_ref_id_text(t)] = primary
         end
       end
 
@@ -236,7 +240,11 @@ module Metanorma
         t.xpath(".//index").map(&:remove)
         ret = t.text.strip
         node and ret = domain_prefix(node, ret)
-        Metanorma::Utils::to_ncname(ret.gsub(/[[:space:]]+/, "-"))
+        normalize_ref_id_text(ret)
+      end
+
+      def normalize_ref_id_text(text)
+        Metanorma::Utils::to_ncname(text.gsub(/[[:space:]]+/, "-"))
       end
 
       def unique_text_id(text, prefix)
