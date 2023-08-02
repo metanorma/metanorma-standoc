@@ -310,11 +310,11 @@ RSpec.describe Metanorma::Standoc do
       ====
     INPUT
     output = <<~OUTPUT
-              #{BLANK_HDR}
+      #{BLANK_HDR}
                        <sections>
            <figure id="_" class="pseudocode">
              <formula id="_">
-               <stem type="MathML">
+                            <stem type="MathML">
                  <math xmlns="http://www.w3.org/1998/Math/MathML">
                    <mstyle displaystyle="true">
                      <mover>
@@ -327,19 +327,21 @@ RSpec.describe Metanorma::Standoc do
                        <mn>1</mn>
                        <mi>v</mi>
                      </mfrac>
-                     <munderover>
-                       <mo>∑</mo>
-                       <mrow>
+                     <mrow>
+                       <munderover>
+                         <mo>∑</mo>
+                         <mrow>
+                           <mi>i</mi>
+                           <mo>=</mo>
+                           <mn>1</mn>
+                         </mrow>
+                         <mi>v</mi>
+                       </munderover>
+                       <msub>
+                         <mi>t</mi>
                          <mi>i</mi>
-                         <mo>=</mo>
-                         <mn>1</mn>
-                       </mrow>
-                       <mi>v</mi>
-                     </munderover>
-                     <msub>
-                       <mi>t</mi>
-                       <mi>i</mi>
-                     </msub>
+                       </msub>
+                     </mrow>
                    </mstyle>
                  </math>
                  <asciimath>bar X' = (1)/(v) sum_(i = 1)^(v) t_(i)</asciimath>

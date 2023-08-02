@@ -78,7 +78,7 @@ module Metanorma
       def concept_cleanup1(elem)
         elem.children.remove if elem&.children&.text&.strip&.empty?
         key_extract_locality(elem)
-        if /:/.match?(elem["key"]) then concept_termbase_cleanup(elem)
+        if elem["key"].include?(":") then concept_termbase_cleanup(elem)
         elsif refid? elem["key"] then concept_eref_cleanup(elem)
         else concept_xref_cleanup(elem)
         end
@@ -95,15 +95,14 @@ module Metanorma
       end
 
       def key_extract_locality(elem)
-        return unless /,/.match?(elem["key"])
-
+        elem["key"].include?(",") or return
         elem.add_child("<locality>#{elem['key'].sub(/^[^,]+,/, '')}</locality>")
         elem["key"] = elem["key"].sub(/,.*$/, "")
       end
 
       def concept_termbase_cleanup(elem)
         t = elem&.at("./xrefrender")&.remove&.children
-        termbase, key = elem["key"].split(/:/, 2)
+        termbase, key = elem["key"].split(":", 2)
         elem.add_child(%(<termref base="#{termbase}" target="#{key}">) +
                        "#{t&.to_xml}</termref>")
       end
@@ -205,6 +204,20 @@ module Metanorma
         doc.xpath("//identifier").each do |p|
           p.children = select_odd_chars(p.children.to_xml)
         end
+      end
+
+      def link_cleanup(xmldoc)
+        xmldoc.xpath("//link[@target]").each do |l|
+          ret = CGI.unescape(l["target"]).split(%r((://+)), 2)
+          ret[-1, 1] = ret[-1].split(%r{(/+)}).map do |x|
+            x.include?("/") ? x : uri_component_encode(x)
+          end
+          l["target"] = ret.join
+        end
+      end
+
+      def uri_component_encode(comp)
+        CGI.escape(comp).gsub("+", "%20")
       end
 
       private

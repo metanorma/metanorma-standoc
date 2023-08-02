@@ -79,6 +79,7 @@ module Metanorma
         empty_element_cleanup(xmldoc)
         img_cleanup(xmldoc)
         anchor_cleanup(xmldoc)
+        link_cleanup(xmldoc)
         xmldoc
       end
 

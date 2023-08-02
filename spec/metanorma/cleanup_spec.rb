@@ -499,8 +499,8 @@ RSpec.describe Metanorma::Standoc do
     FileUtils.rm_rf "test.iev.pstore"
     # mock_iev
     VCR.use_cassette("separates_iev_citations_by_top_level_clause",
-                     :record => :new_episodes,
-                    match_requests_on: %i[method uri body]) do
+                     record: :new_episodes,
+                     match_requests_on: %i[method uri body]) do
       input = <<~INPUT
         #{CACHED_ISOBIB_BLANK_HDR}
 
@@ -531,130 +531,130 @@ RSpec.describe Metanorma::Standoc do
         <<iev,clause="103-01-02">>
       INPUT
       output = <<~OUTPUT
-          #{BLANK_HDR}
-          <sections>
-        <terms id="_" obligation="normative"><title>Terms and definitions</title>
-         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-         <term id="term-Automation1">
-          <preferred><expression><name>Automation1</name></expression></preferred>
-          <definition><verbal-definition><p id='_'>Definition 1</p></verbal-definition></definition>
-          <termsource status="identical" type="authoritative">
-          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC&#xa0;60050-103:2009">
-          <localityStack>
-        <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
-          </localityStack>
-        </origin>
-        </termsource>
-        </term>
-        <term id="term-Automation2">
-          <preferred><expression><name>Automation2</name></expression></preferred>
-          <definition><verbal-definition><p id='_'>Definition 2</p></verbal-definition></definition>
-          <termsource status="identical" type="authoritative">
-          <origin bibitemid="IEC60050-102" type="inline" citeas="IEC&#xa0;60050-102:2007">
-          <localityStack>
-        <locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality>
-          </localityStack>
-        </origin>
-        </termsource>
-        </term>
-        <term id="term-Automation3">
-          <preferred><expression><name>Automation3</name></expression></preferred>
-          <definition><verbal-definition><p id='_'>Definition 3</p></verbal-definition></definition>
-          <termsource status="identical" type="authoritative">
-          <origin bibitemid="IEC60050-103" type="inline" citeas="IEC&#xa0;60050-103:2009">
-          <localityStack>
-        <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
-          </localityStack>
-        </origin>
-        </termsource>
-        </term></terms></sections><bibliography><references id="_" obligation="informative" normative="true">
-          <title>Normative references</title>
-        #{NORM_REF_BOILERPLATE}
-                     <bibitem id="IEC60050-102" type="standard">
-               <fetched/>
-               <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 102: Mathematics — General concepts and linear algebra</title>
-               <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV) — Partie 102: Mathématiques — Concepts généraux et algèbre linéaire</title>
-               <uri type="src">https://webstore.iec.ch/publication/160</uri>
-               <uri type="obp">https://webstore.iec.ch/preview/info_iec60050-102{ed1.0}b.pdf</uri>
-               <docidentifier type="IEC" primary="true">IEC 60050-102:2007</docidentifier>
-               <docidentifier type="URN">urn:iec:std:iec:60050-102:2007-08:::</docidentifier>
-               <date type="published">
-                 <on>2007-08-27</on>
-               </date>
-               <contributor>
-                 <role type="publisher"/>
-                 <organization>
-                   <name>International Electrotechnical Commission</name>
-                   <abbreviation>IEC</abbreviation>
-                   <uri>www.iec.ch</uri>
-                 </organization>
-               </contributor>
-               <edition>1</edition>
-               <language>en</language>
-               <language>fr</language>
-               <script>Latn</script>
-               <abstract format="text/html" language="en" script="Latn">This part of IEC 60050 gives the general mathematical terminology used in the fields of electricity, electronics and telecommunications, together with basic concepts in linear algebra. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Another part will deal with functions.<br/>It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
-               <abstract format="text/html" language="fr" script="Latn">Cette partie de la CEI 60050 donne la terminologie mathématique générale utilisée dans les domaines de l’électricité, de l’électronique et des télécommunications, ainsi que les concepts fondamentaux d’algèbre linéaire. Elle maintient une distinction nette entre les concepts mathématiques et les concepts physiques, même si certains termes sont employés dans les deux cas. Une autre partie traitera des fonctions.<br/>Elle a le statut de norme horizontale conformément au  Guide IEC 108.</abstract>
-               <status>
-                 <stage>PUBLISHED</stage>
-               </status>
-               <copyright>
-                 <from>2007</from>
-                 <owner>
-                   <organization>
-                     <name>International Electrotechnical Commission</name>
-                     <abbreviation>IEC</abbreviation>
-                     <uri>www.iec.ch</uri>
-                   </organization>
-                 </owner>
-               </copyright>
-               <place>Geneva</place>
-             </bibitem>
-             <bibitem id="IEC60050-103" type="standard">
-               <fetched/>
-               <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 103: Mathematics — Functions</title>
-               <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV) — Partie 103: Mathématiques — Fonctions</title>
-               <title type="main" format="text/plain" language="es" script="Latn">Versión Oficial En español — Vocabulario Electrotécnico Internacional. Parte 103: Matemáticas. Funciones.</title>
-               <uri type="src">https://webstore.iec.ch/publication/161</uri>
-               <uri type="obp">https://webstore.iec.ch/preview/info_iec60050-103{ed1.0}b.pdf</uri>
-               <docidentifier type="IEC" primary="true">IEC 60050-103:2009</docidentifier>
-               <docidentifier type="URN">urn:iec:std:iec:60050-103:2009-12:::</docidentifier>
-               <date type="published">
-                 <on>2009-12-14</on>
-               </date>
-               <contributor>
-                 <role type="publisher"/>
-                 <organization>
-                   <name>International Electrotechnical Commission</name>
-                   <abbreviation>IEC</abbreviation>
-                   <uri>www.iec.ch</uri>
-                 </organization>
-               </contributor>
-               <edition>1</edition>
-               <language>en</language>
-               <language>fr</language>
-               <language>es</language>
-               <script>Latn</script>
-               <abstract format="text/html" language="en" script="Latn">IEC 60050-103:2009 gives the terminology relative to functions of one or more variables. Together with IEC 60050-102, it covers the mathematical terminology used in the fields of electricity, electronics and telecommunications. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Mathematical symbols are generally in accordance with IEC 60027-1 and ISO 80000-2. This standard cancels and replaces Sections 101-13, 101-14 and 101-15 of International Standard IEC 60050-101:1998.<br/>It has the status of a horizontal standard in accordance with  IEC Guide 108.</abstract>
-               <abstract format="text/html" language="fr" script="Latn">La CEI 60050-103:2009 donne la terminologie relative aux fonctions d’une ou plusieurs variables. Conjointement avec la CEI 60050-102, elle couvre la terminologie mathématique utilisée dans les domaines de l’électricité, de l’électronique et des télécommunications. Elle maintient une distinction nette entre les concepts mathématiques et les concepts physiques, même si certains termes sont employés dans les deux cas. Les symboles mathématiques sont généralement conformes à la CEI 60027-1 et à l’ISO 80000-2. Cette norme annule et remplace les sections 101-13, 101-14 et 101-15 de la norme internationale CEI 60050-101:1998.<br/>Elle a le statut de norme horizontale conformément au  Guide IEC 108.</abstract>
-               <status>
-                 <stage>PUBLISHED</stage>
-               </status>
-               <copyright>
-                 <from>2009</from>
-                 <owner>
-                   <organization>
-                     <name>International Electrotechnical Commission</name>
-                     <abbreviation>IEC</abbreviation>
-                     <uri>www.iec.ch</uri>
-                   </organization>
-                 </owner>
-               </copyright>
-               <place>Geneva</place>
-             </bibitem>
-           </references>
-         </bibliography>
-       </standard-document>
+           #{BLANK_HDR}
+           <sections>
+         <terms id="_" obligation="normative"><title>Terms and definitions</title>
+          <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+          <term id="term-Automation1">
+           <preferred><expression><name>Automation1</name></expression></preferred>
+           <definition><verbal-definition><p id='_'>Definition 1</p></verbal-definition></definition>
+           <termsource status="identical" type="authoritative">
+           <origin bibitemid="IEC60050-103" type="inline" citeas="IEC&#xa0;60050-103:2009">
+           <localityStack>
+         <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
+           </localityStack>
+         </origin>
+         </termsource>
+         </term>
+         <term id="term-Automation2">
+           <preferred><expression><name>Automation2</name></expression></preferred>
+           <definition><verbal-definition><p id='_'>Definition 2</p></verbal-definition></definition>
+           <termsource status="identical" type="authoritative">
+           <origin bibitemid="IEC60050-102" type="inline" citeas="IEC&#xa0;60050-102:2007">
+           <localityStack>
+         <locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality>
+           </localityStack>
+         </origin>
+         </termsource>
+         </term>
+         <term id="term-Automation3">
+           <preferred><expression><name>Automation3</name></expression></preferred>
+           <definition><verbal-definition><p id='_'>Definition 3</p></verbal-definition></definition>
+           <termsource status="identical" type="authoritative">
+           <origin bibitemid="IEC60050-103" type="inline" citeas="IEC&#xa0;60050-103:2009">
+           <localityStack>
+         <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
+           </localityStack>
+         </origin>
+         </termsource>
+         </term></terms></sections><bibliography><references id="_" obligation="informative" normative="true">
+           <title>Normative references</title>
+         #{NORM_REF_BOILERPLATE}
+                      <bibitem id="IEC60050-102" type="standard">
+                <fetched/>
+                <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 102: Mathematics — General concepts and linear algebra</title>
+                <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV) — Partie 102: Mathématiques — Concepts généraux et algèbre linéaire</title>
+                <uri type="src">https://webstore.iec.ch/publication/160</uri>
+                <uri type="obp">https://webstore.iec.ch/preview/info_iec60050-102{ed1.0}b.pdf</uri>
+                <docidentifier type="IEC" primary="true">IEC 60050-102:2007</docidentifier>
+                <docidentifier type="URN">urn:iec:std:iec:60050-102:2007-08:::</docidentifier>
+                <date type="published">
+                  <on>2007-08-27</on>
+                </date>
+                <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                    <name>International Electrotechnical Commission</name>
+                    <abbreviation>IEC</abbreviation>
+                    <uri>www.iec.ch</uri>
+                  </organization>
+                </contributor>
+                <edition>1</edition>
+                <language>en</language>
+                <language>fr</language>
+                <script>Latn</script>
+                <abstract format="text/html" language="en" script="Latn">This part of IEC 60050 gives the general mathematical terminology used in the fields of electricity, electronics and telecommunications, together with basic concepts in linear algebra. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Another part will deal with functions.<br/>It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
+                <abstract format="text/html" language="fr" script="Latn">Cette partie de la CEI 60050 donne la terminologie mathématique générale utilisée dans les domaines de l’électricité, de l’électronique et des télécommunications, ainsi que les concepts fondamentaux d’algèbre linéaire. Elle maintient une distinction nette entre les concepts mathématiques et les concepts physiques, même si certains termes sont employés dans les deux cas. Une autre partie traitera des fonctions.<br/>Elle a le statut de norme horizontale conformément au  Guide IEC 108.</abstract>
+                <status>
+                  <stage>PUBLISHED</stage>
+                </status>
+                <copyright>
+                  <from>2007</from>
+                  <owner>
+                    <organization>
+                      <name>International Electrotechnical Commission</name>
+                      <abbreviation>IEC</abbreviation>
+                      <uri>www.iec.ch</uri>
+                    </organization>
+                  </owner>
+                </copyright>
+                <place>Geneva</place>
+              </bibitem>
+              <bibitem id="IEC60050-103" type="standard">
+                <fetched/>
+                <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 103: Mathematics — Functions</title>
+                <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV) — Partie 103: Mathématiques — Fonctions</title>
+                <title type="main" format="text/plain" language="es" script="Latn">Versión Oficial En español — Vocabulario Electrotécnico Internacional. Parte 103: Matemáticas. Funciones.</title>
+                <uri type="src">https://webstore.iec.ch/publication/161</uri>
+                <uri type="obp">https://webstore.iec.ch/preview/info_iec60050-103{ed1.0}b.pdf</uri>
+                <docidentifier type="IEC" primary="true">IEC 60050-103:2009</docidentifier>
+                <docidentifier type="URN">urn:iec:std:iec:60050-103:2009-12:::</docidentifier>
+                <date type="published">
+                  <on>2009-12-14</on>
+                </date>
+                <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                    <name>International Electrotechnical Commission</name>
+                    <abbreviation>IEC</abbreviation>
+                    <uri>www.iec.ch</uri>
+                  </organization>
+                </contributor>
+                <edition>1</edition>
+                <language>en</language>
+                <language>fr</language>
+                <language>es</language>
+                <script>Latn</script>
+                <abstract format="text/html" language="en" script="Latn">IEC 60050-103:2009 gives the terminology relative to functions of one or more variables. Together with IEC 60050-102, it covers the mathematical terminology used in the fields of electricity, electronics and telecommunications. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Mathematical symbols are generally in accordance with IEC 60027-1 and ISO 80000-2. This standard cancels and replaces Sections 101-13, 101-14 and 101-15 of International Standard IEC 60050-101:1998.<br/>It has the status of a horizontal standard in accordance with  IEC Guide 108.</abstract>
+                <abstract format="text/html" language="fr" script="Latn">La CEI 60050-103:2009 donne la terminologie relative aux fonctions d’une ou plusieurs variables. Conjointement avec la CEI 60050-102, elle couvre la terminologie mathématique utilisée dans les domaines de l’électricité, de l’électronique et des télécommunications. Elle maintient une distinction nette entre les concepts mathématiques et les concepts physiques, même si certains termes sont employés dans les deux cas. Les symboles mathématiques sont généralement conformes à la CEI 60027-1 et à l’ISO 80000-2. Cette norme annule et remplace les sections 101-13, 101-14 et 101-15 de la norme internationale CEI 60050-101:1998.<br/>Elle a le statut de norme horizontale conformément au  Guide IEC 108.</abstract>
+                <status>
+                  <stage>PUBLISHED</stage>
+                </status>
+                <copyright>
+                  <from>2009</from>
+                  <owner>
+                    <organization>
+                      <name>International Electrotechnical Commission</name>
+                      <abbreviation>IEC</abbreviation>
+                      <uri>www.iec.ch</uri>
+                    </organization>
+                  </owner>
+                </copyright>
+                <place>Geneva</place>
+              </bibitem>
+            </references>
+          </bibliography>
+        </standard-document>
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)
@@ -740,23 +740,23 @@ RSpec.describe Metanorma::Standoc do
       stem:[1/r]
     INPUT
     output = <<~OUTPUT
-             #{BLANK_HDR}
-                      <sections>
-           <p id="_">
-             <stem type="MathML">
-               <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mstyle displaystyle="true">
-                   <mfrac>
-                     <mn>1</mn>
-                     <mi>r</mi>
-                   </mfrac>
-                 </mstyle>
-               </math>
-               <asciimath>1/r</asciimath>
-             </stem>
-           </p>
-         </sections>
-       </standard-document>
+            #{BLANK_HDR}
+                     <sections>
+          <p id="_">
+            <stem type="MathML">
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <mstyle displaystyle="true">
+                  <mfrac>
+                    <mn>1</mn>
+                    <mi>r</mi>
+                  </mfrac>
+                </mstyle>
+              </math>
+              <asciimath>1/r</asciimath>
+            </stem>
+          </p>
+        </sections>
+      </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -789,22 +789,22 @@ RSpec.describe Metanorma::Standoc do
       stem:[sf "unitsml(cd)"]
     INPUT
     output = <<~OUTPUT
-            <sections>
-          <p id="_">
-            <stem type="MathML">
-              <math xmlns="http://www.w3.org/1998/Math/MathML">
-                <mstyle displaystyle="true">
-                  <mstyle mathvariant="sans-serif">
-                    <mrow xref="U_NISTu7">
-                      <mi mathvariant="sans-serif">cd</mi>
-                    </mrow>
-                  </mstyle>
+          <sections>
+        <p id="_">
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mstyle displaystyle="true">
+                <mstyle mathvariant="sans-serif">
+                  <mrow xref="U_NISTu7">
+                    <mi mathvariant="sans-serif">cd</mi>
+                  </mrow>
                 </mstyle>
-              </math>
-              <asciimath>sf "unitsml(cd)"</asciimath>
-            </stem>
-          </p>
-        </sections>
+              </mstyle>
+            </math>
+            <asciimath>sf "unitsml(cd)"</asciimath>
+          </stem>
+        </p>
+      </sections>
     OUTPUT
     expect(xmlpp(strip_guid(Nokogiri::XML(
       Asciidoctor.convert(input, *OPTIONS),
@@ -1249,16 +1249,16 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
     sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
     expect(sym).to be_equivalent_to <<~OUTPUT
-           <dt id="symbol-m">m</dt><dt id="symbol-n-n">
-         <stem type="MathML">
-           <math xmlns="http://www.w3.org/1998/Math/MathML">
-         <mstyle displaystyle="true">
-           <mi>n</mi>
-         </mstyle>
-       </math>
-           <asciimath>n</asciimath>
-         </stem>
-       </dt><dt id="symbol-Xa">Xa</dt><dt id="symbol-x">x</dt><dt id="symbol-x_m_">x_m_</dt><dt id="symbol-x_1_">x_1_</dt><dt id="symbol-__x3b1_">α</dt>
+          <dt id="symbol-m">m</dt><dt id="symbol-n-n">
+        <stem type="MathML">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <mstyle displaystyle="true">
+          <mi>n</mi>
+        </mstyle>
+      </math>
+          <asciimath>n</asciimath>
+        </stem>
+      </dt><dt id="symbol-Xa">Xa</dt><dt id="symbol-x">x</dt><dt id="symbol-x_m_">x_m_</dt><dt id="symbol-x_1_">x_1_</dt><dt id="symbol-__x3b1_">α</dt>
     OUTPUT
   end
 
@@ -1344,40 +1344,40 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
     sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
     expect(sym).to be_equivalent_to <<~OUTPUT
-           <dt id="symbol-x">x</dt><dt id="symbol-x-m-x_m">
-         <stem type="MathML">
-           <math xmlns="http://www.w3.org/1998/Math/MathML">
-         <mstyle displaystyle="true">
-           <msub>
-             <mi>x</mi>
-             <mi>m</mi>
-           </msub>
-         </mstyle>
-       </math>
-           <asciimath>x_m</asciimath>
-         </stem>
-       </dt><dt id="symbol-x-1-x_1">
-         <stem type="MathML">
-           <math xmlns="http://www.w3.org/1998/Math/MathML">
-         <mstyle displaystyle="true">
-           <msub>
-             <mi>x</mi>
-             <mn>1</mn>
-           </msub>
-         </mstyle>
-       </math>
-           <asciimath>x_1</asciimath>
-         </stem>
-       </dt><dt id="symbol-xa">xa</dt><dt id="symbol-__x3b1_-alpha">
-         <stem type="MathML">
-           <math xmlns="http://www.w3.org/1998/Math/MathML">
-         <mstyle displaystyle="true">
-           <mi>α</mi>
-         </mstyle>
-       </math>
-           <asciimath>alpha</asciimath>
-         </stem>
-       </dt>
+          <dt id="symbol-x">x</dt><dt id="symbol-x-m-x_m">
+        <stem type="MathML">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <mstyle displaystyle="true">
+          <msub>
+            <mi>x</mi>
+            <mi>m</mi>
+          </msub>
+        </mstyle>
+      </math>
+          <asciimath>x_m</asciimath>
+        </stem>
+      </dt><dt id="symbol-x-1-x_1">
+        <stem type="MathML">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <mstyle displaystyle="true">
+          <msub>
+            <mi>x</mi>
+            <mn>1</mn>
+          </msub>
+        </mstyle>
+      </math>
+          <asciimath>x_1</asciimath>
+        </stem>
+      </dt><dt id="symbol-xa">xa</dt><dt id="symbol-__x3b1_-alpha">
+        <stem type="MathML">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <mstyle displaystyle="true">
+          <mi>α</mi>
+        </mstyle>
+      </math>
+          <asciimath>alpha</asciimath>
+        </stem>
+      </dt>
     OUTPUT
   end
 
@@ -1539,7 +1539,7 @@ RSpec.describe Metanorma::Standoc do
       ++++
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR.sub(/<metanorma-extension>/, <<~EXT
+      #{BLANK_HDR.sub('<metanorma-extension>', <<~EXT
         <metanorma-extension>
              <UnitsML xmlns='https://schema.unitsml.org/unitsml/1.0'>
                <UnitSet>
@@ -2020,7 +2020,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR.sub(/<metanorma-extension>/, <<~EXT
+      #{BLANK_HDR.sub('<metanorma-extension>', <<~EXT
         <metanorma-extension>
           <table id='_'>
             <tbody>
@@ -2087,6 +2087,28 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to(xmlpp(output))
   end
 
+  it "cleans up links" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Clause
+
+      http://www.example.com/a%20<a>%3cb%3e[x]
+
+    INPUT
+    output = <<~OUTPUT
+      <clause id="_" inline-header="false" obligation="normative">
+        <title>Clause</title>
+        <p id="_">
+          <link target="http://www.example.com/a%20%3Ca%3E%3Cb%3E">x</link>
+        </p>
+      </clause>
+    OUTPUT
+    ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xmlpp(strip_guid(ret.at("//xmlns:clause").to_xml)))
+      .to be_equivalent_to(xmlpp(output))
+  end
+
   private
 
   def mock_mathml_italicise(string)
@@ -2096,7 +2118,7 @@ RSpec.describe Metanorma::Standoc do
 
   def mock_iev
     expect(Iecbib::IecBibliography).to receive(:get).with("IEV", nil, {}) do
-      IsoBibItem::XMLParser.from_xml(<<~"OUTPUT")
+      IsoBibItem::XMLParser.from_xml(<<~OUTPUT)
         <bibitem type="standard" id="IEC60050:2001">
            <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
            <docidentifier>IEC 60050:2011</docidentifier>
