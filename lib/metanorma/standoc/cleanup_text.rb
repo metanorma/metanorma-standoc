@@ -3,7 +3,6 @@ module Metanorma
     module Cleanup
       def textcleanup(result)
         text = result.flatten.map { |l| l.sub(/\s*\Z/, "") } * "\n"
-        !@keepasciimath and text = asciimath2mathml(text)
         text = text.gsub(/\s+<fn /, "<fn ")
         %w(passthrough passthrough-inline).each do |v|
           text.gsub!(%r{<#{v}\s+formats="metanorma">([^<]*)

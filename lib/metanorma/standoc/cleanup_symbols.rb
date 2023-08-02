@@ -1,3 +1,5 @@
+require "metanorma/standoc/utils"
+
 module Metanorma
   module Standoc
     module Cleanup
@@ -8,29 +10,10 @@ module Metanorma
       def symbol_key(sym)
         @c.decode(asciimath_key(sym).text)
           .gsub(/[\[\]{}<>()]/, "").gsub(/\s/m, "")
-          .gsub(/[[:punct:]]|[_^]/, ":\\0").gsub(/`/, "")
+          .gsub(/[[:punct:]]|[_^]/, ":\\0").gsub("`", "")
           .gsub(/[0-9]+/, "þ\\0")
           .tr("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz",
               "ABCFEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
-      end
-
-      def asciimath_key(sym)
-        key = sym.dup
-        key.traverse do |n|
-          if n.name == "stem" && a = n.at(".//asciimath")
-            n.children = @c.encode(
-              @c.decode(grkletters(a.text)), :basic
-            )
-          end
-        end
-        key.xpath(".//asciimath").each(&:remove)
-        Nokogiri::XML(key.to_xml)
-      end
-
-      def grkletters(text)
-        text.gsub(/\b(alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|
-                      lambda|mu|nu|xi|omicron|pi|rho|sigma|tau|upsilon|phi|chi|
-                      psi|omega)\b/xi, "&\\1;")
       end
 
       def extract_symbols_list(dlist)

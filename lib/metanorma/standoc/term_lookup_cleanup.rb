@@ -238,7 +238,7 @@ module Metanorma
       def normalize_ref_id1(term, node = nil)
         t = term.dup
         t.xpath(".//index").map(&:remove)
-        ret = t.text.strip
+        ret = asciimath_key(t).text.strip
         node and ret = domain_prefix(node, ret)
         normalize_ref_id_text(ret)
       end
@@ -256,6 +256,8 @@ module Metanorma
           end
         end
       end
+
+      include ::Metanorma::Standoc::Utils
     end
   end
 end

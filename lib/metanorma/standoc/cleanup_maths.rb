@@ -3,17 +3,28 @@ require "asciimath2unitsml"
 module Metanorma
   module Standoc
     module Cleanup
-      def asciimath2mathml(text)
-        text = text.gsub(%r{<stem type="AsciiMath">(.+?)</stem>}m) do
-          "<amathstem>#{@c.decode($1)}</amathstem>"
+      def asciimath_cleanup(xml)
+        !@keepasciimath and asciimath2mathml(xml)
+      end
+
+      def asciimath2mathml(xml)
+        xpath = xml.xpath("//stem[@type = 'AsciiMath']")
+        xpath.each_with_index do |x, i|
+          progress_conv(i, 500, xpath.size, 1000, "AsciiMath")
+          asciimath2mathml_indiv(x)
         end
-        text = Html2Doc.new({})
-          .asciimath_to_mathml(text, ["<amathstem>", "</amathstem>"],
-                               retain_asciimath: true)
-        asciimath2mathml_wrap(text)
+        asciimath2mathml_wrap(xml)
+      end
+
+      def asciimath2mathml_indiv(elem)
+        elem["type"] = "MathML"
+        expr = @c.decode(elem.text)
+        ret = Plurimath::Math.parse(expr, "asciimath")
+          .to_mathml(display_style: elem["block"])
+        ret += "<asciimath>#{@c.encode(@c.decode(expr), :basic)}</asciimath>"
+        elem.children = ret
       rescue StandardError => e
-        asciimath2mathml_err(text, e)
-        text
+        asciimath2mathml_err(elem.to_xml, e)
       end
 
       def asciimath2mathml_err(text, expr)
@@ -23,25 +34,27 @@ module Metanorma
         warn err
       end
 
-      def asciimath2mathml_wrap(text)
-        x = Nokogiri::XML(text)
-        x.xpath("//*[local-name() = 'math'][@display]").each do |y|
+      def asciimath2mathml_wrap(xml)
+        xml.xpath("//*[local-name() = 'math'][@display]").each do |y|
           y.delete("display")
         end
-        x.xpath("//*[local-name() = 'math'][not(parent::stem)]").each do |y|
-          y.wrap("<stem type='MathML'></stem>")
-        end
-        x.xpath("//stem").each do |y|
-          y.next_element&.name == "asciimath" and y << y.next_element
-        end
-        to_xml(x)
+        # x.xpath("//stem").each do |y|
+        # y.next_element&.name == "asciimath" and y << y.next_element
+        # end
+        xml
+      end
+
+      def progress_conv(idx, step, total, threshold, msg)
+        return unless (idx % step).zero? && total > threshold && idx.positive?
+
+        warn "#{msg} #{idx} of #{total}"
       end
 
       def xml_unescape_mathml(xml)
         return if xml.children.any?(&:element?)
 
-        math = xml.text.gsub(/&lt;/, "<").gsub(/&gt;/, ">")
-          .gsub(/&quot;/, '"').gsub(/&apos;/, "'").gsub(/&amp;/, "&")
+        math = xml.text.gsub("&lt;", "<").gsub("&gt;", ">")
+          .gsub("&quot;", '"').gsub("&apos;", "'").gsub("&amp;", "&")
           .gsub(/<[^: \r\n\t\/]+:/, "<").gsub(/<\/[^ \r\n\t:]+:/, "</")
         xml.children = math
       end

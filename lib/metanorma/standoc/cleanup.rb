@@ -51,6 +51,7 @@ module Metanorma
         normref_cleanup(xmldoc)
         biblio_cleanup(xmldoc)
         reference_names(xmldoc)
+        asciimath_cleanup(xmldoc) # feeds: mathml_cleanup, termdef_cleanup, symbols_cleanup
         symbols_cleanup(xmldoc) # feeds: termdef_cleanup
         xref_cleanup(xmldoc) # feeds: concept_cleanup, origin_cleanup
         concept_cleanup(xmldoc) # feeds: related_cleanup, termdef_cleanup

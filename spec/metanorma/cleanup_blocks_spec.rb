@@ -192,7 +192,7 @@ RSpec.describe Metanorma::Standoc do
             #{BLANK_HDR}
                      <sections>
           <formula id="_">
-            <stem type="MathML">
+            <stem type="MathML" block="true">
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <mstyle displaystyle="true">
                   <mi>r</mi>
@@ -241,7 +241,7 @@ RSpec.describe Metanorma::Standoc do
             #{BLANK_HDR}
                      <sections>
           <formula id="_">
-            <stem type="MathML">
+            <stem type="MathML" block="true">
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <mstyle displaystyle="true">
                   <mi>r</mi>
@@ -639,7 +639,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
                <sections>
            <formula id="_">
-             <stem type="MathML">
+             <stem type="MathML" block="true">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
                  <mstyle displaystyle="true">
                    <mi>F</mi>
@@ -662,7 +662,7 @@ RSpec.describe Metanorma::Standoc do
              </dl>
            </formula>
            <formula id="_">
-             <stem type="MathML">
+             <stem type="MathML" block="true">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
                  <mstyle displaystyle="true">
                    <mi>F</mi>
@@ -685,7 +685,7 @@ RSpec.describe Metanorma::Standoc do
              </dl>
            </formula>
            <formula id="_">
-             <stem type="MathML">
+             <stem type="MathML" block="true">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
                  <mstyle displaystyle="true">
                    <mi>F</mi>

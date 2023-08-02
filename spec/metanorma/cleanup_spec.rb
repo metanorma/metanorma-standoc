@@ -182,7 +182,7 @@ RSpec.describe Metanorma::Standoc do
            <p id="_">“ppt”,<index><primary>ppt</primary></index></p>
            <p id="_">“ppm”,<index><primary>ppm</primary></index> “ppt”<index><primary>ppt</primary></index></p>
            <p id="_">“ppm<index><primary>ppm</primary></index>” </p>
-           <p id="_">“<stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><mn>3</mn></mstyle></math><asciimath>3</asciimath></stem>”.<fn reference="1"><p id="_">The mole</p></fn></p>
+           <p id="_">“<stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mn>3</mn></mstyle></math><asciimath>3</asciimath></stem>”.<fn reference="1"><p id="_">The mole</p></fn></p>
            <figure id="_">
              <pre id="_">((ppm))",</pre>
            </figure>
@@ -719,7 +719,7 @@ RSpec.describe Metanorma::Standoc do
              #{BLANK_HDR}
              <sections>
         <p id="_">
-        <stem type="AsciiMath">1/r</stem>
+        <stem type="AsciiMath" block="false">1/r</stem>
       </p>
       </sections>
       </standard-document>
@@ -743,9 +743,9 @@ RSpec.describe Metanorma::Standoc do
             #{BLANK_HDR}
                      <sections>
           <p id="_">
-            <stem type="MathML">
+            <stem type="MathML" block="false">
               <math xmlns="http://www.w3.org/1998/Math/MathML">
-                <mstyle displaystyle="true">
+                <mstyle displaystyle="false">
                   <mfrac>
                     <mn>1</mn>
                     <mi>r</mi>
@@ -791,9 +791,9 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
           <sections>
         <p id="_">
-          <stem type="MathML">
+          <stem type="MathML" block="false">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <mstyle displaystyle="true">
+              <mstyle displaystyle="false">
                 <mstyle mathvariant="sans-serif">
                   <mrow xref="U_NISTu7">
                     <mi mathvariant="sans-serif">cd</mi>
@@ -1206,10 +1206,10 @@ RSpec.describe Metanorma::Standoc do
       <dd>
         <p id='_'>Definition 7</p>
       </dd>
-      <dt id="symbol-n-n">
-        <stem type='MathML'>
+      <dt id="symbol-n">
+        <stem type='MathML' block="false">
           <math xmlns='http://www.w3.org/1998/Math/MathML'>
-          <mstyle displaystyle="true">
+          <mstyle displaystyle="false">
             <mi>n</mi>
             </mstyle>
           </math>
@@ -1249,10 +1249,10 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
     sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
     expect(sym).to be_equivalent_to <<~OUTPUT
-          <dt id="symbol-m">m</dt><dt id="symbol-n-n">
-        <stem type="MathML">
+          <dt id="symbol-m">m</dt><dt id="symbol-n">
+        <stem type="MathML" block="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-        <mstyle displaystyle="true">
+        <mstyle displaystyle="false">
           <mi>n</mi>
         </mstyle>
       </math>
@@ -1285,10 +1285,10 @@ RSpec.describe Metanorma::Standoc do
                 <dd>
                   <p id="_">Definition 5</p>
                 </dd>
-                <dt id="symbol-x-m-x_m">
-                  <stem type="MathML">
+                <dt id="symbol-x_m">
+                  <stem type="MathML" block="false">
                     <math xmlns="http://www.w3.org/1998/Math/MathML">
-                      <mstyle displaystyle="true">
+                      <mstyle displaystyle="false">
                         <msub>
                           <mi>x</mi>
                           <mi>m</mi>
@@ -1301,10 +1301,10 @@ RSpec.describe Metanorma::Standoc do
                 <dd>
                   <p id="_">Definition 4</p>
                 </dd>
-                <dt id="symbol-x-1-x_1">
-                  <stem type="MathML">
+                <dt id="symbol-x_1">
+                  <stem type="MathML" block="false">
                     <math xmlns="http://www.w3.org/1998/Math/MathML">
-                      <mstyle displaystyle="true">
+                      <mstyle displaystyle="false">
                         <msub>
                           <mi>x</mi>
                           <mn>1</mn>
@@ -1321,10 +1321,10 @@ RSpec.describe Metanorma::Standoc do
                 <dd>
                   <p id="_">Definition 2</p>
                 </dd>
-                <dt id="symbol-__x3b1_-alpha">
-                  <stem type="MathML">
+                <dt id="symbol-__x3b1_">
+                  <stem type="MathML" block="false">
                     <math xmlns="http://www.w3.org/1998/Math/MathML">
-                      <mstyle displaystyle="true">
+                      <mstyle displaystyle="false">
                         <mi>α</mi>
                       </mstyle>
                     </math>
@@ -1344,10 +1344,10 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
     sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
     expect(sym).to be_equivalent_to <<~OUTPUT
-          <dt id="symbol-x">x</dt><dt id="symbol-x-m-x_m">
-        <stem type="MathML">
+          <dt id="symbol-x">x</dt><dt id="symbol-x_m">
+        <stem type="MathML" block="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-        <mstyle displaystyle="true">
+        <mstyle displaystyle="false">
           <msub>
             <mi>x</mi>
             <mi>m</mi>
@@ -1356,10 +1356,10 @@ RSpec.describe Metanorma::Standoc do
       </math>
           <asciimath>x_m</asciimath>
         </stem>
-      </dt><dt id="symbol-x-1-x_1">
-        <stem type="MathML">
+      </dt><dt id="symbol-x_1">
+        <stem type="MathML" block="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-        <mstyle displaystyle="true">
+        <mstyle displaystyle="false">
           <msub>
             <mi>x</mi>
             <mn>1</mn>
@@ -1368,10 +1368,10 @@ RSpec.describe Metanorma::Standoc do
       </math>
           <asciimath>x_1</asciimath>
         </stem>
-      </dt><dt id="symbol-xa">xa</dt><dt id="symbol-__x3b1_-alpha">
-        <stem type="MathML">
+      </dt><dt id="symbol-xa">xa</dt><dt id="symbol-__x3b1_">
+        <stem type="MathML" block="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-        <mstyle displaystyle="true">
+        <mstyle displaystyle="false">
           <mi>α</mi>
         </mstyle>
       </math>
@@ -1623,7 +1623,7 @@ RSpec.describe Metanorma::Standoc do
       )}
          <sections>
            <formula id='_'>
-             <stem type='MathML'>
+             <stem type='MathML' block="true">
                <math xmlns='http://www.w3.org/1998/Math/MathML'>
                  <mrow>
                    <mn>7</mn>
@@ -1700,7 +1700,7 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
                  <sections>
             <formula id="_">
-              <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML">
+              <stem type="MathML" block="true"><math xmlns="http://www.w3.org/1998/Math/MathML">
           <mi>A</mi><mo>+</mo><mi>a</mi><mo>+</mo><mi>Α</mi><mo>+</mo><mi>α</mi><mo>+</mo><mi>AB</mi><mstyle mathvariant="italic"><mrow><mi>Α</mi></mrow></mstyle></stem>
             </formula>
           </sections>
@@ -1713,7 +1713,7 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
           <sections>
             <formula id='_'>
-              <stem type='MathML'>
+              <stem type='MathML' block="true">
                 <math xmlns='http://www.w3.org/1998/Math/MathML'>
                   <mi>A</mi>
                   <mo>+</mo>
@@ -1742,7 +1742,7 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
           <sections>
             <formula id='_'>
-              <stem type='MathML'>
+              <stem type='MathML' block="true">
                 <math xmlns='http://www.w3.org/1998/Math/MathML'>
                   <mi mathvariant="normal">A</mi>
                   <mo>+</mo>
@@ -1771,7 +1771,7 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
           <sections>
             <formula id='_'>
-              <stem type='MathML'>
+              <stem type='MathML' block="true">
                 <math xmlns='http://www.w3.org/1998/Math/MathML'>
                   <mi>A</mi>
                   <mo>+</mo>
@@ -1800,7 +1800,7 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
           <sections>
             <formula id='_'>
-              <stem type='MathML'>
+              <stem type='MathML' block="true">
                 <math xmlns='http://www.w3.org/1998/Math/MathML'>
                   <mi>A</mi>
                   <mo>+</mo>

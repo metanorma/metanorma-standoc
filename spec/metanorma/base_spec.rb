@@ -10,7 +10,7 @@ RSpec.describe Metanorma::Standoc do
     expect(Metanorma::Utils.asciidoc_sub("A -- B"))
       .to eq "A&#8201;&#8212;&#8201;B"
     expect(Metanorma::Utils.asciidoc_sub("*A* stem:[x]"))
-      .to eq "<strong>A</strong> <stem type=\"AsciiMath\">x</stem>"
+      .to eq "<strong>A</strong> <stem type=\"AsciiMath\" block=\"false\">x</stem>"
   end
 
   it "processes root attributes" do

@@ -98,7 +98,7 @@ RSpec.describe Metanorma::Standoc do
            #{BLANK_HDR}
                     <sections>
            <formula id="ABC" tag="X" columns="1" multilingual-rendering="common" number="3" keep-with-next="true" keep-lines-together="true" inequality="true">
-             <stem type="MathML">
+             <stem type="MathML" block="true">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
                  <mstyle displaystyle="true">
                    <mi>r</mi>
@@ -116,7 +116,7 @@ RSpec.describe Metanorma::Standoc do
              </stem>
            </formula>
            <formula id="_" unnumbered="true">
-             <stem type="MathML">
+             <stem type="MathML" block="true">
                <mml:math xmlns="">
                  <mml:msub xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math">
                    <mml:mrow>
@@ -134,7 +134,7 @@ RSpec.describe Metanorma::Standoc do
              </stem>
            </formula>
                       <formula id="_" subsequence="A">
-             <stem type="MathML">
+             <stem type="MathML" block="true">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
                  <mstyle displaystyle="true">
                    <mi>M</mi>
