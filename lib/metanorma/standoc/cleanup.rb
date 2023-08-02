@@ -1,24 +1,24 @@
 require "nokogiri"
 require "pathname"
 require "html2doc"
-require_relative "./cleanup_block"
-require_relative "./cleanup_table"
-require_relative "./cleanup_footnotes"
-require_relative "./cleanup_ref"
-require_relative "./cleanup_asciibib"
-require_relative "./cleanup_boilerplate"
-require_relative "./cleanup_bibdata"
-require_relative "./cleanup_section"
-require_relative "./cleanup_terms"
-require_relative "./cleanup_symbols"
-require_relative "./cleanup_xref"
-require_relative "./cleanup_inline"
-require_relative "./cleanup_amend"
-require_relative "./cleanup_maths"
-require_relative "./cleanup_image"
-require_relative "./cleanup_reqt"
-require_relative "./cleanup_text"
-require_relative "./cleanup_toc"
+require_relative "cleanup_block"
+require_relative "cleanup_table"
+require_relative "cleanup_footnotes"
+require_relative "cleanup_ref"
+require_relative "cleanup_asciibib"
+require_relative "cleanup_boilerplate"
+require_relative "cleanup_bibdata"
+require_relative "cleanup_section"
+require_relative "cleanup_terms"
+require_relative "cleanup_symbols"
+require_relative "cleanup_xref"
+require_relative "cleanup_inline"
+require_relative "cleanup_amend"
+require_relative "cleanup_maths"
+require_relative "cleanup_image"
+require_relative "cleanup_reqt"
+require_relative "cleanup_text"
+require_relative "cleanup_toc"
 require "relaton_iev"
 
 module Metanorma
@@ -108,7 +108,7 @@ module Metanorma
       end
 
       def element_name_cleanup(xmldoc)
-        xmldoc.traverse { |n| n.name = n.name.gsub(/_/, "-") }
+        xmldoc.traverse { |n| n.name = n.name.gsub("_", "-") }
       end
 
       # allows us to deal with doc relation localities,
