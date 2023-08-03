@@ -2093,14 +2093,16 @@ RSpec.describe Metanorma::Standoc do
 
       == Clause
 
-      http://www.example.com/a%20<a>%3cb%3e[x]
+      http://user:pass@www.example.com/a%20<a>%3cb%3e[x]
+      mailto:copyright@iso.org[x]
 
     INPUT
     output = <<~OUTPUT
       <clause id="_" inline-header="false" obligation="normative">
         <title>Clause</title>
         <p id="_">
-          <link target="http://www.example.com/a%20%3Ca%3E%3Cb%3E">x</link>
+        <link target="http://user:pass@www.example.com/a%20&lt;a&gt;%3cb%3e">x</link>
+        <link target="mailto:copyright@iso.org">x</link>
         </p>
       </clause>
     OUTPUT
