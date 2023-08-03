@@ -208,11 +208,12 @@ module Metanorma
 
       def link_cleanup(xmldoc)
         xmldoc.xpath("//link[@target]").each do |l|
-          ret = CGI.unescape(l["target"]).split(%r((://+)), 2)
-          ret[-1, 1] = ret[-1].split(%r{(/+)}).map do |x|
-            x.include?("/") ? x : uri_component_encode(x)
-          end
-          l["target"] = ret.join
+          l["target"] = URI.parse(l["target"]).to_s
+        rescue StandardError
+          err = "Malformed URI: #{l['target']}"
+          @log.add("Anchors", l, err)
+          @fatalerror << err
+          warn err
         end
       end
 

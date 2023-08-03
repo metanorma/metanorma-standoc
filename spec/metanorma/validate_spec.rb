@@ -40,6 +40,29 @@ RSpec.describe Metanorma::Standoc do
       .to include %(\t<clause id="abc" inline-header="false" obligation="normative">)
   end
 
+  it "aborts on malformed URI" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        http://a@x@x@www.com[x]
+
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err"))
+      .to include "Malformed URI: http://a@x@"
+    expect(File.exist?("test.xml")).to be false
+  end
+
   it "aborts on unsupported format in localbib" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"
