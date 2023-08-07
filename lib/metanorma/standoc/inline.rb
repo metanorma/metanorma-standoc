@@ -138,9 +138,10 @@ module Metanorma
         noko { |xml| xml.hr }.join
       end
 
-      def latex_parse1(text)
+      def latex_parse1(text, block)
         lxm_input = Unicode2LaTeX.unicode2latex(@c.decode(text))
-        results = Plurimath::Math.parse(lxm_input, "latex").to_mathml
+        results = Plurimath::Math.parse(lxm_input, "latex")
+          .to_mathml(display_style: block)
         if results.nil?
           @log.add("Math", nil,
                    "latexmlmath failed to process equation:\n#{lxm_input}")
@@ -149,22 +150,23 @@ module Metanorma
         results.sub(%r{<math ([^>]+ )?display="block"}, "<math \\1")
       end
 
-      def stem_parse(text, xml, style)
+      def stem_parse(text, xml, style, block)
         if /&lt;([^:>&]+:)?math(\s+[^>&]+)?&gt; |
           <([^:>&]+:)?math(\s+[^>&]+)?>/x.match? text
           math = xml_encode(text)
-          xml.stem type: "MathML" do |s|
+          xml.stem type: "MathML", block: block do |s|
             s << math
           end
-        elsif style == :latexmath then latex_parse(text, xml)
+        elsif style == :latexmath then latex_parse(text, xml, block)
         else
-          xml.stem text&.gsub(/&amp;#/, "&#"), type: "AsciiMath"
+          xml.stem text&.gsub("&amp;#", "&#"), type: "AsciiMath", block: block
         end
       end
 
-      def latex_parse(text, xml)
-        latex = latex_parse1(text) or return xml.stem type: "MathML"
-        xml.stem type: "MathML" do |s|
+      def latex_parse(text, xml, block)
+        latex = latex_parse1(text, block) or
+          return xml.stem type: "MathML", block: block
+        xml.stem type: "MathML", block: block do |s|
           math = Nokogiri::XML.fragment(latex.sub(/<\?[^>]+>/, ""))
             .elements[0]
           math.delete("alttext")
@@ -187,8 +189,8 @@ module Metanorma
           when :single then xml << "'#{node.text}'"
           when :superscript then xml.sup { |s| s << node.text }
           when :subscript then xml.sub { |s| s << node.text }
-          when :asciimath then stem_parse(node.text, xml, :asciimath)
-          when :latexmath then stem_parse(node.text, xml, :latexmath)
+          when :asciimath then stem_parse(node.text, xml, :asciimath, false)
+          when :latexmath then stem_parse(node.text, xml, :latexmath, false)
           when :mark then highlight_parse(node.text, xml)
           else
             case node.role

@@ -1683,14 +1683,14 @@ RSpec.describe Metanorma::Standoc do
              <clause id="_" inline-header="false" obligation="normative">
                <title>Subclause</title>
                <variant-title type="sub">“A” ‘B’</variant-title>
-               <variant-title type="toc">Clause <em>A</em><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><mi>x</mi></mstyle></math><asciimath>x</asciimath></stem></variant-title>
+               <variant-title type="toc">Clause <em>A</em><stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mi>x</mi></mstyle></math><asciimath>x</asciimath></stem></variant-title>
                <p id="_">Text</p>
              </clause>
            </clause>
          </sections>
          <annex id="_" inline-header="false" obligation="normative">
            <title>Clause</title>
-           <variant-title type="toc">Clause <em>A</em><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><mi>y</mi></mstyle></math><asciimath>y</asciimath></stem></variant-title>
+           <variant-title type="toc">Clause <em>A</em><stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mi>y</mi></mstyle></math><asciimath>y</asciimath></stem></variant-title>
            <p id="_">Text</p>
          </annex>
        </standard-document>
@@ -1756,12 +1756,12 @@ RSpec.describe Metanorma::Standoc do
                    <ul id="_">
                      <li>
                        <p id="_">
-                         <xref target="cl2">Clause <em>A</em><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><mi>x</mi></mstyle></math><asciimath>x</asciimath></stem></xref>
+                         <xref target="cl2">Clause <em>A</em><stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mi>x</mi></mstyle></math><asciimath>x</asciimath></stem></xref>
                        </p>
                        <ul id="_">
                          <li>
                            <p id="_">
-                             <xref target="a1">Clause <em>A</em><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><mi>y</mi></mstyle></math><asciimath>y</asciimath></stem></xref>
+                             <xref target="a1">Clause <em>A</em><stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mi>y</mi></mstyle></math><asciimath>y</asciimath></stem></xref>
                            </p>
                          </li>
                        </ul>
@@ -1793,13 +1793,13 @@ RSpec.describe Metanorma::Standoc do
            <clause id="cl2" inline-header="false" obligation="normative">
              <title>Clause2</title>
              <variant-title type="sub">“A” ‘B’</variant-title>
-             <variant-title type="toc">Clause <em>A</em><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><mi>x</mi></mstyle></math><asciimath>x</asciimath></stem></variant-title>
+             <variant-title type="toc">Clause <em>A</em><stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mi>x</mi></mstyle></math><asciimath>x</asciimath></stem></variant-title>
              <p id="_">Text</p>
            </clause>
          </sections>
          <annex id="a1" inline-header="false" obligation="normative">
            <title>Clause</title>
-           <variant-title type="toc">Clause <em>A</em><stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><mi>y</mi></mstyle></math><asciimath>y</asciimath></stem></variant-title>
+           <variant-title type="toc">Clause <em>A</em><stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mi>y</mi></mstyle></math><asciimath>y</asciimath></stem></variant-title>
            <p id="_">Text</p>
          </annex>
        </standard-document>

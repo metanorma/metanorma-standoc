@@ -2384,8 +2384,8 @@ RSpec.describe Metanorma::Standoc do
         <title>Section</title>
         <p id="_"><eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><em>reference</em></eref>
         <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><em><strong>reference</strong></em></eref>
-        <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><em>A</em> <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML">
-        <mstyle displaystyle="true">
+        <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><em>A</em> <stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML">
+        <mstyle displaystyle="false">
           <msup>
             <mi>x</mi>
             <mn>2</mn>

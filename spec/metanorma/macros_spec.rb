@@ -314,7 +314,7 @@ RSpec.describe Metanorma::Standoc do
                        <sections>
            <figure id="_" class="pseudocode">
              <formula id="_">
-                            <stem type="MathML">
+                            <stem type="MathML" block="true">
                  <math xmlns="http://www.w3.org/1998/Math/MathML">
                    <mstyle displaystyle="true">
                      <mover>
