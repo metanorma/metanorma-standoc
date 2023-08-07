@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "asciidoctor", "~> 2.0.0"
   spec.add_dependency "iev", "~> 0.3.0"
-  spec.add_dependency "isodoc", "~> 2.5.4"
+  spec.add_dependency "isodoc", "~> 2.6.0"
   spec.add_dependency "metanorma", ">= 1.5.0"
   spec.add_dependency "metanorma-plugin-datastruct", "~> 0.2.0"
   spec.add_dependency "metanorma-plugin-glossarist", "~> 0.1.1"

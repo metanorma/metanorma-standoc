@@ -40,7 +40,7 @@ RSpec.describe Metanorma::Standoc::Processor do
     processor.output(<<~INPUT, "test.xml", "test.html", :html)
               <iso-standard xmlns="http://riboseinc.com/isoxml">
       <sections>
-      <terms id="H" obligation="normative"><title>Terms, Definitions, Symbols and Abbreviated Terms</title>
+      <terms id="H" obligation="normative" displayorder="1"><title>Terms, Definitions, Symbols and Abbreviated Terms</title>
         <term id="J">
         <preferred>Term2</preferred>
       </term>
@@ -53,7 +53,6 @@ RSpec.describe Metanorma::Standoc::Processor do
       .gsub(%r{</main>.*}m, "</main>"))
       .to be_equivalent_to <<~OUTPUT
             <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-              <p class="zzSTDTitle1"></p>
               <div id="H"><h1>Terms, Definitions, Symbols and Abbreviated Terms</h1><h2 class="TermNum" id="J"></h2>
           <p class="Terms" style="text-align:left;">Term2</p>
         </div>
@@ -66,7 +65,7 @@ RSpec.describe Metanorma::Standoc::Processor do
     processor.output(<<~INPUT, "test.xml", "test.doc", :doc)
               <iso-standard xmlns="http://riboseinc.com/isoxml">
       <sections>
-      <terms id="H" obligation="normative"><title>Terms, Definitions, Symbols and Abbreviated Terms</title>
+      <terms id="H" obligation="normative" displayorder="1"><title>Terms, Definitions, Symbols and Abbreviated Terms</title>
         <term id="J">
         <preferred>Term2</preferred>
       </term>
@@ -83,7 +82,7 @@ RSpec.describe Metanorma::Standoc::Processor do
     processor.output(<<~INPUT, "test.xml", "test.xml", :xml)
               <iso-standard xmlns="http://riboseinc.com/isoxml">
       <sections>
-      <terms id="H" obligation="normative"><title>Terms, Definitions, Symbols and Abbreviated Terms</title>
+      <terms id="H" obligation="normative" displayorder="1"><title>Terms, Definitions, Symbols and Abbreviated Terms</title>
         <term id="J">
         <preferred>Term2</preferred>
       </term>
