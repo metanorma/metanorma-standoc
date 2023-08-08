@@ -61,6 +61,23 @@ RSpec.describe Metanorma::Standoc do
     expect(File.read("test.err"))
       .to include "Malformed URI: http://a@x@"
     expect(File.exist?("test.xml")).to be false
+
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      http://www.詹姆斯.com/[x]
+
+    INPUT
+    expect do
+      Asciidoctor.convert(input, *OPTIONS)
+    end.not_to raise_error
+    expect(File.read("test.err"))
+      .not_to include "Malformed URI: http:"
   end
 
   it "aborts on unsupported format in localbib" do

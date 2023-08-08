@@ -1,5 +1,6 @@
 require "metanorma-utils"
 require "digest"
+require "addressable/uri"
 
 module Metanorma
   module Standoc
@@ -208,7 +209,7 @@ module Metanorma
 
       def link_cleanup(xmldoc)
         xmldoc.xpath("//link[@target]").each do |l|
-          l["target"] = URI.parse(l["target"]).to_s
+          l["target"] = Addressable::URI.parse(l["target"]).to_s
         rescue StandardError
           err = "Malformed URI: #{l['target']}"
           @log.add("Anchors", l, err)
