@@ -12,7 +12,7 @@ require_relative "validate"
 require_relative "utils"
 require_relative "cleanup"
 require_relative "reqt"
-require_relative "./macros"
+require_relative "macros"
 
 module Metanorma
   module Standoc
@@ -22,6 +22,7 @@ module Metanorma
       Asciidoctor::Extensions.register do
         preprocessor Metanorma::Standoc::EmbedIncludeProcessor
         preprocessor Metanorma::Standoc::NamedEscapePreprocessor
+        preprocessor Metanorma::Standoc::LinkProtectPreprocessor
         preprocessor Metanorma::Standoc::Datamodel::AttributesTablePreprocessor
         preprocessor Metanorma::Standoc::Datamodel::DiagramPreprocessor
         preprocessor Metanorma::Plugin::Datastruct::Json2TextPreprocessor

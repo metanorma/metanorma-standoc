@@ -44,7 +44,7 @@ module Metanorma
         text = attr["text"]
         text = "((#{text}))" unless /^\(\(.+\)\)$/.match?(text)
         out = parent.sub_macros(text)
-        out.sub(/<index>/, "<index to='#{target}'>")
+        out.sub("<index>", "<index to='#{target}'>")
       end
     end
 
@@ -148,7 +148,7 @@ module Metanorma
         content = CSV.parse_line(out).map do |x|
           x.sub!(/^(["'])(.+)\1/, "\\2")
           m = /^(.*?)(:\d+)?$/.match(x)
-          %{<toc-xpath depth='#{m[2]&.sub(/:/, '') || 1}'>#{m[1]}</toc-xpath>}
+          %{<toc-xpath depth='#{m[2]&.sub(':', '') || 1}'>#{m[1]}</toc-xpath>}
         end.join
         "<toc>#{content}</toc>"
       end

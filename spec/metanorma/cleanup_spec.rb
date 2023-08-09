@@ -2111,6 +2111,83 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to(xmlpp(output))
   end
 
+  it "do not apply substitutions to links" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Clause
+
+      http://www.example.com/...abc
+
+      <http://www.example.com/...abc>
+
+      a http://www.example.com/...abc
+
+      http://www.example.com/...abc[]
+
+      http://www.example.com/...abc[x]
+
+      ++http://www.example.com++
+
+      https://isotc.iso.org/livelink/livelink/fetch/-15620806/15620808/15623592/15768654/TMB_resolutions_-_2012_%28Resolution_1-148%29.pdf?nodeid=15768229&vernum=-2
+
+      https://isotc.iso.org/livelink/livelink/fetch/-15620806/15620808/15623592/15768654/TMB_resolutions_-_2012_%28Resolution_1-148%29.pdf?nodeid=15768229&vernum=-2[TMB Resolution 8/2012]
+
+      link:http://www...com[]
+
+      <link:http://www...com[]>
+
+      a link:http://www...com[]
+
+      link:++http://www...com++[]
+
+      ++++
+      <a xmlns="http://www.example.com"/>
+      ++++
+
+      pass:q[http://www.example.com]
+      And pass:[http://www.example.com] and pass:a,q[http://www.example.com]
+
+    INPUT
+    output = <<~OUTPUT
+      <clause id="_" inline-header="false" obligation="normative">
+         <title>Clause</title>
+         <p id="_">
+           <link target="http://www.example.com/...abc"/>
+         </p>
+         <p id="_">&lt;<link target="http://www.example.com/...abc"/>&gt;</p>
+         <p id="_">a <link target="http://www.example.com/...abc"/></p>
+         <p id="_">
+           <link target="http://www.example.com/...abc"/>
+         </p>
+         <p id="_">
+           <link target="http://www.example.com/...abc">x</link>
+         </p>
+         <p id="_">http://www.example.com</p>
+         <p id="_">
+           <link target="https://isotc.iso.org/livelink/livelink/fetch/-15620806/15620808/15623592/15768654/TMB_resolutions_-_2012_%28Resolution_1-148%29.pdf?nodeid=15768229&amp;vernum=-2"/>
+         </p>
+         <p id="_">
+           <link target="https://isotc.iso.org/livelink/livelink/fetch/-15620806/15620808/15623592/15768654/TMB_resolutions_-_2012_%28Resolution_1-148%29.pdf?nodeid=15768229&amp;vernum=-2">TMB Resolution 8/2012</link>
+         </p>
+         <p id="_">
+           <link target="http://www...com"/>
+         </p>
+         <p id="_">&lt;<link target="http://www...com"/>&gt;</p>
+         <p id="_">a <link target="http://www...com"/></p>
+         <p id="_">
+           <link target="http://www...com"/>
+         </p>
+         <a xmlns="http://www.example.com"/>
+         <p id="_">http://www.example.com
+       And http://www.example.com and http://www.example.com</p>
+       </clause>
+    OUTPUT
+    ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xmlpp(strip_guid(ret.at("//xmlns:clause").to_xml)))
+      .to be_equivalent_to(xmlpp(output))
+  end
+
   private
 
   def mock_mathml_italicise(string)
