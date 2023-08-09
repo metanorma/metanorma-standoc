@@ -210,7 +210,7 @@ module Metanorma
       def link_cleanup(xmldoc)
         xmldoc.xpath("//link[@target]").each do |l|
           l["target"] = Addressable::URI.parse(l["target"]).to_s
-        rescue StandardError
+        rescue Addressable::URI::InvalidURIError
           err = "Malformed URI: #{l['target']}"
           @log.add("Anchors", l, err)
           @fatalerror << err

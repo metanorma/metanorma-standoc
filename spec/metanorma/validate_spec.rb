@@ -50,7 +50,7 @@ RSpec.describe Metanorma::Standoc do
         :docfile: test.adoc
         :nodoc:
 
-        http://a@x@x@www.com[x]
+        http://a@x@x@[x]
 
       INPUT
       expect do
