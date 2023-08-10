@@ -107,7 +107,7 @@ module Metanorma
 
       PASS_INLINE_MACRO_STR = <<~REGEX.freeze
         (
-          \\b(?<!-)                              # word-separator, no hyphen
+          \\b(?<![-\\\\])                        # word-separator, no hyphen or backslash
           (?:                                    # don't capture these!
             (?:#{PASS_INLINE_MACROS}):[^\\s\\[]* | # macro name, :, second key. OR:
             span:uri \\b [^\\s\\[]*              # span:uri, third key
@@ -125,7 +125,7 @@ module Metanorma
 
       # InlineLinkRx = %r((^|link:|#{CG_BLANK}|&lt;|[>\(\)\[\];"'])(\\?(?:https?|file|ftp|irc)://)(?:([^\s\[\]]+)\[(|#{CC_ALL}*?[^\\])\]|([^\s\[\]<]*([^\s,.?!\[\]<\)]))))m
       #
-      InlineLinkRx = %r((^|(?<!-)\blink:(?!\+)|\p{Blank}|&lt;|[<>\(\)\[\];"'])(\\?(?:https?|file|ftp|irc)://)(?:([^\s\[\]]+)(?:(\[(|.*?[^\\])\])|([^\s\[\]<]*([^\s,.?!\[\]<\)])))))m.freeze
+      InlineLinkRx = %r((^|(?<![-\\])\blink:(?!\+)|\p{Blank}|&lt;|[<>\(\)\[\];"'])((?:https?|file|ftp|irc)://)(?:([^\s\[\]]+)(?:(\[(|.*?[^\\])\])|([^\s\[\]<]*([^\s,.?!\[\]<\)])))))m.freeze
 
       def inlinelink(text)
         text.include?("://") or return text

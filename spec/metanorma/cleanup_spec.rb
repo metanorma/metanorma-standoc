@@ -2117,6 +2117,8 @@ RSpec.describe Metanorma::Standoc do
 
       == Clause
 
+      \\http://www.example.com/...abc
+
       http://www.example.com/...abc
 
       <http://www.example.com/...abc>
@@ -2152,6 +2154,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       <clause id="_" inline-header="false" obligation="normative">
          <title>Clause</title>
+         <p id="_">http://www.example.com/…​abc</p>
          <p id="_">
            <link target="http://www.example.com/...abc"/>
          </p>
