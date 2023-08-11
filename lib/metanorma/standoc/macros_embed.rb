@@ -15,7 +15,7 @@ module Metanorma
 
       def embed_acc(doc, reader)
         { lines: [], hdr: [], id: [],
-          doc: doc, file: nil, path: nil,
+          orig: doc, doc: doc, file: nil, path: nil,
           reader: reader, prev: nil }
       end
 
@@ -28,8 +28,9 @@ module Metanorma
 
       # lines can contain recursive embed structs, containing the lines to read
       # and the file they are in; read these into the (new) reader.
-      # This resolves any file crossreferences;
+      # This is intended to resolve any file crossreferences, with
       # file paths resolved relative to current file directory
+      # -- but it won't: https://github.com/metanorma/metanorma-standoc/issues/802
       def read_flattened_embeds(ret, doc)
         reader = ::Asciidoctor::PreprocessorReader.new doc
         b = Pathname.new doc.base_dir
@@ -95,7 +96,11 @@ module Metanorma
         m = /^embed::([^\[]+)\[/.match(line)
         f = acc[:doc].normalize_system_path m[1], acc[:reader].dir, nil,
                                             target_name: "include file"
-        File.exist?(f) ? [m[1], f] : [nil, nil]
+        unless File.exist?(f)
+          err = "Missing embed file: #{line}"
+          raise err
+        end
+        [m[1], f]
       end
 
       def readlines_safe(file)
@@ -112,20 +117,18 @@ module Metanorma
 
       def embed(line, acc, headings)
         fname, inc_path = filename(line, acc)
-        fname or return line
         lines = filter_sections(read(inc_path), headings)
-        newdoc = Asciidoctor::Document
+        n = Asciidoctor::Document
           .new [], { safe: :safe, base_dir: File.dirname(inc_path) }
-        # updated file location in newdoc
-        reader = ::Asciidoctor::PreprocessorReader.new newdoc, lines
-        ret = embed_acc(newdoc, reader).merge(strip_header(reader.read_lines))
-          .merge(file: fname, path: inc_path)
-        embed_recurse(ret, newdoc, reader, headings)
+        r = ::Asciidoctor::PreprocessorReader.new n, lines
+        ret = embed_acc(n, r).merge(strip_header(r.read_lines))
+          .merge(file: fname, path: inc_path, orig: acc[:orig])
+        ret[:hdr] or
+          raise "Embedding an incomplete document with no header: #{ret[:path]}"
+        embed_recurse(ret, n, r, headings)
       end
 
       def embed_recurse(ret, doc, reader, headings)
-        ret[:hdr] or
-          raise "Embedding an incomplete document with no header: #{ret[:path]}"
         ret1 = ret[:lines].each_with_object(embed_acc(doc, reader)) do |line, m|
           process_line(line, m, headings)
         end
