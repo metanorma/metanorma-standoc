@@ -922,13 +922,25 @@ RSpec.describe Metanorma::Standoc do
              <title>Clause 3</title>
              <p id='_'>X</p>
            </clause>
-           <clause id='_' inline-header='false' obligation='normative'>
-              <title>Clause 4</title>
-              <p id='_'>X</p>
-            </clause>
-           <clause id='_' inline-header='false' obligation='normative'>
+           <clause id="_" inline-header="false" obligation="normative">
+             <title>Clause 4</title>
+             <p id="_">X</p>
+             <figure id="_">
+               <image src="rice_image2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+             </figure>
+             <figure id="_">
+               <image src="../rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+             </figure>
+           </clause>
+           <clause id="_" inline-header="false" obligation="normative">
              <title>Clause 3a</title>
-             <p id='_'>X</p>
+             <p id="_">X</p>
+             <figure id="_">
+               <image src="rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+             </figure>
+             <figure id="_">
+               <image src="subdir/rice_image2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+             </figure>
            </clause>
          </sections>
       </standard-document>

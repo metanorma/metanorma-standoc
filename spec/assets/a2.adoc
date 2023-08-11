@@ -6,6 +6,6 @@ A2
 
 X
 
-embed::spec/assets/a3.adoc[]
+embed::a3.adoc[]
 
-embed::spec/assets/a3a.adoc[]
+embed::a3a.adoc[]

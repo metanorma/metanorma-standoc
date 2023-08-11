@@ -32,12 +32,64 @@ RSpec.describe Metanorma::Standoc do
       expect do
         Asciidoctor.convert(input, *OPTIONS)
       end.to raise_error(SystemExit)
-    rescue SystemExit
+    rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err"))
       .to include "Anchor abc has already been used at line"
     expect(File.read("test.err"))
       .to include %(\t<clause id="abc" inline-header="false" obligation="normative">)
+  end
+
+  it "aborts on embedding a headerless document" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      embed::spec/assets/subdir/a4.adoc[]
+
+    INPUT
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(RuntimeError)
+    rescue SystemExit, RuntimeError
+    end
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to output("Embedding an incomplete document with no header: spec/assets/subdir/a4.adoc").to_stderr
+    rescue SystemExit, RuntimeError
+    end
+  end
+
+  it "aborts on embedding a missing document" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      embed::spec/assets/a6.adoc[]
+
+    INPUT
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(RuntimeError)
+    rescue SystemExit, RuntimeError
+    end
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to output("Missing embed file: spec/assets/a5.").to_stderr
+    rescue SystemExit, RuntimeError
+    end
   end
 
   it "aborts on malformed URI" do

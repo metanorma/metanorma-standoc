@@ -1,0 +1,8 @@
+== Clause 4
+
+X
+
+image::rice_image2.png[]
+
+
+image::../rice_image1.png[]

@@ -5,3 +5,6 @@ A3a
 
 X
 
+image::rice_image1.png[]
+
+image::subdir/rice_image2.png[]
