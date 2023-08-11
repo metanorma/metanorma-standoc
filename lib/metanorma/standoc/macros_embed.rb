@@ -1,3 +1,5 @@
+require "pathname"
+
 module Metanorma
   module Standoc
     class EmbedIncludeProcessor < Asciidoctor::Extensions::Preprocessor
@@ -13,19 +15,57 @@ module Metanorma
 
       def embed_acc(doc, reader)
         { lines: [], hdr: [], id: [],
-          doc: doc, reader: reader, prev: nil }
+          doc: doc, file: nil, path: nil,
+          reader: reader, prev: nil }
       end
 
       # presupposes single embed
-      def return_to_document(doc, ret)
-        doc.attributes["embed_hdr"] = ret[:hdr]
-        doc.attributes["embed_id"] = ret[:id]
-        ::Asciidoctor::Reader.new ret[:lines].flatten
+      def return_to_document(doc, embed)
+        doc.attributes["embed_hdr"] = embed[:hdr]
+        doc.attributes["embed_id"] = embed[:id]
+        read_flattened_embeds(flatten_embeds(embed), doc)
+      end
+
+      # lines can contain recursive embed structs, containing the lines to read
+      # and the file they are in; read these into the (new) reader.
+      # This resolves any file crossreferences;
+      # file paths resolved relative to current file directory
+      def read_flattened_embeds(ret, doc)
+        reader = ::Asciidoctor::PreprocessorReader.new doc
+        b = Pathname.new doc.base_dir
+        ret.reverse.each do |l|
+          if l[:file]
+            new = Pathname.new(l[:path]).relative_path_from(b).to_s
+            reader.push_include l[:lines], new, l[:path]
+          else reader.unshift_lines l[:lines]
+          end
+        end
+        reader
+      end
+
+      # lines can contain recursive embed structs, which are resolved into a
+      # flat listing of included line chunks (top level doc has { file: nil } )
+      def flatten_embeds(emb)
+        acc = []
+        ret = emb[:lines].each_with_object([]) do |l, m|
+          if l.is_a?(Hash)
+            acc, m = update_embeds(acc, m, emb)
+            flatten_embeds(l).each { |x| m << x }
+          else acc << l end
+        end
+        acc, ret = update_embeds(acc, ret, emb)
+        ret
+      end
+
+      def update_embeds(lines, acc, emb)
+        lines.empty? or
+          acc << { file: emb[:file], path: emb[:path], lines: lines }
+        [[], acc]
       end
 
       def process_line(line, acc, headings)
         if /^embed::/.match?(line)
-          e = embed(line, acc[:doc], acc[:reader], headings)
+          e = embed(line, acc, headings)
           acc = process_embed(acc, e, acc[:prev])
         else
           acc[:lines] << line
@@ -35,22 +75,27 @@ module Metanorma
       end
 
       def process_embed(acc, embed, prev)
-        if /^\[\[.+\]\]/.match?(prev) # anchor
-          acc[:id] << prev.sub(/^\[\[/, "").sub(/\]\]$/, "")
-          i = embed[:lines].index { |x| /^== /.match?(x) } and
-            embed[:lines][i] += " #{prev}" # => bookmark
-        end
-        acc[:lines] << embed[:lines]
+        acc, embed = process_embed_anchor(acc, embed, prev)
+        acc[:lines] << embed
         acc[:hdr] << embed[:hdr]
         acc[:id] += embed[:id]
         acc
       end
 
-      def filename(line, doc, reader)
+      def process_embed_anchor(acc, embed, prev)
+        if /^\[\[.+\]\]/.match?(prev) # anchor
+          acc[:id] << prev.sub(/^\[\[/, "").sub(/\]\]$/, "")
+          i = embed[:lines].index { |x| /^== /.match?(x) } and
+            embed[:lines][i] += " #{prev}" # => bookmark
+        end
+        [acc, embed]
+      end
+
+      def filename(line, acc)
         m = /^embed::([^\[]+)\[/.match(line)
-        f = doc.normalize_system_path m[1], reader.dir, nil,
-                                      target_name: "include file"
-        File.exist?(f) ? f : nil
+        f = acc[:doc].normalize_system_path m[1], acc[:reader].dir, nil,
+                                            target_name: "include file"
+        File.exist?(f) ? [m[1], f] : [nil, nil]
       end
 
       def readlines_safe(file)
@@ -65,21 +110,29 @@ module Metanorma
         end
       end
 
-      def embed(line, doc, reader, headings)
-        inc_path = filename(line, doc, reader) or return line
+      def embed(line, acc, headings)
+        fname, inc_path = filename(line, acc)
+        fname or return line
         lines = filter_sections(read(inc_path), headings)
-        doc = Asciidoctor::Document.new [], { safe: :safe }
-        reader = ::Asciidoctor::PreprocessorReader.new doc, lines
-        ret = embed_acc(doc, reader).merge(strip_header(reader.read_lines))
-        embed_recurse(ret, doc, reader, headings)
+        newdoc = Asciidoctor::Document
+          .new [], { safe: :safe, base_dir: File.dirname(inc_path) }
+        # updated file location in newdoc
+        reader = ::Asciidoctor::PreprocessorReader.new newdoc, lines
+        ret = embed_acc(newdoc, reader).merge(strip_header(reader.read_lines))
+          .merge(file: fname, path: inc_path)
+        embed_recurse(ret, newdoc, reader, headings)
       end
 
       def embed_recurse(ret, doc, reader, headings)
+        ret[:hdr] or
+          raise "Embedding an incomplete document with no header: #{ret[:path]}"
         ret1 = ret[:lines].each_with_object(embed_acc(doc, reader)) do |line, m|
           process_line(line, m, headings)
         end
-        { lines: ret1[:lines], id: ret[:id] + ret1[:id],
-          hdr: { text: ret[:hdr].join("\n"), child: ret1[:hdr] } }
+        ret.merge(
+          { lines: ret1[:lines], id: ret[:id] + ret1[:id],
+            hdr: { text: ret[:hdr].join("\n"), child: ret1[:hdr] } },
+        )
       end
 
       def strip_header(lines)

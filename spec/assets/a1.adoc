@@ -7,4 +7,4 @@ A
 <<B>>
 
 [[B]]
-embed::spec/assets/a2.adoc[]
+embed::a2.adoc[]

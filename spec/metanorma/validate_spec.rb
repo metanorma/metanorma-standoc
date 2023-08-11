@@ -40,6 +40,46 @@ RSpec.describe Metanorma::Standoc do
       .to include %(\t<clause id="abc" inline-header="false" obligation="normative">)
   end
 
+  it "aborts on embedding a headerless document" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        embed::spec/assets/a4.adoc[]
+
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err"))
+      .to include "Embedding an incomplete document with no header: spec/assets/a4.adoc"
+    expect(File.exist?("test.xml")).to be false
+
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      http://www.詹姆斯.com/[x]
+
+    INPUT
+    expect do
+      Asciidoctor.convert(input, *OPTIONS)
+    end.not_to raise_error
+    expect(File.read("test.err"))
+      .not_to include "Malformed URI: http:"
+  end
+
   it "aborts on malformed URI" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err"
