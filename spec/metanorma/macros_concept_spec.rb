@@ -10,9 +10,9 @@ RSpec.describe Metanorma::Standoc do
       {{clause
       two}}
       term:[clause1]
-      {{clause1,w\[o\]rd}}
+      {{clause1,w[o]rd}}
       term:[clause1,w[o&#93;rd]
-      {{clause1,w\[o\]rd,term}}
+      {{clause1,w[o]rd,term}}
       {{blah}}
       term:[blah]
       {{blah,word}}
@@ -329,9 +329,9 @@ RSpec.describe Metanorma::Standoc do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       {{<<clause1>>}}
-      {{<<clause1>>,w\[o\]rd}}
-      {{<<clause1>>,term,w\[o\]rd}}
-      {{<<clause1>>,term,w\[o\]rd,Clause #1}}
+      {{<<clause1>>,w[o]rd}}
+      {{<<clause1>>,term,w[o]rd}}
+      {{<<clause1>>,term,w[o]rd,Clause #1}}
 
       related:supersedes[<<clause1>>,term]
 
@@ -381,6 +381,78 @@ RSpec.describe Metanorma::Standoc do
         </clause>
       </sections>
             </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes concept xrefs to terms with and without domains" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      {{term first}}
+      {{term second}}
+
+      == Terms and definitions
+      === term first
+      Term
+
+      === term second
+      domain:[dummy]
+
+      Term1
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+               <preface>
+           <foreword id="_" obligation="informative">
+             <title>Foreword</title>
+             <p id="_">
+               <concept>
+                 <refterm>term first</refterm>
+                 <renderterm>term first</renderterm>
+                 <xref target="term-term-first"/>
+               </concept>
+               <concept>
+                 <refterm>&lt;dummy&gt; term second</refterm>
+                 <renderterm>term second</renderterm>
+                 <xref target="term-_lt_dummy_gt_-term-second"/>
+               </concept>
+             </p>
+           </foreword>
+         </preface>
+         <sections>
+           <terms id="_" obligation="normative">
+             <title>Terms and definitions</title>
+             <p id="_">For the purposes of this document,
+           the following terms and definitions apply.</p>
+             <term id="term-term-first">
+               <preferred>
+                 <expression>
+                   <name>term first</name>
+                 </expression>
+               </preferred>
+               <definition>
+                 <verbal-definition>
+                   <p id="_">Term</p>
+                 </verbal-definition>
+               </definition>
+             </term>
+             <term id="term-_lt_dummy_gt_-term-second">
+               <preferred>
+                 <expression>
+                   <name>term second</name>
+                 </expression>
+               </preferred>
+               <domain>dummy</domain>
+               <definition>
+                 <verbal-definition>
+                   <p id="_">Term1</p>
+                 </verbal-definition>
+               </definition>
+             </term>
+           </terms>
+         </sections>
+       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
