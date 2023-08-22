@@ -3,14 +3,14 @@ module Metanorma
     module Cleanup
       def external_terms_boilerplate(sources)
         @i18n.l10n(
-          @i18n.external_terms_boilerplate.gsub(/%/, sources || "???"),
+          @i18n.external_terms_boilerplate.gsub("%", sources || "???"),
           @lang, @script, @locale
         )
       end
 
       def internal_external_terms_boilerplate(sources)
         @i18n.l10n(
-          @i18n.internal_external_terms_boilerplate.gsub(/%/, sources || "??"),
+          @i18n.internal_external_terms_boilerplate.gsub("%", sources || "??"),
           @lang, @script
         )
       end
@@ -151,7 +151,7 @@ module Metanorma
         ret
       end
 
-      # remove Metanorma namespace, so generated doc containing boilerplate 
+      # remove Metanorma namespace, so generated doc containing boilerplate
       # can be queried consistently
       # _\d+ anchor is assigned to titleless clauses, will clash with main doc
       # instances of same
