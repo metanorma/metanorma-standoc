@@ -170,17 +170,14 @@ module Metanorma
         ref
       end
 
-      ISO_PUBLISHER_XPATH =
-        "./contributor[role/@type = 'publisher']/" \
-        "organization[abbreviation = 'ISO' or abbreviation = 'IEC' or " \
-        "name = 'International Organization for Standardization' or " \
-        "name = 'International Electrotechnical Commission']".freeze
-
       def reference_names(xmldoc)
         xmldoc.xpath("//bibitem[not(ancestor::bibitem)]").each do |ref|
-          docid = select_docid(ref) or next
-          reference = format_ref(docid.children.to_xml, docid["type"])
-          @anchors[ref["id"]] = { xref: reference, id: idtype2cit(ref) }
+          @anchors[ref["id"]] = if docid = select_docid(ref)
+                                  reference = format_ref(docid.children.to_xml,
+                                                         docid["type"])
+                                  { xref: reference, id: idtype2cit(ref) }
+                                else { xref: ref["id"], id: ref["id"] }
+                                end
         end
       end
 

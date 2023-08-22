@@ -47,8 +47,7 @@ module Metanorma
       def isorefmatches2code(match, _item)
         code = analyse_ref_code(match[:code])
         { code: match[:code], no_year: true, lang: (@lang || :all),
-          note: match[:fn], year: nil, match: match,
-          analyse_code: code,
+          note: match[:fn], year: nil, match: match, analyse_code: code,
           title: match[:text], usrlbl: match[:usrlbl] || code[:usrlabel] }
       end
 
@@ -79,19 +78,17 @@ module Metanorma
         yr = norm_year(match[:year])
         hasyr = !yr.nil? && yr != "--"
         { code: match[:code], match: match, yr: yr, hasyr: hasyr,
-          year: hasyr ? yr : nil,
+          year: hasyr ? yr : nil, lang: (@lang || :all),
           all_parts: true, no_year: yr == "--",
-          title: match[:text], usrlbl: match[:usrlbl] || code[:usrlabel],
-          lang: (@lang || :all) }
+          title: match[:text], usrlbl: match[:usrlbl] || code[:usrlabel] }
       end
 
       def isorefmatches3out(item, xml)
         if item[:doc] then use_retrieved_relaton(item, xml)
-        else
-          isorefmatches3_1(xml, item[:ref][:match],
-                           item[:ref][:analyse_code],
-                           item[:ref][:yr],
-                           item[:ref][:hasyr], item[:doc])
+        else isorefmatches3_1(
+          xml, item[:ref][:match], item[:ref][:analyse_code],
+          item[:ref][:yr], item[:ref][:hasyr], item[:doc]
+        )
         end
       end
 
@@ -126,9 +123,9 @@ module Metanorma
       end
 
       def refitem_render(xml, match, code)
-        xml.bibitem **attr_code(id: match[:anchor],
-                                suppress_identifier: code[:dropid],
-                                hidden: code[:hidden]) do |t|
+        xml.bibitem **attr_code(
+          id: match[:anchor], suppress_identifier: code[:dropid], hidden: code[:hidden],
+        ) do |t|
           t.formattedref format: "application/x-isodoc+xml" do |i|
             i << ref_normalise_no_format(match[:text])
           end
@@ -240,7 +237,7 @@ module Metanorma
       def reference_normalise(refs)
         refs.each do |r|
           r[:code] = @c.decode(r[:code])
-            .gsub(/\u2009\u2014\u2009/, " -- ").strip
+            .gsub("\u2009\u2014\u2009", " -- ").strip
         end
       end
 

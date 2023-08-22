@@ -515,7 +515,7 @@ RSpec.describe Metanorma::Standoc do
       .not_to include "mismatch of callouts"
   end
 
-  it "warns that term source is not a real reference" do
+  it "warns that cross-reference to bibliography is not a real reference" do
     FileUtils.rm_f "test.err"
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       #{VALIDATING_BLANK_HDR}
@@ -525,6 +525,27 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     expect(File.read("test.err"))
       .to include "iso123 does not have a corresponding anchor ID in the bibliography"
+
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      #{VALIDATING_BLANK_HDR}
+
+      <<iso123>>
+
+      [bibliography]
+      == Bibliography
+
+      [%bibitem]
+      === RNP: A C library approach to OpenPGP
+      id:: RNP
+      contributor::
+        role::: publisher
+        organization:::
+          name:::: ISO
+    INPUT
+    expect(File.read("test.err"))
+      .not_to include "iso123 does not have a corresponding anchor ID in the bibliography"
+
+
   end
 
   it "warns of Non-reference in bibliography" do
