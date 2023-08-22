@@ -107,8 +107,8 @@ module Metanorma
 
       def initial_boilerplate(xml, isodoc)
         xml.at("//boilerplate") and return
-        preface = xml.at("//termdocsource | //preface | //sections | " \
-                         "//annex | //references") or return
+        preface = xml.at("//preface | //sections | //annex | //references") or
+          return
         b = boilerplate(xml, isodoc) or return
         preface.previous = b
       end

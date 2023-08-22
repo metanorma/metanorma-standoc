@@ -53,7 +53,7 @@ module Metanorma
       end
 
       PREFACE_CLAUSE_NAMES =
-        %w(abstract foreword introduction metanorma-extension
+        %w(abstract foreword introduction metanorma-extension termdocsource
            misc-container acknowledgements).freeze
 
       MAIN_CLAUSE_NAMES =
