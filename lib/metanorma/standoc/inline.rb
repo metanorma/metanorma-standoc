@@ -54,13 +54,12 @@ module Metanorma
       end
 
       def inline_anchor_xref_attrs1(match, target, text)
-        { target: target,
+        { target: target, hidden: match[:hidden],
           type: match[:fn].nil? ? "inline" : "footnote",
           case: match[:case]&.sub(/%$/, ""),
           style: match[:style]&.sub(/^style=/, "")&.sub(/%$/, "") || @xrefstyle,
           droploc: match[:drop].nil? && match[:drop2].nil? ? nil : true,
-          text: inline_anchor_xref_text(match, text),
-          hidden: match[:hidden] }
+          text: inline_anchor_xref_text(match, text) }
       end
 
       def inline_anchor_xref_match(text)
@@ -71,9 +70,7 @@ module Metanorma
       end
 
       def inline_anchor_xref_text(match, text)
-        if %i[case fn drop drop2 hidden style].any? do |x|
-             !match[x].nil?
-           end
+        if %i[case fn drop drop2 hidden style].any? { |x| !match[x].nil? }
           match[:text]
         else text
         end
@@ -199,12 +196,8 @@ module Metanorma
               term_designation(xml, node, "admitted", node.text)
             when "deprecated"
               term_designation(xml, node, "deprecates", node.text)
-            when "domain" then xml.domain { |a| a << node.text }
-
-            when "strike" then xml.strike { |s| s << node.text }
-            when "underline" then xml.underline { |s| s << node.text }
-            when "smallcap" then xml.smallcap { |s| s << node.text }
-            when "keyword" then xml.keyword { |s| s << node.text }
+            when "domain", "strike", "underline", "smallcap", "keyword"
+              xml.send(node.role) { |s| s << node.text }
             when /^css /
               xml.span style: node.role.sub(/^css /, "") do |s|
                 s << node.text
@@ -234,9 +227,8 @@ module Metanorma
       end
 
       def image_attributes1(node, uri, type)
-        attr_code(src: uri,
+        attr_code(src: uri, mimetype: type,
                   id: Metanorma::Utils::anchor_or_uuid,
-                  mimetype: type,
                   height: node.attr("height") || "auto",
                   width: node.attr("width") || "auto",
                   filename: node.attr("filename"),
