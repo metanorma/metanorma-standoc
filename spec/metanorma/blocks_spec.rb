@@ -368,7 +368,7 @@ RSpec.describe Metanorma::Standoc do
       <<ISO2191,section=1>>
       --
 
-      [.definition]
+      [.definition,type="simple"]
       --
       second definition
 
@@ -404,7 +404,7 @@ RSpec.describe Metanorma::Standoc do
                  </termsource>
                  </verbal-definition>
                </definition>
-               <definition>
+               <definition type="simple">
                <verbal-definition>
                  <p id='_'>second definition</p>
                  <termsource status='identical' type="authoritative">
