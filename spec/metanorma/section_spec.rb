@@ -108,7 +108,7 @@ RSpec.describe Metanorma::Standoc do
       == Thematic Index
     INPUT
     output = <<~OUTPUT
-            #{BLANK_HDR.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>').sub(/<metanorma-extension>/, "<metanorma-extension><p id='_'>Content</p>")}
+            #{BLANK_HDR.sub('<status>', '<abstract> <p>Text</p> </abstract><status>').sub('<metanorma-extension>', "<metanorma-extension><p id='_'>Content</p>")}
           <preface><abstract id="_">
           <title>Abstract</title>
         <p id="_">Text</p>
@@ -507,7 +507,7 @@ RSpec.describe Metanorma::Standoc do
       === Bibliography Subsection
     INPUT
     output = <<~OUTPUT
-                   #{BLANK_HDR.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>')}
+                   #{BLANK_HDR.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')}
            <preface><abstract id="_" language="en" script="Latn">
            <title>Abstract</title>
                <p id="_">Text</p>
@@ -666,7 +666,7 @@ RSpec.describe Metanorma::Standoc do
       === Bibliography Subsection
     INPUT
     output = <<~OUTPUT
-                   #{BLANK_HDR.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>')}
+                   #{BLANK_HDR.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')}
             <preface>
           <abstract id='_'>
           <title>Abstract</title>

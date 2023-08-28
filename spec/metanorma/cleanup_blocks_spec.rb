@@ -647,7 +647,7 @@ RSpec.describe Metanorma::Standoc do
                    <mstyle mathvariant="normal">
                      <munder>
                        <mi>a</mi>
-                       <mo>¯</mo>
+                       <mo>̲</mo>
                      </munder>
                    </mstyle>
                  </mstyle>
@@ -670,7 +670,7 @@ RSpec.describe Metanorma::Standoc do
                    <mstyle mathvariant="normal">
                      <munder>
                        <mi>a</mi>
-                       <mo>¯</mo>
+                       <mo>̲</mo>
                      </munder>
                    </mstyle>
                  </mstyle>
@@ -693,7 +693,7 @@ RSpec.describe Metanorma::Standoc do
                    <mstyle mathvariant="normal">
                      <munder>
                        <mi>a</mi>
-                       <mo>¯</mo>
+                       <mo>̲</mo>
                      </munder>
                    </mstyle>
                  </mstyle>
