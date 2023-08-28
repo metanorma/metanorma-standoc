@@ -2150,6 +2150,11 @@ RSpec.describe Metanorma::Standoc do
       pass:q[http://www.example.com]
       And pass:[http://www.example.com] and pass:a,q[http://www.example.com]
 
+      [sourcecode,filename="http://www.example.com"]
+      ----
+      A
+      ----
+
     INPUT
     output = <<~OUTPUT
       <clause id="_" inline-header="false" obligation="normative">
@@ -2184,6 +2189,7 @@ RSpec.describe Metanorma::Standoc do
          <a xmlns="http://www.example.com"/>
          <p id="_">http://www.example.com
        And http://www.example.com and http://www.example.com</p>
+       <sourcecode id="_" filename="http://www.example.com">A</sourcecode>
        </clause>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))

@@ -129,6 +129,7 @@ module Metanorma
 
       def inlinelink(text)
         text.include?("://") or return text
+        /^\[.*\]\s*$/.match?(text) and return text
         pass_inline_split(text) do |x|
           inlinelink_escape(x)
         end.join
