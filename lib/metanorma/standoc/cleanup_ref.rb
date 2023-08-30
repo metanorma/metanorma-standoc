@@ -176,7 +176,8 @@ module Metanorma
                                   reference = format_ref(docid.children.to_xml,
                                                          docid["type"])
                                   { xref: reference, id: idtype2cit(ref) }
-                                else { xref: ref["id"], id: ref["id"] }
+                                else
+                                  { xref: ref["id"], id: { "" => ref["id"] } }
                                 end
         end
       end
