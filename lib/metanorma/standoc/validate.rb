@@ -11,7 +11,7 @@ module Metanorma
   module Standoc
     module Validate
       def content_validate(doc)
-        @doctype = doc.at("//bibdata/ext/validate")&.text
+        @doctype = doc.at("//bibdata/ext/doctype")&.text
         repeat_id_validate(doc.root) # feeds xref_validate
         xref_validate(doc) # feeds nested_asset_validate
         nested_asset_validate(doc)
