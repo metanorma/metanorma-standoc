@@ -42,6 +42,7 @@ module Metanorma
       end
 
       def init_vars
+        @log = Metanorma::Utils::Log.new # for error reporting downstream
         @fn_number ||= 0
         @refids = Set.new
         @anchor_alias = {}
@@ -102,7 +103,6 @@ module Metanorma
 
       def init_output(node)
         @fontheader = default_fonts(node)
-        @log = Metanorma::Utils::Log.new
         @files_to_delete = []
         @filename = if node.attr("docfile")
                       File.basename(node.attr("docfile"))&.gsub(/\.adoc$/, "")
