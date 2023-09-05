@@ -55,7 +55,7 @@ module Metanorma
       end
 
       def init_misc(node)
-        @doctype = node.attr("doctype")
+        @doctype = doctype(node)
         @draft = node.attributes.has_key?("draft")
         @index_terms = node.attr("index-terms")
         @boilerplateauthority = node.attr("boilerplate-authority")
