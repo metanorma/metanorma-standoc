@@ -25,7 +25,7 @@ module Metanorma
   module Standoc
     module Cleanup
       def cleanup(xmldoc)
-        @doctype = doc.at("//bibdata/ext/doctype")&.text
+        @doctype = xmldoc.at("//bibdata/ext/doctype")&.text
         element_name_cleanup(xmldoc)
         passthrough_cleanup(xmldoc)
         unnumbered_blocks_cleanup(xmldoc)
