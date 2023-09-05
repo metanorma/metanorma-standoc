@@ -42,7 +42,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "concurrent-ruby"
   spec.add_dependency "plurimath"
   spec.add_dependency "pngcheck"
-  spec.add_dependency "relaton-cli", "~> 1.15.0"
+  spec.add_dependency "relaton-cli", "~> 1.16.0"
   spec.add_dependency "relaton-iev", "~> 1.1.5"
   spec.add_dependency "unicode2latex", "~> 0.0.1"
 
