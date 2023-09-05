@@ -344,7 +344,7 @@ RSpec.describe Metanorma::Standoc do
                     <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
                   </bibitem>
                 </relation>
-                <relation type='instance'>
+                <relation type='instanceOf'>
                   <bibitem type='standard'>
                     <fetched/>
                     <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
@@ -443,7 +443,7 @@ RSpec.describe Metanorma::Standoc do
                     <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
                   </bibitem>
                 </relation>
-                <relation type='instance'>
+                <relation type='instanceOf'>
                   <bibitem type='standard'>
                     <fetched/>
                     <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
@@ -583,7 +583,7 @@ RSpec.describe Metanorma::Standoc do
                     <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
                   </bibitem>
                 </relation>
-                <relation type='instance'>
+                <relation type='instanceOf'>
                   <bibitem type='standard'>
                     <fetched/>
                     <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
@@ -688,7 +688,7 @@ RSpec.describe Metanorma::Standoc do
                     <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
                   </bibitem>
                 </relation>
-                <relation type='instance'>
+                <relation type='instanceOf'>
                   <bibitem type='standard'>
                     <fetched/>
                     <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
@@ -2237,7 +2237,7 @@ RSpec.describe Metanorma::Standoc do
             <formattedref format='text/plain'>ISO 123:1985</formattedref>
           </bibitem>
         </relation>
-        <relation type='instance'>
+        <relation type='instanceOf'>
           <bibitem type='standard'>
             <fetched/>
             <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
@@ -2286,12 +2286,12 @@ RSpec.describe Metanorma::Standoc do
             <place>Geneva</place>
           </bibitem>
         </relation>
-        <relation type='instance'>
+        <relation type='instanceOf'>
           <bibitem type='standard'>
             <formattedref format='text/plain'>ISO 123:1985</formattedref>
           </bibitem>
         </relation>
-        <relation type='instance'>
+        <relation type='instanceOf'>
           <bibitem type='standard'>
             <formattedref format='text/plain'>ISO 123:1974</formattedref>
           </bibitem>
