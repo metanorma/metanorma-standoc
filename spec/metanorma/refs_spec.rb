@@ -1685,7 +1685,7 @@ RSpec.describe Metanorma::Standoc do
     end
   end
 
-  xit "processes RFC reference in Normative References" do
+  it "processes RFC reference in Normative References" do
     VCR.use_cassette "rfcbib_get_rfc8341" do
       input = <<~INPUT
         #{ISOBIB_BLANK_HDR}
