@@ -1025,7 +1025,7 @@ RSpec.describe Metanorma::Standoc do
                     <docidentifier type='ISO' primary='true'>ISO/R 357:1963</docidentifier>
                   </bibitem>
                 </relation>
-                <relation type='instance'>
+                <relation type='instanceOf'>
                   <bibitem type='standard'>
                     <fetched/>
                     <title type='title-intro' format='text/plain' language='en' script='Latn'>Acoustics</title>

@@ -43,7 +43,7 @@
                    <formattedref format='text/plain'>ISO 123:1985</formattedref>
                  </bibitem>
                </relation>
-               <relation type='instance'>
+               <relation type='instanceOf'>
                  <bibitem type='standard'>
                    <fetched>2020-06-12</fetched>
                    <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
@@ -92,12 +92,12 @@
                    <place>Geneva</place>
                  </bibitem>
                </relation>
-               <relation type='instance'>
+               <relation type='instanceOf'>
                  <bibitem type='standard'>
                    <formattedref format='text/plain'>ISO 123:1985</formattedref>
                  </bibitem>
                </relation>
-               <relation type='instance'>
+               <relation type='instanceOf'>
                  <bibitem type='standard'>
                    <formattedref format='text/plain'>ISO 123:1974</formattedref>
                  </bibitem>
