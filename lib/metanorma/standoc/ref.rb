@@ -1,4 +1,5 @@
 require_relative "ref_utility"
+require_relative "ref_queue"
 
 module Metanorma
   module Standoc
@@ -224,42 +225,6 @@ module Metanorma
         when 1 then isorefmatchesout(item, xml)
         when 2 then isorefmatches2out(item, xml)
         when 3 then isorefmatches3out(item, xml)
-        end
-      end
-
-      def reference(node)
-        refs = node.items.each_with_object([]) do |b, m|
-          m << reference1code(b.text, node)
-        end
-        reference_populate(reference_normalise(refs))
-      end
-
-      def reference_normalise(refs)
-        refs.each do |r|
-          r[:code] = @c.decode(r[:code])
-            .gsub("\u2009\u2014\u2009", " -- ").strip
-        end
-      end
-
-      def reference_populate(refs)
-        results = refs.each_with_index.with_object(Queue.new) do |(ref, i), res|
-          fetch_ref_async(ref.merge(ord: i), i, res)
-        end
-        ret = reference_queue(refs, results)
-        noko do |xml|
-          ret.each { |b| reference1out(b, xml) }
-        end.join
-      end
-
-      def reference_queue(refs, results)
-        refs.each.with_object([]) do |_, m|
-          ref, i, doc = results.pop
-          m[i.to_i] = { ref: ref }
-          if doc.is_a?(RelatonBib::RequestError)
-            @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: " \
-                                          "no access to online site")
-          else m[i.to_i][:doc] = doc
-          end
         end
       end
     end

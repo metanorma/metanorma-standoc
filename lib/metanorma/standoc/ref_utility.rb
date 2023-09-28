@@ -69,41 +69,44 @@ module Metanorma
       def analyse_ref_localfile(ret)
         m = /^local-file\((?:(?<source>[^,]+),\s*)?(?<id>.+)\)$/.match(ret[:id])
         m or return ret
-
         ret.merge(id: m[:id], localfile: (m[:source] || "default"))
       end
 
       def analyse_ref_nofetch(ret)
-        return ret unless m = /^nofetch\((?<id>.+)\)$/.match(ret[:id])
-
+        m = /^nofetch\((?<id>.+)\)$/.match(ret[:id]) or return ret
         ret.merge(id: m[:id], nofetch: true)
       end
 
       def analyse_ref_hidden(ret)
-        return ret unless m = /^hidden\((?<id>.+)\)$/.match(ret[:id])
-
+        m = /^hidden\((?<id>.+)\)$/.match(ret[:id]) or return ret
         ret.merge(id: m[:id], hidden: true)
       end
 
       def analyse_ref_dropid(ret)
-        return ret unless m = /^dropid\((?<id>.+)\)$/.match(ret[:id])
-
+        m = /^dropid\((?<id>.+)\)$/.match(ret[:id]) or return ret
         ret.merge(id: m[:id], dropid: true)
       end
 
       def analyse_ref_repo_path(ret)
-        return ret unless m =
-                            /^(?<type>repo|path):\((?<key>[^,]+),?(?<id>.*)\)$/
-                              .match(ret[:id])
-
+        m = /^(?<type>repo|path):\((?<key>[^,]+),?(?<id>.*)\)$/
+          .match(ret[:id]) or return ret
         id = m[:id].empty? ? m[:key].sub(%r{^[^/]+/}, "") : m[:id]
         ret.merge(id: id, type: m[:type], key: m[:key], nofetch: true)
       end
 
       def analyse_ref_numeric(ret)
-        return ret unless /^\d+$/.match?(ret[:id])
-
+        /^\d+$/.match?(ret[:id]) or return ret
         ret.merge(numeric: true)
+      end
+
+      def analyse_ref_dual(ret)
+        m = /^(?<type>merge|dual)\((?<keys>.+)\)$/.match?(ret[:id]) or
+          return ret
+        line = CSV.parse_line(m[:keys], liberal_parsing: true) or return ret
+        line.size > 1 or return ret
+        ret[:id] = line.first
+        ret[m[:type]] = line[1..-1]
+        ret
       end
 
       def analyse_ref_code(code)
@@ -157,13 +160,16 @@ module Metanorma
 
       # ref id = (usrlbl)code[:-]year
       # code = \[? number \]? | ident | nofetch(code) | hidden(code) |
-      # dropid(code) | # (repo|path):(key,code) | local-file(source,? key)
+      # dropid(code) | # (repo|path):(key,code) | local-file(source,? key) |
+      # merge(code, code) | dual(code, code)
       def analyse_ref_code_nested(ret)
-        analyse_ref_numeric(
-          analyse_ref_repo_path(
-            analyse_ref_dropid(
-              analyse_ref_hidden(
-                analyse_ref_nofetch(analyse_ref_localfile(ret)),
+        analyse_ref_dual(
+          analyse_ref_numeric(
+            analyse_ref_repo_path(
+              analyse_ref_dropid(
+                analyse_ref_hidden(
+                  analyse_ref_nofetch(analyse_ref_localfile(ret)),
+                ),
               ),
             ),
           ),
@@ -193,12 +199,12 @@ module Metanorma
       REF
 
       def ref_normalise(ref)
-        ref.gsub(/&amp;amp;/, "&amp;").gsub(%r{^<em>(.*)</em>}, "\\1")
+        ref.gsub("&amp;amp;", "&amp;").gsub(%r{^<em>(.*)</em>}, "\\1")
       end
 
       def ref_normalise_no_format(ref)
-        ref.gsub(/&amp;amp;/, "&amp;")
-          .gsub(/>\n/, "> \n")
+        ref.gsub("&amp;amp;", "&amp;")
+          .gsub(">\n", "> \n")
       end
 
       def skip_docid
