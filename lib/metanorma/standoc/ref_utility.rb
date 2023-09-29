@@ -100,12 +100,12 @@ module Metanorma
       end
 
       def analyse_ref_dual(ret)
-        m = /^(?<type>merge|dual)\((?<keys>.+)\)$/.match?(ret[:id]) or
+        m = /^(?<type>merge|dual)\((?<keys>.+)\)$/.match(ret[:id]) or
           return ret
         line = CSV.parse_line(m[:keys], liberal_parsing: true) or return ret
         line.size > 1 or return ret
         ret[:id] = line.first
-        ret[m[:type]] = line[1..-1]
+        ret[m[:type].to_sym] = line[1..-1].map(&:strip)
         ret
       end
 

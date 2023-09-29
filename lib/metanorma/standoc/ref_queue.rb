@@ -16,31 +16,97 @@ module Metanorma
       end
 
       def reference_populate(refs)
-        i = 0
-        results = refs.each_with_object(Queue.new) do |ref, res|
-          i = fetch_ref_async(ref.merge(ord: i), i, res)
-        end
-        ret = reference_queue(refs, results)
-        noko do |xml|
-          ret.each { |b| reference1out(b, xml) }
-        end.join
+        ret = reference_queue(*references_fetch(refs))
+        joint_prep = joint_entries_prep(ret)
+        out = references2xml(ret)
+        joint_entries(out, joint_prep).compact.map { |x| to_xml(x) }.join
       end
 
-      def reference_queue(refs, results)
-        out = refs.each.with_object([]) do |_, m|
+      def references2xml(ret)
+        out = ret.map do |b|
+          b.nil? ? nil : noko { |xml| reference1out(b, xml) }.join
+        end
+        out.map { |x| x.nil? ? nil : Nokogiri::XML(x).root }
+      end
+
+      def references_fetch(refs)
+        i = 0
+        ret = refs.each_with_object(Queue.new) do |ref, res|
+          i = fetch_ref_async(ref.merge(ord: i), i, res)
+        end
+        [ret, i]
+      end
+
+      def reference_queue(results, size)
+        (1..size).each.with_object([]) do |_, m|
           ref, i, doc = results.pop
           m[i.to_i] = { ref: ref }
           if doc.is_a?(RelatonBib::RequestError)
             @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: " \
                                           "no access to online site")
-          else m[i.to_i][:doc] = doc
-          end
+          else m[i.to_i][:doc] = doc end
         end
-        merge_entries(out)
       end
 
-      def merge_entries(out)
+      def joint_entries(out, joint_prep)
+        joint_prep.each do |k, v|
+          v[:merge]&.each do |i|
+            merge_entries(out[k], out[i]) and out[i] = nil
+          end
+          v[:dual]&.each do |i|
+            dual_entries(out[k], out[i]) and out[i] = nil
+          end
+        end
         out
+      end
+
+      # append publishers docids of add to base
+      def merge_entries(base, add)
+        merge_publishers(base, add)
+        merge_docids(base, add)
+      end
+
+      def merge_publishers(base, add)
+        ins = base.at("//contributor[last()]") || base.children[-1]
+        add.xpath("//contributor[role/@type = 'publisher']").reverse.each do |p|
+          ins.next = p
+        end
+      end
+
+      def merge_docids(base, add)
+        ins = base.at("//docidentifier[last()]")
+        [ins, add].each do |v|
+          v.at("//docidentifier[@primary = 'true']") or
+            v.at("//docidentifier")["primary"] = true
+        end
+        add.xpath("//docidentifier").reverse.each do |p|
+          ins.next = p
+        end
+      end
+
+      def dual_entries(base, add)
+        ins = docrelation_insert(base)
+        ins.next = "<relation type='hasReproduction'>#{to_xml(add)}</relation>"
+      end
+
+      def docrelation_insert(base)
+        %w(relation copyright status abstract locale language note version
+           edition contributor date docnumber docidentifier).each do |v|
+          r = base.at("//#{v}[last()]") and return r
+        end
+      end
+
+      JOINT_REFS = %i(merge dual).freeze
+
+      def joint_entries_prep(out)
+        out.each_with_object({}) do |r, m|
+          JOINT_REFS.each do |v|
+            if i = r&.dig(:ref, "#{v}_into".to_sym)
+              m[i] ||= { "#{v}": [] }
+              m[i][v][r[:ref][:merge_order]] = r[:ref][:ord]
+            end
+          end
+        end
       end
 
       def global_ievcache_name
@@ -97,16 +163,17 @@ module Metanorma
         @bibdb.fetch_async(ref[:code], ref[:year], ref) do |doc|
           res << [ref, idx, doc]
         end
-        fetch_ref_async_dual(ref, idx, res)
+        fetch_ref_async_dual(ref, idx, idx + 1, res)
       end
 
-      def fetch_ref_async_dual(ref, idx, res)
-        orig = idx
-        %i(merge dual).each do |m|
-          ref[:analyze_code][m]&.each_with_index do |doc, i|
+      def fetch_ref_async_dual(ref, orig, idx, res)
+        JOINT_REFS.each do |m|
+          ref.dig(:analyse_code, m)&.each_with_index do |code, i|
+            @bibdb.fetch_async(code, nil, ref.merge(ord: idx)) do |doc|
+              res << [ref.merge("#{m}_into": orig, merge_order: i, ord: idx),
+                      idx, doc]
+            end
             idx += 1
-            res << [ref.merge("#{m}_into": orig, merge_order: i, ord: idx), idx,
-                    doc]
           end
         end
         idx
