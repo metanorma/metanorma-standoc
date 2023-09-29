@@ -274,15 +274,15 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso124,ISO 8343]]] _Standard_
     INPUT
     doc = Asciidoctor.convert(input
-      .sub(/:novalid:/, ":language: de\n:novalid:"), *OPTIONS)
+      .sub(":novalid:", ":language: de\n:novalid:"), *OPTIONS)
     expect(doc).to include '<eref type="inline" bibitemid="iso123" citeas="ISO 8342-DE"/>'
     expect(doc).to include '<eref type="inline" bibitemid="iso124" citeas="ISO 8343-DE"/>'
     doc = Asciidoctor.convert(input
-  .sub(/:novalid:/, ":language: fr\n:novalid:"), *OPTIONS)
+  .sub(":novalid:", ":language: fr\n:novalid:"), *OPTIONS)
     expect(doc).to include '<eref type="inline" bibitemid="iso123" citeas="ISO 8342-EN"/>'
     expect(doc).to include '<eref type="inline" bibitemid="iso124" citeas="ISO 8343-FR"/>'
     doc = Asciidoctor.convert(input
-      .sub(/:novalid:/, ":language: en\n:novalid:"), *OPTIONS)
+      .sub(":novalid:", ":language: en\n:novalid:"), *OPTIONS)
     expect(doc).to include '<eref type="inline" bibitemid="iso123" citeas="ISO 8342-EN"/>'
     expect(doc).to include '<eref type="inline" bibitemid="iso124" citeas="ISO 8341"/>'
   end
@@ -371,13 +371,6 @@ RSpec.describe Metanorma::Standoc do
                     <edition>3</edition>
                     <language>en</language>
                     <script>Latn</script>
-                    <abstract format='text/plain' language='en' script='Latn'>
-                      This International Standard specifies procedures for sampling
-                      natural rubber latex concentrate and for sampling synthetic rubber
-                      latices and artificial latices. It is also suitable for sampling
-                      rubber latex contained in drums, tank cars or tanks. The
-                      procedures may also be used for sampling plastics dispersions.
-                    </abstract>
                     <status>
                       <stage>90</stage>
                       <substage>93</substage>
@@ -470,13 +463,6 @@ RSpec.describe Metanorma::Standoc do
                     <edition>3</edition>
                     <language>en</language>
                     <script>Latn</script>
-                    <abstract format='text/plain' language='en' script='Latn'>
-                      This International Standard specifies procedures for sampling
-                      natural rubber latex concentrate and for sampling synthetic rubber
-                      latices and artificial latices. It is also suitable for sampling
-                      rubber latex contained in drums, tank cars or tanks. The
-                      procedures may also be used for sampling plastics dispersions.
-                    </abstract>
                     <status>
                       <stage>90</stage>
                       <substage>93</substage>
@@ -504,7 +490,9 @@ RSpec.describe Metanorma::Standoc do
           </bibliography>
         </standard-document>
       OUTPUT
-      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+      xml.xpath("//xmlns:abstract").each(&:remove)
+      expect(xmlpp(strip_guid(xml.to_xml)))
         .to be_equivalent_to xmlpp(output)
     end
   end
@@ -611,17 +599,6 @@ RSpec.describe Metanorma::Standoc do
                     <language>en</language>
                     <language>fr</language>
                     <script>Latn</script>
-                    <abstract format='text/plain' language='fr' script='Latn'>
-                      La pr&#233;sente Norme internationale sp&#233;cifie des
-                      m&#233;thodes d&#8217;&#233;chantillonnage pour des
-                      concentr&#233;s de latex de caoutchouc naturel et pour
-                      &#233;chantillonner des latex de caoutchouc synth&#233;tique et
-                      des latex artificiels. Elle s&#8217;applique &#233;galement &#224;
-                      l&#8217;&#233;chantillonnage de latex de caoutchouc contenus dans
-                      des f&#251;ts, citernes routi&#232;res ou de stockage. Le mode
-                      op&#233;ratoire peut aussi &#234;tre utilis&#233; pour
-                      l&#8217;&#233;chantillonnage de dispersions de plastiques.
-                    </abstract>
                     <status>
                       <stage>90</stage>
                       <substage>93</substage>
@@ -716,17 +693,6 @@ RSpec.describe Metanorma::Standoc do
                     <language>en</language>
                     <language>fr</language>
                     <script>Latn</script>
-                    <abstract format='text/plain' language='fr' script='Latn'>
-                      La pr&#233;sente Norme internationale sp&#233;cifie des
-                      m&#233;thodes d&#8217;&#233;chantillonnage pour des
-                      concentr&#233;s de latex de caoutchouc naturel et pour
-                      &#233;chantillonner des latex de caoutchouc synth&#233;tique et
-                      des latex artificiels. Elle s&#8217;applique &#233;galement &#224;
-                      l&#8217;&#233;chantillonnage de latex de caoutchouc contenus dans
-                      des f&#251;ts, citernes routi&#232;res ou de stockage. Le mode
-                      op&#233;ratoire peut aussi &#234;tre utilis&#233; pour
-                      l&#8217;&#233;chantillonnage de dispersions de plastiques.
-                    </abstract>
                     <status>
                       <stage>90</stage>
                       <substage>93</substage>
@@ -754,7 +720,9 @@ RSpec.describe Metanorma::Standoc do
           </bibliography>
         </standard-document>
       OUTPUT
-      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+      xml.xpath("//xmlns:abstract").each(&:remove)
+      expect(xmlpp(strip_guid(xml.to_xml)))
         .to be_equivalent_to xmlpp(output)
     end
   end
@@ -858,7 +826,6 @@ RSpec.describe Metanorma::Standoc do
                <edition>2</edition>
                <language>en</language>
                <script>Latn</script>
-               <abstract format="text/plain" language="en" script="Latn">Contains a permuted index of all terms included in the parts 1 — 28 of ISO 2382. If any of these parts has been revised, the present TR refers to the revision.</abstract>
                <status>
                  <stage>90</stage>
                  <substage>93</substage>
@@ -899,7 +866,6 @@ RSpec.describe Metanorma::Standoc do
                <edition>7</edition>
                <language>en</language>
                <script>Latn</script>
-               <abstract format="text/plain" language="en" script="Latn">ISO 124:2014 specifies methods for the determination of the total solids content of natural rubber field and concentrated latices and synthetic rubber latex. These methods are not necessarily suitable for latex from natural sources other than the Hevea brasiliensis, for vulcanized latex, for compounded latex, or for artificial dispersions of rubber.</abstract>
                <status>
                  <stage>90</stage>
                  <substage>93</substage>
@@ -954,7 +920,6 @@ RSpec.describe Metanorma::Standoc do
                <edition>2</edition>
                <language>en</language>
                <script>Latn</script>
-               <abstract format="text/plain" language="en" script="Latn">Contains a permuted index of all terms included in the parts 1 — 28 of ISO 2382. If any of these parts has been revised, the present TR refers to the revision.</abstract>
                <status>
                  <stage>90</stage>
                  <substage>93</substage>
@@ -996,7 +961,6 @@ RSpec.describe Metanorma::Standoc do
                <edition>7</edition>
                <language>en</language>
                <script>Latn</script>
-               <abstract format="text/plain" language="en" script="Latn">ISO 124:2014 specifies methods for the determination of the total solids content of natural rubber field and concentrated latices and synthetic rubber latex. These methods are not necessarily suitable for latex from natural sources other than the Hevea brasiliensis, for vulcanized latex, for compounded latex, or for artificial dispersions of rubber.</abstract>
                <status>
                  <stage>90</stage>
                  <substage>93</substage>
@@ -1020,7 +984,9 @@ RSpec.describe Metanorma::Standoc do
            </references>
          </bibliography>
       OUTPUT
-      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+      xml.xpath("//xmlns:abstract").each(&:remove)
+      expect(xmlpp(strip_guid(xml.to_xml)))
         .to be_equivalent_to xmlpp(output)
     end
   end
@@ -1326,55 +1292,55 @@ RSpec.describe Metanorma::Standoc do
         * [[[iso123,BIPM CIPM RES 1]]] _Standard_
       INPUT
       output = <<~OUTPUT
-         #{BLANK_HDR}
-                         <sections>
-                  </sections>
-                           <bibliography>
-           <references id="_" normative="true" obligation="informative">
-             <title>Normative references</title>
-             <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-             <bibitem id="iso123" type="proceedings">
-               <fetched/>
-               <title format="text/plain" language="en" script="Latn">Signes abréviatifs pour les poids et mesures métriques</title>
-               <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/ci/cipm/4-1879/resolution-</uri>
-               <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-4.yml</uri>
-               <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-4.yml</uri>
-               <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM4.pdf/47e647d4-26c2-d3d6-b367-e749fb22b261</uri>
-               <docidentifier type="BIPM" primary="true">CIPM RES (1879)</docidentifier>
-               <docidentifier type="BIPM" primary="true" language="en" script="Latn">CIPM RES (1879, E)</docidentifier>
-               <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CIPM RES (1879, F)</docidentifier>
-               <docidentifier type="BIPM-long" language="en" script="Latn">CIPM Resolution (1879)</docidentifier>
-               <docidentifier type="BIPM-long" language="fr" script="Latn">Résolution du CIPM (1879)</docidentifier>
-               <docidentifier type="BIPM-long">CIPM Resolution (1879) / Résolution du CIPM (1879)</docidentifier>
-               <docnumber>CIPM RES (1879)</docnumber>
-               <date type="published">
-                 <on>1879-10-13</on>
-               </date>
-               <contributor>
-                 <role type="publisher"/>
-                 <organization>
-                   <name language="en" script="Latn">International Bureau of Weights and Measures</name>
-                   <abbreviation>BIPM</abbreviation>
-                   <uri>www.bipm.org</uri>
-                 </organization>
-               </contributor>
-               <contributor>
-                 <role type="author"/>
-                 <organization>
-                   <name language="en" script="Latn">International Committee for Weights and Measures</name>
-                   <abbreviation>CIPM</abbreviation>
-                 </organization>
-               </contributor>
-               <language>en</language>
-               <language>fr</language>
-               <script>Latn</script>
-               <place>
-                 <city>Paris</city>
-               </place>
-             </bibitem>
-           </references>
-         </bibliography>
-       </standard-document>
+          #{BLANK_HDR}
+                          <sections>
+                   </sections>
+                            <bibliography>
+            <references id="_" normative="true" obligation="informative">
+              <title>Normative references</title>
+              <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+              <bibitem id="iso123" type="proceedings">
+                <fetched/>
+                <title format="text/plain" language="en" script="Latn">Signes abréviatifs pour les poids et mesures métriques</title>
+                <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/ci/cipm/4-1879/resolution-</uri>
+                <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-4.yml</uri>
+                <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-4.yml</uri>
+                <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM4.pdf/47e647d4-26c2-d3d6-b367-e749fb22b261</uri>
+                <docidentifier type="BIPM" primary="true">CIPM RES (1879)</docidentifier>
+                <docidentifier type="BIPM" primary="true" language="en" script="Latn">CIPM RES (1879, E)</docidentifier>
+                <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CIPM RES (1879, F)</docidentifier>
+                <docidentifier type="BIPM-long" language="en" script="Latn">CIPM Resolution (1879)</docidentifier>
+                <docidentifier type="BIPM-long" language="fr" script="Latn">Résolution du CIPM (1879)</docidentifier>
+                <docidentifier type="BIPM-long">CIPM Resolution (1879) / Résolution du CIPM (1879)</docidentifier>
+                <docnumber>CIPM RES (1879)</docnumber>
+                <date type="published">
+                  <on>1879-10-13</on>
+                </date>
+                <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                    <name language="en" script="Latn">International Bureau of Weights and Measures</name>
+                    <abbreviation>BIPM</abbreviation>
+                    <uri>www.bipm.org</uri>
+                  </organization>
+                </contributor>
+                <contributor>
+                  <role type="author"/>
+                  <organization>
+                    <name language="en" script="Latn">International Committee for Weights and Measures</name>
+                    <abbreviation>CIPM</abbreviation>
+                  </organization>
+                </contributor>
+                <language>en</language>
+                <language>fr</language>
+                <script>Latn</script>
+                <place>
+                  <city>Paris</city>
+                </place>
+              </bibitem>
+            </references>
+          </bibliography>
+        </standard-document>
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)
@@ -1441,7 +1407,6 @@ RSpec.describe Metanorma::Standoc do
                <edition>7</edition>
                <language>en</language>
                <script>Latn</script>
-               <abstract format='text/plain' language='en' script='Latn'>ISO 124:2014 specifies methods for the determination of the total solids content of natural rubber field and concentrated latices and synthetic rubber latex. These methods are not necessarily suitable for latex from natural sources other than the Hevea brasiliensis, for vulcanized latex, for compounded latex, or for artificial dispersions of rubber.</abstract>
                <status>
                  <stage>90</stage>
                  <substage>93</substage>
@@ -1464,7 +1429,9 @@ RSpec.describe Metanorma::Standoc do
              </bibitem>
         </references></bibliography></standard-document>
       OUTPUT
-      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+      xml.xpath("//xmlns:abstract").each(&:remove)
+      expect(xmlpp(strip_guid(xml.to_xml)))
         .to be_equivalent_to xmlpp(output)
     end
   end
@@ -1752,19 +1719,6 @@ RSpec.describe Metanorma::Standoc do
          </contributor>
                 <language>en</language>
                 <script>Latn</script>
-                <abstract format='text/html' language='en' script='Latn'>
-                  <p id='_'>
-                    The standardization of network configuration interfaces for use with
-                    the Network Configuration Protocol (NETCONF) or the RESTCONF
-                    protocol requires a structured and secure operating environment that
-                    promotes human usability and multi-vendor interoperability. There is
-                    a need for standard mechanisms to restrict NETCONF or RESTCONF
-                    protocol access for particular users to a preconfigured subset of
-                    all available NETCONF or RESTCONF protocol operations and content.
-                    This document defines such an access control model.
-                  </p>
-                  <p id='_'>This document obsoletes RFC 6536.</p>
-                </abstract>
                 <series>
                   <title format='text/plain'>STD</title>
                   <number>91</number>
@@ -1821,19 +1775,6 @@ RSpec.describe Metanorma::Standoc do
          </contributor>
                 <language>en</language>
                 <script>Latn</script>
-                <abstract format='text/html' language='en' script='Latn'>
-                  <p id='_'>
-                    The standardization of network configuration interfaces for use with
-                    the Network Configuration Protocol (NETCONF) or the RESTCONF
-                    protocol requires a structured and secure operating environment that
-                    promotes human usability and multi-vendor interoperability. There is
-                    a need for standard mechanisms to restrict NETCONF or RESTCONF
-                    protocol access for particular users to a preconfigured subset of
-                    all available NETCONF or RESTCONF protocol operations and content.
-                    This document defines such an access control model.
-                  </p>
-                  <p id='_'>This document obsoletes RFC 6536.</p>
-                </abstract>
                 <series>
                   <title format='text/plain'>STD</title>
                   <number>91</number>
@@ -1853,7 +1794,308 @@ RSpec.describe Metanorma::Standoc do
                 </bibliography>
               </standard-document>
       OUTPUT
-      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+      xml.xpath("//xmlns:abstract").each(&:remove)
+      expect(xmlpp(strip_guid(xml.to_xml)))
+        .to be_equivalent_to xmlpp(output)
+    end
+  end
+
+  it "processes merged joint references" do
+    VCR.use_cassette "merge_refs" do
+      input = <<~INPUT
+        #{ISOBIB_BLANK_HDR}
+        [bibliography]
+        == Normative References
+
+        * [[[iso123,merge(ISO 125, IETF(RFC 8341))]]], _Standard_
+      INPUT
+      output = <<~OUTPUT
+              #{BLANK_HDR}
+                     <sections>
+              </sections><bibliography><references id="_" obligation="informative" normative="true">
+                <title>Normative references</title>
+               #{NORM_REF_BOILERPLATE}
+                            <bibitem id="iso123" type="standard">
+               <fetched/>
+               <title type="title-intro" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate</title>
+               <title type="title-main" format="text/plain" language="en" script="Latn">Determination of alkalinity</title>
+               <title type="main" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate — Determination of alkalinity</title>
+               <uri type="src">https://www.iso.org/standard/72849.html</uri>
+               <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
+               <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
+               <docidentifier type="ISO" primary="true">ISO 125</docidentifier>
+               <docidentifier type="iso-reference">ISO 125(E)</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso:125:stage-60.60:ed-7</docidentifier>
+               <docidentifier type="IETF" primary="true">RFC 8341</docidentifier>
+               <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
+               <docnumber>125</docnumber>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>RFC Publisher</name>
+                 </organization>
+               </contributor>
+               <edition>7</edition>
+               <language>en</language>
+               <script>Latn</script>
+               <status>
+                 <stage>60</stage>
+                 <substage>60</substage>
+               </status>
+               <copyright>
+                 <from>2020</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type="obsoletes">
+                 <bibitem type="standard">
+                   <formattedref format="text/plain">ISO 125:2011</formattedref>
+                   <docidentifier type="ISO" primary="true">ISO 125:2011</docidentifier>
+                 </bibitem>
+               </relation>
+               <relation type="instanceOf">
+                 <bibitem type="standard">
+                   <fetched/>
+                   <title type="title-intro" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate</title>
+                   <title type="title-main" format="text/plain" language="en" script="Latn">Determination of alkalinity</title>
+                   <title type="main" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate — Determination of alkalinity</title>
+                   <uri type="src">https://www.iso.org/standard/72849.html</uri>
+                   <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
+                   <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
+                   <docidentifier type="ISO" primary="true">ISO 125:2020</docidentifier>
+                   <docidentifier type="iso-reference">ISO 125:2020(E)</docidentifier>
+                   <docidentifier type="URN">urn:iso:std:iso:125:stage-60.60:ed-7</docidentifier>
+                   <docnumber>125</docnumber>
+                   <date type="published">
+                     <on>2020-02</on>
+                   </date>
+                   <contributor>
+                     <role type="publisher"/>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <abbreviation>ISO</abbreviation>
+                       <uri>www.iso.org</uri>
+                     </organization>
+                   </contributor>
+                   <edition>7</edition>
+                   <language>en</language>
+                   <script>Latn</script>
+                   <status>
+                     <stage>60</stage>
+                     <substage>60</substage>
+                   </status>
+                   <copyright>
+                     <from>2020</from>
+                     <owner>
+                       <organization>
+                         <name>ISO</name>
+                       </organization>
+                     </owner>
+                   </copyright>
+                   <relation type="obsoletes">
+                     <bibitem type="standard">
+                       <formattedref format="text/plain">ISO 125:2011</formattedref>
+                       <docidentifier type="ISO" primary="true">ISO 125:2011</docidentifier>
+                     </bibitem>
+                   </relation>
+                   <place>Geneva</place>
+                 </bibitem>
+               </relation>
+               <place>Geneva</place>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
+      OUTPUT
+      xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+      xml.xpath("//xmlns:abstract").each(&:remove)
+      expect(xmlpp(strip_guid(xml.to_xml)))
+        .to be_equivalent_to xmlpp(output)
+    end
+  end
+
+  it "processes dual joint references" do
+    VCR.use_cassette "dual_refs" do
+      input = <<~INPUT
+        #{ISOBIB_BLANK_HDR}
+        [bibliography]
+        == Normative References
+
+        * [[[iso123,dual(ISO 125, IETF(RFC 8341))]]], _Standard_
+      INPUT
+      output = <<~OUTPUT
+              #{BLANK_HDR}
+                     <sections>
+              </sections><bibliography><references id="_" obligation="informative" normative="true">
+                <title>Normative references</title>
+               #{NORM_REF_BOILERPLATE}
+                            <bibitem id="iso123" type="standard">
+                <fetched/>
+                <title type="title-intro" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate</title>
+                <title type="title-main" format="text/plain" language="en" script="Latn">Determination of alkalinity</title>
+                <title type="main" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate — Determination of alkalinity</title>
+                <uri type="src">https://www.iso.org/standard/72849.html</uri>
+                <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
+                <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
+                <docidentifier type="ISO" primary="true">ISO 125</docidentifier>
+                <docidentifier type="iso-reference">ISO 125(E)</docidentifier>
+                <docidentifier type="URN">urn:iso:std:iso:125:stage-60.60:ed-7</docidentifier>
+                <docnumber>125</docnumber>
+                <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                    <name>International Organization for Standardization</name>
+                    <abbreviation>ISO</abbreviation>
+                    <uri>www.iso.org</uri>
+                  </organization>
+                </contributor>
+                <edition>7</edition>
+                <language>en</language>
+                <script>Latn</script>
+                <status>
+                  <stage>60</stage>
+                  <substage>60</substage>
+                </status>
+                <copyright>
+                  <from>2020</from>
+                  <owner>
+                    <organization>
+                      <name>ISO</name>
+                    </organization>
+                  </owner>
+                </copyright>
+                <relation type="obsoletes">
+                  <bibitem type="standard">
+                    <formattedref format="text/plain">ISO 125:2011</formattedref>
+                    <docidentifier type="ISO" primary="true">ISO 125:2011</docidentifier>
+                  </bibitem>
+                </relation>
+                <relation type="instanceOf">
+                  <bibitem type="standard">
+                    <fetched/>
+                    <title type="title-intro" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate</title>
+                    <title type="title-main" format="text/plain" language="en" script="Latn">Determination of alkalinity</title>
+                    <title type="main" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate — Determination of alkalinity</title>
+                    <uri type="src">https://www.iso.org/standard/72849.html</uri>
+                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
+                    <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
+                    <docidentifier type="ISO" primary="true">ISO 125:2020</docidentifier>
+                    <docidentifier type="iso-reference">ISO 125:2020(E)</docidentifier>
+                    <docidentifier type="URN">urn:iso:std:iso:125:stage-60.60:ed-7</docidentifier>
+                    <docnumber>125</docnumber>
+                    <date type="published">
+                      <on>2020-02</on>
+                    </date>
+                    <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                        <name>International Organization for Standardization</name>
+                        <abbreviation>ISO</abbreviation>
+                        <uri>www.iso.org</uri>
+                      </organization>
+                    </contributor>
+                    <edition>7</edition>
+                    <language>en</language>
+                    <script>Latn</script>
+                    <status>
+                      <stage>60</stage>
+                      <substage>60</substage>
+                    </status>
+                    <copyright>
+                      <from>2020</from>
+                      <owner>
+                        <organization>
+                          <name>ISO</name>
+                        </organization>
+                      </owner>
+                    </copyright>
+                    <relation type="obsoletes">
+                      <bibitem type="standard">
+                        <formattedref format="text/plain">ISO 125:2011</formattedref>
+                        <docidentifier type="ISO" primary="true">ISO 125:2011</docidentifier>
+                      </bibitem>
+                    </relation>
+                    <place>Geneva</place>
+                  </bibitem>
+                </relation>
+                <relation type="hasReproduction">
+                  <bibitem type="standard">
+                    <fetched/>
+                    <title type="main" format="text/plain">Network Configuration Access Control Model</title>
+                    <uri type="src">https://www.rfc-editor.org/info/rfc8341</uri>
+                    <docidentifier type="IETF" primary="true">RFC 8341</docidentifier>
+                    <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
+                    <docnumber>RFC8341</docnumber>
+                    <date type="published">
+                      <on>2018-03</on>
+                    </date>
+                    <contributor>
+                      <role type="author"/>
+                      <person>
+                        <name>
+                          <completename language="en" script="Latn">A. Bierman</completename>
+                        </name>
+                      </person>
+                    </contributor>
+                    <contributor>
+                      <role type="author"/>
+                      <person>
+                        <name>
+                          <completename language="en" script="Latn">M. Bjorklund</completename>
+                        </name>
+                      </person>
+                    </contributor>
+                    <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                        <name>RFC Publisher</name>
+                      </organization>
+                    </contributor>
+                    <contributor>
+                      <role type="authorizer"/>
+                      <organization>
+                        <name>RFC Series</name>
+                      </organization>
+                    </contributor>
+                    <language>en</language>
+                    <script>Latn</script>
+                    <series>
+                      <title format="text/plain">STD</title>
+                      <number>91</number>
+                    </series>
+                    <series>
+                      <title format="text/plain">RFC</title>
+                      <number>8341</number>
+                    </series>
+                    <series type="stream">
+                      <title format="text/plain">IETF</title>
+                    </series>
+                    <keyword>NETCONF RESTCONF</keyword>
+                    <keyword>YANG</keyword>
+                    <keyword>XML</keyword>
+                  </bibitem>
+                </relation>
+                <place>Geneva</place>
+              </bibitem>
+            </references>
+          </bibliography>
+        </standard-document>
+      OUTPUT
+      xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+      xml.xpath("//xmlns:abstract").each(&:remove)
+      expect(xmlpp(strip_guid(xml.to_xml)))
         .to be_equivalent_to xmlpp(output)
     end
   end
