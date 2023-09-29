@@ -64,6 +64,7 @@ module Metanorma
       def merge_entries(base, add)
         merge_publishers(base, add)
         merge_docids(base, add)
+        merge_urls(base, add)
       end
 
       def merge_publishers(base, add)
@@ -80,6 +81,13 @@ module Metanorma
             v.at("//docidentifier")["primary"] = true
         end
         add.xpath("//docidentifier").reverse.each do |p|
+          ins.next = p
+        end
+      end
+
+      def merge_urls(base, add)
+        ins = base.at("./uri[last()]") || base.at("./title[last()]")
+        add.xpath("./uri").reverse.each do |p|
           ins.next = p
         end
       end

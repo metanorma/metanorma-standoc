@@ -1824,6 +1824,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type="src">https://www.iso.org/standard/72849.html</uri>
                <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
                <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
+               <uri type="src">https://www.rfc-editor.org/info/rfc8341</uri>
                <docidentifier type="ISO" primary="true">ISO 125</docidentifier>
                <docidentifier type="iso-reference">ISO 125(E)</docidentifier>
                <docidentifier type="URN">urn:iso:std:iso:125:stage-60.60:ed-7</docidentifier>
