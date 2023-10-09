@@ -178,7 +178,7 @@ module Metanorma
       end
 
       def clean_exit
-        @novalid or @log.write("#{@output_dir}#{@filename}.err")
+        @novalid or @log.write("#{@output_dir}#{@filename}.err.html")
         @files_to_delete.each { |f| FileUtils.rm f }
       end
 

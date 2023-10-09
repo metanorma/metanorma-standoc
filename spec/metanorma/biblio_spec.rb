@@ -1133,14 +1133,14 @@ RSpec.describe Metanorma::Standoc do
       doi: span:uri.doi[10.1016/j.cities.2022.103905].
     INPUT
     FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err"
+    FileUtils.rm_f "test.err.html"
     begin
       expect do
         Asciidoctor.convert(input, *OPTIONS)
       end.to raise_error(SystemExit)
     rescue SystemExit, RuntimeError
     end
-    expect(File.read("test.err"))
+    expect(File.read("test.err.html"))
       .to include "Missing surname: issue with bibliographic markup in " \
                   "\"The adoption of urban digital twins\""
     expect(File.exist?("test.xml")).to be false

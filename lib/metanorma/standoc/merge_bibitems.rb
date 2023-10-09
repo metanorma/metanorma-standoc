@@ -47,7 +47,7 @@ module Metanorma
         end
 
         def merge_simple(old, new, field)
-          new[field].blank? and return
+          (new[field].nil? || new[field].empty?) and return
           old[field] = new[field]
         end
 
@@ -77,12 +77,10 @@ module Metanorma
         # @old.field is an array, overwrite only those array elements
         # where @old.field[attribute] = @new.field[attribute]
         def merge_by_type(old, new, field, attributes, opt = {})
-          new.nil? || new[field].blank? and return
+          new.nil? || new[field].nil? || new[field].empty? and return
           old.nil? and return new[field]
-          if !old[field].is_a?(::Array) || old[field].empty?
+          !old[field].is_a?(::Array) || old[field].empty? and
             return old[field] = new[field]
-          end
-
           old[field] = merge_by_type1(old, new, field, attributes, opt)
         end
 
