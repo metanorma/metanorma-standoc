@@ -17,6 +17,8 @@ RSpec.describe Metanorma::Standoc do
       date:[2012-03-04,%a-%b%s]
       date:[2012-03-04]
 
+      columnbreak::[]
+
       [bibliography]
       == Bibliography
       * [[[ref1,XYZ 123]]] _Title_
@@ -44,6 +46,7 @@ RSpec.describe Metanorma::Standoc do
                     <span class='category'>text</span>
                     <date format="%a-%b%s" value="2012-03-04"/>
                     <date format="%F" value="2012-03-04"/>
+                    <columnbreak/>
         </foreword>
       </preface>
       <sections> </sections>
