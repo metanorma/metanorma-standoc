@@ -1,0 +1,4 @@
+gem "metanorma", git: "https://github.com/metanorma/metanorma", branch: "fix/propagate_output_formats"
+
+
+

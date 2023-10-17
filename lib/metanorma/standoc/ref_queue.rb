@@ -142,7 +142,12 @@ module Metanorma
         nil
       end
 
+      def supply_ref_prefix(ret)
+        ret
+      end
+
       def fetch_ref1(code, year, opts)
+        code = supply_ref_prefix(code)
         if opts[:localfile]
           @local_bibdb.get(code, opts[:localfile])
         else @bibdb&.fetch(code, year, opts)
@@ -156,6 +161,7 @@ module Metanorma
       end
 
       def fetch_ref_async(ref, idx, res)
+        ref[:code] &&= supply_ref_prefix(ref[:code])
         if unfetchable_ref_code?(ref)
           res << [ref, idx, nil]
           idx += 1
