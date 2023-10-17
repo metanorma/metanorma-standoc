@@ -112,8 +112,13 @@ module Metanorma
       def analyse_ref_code(code)
         ret = { id: code }
         code.nil? || code.empty? and return ret
-        analyse_ref_code_csv(ret) ||
+        ret = analyse_ref_code_csv(ret) ||
           analyse_ref_code_nested(ret)
+        supply_ref_prefix(ret)
+      end
+
+      def supply_ref_prefix(ret)
+        ret
       end
 
       def analyse_ref_code_csv(ret)
