@@ -63,6 +63,7 @@ module Metanorma
         treeprocessor Metanorma::Standoc::ToDoInlineAdmonitionBlock
         block Metanorma::Standoc::PlantUMLBlockMacro
         block Metanorma::Standoc::PseudocodeBlockMacro
+        block_macro Metanorma::Standoc::ColumnBreakBlockMacro
       end
 
       include ::Asciidoctor::Converter
