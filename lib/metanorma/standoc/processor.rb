@@ -31,7 +31,12 @@ module Metanorma
                   file)
       end
 
+      def options_preprocess(options)
+        options[:output_formats] = output_formats
+      end
+
       def output(isodoc_node, inname, outname, format, options = {})
+        options_preprocess(options)
         case format
         when :html
           options = options
