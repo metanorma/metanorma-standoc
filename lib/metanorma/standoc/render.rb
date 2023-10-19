@@ -91,7 +91,7 @@ module Metanorma
                          pdf-allow-print pdf-allow-print-hq
                          pdf-allow-access-content pdf-encrypt-metadata fonts
                          font-license-agreement).each_with_object({}) do |x, m|
-          m[x.gsub(/-/, "").to_i] = node.attr(x)
+          m[x.gsub("-", "").to_i] = node.attr(x)
         end
 
         pdf_options.merge(fonts_manifest_option(node) || {})
@@ -102,7 +102,9 @@ module Metanorma
       end
 
       def presentation_xml_converter(node)
-        IsoDoc::PresentationXMLConvert.new(html_extract_attributes(node))
+        IsoDoc::PresentationXMLConvert
+          .new(html_extract_attributes(node)
+          .merge(output_formats: ::Metanorma::Standoc::Processor.new.output_formats)                                )
       end
 
       def default_fonts(node)
