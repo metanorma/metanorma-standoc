@@ -743,7 +743,7 @@ RSpec.describe Metanorma::Standoc do
          <sections>
            <terms id="_" obligation="normative">
              <title>Terms and definitions</title>
-             <p id="_">For the purposes of this document, 
+             <p id="_">For the purposes of this document,#{' '}
            the following terms and definitions apply.</p>
              <term id="term-_lt_Rice_gt_-First-Designation">
                <preferred>
@@ -1779,7 +1779,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "automatically indexes term indexes" do
     input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR.sub(/:nodoc:\n/, ":nodoc:\n:index-terms:\n")}
+      #{ASCIIDOC_BLANK_HDR.sub(":nodoc:\n", ":nodoc:\n:index-terms:\n")}
 
       == Terms and definitions
 
@@ -1895,7 +1895,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "removes identical preferred or admitted designation in a term" do
     input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR.sub(/:nodoc:\n/, ":nodoc:\n:index-terms:\n")}
+      #{ASCIIDOC_BLANK_HDR.sub(":nodoc:\n", ":nodoc:\n:index-terms:\n")}
 
       == Terms and definitions
 
@@ -1948,5 +1948,166 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
+  end
+
+  it "places single terms boilerplate in expected location for ISO" do
+      mock_termdef_boilerplate_insert_iso
+      input = <<~INPUT
+        #{ASCIIDOC_BLANK_HDR}
+
+        == Terms and definitions
+
+        === Terms
+
+        ==== term
+
+        === Symbols
+
+      INPUT
+      output = <<~OUTPUT
+         #{BLANK_HDR}
+                  <sections>
+           <clause id="_" obligation="normative">
+             <title>Terms, definitions and symbols</title>
+             <terms id="_" obligation="normative">
+               <title>Terms and definitions</title>
+             <p id="_">For the purposes of this document,
+           the following terms and definitions apply.</p>
+               <term id="term-term">
+                 <preferred>
+                   <expression>
+                     <name>term</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <definitions id="_" type="symbols" obligation="normative">
+               <title>Symbols</title>
+             </definitions>
+           </clause>
+         </sections>
+       </standard-document>
+      OUTPUT
+      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+        .to be_equivalent_to xmlpp(output)
+    end
+
+    it "places single terms boilerplate at root if there are multiple terms collections" do
+      mock_termdef_boilerplate_insert_iso
+      input = <<~INPUT
+        #{ASCIIDOC_BLANK_HDR}
+
+        == Terms and definitions
+
+        === Terms
+
+        ==== term
+
+        === Terms 2
+
+        ==== term
+
+        === Symbols
+
+      INPUT
+      output = <<~OUTPUT
+         #{BLANK_HDR}
+         <sections>
+                    <clause id="_" obligation="normative">
+             <title>Terms and definitions</title>
+             <p id="_">For the purposes of this document,
+           the following terms and definitions apply.</p>
+             <terms id="_" obligation="normative">
+               <title>Terms</title>
+               <term id="term-term">
+                 <preferred>
+                   <expression>
+                     <name>term</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <terms id="_" obligation="normative">
+               <title>Terms 2</title>
+               <term id="term-term-1">
+                 <preferred>
+                   <expression>
+                     <name>term</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <definitions id="_" type="symbols" obligation="normative">
+               <title>Symbols</title>
+             </definitions>
+           </clause>
+         </sections>
+       </standard-document>
+      OUTPUT
+      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+        .to be_equivalent_to xmlpp(output)
+    end
+
+    it "places single terms boilerplate at root if there are clauses preceding the terms collection, other than boilerplate" do
+      mock_termdef_boilerplate_insert_iso
+      input = <<~INPUT
+        #{ASCIIDOC_BLANK_HDR}
+
+        == Terms and definitions
+
+        [.nonterm]
+        === Terms0
+        Boilerplate
+
+        === Terms
+
+        ==== term
+
+        === Symbols
+
+      INPUT
+      output = <<~OUTPUT
+         #{BLANK_HDR}
+                 <sections>
+           <clause id="_" obligation="normative">
+             <title>Terms and definitions</title>
+             <p id="_">For the purposes of this document,
+           the following terms and definitions apply.</p>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title>Terms0</title>
+               <p id="_">Boilerplate</p>
+             </clause>
+             <terms id="_" obligation="normative">
+               <title>Terms</title>
+               <term id="term-term">
+                 <preferred>
+                   <expression>
+                     <name>term</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <definitions id="_" type="symbols" obligation="normative">
+               <title>Symbols</title>
+             </definitions>
+           </clause>
+         </sections>
+       </standard-document>
+      OUTPUT
+      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+        .to be_equivalent_to xmlpp(output)
+    end
+
+  private
+
+  # ISO behaviour of single Terms boilerplate
+  def mock_termdef_boilerplate_insert_iso
+    stub_const("Metanorma::Standoc::Converter::TERM_CLAUSE", "//sections//terms")
+
+    expect_any_instance_of(Metanorma::Standoc::Converter)
+      .to receive(:termdef_boilerplate_insert)
+      .and_wrap_original do |method, a, b|
+    method.call(a, b, true)
+      end
   end
 end

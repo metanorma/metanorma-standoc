@@ -86,14 +86,30 @@ module Metanorma
       end
 
       def termdef_boilerplate_insert(xmldoc, isodoc, once = false)
-        xmldoc.xpath(self.class::TERM_CLAUSE).each do |f|
-          f.at("./clause[@type = 'boilerplate'] | " \
-               "./note[@type = 'boilerplate']") and next
-          term_defs_boilerplate(f.at("./title"),
-                                xmldoc.xpath(".//termdocsource"),
-                                f.at(".//term"), f.at(".//p"), isodoc)
-          once and break
+        if once
+          f = termdef_boilerplate_insert_location(xmldoc)
+          termdef_boilerplate_insert1(f, xmldoc, isodoc)
+        else
+          xmldoc.xpath(self.class::TERM_CLAUSE).each do |f|
+            termdef_boilerplate_insert1(f, xmldoc, isodoc)
+          end
         end
+      end
+
+      def termdef_boilerplate_insert_location(xmldoc)
+        f = xmldoc.at(self.class::TERM_CLAUSE)
+        root = xmldoc.at("//sections/terms | //sections/clause[.//terms]")
+        f.at("./following::terms") and return root
+        f.at("./preceding-sibling::clause") and return root
+        f
+      end
+
+      def termdef_boilerplate_insert1(sect, xmldoc, isodoc)
+        sect.at("./clause[@type = 'boilerplate'] | " \
+                "./note[@type = 'boilerplate']") and return
+        term_defs_boilerplate(sect.at("./title"),
+                              xmldoc.xpath(".//termdocsource"),
+                              sect.at(".//term"), sect.at(".//p"), isodoc)
       end
 
       def boilerplate_cleanup(xmldoc)
