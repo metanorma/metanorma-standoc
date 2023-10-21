@@ -87,8 +87,8 @@ module Metanorma
 
       def termdef_boilerplate_insert(xmldoc, isodoc, once = false)
         if once
-          f = termdef_boilerplate_insert_location(xmldoc)
-          termdef_boilerplate_insert1(f, xmldoc, isodoc)
+          f = termdef_boilerplate_insert_location(xmldoc) and
+            termdef_boilerplate_insert1(f, xmldoc, isodoc)
         else
           xmldoc.xpath(self.class::TERM_CLAUSE).each do |f|
             termdef_boilerplate_insert1(f, xmldoc, isodoc)
@@ -99,6 +99,7 @@ module Metanorma
       def termdef_boilerplate_insert_location(xmldoc)
         f = xmldoc.at(self.class::TERM_CLAUSE)
         root = xmldoc.at("//sections/terms | //sections/clause[.//terms]")
+        !f || !root and return f || root
         f.at("./following::terms") and return root
         f.at("./preceding-sibling::clause") and return root
         f
