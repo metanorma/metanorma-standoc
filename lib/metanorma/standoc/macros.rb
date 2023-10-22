@@ -61,6 +61,15 @@ module Metanorma
       end
     end
 
+    class ColumnBreakBlockMacro < Asciidoctor::Extensions::BlockMacroProcessor
+      use_dsl
+      named :columnbreak
+
+      def process(parent, _reader, _attrs)
+        create_pass_block parent, "<columnbreak/>", {}, subs: nil
+      end
+    end
+
     # refer https://github.com/asciidoctor/asciidoctor/blob/main/lib/asciidoctor/substitutors.rb
     # Not using TreeProcessor because that is still too close to
     # inline expressions being processed on access (e.g. titles)
