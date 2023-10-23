@@ -178,8 +178,8 @@ module Metanorma
       end
 
       def clausebefore_cleanup(xmldoc)
-        preface_clausebefore_cleanup(xmldoc)
         sections_clausebefore_cleanup(xmldoc)
+        preface_clausebefore_cleanup(xmldoc)
       end
 
       def preface_clausebefore_cleanup(xmldoc)
@@ -196,10 +196,20 @@ module Metanorma
       end
 
       def sections_clausebefore_cleanup(xmldoc)
-        return unless xmldoc.at("//sections")
-
+        xmldoc.at("//sections") or return
         ins = insert_before(xmldoc, "//sections")
-        xmldoc.xpath("//sections//*[@beforeclauses = 'true']").each do |x|
+        xmldoc.xpath("//sections//*[@beforeclauses = 'true']").reverse.each do |x|
+          x.delete("beforeclauses")
+          ins.previous = x.remove
+        end
+        endofpreface_clausebefore(xmldoc, ins)
+      end
+
+      # only move clausebefore notes at the very end of preface
+      def endofpreface_clausebefore(xmldoc, ins)
+        xmldoc.xpath("//preface//*[@beforeclauses = 'true']").reverse.each do |x|
+          textafternote = xmldoc.xpath("//preface//*") & x.xpath("./following::*")
+          textafternote.text.strip.empty? or break
           x.delete("beforeclauses")
           ins.previous = x.remove
         end
@@ -214,6 +224,7 @@ module Metanorma
       end
 
       def floatingtitle_cleanup(xmldoc)
+        pop_floating_title(xmldoc) # done again, after endofpreface_clausebefore
         floating_title_preface2sections(xmldoc)
       end
 

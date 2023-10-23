@@ -50,10 +50,30 @@ module Metanorma
                   "[not(.//definitions[@type = 'symbols'])]".freeze
 
       def section_names_terms_cleanup(xml)
-        replace_title(xml, "//definitions[@type = 'symbols']", @i18n&.symbols)
+        section_names_definitions(xml)
+        section_names_terms1_cleanup(xml)
+      end
+
+      def section_names_definitions(xml)
+        auto_name_definitions(xml) or return
+        replace_title(xml, "//definitions[@type = 'symbols']",
+                      @i18n&.symbols)
         replace_title(xml, "//definitions[@type = 'abbreviated_terms']",
                       @i18n&.abbrev)
-        replace_title(xml, "//definitions[not(@type)]", @i18n&.symbolsabbrev)
+        replace_title(xml, "//definitions[not(@type)]",
+                      @i18n&.symbolsabbrev)
+      end
+
+      def auto_name_definitions(xml)
+        xml.xpath("//definitions[@type = 'symbols']").size > 1 and return false
+        xml.xpath("//definitions[@type = 'abbreviated_terms']").size > 1 and
+          return false
+        xml.xpath("//definitions[not(@type)]").size > 1 and return false
+        true
+      end
+
+      def section_names_terms1_cleanup(xml)
+        auto_name_terms(xml) or return
         replace_title(xml, "//terms#{SYMnoABBR} | //clause[.//terms]#{SYMnoABBR}",
                       @i18n&.termsdefsymbols, true)
         replace_title(xml, "//terms#{ABBRnoSYM} | //clause[.//terms]#{ABBRnoSYM}",
@@ -67,6 +87,54 @@ module Metanorma
           "//terms[not(.//definitions)] | //clause[.//terms][not(.//definitions)]",
           @i18n&.termsdef, true
         )
+      end
+
+      # do not auto-name terms sections if there are terms subclauses
+      # not covered by the auto titles,
+      # or if more than one title is covered by an auto title
+      def auto_name_terms(xml)
+        n = xml.at("//terms | //clause[.//terms]")
+        out = terms_subclauses(n)
+          .each_with_object({ term: 0, sna: 0, ans: 0, sa: 0, nsa: 0,
+                              tsna: 0, tans: 0, tsa: 0, tnsa: 0,
+                              termdef: 0, other: 0 }) do |x, m|
+          terms_subclause_type_tally(x, m, n)
+        end
+        out.delete(:parent)
+        !out.values.detect { |x| x > 1 } && out[:other].zero?
+      end
+
+      def terms_subclauses(node)
+        legal = %w(terms definitions clause)
+        [node, node&.elements].compact.flatten
+          .select do |x|
+            legal.include?(x.name) &&
+              !(x.name == "clause" && x["type"] == "boilerplate")
+          end
+      end
+
+      def terms_subclause_type_tally(node, m, parent)
+        sym = if (node.at(".//term") && !node.at(".//definitions")) ||
+            (node.name == "terms" && !node.at(".//term"))
+                unless m[:parent] == :term # don't count Term > Term twice
+                  :term
+                end
+              elsif node.at(".//term") && node.at("./self::*#{SYMnoABBR}") then :tsna
+              elsif node.at(".//term") && node.at("./self::*#{ABBRnoSYM}") then :tans
+              elsif node.at(".//term") && node.at("./self::*#{SYMABBR}") then :tsa
+              elsif node.at(".//term") && node.at("./self::*#{NO_SYMABBR}") then :tnsa
+              elsif node.at("./self::*#{SYMnoABBR}") then :sna
+              elsif node.at("./self::*#{ABBRnoSYM}") then :ans
+              elsif node.at("./self::*#{SYMABBR}") then :sa
+              elsif node.at("./self::*#{NO_SYMABBR}") then :nsa
+              elsif node.name == "definitions" # ignore
+              elsif node == parent && node.at(".//term") &&
+                  node.at(".//definitions")
+                :termdef
+              else :other
+              end
+        node == parent and m[:parent] = sym
+        sym and m[sym] += 1
       end
 
       SECTION_CONTAINERS = %w(foreword introduction acknowledgements abstract

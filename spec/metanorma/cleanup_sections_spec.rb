@@ -1889,4 +1889,86 @@ RSpec.describe Metanorma::Standoc do
     expect(xmlpp(strip_guid(ret.to_xml)))
       .to be_equivalent_to(xmlpp(output))
   end
+
+  it "puts floating title + clausebefore note before scope into sections container" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Foreword
+
+      A
+
+      [discrete%section]
+      == Basic layout and preliminary elements
+
+      [NOTE,beforeclauses=true]
+      Initial Note
+
+      == Scope
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+               <preface>
+           <foreword id="_" obligation="informative">
+             <title>Foreword</title>
+             <p id="_">A</p>
+           </foreword>
+         </preface>
+         <sections>
+           <floating-title id="_" depth="1" type="floating-title">Basic layout and preliminary elements</floating-title>
+          <note id="_">
+            <p id="_">Initial Note</p>
+          </note>
+           <clause id="_" type="scope" inline-header="false" obligation="normative">
+             <title>Scope</title>
+           </clause>
+         </sections>
+       </standard-document>
+    OUTPUT
+    ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xmlpp(strip_guid(ret.to_xml)))
+      .to be_equivalent_to(xmlpp(output))
+
+        input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Foreword
+
+      A
+
+      [discrete%section]
+      == Basic layout and preliminary elements
+
+      [NOTE,beforeclauses=true]
+      Initial Note
+
+      More
+
+      == Scope
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <preface>
+           <note id="_">
+             <p id="_">Initial Note</p>
+           </note>
+           <foreword id="_" obligation="informative">
+             <title>Foreword</title>
+             <p id="_">A</p>
+             <floating-title id="_" depth="1" type="floating-title">Basic layout and preliminary elements</floating-title>
+             <p id="_">More</p>
+           </foreword>
+         </preface>
+         <sections>
+           <clause id="_" type="scope" inline-header="false" obligation="normative">
+             <title>Scope</title>
+           </clause>
+         </sections>
+       </standard-document>
+    OUTPUT
+    ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xmlpp(strip_guid(ret.to_xml)))
+      .to be_equivalent_to(xmlpp(output))
+  end
+
 end

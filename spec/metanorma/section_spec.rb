@@ -50,22 +50,6 @@ RSpec.describe Metanorma::Standoc do
 
       Boilerplate text
 
-      [.nonterm]
-      === Introduction
-
-      ==== Intro 1
-
-      === Intro 2
-
-      [.nonterm]
-      ==== Intro 3
-
-      === Intro 4
-
-      ==== Intro 5
-
-      ===== Term1
-
       === Normal Terms
 
       ==== Term2
@@ -142,27 +126,6 @@ RSpec.describe Metanorma::Standoc do
       </terms>
       <clause id="_" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title>
       <p id='_'>Boilerplate text</p>
-      <clause id="_" inline-header="false" obligation="normative">
-        <title>Introduction</title>
-        <clause id="_" inline-header="false" obligation="normative">
-        <title>Intro 1</title>
-      </clause>
-      </clause>
-      <terms id="_" obligation="normative">
-        <title>Intro 2</title>
-        <clause id="_" inline-header="false" obligation="normative">
-        <title>Intro 3</title>
-      </clause>
-      </terms>
-      <clause id="_" obligation="normative">
-        <title>Intro 4</title>
-        <terms id="_" obligation="normative">
-        <title>Intro 5</title>
-        <term id="term-Term1-1">
-        <preferred><expression><name>Term1</name></expression></preferred>
-      </term>
-      </terms>
-      </clause>
       <terms id="_" obligation="normative">
         <title>Normal Terms</title>
         <term id="term-Term2">
@@ -873,6 +836,299 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "automates terms & definitions titles if there are no extraneous sections" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms, Definitions, Symbols and Abbreviated Terms
+
+      [.boilerplate]
+      === Boilerplate
+
+      Boilerplate text
+
+      === Intro 4
+
+      ==== Term2
+
+      === Symbols and Abbreviated Terms
+
+      [.nonterm]
+      ==== General
+
+      ==== Symbols
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <sections>
+           <clause id="_" obligation="normative">
+             <title>Terms, definitions, symbols and abbreviated terms</title>
+             <p id="_">Boilerplate text</p>
+             <terms id="_" obligation="normative">
+               <title>Terms and definitions</title>
+               <term id="term-Term2">
+                 <preferred>
+                   <expression>
+                     <name>Term2</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <definitions id="_" obligation="normative">
+               <title>Symbols and abbreviated terms</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                 <title>General</title>
+               </clause>
+               <definitions id="_" type="symbols" obligation="normative">
+                 <title>Symbols</title>
+               </definitions>
+             </definitions>
+           </clause>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "does not do automated terms & definitions titles if there are extraneous sections" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms, Definitions, Symbols and Abbreviated Terms
+
+      [.boilerplate]
+      === Boilerplate
+
+      Boilerplate text
+
+      [.nonterm]
+      === Intro 3
+
+      === Intro 4
+
+      ==== Term2
+
+      === Symbols and Abbreviated Terms
+
+      [.nonterm]
+      ==== General
+
+      ==== Symbols
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+              <sections>
+           <clause id="_" obligation="normative">
+             <title>Terms, Definitions, Symbols and Abbreviated Terms</title>
+             <p id="_">Boilerplate text</p>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title>Intro 3</title>
+             </clause>
+             <terms id="_" obligation="normative">
+               <title>Intro 4</title>
+               <term id="term-Term2">
+                 <preferred>
+                   <expression>
+                     <name>Term2</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <definitions id="_" obligation="normative">
+               <title>Symbols and abbreviated terms</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                 <title>General</title>
+               </clause>
+               <definitions id="_" type="symbols" obligation="normative">
+                 <title>Symbols</title>
+               </definitions>
+             </definitions>
+           </clause>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms, Definitions, Symbols and Abbreviated Terms
+
+      [.boilerplate]
+      === Boilerplate
+
+      Boilerplate text
+
+      === Intro 3
+
+      ==== Term2
+
+      === Intro 4
+
+      ==== Term3
+
+      === Symbols and Abbreviated Terms
+
+      [.nonterm]
+      ==== General
+
+      ==== Symbols
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+               <sections>
+           <clause id="_" obligation="normative">
+             <title>Terms, Definitions, Symbols and Abbreviated Terms</title>
+             <p id="_">Boilerplate text</p>
+             <terms id="_" obligation="normative">
+               <title>Intro 3</title>
+               <term id="term-Term2">
+                 <preferred>
+                   <expression>
+                     <name>Term2</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <terms id="_" obligation="normative">
+               <title>Intro 4</title>
+               <term id="term-Term3">
+                 <preferred>
+                   <expression>
+                     <name>Term3</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <definitions id="_" obligation="normative">
+               <title>Symbols and abbreviated terms</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                 <title>General</title>
+               </clause>
+               <definitions id="_" type="symbols" obligation="normative">
+                 <title>Symbols</title>
+               </definitions>
+             </definitions>
+           </clause>
+         </sections>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes non-term clauses" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      === Term1
+
+      == Terms, Definitions, Symbols and Abbreviated Terms
+
+      [.boilerplate]
+      === Boilerplate
+
+      Boilerplate text
+
+      [.nonterm]
+      === Introduction
+
+      ==== Intro 1
+
+      === Intro 2
+
+      [.nonterm]
+      ==== Intro 3
+
+      === Intro 4
+
+      ==== Intro 5
+
+      ===== Term2
+
+      === Normal Terms
+
+      ==== Term3
+
+      === Symbols and Abbreviated Terms
+
+      [.nonterm]
+      ==== General
+
+      ==== Symbols
+    INPUT
+    output = <<~OUTPUT
+       #{BLANK_HDR}
+                <sections>
+            <terms id="_" obligation="normative">
+              <title>Terms and definitions</title>
+              <p id="_">For the purposes of this document,
+            the following terms and definitions apply.</p>
+              <term id="term-Term1">
+                <preferred>
+                  <expression>
+                    <name>Term1</name>
+                  </expression>
+                </preferred>
+              </term>
+            </terms>
+            <clause id="_" obligation="normative">
+              <title>Terms, definitions, symbols and abbreviated terms</title>
+              <p id="_">Boilerplate text</p>
+              <clause id="_" inline-header="false" obligation="normative">
+                <title>Introduction</title>
+                <clause id="_" inline-header="false" obligation="normative">
+                  <title>Intro 1</title>
+                </clause>
+              </clause>
+              <terms id="_" obligation="normative">
+                <title>Intro 2</title>
+                <clause id="_" inline-header="false" obligation="normative">
+                  <title>Intro 3</title>
+                </clause>
+              </terms>
+              <clause id="_" obligation="normative">
+                <title>Intro 4</title>
+                <terms id="_" obligation="normative">
+                  <title>Intro 5</title>
+                  <term id="term-Term2">
+                    <preferred>
+                      <expression>
+                        <name>Term2</name>
+                      </expression>
+                    </preferred>
+                  </term>
+                </terms>
+              </clause>
+              <terms id="_" obligation="normative">
+                <title>Normal Terms</title>
+                <term id="term-Term3">
+                  <preferred>
+                    <expression>
+                      <name>Term3</name>
+                    </expression>
+                  </preferred>
+                </term>
+              </terms>
+              <definitions id="_" obligation="normative">
+                <title>Symbols and abbreviated terms</title>
+                <clause id="_" inline-header="false" obligation="normative">
+                  <title>General</title>
+                </clause>
+                <definitions id="_" type="symbols" obligation="normative">
+                  <title>Symbols</title>
+                </definitions>
+              </definitions>
+            </clause>
+          </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes section obligations" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -979,7 +1235,7 @@ RSpec.describe Metanorma::Standoc do
                    #{BLANK_HDR}
                    <sections>
         <terms id='_' obligation='normative'>
-          <title>Terms, definitions and symbols</title>
+          <title>Terms, definitions, symbols and abbreviated terms</title>
           <p id='_'>No terms and definitions are listed in this document.</p>
           <clause id='_' inline-header='false' obligation='normative'>
             <title>Terms and definitions</title>
@@ -1174,7 +1430,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
         <sections>
           <terms id='tda' obligation='normative'>
-            <title>Terms, definitions and symbols</title>
+            <title>Terms, definitions, symbols and abbreviations</title>
             <p id='_'>No terms and definitions are listed in this document.</p>
             <clause id='terms' inline-header='false' obligation='normative'>
               <title>Terms and definitions</title>

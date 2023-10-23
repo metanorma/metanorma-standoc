@@ -45,7 +45,7 @@ module Metanorma
         element_name_cleanup(xmldoc)
         ref_cleanup(xmldoc) # feeds: bibitem_cleanup
         note_cleanup(xmldoc)
-        clausebefore_cleanup(xmldoc)
+        clausebefore_cleanup(xmldoc) # feeeds: floatingtitle_cleanup
         floatingtitle_cleanup(xmldoc)
         bibitem_cleanup(xmldoc) # feeds: normref_cleanup, biblio_cleanup,
         # reference_names, bpart_cleanup

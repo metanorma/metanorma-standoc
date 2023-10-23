@@ -527,7 +527,7 @@ RSpec.describe Metanorma::Standoc do
                     #{BLANK_HDR}
                     <sections>
         <terms id="_" obligation="normative">
-        <title>Terms and definitions</title>
+        <title>Terms and Definitions</title>
                <p id="_">No terms and definitions are listed in this document.</p>
                <note id='_'>
         <p id='_'>This is not a termnote</p>
@@ -838,7 +838,7 @@ RSpec.describe Metanorma::Standoc do
             #{BLANK_HDR}
       <sections>
         <terms id="_" obligation="normative">
-        <title>Terms and definitions</title>
+        <title>Terms and Definitions</title>
       <p id="_">No terms and definitions are listed in this document.</p>
         <clause id="_" inline-header="false" obligation="normative">
         <title>Term1</title>
