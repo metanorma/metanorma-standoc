@@ -795,7 +795,7 @@ RSpec.describe Metanorma::Standoc do
         #{NORM_REF_BOILERPLATE}
                      <bibitem id="iso123" type="standard">
                <fetched/>
-               <title type="title-intro" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
+               <title type="title-main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
                <title type="main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
                <uri type="src">https://www.iso.org/standard/21071.html</uri>
                <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:21071:en</uri>
@@ -888,7 +888,7 @@ RSpec.describe Metanorma::Standoc do
              </bibitem>
              <bibitem id="iso125" type="standard">
                <fetched/>
-               <title type="title-intro" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
+               <title type="title-main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
                <title type="main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
                <uri type="src">https://www.iso.org/standard/21071.html</uri>
                <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:21071:en</uri>
@@ -1299,23 +1299,23 @@ RSpec.describe Metanorma::Standoc do
             <references id="_" normative="true" obligation="informative">
               <title>Normative references</title>
               <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-                          <bibitem id="iso123" type="proceedings">
+                           <bibitem id="iso123" type="proceedings">
                <fetched/>
-               <title format="text/plain" language="en" script="Latn">Adoption of “degree Celsius”</title>
-               <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/ci/cipm/42-1948/resolution-</uri>
-               <uri type="citation" language="fr" script="Latn">https://www.bipm.org/fr/committees/ci/cipm/42-1948/resolution-</uri>
-               <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-42.yml</uri>
-               <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-42.yml</uri>
-               <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM42.pdf/7f36bfaa-e84b-a7fa-650a-edf6c3de1b46</uri>
-               <docidentifier type="BIPM" primary="true">CIPM RES (1948)</docidentifier>
-               <docidentifier type="BIPM" primary="true" language="en" script="Latn">CIPM RES (1948, E)</docidentifier>
-               <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CIPM RES (1948, F)</docidentifier>
-               <docidentifier type="BIPM-long" language="en" script="Latn">CIPM Resolution (1948)</docidentifier>
-               <docidentifier type="BIPM-long" language="fr" script="Latn">Résolution du CIPM (1948)</docidentifier>
-               <docidentifier type="BIPM-long">CIPM Resolution (1948) / Résolution du CIPM (1948)</docidentifier>
-               <docnumber>CIPM RES (1948)</docnumber>
+               <title format="text/plain" language="en" script="Latn">Definition of the unit of time (second)</title>
+               <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/ci/cipm/46-1956/resolution-1</uri>
+               <uri type="citation" language="fr" script="Latn">https://www.bipm.org/fr/committees/ci/cipm/46-1956/resolution-1</uri>
+               <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-46.yml</uri>
+               <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-46.yml</uri>
+               <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM46.pdf/31124ce6-06d5-4981-7c93-a49484479053</uri>
+               <docidentifier type="BIPM" primary="true">CIPM RES 1 (1956)</docidentifier>
+               <docidentifier type="BIPM" primary="true" language="en" script="Latn">CIPM RES 1 (1956, E)</docidentifier>
+               <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CIPM RES 1 (1956, F)</docidentifier>
+               <docidentifier type="BIPM-long" language="en" script="Latn">CIPM Resolution 1 (1956)</docidentifier>
+               <docidentifier type="BIPM-long" language="fr" script="Latn">Résolution 1 du CIPM (1956)</docidentifier>
+               <docidentifier type="BIPM-long">CIPM Resolution 1 (1956) / Résolution 1 du CIPM (1956)</docidentifier>
+               <docnumber>CIPM RES 1 (1956)</docnumber>
                <date type="published">
-                 <on>1948-10-22</on>
+                 <on>1956-10-06</on>
                </date>
                <contributor>
                  <role type="publisher"/>
