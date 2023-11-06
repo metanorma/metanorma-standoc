@@ -716,7 +716,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include %(Term reference to <code>Terms-and-Definiti­ons</code> missing: "Terms-and-Definiti­ons" is not defined in document.​ Did you mean to point to a subterm)
+      .to include %(Term reference to <code>Terms-and-Definitions</code> missing: "Terms-and-Definitions" is not defined in document.​ Did you mean to point to a subterm)
     expect(File.read("test.err.html"))
       .to include "Concept term1 is pointing to jkl, which is not a term or symbol. Did you mean to point to a subterm?"
     expect(File.read("test.err.html"))
