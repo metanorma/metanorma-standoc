@@ -69,11 +69,11 @@ module Metanorma
       end
 
       def xml_encode(text)
-        @c.encode(text, :basic, :hexadecimal)
-          .gsub("&amp;gt;", ">").gsub("&amp;lt;", "<").gsub("&amp;amp;", "&")
-          .gsub("&gt;", ">").gsub("&lt;", "<").gsub("&amp;", "&")
-          .gsub("&quot;", '"').gsub("&#xa;", "\n").gsub("&amp;#", "&#")
-          .gsub("&apos;", "'")
+        @c.encode(text, :basic, :hexadecimal).
+          gsub("&amp;gt;", ">").gsub("&amp;lt;", "<").gsub("&amp;amp;", "&").
+          gsub("&gt;", ">").gsub("&lt;", "<").gsub("&amp;", "&").
+          gsub("&quot;", '"').gsub("&#xa;", "\n").gsub("&amp;#", "&#").
+          gsub("&apos;", "'")
       end
 
       # wrapped in <sections>
@@ -102,6 +102,10 @@ module Metanorma
         text.gsub(/\b(alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|
                       lambda|mu|nu|xi|omicron|pi|rho|sigma|tau|upsilon|phi|chi|
                       psi|omega)\b/xi, "&\\1;")
+      end
+
+      def refid?(ref)
+        @refids.include? ref
       end
 
       module_function :adoc2xml

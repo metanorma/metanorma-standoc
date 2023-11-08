@@ -78,8 +78,7 @@ module Metanorma
       end
 
       def toc_metadata(xmldoc)
-        return unless @htmltoclevels || @doctoclevels || @toclevels
-
+        @htmltoclevels || @doctoclevels || @toclevels or return
         ins = add_misc_container(xmldoc)
         toc_metadata1(ins)
       end
