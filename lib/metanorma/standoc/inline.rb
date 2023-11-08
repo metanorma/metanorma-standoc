@@ -108,8 +108,8 @@ module Metanorma
           each_with_object({}) do |r, m|
           kv = r.split(":", 2).map(&:strip)
           case kv[0]
-          when "char-convention"
-            m["char-convention"] = kv[1]
+          when "custom-charset"
+            m[kv[0]] = kv[1]
           end
         end
       end
