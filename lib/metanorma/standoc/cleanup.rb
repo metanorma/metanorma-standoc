@@ -158,8 +158,7 @@ module Metanorma
       end
 
       def metadata_cleanup(xmldoc)
-        return if @metadata_attrs.nil? || @metadata_attrs.empty?
-
+        (@metadata_attrs.nil? || @metadata_attrs.empty?) and return
         ins = add_misc_container(xmldoc)
         ins << @metadata_attrs
       end

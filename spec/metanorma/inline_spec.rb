@@ -46,6 +46,7 @@ RSpec.describe Metanorma::Standoc do
       [keyword]#keyword#
       [css font-family:"Noto Sans JP"]#text#
       [css font-family:'Noto Sans JP']#text#
+      [char-convention: weather, random-attr: x]#xyz#
     INPUT
     output = <<~OUTPUT
            #{BLANK_HDR}
@@ -69,6 +70,7 @@ RSpec.describe Metanorma::Standoc do
       <keyword>keyword</keyword>
       <span style="font-family:&quot;Noto Sans JP&quot;">text</span>
       <span style="font-family:'Noto Sans JP'">text</span>
+      <span char-convention="weather">xyz</span>
       </sections>
       </standard-document>
     OUTPUT
