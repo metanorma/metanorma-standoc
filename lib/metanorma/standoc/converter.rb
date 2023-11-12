@@ -22,13 +22,13 @@ module Metanorma
     class Converter
       Asciidoctor::Extensions.register do
         preprocessor Metanorma::Standoc::EmbedIncludeProcessor
-        preprocessor Metanorma::Standoc::NamedEscapePreprocessor
         preprocessor Metanorma::Standoc::LinkProtectPreprocessor
         preprocessor Metanorma::Standoc::Datamodel::AttributesTablePreprocessor
         preprocessor Metanorma::Standoc::Datamodel::DiagramPreprocessor
         preprocessor Metanorma::Plugin::Datastruct::Json2TextPreprocessor
         preprocessor Metanorma::Plugin::Datastruct::Yaml2TextPreprocessor
         preprocessor Metanorma::Plugin::Glossarist::DatasetPreprocessor
+        preprocessor Metanorma::Standoc::NamedEscapePreprocessor
         inline_macro Metanorma::Standoc::PreferredTermInlineMacro
         inline_macro Metanorma::Standoc::DateInlineMacro
         inline_macro Metanorma::Standoc::SpanInlineMacro
