@@ -81,7 +81,7 @@ module Metanorma
 
       def datetypes
         %w{ published accessed created implemented obsoleted
-            confirmed updated issued circulated unchanged received
+            confirmed updated corrected issued circulated unchanged received
             vote-started vote-ended announced }
       end
 

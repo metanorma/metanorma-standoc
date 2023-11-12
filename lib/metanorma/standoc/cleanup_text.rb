@@ -35,12 +35,12 @@ module Metanorma
 
       IGNORE_QUOTES_ELEMENTS =
         %w(pre tt sourcecode stem asciimath figure bibdata passthrough
-           identifier).freeze
+           identifier presentation-metadata semantic-metadata).freeze
 
       def uninterrupt_quotes_around_xml_skip(elem)
         !(/\A['"]/.match?(elem.text) &&
-          elem.previous.path.gsub(/\[\d+\]/, "").split(%r{/})[1..-2]
-          .intersection(IGNORE_QUOTES_ELEMENTS).empty? &&
+          elem.previous.path.gsub(/\[\d+\]/, "").split(%r{/})[1..-2].
+          intersection(IGNORE_QUOTES_ELEMENTS).empty? &&
           ((elem.previous.text.strip.empty? &&
             !empty_tag_with_text_content?(elem.previous)) ||
            ignoretext?(elem.previous)))
@@ -50,8 +50,8 @@ module Metanorma
         prev = elem.at(".//preceding::text()[1]") or return
         /\S\Z/.match?(prev.text) or return
         foll = elem.at(".//following::text()[1]")
-        m = /\A(["'][[:punct:]]*)(\s|\Z)/
-          .match(@c.decode(foll&.text)) or return
+        m = /\A(["'][[:punct:]]*)(\s|\Z)/.
+          match(@c.decode(foll&.text)) or return
         foll.content = foll.text.sub(/\A(["'][[:punct:]]*)/, "")
         prev.content = "#{prev.text}#{m[1]}"
       end
@@ -103,8 +103,8 @@ module Metanorma
           next unless n.text? && /\u2019/.match?(n.text)
 
           n.replace(@c.encode(
-                      @c.decode(n.text)
-            .gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'"),
+                      @c.decode(n.text).
+            gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'"),
                       :basic, :hexadecimal
                     ))
         end
