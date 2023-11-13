@@ -364,6 +364,147 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+   it "processes sections with number attributes" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [branch-number=1bis]
+      == Scope
+
+      Text
+
+      [branch-number=2bis]
+      == Normative References
+
+      [branch-number=3bis]
+      == Terms and Definitions
+
+      [branch-number=4bis]
+      === Term1
+
+      [branch-number=5bis]
+      == Terms, Definitions, Symbols and Abbreviated Terms
+
+      [.nonterm,branch-number=6bis]
+      === Introduction
+
+      [branch-number=7bis]
+      ==== Intro 1
+
+      [branch-number=8bis]
+      === Intro 2
+
+      [branch-number=9bis]
+      === Symbols and Abbreviated Terms
+
+      [.nonterm,branch-number=10bis]
+      ==== General
+
+      [branch-number=11bis]
+      ==== Symbols
+
+      [branch-number=12bis]
+      == Abbreviated Terms
+
+      [branch-number=13bis]
+      == Clause 4
+
+      [branch-number=14bis]
+      === Introduction
+
+      [branch-number=15bis]
+      === Clause 4.2
+
+      [branch-number=16bis]
+      == Terms and Definitions
+
+      [appendix,branch-number=17bis]
+      == Annex
+
+      [branch-number=18bis]
+      === Annex A.1
+
+      [bibliography,branch-number=19bis]
+      == Bibliography
+
+      [branch-number=20bis]
+      === Bibliography Subsection
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+           <sections>
+             <clause id='_' branch-number='1bis' type='scope' inline-header='false' obligation='normative'>
+               <title>Scope</title>
+               <p id='_'>Text</p>
+             </clause>
+             <terms id='_' branch-number='3bis' obligation='normative'>
+               <title>Terms and definitions</title>
+               <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+               <term id='term-Term1' branch-number='4bis'>
+                 <preferred><expression><name>Term1</name></expression></preferred>
+               </term>
+             </terms>
+             <terms id='_' branch-number='5bis' obligation='normative'>
+               <title>Terms, definitions, symbols and abbreviated terms</title>
+               <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+               <clause id='_' branch-number='6bis' inline-header='false' obligation='normative'>
+                 <title>Introduction</title>
+                 <clause id='_' branch-number='7bis' inline-header='false' obligation='normative'>
+                   <title>Intro 1</title>
+                 </clause>
+               </clause>
+               <term id='term-Intro-2' branch-number='8bis'>
+                 <preferred><expression><name>Intro 2</name></expression></preferred>
+               </term>
+               <definitions id='_' branch-number='9bis' obligation='normative'>
+                 <title>Symbols and abbreviated terms</title>
+                 <clause id='_' branch-number='10bis' inline-header='false' obligation='normative'>
+                   <title>General</title>
+                 </clause>
+                 <definitions id='_' branch-number='11bis' type='symbols' obligation='normative'>
+                   <title>Symbols</title>
+                 </definitions>
+               </definitions>
+             </terms>
+             <definitions id='_' branch-number='12bis' type='abbreviated_terms' obligation='normative'>
+               <title>Abbreviated terms</title>
+             </definitions>
+             <clause id='_' branch-number='13bis' inline-header='false' obligation='normative'>
+               <title>Clause 4</title>
+               <clause id='_' branch-number='14bis' inline-header='false' obligation='normative'>
+                 <title>Introduction</title>
+               </clause>
+               <clause id='_' branch-number='15bis' inline-header='false' obligation='normative'>
+                 <title>Clause 4.2</title>
+               </clause>
+             </clause>
+             <clause id='_' branch-number='16bis' inline-header='false' obligation='normative'>
+               <title>Terms and Definitions</title>
+             </clause>
+           </sections>
+           <annex id='_' branch-number='17bis' inline-header='false' obligation='normative'>
+             <title>Annex</title>
+             <clause id='_' branch-number='18bis' inline-header='false' obligation='normative'>
+               <title>Annex A.1</title>
+             </clause>
+           </annex>
+           <bibliography>
+             <references id='_' branch-number='2bis' normative='true' obligation='informative'>
+               <title>Normative references</title>
+               <p id='_'>There are no normative references in this document.</p>
+             </references>
+             <clause id='_' branch-number='19bis' obligation='informative'>
+               <title>Bibliography</title>
+               <references id='_' branch-number='20bis' normative='false' obligation='informative'>
+                 <title>Bibliography Subsection</title>
+               </references>
+             </clause>
+           </bibliography>
+         </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes sections with language and script attributes" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
