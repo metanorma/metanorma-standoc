@@ -84,6 +84,7 @@ module Metanorma
                 language: node.attributes["language"],
                 script: node.attributes["script"],
                 number: node.attributes["number"],
+                "branch-number": node.attributes["branch-number"],
                 type: node.attributes["type"],
                 annex: (if (node.attr("style") == "appendix" ||
                             node.role == "appendix") &&
