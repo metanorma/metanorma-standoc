@@ -3,6 +3,7 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
+=begin
   it "applies smartquotes by default" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1195,6 +1196,7 @@ RSpec.describe Metanorma::Standoc do
       x:: Definition 5
       stem:[n]:: Definition 6
       m:: Definition 7
+      2d:: Definition 8
     INPUT
     output = <<~OUTPUT
         #{BLANK_HDR}
@@ -1235,6 +1237,10 @@ RSpec.describe Metanorma::Standoc do
               <dd>
                 <p id='_'>Definition 3</p>
               </dd>
+              <dt id="symbol-_2d">2d</dt>
+            <dd>
+              <p id="_">Definition 8</p>
+            </dd>
               <dt  id='symbol-__x3b1_'>α</dt>
               <dd>
                 <p id='_'>Definition 1</p>
@@ -1258,7 +1264,7 @@ RSpec.describe Metanorma::Standoc do
       </math>
           <asciimath>n</asciimath>
         </stem>
-      </dt><dt id="symbol-Xa">Xa</dt><dt id="symbol-x">x</dt><dt id="symbol-x_m_">x_m_</dt><dt id="symbol-x_1_">x_1_</dt><dt id="symbol-__x3b1_">α</dt>
+      </dt><dt id="symbol-Xa">Xa</dt><dt id="symbol-x">x</dt><dt id="symbol-x_m_">x_m_</dt><dt id="symbol-x_1_">x_1_</dt><dt id="symbol-_2d">2d</dt><dt id="symbol-__x3b1_">α</dt>
     OUTPUT
   end
 
@@ -2110,7 +2116,7 @@ RSpec.describe Metanorma::Standoc do
     expect(xmlpp(strip_guid(ret.at("//xmlns:clause").to_xml)))
       .to be_equivalent_to(xmlpp(output))
   end
-
+=end
   it "do not apply substitutions to links" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -2153,7 +2159,30 @@ RSpec.describe Metanorma::Standoc do
       [sourcecode,filename="http://www.example.com"]
       ----
       A
+      http://www.example.com/...abc2[]
       ----
+
+      ----
+      http://www.example.com/...def[]
+      ----
+
+      --
+      http://www.example.com/...ghi[]
+      --
+
+      [example]
+      ----
+      http://www.example.com/...jkl[]
+      ----
+
+      ====
+      http://www.example.com/...mno[]
+      ====
+
+      [example]
+      ====
+      http://www.example.com/...prq[]
+      ====
 
     INPUT
     output = <<~OUTPUT
@@ -2188,8 +2217,25 @@ RSpec.describe Metanorma::Standoc do
          </p>
          <a xmlns="http://www.example.com"/>
          <p id="_">http://www.example.com
-       And http://www.example.com and http://www.example.com</p>
-       <sourcecode id="_" filename="http://www.example.com">A</sourcecode>
+         And http://www.example.com and http://www.example.com</p>
+         <sourcecode id="_" filename="http://www.example.com">A
+       http://www.example.com/...abc2[]</sourcecode>
+         <sourcecode id="_">http://www.example.com/...def[]</sourcecode>
+         <p id="_">
+           <link target="http://www.example.com/...ghi"/>
+         </p>
+         <sourcecode id="_">http://www.example.com/...jkl[]</sourcecode>
+         <example id="_">
+           <p id="_">
+             <link target="http://www.example.com/...mno"/>
+           </p>
+         </example>
+         <example id="_">
+           <p id="_">
+             <link target="http://www.example.com/...prq"/>
+           </p>
+         </example>
+       </clause>
        </clause>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))

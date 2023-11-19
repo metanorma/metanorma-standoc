@@ -97,7 +97,8 @@ module Metanorma
 
       def pass_status(status, text)
         text == "++++" && !status[:delimln] and status[:pass] = !status[:pass]
-        if status[:is_delim] && /^(-+|\*+|=+|_+)$/.match?(text)
+        if (status[:is_delim] && /^(-+|\*+|=+|_+)$/.match?(text)) ||
+            (!status[:is_delim] && !status[:delimln] && text == "----")
           status[:delimln] = text
           status[:pass] = true
         elsif status[:pass_delim]
