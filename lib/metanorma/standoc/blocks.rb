@@ -94,10 +94,10 @@ module Metanorma
       end
 
       def example(node)
-        (in_terms? || node.option?("termexample")) and return term_example(node)
         role = node.role || node.attr("style")
         ret = example_to_requirement(node, role) ||
           example_by_role(node, role) and return ret
+        (in_terms? || node.option?("termexample")) and return term_example(node)
         reqt_subpart?(role) and return requirement_subpart(node)
         example_proper(node)
       end

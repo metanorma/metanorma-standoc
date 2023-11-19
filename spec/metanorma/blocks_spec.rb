@@ -67,6 +67,46 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes form blocks" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [form,id=N0,name=N1,action="/action_page.php",class="checkboxes"]
+      --
+      label:fname[First name:] +
+      input:text[id=fname,name=fname]
+      --
+
+      [form,id=N1,name=N1,action="/action_page.php",class="checkboxes"]
+      ====
+      label:fname[First name:] +
+      input:text[id=fname,name=fname]
+      ====
+
+    INPUT
+    output = <<~OUTPUT
+       #{BLANK_HDR}
+               <sections>
+           <form id="N0" class="checkboxes" name="N1" action="/action_page.php">
+             <p id="_">
+               <label for="fname">First name:</label>
+               <br/>
+               <input type="text" id="fname" name="fname"/>
+             </p>
+           </form>
+           <form id="N1" class="checkboxes" name="N1" action="/action_page.php">
+             <p id="_">
+               <label for="fname">First name:</label>
+               <br/>
+               <input type="text" id="fname" name="fname"/>
+             </p>
+           </form>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes stem blocks" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -360,13 +400,13 @@ RSpec.describe Metanorma::Standoc do
 
       === Term1
 
-      [.definition]
-      --
+      [definition]
+      ====
       first definition
 
       [.source]
       <<ISO2191,section=1>>
-      --
+      ====
 
       [.definition,type="simple"]
       --
