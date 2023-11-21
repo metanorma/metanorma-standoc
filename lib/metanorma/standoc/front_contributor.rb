@@ -1,6 +1,5 @@
 require "date"
 require "pathname"
-require "csv"
 
 module Metanorma
   module Standoc
@@ -144,13 +143,11 @@ module Metanorma
       end
 
       def person_org_logo(node, suffix, xml)
-        p = node.attr("affiliation_logo#{suffix}") or return
-        org_logo(xml, p)
+        p = node.attr("affiliation_logo#{suffix}") and org_logo(xml, p)
       end
 
       def org_logo(xml, logo)
-        logo or return
-        xml.logo do |l|
+        logo and xml.logo do |l|
           l.image src: logo
         end
       end
@@ -195,17 +192,24 @@ module Metanorma
 
       def org_attrs_parse(node, opts)
         source = opts[:source]&.detect { |s| node.attr(s) }
-        org_attrs_simple_parse(node, opts, opts[:role], source) ||
-          org_attrs_complex_parse(node, opts, opts[:role], source)
+        org_attrs_simple_parse(node, opts, source) ||
+          org_attrs_complex_parse(node, opts, source)
       end
 
-      def org_attrs_simple_parse(node, opts, role, source)
-        !source && !opts[:default] && !opts[:name] and return []
-        !source and return [{ name: opts[:name] || opts[:default], role: role }
-            .merge(extract_org_attrs_address(node, opts, ""))]
+      def org_attrs_simple_parse(node, opts, source)
+        !source and return org_attrs_simple_parse_no_source(node, opts)
         orgs = csv_split(node.attr(source))
-        orgs.size > 1 and return orgs.map { |o| { name: o, role: role } }
+        orgs.size > 1 and return orgs.map do |o|
+          { name: o, role: opts[:role], desc: opts[:desc] }
+        end
         nil
+      end
+
+      def org_attrs_simple_parse_no_source(node, opts)
+        !opts[:default] && !opts[:name] and return []
+        [{ name: opts[:name] || opts[:default],
+           role: opts[:role], desc: opts[:desc] }
+          .compact.merge(extract_org_attrs_address(node, opts, ""))]
       end
 
       def org_attrs_complex_parse(node, opts, role, source)
