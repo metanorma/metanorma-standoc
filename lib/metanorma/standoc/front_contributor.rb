@@ -200,8 +200,8 @@ module Metanorma
       end
 
       def org_attrs_simple_parse(node, opts, role, source)
-        !source && !opts[:default] and return []
-        !source and return [{ name: opts[:default], role: role }
+        !source && !opts[:default] && !opts[:name] and return []
+        !source and return [{ name: opts[:name] || opts[:default], role: role }
             .merge(extract_org_attrs_address(node, opts, ""))]
         orgs = csv_split(node.attr(source))
         orgs.size > 1 and return orgs.map { |o| { name: o, role: role } }
