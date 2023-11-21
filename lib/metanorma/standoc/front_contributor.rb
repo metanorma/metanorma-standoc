@@ -228,7 +228,7 @@ module Metanorma
 
       def extract_org_attrs_address(node, opts, suffix)
         %w(address phone fax email uri).each_with_object({}) do |a, m|
-          opts[:source].each do |s|
+          opts[:source]&.each do |s|
             p = node.attr("#{s}-#{a}#{suffix}") and
               m[a.to_sym] = p
           end
