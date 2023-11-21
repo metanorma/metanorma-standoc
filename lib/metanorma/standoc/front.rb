@@ -172,6 +172,7 @@ module Metanorma
         metadata_date(node, xml)
         metadata_author(node, xml)
         metadata_publisher(node, xml)
+        metadata_sponsor(node, xml)
         metadata_version(node, xml)
         metadata_note(node, xml)
         metadata_language(node, xml)
