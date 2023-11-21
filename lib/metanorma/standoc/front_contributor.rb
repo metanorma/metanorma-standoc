@@ -212,20 +212,21 @@ module Metanorma
           .compact.merge(extract_org_attrs_address(node, opts, ""))]
       end
 
-      def org_attrs_complex_parse(node, opts, role, source)
+      def org_attrs_complex_parse(node, opts, source)
         i = 1
         suffix = ""
         ret = []
         while node.attr(source + suffix)
-          ret << extract_org_attrs_complex(node, opts, role, source, suffix)
+          ret << extract_org_attrs_complex(node, opts, source, suffix)
           i += 1
           suffix = "_#{i}"
         end
         ret
       end
 
-      def extract_org_attrs_complex(node, opts, role, source, suffix)
-        { name: node.attr(source + suffix), role: role,
+      def extract_org_attrs_complex(node, opts, source, suffix)
+        { name: node.attr(source + suffix),
+          role: opts[:role], desc: opts[:desc],
           logo: node.attr("#{source}_logo#{suffix}") }.compact
           .merge(extract_org_attrs_address(node, opts, suffix))
       end
