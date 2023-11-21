@@ -194,7 +194,7 @@ module Metanorma
       end
 
       def org_attrs_parse(node, opts)
-        source = opts[:source].detect { |s| node.attr(s) }
+        source = opts[:source]&.detect { |s| node.attr(s) }
         org_attrs_simple_parse(node, opts, opts[:role], source) ||
           org_attrs_complex_parse(node, opts, opts[:role], source)
       end
