@@ -177,7 +177,9 @@ module Metanorma
       def org_contributor(node, xml, opts)
         org_attrs_parse(node, opts).each do |o|
           xml.contributor do |c|
-            c.role type: o[:role]
+            c.role type: o[:role] do |r|
+              o[:desc] and r << o[:desc]
+            end
             c.organization do |a|
               org_organization(node, a, o)
             end
