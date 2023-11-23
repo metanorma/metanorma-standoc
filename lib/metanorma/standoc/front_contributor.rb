@@ -174,12 +174,18 @@ module Metanorma
       def org_contributor(node, xml, opts)
         org_attrs_parse(node, opts).each do |o|
           xml.contributor do |c|
-            c.role type: o[:role] do |r|
-              o[:desc] and r.description << o[:desc]
-            end
+            org_contributor_role(c, o)
             c.organization do |a|
               org_organization(node, a, o)
             end
+          end
+        end
+      end
+
+      def org_contributor_role(xml, org)
+        xml.role type: org[:role] do |r|
+          org[:desc] and r.description do |d|
+            d << org[:desc]
           end
         end
       end
@@ -254,10 +260,10 @@ module Metanorma
             c.from (node.attr("copyright-year") || Date.today.year)
             (p[:name].is_a?(String) && p[:name].match(/[A-Za-z]/).nil?) or
               c.owner do |owner|
-              owner.organization do |a|
-                org_organization(node, a, p)
+                owner.organization do |a|
+                  org_organization(node, a, p)
+                end
               end
-            end
           end
         end
       end
