@@ -258,7 +258,7 @@ module Metanorma
         copyright_parse(node).each do |p|
           xml.copyright do |c|
             c.from (node.attr("copyright-year") || Date.today.year)
-            (p[:name].is_a?(String) && p[:name].match(/[A-Za-z]/).nil?) or
+            (p[:name].is_a?(String) && p[:name].match(/\p{L}/).nil?) or
               c.owner do |owner|
                 owner.organization do |a|
                   org_organization(node, a, p)
