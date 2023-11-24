@@ -1,5 +1,4 @@
 require "date"
-require "pathname"
 
 module Metanorma
   module Standoc
@@ -134,11 +133,9 @@ module Metanorma
 
       def person_address_components(node, suffix, xml)
         xml.address do |ad|
-          s = node.attr("street#{suffix}") and ad.street s
-          s = node.attr("city#{suffix}") and ad.city s
-          s = node.attr("state#{suffix}") and ad.state s
-          s = node.attr("country#{suffix}") and ad.country s
-          s = node.attr("postcode#{suffix}") and ad.postcode s
+          %w(street city state country postcode).each do |k|
+            s = node.attr("#{k}#{suffix}") and ad.send k, s
+          end
         end
       end
 
