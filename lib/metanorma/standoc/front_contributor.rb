@@ -1,26 +1,22 @@
 require "date"
-require "nokogiri"
-require "htmlentities"
 require "pathname"
-require "csv"
 
 module Metanorma
   module Standoc
     module Front
       def committee_component(compname, node, out)
-        out.send compname.gsub(/-/, "_"), node.attr(compname),
-                 **attr_code(number: node.attr("#{compname}-number"),
-                             type: node.attr("#{compname}-type"))
-        i = 2
-        while node.attr(compname + "_#{i}")
-          out.send compname.gsub(/-/, "_"), node.attr(compname + "_#{i}"),
-                   **attr_code(number: node.attr("#{compname}-number_#{i}"),
-                               type: node.attr("#{compname}-type_#{i}"))
+        i = 1
+        suffix = ""
+        while node.attr(compname + suffix)
+          out.send compname.gsub(/-/, "_"), node.attr(compname + suffix),
+                   **attr_code(number: node.attr("#{compname}-number#{suffix}"),
+                               type: node.attr("#{compname}-type#{suffix}"))
           i += 1
+          suffix = "_#{i}"
         end
       end
 
-      def organization(org, orgname, is_pub, node = nil, default_org = nil)
+      def organization(org, orgname, node = nil, default_org = nil)
         abbrevs = org_abbrev
         n = abbrevs.invert[orgname] and orgname = n
         org.name orgname
@@ -28,32 +24,24 @@ module Metanorma
         abbr = org_abbrev[orgname]
         default_org && b = node.attr("subdivision-abbr") and abbr = b
         abbr and org.abbreviation abbr
-        is_pub && node and org_address(node, org)
       end
 
-      def org_address(node, person)
-        node.attr("pub-address") and person.address do |ad|
+      def org_address(org, xml)
+        p = org[:address] and xml.address do |ad|
           ad.formattedAddress do |f|
-            f << node.attr("pub-address").gsub(/ \+\n/, "<br/>")
+            f << p.gsub(/ \+\n/, "<br/>")
           end
         end
-        node.attr("pub-phone") and person.phone node.attr("pub-phone")
-        node.attr("pub-fax") and
-          person.phone node.attr("pub-fax"), type: "fax"
-        node.attr("pub-email") and person.email node.attr("pub-email")
-        node.attr("pub-uri") and person.uri node.attr("pub-uri")
+        p = org[:phone] and xml.phone p
+        p = org[:fax] and xml.phone p, type: "fax"
+        p = org[:email] and xml.email p
+        p = org[:uri] and xml.uri p
       end
 
       def metadata_author(node, xml)
-        csv_split(node.attr("publisher") || default_publisher || "")
-          &.each do |p|
-          xml.contributor do |c|
-            c.role type: "author"
-            c.organization do |a|
-              organization(a, p, false, node, !node.attr("publisher"))
-            end
-          end
-        end
+        org_contributor(node, xml,
+                        { source: ["publisher", "pub"], role: "author",
+                          default: default_publisher })
         personal_author(node, xml)
       end
 
@@ -129,6 +117,7 @@ module Metanorma
           xml.subdivision s
         end
         person_address(node, suffix, xml)
+        person_org_logo(node, suffix, xml)
       end
 
       def person_address(node, suffix, xml)
@@ -153,6 +142,16 @@ module Metanorma
         end
       end
 
+      def person_org_logo(node, suffix, xml)
+        p = node.attr("affiliation_logo#{suffix}") and org_logo(xml, p)
+      end
+
+      def org_logo(xml, logo)
+        logo and xml.logo do |l|
+          l.image src: logo
+        end
+      end
+
       def default_publisher
         nil
       end
@@ -162,27 +161,109 @@ module Metanorma
       end
 
       def metadata_publisher(node, xml)
-        publishers = node.attr("publisher") || default_publisher || return
-        csv_split(publishers)&.each do |p|
+        o = { source: ["publisher", "pub"], role: "publisher",
+              default: default_publisher }
+        org_contributor(node, xml, o)
+      end
+
+      def metadata_sponsor(node, xml)
+        o = { source: ["sponsor"], role: "enabler" }
+        org_contributor(node, xml, o)
+      end
+
+      def org_contributor(node, xml, opts)
+        org_attrs_parse(node, opts).each do |o|
           xml.contributor do |c|
-            c.role type: "publisher"
+            org_contributor_role(c, o)
             c.organization do |a|
-              organization(a, p, true, node, !node.attr("publisher"))
+              org_organization(node, a, o)
             end
           end
         end
       end
 
+      def org_contributor_role(xml, org)
+        xml.role type: org[:role] do |r|
+          org[:desc] and r.description do |d|
+            d << org[:desc]
+          end
+        end
+      end
+
+      def org_organization(node, xml, org)
+        organization(xml, org[:name], node, !node.attr("publisher"))
+        org_address(org, xml)
+        org_logo(xml, org[:logo])
+      end
+
+      def org_attrs_parse(node, opts)
+        source = opts[:source]&.detect { |s| node.attr(s) }
+        org_attrs_simple_parse(node, opts, source) ||
+          org_attrs_complex_parse(node, opts, source)
+      end
+
+      def org_attrs_simple_parse(node, opts, source)
+        !source and return org_attrs_simple_parse_no_source(node, opts)
+        orgs = csv_split(node.attr(source))
+        orgs.size > 1 and return orgs.map do |o|
+          { name: o, role: opts[:role], desc: opts[:desc] }
+        end
+        nil
+      end
+
+      def org_attrs_simple_parse_no_source(node, opts)
+        !opts[:default] && !opts[:name] and return []
+        [{ name: opts[:name] || opts[:default],
+           role: opts[:role], desc: opts[:desc] }
+          .compact.merge(extract_org_attrs_address(node, opts, ""))]
+      end
+
+      def org_attrs_complex_parse(node, opts, source)
+        i = 1
+        suffix = ""
+        ret = []
+        while node.attr(source + suffix)
+          ret << extract_org_attrs_complex(node, opts, source, suffix)
+          i += 1
+          suffix = "_#{i}"
+        end
+        ret
+      end
+
+      def extract_org_attrs_complex(node, opts, source, suffix)
+        { name: node.attr(source + suffix),
+          role: opts[:role], desc: opts[:desc],
+          logo: node.attr("#{source}_logo#{suffix}") }.compact
+          .merge(extract_org_attrs_address(node, opts, suffix))
+      end
+
+      def extract_org_attrs_address(node, opts, suffix)
+        %w(address phone fax email uri).each_with_object({}) do |a, m|
+          opts[:source]&.each do |s|
+            p = node.attr("#{s}-#{a}#{suffix}") and
+              m[a.to_sym] = p
+          end
+        end
+      end
+
+      def copyright_parse(node)
+        opt = { source: ["copyright-holder", "publisher", "pub"],
+                role: "publisher", default: default_publisher }
+        ret = org_attrs_parse(node, opt)
+        ret.empty? and ret = [{ name: "-" }]
+        ret
+      end
+
       def metadata_copyright(node, xml)
-        pub = node.attr("copyright-holder") || node.attr("publisher")
-        csv_split(pub || default_publisher || "-")&.each do |p|
+        copyright_parse(node).each do |p|
           xml.copyright do |c|
             c.from (node.attr("copyright-year") || Date.today.year)
-            p.match(/[A-Za-z]/).nil? or c.owner do |owner|
-              owner.organization do |a|
-                organization(a, p, true, node, !pub)
+            (p[:name].is_a?(String) && p[:name].match(/\p{L}/).nil?) or
+              c.owner do |owner|
+                owner.organization do |a|
+                  org_organization(node, a, p)
+                end
               end
-            end
           end
         end
       end

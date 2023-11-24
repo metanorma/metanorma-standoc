@@ -272,6 +272,7 @@ RSpec.describe Metanorma::Standoc do
       :pub-fax: 4444444
       :pub-email: x@example.com
       :pub-uri: http://www.example.com
+      :sponsor: "Cartoon Network"; "Ribose, Inc."
       :isbn: ISBN-13
       :isbn10: ISBN-10
       :classification: a:b, c
@@ -280,282 +281,239 @@ RSpec.describe Metanorma::Standoc do
       :htmltoclevels: 4
     INPUT
     output = <<~OUTPUT
-               <?xml version="1.0" encoding="UTF-8"?>
-           <standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
-           <bibdata type="standard">
-           <title language="en" format="text/plain">Main Title — Title</title>
-             <docidentifier>1000-1</docidentifier>
-             <docidentifier type='ISBN'>ISBN-13</docidentifier>
-           <docidentifier type='ISBN10'>ISBN-10</docidentifier>
-             <docnumber>1000</docnumber>
-             <date type="published">
-             <on>1000-01-01</on>
-           </date>
-           <date type="accessed">
-             <on>1001-01-01</on>
-           </date>
-           <date type="created">
-             <on>1002-01-01</on>
-           </date>
-           <date type="implemented">
-             <on>1003-01-01</on>
-           </date>
-           <date type="obsoleted">
-             <on>1004-01-01</on>
-           </date>
-           <date type="confirmed">
-             <on>1005-01-01</on>
-           </date>
-           <date type="updated">
-             <on>1006-01-01</on>
-           </date>
-           <date type="issued">
-             <on>1007-01-01</on>
-           </date>
-           <date type="circulated">
-             <on>1008-01-01</on>
-           </date>
-           <date type="unchanged">
-             <on>1009-01-01</on>
-           </date>
-            <date type='vote-started'>
-              <on>1011-01-01</on>
-            </date>
-            <date type='vote-ended'>
-              <on>1012-01-01</on>
-            </date>
-           <date type="Fred">
-             <on>1010-01-01</on>
-           </date>
-           <date type="Jack">
-             <on>1010-01-01</on>
-           </date>
-           <contributor>
-             <role type="author"/>
-             <organization>
-               <name>Hanna Barbera</name>
-             </organization>
-           </contributor>
-           <contributor>
-             <role type="author"/>
-             <organization>
-               <name>Cartoon Network</name>
-             </organization>
-           </contributor>
-           <contributor>
-             <role type="author"/>
-             <organization>
-               <name>Ribose, Inc.</name>
-             </organization>
-           </contributor>
-           <contributor>
-             <role type="author"/>
-             <person>
-               <name>
-                 <completename>Fred Flintstone</completename>
-               </name>
-               <credentials>PhD, F.R.Pharm.S.</credentials>
-                <affiliation>
-                <name>Vice President, Medical Devices Quality &amp; Compliance -- Strategic programmes</name>
-              <organization>
-                <name>Slate Rock and Gravel Company</name>
-                <abbreviation>SRG</abbreviation>
-                <subdivision>Hermeneutics Unit</subdivision>
-           <subdivision>Exegetical Subunit</subdivision>
-             <address>
-             <formattedAddress>
-             6 Rubble Way, Bedrock
-           </formattedAddress>
-             </address>
-              </organization>
-              </affiliation>
-              <phone>123</phone>
-           <phone type='fax'>456</phone>
-              <uri>http://slate.example.com</uri>
-             </person>
-           </contributor>
-           <contributor>
-             <role type="editor"/>
-             <person>
-               <name>
-                 <forename>Barney</forename>
-                 <initial>B. X.</initial>
-                 <surname>Rubble</surname>
-               </name>
-               <credentials>PhD, F.R.Pharm.S.</credentials>
-           <affiliation>
-             <name>Former Chair ISO TC 210</name>
-             <organization>
-               <name>Rockhead and Quarry Cave Construction Company</name>
-               <abbreviation>RQCCC</abbreviation>
-               <subdivision>Hermeneutics Unit</subdivision>
-           <subdivision>Exegetical Subunit</subdivision>
-             <address>
-               <formattedAddress>6A Rubble Way, <br/>Bedrock</formattedAddress>
-             </address>
-             </organization>
-           </affiliation>
-           <phone>789</phone>
-           <phone type='fax'>012</phone>
-              <email>barney@rockhead.example.com</email>
-             </person>
-           </contributor>
-           <contributor>
-             <role type="publisher"/>
-             <organization>
-               <name>Hanna Barbera</name>
-               <address>
-             <formattedAddress>
-               1 Infinity Loop
-               <br/>
-               California
-             </formattedAddress>
-           </address>
-           <phone>3333333</phone>
-           <phone type='fax'>4444444</phone>
-           <email>x@example.com</email>
-           <uri>http://www.example.com</uri>
-             </organization>
-           </contributor>
-           <contributor>
-             <role type="publisher"/>
-             <organization>
-               <name>Cartoon Network</name>
-               <address>
-             <formattedAddress>
-               1 Infinity Loop
-               <br/>
-               California
-             </formattedAddress>
-           </address>
-           <phone>3333333</phone>
-           <phone type='fax'>4444444</phone>
-           <email>x@example.com</email>
-           <uri>http://www.example.com</uri>
-             </organization>
-           </contributor>
-           <contributor>
-             <role type="publisher"/>
-             <organization>
-               <name>Ribose, Inc.</name>
-               <address>
-             <formattedAddress>
-               1 Infinity Loop
-               <br/>
-               California
-             </formattedAddress>
-           </address>
-           <phone>3333333</phone>
-           <phone type='fax'>4444444</phone>
-           <email>x@example.com</email>
-           <uri>http://www.example.com</uri>
-             </organization>
-           </contributor>
-           <edition>2</edition>
-           <version>
-             <revision-date>2000-01-01</revision-date>
-             <draft>3.4</draft>
-           </version>
-             <language>en</language>
-             <script>Latn</script>
-             <status>
-               <stage>10</stage>
-               <substage>20</substage>
-               <iteration>3</iteration>
-             </status>
-             <copyright>
-               <from>2001</from>
-                  <owner>
-                <organization>
-                  <name>Ribose, Inc.</name>
-                   <address>
-              <formattedAddress>
-                1 Infinity Loop
-                <br/>
-                California
-              </formattedAddress>
-            </address>
-            <phone>3333333</phone>
-            <phone type='fax'>4444444</phone>
-            <email>x@example.com</email>
-            <uri>http://www.example.com</uri>
-                </organization>
-              </owner>
-            </copyright>
-            <copyright>
-              <from>2001</from>
-              <owner>
+                  <?xml version="1.0" encoding="UTF-8"?>
+              <standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
+              <bibdata type="standard">
+              <title language="en" format="text/plain">Main Title — Title</title>
+                <docidentifier>1000-1</docidentifier>
+                <docidentifier type='ISBN'>ISBN-13</docidentifier>
+              <docidentifier type='ISBN10'>ISBN-10</docidentifier>
+                <docnumber>1000</docnumber>
+                <date type="published">
+                <on>1000-01-01</on>
+              </date>
+              <date type="accessed">
+                <on>1001-01-01</on>
+              </date>
+              <date type="created">
+                <on>1002-01-01</on>
+              </date>
+              <date type="implemented">
+                <on>1003-01-01</on>
+              </date>
+              <date type="obsoleted">
+                <on>1004-01-01</on>
+              </date>
+              <date type="confirmed">
+                <on>1005-01-01</on>
+              </date>
+              <date type="updated">
+                <on>1006-01-01</on>
+              </date>
+              <date type="issued">
+                <on>1007-01-01</on>
+              </date>
+              <date type="circulated">
+                <on>1008-01-01</on>
+              </date>
+              <date type="unchanged">
+                <on>1009-01-01</on>
+              </date>
+               <date type='vote-started'>
+                 <on>1011-01-01</on>
+               </date>
+               <date type='vote-ended'>
+                 <on>1012-01-01</on>
+               </date>
+              <date type="Fred">
+                <on>1010-01-01</on>
+              </date>
+              <date type="Jack">
+                <on>1010-01-01</on>
+              </date>
+              <contributor>
+                <role type="author"/>
                 <organization>
                   <name>Hanna Barbera</name>
-                   <address>
-              <formattedAddress>
-                1 Infinity Loop
-                <br/>
-                California
-              </formattedAddress>
-            </address>
-            <phone>3333333</phone>
-            <phone type='fax'>4444444</phone>
-            <email>x@example.com</email>
-            <uri>http://www.example.com</uri>
                 </organization>
-              </owner>
-             </copyright>
-             <relation type="partOf">
-             <bibitem>
-             <title>--</title>
-             <docidentifier>ABC</docidentifier>
-             </bibitem>
-           </relation>
-           <relation type="translatedFrom">
-                      <bibitem>
-                        <title>GHI</title>
-                        <docidentifier>DEF</docidentifier>
-                      </bibitem>
-                    </relation>
-                    <relation type="translatedFrom">
-                      <bibitem>
-                        <title>PQR</title>
-                        <docidentifier>JKL MNO</docidentifier>
-                      </bibitem>
-                    </relation>
-                    <classification type='a'>b</classification>
-                    <classification type='default'>c</classification>
-           <keyword>a</keyword>
-           <keyword>b</keyword>
-           <keyword>c</keyword>
-           <ext>
-           <doctype>standard</doctype>
-             <editorialgroup>
-               <technical-committee number="1" type="A">TC</technical-committee>
-               <technical-committee number="11" type="A1">TC1</technical-committee>
-             </editorialgroup>
-                             <ics>
-               <code>01.040.11</code>
-               <text>Health care technology (Vocabularies)</text>
-             </ics>
-             <ics>
-               <code>11.060.01</code>
-               <text>Dentistry in general</text>
-             </ics>
-             </ext>
-           </bibdata>
-            <metanorma-extension>
-        <presentation-metadata>
-          <name>TOC Heading Levels</name>
-          <value>2</value>
-        </presentation-metadata>
-        <presentation-metadata>
-          <name>HTML TOC Heading Levels</name>
-          <value>4</value>
-        </presentation-metadata>
-        <presentation-metadata>
-          <name>DOC TOC Heading Levels</name>
-          <value>3</value>
-        </presentation-metadata>
-      </metanorma-extension>
-           <sections/>
-           </standard-document>
+              </contributor>
+              <contributor>
+                <role type="author"/>
+                <organization>
+                  <name>Cartoon Network</name>
+                </organization>
+              </contributor>
+              <contributor>
+                <role type="author"/>
+                <organization>
+                  <name>Ribose, Inc.</name>
+                </organization>
+              </contributor>
+              <contributor>
+                <role type="author"/>
+                <person>
+                  <name>
+                    <completename>Fred Flintstone</completename>
+                  </name>
+                  <credentials>PhD, F.R.Pharm.S.</credentials>
+                   <affiliation>
+                   <name>Vice President, Medical Devices Quality &amp; Compliance -- Strategic programmes</name>
+                 <organization>
+                   <name>Slate Rock and Gravel Company</name>
+                   <abbreviation>SRG</abbreviation>
+                   <subdivision>Hermeneutics Unit</subdivision>
+              <subdivision>Exegetical Subunit</subdivision>
+                <address>
+                <formattedAddress>
+                6 Rubble Way, Bedrock
+              </formattedAddress>
+                </address>
+                 </organization>
+                 </affiliation>
+                 <phone>123</phone>
+              <phone type='fax'>456</phone>
+                 <uri>http://slate.example.com</uri>
+                </person>
+              </contributor>
+              <contributor>
+                <role type="editor"/>
+                <person>
+                  <name>
+                    <forename>Barney</forename>
+                    <initial>B. X.</initial>
+                    <surname>Rubble</surname>
+                  </name>
+                  <credentials>PhD, F.R.Pharm.S.</credentials>
+              <affiliation>
+                <name>Former Chair ISO TC 210</name>
+                <organization>
+                  <name>Rockhead and Quarry Cave Construction Company</name>
+                  <abbreviation>RQCCC</abbreviation>
+                  <subdivision>Hermeneutics Unit</subdivision>
+              <subdivision>Exegetical Subunit</subdivision>
+                <address>
+                  <formattedAddress>6A Rubble Way, <br/>Bedrock</formattedAddress>
+                </address>
+                </organization>
+              </affiliation>
+              <phone>789</phone>
+              <phone type='fax'>012</phone>
+                 <email>barney@rockhead.example.com</email>
+                </person>
+              </contributor>
+              <contributor>
+                <role type="publisher"/>
+                <organization>
+                  <name>Hanna Barbera</name>
+                </organization>
+              </contributor>
+              <contributor>
+                <role type="publisher"/>
+                <organization>
+                  <name>Cartoon Network</name>
+                </organization>
+              </contributor>
+              <contributor>
+                <role type="publisher"/>
+                <organization>
+                  <name>Ribose, Inc.</name>
+                </organization>
+              </contributor>
+              <contributor>
+        <role type="enabler"/>
+        <organization>
+          <name>Cartoon Network</name>
+        </organization>
+      </contributor>
+      <contributor>
+        <role type="enabler"/>
+        <organization>
+          <name>Ribose, Inc.</name>
+        </organization>
+      </contributor>
+              <edition>2</edition>
+              <version>
+                <revision-date>2000-01-01</revision-date>
+                <draft>3.4</draft>
+              </version>
+                <language>en</language>
+                <script>Latn</script>
+                <status>
+                  <stage>10</stage>
+                  <substage>20</substage>
+                  <iteration>3</iteration>
+                </status>
+                <copyright>
+                  <from>2001</from>
+                     <owner>
+                   <organization>
+                     <name>Ribose, Inc.</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <copyright>
+                 <from>2001</from>
+                 <owner>
+                   <organization>
+                     <name>Hanna Barbera</name>
+                   </organization>
+                 </owner>
+                </copyright>
+                <relation type="partOf">
+                <bibitem>
+                <title>--</title>
+                <docidentifier>ABC</docidentifier>
+                </bibitem>
+              </relation>
+              <relation type="translatedFrom">
+                         <bibitem>
+                           <title>GHI</title>
+                           <docidentifier>DEF</docidentifier>
+                         </bibitem>
+                       </relation>
+                       <relation type="translatedFrom">
+                         <bibitem>
+                           <title>PQR</title>
+                           <docidentifier>JKL MNO</docidentifier>
+                         </bibitem>
+                       </relation>
+                       <classification type='a'>b</classification>
+                       <classification type='default'>c</classification>
+              <keyword>a</keyword>
+              <keyword>b</keyword>
+              <keyword>c</keyword>
+              <ext>
+              <doctype>standard</doctype>
+                <editorialgroup>
+                  <technical-committee number="1" type="A">TC</technical-committee>
+                  <technical-committee number="11" type="A1">TC1</technical-committee>
+                </editorialgroup>
+                                <ics>
+                  <code>01.040.11</code>
+                  <text>Health care technology (Vocabularies)</text>
+                </ics>
+                <ics>
+                  <code>11.060.01</code>
+                  <text>Dentistry in general</text>
+                </ics>
+                </ext>
+              </bibdata>
+               <metanorma-extension>
+           <presentation-metadata>
+             <name>TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>HTML TOC Heading Levels</name>
+             <value>4</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>DOC TOC Heading Levels</name>
+             <value>3</value>
+           </presentation-metadata>
+         </metanorma-extension>
+              <sections/>
+              </standard-document>
     OUTPUT
     expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)))
       .to be_equivalent_to xmlpp(output)
@@ -616,157 +574,369 @@ RSpec.describe Metanorma::Standoc do
       == Clause 1
     INPUT
     output = <<~OUTPUT
-                       <?xml version="1.0" encoding="UTF-8"?>
-                   <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
-                   <bibdata type="standard">
-                     <title language="en" format="text/plain">Document title</title>
-                     <title language="eo" format="text/plain">Dokumenttitolo</title>
-                     <uri>A</uri>
-                     <uri type="xml">B</uri>
-                     <uri type="html">C</uri>
-                     <uri type="pdf">D</uri>
-                     <uri type="doc">E</uri>
-                     <uri type="relaton">F</uri>
-                     <docidentifier>1000-1-1</docidentifier>
-                     <docnumber>1000</docnumber>
-                     <date type='published'>
-              <on>1000-01</on>
-            </date>
-                     <contributor>
-                       <role type="author"/>
+                    <?xml version="1.0" encoding="UTF-8"?>
+                <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+                <bibdata type="standard">
+                  <title language="en" format="text/plain">Document title</title>
+                  <title language="eo" format="text/plain">Dokumenttitolo</title>
+                  <uri>A</uri>
+                  <uri type="xml">B</uri>
+                  <uri type="html">C</uri>
+                  <uri type="pdf">D</uri>
+                  <uri type="doc">E</uri>
+                  <uri type="relaton">F</uri>
+                  <docidentifier>1000-1-1</docidentifier>
+                  <docnumber>1000</docnumber>
+                  <date type='published'>
+           <on>1000-01</on>
+         </date>
+                  <contributor>
+                    <role type="author"/>
+                    <organization>
+                      <name>IEC</name>
+                    </organization>
+                  </contributor>
+                  <contributor>
+                    <role type="author"/>
+                    <organization>
+                      <name>IETF</name>
+                    </organization>
+                  </contributor>
+                  <contributor>
+                    <role type="author"/>
+                    <organization>
+                      <name>ISO</name>
+                    </organization>
+                  </contributor>
+                  <contributor>
+                   <role type='author'/>
+                   <person>
+                     <name>
+                       <completename>Fred Flintstone</completename>
+                     </name>
+                     <affiliation>
                        <organization>
-                         <name>IEC</name>
+                         <name>Slate Rock and Gravel Company</name>
+                         <address>
+                           <street>1 Infinity Loop</street>
+                           <city>Cupertino</city>
+                           <state>CA</state>
+                           <country>USA</country>
+                           <postcode>95014</postcode>
+                         </address>
                        </organization>
-                     </contributor>
-                     <contributor>
-                       <role type="author"/>
+                     </affiliation>
+                   </person>
+                 </contributor>
+                 <contributor>
+                   <role type='author'/>
+                   <person>
+                     <name>
+                       <completename>Barney Rubble</completename>
+                     </name>
+                     <affiliation>
                        <organization>
-                         <name>IETF</name>
+                         <name>Slate Rock and Gravel Company</name>
+                         <address>
+                           <street>Pavillon de Breteuil</street>
+                           <city>S&#232;vres CEDEX</city>
+                           <country>France</country>
+                           <postcode>F-92312</postcode>
+                         </address>
                        </organization>
-                     </contributor>
-                     <contributor>
-                       <role type="author"/>
-                       <organization>
-                         <name>ISO</name>
-                       </organization>
-                     </contributor>
-                     <contributor>
-                      <role type='author'/>
-                      <person>
-                        <name>
-                          <completename>Fred Flintstone</completename>
-                        </name>
-                        <affiliation>
-                          <organization>
-                            <name>Slate Rock and Gravel Company</name>
-                            <address>
-                              <street>1 Infinity Loop</street>
-                              <city>Cupertino</city>
-                              <state>CA</state>
-                              <country>USA</country>
-                              <postcode>95014</postcode>
-                            </address>
-                          </organization>
-                        </affiliation>
-                      </person>
-                    </contributor>
-                    <contributor>
-                      <role type='author'/>
-                      <person>
-                        <name>
-                          <completename>Barney Rubble</completename>
-                        </name>
-                        <affiliation>
-                          <organization>
-                            <name>Slate Rock and Gravel Company</name>
-                            <address>
-                              <street>Pavillon de Breteuil</street>
-                              <city>S&#232;vres CEDEX</city>
-                              <country>France</country>
-                              <postcode>F-92312</postcode>
-                            </address>
-                          </organization>
-                        </affiliation>
-                      </person>
-                    </contributor>
-                     <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                         <name>IEC</name>
-                       </organization>
-                     </contributor>
-                     <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                         <name>IETF</name>
-                       </organization>
-                     </contributor>
-                     <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                         <name>ISO</name>
-                       </organization>
-                     </contributor>
-                     <version>
-                       <revision-date>2000-01</revision-date>
-                     </version>
-                     <language>el</language>
-                     <locale>CY</locale>
-                     <script>Grek</script>
-                     <abstract><p>This is the abstract of the document</p>
-                     <p>This is the second paragraph of the abstract of the document.</p></abstract>
-                     <status><stage>published</stage></status>
-                     <copyright>
-                       <from>#{Date.today.year}</from>
-                       <owner>
-                         <organization>
-                           <name>IEC</name>
-                         </organization>
-                       </owner>
-                     </copyright>
-                     <copyright>
-                       <from>#{Date.today.year}</from>
-                       <owner>
-                         <organization>
-                           <name>IETF</name>
-                         </organization>
-                       </owner>
-                     </copyright>
-                     <copyright>
-                       <from>#{Date.today.year}</from>
-                       <owner>
-                         <organization>
-                           <name>ISO</name>
-                         </organization>
-                       </owner>
-                     </copyright>
-                     <ext>
-                     <doctype>this-is-a-doctype</doctype>
-                     <subdoctype>This is a DocSubType</subdoctype>
-                     </ext>
-                   </bibdata>
-                     <metanorma-extension>
-           <semantic-metadata>
-             <hello-world>A</hello-world>
-           </semantic-metadata>
-           <semantic-metadata>
-             <hello-world>B</hello-world>
-           </semantic-metadata>
-           <semantic-metadata>
-             <hello-world>C, D</hello-world>
-           </semantic-metadata>
-           <semantic-metadata>
-             <hello>what-not</hello>
-           </semantic-metadata>
-           <presentation-metadata>
-             <hello>Hello?</hello>
-           </presentation-metadata>
-           <presentation-metadata>
-             <manifold>hello, world</manifold>
-           </presentation-metadata>
-           <presentation-metadata>
-             <manifold>yes</manifold>
-           </presentation-metadata>
+                     </affiliation>
+                   </person>
+                 </contributor>
+                  <contributor>
+                    <role type="publisher"/>
+                    <organization>
+                      <name>IEC</name>
+                    </organization>
+                  </contributor>
+                  <contributor>
+                    <role type="publisher"/>
+                    <organization>
+                      <name>IETF</name>
+                    </organization>
+                  </contributor>
+                  <contributor>
+                    <role type="publisher"/>
+                    <organization>
+                      <name>ISO</name>
+                    </organization>
+                  </contributor>
+                  <version>
+                    <revision-date>2000-01</revision-date>
+                  </version>
+                  <language>el</language>
+                  <locale>CY</locale>
+                  <script>Grek</script>
+                  <abstract><p>This is the abstract of the document</p>
+                  <p>This is the second paragraph of the abstract of the document.</p></abstract>
+                  <status><stage>published</stage></status>
+                  <copyright>
+                    <from>#{Date.today.year}</from>
+                    <owner>
+                      <organization>
+                        <name>IEC</name>
+                      </organization>
+                    </owner>
+                  </copyright>
+                  <copyright>
+                    <from>#{Date.today.year}</from>
+                    <owner>
+                      <organization>
+                        <name>IETF</name>
+                      </organization>
+                    </owner>
+                  </copyright>
+                  <copyright>
+                    <from>#{Date.today.year}</from>
+                    <owner>
+                      <organization>
+                        <name>ISO</name>
+                      </organization>
+                    </owner>
+                  </copyright>
+                  <ext>
+                  <doctype>this-is-a-doctype</doctype>
+                  <subdoctype>This is a DocSubType</subdoctype>
+                  </ext>
+                </bibdata>
+                  <metanorma-extension>
+        <semantic-metadata>
+          <hello-world>A</hello-world>
+        </semantic-metadata>
+        <semantic-metadata>
+          <hello-world>B</hello-world>
+        </semantic-metadata>
+        <semantic-metadata>
+          <hello-world>C, D</hello-world>
+        </semantic-metadata>
+        <semantic-metadata>
+          <hello>what-not</hello>
+        </semantic-metadata>
+        <presentation-metadata>
+          <hello>Hello?</hello>
+        </presentation-metadata>
+        <presentation-metadata>
+          <manifold>hello, world</manifold>
+        </presentation-metadata>
+        <presentation-metadata>
+          <manifold>yes</manifold>
+        </presentation-metadata>
+        <presentation-metadata>
+          <name>TOC Heading Levels</name>
+          <value>2</value>
+        </presentation-metadata>
+        <presentation-metadata>
+          <name>HTML TOC Heading Levels</name>
+          <value>2</value>
+        </presentation-metadata>
+        <presentation-metadata>
+          <name>DOC TOC Heading Levels</name>
+          <value>2</value>
+        </presentation-metadata>
+      </metanorma-extension>
+                  <preface>
+             <abstract id='_'>
+             <title>Abstract</title>
+               <p id='_'>This is the abstract of the document</p>
+               <p id='_'>This is the second paragraph of the abstract of the document.</p>
+             </abstract>
+           </preface>
+           <sections>
+             <clause id='_' language='en' inline-header='false' obligation='normative'>
+               <title>Clause 1</title>
+             </clause>
+           </sections>
+         </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes broken up organisational contributors and their attributes" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :fullname: Fred Flintstone
+      :affiliation: Slate Rock and Gravel Company
+      :address: Address
+      :city: Utopia
+      :publisher: Monsters, Inc.
+      :publisher_logo: correct.png
+      :publisher_2: Ribose, Inc.
+      :publisher_logo_2: corrupt.png
+      :sponsor: Monsters, Inc.
+      :sponsor_logo: corrupt.png
+      :sponsor_2: Ribose, Inc.
+      :sponsor_logo_2: correct.png
+      :pub-address_2: 1 Infinity Loop + \\
+      California
+      :pub-phone_2: 3333333
+      :pub-fax_2: 4444444
+      :pub-email_2: x@example.com
+      :pub-uri_2: http://www.example1.com
+      :sponsor-address: 3 Infinity Loop + \\
+      California
+      :sponsor-phone: 1111111
+      :sponsor-fax: 2222222
+      :sponsor-email: y@example.com
+      :sponsor-uri: http://www.example2.com
+      :sponsor-address_2: 2 Infinity Loop + \\
+      California
+      :sponsor-phone_2: 5555555
+      :sponsor-fax_2: 6666666
+      :sponsor-email_2: z@example.com
+      :sponsor-uri_2: http://www.example3.com
+
+
+    INPUT
+    output = <<~OUTPUT
+      <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+               <bibdata type="standard">
+           <title language="en" format="text/plain">Document title</title>
+           <contributor>
+             <role type="author"/>
+             <organization>
+               <name>Monsters, Inc.</name>
+               <logo>
+                 <image src="correct.png"/>
+               </logo>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="author"/>
+             <organization>
+               <name>Ribose, Inc.</name>
+               <address>
+                 <formattedAddress>1 Infinity Loop<br/>California</formattedAddress>
+               </address>
+               <phone>3333333</phone>
+               <phone type="fax">4444444</phone>
+               <email>x@example.com</email>
+               <uri>http://www.example1.com</uri>
+               <logo>
+                 <image src="corrupt.png"/>
+               </logo>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="author"/>
+             <person>
+               <name>
+                 <completename>Fred Flintstone</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Slate Rock and Gravel Company</name>
+                   <address>
+                     <formattedAddress>Address</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+             </person>
+           </contributor>
+           <contributor>
+             <role type="publisher"/>
+             <organization>
+               <name>Monsters, Inc.</name>
+               <logo>
+                 <image src="correct.png"/>
+               </logo>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="publisher"/>
+             <organization>
+               <name>Ribose, Inc.</name>
+               <address>
+                 <formattedAddress>1 Infinity Loop<br/>California</formattedAddress>
+               </address>
+               <phone>3333333</phone>
+               <phone type="fax">4444444</phone>
+               <email>x@example.com</email>
+               <uri>http://www.example1.com</uri>
+               <logo>
+                 <image src="corrupt.png"/>
+               </logo>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="enabler"/>
+             <organization>
+               <name>Monsters, Inc.</name>
+               <address>
+                 <formattedAddress>3 Infinity Loop<br/>California</formattedAddress>
+               </address>
+               <phone>1111111</phone>
+               <phone type="fax">2222222</phone>
+               <email>y@example.com</email>
+               <uri>http://www.example2.com</uri>
+               <logo>
+                 <image src="corrupt.png"/>
+               </logo>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="enabler"/>
+             <organization>
+               <name>Ribose, Inc.</name>
+               <address>
+                 <formattedAddress>2 Infinity Loop<br/>California</formattedAddress>
+               </address>
+               <phone>5555555</phone>
+               <phone type="fax">6666666</phone>
+               <email>z@example.com</email>
+               <uri>http://www.example3.com</uri>
+               <logo>
+                 <image src="correct.png"/>
+               </logo>
+             </organization>
+           </contributor>
+           <language>en</language>
+           <script>Latn</script>
+           <status>
+             <stage>published</stage>
+           </status>
+           <copyright>
+             <from>#{Time.now.year}</from>
+             <owner>
+               <organization>
+                 <name>Monsters, Inc.</name>
+                 <logo>
+                   <image src="correct.png"/>
+                 </logo>
+               </organization>
+             </owner>
+           </copyright>
+           <copyright>
+             <from>#{Time.now.year}</from>
+             <owner>
+               <organization>
+                 <name>Ribose, Inc.</name>
+                 <address>
+                   <formattedAddress>1 Infinity Loop<br/>California</formattedAddress>
+                 </address>
+                 <phone>3333333</phone>
+                 <phone type="fax">4444444</phone>
+                 <email>x@example.com</email>
+                 <uri>http://www.example1.com</uri>
+                 <logo>
+                   <image src="corrupt.png"/>
+                 </logo>
+               </organization>
+             </owner>
+           </copyright>
+           <ext>
+             <doctype>standard</doctype>
+           </ext>
+         </bibdata>
+         <metanorma-extension>
            <presentation-metadata>
              <name>TOC Heading Levels</name>
              <value>2</value>
@@ -780,25 +950,14 @@ RSpec.describe Metanorma::Standoc do
              <value>2</value>
            </presentation-metadata>
          </metanorma-extension>
-                     <preface>
-                <abstract id='_'>
-                <title>Abstract</title>
-                  <p id='_'>This is the abstract of the document</p>
-                  <p id='_'>This is the second paragraph of the abstract of the document.</p>
-                </abstract>
-              </preface>
-              <sections>
-                <clause id='_' language='en' inline-header='false' obligation='normative'>
-                  <title>Clause 1</title>
-                </clause>
-              </sections>
-            </standard-document>
+         <sections/>
+       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "processes formatted address overridding address components" do
+  it "processes formatted address overridding address components; publisher attributes" do
     input = <<~INPUT
       = Document title
       Author
@@ -812,58 +971,103 @@ RSpec.describe Metanorma::Standoc do
       :fullname_2: Barney Rubble
       :affiliation_2: Slate Rock and Gravel Company
       :city_2: Utopia
+      :publisher: ISO
+      :pub-address: 1 Infinity Loop + \\
+      California
+      :pub-phone: 3333333
+      :pub-fax: 4444444
+      :pub-email: x@example.com
+      :pub-uri: http://www.example.com
 
     INPUT
     output = <<~OUTPUT
       <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
-        <bibdata type='standard'>
-          <title language='en' format='text/plain'>Document title</title>
-          <contributor>
-            <role type='author'/>
-            <person>
-              <name>
-                <completename>Fred Flintstone</completename>
-              </name>
-              <affiliation>
-                <organization>
-                  <name>Slate Rock and Gravel Company</name>
-                  <address>
-                    <formattedAddress>Address</formattedAddress>
-                  </address>
-                </organization>
-              </affiliation>
-            </person>
-          </contributor>
-          <contributor>
-            <role type='author'/>
-            <person>
-              <name>
-                <completename>Barney Rubble</completename>
-              </name>
-              <affiliation>
-                <organization>
-                  <name>Slate Rock and Gravel Company</name>
-                  <address>
-                    <city>Utopia</city>
-                  </address>
-                </organization>
-              </affiliation>
-            </person>
-          </contributor>
-          <language>en</language>
-          <script>Latn</script>
-          <status>
-            <stage>published</stage>
-          </status>
-          <copyright>
-            <from>#{Time.now.year}</from>
-          </copyright>
-          <ext>
-            <doctype>standard</doctype>
-          </ext>
-        </bibdata>
-        <sections> </sections>
-      </standard-document>
+               <bibdata type="standard">
+           <title language="en" format="text/plain">Document title</title>
+           <contributor>
+             <role type="author"/>
+             <organization>
+               <name>ISO</name>
+               <address>
+                 <formattedAddress>1 Infinity Loop<br/>California</formattedAddress>
+               </address>
+               <phone>3333333</phone>
+               <phone type="fax">4444444</phone>
+               <email>x@example.com</email>
+               <uri>http://www.example.com</uri>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="author"/>
+             <person>
+               <name>
+                 <completename>Fred Flintstone</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Slate Rock and Gravel Company</name>
+                   <address>
+                     <formattedAddress>Address</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+             </person>
+           </contributor>
+           <contributor>
+             <role type="author"/>
+             <person>
+               <name>
+                 <completename>Barney Rubble</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Slate Rock and Gravel Company</name>
+                   <address>
+                     <city>Utopia</city>
+                   </address>
+                 </organization>
+               </affiliation>
+             </person>
+           </contributor>
+           <contributor>
+             <role type="publisher"/>
+             <organization>
+               <name>ISO</name>
+               <address>
+                 <formattedAddress>1 Infinity Loop<br/>California</formattedAddress>
+               </address>
+               <phone>3333333</phone>
+               <phone type="fax">4444444</phone>
+               <email>x@example.com</email>
+               <uri>http://www.example.com</uri>
+             </organization>
+           </contributor>
+           <language>en</language>
+           <script>Latn</script>
+           <status>
+             <stage>published</stage>
+           </status>
+           <copyright>
+             <from>#{Time.now.year}</from>
+             <owner>
+               <organization>
+                 <name>ISO</name>
+                <address>
+                 <formattedAddress>1 Infinity Loop<br/>California</formattedAddress>
+               </address>
+               <phone>3333333</phone>
+               <phone type="fax">4444444</phone>
+               <email>x@example.com</email>
+               <uri>http://www.example.com</uri>
+               </organization>
+             </owner>
+           </copyright>
+           <ext>
+             <doctype>standard</doctype>
+           </ext>
+         </bibdata>
+         <sections/>
+       </standard-document>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
@@ -913,6 +1117,13 @@ RSpec.describe Metanorma::Standoc do
               <name>International Standards Organization</name>
               <subdivision>Subdivision</subdivision>
               <abbreviation>SD</abbreviation>
+              <address>
+        <formattedAddress>1 Infinity Loop <br/>California</formattedAddress>
+      </address>
+      <phone>3333333</phone>
+      <phone type='fax'>4444444</phone>
+      <email>x@example.com</email>
+      <uri>http://www.example.com</uri>
             </organization>
           </contributor>
           <contributor>
