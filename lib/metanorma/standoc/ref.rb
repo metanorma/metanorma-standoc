@@ -9,7 +9,7 @@ module Metanorma
           bib.contributor do |c|
             c.role type: "publisher"
             c.organization do |org|
-              organization(org, abbrev, true)
+              organization(org, abbrev, nil, true)
             end
           end
         end

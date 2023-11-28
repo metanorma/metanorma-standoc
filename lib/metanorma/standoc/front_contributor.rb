@@ -19,9 +19,9 @@ module Metanorma
         abbrevs = org_abbrev
         n = abbrevs.invert[orgname] and orgname = n
         org.name orgname
-        default_org and a = node.attr("subdivision") and org.subdivision a
+        default_org and a = node&.attr("subdivision") and org.subdivision a
         abbr = org_abbrev[orgname]
-        default_org && b = node.attr("subdivision-abbr") and abbr = b
+        default_org && b = node&.attr("subdivision-abbr") and abbr = b
         abbr and org.abbreviation abbr
       end
 
