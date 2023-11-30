@@ -1076,6 +1076,9 @@ RSpec.describe Metanorma::Standoc do
              <role type="author"/>
              <organization>
                <name>Fred</name>
+               <address>
+                <formattedAddress>10 Jack St<br/>Antarctica</formattedAddress>
+            </address>
              </organization>
            </contributor>
            <contributor>
