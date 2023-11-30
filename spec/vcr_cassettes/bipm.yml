@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://raw.githubusercontent.com/relaton/relaton-data-bipm/master/data/cipm/meeting/resolution/1946-01.yaml
+    uri: https://raw.githubusercontent.com/relaton/relaton-data-bipm/master/data/cipm/meeting/resolution/1879-00.yaml
     body:
       encoding: US-ASCII
       string: ''
@@ -31,7 +31,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '759'
+      - '731'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -39,7 +39,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"eefb0293c14a7128f062dfd3dadb42d20b428a698016709aea10ff063a610da4"
+      - W/"5f0b8d06bf70462388aa703cd4a4a413076ad007a7121dc2afe0b18d56dc9dbf"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -49,23 +49,23 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - E34E:36F40:5FA16:79EDB:65668147
+      - 4CEE:3DB9B:CCED8:FC73D:6566E854
       Content-Encoding:
       - gzip
       Accept-Ranges:
       - bytes
       Date:
-      - Wed, 29 Nov 2023 00:09:43 GMT
+      - Wed, 29 Nov 2023 07:29:27 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-mel11234-MEL
+      - cache-mel11271-MEL
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1701216584.599593,VS0,VE307
+      - S1701242967.492876,VS0,VE294
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
@@ -73,14 +73,14 @@ http_interactions:
       Cross-Origin-Resource-Policy:
       - cross-origin
       X-Fastly-Request-Id:
-      - dc4c122f3a4e0adf5c4971c519050107b44a7a8a
+      - 7665e9fd779ff7ee01882927b79fc13c07fabec2
       Expires:
-      - Wed, 29 Nov 2023 00:14:43 GMT
+      - Wed, 29 Nov 2023 07:34:27 GMT
       Source-Age:
       - '0'
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAAAAAAAAA7VWSW7bMBTd6xTcuQVKUXQ8NFomTYEADRCki6wpkraJSqTKwW56o5wjF+unJA9KnNguEsOAKFL/v8c/PBJjnDi+kBXDS2mdMjpHS5oO03GiRI4ur29v8N3VT0zPRxOc0cQrX8o8wYgb7aX2OfomZ0orD5YOmRmqF8abSnqrOAow7xKESqbngc3BDiGMpIaH41bVvp34wXycmhlbMXDo5R9P6pIp3YN5elzjICFd4/vp0XV4T48A+DvIl2gzezRaqfSv3tYW3tcuJ2S1WqWFqqvU2DmRmnBTVcp7KR3hCv51RUa0CRGx0pkyRJaYAop/qGWOuPIsTu2S64WhJXUIeWbfB3k3JK8iW7ZK58ovQhGctN1yCvgEkst0jB6JzLBgnmETPCwBqwoC2fKqpPRKzx2GgHVjPKLpQ1Vu2DnLTw/J+xGDeB5J7KiI9XIlDA8VLDsyzOhwQuj0jI6zsyGJHQVotZiRbHo2nlJ6julETrDIpl+hw0SGp4wXnI35SNDRhhIYJN3IGi6liFtIAAbaFNismxVBsyKKPsWS+LwxvoAVeKmtqph9gKK3Qb5i9AVdHbA7lLH9Xr+f4HVfuLdeN3W+f5+4NHp+FMk70I+tKxFa/0e5PJUhIqeiQWZ1qApp9+UVSrsR4a4gQlEqt5AC3CxZGWBq0Og1zfDwfJDESrWqCN7YaATlybT62+hClESENKtkO9op62t4Wt18xUp0EaxkIQr8vVTzhXeIaYFuJHOw4BrbvvK23prQx99WgduFToV7iB2G6gFHra+NEg5Jj6CR34Rr0vImHCsKK5dqZ/Noh0BbmAe2cgxMsGWOdgUBZq0puzOpnzb7vzm5XB8G8TD7wLwATjxrn6HHxNyuE3PzsYm5fKfEPE8BC35hbALATUf122aL1GA03td+O49wb+DtbUh5ELJbZlWjyY33TVNvT+bEgdZxD6ESSsDO1ExBg8OHO90+oIME7iR5IzAvLmZZmiX/ACn3SaO0CQAA
-  recorded_at: Wed, 29 Nov 2023 00:09:43 GMT
+        H4sIAAAAAAAAA8VWXW+bMBR951f4LZs0YyBZsvLYqpMqrVLVPuzZYEOsYZv5I1n3j/I78sd2MeSDNlvTadWiSJhrfM+5nOtjMMaRLZdcUrzixgqtcrRK4yz+GAmWo6ubu1t8f/2A00+LC5wkkROu4XmEUamV48rl6EHUiltEC7PdrAR1orKo1d6ghncDwSziDkluvYGA3G6cEd89txFCDVW1pzXkQwgjruBiSyNa1we+UNeFKm0kBSDHfzjSNlSoqBHq24jE0rnW5oSs1+u4EK2MtakJV6TUUgrnOLekFPBvJZmFWgiQ0Y13UDAGDPfY8hyVwtEuckxtRKundALX0HVcC7f0hbfcDNMxoBPJHVVdBaTjhRl1FGvvYAo4SSimZyU5d0LVFgPpYYxn8aNs9uSsKf8nr8qcyasyZ/Aa6cR06SVMW5IlaTYn6WKafkymGem6bxa3rCKzBZ/PFmyGs3mZYTZlc1xM5wvMF7OLqsiyIpune0awIBpGRpecs66ACFCgo4HMrq8R9DV61zXD+/3SS4jDTWuEpOYRes54fnLJB3T9wqqXtDqV8/Mrcp56z4ec++4+VSFutKrPIni/3ewTMd/nPivh69gh8jok0FJ5WXDzXElo5OBPQwP4ohF2yRkkWdHGQ2gSrCxNcDqdRF1jGlF4p023CLqRKvEzmEDnQQgpKnk/OuriG7gaFZ6iDboEY6Me6Qp95aJeOvBCxdAtp8Hxwtqx1fXZwivvfgfL6ycG2xshDhhiBMxOGOxv4YIgf4SjRWF4cPBd8eiIQN+OL5RyDow3TY6O9z9EjW6GQ2Asm/lbTa52vt+dHm+oC+AIt908Qe+EudsJc/u2wlz9I2GeSkC9W2oTAXDYUeNtc0AKGCH7Lu+QEQ7qsv9QEA7s644aETw4ZN9v6cMpHFlwuNLBq2KCQWWiErC94cGjvT5JJhF8BOTBWp59syRxEv0CoM11Cc8IAAA=
+  recorded_at: Wed, 29 Nov 2023 07:29:27 GMT
 recorded_with: VCR 6.1.0

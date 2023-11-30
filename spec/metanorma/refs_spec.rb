@@ -1289,7 +1289,7 @@ RSpec.describe Metanorma::Standoc do
         [bibliography]
         == Normative References
 
-        * [[[iso123,BIPM CIPM RES 1]]] _Standard_
+        * [[[iso123,BIPM CIPM RES 1 (1879)]]] _Standard_
       INPUT
       output = <<~OUTPUT
           #{BLANK_HDR}
@@ -1299,23 +1299,22 @@ RSpec.describe Metanorma::Standoc do
             <references id="_" normative="true" obligation="informative">
               <title>Normative references</title>
               <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-                           <bibitem id="iso123" type="proceedings">
+                          <bibitem id="iso123" type="proceedings">
                <fetched/>
-               <title format="text/plain" language="en" script="Latn">Definitions of photometric units</title>
-               <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/ci/cipm/41-1946/resolution-1</uri>
-               <uri type="citation" language="fr" script="Latn">https://www.bipm.org/fr/committees/ci/cipm/41-1946/resolution-1</uri>
-               <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-41.yml</uri>
-               <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-41.yml</uri>
-               <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM41.pdf/07357119-16e6-d078-01d0-7acbca5c4d14</uri>
-               <docidentifier type="BIPM" primary="true">CIPM RES 1 (1946)</docidentifier>
-               <docidentifier type="BIPM" primary="true" language="en" script="Latn">CIPM RES 1 (1946, E)</docidentifier>
-               <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CIPM RES 1 (1946, F)</docidentifier>
-               <docidentifier type="BIPM-long" language="en" script="Latn">CIPM Resolution 1 (1946)</docidentifier>
-               <docidentifier type="BIPM-long" language="fr" script="Latn">Résolution 1 du CIPM (1946)</docidentifier>
-               <docidentifier type="BIPM-long">CIPM Resolution 1 (1946) / Résolution 1 du CIPM (1946)</docidentifier>
-               <docnumber>CIPM RES 1 (1946)</docnumber>
+               <title format="text/plain" language="en" script="Latn">Signes abréviatifs pour les poids et mesures métriques</title>
+               <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/ci/cipm/4-1879/resolution-</uri>
+               <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-4.yml</uri>
+               <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-4.yml</uri>
+               <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM4.pdf/47e647d4-26c2-d3d6-b367-e749fb22b261</uri>
+               <docidentifier type="BIPM" primary="true">CIPM RES (1879)</docidentifier>
+               <docidentifier type="BIPM" primary="true" language="en" script="Latn">CIPM RES (1879, E)</docidentifier>
+               <docidentifier type="BIPM" primary="true" language="fr" script="Latn">CIPM RES (1879, F)</docidentifier>
+               <docidentifier type="BIPM-long" language="en" script="Latn">CIPM Resolution (1879)</docidentifier>
+               <docidentifier type="BIPM-long" language="fr" script="Latn">Résolution du CIPM (1879)</docidentifier>
+               <docidentifier type="BIPM-long">CIPM Resolution (1879) / Résolution du CIPM (1879)</docidentifier>
+               <docnumber>CIPM RES (1879)</docnumber>
                <date type="published">
-                 <on>1946-10-29</on>
+                 <on>1879-10-13</on>
                </date>
                <contributor>
                  <role type="publisher"/>
