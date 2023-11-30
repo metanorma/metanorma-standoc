@@ -149,8 +149,7 @@ module Metanorma
       end
 
       def metadata_keywords(node, xml)
-        return unless node.attr("keywords")
-
+        node.attr("keywords") or return
         node.attr("keywords").split(/,\s*/).each do |kw|
           xml.keyword kw
         end
@@ -225,9 +224,8 @@ module Metanorma
 
       def title_otherlangs(node, xml)
         node.attributes.each do |k, v|
-          next unless /^title-(?<titlelang>.+)$/ =~ k
-          next if titlelang == "en"
-
+          /^title-(?<titlelang>.+)$/ =~ k or next
+          titlelang == "en" and next
           xml.title v, { language: titlelang, format: "text/plain" }
         end
       end

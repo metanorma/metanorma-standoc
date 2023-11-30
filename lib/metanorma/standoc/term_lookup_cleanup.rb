@@ -253,9 +253,8 @@ module Metanorma
         @idhash["#{prefix}-#{text}"] or
           return "#{prefix}-#{text}"
         (1..Float::INFINITY).lazy.each do |index|
-          unless @idhash["#{prefix}-#{text}-#{index}"]
+          @idhash["#{prefix}-#{text}-#{index}"] or
             break("#{prefix}-#{text}-#{index}")
-          end
         end
       end
 
