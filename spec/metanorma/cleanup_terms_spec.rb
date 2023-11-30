@@ -819,14 +819,14 @@ RSpec.describe Metanorma::Standoc do
       alt:[Third Designation]
 
       [%metadata]
-      letter-symbol:: true
+      letter-symbol:: letter
 
       deprecated:[stem:[t_90]]
 
       related:see[<<second>>,Fifth Designation]
 
       [%metadata]
-      letter-symbol:: true
+      letter-symbol:: equation
 
       Definition
     INPUT
@@ -848,7 +848,7 @@ RSpec.describe Metanorma::Standoc do
                 </expression>
               </preferred>
               <admitted>
-                <letter-symbol>
+                <letter-symbol type="letter">
                   <name>Third Designation</name>
                 </letter-symbol>
               </admitted>
@@ -871,7 +871,7 @@ RSpec.describe Metanorma::Standoc do
               </deprecates>
               <related type='see'>
                 <preferred>
-                  <letter-symbol>
+                  <letter-symbol type="equation">
                     <name>Fifth Designation</name>
                   </letter-symbol>
                 </preferred>

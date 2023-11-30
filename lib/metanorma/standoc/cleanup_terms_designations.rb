@@ -5,8 +5,7 @@ module Metanorma
         xmldoc.xpath("//term//expression/name[stem]").each do |n|
           test = n.dup
           test.at("./stem").remove
-          next unless test.text.strip.empty?
-
+          test.text.strip.empty? or next
           n.parent.name = "letter-symbol"
         end
       end
@@ -107,10 +106,11 @@ module Metanorma
       end
 
       def term_to_letter_symbol(prev, dlist)
-        ls = dlist.at("./dt[text()='letter-symbol']/following::dd/p")
-        return unless ls&.text == "true"
-
-        prev.at(".//expression").name = "letter-symbol"
+        ls = dlist.at("./dt[text()='letter-symbol']/following::dd/p")&.text
+        !ls || ls == "false" and return
+        e = prev.at(".//expression")
+        e.name = "letter-symbol"
+        ls != "true" and e["type"] = ls
       end
 
       def dl_to_designation(dlist)
