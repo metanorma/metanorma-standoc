@@ -3,7 +3,6 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
-=begin
   it "applies smartquotes by default" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1077,6 +1076,9 @@ RSpec.describe Metanorma::Standoc do
              <role type="author"/>
              <organization>
                <name>Fred</name>
+               <address>
+                <formattedAddress>10 Jack St<br/>Antarctica</formattedAddress>
+            </address>
              </organization>
            </contributor>
            <contributor>
@@ -2116,7 +2118,7 @@ RSpec.describe Metanorma::Standoc do
     expect(xmlpp(strip_guid(ret.at("//xmlns:clause").to_xml)))
       .to be_equivalent_to(xmlpp(output))
   end
-=end
+
   it "do not apply substitutions to links" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}

@@ -2714,6 +2714,59 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "mixes bibitems and bibliographic subclauses" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [bibliography]
+      == Bibliography
+
+      Text
+
+      * [[[iso124,(*A*.footnote:[hello])XYZ]]] _Standard_
+
+      More text
+
+      [bibliography]
+      === Bibliography 1
+      * [[[iso125,usrlabel="*A*.footnote:[hello]",XYZ]]] _Standard_
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <sections/>
+         <bibliography>
+           <clause id="_" obligation="informative">
+             <title>Bibliography</title>
+             <p id="_">Text</p>
+             <references unnumbered="true" normative="false">
+               <bibitem id="iso124">
+                 <formattedref format="application/x-isodoc+xml">
+                   <em>Standard</em>
+                 </formattedref>
+                 <docidentifier type="metanorma">[<strong>A</strong>.<fn reference="1"><p id="_">hello</p></fn>]</docidentifier>
+                 <docidentifier>XYZ</docidentifier>
+               </bibitem>
+               <p id="_">More text</p>
+             </references>
+             <references id="_" normative="false" obligation="informative">
+               <title>Bibliography 1</title>
+               <bibitem id="iso125">
+                 <formattedref format="application/x-isodoc+xml">
+                   <em>Standard</em>
+                 </formattedref>
+                 <docidentifier type="metanorma">[<strong>A</strong>.<fn reference="1"><p id="_">hello</p></fn>]</docidentifier>
+                 <docidentifier>XYZ</docidentifier>
+               </bibitem>
+             </references>
+           </clause>
+         </bibliography>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+
   private
 
   def mock_isobib_get_123_no_docid(times)
