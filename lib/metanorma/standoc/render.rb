@@ -104,7 +104,8 @@ module Metanorma
       def presentation_xml_converter(node)
         IsoDoc::PresentationXMLConvert
           .new(html_extract_attributes(node)
-          .merge(output_formats: ::Metanorma::Standoc::Processor.new.output_formats)                                )
+          .merge(output_formats: ::Metanorma::Standoc::Processor.new
+          .output_formats))
       end
 
       def default_fonts(node)
