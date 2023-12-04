@@ -19,8 +19,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to xmlpp(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes inline_quoted formatting" do
@@ -74,8 +74,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to xmlpp(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "process mtext spaces" do
@@ -103,8 +103,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to xmlpp(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "properly handles inline substitution" do
@@ -159,8 +159,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to(xmlpp(output))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "normalises inline stem, straight quotes" do
@@ -214,8 +214,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
         </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to(xmlpp(output))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "normalises inline stem, smart quotes" do
@@ -261,8 +261,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
            </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to(xmlpp(output))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "generates desired smart quotes for 'dd'" do
@@ -277,8 +277,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to xmlpp(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes breaks" do
@@ -308,8 +308,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to xmlpp(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes links" do
@@ -322,25 +322,40 @@ RSpec.describe Metanorma::Standoc do
       link:++https://asciidoctor.org/now_this__link_works.html++[]
       http://example.com[Link,update-type=true]
       link:../example[updatetype=true]
+
+      :attribute: http://www.example1.com[]
+      Text
+
+      :attribute: http://www.example2.com[]
+      :attribute2: http://www.example3.com[]
+
+      Text
+      :attribute: http://www.example4.com[]
+
       link:../example[Link,update-type=true]
+
+      {attribute} {attribute2}
     INPUT
     output = <<~OUTPUT
-           #{BLANK_HDR}
-      <sections>
-        <p id="_">mailto:fred@example.com
-      <link target="http://example.com"/>
-      <link target="http://example.com">Link</link>
-      <link target="http://example.com" alt="tip">Link</link>
-      <link target='https://asciidoctor.org/now_this__link_works.html'/>
-      <link target="http://example.com" update-type="true">Link</link>
-      <link target="../example" update-type="true"/>
-      <link target="../example" update-type="true">Link</link></p>
-      </p>
-      </sections>
-      </standard-document>
+      #{BLANK_HDR}
+                    <sections>
+           <p id="_">mailto:fred@example.com
+      <link target="http://example.com"/><link target="http://example.com">Link</link><link target="http://example.com" alt="tip">Link</link><link target="https://asciidoctor.org/now_this__link_works.html"/><link target="http://example.com" update-type="true">Link</link><link target="../example" update-type="true"/></p>
+      <p id="_">Text</p>
+               <p id="_">Text
+      :attribute: <link target="http://www.example4.com"/></p>
+           <p id="_">
+             <link target="../example" update-type="true">Link</link>
+           </p>
+           <p id="_">
+             <link target="http://www.example2.com"/>
+             <link target="http://www.example3.com"/>
+           </p>
+         </sections>
+       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to xmlpp(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes bookmarks" do
@@ -355,8 +370,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to xmlpp(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes crossreferences" do
@@ -411,8 +426,8 @@ RSpec.describe Metanorma::Standoc do
              </sections>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to(xmlpp(output))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "processes crossreferences style" do
@@ -445,8 +460,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to(xmlpp(output))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "processes crossreferences style as document attribute" do
@@ -473,8 +488,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to(xmlpp(output))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "processes formatting within crossreferences" do
@@ -510,8 +525,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to(xmlpp(output))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "processes formatting within crossreferences to non-existent anchor" do
@@ -546,8 +561,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
        </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to(xmlpp(output))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "processes combinations of crossreferences" do
@@ -577,8 +592,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
        </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to(xmlpp(output))
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to(xmlpp(output))
   end
 
   it "processes bibliographic anchors" do
@@ -611,8 +626,8 @@ RSpec.describe Metanorma::Standoc do
       </bibliography>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to xmlpp(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes combinations of bibliographic crossreferences" do
@@ -747,8 +762,8 @@ RSpec.describe Metanorma::Standoc do
         </bibliography>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to xmlpp(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes formatting within bibliographic references" do
@@ -795,8 +810,8 @@ RSpec.describe Metanorma::Standoc do
        </references></bibliography>
        </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to xmlpp(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes citation styles" do
@@ -825,10 +840,10 @@ RSpec.describe Metanorma::Standoc do
       </foreword>
     OUTPUT
     expect(xmlpp(strip_guid(
-                   Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS)).
-                   at("//xmlns:foreword").to_xml,
-                 ))).
-      to be_equivalent_to xmlpp(output)
+                   Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+                   .at("//xmlns:foreword").to_xml,
+                 )))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes formatting within term sources" do
@@ -913,8 +928,8 @@ RSpec.describe Metanorma::Standoc do
        </references></bibliography>
        </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to xmlpp(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes footnotes" do
@@ -955,8 +970,8 @@ RSpec.describe Metanorma::Standoc do
              </clause></sections>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to xmlpp(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes index terms" do
@@ -971,8 +986,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to xmlpp(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes format-specific inline pass" do
@@ -990,8 +1005,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to xmlpp(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes Metanorma XML inline pass" do
@@ -1007,8 +1022,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to xmlpp(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes combinations of crossreferences" do
@@ -1143,7 +1158,7 @@ RSpec.describe Metanorma::Standoc do
         </bibliography>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))).
-      to be_equivalent_to xmlpp(output)
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 end
