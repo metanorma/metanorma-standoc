@@ -20,7 +20,7 @@ module Metanorma
         source.each do |s|
           @anchors[s["bibitemid"]] or
             @log.add("Crossreferences", nil,
-                     "term source #{s['bibitemid']} not referenced")
+                     "term source #{s['bibitemid']} not referenced", severity: 1)
         end
         a = if source.empty? && term.nil? then @i18n.no_terms_boilerplate
             else term_defs_boilerplate_cont(source, term, isodoc)

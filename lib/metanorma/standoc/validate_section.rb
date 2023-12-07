@@ -21,8 +21,7 @@ module Metanorma
         if callouts.size != annotations.size && !annotations.empty?
           err = "mismatch of callouts (#{callouts.size}) and annotations " \
                 "(#{annotations.size})"
-          @log.add("AsciiDoc Input", elem, err)
-          @fatalerror << err
+          @log.add("AsciiDoc Input", elem, err, severity: 0)
         end
       end
 
@@ -58,15 +57,12 @@ module Metanorma
       end
 
       def norm_ref_validate(doc)
-        found = false
         doc.xpath("//references[@normative = 'true']/bibitem").each do |b|
           docid = b.at("./docidentifier[@type = 'metanorma']") or next
           /^\[\d+\]$/.match?(docid.text) or next
           @log.add("Bibliography", b,
-                   "Numeric reference in normative references")
-          found = true
+                   "Numeric reference in normative references", severity: 0)
         end
-        found and @fatalerror << "Numeric reference in normative references"
       end
     end
   end

@@ -114,7 +114,7 @@ module Metanorma
 
       def footnote_block_error(fnote)
         @log.add("Crossreferences", fnote,
-                 "Could not resolve footnoteblock:[#{fnote.text}]")
+                 "Could not resolve footnoteblock:[#{fnote.text}]", severity: 1)
         fnote.children = "[ERROR]"
       end
 

@@ -43,7 +43,7 @@ module Metanorma
           m[i.to_i] = { ref: ref }
           if doc.is_a?(RelatonBib::RequestError)
             @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: " \
-                                          "no access to online site")
+                                          "no access to online site", severity: 1)
           else m[i.to_i][:doc] = doc end
         end
       end
@@ -138,7 +138,7 @@ module Metanorma
         xml
       rescue RelatonBib::RequestError
         @log.add("Bibliography", nil, "Could not retrieve #{code}: " \
-                                      "no access to online site")
+                                      "no access to online site", severity: 1)
         nil
       end
 

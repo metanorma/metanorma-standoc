@@ -153,7 +153,7 @@ module Metanorma
         matched = TERM_REFERENCE_RE.match text
         matched.nil? and @log.add("AsciiDoc Input", node,
                                   "term reference not in expected format:" \
-                                  "#{text}")
+                                  "#{text}", severity: 1)
         matched
       end
 
