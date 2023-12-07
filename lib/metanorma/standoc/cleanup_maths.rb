@@ -29,9 +29,7 @@ module Metanorma
 
       def asciimath2mathml_err(text, expr)
         err = "Malformed MathML: #{expr}\n#{text}"
-        @log.add("Maths", nil, err)
-        @fatalerror << err
-        warn err
+        @log.add("Maths", nil, err, severity: 0)
       end
 
       def asciimath2mathml_wrap(xml)

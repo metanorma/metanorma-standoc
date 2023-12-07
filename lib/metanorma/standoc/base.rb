@@ -19,7 +19,7 @@ module Metanorma
       XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
       FONTS_MANIFEST = "fonts-manifest".freeze
 
-      attr_accessor :log, :fatalerror
+      attr_accessor :log
 
       def xml_root_tag
         self.class::XML_ROOT_TAG
@@ -110,7 +110,6 @@ module Metanorma
                     end
         @localdir = Metanorma::Utils::localdir(node)
         @output_dir = outputdir node
-        @fatalerror = []
       end
 
       def init_i18n(node)
@@ -141,7 +140,7 @@ module Metanorma
         clean_exit
         ret
       rescue StandardError => e
-        @log.add("Fatal Error", nil, e.message)
+        @log.add("Fatal Error", nil, e.message, severity: 0)
         clean_exit
         raise e
       end

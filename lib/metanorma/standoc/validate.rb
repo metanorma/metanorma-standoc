@@ -22,11 +22,14 @@ module Metanorma
         concept_validate(doc, "related", "preferred//name")
         preferred_validate(doc)
         table_validate(doc)
-        @fatalerror += requirement_validate(doc)
+        requirement_validate(doc).each do |e|
+          @log.add("Requirements", nil, e, severity: 0)
+        end
         image_validate(doc)
         math_validate(doc)
-        @fatalerror.empty? or
-          clean_abort(@fatalerror.join("\n"), doc)
+        fatalerrors = @log.abort_messages
+        fatalerrors.empty? or
+          clean_abort(fatalerrors.join("\n"), doc)
       end
 
       MATHML_NS = "http://www.w3.org/1998/Math/MathML".freeze
@@ -53,8 +56,7 @@ module Metanorma
         a and orig += "\n\tAsciimath original: #{@c.decode(a.children.to_xml)}"
         l and orig += "\n\tLatexmath original: #{@c.decode(l.children.to_xml)}"
         @log.add("Mathematics", elem,
-                 "Invalid MathML: #{math}\n #{error}#{orig}")
-        @fatalerror << "Invalid MathML: #{math}"
+                 "Invalid MathML: #{math}\n #{error}#{orig}", severity: 0)
       end
 
       def nested_asset_validate(doc)
@@ -92,7 +94,6 @@ module Metanorma
         err2 = "There is a crossreference to an instance of #{inner.name} " \
                "nested within #{outer.name}: #{i.to_xml}"
         @log.add("Style", i, err2)
-        # @fatalerror << err2
       end
 
       def schema_validate(doc, schema)
@@ -149,8 +150,7 @@ module Metanorma
           Metanorma::Utils::datauri?(i["src"]) and next
           expand_path(i["src"]) and next
           @log.add("Images", i.parent,
-                   "Image not found: #{i['src']}")
-          @fatalerror << "Image not found: #{i['src']}"
+                   "Image not found: #{i['src']}", severity: 0)
         end
       end
 
@@ -189,9 +189,9 @@ module Metanorma
 
       def repeat_id_validate1(elem)
         if @doc_ids[elem["id"]]
-          @log.add("Anchors", elem, "Anchor #{elem['id']} has already been " \
-                                    "used at line #{@doc_ids[elem['id']]}")
-          @fatalerror << "Multiple instances of same ID: #{elem['id']}"
+          @log.add("Anchors", elem,
+                   "Anchor #{elem['id']} has already been " \
+                   "used at line #{@doc_ids[elem['id']]}", severity: 0)
         end
         @doc_ids[elem["id"]] = elem.line
       end
@@ -210,7 +210,7 @@ module Metanorma
           m[x.text] = x
           @doc_ids[x.text] and next
           @log.add("Anchors", x.parent,
-                   "Crossreference target #{x} is undefined")
+                   "Crossreference target #{x} is undefined", severity: 1)
         end
       end
     end

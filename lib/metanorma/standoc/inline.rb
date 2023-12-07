@@ -27,11 +27,12 @@ module Metanorma
 
       def latex_parse1(text, block)
         lxm_input = Unicode2LaTeX.unicode2latex(@c.decode(text))
-        results = Plurimath::Math.parse(lxm_input, "latex").
-          to_mathml(display_style: block)
+        results = Plurimath::Math.parse(lxm_input, "latex")
+          .to_mathml(display_style: block)
         if results.nil?
           @log.add("Math", nil,
-                   "latexmlmath failed to process equation:\n#{lxm_input}")
+                   "latexmlmath failed to process equation:\n#{lxm_input}",
+                   severity: 1)
           return
         end
         results.sub(%r{<math ([^>]+ )?display="block"}, "<math \\1")
@@ -54,8 +55,8 @@ module Metanorma
         latex = latex_parse1(text, block) or
           return xml.stem type: "MathML", block: block
         xml.stem type: "MathML", block: block do |s|
-          math = Nokogiri::XML.fragment(latex.sub(/<\?[^>]+>/, "")).
-            elements[0]
+          math = Nokogiri::XML.fragment(latex.sub(/<\?[^>]+>/, ""))
+            .elements[0]
           math.delete("alttext")
           s.parent.children = math
           s << "<latexmath>#{text}</latexmath>"
@@ -104,8 +105,8 @@ module Metanorma
       end
 
       def hash2styles(role)
-        CSV.parse_line(role, liberal_parsing: true).
-          each_with_object({}) do |r, m|
+        CSV.parse_line(role, liberal_parsing: true)
+          .each_with_object({}) do |r, m|
           kv = r.split(":", 2).map(&:strip)
           case kv[0]
           when "custom-charset"

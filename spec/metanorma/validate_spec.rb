@@ -1264,7 +1264,7 @@ RSpec.describe Metanorma::Standoc do
       .to include "Removed duplicate designation Term1"
   end
 
-  it "warns and aborts if two identical preferred term designations" do
+  it "warns if two identical preferred term designations" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
     begin
@@ -1282,12 +1282,11 @@ RSpec.describe Metanorma::Standoc do
       INPUT
       expect do
         Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
+      end.not_to raise_error(SystemExit)
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
       .to include "Term Term1 occurs twice as preferred designation"
-    expect(File.exist?("test.xml")).to be false
 
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
@@ -1308,12 +1307,11 @@ RSpec.describe Metanorma::Standoc do
       INPUT
       expect do
         Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
+      end.not_to raise_error(SystemExit)
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
       .to include "Term Term1 occurs twice as preferred designation"
-    expect(File.exist?("test.xml")).to be false
   end
 
   private

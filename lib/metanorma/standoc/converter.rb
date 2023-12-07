@@ -114,7 +114,7 @@ module Metanorma
       def skip(node, name = nil)
         name = name || node.node_name
         w = "converter missing for #{name} node in Metanorma backend"
-        @log.add("AsciiDoc Input", node, w)
+        @log.add("AsciiDoc Input", node, w, severity: 1)
         nil
       end
 

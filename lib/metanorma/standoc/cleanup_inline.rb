@@ -212,9 +212,7 @@ module Metanorma
           l["target"] = Addressable::URI.parse(l["target"]).to_s
         rescue Addressable::URI::InvalidURIError
           err = "Malformed URI: #{l['target']}"
-          @log.add("Anchors", l, err)
-          @fatalerror << err
-          warn err
+          @log.add("Anchors", l, err, severity: 0)
         end
       end
 

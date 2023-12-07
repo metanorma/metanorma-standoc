@@ -30,19 +30,16 @@ module Metanorma
         end
         pref.include?(iev.downcase) or
           @log.add("Bibliography", term, %(Term "#{pref[0]}" does not match ) +
-                   %(IEV #{loc} "#{iev}"))
+                   %(IEV #{loc} "#{iev}"), severity: 1)
       end
 
       def concept_validate(doc, tag, refterm)
-        found = false
         concept_validate_ids(doc)
         doc.xpath("//#{tag}/xref").each do |x|
           @concept_ids[x["target"]] and next
-          @log.add("Anchors", x, concept_validate_msg(doc, tag, refterm, x))
-          found = true
+          @log.add("Anchors", x, concept_validate_msg(doc, tag, refterm, x),
+                   severity: 0)
         end
-        found and @fatalerror << "#{tag.capitalize} not cross-referencing " \
-                                 "term or symbol"
       end
 
       def concept_validate_ids(doc)
@@ -80,8 +77,7 @@ module Metanorma
       def preferred_validate_report(terms, locations)
         terms.each do |e|
           err = "Term #{e} occurs twice as preferred designation"
-          @log.add("Terms", locations[e], err)
-          @fatalerror << err
+          @log.add("Terms", locations[e], err, severity: 1)
         end
       end
     end

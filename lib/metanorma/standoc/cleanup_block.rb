@@ -218,7 +218,7 @@ module Metanorma
       def ol_cleanup(doc)
         doc.xpath("//ol[@explicit-type]").each do |x|
           x.delete("explicit-type")
-          @log.add("Bibliography", x,
+          @log.add("Style", x,
                    "Style override set for ordered list")
         end
       end

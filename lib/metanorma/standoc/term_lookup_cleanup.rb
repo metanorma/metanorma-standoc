@@ -112,11 +112,11 @@ module Metanorma
       def remove_missing_ref(node, target)
         if node.at("./parent::concept[@type = 'symbol']")
           log.add("AsciiDoc Input", node,
-                  remove_missing_ref_msg(node, target, :symbol))
+                  remove_missing_ref_msg(node, target, :symbol), severity: 1)
           remove_missing_ref_term(node, target, "symbol")
         else
           log.add("AsciiDoc Input", node,
-                  remove_missing_ref_msg(node, target, :term))
+                  remove_missing_ref_msg(node, target, :term), severity: 1)
           remove_missing_ref_term(node, target, "term")
         end
       end

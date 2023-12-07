@@ -72,8 +72,7 @@ module Metanorma
         mode == "thead_row" and err = "cannot go outside #{tablechild}"
         err = "Table rows in table #{err}: check rowspan"
         if cells2d.any? { |x| x.size != cells2d.first.size }
-          @log.add("Table", table, err)
-          @fatalerror << err
+          @log.add("Table", table, err, severity: 0)
         end
       end
 
@@ -81,9 +80,7 @@ module Metanorma
       def maxcols_check(col, maxcols, tcell)
         if maxcols.positive? && col > maxcols
           @log.add("Table", tcell, "Table exceeds maximum number of columns "\
-                                   "defined (#{maxcols})")
-          @fatalerror << "Table exceeds maximum number of columns defined "\
-                         "(#{maxcols})"
+                                   "defined (#{maxcols})", severity: 0)
         end
       end
     end
