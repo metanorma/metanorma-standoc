@@ -68,6 +68,27 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processed nested macros" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      admitted:[span:category[term1a\]]
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+               <sections>
+           <admitted>
+             <expression>
+               <name>
+                 <span class="category">term1a</span>
+               </name>
+             </expression>
+           </admitted>
+         </sections>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes the Metanorma::Standoc index macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
