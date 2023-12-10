@@ -22,9 +22,7 @@ module Metanorma
         concept_validate(doc, "related", "preferred//name")
         preferred_validate(doc)
         table_validate(doc)
-        requirement_validate(doc).each do |e|
-          @log.add("Requirements", nil, e, severity: 0)
-        end
+        requirement_validate(doc)
         image_validate(doc)
         math_validate(doc)
         fatalerrors = @log.abort_messages
