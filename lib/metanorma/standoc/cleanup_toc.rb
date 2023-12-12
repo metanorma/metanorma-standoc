@@ -78,7 +78,7 @@ module Metanorma
       end
 
       def toc_metadata(xmldoc)
-        @htmltoclevels || @doctoclevels || @toclevels or return
+        @htmltoclevels || @doctoclevels || @pdftoclevels || @toclevels or return
         ins = add_misc_container(xmldoc)
         toc_metadata1(ins)
       end
@@ -86,7 +86,8 @@ module Metanorma
       def toc_metadata1(ins)
         [[@toclevels, "TOC Heading Levels"],
          [@htmltoclevels, "HTML TOC Heading Levels"],
-         [@doctoclevels, "DOC TOC Heading Levels"]].each do |n|
+         [@doctoclevels, "DOC TOC Heading Levels"],
+         [@pdftoclevels, "PDF TOC Heading Levels"]].each do |n|
           n[0] and ins << "<presentation-metadata><name>#{n[1]}</name>" \
                           "<value>#{n[0]}</value></presentation-metadata>"
         end
