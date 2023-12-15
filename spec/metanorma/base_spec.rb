@@ -251,6 +251,7 @@ RSpec.describe Metanorma::Standoc do
       :givenname_2: Barney
       :initials_2: B. X.
       :role_2: editor
+      :role-description_2: consulting editor
       :contributor-credentials_2: PhD, F.R.Pharm.S.
       :contributor-position_2: Former Chair ISO TC 210
       :affiliation_2: Rockhead and Quarry Cave Construction Company
@@ -376,7 +377,9 @@ RSpec.describe Metanorma::Standoc do
                 </person>
               </contributor>
               <contributor>
-                <role type="editor"/>
+                <role type="editor">
+                  <description>consulting editor</description>
+                </role>
                 <person>
                   <name>
                     <forename>Barney</forename>
