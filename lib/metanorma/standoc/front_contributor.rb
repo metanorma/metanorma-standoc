@@ -22,7 +22,12 @@ module Metanorma
 
       def personal_role(node, contrib, suffix)
         type = node.attr("role#{suffix}")&.downcase || "author"
-        contrib.role type: type
+        desc = node.attr("role-description#{suffix}")
+        contrib.role type: type do |r|
+          desc and r.description do |d|
+            d << desc
+          end
+        end
       end
 
       def personal_contact(node, suffix, person)
