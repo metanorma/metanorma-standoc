@@ -87,18 +87,22 @@ module Metanorma
       end
 
       def init_toc(node)
-        @htmltoclevels = node.attr("htmltoclevels") ||
+        @htmltoclevels = node.attr("toclevels-html") ||
+          node.attr("htmltoclevels") ||
           node.attr("toclevels") || toc_default[:html_levels]
-        @doctoclevels = node.attr("doctoclevels") ||
-          node.attr("toclevels") || toc_default[:word_levels]
-        @toclevels = node.attr("toclevels") || toc_default[:word_levels]
+        @doctoclevels = node.attr("toclevels-doc") ||
+          node.attr("doctoclevels") || node.attr("toclevels") ||
+          toc_default[:word_levels]
+        @pdftoclevels = node.attr("toclevels-pdf") ||
+          node.attr("toclevels") || toc_default[:pdf_levels]
+        @toclevels = node.attr("toclevels") || toc_default[:html_levels]
         @tocfigures = node.attr("toc-figures")
         @toctables = node.attr("toc-tables")
         @tocrecommendations = node.attr("toc-recommendations")
       end
 
       def toc_default
-        { word_levels: 2, html_levels: 2 }
+        { word_levels: 2, html_levels: 2, pdf_levels: 2 }
       end
 
       def init_output(node)

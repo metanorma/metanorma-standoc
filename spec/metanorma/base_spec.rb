@@ -278,8 +278,10 @@ RSpec.describe Metanorma::Standoc do
       :isbn10: ISBN-10
       :classification: a:b, c
       :toclevels: 2
-      :doctoclevels: 3
-      :htmltoclevels: 4
+      :toclevels-doc: 3
+      :toclevels-html: 4
+      :toclevels-pdf: 5
+
     INPUT
     output = <<~OUTPUT
                   <?xml version="1.0" encoding="UTF-8"?>
@@ -514,6 +516,10 @@ RSpec.describe Metanorma::Standoc do
              <name>DOC TOC Heading Levels</name>
              <value>3</value>
            </presentation-metadata>
+           <presentation-metadata>
+              <name>PDF TOC Heading Levels</name>
+              <value>5</value>
+          </presentation-metadata>
          </metanorma-extension>
               <sections/>
               </standard-document>
@@ -566,6 +572,9 @@ RSpec.describe Metanorma::Standoc do
       :semantic-metadata-hello: what-not
       :presentation-metadata-hello: Hello?
       :presentation-metadata-Manifold: "hello, world","yes"
+      :toclevels: 2
+      :doctoclevels: 3
+      :htmltoclevels: 4
 
       [abstract]
       == Abstract
@@ -734,10 +743,14 @@ RSpec.describe Metanorma::Standoc do
         </presentation-metadata>
         <presentation-metadata>
           <name>HTML TOC Heading Levels</name>
-          <value>2</value>
+          <value>4</value>
         </presentation-metadata>
         <presentation-metadata>
           <name>DOC TOC Heading Levels</name>
+          <value>3</value>
+        </presentation-metadata>
+        <presentation-metadata>
+          <name>PDF TOC Heading Levels</name>
           <value>2</value>
         </presentation-metadata>
       </metanorma-extension>
@@ -950,6 +963,10 @@ RSpec.describe Metanorma::Standoc do
            </presentation-metadata>
            <presentation-metadata>
              <name>DOC TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>PDF TOC Heading Levels</name>
              <value>2</value>
            </presentation-metadata>
          </metanorma-extension>
