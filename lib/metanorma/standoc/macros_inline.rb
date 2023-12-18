@@ -52,25 +52,32 @@ module Metanorma
       use_dsl
       named :ruby
       parse_content_as :text
-      option :pos_attrs, %w(rpbegin rt rpend)
 
-      # for example, html5ruby:楽聖少女[がくせいしょうじょ]
-      def process(_parent, target, attributes)
-        rpbegin = "("
-        rpend = ")"
-        if (attributes.size == 1) && attributes.key?("text")
-          rt = attributes["text"]
-        elsif (attributes.size == 2) && attributes.key?(1) &&
-            attributes.key?("rpbegin")
-          rt = attributes[1] || ""
-        else
-          rpbegin = attributes["rpbegin"]
-          rt = attributes["rt"]
-          rpend = attributes["rpend"]
+      # ruby:{annotation}[lang=ja,script=Hira,type=pronunciation|annotation,text]
+
+      def preprocess_attrs(text)
+        ret = {}
+        while m = /^(?<key>lang|script|type)=(?<val>[^,]+),(?<rest>.+)$/
+            .match(text)
+          text = m[:rest]
+          ret[m[:key].to_sym] = m[:val]
         end
+        ret[:text] = text
+        ret[:type] ||= "pronunciation"
+        ret[:type] == "annotation" or ret[:type] = "pronunciation"
+        ret
+      end
 
-        "<ruby>#{target}<rp>#{rpbegin}</rp><rt>#{rt}</rt>" \
-          "<rp>#{rpend}</rp></ruby>"
+      def process(parent, target, attributes)
+        args = preprocess_attrs(attributes["text"])
+        out = Nokogiri::XML(
+          create_block(parent, :paragraph, [args[:text]], {},
+                       subs: [:macros], content_model: :simple).convert,
+        ).root.children.to_xml # force recurse macros
+        attrs = " value='#{target}'"
+        x = args[:lang] and attrs += " lang='#{x}'"
+        x = args[:script] and attrs += " script='#{x}'"
+        "<ruby><#{args[:type]} #{attrs}/>#{out}</ruby>"
       end
     end
 
