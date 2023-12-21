@@ -379,17 +379,52 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "processes the Ruby markups" do
+  it "processes simple Ruby markup" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
-      ruby:楽聖少女[がくせいしょうじょ]
+      ruby:とうきょう[東京]
+      ruby:とうきょう[lang=ja,script=Hira,type=pronunciation,東京]
+      ruby:Tōkyō[type=phonetic,script=Latn,東京]
+      ruby:ライバル[type=annotation,親友]
+      ruby:とう[東] ruby:きょう[京]
+      ruby:Tō[script=Latn,東]ruby:kyō[script=Latn,京]
     INPUT
     output = <<~OUTPUT
            #{BLANK_HDR}
            <sections>
              <p id="_">
-             <ruby>楽聖少女<rp>(</rp><rt>がくせいしょうじょ</rt><rp>)</rp></ruby>
+             <ruby><pronunciation value="とうきょう"/>東京</ruby>
+             <ruby><pronunciation value="とうきょう" lang="ja" script="Hira"/>東京</ruby>
+             <ruby><pronunciation value="Tōkyō" script="Latn"/>東京</ruby>
+             <ruby><annotation value="ライバル"/>親友</ruby>
+             <ruby><pronunciation value="とう"/>東</ruby> <ruby><pronunciation value="きょう"/>京</ruby>
+             <ruby><pronunciation value="Tō" script="Latn"/>東</ruby><ruby><pronunciation value="kyō" script="Latn"/>京</ruby>
+           </p>
+           </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes complex Ruby markup" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      ruby:とう[ruby:tou[東\\]] ruby:なん[ruby:nan[南\\]] の方角
+      ruby:たつみ[ruby:とう[東\\]{blank}ruby:なん[南\\]]
+      ruby:プロテゴ[ruby:まも[護\\]{blank}れ]!
+      ruby:プロテゴ[れ{blank}ruby:まも[護\\]]!
+    INPUT
+    output = <<~OUTPUT
+           #{BLANK_HDR}
+           <sections>
+             <p id="_">
+             <ruby><pronunciation value="とう"/><ruby><pronunciation value="tou"/>東</ruby></ruby> <ruby><pronunciation value="なん"/><ruby><pronunciation value="nan"/>南</ruby></ruby> の方角
+             <ruby><pronunciation value="たつみ"/><ruby><pronunciation value="とう"/>東</ruby><ruby><pronunciation value="なん"/>南</ruby></ruby>
+             <ruby><pronunciation value="プロテゴ"/><ruby><pronunciation value="まも"/>護</ruby>れ</ruby>!
+             <ruby><pronunciation value="プロテゴ"/>れ<ruby><pronunciation value="まも"/>護</ruby></ruby>!</p>
            </p>
            </sections>
       </standard-document>
