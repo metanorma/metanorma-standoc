@@ -795,10 +795,10 @@ RSpec.describe Metanorma::Standoc do
             <math xmlns="http://www.w3.org/1998/Math/MathML">
               <mstyle displaystyle="false">
                 <mstyle mathvariant="sans-serif">
-                  <mrow xref="U_NISTu7">
-                    <mi mathvariant="sans-serif">cd</mi>
-                  </mrow>
-                </mstyle>
+                   <mstyle mathvariant="sans-serif">
+                     <mi>cd</mi>
+                   </mstyle>
+                 </mstyle>
               </mstyle>
             </math>
             <asciimath>sf "unitsml(cd)"</asciimath>
