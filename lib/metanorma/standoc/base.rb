@@ -1,13 +1,11 @@
 require "date"
 require "nokogiri"
 require "htmlentities"
-require "json"
 require "pathname"
 require "isodoc"
 require "relaton"
 require "fileutils"
 require "metanorma-utils"
-require "isodoc/xslfo_convert"
 require_relative "render"
 require_relative "localbib"
 require "mn-requirements"
@@ -80,8 +78,8 @@ module Metanorma
       end
 
       def init_reqt(node)
-        @default_requirement_model = (node.attr("requirements-model") ||
-                                        default_requirement_model)
+        @default_requirement_model = node.attr("requirements-model") ||
+          default_requirement_model
         @reqt_models = requirements_processor
           .new({ default: @default_requirement_model })
       end
@@ -117,9 +115,9 @@ module Metanorma
       end
 
       def init_i18n(node)
-        @lang = (node.attr("language") || "en")
-        @script = (node.attr("script") ||
-                   Metanorma::Utils.default_script(node.attr("language")))
+        @lang = node.attr("language") || "en"
+        @script = node.attr("script") ||
+          Metanorma::Utils.default_script(node.attr("language"))
         @locale = node.attr("locale")
         @isodoc = isodoc(@lang, @script, @locale, node.attr("i18nyaml"))
         @i18n = @isodoc.i18n

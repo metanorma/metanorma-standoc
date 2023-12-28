@@ -29,6 +29,10 @@ module Metanorma
             f << p.gsub(/ \+\n/, "<br/>")
           end
         end
+        org_contact(org, xml)
+      end
+
+      def org_contact(org, xml)
         p = org[:phone] and xml.phone p
         p = org[:fax] and xml.phone p, type: "fax"
         p = org[:email] and xml.email p
