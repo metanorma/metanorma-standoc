@@ -144,8 +144,8 @@ module Metanorma
 
       def image_exists(doc)
         doc.xpath("//image").each do |i|
-          Metanorma::Utils::url?(i["src"]) and next
-          Metanorma::Utils::datauri?(i["src"]) and next
+          Vectory::Utils::url?(i["src"]) and next
+          Vectory::Utils::datauri?(i["src"]) and next
           expand_path(i["src"]) and next
           @log.add("Images", i.parent,
                    "Image not found: #{i['src']}", severity: 0)
@@ -161,9 +161,9 @@ module Metanorma
 
       def png_validate(doc)
         doc.xpath("//image[@mimetype = 'image/png']").each do |i|
-          Metanorma::Utils::url?(i["src"]) and next
-          decoded = if Metanorma::Utils::datauri?(i["src"])
-                      Metanorma::Utils::decode_datauri(i["src"])[:data]
+          Vectory::Utils::url?(i["src"]) and next
+          decoded = if Vectory::Utils::datauri?(i["src"])
+                      Vectory::Utils::decode_datauri(i["src"])[:data]
                     else
                       path = expand_path(i["src"]) or next
                       File.binread(path)

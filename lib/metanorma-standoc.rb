@@ -4,6 +4,7 @@ require_relative "metanorma/standoc/converter"
 require_relative "metanorma/standoc/version"
 require "asciidoctor/extensions"
 require "metanorma"
+require "vectory"
 
 if defined? Metanorma::Registry
   require_relative "metanorma/standoc"

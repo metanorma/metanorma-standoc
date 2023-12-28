@@ -44,6 +44,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "relaton-cli", "~> 1.17.0"
   spec.add_dependency "relaton-iev", "~> 1.1.5"
   spec.add_dependency "unicode2latex", "~> 0.0.1"
+  spec.add_dependency "vectory", "~> 0.5"
 
   spec.add_development_dependency "debug"
   spec.add_development_dependency "equivalent-xml", "~> 0.6"
