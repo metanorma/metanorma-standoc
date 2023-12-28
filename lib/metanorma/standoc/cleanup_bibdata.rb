@@ -122,6 +122,116 @@ module Metanorma
             .each { |x| x << ident.text }
         end
       end
+
+      def ext_contributor_cleanup(xmldoc)
+        t = xmldoc.xpath("//metanorma-extension/clause/title").detect do |x|
+          x.text.strip.casecmp("contributor metadata").zero?
+        end or return
+        a = t.at("../sourcecode") or return
+        ins = xmldoc.at("//bibdata/contributor[last()]")
+        ext_contributors_process(YAML.safe_load(a.text), ins)
+      end
+
+      def ext_contributors_process(yaml, ins)
+        yaml.is_a?(Hash) and yaml = [yaml]
+        yaml.reverse.each { |y| ext_contributor_process(y, ins) }
+      end
+
+      def ext_contributor_process(yaml, ins)
+        ret = ext_contributor_role(yaml)
+        ret += ext_contributor_name(yaml)
+        ret += ext_contributor_credentials(yaml)
+        ret += ext_contributor_affiliations(yaml)
+        ret += ext_contributor_contact(yaml)
+        ins.next = "<contributor>#{ret}</contributor>"
+      end
+
+      def extract(key, tag, yaml)
+        a = yaml[key] and return "<#{tag}>#{a}</#{tag}>"
+        ""
+      end
+
+      def ext_contributor_role(yaml)
+        a = yaml["role"] || "author"
+        "<role type='#{a}'>#{yaml['description']}</role>"
+      end
+
+      def ext_contributor_name(yaml)
+        ret = extract("fullname", "completename", yaml)
+        if ret.empty?
+          ret = extract("givenname", "forename", yaml)
+          ret += extract("initials", "initial", yaml)
+          ret += extract("surname", "surname", yaml)
+        end
+        "<name>#{ret}</name>"
+      end
+
+      def ext_contributor_credentials(yaml)
+        extract("contributor-credentials", "credentials", yaml)
+      end
+
+      def ext_contributor_affiliations(yaml)
+        x = yaml["affiliations"] or return ""
+        x.is_a?(Hash) and x = [x]
+        x.map do |a|
+          ext_contributor_affiliation(a)
+        end.join("\n")
+      end
+
+      def ext_contributor_affiliation(yaml)
+        ret = extract("contributor-position", "name", yaml)
+        ret += ext_contributor_org(yaml)
+        ret.empty? and return ""
+        "<affiliation>#{ret}</affiliation>"
+      end
+
+      def ext_contributor_org(yaml)
+        ret = extract("affiliation", "name", yaml)
+        ret += extract("affiliation_abbrev", "abbreviation", yaml)
+        ret += extract("affiliation_subdiv", "subdivision", yaml)
+        ret += ext_contributor_contact(yaml)
+        ret += ext_contributor_logo(yaml)
+        ret.empty? and return ""
+        "<organization>#{ret}</organization>"
+      end
+
+      def ext_contributor_contact(yaml)
+        ret = ext_contributor_address(yaml)
+        ret += ext_contributor_phone(yaml)
+        ret += ext_contributor_email(yaml)
+        ret += ext_contributor_uri(yaml)
+        ret
+      end
+
+      def ext_contributor_address(yaml)
+        ret = extract("address", "formattedAddress", yaml)
+        if ret.empty?
+          %w(street city state country postcode).each do |k|
+            ret += extract(k, k, yaml)
+          end
+        end
+        ret.empty? and return ""
+        "<address>#{ret}</address>"
+      end
+
+      def ext_contributor_phone(yaml)
+        ret = extract("phone", "phone", yaml)
+        a = yaml["fax"] and ret += "<phone type='fax'>#{a}</phone>"
+        ret
+      end
+
+      def ext_contributor_email(yaml)
+        extract("email", "email", yaml)
+      end
+
+      def ext_contributor_uri(yaml)
+        extract("contributor-uri", "uri", yaml)
+      end
+
+      def ext_contributor_logo(yaml)
+        a = yaml["affiliation_logo"] or return ""
+        "<logo><image src='#{a}'/></logo>"
+      end
     end
   end
 end
