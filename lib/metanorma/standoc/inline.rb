@@ -124,7 +124,7 @@ module Metanorma
         if Gem.win_platform? && /^\/[a-zA-Z]:/.match?(uri)
           uri = uri[1..-1]
         end
-        types = if /^data:/.match?(uri) then Metanorma::Utils::datauri2mime(uri)
+        types = if /^data:/.match?(uri) then Vectory::Utils::datauri2mime(uri)
                 else MIME::Types.type_for(uri)
                 end
         type = types.first.to_s

@@ -5,7 +5,7 @@ module Metanorma
         svg_uniqueids(xmldoc)
         svgmap_moveattrs(xmldoc)
         svgmap_populate(xmldoc)
-        Metanorma::Utils::svgmap_rewrite(xmldoc, @localdir)
+        Vectory::SvgMapping.new(xmldoc, @localdir).call
       end
 
       def guid?(str)
@@ -64,7 +64,7 @@ module Metanorma
           xmldoc.xpath("//image").each do |i|
             # do not datauri encode SVG, we need to deduplicate its IDs
             unless read_in_if_svg(i, @localdir)
-              i["src"] = Metanorma::Utils::datauri(i["src"], @localdir)
+              i["src"] = Vectory::Utils::datauri(i["src"], @localdir)
             end
           end
         end
@@ -75,7 +75,7 @@ module Metanorma
       def read_in_if_svg(img, localdir)
         return false unless img["src"]
 
-        path = Metanorma::Utils::svgmap_rewrite0_path(img["src"], localdir)
+        path = Vectory::Utils.svgmap_rewrite0_path(img["src"], localdir)
         File.file?(path) or return false
         types = MIME::Types.type_for(path) or return false
         types.first == "image/svg+xml" or return false
