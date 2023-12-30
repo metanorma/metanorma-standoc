@@ -1154,7 +1154,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "makes blocks unnumbered" do
     input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR.sub(":nodoc:", ":block-unnumbered: sourcecode , literal\n:nodoc:")}
+      #{ASCIIDOC_BLANK_HDR.sub(':nodoc:', ":block-unnumbered: sourcecode , literal\n:nodoc:")}
 
       == Clause 1
 

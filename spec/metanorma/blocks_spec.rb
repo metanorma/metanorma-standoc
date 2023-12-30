@@ -1297,19 +1297,31 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "accepts auto for width and height attributes on images" do
+  it "accepts auto, float and percent values for width and height attributes on images" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
-      [height=4,width=auto]
+      [height=4.3,width=auto]
+      image::spec/examples/rice_images/rice_image1.png[]
+
+      [height=auto,width=9.3%]
+      image::spec/examples/rice_images/rice_image1.png[]
+
+      [height=9.3%,width=9%]
       image::spec/examples/rice_images/rice_image1.png[]
 
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-              <sections>
+       <sections>
          <figure id="_">
-         <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="4" width="auto"/>
-       </figure>
+            <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="4.3" width="auto"/>
+          </figure>
+         <figure id="_">
+            <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="9.3%"/>
+          </figure>
+         <figure id="_">
+            <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="9.3%" width="9%"/>
+          </figure>
        </sections>
        </standard-document>
     OUTPUT
@@ -1322,11 +1334,14 @@ RSpec.describe Metanorma::Standoc do
       #{ASCIIDOC_BLANK_HDR}
       Hello image:spec/examples/rice_images/rice_image1.png[alt, 4, 3], how are you?
 
+      Hello image:spec/examples/rice_images/rice_image1.png[alt, 4.9, 3.4%], how are you?
+
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
               <sections>
           <p id="_">Hello <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="3" width="4" alt="alt"/>, how are you?</p>
+          <p id="_">Hello <image src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" id="_" height="3.4%" width="4.9" alt="alt"/>, how are you?</p>
        </sections>
        </standard-document>
     OUTPUT
