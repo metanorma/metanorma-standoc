@@ -1461,6 +1461,10 @@ A
       value: 2016-03-31
   amend:
      description: "Implementation of CEN/CENELEC correction notice March 2016: Annexes ZA, ZB and ZC updated"
+     location: 
+       - annex=ZA
+       - annex=ZB
+       - annex=ZC
 - date:
     - type: published
       value: 2017-01-31
@@ -1473,6 +1477,131 @@ A
   amend:
      description: >
        Implementation of CEN/CENELEC amendment A11:2021: European foreword and Annexes ZA and ZB revised, and Annex ZC removed. National Annex NZ added, and Amendments/corrigenda issued since publication table corrected
+- date:
+  - type: published
+    value: 1976-03
+  docid:
+    - type: BSI
+      id: BS 5500
+  edition: 1
+- date:
+  - type: published
+    value: 1982-01
+  docid:
+    - type: BSI
+      id: BS 5500
+  edition: 2
+- date:
+  - type: published
+    value: 1985-01
+  docid:
+    - type: BSI
+      id: BS 5500
+  edition: 3
+- date:
+  - type: published
+    value: 1988-01
+  docid:
+    - type: BSI
+      id: BS 5500
+  edition: 4
+- date:
+  - type: published
+    value: 1991-01
+  docid:
+    - type: BSI
+      id: BS 5500
+  edition: 5
+- date:
+  - type: published
+    value: 1994-01
+  docid:
+    - type: BSI
+      id: BS 5500
+  edition: 6
+- date:
+  - type: published
+    value: 1997-01
+  docid:
+    - type: BSI
+      id: BS 5500
+  edition: 7
+- date:
+  - type: published
+    value: 2000-01
+  docid:
+    - type: BSI
+      id: PD 5500
+  edition: 1
+- date:
+  - type: published
+    value: 2003-01
+  docid:
+    - type: BSI
+      id: PD 5500
+  edition: 2
+- date:
+  - type: published
+    value: 2006-01
+  docid:
+    - type: BSI
+      id: PD 5500
+  edition: 3
+- date:
+  - type: published
+    value: 2009-01
+  docid:
+    - type: BSI
+      id: PD 5500
+  edition: 4
+- date:
+  - type: published
+    value: 2012-01
+  docid:
+    - type: BSI
+      id: PD 5500
+  edition: 5
+- date:
+  - type: published
+    value: 2015-01
+  docid:
+    - type: BSI
+      id: PD 5500
+  edition: 6
+- date:
+  - type: published
+    value: 2018-01
+  docid:
+    - type: BSI
+      id: PD 5500
+  edition: 7
+- date:
+  - type: published
+    value: 2021-01
+  docid:
+    - type: BSI
+      id: PD 5500
+  edition: 8
+- date:
+  - type: updated
+    value: 2021-09
+  - type: implemented
+    value: 2022-01
+  docid:
+    - type: BSI
+      id: Amendment 1, tagged
+  amend:
+    description: SEE FOREWORD
+- date:
+  - type: updated
+    value: 2022-09
+  - type: implemented
+    value: 2023-01
+  docid:
+    - type: BSI
+      id: Amendment 2, tagged
+  amend:
+    description: SEE FOREWORD
 ----
       INPUT
       output = <<~OUTPUT
@@ -1567,6 +1696,23 @@ A
                <description>
                  <p id="_">Implementation of CEN/CENELEC correction notice March 2016: Annexes ZA, ZB and ZC updated</p>
                </description>
+                       <location>
+          <localityStack>
+            <locality type="annex">
+              <referenceFrom>ZA</referenceFrom>
+            </locality>
+          </localityStack>
+          <localityStack>
+            <locality type="annex">
+              <referenceFrom>ZB</referenceFrom>
+            </locality>
+          </localityStack>
+          <localityStack>
+            <locality type="annex">
+              <referenceFrom>ZC</referenceFrom>
+            </locality>
+          </localityStack>
+        </location>
              </amend>
            </bibitem>
          </relation>
@@ -1594,12 +1740,179 @@ A
              </amend>
            </bibitem>
          </relation>
+                  <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">BS 5500</docidentifier>
+             <date type="published">
+               <on>1976-03</on>
+             </date>
+             <edition>1</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">BS 5500</docidentifier>
+             <date type="published">
+               <on>1982-01</on>
+             </date>
+             <edition>2</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">BS 5500</docidentifier>
+             <date type="published">
+               <on>1985-01</on>
+             </date>
+             <edition>3</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">BS 5500</docidentifier>
+             <date type="published">
+               <on>1988-01</on>
+             </date>
+             <edition>4</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">BS 5500</docidentifier>
+             <date type="published">
+               <on>1991-01</on>
+             </date>
+             <edition>5</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">BS 5500</docidentifier>
+             <date type="published">
+               <on>1994-01</on>
+             </date>
+             <edition>6</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">BS 5500</docidentifier>
+             <date type="published">
+               <on>1997-01</on>
+             </date>
+             <edition>7</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">PD 5500</docidentifier>
+             <date type="published">
+               <on>2000-01</on>
+             </date>
+             <edition>1</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">PD 5500</docidentifier>
+             <date type="published">
+               <on>2003-01</on>
+             </date>
+             <edition>2</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">PD 5500</docidentifier>
+             <date type="published">
+               <on>2006-01</on>
+             </date>
+             <edition>3</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">PD 5500</docidentifier>
+             <date type="published">
+               <on>2009-01</on>
+             </date>
+             <edition>4</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">PD 5500</docidentifier>
+             <date type="published">
+               <on>2012-01</on>
+             </date>
+             <edition>5</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">PD 5500</docidentifier>
+             <date type="published">
+               <on>2015-01</on>
+             </date>
+             <edition>6</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">PD 5500</docidentifier>
+             <date type="published">
+               <on>2018-01</on>
+             </date>
+             <edition>7</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">PD 5500</docidentifier>
+             <date type="published">
+               <on>2021-01</on>
+             </date>
+             <edition>8</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">Amendment 1, tagged</docidentifier>
+             <date type="updated">
+               <on>2021-09</on>
+             </date>
+             <date type="implemented">
+               <on>2022-01</on>
+             </date>
+             <amend>
+               <description>
+                 <p id="_">SEE FOREWORD</p>
+               </description>
+             </amend>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">Amendment 2, tagged</docidentifier>
+             <date type="updated">
+               <on>2022-09</on>
+             </date>
+             <date type="implemented">
+               <on>2023-01</on>
+             </date>
+             <amend>
+               <description>
+                 <p id="_">SEE FOREWORD</p>
+               </description>
+             </amend>
+           </bibitem>
+         </relation>
          <ext>
            <doctype>standard</doctype>
          </ext>
        </bibdata>
       OUTPUT
-      ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     expect(xmlpp(strip_guid(ret.at("//xmlns:bibdata").to_xml)))
       .to be_equivalent_to(xmlpp(output))
   end

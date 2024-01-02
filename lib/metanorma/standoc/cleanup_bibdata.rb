@@ -182,6 +182,7 @@ module Metanorma
       end
 
       def amend_hash2mn(yaml)
+        yaml.nil? and return ""
         yaml.is_a?(Hash) and yaml = [yaml]
         yaml.map { |x| amend_hash2mn1(x) }.join("\n")
       end
@@ -204,9 +205,13 @@ module Metanorma
 
       def amend_location(yaml)
         a = yaml["location"] or return ""
-        elem = Nokogiri::XML("<location>#{a}</location>").root
-        extract_localities(elem)
-        elem.to_xml
+        a.is_a?(Array) or a = [a]
+        ret = a.map do |x|
+          elem = Nokogiri::XML("<location>#{x}</location>").root
+          extract_localities(elem)
+          elem.children.to_xml
+        end.join("\n")
+        "<location>#{ret}</location>"
       end
 
       def amend_description(yaml)
