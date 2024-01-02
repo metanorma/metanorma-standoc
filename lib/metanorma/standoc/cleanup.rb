@@ -72,6 +72,7 @@ module Metanorma
         script_cleanup(xmldoc)
         docidentifier_cleanup(xmldoc) # feeds: bibdata_cleanup
         ext_contributor_cleanup(xmldoc) # feeds: bibdata_cleanup
+        ext_dochistory_cleanup(xmldoc) # feeds: bibdata_cleanup
         bibdata_cleanup(xmldoc)
         svgmap_cleanup(xmldoc) # feeds: img_cleanup
         boilerplate_cleanup(xmldoc)
