@@ -199,7 +199,7 @@ module Metanorma
         ret = amend_attrs(yaml)
         ret += amend_description(yaml)
         ret += amend_location(yaml)
-        ret += amend_keywords(yaml)
+        ret += amend_classification(yaml)
         "#{ret}</amend>"
       end
 
@@ -220,10 +220,15 @@ module Metanorma
         "<description>#{out.children.to_xml}</description>"
       end
 
-      def amend_keywords(yaml)
-        a = yaml["keyword"] or return ""
+      def amend_classification(yaml)
+        a = yaml["classification"] or return ""
         a.is_a?(Array) or a = [a]
-        a.map { |x| "<keyword>#{x}</keyword>" }.join("\n")
+        a.map { |x| amend_classification1(x) }.join("\n")
+      end
+
+      def amend_classification1(yaml)
+        yaml.is_a?(Hash) or yaml = { "tag" => "default", "value" => yaml }
+        "<tag>#{yaml['tag']}</tag><value>#{yaml['value']}</value>"
       end
     end
   end

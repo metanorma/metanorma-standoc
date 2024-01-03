@@ -1409,203 +1409,212 @@ RSpec.describe Metanorma::Standoc do
 
   it "reads document history from YAML" do
     input = <<~INPUT
-= X
-A
-:corrected-date: 2022-10
-:no-pdf:
-:fullname: Author One
-:novalid:
-:stem:
+      = X
+      A
+      :corrected-date: 2022-10
+      :no-pdf:
+      :fullname: Author One
+      :novalid:
+      :stem:
 
-[.preface]
-== misc-container
+      [.preface]
+      == misc-container
 
-=== document history
+      === document history
 
-[source,yaml]
-----
-- date:
-    - type: published
-      value: 2016-05
-  docid: 
-      type: BSI
-      id: A1
-  amend:
-     description: see Foreword  
-- date:
-    - type: published
-      value: 2016-08
-  docid: 
-      type: BSI
-      id: C1
-  amend:
-     description: see Foreword  
-- date:
-    - type: published
-      value: 2019-01
-  docid: 
-      type: BSI
-      id: A2
-  amend:
-     description: see Foreword  
-- date:
-    - type: published
-      value: 2020-06
-  docid: 
-      type: BSI
-      id: C2
-  amend:
-     location: table=A.4;table=A.5  
-- date:
-    - type: published
-      value: 2016-03-31
-  amend:
-     description: "Implementation of CEN/CENELEC correction notice March 2016: Annexes ZA, ZB and ZC updated"
-     location: 
-       - annex=ZA
-       - annex=ZB
-       - annex=ZC
-- date:
-    - type: published
-      value: 2017-01-31
-  amend:
-     description: "Implementation of CEN/CENELEC corrigendum December 2016: European foreword and Annexes ZA, ZB and ZC corrected"
-- date:
-    - type: published
-      value: 2021-09-30
-  relation.type: merges
-  amend:
-     description: >
-       Implementation of CEN/CENELEC amendment A11:2021: European foreword and Annexes ZA and ZB revised, and Annex ZC removed. National Annex NZ added, and Amendments/corrigenda issued since publication table corrected
-- date:
-  - type: published
-    value: 1976-03
-  docid:
-    - type: BSI
-      id: BS 5500
-  edition: 1
-- date:
-  - type: published
-    value: 1982-01
-  docid:
-    - type: BSI
-      id: BS 5500
-  edition: 2
-- date:
-  - type: published
-    value: 1985-01
-  docid:
-    - type: BSI
-      id: BS 5500
-  edition: 3
-- date:
-  - type: published
-    value: 1988-01
-  docid:
-    - type: BSI
-      id: BS 5500
-  edition: 4
-- date:
-  - type: published
-    value: 1991-01
-  docid:
-    - type: BSI
-      id: BS 5500
-  edition: 5
-- date:
-  - type: published
-    value: 1994-01
-  docid:
-    - type: BSI
-      id: BS 5500
-  edition: 6
-- date:
-  - type: published
-    value: 1997-01
-  docid:
-    - type: BSI
-      id: BS 5500
-  edition: 7
-- date:
-  - type: published
-    value: 2000-01
-  docid:
-    - type: BSI
-      id: PD 5500
-  edition: 1
-- date:
-  - type: published
-    value: 2003-01
-  docid:
-    - type: BSI
-      id: PD 5500
-  edition: 2
-- date:
-  - type: published
-    value: 2006-01
-  docid:
-    - type: BSI
-      id: PD 5500
-  edition: 3
-- date:
-  - type: published
-    value: 2009-01
-  docid:
-    - type: BSI
-      id: PD 5500
-  edition: 4
-- date:
-  - type: published
-    value: 2012-01
-  docid:
-    - type: BSI
-      id: PD 5500
-  edition: 5
-- date:
-  - type: published
-    value: 2015-01
-  docid:
-    - type: BSI
-      id: PD 5500
-  edition: 6
-- date:
-  - type: published
-    value: 2018-01
-  docid:
-    - type: BSI
-      id: PD 5500
-  edition: 7
-- date:
-  - type: published
-    value: 2021-01
-  docid:
-    - type: BSI
-      id: PD 5500
-  edition: 8
-- date:
-  - type: updated
-    value: 2021-09
-  - type: implemented
-    value: 2022-01
-  docid:
-    - type: BSI
-      id: Amendment 1, tagged
-  amend:
-    description: SEE FOREWORD
-- date:
-  - type: updated
-    value: 2022-09
-  - type: implemented
-    value: 2023-01
-  docid:
-    - type: BSI
-      id: Amendment 2, tagged
-  amend:
-    description: SEE FOREWORD
-----
-      INPUT
-      output = <<~OUTPUT
-             <bibdata type="standard">
+      [source,yaml]
+      ----
+      - date:
+          - type: published
+            value: 2016-05
+        docid:
+            type: BSI
+            id: A1
+        amend:
+           description: see Foreword
+      - date:
+          - type: published
+            value: 2016-08
+        docid:
+            type: BSI
+            id: C1
+        amend:
+           description: see Foreword
+      - date:
+          - type: published
+            value: 2019-01
+        docid:
+            type: BSI
+            id: A2
+        amend:
+           description: see Foreword
+           classification: editorial
+      - date:
+          - type: published
+            value: 2020-06
+        docid:
+            type: BSI
+            id: C2
+        amend:
+           location: table=A.4;table=A.5
+           classification:
+             tag: type
+             value: editorial
+      - date:
+          - type: published
+            value: 2016-03-31
+        amend:
+           description: "Implementation of CEN/CENELEC correction notice March 2016: Annexes ZA, ZB and ZC updated"
+           classification:
+             - tag: type
+               value: editorial
+             - tag: impact
+               value: major
+           location:
+             - annex=ZA
+             - annex=ZB
+             - annex=ZC
+      - date:
+          - type: published
+            value: 2017-01-31
+        amend:
+           description: "Implementation of CEN/CENELEC corrigendum December 2016: European foreword and Annexes ZA, ZB and ZC corrected"
+      - date:
+          - type: published
+            value: 2021-09-30
+        relation.type: merges
+        amend:
+           description: >
+             Implementation of CEN/CENELEC amendment A11:2021: European foreword and Annexes ZA and ZB revised, and Annex ZC removed. National Annex NZ added, and Amendments/corrigenda issued since publication table corrected
+      - date:
+        - type: published
+          value: 1976-03
+        docid:
+          - type: BSI
+            id: BS 5500
+        edition: 1
+      - date:
+        - type: published
+          value: 1982-01
+        docid:
+          - type: BSI
+            id: BS 5500
+        edition: 2
+      - date:
+        - type: published
+          value: 1985-01
+        docid:
+          - type: BSI
+            id: BS 5500
+        edition: 3
+      - date:
+        - type: published
+          value: 1988-01
+        docid:
+          - type: BSI
+            id: BS 5500
+        edition: 4
+      - date:
+        - type: published
+          value: 1991-01
+        docid:
+          - type: BSI
+            id: BS 5500
+        edition: 5
+      - date:
+        - type: published
+          value: 1994-01
+        docid:
+          - type: BSI
+            id: BS 5500
+        edition: 6
+      - date:
+        - type: published
+          value: 1997-01
+        docid:
+          - type: BSI
+            id: BS 5500
+        edition: 7
+      - date:
+        - type: published
+          value: 2000-01
+        docid:
+          - type: BSI
+            id: PD 5500
+        edition: 1
+      - date:
+        - type: published
+          value: 2003-01
+        docid:
+          - type: BSI
+            id: PD 5500
+        edition: 2
+      - date:
+        - type: published
+          value: 2006-01
+        docid:
+          - type: BSI
+            id: PD 5500
+        edition: 3
+      - date:
+        - type: published
+          value: 2009-01
+        docid:
+          - type: BSI
+            id: PD 5500
+        edition: 4
+      - date:
+        - type: published
+          value: 2012-01
+        docid:
+          - type: BSI
+            id: PD 5500
+        edition: 5
+      - date:
+        - type: published
+          value: 2015-01
+        docid:
+          - type: BSI
+            id: PD 5500
+        edition: 6
+      - date:
+        - type: published
+          value: 2018-01
+        docid:
+          - type: BSI
+            id: PD 5500
+        edition: 7
+      - date:
+        - type: published
+          value: 2021-01
+        docid:
+          - type: BSI
+            id: PD 5500
+        edition: 8
+      - date:
+        - type: updated
+          value: 2021-09
+        - type: implemented
+          value: 2022-01
+        docid:
+          - type: BSI
+            id: Amendment 1, tagged
+        amend:
+          description: SEE FOREWORD
+      - date:
+        - type: updated
+          value: 2022-09
+        - type: implemented
+          value: 2023-01
+        docid:
+          - type: BSI
+            id: Amendment 2, tagged
+        amend:
+          description: SEE FOREWORD
+      ----
+    INPUT
+    output = <<~OUTPUT
+           <bibdata type="standard">
          <title language="en" format="text/plain">X</title>
          <date type="corrected">
            <on>2022-10</on>
@@ -1662,6 +1671,8 @@ A
                <description>
                  <p id="_">see Foreword</p>
                </description>
+               <tag>default</tag>
+               <value>editorial</value>
              </amend>
            </bibitem>
          </relation>
@@ -1684,6 +1695,8 @@ A
                    </locality>
                  </localityStack>
                </location>
+               <tag>type</tag>
+               <value>editorial</value>
              </amend>
            </bibitem>
          </relation>
@@ -1696,23 +1709,27 @@ A
                <description>
                  <p id="_">Implementation of CEN/CENELEC correction notice March 2016: Annexes ZA, ZB and ZC updated</p>
                </description>
-                       <location>
-          <localityStack>
-            <locality type="annex">
-              <referenceFrom>ZA</referenceFrom>
-            </locality>
-          </localityStack>
-          <localityStack>
-            <locality type="annex">
-              <referenceFrom>ZB</referenceFrom>
-            </locality>
-          </localityStack>
-          <localityStack>
-            <locality type="annex">
-              <referenceFrom>ZC</referenceFrom>
-            </locality>
-          </localityStack>
-        </location>
+               <location>
+                 <localityStack>
+                   <locality type="annex">
+                     <referenceFrom>ZA</referenceFrom>
+                   </locality>
+                 </localityStack>
+                 <localityStack>
+                   <locality type="annex">
+                     <referenceFrom>ZB</referenceFrom>
+                   </locality>
+                 </localityStack>
+                 <localityStack>
+                   <locality type="annex">
+                     <referenceFrom>ZC</referenceFrom>
+                   </locality>
+                 </localityStack>
+               </location>
+               <tag>type</tag>
+               <value>editorial</value>
+               <tag>impact</tag>
+               <value>major</value>
              </amend>
            </bibitem>
          </relation>
@@ -1740,7 +1757,7 @@ A
              </amend>
            </bibitem>
          </relation>
-                  <relation type="updatedBy">
+         <relation type="updatedBy">
            <bibitem>
              <docidentifier type="BSI">BS 5500</docidentifier>
              <date type="published">
@@ -1911,7 +1928,7 @@ A
            <doctype>standard</doctype>
          </ext>
        </bibdata>
-      OUTPUT
+    OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     expect(xmlpp(strip_guid(ret.at("//xmlns:bibdata").to_xml)))
       .to be_equivalent_to(xmlpp(output))

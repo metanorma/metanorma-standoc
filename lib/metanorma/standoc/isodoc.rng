@@ -17,7 +17,7 @@
   these elements; we just want one namespace for any child grammars
   of this.
 -->
-<!-- VERSION v1.2.10 -->
+<!-- VERSION v1.2.11 -->
 <grammar xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
   <include href="reqt.rng"/>
   <include href="basicdoc.rng">
@@ -2377,15 +2377,14 @@
         </element>
       </optional>
       <zeroOrMore>
-        <element name="keyword">
-          <text/>
-        </element>
+        <ref name="classification"/>
       </zeroOrMore>
       <zeroOrMore>
         <ref name="contributor"/>
       </zeroOrMore>
     </element>
   </define>
+  <!-- classification is defined in reqt.rnc -->
   <define name="autonumber">
     <element name="autonumber">
       <attribute name="type">

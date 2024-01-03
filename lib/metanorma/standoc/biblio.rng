@@ -269,7 +269,7 @@
       <ref name="variantname"/>
     </zeroOrMore>
   </define>
-  <define name="name_abbrevation">
+  <define name="name_abbreviation">
     <element name="abbreviation">
       <ref name="LocalizedString"/>
     </element>
