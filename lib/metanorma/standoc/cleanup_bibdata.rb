@@ -175,7 +175,8 @@ module Metanorma
         yaml.is_a?(Hash) and yaml = [yaml]
         yaml.reverse.each do |y|
           type = y["relation.type"] || "updatedBy"
-          y["docid"] ||= [{ "type" => docid["type"], "id" => docid.text }]
+          docid and
+            y["docid"] ||= [{ "type" => docid["type"], "id" => docid.text }]
           r = yaml2relaton(y, amend_hash2mn(y["amend"]))
           ins.next = "<relation type='#{type}'>#{r}</relation>"
         end
