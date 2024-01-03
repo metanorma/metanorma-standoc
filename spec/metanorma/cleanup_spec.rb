@@ -1614,7 +1614,7 @@ RSpec.describe Metanorma::Standoc do
       ----
     INPUT
     output = <<~OUTPUT
-           <bibdata type="standard">
+      <bibdata type="standard">
          <title language="en" format="text/plain">X</title>
          <date type="corrected">
            <on>2022-10</on>
@@ -1671,8 +1671,10 @@ RSpec.describe Metanorma::Standoc do
                <description>
                  <p id="_">see Foreword</p>
                </description>
+               <classification>
                <tag>default</tag>
                <value>editorial</value>
+               </classification>
              </amend>
            </bibitem>
          </relation>
@@ -1695,8 +1697,10 @@ RSpec.describe Metanorma::Standoc do
                    </locality>
                  </localityStack>
                </location>
+               <classification>
                <tag>type</tag>
                <value>editorial</value>
+               </classification>
              </amend>
            </bibitem>
          </relation>
@@ -1726,10 +1730,14 @@ RSpec.describe Metanorma::Standoc do
                    </locality>
                  </localityStack>
                </location>
+               <classification>
                <tag>type</tag>
                <value>editorial</value>
+               </classification>
+               <classification>
                <tag>impact</tag>
                <value>major</value>
+               </classification>
              </amend>
            </bibitem>
          </relation>

@@ -229,7 +229,9 @@ module Metanorma
 
       def amend_classification1(yaml)
         yaml.is_a?(Hash) or yaml = { "tag" => "default", "value" => yaml }
-        "<tag>#{yaml['tag']}</tag><value>#{yaml['value']}</value>"
+        <<~OUT
+          <classification><tag>#{yaml['tag']}</tag><value>#{yaml['value']}</value></classification>
+        OUT
       end
     end
   end
