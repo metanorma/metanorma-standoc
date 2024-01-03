@@ -1484,8 +1484,11 @@ RSpec.describe Metanorma::Standoc do
             value: 2021-09-30
         relation.type: merges
         amend:
-           description: >
-             Implementation of CEN/CENELEC amendment A11:2021: European foreword and Annexes ZA and ZB revised, and Annex ZC removed. National Annex NZ added, and Amendments/corrigenda issued since publication table corrected
+           description: |
+             The following:
+
+             * Implementation of CEN/CENELEC amendment A11:2021: European foreword and Annexes ZA and ZB revised, and Annex ZC removed. 
+             * National Annex NZ added, and Amendments/corrigenda issued since publication table corrected
       - date:
         - type: published
           value: 1976-03
@@ -1672,8 +1675,8 @@ RSpec.describe Metanorma::Standoc do
                  <p id="_">see Foreword</p>
                </description>
                <classification>
-               <tag>default</tag>
-               <value>editorial</value>
+                 <tag>default</tag>
+                 <value>editorial</value>
                </classification>
              </amend>
            </bibitem>
@@ -1698,8 +1701,8 @@ RSpec.describe Metanorma::Standoc do
                  </localityStack>
                </location>
                <classification>
-               <tag>type</tag>
-               <value>editorial</value>
+                 <tag>type</tag>
+                 <value>editorial</value>
                </classification>
              </amend>
            </bibitem>
@@ -1731,12 +1734,12 @@ RSpec.describe Metanorma::Standoc do
                  </localityStack>
                </location>
                <classification>
-               <tag>type</tag>
-               <value>editorial</value>
+                 <tag>type</tag>
+                 <value>editorial</value>
                </classification>
                <classification>
-               <tag>impact</tag>
-               <value>major</value>
+                 <tag>impact</tag>
+                 <value>major</value>
                </classification>
              </amend>
            </bibitem>
@@ -1760,7 +1763,15 @@ RSpec.describe Metanorma::Standoc do
              </date>
              <amend>
                <description>
-                 <p id="_">Implementation of CEN/CENELEC amendment A11:2021: European foreword and Annexes ZA and ZB revised, and Annex ZC removed. National Annex NZ added, and Amendments/corrigenda issued since publication table corrected</p>
+                 <p id="_">The following:</p>
+                 <ul id="_">
+                   <li>
+                     <p id="_">Implementation of CEN/CENELEC amendment A11:2021: European foreword and Annexes ZA and ZB revised, and Annex ZC removed.</p>
+                   </li>
+                   <li>
+                     <p id="_">National Annex NZ added, and Amendments/corrigenda issued since publication table corrected</p>
+                   </li>
+                 </ul>
                </description>
              </amend>
            </bibitem>

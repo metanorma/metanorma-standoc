@@ -46,17 +46,16 @@ module Metanorma
       end
 
       def indirect_eref_to_xref(eref, ident)
-        loc = eref.at("./localityStack[locality[@type = 'anchor']]")
-          &.remove&.text ||
-          eref.at("./locality[@type = 'anchor']")&.remove&.text || ident
+        loc = eref.at("./localityStack[locality[@type = 'anchor']]") ||
+          eref.at("./locality[@type = 'anchor']")
+        loc = loc&.remove&.text || ident
         eref.name = "xref"
         eref.delete("bibitemid")
         eref.delete("citeas")
         eref["target"] = loc
-        unless eref.document.at("//*[@id = '#{loc}']")
-          eref.children = %(** Missing target #{loc})
-          eref["target"] = ident
-        end
+        eref.document.at("//*[@id = '#{loc}']") and return
+        eref.children = %(** Missing target #{loc})
+        eref["target"] = ident
       end
 
       def resolve_local_indirect_erefs(xmldoc, refs, prefix)
