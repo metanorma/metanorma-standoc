@@ -19,9 +19,10 @@ module Metanorma
       def create_amend1(clause, amend)
         create_amend2(clause, amend)
         d = amend.at("./description")
-        d.xpath(".//autonumber").each { |e| d.previous = e }
+        autonum = d.xpath(".//autonumber").map(&:remove)
         d.xpath(".//p[normalize-space(.)='']").each(&:remove)
         move_attrs_to_amend(clause, amend)
+        autonum.each { |a| amend << a }
         amend
       end
 
