@@ -189,8 +189,9 @@ module Metanorma
 
       def amend_attrs(yaml)
         ret = ""
+        yaml["change"] ||= "modify"
         %w(change path path_end title).each do |x|
-          a = yaml[x] and ret += " x='#{a}'"
+          a = yaml[x] and ret += " #{x}='#{a}'"
         end
         ret = "<amend#{ret}>"
       end

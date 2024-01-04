@@ -1470,6 +1470,7 @@ RSpec.describe Metanorma::Standoc do
                value: editorial
              - tag: impact
                value: major
+           change: replace
            location:
              - annex=ZA
              - annex=ZB
@@ -1644,7 +1645,7 @@ RSpec.describe Metanorma::Standoc do
              <date type="published">
                <on>2016-05</on>
              </date>
-             <amend>
+             <amend change="modify">
                <description>
                  <p id="_">see Foreword</p>
                </description>
@@ -1657,7 +1658,7 @@ RSpec.describe Metanorma::Standoc do
              <date type="published">
                <on>2016-08</on>
              </date>
-             <amend>
+             <amend change="modify">
                <description>
                  <p id="_">see Foreword</p>
                </description>
@@ -1670,7 +1671,7 @@ RSpec.describe Metanorma::Standoc do
              <date type="published">
                <on>2019-01</on>
              </date>
-             <amend>
+             <amend change="modify">
                <description>
                  <p id="_">see Foreword</p>
                </description>
@@ -1687,7 +1688,7 @@ RSpec.describe Metanorma::Standoc do
              <date type="published">
                <on>2020-06</on>
              </date>
-             <amend>
+             <amend change="modify">
                <location>
                  <localityStack connective="and">
                    <locality type="table">
@@ -1712,7 +1713,7 @@ RSpec.describe Metanorma::Standoc do
              <date type="published">
                <on>2016-03-31</on>
              </date>
-             <amend>
+             <amend change="replace">
                <description>
                  <p id="_">Implementation of CEN/CENELEC correction notice March 2016: Annexes ZA, ZB and ZC updated</p>
                </description>
@@ -1749,7 +1750,7 @@ RSpec.describe Metanorma::Standoc do
              <date type="published">
                <on>2017-01-31</on>
              </date>
-             <amend>
+             <amend change="modify">
                <description>
                  <p id="_">Implementation of CEN/CENELEC corrigendum December 2016: European foreword and Annexes ZA, ZB and ZC corrected</p>
                </description>
@@ -1761,7 +1762,7 @@ RSpec.describe Metanorma::Standoc do
              <date type="published">
                <on>2021-09-30</on>
              </date>
-             <amend>
+             <amend change="modify">
                <description>
                  <p id="_">The following:</p>
                  <ul id="_">
@@ -1920,7 +1921,7 @@ RSpec.describe Metanorma::Standoc do
              <date type="implemented">
                <on>2022-01</on>
              </date>
-             <amend>
+             <amend change="modify">
                <description>
                  <p id="_">SEE FOREWORD</p>
                </description>
@@ -1936,7 +1937,7 @@ RSpec.describe Metanorma::Standoc do
              <date type="implemented">
                <on>2023-01</on>
              </date>
-             <amend>
+             <amend change="modify">
                <description>
                  <p id="_">SEE FOREWORD</p>
                </description>
