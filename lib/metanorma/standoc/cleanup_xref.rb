@@ -2,8 +2,10 @@ module Metanorma
   module Standoc
     module Cleanup
       # extending localities to cover ISO referencing
+      CONN_REGEX_STR = "(?<conn>and|or|from|to)!".freeze
+
       LOCALITY_REGEX_STR = <<~REGEXP.freeze
-        ^(((?<conn>and|or|from|to)!)?
+        ^((#{CONN_REGEX_STR})?
             (?<locality>section|clause|part|paragraph|chapter|page|line|
                       table|annex|figure|example|note|formula|list|time|anchor|
                       locality:[^ \\t\\n\\r:,;=]+)(\\s+|=)
@@ -14,6 +16,15 @@ module Metanorma
       REGEXP
       LOCALITY_RE = Regexp.new(LOCALITY_REGEX_STR.gsub(/\s/, ""),
                                Regexp::IGNORECASE | Regexp::MULTILINE)
+
+      LOCALITY_REGEX_VALUE_ONLY_STR = <<~REGEXP.freeze
+        ^(?<conn0>(#{CONN_REGEX_STR}))
+          (?!whole|title|locality:)
+          (?<value>[^=,;:\\t\\n\\r]+)
+          (?<punct>[,;\\t\\n\\r]|$)
+      REGEXP
+      LOCALITY_VAL_ONLY_RE = Regexp.new(LOCALITY_REGEX_VALUE_ONLY_STR
+        .gsub(/\s/, ""), Regexp::IGNORECASE | Regexp::MULTILINE)
 
       def tq(text)
         text.sub(/^"/, "").sub(/"$/, "")
@@ -33,11 +44,20 @@ module Metanorma
         b = elem.add_child("<localityStack/>").first if LOCALITY_RE.match text
         while (m = LOCALITY_RE.match text)
           add_locality(b, m)
-          text = m[:text]
+          text = extract_localities_update_text(m)
           b = elem.add_child("<localityStack/>").first if m[:punct] == ";"
         end
         fill_in_eref_connectives(elem)
         elem.add_child(text) if text
+      end
+
+      # clause=3;and!5 => clause=3;and!clause=5
+      def extract_localities_update_text(match)
+        ret = match[:text]
+        if LOCALITY_VAL_ONLY_RE.match?(ret) && match[:punct] == ";"
+          ret.sub!(%r{^(#{CONN_REGEX_STR})}o, "\\1#{match[:locality]}=")
+        end
+        ret
       end
 
       def add_locality(stack, match)
