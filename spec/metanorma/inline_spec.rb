@@ -642,6 +642,7 @@ RSpec.describe Metanorma::Standoc do
       <<ref1,clause=3;and!clause=5>>
       <<ref1,clause=3;or!clause=5,text>>
       <<ref1,from!clause=3;to!clause=5;and!clause=8;to!clause=10>>
+      <<ref1,from!clause=3;to!5;and!8;to!10>>
 
       [bibliography]
       == Bibliography
@@ -746,6 +747,28 @@ RSpec.describe Metanorma::Standoc do
                   </locality>
                 </localityStack>
               </eref>
+              <eref type="inline" bibitemid="ref1" citeas="XYZ">
+                 <localityStack connective="from">
+                   <locality type="clause">
+                     <referenceFrom>3</referenceFrom>
+                   </locality>
+                 </localityStack>
+                 <localityStack connective="and">
+                   <locality type="clause">
+                     <referenceFrom>5</referenceFrom>
+                   </locality>
+                 </localityStack>
+                 <localityStack connective="and">
+                   <locality type="clause">
+                     <referenceFrom>8</referenceFrom>
+                   </locality>
+                 </localityStack>
+                 <localityStack connective="and">
+                   <locality type="clause">
+                     <referenceFrom>10</referenceFrom>
+                   </locality>
+                 </localityStack>
+               </eref>
             </p>
           </clause>
         </sections>
