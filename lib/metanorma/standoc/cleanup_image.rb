@@ -1,3 +1,5 @@
+require "vectory"
+
 module Metanorma
   module Standoc
     module Cleanup
