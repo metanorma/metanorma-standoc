@@ -302,115 +302,6 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "retains AsciiMath on request" do
-    input = <<~INPUT
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :no-isobib:
-      :mn-keep-asciimath:
-
-      stem:[1/r]
-    INPUT
-    output = <<~OUTPUT
-             #{BLANK_HDR}
-             <sections>
-        <p id="_">
-        <stem type="AsciiMath" block="false">1/r</stem>
-      </p>
-      </sections>
-      </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "converts AsciiMath to MathML by default" do
-    input = <<~INPUT
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :no-isobib:
-
-      stem:[1/r]
-    INPUT
-    output = <<~OUTPUT
-            #{BLANK_HDR}
-                     <sections>
-          <p id="_">
-            <stem type="MathML" block="false">
-              <math xmlns="http://www.w3.org/1998/Math/MathML">
-                <mstyle displaystyle="false">
-                  <mfrac>
-                    <mn>1</mn>
-                    <mi>r</mi>
-                  </mfrac>
-                </mstyle>
-              </math>
-              <asciimath>1/r</asciimath>
-            </stem>
-          </p>
-        </sections>
-      </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "cleans up text MathML" do
-    input = <<~INPUT
-      #{BLANK_HDR.sub(/<standard-document [^>]+>/, '<standard-document>')}
-      <sections>
-      <stem type="MathML">&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;&lt;mfrac&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;/mfrac&gt;&lt;/math&gt;</stem>
-      </sections>
-      </standard-document>
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR.sub(/<standard-document [^>]+>/, '<standard-document>')}
-      <sections>
-      <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mi>r</mi></mfrac></math></stem>
-      </sections>
-      </standard-document>
-    OUTPUT
-    expect(xmlpp(Metanorma::Standoc::Converter.new(nil, *OPTIONS)
-      .cleanup(Nokogiri::XML(input)).to_xml))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "cleans up nested mathvariant instances" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-
-      stem:[sf "unitsml(cd)"]
-    INPUT
-    output = <<~OUTPUT
-          <sections>
-        <p id="_">
-          <stem type="MathML" block="false">
-            <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <mstyle displaystyle="false">
-                <mstyle mathvariant="sans-serif">
-                   <mstyle mathvariant="sans-serif">
-                     <mi>cd</mi>
-                   </mstyle>
-                 </mstyle>
-              </mstyle>
-            </math>
-            <asciimath>sf "unitsml(cd)"</asciimath>
-          </stem>
-        </p>
-      </sections>
-    OUTPUT
-    expect(xmlpp(strip_guid(Nokogiri::XML(
-      Asciidoctor.convert(input, *OPTIONS),
-    ).at("//xmlns:sections").to_xml)))
-      .to be_equivalent_to xmlpp(output)
-  end
-
   it "imports boilerplate file in XML" do
     input = <<~INPUT
       = Document title
@@ -887,313 +778,6 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "converts UnitsML to MathML" do
-    input = <<~INPUT
-      = Document title
-      Author
-      :stem:
-
-      [stem]
-      ++++
-      <math xmlns='http://www.w3.org/1998/Math/MathML'>
-        <mrow>
-        <mn>7</mn>
-        <mtext>unitsml(m*kg^-2)</mtext>
-        <mo>+</mo>
-        <mn>8</mn>
-        <mtext>unitsml(m*kg^-3)</mtext>
-        </mrow>
-      </math>
-      ++++
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR.sub('<metanorma-extension>', <<~EXT
-        <metanorma-extension>
-             <UnitsML xmlns='https://schema.unitsml.org/unitsml/1.0'>
-               <UnitSet>
-                 <Unit xml:id='U_m.kg-2' dimensionURL='#D_LM-2'>
-                   <UnitSystem name='SI' type='SI_derived' xml:lang='en-US'/>
-                   <UnitName xml:lang='en'>m*kg^-2</UnitName>
-                   <UnitSymbol type='HTML'>
-                     m&#160;kg
-                     <sup>&#8722;2</sup>
-                   </UnitSymbol>
-                   <UnitSymbol type='MathML'>
-                     <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                       <mrow>
-                         <mi mathvariant='normal'>m</mi>
-                         <mo rspace='thickmathspace'>&#8290;</mo>
-                         <msup>
-                           <mrow>
-                             <mi mathvariant='normal'>kg</mi>
-                           </mrow>
-                           <mrow>
-                             <mo>&#8722;</mo>
-                             <mn>2</mn>
-                           </mrow>
-                         </msup>
-                       </mrow>
-                     </math>
-                   </UnitSymbol>
-                   <RootUnits>
-                     <EnumeratedRootUnit unit='meter'/>
-                     <EnumeratedRootUnit unit='gram' prefix='k' powerNumerator='-2'/>
-                   </RootUnits>
-                 </Unit>
-                 <Unit xml:id="U_m.kg-3" dimensionURL="#D_LM-3">
-                 <UnitSystem name="SI" type="SI_derived" xml:lang="en-US"/>
-                 <UnitName xml:lang="en">m*kg^-3</UnitName>
-                 <UnitSymbol type="HTML">m kg<sup>−3</sup></UnitSymbol>
-                 <UnitSymbol type="MathML">
-                   <math xmlns="http://www.w3.org/1998/Math/MathML">
-                     <mrow>
-                       <mi mathvariant="normal">m</mi>
-                       <mo rspace="thickmathspace">⁢</mo>
-                       <msup>
-                         <mrow>
-                           <mi mathvariant="normal">kg</mi>
-                         </mrow>
-                         <mrow>
-                           <mo>−</mo>
-                           <mn>3</mn>
-                         </mrow>
-                       </msup>
-                     </mrow>
-                   </math>
-                 </UnitSymbol>
-                 <RootUnits>
-                   <EnumeratedRootUnit unit="meter"/>
-                   <EnumeratedRootUnit unit="gram" prefix="k" powerNumerator="-3"/>
-                 </RootUnits>
-               </Unit>
-             </UnitSet>
-               <DimensionSet>
-                 <Dimension xml:id='D_LM-2'>
-                   <Length symbol='L' powerNumerator='1'/>
-                   <Mass symbol='M' powerNumerator='-2'/>
-                 </Dimension>
-                 <Dimension xml:id="D_LM-3">
-                 <Length symbol="L" powerNumerator="1"/>
-                 <Mass symbol="M" powerNumerator="-3"/>
-               </Dimension>
-               </DimensionSet>
-               <PrefixSet>
-                 <Prefix prefixBase='10' prefixPower='3' xml:id='NISTp10_3'>
-                   <PrefixName xml:lang='en'>kilo</PrefixName>
-                   <PrefixSymbol type='ASCII'>k</PrefixSymbol>
-                   <PrefixSymbol type='unicode'>k</PrefixSymbol>
-                   <PrefixSymbol type='LaTeX'>k</PrefixSymbol>
-                   <PrefixSymbol type='HTML'>k</PrefixSymbol>
-                 </Prefix>
-               </PrefixSet>
-             </UnitsML>
-      EXT
-      )}
-         <sections>
-           <formula id='_'>
-             <stem type='MathML' block="true">
-               <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                 <mrow>
-                   <mn>7</mn>
-                   <mo rspace='thickmathspace'>&#8290;</mo>
-                   <mrow xref='U_m.kg-2'>
-                     <mi mathvariant='normal'>m</mi>
-                     <mo rspace='thickmathspace'>&#8290;</mo>
-                     <msup>
-                       <mrow>
-                         <mi mathvariant='normal'>kg</mi>
-                       </mrow>
-                       <mrow>
-                         <mo>&#8722;</mo>
-                         <mn>2</mn>
-                       </mrow>
-                     </msup>
-                   </mrow>
-                   <mo>+</mo>
-                   <mn>8</mn>
-                   <mo rspace='thickmathspace'>&#8290;</mo>
-                   <mrow xref='U_m.kg-3'>
-                     <mi mathvariant='normal'>m</mi>
-                     <mo rspace='thickmathspace'>&#8290;</mo>
-                     <msup>
-                       <mrow>
-                         <mi mathvariant='normal'>kg</mi>
-                       </mrow>
-                       <mrow>
-                         <mo>&#8722;</mo>
-                         <mn>3</mn>
-                       </mrow>
-                     </msup>
-                   </mrow>
-                 </mrow>
-               </math>
-             </stem>
-           </formula>
-         </sections>
-       </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "customises italicisation of MathML" do
-    input = <<~INPUT
-      = Document title
-      Author
-      :stem:
-
-      [stem]
-      ++++
-      <math xmlns='http://www.w3.org/1998/Math/MathML'>
-        <mi>A</mi>
-        <mo>+</mo>
-        <mi>a</mi>
-        <mo>+</mo>
-        <mi>Α</mi>
-        <mo>+</mo>
-        <mi>α</mi>
-        <mo>+</mo>
-        <mi>AB</mi>
-        <mstyle mathvariant="italic">
-        <mrow>
-        <mi>Α</mi>
-        </mrow>
-        </mstyle>
-      </math>
-      ++++
-    INPUT
-
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
-        #{BLANK_HDR}
-                 <sections>
-            <formula id="_">
-              <stem type="MathML" block="true"><math xmlns="http://www.w3.org/1998/Math/MathML">
-          <mi>A</mi><mo>+</mo><mi>a</mi><mo>+</mo><mi>Α</mi><mo>+</mo><mi>α</mi><mo>+</mo><mi>AB</mi><mstyle mathvariant="italic"><mrow><mi>Α</mi></mrow></mstyle></stem>
-            </formula>
-          </sections>
-        </standard-document>
-      OUTPUT
-    mock_mathml_italicise({ uppergreek: false, upperroman: true,
-                            lowergreek: true, lowerroman: true })
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
-        #{BLANK_HDR}
-          <sections>
-            <formula id='_'>
-              <stem type='MathML' block="true">
-                <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                  <mi>A</mi>
-                  <mo>+</mo>
-                  <mi>a</mi>
-                  <mo>+</mo>
-                  <mi mathvariant="normal">Α</mi>
-                  <mo>+</mo>
-                  <mi>α</mi>
-                  <mo>+</mo>
-                  <mi>AB</mi>
-                  <mstyle mathvariant='italic'>
-          <mrow>
-            <mi>Α</mi>
-          </mrow>
-        </mstyle>
-                </math>
-              </stem>
-            </formula>
-          </sections>
-        </standard-document>
-      OUTPUT
-    mock_mathml_italicise({ uppergreek: true, upperroman: false,
-                            lowergreek: true, lowerroman: true })
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
-        #{BLANK_HDR}
-          <sections>
-            <formula id='_'>
-              <stem type='MathML' block="true">
-                <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                  <mi mathvariant="normal">A</mi>
-                  <mo>+</mo>
-                  <mi>a</mi>
-                  <mo>+</mo>
-                  <mi>Α</mi>
-                  <mo>+</mo>
-                  <mi>α</mi>
-                  <mo>+</mo>
-                  <mi>AB</mi>
-                  <mstyle mathvariant='italic'>
-          <mrow>
-            <mi>Α</mi>
-          </mrow>
-        </mstyle>
-                </math>
-              </stem>
-            </formula>
-          </sections>
-        </standard-document>
-      OUTPUT
-    mock_mathml_italicise({ uppergreek: true, upperroman: true,
-                            lowergreek: false, lowerroman: true })
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
-        #{BLANK_HDR}
-          <sections>
-            <formula id='_'>
-              <stem type='MathML' block="true">
-                <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                  <mi>A</mi>
-                  <mo>+</mo>
-                  <mi>a</mi>
-                  <mo>+</mo>
-                  <mi>Α</mi>
-                  <mo>+</mo>
-                  <mi mathvariant="normal">α</mi>
-                  <mo>+</mo>
-                  <mi>AB</mi>
-                  <mstyle mathvariant='italic'>
-          <mrow>
-            <mi>Α</mi>
-          </mrow>
-        </mstyle>
-                </math>
-              </stem>
-            </formula>
-          </sections>
-        </standard-document>
-      OUTPUT
-    mock_mathml_italicise({ uppergreek: true, upperroman: true,
-                            lowergreek: true, lowerroman: false })
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
-        #{BLANK_HDR}
-          <sections>
-            <formula id='_'>
-              <stem type='MathML' block="true">
-                <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                  <mi>A</mi>
-                  <mo>+</mo>
-                  <mi mathvariant="normal">a</mi>
-                  <mo>+</mo>
-                  <mi>Α</mi>
-                  <mo>+</mo>
-                  <mi>α</mi>
-                  <mo>+</mo>
-                  <mi>AB</mi>
-                  <mstyle mathvariant='italic'>
-          <mrow>
-            <mi>Α</mi>
-          </mrow>
-        </mstyle>
-                </math>
-              </stem>
-            </formula>
-          </sections>
-        </standard-document>
-      OUTPUT
-    mock_mathml_italicise({ uppergreek: true, upperroman: true,
-                            lowergreek: true, lowerroman: true })
-  end
-
   it "creates content-based GUIDs" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1512,7 +1096,9 @@ RSpec.describe Metanorma::Standoc do
 
       [source,yaml]
       ----
-      fullname: Fred Flintstone
+      person:
+        name:
+          completename: Fred Flintstone
       ----
     INPUT
     output = <<~OUTPUT
@@ -1549,9 +1135,11 @@ RSpec.describe Metanorma::Standoc do
          </contributor>
          <contributor>
            <role type="author"/>
+           <person>
            <name>
              <completename>Fred Flintstone</completename>
            </name>
+           </person>
          </contributor>
          <language>en</language>
          <script>Latn</script>
@@ -1594,55 +1182,78 @@ RSpec.describe Metanorma::Standoc do
 
       [source,yaml]
       ----
-      - fullname: Fred Flintstone
-        role: author
-        contributor-credentials: PhD, F.R.Pharm.S.
-        contributor-uri: http://facebook.com/fred
-        affiliations:
-          - contributor-position: Vice President, Medical Devices Quality & Compliance -- Strategic programmes
-            affiliation: Slate Rock and Gravel Company
-            affiliation_abbrev: SRG
-            affiliation_subdiv: Hermeneutics Unit; Exegetical Subunit
-            contributor-uri: http://slate.example.com
-            affiliation_logo: a.gif
-      - surname: Rubble
-        givenname: Barney
-        initials: B. X.
-        role: editor
-        role-description: consulting editor
-        contributor-credentials: PhD, F.R.Pharm.S.
-        address: 18 Rubble Way, Bedrock
-        email: barney@personal.example.com
-        phone: 11111
-        fax: 121212
-        affiliations:
-          - contributor-position: Former Chair ISO TC 210
-            affiliation: Rockhead and Quarry Cave Construction Company
-            affiliation_abbrev: RQCCC
-            affiliation_subdiv: Hermeneutics Unit; Exegetical Subunit
-            address: 6A Rubble Way, Bedrock
-            email: barney@rockhead.example.com
-            phone: 789
-            fax: 012
-      -  fullname: Barry Fussell
-         street: 170 West Tasman Drive
-         city: San Jose
-         region: California
-         affiliations:
-           affiliation: Cisco Systems, Inc.
-      -  fullname: Apostol Vassilev
-         affiliations:
-           affiliation: Information Technology Laboratory
-           affiliation_subdiv: Computer Security Division
-      -  fullname: Ronny Jopp
-         affiliations:
-          -  affiliation_subdiv: Biochemical Science Division
-             affiliation: National Institute of Standards and Technology
-             address: Gaithersburg, MD, U.S.A.
-          -  affiliation_subdiv: Computer Science Department
-             affiliation: University of Applied Sciences
-             city: Wiesbaden
-             country: Germany
+      - role: author
+        person:
+          name:
+            completename: Fred Flintstone
+          credential:
+          - PhD, F.R.Pharm.S.
+          affiliation:
+          - name:
+              content: Vice President, Medical Devices Quality & Compliance -- Strategic programmes
+            organization:
+              name: Slate Rock and Gravel Company
+              abbreviation: SRG
+              subdivision: Hermeneutics Unit; Exegetical Subunit
+              contact:
+                - formatted_address: 6 Rubble Way, Bedrock
+                - uri: http://slate.example.com
+                - phone: 123
+                - fax: 456
+      - role:
+          type: editor
+          description: consulting editor
+        person:
+          name:
+            surname: Rubble
+            given:
+              forename: Barney
+              formatted_initials: B. X.
+          credential:
+          - PhD, F.R.Pharm.S.
+          affiliation:
+          - name:
+              content: Former Chair ISO TC 210
+            organization:
+              name: Rockhead and Quarry Cave Construction Company
+              abbreviation: RQCCC
+              subdivision: Hermeneutics Unit; Exegetical Subunit
+              contact:
+                - formatted_address: 6A Rubble Way, Bedrock
+                - email: barney@rockhead.example.com
+                - phone: 789
+                - fax: 012
+      -  person:
+           name:
+             completename: Barry Fussell
+           affiliation:
+             - organization:
+                 name: Cisco Systems, Inc.
+           contact:
+             - formatted_address: 170 West Tasman Drive, San Jose, California
+      -  person:
+           name:
+             completename: Apostol Vassilev
+           affiliation:
+             - organization:
+                 name: Information Technology Laboratory
+                 subdivision: Computer Security Division
+      -  person:
+          name:
+            completename: Ronny Jopp
+          affiliation:
+          -  organization:
+               subdivision: Biochemical Science Division
+               name: National Institute of Standards and Technology
+               contact:
+                 - formatted_address: Gaithersburg, MD, U.S.A.
+          -  organization:
+               subdivision: Computer Science Department
+               name: University of Applied Sciences
+               contact:
+                 - address:
+                     city: Wiesbaden
+                     country: Germany
       ----
     INPUT
     output = <<~OUTPUT
@@ -1796,10 +1407,550 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to(xmlpp(output))
   end
 
-  private
+  it "reads document history from YAML" do
+    input = <<~INPUT
+      = X
+      A
+      :corrected-date: 2022-10
+      :no-pdf:
+      :fullname: Author One
+      :novalid:
+      :stem:
 
-  def mock_mathml_italicise(string)
-    allow_any_instance_of(Metanorma::Standoc::Cleanup)
-      .to receive(:mathml_mi_italics).and_return(string)
+      [.preface]
+      == misc-container
+
+      === document history
+
+      [source,yaml]
+      ----
+      - date:
+          - type: published
+            value: 2016-05
+        docid:
+            type: BSI
+            id: A1
+        amend:
+           description: see Foreword
+      - date:
+          - type: published
+            value: 2016-08
+        docid:
+            type: BSI
+            id: C1
+        amend:
+           description: see Foreword
+      - date:
+          - type: published
+            value: 2019-01
+        docid:
+            type: BSI
+            id: A2
+        amend:
+           description: see Foreword
+           classification: editorial
+      - date:
+          - type: published
+            value: 2020-06
+        docid:
+            type: BSI
+            id: C2
+        amend:
+           location: table=A.4;table=A.5
+           classification:
+             tag: type
+             value: editorial
+      - date:
+          - type: published
+            value: 2016-03-31
+        amend:
+           description: "Implementation of CEN/CENELEC correction notice March 2016: Annexes ZA, ZB and ZC updated"
+           classification:
+             - tag: type
+               value: editorial
+             - tag: impact
+               value: major
+           change: replace
+           location:
+             - annex=ZA
+             - annex=ZB
+             - annex=ZC
+      - date:
+          - type: published
+            value: 2017-01-31
+        amend:
+           description: "Implementation of CEN/CENELEC corrigendum December 2016: European foreword and Annexes ZA, ZB and ZC corrected"
+      - date:
+          - type: published
+            value: 2021-09-30
+        relation.type: merges
+        amend:
+           description: |
+             The following:
+
+             * Implementation of CEN/CENELEC amendment A11:2021: European foreword and Annexes ZA and ZB revised, and Annex ZC removed. 
+             * National Annex NZ added, and Amendments/corrigenda issued since publication table corrected
+      - date:
+        - type: published
+          value: 1976-03
+        docid:
+          - type: BSI
+            id: BS 5500
+        edition: 1
+      - date:
+        - type: published
+          value: 1982-01
+        docid:
+          - type: BSI
+            id: BS 5500
+        edition: 2
+      - date:
+        - type: published
+          value: 1985-01
+        docid:
+          - type: BSI
+            id: BS 5500
+        edition: 3
+      - date:
+        - type: published
+          value: 1988-01
+        docid:
+          - type: BSI
+            id: BS 5500
+        edition: 4
+      - date:
+        - type: published
+          value: 1991-01
+        docid:
+          - type: BSI
+            id: BS 5500
+        edition: 5
+      - date:
+        - type: published
+          value: 1994-01
+        docid:
+          - type: BSI
+            id: BS 5500
+        edition: 6
+      - date:
+        - type: published
+          value: 1997-01
+        docid:
+          - type: BSI
+            id: BS 5500
+        edition: 7
+      - date:
+        - type: published
+          value: 2000-01
+        docid:
+          - type: BSI
+            id: PD 5500
+        edition: 1
+      - date:
+        - type: published
+          value: 2003-01
+        docid:
+          - type: BSI
+            id: PD 5500
+        edition: 2
+      - date:
+        - type: published
+          value: 2006-01
+        docid:
+          - type: BSI
+            id: PD 5500
+        edition: 3
+      - date:
+        - type: published
+          value: 2009-01
+        docid:
+          - type: BSI
+            id: PD 5500
+        edition: 4
+      - date:
+        - type: published
+          value: 2012-01
+        docid:
+          - type: BSI
+            id: PD 5500
+        edition: 5
+      - date:
+        - type: published
+          value: 2015-01
+        docid:
+          - type: BSI
+            id: PD 5500
+        edition: 6
+      - date:
+        - type: published
+          value: 2018-01
+        docid:
+          - type: BSI
+            id: PD 5500
+        edition: 7
+      - date:
+        - type: published
+          value: 2021-01
+        docid:
+          - type: BSI
+            id: PD 5500
+        edition: 8
+      - date:
+        - type: updated
+          value: 2021-09
+        - type: implemented
+          value: 2022-01
+        docid:
+          - type: BSI
+            id: Amendment 1, tagged
+        amend:
+          description: SEE FOREWORD
+      - date:
+        - type: updated
+          value: 2022-09
+        - type: implemented
+          value: 2023-01
+        docid:
+          - type: BSI
+            id: Amendment 2, tagged
+        amend:
+          description: SEE FOREWORD
+      ----
+    INPUT
+    output = <<~OUTPUT
+      <bibdata type="standard">
+         <title language="en" format="text/plain">X</title>
+         <date type="corrected">
+           <on>2022-10</on>
+         </date>
+         <contributor>
+           <role type="author"/>
+           <person>
+             <name>
+               <completename>Author One</completename>
+             </name>
+           </person>
+         </contributor>
+         <language>en</language>
+         <script>Latn</script>
+         <status>
+           <stage>published</stage>
+         </status>
+         <copyright>
+           <from>2024</from>
+         </copyright>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">A1</docidentifier>
+             <date type="published">
+               <on>2016-05</on>
+             </date>
+             <amend change="modify">
+               <description>
+                 <p id="_">see Foreword</p>
+               </description>
+             </amend>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">C1</docidentifier>
+             <date type="published">
+               <on>2016-08</on>
+             </date>
+             <amend change="modify">
+               <description>
+                 <p id="_">see Foreword</p>
+               </description>
+             </amend>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">A2</docidentifier>
+             <date type="published">
+               <on>2019-01</on>
+             </date>
+             <amend change="modify">
+               <description>
+                 <p id="_">see Foreword</p>
+               </description>
+               <classification>
+                 <tag>default</tag>
+                 <value>editorial</value>
+               </classification>
+             </amend>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">C2</docidentifier>
+             <date type="published">
+               <on>2020-06</on>
+             </date>
+             <amend change="modify">
+               <location>
+                 <localityStack connective="and">
+                   <locality type="table">
+                     <referenceFrom>A.4</referenceFrom>
+                   </locality>
+                 </localityStack>
+                 <localityStack connective="and">
+                   <locality type="table">
+                     <referenceFrom>A.5</referenceFrom>
+                   </locality>
+                 </localityStack>
+               </location>
+               <classification>
+                 <tag>type</tag>
+                 <value>editorial</value>
+               </classification>
+             </amend>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <date type="published">
+               <on>2016-03-31</on>
+             </date>
+             <amend change="replace">
+               <description>
+                 <p id="_">Implementation of CEN/CENELEC correction notice March 2016: Annexes ZA, ZB and ZC updated</p>
+               </description>
+               <location>
+                 <localityStack>
+                   <locality type="annex">
+                     <referenceFrom>ZA</referenceFrom>
+                   </locality>
+                 </localityStack>
+                 <localityStack>
+                   <locality type="annex">
+                     <referenceFrom>ZB</referenceFrom>
+                   </locality>
+                 </localityStack>
+                 <localityStack>
+                   <locality type="annex">
+                     <referenceFrom>ZC</referenceFrom>
+                   </locality>
+                 </localityStack>
+               </location>
+               <classification>
+                 <tag>type</tag>
+                 <value>editorial</value>
+               </classification>
+               <classification>
+                 <tag>impact</tag>
+                 <value>major</value>
+               </classification>
+             </amend>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <date type="published">
+               <on>2017-01-31</on>
+             </date>
+             <amend change="modify">
+               <description>
+                 <p id="_">Implementation of CEN/CENELEC corrigendum December 2016: European foreword and Annexes ZA, ZB and ZC corrected</p>
+               </description>
+             </amend>
+           </bibitem>
+         </relation>
+         <relation type="merges">
+           <bibitem>
+             <date type="published">
+               <on>2021-09-30</on>
+             </date>
+             <amend change="modify">
+               <description>
+                 <p id="_">The following:</p>
+                 <ul id="_">
+                   <li>
+                     <p id="_">Implementation of CEN/CENELEC amendment A11:2021: European foreword and Annexes ZA and ZB revised, and Annex ZC removed.</p>
+                   </li>
+                   <li>
+                     <p id="_">National Annex NZ added, and Amendments/corrigenda issued since publication table corrected</p>
+                   </li>
+                 </ul>
+               </description>
+             </amend>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">BS 5500</docidentifier>
+             <date type="published">
+               <on>1976-03</on>
+             </date>
+             <edition>1</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">BS 5500</docidentifier>
+             <date type="published">
+               <on>1982-01</on>
+             </date>
+             <edition>2</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">BS 5500</docidentifier>
+             <date type="published">
+               <on>1985-01</on>
+             </date>
+             <edition>3</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">BS 5500</docidentifier>
+             <date type="published">
+               <on>1988-01</on>
+             </date>
+             <edition>4</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">BS 5500</docidentifier>
+             <date type="published">
+               <on>1991-01</on>
+             </date>
+             <edition>5</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">BS 5500</docidentifier>
+             <date type="published">
+               <on>1994-01</on>
+             </date>
+             <edition>6</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">BS 5500</docidentifier>
+             <date type="published">
+               <on>1997-01</on>
+             </date>
+             <edition>7</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">PD 5500</docidentifier>
+             <date type="published">
+               <on>2000-01</on>
+             </date>
+             <edition>1</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">PD 5500</docidentifier>
+             <date type="published">
+               <on>2003-01</on>
+             </date>
+             <edition>2</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">PD 5500</docidentifier>
+             <date type="published">
+               <on>2006-01</on>
+             </date>
+             <edition>3</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">PD 5500</docidentifier>
+             <date type="published">
+               <on>2009-01</on>
+             </date>
+             <edition>4</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">PD 5500</docidentifier>
+             <date type="published">
+               <on>2012-01</on>
+             </date>
+             <edition>5</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">PD 5500</docidentifier>
+             <date type="published">
+               <on>2015-01</on>
+             </date>
+             <edition>6</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">PD 5500</docidentifier>
+             <date type="published">
+               <on>2018-01</on>
+             </date>
+             <edition>7</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">PD 5500</docidentifier>
+             <date type="published">
+               <on>2021-01</on>
+             </date>
+             <edition>8</edition>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">Amendment 1, tagged</docidentifier>
+             <date type="updated">
+               <on>2021-09</on>
+             </date>
+             <date type="implemented">
+               <on>2022-01</on>
+             </date>
+             <amend change="modify">
+               <description>
+                 <p id="_">SEE FOREWORD</p>
+               </description>
+             </amend>
+           </bibitem>
+         </relation>
+         <relation type="updatedBy">
+           <bibitem>
+             <docidentifier type="BSI">Amendment 2, tagged</docidentifier>
+             <date type="updated">
+               <on>2022-09</on>
+             </date>
+             <date type="implemented">
+               <on>2023-01</on>
+             </date>
+             <amend change="modify">
+               <description>
+                 <p id="_">SEE FOREWORD</p>
+               </description>
+             </amend>
+           </bibitem>
+         </relation>
+         <ext>
+           <doctype>standard</doctype>
+         </ext>
+       </bibdata>
+    OUTPUT
+    ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xmlpp(strip_guid(ret.at("//xmlns:bibdata").to_xml)))
+      .to be_equivalent_to(xmlpp(output))
   end
 end

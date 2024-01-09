@@ -46,17 +46,16 @@ module Metanorma
       end
 
       def indirect_eref_to_xref(eref, ident)
-        loc = eref.at("./localityStack[locality[@type = 'anchor']]")
-          &.remove&.text ||
-          eref.at("./locality[@type = 'anchor']")&.remove&.text || ident
+        loc = eref.at("./localityStack[locality[@type = 'anchor']]") ||
+          eref.at("./locality[@type = 'anchor']")
+        loc = loc&.remove&.text || ident
         eref.name = "xref"
         eref.delete("bibitemid")
         eref.delete("citeas")
         eref["target"] = loc
-        unless eref.document.at("//*[@id = '#{loc}']")
-          eref.children = %(** Missing target #{loc})
-          eref["target"] = ident
-        end
+        eref.document.at("//*[@id = '#{loc}']") and return
+        eref.children = %(** Missing target #{loc})
+        eref["target"] = ident
       end
 
       def resolve_local_indirect_erefs(xmldoc, refs, prefix)
@@ -129,108 +128,110 @@ module Metanorma
         end or return
         a = t.at("../sourcecode") or return
         ins = xmldoc.at("//bibdata/contributor[last()]")
-        ext_contributors_process(YAML.safe_load(a.text), ins)
+        yaml = YAML.safe_load(a.text, permitted_classes: [Date])
+        ext_contributors_process(yaml, ins)
+      end
+
+      def yaml2relaton(yaml, amend = nil)
+        r = RelatonBib.parse_yaml(yaml.to_yaml, [Date], symbolize_names: true)
+        h = RelatonBib::HashConverter.hash_to_bib(r)
+        b = RelatonBib::BibliographicItem.new(**h).to_xml
+        amend and b.sub!("</bibitem>", "#{amend}</bibitem>")
+        b
       end
 
       def ext_contributors_process(yaml, ins)
+        yaml.is_a?(Hash) && !yaml["contributor"] and yaml = [yaml]
+        yaml.is_a?(Array) and yaml = { "contributor" => yaml }
+        r = yaml2relaton(yaml)
+        Nokogiri::XML(r).xpath("//contributor").reverse
+          .each do |c|
+          ins.next = c
+        end
+      end
+
+      def bib_relation_insert_pt(xmldoc)
+        ins = nil
+        %w(relation copyright status abstract script language note version
+           edition contributor).each do |x|
+          ins = xmldoc.at("//bibdata/#{x}[last()]") and break
+        end
+        ins
+      end
+
+      def ext_dochistory_cleanup(xmldoc)
+        t = xmldoc.xpath("//metanorma-extension/clause/title").detect do |x|
+          x.text.strip.casecmp("document history").zero?
+        end or return
+        a = t.at("../sourcecode") or return
+        ins = bib_relation_insert_pt(xmldoc) or return
+        docid = xmldoc.at("//bibdata/docidentifier")
+        yaml = YAML.safe_load(a.text, permitted_classes: [Date])
+        ext_dochistory_process(yaml, ins, docid)
+      end
+
+      def ext_dochistory_process(yaml, ins, docid)
         yaml.is_a?(Hash) and yaml = [yaml]
-        yaml.reverse.each { |y| ext_contributor_process(y, ins) }
-      end
-
-      def ext_contributor_process(yaml, ins)
-        ret = ext_contributor_role(yaml)
-        ret += ext_contributor_name(yaml)
-        ret += ext_contributor_credentials(yaml)
-        ret += ext_contributor_affiliations(yaml)
-        ret += ext_contributor_contact(yaml)
-        ins.next = "<contributor>#{ret}</contributor>"
-      end
-
-      def extract(key, tag, yaml)
-        a = yaml[key] and return "<#{tag}>#{a}</#{tag}>"
-        ""
-      end
-
-      def ext_contributor_role(yaml)
-        a = yaml["role"] || "author"
-        "<role type='#{a}'>#{yaml['description']}</role>"
-      end
-
-      def ext_contributor_name(yaml)
-        ret = extract("fullname", "completename", yaml)
-        if ret.empty?
-          ret = extract("givenname", "forename", yaml)
-          ret += extract("initials", "initial", yaml)
-          ret += extract("surname", "surname", yaml)
+        yaml.reverse.each do |y|
+          type = y["relation.type"] || "updatedBy"
+          docid and
+            y["docid"] ||= [{ "type" => docid["type"], "id" => docid.text }]
+          r = yaml2relaton(y, amend_hash2mn(y["amend"]))
+          ins.next = "<relation type='#{type}'>#{r}</relation>"
         end
-        "<name>#{ret}</name>"
       end
 
-      def ext_contributor_credentials(yaml)
-        extract("contributor-credentials", "credentials", yaml)
+      def amend_hash2mn(yaml)
+        yaml.nil? and return ""
+        yaml.is_a?(Hash) and yaml = [yaml]
+        yaml.map { |x| amend_hash2mn1(x) }.join("\n")
       end
 
-      def ext_contributor_affiliations(yaml)
-        x = yaml["affiliations"] or return ""
-        x.is_a?(Hash) and x = [x]
-        x.map do |a|
-          ext_contributor_affiliation(a)
+      def amend_attrs(yaml)
+        ret = ""
+        yaml["change"] ||= "modify"
+        %w(change path path_end title).each do |x|
+          a = yaml[x] and ret += " #{x}='#{a}'"
+        end
+        ret = "<amend#{ret}>"
+      end
+
+      def amend_hash2mn1(yaml)
+        ret = amend_attrs(yaml)
+        ret += amend_description(yaml)
+        ret += amend_location(yaml)
+        ret += amend_classification(yaml)
+        "#{ret}</amend>"
+      end
+
+      def amend_location(yaml)
+        a = yaml["location"] or return ""
+        a.is_a?(Array) or a = [a]
+        ret = a.map do |x|
+          elem = Nokogiri::XML("<location>#{x}</location>").root
+          extract_localities(elem)
+          elem.children.to_xml
         end.join("\n")
+        "<location>#{ret}</location>"
       end
 
-      def ext_contributor_affiliation(yaml)
-        ret = extract("contributor-position", "name", yaml)
-        ret += ext_contributor_org(yaml)
-        ret.empty? and return ""
-        "<affiliation>#{ret}</affiliation>"
+      def amend_description(yaml)
+        a = yaml["description"] or return ""
+        out = adoc2xml(a, backend.to_sym)
+        "<description>#{out.children.to_xml}</description>"
       end
 
-      def ext_contributor_org(yaml)
-        ret = extract("affiliation", "name", yaml)
-        ret += extract("affiliation_abbrev", "abbreviation", yaml)
-        ret += extract("affiliation_subdiv", "subdivision", yaml)
-        ret += ext_contributor_contact(yaml)
-        ret += ext_contributor_logo(yaml)
-        ret.empty? and return ""
-        "<organization>#{ret}</organization>"
+      def amend_classification(yaml)
+        a = yaml["classification"] or return ""
+        a.is_a?(Array) or a = [a]
+        a.map { |x| amend_classification1(x) }.join("\n")
       end
 
-      def ext_contributor_contact(yaml)
-        ret = ext_contributor_address(yaml)
-        ret += ext_contributor_phone(yaml)
-        ret += ext_contributor_email(yaml)
-        ret += ext_contributor_uri(yaml)
-        ret
-      end
-
-      def ext_contributor_address(yaml)
-        ret = extract("address", "formattedAddress", yaml)
-        if ret.empty?
-          %w(street city state country postcode).each do |k|
-            ret += extract(k, k, yaml)
-          end
-        end
-        ret.empty? and return ""
-        "<address>#{ret}</address>"
-      end
-
-      def ext_contributor_phone(yaml)
-        ret = extract("phone", "phone", yaml)
-        a = yaml["fax"] and ret += "<phone type='fax'>#{a}</phone>"
-        ret
-      end
-
-      def ext_contributor_email(yaml)
-        extract("email", "email", yaml)
-      end
-
-      def ext_contributor_uri(yaml)
-        extract("contributor-uri", "uri", yaml)
-      end
-
-      def ext_contributor_logo(yaml)
-        a = yaml["affiliation_logo"] or return ""
-        "<logo><image src='#{a}'/></logo>"
+      def amend_classification1(yaml)
+        yaml.is_a?(Hash) or yaml = { "tag" => "default", "value" => yaml }
+        <<~OUT
+          <classification><tag>#{yaml['tag']}</tag><value>#{yaml['value']}</value></classification>
+        OUT
       end
     end
   end
