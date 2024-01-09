@@ -1196,10 +1196,15 @@ RSpec.describe Metanorma::Standoc do
               abbreviation: SRG
               subdivision: Hermeneutics Unit; Exegetical Subunit
               contact:
-                - formatted_address: 6 Rubble Way, Bedrock
+                - address:
+                    street: 6 Rubble Way
+                    city: Bedrock
+                    country: U.S.A
                 - uri: http://slate.example.com
                 - phone: 123
-                - fax: 456
+                - phone:
+                    type: fax
+                    value: fax456
       - role:
           type: editor
           description: consulting editor
@@ -1219,10 +1224,15 @@ RSpec.describe Metanorma::Standoc do
               abbreviation: RQCCC
               subdivision: Hermeneutics Unit; Exegetical Subunit
               contact:
-                - formatted_address: 6A Rubble Way, Bedrock
+                - address:
+                    street: 6A Rubble Way
+                    city: Bedrock
+                    country: U.S.A
                 - email: barney@rockhead.example.com
                 - phone: 789
-                - fax: 012
+                - phone:
+                  type: fax
+                  value: 012
       -  person:
            name:
              completename: Barry Fussell
@@ -1230,7 +1240,11 @@ RSpec.describe Metanorma::Standoc do
              - organization:
                  name: Cisco Systems, Inc.
            contact:
-             - formatted_address: 170 West Tasman Drive, San Jose, California
+             - address:
+                  street: 170 West Tasman Drive
+                  city: San Jose
+                  region: California
+                  country: U.S.A
       -  person:
            name:
              completename: Apostol Vassilev
@@ -1246,7 +1260,10 @@ RSpec.describe Metanorma::Standoc do
                subdivision: Biochemical Science Division
                name: National Institute of Standards and Technology
                contact:
-                 - formatted_address: Gaithersburg, MD, U.S.A.
+                 - address:
+                    city:  Gaithersburg
+                    region: MD
+                    country: U.S.A.
           -  organization:
                subdivision: Computer Science Department
                name: University of Applied Sciences
@@ -1290,104 +1307,115 @@ RSpec.describe Metanorma::Standoc do
          </contributor>
          <contributor>
            <role type="author"/>
-           <name>
-             <completename>Fred Flintstone</completename>
-           </name>
-           <credentials>PhD, F.R.Pharm.S.</credentials>
-           <affiliation>
-             <name>Vice President, Medical Devices Quality  Compliance -- Strategic programmes</name>
-             <organization>
-               <name>Slate Rock and Gravel Company</name>
-               <abbreviation>SRG</abbreviation>
-               <subdivision>Hermeneutics Unit; Exegetical Subunit</subdivision>
-               <uri>http://slate.example.com</uri>
-               <logo>
-                 <image src="a.gif"/>
-               </logo>
-             </organization>
-           </affiliation>
-           <uri>http://facebook.com/fred</uri>
+           <person>
+             <name>
+               <completename>Fred Flintstone</completename>
+             </name>
+             <credential>PhD, F.R.Pharm.S.</credential>
+             <affiliation>
+               <name>Vice President, Medical Devices Quality &amp; Compliance -- Strategic programmes</name>
+               <organization>
+                 <name>Slate Rock and Gravel Company</name>
+                 <subdivision>Hermeneutics Unit; Exegetical Subunit</subdivision>
+                 <abbreviation>SRG</abbreviation>
+                 <address>
+                   <street>6 Rubble Way</street>
+                   <city>Bedrock</city>
+                   <country>U.S.A</country>
+                 </address>
+                 <uri>http://slate.example.com</uri>
+                 <phone>123</phone>
+               </organization>
+             </affiliation>
+           </person>
          </contributor>
          <contributor>
-           <role type="editor"/>
-           <name>
-             <forename>Barney</forename>
-             <initial>B. X.</initial>
-             <surname>Rubble</surname>
-           </name>
-           <credentials>PhD, F.R.Pharm.S.</credentials>
-           <affiliation>
-             <name>Former Chair ISO TC 210</name>
-             <organization>
-               <name>Rockhead and Quarry Cave Construction Company</name>
-               <abbreviation>RQCCC</abbreviation>
-               <subdivision>Hermeneutics Unit; Exegetical Subunit</subdivision>
-               <address>
-                 <formattedAddress>6A Rubble Way, Bedrock</formattedAddress>
-               </address>
-               <phone>789</phone>
-               <phone type="fax">10</phone>
-               <email>barney@rockhead.example.com</email>
-             </organization>
-           </affiliation>
-           <address>
-             <formattedAddress>18 Rubble Way, Bedrock</formattedAddress>
-           </address>
-           <phone>11111</phone>
-           <phone type="fax">121212</phone>
-           <email>barney@personal.example.com</email>
-         </contributor>
-         <contributor>
-           <role type="author"/>
-           <name>
-             <completename>Barry Fussell</completename>
-           </name>
-           <affiliation>
-             <organization>
-               <name>Cisco Systems, Inc.</name>
-             </organization>
-           </affiliation>
-           <address>
-             <street>170 West Tasman Drive</street>
-             <city>San Jose</city>
-           </address>
+           <role type="editor">
+             <description>consulting editor</description>
+           </role>
+           <person>
+             <name>
+               <forename>Barney</forename>
+               <formatted-initials>B. X.</formatted-initials>
+               <surname>Rubble</surname>
+             </name>
+             <credential>PhD, F.R.Pharm.S.</credential>
+             <affiliation>
+               <name>Former Chair ISO TC 210</name>
+               <organization>
+                 <name>Rockhead and Quarry Cave Construction Company</name>
+                 <subdivision>Hermeneutics Unit; Exegetical Subunit</subdivision>
+                 <abbreviation>RQCCC</abbreviation>
+                 <address>
+                   <street>6A Rubble Way</street>
+                   <city>Bedrock</city>
+                   <country>U.S.A</country>
+                 </address>
+                 <email>barney@rockhead.example.com</email>
+                 <phone>789</phone>
+               </organization>
+             </affiliation>
+           </person>
          </contributor>
          <contributor>
            <role type="author"/>
-           <name>
-             <completename>Apostol Vassilev</completename>
-           </name>
-           <affiliation>
-             <organization>
-               <name>Information Technology Laboratory</name>
-               <subdivision>Computer Security Division</subdivision>
-             </organization>
-           </affiliation>
+           <person>
+             <name>
+               <completename>Barry Fussell</completename>
+             </name>
+             <affiliation>
+               <organization>
+                 <name>Cisco Systems, Inc.</name>
+               </organization>
+             </affiliation>
+             <address>
+               <street>170 West Tasman Drive</street>
+               <city>San Jose</city>
+               <country>U.S.A</country>
+             </address>
+           </person>
          </contributor>
          <contributor>
            <role type="author"/>
-           <name>
-             <completename>Ronny Jopp</completename>
-           </name>
-           <affiliation>
-             <organization>
-               <name>National Institute of Standards and Technology</name>
-               <subdivision>Biochemical Science Division</subdivision>
-               <address>
-                 <formattedAddress>Gaithersburg, MD, U.S.A.</formattedAddress>
-               </address>
-             </organization>
-           </affiliation>
-           <affiliation>
-             <organization>
-               <name>University of Applied Sciences</name>
-               <subdivision>Computer Science Department</subdivision>
-               <address>
-                 <city>Wiesbaden</city>
-                 <country>Germany</country>
-               </address>
-             </organization>
-           </affiliation>
+           <person>
+             <name>
+               <completename>Apostol Vassilev</completename>
+             </name>
+             <affiliation>
+               <organization>
+                 <name>Information Technology Laboratory</name>
+                 <subdivision>Computer Security Division</subdivision>
+               </organization>
+             </affiliation>
+           </person>
+         </contributor>
+         <contributor>
+           <role type="author"/>
+           <person>
+             <name>
+               <completename>Ronny Jopp</completename>
+             </name>
+             <affiliation>
+               <organization>
+                 <name>National Institute of Standards and Technology</name>
+                 <subdivision>Biochemical Science Division</subdivision>
+                 <address>
+                   <city>Gaithersburg</city>
+                   <country>U.S.A.</country>
+                 </address>
+               </organization>
+             </affiliation>
+             <affiliation>
+               <organization>
+                 <name>University of Applied Sciences</name>
+                 <subdivision>Computer Science Department</subdivision>
+                 <address>
+                   <city>Wiesbaden</city>
+                   <country>Germany</country>
+                 </address>
+               </organization>
+             </affiliation>
+           </person>
          </contributor>
          <language>en</language>
          <script>Latn</script>
