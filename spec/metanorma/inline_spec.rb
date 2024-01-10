@@ -322,6 +322,10 @@ RSpec.describe Metanorma::Standoc do
       link:++https://asciidoctor.org/now_this__link_works.html++[]
       http://example.com[Link,update-type=true]
       link:../example[updatetype=true]
+      link:../example1[style=brackets]
+      link:../example4[_Link_,style=brackets]
+      http://example1.com[style=brackets]
+      http://example4.com[_Link_,style=brackets]
 
       :attribute: http://www.example1.com[]
       Text
@@ -340,7 +344,17 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
                     <sections>
            <p id="_">mailto:fred@example.com
-      <link target="http://example.com"/><link target="http://example.com">Link</link><link target="http://example.com" alt="tip">Link</link><link target="https://asciidoctor.org/now_this__link_works.html"/><link target="http://example.com" update-type="true">Link</link><link target="../example" update-type="true"/></p>
+      <link target="http://example.com"/>
+      <link target="http://example.com">Link</link>
+      <link target="http://example.com" alt="tip">Link</link>
+      <link target="https://asciidoctor.org/now_this__link_works.html"/>
+      <link target="http://example.com" update-type="true">Link</link>
+      <link target="../example" update-type="true"/>
+      <link target="../example1" style="brackets"/>
+      <link target="../example4" style="brackets"><em>Link</em></link>
+      <link target="http://example1.com" style="brackets"/>
+      <link target="http://example4.com" style="brackets"><em>Link</em></link>
+      </p>
       <p id="_">Text</p>
                <p id="_">Text
       :attribute: <link target="http://www.example4.com"/></p>

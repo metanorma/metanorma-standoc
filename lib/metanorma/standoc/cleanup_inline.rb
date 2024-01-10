@@ -14,11 +14,12 @@ module Metanorma
       end
 
       def strip_initial_space(elem)
-        elem.children[0].text? or return
-        if /\S/.match?(elem.children[0].text)
-          elem.children[0].content = elem.children[0].text.lstrip
+        a = elem.children[0]
+        a.text? or return
+        if /\S/.match?(a.text)
+          a.content = a.text.lstrip
         else
-          elem.children[0].remove
+          a.remove
         end
       end
 
@@ -208,6 +209,10 @@ module Metanorma
       end
 
       def link_cleanup(xmldoc)
+        uri_cleanup(xmldoc)
+      end
+
+      def uri_cleanup(xmldoc)
         xmldoc.xpath("//link[@target]").each do |l|
           l["target"] = Addressable::URI.parse(l["target"]).to_s
         rescue Addressable::URI::InvalidURIError
