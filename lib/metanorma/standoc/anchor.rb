@@ -48,14 +48,14 @@ module Metanorma
         { target: target, hidden: match[:hidden],
           type: match[:fn].nil? ? "inline" : "footnote",
           case: match[:case]&.sub(/%$/, ""),
-          style: match[:style]&.sub(/^style=/, "")&.sub(/%$/, "") || @xrefstyle,
+          style: match[:style] || @xrefstyle,
           droploc: match[:drop].nil? && match[:drop2].nil? ? nil : true,
           text: inline_anchor_xref_text(match, text) }
       end
 
       def inline_anchor_xref_match(text)
         /^(?:hidden%(?<hidden>[^,]+),?)?
-          (?<style>style=[^%]+%)?
+          (?:style=(?<style>[^%]+)%)?
           (?<drop>droploc%)?(?<case>capital%|lowercase%)?(?<drop2>droploc%)?
           (?<fn>fn:?\s*)?(?<text>.*)$/x.match text
       end
@@ -68,11 +68,7 @@ module Metanorma
       end
 
       def inline_anchor_link(node)
-        contents = node.text
-        contents = "" if node.target.gsub(%r{^mailto:}, "") == node.text
-        attributes = { target: node.target, alt: node.attr("title"),
-                       "update-type": node.attr("updatetype") ||
-                         node.attr("update-type") }
+        contents, attributes = inline_anchor_link_attrs(node)
         noko do |xml|
           xml.link **attr_code(attributes) do |l|
             l << contents
@@ -80,16 +76,29 @@ module Metanorma
         end.join
       end
 
+      def inline_anchor_link_attrs(node)
+        contents = node.text
+        contents = "" if node.target.gsub(%r{^mailto:}, "") == node.text
+        attributes = { target: node.target, alt: node.attr("title"),
+                       style: node.attr("style")&.sub(/%$/, ""),
+                       "update-type": node.attr("updatetype") ||
+                         node.attr("update-type") }
+        [contents, attributes]
+      end
+
       def inline_anchor_bibref(node)
-        eref_contents =
-          @c.decode(node.text || node.target || node.id)
-          &.sub(/^\[?([^\[\]]+?)\]?$/, "[\\1]")
+        eref_contents = inline_anchor_bibref_contents(node)
         @refids << (node.target || node.id)
         noko do |xml|
           xml.ref **attr_code(id: node.target || node.id) do |r|
             r << eref_contents
           end
         end.join
+      end
+
+      def inline_anchor_bibref_contents(node)
+        @c.decode(node.text || node.target || node.id)
+          &.sub(/^\[?([^\[\]]+?)\]?$/, "[\\1]")
       end
 
       def inline_callout(node)
