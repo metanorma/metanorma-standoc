@@ -244,13 +244,13 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
            #{BLANK_HDR}
-           <sections><review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z">
+           <sections><review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z" type="todo">
         <p id="_">Note1</p>
       </review>
-      <review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z">
+      <review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z" type="todo">
         <p id="_">Note2</p>
       </review>
-      <review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z">
+      <review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z" type="todo">
         <p id="_">Note3</p>
       </review></sections>
       </standard-document>

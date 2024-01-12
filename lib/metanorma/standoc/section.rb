@@ -24,10 +24,9 @@ module Metanorma
       def sectiontype(node, level = true)
         ret = sectiontype1(node)
         ret1 = preface_main_filter(sectiontype_streamline(ret), node)
-        return ret1 if ret1 == "symbols and abbreviated terms"
-        return nil unless !level || node.level == 1
-        return nil if @seen_headers.include? ret
-
+        ret1 == "symbols and abbreviated terms" and return ret1
+        !level || node.level == 1 or return nil
+        @seen_headers.include? ret and return nil
         @seen_headers << ret unless ret1.nil?
         @seen_headers_canonical << ret1 unless ret1.nil?
         ret1
@@ -95,8 +94,8 @@ module Metanorma
                 "multilingual-rendering": node&.attr("multilingual-rendering"),
                 colophon: (if node.role == "colophon" ||
                           node.attr("style") == "colophon"
-                            true
-                          end),
+                             true
+                           end),
                 preface: (if node.role == "preface" ||
                           node.attr("style") == "preface"
                             true
@@ -152,13 +151,13 @@ module Metanorma
       end
 
       def set_obligation(attrs, node)
-        attrs[:obligation] = if node.attributes.has_key?("obligation")
-                               node.attr("obligation")
-                             elsif node.parent.attributes.has_key?("obligation")
-                               node.parent.attr("obligation")
-                             else
-                               "normative"
-                             end
+        attrs[:obligation] =
+          if node.attributes.has_key?("obligation")
+            node.attr("obligation")
+          elsif node.parent.attributes.has_key?("obligation")
+            node.parent.attr("obligation")
+          else "normative"
+          end
       end
 
       def preamble(node)
@@ -167,8 +166,7 @@ module Metanorma
             xml_abstract.title do |t|
               t << (node.blocks[0].title || @i18n.foreword)
             end
-            content = node.content
-            xml_abstract << content
+            xml_abstract << node.content
           end
         end.join("\n")
       end
@@ -241,9 +239,9 @@ module Metanorma
       end
 
       def floating_title_attrs(node)
-        attr_code(id_attr(node).merge(align: node.attr("align"),
-                                      depth: node.level,
-                                      type: "floating-title"))
+        attr_code(id_attr(node)
+          .merge(align: node.attr("align"), depth: node.level,
+                 type: "floating-title"))
       end
 
       def floating_title(node)

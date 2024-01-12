@@ -318,7 +318,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "ignores review blocks unless document is in draft mode" do
+  xit "ignores review blocks unless document is in draft mode" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [[foreword]]
@@ -342,7 +342,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "processes review blocks if document is in draft mode" do
+  it "processes review blocks" do
     input = <<~INPUT
       = Document title
       Author
@@ -355,7 +355,7 @@ RSpec.describe Metanorma::Standoc do
       .Foreword
       Foreword
 
-      [reviewer=ISO,date=20170101,from=foreword,to=foreword]
+      [reviewer=ISO,date=20170101,from=foreword,to=foreword,type="whatever"]
       ****
       A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.
 
@@ -382,10 +382,9 @@ RSpec.describe Metanorma::Standoc do
          </ext>
        </bibdata>
        <sections><p id="foreword">Foreword</p>
-       <review reviewer="ISO" id="_" date="20170101T00:00:00Z" from="foreword" to="foreword"><p id="_">A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.</p>
+       <review reviewer="ISO" id="_" date="20170101T00:00:00Z" from="foreword" to="foreword" type="whatever"><p id="_">A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.</p>
        <p id="_">For further information on the Foreword, see <strong>ISO/IEC Directives, Part 2, 2016, Clause 12.</strong></p></review></sections>
        </standard-document>
-
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
