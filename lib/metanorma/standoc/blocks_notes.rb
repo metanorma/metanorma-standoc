@@ -22,13 +22,12 @@ module Metanorma
           attr_code(
             from: node.attr("from"),
             to: node.attr("to") || node.attr("from"),
+            type: node.attr("type") || nil,
           ),
         )
       end
 
       def sidebar(node)
-        return unless draft?
-
         noko do |xml|
           xml.review **sidebar_attrs(node) do |r|
             wrap_in_para(node, r)
@@ -42,7 +41,7 @@ module Metanorma
         attr_code(id_attr(node)
           .merge(reviewer: node.attr("reviewer") || node.attr("source") ||
                  "(Unknown)",
-                 date: date))
+                 date: date, type: "todo"))
       end
 
       def todo(node)
@@ -96,16 +95,20 @@ module Metanorma
       end
 
       def admonition(node)
-        return termnote(node) if in_terms? && node.attr("name") == "note"
-        return note(node) if node.attr("name") == "note"
-        return todo(node) if node.attr("name") == "todo"
-
+        ret = admonition_alternatives(node) and return ret
         noko do |xml|
           xml.admonition **admonition_attrs(node) do |a|
             node.title.nil? or a.name { |name| name << node.title }
             wrap_in_para(node, a)
           end
         end.join("\n")
+      end
+
+      def admonition_alternatives(node)
+        in_terms? && node.attr("name") == "note" and return termnote(node)
+        node.attr("name") == "note" and return note(node)
+        node.attr("name") == "todo" and return todo(node)
+        nil
       end
     end
   end

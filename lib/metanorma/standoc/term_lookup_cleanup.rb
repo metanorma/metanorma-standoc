@@ -64,9 +64,10 @@ module Metanorma
           lookup = norm_ref_id_text(refterm.text.strip)
           p = @lookup[:sec2prim][lookup] and refterm.children = @c.encode(p)
           p || @lookup[:term][lookup] and
-            refterm.replace("<preferred><expression>" \
-                            "<name>#{refterm.children.to_xml}" \
-                            "</name></expression></preferred>")
+            refterm.replace(<<~XML,
+              <preferred><expression><name>#{refterm.children.to_xml}</name></expression></preferred>
+            XML
+                           )
         end
       end
 
