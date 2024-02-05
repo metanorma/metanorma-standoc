@@ -51,7 +51,7 @@ ISO_124_DATED = <<~XML.freeze
          <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
          <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
          <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
-         <docidentifier type="URN">urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
+         <docidentifier type="URN">urn:iso:std:iso:124:stage-90.20:ed-7</docidentifier>
          <docnumber>124</docnumber>
          <date type="published">
            <on>2014-03</on>
@@ -70,7 +70,7 @@ ISO_124_DATED = <<~XML.freeze
          <abstract format="text/plain" language="en" script="Latn">ISO 124:2014 specifies methods for the determination of the total solids content of natural rubber field and concentrated latices and synthetic rubber latex. These methods are not necessarily suitable for latex from natural sources other than the Hevea brasiliensis, for vulcanized latex, for compounded latex, or for artificial dispersions of rubber.</abstract>
          <status>
            <stage>90</stage>
-           <substage>93</substage>
+           <substage>20</substage>
          </status>
          <copyright>
            <from>2014</from>

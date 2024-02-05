@@ -471,7 +471,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:21071:en</uri>
                <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
-               <docidentifier type="iso-reference">ISO/IEC 12382:1992(E)</docidentifier>
+               <docidentifier type="iso-reference">ISO/IEC TR 12382:1992(E)</docidentifier>
                <docidentifier type="URN">urn:iso:std:iso-iec:tr:12382:stage-90.93:ed-2</docidentifier>
                <docnumber>12382</docnumber>
                <date type="published">
@@ -520,7 +520,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
                <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
-               <docidentifier type="URN">urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso:124:stage-90.20:ed-7</docidentifier>
                <docnumber>124</docnumber>
                <date type="published">
                  <on>2014-03</on>
@@ -538,7 +538,7 @@ RSpec.describe Metanorma::Standoc do
                <script>Latn</script>
                <status>
                  <stage>90</stage>
-                 <substage>93</substage>
+                 <substage>20</substage>
                </status>
                <copyright>
                  <from>2014</from>
@@ -565,7 +565,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
                <docidentifier type="metanorma">[1]</docidentifier>
-               <docidentifier type="iso-reference">ISO/IEC 12382:1992(E)</docidentifier>
+               <docidentifier type="iso-reference">ISO/IEC TR 12382:1992(E)</docidentifier>
                <docidentifier type="URN">urn:iso:std:iso-iec:tr:12382:stage-90.93:ed-2</docidentifier>
                <docnumber>12382</docnumber>
                <date type="published">
@@ -615,7 +615,7 @@ RSpec.describe Metanorma::Standoc do
                <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
                <docidentifier type="metanorma">[1]</docidentifier>
                <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
-               <docidentifier type="URN">urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso:124:stage-90.20:ed-7</docidentifier>
                <docnumber>124</docnumber>
                <date type="published">
                  <on>2014-03</on>
@@ -633,7 +633,7 @@ RSpec.describe Metanorma::Standoc do
                <script>Latn</script>
                <status>
                  <stage>90</stage>
-                 <substage>93</substage>
+                 <substage>20</substage>
                </status>
                <copyright>
                  <from>2014</from>
@@ -653,6 +653,7 @@ RSpec.describe Metanorma::Standoc do
              </bibitem>
            </references>
          </bibliography>
+       </standard-document>
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
@@ -1061,7 +1062,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                <docidentifier type='ISO' primary="true">ISO 124:2014</docidentifier>
                <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
-               <docidentifier type="URN">urn:iso:std:iso:124:stage-90.93:ed-7</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso:124:stage-90.20:ed-7</docidentifier>
                <docnumber>124</docnumber>
                <date type='published'>
                  <on>2014-03</on>
@@ -1079,7 +1080,7 @@ RSpec.describe Metanorma::Standoc do
                <script>Latn</script>
                <status>
                  <stage>90</stage>
-                 <substage>93</substage>
+                 <substage>20</substage>
                </status>
                <copyright>
                  <from>2014</from>
