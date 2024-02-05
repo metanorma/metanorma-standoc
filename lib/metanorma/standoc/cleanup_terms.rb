@@ -119,7 +119,6 @@ module Metanorma
         termdomain1_cleanup(xmldoc)
         termnote_example_cleanup(xmldoc)
         term_children_cleanup(xmldoc)
-        termdocsource_cleanup(xmldoc)
       end
 
       def term_index_cleanup(xmldoc)

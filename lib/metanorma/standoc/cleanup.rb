@@ -29,6 +29,7 @@ module Metanorma
         element_name_cleanup(xmldoc)
         passthrough_cleanup(xmldoc)
         unnumbered_blocks_cleanup(xmldoc)
+        termdocsource_cleanup(xmldoc) # feeds: metadata_cleanup
         metadata_cleanup(xmldoc) # feeds: boilerplate_cleanup
         sections_cleanup(xmldoc) # feeds: obligations_cleanup, toc_cleanup,
         # floatingtitle_cleanup
