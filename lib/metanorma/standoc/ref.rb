@@ -28,7 +28,7 @@ module Metanorma
         yr = norm_year(match[:year])
         { code: match[:code], year: yr, match: match,
           title: match[:text], usrlbl: match[:usrlbl] || code[:usrlabel],
-          analyse_code: code, lang: (@lang || :all) }
+          analyse_code: code, lang: @lang || :all }
       end
 
       def isorefmatchesout(item, xml)
@@ -47,7 +47,7 @@ module Metanorma
 
       def isorefmatches2code(match, _item)
         code = analyse_ref_code(match[:code])
-        { code: match[:code], no_year: true, lang: (@lang || :all),
+        { code: match[:code], no_year: true, lang: @lang || :all,
           note: match[:fn], year: nil, match: match, analyse_code: code,
           title: match[:text], usrlbl: match[:usrlbl] || code[:usrlabel] }
       end
@@ -79,7 +79,7 @@ module Metanorma
         yr = norm_year(match[:year])
         hasyr = !yr.nil? && yr != "--"
         { code: match[:code], match: match, yr: yr, hasyr: hasyr,
-          year: hasyr ? yr : nil, lang: (@lang || :all),
+          year: hasyr ? yr : nil, lang: @lang || :all,
           all_parts: true, no_year: yr == "--",
           title: match[:text], usrlbl: match[:usrlbl] || code[:usrlabel] }
       end
@@ -125,11 +125,10 @@ module Metanorma
 
       def refitem_render(xml, match, code)
         xml.bibitem **attr_code(
-          id: match[:anchor], suppress_identifier: code[:dropid], hidden: code[:hidden],
+          id: match[:anchor], suppress_identifier: code[:dropid],
+          hidden: code[:hidden]
         ) do |t|
-          t.formattedref format: "application/x-isodoc+xml" do |i|
-            i << ref_normalise_no_format(match[:text])
-          end
+          refitem_render_formattedref(t, match[:text])
           yr_match = refitem1yr(code[:id])
           refitem_render1(match, code, t)
           /^\d+$|^\(.+\)$/.match?(code[:id]) or
@@ -138,11 +137,19 @@ module Metanorma
         end
       end
 
+      def refitem_render_formattedref(bibitem, title)
+        (title.nil? || title.empty?) and title = @i18n.no_information_available
+        bibitem.formattedref format: "application/x-isodoc+xml" do |i|
+          i << ref_normalise_no_format(title)
+        end
+      end
+
       # TODO: alternative where only title is available
       def refitemcode(item, node)
         m = NON_ISO_REF.match(item) and return refitem1code(item, m).compact
         m = NON_ISO_REF1.match(item) and return refitem1code(item, m).compact
-        @log.add("AsciiDoc Input", node, "#{MALFORMED_REF}: #{item}", severity: 1)
+        @log.add("AsciiDoc Input", node, "#{MALFORMED_REF}: #{item}",
+                 severity: 1)
         {}
       end
 
@@ -154,7 +161,7 @@ module Metanorma
         { code: code[:id], analyse_code: code, localfile: code[:localfile],
           year: (m = refitem1yr(code[:id])) ? m[:year] : nil,
           title: match[:text], match: match, hidden: code[:hidden],
-          usrlbl: match[:usrlbl] || code[:usrlabel], lang: (@lang || :all) }
+          usrlbl: match[:usrlbl] || code[:usrlabel], lang: @lang || :all }
       end
 
       def refitem1yr(code)

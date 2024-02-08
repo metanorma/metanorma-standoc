@@ -1137,7 +1137,7 @@ RSpec.describe Metanorma::Standoc do
                 <place>Geneva</place>
               </bibitem>
               <bibitem id='_' hidden="true">
-                <formattedref format='application/x-isodoc+xml'/>
+                <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
                 <docidentifier type='ISO'>iso:std:iso:13485:en</docidentifier>
                 <docnumber>13485:en</docnumber>
               </bibitem>
