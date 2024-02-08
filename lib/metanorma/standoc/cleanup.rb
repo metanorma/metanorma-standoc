@@ -53,15 +53,16 @@ module Metanorma
         normref_cleanup(xmldoc)
         biblio_cleanup(xmldoc)
         reference_names(xmldoc)
-        asciimath_cleanup(xmldoc) # feeds: mathml_cleanup, termdef_cleanup, symbols_cleanup
+        asciimath_cleanup(xmldoc) # feeds: mathml_cleanup, termdef_cleanup,
+        # symbols_cleanup
         symbols_cleanup(xmldoc) # feeds: termdef_cleanup
         xref_cleanup(xmldoc) # feeds: concept_cleanup, origin_cleanup
         concept_cleanup(xmldoc) # feeds: related_cleanup, termdef_cleanup
         related_cleanup(xmldoc) # feeds: termdef_cleanup
         origin_cleanup(xmldoc) # feeds: termdef_cleanup
         bookmark_cleanup(xmldoc)
-        termdef_cleanup(xmldoc) # feeds: iev_cleanup, term_index_cleanup
-        RelatonIev::iev_cleanup(xmldoc, @bibdb)
+        termdef_cleanup(xmldoc) # feeds: relaton_iev_cleanup, term_index_cleanup
+        relaton_iev_cleanup(xmldoc)
         element_name_cleanup(xmldoc)
         term_index_cleanup(xmldoc)
         bpart_cleanup(xmldoc)
@@ -86,6 +87,13 @@ module Metanorma
         anchor_cleanup(xmldoc)
         link_cleanup(xmldoc)
         xmldoc
+      end
+
+      def relaton_iev_cleanup(xmldoc)
+        _, err = RelatonIev::iev_cleanup(xmldoc, @bibdb)
+        err.each do |e|
+          @log.add("Bibliography", nil, e, severity: 0)
+        end
       end
 
       def docidentifier_cleanup(xmldoc); end
