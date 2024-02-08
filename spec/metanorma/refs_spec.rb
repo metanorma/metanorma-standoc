@@ -1097,8 +1097,47 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "renders not found reference with no fall-back title" do
+    mock_isobib_get_123_nil
+    input = <<~"INPUT"
+      #{ISOBIB_BLANK_HDR}
+
+      [bibliography]
+      == Normative References
+
+      * [[[iso123,NIST 123]]]
+    INPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(<<~"OUTPUT")
+        #{BLANK_HDR}
+           <sections/>
+           <bibliography>
+             <references id="_" normative="true" obligation="informative">
+               <title>Normative references</title>
+               <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+               <bibitem id="iso123">
+                 <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+                 <docidentifier type="NIST">NIST 123</docidentifier>
+                 <docnumber>123</docnumber>
+               </bibitem>
+             </references>
+           </bibliography>
+         </standard-document>
+      OUTPUT
+  end
 
   private
+
+  def mock_isobib_get_123_nil
+    expect(RelatonNist::NistBibliography).to receive(:get)
+      .with("NIST 123", nil, { code: "NIST 123",
+                               lang: "en",
+                               match: anything,
+                               analyse_code: anything,
+                               process: 0,
+                               ord: anything,
+                               title: "" }).and_return(nil)
+  end
 
   def mock_isobib_get_123_no_docid(times)
     expect(RelatonIso::IsoBibliography).to receive(:get)
