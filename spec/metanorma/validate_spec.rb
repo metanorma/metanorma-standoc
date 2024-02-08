@@ -544,8 +544,6 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     expect(File.read("test.err.html"))
       .not_to include "iso123 does not have a corresponding anchor ID in the bibliography"
-
-
   end
 
   it "warns of Non-reference in bibliography" do
@@ -644,6 +642,36 @@ RSpec.describe Metanorma::Standoc do
       INPUT
       expect(File.read("test.err.html"))
         .not_to include "does not match IEV 103-01-02"
+    end
+  end
+
+  it "Abort if non-existent IEV document cited" do
+    FileUtils.rm_f "test.err.html"
+    begin
+      VCR.use_cassette "iev_03-01-02", record: :new_episodes do
+        Asciidoctor.convert(<<~INPUT, *OPTIONS)
+          = Document title
+          Author
+          :docfile: test.adoc
+          :no-pdf:
+
+          [bibliography]
+          == Normative References
+          * [[[iev,IEV]]], _iev_
+
+          == Terms and definitions
+          === Automation
+
+          [.source]
+          <<iev,clause="03-01-02">>
+        INPUT
+        expect do
+          Asciidoctor.convert(input, *OPTIONS)
+        end.to raise_error(RuntimeError)
+      rescue SystemExit, RuntimeError
+      end
+      expect(File.read("test.err.html"))
+        .to include 'The IEV document 60050-03 that has been cited does not exist'
     end
   end
 
