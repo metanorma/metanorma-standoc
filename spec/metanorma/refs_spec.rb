@@ -133,6 +133,7 @@ RSpec.describe Metanorma::Standoc do
   it "repairs simple fetched ISO reference" do
     mock_isobib_get_123_no_docid(2)
     mock_isobib_get_123_no_docid_lbl(2)
+    mock_isobib_get_123_no_docid_fn(2)
     input = <<~"INPUT"
       #{ISOBIB_BLANK_HDR}
 
@@ -144,6 +145,7 @@ RSpec.describe Metanorma::Standoc do
 
       * [[[iso123,ISO 123]]] _Standard_
       * [[[iso124,(1)ISO 123]]] _Standard_
+      * [[[iso125,(2)ISO 123]]] _Standard_.footnote:[footnote]
     INPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(<<~"OUTPUT")
@@ -249,6 +251,51 @@ RSpec.describe Metanorma::Standoc do
          <docidentifier type='metanorma'>[1]</docidentifier>
         <title><em>Standard</em></title>
         </bibitem>
+        <bibitem type="standard" id="iso125">
+               <uri type="src">https://www.iso.org/standard/23281.html</uri>
+               <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+               <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+               <date type="published">
+                 <on>2001</on>
+               </date>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <edition>3</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <status>
+                 <stage>Published</stage>
+               </status>
+               <copyright>
+                 <from>2001</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                     <abbreviation/>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type="obsoletes">
+                 <bibitem type="standard">
+                   <formattedref format="text/plain">ISO 123:1985</formattedref>
+                 </bibitem>
+               </relation>
+               <relation type="updates">
+                 <bibitem type="standard">
+                   <formattedref format="text/plain">ISO 123:2001</formattedref>
+                 </bibitem>
+               </relation>
+               <docidentifier>ISO 123</docidentifier>
+               <docidentifier type="metanorma">[2]</docidentifier>
+               <formattedref><em>Standard</em>.<fn reference="1"><p id="_">footnote</p></fn></formattedref>
+             </bibitem>
         </references></bibliography>
         </standard-document>
       OUTPUT
@@ -1166,6 +1213,23 @@ RSpec.describe Metanorma::Standoc do
                               ord: anything,
                               title: "<em>Standard</em>",
                               usrlbl: "(1)",
+                              year: nil }) do
+      RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
+        <bibitem type="standard" id="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
+      OUTPUT
+    end.exactly(times).times
+  end
+
+  def mock_isobib_get_123_no_docid_fn(times)
+    expect(RelatonIso::IsoBibliography).to receive(:get)
+      .with("ISO 123", nil, { code: "ISO 123",
+                              analyse_code: anything,
+                              lang: "en",
+                              match: anything,
+                              process: 1,
+                              ord: anything,
+                              title: "<em>Standard</em>.<fn reference=\"1\"><p>footnote</p></fn>",
+                              usrlbl: "(2)",
                               year: nil }) do
       RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
         <bibitem type="standard" id="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
