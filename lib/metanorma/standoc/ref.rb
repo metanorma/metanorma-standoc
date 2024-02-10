@@ -17,6 +17,7 @@ module Metanorma
 
       def isorefrender1(bib, match, code, year, allp = "")
         bib.title(**plaintxt) { |i| i << ref_normalise(match[:text]) }
+        #refitem_render_formattedref(bib, match[:text])
         docid(bib, match[:usrlbl]) if match[:usrlbl]
         docid(bib, code[:usrlabel]) if code && code[:usrlabel]
         docid(bib, id_and_year(match[:code], year) + allp)
