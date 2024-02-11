@@ -3,14 +3,14 @@ module Metanorma
     module Cleanup
       def external_terms_boilerplate(sources)
         @i18n.l10n(
-          @i18n.external_terms_boilerplate.gsub("%", sources || "???"),
+          @i18n.external_terms_boilerplate.gsub(/%\b/, sources || "???"),
           @lang, @script, @locale
         )
       end
 
       def internal_external_terms_boilerplate(sources)
         @i18n.l10n(
-          @i18n.internal_external_terms_boilerplate.gsub("%", sources || "??"),
+          @i18n.internal_external_terms_boilerplate.gsub(/%\b/, sources || "??"),
           @lang, @script
         )
       end
