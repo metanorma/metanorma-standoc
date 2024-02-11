@@ -644,6 +644,33 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "treats triple-hyphen in bibliographic location as a single reference" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      <<ISO712,clause=3-4-5,table=9,text>>
+
+      [bibliography]
+      == Normative References
+
+      * [[[ISO712,x]]] Reference
+    INPUT
+    output = <<~OUTPUT
+         <preface>
+           <foreword id="_" obligation="informative">
+             <title>Foreword</title>
+             <p id="_">
+               <eref type="inline" bibitemid="ISO712" citeas="x"><localityStack><locality type="clause"><referenceFrom>3-4-5</referenceFrom></locality><locality type="table"><referenceFrom>9</referenceFrom></locality></localityStack>text</eref>
+             </p>
+           </foreword>
+         </preface>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml = xml.at("//xmlns:preface")
+    expect(xmlpp(strip_guid(xml.to_xml)))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes combinations of bibliographic crossreferences" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
