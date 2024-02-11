@@ -17,16 +17,23 @@ module Metanorma
       named :index
 
       def preprocess_attrs(attrs)
-        return unless attrs.size > 1 && attrs.size < 5
-
         ret = { primary: attrs[1], target: attrs[attrs.size] }
         ret[:secondary] = attrs[2] if attrs.size > 2
         ret[:tertiary] = attrs[3] if attrs.size > 3
         ret
       end
 
-      def process(_parent, target, attr)
-        args = preprocess_attrs(attr) or return
+      def validate(parent, target, attrs)
+        attrs.size > 1 && attrs.size < 5 and return true
+        e = "invalid index \"#{target}\" cross-reference: wrong number of " \
+            "attributes in `index:#{target}[#{attrs.values.join(',')}]`"
+        parent.converter.log.add("Index", parent, e, severity: 0)
+        false
+      end
+
+      def process(parent, target, attr)
+        validate(parent, target, attr) or return
+        args = preprocess_attrs(attr)
         ret = "<index-xref also='#{target == 'also'}'>" \
               "<primary>#{args[:primary]}</primary>"
         ret += "<secondary>#{args[:secondary]}</secondary>" if args[:secondary]
