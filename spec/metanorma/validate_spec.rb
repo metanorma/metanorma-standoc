@@ -66,6 +66,54 @@ RSpec.describe Metanorma::Standoc do
     end
   end
 
+  it "aborts on an index cross-reference with too few terms" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      == Clause 1
+      index:see[term]
+
+    INPUT
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err.html"))
+      .to include "invalid index \"see\" cross-reference: wrong number of attributes in <code>index:​see[term]</code>"
+    expect(File.exist?("test.xml")).to be false
+  end
+
+  it "aborts on an index cross-reference with too many terms" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      == Clause 1
+      index:see[term,a,b,c,d,e]
+
+    INPUT
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err.html"))
+      .to include "invalid index \"see\" cross-reference: wrong number of attributes in <code>index:​see[term,a,​b,c,d,e]</code>"
+    expect(File.exist?("test.xml")).to be false
+  end
+
   it "aborts on embedding a missing document" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
