@@ -11,7 +11,6 @@ module Metanorma
       def metadata_id(node, xml)
         id = node.attr("docidentifier") || metadata_id_build(node)
         xml.docidentifier id
-        xml.docnumber node.attr("docnumber")
       end
 
       def metadata_id_build(node)
@@ -25,6 +24,11 @@ module Metanorma
       def metadata_other_id(node, xml)
         a = node.attr("isbn") and xml.docidentifier a, type: "ISBN"
         a = node.attr("isbn10") and xml.docidentifier a, type: "ISBN10"
+        csv_split(node.attr("additional-docidentifier"), ",")&.each do |n|
+          t, v = n.split(":", 2)
+          xml.docidentifier v, type: t
+        end
+        xml.docnumber node.attr("docnumber")
       end
 
       def metadata_version(node, xml)
@@ -44,8 +48,7 @@ module Metanorma
       end
 
       def metadata_committee(node, xml)
-        return unless node.attr("technical-committee")
-
+        node.attr("technical-committee") or return
         xml.editorialgroup do |a|
           committee_component("technical-committee", node, a)
         end
@@ -64,12 +67,9 @@ module Metanorma
 
       def metadata_source(node, xml)
         node.attr("uri") && xml.uri(node.attr("uri"))
-        node.attr("xml-uri") && xml.uri(node.attr("xml-uri"), type: "xml")
-        node.attr("html-uri") && xml.uri(node.attr("html-uri"), type: "html")
-        node.attr("pdf-uri") && xml.uri(node.attr("pdf-uri"), type: "pdf")
-        node.attr("doc-uri") && xml.uri(node.attr("doc-uri"), type: "doc")
-        node.attr("relaton-uri") && xml.uri(node.attr("relaton-uri"),
-                                            type: "relaton")
+        %w(xml html pdf doc relaton).each do |t|
+          node.attr("#{t}-uri") && xml.uri(node.attr("#{t}-uri"), type: t)
+        end
       end
 
       def metadata_date1(node, xml, type)
@@ -88,8 +88,7 @@ module Metanorma
       def metadata_date(node, xml)
         datetypes.each { |t| metadata_date1(node, xml, t) }
         node.attributes.each_key do |a|
-          next unless a == "date" || /^date_\d+$/.match(a)
-
+          a == "date" || /^date_\d+$/.match(a) or next
           type, date = node.attr(a).split(/ /, 2)
           type or next
           xml.date type: type do |d|

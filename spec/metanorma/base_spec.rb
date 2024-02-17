@@ -281,6 +281,7 @@ RSpec.describe Metanorma::Standoc do
       :toclevels-doc: 3
       :toclevels-html: 4
       :toclevels-pdf: 5
+      :additional-docidentifier: ABC:x 1, DEF:y 2
 
     INPUT
     output = <<~OUTPUT
@@ -291,6 +292,8 @@ RSpec.describe Metanorma::Standoc do
                 <docidentifier>1000-1</docidentifier>
                 <docidentifier type='ISBN'>ISBN-13</docidentifier>
               <docidentifier type='ISBN10'>ISBN-10</docidentifier>
+               <docidentifier type="ABC">x 1</docidentifier>
+                <docidentifier type="DEF">y 2</docidentifier>
                 <docnumber>1000</docnumber>
                 <date type="published">
                 <on>1000-01-01</on>
