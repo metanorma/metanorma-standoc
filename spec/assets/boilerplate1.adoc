@@ -1,0 +1,11 @@
+== copyright-statement
+
+== license-statement
+
+=== clause 3
+
+=== clause 4
+
+== legal-statement
+
+Stuff
