@@ -24,7 +24,7 @@ module Metanorma
       def metadata_other_id(node, xml)
         a = node.attr("isbn") and xml.docidentifier a, type: "ISBN"
         a = node.attr("isbn10") and xml.docidentifier a, type: "ISBN10"
-        csv_split(node.attr("additional-docidentifier"), ",")&.each do |n|
+        csv_split(node.attr("docidentifier-additional"), ",")&.each do |n|
           t, v = n.split(":", 2)
           xml.docidentifier v, type: t
         end

@@ -281,7 +281,7 @@ RSpec.describe Metanorma::Standoc do
       :toclevels-doc: 3
       :toclevels-html: 4
       :toclevels-pdf: 5
-      :additional-docidentifier: ABC:x 1, DEF:y 2
+      :docidentifier-additional: ABC:x 1, DEF:y 2
 
     INPUT
     output = <<~OUTPUT
