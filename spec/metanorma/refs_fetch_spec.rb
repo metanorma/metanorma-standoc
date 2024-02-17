@@ -29,7 +29,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
                 <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
-                <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
+                <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -41,6 +41,7 @@ RSpec.describe Metanorma::Standoc do
                 </contributor>
                 <edition>3</edition>
                 <language>en</language>
+                <language>fr</language>
                 <script>Latn</script>
                 <status>
                   <stage>90</stage>
@@ -71,7 +72,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
                     <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
+                    <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
                       <on>2001-05</on>
@@ -86,6 +87,7 @@ RSpec.describe Metanorma::Standoc do
                     </contributor>
                     <edition>3</edition>
                     <language>en</language>
+                    <language>fr</language>
                     <script>Latn</script>
                     <status>
                       <stage>90</stage>
@@ -121,7 +123,7 @@ RSpec.describe Metanorma::Standoc do
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
                 <docidentifier type='metanorma'>[1]</docidentifier>
                 <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
-                <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
+                <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -133,6 +135,7 @@ RSpec.describe Metanorma::Standoc do
                 </contributor>
                 <edition>3</edition>
                 <language>en</language>
+                <language>fr</language>
                 <script>Latn</script>
                 <status>
                   <stage>90</stage>
@@ -163,7 +166,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
                     <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
+                    <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
                       <on>2001-05</on>
@@ -178,6 +181,7 @@ RSpec.describe Metanorma::Standoc do
                     </contributor>
                     <edition>3</edition>
                     <language>en</language>
+                    <language>fr</language>
                     <script>Latn</script>
                     <status>
                       <stage>90</stage>
@@ -255,7 +259,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
                 <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
-                <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
+                <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -298,7 +302,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
                     <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
+                    <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
                       <on>2001-05</on>
@@ -349,7 +353,7 @@ RSpec.describe Metanorma::Standoc do
                 <docidentifier type='ISO' primary="true">ISO 123</docidentifier>
                 <docidentifier type='metanorma'>[1]</docidentifier>
                 <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
-                <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
+                <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
                 <docnumber>123</docnumber>
                 <contributor>
                   <role type='publisher'/>
@@ -392,7 +396,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                     <docidentifier type='ISO' primary="true">ISO 123:2001</docidentifier>
                     <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93:ed-3</docidentifier>
+                    <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
                     <docnumber>123</docnumber>
                     <date type='published'>
                       <on>2001-05</on>
@@ -472,7 +476,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
                <docidentifier type="iso-reference">ISO/IEC TR 12382:1992(E)</docidentifier>
-               <docidentifier type="URN">urn:iso:std:iso-iec:tr:12382:stage-90.93:ed-2</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso-iec:tr:12382:stage-90.93</docidentifier>
                <docnumber>12382</docnumber>
                <date type="published">
                  <on>1992-12</on>
@@ -495,6 +499,7 @@ RSpec.describe Metanorma::Standoc do
                </contributor>
                <edition>2</edition>
                <language>en</language>
+               <language>fr</language>
                <script>Latn</script>
                <status>
                  <stage>90</stage>
@@ -520,7 +525,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
                <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
-               <docidentifier type="URN">urn:iso:std:iso:124:stage-90.20:ed-7</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso:124:stage-90.20</docidentifier>
                <docnumber>124</docnumber>
                <date type="published">
                  <on>2014-03</on>
@@ -535,6 +540,7 @@ RSpec.describe Metanorma::Standoc do
                </contributor>
                <edition>7</edition>
                <language>en</language>
+               <language>fr</language>
                <script>Latn</script>
                <status>
                  <stage>90</stage>
@@ -566,7 +572,7 @@ RSpec.describe Metanorma::Standoc do
                <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
                <docidentifier type="metanorma">[1]</docidentifier>
                <docidentifier type="iso-reference">ISO/IEC TR 12382:1992(E)</docidentifier>
-               <docidentifier type="URN">urn:iso:std:iso-iec:tr:12382:stage-90.93:ed-2</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso-iec:tr:12382:stage-90.93</docidentifier>
                <docnumber>12382</docnumber>
                <date type="published">
                  <on>1992-12</on>
@@ -589,6 +595,7 @@ RSpec.describe Metanorma::Standoc do
                </contributor>
                <edition>2</edition>
                <language>en</language>
+               <language>fr</language>
                <script>Latn</script>
                <status>
                  <stage>90</stage>
@@ -615,7 +622,7 @@ RSpec.describe Metanorma::Standoc do
                <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
                <docidentifier type="metanorma">[1]</docidentifier>
                <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
-               <docidentifier type="URN">urn:iso:std:iso:124:stage-90.20:ed-7</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso:124:stage-90.20</docidentifier>
                <docnumber>124</docnumber>
                <date type="published">
                  <on>2014-03</on>
@@ -630,6 +637,7 @@ RSpec.describe Metanorma::Standoc do
                </contributor>
                <edition>7</edition>
                <language>en</language>
+               <language>fr</language>
                <script>Latn</script>
                <status>
                  <stage>90</stage>
@@ -1062,7 +1070,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                <docidentifier type='ISO' primary="true">ISO 124:2014</docidentifier>
                <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
-               <docidentifier type="URN">urn:iso:std:iso:124:stage-90.20:ed-7</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso:124:stage-90.20</docidentifier>
                <docnumber>124</docnumber>
                <date type='published'>
                  <on>2014-03</on>
@@ -1077,6 +1085,7 @@ RSpec.describe Metanorma::Standoc do
                </contributor>
                <edition>7</edition>
                <language>en</language>
+               <language>fr</language>
                <script>Latn</script>
                <status>
                  <stage>90</stage>
@@ -1108,7 +1117,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "suppress identifier on bibitem" do
-    VCR.use_cassette "dated_iso_ref_joint_iso_iec1" do
+    VCR.use_cassette "dated_iso_ref_joint_iso_iec2" do
       input = <<~INPUT
         #{ISOBIB_BLANK_HDR}
         [bibliography]
@@ -1354,7 +1363,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type="src">https://www.rfc-editor.org/info/rfc8341</uri>
                <docidentifier type="ISO" primary="true">ISO 125</docidentifier>
                <docidentifier type="iso-reference">ISO 125(E)</docidentifier>
-               <docidentifier type="URN">urn:iso:std:iso:125:stage-60.60:ed-7</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso:125:stage-60.60</docidentifier>
                <docidentifier type="IETF" primary="true">RFC 8341</docidentifier>
                <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
                <docnumber>125</docnumber>
@@ -1374,6 +1383,7 @@ RSpec.describe Metanorma::Standoc do
                </contributor>
                <edition>7</edition>
                <language>en</language>
+               <language>fr</language>
                <script>Latn</script>
                <status>
                  <stage>60</stage>
@@ -1404,7 +1414,7 @@ RSpec.describe Metanorma::Standoc do
                    <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
                    <docidentifier type="ISO" primary="true">ISO 125:2020</docidentifier>
                    <docidentifier type="iso-reference">ISO 125:2020(E)</docidentifier>
-                   <docidentifier type="URN">urn:iso:std:iso:125:stage-60.60:ed-7</docidentifier>
+                   <docidentifier type="URN">urn:iso:std:iso:125:stage-60.60</docidentifier>
                    <docnumber>125</docnumber>
                    <date type="published">
                      <on>2020-02</on>
@@ -1419,6 +1429,7 @@ RSpec.describe Metanorma::Standoc do
                    </contributor>
                    <edition>7</edition>
                    <language>en</language>
+                   <language>fr</language>
                    <script>Latn</script>
                    <status>
                      <stage>60</stage>
@@ -1479,7 +1490,7 @@ RSpec.describe Metanorma::Standoc do
                 <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
                 <docidentifier type="ISO" primary="true">ISO 125</docidentifier>
                 <docidentifier type="iso-reference">ISO 125(E)</docidentifier>
-                <docidentifier type="URN">urn:iso:std:iso:125:stage-60.60:ed-7</docidentifier>
+                <docidentifier type="URN">urn:iso:std:iso:125:stage-60.60</docidentifier>
                 <docnumber>125</docnumber>
                 <contributor>
                   <role type="publisher"/>
@@ -1491,6 +1502,7 @@ RSpec.describe Metanorma::Standoc do
                 </contributor>
                 <edition>7</edition>
                 <language>en</language>
+                <language>fr</language>
                 <script>Latn</script>
                 <status>
                   <stage>60</stage>
@@ -1521,7 +1533,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
                     <docidentifier type="ISO" primary="true">ISO 125:2020</docidentifier>
                     <docidentifier type="iso-reference">ISO 125:2020(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso:125:stage-60.60:ed-7</docidentifier>
+                    <docidentifier type="URN">urn:iso:std:iso:125:stage-60.60</docidentifier>
                     <docnumber>125</docnumber>
                     <date type="published">
                       <on>2020-02</on>
@@ -1536,6 +1548,7 @@ RSpec.describe Metanorma::Standoc do
                     </contributor>
                     <edition>7</edition>
                     <language>en</language>
+                    <language>fr</language>
                     <script>Latn</script>
                     <status>
                       <stage>60</stage>
