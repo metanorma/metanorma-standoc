@@ -141,11 +141,38 @@ module Metanorma
         xml.at("//metanorma-extension/semantic-metadata/" \
                "headless[text() = 'true']") and return nil
         file = boilerplate_file(xml)
-        @boilerplateauthority and file = File.join(@localdir,
-                                                   @boilerplateauthority)
-        (!file.nil? and File.exist?(file)) or return
-        b = conv.populate_template(boilerplate_read(file), nil)
+        @boilerplateauthority and
+          file2 = File.join(@localdir, @boilerplateauthority)
+        resolve_boilerplate_files(process_boilerplate_file(file, conv),
+                                  process_boilerplate_file(file2, conv))
+      end
+
+      def process_boilerplate_file(filename, conv)
+        (!filename.nil? and File.exist?(filename)) or return
+        b = conv.populate_template(boilerplate_read(filename), nil)
         boilerplate_file_convert(b)
+      end
+
+      def resolve_boilerplate_files(built_in, user_add)
+        built_in || user_add or return
+        built_in && user_add or return to_xml(built_in || user_add)
+        merge_boilerplate_files(built_in, user_add)
+      end
+
+      def merge_boilerplate_files(built_in, user_add)
+        %w(copyright license legal feedback).each do |w|
+          resolve_boilerplate_statement(built_in, user_add, w)
+        end
+        to_xml(built_in)
+      end
+
+      def resolve_boilerplate_statement(built_in, user_add, statement)
+        b = user_add.at("./#{statement}-statement") or return
+        if a = built_in.at("./#{statement}-statement")
+          b.text.strip.empty? and a.remove or a.replace(b)
+        else
+          built_in << b
+        end
       end
 
       def boilerplate_read(file)
@@ -157,8 +184,8 @@ module Metanorma
 
       # If Asciidoctor, convert top clauses to tags and wrap in <boilerplate>
       def boilerplate_file_convert(file)
-        Nokogiri::XML(file).root and return file
-        to_xml(boilerplate_file_restructure(file))
+        ret = Nokogiri::XML(file).root and return ret
+        boilerplate_file_restructure(file)
       end
 
       # If Asciidoctor, convert top clauses to tags and wrap in <boilerplate>

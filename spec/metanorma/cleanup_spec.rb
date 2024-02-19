@@ -435,6 +435,62 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "overrides boilerplate file in ADOC" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :docstage: 10
+      :boilerplate-authority: spec/assets/boilerplate1.adoc
+      :publisher: Fred
+      :pub-address: 10 Jack St + \\
+      Antarctica
+
+      == Clause 1
+
+    INPUT
+    output = <<~OUTPUT
+      <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+         <boilerplate>
+           <license-statement>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title>clause 3</title>
+             </clause>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title>clause 4</title>
+             </clause>
+           </license-statement>
+           <feedback-statement>
+             <p id="_">10 Jack St<br/>Antarctica</p>
+           </feedback-statement>
+           <clause id="_" inline-header="false" obligation="normative">
+             <title>Random Title</title>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title>feedback-statement</title>
+             </clause>
+           </clause>
+           <legal-statement>
+             <p id="_">Stuff</p>
+           </legal-statement>
+         </boilerplate>
+         <sections>
+           <clause id="_" inline-header="false" obligation="normative">
+             <title>Clause 1</title>
+           </clause>
+         </sections>
+       </standard-document>
+    OUTPUT
+    mock_boilerplate_file
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    xml.at("//xmlns:bibdata")&.remove
+    expect(xmlpp(strip_guid(xml.to_xml)))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "sorts symbols lists #1" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1516,7 +1572,7 @@ RSpec.describe Metanorma::Standoc do
            description: |
              The following:
 
-             * Implementation of CEN/CENELEC amendment A11:2021: European foreword and Annexes ZA and ZB revised, and Annex ZC removed. 
+             * Implementation of CEN/CENELEC amendment A11:2021: European foreword and Annexes ZA and ZB revised, and Annex ZC removed.#{' '}
              * National Annex NZ added, and Amendments/corrigenda issued since publication table corrected
       - date:
         - type: published
@@ -1980,5 +2036,14 @@ RSpec.describe Metanorma::Standoc do
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     expect(xmlpp(strip_guid(ret.at("//xmlns:bibdata").to_xml)))
       .to be_equivalent_to(xmlpp(output))
+  end
+
+  private
+
+  def mock_boilerplate_file
+    allow_any_instance_of(Metanorma::Standoc::Cleanup)
+      .to receive(:boilerplate_file).and_return(
+        "spec/assets/boilerplate.adoc",
+      )
   end
 end

@@ -620,7 +620,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "process ISO reference without an Internet connection" do
-    expect(RelatonIso::IsoBibliography).to receive(:search).with("ISO 123") do
+    expect(RelatonIso::IsoBibliography).to receive(:search) do
       raise RelatonBib::RequestError.new "getaddrinfo"
     end.at_least :once
     input = <<~INPUT
