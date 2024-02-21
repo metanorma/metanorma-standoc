@@ -284,6 +284,14 @@ ISO_123_DATED = <<~XML.freeze
 XML
 
 RSpec.describe Metanorma::Standoc do
+  before do
+    # Force to download Relaton index file
+    allow_any_instance_of(Relaton::Index::Type).to receive(:actual?)
+      .and_return(false)
+    allow_any_instance_of(Relaton::Index::FileIO).to receive(:check_file)
+      .and_return(nil)
+  end
+
   it "does not activate biblio caches if isobib disabled" do
     FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore1")
     FileUtils.mv(File.expand_path("~/.relaton/cache"),

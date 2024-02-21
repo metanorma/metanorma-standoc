@@ -2,6 +2,14 @@ require "spec_helper"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
+  before do
+    # Force to download Relaton index file
+    allow_any_instance_of(Relaton::Index::Type).to receive(:actual?)
+      .and_return(false)
+    allow_any_instance_of(Relaton::Index::FileIO).to receive(:check_file)
+      .and_return(nil)
+  end
+
   it "generates error file" do
     FileUtils.rm_f "spec/assets/xref_error.err.html"
     Asciidoctor.convert_file "spec/assets/xref_error.adoc",
@@ -719,7 +727,7 @@ RSpec.describe Metanorma::Standoc do
       rescue SystemExit, RuntimeError
       end
       expect(File.read("test.err.html"))
-        .to include 'The IEV document 60050-03 that has been cited does not exist'
+        .to include "The IEV document 60050-03 that has been cited does not exist"
     end
   end
 
@@ -968,7 +976,9 @@ RSpec.describe Metanorma::Standoc do
         | a | a |a |a
         |===
       INPUT
-      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
@@ -994,7 +1004,9 @@ RSpec.describe Metanorma::Standoc do
         | a | a | a
         |===
       INPUT
-      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
@@ -1020,7 +1032,9 @@ RSpec.describe Metanorma::Standoc do
         | a | a | a
         |===
       INPUT
-      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
