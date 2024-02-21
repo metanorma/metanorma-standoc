@@ -92,6 +92,10 @@ module Metanorma
         outfilesuffix ".xml"
         @libdir = File.dirname(self.class::_file || __FILE__)
         @c = HTMLEntities.new
+        unless @log = opts[:document].options[:log]
+          @log = Metanorma::Utils::Log.new
+          @local_log = true
+        end
       end
 
       class << self
