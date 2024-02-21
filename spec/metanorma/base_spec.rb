@@ -25,8 +25,8 @@ RSpec.describe Metanorma::Standoc do
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     expect(xml.root["version"]).to be_equivalent_to Metanorma::Standoc::VERSION
     expect(xml.root["schema-version"])
-      .to be_equivalent_to Metanorma::Standoc::Converter.new(nil,
-                                                             nil).schema_version
+      .to be_equivalent_to Metanorma::Standoc::Converter.new(nil, nil)
+      .schema_version
   end
 
   it "processes named entities" do
