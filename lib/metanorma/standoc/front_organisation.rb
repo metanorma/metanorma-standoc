@@ -13,14 +13,46 @@ module Metanorma
         end
       end
 
-      def organization(org, orgname, node = nil, default_org = nil)
+      def organization(org, orgname, node = nil, default_org = nil, attrs = {})
         abbrevs = org_abbrev
         n = abbrevs.invert[orgname] and orgname = n
         org.name orgname
-        default_org and a = node&.attr("subdivision") and org.subdivision a
+        default_org && (a = node&.attr("subdivision")) && !attrs[:subdiv] and
+          subdivision(a, node&.attr("subdivision-abbr"), org)
+        a = attrs[:subdiv] and subdivision(a, nil, org)
         abbr = org_abbrev[orgname]
-        default_org && b = node&.attr("subdivision-abbr") and abbr = b
         abbr and org.abbreviation abbr
+      end
+
+      def subdivision(attr, abbr, org)
+        abbrs = csv_split(abbr) || []
+        subdivs = csv_split(attr, ";")
+        subdivs.size == abbrs.size or abbrs = []
+        subdivs.each_with_index do |s, i|
+          subdivision1(s, abbrs[i], org)
+        end
+      end
+
+      def subdivision1(attr, abbr, org)
+        m = csv_split(attr, ",").map do |s1|
+          t, v = s1.split(":", 2).map(&:strip)
+          if v.nil?
+            v = t
+            t = nil
+          end
+          { type: t, value: v }
+        end
+        abbr and m[0][:abbr] = abbr
+        subdiv_build(m, org)
+      end
+
+      def subdiv_build(list, org)
+        list.empty? and return
+        org.subdivision **attr_code(type: list[0][:type]) do |s|
+          s.name { |n| n << list[0][:value] }
+          subdiv_build(list[1..-1], s)
+          a = list[0][:abbr] and s.abbreviation { |n| n << a }
+        end
       end
 
       def org_address(org, xml)
@@ -43,9 +75,8 @@ module Metanorma
         xml.name node.attr("affiliation#{suffix}")
         abbr = node.attr("affiliation_abbrev#{suffix}") and
           xml.abbreviation abbr
-        csv_split(node.attr("affiliation_subdiv#{suffix}"))&.each do |s|
-          xml.subdivision s
-        end
+        a = node.attr("affiliation_subdiv#{suffix}") and
+          subdivision(a, nil, xml)
         person_address(node, suffix, xml)
         person_org_logo(node, suffix, xml)
       end
@@ -108,7 +139,7 @@ module Metanorma
       end
 
       def org_organization(node, xml, org)
-        organization(xml, org[:name], node, !node.attr("publisher"))
+        organization(xml, org[:name], node, !node.attr("publisher"), org)
         org_address(org, xml)
         org_logo(xml, org[:logo])
       end
@@ -150,6 +181,7 @@ module Metanorma
       def extract_org_attrs_complex(node, opts, source, suffix)
         { name: node.attr(source + suffix),
           role: opts[:role], desc: opts[:desc],
+          subdiv: node.attr("#{source}_subdivision#{suffix}"),
           logo: node.attr("#{source}_logo#{suffix}") }.compact
           .merge(extract_org_attrs_address(node, opts, suffix))
       end

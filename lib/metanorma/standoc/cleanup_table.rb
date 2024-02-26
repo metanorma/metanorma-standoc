@@ -22,8 +22,7 @@ module Metanorma
 
       def insert_thead(table)
         thead = table.at("./thead")
-        return thead unless thead.nil?
-
+        thead.nil? or return thead
         if tname = table.at("./name")
           thead = tname.add_next_sibling("<thead/>").first
           return thead
@@ -35,8 +34,7 @@ module Metanorma
         xmldoc.xpath("//table[@headerrows]").each do |s|
           thead = insert_thead(s)
           (thead.xpath("./tr").size...s["headerrows"].to_i).each do
-            row = s.at("./tbody/tr")
-            row.parent = thead
+            s.at("./tbody/tr").parent = thead
           end
           thead.xpath(".//td").each { |n| n.name = "th" }
           s.delete("headerrows")

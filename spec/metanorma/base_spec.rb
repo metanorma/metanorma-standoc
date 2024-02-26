@@ -367,8 +367,8 @@ RSpec.describe Metanorma::Standoc do
                  <organization>
                    <name>Slate Rock and Gravel Company</name>
                    <abbreviation>SRG</abbreviation>
-                   <subdivision>Hermeneutics Unit</subdivision>
-              <subdivision>Exegetical Subunit</subdivision>
+                   <subdivision><name>Hermeneutics Unit</name></subdivision>
+                  <subdivision><name>Exegetical Subunit</name></subdivision>
                 <address>
                 <formattedAddress>
                 6 Rubble Way, Bedrock
@@ -397,8 +397,8 @@ RSpec.describe Metanorma::Standoc do
                 <organization>
                   <name>Rockhead and Quarry Cave Construction Company</name>
                   <abbreviation>RQCCC</abbreviation>
-                  <subdivision>Hermeneutics Unit</subdivision>
-              <subdivision>Exegetical Subunit</subdivision>
+                  <subdivision><name>Hermeneutics Unit</name></subdivision>
+              <subdivision><name>Exegetical Subunit</name></subdivision>
                 <address>
                   <formattedAddress>6A Rubble Way, <br/>Bedrock</formattedAddress>
                 </address>
@@ -1114,8 +1114,8 @@ RSpec.describe Metanorma::Standoc do
       :tc-docnumber: 2000
       :language: el
       :script: Grek
-      :subdivision: Subdivision
-      :subdivision-abbr: SD
+      :subdivision: Subdivision, committee: TC 3; "institute: My Curious Corporation, inc", committee: TC 7
+      :subdivision-abbr: SD, MCC
       :doctype: This is a DocType
       :pub-address: 1 Infinity Loop + \\
       California
@@ -1123,78 +1123,125 @@ RSpec.describe Metanorma::Standoc do
       :pub-fax: 4444444
       :pub-email: x@example.com
       :pub-uri: http://www.example.com
+      :sponsor: IEC
+      :sponsor_subdivision:  technical committee: TC 9, subcommittee: SC 7, working group: WG 88
 
     INPUT
     output = <<~OUTPUT
              <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
-        <bibdata type='standard'>
-          <title language='en' format='text/plain'>Document title</title>
-          <docidentifier>OVERRIDE-DOCIDENTIFIER</docidentifier>
-          <docnumber>1000</docnumber>
-          <date type='published'>
-            <on>1000-01</on>
-          </date>
-          <contributor>
-            <role type='author'/>
-            <organization>
-              <name>International Standards Organization</name>
-              <subdivision>Subdivision</subdivision>
-              <abbreviation>SD</abbreviation>
-              <address>
-        <formattedAddress>1 Infinity Loop <br/>California</formattedAddress>
-      </address>
-      <phone>3333333</phone>
-      <phone type='fax'>4444444</phone>
-      <email>x@example.com</email>
-      <uri>http://www.example.com</uri>
-            </organization>
-          </contributor>
-          <contributor>
-            <role type='publisher'/>
-            <organization>
-              <name>International Standards Organization</name>
-              <subdivision>Subdivision</subdivision>
-              <abbreviation>SD</abbreviation>
-              <address>
-        <formattedAddress>1 Infinity Loop <br/>California</formattedAddress>
-      </address>
-      <phone>3333333</phone>
-      <phone type='fax'>4444444</phone>
-      <email>x@example.com</email>
-      <uri>http://www.example.com</uri>
-            </organization>
-          </contributor>
-          <version>
-            <revision-date>2000-01</revision-date>
-          </version>
-          <language>el</language>
-          <script>Grek</script>
-          <status>
-            <stage>published</stage>
-          </status>
-          <copyright>
-            <from>#{Time.now.year}</from>
-            <owner>
-              <organization>
-                <name>International Standards Organization</name>
-                <subdivision>Subdivision</subdivision>
-                <abbreviation>SD</abbreviation>
-              <address>
-        <formattedAddress>1 Infinity Loop <br/>California</formattedAddress>
-      </address>
-      <phone>3333333</phone>
-      <phone type='fax'>4444444</phone>
-      <email>x@example.com</email>
-      <uri>http://www.example.com</uri>
-              </organization>
-            </owner>
-          </copyright>
-          <ext>
-            <doctype>this-is-a-doctype</doctype>
-          </ext>
-        </bibdata>
-        <sections> </sections>
-      </standard-document>
+             <bibdata type="standard">
+           <title language="en" format="text/plain">Document title</title>
+           <docidentifier>OVERRIDE-DOCIDENTIFIER</docidentifier>
+           <docnumber>1000</docnumber>
+           <date type="published">
+             <on>1000-01</on>
+           </date>
+           <contributor>
+             <role type="author"/>
+             <organization>
+               <name>International Standards Organization</name>
+               <subdivision>
+                 <name>Subdivision</name>
+                 <subdivision type="committee">
+                   <name>TC 3</name>
+                 </subdivision>
+               </subdivision>
+               <subdivision type="institute">
+                 <name>My Curious Corporation, inc</name>
+                 <subdivision type="committee">
+                   <name>TC 7</name>
+                 </subdivision>
+               </subdivision>
+               <address>
+                 <formattedAddress>1 Infinity Loop<br/>California</formattedAddress>
+               </address>
+               <phone>3333333</phone>
+               <phone type="fax">4444444</phone>
+               <email>x@example.com</email>
+               <uri>http://www.example.com</uri>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="publisher"/>
+             <organization>
+               <name>International Standards Organization</name>
+               <subdivision>
+                 <name>Subdivision</name>
+                 <subdivision type="committee">
+                   <name>TC 3</name>
+                 </subdivision>
+               </subdivision>
+               <subdivision type="institute">
+                 <name>My Curious Corporation, inc</name>
+                 <subdivision type="committee">
+                   <name>TC 7</name>
+                 </subdivision>
+               </subdivision>
+               <address>
+                 <formattedAddress>1 Infinity Loop<br/>California</formattedAddress>
+               </address>
+               <phone>3333333</phone>
+               <phone type="fax">4444444</phone>
+               <email>x@example.com</email>
+               <uri>http://www.example.com</uri>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="enabler"/>
+             <organization>
+               <name>IEC</name>
+               <subdivision type="technical committee">
+                 <name>TC 9</name>
+                 <subdivision type="subcommittee">
+                   <name>SC 7</name>
+                   <subdivision type="working group">
+                     <name>WG 88</name>
+                   </subdivision>
+                 </subdivision>
+               </subdivision>
+             </organization>
+           </contributor>
+           <version>
+             <revision-date>2000-01</revision-date>
+           </version>
+           <language>el</language>
+           <script>Grek</script>
+           <status>
+             <stage>published</stage>
+           </status>
+           <copyright>
+             <from>#{Time.now.year}</from>
+             <owner>
+               <organization>
+                 <name>International Standards Organization</name>
+                 <subdivision>
+                   <name>Subdivision</name>
+                   <subdivision type="committee">
+                     <name>TC 3</name>
+                   </subdivision>
+                 </subdivision>
+                 <subdivision type="institute">
+                   <name>My Curious Corporation, inc</name>
+                   <subdivision type="committee">
+                     <name>TC 7</name>
+                   </subdivision>
+                 </subdivision>
+                 <address>
+                   <formattedAddress>1 Infinity Loop<br/>California</formattedAddress>
+                 </address>
+                 <phone>3333333</phone>
+                 <phone type="fax">4444444</phone>
+                 <email>x@example.com</email>
+                 <uri>http://www.example.com</uri>
+               </organization>
+             </owner>
+           </copyright>
+           <ext>
+             <doctype>this-is-a-doctype</doctype>
+           </ext>
+         </bibdata>
+         <sections/>
+       </standard-document>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
