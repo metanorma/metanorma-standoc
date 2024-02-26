@@ -26,7 +26,8 @@ module Metanorma
       end
 
       def csv_split(text, delim = ";")
-        Metanorma::Utils::csv_split(text, delim)
+        Metanorma::Utils::csv_split(@c.decode(text), delim)
+          .map { |x| @c.encode(x, :basic, :hexadecimal) }
       end
 
       def wrap_in_para(node, out)
@@ -69,11 +70,11 @@ module Metanorma
       end
 
       def xml_encode(text)
-        @c.encode(text, :basic, :hexadecimal).
-          gsub("&amp;gt;", ">").gsub("&amp;lt;", "<").gsub("&amp;amp;", "&").
-          gsub("&gt;", ">").gsub("&lt;", "<").gsub("&amp;", "&").
-          gsub("&quot;", '"').gsub("&#xa;", "\n").gsub("&amp;#", "&#").
-          gsub("&apos;", "'")
+        @c.encode(text, :basic, :hexadecimal)
+          .gsub("&amp;gt;", ">").gsub("&amp;lt;", "<").gsub("&amp;amp;", "&")
+          .gsub("&gt;", ">").gsub("&lt;", "<").gsub("&amp;", "&")
+          .gsub("&quot;", '"').gsub("&#xa;", "\n").gsub("&amp;#", "&#")
+          .gsub("&apos;", "'")
       end
 
       # wrapped in <sections>
