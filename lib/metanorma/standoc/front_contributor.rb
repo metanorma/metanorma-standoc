@@ -88,6 +88,8 @@ module Metanorma
       def metadata_sponsor(node, xml)
         o = { source: ["sponsor"], role: "enabler" }
         org_contributor(node, xml, o)
+        o = { source: ["authorizer"], role: "authorizer" }
+        org_contributor(node, xml, o)
       end
 
       def copyright_parse(node)

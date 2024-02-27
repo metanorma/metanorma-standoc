@@ -274,6 +274,7 @@ RSpec.describe Metanorma::Standoc do
       :pub-email: x@example.com
       :pub-uri: http://www.example.com
       :sponsor: "Cartoon Network"; "Ribose, Inc."
+      :authorizer: "CBS"; "TXE"
       :isbn: ISBN-13
       :isbn10: ISBN-10
       :classification: a:b, c
@@ -439,6 +440,18 @@ RSpec.describe Metanorma::Standoc do
           <name>Ribose, Inc.</name>
         </organization>
       </contributor>
+          <contributor>
+      <role type="authorizer"/>
+      <organization>
+        <name>CBS</name>
+      </organization>
+    </contributor>
+    <contributor>
+      <role type="authorizer"/>
+      <organization>
+        <name>TXE</name>
+      </organization>
+    </contributor>
               <edition>2</edition>
               <version>
                 <revision-date>2000-01-01</revision-date>
@@ -812,6 +825,13 @@ RSpec.describe Metanorma::Standoc do
       :sponsor-fax_2: 6666666
       :sponsor-email_2: z@example.com
       :sponsor-uri_2: http://www.example3.com
+      :authorizer: Starfleet
+      :authorizer_logo: correct.png
+      :authorizer-address: 4 Infinity Loop
+      :authorizer-phone: 5555555
+      :authorizer-fax: 6666666
+      :authorizer-email: z@example.com
+      :authorizer-uri: http://www.example3.com
 
 
     INPUT
@@ -907,6 +927,22 @@ RSpec.describe Metanorma::Standoc do
                <name>Ribose, Inc.</name>
                <address>
                  <formattedAddress>2 Infinity Loop<br/>California</formattedAddress>
+               </address>
+               <phone>5555555</phone>
+               <phone type="fax">6666666</phone>
+               <email>z@example.com</email>
+               <uri>http://www.example3.com</uri>
+               <logo>
+                 <image src="correct.png"/>
+               </logo>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="authorizer"/>
+             <organization>
+               <name>Starfleet</name>
+               <address>
+                 <formattedAddress>4 Infinity Loop</formattedAddress>
                </address>
                <phone>5555555</phone>
                <phone type="fax">6666666</phone>
@@ -1125,6 +1161,10 @@ RSpec.describe Metanorma::Standoc do
       :pub-uri: http://www.example.com
       :sponsor: IEC
       :sponsor_subdivision:  technical committee: TC 9, subcommittee: SC 7, working group: WG 88
+      :authorizer: IEEE
+      :authorizer_subdivision:  technical committee: TC 5, subcommittee: SC 6, working group: WG 44
+      :authorizer_2: ISO
+      :authorizer_subdivision_2:  technical committee: TC 1, subcommittee: SC 2, working group: WG 333
 
     INPUT
     output = <<~OUTPUT
@@ -1201,6 +1241,36 @@ RSpec.describe Metanorma::Standoc do
               </subdivision>
             </organization>
           </contributor>
+          <contributor>
+             <role type="authorizer"/>
+             <organization>
+               <name>IEEE</name>
+               <subdivision type="technical committee">
+                 <name>TC 5</name>
+                 <subdivision type="subcommittee">
+                   <name>SC 6</name>
+                   <subdivision type="working group">
+                     <name>WG 44</name>
+                   </subdivision>
+                 </subdivision>
+               </subdivision>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="authorizer"/>
+             <organization>
+               <name>ISO</name>
+               <subdivision type="technical committee">
+                 <name>TC 1</name>
+                 <subdivision type="subcommittee">
+                   <name>SC 2</name>
+                   <subdivision type="working group">
+                     <name>WG 333</name>
+                   </subdivision>
+                 </subdivision>
+               </subdivision>
+             </organization>
+           </contributor>
           <version>
             <revision-date>2000-01</revision-date>
           </version>
