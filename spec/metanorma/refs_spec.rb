@@ -1203,8 +1203,8 @@ RSpec.describe Metanorma::Standoc do
            </ext>
          </bibdata>
          <metanorma-extension>
-           <attachment name="iso.xml">data:application/octet-stream;base64,ICAgICAgICA8aXNvLXN0YW5kYXJkIHhtbG5zPSJodHRwOi8vcmlib3NlaW5jLmNvbS9pc294bWwiPgogICAgPGZvcmV3b3JkPgogICAgPG5vdGU+CiAgPHAgaWQ9Il9mMDZmZDBkMS1hMjAzLTRmM2QtYTUxNS0wYmRiYTBmOGQ4M2YiPlRoZXNlIHJlc3VsdHMgYXJlIGJhc2VkIG9uIGEgc3R1ZHkgY2FycmllZCBvdXQgb24gdGhyZWUgZGlmZmVyZW50IHR5cGVzIG9mIGtlcm5lbC48L3A+Cjwvbm90ZT4KICAgIDwvZm9yZXdvcmQ+CiAgICA8L2lzby1zdGFuZGFyZD4KCg==</attachment>
-           <attachment name="iso.xml_">data:application/octet-stream;base64,ICAgICAgICA8aXNvLXN0YW5kYXJkIHhtbG5zPSJodHRwOi8vcmlib3NlaW5jLmNvbS9pc294bWwiPgogICAgPGZvcmV3b3JkPgogICAgPG5vdGU+CiAgPHAgaWQ9Il9mMDZmZDBkMS1hMjAzLTRmM2QtYTUxNS0wYmRiYTBmOGQ4M2YiPlRoZXNlIHJlc3VsdHMgYXJlIGJhc2VkIG9uIGEgc3R1ZHkgY2FycmllZCBvdXQgb24gdGhyZWUgZGlmZmVyZW50IHR5cGVzIG9mIGtlcm5lbC48L3A+Cjwvbm90ZT4KICAgIDwvZm9yZXdvcmQ+CiAgICA8L2lzby1zdGFuZGFyZD4KCg==</attachment>
+           <attachment name="iso.xml">data:application/octet-stream;base64,ICAgIC...</attachment>
+           <attachment name="iso.xml_">data:application/octet-stream;base64,ICAgIC...</attachment>
            <presentation-metadata>
              <name>TOC Heading Levels</name>
              <value>2</value>
@@ -1251,12 +1251,15 @@ RSpec.describe Metanorma::Standoc do
        </standard-document>
     OUTPUT
 
+    # Windows/Unix differences in XML encoding: remove body of Data URI
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)
-      .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_"))))
+      .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
+      .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
       .to be_equivalent_to xmlpp(output)
     input.sub!(":docfile:", ":data-uri-attachment: false\n:docfile:")
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)
-      .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_"))))
+      .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
+      .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
       .to be_equivalent_to xmlpp(output
       .gsub(%r{<attachment .+?</attachment>}, ""))
   end
