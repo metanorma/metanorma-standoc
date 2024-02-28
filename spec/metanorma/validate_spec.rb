@@ -66,6 +66,30 @@ RSpec.describe Metanorma::Standoc do
     end
   end
 
+  it "aborts on attaching a non-existent file" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      [bibliography]
+      == Bibliography
+      * [[[ievterms,attachment:(./hien/spec_helper.rb)]]]
+
+    INPUT
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err.html"))
+      .to include %(Attachment ./hien/​spec_helper.​rb does not exist)
+  end
+
   it "aborts on an index cross-reference with too few terms" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"

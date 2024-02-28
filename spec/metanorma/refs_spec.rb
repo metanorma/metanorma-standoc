@@ -1173,6 +1173,94 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
   end
 
+  it "processes attachments" do
+    input = <<~"INPUT"
+      #{ISOBIB_BLANK_HDR}
+
+      == Clause
+      <<iso123>>
+
+      [bibliography]
+      == Normative References
+
+      * [[[iso123,attachment:(spec/assets/iso.xml)]]]
+      * [[[iso124,attachment:(spec/assets/iso.xml)]]]
+    INPUT
+    output = <<~OUTPUT
+      <standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="2.8.2">
+         <bibdata type="standard">
+           <title language="en" format="text/plain">Document title</title>
+           <language>en</language>
+           <script>Latn</script>
+           <status>
+             <stage>published</stage>
+           </status>
+           <copyright>
+             <from>#{Date.today.year}</from>
+           </copyright>
+           <ext>
+             <doctype>standard</doctype>
+           </ext>
+         </bibdata>
+         <metanorma-extension>
+           <attachment name="iso.xml">data:application/octet-stream;base64,ICAgICAgICA8aXNvLXN0YW5kYXJkIHhtbG5zPSJodHRwOi8vcmlib3NlaW5jLmNvbS9pc294bWwiPgogICAgPGZvcmV3b3JkPgogICAgPG5vdGU+CiAgPHAgaWQ9Il9mMDZmZDBkMS1hMjAzLTRmM2QtYTUxNS0wYmRiYTBmOGQ4M2YiPlRoZXNlIHJlc3VsdHMgYXJlIGJhc2VkIG9uIGEgc3R1ZHkgY2FycmllZCBvdXQgb24gdGhyZWUgZGlmZmVyZW50IHR5cGVzIG9mIGtlcm5lbC48L3A+Cjwvbm90ZT4KICAgIDwvZm9yZXdvcmQ+CiAgICA8L2lzby1zdGFuZGFyZD4KCg==</attachment>
+           <attachment name="iso.xml_">data:application/octet-stream;base64,ICAgICAgICA8aXNvLXN0YW5kYXJkIHhtbG5zPSJodHRwOi8vcmlib3NlaW5jLmNvbS9pc294bWwiPgogICAgPGZvcmV3b3JkPgogICAgPG5vdGU+CiAgPHAgaWQ9Il9mMDZmZDBkMS1hMjAzLTRmM2QtYTUxNS0wYmRiYTBmOGQ4M2YiPlRoZXNlIHJlc3VsdHMgYXJlIGJhc2VkIG9uIGEgc3R1ZHkgY2FycmllZCBvdXQgb24gdGhyZWUgZGlmZmVyZW50IHR5cGVzIG9mIGtlcm5lbC48L3A+Cjwvbm90ZT4KICAgIDwvZm9yZXdvcmQ+CiAgICA8L2lzby1zdGFuZGFyZD4KCg==</attachment>
+           <presentation-metadata>
+             <name>TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>HTML TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>DOC TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>PDF TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+         </metanorma-extension>
+         <sections>
+           <clause id="_" inline-header="false" obligation="normative">
+             <title>Clause</title>
+             <p id="_">
+               <eref type="inline" bibitemid="iso123" citeas="[spec/assets/iso.xml]"/>
+             </p>
+           </clause>
+         </sections>
+         <bibliography>
+           <references id="_" normative="true" obligation="informative">
+             <title>Normative references</title>
+             <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+             <bibitem id="iso123" hidden="true">
+               <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+               <uri type="attachment">./_test_attachments/iso.xml</uri>
+               <uri type="citation">./_test_attachments/iso.xml</uri>
+               <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
+             </bibitem>
+             <bibitem id="iso124" hidden="true">
+               <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+               <uri type="attachment">./_test_attachments/iso.xml_</uri>
+               <uri type="citation">./_test_attachments/iso.xml_</uri>
+               <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
+    OUTPUT
+
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)
+      .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_"))))
+      .to be_equivalent_to xmlpp(output)
+    input.sub!(":docfile:", ":data-uri-attachment: false\n:docfile:")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)
+      .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_"))))
+      .to be_equivalent_to xmlpp(output
+      .gsub(%r{<attachment .+?</attachment>}, ""))
+  end
+
   private
 
   def mock_isobib_get_123_nil
