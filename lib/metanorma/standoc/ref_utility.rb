@@ -88,7 +88,7 @@ module Metanorma
       end
 
       def analyse_ref_repo_path(ret)
-        m = /^(?<type>repo|path|attachment):\((?<key>[^,]+),?(?<id>.*)\)$/
+        m = /^(?<type>repo|path|attachment):\((?<key>[^,]+),?(?<id>[^)]*)\)$/
           .match(ret[:id]) or return ret
         id = if m[:id].empty?
                if m[:type] == "attachment"
