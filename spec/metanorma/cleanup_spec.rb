@@ -1129,6 +1129,29 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to(xmlpp(output))
   end
 
+  it "do not apply substitutions to links in included docs" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Clause
+
+      include::spec/fixtures/included-link.adoc[]
+
+    INPUT
+    output = <<~OUTPUT
+      <clause id="_" inline-header="false" obligation="normative">
+         <title>Clause</title>
+         <p id="_">
+           <link target="http://www.example.com/...abc"/>
+         </p>
+       </clause>
+    OUTPUT
+    a = [OPTIONS[0].merge(safe: :unsafe)]
+    ret = Nokogiri::XML(Asciidoctor.convert(input, *a))
+    expect(xmlpp(strip_guid(ret.at("//xmlns:clause").to_xml)))
+      .to be_equivalent_to(xmlpp(output))
+  end
+
   it "reads contributors from YAML" do
     input = <<~INPUT
       = X

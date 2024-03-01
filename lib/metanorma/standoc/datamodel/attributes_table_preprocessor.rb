@@ -14,8 +14,8 @@ module Metanorma
         #  read include derectives that goes after that in block and transform
         #  into yaml2text blocks
         def process(document, reader)
-          input_lines = reader.readlines.to_enum
-          Asciidoctor::Reader.new(processed_lines(document, input_lines))
+          input_lines = reader.lines.to_enum
+          Asciidoctor::PreprocessorReader.new(document, processed_lines(document, input_lines))
         end
 
         private
