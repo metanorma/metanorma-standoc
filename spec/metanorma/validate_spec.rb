@@ -40,6 +40,32 @@ RSpec.describe Metanorma::Standoc do
       .to include %(&lt;clause id=&quot;abc&quot; inline-header=&quot;false&quot; obligation=&quot;normative&quot;&gt;)
   end
 
+  it "aborts on a missing includes file" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      include::spec/subdir/a4.adoc[]
+
+    INPUT
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(RuntimeError)
+    rescue SystemExit, RuntimeError
+    end
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to output("Embedding an incomplete document with no header: spec/assets/subdir/a4.adoc").to_stderr
+    rescue SystemExit, RuntimeError
+    end
+  end
+
   it "aborts on embedding a headerless document" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"

@@ -21,6 +21,7 @@ module Metanorma
     # schema encapsulation of the document for validation
     class Converter
       Asciidoctor::Extensions.register do
+        preprocessor Metanorma::Standoc::ResolveIncludePreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlUmlAttributesTablePreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlUmlDatamodelDescriptionPreprocessor
@@ -99,6 +100,7 @@ module Metanorma
         basebackend "html"
         outfilesuffix ".xml"
         @libdir = File.dirname(self.class::_file || __FILE__)
+        require "debug"; binding.b
         @c = HTMLEntities.new
       end
 

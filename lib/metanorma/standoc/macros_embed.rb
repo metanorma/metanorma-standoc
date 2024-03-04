@@ -2,14 +2,36 @@ require "pathname"
 
 module Asciidoctor
   class PreprocessorNoIfdefsReader < PreprocessorReader
-    def preprocess_conditional_directive(keyword, target, delimiter, text)
+    private
+
+    def preprocess_conditional_directive(_keyword, _target, _delimiter, _text)
       false # decline to resolve idefs
+    end
+
+    def resolve_include_path(expanded_target, attrlist, parsed_attrs)
+      inc_path, target_type, relpath = super
+      if inc_path && !%i(file uri).include?(target_type)
+        # include has been skipped because of error
+        n = peek_line(true)
+        require "debug"; binding.b
+        /^Unresolved directive in/.match?(n) and
+          @document.converter.log&.add("Include", nil, n, severity: 0)
+      end
+      [inc_path, target_type, relpath]
     end
   end
 end
 
 module Metanorma
   module Standoc
+    # resolve all includes before doing any further preprocessing
+    class ResolveIncludePreprocessor < Asciidoctor::Extensions::Preprocessor
+      def process(doc, reader)
+        r = ::Asciidoctor::PreprocessorNoIfdefsReader.new doc, reader.lines
+        ::Asciidoctor::PreprocessorNoIfdefsReader.new doc, r.readlines
+      end
+    end
+
     class EmbedIncludeProcessor < Asciidoctor::Extensions::Preprocessor
       def process(doc, reader)
         reader.eof? and return reader
@@ -44,12 +66,12 @@ module Metanorma
         reader = ::Asciidoctor::PreprocessorReader.new doc
         b = Pathname.new doc.base_dir
         ret.reverse.each do |l|
-          if l[:file]
-            new = Pathname.new(l[:path]).relative_path_from(b).to_s
-            #reader.push_include l[:lines], new, l[:path]
-            reader.unshift_lines l[:lines]
-          else reader.unshift_lines l[:lines]
-          end
+          # if l[:file]
+          # new = Pathname.new(l[:path]).relative_path_from(b).to_s
+          # reader.push_include l[:lines], new, l[:path]
+          reader.unshift_lines l[:lines]
+          # else reader.unshift_lines l[:lines]
+          # end
         end
         reader
       end
