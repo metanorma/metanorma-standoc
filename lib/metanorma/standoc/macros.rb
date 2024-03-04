@@ -53,7 +53,7 @@ module Metanorma
       def process(_document, reader)
         c = HTMLEntities.new
         lines = reader.readlines.map do |l|
-          l.split(/(&[A-Za-z][^;]*;)/).map do |s|
+          l.split(/(&[A-Za-z][^&;]*;)/).map do |s|
             /^&[A-Za-z]/.match?(s) ? c.encode(c.decode(s), :hexadecimal) : s
           end.join
         end
