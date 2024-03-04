@@ -1,6 +1,14 @@
 require "spec_helper"
 
 RSpec.describe Metanorma::Standoc do
+  before do
+    # Force to download Relaton index file
+    allow_any_instance_of(Relaton::Index::Type).to receive(:actual?)
+      .and_return(false)
+    allow_any_instance_of(Relaton::Index::FileIO).to receive(:check_file)
+      .and_return(nil)
+  end
+
   it "processes the Metanorma::Standoc inline macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}

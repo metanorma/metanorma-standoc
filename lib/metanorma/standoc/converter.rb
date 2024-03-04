@@ -102,6 +102,10 @@ module Metanorma
         @libdir = File.dirname(self.class::_file || __FILE__)
         require "debug"; binding.b
         @c = HTMLEntities.new
+        unless opts && @log = opts[:document]&.options&.dig(:log)
+          @log = Metanorma::Utils::Log.new
+          @local_log = true
+        end
       end
 
       class << self
