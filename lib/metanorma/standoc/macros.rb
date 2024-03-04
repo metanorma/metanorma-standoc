@@ -50,14 +50,14 @@ module Metanorma
     end
 
     class NamedEscapePreprocessor < Asciidoctor::Extensions::Preprocessor
-      def process(_document, reader)
+      def process(document, reader)
         c = HTMLEntities.new
-        lines = reader.readlines.map do |l|
+        lines = reader.lines.map do |l|
           l.split(/(&[A-Za-z][^&;]*;)/).map do |s|
             /^&[A-Za-z]/.match?(s) ? c.encode(c.decode(s), :hexadecimal) : s
           end.join
         end
-        ::Asciidoctor::Reader.new lines
+        ::Asciidoctor::PreprocessorReader.new document, lines
       end
     end
 
@@ -85,14 +85,14 @@ module Metanorma
           delimln: delimln }
       end
 
-      def process(_document, reader)
+      def process(document, reader)
         p = init
-        lines = reader.readlines.map do |t|
+        lines = reader.lines.map do |t|
           p = pass_status(p, t.rstrip)
           !p[:pass] && t.include?(":") and t = inlinelinkmacro(inlinelink(t))
           t
         end
-        ::Asciidoctor::Reader.new lines
+        ::Asciidoctor::PreprocessorReader.new document, lines
       end
 
       def pass_status(status, text)

@@ -1,13 +1,22 @@
 require "pathname"
 
+module Asciidoctor
+  class PreprocessorNoIfdefsReader < PreprocessorReader
+    def preprocess_conditional_directive(keyword, target, delimiter, text)
+      false # decline to resolve idefs
+    end
+  end
+end
+
 module Metanorma
   module Standoc
     class EmbedIncludeProcessor < Asciidoctor::Extensions::Preprocessor
       def process(doc, reader)
         reader.eof? and return reader
-        lines = reader.readlines
+        r = ::Asciidoctor::PreprocessorNoIfdefsReader.new doc, reader.lines
+        lines = r.readlines
         headings = lines.grep(/^== /).map(&:strip)
-        ret = lines.each_with_object(embed_acc(doc, reader)) do |line, m|
+        ret = lines.each_with_object(embed_acc(doc, r)) do |line, m|
           process_line(line, m, headings)
         end
         return_to_document(doc, ret)
@@ -37,7 +46,8 @@ module Metanorma
         ret.reverse.each do |l|
           if l[:file]
             new = Pathname.new(l[:path]).relative_path_from(b).to_s
-            reader.push_include l[:lines], new, l[:path]
+            #reader.push_include l[:lines], new, l[:path]
+            reader.unshift_lines l[:lines]
           else reader.unshift_lines l[:lines]
           end
         end
@@ -120,8 +130,8 @@ module Metanorma
         lines = filter_sections(read(inc_path), headings)
         n = Asciidoctor::Document
           .new [], { safe: :safe, base_dir: File.dirname(inc_path) }
-        r = ::Asciidoctor::PreprocessorReader.new n, lines
-        ret = embed_acc(n, r).merge(strip_header(r.read_lines))
+        r = ::Asciidoctor::PreprocessorNoIfdefsReader.new n, lines
+        ret = embed_acc(n, r).merge(strip_header(r.readlines))
           .merge(file: fname, path: inc_path, orig: acc[:orig])
         ret[:hdr] or
           raise "Embedding an incomplete document with no header: #{ret[:path]}"

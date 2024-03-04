@@ -1,0 +1,4 @@
+gem "metanorma-plugin-datastruct", git: "https://github.com/metanorma/metanorma-plugin-datastruct", branch: "fix/preprocessing-readlines"
+gem "metanorma-plugin-lutaml", git: "https://github.com/metanorma/metanorma-plugin-lutaml", branch: "fix/preprocessing-readlines"
+gem "metanorma-plugin-glossarist", git: "https://github.com/metanorma/metanorma-plugin-glossarist", branch: "fix/preprocessing-readlines"
+#gem "metanorma-standoc", git: "https://github.com/metanorma/metanorma-standoc", branch: "fix/preprocessing-readlines"

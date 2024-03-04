@@ -21,6 +21,14 @@ module Metanorma
     # schema encapsulation of the document for validation
     class Converter
       Asciidoctor::Extensions.register do
+        preprocessor Metanorma::Plugin::Lutaml::LutamlPreprocessor
+        preprocessor Metanorma::Plugin::Lutaml::LutamlUmlAttributesTablePreprocessor
+        preprocessor Metanorma::Plugin::Lutaml::LutamlUmlDatamodelDescriptionPreprocessor
+        preprocessor Metanorma::Plugin::Lutaml::LutamlUmlClassPreprocessor
+        inline_macro Metanorma::Plugin::Lutaml::LutamlFigureInlineMacro
+        inline_macro Metanorma::Plugin::Lutaml::LutamlTableInlineMacro
+        block_macro Metanorma::Plugin::Lutaml::LutamlDiagramBlockMacro
+        block Metanorma::Plugin::Lutaml::LutamlDiagramBlock
         preprocessor Metanorma::Standoc::EmbedIncludeProcessor
         preprocessor Metanorma::Standoc::LinkProtectPreprocessor
         preprocessor Metanorma::Standoc::Datamodel::AttributesTablePreprocessor
