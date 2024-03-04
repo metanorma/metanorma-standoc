@@ -40,7 +40,6 @@ module Metanorma
       end
 
       def init_vars
-        @log = Metanorma::Utils::Log.new # for error reporting downstream
         @fn_number ||= 0
         @refids = Set.new
         @anchor_alias = {}
@@ -179,7 +178,8 @@ module Metanorma
       end
 
       def clean_exit
-        @novalid or @log.write("#{@output_dir}#{@filename}.err.html")
+        !@novalid && @local_log and
+          @log.write("#{@output_dir}#{@filename}.err.html")
         @files_to_delete.each { |f| FileUtils.rm f }
       end
 

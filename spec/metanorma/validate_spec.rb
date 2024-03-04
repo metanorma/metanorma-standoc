@@ -2,6 +2,16 @@ require "spec_helper"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
+=begin
+  before do
+    # Force to download Relaton index file
+    allow_any_instance_of(::Relaton::Index::Type).to receive(:actual?)
+      .and_return(false)
+    allow_any_instance_of(::Relaton::Index::FileIO).to receive(:check_file)
+      .and_return(nil)
+  end
+=end
+
   it "generates error file" do
     FileUtils.rm_f "spec/assets/xref_error.err.html"
     Asciidoctor.convert_file "spec/assets/xref_error.adoc",
@@ -38,6 +48,29 @@ RSpec.describe Metanorma::Standoc do
       .to include "Anchor abc has already been used at line"
     expect(File.read("test.err.html"))
       .to include %(&lt;clause id=&quot;abc&quot; inline-header=&quot;false&quot; obligation=&quot;normative&quot;&gt;)
+  end
+
+  it "aborts on a missing include file" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      include::spec/subdir/a4.adoc[]
+
+    INPUT
+    begin
+      expect do
+        a = [OPTIONS[0].merge(safe: :unsafe)]
+        Asciidoctor.convert(input, *a)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err.html"))
+      .to include "Unresolved directive in &lt;​stdin&gt; - include::​spec/​subdir/a4.​adoc[]"
   end
 
   it "aborts on embedding a headerless document" do
@@ -719,7 +752,7 @@ RSpec.describe Metanorma::Standoc do
       rescue SystemExit, RuntimeError
       end
       expect(File.read("test.err.html"))
-        .to include 'The IEV document 60050-03 that has been cited does not exist'
+        .to include "The IEV document 60050-03 that has been cited does not exist"
     end
   end
 
@@ -968,7 +1001,9 @@ RSpec.describe Metanorma::Standoc do
         | a | a |a |a
         |===
       INPUT
-      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
@@ -994,7 +1029,9 @@ RSpec.describe Metanorma::Standoc do
         | a | a | a
         |===
       INPUT
-      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
@@ -1020,7 +1057,9 @@ RSpec.describe Metanorma::Standoc do
         | a | a | a
         |===
       INPUT
-      expect { Asciidoctor.convert(input, *OPTIONS) }.to raise_error(SystemExit)
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
