@@ -2,13 +2,15 @@ require "spec_helper"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
+=begin
   before do
     # Force to download Relaton index file
-    allow_any_instance_of(Relaton::Index::Type).to receive(:actual?)
+    allow_any_instance_of(::Relaton::Index::Type).to receive(:actual?)
       .and_return(false)
-    allow_any_instance_of(Relaton::Index::FileIO).to receive(:check_file)
+    allow_any_instance_of(::Relaton::Index::FileIO).to receive(:check_file)
       .and_return(nil)
   end
+=end
 
   it "generates error file" do
     FileUtils.rm_f "spec/assets/xref_error.err.html"
@@ -48,7 +50,7 @@ RSpec.describe Metanorma::Standoc do
       .to include %(&lt;clause id=&quot;abc&quot; inline-header=&quot;false&quot; obligation=&quot;normative&quot;&gt;)
   end
 
-  it "aborts on a missing includes file" do
+  it "aborts on a missing include file" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
     input = <<~INPUT
@@ -62,16 +64,13 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     begin
       expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(RuntimeError)
+        a = [OPTIONS[0].merge(safe: :unsafe)]
+        Asciidoctor.convert(input, *a)
+      end.to raise_error(SystemExit)
     rescue SystemExit, RuntimeError
     end
-    begin
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to output("Embedding an incomplete document with no header: spec/assets/subdir/a4.adoc").to_stderr
-    rescue SystemExit, RuntimeError
-    end
+    expect(File.read("test.err.html"))
+      .to include "Unresolved directive in &lt;​stdin&gt; - include::​spec/​subdir/a4.​adoc[]"
   end
 
   it "aborts on embedding a headerless document" do

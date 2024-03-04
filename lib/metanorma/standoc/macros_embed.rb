@@ -13,9 +13,10 @@ module Asciidoctor
       if inc_path && !%i(file uri).include?(target_type)
         # include has been skipped because of error
         n = peek_line(true)
-        require "debug"; binding.b
         /^Unresolved directive in/.match?(n) and
-          @document.converter.log&.add("Include", nil, n, severity: 0)
+          @document.converter.log
+            &.add("Include", nil,
+                  HTMLEntities.new.encode(n, :basic), severity: 0)
       end
       [inc_path, target_type, relpath]
     end
