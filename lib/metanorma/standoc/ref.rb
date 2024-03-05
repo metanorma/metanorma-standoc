@@ -17,7 +17,7 @@ module Metanorma
 
       def isorefrender1(bib, match, code, year, allp = "")
         bib.title(**plaintxt) { |i| i << ref_normalise(match[:text]) }
-        #refitem_render_formattedref(bib, match[:text])
+        # refitem_render_formattedref(bib, match[:text])
         docid(bib, match[:usrlbl]) if match[:usrlbl]
         docid(bib, code[:usrlabel]) if code && code[:usrlabel]
         docid(bib, id_and_year(match[:code], year) + allp)
@@ -33,16 +33,14 @@ module Metanorma
       end
 
       def isorefmatchesout(item, xml)
-        if item[:doc] then use_retrieved_relaton(item, xml)
-        else
-          xml.bibitem **attr_code(ref_attributes(item[:ref][:match])) do |t|
-            isorefrender1(t, item[:ref][:match], item[:ref][:analyse_code],
-                          item[:ref][:year])
-            item[:ref][:year] and t.date type: "published" do |d|
-              set_date_range(d, item[:ref][:year])
-            end
-            iso_publisher(t, item[:ref][:match][:code])
+        item[:doc] and return use_retrieved_relaton(item, xml)
+        r = item[:ref]
+        xml.bibitem **attr_code(ref_attributes(r[:match])) do |t|
+          isorefrender1(t, r[:match], r[:analyse_code], r[:year])
+          y = r[:year] and t.date type: "published" do |d|
+            set_date_range(d, y)
           end
+          iso_publisher(t, r[:match][:code])
         end
       end
 
@@ -111,17 +109,24 @@ module Metanorma
       end
 
       def refitem_render1(match, code, bib)
+        refitem_uri(code, bib)
+        # code[:id].sub!(/[:-](19|20)[0-9][0-9]$/, "")
+        docid(bib, match[:usrlbl]) if match[:usrlbl]
+        docid(bib, code[:usrlabel]) if code[:usrlabel]
+        i = code[:id] and docid(bib, /^\d+$/.match?(i) ? "[#{i}]" : i)
+        code[:type] == "repo" and
+          bib.docidentifier code[:key], type: "repository"
+      end
+
+      def refitem_uri(code, bib)
         if code[:type] == "path"
           bib.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), type: "URI"
           bib.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), type: "citation"
         end
-        # code[:id].sub!(/[:-](19|20)[0-9][0-9]$/, "")
-        docid(bib, match[:usrlbl]) if match[:usrlbl]
-        docid(bib, code[:usrlabel]) if code[:usrlabel]
-        code[:id] and
-          docid(bib, /^\d+$/.match?(code[:id]) ? "[#{code[:id]}]" : code[:id])
-        code[:type] == "repo" and
-          bib.docidentifier code[:key], type: "repository"
+        if code[:type] == "attachment"
+          bib.uri code[:key], type: "attachment"
+          bib.uri code[:key], type: "citation"
+        end
       end
 
       def refitem_render(xml, match, code)
@@ -214,16 +219,12 @@ module Metanorma
       end
 
       def reference1code(item, node)
-        matched, matched2, matched3 = reference1_matches(item)
-        if matched3.nil? && matched2.nil? && matched.nil?
-          refitemcode(item, node).merge(process: 0)
-        elsif !matched.nil? then isorefmatchescode(matched,
-                                                   item).merge(process: 1)
-        elsif !matched2.nil? then isorefmatches2code(matched2,
-                                                     item).merge(process: 2)
-        elsif !matched3.nil? then isorefmatches3code(matched3,
-                                                     item).merge(process: 3)
-        end
+        m, m2, m3 = reference1_matches(item)
+        m3.nil? && m2.nil? && m.nil? and
+          return refitemcode(item, node).merge(process: 0)
+        !m.nil? and return isorefmatchescode(m, item).merge(process: 1)
+        !m2.nil? and return isorefmatches2code(m2, item).merge(process: 2)
+        !m3.nil? and return isorefmatches3code(m3, item).merge(process: 3)
       end
 
       def reference1out(item, xml)
