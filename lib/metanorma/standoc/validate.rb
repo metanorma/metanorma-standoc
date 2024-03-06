@@ -53,7 +53,7 @@ module Metanorma
         orig = ""
         a and orig += "\n\tAsciimath original: #{@c.decode(a.children.to_xml)}"
         l and orig += "\n\tLatexmath original: #{@c.decode(l.children.to_xml)}"
-        @log.add("Mathematics", elem,
+        @log.add("Maths", elem,
                  "Invalid MathML: #{math}\n #{error}#{orig}", severity: 0)
       end
 
@@ -83,7 +83,7 @@ module Metanorma
         outer.name == "figure" && inner.name == "figure" and return
         err =
           "There is an instance of #{inner.name} nested within #{outer.name}"
-        @log.add("Syntax", inner, err)
+        @log.add("Style", inner, err)
         nested_asset_xref_report(outer, inner, doc)
       end
 
