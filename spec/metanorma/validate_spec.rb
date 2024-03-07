@@ -898,11 +898,10 @@ RSpec.describe Metanorma::Standoc do
     expect(File.exist?("test.xml")).to be false
   end
 
-  it "warns and aborts if numeric normative reference" do
+  it "warns if numeric normative reference" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
-    begin
-      input = <<~INPUT
+    input = <<~INPUT
         = Document title
         Author
         :docfile: test.adoc
@@ -912,14 +911,9 @@ RSpec.describe Metanorma::Standoc do
         == Normative references
         * [[[A,1]]]
       INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit
-    end
+    Asciidoctor.convert(input, *OPTIONS)
     expect(File.read("test.err.html"))
       .to include "Numeric reference in normative references"
-    expect(File.exist?("test.xml")).to be false
   end
 
   it "does not warn and abort if columns and rows not out of bounds" do

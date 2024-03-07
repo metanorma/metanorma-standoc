@@ -21,14 +21,14 @@ module Metanorma
         if callouts.size != annotations.size && !annotations.empty?
           err = "mismatch of callouts (#{callouts.size}) and annotations " \
                 "(#{annotations.size})"
-          @log.add("AsciiDoc Input", elem, err, severity: 0)
+          @log.add("Crossreferences", elem, err, severity: 0)
         end
       end
 
       def style_warning(node, msg, text = nil)
         w = msg
         w += ": #{text}" if text
-        @log.add("Metanorma XML Style Warning", node, w)
+        @log.add("Style", node, w)
       end
 
       def asset_title_style(root)
@@ -61,7 +61,7 @@ module Metanorma
           docid = b.at("./docidentifier[@type = 'metanorma']") or next
           /^\[\d+\]$/.match?(docid.text) or next
           @log.add("Bibliography", b,
-                   "Numeric reference in normative references", severity: 0)
+                   "Numeric reference in normative references", severity: 1)
         end
       end
     end
