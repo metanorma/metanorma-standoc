@@ -591,6 +591,7 @@ RSpec.describe Metanorma::Standoc do
       :toclevels: 2
       :doctoclevels: 3
       :htmltoclevels: 4
+      :document-scheme: SCHEME
 
       [abstract]
       == Abstract
@@ -768,6 +769,10 @@ RSpec.describe Metanorma::Standoc do
         <presentation-metadata>
           <name>PDF TOC Heading Levels</name>
           <value>2</value>
+        </presentation-metadata>
+        <presentation-metadata>
+          <name>document-scheme</name>
+          <value>SCHEME</value>
         </presentation-metadata>
       </metanorma-extension>
                   <preface>
