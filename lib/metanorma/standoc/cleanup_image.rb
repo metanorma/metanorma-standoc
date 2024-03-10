@@ -4,7 +4,6 @@ module Metanorma
   module Standoc
     module Cleanup
       def svgmap_cleanup(xmldoc)
-        svg_uniqueids(xmldoc)
         svgmap_moveattrs(xmldoc)
         svgmap_populate(xmldoc)
         Vectory::SvgMapping.new(xmldoc, @localdir).call
@@ -82,7 +81,7 @@ module Metanorma
         types = MIME::Types.type_for(path) or return false
         types.first == "image/svg+xml" or return false
         svg = File.read(path, encoding: "utf-8") or return false
-        img.replace(Nokogiri::XML(svg).root)
+        img.children = (Nokogiri::XML(svg).root)
         true
       end
 
