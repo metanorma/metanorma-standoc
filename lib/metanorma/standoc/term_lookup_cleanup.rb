@@ -5,8 +5,6 @@ module Metanorma
     # Intelligent term lookup xml modifier
     class TermLookupCleanup
       AUTO_GEN_ID_REGEXP = /\A_/.freeze
-      EXISTING_TERM_REGEXP = /\Aterm-/.freeze
-      EXISTING_SYMBOL_REGEXP = /\Asymbol-/.freeze
 
       attr_reader :xmldoc, :lookup, :log
 
@@ -61,13 +59,12 @@ module Metanorma
       def related_cleanup
         xmldoc.xpath("//related").each do |n|
           refterm = n.at("./refterm") or next
+          repl = "<preferred><expression>" \
+            "<name>#{refterm.children.to_xml}</name></expression></preferred>"
           lookup = norm_ref_id_text(refterm.text.strip)
           p = @lookup[:sec2prim][lookup] and refterm.children = @c.encode(p)
           p || @lookup[:term][lookup] and
-            refterm.replace(<<~XML,
-              <preferred><expression><name>#{refterm.children.to_xml}</name></expression></preferred>
-            XML
-                           )
+            refterm.replace(repl)
         end
       end
 
@@ -96,7 +93,7 @@ module Metanorma
       def remove_missing_ref?(node)
         node.at("../eref | ../termref") and return false
         xref = node.at("../xref") or return true
-        xref["target"] && !xref["target"]&.empty? and return false
+        xref["target"] && !xref["target"].empty? and return false
         xref.remove # if xref supplied by user, we won't delete
         true
       end
@@ -251,8 +248,7 @@ module Metanorma
       end
 
       def unique_text_id(text, prefix)
-        @idhash["#{prefix}-#{text}"] or
-          return "#{prefix}-#{text}"
+        @idhash["#{prefix}-#{text}"] or return "#{prefix}-#{text}"
         (1..Float::INFINITY).lazy.each do |index|
           @idhash["#{prefix}-#{text}-#{index}"] or
             break("#{prefix}-#{text}-#{index}")
