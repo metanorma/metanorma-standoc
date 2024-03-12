@@ -97,8 +97,7 @@ module Metanorma
       def make_annexes(xml)
         xml.xpath("//*[@annex]").each do |y|
           y.delete("annex")
-          next if y.name == "annex" || !y.ancestors("annex").empty?
-
+          y.name == "annex" || !y.ancestors("annex").empty? and next
           y.wrap("<annex/>")
           y.parent["id"] = "_#{UUIDTools::UUID.random_create}"
           y.parent["obligation"] = y["obligation"]
@@ -117,8 +116,7 @@ module Metanorma
 
       def sections_level_cleanup(xml)
         m = maxlevel(xml)
-        return if m < 6
-
+        m < 6 and return
         m.downto(6).each do |l|
           xml.xpath("//clause[@level = '#{l}']").each do |c|
             c.delete("level")
@@ -173,7 +171,7 @@ module Metanorma
           r["obligation"] = "normative" unless r["obligation"]
         end
         xml.xpath(Utils::SUBCLAUSE_XPATH).each do |r|
-          o = r&.at("./ancestor::*/@obligation")&.text and r["obligation"] = o
+          o = r.at("./ancestor::*/@obligation")&.text and r["obligation"] = o
         end
       end
 
@@ -183,8 +181,7 @@ module Metanorma
       end
 
       def preface_clausebefore_cleanup(xmldoc)
-        return unless xmldoc.at("//preface")
-
+        xmldoc.at("//preface") or return
         ins = insert_before(xmldoc, "//preface")
         xmldoc.xpath("//preface//*[@beforeclauses = 'true']").each do |x|
           x.delete("beforeclauses")
@@ -232,9 +229,8 @@ module Metanorma
         loop do
           found = false
           xmldoc.xpath("//floating-title").each do |t|
-            next unless t.next_element.nil?
-            next if %w(sections annex preface).include? t.parent.name
-
+            t.next_element.nil? or next
+            %w(sections annex preface).include? t.parent.name and next
             t.parent.next = t
             found = true
           end
