@@ -16,22 +16,32 @@ module Metanorma
         text or return
         doc.xpath(xpath).each_with_index do |node, i|
           first && !i.zero? and next
+          node["keeptitle"] == "true" and next
           title = get_or_make_title(node)
-          fn = title.xpath("./fn | ./bookmark")
-          fn.each(&:remove)
-          title.children = text
-          fn.each { |n| title << n }
+          set_title_with_footnotes(title, text)
         end
+      end
+
+      def set_title_with_footnotes(title, text)
+        fn = title.xpath("./fn | ./bookmark | ./index")
+        fn.each(&:remove)
+        title.children = text
+        fn.each { |n| title << n }
       end
 
       def sections_names_cleanup(xml)
         replace_title(xml, "//clause[@type = 'scope']", @i18n&.scope)
+        sections_names_pref_cleanup(xml)
+        section_names_refs_cleanup(xml)
+        section_names_terms_cleanup(xml)
+        xml.xpath("//*[@keeptitle]").each { |s| s.delete("keeptitle") }
+      end
+
+      def sections_names_pref_cleanup(xml)
         replace_title(xml, "//preface//abstract", @i18n&.abstract)
         replace_title(xml, "//foreword", @i18n&.foreword)
         replace_title(xml, "//introduction", @i18n&.introduction)
         replace_title(xml, "//acknowledgements", @i18n&.acknowledgements)
-        section_names_refs_cleanup(xml)
-        section_names_terms_cleanup(xml)
       end
 
       def section_names_refs_cleanup(xml)
@@ -82,11 +92,8 @@ module Metanorma
                       @i18n&.termsdefsymbolsabbrev, true)
         replace_title(xml, "//terms#{NO_SYMABBR} | //clause[.//terms]#{NO_SYMABBR}",
                       @i18n&.termsdefsymbolsabbrev, true)
-        replace_title(
-          xml,
-          "//terms[not(.//definitions)] | //clause[.//terms][not(.//definitions)]",
-          @i18n&.termsdef, true
-        )
+        replace_title(xml, "//terms[not(.//definitions)] | //clause[.//terms][not(.//definitions)]",
+                      @i18n&.termsdef, true)
       end
 
       # do not auto-name terms sections if there are terms subclauses

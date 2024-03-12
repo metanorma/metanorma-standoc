@@ -364,7 +364,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
-   it "processes sections with number attributes" do
+  it "processes sections with number attributes" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [branch-number=1bis]
@@ -843,6 +843,211 @@ RSpec.describe Metanorma::Standoc do
           </clause>
         </bibliography>
       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes nested sections with title attributes" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == First section
+
+      [heading=normative references]
+      === Κανονιστικές Παραπομπές
+
+      [heading=terms and definitions]
+      === Όροι και Ορισμοί
+
+      ==== Term1
+
+      [heading="terms, definitions, symbols and abbreviated terms"]
+      === Όροι, Ορισμοί, Σύμβολα και Συντομογραφίες
+
+      ==== Normal Terms
+
+      ===== Term2
+
+      [heading=symbols]
+      ==== Σύμβολα και Συντομογραφίες
+
+      [heading=abbreviated terms]
+      === Σύμβολα και Συντομογραφίες
+
+    INPUT
+    output = <<~OUTPUT
+       #{BLANK_HDR}
+        <sections>
+          <clause id="_" inline-header="false" obligation="normative">
+            <title>Terms, definitions, symbols and abbreviated terms</title>
+            <p id="_">For the purposes of this document,
+          the following terms and definitions apply.</p>
+            <references id="_" normative="true" obligation="informative">
+              <title>Κανονιστικές Παραπομπές</title>
+            </references>
+            <terms id="_" obligation="normative">
+              <title>Terms and definitions</title>
+              <term id="term-Term1">
+                <preferred>
+                  <expression>
+                    <name>Term1</name>
+                  </expression>
+                </preferred>
+              </term>
+            </terms>
+            <clause id="_" obligation="normative">
+              <title>Terms, definitions and symbols</title>
+              <terms id="_" obligation="normative">
+                <title>Normal Terms</title>
+                <term id="term-Term2">
+                  <preferred>
+                    <expression>
+                      <name>Term2</name>
+                    </expression>
+                  </preferred>
+                </term>
+              </terms>
+              <definitions id="_" type="symbols" obligation="normative">
+                <title>Symbols</title>
+              </definitions>
+            </clause>
+            <definitions id="_" type="abbreviated_terms" obligation="normative">
+              <title>Abbreviated terms</title>
+            </definitions>
+          </clause>
+        </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "does not replace titles with keeptitle attribute" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      .Foreword
+
+      Text
+
+      [abstract,keeptitle=true]
+      == Περίληψη
+
+      Text
+
+      [heading=introduction,keeptitle=true]
+      == Εισαγωγή
+
+      === Introduction Subsection
+
+      [heading=acknowledgements,keeptitle=true]
+      == Ευχαριστίες
+
+      [heading=normative references,keeptitle=true]
+      == Κανονιστικές Παραπομπές
+
+      [heading=terms and definitions,keeptitle=true]
+      == Όροι και Ορισμοί
+
+      === Term1
+
+      [heading="terms, definitions, symbols and abbreviated terms",keeptitle=true]
+      == Όροι, Ορισμοί, Σύμβολα και Συντομογραφίες
+
+      === Normal Terms
+
+      ==== Term2
+
+      [heading=symbols,keeptitle=true]
+      === Σύμβολα και Συντομογραφίες
+
+      [heading=abbreviated terms,keeptitle=true]
+      == Σύμβολα και Συντομογραφίες
+
+      [appendix]
+      == Annex
+
+      === Annex A.1
+
+      [heading=bibliography,keeptitle=true]
+      == Βιβλιογραφία
+
+      === Bibliography Subsection
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')}
+      <preface>
+           <abstract id="_">
+             <p id="_">Text</p>
+           </abstract>
+           <foreword id="_" obligation="informative">
+             <title>Foreword</title>
+             <p id="_">Text</p>
+           </foreword>
+           <introduction id="_" obligation="informative">
+             <title>Introduction</title>
+             <clause id="_" inline-header="false" obligation="informative">
+               <title>Introduction Subsection</title>
+             </clause>
+           </introduction>
+           <acknowledgements id="_" obligation="informative">
+             <title>Ευχαριστίες</title>
+           </acknowledgements>
+         </preface>
+         <sections>
+           <terms id="_" obligation="normative">
+             <title>Όροι και Ορισμοί</title>
+             <p id="_">For the purposes of this document,
+           the following terms and definitions apply.</p>
+             <term id="term-Term1">
+               <preferred>
+                 <expression>
+                   <name>Term1</name>
+                 </expression>
+               </preferred>
+             </term>
+           </terms>
+           <clause id="_" obligation="normative">
+             <title>Όροι, Ορισμοί, Σύμβολα και Συντομογραφίες</title>
+             <p id="_">For the purposes of this document,
+           the following terms and definitions apply.</p>
+             <terms id="_" obligation="normative">
+               <title>Normal Terms</title>
+               <term id="term-Term2">
+                 <preferred>
+                   <expression>
+                     <name>Term2</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <definitions id="_" type="symbols" obligation="normative">
+               <title>Σύμβολα και Συντομογραφίες</title>
+             </definitions>
+           </clause>
+           <definitions id="_" type="abbreviated_terms" obligation="normative">
+             <title>Σύμβολα και Συντομογραφίες</title>
+           </definitions>
+         </sections>
+         <annex id="_" inline-header="false" obligation="normative">
+           <title>Annex</title>
+           <clause id="_" inline-header="false" obligation="normative">
+             <title>Annex A.1</title>
+           </clause>
+         </annex>
+         <bibliography>
+           <references id="_" normative="true" obligation="informative">
+             <title>Κανονιστικές Παραπομπές</title>
+             <p id="_">There are no normative references in this document.</p>
+           </references>
+           <clause id="_" obligation="informative">
+             <title>Βιβλιογραφία</title>
+             <references id="_" normative="false" obligation="informative">
+               <title>Bibliography Subsection</title>
+             </references>
+           </clause>
+         </bibliography>
+       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
@@ -1706,7 +1911,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
       <sections>
         <clause id='_' type='scope' inline-header='false' obligation='normative'>
-          <title>Scope</title>
+          <title>Scope<index><primary>indexterm</primary></index></title>
         </clause>
       </sections>
       </standard-document>
