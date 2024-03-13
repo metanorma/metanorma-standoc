@@ -1285,8 +1285,9 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-              <sections>
-         <figure id="_" tag='X' columns='1' multilingual-rendering='common'><name>Caption</name>
+       <sections>
+         <figure id="_" tag='X' columns='1' multilingual-rendering='common' width="3">
+         <name>Caption</name>
          <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="4" width="3" title="TITLE" alt="IMAGE" filename="riceimg1.png"/>
        </figure>
        </sections>
@@ -1308,18 +1309,24 @@ RSpec.describe Metanorma::Standoc do
       [height=9.3%,width=9%]
       image::spec/examples/rice_images/rice_image1.png[]
 
+      [width=text-width]
+      image::spec/examples/rice_images/rice_image1.png[]
+
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-         <figure id="_">
+         <figure id="_" width="auto">
             <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="4.3" width="auto"/>
           </figure>
-         <figure id="_">
+         <figure id="_" width="9.3%">
             <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="9.3%"/>
           </figure>
-         <figure id="_">
+         <figure id="_" width="9%">
             <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="9.3%" width="9%"/>
+          </figure>
+          <figure id="_" width="text-width">
+              <image src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" id="_" height="auto" width="text-width"/>
           </figure>
        </sections>
        </standard-document>
