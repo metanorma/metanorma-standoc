@@ -10,7 +10,7 @@ module Metanorma
     module Front
       def metadata_id(node, xml)
         id = node.attr("docidentifier") || metadata_id_build(node)
-        xml.docidentifier id
+        xml.docidentifier id, primary: "true"
       end
 
       def metadata_id_build(node)
