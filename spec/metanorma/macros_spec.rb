@@ -903,7 +903,7 @@ RSpec.describe Metanorma::Standoc do
             <relation type='derivedFrom'>
               <bibitem>
                 <title language='en' format='text/plain'>X</title>
-                <docidentifier>DOCIDENTIFIER-1</docidentifier>
+                <docidentifier primary="true">DOCIDENTIFIER-1</docidentifier>
                 <language>en</language>
                 <script>Latn</script>
                 <status>
@@ -918,7 +918,7 @@ RSpec.describe Metanorma::Standoc do
                 <relation type='derivedFrom'>
                   <bibitem>
                     <title language='en' format='text/plain'>A2</title>
-                    <docidentifier>DOCIDENTIFIER-2</docidentifier>
+                    <docidentifier primary="true">DOCIDENTIFIER-2</docidentifier>
                     <language>en</language>
                     <script>Latn</script>
                     <status>
