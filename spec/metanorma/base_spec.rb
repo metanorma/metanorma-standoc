@@ -290,7 +290,7 @@ RSpec.describe Metanorma::Standoc do
               <standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
               <bibdata type="standard">
               <title language="en" format="text/plain">Main Title — Title</title>
-                <docidentifier>1000-1</docidentifier>
+                <docidentifier primary="true">1000-1</docidentifier>
                 <docidentifier type='ISBN'>ISBN-13</docidentifier>
               <docidentifier type='ISBN10'>ISBN-10</docidentifier>
                <docidentifier type="ABC">x 1</docidentifier>
@@ -614,7 +614,7 @@ RSpec.describe Metanorma::Standoc do
                   <uri type="pdf">D</uri>
                   <uri type="doc">E</uri>
                   <uri type="relaton">F</uri>
-                  <docidentifier>1000-1-1</docidentifier>
+                  <docidentifier primary="true">1000-1-1</docidentifier>
                   <docnumber>1000</docnumber>
                   <date type='published'>
            <on>1000-01</on>
@@ -1176,7 +1176,7 @@ RSpec.describe Metanorma::Standoc do
             <standard-document xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
             <bibdata type="standard">
           <title language="en" format="text/plain">Document title</title>
-          <docidentifier>OVERRIDE-DOCIDENTIFIER</docidentifier>
+          <docidentifier primary="true">OVERRIDE-DOCIDENTIFIER</docidentifier>
           <docnumber>1000</docnumber>
           <date type="published">
             <on>1000-01</on>
