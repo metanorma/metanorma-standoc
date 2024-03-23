@@ -31,10 +31,11 @@ module Metanorma
 
       def inline_anchor_xref_attrs(node)
         text = concatenate_attributes_to_xref_text(node)
-        m = inline_anchor_xref_match(text)
         t = node.target.gsub(/^#/, "").gsub(%r{(\.xml|\.adoc)(#.*$)}, "\\2")
-        m.nil? and return { target: t, type: "inline", text: text }
-        inline_anchor_xref_attrs1(m, t, text)
+        attrs, text = inline_anchor_xref_match(text)
+        attrs.empty? and
+          return { target: t, type: "inline", text: text, style: @xrefstyle }
+        inline_anchor_xref_attrs1(attrs, t, text)
       end
 
       def concatenate_attributes_to_xref_text(node)
@@ -44,20 +45,29 @@ module Metanorma
         end.map { |x| x.sub(/%+/, "%") }.join + (node.text || "")
       end
 
-      def inline_anchor_xref_attrs1(match, target, text)
-        { target: target, hidden: match[:hidden],
-          type: match[:fn].nil? ? "inline" : "footnote",
-          case: match[:case]&.sub(/%$/, ""),
-          style: match[:style] || @xrefstyle,
-          droploc: match[:drop].nil? && match[:drop2].nil? ? nil : true,
-          text: inline_anchor_xref_text(match, text) }
+      def inline_anchor_xref_attrs1(attrs, target, text)
+        { target: target, hidden: attrs["hidden"],
+          type: attrs.key?("fn") ? "footnote" : "inline",
+          case: %w(capital lowercase).detect { |x| attrs.key?(x) },
+          label: attrs["label"],
+          style: attrs["style"] || @xrefstyle,
+          droploc: attrs.key?("droploc") ? true : nil,
+          text: text }.compact
       end
 
+      XREF_ATTRS = "hidden|style|droploc|capital|lowercase|label".freeze
+
       def inline_anchor_xref_match(text)
-        /^(?:hidden%(?<hidden>[^,]+),?)?
-          (?:style=(?<style>[^%]+)%)?
-          (?<drop>droploc%)?(?<case>capital%|lowercase%)?(?<drop2>droploc%)?
-          (?<fn>fn:?\s*)?(?<text>.*)$/x.match text
+        attrs = {}
+        while m = /^(#{XREF_ATTRS})(=[^%]+)?%(.*)$/o.match(text)
+          text = m[3]
+          attrs[m[1]] = m[2]&.sub(/^=/, "")
+        end
+        if m = /^(fn:?\s*)(\S.*)?$/.match(text)
+          text = m[2]
+          attrs["fn"] = ""
+        end
+        [attrs, text]
       end
 
       def inline_anchor_xref_text(match, text)
