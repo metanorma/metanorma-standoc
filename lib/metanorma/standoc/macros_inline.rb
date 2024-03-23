@@ -201,7 +201,13 @@ module Metanorma
       using_format :short
 
       def process(parent, _target, attrs)
-        create_anchor(parent, "hidden%#{attrs['text']}",
+        t = attrs["text"]
+        t = if /,/.match?(t)
+              t.sub(/,/, "%")
+            else
+              "#{t}%"
+            end
+        create_anchor(parent, "hidden=#{t}",
                       type: :xref, target: "_#{UUIDTools::UUID.random_create}")
       end
     end
