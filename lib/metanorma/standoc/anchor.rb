@@ -63,7 +63,7 @@ module Metanorma
           text = m[3]
           attrs[m[1]] = m[2]&.sub(/^=/, "")
         end
-        if m = /^(fn:?\s*)(.*)$/.match(text)
+        if m = /^(fn:?\s*)(\S.*)?$/.match(text)
           text = m[2]
           attrs["fn"] = ""
         end
