@@ -38,10 +38,11 @@ RSpec.describe Metanorma::Standoc do
       :no-isobib:
 
       stem:[1/r]
+      stem:[0.9321]
     INPUT
     output = <<~OUTPUT
-            #{BLANK_HDR}
-                     <sections>
+       #{BLANK_HDR}
+       <sections>
           <p id="_">
             <stem type="MathML" block="false">
               <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -54,6 +55,14 @@ RSpec.describe Metanorma::Standoc do
               </math>
               <asciimath>1/r</asciimath>
             </stem>
+            <stem type="MathML" block="false">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mstyle displaystyle="false">
+              <mn>0.9321</mn>
+              </mstyle>
+            </math>
+            <asciimath>0.9321</asciimath>
+          </stem>
           </p>
         </sections>
       </standard-document>

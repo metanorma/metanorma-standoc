@@ -19,12 +19,26 @@ module Metanorma
       def asciimath2mathml_indiv(elem)
         elem["type"] = "MathML"
         expr = @c.decode(elem.text)
-        ret = Plurimath::Math.parse(expr, "asciimath")
-          .to_mathml(display_style: elem["block"])
-        ret += "<asciimath>#{@c.encode(@c.decode(expr), :basic)}</asciimath>"
+        ret = asciimath_parse(expr, elem)
+        ret += "<asciimath>#{@c.encode(expr, :basic)}</asciimath>"
         elem.children = ret
       rescue StandardError => e
         asciimath2mathml_err(elem.to_xml, e)
+      end
+
+      # https://medium.com/@rickwang_wxc/in-ruby-given-a-string-detect-if-it-is-valid-numeric-c58275eace60
+      NUMERIC_REGEX = %r{^((\+|-)?\d*\.?\d+)([eE](\+|-){1}\d+)?$}.freeze
+
+      MATHML_NS = "http://www.w3.org/1998/Math/MathML".freeze
+
+      def asciimath_parse(expr, elem)
+        if NUMERIC_REGEX.match?(expr)
+          "<math xmlns='#{MATHML_NS}'><mstyle displaystyle='false'> "\
+            "<mn>#{expr}</mn></mstyle></math>"
+        else
+          Plurimath::Math.parse(expr, "asciimath")
+            .to_mathml(display_style: elem["block"])
+        end
       end
 
       def asciimath2mathml_err(text, expr)
@@ -56,8 +70,6 @@ module Metanorma
           .gsub(/<[^: \r\n\t\/]+:/, "<").gsub(/<\/[^ \r\n\t:]+:/, "</")
         xml.children = math
       end
-
-      MATHML_NS = "http://www.w3.org/1998/Math/MathML".freeze
 
       def mathml_preserve_space(math)
         math.xpath(".//m:mtext", "m" => MATHML_NS).each do |x|
