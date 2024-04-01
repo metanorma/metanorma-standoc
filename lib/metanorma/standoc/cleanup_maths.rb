@@ -33,8 +33,10 @@ module Metanorma
 
       def asciimath_parse(expr, elem)
         if NUMERIC_REGEX.match?(expr)
-          "<math xmlns='#{MATHML_NS}'><mstyle displaystyle='false'> "\
-            "<mn>#{expr}</mn></mstyle></math>"
+          @novalid or elem["validate"] = "false"
+          <<~MATH
+            <math xmlns='#{MATHML_NS}'><mstyle displaystyle='false'><mn>#{expr}</mn></mstyle></math>
+          MATH
         else
           Plurimath::Math.parse(expr, "asciimath")
             .to_mathml(display_style: elem["block"])
@@ -205,7 +207,8 @@ module Metanorma
 
       def mathml_cleanup(xmldoc)
         unitsml = Asciimath2UnitsML::Conv.new(asciimath2unitsml_options)
-        xmldoc.xpath("//stem[@type = 'MathML']").each do |x|
+        xmldoc.xpath("//stem[@type = 'MathML'][not(@validate = 'false')]")
+          .each do |x|
           xml_unescape_mathml(x)
           mathml_namespace(x)
           mathml_preserve_space(x)
