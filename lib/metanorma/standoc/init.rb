@@ -33,7 +33,7 @@ module Metanorma
         @boilerplateauthority = node.attr("boilerplate-authority")
         @embed_hdr = node.attr("embed_hdr")
         @embed_id = node.attr("embed_id")
-        @document_scheme = node.attr("document-scheme")
+        @document_scheme = document_scheme(node)
         @xrefstyle = node.attr("xrefstyle")
         @source_linenums = node.attr("source-linenums-option") == "true"
       end

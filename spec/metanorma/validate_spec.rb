@@ -1,8 +1,8 @@
 require "spec_helper"
 require "fileutils"
+require "relaton_iso"
 
 RSpec.describe Metanorma::Standoc do
-=begin
   before do
     # Force to download Relaton index file
     allow_any_instance_of(::Relaton::Index::Type).to receive(:actual?)
@@ -10,7 +10,6 @@ RSpec.describe Metanorma::Standoc do
     allow_any_instance_of(::Relaton::Index::FileIO).to receive(:check_file)
       .and_return(nil)
   end
-=end
 
   it "generates error file" do
     FileUtils.rm_f "spec/assets/xref_error.err.html"
