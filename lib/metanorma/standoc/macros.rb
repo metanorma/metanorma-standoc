@@ -100,7 +100,7 @@ module Metanorma
         status[:midline_docattr] && !/^:[^ :]+: /.match?(text) and
           status[:midline_docattr] = false
         if (status[:is_delim] && /^(-+|\*+|=+|_+)$/.match?(text)) ||
-            (!status[:is_delim] && !status[:delimln] && text == "----")
+            (!status[:is_delim] && !status[:delimln] && /^-----*$|^\.\.\.\.\.*$/.match?(text))
           status[:delimln] = text
           status[:pass] = true
         elsif status[:pass_delim]
