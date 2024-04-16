@@ -135,7 +135,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-           #{BLANK_HDR}
+      #{BLANK_HDR}
                     <sections>
            <formula id="ABC" tag="X" columns="1" multilingual-rendering="common" number="3" keep-with-next="true" keep-lines-together="true" inequality="true">
              <stem type="MathML" block="true">
@@ -179,7 +179,8 @@ RSpec.describe Metanorma::Standoc do
                  <mstyle displaystyle="true">
                    <mi>M</mi>
                    <mo>=</mo>
-                   <mfenced open="[" close="]">
+                    <mrow>
+                    <mo>[</mo>
                      <mtable>
                        <mtr>
                          <mtd>
@@ -300,7 +301,8 @@ RSpec.describe Metanorma::Standoc do
                          </mtd>
                        </mtr>
                      </mtable>
-                   </mfenced>
+                     <mo>]</mo>
+                     </mrow>
                  </mstyle>
                </math>
                <latexmath>M =

@@ -83,6 +83,7 @@ module Metanorma
       def section_attributes(node)
         ret =
           { id: Metanorma::Utils::anchor_or_uuid(node),
+            unnumbered: node.option?("unnumbered") ? "true" : nil,
             annex: role_style(node, "appendix") && node.level == 1 ? true : nil,
             colophon: role_style(node, "colophon") ? true : nil,
             preface: role_style(node, "preface") ? true : nil }
