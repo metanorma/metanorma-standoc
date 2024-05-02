@@ -1282,17 +1282,11 @@ RSpec.describe Metanorma::Standoc do
         --
       TEXT
     end
-    let(:output) do
-      <<~TEXT
-        #{BLANK_HDR}
-        #{File.read(fixtures_path('datamodel_description_sections_tree.xml'))}
-        </standard-document>
-      TEXT
-    end
 
+    # full testing is done in metanorma-plugin-lutaml
     it "correctly renders input" do
       expect(convert)
-        .to(be_equivalent_to(xmlpp(output)))
+        .to(include("shall be represented as a set of instances of RE_Locale"))
     end
   end
 end

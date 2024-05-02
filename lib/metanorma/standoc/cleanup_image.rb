@@ -10,17 +10,12 @@ module Metanorma
         Vectory::SvgMapping.new(xmldoc, @localdir).call
       end
 
-      def guid?(str)
-        /^_[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/i
-          .match(str)
-      end
-
       def svgmap_moveattrs(xmldoc)
         xmldoc.xpath("//svgmap").each do |s|
           f = s.at(".//figure") or next
           (t = s.at("./name")) && !f.at("./name") and
             f.children.first.previous = t.remove
-          if s["id"] && guid?(f["id"])
+          if s["id"] && Metanorma::Utils::guid_anchor?(f["id"])
             f["id"] = s["id"]
             s.delete("id")
           end

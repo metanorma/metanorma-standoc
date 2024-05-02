@@ -48,15 +48,14 @@ RSpec.describe Metanorma::Standoc::Processor do
        </sections>
        </iso-standard>
     INPUT
-    expect(File.read("test.html", encoding: "utf-8")
+    expect(strip_guid(File.read("test.html", encoding: "utf-8")
       .gsub(%r{^.*<main}m, "<main")
-      .gsub(%r{</main>.*}m, "</main>"))
+      .gsub(%r{</main>.*}m, "</main>")))
       .to be_equivalent_to <<~OUTPUT
-            <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-              <div id="H"><h1>Terms, Definitions, Symbols and Abbreviated Terms</h1><h2 class="TermNum" id="J"></h2>
-          <p class="Terms" style="text-align:left;">Term2</p>
-        </div>
-            </main>
+           <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button><div id="H"><h1><a class="anchor" href="#H"></a><a class="header" href="#H">Terms, Definitions, Symbols and Abbreviated Terms</a></h1>
+         <div id="J"><h2 class="TermNum" id="_"><a class="anchor" href="#J"></a><a class="header" href="#J"></a></h2></div>
+         <p class="Terms" style="text-align:left;">Term2</p>
+        </div></main>
       OUTPUT
   end
 
