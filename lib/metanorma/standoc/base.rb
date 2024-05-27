@@ -107,8 +107,9 @@ module Metanorma
       end
 
       def doctype(node)
-        ret = node.attr("doctype")&.gsub(/\s+/, "-")&.downcase || "standard"
-        ret = "standard" if ret == "article"
+        ret = node.attr("doctype")&.gsub(/\s+/, "-")&.downcase ||
+          @default_doctype
+        ret = @default_doctype if ret == "article"
         ret
       end
 

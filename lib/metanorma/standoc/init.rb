@@ -36,6 +36,7 @@ module Metanorma
         @document_scheme = document_scheme(node)
         @xrefstyle = node.attr("xrefstyle")
         @source_linenums = node.attr("source-linenums-option") == "true"
+        @default_doctype = "standard"
       end
 
       def init_processing(node)
