@@ -22,7 +22,7 @@ module Metanorma
       end
 
       def thematic_break(_node)
-        noko { |xml| xml.hr }.join
+        noko(&:hr).join
       end
 
       def latex_parse1(text, block)
