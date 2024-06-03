@@ -76,9 +76,8 @@ module Metanorma
       def extract_localities_update_text(match)
         ret = match[:text]
         re = to_regex(LOCALITY_REGEX_VALUE_ONLY_STR)
-        if re.match?(ret) && match[:punct] == ";"
+        re.match?(ret) && match[:punct] == ";" and
           ret.sub!(%r{^(#{CONN_REGEX_STR})}o, "\\1#{match[:locality]}=")
-        end
         ret
       end
 
@@ -93,15 +92,13 @@ module Metanorma
       end
 
       def fill_in_eref_connectives(elem)
-        return if elem.xpath("./localityStack").size < 2
-
+        elem.xpath("./localityStack").size < 2 and return
         elem.xpath("./localityStack[not(@connective)]").each do |l|
           n = l.next_element
           l["connective"] = if n && n.name == "localityStack" &&
               n["connective"] == "to"
                               "from"
-                            else "and"
-                            end
+                            else "and" end
         end
       end
 
@@ -193,9 +190,8 @@ module Metanorma
       def xref_parse_compound_locations(locations)
         l = locations.map { |y| y.split("!", 2) }
         l.map.with_index do |y, i|
-          if y.size == 1
+          y.size == 1 and
             y.unshift(l.dig(i + 1, 0) == "to" ? "from" : "and")
-          end
           y
         end
       end
@@ -209,8 +205,7 @@ module Metanorma
       def xref_cleanup1(xmldoc)
         xmldoc.xpath("//xref").each do |x|
           %r{:(?!//)}.match?(x["target"]) and xref_to_internal_eref(x)
-          next unless x.name == "xref"
-
+          x.name == "xref" or next
           if refid? x["target"]
             xref_to_eref(x, "eref")
           elsif @anchor_alias[x["target"]] then xref_alias(x)

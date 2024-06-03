@@ -34,8 +34,12 @@ module Metanorma
 
       def math_validate(doc)
         doc.xpath("//m:math", "m" => MATHML_NS).each do |m|
-          math = mathml_sanitise(m.dup)
-          Plurimath::Math.parse(math, "mathml").to_mathml
+          if m.parent["validate"] == "false"
+            m.parent.delete("validate")
+          else
+            math = mathml_sanitise(m.dup)
+            Plurimath::Math.parse(math, "mathml").to_mathml
+          end
         rescue StandardError => e
           math_validate_error(math, m, e)
         end
@@ -53,7 +57,7 @@ module Metanorma
         orig = ""
         a and orig += "\n\tAsciimath original: #{@c.decode(a.children.to_xml)}"
         l and orig += "\n\tLatexmath original: #{@c.decode(l.children.to_xml)}"
-        @log.add("Mathematics", elem,
+        @log.add("Maths", elem,
                  "Invalid MathML: #{math}\n #{error}#{orig}", severity: 0)
       end
 
@@ -83,7 +87,7 @@ module Metanorma
         outer.name == "figure" && inner.name == "figure" and return
         err =
           "There is an instance of #{inner.name} nested within #{outer.name}"
-        @log.add("Syntax", inner, err)
+        @log.add("Style", inner, err)
         nested_asset_xref_report(outer, inner, doc)
       end
 

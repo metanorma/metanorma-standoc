@@ -1187,7 +1187,7 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso124,attachment:(spec/assets/iso.xml)]]]
     INPUT
     output = <<~OUTPUT
-      <standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="2.8.2">
+      <standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
          <bibdata type="standard">
            <title language="en" format="text/plain">Document title</title>
            <language>en</language>

@@ -27,7 +27,7 @@ module Metanorma
         attrs.size > 1 && attrs.size < 5 and return true
         e = "invalid index \"#{target}\" cross-reference: wrong number of " \
             "attributes in `index:#{target}[#{attrs.values.join(',')}]`"
-        parent.converter.log.add("Index", parent, e, severity: 0)
+        parent.converter.log.add("Crossreferences", parent, e, severity: 0)
         false
       end
 
@@ -201,7 +201,13 @@ module Metanorma
       using_format :short
 
       def process(parent, _target, attrs)
-        create_anchor(parent, "hidden%#{attrs['text']}",
+        t = attrs["text"]
+        t = if /,/.match?(t)
+              t.sub(/,/, "%")
+            else
+              "#{t}%"
+            end
+        create_anchor(parent, "hidden=#{t}",
                       type: :xref, target: "_#{UUIDTools::UUID.random_create}")
       end
     end

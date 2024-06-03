@@ -37,26 +37,26 @@ RSpec.describe Metanorma::Standoc do
       ====
     INPUT
     output = <<~OUTPUT
-             #{BLANK_HDR}
-             <sections>
-              <svgmap unnumbered='true' number='8' subsequence='A' keep-with-next='true' keep-lines-together='true'>
-                   <target href='http://www.example.com'>
-                     <xref target='ref1'>Computer</xref>
-                   </target>
-                 </svgmap>
-                 <figure id='ref1'>
-                 <name>SVG title</name>
-                 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1_000000001' x='0px' y='0px' viewBox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve'>
+         #{BLANK_HDR}
+         <sections>
+           <svgmap unnumbered='true' number='8' subsequence='A' keep-with-next='true' keep-lines-together='true'>
+             <target href='http://www.example.com'>
+               <xref target='ref1'>Computer</xref>
+             </target>
+           </svgmap>
+           <figure id='ref1'>
+             <name>SVG title</name>
+             <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1_000000001' x='0px' y='0px' viewBox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve'>
         <style/>
         <image/>
         <a xlink:href='#ref1'>
-          <rect x='123.28' y='273.93' class='st0' width='88.05' height='41.84'/>
+        <rect x='123.28' y='273.93' width='88.05' height='41.84'/>
         </a>
         <a xlink:href='mn://basic_attribute_schema'>
-          <rect x='324.69' y='450.52' class='st0' width='132.62' height='40.75'/>
+          <rect x='324.69' y='450.52' width='132.62' height='40.75'/>
         </a>
         <a xlink:href='mn://support_resource_schema'>
-          <rect x='324.69' y='528.36' class='st0' width='148.16' height='40.75'/>
+          <rect x='324.69' y='528.36' width='148.16' height='40.75'/>
         </a>
       </svg>
                  </figure>
@@ -66,13 +66,13 @@ RSpec.describe Metanorma::Standoc do
           <style/>
           <image/>
           <a xlink:href='#ref1'>
-            <rect x='123.28' y='273.93' class='st0' width='88.05' height='41.84'/>
+            <rect x='123.28' y='273.93' width='88.05' height='41.84'/>
           </a>
           <a xlink:href='http://www.example.com'>
-            <rect x='324.69' y='450.52' class='st0' width='132.62' height='40.75'/>
+            <rect x='324.69' y='450.52' width='132.62' height='40.75'/>
           </a>
           <a xlink:href='mn://support_resource_schema'>
-            <rect x='324.69' y='528.36' class='st0' width='148.16' height='40.75'/>
+            <rect x='324.69' y='528.36' width='148.16' height='40.75'/>
           </a>
         </svg>
                    </figure>
@@ -100,7 +100,8 @@ RSpec.describe Metanorma::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
       .gsub(%r{<image[^>]+?/>}m, "<image/>")
       .gsub(%r{<image.*?</image>}m, "<image/>")
-      .gsub(%r{<style.*?</style>}m, "<style/>"))
+      .gsub(%r{<style.*?</style>}m, "<style/>")
+      .gsub(%r{ class="st0[^"]*"}m, ""))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -1015,6 +1016,7 @@ RSpec.describe Metanorma::Standoc do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR.sub(/:data-uri-image: false/, ':data-uri-image: true')}
 
+      [height=100,width=100]
       image::spec/fixtures/action_schemaexpg1.svg[]
 
       image::spec/examples/rice_images/rice_image1.png[]
@@ -1023,50 +1025,98 @@ RSpec.describe Metanorma::Standoc do
     INPUT
 
     output = <<~OUTPUT
-       #{BLANK_HDR}
-                <sections>
-          <figure id='_'>
-            <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve'>
-              <style/>
-              <image/>
-              <a xlink:href='mn://action_schema'>
-                <rect x='123.28' y='273.93' class='st0' width='88.05' height='41.84'/>
-              </a>
-              <a xlink:href='mn://basic_attribute_schema'>
-                <rect x='324.69' y='450.52' class='st0' width='132.62' height='40.75'/>
-              </a>
-              <a xlink:href='mn://support_resource_schema'>
-                <rect x='324.69' y='528.36' class='st0' width='148.16' height='40.75'/>
-              </a>
-            </svg>
+        #{BLANK_HDR}
+              <sections>
+          <figure id="_" width="100">
+            <image src="spec/fixtures/action_schemaexpg1.svg" mimetype="image/svg+xml" id="_" height="100" width="100">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
+                <style/>
+                <image/>
+                <a xlink:href="mn://action_schema">
+                  <rect x="123.28" y="273.93" width="88.05" height="41.84"/>
+                </a>
+                <a xlink:href="mn://basic_attribute_schema">
+                  <rect x="324.69" y="450.52" width="132.62" height="40.75"/>
+                </a>
+                <a xlink:href="mn://support_resource_schema">
+                  <rect x="324.69" y="528.36" width="148.16" height="40.75"/>
+                </a>
+              </svg>
+            </image>
           </figure>
-          <figure id='_'>
-              <image/>
+          <figure id="_">
+            <image src="data:image/png" mimetype="image/png" id="_" height="auto" width="auto"/>
           </figure>
-          <figure id='_'>
-            <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1_inject_1' x='0px' y='0px' viewBox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve'>
-              <style/>
-              <image/>
-              <a xlink:href='mn://action_schema'>
-                <rect x='123.28' y='273.93' class='st0' width='88.05' height='41.84'/>
-              </a>
-              <a xlink:href='mn://basic_attribute_schema'>
-                <rect x='324.69' y='450.52' class='st0' width='132.62' height='40.75'/>
-              </a>
-              <a xlink:href='mn://support_resource_schema'>
-                <rect x='324.69' y='528.36' class='st0' width='148.16' height='40.75'/>
-              </a>
-            </svg>
+          <figure id="_">
+            <image src="spec/fixtures/action_schemaexpg1.svg" mimetype="image/svg+xml" id="_" height="auto" width="auto">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1_inject_1" x="0px" y="0px" viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
+                <style/>
+                <image/>
+                <a xlink:href="mn://action_schema">
+                  <rect x="123.28" y="273.93" width="88.05" height="41.84"/>
+                </a>
+                <a xlink:href="mn://basic_attribute_schema">
+                  <rect x="324.69" y="450.52" width="132.62" height="40.75"/>
+                </a>
+                <a xlink:href="mn://support_resource_schema">
+                  <rect x="324.69" y="528.36" width="148.16" height="40.75"/>
+                </a>
+              </svg>
+            </image>
           </figure>
         </sections>
       </standard-document>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    xml.xpath("//*[local-name() = 'image']").each do |x|
+    xml.xpath("//*[local-name() = 'svg']/*[local-name() = 'image']").each do |x|
       x.replace("<image/>")
     end
     expect(xmlpp(strip_guid(xml.to_xml)
-      .gsub(%r{<style.*?</style>}m, "<style/>")))
+      .gsub(%r{<style.*?</style>}m, "<style/>")
+      .gsub(%r{data:image/png[^"']*}m, "data:image/png")
+      .gsub(%r{ class="st0[^"]*"}m, "")))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "deduplicates SVG classes" do
+    input = <<~INPUT
+      #{BLANK_HDR}
+        <sections>
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256">
+        <style>.B{fill:none}.C{stroke:#000}.D{stroke-linejoin:round}.E{stroke-miterlimit:10}.F{stroke-width:5}.G{stroke-linecap:round}.H{stroke-width:3.9}.I{fill:#fff}.J{stroke-dasharray:30.0001, 30.0001}.K{stroke-width:15}</style>
+        <g transform="matrix(.133333 0 0 -.133333 -96.525 872.7067)">
+         <path d="M2142.88 4842.01h580.793v425.191H2142.88z" clip-path="url(#A0)" class="B C D E F"/>
+        </g>
+       </svg>
+       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256">
+       <style>.B{stroke-linejoin:round}.C{stroke-miterlimit:10}.D{fill:none}.E{stroke:#000}.F{stroke-width:5}.G{stroke-width:3.9}.H{stroke-linecap:round}.I{fill:#fff}.J{stroke-width:15}.K{stroke-dasharray:30.0001, 30.0001}</style>
+        <g transform="matrix(.133333 0 0 -.133333 -96.525 872.7067)">
+         <path d="M2142.88 4842.01h580.793v425.191H2142.88z" clip-path="url(#A0)" class="B C D E F"/>
+        </g>
+       </svg>
+        </sections>
+      </standard-document>
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+               <sections>
+           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 256 256">
+             <style>.B_inject_0 {fill:none}.C_inject_0 {stroke:#000}.D_inject_0 {stroke-linejoin:round}.E_inject_0 {stroke-miterlimit:10}.F_inject_0 {stroke-width:5}.G_inject_0 {stroke-linecap:round}.H_inject_0 {stroke-width:3.9}.I_inject_0 {fill:#fff}.J_inject_0 {stroke-dasharray:30.0001, 30.0001}.K_inject_0 {stroke-width:15}</style>
+             <g transform="matrix(.133333 0 0 -.133333 -96.525 872.7067)">
+               <path d="M2142.88 4842.01h580.793v425.191H2142.88z" clip-path="url(#A0)" class="B_inject_0 C_inject_0 D_inject_0 E_inject_0 F_inject_0"/>
+             </g>
+           </svg>
+           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 256 256">
+             <style>.B_inject_1 {stroke-linejoin:round}.C_inject_1 {stroke-miterlimit:10}.D_inject_1 {fill:none}.E_inject_1 {stroke:#000}.F_inject_1 {stroke-width:5}.G_inject_1 {stroke-width:3.9}.H_inject_1 {stroke-linecap:round}.I_inject_1 {fill:#fff}.J_inject_1 {stroke-width:15}.K_inject_1 {stroke-dasharray:30.0001, 30.0001}</style>
+             <g transform="matrix(.133333 0 0 -.133333 -96.525 872.7067)">
+               <path d="M2142.88 4842.01h580.793v425.191H2142.88z" clip-path="url(#A0)" class="B_inject_1 C_inject_1 D_inject_1 E_inject_1 F_inject_1"/>
+             </g>
+           </svg>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(Metanorma::Standoc::Converter.new(nil, *OPTIONS)
+      .cleanup(Nokogiri::XML(input)).to_xml))
       .to be_equivalent_to xmlpp(output)
   end
 

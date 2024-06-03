@@ -22,7 +22,7 @@ module Metanorma
       end
 
       def thematic_break(_node)
-        noko { |xml| xml.hr }.join
+        noko(&:hr).join
       end
 
       def latex_parse1(text, block)
@@ -30,7 +30,7 @@ module Metanorma
         results = Plurimath::Math.parse(lxm_input, "latex")
           .to_mathml(display_style: block)
         if results.nil?
-          @log.add("Math", nil,
+          @log.add("Maths", nil,
                    "latexmlmath failed to process equation:\n#{lxm_input}",
                    severity: 1)
           return

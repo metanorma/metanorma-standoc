@@ -444,7 +444,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to(xmlpp(output))
   end
 
-  it "processes crossreferences style" do
+  it "processes crossreferences style and labels" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [[reference]]
@@ -454,6 +454,8 @@ RSpec.describe Metanorma::Standoc do
       Inline Reference to <<reference,style=basic%>>
       Inline Reference to <<reference,style=basic>>
       Inline Reference to <<reference,style=%>>
+      Inline Reference to <<reference,label=Subclause%>>
+      Inline Reference to <<reference,style=basic%label=Subclause%>>
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -469,6 +471,10 @@ RSpec.describe Metanorma::Standoc do
               <xref target='reference'>style=basic</xref>
                Inline Reference to
               <xref target='reference'>style=%</xref>
+               Inline Reference to
+              <xref target='reference' label="Subclause"/>
+               Inline Reference to
+              <xref target='reference' label="Subclause" style='basic'/>
             </p>
           </clause>
         </sections>

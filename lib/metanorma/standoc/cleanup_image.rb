@@ -1,18 +1,13 @@
 require "vectory"
+require "crass"
 
 module Metanorma
   module Standoc
     module Cleanup
       def svgmap_cleanup(xmldoc)
-        svg_uniqueids(xmldoc)
         svgmap_moveattrs(xmldoc)
         svgmap_populate(xmldoc)
         Vectory::SvgMapping.new(xmldoc, @localdir).call
-      end
-
-      def guid?(str)
-        /^_[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/i
-          .match(str)
       end
 
       def svgmap_moveattrs(xmldoc)
@@ -20,7 +15,7 @@ module Metanorma
           f = s.at(".//figure") or next
           (t = s.at("./name")) && !f.at("./name") and
             f.children.first.previous = t.remove
-          if s["id"] && guid?(f["id"])
+          if s["id"] && Metanorma::Utils::guid_anchor?(f["id"])
             f["id"] = s["id"]
             s.delete("id")
           end
@@ -31,8 +26,7 @@ module Metanorma
       def svgmap_moveattrs1(svgmap, figure)
         %w(unnumbered number subsequence keep-with-next
            keep-lines-together tag multilingual-rendering).each do |a|
-          next if figure[a] || !svgmap[a]
-
+          figure[a] || !svgmap[a] and next
           figure[a] = svgmap[a]
           svgmap.delete(a)
         end
@@ -44,7 +38,7 @@ module Metanorma
           s.children.remove
           f = s1.at(".//figure") and s << f
           s1.xpath(".//li").each do |li|
-            t = li&.at(".//eref | .//link | .//xref") or next
+            t = li.at(".//eref | .//link | .//xref") or next
             href = t.xpath("./following-sibling::node()")
             href.empty? or
               s << %[<target href="#{svgmap_target(href)}">#{t.to_xml}</target>]
@@ -54,8 +48,7 @@ module Metanorma
 
       def svgmap_target(nodeset)
         nodeset.each do |n|
-          next unless n.name == "link"
-
+          n.name == "link" or next
           n.children = n["target"]
         end
         nodeset.text.sub(/^[,; ]/, "").strip
@@ -70,20 +63,49 @@ module Metanorma
             end
           end
         end
-        svg_uniqueids(xmldoc)
+        svg_cleanup(xmldoc)
         xmldoc
       end
 
-      def read_in_if_svg(img, localdir)
-        return false unless img["src"]
+      def svg_cleanup(xmldoc)
+        svg_uniqueids(xmldoc)
+        svg_classupdate(xmldoc)
+      end
 
+      def read_in_if_svg(img, localdir)
+        img["src"] or return false
         path = Vectory::Utils.svgmap_rewrite0_path(img["src"], localdir)
         File.file?(path) or return false
         types = MIME::Types.type_for(path) or return false
         types.first == "image/svg+xml" or return false
         svg = File.read(path, encoding: "utf-8") or return false
-        img.replace(Nokogiri::XML(svg).root)
+        img.children = (Nokogiri::XML(svg).root)
         true
+      end
+
+      def svg_classupdate(xmldoc)
+        xmldoc.xpath("//m:svg[m:style]", "m" => SVG_NS)
+          .each_with_index do |s, i|
+          svg_classupdate1(s, s.at("./m:style", "m" => SVG_NS), i)
+        end
+      end
+
+      def svg_classupdate1(svg, style, idx)
+        tree = Crass.parse(style.text)
+        tree.each { |n| svg_suffix_css_style(n, idx) }
+        style.children = Crass::Parser.stringify(tree)
+        svg.xpath(".//*[@class]").each do |n|
+          n["class"] = n["class"].split(/\s+/)
+            .map { |x| "#{x}_inject_#{idx}" }.join(" ")
+        end
+      end
+
+      def svg_suffix_css_style(node, idx)
+        node[:node] == :style_rule && /\./.match?(node[:selector][:value]) or
+          return
+        v = node[:selector][:value]
+          .gsub(/([^.\s]*\.\S+)/, "\\1_inject_#{idx}")
+        node[:selector] = Crass.parse("#{v} {}").first[:selector]
       end
 
       IRI_TAG_PROPERTIES_MAP = {
@@ -112,13 +134,12 @@ module Metanorma
 
       def svg_iri_properties(id_elems)
         iri_tag_names = id_elems.each_with_object([]) do |e, m|
-          IRI_TAG_PROPERTIES_MAP.key?(e.name.to_sym) and m = m << e.name
+          IRI_TAG_PROPERTIES_MAP.key?(e.name.to_sym) and m << e.name
         end.uniq
         iri_properties = iri_tag_names.each_with_object([]) do |t, m|
           (IRI_TAG_PROPERTIES_MAP[t.to_sym] || [t]).each { |t1| m = m << t1 }
         end.uniq
-        return [] if iri_properties.empty?
-
+        iri_properties.empty? and return []
         iri_properties << "style"
       end
 
@@ -133,8 +154,7 @@ module Metanorma
 
       def svg_uniqueids2(svg, iri_properties, idx, ids)
         svg.traverse do |e|
-          next unless e.element?
-
+          e.element? or next
           if e.name == "style"
             svg_styleupdate(e, idx, ids)
           elsif !e.attributes.empty?
@@ -159,8 +179,7 @@ module Metanorma
 
       def svg_attrupdate(elem, iri_properties, idx, ids)
         iri_properties.each do |p|
-          next unless elem[p]
-
+          elem[p] or next
           elem[p] = svg_update_url(elem[p], idx, ids)
         end
       end
@@ -168,17 +187,15 @@ module Metanorma
       def svg_linkupdate(elem, idx, ids)
         %w(xlink:href href).each do |ref|
           iri = elem[ref]&.strip
-          next unless /^#/.match?(iri)
-          next unless ids[iri.sub(/^#/, "")]
-
+          /^#/.match?(iri) or next
+          ids[iri.sub(/^#/, "")] or next
           elem[ref] += "_inject_#{idx}"
         end
       end
 
       def svg_idupdate(elem, idx, ids)
-        return unless elem["id"]
-        return unless ids[elem["id"]]
-
+        elem["id"] or return
+        ids[elem["id"]] or return
         elem["id"] += "_inject_#{idx}"
       end
     end

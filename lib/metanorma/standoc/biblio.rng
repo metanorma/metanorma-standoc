@@ -95,7 +95,7 @@
       <text/>
     </element>
   </define>
-  <define name="LocalizedString1">
+  <define name="LocalizedStringAttrs">
     <optional>
       <!-- multiple languages and scripts possible: comma delimit them if so -->
       <attribute name="language"/>
@@ -106,6 +106,10 @@
     <optional>
       <attribute name="script"/>
     </optional>
+  </define>
+  <define name="LocalizedString1">
+    <!-- multiple languages and scripts possible: comma delimit them if so -->
+    <ref name="LocalizedStringAttrs"/>
     <text/>
   </define>
   <define name="LocalizedString">
@@ -114,6 +118,23 @@
       <oneOrMore>
         <element name="variant">
           <ref name="LocalizedString1"/>
+        </element>
+      </oneOrMore>
+    </choice>
+  </define>
+  <define name="LocalizedMarkedUpString1">
+    <!-- multiple languages and scripts possible: comma delimit them if so -->
+    <ref name="LocalizedStringAttrs"/>
+    <oneOrMore>
+      <ref name="TextElement"/>
+    </oneOrMore>
+  </define>
+  <define name="LocalizedMarkedUpString">
+    <choice>
+      <ref name="LocalizedMarkedUpString1"/>
+      <oneOrMore>
+        <element name="variant">
+          <ref name="LocalizedMarkedUpString1"/>
         </element>
       </oneOrMore>
     </choice>
@@ -142,16 +163,8 @@
     <ref name="LocalizedStringOrXsAny"/>
   </define>
   <define name="LocalizedStringOrXsAny1">
-    <optional>
-      <!-- multiple languages and scripts possible: comma delimit them if so -->
-      <attribute name="language"/>
-    </optional>
-    <optional>
-      <attribute name="locale"/>
-    </optional>
-    <optional>
-      <attribute name="script"/>
-    </optional>
+    <!-- multiple languages and scripts possible: comma delimit them if so -->
+    <ref name="LocalizedStringAttrs"/>
     <oneOrMore>
       <choice>
         <text/>
@@ -208,7 +221,7 @@
   </define>
   <define name="roledescription">
     <element name="description">
-      <ref name="FormattedString"/>
+      <ref name="LocalizedMarkedUpString"/>
     </element>
   </define>
   <define name="person">
@@ -333,7 +346,7 @@
   </define>
   <define name="affiliationdescription">
     <element name="description">
-      <ref name="FormattedString"/>
+      <ref name="LocalizedMarkedUpString"/>
     </element>
   </define>
   <define name="organization">
@@ -382,7 +395,7 @@
   </define>
   <define name="logo">
     <element name="logo">
-      <ref name="image"/>
+      <ref name="image-no-id"/>
     </element>
   </define>
   <define name="depiction">
@@ -391,7 +404,7 @@
         <attribute name="scope"/>
       </optional>
       <zeroOrMore>
-        <ref name="image"/>
+        <ref name="image-no-id"/>
       </zeroOrMore>
     </element>
   </define>
@@ -897,7 +910,9 @@
   </define>
   <define name="formattedref">
     <element name="formattedref">
-      <ref name="FormattedString"/>
+      <oneOrMore>
+        <ref name="TextElement"/>
+      </oneOrMore>
     </element>
   </define>
   <define name="license">
@@ -942,7 +957,7 @@
     <optional>
       <attribute name="type"/>
     </optional>
-    <ref name="FormattedString"/>
+    <ref name="LocalizedMarkedUpString"/>
   </define>
   <!-- TitleType = ( "alternative" | "original" | "unofficial" | "subtitle" | "main" ) -->
   <define name="TypedUri">
@@ -1033,16 +1048,7 @@
           <data type="boolean"/>
         </attribute>
       </optional>
-      <optional>
-        <attribute name="language"/>
-      </optional>
-      <optional>
-        <attribute name="locale"/>
-      </optional>
-      <optional>
-        <attribute name="script"/>
-      </optional>
-      <text/>
+      <ref name="LocalizedMarkedUpString"/>
     </element>
   </define>
   <define name="docnumber">
@@ -1267,12 +1273,20 @@
       <optional>
         <attribute name="type"/>
       </optional>
-      <ref name="FormattedString"/>
+      <ref name="LocalizedMarkedUpString"/>
     </element>
   </define>
   <define name="bibabstract">
     <element name="abstract">
-      <ref name="FormattedString"/>
+      <ref name="LocalizedStringAttrs"/>
+      <choice>
+        <oneOrMore>
+          <ref name="BasicBlockNoId"/>
+        </oneOrMore>
+        <oneOrMore>
+          <ref name="TextElement"/>
+        </oneOrMore>
+      </choice>
     </element>
   </define>
   <define name="copyright">
@@ -1377,7 +1391,7 @@
       </attribute>
       <optional>
         <element name="description">
-          <ref name="FormattedString"/>
+          <ref name="LocalizedMarkedUpString"/>
         </element>
       </optional>
       <element name="bibitem">

@@ -1,6 +1,15 @@
 require "spec_helper"
+require "relaton_iso"
 
 RSpec.describe Metanorma::Standoc do
+  before do
+    # Force to download Relaton index file
+    allow_any_instance_of(Relaton::Index::Type).to receive(:actual?)
+      .and_return(false)
+    allow_any_instance_of(Relaton::Index::FileIO).to receive(:check_file)
+      .and_return(nil)
+  end
+
   it "processes the Metanorma::Standoc inline macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -878,131 +887,131 @@ RSpec.describe Metanorma::Standoc do
       embed::spec/assets/a1.adoc[]
     INPUT
     output = <<~OUTPUT
-      <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
-         <bibdata type='standard'>
-           <title language='en' format='text/plain'>Document title</title>
-           <language>en</language>
-           <script>Latn</script>
-           <status>
-             <stage>published</stage>
-           </status>
-           <copyright>
-             <from>#{Date.today.year}</from>
-           </copyright>
-           <ext>
-             <doctype>standard</doctype>
-           </ext>
-           <relation type='derivedFrom'>
-             <bibitem>
-               <title language='en' format='text/plain'>X</title>
-               <docidentifier>DOCIDENTIFIER-1</docidentifier>
-               <language>en</language>
-               <script>Latn</script>
-               <status>
-                 <stage>published</stage>
-               </status>
-               <copyright>
-                 <from>#{Date.today.year}</from>
-               </copyright>
-               <ext>
-                 <doctype>standard</doctype>
-               </ext>
-               <relation type='derivedFrom'>
-                 <bibitem>
-                   <title language='en' format='text/plain'>A2</title>
-                   <docidentifier>DOCIDENTIFIER-2</docidentifier>
-                   <language>en</language>
-                   <script>Latn</script>
-                   <status>
-                     <stage>published</stage>
-                   </status>
-                   <copyright>
-                     <from>#{Date.today.year}</from>
-                   </copyright>
-                   <ext>
-                     <doctype>standard</doctype>
-                   </ext>
-                   <relation type='derivedFrom'>
-                      <bibitem>
-                        <title language='en' format='text/plain'>A3</title>
-                        <language>en</language>
-                        <script>Latn</script>
-                        <status>
-                          <stage>published</stage>
-                        </status>
-                        <copyright>
-                          <from>#{Date.today.year}</from>
-                        </copyright>
-                        <ext>
-                          <doctype>standard</doctype>
-                        </ext>
-                      </bibitem>
-                    </relation>
+       <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
+          <bibdata type='standard'>
+            <title language='en' format='text/plain'>Document title</title>
+            <language>en</language>
+            <script>Latn</script>
+            <status>
+              <stage>published</stage>
+            </status>
+            <copyright>
+              <from>#{Date.today.year}</from>
+            </copyright>
+            <ext>
+              <doctype>standard</doctype>
+            </ext>
+            <relation type='derivedFrom'>
+              <bibitem>
+                <title language='en' format='text/plain'>X</title>
+                <docidentifier primary="true">DOCIDENTIFIER-1</docidentifier>
+                <language>en</language>
+                <script>Latn</script>
+                <status>
+                  <stage>published</stage>
+                </status>
+                <copyright>
+                  <from>#{Date.today.year}</from>
+                </copyright>
+                <ext>
+                  <doctype>standard</doctype>
+                </ext>
+                <relation type='derivedFrom'>
+                  <bibitem>
+                    <title language='en' format='text/plain'>A2</title>
+                    <docidentifier primary="true">DOCIDENTIFIER-2</docidentifier>
+                    <language>en</language>
+                    <script>Latn</script>
+                    <status>
+                      <stage>published</stage>
+                    </status>
+                    <copyright>
+                      <from>#{Date.today.year}</from>
+                    </copyright>
+                    <ext>
+                      <doctype>standard</doctype>
+                    </ext>
                     <relation type='derivedFrom'>
-                      <bibitem>
-                        <title language='en' format='text/plain'>A3a</title>
-                        <language>en</language>
-                        <script>Latn</script>
-                        <status>
-                          <stage>published</stage>
-                        </status>
-                        <copyright>
-                          <from>#{Date.today.year}</from>
-                        </copyright>
-                        <ext>
-                          <doctype>standard</doctype>
-                        </ext>
-                      </bibitem>
-                    </relation>
-                 </bibitem>
-               </relation>
-             </bibitem>
-           </relation>
-         </bibdata>
-         <sections>
-           <clause id='clause1' inline-header='false' obligation='normative'>
-             <title>Clause</title>
+                       <bibitem>
+                         <title language='en' format='text/plain'>A3</title>
+                         <language>en</language>
+                         <script>Latn</script>
+                         <status>
+                           <stage>published</stage>
+                         </status>
+                         <copyright>
+                           <from>#{Date.today.year}</from>
+                         </copyright>
+                         <ext>
+                           <doctype>standard</doctype>
+                         </ext>
+                       </bibitem>
+                     </relation>
+                     <relation type='derivedFrom'>
+                       <bibitem>
+                         <title language='en' format='text/plain'>A3a</title>
+                         <language>en</language>
+                         <script>Latn</script>
+                         <status>
+                           <stage>published</stage>
+                         </status>
+                         <copyright>
+                           <from>#{Date.today.year}</from>
+                         </copyright>
+                         <ext>
+                           <doctype>standard</doctype>
+                         </ext>
+                       </bibitem>
+                     </relation>
+                  </bibitem>
+                </relation>
+              </bibitem>
+            </relation>
+          </bibdata>
+          <sections>
+            <clause id='clause1' inline-header='false' obligation='normative'>
+              <title>Clause</title>
+                    <p id="_">
+         <xref target="A">DOCIDENTIFIER-1</xref>
+         <xref target="A">B</xref>
+       </p>
+            </clause>
+            <clause id='A' inline-header='false' obligation='normative'>
+              <title>Clause 1</title>
                    <p id="_">
-        <xref target="A">DOCIDENTIFIER-1</xref>
-        <xref target="A">B</xref>
+        <xref target="B">DOCIDENTIFIER-2</xref>
       </p>
-           </clause>
-           <clause id='A' inline-header='false' obligation='normative'>
-             <title>Clause 1</title>
-                  <p id="_">
-       <xref target="B">DOCIDENTIFIER-2</xref>
-     </p>
-           </clause>
-           <clause id='B' inline-header='false' obligation='normative'>
-             <title>Clause 2</title>
-             <p id='_'>X</p>
-           </clause>
-           <clause id='_' inline-header='false' obligation='normative'>
-             <title>Clause 3</title>
-             <p id='_'>X</p>
-           </clause>
-           <clause id="_" inline-header="false" obligation="normative">
-             <title>Clause 4</title>
-             <p id="_">X</p>
-             <figure id="_">
-               <image src="rice_image2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
-             </figure>
-             <figure id="_">
-               <image src="../rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
-             </figure>
-           </clause>
-           <clause id="_" inline-header="false" obligation="normative">
-             <title>Clause 3a</title>
-             <p id="_">X</p>
-             <figure id="_">
-               <image src="rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
-             </figure>
-             <figure id="_">
-               <image src="subdir/rice_image2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
-             </figure>
-           </clause>
-         </sections>
-      </standard-document>
+            </clause>
+            <clause id='B' inline-header='false' obligation='normative'>
+              <title>Clause 2</title>
+              <p id='_'>X</p>
+            </clause>
+            <clause id='_' inline-header='false' obligation='normative'>
+              <title>Clause 3</title>
+              <p id='_'>X</p>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+              <title>Clause 4</title>
+              <p id="_">X</p>
+              <figure id="_">
+                <image src="rice_image2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+              </figure>
+              <figure id="_">
+                <image src="../rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+              </figure>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+              <title>Clause 3a</title>
+              <p id="_">X</p>
+              <figure id="_">
+                <image src="rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+              </figure>
+              <figure id="_">
+                <image src="subdir/rice_image2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+              </figure>
+            </clause>
+          </sections>
+       </standard-document>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
@@ -1153,6 +1162,31 @@ RSpec.describe Metanorma::Standoc do
     end
   end
 
+  it "preserves ifdefs after preprocessing" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [[clause1]]
+      == Clause
+
+      ifdef::data-uri-image[]
+      A
+      endif::[]
+    INPUT
+    output = <<~OUTPUT
+      <sections>
+        <clause id="clause1" inline-header="false" obligation="normative">
+          <title>Clause</title>
+          <p id="_">A</p>
+        </clause>
+      </sections>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml = xml.at("//xmlns:sections")
+    expect(xmlpp(strip_guid(xml.to_xml)))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   describe "lutaml_figure macro" do
     let(:example_file) { fixtures_path("test.xmi") }
     let(:input) do
@@ -1248,17 +1282,11 @@ RSpec.describe Metanorma::Standoc do
         --
       TEXT
     end
-    let(:output) do
-      <<~TEXT
-        #{BLANK_HDR}
-        #{File.read(fixtures_path('datamodel_description_sections_tree.xml'))}
-        </standard-document>
-      TEXT
-    end
 
+    # full testing is done in metanorma-plugin-lutaml
     it "correctly renders input" do
       expect(convert)
-        .to(be_equivalent_to(xmlpp(output)))
+        .to(include("shall be represented as a set of instances of RE_Locale"))
     end
   end
 end

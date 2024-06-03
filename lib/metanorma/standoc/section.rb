@@ -10,9 +10,8 @@ module Metanorma
       @norm_ref = false
 
       def sectiontype1(node)
-        return "abstract" if node.attr("style") == "abstract"
-
-        node&.attr("heading")&.downcase ||
+        node.attr("style") == "abstract" and return "abstract"
+        node.attr("heading")&.downcase ||
           node.title
             .gsub(%r{<index>.*?</index>}m, "")
             .gsub(%r{<fn[^>]*>.*?</fn>}m, "")
@@ -25,7 +24,7 @@ module Metanorma
         ret = sectiontype1(node)
         ret1 = preface_main_filter(sectiontype_streamline(ret), node)
         ret1 == "symbols and abbreviated terms" and return ret1
-        !level || node.level == 1 or return nil
+        !level || node.level == 1 || node.attr("heading") or return nil
         @seen_headers.include? ret and return nil
         @seen_headers << ret unless ret1.nil?
         @seen_headers_canonical << ret1 unless ret1.nil?
@@ -59,9 +58,12 @@ module Metanorma
         ["normative references", "terms and definitions", "scope",
          "symbols and abbreviated terms", "clause", "bibliography"].freeze
 
-      def start_main_section(ret, node)
-        return if node.role == "preface" || node.attr("style") == "preface"
+      def role_style(node, value)
+        node.role == value || node.attr("style") == value
+      end
 
+      def start_main_section(ret, node)
+        role_style(node, "preface") and return
         @preface = false if self.class::MAIN_CLAUSE_NAMES.include?(ret)
         @preface = false if self.class::PREFACE_CLAUSE_NAMES
           .intersection(@seen_headers_canonical + [ret]).empty?
@@ -79,29 +81,21 @@ module Metanorma
       end
 
       def section_attributes(node)
-        ret = { id: Metanorma::Utils::anchor_or_uuid(node),
-                language: node.attributes["language"],
-                script: node.attributes["script"],
-                number: node.attributes["number"],
-                "branch-number": node.attributes["branch-number"],
-                type: node.attributes["type"],
-                annex: (if (node.attr("style") == "appendix" ||
-                            node.role == "appendix") &&
-                          node.level == 1
-                          true
-                        end),
-                tag: node&.attr("tag"),
-                "multilingual-rendering": node&.attr("multilingual-rendering"),
-                colophon: (if node.role == "colophon" ||
-                          node.attr("style") == "colophon"
-                             true
-                           end),
-                preface: (if node.role == "preface" ||
-                          node.attr("style") == "preface"
-                            true
-                          end) }
-        return ret unless node.attributes["change"]
+        ret =
+          { id: Metanorma::Utils::anchor_or_uuid(node),
+            unnumbered: node.option?("unnumbered") ? "true" : nil,
+            annex: role_style(node, "appendix") && node.level == 1 ? true : nil,
+            colophon: role_style(node, "colophon") ? true : nil,
+            preface: role_style(node, "preface") ? true : nil }
+        %w(language script number branch-number type tag keeptitle
+           multilingual-rendering).each do |k|
+          a = node.attr(k) and ret[k.to_sym] = a
+        end
+        section_attributes_change(node, ret).compact
+      end
 
+      def section_attributes_change(node, ret)
+        node.attributes["change"] or return ret
         ret.merge(change: node.attributes["change"],
                   path: node.attributes["path"],
                   path_end: node.attributes["path_end"],

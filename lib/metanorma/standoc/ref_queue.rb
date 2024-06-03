@@ -213,8 +213,7 @@ module Metanorma
       end
 
       def init_bib_caches(node)
-        return if @no_isobib
-
+        @no_isobib and return
         global = !@no_isobib_cache && !node.attr("local-cache-only")
         local = node.attr("local-cache") || node.attr("local-cache-only")
         local = nil if @no_isobib_cache

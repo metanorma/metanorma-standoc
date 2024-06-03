@@ -165,11 +165,6 @@ module Metanorma
         end
       end
 
-      def guid?(str)
-        /^_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
-          .match?(str)
-      end
-
       def contenthash_id_cleanup(doc)
         ids = contenthash_id_make(doc)
         contenthash_id_update_refs(doc, ids)
@@ -177,7 +172,7 @@ module Metanorma
 
       def contenthash_id_make(doc)
         doc.xpath("//*[@id]").each_with_object({}) do |x, m|
-          next unless guid?(x["id"])
+          next unless Metanorma::Utils::guid_anchor?(x["id"])
 
           m[x["id"]] = contenthash(x)
           x["id"] = m[x["id"]]

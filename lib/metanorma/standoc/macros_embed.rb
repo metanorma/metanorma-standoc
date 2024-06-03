@@ -1,13 +1,45 @@
 require "pathname"
 
+module Asciidoctor
+  class PreprocessorNoIfdefsReader < PreprocessorReader
+    private
+
+    def preprocess_conditional_directive(_keyword, _target, _delimiter, _text)
+      false # decline to resolve idefs
+    end
+
+    def resolve_include_path(expanded_target, attrlist, parsed_attrs)
+      inc_path, target_type, relpath = super
+      if inc_path && !%i(file uri).include?(target_type)
+        # include has been skipped because of error
+        n = peek_line(true)
+        /^Unresolved directive in/.match?(n) and
+          @document.converter.log
+            &.add("Include", nil,
+                  HTMLEntities.new.encode(n, :basic), severity: 0)
+      end
+      [inc_path, target_type, relpath]
+    end
+  end
+end
+
 module Metanorma
   module Standoc
+    # resolve all includes before doing any further preprocessing
+    class ResolveIncludePreprocessor < Asciidoctor::Extensions::Preprocessor
+      def process(doc, reader)
+        r = ::Asciidoctor::PreprocessorNoIfdefsReader.new doc, reader.lines
+        ::Asciidoctor::PreprocessorNoIfdefsReader.new doc, r.readlines
+      end
+    end
+
     class EmbedIncludeProcessor < Asciidoctor::Extensions::Preprocessor
       def process(doc, reader)
         reader.eof? and return reader
-        lines = reader.readlines
+        r = ::Asciidoctor::PreprocessorNoIfdefsReader.new doc, reader.lines
+        lines = r.readlines
         headings = lines.grep(/^== /).map(&:strip)
-        ret = lines.each_with_object(embed_acc(doc, reader)) do |line, m|
+        ret = lines.each_with_object(embed_acc(doc, r)) do |line, m|
           process_line(line, m, headings)
         end
         return_to_document(doc, ret)
@@ -35,11 +67,12 @@ module Metanorma
         reader = ::Asciidoctor::PreprocessorReader.new doc
         b = Pathname.new doc.base_dir
         ret.reverse.each do |l|
-          if l[:file]
-            new = Pathname.new(l[:path]).relative_path_from(b).to_s
-            reader.push_include l[:lines], new, l[:path]
-          else reader.unshift_lines l[:lines]
-          end
+          # if l[:file]
+          # new = Pathname.new(l[:path]).relative_path_from(b).to_s
+          # reader.push_include l[:lines], new, l[:path]
+          reader.unshift_lines l[:lines]
+          # else reader.unshift_lines l[:lines]
+          # end
         end
         reader
       end
@@ -120,8 +153,8 @@ module Metanorma
         lines = filter_sections(read(inc_path), headings)
         n = Asciidoctor::Document
           .new [], { safe: :safe, base_dir: File.dirname(inc_path) }
-        r = ::Asciidoctor::PreprocessorReader.new n, lines
-        ret = embed_acc(n, r).merge(strip_header(r.read_lines))
+        r = ::Asciidoctor::PreprocessorNoIfdefsReader.new n, lines
+        ret = embed_acc(n, r).merge(strip_header(r.readlines))
           .merge(file: fname, path: inc_path, orig: acc[:orig])
         ret[:hdr] or
           raise "Embedding an incomplete document with no header: #{ret[:path]}"

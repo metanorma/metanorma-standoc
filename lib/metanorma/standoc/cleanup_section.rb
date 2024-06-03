@@ -1,6 +1,3 @@
-require "date"
-require "htmlentities"
-require "json"
 require_relative "cleanup_section_names"
 
 module Metanorma
@@ -51,8 +48,9 @@ module Metanorma
 
       def clean_abstract(dupabstract)
         dupabstract.traverse { |n| n.remove_attribute("id") }
-        dupabstract.remove_attribute("language")
-        dupabstract.remove_attribute("script")
+        %w(language script unnumbered).each do |w|
+          dupabstract.remove_attribute(w)
+        end
         dupabstract.at("./title")&.remove
         dupabstract
       end
@@ -97,13 +95,12 @@ module Metanorma
       def make_annexes(xml)
         xml.xpath("//*[@annex]").each do |y|
           y.delete("annex")
-          next if y.name == "annex" || !y.ancestors("annex").empty?
-
+          y.name == "annex" || !y.ancestors("annex").empty? and next
           y.wrap("<annex/>")
           y.parent["id"] = "_#{UUIDTools::UUID.random_create}"
-          y.parent["obligation"] = y["obligation"]
-          y.parent["language"] = y["language"]
-          y.parent["script"] = y["script"]
+          %w(obligation language script).each do |w|
+            y.parent[w] = y[w]
+          end
         end
       end
 
@@ -117,8 +114,7 @@ module Metanorma
 
       def sections_level_cleanup(xml)
         m = maxlevel(xml)
-        return if m < 6
-
+        m < 6 and return
         m.downto(6).each do |l|
           xml.xpath("//clause[@level = '#{l}']").each do |c|
             c.delete("level")
@@ -173,7 +169,7 @@ module Metanorma
           r["obligation"] = "normative" unless r["obligation"]
         end
         xml.xpath(Utils::SUBCLAUSE_XPATH).each do |r|
-          o = r&.at("./ancestor::*/@obligation")&.text and r["obligation"] = o
+          o = r.at("./ancestor::*/@obligation")&.text and r["obligation"] = o
         end
       end
 
@@ -183,8 +179,7 @@ module Metanorma
       end
 
       def preface_clausebefore_cleanup(xmldoc)
-        return unless xmldoc.at("//preface")
-
+        xmldoc.at("//preface") or return
         ins = insert_before(xmldoc, "//preface")
         xmldoc.xpath("//preface//*[@beforeclauses = 'true']").each do |x|
           x.delete("beforeclauses")
@@ -198,7 +193,8 @@ module Metanorma
       def sections_clausebefore_cleanup(xmldoc)
         xmldoc.at("//sections") or return
         ins = insert_before(xmldoc, "//sections")
-        xmldoc.xpath("//sections//*[@beforeclauses = 'true']").reverse.each do |x|
+        xmldoc.xpath("//sections//*[@beforeclauses = 'true']")
+          .reverse.each do |x|
           x.delete("beforeclauses")
           ins.previous = x.remove
         end
@@ -207,9 +203,10 @@ module Metanorma
 
       # only move clausebefore notes at the very end of preface
       def endofpreface_clausebefore(xmldoc, ins)
-        xmldoc.xpath("//preface//*[@beforeclauses = 'true']").reverse.each do |x|
-          textafternote = xmldoc.xpath("//preface//*") & x.xpath("./following::*")
-          textafternote.text.strip.empty? or break
+        xmldoc.xpath("//preface//*[@beforeclauses = 'true']").reverse
+          .each do |x|
+          textafter = xmldoc.xpath("//preface//*") & x.xpath("./following::*")
+          textafter.text.strip.empty? or break
           x.delete("beforeclauses")
           ins.previous = x.remove
         end
@@ -232,9 +229,8 @@ module Metanorma
         loop do
           found = false
           xmldoc.xpath("//floating-title").each do |t|
-            next unless t.next_element.nil?
-            next if %w(sections annex preface).include? t.parent.name
-
+            t.next_element.nil? or next
+            %w(sections annex preface).include? t.parent.name and next
             t.parent.next = t
             found = true
           end
