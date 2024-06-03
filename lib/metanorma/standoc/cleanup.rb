@@ -19,6 +19,7 @@ require_relative "cleanup_image"
 require_relative "cleanup_reqt"
 require_relative "cleanup_text"
 require_relative "cleanup_toc"
+require_relative "cleanup_dochistory"
 require "relaton_iev"
 
 module Metanorma

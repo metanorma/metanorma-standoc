@@ -133,11 +133,58 @@ module Metanorma
         end
       end
 
+      def attachment_cleanup(xmldoc)
+        xmldoc.xpath("//bibitem[uri/@type = 'attachment']").each do |b|
+          b["hidden"] = "true"
+          u = b.at("./uri[@type = 'attachment']")
+          c = b.at("./uri[@type = 'citation']") ||
+            u.after("<uri type='citation'/>")
+          uri = save_attachment(u.text, b)
+          u.children = uri
+          c.children = uri
+        end
+      end
+
+      def save_attachment(path, bib)
+        init_attachments
+        valid_attachment?(path, bib) or return ""
+        f = File.basename(path)
+        File.exist?(File.join(@attachmentsdir, f)) and
+          f += "_#{UUIDTools::UUID.random_create}"
+        ret = File.join(@attachmentsdir, f)
+        FileUtils.cp(path, ret)
+        datauri_attachment(ret, bib.document)
+        ret
+      end
+
+      def datauri_attachment(path, doc)
+        @datauriattachment or return
+        n = add_misc_container(doc)
+        f = File.basename(path)
+        d = Vectory::Utils.datauri(path)
+        n << "<attachment name='#{f}'>#{d}</attachment>"
+      end
+
+      def valid_attachment?(path, bib)
+        File.exist?(path) and return true
+        @log.add("Bibliography", bib, "Attachment #{path} does not exist",
+                 severity: 0)
+        false
+      end
+
+      def init_attachments
+        @attachmentsdir and return
+        @attachmentsdir = File.join(@output_dir, "_#{@filename}_attachments")
+        FileUtils.rm_rf(@attachmentsdir)
+        FileUtils.mkdir_p(@attachmentsdir)
+      end
+
       def bibitem_cleanup(xmldoc)
         bibitem_nested_id(xmldoc)
         ref_dl_cleanup(xmldoc)
         formattedref_spans(xmldoc)
         fetch_local_bibitem(xmldoc)
+        attachment_cleanup(xmldoc)
       end
     end
   end

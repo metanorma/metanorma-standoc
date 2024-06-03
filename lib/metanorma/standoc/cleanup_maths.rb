@@ -101,8 +101,7 @@ module Metanorma
       end
 
       def mi_italicise?(char)
-        return false if char.length > 1
-
+        char.length > 1 and return false
         case char
         when /\p{Greek}/
           (/\p{Lower}/.match(char) && !mathml_mi_italics[:lowergreek]) ||

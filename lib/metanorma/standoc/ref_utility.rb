@@ -33,9 +33,9 @@ module Metanorma
 
       def use_my_anchor(ref, id, opt)
         ref.parent.elements.last["id"] = id
-        opt[:hidden] and ref.parent.elements.last["hidden"] = opt[:hidden]
-        opt[:dropid] and
-          ref.parent.elements.last["suppress_identifier"] = opt[:dropid]
+        a = opt[:hidden] and ref.parent.elements.last["hidden"] = a
+        a = opt[:dropid] and
+          ref.parent.elements.last["suppress_identifier"] = a
         ref
       end
 
@@ -69,7 +69,7 @@ module Metanorma
       def analyse_ref_localfile(ret)
         m = /^local-file\((?:(?<source>[^,]+),\s*)?(?<id>.+)\)$/.match(ret[:id])
         m or return ret
-        ret.merge(id: m[:id], localfile: (m[:source] || "default"))
+        ret.merge(id: m[:id], localfile: m[:source] || "default")
       end
 
       def analyse_ref_nofetch(ret)
@@ -88,9 +88,14 @@ module Metanorma
       end
 
       def analyse_ref_repo_path(ret)
-        m = /^(?<type>repo|path):\((?<key>[^,]+),?(?<id>.*)\)$/
+        m = /^(?<type>repo|path|attachment):\((?<key>[^,]+),?(?<id>[^)]*)\)$/
           .match(ret[:id]) or return ret
-        id = m[:id].empty? ? m[:key].sub(%r{^[^/]+/}, "") : m[:id]
+        id = if m[:id].empty?
+               if m[:type] == "attachment"
+                 "(#{m[:key]})"
+               else m[:key].sub(%r{^[^/]+/}, "")
+               end
+             else m[:id] end
         ret.merge(id: id, type: m[:type], key: m[:key], nofetch: true)
       end
 
@@ -139,12 +144,12 @@ module Metanorma
           case k
           when :dropid, :hidden, :nofetch
             ret[k] = v == "true"
-          when :repo, :path
+          when :repo, :path, :attachment
             ret[:type] = k.to_s
             ret[:key] = v
             ret[:nofetch] = true
             source[:code] or
-              ret[:id] = v.sub(%r{^[^/]+/}, "")
+              ret[:id] = v == :attachment ? nil : v.sub(%r{^[^/]+/}, "")
           when :"local-file"
             ret[:localfile] = v
           when :number
@@ -160,7 +165,8 @@ module Metanorma
 
       # ref id = (usrlbl)code[:-]year
       # code = \[? number \]? | ident | nofetch(code) | hidden(code) |
-      # dropid(code) | # (repo|path):(key,code) | local-file(source,? key) |
+      # dropid(code) | # (repo|path|attachment):(key,code) |
+      # local-file(source,? key) |
       # merge(code, code) | dual(code, code)
       def analyse_ref_code_nested(ret)
         analyse_ref_dual(
