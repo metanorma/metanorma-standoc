@@ -22,7 +22,8 @@ module Metanorma
       end
 
       def thematic_break(_node)
-        noko(&:hr).join
+        # noko(&:hr).join # Do not do this, noko blows up
+        noko { |xml| xml.hr }.join # rubocop:disable Style/SymbolProc
       end
 
       def latex_parse1(text, block)
