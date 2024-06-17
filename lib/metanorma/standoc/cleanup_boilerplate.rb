@@ -42,15 +42,37 @@ module Metanorma
       end
 
       def norm_ref_preface(ref)
-        if ref.at("./note[@type = 'boilerplate']")
-          unwrap_boilerplate_clauses(ref, ".")
-        else
-          refs = ref.elements.select do |e|
-            %w(references bibitem).include? e.name
-          end
-          pref = refs.empty? ? @i18n.norm_empty_pref : @i18n.norm_with_refs_pref
-          ref.at("./title").next = "<p>#{pref}</p>"
+        ins = norm_ref_boilerplate_insert_location(ref)
+        ins2 = norm_ref_process_boilerplate_note(ref)
+        ins2 == :populated and return
+        ins2 == :missing or ins = ins2
+        refs = ref.elements.select do |e|
+          %w(references bibitem).include? e.name
         end
+        pref = refs.empty? ? @i18n.norm_empty_pref : @i18n.norm_with_refs_pref
+        ins.next = "<p>#{pref}</p>"
+      end
+
+      def norm_ref_process_boilerplate_note(ref)
+        ins2 = ref.at("./note[@type = 'boilerplate']") or return :missing
+        if ins2 && ins2.text.strip.downcase == "(default)"
+          ins2.children = " "
+          ins2.children.first
+        else
+          :populated
+        end
+      end
+
+      def norm_ref_boilerplate_insert_location(ref)
+        while (n = ref.parent) && %w(clause references).include?(n&.name)
+          n.elements.detect do |e|
+            !%(title references).include?(e.name) &&
+              !e.at("./self::clause[@type = 'boilerplate']") &&
+              !e.at("./self::clause[.//references][not(.//clause[not(.//bibitem)])]")
+          end and break
+          ref = n
+        end
+        ref.at("./title")
       end
 
       TERM_CLAUSE = "//sections/terms | " \
@@ -101,17 +123,29 @@ module Metanorma
       def termdef_boilerplate_insert_location(xmldoc)
         f = xmldoc.at(self.class::TERM_CLAUSE)
         root = xmldoc.at("//sections/terms | //sections/clause[.//terms]")
-        !f || !root and return f || root
-        f.at("./following::terms") and return root
-        f.at("./preceding-sibling::clause") and return root
+        !f && root and f = root
+        #         f.at("./following::terms") and return root
+        #         f.at("./preceding-sibling::clause") and return root
+        while (n = f.parent) && %w(clause terms).include?(n&.name)
+          n.elements.detect do |e|
+            !%(title terms).include?(e.name) &&
+              !e.at("./self::clause[@type = 'boilerplate']") &&
+              !e.at("./self::clause[.//terms][not(.//clause[not(.//term)])]")
+          end and break
+          f = n
+        end
         f
       end
 
       def termdef_boilerplate_insert1(sect, xmldoc, isodoc)
-        sect.at("./clause[@type = 'boilerplate'] | " \
-                "./note[@type = 'boilerplate']") and return
-        term_defs_boilerplate(sect.at("./title"),
-                              xmldoc.xpath(".//termdocsource"),
+        ins = sect.at("./title")
+        if (ins2 = sect.at("./clause[@type = 'boilerplate'] | " \
+                "./note[@type = 'boilerplate']"))
+          ins2.text.strip.downcase == "(default)" or return
+          ins2.children = " "
+          ins = ins2.children.first
+        end
+        term_defs_boilerplate(ins, xmldoc.xpath(".//termdocsource"),
                               sect.at(".//term"), sect.at(".//p"), isodoc)
       end
 
@@ -120,7 +154,10 @@ module Metanorma
         termdef_boilerplate_cleanup(xmldoc)
         termdef_boilerplate_insert(xmldoc, isodoc)
         unwrap_boilerplate_clauses(xmldoc, self.class::TERM_CLAUSE)
-        f = xmldoc.at(self.class::NORM_REF) and norm_ref_preface(f)
+        if f = xmldoc.at(self.class::NORM_REF)
+          norm_ref_preface(f)
+          unwrap_boilerplate_clauses(f, ".")
+        end
         initial_boilerplate(xmldoc, isodoc)
       end
 
