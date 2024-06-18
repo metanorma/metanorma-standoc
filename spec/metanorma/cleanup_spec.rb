@@ -1816,13 +1816,4 @@ RSpec.describe Metanorma::Standoc do
     expect(xmlpp(strip_guid(ret.at("//xmlns:bibdata").to_xml)))
       .to be_equivalent_to(xmlpp(output))
   end
-
-  private
-
-  def mock_boilerplate_file
-    allow_any_instance_of(Metanorma::Standoc::Cleanup)
-      .to receive(:boilerplate_file).and_return(
-        "spec/assets/boilerplate.adoc",
-      )
-  end
 end
