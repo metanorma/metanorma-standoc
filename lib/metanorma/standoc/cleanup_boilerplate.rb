@@ -2,19 +2,15 @@ module Metanorma
   module Standoc
     module Cleanup
       def external_terms_boilerplate(sources)
-        @i18n.l10n(
-          @i18n.external_terms_boilerplate.gsub(/%(?=\p{P}|\p{Z}|$)/,
-                                                sources || "???"),
-          @lang, @script, @locale
-        )
+        e = @i18n.external_terms_boilerplate
+        @i18n.l10n(e.gsub(/%(?=\p{P}|\p{Z}|$)/, sources || "???"),
+                   @lang, @script, @locale)
       end
 
       def internal_external_terms_boilerplate(sources)
-        @i18n.l10n(
-          @i18n.internal_external_terms_boilerplate.gsub(/%(?=\p{P}|\p{Z}|$)/,
-                                                         sources || "??"),
-          @lang, @script
-        )
+        e = @i18n.internal_external_terms_boilerplate
+        @i18n.l10n(e.gsub(/%(?=\p{P}|\p{Z}|$)/, sources || "??"),
+                   @lang, @script)
       end
 
       def term_defs_boilerplate(div, source, term, _preface, isodoc)
@@ -122,19 +118,22 @@ module Metanorma
 
       def termdef_boilerplate_insert_location(xmldoc)
         f = xmldoc.at(self.class::TERM_CLAUSE)
-        root = xmldoc.at("//sections/terms | //sections/clause[.//terms]")
-        !f && root and f = root
-        #         f.at("./following::terms") and return root
-        #         f.at("./preceding-sibling::clause") and return root
-        while (n = f.parent) && %w(clause terms).include?(n&.name)
-          n.elements.detect do |e|
-            !%(title terms).include?(e.name) &&
-              !e.at("./self::clause[@type = 'boilerplate']") &&
-              !e.at("./self::clause[.//terms][not(.//clause[not(.//term)])]")
-          end and break
-          f = n
+        root = xmldoc.at("//sections/terms | //sections/clause[@type = 'terms']")
+        if f && root && f["id"] != root["id"]
+          f = termdef_boilerplate_climb_up(f, root)
+        elsif !f && root then f = root
         end
         f
+      end
+
+      def termdef_boilerplate_climb_up(clause, container)
+        container.at(".//*[@id = '#{clause['id']}']") or return clause
+        while (n = clause.parent)
+          n.at(".//definitions") and break
+          clause = n
+          n["id"] == container["id"] and break
+        end
+        clause
       end
 
       def termdef_boilerplate_insert1(sect, xmldoc, isodoc)

@@ -74,7 +74,10 @@ module Metanorma
       end
 
       def term_children_cleanup(xmldoc)
-        xmldoc.xpath("//terms[terms][not(term)]").each { |t| t.name = "clause" }
+        xmldoc.xpath("//terms[terms][not(term)]").each do |t|
+          t.name = "clause"
+          t["type"] = "terms"
+        end
         xmldoc.xpath("//term").each do |t|
           %w(termnote termexample termsource term).each do |w|
             t.xpath("./#{w}").each { |n| t << n.remove }
@@ -122,8 +125,7 @@ module Metanorma
       end
 
       def term_index_cleanup(xmldoc)
-        return unless @index_terms
-
+        @index_terms or return
         xmldoc.xpath("//preferred").each do |p|
           index_cleanup1(p.at("./expression/name | ./letter-symbol/name"),
                          p.xpath("./field-of-application | ./usage-info")
@@ -135,8 +137,7 @@ module Metanorma
       end
 
       def index_cleanup1(term, fieldofappl)
-        return unless term
-
+        term or return
         idx = term.children.dup
         fieldofappl.empty? or idx << ", &#x3c;#{fieldofappl}&#x3e;"
         term << "<index><primary>#{idx.to_xml}</primary></index>"

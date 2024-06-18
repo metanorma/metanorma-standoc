@@ -84,15 +84,15 @@ module Metanorma
 
       def section_names_terms1_cleanup(xml)
         auto_name_terms(xml) or return
-        replace_title(xml, "//terms#{SYMnoABBR} | //clause[.//terms]#{SYMnoABBR}",
+        replace_title(xml, "//terms#{SYMnoABBR} | //clause[@type = 'terms']#{SYMnoABBR}",
                       @i18n&.termsdefsymbols, true)
-        replace_title(xml, "//terms#{ABBRnoSYM} | //clause[.//terms]#{ABBRnoSYM}",
+        replace_title(xml, "//terms#{ABBRnoSYM} | //clause[@type = 'terms']#{ABBRnoSYM}",
                       @i18n&.termsdefabbrev, true)
-        replace_title(xml, "//terms#{SYMABBR} | //clause[.//terms]#{SYMABBR}",
+        replace_title(xml, "//terms#{SYMABBR} | //clause[@type = 'terms']#{SYMABBR}",
                       @i18n&.termsdefsymbolsabbrev, true)
-        replace_title(xml, "//terms#{NO_SYMABBR} | //clause[.//terms]#{NO_SYMABBR}",
+        replace_title(xml, "//terms#{NO_SYMABBR} | //clause[@type = 'terms']#{NO_SYMABBR}",
                       @i18n&.termsdefsymbolsabbrev, true)
-        replace_title(xml, "//terms[not(.//definitions)] | //clause[.//terms][not(.//definitions)]",
+        replace_title(xml, "//terms[not(.//definitions)] | //clause[@type = 'terms'][not(.//definitions)]",
                       @i18n&.termsdef, true)
       end
 
