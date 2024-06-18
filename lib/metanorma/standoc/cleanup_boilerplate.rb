@@ -22,8 +22,7 @@ module Metanorma
         end
         a = if source.empty? && term.nil? then @i18n.no_terms_boilerplate
             else term_defs_boilerplate_cont(source, term, isodoc)
-            end
-        a and div.next = a
+            end and div.next = a
       end
 
       def term_defs_boilerplate_cont(src, term, isodoc)
@@ -54,8 +53,7 @@ module Metanorma
         if ins2 && ins2.text.strip.downcase == "(default)"
           ins2.children = " "
           ins2.children.first
-        else
-          :populated
+        else :populated
         end
       end
 
@@ -71,8 +69,10 @@ module Metanorma
         ref.at("./title")
       end
 
-      TERM_CLAUSE = "//sections/terms | " \
-                    "//sections/clause[descendant::terms]".freeze
+      TERM_CLAUSE =
+        "//sections//terms[not(.//ancestor::clause[@type = 'terms'])] | " \
+        "//sections/clause[descendant::terms][@type = 'terms'] | " \
+        "//sections/clause[not(@type = 'terms')]//terms".freeze
 
       NORM_REF =
         "//bibliography/references[@normative = 'true'][not(@hidden)] | " \

@@ -898,46 +898,48 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
        #{BLANK_HDR}
-        <sections>
-          <clause id="_" inline-header="false" obligation="normative">
-            <title>First section</title>
-            <p id="_">For the purposes of this document,
-          the following terms and definitions apply.</p>
-            <references id="_" normative="true" obligation="informative">
-              <title>Κανονιστικές Παραπομπές</title>
-            </references>
-            <terms id="_" obligation="normative">
-              <title>Terms and definitions</title>
-              <term id="term-Term1">
-                <preferred>
-                  <expression>
-                    <name>Term1</name>
-                  </expression>
-                </preferred>
-              </term>
-            </terms>
-            <clause id="_" obligation="normative" type="terms">
-              <title>Terms, definitions and symbols</title>
-              <terms id="_" obligation="normative">
-                <title>Normal Terms</title>
-                <term id="term-Term2">
-                  <preferred>
-                    <expression>
-                      <name>Term2</name>
-                    </expression>
-                  </preferred>
-                </term>
-              </terms>
-              <definitions id="_" type="symbols" obligation="normative">
-                <title>Symbols</title>
-              </definitions>
-            </clause>
-            <definitions id="_" type="abbreviated_terms" obligation="normative">
-              <title>Abbreviated terms</title>
-            </definitions>
-          </clause>
-        </sections>
-      </standard-document>
+               <sections>
+           <clause id="_" inline-header="false" obligation="normative">
+             <title>First section</title>
+             <references id="_" normative="true" obligation="informative">
+               <title>Κανονιστικές Παραπομπές</title>
+             </references>
+             <terms id="_" obligation="normative">
+               <title>Terms and definitions</title>
+               <p id="_">For the purposes of this document,
+           the following terms and definitions apply.</p>
+               <term id="term-Term1">
+                 <preferred>
+                   <expression>
+                     <name>Term1</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <clause id="_" obligation="normative" type="terms">
+               <title>Terms, definitions and symbols</title>
+               <terms id="_" obligation="normative">
+                 <title>Normal Terms</title>
+                 <p id="_">For the purposes of this document,
+           the following terms and definitions apply.</p>
+                 <term id="term-Term2">
+                   <preferred>
+                     <expression>
+                       <name>Term2</name>
+                     </expression>
+                   </preferred>
+                 </term>
+               </terms>
+               <definitions id="_" type="symbols" obligation="normative">
+                 <title>Symbols</title>
+               </definitions>
+             </clause>
+             <definitions id="_" type="abbreviated_terms" obligation="normative">
+               <title>Abbreviated terms</title>
+             </definitions>
+           </clause>
+         </sections>
+       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)

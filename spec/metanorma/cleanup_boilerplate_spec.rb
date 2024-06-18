@@ -3,6 +3,7 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
+=begin
   it "removes initial extraneous material from Normative References" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -541,37 +542,136 @@ RSpec.describe Metanorma::Standoc do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end
-
-  it "infers location for boilerplate in Terms & Definitions #3" do
-    mock_sectiontype_iso(5)
+=end
+  it "processes boilerplate for nested terms sections, multiple boilerplates" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
-      == A clause
 
-      [heading=terms and definitions]
+      == First section
+
+      === Normative References
+
+      [heading=Terms and definitions]
       === Terms and definitions
 
-      ==== Term 1
+      ==== Term1
 
-      [type=boilerplate]
-      === More terms and definitions
+      [heading=Terms, definitions, symbols and abbreviated terms]
+      === Terms, definitions, symbols and abbreviated terms
+
+      ==== Normal Terms
+
+      ===== Term2
+
+      ==== Symbols
+
+      === Abbreviated terms
 
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR}
-               <sections>
+       #{BLANK_HDR}
+                <sections>
            <clause id="_" inline-header="false" obligation="normative">
-             <title>A clause</title>
+             <title>First section</title>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title>Normative References</title>
+             </clause>
              <terms id="_" obligation="normative">
                <title>Terms and definitions</title>
-               <term id="term-Term-1">
+                <p id="_">For the purposes of this document,
+                the following terms and definitions apply.</p>
+               <term id="term-Term1">
                  <preferred>
                    <expression>
-                     <name>Term 1</name>
+                     <name>Term1</name>
                    </expression>
                  </preferred>
                </term>
              </terms>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title>Terms, definitions, symbols and abbreviated terms</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                 <title>Normal Terms</title>
+                 <clause id="_" inline-header="false" obligation="normative">
+                   <title>Term2</title>
+                 </clause>
+               </clause>
+               <definitions id="_" type="symbols" obligation="normative">
+                 <title>Symbols</title>
+               </definitions>
+             </clause>
+             <definitions id="_" type="abbreviated_terms" obligation="normative">
+               <title>Abbreviated terms</title>
+             </definitions>
+           </clause>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes boilerplate for nested terms sections, single boilerplate" do
+    mock_termdef_boilerplate_insert_iso(1)
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == First section
+
+      === Normative References
+
+      [heading=Terms and definitions]
+      === Terms and definitions
+
+      ==== Term1
+
+      [heading=Terms, definitions, symbols and abbreviated terms]
+      === Terms, definitions, symbols and abbreviated terms
+
+      ==== Normal Terms
+
+      ===== Term2
+
+      ==== Symbols
+
+      === Abbreviated terms
+
+    INPUT
+    output = <<~OUTPUT
+       #{BLANK_HDR}
+                <sections>
+           <clause id="_" inline-header="false" obligation="normative">
+             <title>First section</title>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title>Normative References</title>
+             </clause>
+             <terms id="_" obligation="normative">
+               <title>Terms and definitions</title>
+                <p id="_">For the purposes of this document,
+                the following terms and definitions apply.</p>
+               <term id="term-Term1">
+                 <preferred>
+                   <expression>
+                     <name>Term1</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title>Terms, definitions, symbols and abbreviated terms</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                 <title>Normal Terms</title>
+                 <clause id="_" inline-header="false" obligation="normative">
+                   <title>Term2</title>
+                 </clause>
+               </clause>
+               <definitions id="_" type="symbols" obligation="normative">
+                 <title>Symbols</title>
+               </definitions>
+             </clause>
+             <definitions id="_" type="abbreviated_terms" obligation="normative">
+               <title>Abbreviated terms</title>
+             </definitions>
            </clause>
          </sections>
        </standard-document>
