@@ -767,6 +767,61 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "numbers bibliographic notes and footnotes sequentially" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      footnote:[Footnote]
+
+      [bibliography]
+      == Normative References
+
+      * [[[iso123,ISO 123:--]]] footnote:[The standard is in press] _Standard_
+
+      == Clause
+      footnote:[Footnote2]
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <preface><foreword id="_" obligation="informative">
+        <title>Foreword</title>
+        <p id="_"><fn reference="1">
+        <p id="_">Footnote</p>
+      </fn>
+      </p>
+      </foreword></preface><sections>
+
+      <clause id="_" inline-header="false" obligation="normative">
+        <title>Clause</title>
+        <p id="_"><fn reference="2">
+        <p id="_">Footnote2</p>
+      </fn>
+      </p>
+      </clause></sections><bibliography><references id="_" obligation="informative" normative="true">
+        <title>Normative references</title>
+        #{NORM_REF_BOILERPLATE}
+        <bibitem id="iso123" type="standard">
+         <title format="text/plain">Standard</title>
+         <docidentifier>ISO 123:—</docidentifier>
+         <docnumber>123</docnumber>
+         <date type="published">
+           <on>–</on>
+         </date>
+         <contributor>
+           <role type="publisher"/>
+           <organization>
+             <name>ISO</name>
+           </organization>
+         </contributor>
+         <note format="text/plain" type="Unpublished-Status">The standard is in press</note>
+       </bibitem>
+      </references>
+      </bibliography>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   private
 
   def mock_iev

@@ -642,7 +642,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
                 <sections>
-           <clause id='_' obligation='normative'>
+           <clause id='_' obligation='normative' type="terms">
              <title>Terms and definitions</title>
              <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
              <terms id='_' obligation='normative'>

@@ -3,168 +3,6 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
-  it "appends any initial user-supplied text to boilerplate in terms and definitions" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      == Terms and Definitions
-
-      I am boilerplate
-
-      * So am I
-
-      === Time
-
-      This paragraph is extraneous
-    INPUT
-    output = <<~OUTPUT
-             #{BLANK_HDR}
-                    <sections>
-               <terms id="_" obligation="normative"><title>Terms and definitions</title>
-               <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-      <p id='_'>I am boilerplate</p>
-      <ul id='_'>
-        <li>
-          <p id='_'>So am I</p>
-        </li>
-      </ul>
-             <term id="term-Time">
-             <preferred><expression><name>Time</name></expression></preferred>
-               <definition><verbal-definition><p id="_">This paragraph is extraneous</p></verbal-definition></definition>
-             </term></terms>
-             </sections>
-             </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "removes initial extraneous material from Normative References" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      [bibliography]
-      == Normative References
-
-      This is extraneous information
-
-      * [[[iso216,ISO 216]]], _Reference_
-
-      This is also extraneous information
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR}
-      <sections></sections>
-      <bibliography><references id="_" obligation="informative" normative="true"><title>Normative references</title>
-        #{NORM_REF_BOILERPLATE}
-             <bibitem id="iso216" type="standard">
-         <title format="text/plain">Reference</title>
-         <docidentifier>ISO 216</docidentifier>
-         <docnumber>216</docnumber>
-         <contributor>
-           <role type="publisher"/>
-           <organization>
-             <name>ISO</name>
-           </organization>
-         </contributor>
-       </bibitem>
-       <p id='_'>This is also extraneous information</p>
-      </references>
-      </bibliography>
-      </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "preserves user-supplied boilerplate in Normative References" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      [bibliography]
-      == Normative References
-
-      [NOTE,type=boilerplate]
-      --
-      This is extraneous information
-      --
-
-      * [[[iso216,ISO 216]]], _Reference_
-
-      This is also extraneous information
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR}
-      <sections></sections>
-      <bibliography><references id="_" obligation="informative" normative="true"><title>Normative references</title>
-       <p id='_'>This is extraneous information</p>
-         <bibitem id="iso216" type="standard">
-         <title format="text/plain">Reference</title>
-         <docidentifier>ISO 216</docidentifier>
-         <docnumber>216</docnumber>
-         <contributor>
-           <role type="publisher"/>
-           <organization>
-             <name>ISO</name>
-           </organization>
-         </contributor>
-       </bibitem>
-       <p id='_'>This is also extraneous information</p>
-      </references>
-      </bibliography>
-      </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      [bibliography]
-      == Normative References
-
-      [.boilerplate]
-      --
-      This is extraneous information
-      --
-
-      * [[[iso216,ISO 216]]], _Reference_
-
-      This is also extraneous information
-    INPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "preserves user-supplied boilerplate in Terms & Definitions" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      == Terms and definitions
-
-      [.boilerplate]
-      --
-      This is extraneous information
-      --
-
-      === Term 1
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR}
-               <sections>
-           <terms id="_" obligation="normative">
-             <title>Terms and definitions</title>
-             <p id="_">This is extraneous information</p>
-             <term id="term-Term-1">
-               <preferred>
-                 <expression>
-                   <name>Term 1</name>
-                 </expression>
-               </preferred>
-             </term>
-           </terms>
-         </sections>
-       </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
   it "sorts references with their notes in Bibliography" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -326,79 +164,6 @@ RSpec.describe Metanorma::Standoc do
       </clause>
       </clause>
       </sections>
-      </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "inserts boilerplate before empty Normative References" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-
-      [bibliography]
-      == Normative References
-
-    INPUT
-    output = <<~OUTPUT
-            #{BLANK_HDR}
-            <sections>
-      </sections><bibliography><references id="_" obligation="informative" normative="true">
-        <title>Normative references</title><p id="_">There are no normative references in this document.</p>
-      </references></bibliography>
-      </standard-document>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "inserts boilerplate before non-empty Normative References" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-
-      [bibliography]
-      == Normative References
-      * [[[a,b]]] A
-
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR}
-      <sections>
-
-         </sections><bibliography><references id="_" obligation="informative" normative="true">
-           <title>Normative references</title><p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-           <bibitem id="a">
-           <formattedref format="application/x-isodoc+xml">A</formattedref>
-           <docidentifier>b</docidentifier>
-         </bibitem>
-         </references></bibliography>
-         </standard-document>
-
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "inserts boilerplate before empty Normative References in French" do
-    input = <<~INPUT
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :no-isobib:
-      :language: fr
-
-      [bibliography]
-      == Normative References
-
-    INPUT
-    output = <<~OUTPUT
-          #{BLANK_HDR.sub(/<language>en/, '<language>fr')}
-          <sections>
-      </sections><bibliography><references id="_" obligation="informative" normative="true">
-        <title>Références normatives</title><p id="_">Le présent document ne contient aucune référence normative.</p>
-      </references></bibliography>
       </standard-document>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
@@ -1412,7 +1177,7 @@ RSpec.describe Metanorma::Standoc do
     expect(xmlpp(strip_guid(xml.to_xml)))
       .to be_equivalent_to xmlpp(output)
   end
-  
+
   it "processes section names, internationalisation file" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR.sub(/:nodoc:/, ":no-pdf:\n:i18nyaml: spec/assets/i18n.yaml")}
@@ -1929,7 +1694,7 @@ RSpec.describe Metanorma::Standoc do
     expect(xmlpp(strip_guid(ret.to_xml)))
       .to be_equivalent_to(xmlpp(output))
 
-        input = <<~INPUT
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       == Foreword
@@ -1970,5 +1735,4 @@ RSpec.describe Metanorma::Standoc do
     expect(xmlpp(strip_guid(ret.to_xml)))
       .to be_equivalent_to(xmlpp(output))
   end
-
 end
