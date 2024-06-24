@@ -196,6 +196,32 @@ RSpec.describe Metanorma::Standoc do
     end
   end
 
+  it "aborts on missing table" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        .Malformed table
+        |===
+
+        |===
+
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err.html"))
+      .to include "Empty table"
+    expect(File.exist?("test.xml")).to be false
+  end
+
   it "aborts on malformed URI" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
