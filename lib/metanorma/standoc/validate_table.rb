@@ -2,6 +2,7 @@ module Metanorma
   module Standoc
     module Validate
       def table_validate(doc)
+        empty_table_validate(doc)
         doc.xpath("//table[colgroup]").each do |t|
           maxrowcols_validate(t, t.xpath("./colgroup/col").size)
         end
@@ -10,6 +11,12 @@ module Metanorma
         end
         doc.xpath("//table[.//*[@rowspan]]").each do |t|
           maxrowcols_validate(t, max_td_count(t), mode: "thead_row")
+        end
+      end
+
+      def empty_table_validate(doc)
+        doc.xpath("//table[not(.//tr)]").each do |t|
+          @log.add("Table", t, "Empty table", severity: 0)
         end
       end
 
