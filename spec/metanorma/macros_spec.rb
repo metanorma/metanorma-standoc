@@ -77,6 +77,51 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes the number format macros" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      number:31[]
+      number:327428.7432878432992[]
+      number:327428.7432878432992[decimal=.]
+      number:327428.7432878432992[decimal='.']
+      number:327428.7432878432992[decimal="."]
+      number:327428.7432878432992[decimal=".",notation=exponential]
+      number:327428.7432878432992[decimal=",",notation=exponential]
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+           <p id="_">
+             <math ns="http://www.w3.org/1998/Math/MathML">
+               <mn>31</mn>
+             </math>
+             <math ns="http://www.w3.org/1998/Math/MathML">
+               <mn>327428.7432878432992</mn>
+             </math>
+             <math ns="http://www.w3.org/1998/Math/MathML">
+               <mn data-metanorma-numberformat="decimal='.'">327428.7432878432992</mn>
+             </math>
+             <math ns="http://www.w3.org/1998/Math/MathML">
+               <mn data-metanorma-numberformat="decimal='.'">327428.7432878432992</mn>
+             </math>
+             <math ns="http://www.w3.org/1998/Math/MathML">
+               <mn data-metanorma-numberformat="decimal='.'">327428.7432878432992</mn>
+             </math>
+             <math ns="http://www.w3.org/1998/Math/MathML">
+               <mn data-metanorma-numberformat="decimal='.',notation='exponential'">327428.7432878432992</mn>
+             </math>
+             <math ns="http://www.w3.org/1998/Math/MathML">
+               <mn data-metanorma-numberformat="decimal=',',notation='exponential'">327428.7432878432992</mn>
+             </math>
+           </p>
+         </sections>
+      </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processed nested macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}

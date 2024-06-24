@@ -67,6 +67,7 @@ module Metanorma
         inline_macro Metanorma::Standoc::ToCInlineMacro
         inline_macro Metanorma::Standoc::PassInlineMacro
         inline_macro Metanorma::Standoc::StdLinkInlineMacro
+        inline_macro Metanorma::Standoc::NumberInlineMacro
         block Metanorma::Standoc::ToDoAdmonitionBlock
         block Metanorma::Standoc::EditorAdmonitionBlock
         treeprocessor Metanorma::Standoc::EditorInlineAdmonitionBlock

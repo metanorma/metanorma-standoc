@@ -222,5 +222,34 @@ module Metanorma
         %{<span class="#{target}">#{out}</span>}
       end
     end
+
+    class NumberInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :number
+      parse_content_as :text
+
+      MATHML_NS = "http://www.w3.org/1998/Math/MathML".freeze
+
+      def unquote(str)
+        str.sub(/^(["'])(.+)\1$/, "\\2")
+      end
+
+      def format(attrs)
+        # a="," => "a=,"
+        attrs.gsub!(/([a-z]+)="/, %("\\1=))
+        (CSV.parse_line(attrs) || []).map do |x|
+          m = /^(.+?)=(.+)?$/.match(unquote(x)) or next
+          arg = HTMLEntities.new.encode(unquote(m[2]), :hexadecimal)
+          "#{m[1]}='#{arg}'"
+        end.join(",")
+      end
+
+      def process(parent, target, attrs)
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        fmt = format(out)
+        fmt.empty? or fmt = %( data-metanorma-numberformat="#{fmt}")
+        %(<math ns='#{MATHML_NS}'><mn#{fmt}>#{target}</mn></math>)
+      end
+    end
   end
 end
