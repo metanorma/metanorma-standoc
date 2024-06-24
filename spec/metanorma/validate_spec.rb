@@ -196,7 +196,7 @@ RSpec.describe Metanorma::Standoc do
     end
   end
 
-  it "aborts on missing table" do
+  it "aborts on empty table" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
     begin
