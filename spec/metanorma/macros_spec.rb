@@ -100,10 +100,10 @@ RSpec.describe Metanorma::Standoc do
         <sections>
            <p id="_">
              <math ns="http://www.w3.org/1998/Math/MathML">
-               <mn>0.31e2</mn>
+               <mn data-metanorma-numberformat="notation='basic'">0.31e2</mn>
              </math>
              <math ns="http://www.w3.org/1998/Math/MathML">
-               <mn>0.3274287432878432992e6</mn>
+               <mn data-metanorma-numberformat="notation='basic'">0.3274287432878432992e6</mn>
              </math>
              <math ns="http://www.w3.org/1998/Math/MathML">
                <mn data-metanorma-numberformat="decimal='.'">0.3274287432878432992e6</mn>

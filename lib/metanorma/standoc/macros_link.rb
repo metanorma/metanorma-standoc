@@ -77,53 +77,5 @@ module Metanorma
                       type: :xref, target: "_#{UUIDTools::UUID.random_create}")
       end
     end
-
-    class SpanInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
-      use_dsl
-      named :span
-      parse_content_as :text
-
-      def process(parent, target, attrs)
-        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
-        %{<span class="#{target}">#{out}</span>}
-      end
-    end
-
-    class NumberInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
-      use_dsl
-      named :number
-      parse_content_as :text
-
-      MATHML_NS = "http://www.w3.org/1998/Math/MathML".freeze
-
-      def unquote(str)
-        str.sub(/^(["'])(.+)\1$/, "\\2")
-      end
-
-      def format(attrs)
-        # a="," => "a=,"
-        attrs.gsub!(/([a-z]+)="/, %("\\1=))
-        (CSV.parse_line(attrs) || []).map do |x|
-          m = /^(.+?)=(.+)?$/.match(unquote(x)) or next
-          arg = HTMLEntities.new.encode(unquote(m[2]), :hexadecimal)
-          "#{m[1]}='#{arg}'"
-        end.join(",")
-      end
-
-      def number(text)
-        n = BigDecimal(text)
-        trailing_zeroes = 0
-        m = /\.[1-9]*(0+)/.match(text) and trailing_zeroes += m[1].size
-        n.to_s("E").sub("e", "0" * trailing_zeroes + "e")
-      end
-
-      def process(parent, target, attrs)
-        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
-        fmt = format(out)
-        fmt.empty? and fmt = "notation='basic'"
-        fmt = %( data-metanorma-numberformat="#{fmt}")
-        %(<math ns='#{MATHML_NS}'><mn#{fmt}>#{number(target)}</mn></math>)
-      end
-    end
   end
 end
