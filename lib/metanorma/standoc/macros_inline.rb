@@ -244,11 +244,18 @@ module Metanorma
         end.join(",")
       end
 
+      def number(text)
+        n = BigDecimal(text)
+        trailing_zeroes = 0
+        m = /\.[1-9]*(0+)/.match(text) and trailing_zeroes += m[1].size
+        n.to_s("E").sub("e", "0" * trailing_zeroes + "e")
+      end
+
       def process(parent, target, attrs)
         out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
         fmt = format(out)
         fmt.empty? or fmt = %( data-metanorma-numberformat="#{fmt}")
-        %(<math ns='#{MATHML_NS}'><mn#{fmt}>#{target}</mn></math>)
+        %(<math ns='#{MATHML_NS}'><mn#{fmt}>#{number(target)}</mn></math>)
       end
     end
   end
