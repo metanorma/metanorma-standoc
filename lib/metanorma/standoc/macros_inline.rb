@@ -178,7 +178,7 @@ module Metanorma
         fmt = format(out)
         fmt.empty? and fmt = "notation='basic'"
         fmt = %( data-metanorma-numberformat="#{fmt}")
-        %(<math ns='#{MATHML_NS}'><mn#{fmt}>#{number(target)}</mn></math>)
+        %(<math xmlns='#{MATHML_NS}'><mn#{fmt}>#{number(target)}</mn></math>)
       end
     end
   end

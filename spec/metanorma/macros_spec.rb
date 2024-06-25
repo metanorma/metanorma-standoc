@@ -99,43 +99,43 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
         <sections>
            <p id="_">
-             <math ns="http://www.w3.org/1998/Math/MathML">
+             <math xmlns="http://www.w3.org/1998/Math/MathML">
                <mn data-metanorma-numberformat="notation='basic'">0.31e2</mn>
              </math>
-             <math ns="http://www.w3.org/1998/Math/MathML">
+             <math xmlns="http://www.w3.org/1998/Math/MathML">
                <mn data-metanorma-numberformat="notation='basic'">0.3274287432878432992e6</mn>
              </math>
-             <math ns="http://www.w3.org/1998/Math/MathML">
+             <math xmlns="http://www.w3.org/1998/Math/MathML">
                <mn data-metanorma-numberformat="decimal='.'">0.3274287432878432992e6</mn>
              </math>
-             <math ns="http://www.w3.org/1998/Math/MathML">
+             <math xmlns="http://www.w3.org/1998/Math/MathML">
                <mn data-metanorma-numberformat="decimal='.'">0.3274287432878432992e6</mn>
              </math>
-             <math ns="http://www.w3.org/1998/Math/MathML">
+             <math xmlns="http://www.w3.org/1998/Math/MathML">
                <mn data-metanorma-numberformat="decimal='.'">0.3274287432878432992e6</mn>
              </math>
-             <math ns="http://www.w3.org/1998/Math/MathML">
+             <math xmlns="http://www.w3.org/1998/Math/MathML">
                <mn data-metanorma-numberformat="decimal='.',notation='exponential'">0.3274287432878432992e6</mn>
              </math>
-             <math ns="http://www.w3.org/1998/Math/MathML">
+             <math xmlns="http://www.w3.org/1998/Math/MathML">
                <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.3274287432878432992e6</mn>
              </math>
-             <math ns="http://www.w3.org/1998/Math/MathML">
+             <math xmlns="http://www.w3.org/1998/Math/MathML">
                <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.1e1</mn>
              </math>
-             <math ns="http://www.w3.org/1998/Math/MathML">
+             <math xmlns="http://www.w3.org/1998/Math/MathML">
                <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.11e1</mn>
              </math>
-             <math ns="http://www.w3.org/1998/Math/MathML">
+             <math xmlns="http://www.w3.org/1998/Math/MathML">
                <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.1100e1</mn>
              </math>
-             <math ns="http://www.w3.org/1998/Math/MathML">
+             <math xmlns="http://www.w3.org/1998/Math/MathML">
                <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.1e22</mn>
              </math>
-             <math ns="http://www.w3.org/1998/Math/MathML">
+             <math xmlns="http://www.w3.org/1998/Math/MathML">
                <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.10e20</mn>
              </math>
-             <math ns="http://www.w3.org/1998/Math/MathML">
+             <math xmlns="http://www.w3.org/1998/Math/MathML">
                <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.10e-18</mn>
              </math>
            </p>
