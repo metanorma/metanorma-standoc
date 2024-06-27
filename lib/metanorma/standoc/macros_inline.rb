@@ -1,3 +1,5 @@
+require_relative "utils"
+
 module Metanorma
   module Standoc
     class InheritInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
@@ -146,6 +148,8 @@ module Metanorma
     end
 
     class NumberInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      include ::Metanorma::Standoc::Utils
+
       use_dsl
       named :number
       parse_content_as :text
@@ -158,11 +162,9 @@ module Metanorma
 
       def format(attrs)
         # a="," => "a=,"
-        attrs.gsub!(/([a-z]+)="/, %("\\1=))
-        (CSV.parse_line(attrs) || []).map do |x|
-          m = /^(.+?)=(.+)?$/.match(unquote(x)) or next
-          arg = HTMLEntities.new.encode(unquote(m[2]), :hexadecimal)
-          "#{m[1]}='#{arg}'"
+        quoted_csv_split(attrs || "", ",").map do |x|
+          m = /^(.+?)=(.+)?$/.match(x) or next
+          "#{m[1]}='#{m[2]}'"
         end.join(",")
       end
 
@@ -178,7 +180,9 @@ module Metanorma
         fmt = format(out)
         fmt.empty? and fmt = "notation='basic'"
         fmt = %( data-metanorma-numberformat="#{fmt}")
-        %(<math xmlns='#{MATHML_NS}'><mn#{fmt}>#{number(target)}</mn></math>)
+        <<~OUTPUT
+          <stem type="MathML"><math xmlns='#{MATHML_NS}'><mn#{fmt}>#{number(target)}</mn></math></stem>
+        OUTPUT
       end
     end
   end

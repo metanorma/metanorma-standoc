@@ -27,7 +27,7 @@ module Metanorma
       end
 
       # https://medium.com/@rickwang_wxc/in-ruby-given-a-string-detect-if-it-is-valid-numeric-c58275eace60
-      NUMERIC_REGEX = %r{^((\+|-)?\d*\.?\d+)([eE](\+|-){1}\d+)?$}.freeze
+      NUMERIC_REGEX = %r{^((\+|-)?\d*\.?\d+)([eE](\+|-){1}\d+)?$}
 
       MATHML_NS = "http://www.w3.org/1998/Math/MathML".freeze
 
@@ -204,6 +204,28 @@ module Metanorma
         end
       end
 
+      def mathml_mn_format(math)
+        math.xpath(".//m:mn", "m" => MATHML_NS).each do |m|
+          profile = mathml_mn_profile(m)
+          attr = profile.each_with_object([]) do |(k, v), acc|
+            v == "nil" and next
+            acc << "#{k}='#{v}'"
+          end.join(",")
+          attr.empty? or m["data-metanorma-numberformat"] = attr
+        end
+      end
+
+      def mathml_mn_profile(mnum)
+        fmt = @numberfmt_default&.dup || {}
+        fmt1 = {}
+        fmt2 = kv_parse(mnum["data-metanorma-numberformat"] || "")
+        if fmt2["profile"]
+          fmt1 = @numberfmt_prof[fmt2["profile"]] || {}
+          fmt2.delete("profile")
+        end
+        fmt.merge(fmt1).merge(fmt2)
+      end
+
       def mathml_cleanup(xmldoc)
         unitsml = Asciimath2UnitsML::Conv.new(asciimath2unitsml_options)
         xmldoc.xpath("//stem[@type = 'MathML'][not(@validate = 'false')]")
@@ -214,6 +236,7 @@ module Metanorma
           unitsml.MathML2UnitsML(x)
           mathml_mathvariant(x)
           mathml_italicise(x)
+          mathml_mn_format(x)
         end
         mathml_unitsML(xmldoc)
       end
