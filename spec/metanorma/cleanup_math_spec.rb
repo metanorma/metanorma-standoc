@@ -71,6 +71,67 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "profiles number formatting" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :number-presentation: notation=e,exponent_sign=plus,precision=4
+      :number-presentation-profile-3: notation=scientific,exponent_sign=nil,decimal=","
+      :number-presentation-profile-x: notation=engineering,precision=4,times=','
+
+      number:345[]
+      number:345[profile=3]
+      number:345[profile=x]
+      number:345[profile=x,precision=5]
+      number:345[profile=x,precision=5,digit_count=10,precision=nil]
+      number:345[precision=5,digit_count=10,exponent_sign=nil]
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <sections>
+           <p id="_">
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="notation='basic',exponent_sign='plus',precision='4'">0.345e3</mn>
+               </math>
+             </stem>
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="notation='scientific',precision='4',decimal=','">0.345e3</mn>
+               </math>
+             </stem>
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='4',times=','">0.345e3</mn>
+               </math>
+             </stem>
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='5',times=','">0.345e3</mn>
+               </math>
+             </stem>
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',times=',',digit_count='10'">0.345e3</mn>
+               </math>
+             </stem>
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="notation='e',precision='5',digit_count='10'">0.345e3</mn>
+               </math>
+             </stem>
+           </p>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "cleans up text MathML" do
     input = <<~INPUT
       #{BLANK_HDR.sub(/<standard-document [^>]+>/, '<standard-document>')}

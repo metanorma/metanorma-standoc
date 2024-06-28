@@ -1,3 +1,5 @@
+require_relative "utils"
+
 module Metanorma
   module Standoc
     module Base
@@ -10,6 +12,7 @@ module Metanorma
         init_output(node) # feeds init_biblio
         init_i18n(node)
         init_biblio(node)
+        init_math(node)
         @metadata_attrs = metadata_attrs(node)
       end
 
@@ -42,8 +45,6 @@ module Metanorma
       def init_processing(node)
         @novalid = node.attr("novalid")
         @smartquotes = node.attr("smartquotes") != "false"
-        @keepasciimath = node.attr("mn-keep-asciimath") &&
-          node.attr("mn-keep-asciimath") != "false"
         @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
         @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
         @datauriimage = node.attr("data-uri-image") != "false"
@@ -106,6 +107,16 @@ module Metanorma
         init_iev_caches(node)
         @local_bibdb =
           ::Metanorma::Standoc::LocalBiblio.new(node, @localdir, self)
+      end
+
+      def init_math(node)
+        @keepasciimath = node.attr("mn-keep-asciimath") &&
+          node.attr("mn-keep-asciimath") != "false"
+        @numberfmt_default = kv_parse(node.attr("number-presentation"))
+        @numberfmt_prof =  node.attributes.each_with_object({}) do |(k, v), m|
+          p = /^number-presentation-profile-(.*)$/.match(k) or next
+          m[p[1]] = kv_parse(v)
+        end
       end
 
       def requirements_processor
