@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
     f.match(%r{^(test|spec|features|bin|.github)/}) \
     || f.match(%r{Rakefile|bin/rspec})
   end
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.7.0")
+  spec.required_ruby_version = Gem::Requirement.new(">= 3.1.0")
 
   spec.add_dependency "addressable", "~> 2.8.0"
   spec.add_dependency "asciidoctor", "~> 2.0.0"
