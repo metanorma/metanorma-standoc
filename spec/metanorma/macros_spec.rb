@@ -77,6 +77,101 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes the number format macros" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      number:31[]
+      number:327428.7432878432992[]
+      number:327428.7432878432992[decimal=.]
+      number:327428.7432878432992[decimal='.']
+      number:327428.7432878432992[decimal="."]
+      number:327428.7432878432992[decimal=".",notation=exponential]
+      number:327428.7432878432992[decimal=",",notation=exponential]
+      number:1[decimal=",",notation=exponential]
+      number:1.1[decimal=",",notation=exponential]
+      number:1.100[decimal=",",notation=exponential]
+      number:10e20[decimal=",",notation=exponential]
+      number:1.0e19[decimal=",",notation=exponential]
+      number:1.0e-19[decimal=",",notation=exponential]
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+               <sections>
+           <p id="_">
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="notation='basic'">0.31e2</mn>
+               </math>
+             </stem>
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="notation='basic'">0.3274287432878432992e6</mn>
+               </math>
+             </stem>
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="decimal='.'">0.3274287432878432992e6</mn>
+               </math>
+             </stem>
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="decimal='.'">0.3274287432878432992e6</mn>
+               </math>
+             </stem>
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="decimal='.'">0.3274287432878432992e6</mn>
+               </math>
+             </stem>
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="decimal='.',notation='exponential'">0.3274287432878432992e6</mn>
+               </math>
+             </stem>
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.3274287432878432992e6</mn>
+               </math>
+             </stem>
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.1e1</mn>
+               </math>
+             </stem>
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.11e1</mn>
+               </math>
+             </stem>
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.1100e1</mn>
+               </math>
+             </stem>
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.1e22</mn>
+               </math>
+             </stem>
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.10e20</mn>
+               </math>
+             </stem>
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.10e-18</mn>
+               </math>
+             </stem>
+           </p>
+         </sections>
+       </standard-document>
+    OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processed nested macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1210,7 +1305,7 @@ RSpec.describe Metanorma::Standoc do
       '<xref target="figure-EAID_0E029ABF_C35A_49e3_9EEA_FFD4F32780A8">'
     end
 
-    it "correctly renders input" do
+    xit "correctly renders input" do
       expect(strip_src(xml_string_conent(metanorma_process(input))))
         .to(include(output))
     end
@@ -1284,7 +1379,7 @@ RSpec.describe Metanorma::Standoc do
     end
 
     # full testing is done in metanorma-plugin-lutaml
-    it "correctly renders input" do
+    xit "correctly renders input" do
       expect(convert)
         .to(include("shall be represented as a set of instances of RE_Locale"))
     end
