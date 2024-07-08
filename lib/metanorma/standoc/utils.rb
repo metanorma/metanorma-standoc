@@ -17,8 +17,8 @@ module Metanorma
         nil
       end
 
-      def noko(&block)
-        Metanorma::Utils::noko(@script, &block)
+      def noko(&)
+        Metanorma::Utils::noko(@script, &)
       end
 
       def attr_code(attributes)
@@ -28,6 +28,26 @@ module Metanorma
       def csv_split(text, delim = ";")
         Metanorma::Utils::csv_split(@c.decode(text), delim)
           .map { |x| @c.encode(x, :basic, :hexadecimal) }
+      end
+
+      def quoted_csv_split(text, delim = ",", eql = "=")
+        # quoted strings: key="va,lue",
+        c = HTMLEntities.new
+        text = c.decode(text).gsub(/([a-zA-Z_]+)#{eql}(["'])(.+?)\2/,
+                                   %("\\1#{eql}\\3"))
+        Metanorma::Utils::csv_split(text, delim)
+          .map do |x|
+            c.encode(x.sub(/^(["'])(.+)\1$/, "\\2"), :basic, :hexadecimal)
+          end
+      end
+
+      def kv_parse(text, delim = ",", eql = "=")
+        text or return {}
+        c = HTMLEntities.new
+        quoted_csv_split(text, delim).each_with_object({}) do |k, m|
+          x = k.split(eql, 2)
+          m[x[0]] = c.decode(x[1])
+        end
       end
 
       def wrap_in_para(node, out)
