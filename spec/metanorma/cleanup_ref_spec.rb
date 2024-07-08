@@ -316,90 +316,100 @@ RSpec.describe Metanorma::Standoc do
            <title>Normative references</title>
          #{NORM_REF_BOILERPLATE}
                       <bibitem id="IEC60050-102" type="standard">
-                <fetched/>
-                <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 102: Mathematics — General concepts and linear algebra</title>
-                <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV) — Partie 102: Mathématiques — Concepts généraux et algèbre linéaire</title>
-                <uri type="src">https://webstore.iec.ch/publication/160</uri>
-                <uri type="obp">https://webstore.iec.ch/preview/info_iec60050-102{ed1.0}b.pdf</uri>
-                <docidentifier type="IEC" primary="true">IEC 60050-102:2007</docidentifier>
-                <docidentifier type="URN">urn:iec:std:iec:60050-102:2007-08:::</docidentifier>
-                <date type="published">
-                  <on>2007-08-27</on>
-                </date>
-                <contributor>
-                  <role type="publisher"/>
-                  <organization>
-                    <name>International Electrotechnical Commission</name>
-                    <abbreviation>IEC</abbreviation>
-                    <uri>www.iec.ch</uri>
-                  </organization>
-                </contributor>
-                <edition>1</edition>
-                <language>en</language>
-                <language>fr</language>
-                <script>Latn</script>
-                <abstract format="text/html" language="en" script="Latn">This part of IEC 60050 gives the general mathematical terminology used in the fields of electricity, electronics and telecommunications, together with basic concepts in linear algebra. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Another part will deal with functions.<br/>It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
-                <abstract format="text/html" language="fr" script="Latn">Cette partie de la CEI 60050 donne la terminologie mathématique générale utilisée dans les domaines de l’électricité, de l’électronique et des télécommunications, ainsi que les concepts fondamentaux d’algèbre linéaire. Elle maintient une distinction nette entre les concepts mathématiques et les concepts physiques, même si certains termes sont employés dans les deux cas. Une autre partie traitera des fonctions.<br/>Elle a le statut de norme horizontale conformément au  Guide IEC 108.</abstract>
-                <status>
-                  <stage>PUBLISHED</stage>
-                </status>
-                <copyright>
-                  <from>2007</from>
-                  <owner>
-                    <organization>
-                      <name>International Electrotechnical Commission</name>
-                      <abbreviation>IEC</abbreviation>
-                      <uri>www.iec.ch</uri>
-                    </organization>
-                  </owner>
-                </copyright>
-                <place>Geneva</place>
-              </bibitem>
-              <bibitem id="IEC60050-103" type="standard">
-                <fetched/>
-                <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 103: Mathematics — Functions</title>
-                <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV) — Partie 103: Mathématiques — Fonctions</title>
-                <title type="main" format="text/plain" language="es" script="Latn">Versión Oficial En español — Vocabulario Electrotécnico Internacional. Parte 103: Matemáticas. Funciones.</title>
-                <uri type="src">https://webstore.iec.ch/publication/161</uri>
-                <uri type="obp">https://webstore.iec.ch/preview/info_iec60050-103{ed1.0}b.pdf</uri>
-                <docidentifier type="IEC" primary="true">IEC 60050-103:2009</docidentifier>
-                <docidentifier type="URN">urn:iec:std:iec:60050-103:2009-12:::</docidentifier>
-                <date type="published">
-                  <on>2009-12-14</on>
-                </date>
-                <contributor>
-                  <role type="publisher"/>
-                  <organization>
-                    <name>International Electrotechnical Commission</name>
-                    <abbreviation>IEC</abbreviation>
-                    <uri>www.iec.ch</uri>
-                  </organization>
-                </contributor>
-                <edition>1</edition>
-                <language>en</language>
-                <language>fr</language>
-                <language>es</language>
-                <script>Latn</script>
-                <abstract format="text/html" language="en" script="Latn">IEC 60050-103:2009 gives the terminology relative to functions of one or more variables. Together with IEC 60050-102, it covers the mathematical terminology used in the fields of electricity, electronics and telecommunications. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Mathematical symbols are generally in accordance with IEC 60027-1 and ISO 80000-2. This standard cancels and replaces Sections 101-13, 101-14 and 101-15 of International Standard IEC 60050-101:1998.<br/>It has the status of a horizontal standard in accordance with  IEC Guide 108.</abstract>
-                <abstract format="text/html" language="fr" script="Latn">La CEI 60050-103:2009 donne la terminologie relative aux fonctions d’une ou plusieurs variables. Conjointement avec la CEI 60050-102, elle couvre la terminologie mathématique utilisée dans les domaines de l’électricité, de l’électronique et des télécommunications. Elle maintient une distinction nette entre les concepts mathématiques et les concepts physiques, même si certains termes sont employés dans les deux cas. Les symboles mathématiques sont généralement conformes à la CEI 60027-1 et à l’ISO 80000-2. Cette norme annule et remplace les sections 101-13, 101-14 et 101-15 de la norme internationale CEI 60050-101:1998.<br/>Elle a le statut de norme horizontale conformément au  Guide IEC 108.</abstract>
-                <status>
-                  <stage>PUBLISHED</stage>
-                </status>
-                <copyright>
-                  <from>2009</from>
-                  <owner>
-                    <organization>
-                      <name>International Electrotechnical Commission</name>
-                      <abbreviation>IEC</abbreviation>
-                      <uri>www.iec.ch</uri>
-                    </organization>
-                  </owner>
-                </copyright>
-                <place>Geneva</place>
-              </bibitem>
-            </references>
-          </bibliography>
-        </standard-document>
+               <fetched/>
+               <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
+               <title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics — General concepts and linear algebra</title>
+               <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 102: Mathematics — General concepts and linear algebra</title>
+               <title type="title-main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV)</title>
+               <title type="title-part" format="text/plain" language="fr" script="Latn">Partie 102: Mathématiques — Concepts généraux et algèbre linéaire</title>
+               <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV) — Partie 102: Mathématiques — Concepts généraux et algèbre linéaire</title>
+               <uri type="src">https://webstore.iec.ch/publication/160</uri>
+               <uri type="obp">https://webstore.iec.ch/preview/info_iec60050-102{ed1.0}b.pdf</uri>
+               <docidentifier type="IEC" primary="true">IEC 60050-102:2007</docidentifier>
+               <docidentifier type="URN">urn:iec:std:iec:60050-102:2007-08:::</docidentifier>
+               <date type="published">
+                 <on>2007-08-27</on>
+               </date>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Electrotechnical Commission</name>
+                   <abbreviation>IEC</abbreviation>
+                   <uri>www.iec.ch</uri>
+                 </organization>
+               </contributor>
+               <edition>1</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <abstract format="text/html" language="en" script="Latn">This part of IEC 60050 gives the general mathematical terminology used in the fields of electricity, electronics and telecommunications, together with basic concepts in linear algebra. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Another part will deal with functions.<br/>It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
+               <abstract format="text/html" language="fr" script="Latn">Cette partie de la CEI 60050 donne la terminologie mathématique générale utilisée dans les domaines de l’électricité, de l’électronique et des télécommunications, ainsi que les concepts fondamentaux d’algèbre linéaire. Elle maintient une distinction nette entre les concepts mathématiques et les concepts physiques, même si certains termes sont employés dans les deux cas. Une autre partie traitera des fonctions.<br/>Elle a le statut de norme horizontale conformément au Guide IEC 108.</abstract>
+               <status>
+                 <stage>PUBLISHED</stage>
+               </status>
+               <copyright>
+                 <from>2007</from>
+                 <owner>
+                   <organization>
+                     <name>International Electrotechnical Commission</name>
+                     <abbreviation>IEC</abbreviation>
+                     <uri>www.iec.ch</uri>
+                   </organization>
+                 </owner>
+               </copyright>
+               <place>Geneva</place>
+             </bibitem>
+             <bibitem id="IEC60050-103" type="standard">
+               <fetched/>
+               <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
+               <title type="title-part" format="text/plain" language="en" script="Latn">Part 103: Mathematics — Functions</title>
+               <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 103: Mathematics — Functions</title>
+               <title type="title-main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV)</title>
+               <title type="title-part" format="text/plain" language="fr" script="Latn">Partie 103: Mathématiques — Fonctions</title>
+               <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV) — Partie 103: Mathématiques — Fonctions</title>
+               <title type="title-intro" format="text/plain" language="es" script="Latn">Versión Oficial En español</title>
+               <title type="title-main" format="text/plain" language="es" script="Latn">Vocabulario Electrotécnico Internacional. Parte 103: Matemáticas. Funciones.</title>
+               <title type="main" format="text/plain" language="es" script="Latn">Versión Oficial En español — Vocabulario Electrotécnico Internacional. Parte 103: Matemáticas. Funciones.</title>
+               <uri type="src">https://webstore.iec.ch/publication/161</uri>
+               <uri type="obp">https://webstore.iec.ch/preview/info_iec60050-103{ed1.0}b.pdf</uri>
+               <docidentifier type="IEC" primary="true">IEC 60050-103:2009</docidentifier>
+               <docidentifier type="URN">urn:iec:std:iec:60050-103:2009-12:::</docidentifier>
+               <date type="published">
+                 <on>2009-12-14</on>
+               </date>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Electrotechnical Commission</name>
+                   <abbreviation>IEC</abbreviation>
+                   <uri>www.iec.ch</uri>
+                 </organization>
+               </contributor>
+               <edition>1</edition>
+               <language>en</language>
+               <language>fr</language>
+               <language>es</language>
+               <script>Latn</script>
+               <abstract format="text/html" language="en" script="Latn">IEC 60050-103:2009 gives the terminology relative to functions of one or more variables. Together with IEC 60050-102, it covers the mathematical terminology used in the fields of electricity, electronics and telecommunications. It maintains a clear distinction between mathematical concepts and physical concepts, even if some terms are used in both cases. Mathematical symbols are generally in accordance with IEC 60027-1 and ISO 80000-2. This standard cancels and replaces Sections 101-13, 101-14 and 101-15 of International Standard IEC 60050-101:1998.<br/>It has the status of a horizontal standard in accordance with IEC Guide 108.</abstract>
+               <abstract format="text/html" language="fr" script="Latn">La CEI 60050-103:2009 donne la terminologie relative aux fonctions d’une ou plusieurs variables. Conjointement avec la CEI 60050-102, elle couvre la terminologie mathématique utilisée dans les domaines de l’électricité, de l’électronique et des télécommunications. Elle maintient une distinction nette entre les concepts mathématiques et les concepts physiques, même si certains termes sont employés dans les deux cas. Les symboles mathématiques sont généralement conformes à la CEI 60027-1 et à l’ISO 80000-2. Cette norme annule et remplace les sections 101-13, 101-14 et 101-15 de la norme internationale CEI 60050-101:1998.<br/>Elle a le statut de norme horizontale conformément au Guide IEC 108.</abstract>
+               <status>
+                 <stage>PUBLISHED</stage>
+               </status>
+               <copyright>
+                 <from>2009</from>
+                 <owner>
+                   <organization>
+                     <name>International Electrotechnical Commission</name>
+                     <abbreviation>IEC</abbreviation>
+                     <uri>www.iec.ch</uri>
+                   </organization>
+                 </owner>
+               </copyright>
+               <place>Geneva</place>
+             </bibitem>
+           </references>
+         </bibliography>
+       </standard-document>
       OUTPUT
       expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to xmlpp(output)
