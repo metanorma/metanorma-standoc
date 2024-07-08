@@ -33,6 +33,62 @@
 						</ownedAttribute>
 						<generalization xmi:type="uml:Generalization" xmi:id="EAID_5F9AA728_64F8_487d_A2A5_F844D5928189" general="EAID_06ADE433_CD52_48b6_93BA_612C87AA2B44"/>
 					</packagedElement>
+					<packagedElement xmi:type="uml:Enumeration" xmi:id="EAID_82206E96_8D23_48dd_AC2F_92839C484AF2" name="RE_Register_enum">
+						<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_D7A8E799_526A_4139_9870_A7E6B5C5E045" name="alternativeLanguages">
+							<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000063_526A_4139_9870_A7E6B5C5E045" value="0"/>
+							<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000064_526A_4139_9870_A7E6B5C5E045" value="1"/>
+							<type xmi:idref="EAnone_Set_RE_Locale_"/>
+						</ownedAttribute>
+						<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_6674B688_7A18_4831_9B5C_F7137631B39B" name="contentSummary">
+							<type xmi:idref="EAID_AF7C81A6_B1C1_4469_A09F_B97989024A14"/>
+							<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000065_7A18_4831_9B5C_F7137631B39B" value="1"/>
+							<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000066_7A18_4831_9B5C_F7137631B39B" value="1"/>
+						</ownedAttribute>
+						<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_FD973708_ED36_4513_9CB8_5E1942A8675E" name="name">
+							<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000067_ED36_4513_9CB8_5E1942A8675E" value="1"/>
+							<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000068_ED36_4513_9CB8_5E1942A8675E" value="1"/>
+							<type xmi:idref="EAnone_CharacterString"/>
+						</ownedAttribute>
+						<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_F4AB43DD_2EE8_4387_8252_A7AB57D85C5D" name="operatingLanguage">
+							<type xmi:idref="EAID_3996125E_4828_4f3c_93BD_605E9059DE05"/>
+							<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000069_2EE8_4387_8252_A7AB57D85C5D" value="1"/>
+							<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000070_2EE8_4387_8252_A7AB57D85C5D" value="1"/>
+						</ownedAttribute>
+						<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_FFA38CDE_5FB6_4bef_9B1D_447EEC360BE1" name="uniformResourceIdentifier">
+							<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000071_5FB6_4bef_9B1D_447EEC360BE1" value="1"/>
+							<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000072_5FB6_4bef_9B1D_447EEC360BE1" value="*"/>
+							<type xmi:idref="EAnone_URI"/>
+						</ownedAttribute>
+						<generalization xmi:type="uml:Generalization" xmi:id="EAID_5F9AA728_64F8_487d_A2A5_F844D5928189" general="EAID_06ADE433_CD52_48b6_93BA_612C87AA2B44"/>
+					</packagedElement>
+					<packagedElement xmi:type="uml:DataType" xmi:id="ABCD_82206E96_8D23_48dd_AC2F_31939C484AF2" name="RE_Register_data_type">
+						<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_D7A8E799_526A_4139_9870_A7E6B5C5E045" name="alternativeLanguages">
+							<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000063_526A_4139_9870_A7E6B5C5E045" value="0"/>
+							<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000064_526A_4139_9870_A7E6B5C5E045" value="1"/>
+							<type xmi:idref="EAnone_Set_RE_Locale_"/>
+						</ownedAttribute>
+						<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_6674B688_7A18_4831_9B5C_F7137631B39B" name="contentSummary">
+							<type xmi:idref="EAID_AF7C81A6_B1C1_4469_A09F_B97989024A14"/>
+							<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000065_7A18_4831_9B5C_F7137631B39B" value="1"/>
+							<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000066_7A18_4831_9B5C_F7137631B39B" value="1"/>
+						</ownedAttribute>
+						<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_FD973708_ED36_4513_9CB8_5E1942A8675E" name="name">
+							<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000067_ED36_4513_9CB8_5E1942A8675E" value="1"/>
+							<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000068_ED36_4513_9CB8_5E1942A8675E" value="1"/>
+							<type xmi:idref="EAnone_CharacterString"/>
+						</ownedAttribute>
+						<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_F4AB43DD_2EE8_4387_8252_A7AB57D85C5D" name="operatingLanguage">
+							<type xmi:idref="EAID_3996125E_4828_4f3c_93BD_605E9059DE05"/>
+							<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000069_2EE8_4387_8252_A7AB57D85C5D" value="1"/>
+							<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000070_2EE8_4387_8252_A7AB57D85C5D" value="1"/>
+						</ownedAttribute>
+						<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_FFA38CDE_5FB6_4bef_9B1D_447EEC360BE1" name="uniformResourceIdentifier">
+							<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000071_5FB6_4bef_9B1D_447EEC360BE1" value="1"/>
+							<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000072_5FB6_4bef_9B1D_447EEC360BE1" value="*"/>
+							<type xmi:idref="EAnone_URI"/>
+						</ownedAttribute>
+						<generalization xmi:type="uml:Generalization" xmi:id="EAID_5F9AA728_64F8_487d_A2A5_F844D5928189" general="EAID_06ADE433_CD52_48b6_93BA_612C87AA2B44"/>
+					</packagedElement>
 				</packagedElement>
 			</packagedElement>
 		</packagedElement>

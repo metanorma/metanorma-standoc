@@ -36,13 +36,13 @@ Gem::Specification.new do |spec|
   spec.add_dependency "metanorma", ">= 1.6.0"
   spec.add_dependency "metanorma-plugin-datastruct", "~> 0.3.0"
   spec.add_dependency "metanorma-plugin-glossarist", "~> 0.2.0"
-  spec.add_dependency "metanorma-plugin-lutaml", "~> 0.6.0"
+  spec.add_dependency "metanorma-plugin-lutaml", "~> 0.7.0"
   spec.add_dependency "ruby-jing"
   # relaton-cli not just relaton, to avoid circular reference in metanorma
   spec.add_dependency "asciimath2unitsml", "~> 0.4.0"
   spec.add_dependency "concurrent-ruby"
   spec.add_dependency "pngcheck"
-  spec.add_dependency "relaton-cli", "~> 1.18.1"
+  spec.add_dependency "relaton-cli", "~> 1.19.0"
   spec.add_dependency "relaton-iev", "~> 1.2.0"
   spec.add_dependency "unicode2latex", "~> 0.0.1"
 
