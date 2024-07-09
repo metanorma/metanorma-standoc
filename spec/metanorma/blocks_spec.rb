@@ -1143,6 +1143,9 @@ RSpec.describe Metanorma::Standoc do
 
       [.source,status=generalisation]
       <<ISO2191,section=1>>, with adjustments
+
+      [.source,status=specialisation]
+      <<ISO2191,section=2>>, with adjustments
       ====
     INPUT
     output = <<~OUTPUT
@@ -1173,6 +1176,18 @@ RSpec.describe Metanorma::Standoc do
           <p id="_">with adjustments</p>
         </modification>
       </source>
+                   <source status="specialisation">
+               <origin bibitemid="ISO2191" type="inline" citeas="">
+                 <localityStack>
+                   <locality type="section">
+                     <referenceFrom>2</referenceFrom>
+                   </locality>
+                 </localityStack>
+               </origin>
+               <modification>
+                 <p id="_">with adjustments</p>
+               </modification>
+             </source>
         </figure>
       </sections>
       </standard-document>
