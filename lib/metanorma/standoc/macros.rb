@@ -53,12 +53,18 @@ module Metanorma
     class NamedEscapePreprocessor < Asciidoctor::Extensions::Preprocessor
       def process(document, reader)
         c = HTMLEntities.new
+        p = Metanorma::Utils::LineStatus.new
         lines = reader.lines.map do |l|
-          l.split(/(&[A-Za-z][^&;]*;)/).map do |s|
-            /^&[A-Za-z]/.match?(s) ? c.encode(c.decode(s), :hexadecimal) : s
-          end.join
+          p.process(l)
+          p.pass ? l : convert(l, c)
         end
         ::Asciidoctor::PreprocessorReader.new document, lines
+      end
+
+      def convert(line, esc)
+        line.split(/(&[A-Za-z][^&;]*;)/).map do |s|
+          /^&[A-Za-z]/.match?(s) ? esc.encode(esc.decode(s), :hexadecimal) : s
+        end.join
       end
     end
 
@@ -75,49 +81,14 @@ module Metanorma
     # Not using TreeProcessor because that is still too close to
     # inline expressions being processed on access (e.g. titles)
     class LinkProtectPreprocessor < Asciidoctor::Extensions::Preprocessor
-      def init
-        pass = true # process as passthrough: init = true until
-        # hit end of doc header
-        is_delim = false # current line is a no-substititon block delimiter
-        pass_delim = false # current line is a passthrough delimiter
-        delimln = "" # delimiter line of current block(s);
-        # init value looks for end of doc header
-        { pass: pass, is_delim: is_delim, pass_delim: pass_delim,
-          delimln: delimln }
-      end
-
       def process(document, reader)
-        p = init
+        p = Metanorma::Utils::LineStatus.new
         lines = reader.lines.map do |t|
-          p = pass_status(p, t.rstrip)
-          !p[:pass] && t.include?(":") and t = inlinelinkmacro(inlinelink(t))
+          p.process(t)
+          !p.pass && t.include?(":") and t = inlinelinkmacro(inlinelink(t))
           t
         end
         ::Asciidoctor::PreprocessorReader.new document, lines
-      end
-
-      def pass_status(status, text)
-        text == "++++" && !status[:delimln] and status[:pass] = !status[:pass]
-        status[:midline_docattr] && !/^:[^ :]+: /.match?(text) and
-          status[:midline_docattr] = false
-        if (status[:is_delim] && /^(-+|\*+|=+|_+)$/.match?(text)) ||
-            (!status[:is_delim] && !status[:delimln] && /^-----*$|^\.\.\.\.\.*$/.match?(text))
-          status[:delimln] = text
-          status[:pass] = true
-        elsif status[:pass_delim]
-          status[:delimln] = "" # end of paragraph for paragraph with [pass]
-        elsif status[:delimln] && text == status[:delimln]
-          status[:pass] = false
-          status[:delimln] = nil
-        elsif /^:[^ :]+: /.match?(text) &&
-            (status[:prev_line].empty? || status[:midline_docattr])
-          status[:pass] = true
-          status[:midline_docattr] = true
-        end
-        status[:is_delim] = /^\[(source|listing|literal|pass)\b/.match?(text)
-        status[:pass_delim] = /^\[(pass)\b/.match?(text)
-        status[:prev_line] = text.strip
-        status
       end
 
       PASS_INLINE_MACROS = %w(pass pass-format identifier std-link stem)
@@ -133,7 +104,7 @@ module Metanorma
           \\[.*?(?<!\\\\)\\]                     # [ ... ] not preceded by \\
         )
       REGEX
-      PASS_INLINE_MACRO_RX = /#{PASS_INLINE_MACRO_STR}/xo.freeze
+      PASS_INLINE_MACRO_RX = /#{PASS_INLINE_MACRO_STR}/xo
 
       def pass_inline_split(text)
         text.split(PASS_INLINE_MACRO_RX).each.map do |x|
@@ -143,7 +114,7 @@ module Metanorma
 
       # InlineLinkRx = %r((^|link:|#{CG_BLANK}|&lt;|[>\(\)\[\];"'])(\\?(?:https?|file|ftp|irc)://)(?:([^\s\[\]]+)\[(|#{CC_ALL}*?[^\\])\]|([^\s\[\]<]*([^\s,.?!\[\]<\)]))))m
       #
-      InlineLinkRx = %r((^|(?<![-\\])\blink:(?!\+)|\p{Blank}|&lt;|[<>\(\)\[\];"'])((?:https?|file|ftp|irc)://)(?:([^\s\[\]]+)(?:(\[(|.*?[^\\])\])|([^\s\[\]<]*([^\s,.?!\[\]<\)])))))m.freeze
+      InlineLinkRx = %r((^|(?<![-\\])\blink:(?!\+)|\p{Blank}|&lt;|[<>\(\)\[\];"'])((?:https?|file|ftp|irc)://)(?:([^\s\[\]]+)(?:(\[(|.*?[^\\])\])|([^\s\[\]<]*([^\s,.?!\[\]<\)])))))m
 
       def inlinelink(text)
         text.include?("://") or return text
@@ -173,7 +144,7 @@ module Metanorma
         (|[^:\\s\\[][^\\s\\[]*)          # link: ... up to [
         (\\[(|.*?[^\\\\])\\])            # [ ... ], no ]
       REGEX
-      InlineLinkMacroRx = /#{InlineLinkMacroRx1}/x.freeze
+      InlineLinkMacroRx = /#{InlineLinkMacroRx1}/x
 
       def inlinelinkmacro(text)
         (text.include?("[") &&

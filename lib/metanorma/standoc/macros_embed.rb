@@ -37,18 +37,19 @@ module Metanorma
       def process(doc, reader)
         reader.eof? and return reader
         r = ::Asciidoctor::PreprocessorNoIfdefsReader.new doc, reader.lines
+        p = Metanorma::Utils::LineStatus.new
         lines = r.readlines
         headings = lines.grep(/^== /).map(&:strip)
         ret = lines.each_with_object(embed_acc(doc, r)) do |line, m|
-          process_line(line, m, headings)
+          process_line(line, m, headings, p)
         end
         return_to_document(doc, ret)
       end
 
       def embed_acc(doc, reader)
         { lines: [], hdr: [], id: [],
-          orig: doc, doc: doc, file: nil, path: nil,
-          reader: reader, prev: nil }
+          orig: doc, doc:, file: nil, path: nil,
+          reader:, prev: nil }
       end
 
       # presupposes single embed
@@ -93,13 +94,14 @@ module Metanorma
 
       def update_embeds(lines, acc, emb)
         lines.empty? or
-          acc << { file: emb[:file], path: emb[:path], lines: lines }
+          acc << { file: emb[:file], path: emb[:path], lines: }
         [[], acc]
       end
 
-      def process_line(line, acc, headings)
-        if /^embed::/.match?(line)
-          e = embed(line, acc, headings)
+      def process_line(line, acc, headings, status)
+        status.process(line)
+        if !status.pass && /^embed::/.match?(line)
+          e = embed(line, acc, headings, status)
           acc = process_embed(acc, e, acc[:prev])
         else
           acc[:lines] << line
@@ -148,7 +150,7 @@ module Metanorma
         end
       end
 
-      def embed(line, acc, headings)
+      def embed(line, acc, headings, status)
         fname, inc_path = filename(line, acc)
         lines = filter_sections(read(inc_path), headings)
         n = Asciidoctor::Document
@@ -158,12 +160,12 @@ module Metanorma
           .merge(file: fname, path: inc_path, orig: acc[:orig])
         ret[:hdr] or
           raise "Embedding an incomplete document with no header: #{ret[:path]}"
-        embed_recurse(ret, n, r, headings)
+        embed_recurse(ret, n, r, headings, status)
       end
 
-      def embed_recurse(ret, doc, reader, headings)
+      def embed_recurse(ret, doc, reader, headings, status)
         ret1 = ret[:lines].each_with_object(embed_acc(doc, reader)) do |line, m|
-          process_line(line, m, headings)
+          process_line(line, m, headings, status)
         end
         ret.merge(
           { lines: ret1[:lines], id: ret[:id] + ret1[:id],
@@ -172,7 +174,7 @@ module Metanorma
       end
 
       def strip_header(lines)
-        return { lines: lines, hdr: nil } unless !lines.empty? &&
+        return { lines:, hdr: nil } unless !lines.empty? &&
           lines.first.start_with?("= ")
 
         skip = true
