@@ -16,9 +16,7 @@ module Metanorma
       end
 
       def move_clauses_into_preface(xml, preface)
-        xml.xpath("//*[@preface]").each do |c|
-          to_preface(preface, c)
-        end
+        xml.xpath("//*[@preface]").each { |c| to_preface(preface, c) }
       end
 
       def to_preface(preface, clause)
@@ -202,10 +200,9 @@ module Metanorma
       end
 
       # only move clausebefore notes at the very end of preface
-      def endofpreface_clausebefore(xmldoc, ins)
-        xmldoc.xpath("//preface//*[@beforeclauses = 'true']").reverse
-          .each do |x|
-          textafter = xmldoc.xpath("//preface//*") & x.xpath("./following::*")
+      def endofpreface_clausebefore(xml, ins)
+        xml.xpath("//preface//*[@beforeclauses = 'true']").reverse.each do |x|
+          textafter = xml.xpath("//preface//*") & x.xpath("./following::*")
           textafter.text.strip.empty? or break
           x.delete("beforeclauses")
           ins.previous = x.remove
@@ -241,9 +238,8 @@ module Metanorma
       def floating_title_preface2sections(xmldoc)
         t = xmldoc.at("//preface/floating-title") or return
         s = xmldoc.at("//sections")
-        unless t.next_element
+        t.next_element or
           s.children.first.previous = t.remove
-        end
       end
     end
   end

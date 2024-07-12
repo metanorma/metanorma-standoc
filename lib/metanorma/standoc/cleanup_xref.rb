@@ -95,10 +95,9 @@ module Metanorma
         elem.xpath("./localityStack").size < 2 and return
         elem.xpath("./localityStack[not(@connective)]").each do |l|
           n = l.next_element
-          l["connective"] = if n && n.name == "localityStack" &&
-              n["connective"] == "to"
-                              "from"
-                            else "and" end
+          l["connective"] = "and"
+          n && n.name == "localityStack" && n["connective"] == "to" and
+            l["connective"] = "from"
         end
       end
 
@@ -111,8 +110,7 @@ module Metanorma
         elem.name = name
         elem["bibitemid"] = elem["target"]
         if ref = @anchors&.dig(elem["target"], :xref)
-          t = @anchors.dig(elem["target"], :id, elem["style"]) and
-            ref = t
+          t = @anchors.dig(elem["target"], :id, elem["style"]) and ref = t
           elem["citeas"] = @c.decode(ref)
         else xref_to_eref1(elem)
         end
@@ -141,9 +139,7 @@ module Metanorma
           e.name = "erefstack"
           e.delete("bibitemid")
           e.delete("citeas")
-          e.xpath("./eref").each do |e1|
-            e1["type"] = e["type"]
-          end
+          e.xpath("./eref").each { |e1| e1["type"] = e["type"] }
           e.delete("type")
         end
       end
@@ -219,7 +215,7 @@ module Metanorma
         unless a.size < 2 || a[0].empty? || a[1].empty?
           elem["target"] = "#{a[0]}_#{a[1]}"
           a.size > 2 and
-            elem.children = %{anchor="#{a[2..-1].join}",#{elem.children&.text}}
+            elem.children = %{anchor="#{a[2..].join}",#{elem.children&.text}}
           elem["type"] = a[0]
           @internal_eref_namespaces << a[0]
           xref_to_eref(elem, "eref")
