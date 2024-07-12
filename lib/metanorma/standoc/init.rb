@@ -49,7 +49,7 @@ module Metanorma
         @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
         @datauriimage = node.attr("data-uri-image") != "false"
         @datauriattachment = node.attr("data-uri-attachment") != "false"
-        @dataurimaxsize = node.attr("data-uri-maxsize")&.to_i || 10485760
+        @dataurimaxsize = node.attr("data-uri-maxsize")&.to_i || 13981013
         @blockunnumbered = (node.attr("block-unnumbered") || "").split(",")
           .map(&:strip)
       end
