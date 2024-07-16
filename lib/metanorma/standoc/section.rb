@@ -43,6 +43,7 @@ module Metanorma
         when "symbols and abbreviated terms",
           "symbols", "abbreviated terms", "abbreviations"
           "symbols and abbreviated terms"
+          "symbols and abbreviations"
         when "acknowledgements", "acknowledgments"
           "acknowledgements"
         else
