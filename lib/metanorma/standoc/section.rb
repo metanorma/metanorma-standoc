@@ -16,8 +16,7 @@ module Metanorma
             .gsub(%r{<index>.*?</index>}m, "")
             .gsub(%r{<fn[^>]*>.*?</fn>}m, "")
             .gsub(/<[^>]+>/, "")
-            .strip.downcase
-            .sub(/\.$/, "")
+            .strip.downcase.sub(/\.$/, "")
       end
 
       def sectiontype(node, level = true)

@@ -48,7 +48,6 @@ module Metanorma
       def mathml_sanitise(math)
         math.to_xml(encoding: "US-ASCII").gsub(/ xmlns=["'][^"']+["']/, "")
           .gsub(%r{<[^:/>]+:}, "<").gsub(%r{</[^:/>]+:}, "</")
-        # .gsub(/&#([^;]+);/) { |x| "&#x#{$1.to_i.to_s(16)};" }
       end
 
       def math_validate_error(math, elem, error)
@@ -133,7 +132,7 @@ module Metanorma
         doc.xpath(WILDCARD_ATTRS, "m" => SVG_NS).each do |n|
           n.elements.each do |e|
             e.traverse do |e1|
-              e1.element? and e1.each { |k, _v| e1.delete(k) }
+              e1.element? and e1.each { |k, _v| e1.delete(k) } # rubocop:disable Style/HashEachMethods
             end
           end
         end
@@ -143,6 +142,7 @@ module Metanorma
 
       def image_validate(doc)
         image_exists(doc)
+        image_toobig(doc)
         png_validate(doc)
       end
 
@@ -181,6 +181,18 @@ module Metanorma
       rescue PngCheck::CorruptPngError => e
         @log.add("Images", img.parent,
                  "Corrupt PNG image detected: #{e.message}")
+      end
+
+      TOO_BIG_IMG_ERR = <<~ERR.freeze
+        Image too large for Data URI encoding: disable Data URI encoding (`:data-uri-image: false`), or set `:data-uri-maxsize: 0`
+      ERR
+
+      def image_toobig(doc)
+        @dataurimaxsize.zero? and return
+        doc.xpath("//image").each do |i|
+          i["src"].size > @dataurimaxsize and
+            @log.add("Images", i.parent, TOO_BIG_IMG_ERR, severity: 0)
+        end
       end
 
       def validate(doc)

@@ -1472,6 +1472,91 @@ RSpec.describe Metanorma::Standoc do
       .to include "Term Term1 occurs twice as preferred designation"
   end
 
+  it "warns if image is too big for Data URI encoding" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        == Clause
+
+        image::spec/assets/Sample-jpg-image-15mb.jpeg[]
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+    expect(File.read("test.err.html"))
+      .to include "Image too large for Data URI encoding"
+
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+        :data-uri-image: false
+
+        == Clause
+
+        image::spec/assets/Sample-jpg-image-15mb.jpeg[]
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.not_to raise_error(SystemExit)
+    rescue SystemExit
+    end
+
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+        :data-uri-maxsize: 25000000
+
+        == Clause
+
+        image::spec/assets/Sample-jpg-image-15mb.jpeg[]
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.not_to raise_error(SystemExit)
+    rescue SystemExit
+    end
+
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+        :data-uri-maxsize: 5000000
+
+        == Clause
+
+        image::spec/assets/Sample-jpg-image-15mb.jpeg[]
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+    expect(File.read("test.err.html"))
+      .to include "Image too large for Data URI encoding"
+  end
+
   private
 
   def mock_plurimath_error(times)
