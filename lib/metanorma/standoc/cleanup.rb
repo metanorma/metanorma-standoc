@@ -103,6 +103,7 @@ module Metanorma
           "UNKNOWN": 3 }.freeze
 
       def relaton_log_cleanup(_xmldoc)
+        @relaton_log or return
         @relaton_log.rewind
         @relaton_log.read.each_line do |l|
           e = JSON.parse(l)
