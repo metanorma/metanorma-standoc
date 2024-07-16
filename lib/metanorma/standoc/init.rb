@@ -102,11 +102,20 @@ module Metanorma
       def init_biblio(node)
         @no_isobib_cache = node.attr("no-isobib-cache")
         @no_isobib = node.attr("no-isobib")
+        init_bib_log
         @bibdb = nil
         init_bib_caches(node)
         init_iev_caches(node)
         @local_bibdb =
           ::Metanorma::Standoc::LocalBiblio.new(node, @localdir, self)
+      end
+
+      def init_bib_log
+        @relaton_log = StringIO.new
+        relaton_logger = Relaton::Logger::Log
+          .new(@relaton_log, levels: %i(info warn error fatal unknown),
+                             formatter: Relaton::Logger::FormatterJSON)
+        Relaton.logger_pool[:my_logger] = relaton_logger
       end
 
       def init_math(node)

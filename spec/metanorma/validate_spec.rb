@@ -711,6 +711,28 @@ RSpec.describe Metanorma::Standoc do
       .to include 'value of attribute "align" is invalid; must be equal to'
   end
 
+  it "Logs Relaton errors onto Metanorma log" do
+    FileUtils.rm_f "test.err.html"
+    VCR.use_cassette "missing-reference", record: :new_episodes do
+      Asciidoctor.convert(<<~INPUT, *OPTIONS)
+        = Document title
+        Author
+        :docfile: test.adoc
+        :no-pdf:
+        :no-isobib-cache:
+
+        [bibliography]
+        == Normative References
+        * [[[iev,ISO 0a]]], _iev_
+
+      INPUT
+      expect(File.read("test.err.html"))
+        .to include "<code>ISO 0a</code>"
+      expect(File.read("test.err.html"))
+        .to include "Is not recognized as a standards identifier"
+    end
+  end
+
   it "Warning if terms mismatches IEV" do
     FileUtils.rm_f "test.err.html"
     VCR.use_cassette "iev_103-01-02", record: :new_episodes do
@@ -951,15 +973,15 @@ RSpec.describe Metanorma::Standoc do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
     input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
 
-        [bibliography]
-        == Normative references
-        * [[[A,1]]]
-      INPUT
+      [bibliography]
+      == Normative references
+      * [[[A,1]]]
+    INPUT
     Asciidoctor.convert(input, *OPTIONS)
     expect(File.read("test.err.html"))
       .to include "Numeric reference in normative references"

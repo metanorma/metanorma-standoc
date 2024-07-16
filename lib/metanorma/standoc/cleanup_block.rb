@@ -163,7 +163,7 @@ module Metanorma
           acc << safe_noko(a[0], node.document)
           a.size == 4 or next
           acc << Asciidoctor.convert(
-            a[2], doctype: :inline, backend: (self&.backend&.to_sym || :standoc)
+            a[2], doctype: :inline, backend: self&.backend&.to_sym || :standoc
           )
         end.join
       end
