@@ -41,9 +41,9 @@ module Metanorma
           "terms, definitions and abbreviated terms"
           "terms and definitions"
         when "symbols and abbreviated terms",
-          "symbols", "abbreviated terms", "abbreviations"
-          "symbols and abbreviated terms"
+          "symbols", "abbreviated terms", "abbreviations",
           "symbols and abbreviations"
+          "symbols and abbreviated terms"
         when "acknowledgements", "acknowledgments"
           "acknowledgements"
         else
