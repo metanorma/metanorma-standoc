@@ -64,6 +64,7 @@ module Metanorma
         bookmark_cleanup(xmldoc)
         termdef_cleanup(xmldoc) # feeds: relaton_iev_cleanup, term_index_cleanup
         relaton_iev_cleanup(xmldoc)
+        relaton_log_cleanup(xmldoc)
         element_name_cleanup(xmldoc)
         term_index_cleanup(xmldoc)
         bpart_cleanup(xmldoc)
@@ -94,6 +95,20 @@ module Metanorma
         _, err = RelatonIev::iev_cleanup(xmldoc, @bibdb)
         err.each do |e|
           @log.add("Bibliography", nil, e, severity: 0)
+        end
+      end
+
+      RELATON_SEVERITIES =
+        { "INFO": 3, "WARN": 2, "ERROR": 1, "FATAL": 0,
+          "UNKNOWN": 3 }.freeze
+
+      def relaton_log_cleanup(_xmldoc)
+        @relaton_log or return
+        @relaton_log.rewind
+        @relaton_log.read.each_line do |l|
+          e = JSON.parse(l)
+          @log.add("Relaton", e["key"], e["message"],
+                   severity: RELATON_SEVERITIES[e["severity"].to_sym])
         end
       end
 
