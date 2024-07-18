@@ -200,8 +200,8 @@ module Metanorma
 
       MALFORMED_REF = <<~REF.freeze
         no anchor on reference, markup may be malformed: see
-        https://www.metanorma.com/author/topics/document-format/bibliography/ ,
-        https://www.metanorma.com/author/iso/topics/markup/#bibliographies
+        https://www.metanorma.org/author/topics/sections/bibliography/ ,
+        https://www.metanorma.org/author/iso/topics/markup/#bibliographies
       REF
 
       def ref_normalise(ref)
