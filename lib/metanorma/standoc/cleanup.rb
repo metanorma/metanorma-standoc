@@ -105,7 +105,7 @@ module Metanorma
       def relaton_log_cleanup(_xmldoc)
         @relaton_log or return
         @relaton_log.rewind
-        @relaton_log.read.each_line do |l|
+        @relaton_log.string.split(/(?<=})\n(?={)/).each do |l|
           e = JSON.parse(l)
           @log.add("Relaton", e["key"], e["message"],
                    severity: RELATON_SEVERITIES[e["severity"].to_sym])
