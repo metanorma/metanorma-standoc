@@ -1,4 +1,3 @@
-require "set"
 require "relaton_bib"
 require_relative "merge_bibitems"
 require_relative "spans_to_bibitem"

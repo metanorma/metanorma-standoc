@@ -34,7 +34,7 @@ module Metanorma
         t = node.target.gsub(/^#/, "").gsub(%r{(\.xml|\.adoc)(#.*$)}, "\\2")
         attrs, text = inline_anchor_xref_match(text)
         attrs.empty? and
-          return { target: t, type: "inline", text: text, style: @xrefstyle }
+          return { target: t, type: "inline", text:, style: @xrefstyle }
         inline_anchor_xref_attrs1(attrs, t, text)
       end
 
@@ -46,13 +46,13 @@ module Metanorma
       end
 
       def inline_anchor_xref_attrs1(attrs, target, text)
-        { target: target, hidden: attrs["hidden"],
+        { target:, hidden: attrs["hidden"],
           type: attrs.key?("fn") ? "footnote" : "inline",
           case: %w(capital lowercase).detect { |x| attrs.key?(x) },
           label: attrs["label"],
           style: attrs["style"] || @xrefstyle,
           droploc: attrs.key?("droploc") ? true : nil,
-          text: text }.compact
+          text: }.compact
       end
 
       XREF_ATTRS = "hidden|style|droploc|capital|lowercase|label".freeze

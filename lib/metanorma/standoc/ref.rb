@@ -27,7 +27,7 @@ module Metanorma
       def isorefmatchescode(match, _item)
         code = analyse_ref_code(match[:code])
         yr = norm_year(match[:year])
-        { code: match[:code], year: yr, match: match,
+        { code: match[:code], year: yr, match:,
           title: match[:text], usrlbl: match[:usrlbl] || code[:usrlabel],
           analyse_code: code, lang: @lang || :all }
       end
@@ -47,7 +47,7 @@ module Metanorma
       def isorefmatches2code(match, _item)
         code = analyse_ref_code(match[:code])
         { code: match[:code], no_year: true, lang: @lang || :all,
-          note: match[:fn], year: nil, match: match, analyse_code: code,
+          note: match[:fn], year: nil, match:, analyse_code: code,
           title: match[:text], usrlbl: match[:usrlbl] || code[:usrlabel] }
       end
 
@@ -77,7 +77,7 @@ module Metanorma
         code = analyse_ref_code(match[:code])
         yr = norm_year(match[:year])
         hasyr = !yr.nil? && yr != "--"
-        { code: match[:code], match: match, yr: yr, hasyr: hasyr,
+        { code: match[:code], match:, yr:, hasyr:,
           year: hasyr ? yr : nil, lang: @lang || :all,
           all_parts: true, no_year: yr == "--",
           title: match[:text], usrlbl: match[:usrlbl] || code[:usrlabel] }
@@ -162,11 +162,11 @@ module Metanorma
       def refitem1code(_item, match)
         code = analyse_ref_code(match[:code])
         ((code[:id] && code[:numeric]) || code[:nofetch]) and
-          return { code: nil, match: match, analyse_code: code,
+          return { code: nil, match:, analyse_code: code,
                    hidden: code[:hidden] }
         { code: code[:id], analyse_code: code, localfile: code[:localfile],
           year: (m = refitem1yr(code[:id])) ? m[:year] : nil,
-          title: match[:text], match: match, hidden: code[:hidden],
+          title: match[:text], match:, hidden: code[:hidden],
           usrlbl: match[:usrlbl] || code[:usrlabel], lang: @lang || :all }
       end
 
@@ -187,29 +187,26 @@ module Metanorma
       ISO_REF =
         %r{^<ref\sid="(?<anchor>[^"]+)">
       \[(?<usrlbl>\([^)]+\))?(?<code>(?:ISO|IEC)[^0-9]*\s[0-9-]+|IEV)
-      (?::(?<year>[0-9][0-9-]+))?\]</ref>,?\s*(?<text>.*)$}xm.freeze
+      (?::(?<year>[0-9][0-9-]+))?\]</ref>,?\s*(?<text>.*)$}xm
 
       ISO_REF_NO_YEAR =
         %r{^<ref\sid="(?<anchor>[^"]+)">
       \[(?<usrlbl>\([^)]+\))?(?<code>(?:ISO|IEC)[^0-9]*\s[0-9-]+):
-      (?:--|&\#821[12];)\]</ref>,?\s*
+      (?:--|–|—|&\#821[12];)\]</ref>,?\s*
         (?:<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>)?,?\s?(?<text>.*)$}xm
-          .freeze
 
       ISO_REF_ALL_PARTS =
         %r{^<ref\sid="(?<anchor>[^"]+)">
       \[(?<usrlbl>\([^)]+\))?(?<code>(?:ISO|IEC)[^0-9]*\s[0-9]+)
-      (?::(?<year>--|&\#821[12];|[0-9][0-9-]+))?\s
+      (?::(?<year>--|–|—|&\#821[12];|[0-9][0-9-]+))?\s
       \(all\sparts\)\]</ref>,?\s*
-        (?:<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>,?\s?)?(?<text>.*)$}xm.freeze
+        (?:<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>,?\s?)?(?<text>.*)$}xm
 
       NON_ISO_REF = %r{^<ref\sid="(?<anchor>[^"]+)">
       \[(?<usrlbl>\([^)]+\))?(?<code>.+?)\]</ref>,?\s*(?<text>.*)$}xm
-        .freeze
 
       NON_ISO_REF1 = %r{^<ref\sid="(?<anchor>[^"]+)">
       (?<usrlbl>\([^)]+\))?(?<code>.+?)</ref>,?\s*(?<text>.*)$}xm
-        .freeze
 
       def reference1_matches(item)
         matched = ISO_REF.match item

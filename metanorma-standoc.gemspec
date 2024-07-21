@@ -37,6 +37,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "metanorma-plugin-datastruct", "~> 0.3.0"
   spec.add_dependency "metanorma-plugin-glossarist", "~> 0.2.0"
   spec.add_dependency "metanorma-plugin-lutaml", "~> 0.7.0"
+  spec.add_dependency "metanorma-utils", "~> 1.9.0"
   spec.add_dependency "ruby-jing"
   # relaton-cli not just relaton, to avoid circular reference in metanorma
   spec.add_dependency "asciimath2unitsml", "~> 0.4.0"

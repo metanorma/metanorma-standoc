@@ -170,7 +170,7 @@ module Metanorma
             seen_xref = Nokogiri::XML.fragment(matched[:xref])
             add_term_source(node, xml_t, seen_xref, matched)
           end
-        end.join("\n")
+        end.join("")
       end
 
       def termdefinition(node)
@@ -178,7 +178,7 @@ module Metanorma
           xml.definition **attr_code(type: node.attr("type")) do |d|
             d << node.content
           end
-        end.join("\n")
+        end.join("")
       end
     end
   end

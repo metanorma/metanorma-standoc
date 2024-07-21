@@ -26,7 +26,7 @@ module Metanorma
             node.title.nil? or ex.name { |name| name << node.title }
             wrap_in_para(node, ex)
           end
-        end.join("\n")
+        end.join("")
       end
 
       def figure_title(node, out)

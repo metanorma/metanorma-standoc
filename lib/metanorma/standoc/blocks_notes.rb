@@ -32,7 +32,7 @@ module Metanorma
           xml.review **sidebar_attrs(node) do |r|
             wrap_in_para(node, r)
           end
-        end.join("\n")
+        end.join("")
       end
 
       def todo_attrs(node)
@@ -41,7 +41,7 @@ module Metanorma
         attr_code(id_attr(node)
           .merge(reviewer: node.attr("reviewer") || node.attr("source") ||
                  "(Unknown)",
-                 date: date, type: "todo"))
+                 date:, type: "todo"))
       end
 
       def todo(node)
@@ -49,7 +49,7 @@ module Metanorma
           xml.review **todo_attrs(node) do |r|
             wrap_in_para(node, r)
           end
-        end.join("\n")
+        end.join("")
       end
 
       def termnote(node)
@@ -57,7 +57,7 @@ module Metanorma
           xml.termnote **termnote_attrs(node) do |ex|
             wrap_in_para(node, ex)
           end
-        end.join("\n")
+        end.join("")
       end
 
       def note(node)
@@ -67,7 +67,7 @@ module Metanorma
           xml.note **note_attrs(node) do |c|
             wrap_in_para(node, c)
           end
-        end.join("\n")
+        end.join("")
       end
 
       def boilerplate_note(node)
@@ -101,7 +101,7 @@ module Metanorma
             node.title.nil? or a.name { |name| name << node.title }
             wrap_in_para(node, a)
           end
-        end.join("\n")
+        end.join("")
       end
 
       def admonition_alternatives(node)

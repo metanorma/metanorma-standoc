@@ -43,21 +43,21 @@ module Metanorma
         if /&lt;([^:>&]+:)?math(\s+[^>&]+)?&gt; |
           <([^:>&]+:)?math(\s+[^>&]+)?>/x.match? text
           math = xml_encode(text)
-          xml.stem type: "MathML", block: block do |s|
+          xml.stem(type: "MathML", block:) do |s|
             s << math
           end
         elsif style == :latexmath then latex_parse(text, xml, block)
         else
-          xml.stem text&.gsub("&amp;#", "&#"), type: "AsciiMath", block: block
+          xml.stem text&.gsub("&amp;#", "&#"), type: "AsciiMath", block:
         end
       end
 
       def latex_parse(text, xml, block)
         latex = latex_parse1(text, block) or
-          return xml.stem type: "MathML", block: block
-        xml.stem type: "MathML", block: block do |s|
+          return xml.stem type: "MathML", block:
+        xml.stem(type: "MathML", block:) do |s|
           math = Nokogiri::XML.fragment(latex.sub(/<\?[^>]+>/, ""))
-            .elements[0]
+              .elements[0]
           math.delete("alttext")
           s.parent.children = math
           s << "<latexmath>#{text}</latexmath>"
