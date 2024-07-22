@@ -54,7 +54,7 @@ module Metanorma
 
       def latex_parse(text, xml, block)
         latex = latex_parse1(text, block) or
-          return xml.stem type: "MathML", block:
+          return xml.stem(type: "MathML", block:)
         xml.stem(type: "MathML", block:) do |s|
           math = Nokogiri::XML.fragment(latex.sub(/<\?[^>]+>/, ""))
               .elements[0]
