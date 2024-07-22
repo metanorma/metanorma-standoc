@@ -34,8 +34,8 @@ RSpec.describe Metanorma::Standoc::Datamodel::DiagramPreprocessor do
                                  backend: :standoc,
                                  safe: :safe,
                                  header_footer: true)
-        expect(xmlpp(strip_src(strip_guid(File.read(result_file)))))
-          .to(be_equivalent_to(xmlpp(output)))
+        expect(Xml::C14n.format(strip_src(strip_guid(File.read(result_file)))))
+          .to(be_equivalent_to(Xml::C14n.format(output)))
       end
     end
 
@@ -64,8 +64,8 @@ RSpec.describe Metanorma::Standoc::Datamodel::DiagramPreprocessor do
                                  backend: :standoc,
                                  safe: :safe,
                                  header_footer: true)
-        expect(xmlpp(strip_src(strip_guid(File.read(result_file)))))
-          .to(be_equivalent_to(xmlpp(output)))
+        expect(Xml::C14n.format(strip_src(strip_guid(File.read(result_file)))))
+          .to(be_equivalent_to(Xml::C14n.format(output)))
       end
     end
   end

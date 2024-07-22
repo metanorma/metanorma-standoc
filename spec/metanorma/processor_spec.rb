@@ -31,8 +31,8 @@ RSpec.describe Metanorma::Standoc::Processor do
       <sections/>
       </iso-standard>
     OUTPUT
-    expect(xmlpp(processor.input_to_isodoc(input, "test")))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(processor.input_to_isodoc(input, "test"))))
+      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
   end
 
   it "generates HTML from IsoDoc XML" do

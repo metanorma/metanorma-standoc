@@ -185,8 +185,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes the Metanorma::Standoc concept macros for acronyms" do
@@ -321,8 +321,8 @@ RSpec.describe Metanorma::Standoc do
                </sections>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes the concept and related macros with xrefs" do
@@ -382,8 +382,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
             </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes concept xrefs to terms with and without domains" do
@@ -454,8 +454,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes the concept and related macros with erefs" do
@@ -608,8 +608,8 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
        </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes the concept and related macros with termbase" do
@@ -656,8 +656,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes the concept macros with disambiguation for math symbols" do
@@ -710,13 +710,13 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   describe "term inline macros" do
     subject(:convert) do
-      xmlpp(
+      Xml::C14n.format(
         strip_guid(
           Asciidoctor.convert(
             input, *OPTIONS
@@ -784,7 +784,7 @@ RSpec.describe Metanorma::Standoc do
     end
 
     it "converts macro into the correct xml" do
-      expect(convert).to(be_equivalent_to(xmlpp(output)))
+      expect(convert).to(be_equivalent_to(Xml::C14n.format(output)))
     end
 
     context "default params" do
@@ -839,7 +839,7 @@ RSpec.describe Metanorma::Standoc do
       end
 
       it "uses `name` as termref name" do
-        expect(convert).to(be_equivalent_to(xmlpp(output)))
+        expect(convert).to(be_equivalent_to(Xml::C14n.format(output)))
       end
     end
 
@@ -900,7 +900,7 @@ RSpec.describe Metanorma::Standoc do
       end
 
       it "strips index terms in terms anchors" do
-        expect(convert).to(be_equivalent_to(xmlpp(output)))
+        expect(convert).to(be_equivalent_to(Xml::C14n.format(output)))
       end
     end
 
@@ -981,7 +981,7 @@ RSpec.describe Metanorma::Standoc do
       end
 
       it "generates unique ids which do not match existing ids" do
-        expect(convert).to(be_equivalent_to(xmlpp(output)))
+        expect(convert).to(be_equivalent_to(Xml::C14n.format(output)))
       end
     end
 
@@ -1102,7 +1102,7 @@ RSpec.describe Metanorma::Standoc do
       end
 
       it "generates unique ids which do not match existing ids" do
-        expect(convert).to(be_equivalent_to(xmlpp(output)))
+        expect(convert).to(be_equivalent_to(Xml::C14n.format(output)))
       end
     end
   end

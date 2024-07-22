@@ -28,8 +28,8 @@ RSpec.describe Metanorma::Standoc do
              </sections>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "applies smartquotes when requested" do
@@ -53,8 +53,8 @@ RSpec.describe Metanorma::Standoc do
              </sections>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "does not apply smartquotes when requested not to" do
@@ -83,8 +83,8 @@ RSpec.describe Metanorma::Standoc do
              </sections>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "does not apply smartquotes to sourcecode, tt, pre, pseudocode" do
@@ -129,8 +129,8 @@ RSpec.describe Metanorma::Standoc do
              </sections>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "handles < > &amp; in Asciidoctor correctly" do
@@ -149,8 +149,8 @@ RSpec.describe Metanorma::Standoc do
              </sections>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "ignores tags when applying smartquotes" do
@@ -189,8 +189,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "removes empty text elements" do
@@ -207,8 +207,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "counts footnotes with link-only content as separate footnotes" do
@@ -243,8 +243,8 @@ RSpec.describe Metanorma::Standoc do
       </p></sections>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "sorts symbols lists #1" do
@@ -316,8 +316,8 @@ RSpec.describe Metanorma::Standoc do
       </standard-document>
     OUTPUT
     doc = Asciidoctor.convert(input, *OPTIONS)
-    expect(xmlpp(strip_guid(doc)))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(doc)))
+      .to be_equivalent_to Xml::C14n.format(output)
     sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
     expect(sym).to be_equivalent_to <<~OUTPUT
           <dt id="symbol-m">m</dt><dt id="symbol-n">
@@ -411,8 +411,8 @@ RSpec.describe Metanorma::Standoc do
         </standard-document>
     OUTPUT
     doc = Asciidoctor.convert(input, *OPTIONS)
-    expect(xmlpp(strip_guid(doc)))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(doc)))
+      .to be_equivalent_to Xml::C14n.format(output)
     sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
     expect(sym).to be_equivalent_to <<~OUTPUT
           <dt id="symbol-x">x</dt><dt id="symbol-x_m">
@@ -526,9 +526,9 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
        </standard-document>
     OUTPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))
       .gsub(/<p id="_[^"]+">/, "").gsub("</p>", "")))
-      .to be_equivalent_to(xmlpp(output))
+      .to be_equivalent_to(strip_guid(Xml::C14n.format(output)))
     expect { Asciidoctor.convert(input, *OPTIONS) }
       .to output(%r{normalised identifier in <clause id="a_b" inline-header="false" obligation="normative"/> from a:b})
       .to_stderr
@@ -586,8 +586,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(xmlpp(strip_guid(xml.to_xml)))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "creates content-based GUIDs" do
@@ -642,9 +642,9 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </standard-document>
     OUTPUT
-    input1 = xmlpp(Asciidoctor.convert(input, *OPTIONS))
-    expect(xmlpp(input1))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))
+      .sub(/ schema-version="v[^"]+"/, ""))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "aliases anchors" do
@@ -696,8 +696,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "removes redundant bookmarks" do
@@ -714,8 +714,8 @@ RSpec.describe Metanorma::Standoc do
       </annex>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(xmlpp(strip_guid(ret.at("//xmlns:annex").to_xml)))
-      .to be_equivalent_to(xmlpp(output))
+    expect(Xml::C14n.format(strip_guid(ret.at("//xmlns:annex").to_xml)))
+      .to be_equivalent_to(Xml::C14n.format(output))
 
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -731,8 +731,8 @@ RSpec.describe Metanorma::Standoc do
       </annex>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(xmlpp(strip_guid(ret.at("//xmlns:annex").to_xml)))
-      .to be_equivalent_to(xmlpp(output))
+    expect(Xml::C14n.format(strip_guid(ret.at("//xmlns:annex").to_xml)))
+      .to be_equivalent_to(Xml::C14n.format(output))
   end
 
   it "cleans up links" do
@@ -755,8 +755,8 @@ RSpec.describe Metanorma::Standoc do
       </clause>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(xmlpp(strip_guid(ret.at("//xmlns:clause").to_xml)))
-      .to be_equivalent_to(xmlpp(output))
+    expect(Xml::C14n.format(strip_guid(ret.at("//xmlns:clause").to_xml)))
+      .to be_equivalent_to(Xml::C14n.format(output))
   end
 
   it "do not apply substitutions to links" do
@@ -881,8 +881,8 @@ RSpec.describe Metanorma::Standoc do
        </clause>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(xmlpp(strip_guid(ret.at("//xmlns:clause").to_xml)))
-      .to be_equivalent_to(xmlpp(output))
+    expect(Xml::C14n.format(strip_guid(ret.at("//xmlns:clause").to_xml)))
+      .to be_equivalent_to(Xml::C14n.format(output))
   end
 
   it "do not apply substitutions to links in included docs" do
@@ -904,8 +904,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     a = [OPTIONS[0].merge(safe: :unsafe)]
     ret = Nokogiri::XML(Asciidoctor.convert(input, *a))
-    expect(xmlpp(strip_guid(ret.at("//xmlns:clause").to_xml)))
-      .to be_equivalent_to(xmlpp(output))
+    expect(Xml::C14n.format(strip_guid(ret.at("//xmlns:clause").to_xml)))
+      .to be_equivalent_to(Xml::C14n.format(output))
   end
 
   it "reads contributors from YAML" do
@@ -990,8 +990,8 @@ RSpec.describe Metanorma::Standoc do
        </bibdata>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(xmlpp(strip_guid(ret.at("//xmlns:bibdata").to_xml)))
-      .to be_equivalent_to(xmlpp(output))
+    expect(Xml::C14n.format(strip_guid(ret.at("//xmlns:bibdata").to_xml)))
+      .to be_equivalent_to(Xml::C14n.format(output))
   end
 
   it "reads contributors from YAML" do
@@ -1266,8 +1266,8 @@ RSpec.describe Metanorma::Standoc do
        </bibdata>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(xmlpp(strip_guid(ret.at("//xmlns:bibdata").to_xml)))
-      .to be_equivalent_to(xmlpp(output))
+    expect(Xml::C14n.format(strip_guid(ret.at("//xmlns:bibdata").to_xml)))
+      .to be_equivalent_to(Xml::C14n.format(output))
   end
 
   it "reads document history from YAML" do
@@ -1813,7 +1813,7 @@ RSpec.describe Metanorma::Standoc do
        </bibdata>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(xmlpp(strip_guid(ret.at("//xmlns:bibdata").to_xml)))
-      .to be_equivalent_to(xmlpp(output))
+    expect(Xml::C14n.format(strip_guid(ret.at("//xmlns:bibdata").to_xml)))
+      .to be_equivalent_to(Xml::C14n.format(output))
   end
 end

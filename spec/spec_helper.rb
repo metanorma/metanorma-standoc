@@ -21,6 +21,7 @@ require "metanorma-standoc"
 require "rspec/matchers"
 require "equivalent-xml"
 require "metanorma/standoc"
+require "xml-c14n"
 
 Dir[File.expand_path("./support/**/**/*.rb", __dir__)]
   .sort.each { |f| require f }
@@ -48,6 +49,8 @@ OPTIONS = [backend: :standoc, header_footer: true, agree_to_terms: true].freeze
 def strip_guid(xml)
   xml.gsub(%r{ id="_[^"]+"}, ' id="_"')
     .gsub(%r{ target="_[^"]+"}, ' target="_"')
+    .gsub(%r{<fetched>[^<]+</fetched>}, "<fetched/>")
+    .gsub(%r{ schema-version="[^"]+"}, "")
 end
 
 def strip_src(xml)
@@ -63,20 +66,6 @@ XSL = Nokogiri::XSLT(<<~XSL.freeze)
     </xsl:template>
   </xsl:stylesheet>
 XSL
-
-def xmlpp(xml)
-  c = HTMLEntities.new
-  xml &&= xml.split(/(&\S+?;)/).map do |n|
-    if /^&\S+?;$/.match?(n)
-      c.encode(c.decode(n), :hexadecimal)
-    else n
-    end
-  end.join
-  XSL.transform(Nokogiri::XML(xml, &:noblanks))
-    .to_xml(indent: 2, encoding: "UTF-8")
-    .gsub(%r{<fetched>[^<]+</fetched>}, "<fetched/>")
-    .gsub(%r{ schema-version="[^"]+"}, "")
-end
 
 ASCIIDOC_BLANK_HDR = <<~HDR.freeze
   = Document title

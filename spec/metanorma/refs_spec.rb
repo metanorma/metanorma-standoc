@@ -72,8 +72,8 @@ RSpec.describe Metanorma::Standoc do
             </bibliography>
             </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes simple ISO reference with date range" do
@@ -126,8 +126,8 @@ RSpec.describe Metanorma::Standoc do
           </bibliography>
           </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "repairs simple fetched ISO reference" do
@@ -147,8 +147,8 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso124,(1)ISO 123]]] _Standard_
       * [[[iso125,(2)ISO 123]]] _Standard_.footnote:[footnote]
     INPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(<<~"OUTPUT")
                #{BLANK_HDR}
                <preface>
           <foreword id='_' obligation='informative'>
@@ -376,8 +376,8 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes draft ISO reference" do
@@ -462,8 +462,8 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes all-parts ISO reference" do
@@ -520,8 +520,8 @@ RSpec.describe Metanorma::Standoc do
             </bibliography>
             </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes non-ISO reference in Normative References" do
@@ -561,8 +561,8 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes non-ISO reference in Bibliography" do
@@ -615,8 +615,8 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "process ISO reference without an Internet connection" do
@@ -678,8 +678,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(xmlpp(strip_guid(xml.to_xml)))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes repository reference" do
@@ -785,8 +785,8 @@ RSpec.describe Metanorma::Standoc do
                </bibliography>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes hyperlink reference, ingest RXL or XML if available" do
@@ -978,8 +978,8 @@ RSpec.describe Metanorma::Standoc do
         </bibliography>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "overrides normative status of bibliographies" do
@@ -1022,8 +1022,8 @@ RSpec.describe Metanorma::Standoc do
         </bibliography>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "have formatted reference tag" do
@@ -1088,8 +1088,8 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
        </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "mixes bibitems and bibliographic subclauses" do
@@ -1140,8 +1140,8 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
        </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "renders not found reference with no fall-back title" do
@@ -1154,8 +1154,8 @@ RSpec.describe Metanorma::Standoc do
 
       * [[[iso123,NIST 123]]]
     INPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(<<~"OUTPUT")
         #{BLANK_HDR}
            <sections/>
            <bibliography>
@@ -1252,15 +1252,15 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
 
     # Windows/Unix differences in XML encoding: remove body of Data URI
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS)
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
     input.sub!(":docfile:", ":data-uri-attachment: false\n:docfile:")
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS)
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
-      .to be_equivalent_to xmlpp(output
+      .to be_equivalent_to Xml::C14n.format(output
       .gsub(%r{<attachment .+?</attachment>}, ""))
   end
 

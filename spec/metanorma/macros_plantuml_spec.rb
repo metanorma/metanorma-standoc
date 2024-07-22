@@ -50,9 +50,9 @@ RSpec.describe Metanorma::Standoc do
               </sections>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))
       .gsub(%r{plantuml/plantuml[^./]+\.}, "plantuml/_.")))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes the PlantUML macro with imagesdir" do
@@ -86,9 +86,9 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))
       .gsub(%r{spec/assets/[^./]+\.}, "spec/assets/_.")))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   context "when lutaml_diagram" do
@@ -127,12 +127,12 @@ RSpec.describe Metanorma::Standoc do
 
     it "processes the lutaml_diagram" do
       expect(
-        xmlpp(
+        Xml::C14n.format(
           strip_guid(Asciidoctor.convert(input, *OPTIONS))
                       .gsub(%r{spec/assets/lutaml/[^./]+\.png},
                             "spec/assets/_.png"),
         ),
-      ).to(be_equivalent_to(xmlpp(output)))
+      ).to(be_equivalent_to(Xml::C14n.format(output)))
     end
   end
 
@@ -167,12 +167,12 @@ RSpec.describe Metanorma::Standoc do
 
     it "correctly renders input" do
       expect(
-        xmlpp(
+        Xml::C14n.format(
           strip_guid(Asciidoctor.convert(input, *OPTIONS))
           .gsub(%r{spec/assets/lutaml/[^./]+\.png},
                             "spec/assets/_.png"),
         ),
-      ).to(be_equivalent_to(xmlpp(output)))
+      ).to(be_equivalent_to(Xml::C14n.format(output)))
     end
   end
 
@@ -237,11 +237,11 @@ RSpec.describe Metanorma::Standoc do
 
     it "processes the lutaml_uml_attributes_table macro" do
       expect(
-        xmlpp(
+        Xml::C14n.format(
           strip_guid(Asciidoctor.convert(input, *OPTIONS)),
         ),
       )
-        .to(be_equivalent_to(xmlpp(output)))
+        .to(be_equivalent_to(Xml::C14n.format(output)))
     end
   end
 
@@ -292,8 +292,8 @@ RSpec.describe Metanorma::Standoc do
               </sections>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes the PlantUML macro with localdir unwritable" do
@@ -343,8 +343,8 @@ RSpec.describe Metanorma::Standoc do
               </sections>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes the PlantUML macro with mismatched delimiters" do
@@ -375,8 +375,8 @@ RSpec.describe Metanorma::Standoc do
               </sections>
              </standard-document>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   private

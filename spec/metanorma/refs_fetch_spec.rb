@@ -220,8 +220,8 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
-      expect(xmlpp(strip_guid(xml.to_xml)))
-        .to be_equivalent_to xmlpp(output)
+      expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+        .to be_equivalent_to Xml::C14n.format(output)
     end
   end
 
@@ -450,8 +450,8 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
-      expect(xmlpp(strip_guid(xml.to_xml)))
-        .to be_equivalent_to xmlpp(output)
+      expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+        .to be_equivalent_to Xml::C14n.format(output)
     end
   end
 
@@ -673,8 +673,8 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
-      expect(xmlpp(strip_guid(xml.to_xml)))
-        .to be_equivalent_to xmlpp(output)
+      expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+        .to be_equivalent_to Xml::C14n.format(output)
     end
   end
 
@@ -781,8 +781,8 @@ RSpec.describe Metanorma::Standoc do
           </bibliography>
           </standard-document>
       OUTPUT
-      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-        .to be_equivalent_to xmlpp(output)
+      expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+        .to be_equivalent_to Xml::C14n.format(output)
     end
   end
 
@@ -963,8 +963,8 @@ RSpec.describe Metanorma::Standoc do
           </bibliography>
         </standard-document>
       OUTPUT
-      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-        .to be_equivalent_to xmlpp(output)
+      expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+        .to be_equivalent_to Xml::C14n.format(output)
     end
   end
 
@@ -1029,8 +1029,8 @@ RSpec.describe Metanorma::Standoc do
           </bibliography>
         </standard-document>
       OUTPUT
-      expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-        .to be_equivalent_to xmlpp(output)
+      expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+        .to be_equivalent_to Xml::C14n.format(output)
     end
   end
 
@@ -1119,8 +1119,8 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
-      expect(xmlpp(strip_guid(xml.to_xml)))
-        .to be_equivalent_to xmlpp(output)
+      expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+        .to be_equivalent_to Xml::C14n.format(output)
     end
   end
 
@@ -1340,8 +1340,8 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
-      expect(xmlpp(strip_guid(xml.to_xml)))
-        .to be_equivalent_to xmlpp(output)
+      expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+        .to be_equivalent_to Xml::C14n.format(output)
     end
   end
 
@@ -1468,8 +1468,8 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
-      expect(xmlpp(strip_guid(xml.to_xml)))
-        .to be_equivalent_to xmlpp(output)
+      expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+        .to be_equivalent_to Xml::C14n.format(output)
     end
   end
 
@@ -1644,8 +1644,8 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
-      expect(xmlpp(strip_guid(xml.to_xml)))
-        .to be_equivalent_to xmlpp(output)
+      expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+        .to be_equivalent_to Xml::C14n.format(output)
     end
   end
 
@@ -1690,7 +1690,7 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       a = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       a.at("//xmlns:bibliography").remove
-      expect(strip_guid(xmlpp(a.to_xml))).to be_equivalent_to xmlpp(output)
+      expect(strip_guid(Xml::C14n.format(a.to_xml))).to be_equivalent_to Xml::C14n.format(output)
     end
   end
 end
