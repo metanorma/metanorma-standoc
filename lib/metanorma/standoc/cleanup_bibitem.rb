@@ -147,6 +147,7 @@ module Metanorma
 
       def save_attachment(path, bib)
         init_attachments
+        path = File.join(@localdir, path)
         valid_attachment?(path, bib) or return ""
         f = File.basename(path)
         File.exist?(File.join(@attachmentsdir, f)) and

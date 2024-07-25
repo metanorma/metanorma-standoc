@@ -1175,6 +1175,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "processes attachments" do
     input = File.read("spec/assets/attach.adoc")
+      .gsub("iso.xml", "spec/assets/iso.xml")
     output = <<~OUTPUT
       <standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
          <bibdata type="standard">
@@ -1257,7 +1258,8 @@ RSpec.describe Metanorma::Standoc do
     expect(Xml::C14n.format(strip_guid(File.read("spec/assets/attach.xml")
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .to be_equivalent_to Xml::C14n.format(output
+      .gsub("spec/assets/iso.xml", "iso.xml"))
   end
 
   private

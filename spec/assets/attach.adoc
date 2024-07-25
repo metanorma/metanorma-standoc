@@ -11,6 +11,6 @@ Author
 [bibliography]
 == Normative References
 
-* [[[iso123,attachment:(spec/assets/iso.xml)]]]
-* [[[iso124,attachment:(spec/assets/iso.xml)]]]
+* [[[iso123,attachment:(iso.xml)]]]
+* [[[iso124,attachment:(iso.xml)]]]
 
