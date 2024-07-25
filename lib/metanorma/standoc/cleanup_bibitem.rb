@@ -160,10 +160,11 @@ module Metanorma
 
       def datauri_attachment(path, doc)
         @datauriattachment or return
-        n = add_misc_container(doc)
+        m = add_misc_container(doc)
         f = File.basename(path)
         d = Vectory::Utils::datauri(path, @localdir)
-        n << "<attachment name='#{f}'>#{d}</attachment>"
+        m << "<attachment name='#{f}'/>"
+        m.last_element_child << d
       end
 
       def valid_attachment?(path, bib)
