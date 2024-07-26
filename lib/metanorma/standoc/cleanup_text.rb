@@ -35,7 +35,7 @@ module Metanorma
 
       IGNORE_QUOTES_ELEMENTS =
         %w(pre tt sourcecode stem asciimath figure bibdata passthrough
-           identifier presentation-metadata semantic-metadata).freeze
+           identifier metanorma-extension).freeze
 
       def uninterrupt_quotes_around_xml_skip(elem)
         !(/\A['"]/.match?(elem.text) &&

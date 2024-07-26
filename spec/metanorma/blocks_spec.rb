@@ -1431,6 +1431,10 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
       .to include '<image src="data:image/png;base64'
+
+    FileUtils.rm_rf "spec/examples/test.xml"
+    system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/examples/test.adoc"
+    expect(File.read("spec/examples/test.xml")).to include '<image src="data:image/png;base64'
   end
 
   it "accepts attributes on paragraphs" do

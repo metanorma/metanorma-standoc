@@ -1,0 +1,16 @@
+= Document title
+Author
+:docfile: attach.adoc
+:nodoc:
+:novalid:
+:no-isobib-cache:
+
+== Clause
+<<iso123>>
+
+[bibliography]
+== Normative References
+
+* [[[iso123,attachment:(iso.xml)]]]
+* [[[iso124,attachment:(iso.xml)]]]
+

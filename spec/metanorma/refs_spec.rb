@@ -1174,18 +1174,8 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes attachments" do
-    input = <<~"INPUT"
-      #{ISOBIB_BLANK_HDR}
-
-      == Clause
-      <<iso123>>
-
-      [bibliography]
-      == Normative References
-
-      * [[[iso123,attachment:(spec/assets/iso.xml)]]]
-      * [[[iso124,attachment:(spec/assets/iso.xml)]]]
-    INPUT
+    input = File.read("spec/assets/attach.adoc")
+      .gsub("iso.xml", "spec/assets/iso.xml")
     output = <<~OUTPUT
       <standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
          <bibdata type="standard">
@@ -1236,14 +1226,14 @@ RSpec.describe Metanorma::Standoc do
              <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
              <bibitem id="iso123" hidden="true">
                <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
-               <uri type="attachment">./_test_attachments/iso.xml</uri>
-               <uri type="citation">./_test_attachments/iso.xml</uri>
+               <uri type="attachment">_attach_attachments/iso.xml</uri>
+               <uri type="citation">_attach_attachments/iso.xml</uri>
                <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
              </bibitem>
              <bibitem id="iso124" hidden="true">
                <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
-               <uri type="attachment">./_test_attachments/iso.xml_</uri>
-               <uri type="citation">./_test_attachments/iso.xml_</uri>
+               <uri type="attachment">_attach_attachments/iso.xml_</uri>
+               <uri type="citation">_attach_attachments/iso.xml_</uri>
                <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
              </bibitem>
            </references>
@@ -1262,6 +1252,14 @@ RSpec.describe Metanorma::Standoc do
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
       .to be_equivalent_to Xml::C14n.format(output
       .gsub(%r{<attachment .+?</attachment>}, ""))
+
+    FileUtils.rm_rf "spec/assets/attach.xml"
+    system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/assets/attach.adoc"
+    expect(Xml::C14n.format(strip_guid(File.read("spec/assets/attach.xml")
+      .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
+      .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
+      .to be_equivalent_to Xml::C14n.format(output
+      .gsub("spec/assets/iso.xml", "iso.xml"))
   end
 
   private

@@ -119,7 +119,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include %(Attachment ./hien/​spec_helper.​rb does not exist)
+      .to include %(Attachment hien/​spec_helper.​rb does not exist)
   end
 
   it "aborts on an index cross-reference with too few terms" do

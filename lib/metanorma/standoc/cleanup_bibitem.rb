@@ -147,34 +147,38 @@ module Metanorma
 
       def save_attachment(path, bib)
         init_attachments
+        path = File.join(@localdir, path)
         valid_attachment?(path, bib) or return ""
         f = File.basename(path)
         File.exist?(File.join(@attachmentsdir, f)) and
           f += "_#{UUIDTools::UUID.random_create}"
-        ret = File.join(@attachmentsdir, f)
-        FileUtils.cp(path, ret)
-        datauri_attachment(ret, bib.document)
-        ret
+        out_fld = File.join(@attachmentsdir, f)
+        FileUtils.cp(path, out_fld)
+        datauri_attachment(out_fld, bib.document)
+        File.join(@attachmentsfld, f)
       end
 
       def datauri_attachment(path, doc)
         @datauriattachment or return
-        n = add_misc_container(doc)
+        m = add_misc_container(doc)
         f = File.basename(path)
-        d = Vectory::Utils.datauri(path)
-        n << "<attachment name='#{f}'>#{d}</attachment>"
+        d = Vectory::Utils::datauri(path, @localdir)
+        m << "<attachment name='#{f}'/>"
+        m.last_element_child << d
       end
 
       def valid_attachment?(path, bib)
         File.exist?(path) and return true
-        @log.add("Bibliography", bib, "Attachment #{path} does not exist",
+        p = Pathname.new(path).cleanpath
+        @log.add("Bibliography", bib, "Attachment #{p} does not exist",
                  severity: 0)
         false
       end
 
       def init_attachments
         @attachmentsdir and return
-        @attachmentsdir = File.join(@output_dir, "_#{@filename}_attachments")
+        @attachmentsfld = "_#{@filename}_attachments"
+        @attachmentsdir = File.join(@output_dir, @attachmentsfld)
         FileUtils.rm_rf(@attachmentsdir)
         FileUtils.mkdir_p(@attachmentsdir)
       end
