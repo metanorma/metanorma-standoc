@@ -161,10 +161,8 @@ module Metanorma
       def datauri_attachment(path, doc)
         @datauriattachment or return
         m = add_misc_container(doc)
-        d = Vectory::Utils::datauri(path, @localdir)
+        d = Vectory::Utils::datauri(path, @localdir).scan(/.{1,60}/).join("\n")
         f = File.join(@attachmentsdir, File.basename(path))
-        # f = Pathname.new(File.join(@attachmentsdir, File.basename(path)))
-        # .cleanpath
         f = Pathname.new(File.expand_path(f))
           .relative_path_from(Pathname.new(File.expand_path(@localdir)))
         m << "<attachment name='#{f}'/>"
