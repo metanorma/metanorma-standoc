@@ -36,7 +36,7 @@ module Metanorma
 
       def extract_notes_from_biblio(refs)
         refs.xpath("./bibitem").each do |r|
-          r.xpath("./note[@appended]").reverse.each do |n|
+          r.xpath("./note[@appended]").reverse_each do |n|
             n.delete("appended")
             r.next = n
           end
@@ -161,12 +161,12 @@ module Metanorma
       def datauri_attachment(path, doc)
         @datauriattachment or return
         m = add_misc_container(doc)
-        d = Vectory::Utils::datauri(path, @localdir).scan(/.{1,60}/).join("\n")
         f = File.join(@attachmentsdir, File.basename(path))
         f = Pathname.new(File.expand_path(f))
           .relative_path_from(Pathname.new(File.expand_path(@localdir)))
-        m << "<attachment name='#{f}'/>"
-        m.last_element_child << d
+        e = (m << "<attachment name='#{f}'/>").last_element_child
+        Vectory::Utils::datauri(path, @localdir).scan(/.{1,60}/)
+          .each { |dd| e << dd }
       end
 
       def valid_attachment?(path, bib)
