@@ -29,6 +29,7 @@ module Metanorma
         inline_macro Metanorma::Plugin::Lutaml::LutamlFigureInlineMacro
         inline_macro Metanorma::Plugin::Lutaml::LutamlTableInlineMacro
         block_macro Metanorma::Plugin::Lutaml::LutamlDiagramBlockMacro
+        block_macro Metanorma::Plugin::Lutaml::LutamlEaDiagramBlockMacro
         block Metanorma::Plugin::Lutaml::LutamlDiagramBlock
         preprocessor Metanorma::Standoc::EmbedIncludeProcessor
         preprocessor Metanorma::Standoc::LinkProtectPreprocessor
