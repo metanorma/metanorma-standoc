@@ -1193,8 +1193,8 @@ RSpec.describe Metanorma::Standoc do
            </ext>
          </bibdata>
          <metanorma-extension>
-           <attachment name="iso.xml">data:application/octet-stream;base64,ICAgIC...</attachment>
-           <attachment name="iso.xml_">data:application/octet-stream;base64,ICAgIC...</attachment>
+           <attachment name="_attach_attachments/iso.xml">data:application/octet-stream;base64,ICAgIC...</attachment>
+           <attachment name="_attach_attachments/iso.xml_">data:application/octet-stream;base64,ICAgIC...</attachment>
            <presentation-metadata>
              <name>TOC Heading Levels</name>
              <value>2</value>
