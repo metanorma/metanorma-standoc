@@ -36,7 +36,7 @@ module Metanorma
 
       def extract_notes_from_biblio(refs)
         refs.xpath("./bibitem").each do |r|
-          r.xpath("./note[@appended]").reverse.each do |n|
+          r.xpath("./note[@appended]").reverse_each do |n|
             n.delete("appended")
             r.next = n
           end

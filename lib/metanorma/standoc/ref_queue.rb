@@ -40,7 +40,7 @@ module Metanorma
       def reference_queue(results, size)
         (1..size).each.with_object([]) do |_, m|
           ref, i, doc = results.pop
-          m[i.to_i] = { ref: ref }
+          m[i.to_i] = { ref: }
           if doc.is_a?(RelatonBib::RequestError)
             @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: " \
                                           "no access to online site", severity: 1)
@@ -69,7 +69,7 @@ module Metanorma
 
       def merge_publishers(base, add)
         ins = base.at("//contributor[last()]") || base.children[-1]
-        add.xpath("//contributor[role/@type = 'publisher']").reverse.each do |p|
+        add.xpath("//contributor[role/@type = 'publisher']").reverse_each do |p|
           ins.next = p
         end
       end
@@ -80,14 +80,14 @@ module Metanorma
           v.at("//docidentifier[@primary = 'true']") or
             v.at("//docidentifier")["primary"] = true
         end
-        add.xpath("//docidentifier").reverse.each do |p|
+        add.xpath("//docidentifier").reverse_each do |p|
           ins.next = p
         end
       end
 
       def merge_urls(base, add)
         ins = base.at("./uri[last()]") || base.at("./title[last()]")
-        add.xpath("./uri").reverse.each do |p|
+        add.xpath("./uri").reverse_each do |p|
           ins.next = p
         end
       end
