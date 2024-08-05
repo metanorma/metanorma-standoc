@@ -82,6 +82,7 @@ module Metanorma
         boilerplate_cleanup(xmldoc)
         toc_cleanup(xmldoc)
         smartquotes_cleanup(xmldoc)
+        linebreak_cleanup(xmldoc)
         variant_cleanup(xmldoc)
         para_cleanup(xmldoc)
         empty_element_cleanup(xmldoc)
