@@ -924,47 +924,6 @@ RSpec.describe Metanorma::Standoc do
                   </person>
                 </contributor>
                 <relation type="includedIn">
-               <bibitem>
-                  <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
-                  <contributor>
-                     <role type="editor"/>
-                     <person>
-                        <name>
-                           <forename language="en" script="Latn">Aneta</forename>
-                           <surname language="en" script="Latn">Pavlenko</surname>
-                        </name>
-                     </person>
-                  </contributor>
-                  <contributor>
-                     <role type="editor"/>
-                     <person>
-                        <name>
-                           <forename language="en" script="Latn">Adrian</forename>
-                           <surname language="en" script="Latn">Blackledge</surname>
-                        </name>
-                     </person>
-                  </contributor>
-                  <contributor>
-                     <role type="editor"/>
-                     <person>
-                        <name>
-                           <forename language="en" script="Latn">Ingrid</forename>
-                           <surname language="en" script="Latn">Piller</surname>
-                        </name>
-                     </person>
-                  </contributor>
-                  <contributor>
-                     <role type="editor"/>
-                     <person>
-                        <name>
-                           <forename language="en" script="Latn">Marya</forename>
-                           <surname language="en" script="Latn">Teutsch-Dwyer</surname>
-                        </name>
-                     </person>
-                  </contributor>
-               </bibitem>
-            </relation>
-                <relation type="includedIn">
                   <bibitem type="misc">
                     <title format="text/plain">Nested Title</title>
                     <contributor>

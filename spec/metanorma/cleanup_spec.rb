@@ -615,32 +615,32 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
         #{BLANK_HDR}
-        <preface>
-          <note id='_2cfe95f6-7ad6-aa57-8207-6f7d7928aa8e'>
-            <p id='_76d95913-a379-c60f-5144-1f09655cafa6'>
-              Note which is very important
-              <xref target='a'/>
-            </p>
-          </note>
-          <foreword id='_96b556cb-657c-985b-351b-ed70d8bd6fdd' obligation='informative'>
-            <title>Foreword</title>
-            <p id='_d2f825bf-3e18-6143-8777-34e59928d48c'>Foreword</p>
-          </foreword>
-          <introduction id='_introduction' obligation='informative'>
-            <title>Introduction</title>
-            <p id='_272021ab-1bfa-78ae-e860-ed770e36f3d2'>Introduction</p>
-          </introduction>
-        </preface>
-        <sections>
-          <admonition id='_6abb9105-854c-e79c-c351-73a56d6ca81f' type='important'>
-            <p id='_69ec375e-c992-5be3-76dd-a2311f9bb6cc'>Notice which is very important</p>
-          </admonition>
-          <clause id='_scope' type='scope' inline-header='false' obligation='normative'>
-            <title>Scope</title>
-            <p id='_fdcef9f1-c898-da99-eff6-f3e6abde7799'>Scope statement</p>
-          </clause>
-        </sections>
-      </standard-document>
+                  <preface>
+             <note id="_bb3ed901-4b80-a321-5646-b70dd8a071ee">
+                <p id="_76d95913-a379-c60f-5144-1f09655cafa6">
+                   Note which is very important
+                   <xref target="a"/>
+                </p>
+             </note>
+             <foreword id="_96b556cb-657c-985b-351b-ed70d8bd6fdd" obligation="informative">
+                <title>Foreword</title>
+                <p id="_d2f825bf-3e18-6143-8777-34e59928d48c">Foreword</p>
+             </foreword>
+             <introduction id="_introduction" obligation="informative">
+                <title>Introduction</title>
+                <p id="_272021ab-1bfa-78ae-e860-ed770e36f3d2">Introduction</p>
+             </introduction>
+          </preface>
+          <sections>
+             <admonition id="_638b98b1-4d1e-7006-1b7f-b7e6fcbe1670" type="important">
+                <p id="_69ec375e-c992-5be3-76dd-a2311f9bb6cc">Notice which is very important</p>
+             </admonition>
+             <clause id="_scope" type="scope" inline-header="false" obligation="normative">
+                <title>Scope</title>
+                <p id="_fdcef9f1-c898-da99-eff6-f3e6abde7799">Scope statement</p>
+             </clause>
+          </sections>
+       </standard-document>
     OUTPUT
     expect(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))
       .sub(/ schema-version="v[^"]+"/, ""))
