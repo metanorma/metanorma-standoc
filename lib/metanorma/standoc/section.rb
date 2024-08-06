@@ -141,7 +141,7 @@ module Metanorma
               clause_parse(a, xml, node)
             end
           end
-        end.join("\n")
+        end
       end
 
       def set_obligation(attrs, node)
@@ -162,7 +162,7 @@ module Metanorma
             end
             xml_abstract << node.content
           end
-        end.join("\n")
+        end
       end
 
       def misccontainer_parse(_attrs, xml, node)
@@ -243,7 +243,7 @@ module Metanorma
           xml.floating_title **floating_title_attrs(node) do |xml_t|
             xml_t << node.title
           end
-        end.join("\n")
+        end
       end
     end
   end

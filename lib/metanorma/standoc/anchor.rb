@@ -15,7 +15,7 @@ module Metanorma
       def inline_anchor_ref(node)
         noko do |xml|
           xml.bookmark nil, **attr_code(id: node.id)
-        end.join
+        end
       end
 
       def inline_anchor_xref(node)
@@ -26,7 +26,7 @@ module Metanorma
           xml.xref **attr_code(attrs) do |x|
             x << c
           end
-        end.join
+        end
       end
 
       def inline_anchor_xref_attrs(node)
@@ -83,7 +83,7 @@ module Metanorma
           xml.link **attr_code(attributes) do |l|
             l << contents
           end
-        end.join
+        end
       end
 
       def inline_anchor_link_attrs(node)
@@ -103,7 +103,7 @@ module Metanorma
           xml.ref **attr_code(id: node.target || node.id) do |r|
             r << eref_contents
           end
-        end.join
+        end
       end
 
       def inline_anchor_bibref_contents(node)
@@ -114,7 +114,7 @@ module Metanorma
       def inline_callout(node)
         noko do |xml|
           xml.callout node.text
-        end.join
+        end
       end
 
       def inline_footnote(node)
@@ -124,7 +124,7 @@ module Metanorma
           xml.fn reference: @fn_number do |fn|
             fn.p { |p| p << node.text }
           end
-        end.join
+        end
       end
     end
   end

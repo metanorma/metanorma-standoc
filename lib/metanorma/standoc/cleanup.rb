@@ -82,6 +82,7 @@ module Metanorma
         boilerplate_cleanup(xmldoc)
         toc_cleanup(xmldoc)
         smartquotes_cleanup(xmldoc)
+        linebreak_cleanup(xmldoc)
         variant_cleanup(xmldoc)
         para_cleanup(xmldoc)
         empty_element_cleanup(xmldoc)
@@ -137,7 +138,7 @@ module Metanorma
       end
 
       def element_name_cleanup(xmldoc)
-        xmldoc.traverse { |n| n.name = n.name.gsub("_", "-") }
+        xmldoc.traverse { |n| n.name = n.name.tr("_", "-") }
       end
 
       # allows us to deal with doc relation localities,

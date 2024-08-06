@@ -41,7 +41,7 @@ module Metanorma
             list_caption(node, xml_ul)
             node.items.each { |item| ul_li(xml_ul, item) }
           end
-        end.join("")
+        end
       end
 
       def olist_style(style)
@@ -67,7 +67,7 @@ module Metanorma
             list_caption(node, xml_ol)
             node.items.each { |item| li(xml_ol, item) }
           end
-        end.join("")
+        end
       end
 
       def dt(terms, xml_dl)
@@ -107,7 +107,7 @@ module Metanorma
               dd(dd, xml_dl)
             end
           end
-        end.join("")
+        end
       end
 
       def colist(node)
@@ -117,7 +117,7 @@ module Metanorma
               xml_li.p { |p| p << item.text }
             end
           end
-        end.join("")
+        end
       end
 
       def list_caption(node, out)

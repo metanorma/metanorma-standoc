@@ -46,7 +46,7 @@ module Metanorma
         %w(absent geographic-area).each do |a|
           dl_to_attrs(prev, dlist, a)
         end
-        %w(field-of-application usage-info).reverse.each do |a|
+        %w(field-of-application usage-info).reverse_each do |a|
           dl_to_elems(prev.at("./expression"), prev, dlist, a)
         end
       end
@@ -78,7 +78,7 @@ module Metanorma
       end
 
       def term_dl_to_expression_name_metadata(prev, dlist)
-        %w(abbreviation-type pronunciation).reverse.each do |a|
+        %w(abbreviation-type pronunciation).reverse_each do |a|
           dl_to_elems(prev.at("./expression/name"), prev, dlist, a)
         end
         g = dlist.at("./dt[text()='grammar']/following::dd//dl") and
@@ -89,7 +89,7 @@ module Metanorma
         prev.at(".//expression") or return
         prev.at(".//expression") << "<grammar><sentinel/></grammar>"
         %w(gender number isPreposition isParticiple isAdjective isAdverb isNoun
-           grammar-value).reverse.each do |a|
+           grammar-value).reverse_each do |a|
           dl_to_elems(prev.at(".//expression/grammar/*"), prev.elements.last,
                       dlist, a)
         end
