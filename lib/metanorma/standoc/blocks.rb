@@ -90,7 +90,7 @@ module Metanorma
             )) do |ex|
             wrap_in_para(node, ex)
           end
-        end.join("")
+        end
       end
 
       def example(node)
@@ -128,7 +128,7 @@ module Metanorma
             figure_title(node, ex)
             wrap_in_para(node, ex)
           end
-        end.join("")
+        end
       end
 
       def example_attrs(node)
@@ -141,7 +141,7 @@ module Metanorma
             node.title.nil? or ex.name { |name| name << node.title }
             wrap_in_para(node, ex)
           end
-        end.join("")
+        end
       end
 
       def para_attrs(node)
@@ -158,7 +158,7 @@ module Metanorma
           xml.p **para_attrs(node) do |xml_t|
             xml_t << node.content
           end
-        end.join("")
+        end
       end
 
       def quote_attrs(node)
@@ -183,7 +183,7 @@ module Metanorma
             quote_attribution(node, q)
             wrap_in_para(node, q)
           end
-        end.join("")
+        end
       end
 
       def listing_attrs(node)

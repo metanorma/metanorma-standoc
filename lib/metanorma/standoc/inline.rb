@@ -11,19 +11,19 @@ module Metanorma
         noko do |xml|
           xml << node.text
           xml.br
-        end.join
+        end
       end
 
       def page_break(node)
         attrs = {}
         node.option?("landscape") and attrs[:orientation] = "landscape"
         node.option?("portrait") and attrs[:orientation] = "portrait"
-        noko { |xml| xml.pagebreak **attr_code(attrs) }.join
+        noko { |xml| xml.pagebreak **attr_code(attrs) }
       end
 
       def thematic_break(_node)
         # noko(&:hr).join # Do not do this, noko blows up
-        noko { |xml| xml.hr }.join # rubocop:disable Style/SymbolProc
+        noko { |xml| xml.hr } # rubocop:disable Style/SymbolProc
       end
 
       def latex_parse1(text, block)
@@ -102,7 +102,7 @@ module Metanorma
               xml << node.text
             end
           end
-        end.join
+        end
       end
 
       def hash2styles(role)
@@ -146,7 +146,7 @@ module Metanorma
       def inline_image(node)
         noko do |xml|
           xml.image **image_attributes(node)
-        end.join
+        end
       end
 
       def inline_indexterm(node)
@@ -154,7 +154,7 @@ module Metanorma
           node.type == :visible and xml << node.text
           terms = (node.attr("terms") || [node.text]).map { |x| xml_encode(x) }
           inline_indexterm1(xml, terms)
-        end.join
+        end
       end
 
       def inline_indexterm1(xml, terms)

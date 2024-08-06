@@ -24,7 +24,7 @@ module Metanorma
 
       def references2xml(ret)
         out = ret.map do |b|
-          b.nil? ? nil : noko { |xml| reference1out(b, xml) }.join
+          b.nil? ? nil : noko { |xml| reference1out(b, xml) }
         end
         out.map { |x| x.nil? ? nil : Nokogiri::XML(x).root }
       end
