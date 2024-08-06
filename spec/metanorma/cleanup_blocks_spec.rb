@@ -1310,42 +1310,49 @@ RSpec.describe Metanorma::Standoc do
 
   it "preserves linebreaks in non-preformatted blocks" do
     input = <<~INPUT
-#{ASCIIDOC_BLANK_HDR}
+      #{ASCIIDOC_BLANK_HDR}
 
-== Scope
+      == Scope
 
-.Fragment of a collection description document with a links array and with one item of the array pointing to a list of map tilesets.
-=================
-*Hello
-And
-This*
+      .Fragment of a collection description document with a links array and with one item of the array pointing to a list of map tilesets.
+      =================
+      *Hello
+      _And_
+      This*
 
-读写汉字
-学中文
+      读写汉字
+      _学_
+      中文
 
-[source,json]
-----
-{
-    "links": [
-    ...
-    {
-      "href": "https://data.example.com/collections/buildings/map/tiles",
-      "rel": "https://www.opengis.net/def/rel/ogc/1.0/tilesets-map",
-      "type": "application/json"
-    }
-  ]
-}
-----
-=================
+      [source,json]
+      ----
+      {
+          "links": [
+          ...
+          {
+            "href": "https://data.example.com/collections/buildings/map/tiles",
+            "rel": "https://www.opengis.net/def/rel/ogc/1.0/tilesets-map",
+            "type": "application/json"
+          }
+        ]
+      }
+      ----
+      =================
     INPUT
     output = <<~OUTPUT
       <standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
-       <bibdata type="standard">
+             <bibdata type="standard">
        <title language="en" format="text/plain">Document title</title>
        <language>en</language><script>Latn</script><status><stage>published</stage></status><copyright><from>2024</from></copyright><ext><doctype>standard</doctype></ext></bibdata><metanorma-extension><presentation-metadata><name>TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>HTML TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>DOC TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>PDF TOC Heading Levels</name><value>2</value></presentation-metadata></metanorma-extension>
        <sections><clause id="_" type="scope" inline-header="false" obligation="normative">
        <title>Scope</title>
-       <example id="_"><name>Fragment of a collection description document with a links array and with one item of the array pointing to a list of map tilesets.</name><p id="_"><strong>Hello And This</strong></p> <p id="_">读写汉字学中文</p> <sourcecode id="_" lang="json">{
+       <example id="_">
+       <name>Fragment of a collection description document with a links array and with one item of the array pointing to a list of map tilesets.</name>
+       <p id="_"><strong>Hello <em>And</em> This</strong></p>
+
+       <p id="_">读写汉字<em>学</em>中文</p>
+
+       <sourcecode id="_" lang="json">{
            "links": [
            ...
            {
@@ -1354,10 +1361,12 @@ This*
              "type": "application/json"
            }
          ]
-       }</sourcecode> </example>
+       }</sourcecode>
+
+       </example>
        </clause>
        </sections>
-      </standard-document>
+       </standard-document>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
       .to be_equivalent_to output

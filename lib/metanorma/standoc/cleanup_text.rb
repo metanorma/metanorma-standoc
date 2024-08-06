@@ -26,6 +26,39 @@ module Metanorma
         end
       end
 
+      # process example/p, example/sourcecode, not example on its own:
+      # this is about stripping lines for blocks containing inline elems & text
+      def linebreak_cleanup(xmldoc)
+        xmldoc.xpath(STRIP_LINEBREAK_ELEMENTS.map { |e| "//#{e}" }.join(" | "))
+          .each do |b|
+            b.xpath(STRIP_LINEBREAK_ELEMENTS.map { |e| ".//#{e}" }.join(" | "))
+              .empty? or next
+            linebreak_cleanup_block(gather_text_for_linebreak_cleanup(b))
+          end
+      end
+
+      def linebreak_cleanup_block(block)
+        block.each_with_index do |e, i|
+          e[:skip] and next
+          lines = e[:text].lines.map(&:rstrip)
+          e[:last] or lines << block[i + 1][:text].lines.first # next token context
+          out = Metanorma::Utils.line_sanitise(lines)
+          e[:last] or out.pop
+          e[:elem].replace(out.join)
+        end
+      end
+
+      def gather_text_for_linebreak_cleanup(block)
+        x = block.xpath(".//text()").map do |e|
+          { elem: e, text: e.text,
+            skip: ancestor_include?(e, PRESERVE_LINEBREAK_ELEMENTS) }
+        end
+        x.empty? and return x
+        x.each { |e| e[:skip] ||= !e[:text].include?("\n") }
+        x[-1][:last] = true
+        x
+      end
+
       def smartquotes_cleanup(xmldoc)
         xmldoc.xpath("//date").each { |d| Metanorma::Utils::endash_date(d) }
         if @smartquotes then smartquotes_cleanup1(xmldoc)
@@ -65,8 +98,6 @@ module Metanorma
 
       def uninterrupt_quotes_around_xml_skip(elem)
         !(/\A['"]/.match?(elem.text) &&
-          #elem.previous.path.gsub(/\[\d+\]/, "").split(%r{/})[1..-2]
-          #.intersection(IGNORE_QUOTES_ELEMENTS).empty? &&
         !ancestor_include?(elem.previous, IGNORE_QUOTES_ELEMENTS) &&
           ((elem.previous.text.strip.empty? &&
             !empty_tag_with_text_content?(elem.previous)) ||
@@ -110,8 +141,8 @@ module Metanorma
           empty_tag_with_text_content?(x) and prev = "dummy"
           x.text? or next
 
-          #ancestors = x.path.gsub(/\[\d+\]/, "").split(%r{/})[1..-2]
-          #ancestors.intersection(IGNORE_QUOTES_ELEMENTS).empty? or next
+          # ancestors = x.path.gsub(/\[\d+\]/, "").split(%r{/})[1..-2]
+          # ancestors.intersection(IGNORE_QUOTES_ELEMENTS).empty? or next
           ancestor_include?(x, IGNORE_QUOTES_ELEMENTS) and next
           dumb2smart_quotes1(x, prev)
           prev = x.text

@@ -615,8 +615,8 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
         #{BLANK_HDR}
-                  <preface>
-             <note id="_bb3ed901-4b80-a321-5646-b70dd8a071ee">
+          <preface>
+             <note id="_2cfe95f6-7ad6-aa57-8207-6f7d7928aa8e">
                 <p id="_76d95913-a379-c60f-5144-1f09655cafa6">
                    Note which is very important
                    <xref target="a"/>
@@ -632,7 +632,7 @@ RSpec.describe Metanorma::Standoc do
              </introduction>
           </preface>
           <sections>
-             <admonition id="_638b98b1-4d1e-7006-1b7f-b7e6fcbe1670" type="important">
+             <admonition id="_6abb9105-854c-e79c-c351-73a56d6ca81f" type="important">
                 <p id="_69ec375e-c992-5be3-76dd-a2311f9bb6cc">Notice which is very important</p>
              </admonition>
              <clause id="_scope" type="scope" inline-header="false" obligation="normative">
