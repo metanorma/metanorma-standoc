@@ -777,6 +777,18 @@ RSpec.describe Metanorma::Standoc do
 
       http://www.example.com/...abc[x]
 
+      http://www.example.com/...abc[http://www.example.com/...abc]
+
+      http://www.example.com/...abc[http://www.example.com/abc]
+
+      http://www.example.com/...abc[http://www.example.com/...abc]
+
+      http://www.example.com/...abc[\\http://www.example.com/...abc]
+
+      http://www.example.com/...abc[link:http://www.example.com/...abc[\\]]
+
+      http://www.example.com/...abc[\\link:http://www.example.com/...abc[\\]]
+
       ++http://www.example.com++
 
       https://isotc.iso.org/livelink/livelink/fetch/-15620806/15620808/15623592/15768654/TMB_resolutions_-_2012_%28Resolution_1-148%29.pdf?nodeid=15768229&vernum=-2
@@ -842,6 +854,24 @@ RSpec.describe Metanorma::Standoc do
          <p id="_">
            <link target="http://www.example.com/...abc">x</link>
          </p>
+         <p id="_">
+             <link target="http://www.example.com/...abc">http://www.example.com/…​abc</link>
+          </p>
+          <p id="_">
+             <link target="http://www.example.com/...abc">http://www.example.com/abc</link>
+          </p>
+          <p id="_">
+             <link target="http://www.example.com/...abc">http://www.example.com/…​abc</link>
+          </p>
+          <p id="_">
+             <link target="http://www.example.com/...abc">http://www.example.com/…​abc</link>
+          </p>
+          <p id="_">
+             <link target="http://www.example.com/...abc">link:http://www.example.com/…abc[]</link>
+          </p>
+          <p id="_">
+             <link target="http://www.example.com/...abc">\\link:http://www.example.com/…abc[]</link>
+          </p>
          <p id="_">http://www.example.com</p>
          <p id="_">
            <link target="https://isotc.iso.org/livelink/livelink/fetch/-15620806/15620808/15623592/15768654/TMB_resolutions_-_2012_%28Resolution_1-148%29.pdf?nodeid=15768229&amp;vernum=-2"/>
