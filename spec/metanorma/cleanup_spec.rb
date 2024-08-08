@@ -167,6 +167,8 @@ RSpec.describe Metanorma::Standoc do
 
       "((ppm))"&#xa0;
 
+      "_x_"
+
       "stem:[3]".
       footnote:[The mole]
 
@@ -182,6 +184,7 @@ RSpec.describe Metanorma::Standoc do
            <p id="_">“ppt”,<index><primary>ppt</primary></index></p>
            <p id="_">“ppm”,<index><primary>ppm</primary></index> “ppt”<index><primary>ppt</primary></index></p>
            <p id="_">“ppm<index><primary>ppm</primary></index>” </p>
+           <p id="_">“<em>x</em>”</p>
            <p id="_">“<stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mn>3</mn></mstyle></math><asciimath>3</asciimath></stem>”.<fn reference="1"><p id="_">The mole</p></fn></p>
            <figure id="_">
              <pre id="_">((ppm))",</pre>
@@ -614,7 +617,7 @@ RSpec.describe Metanorma::Standoc do
       ====
     INPUT
     output = <<~OUTPUT
-        #{BLANK_HDR}
+      #{BLANK_HDR}
           <preface>
              <note id="_2cfe95f6-7ad6-aa57-8207-6f7d7928aa8e">
                 <p id="_76d95913-a379-c60f-5144-1f09655cafa6">
@@ -791,6 +794,12 @@ RSpec.describe Metanorma::Standoc do
 
       ++http://www.example.com++
 
+      "http://www.example.com/...abc"
+
+      _http://www.example.com/...abc_
+
+      "_http://www.example.com/...abc_"
+
       https://isotc.iso.org/livelink/livelink/fetch/-15620806/15620808/15623592/15768654/TMB_resolutions_-_2012_%28Resolution_1-148%29.pdf?nodeid=15768229&vernum=-2
 
       https://isotc.iso.org/livelink/livelink/fetch/-15620806/15620808/15623592/15768654/TMB_resolutions_-_2012_%28Resolution_1-148%29.pdf?nodeid=15768229&vernum=-2[TMB Resolution 8/2012]
@@ -873,6 +882,10 @@ RSpec.describe Metanorma::Standoc do
              <link target="http://www.example.com/...abc">\\link:http://www.example.com/…abc[]</link>
           </p>
          <p id="_">http://www.example.com</p>
+         <p id="_">“<link target="http://www.example.com/...abc"/>”</p>
+          <p id="_"><em><link target="http://www.example.com/…​abc"/></em></p>
+          <p id="_">“<em><link target="http://www.example.com/…​abc"/></em>”
+          </p>
          <p id="_">
            <link target="https://isotc.iso.org/livelink/livelink/fetch/-15620806/15620808/15623592/15768654/TMB_resolutions_-_2012_%28Resolution_1-148%29.pdf?nodeid=15768229&amp;vernum=-2"/>
          </p>
