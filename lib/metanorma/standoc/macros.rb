@@ -126,15 +126,30 @@ module Metanorma
 
       def inlinelink_escape(text)
         text.gsub(InlineLinkRx) do
-          body, suffix = $4.nil? ? [$3 + $6, "[]"] : [$3, ""]
-          p = $1 and s = $2 and b = linkcontents_escape($4)
-          if p == "link:" then "#{p}++#{s}#{body}++#{b}#{suffix}"
-          elsif p == "<"
-            "#{p}link:++#{s}#{body.sub(/>$/, '')}++#{b}#{suffix}>"
-          else "#{p}link:++#{s}#{body}++#{b}#{suffix}"
+          p = $1 and s = $2 and body = $3
+          suffix = $4.nil? ? "[]" : ""
+          wrapper = $6
+          if (!/^(&lt;|[<\(\["'])$/.match?($1) || $6 != BRACKETS[$1]) && $4.nil?
+            body += $6
+            wrapper = ""
+          end
+          # body, suffix = $4.nil? ? [$3 + $6, "[]"] : [$3, ""]
+          b = linkcontents_escape($4)
+          if p == "link:"
+            "#{p}++#{s}#{body}++#{b}#{suffix}"
+          else
+            "#{p}link:++#{s}#{body}++#{b}#{suffix}#{wrapper}"
           end
         end
       end
+
+      BRACKETS = {
+        "<" => ">",
+        "&lt;" => "&gt;",
+        "[" => "]",
+        '"' => '"',
+        "'" => "'",
+      }.freeze
 
       # because links are escaped, https within link text also need
       # to be escaped, # otherwise they will be treated as links themselves
