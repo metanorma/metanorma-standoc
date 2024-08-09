@@ -108,6 +108,7 @@ module Metanorma
         prev = elem.at(".//preceding::text()[1]") or return
         /\S\Z/.match?(prev.text) or return
         foll = elem.at(".//following::text()[1]")
+        /"$/.match?(prev.text) and /^"/.match?(foll&.text) and return # "<tag/>"
         m = /\A(["'][[:punct:]]*)(\s|\Z)/
           .match(@c.decode(foll&.text)) or return
         foll.content = foll.text.sub(/\A(["'][[:punct:]]*)/, "")

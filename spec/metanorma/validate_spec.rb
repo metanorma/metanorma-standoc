@@ -827,7 +827,7 @@ RSpec.describe Metanorma::Standoc do
     end
   end
 
-  # it "No warning if attributes on formatted strong or stem extraneous to Metanomra XML" do
+  # it "No warning if attributes on formatted strong or stem extraneous to Metanorra XML" do
   #   expect { Metanorma::Standoc::Converter.new(nil,nil).validate(Nokogiri::XML(<<~INPUT)) }.not_to output('found attribute "close", but no attributes allowed here').to_stderr
   #   <standard-document>
   #   <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfenced open="(" close=")"><mi>r</mi></mfenced></stem>
@@ -967,6 +967,53 @@ RSpec.describe Metanorma::Standoc do
     expect(File.read("test.err.html"))
       .to include "Anchor abc has already been used at line"
     expect(File.exist?("test.xml")).to be false
+  end
+
+  it "warns and aborts if id used twice in bibliography for distinct docids" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        [bibliography]
+        == Bibliography
+
+        * [[[abc,B]]]
+        * [[[abc,C]]]
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+    expect(File.read("test.err.html"))
+      .to include "Anchor abc has already been used at line"
+    expect(File.exist?("test.xml")).to be false
+
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        [bibliography]
+        == Bibliography
+
+        * [[[abc,B]]]
+        * [[[abc,B]]]
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.not_to raise_error(SystemExit)
+    rescue SystemExit
+    end
+    expect(File.read("test.err.html"))
+      .not_to include "Anchor abc has already been used at line"
   end
 
   it "warns if numeric normative reference" do
