@@ -14,7 +14,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
        #{BLANK_HDR}
       <sections>
-      <passthrough formats='rfc,html'>&lt;abc&gt;X &gt; Y&lt;/abc&gt;</passthrough>
+      <passthrough formats='rfc,html'>&lt;abc&gt;X &amp;gt; Y&lt;/abc&gt;</passthrough>
       </sections>
       </standard-document>
     OUTPUT

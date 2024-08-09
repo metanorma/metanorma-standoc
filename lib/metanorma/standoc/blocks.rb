@@ -212,7 +212,8 @@ module Metanorma
         noko do |xml|
           xml.passthrough **attr_code(formats:
                                       node.attr("format") || "metanorma") do |p|
-            p << @c.encode(@c.decode(node.content), :basic, :hexadecimal)
+            #p << @c.encode(@c.decode(node.content), :basic, :hexadecimal)
+            p << @c.encode(node.content, :basic, :hexadecimal)
           end
         end
       end
