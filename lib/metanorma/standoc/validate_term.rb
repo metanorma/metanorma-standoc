@@ -62,22 +62,24 @@ module Metanorma
       end
 
       def preferred_validate(doc)
-        out = []
         ret = doc.xpath("//term").each_with_object({}) do |t, m|
           prefix = t.at("./domain")&.text
           t.xpath("./preferred//name").each do |n|
             ret = n.text
             prefix and ret = "<#{prefix}> #{ret}"
-            (m[ret] and out << ret) or m[ret] = t
+            m[ret] ||= []
+            m[ret] << t
           end
         end
-        preferred_validate_report(out, ret)
+        preferred_validate_report(ret)
       end
 
-      def preferred_validate_report(terms, locations)
-        terms.each do |e|
-          err = "Term #{e} occurs twice as preferred designation"
-          @log.add("Terms", locations[e], err, severity: 1)
+      def preferred_validate_report(terms)
+        terms.each do |k, v|
+          v.size > 1 or next
+          loc = v.map { |x| x["id"] }.join(", ")
+          err = "Term #{k} occurs twice as preferred designation: #{loc}"
+          @log.add("Terms", v.first, err, severity: 1)
         end
       end
     end
