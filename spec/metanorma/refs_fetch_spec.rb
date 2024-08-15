@@ -923,6 +923,47 @@ RSpec.describe Metanorma::Standoc do
                     </name>
                   </person>
                 </contributor>
+                            <relation type="includedIn">
+               <bibitem>
+                  <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
+                  <contributor>
+                     <role type="editor"/>
+                     <person>
+                        <name>
+                           <forename language="en" script="Latn">Aneta</forename>
+                           <surname language="en" script="Latn">Pavlenko</surname>
+                        </name>
+                     </person>
+                  </contributor>
+                  <contributor>
+                     <role type="editor"/>
+                     <person>
+                        <name>
+                           <forename language="en" script="Latn">Adrian</forename>
+                           <surname language="en" script="Latn">Blackledge</surname>
+                        </name>
+                     </person>
+                  </contributor>
+                  <contributor>
+                     <role type="editor"/>
+                     <person>
+                        <name>
+                           <forename language="en" script="Latn">Ingrid</forename>
+                           <surname language="en" script="Latn">Piller</surname>
+                        </name>
+                     </person>
+                  </contributor>
+                  <contributor>
+                     <role type="editor"/>
+                     <person>
+                        <name>
+                           <forename language="en" script="Latn">Marya</forename>
+                           <surname language="en" script="Latn">Teutsch-Dwyer</surname>
+                        </name>
+                     </person>
+                  </contributor>
+               </bibitem>
+            </relation>
                 <relation type="includedIn">
                   <bibitem type="misc">
                     <title format="text/plain">Nested Title</title>
@@ -1042,8 +1083,8 @@ RSpec.describe Metanorma::Standoc do
         == Normative References
 
         * [[[iso123,nofetch(ISO/IEC TR 12382:1992)]]] _Standard_
-        * [[[iso123,nofetch=true,ISO/IEC TR 12382:1992]]] _Standard_
-        * [[[iso124,nofetch=false,code=ISO 124:2014]]] _Standard_
+        * [[[iso124,nofetch=true,ISO/IEC TR 12382:1992]]] _Standard_
+        * [[[iso125,nofetch=false,code=ISO 124:2014]]] _Standard_
       INPUT
       output = <<~OUTPUT
         #{BLANK_HDR}
@@ -1060,7 +1101,7 @@ RSpec.describe Metanorma::Standoc do
                <docnumber>12382</docnumber>
                 <date type='published'><on>1992</on></date>
              </bibitem>
-                     <bibitem id='iso123'>
+                     <bibitem id='iso124'>
                <formattedref format='application/x-isodoc+xml'>
                  <em>Standard</em>
                </formattedref>
@@ -1068,7 +1109,7 @@ RSpec.describe Metanorma::Standoc do
                <docnumber>12382</docnumber>
                 <date type='published'><on>1992</on></date>
              </bibitem>
-             <bibitem id='iso124' type='standard'>
+             <bibitem id='iso125' type='standard'>
                <fetched/>
                <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>

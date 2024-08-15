@@ -24,7 +24,7 @@ module Metanorma
       def init_indent(line)
         /^(?<prefix>[ \t]*)(?<suffix>.*)$/ =~ line
         prefix = prefix.gsub("\t", "\u00a0\u00a0\u00a0\u00a0")
-          .gsub(/ /, "\u00a0")
+          .tr(" ", "\u00a0")
         prefix + suffix
       end
 
@@ -126,19 +126,49 @@ module Metanorma
 
       def inlinelink_escape(text)
         text.gsub(InlineLinkRx) do
-          body, suffix = $4.nil? ? [$3 + $6, "[]"] : [$3, ""]
-          p = $1 and s = $2 and b = $4
-          if p == "link:" then "#{p}++#{s}#{body}++#{b}#{suffix}"
-          elsif p == "<"
-            "#{p}link:++#{s}#{body.sub(/>$/, '')}++#{b}#{suffix}>"
-          else "#{p}link:++#{s}#{body}++#{b}#{suffix}"
+          p = $1 and s = $2 and body = $3
+          suffix = $4.nil? ? "[]" : ""
+          wrapper = $6
+          if (!/^(&lt;|[<\(\["'])$/.match?($1) || $6 != BRACKETS[$1]) && $4.nil?
+            body += $6
+            wrapper = ""
           end
+          # body, suffix = $4.nil? ? [$3 + $6, "[]"] : [$3, ""]
+          b = linkcontents_escape($4)
+          if p == "link:"
+            "#{p}++#{s}#{body}++#{b}#{suffix}"
+          else
+            "#{p}link:++#{s}#{body}++#{b}#{suffix}#{wrapper}"
+          end
+        end
+      end
+
+      BRACKETS = {
+        "<" => ">",
+        "&lt;" => "&gt;",
+        "[" => "]",
+        '"' => '"',
+        "'" => "'",
+      }.freeze
+
+      # because links are escaped, https within link text also need
+      # to be escaped, # otherwise they will be treated as links themselves
+      def linkcontents_escape(text)
+        text.nil? and return nil
+        text
+          # .gsub(InlineLinkMacroRx) do
+          # $1.empty? ? "\\#{$2}#{$3}#{$4}" : text
+          # end
+          .gsub(InlineLinkRx) do
+          esc = $1 == "link:" ? "" : "\\"
+          x = $4 || "#{$5}#{$6}"
+          "#{$1}#{esc}#{$2}#{$3}#{x}"
         end
       end
 
       # InlineLinkMacroRx = /\\?(?:link|(mailto)):(|[^:\s\[][^\s\[]*)\[(|#{CC_ALL}*?[^\\])\]/m
       InlineLinkMacroRx1 = <<~REGEX.freeze
-        (\\\\?\\b(?<!-)                  # optional backslash, no hyphen, word boundary
+        (\\\\?)(\\b(?<!-)                  # optional backslash, no hyphen, word boundary
           (?:link|mailto):)              # link: or mailto:
         (?!\\+)                          # no link:+ passthrough
         (|[^:\\s\\[][^\\s\\[]*)          # link: ... up to [
@@ -151,7 +181,7 @@ module Metanorma
           ((text.include? "link:") || (text.include? "ilto:"))) or return text
         pass_inline_split(text) do |x|
           x.gsub(InlineLinkMacroRx) do
-            "#{$1}++#{$2}++#{$3}"
+            "#{$1}#{$2}++#{$3}++#{linkcontents_escape($4)}"
           end
         end.join
       end

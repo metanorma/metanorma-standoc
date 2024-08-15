@@ -167,6 +167,8 @@ RSpec.describe Metanorma::Standoc do
 
       "((ppm))"&#xa0;
 
+      "_x_"
+
       "stem:[3]".
       footnote:[The mole]
 
@@ -182,6 +184,7 @@ RSpec.describe Metanorma::Standoc do
            <p id="_">“ppt”,<index><primary>ppt</primary></index></p>
            <p id="_">“ppm”,<index><primary>ppm</primary></index> “ppt”<index><primary>ppt</primary></index></p>
            <p id="_">“ppm<index><primary>ppm</primary></index>” </p>
+           <p id="_">“<em>x</em>”</p>
            <p id="_">“<stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mn>3</mn></mstyle></math><asciimath>3</asciimath></stem>”.<fn reference="1"><p id="_">The mole</p></fn></p>
            <figure id="_">
              <pre id="_">((ppm))",</pre>
@@ -614,33 +617,33 @@ RSpec.describe Metanorma::Standoc do
       ====
     INPUT
     output = <<~OUTPUT
-        #{BLANK_HDR}
-        <preface>
-          <note id='_2cfe95f6-7ad6-aa57-8207-6f7d7928aa8e'>
-            <p id='_76d95913-a379-c60f-5144-1f09655cafa6'>
-              Note which is very important
-              <xref target='a'/>
-            </p>
-          </note>
-          <foreword id='_96b556cb-657c-985b-351b-ed70d8bd6fdd' obligation='informative'>
-            <title>Foreword</title>
-            <p id='_d2f825bf-3e18-6143-8777-34e59928d48c'>Foreword</p>
-          </foreword>
-          <introduction id='_introduction' obligation='informative'>
-            <title>Introduction</title>
-            <p id='_272021ab-1bfa-78ae-e860-ed770e36f3d2'>Introduction</p>
-          </introduction>
-        </preface>
-        <sections>
-          <admonition id='_6abb9105-854c-e79c-c351-73a56d6ca81f' type='important'>
-            <p id='_69ec375e-c992-5be3-76dd-a2311f9bb6cc'>Notice which is very important</p>
-          </admonition>
-          <clause id='_scope' type='scope' inline-header='false' obligation='normative'>
-            <title>Scope</title>
-            <p id='_fdcef9f1-c898-da99-eff6-f3e6abde7799'>Scope statement</p>
-          </clause>
-        </sections>
-      </standard-document>
+      #{BLANK_HDR}
+          <preface>
+             <note id="_2cfe95f6-7ad6-aa57-8207-6f7d7928aa8e">
+                <p id="_76d95913-a379-c60f-5144-1f09655cafa6">
+                   Note which is very important
+                   <xref target="a"/>
+                </p>
+             </note>
+             <foreword id="_96b556cb-657c-985b-351b-ed70d8bd6fdd" obligation="informative">
+                <title>Foreword</title>
+                <p id="_d2f825bf-3e18-6143-8777-34e59928d48c">Foreword</p>
+             </foreword>
+             <introduction id="_introduction" obligation="informative">
+                <title>Introduction</title>
+                <p id="_272021ab-1bfa-78ae-e860-ed770e36f3d2">Introduction</p>
+             </introduction>
+          </preface>
+          <sections>
+             <admonition id="_6abb9105-854c-e79c-c351-73a56d6ca81f" type="important">
+                <p id="_69ec375e-c992-5be3-76dd-a2311f9bb6cc">Notice which is very important</p>
+             </admonition>
+             <clause id="_scope" type="scope" inline-header="false" obligation="normative">
+                <title>Scope</title>
+                <p id="_fdcef9f1-c898-da99-eff6-f3e6abde7799">Scope statement</p>
+             </clause>
+          </sections>
+       </standard-document>
     OUTPUT
     expect(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))
       .sub(/ schema-version="v[^"]+"/, ""))
@@ -777,7 +780,25 @@ RSpec.describe Metanorma::Standoc do
 
       http://www.example.com/...abc[x]
 
+      http://www.example.com/...abc[http://www.example.com/...abc]
+
+      http://www.example.com/...abc[http://www.example.com/abc]
+
+      http://www.example.com/...abc[http://www.example.com/...abc]
+
+      http://www.example.com/...abc[\\http://www.example.com/...abc]
+
+      http://www.example.com/...abc[link:http://www.example.com/...abc[\\]]
+
+      http://www.example.com/...abc[\\link:http://www.example.com/...abc[\\]]
+
       ++http://www.example.com++
+
+      "http://www.example.com/...abc"
+
+      _http://www.example.com/...abc_
+
+      "_http://www.example.com/...abc_"
 
       https://isotc.iso.org/livelink/livelink/fetch/-15620806/15620808/15623592/15768654/TMB_resolutions_-_2012_%28Resolution_1-148%29.pdf?nodeid=15768229&vernum=-2
 
@@ -842,7 +863,29 @@ RSpec.describe Metanorma::Standoc do
          <p id="_">
            <link target="http://www.example.com/...abc">x</link>
          </p>
+         <p id="_">
+             <link target="http://www.example.com/...abc">http://www.example.com/…​abc</link>
+          </p>
+          <p id="_">
+             <link target="http://www.example.com/...abc">http://www.example.com/abc</link>
+          </p>
+          <p id="_">
+             <link target="http://www.example.com/...abc">http://www.example.com/…​abc</link>
+          </p>
+          <p id="_">
+             <link target="http://www.example.com/...abc">http://www.example.com/…​abc</link>
+          </p>
+          <p id="_">
+             <link target="http://www.example.com/...abc">link:http://www.example.com/…abc[]</link>
+          </p>
+          <p id="_">
+             <link target="http://www.example.com/...abc">\\link:http://www.example.com/…abc[]</link>
+          </p>
          <p id="_">http://www.example.com</p>
+         <p id="_">“<link target="http://www.example.com/...abc"/>”</p>
+          <p id="_"><em><link target="http://www.example.com/…​abc"/></em></p>
+          <p id="_">“<em><link target="http://www.example.com/…​abc"/></em>”
+          </p>
          <p id="_">
            <link target="https://isotc.iso.org/livelink/livelink/fetch/-15620806/15620808/15623592/15768654/TMB_resolutions_-_2012_%28Resolution_1-148%29.pdf?nodeid=15768229&amp;vernum=-2"/>
          </p>

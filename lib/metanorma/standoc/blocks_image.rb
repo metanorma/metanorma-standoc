@@ -17,7 +17,7 @@ module Metanorma
             figure_title(node, ex)
             ex << node.content
           end
-        end.join("\n")
+        end
       end
 
       def figure_example(node)
@@ -26,7 +26,7 @@ module Metanorma
             node.title.nil? or ex.name { |name| name << node.title }
             wrap_in_para(node, ex)
           end
-        end.join("")
+        end
       end
 
       def figure_title(node, out)

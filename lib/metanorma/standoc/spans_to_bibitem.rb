@@ -131,7 +131,7 @@ module Metanorma
           span[:surname] and return
           msg = "Missing surname: issue with bibliographic markup " \
                 "in \"#{title}\": #{span}"
-          @err << { msg: msg, fatal: true }
+          @err << { msg:, fatal: true }
         end
 
         def span_to_person(span, title)

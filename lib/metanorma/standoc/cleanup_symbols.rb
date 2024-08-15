@@ -10,7 +10,7 @@ module Metanorma
       def symbol_key(sym)
         @c.decode(asciimath_key(sym).text)
           .gsub(/[\[\]{}<>()]/, "").gsub(/\s/m, "")
-          .gsub(/[[:punct:]]|[_^]/, ":\\0").gsub("`", "")
+          .gsub(/[[:punct:]]|[_^]/, ":\\0").delete("`")
           .gsub(/[0-9]+/, "þ\\0")
           .tr("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz",
               "ABCFEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")

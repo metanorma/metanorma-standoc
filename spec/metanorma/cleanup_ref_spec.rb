@@ -832,6 +832,47 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
+  it "remove duplicate bibitems" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [bibliography]
+      == Normative References
+
+      * [[[iso123,ISO 123:--]]] footnote:[The standard is in press] _Standard_
+      * [[[iso123,ISO 123:--]]] footnote:[The standard is in press] _Standard_
+      * [[[iso123,ISO 123:--]]] footnote:[The standard is in press] _Standard_
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections/>
+      <bibliography><references id="_" obligation="informative" normative="true">
+        <title>Normative references</title>
+        #{NORM_REF_BOILERPLATE}
+        <bibitem id="iso123" type="standard">
+         <title format="text/plain">Standard</title>
+         <docidentifier>ISO 123:—</docidentifier>
+         <docnumber>123</docnumber>
+         <date type="published">
+           <on>–</on>
+         </date>
+         <contributor>
+           <role type="publisher"/>
+           <organization>
+             <name>ISO</name>
+           </organization>
+         </contributor>
+         <note format="text/plain" type="Unpublished-Status">The standard is in press</note>
+       </bibitem>
+      </references>
+      </bibliography>
+      </standard-document>
+    OUTPUT
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
+  end
+
   private
 
   def mock_iev

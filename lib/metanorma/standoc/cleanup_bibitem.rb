@@ -185,8 +185,28 @@ module Metanorma
         FileUtils.mkdir_p(@attachmentsdir)
       end
 
+      # remove dupes if both same ID and same docid, in case dupes introduced
+      # through termbases
+      def remove_dup_bibtem_id(xmldoc)
+        bibitem_id_docid_hash(xmldoc).each_value do |v|
+          v.each_value do |v1|
+            v1[1..].each(&:remove)
+          end
+        end
+      end
+
+      def bibitem_id_docid_hash(xmldoc)
+        xmldoc.xpath("//bibitem[@id]").each_with_object({}) do |b, m|
+          m[b["id"]] ||= {}
+          docid = b.at("./docidentifier")&.text || "NO ID"
+          m[b["id"]][docid] ||= []
+          m[b["id"]][docid] << b
+        end
+      end
+
       def bibitem_cleanup(xmldoc)
-        bibitem_nested_id(xmldoc)
+        bibitem_nested_id(xmldoc) # feeds remove_dup_bibtem_id
+        remove_dup_bibtem_id(xmldoc)
         ref_dl_cleanup(xmldoc)
         formattedref_spans(xmldoc)
         fetch_local_bibitem(xmldoc)
