@@ -1,6 +1,7 @@
 require "spec_helper"
 require "relaton_iso"
 require "relaton_ietf"
+require "relaton_nist"
 
 RSpec.describe Metanorma::Standoc do
   it "processes simple ISO reference" do
@@ -1174,8 +1175,25 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes attachments" do
+    attachment = 
+      if RUBY_PLATFORM.include?('mingw') || RUBY_PLATFORM.include?('mswin')
+        <<~OUTPUT
+       DQpwIHsNCiAgZm9udC1mYW1
+       pbHk6ICRib2R5Zm9udDsNCn0NCg0KaDEgew0KICBmb250LWZhbWlseTogJGh
+       lYWRlcmZvbnQ7DQp9DQoNCnByZSB7DQogIGZvbnQtZmFtaWx5OiAkbW9ub3N
+       wYWNlZm9udDsNCn0NCg0K
+       OUTPUT
+      else
+        <<~OUTPUT
+       CnAgewogIGZvbnQtZmFtaWx
+       5OiAkYm9keWZvbnQ7Cn0KCmgxIHsKICBmb250LWZhbWlseTogJGhlYWRlcmZ
+       vbnQ7Cn0KCnByZSB7CiAgZm9udC1mYW1pbHk6ICRtb25vc3BhY2Vmb250Owp
+       9Cgo=
+       OUTPUT
+      end
     input = File.read("spec/assets/attach.adoc")
       .gsub("iso.xml", "spec/assets/iso.xml")
+      .gsub("html.scss", "spec/assets/html.scss")
     output = <<~OUTPUT
       <standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
          <bibdata type="standard">
@@ -1192,52 +1210,59 @@ RSpec.describe Metanorma::Standoc do
              <doctype>standard</doctype>
            </ext>
          </bibdata>
-         <metanorma-extension>
-           <attachment name="iso.xml">data:application/octet-stream;base64,ICAgIC...</attachment>
-           <attachment name="iso.xml_">data:application/octet-stream;base64,ICAgIC...</attachment>
-           <presentation-metadata>
-             <name>TOC Heading Levels</name>
-             <value>2</value>
-           </presentation-metadata>
-           <presentation-metadata>
-             <name>HTML TOC Heading Levels</name>
-             <value>2</value>
-           </presentation-metadata>
-           <presentation-metadata>
-             <name>DOC TOC Heading Levels</name>
-             <value>2</value>
-           </presentation-metadata>
-           <presentation-metadata>
-             <name>PDF TOC Heading Levels</name>
-             <value>2</value>
-           </presentation-metadata>
-         </metanorma-extension>
-         <sections>
-           <clause id="_" inline-header="false" obligation="normative">
-             <title>Clause</title>
-             <p id="_">
-               <eref type="inline" bibitemid="iso123" citeas="[spec/assets/iso.xml]"/>
-             </p>
-           </clause>
-         </sections>
-         <bibliography>
-           <references id="_" normative="true" obligation="informative">
-             <title>Normative references</title>
-             <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-             <bibitem id="iso123" hidden="true">
-               <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
-               <uri type="attachment">_attach_attachments/iso.xml</uri>
-               <uri type="citation">_attach_attachments/iso.xml</uri>
-               <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
-             </bibitem>
-             <bibitem id="iso124" hidden="true">
-               <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
-               <uri type="attachment">_attach_attachments/iso.xml_</uri>
-               <uri type="citation">_attach_attachments/iso.xml_</uri>
-               <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
-             </bibitem>
-           </references>
-         </bibliography>
+                  <metanorma-extension>
+             <attachment name="_attach_attachments/iso.xml">data:application/octet-stream;base64,ICAgIC...</attachment>
+             <attachment name="_attach_attachments/iso.xml_">data:application/octet-stream;base64,ICAgIC...</attachment>
+             <attachment name="_attach_attachments/html.scss">data:application/octet-stream;base64,#{attachment}</attachment>
+             <presentation-metadata>
+                <name>TOC Heading Levels</name>
+                <value>2</value>
+             </presentation-metadata>
+             <presentation-metadata>
+                <name>HTML TOC Heading Levels</name>
+                <value>2</value>
+             </presentation-metadata>
+             <presentation-metadata>
+                <name>DOC TOC Heading Levels</name>
+                <value>2</value>
+             </presentation-metadata>
+             <presentation-metadata>
+                <name>PDF TOC Heading Levels</name>
+                <value>2</value>
+             </presentation-metadata>
+          </metanorma-extension>
+          <sections>
+             <clause id="_" inline-header="false" obligation="normative">
+                <title>Clause</title>
+                <p id="_">
+                   <eref type="inline" bibitemid="iso123" citeas="[spec/assets/iso.xml]"/>
+                </p>
+             </clause>
+          </sections>
+          <bibliography>
+             <references id="_" normative="true" obligation="informative">
+                <title>Normative references</title>
+                <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+                <bibitem id="iso123" hidden="true">
+                   <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+                   <uri type="attachment">_attach_attachments/iso.xml</uri>
+                   <uri type="citation">_attach_attachments/iso.xml</uri>
+                   <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
+                </bibitem>
+                <bibitem id="iso124" hidden="true">
+                   <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+                   <uri type="attachment">_attach_attachments/iso.xml_</uri>
+                   <uri type="citation">_attach_attachments/iso.xml_</uri>
+                   <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
+                </bibitem>
+                <bibitem id="iso125" hidden="true">
+                   <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+                   <uri type="attachment">_attach_attachments/html.scss</uri>
+                   <uri type="citation">_attach_attachments/html.scss</uri>
+                   <docidentifier type="metanorma">[spec/assets/html.scss]</docidentifier>
+                </bibitem>
+             </references>
+          </bibliography>
        </standard-document>
     OUTPUT
 
@@ -1251,7 +1276,7 @@ RSpec.describe Metanorma::Standoc do
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
       .to be_equivalent_to Xml::C14n.format(output
-      .gsub(%r{<attachment .+?</attachment>}, ""))
+      .gsub(%r{<attachment .+?</attachment>}m, ""))
 
     FileUtils.rm_rf "spec/assets/attach.xml"
     system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/assets/attach.adoc"
@@ -1259,7 +1284,8 @@ RSpec.describe Metanorma::Standoc do
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
       .to be_equivalent_to Xml::C14n.format(output
-      .gsub("spec/assets/iso.xml", "iso.xml"))
+      .gsub("spec/assets/iso.xml", "iso.xml")
+      .gsub("spec/assets/html.scss", "html.scss"))
   end
 
   private
