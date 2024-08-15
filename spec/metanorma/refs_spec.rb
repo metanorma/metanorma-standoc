@@ -1175,6 +1175,22 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes attachments" do
+    attachment = 
+      if RUBY_PLATFORM.include?('mingw') || RUBY_PLATFORM.include?('mswin')
+        <<~OUTPUT
+       DQpwIHsNCiAgZm9udC1mYW1
+       pbHk6ICRib2R5Zm9udDsNCn0NCg0KaDEgew0KICBmb250LWZhbWlseTogJGh
+       lYWRlcmZvbnQ7DQp9DQoNCnByZSB7DQogIGZvbnQtZmFtaWx5OiAkbW9ub3N
+       wYWNlZm9udDsNCn0NCg0K
+       OUTPUT
+      else
+        <<~OUTPUT
+       CnAgewogIGZvbnQtZmFtaWx
+       5OiAkYm9keWZvbnQ7Cn0KCmgxIHsKICBmb250LWZhbWlseTogJGhlYWRlcmZ
+       vbnQ7Cn0KCnByZSB7CiAgZm9udC1mYW1pbHk6ICRtb25vc3BhY2Vmb250Owp
+       9Cgo=
+       OUTPUT
+      end
     input = File.read("spec/assets/attach.adoc")
       .gsub("iso.xml", "spec/assets/iso.xml")
       .gsub("html.scss", "spec/assets/html.scss")
@@ -1197,10 +1213,7 @@ RSpec.describe Metanorma::Standoc do
                   <metanorma-extension>
              <attachment name="_attach_attachments/iso.xml">data:application/octet-stream;base64,ICAgIC...</attachment>
              <attachment name="_attach_attachments/iso.xml_">data:application/octet-stream;base64,ICAgIC...</attachment>
-             <attachment name="_attach_attachments/html.scss">data:application/octet-stream;base64,CnAgewogIGZvbnQtZmFtaWx
-       5OiAkYm9keWZvbnQ7Cn0KCmgxIHsKICBmb250LWZhbWlseTogJGhlYWRlcmZ
-       vbnQ7Cn0KCnByZSB7CiAgZm9udC1mYW1pbHk6ICRtb25vc3BhY2Vmb250Owp
-       9Cgo=</attachment>
+             <attachment name="_attach_attachments/html.scss">data:application/octet-stream;base64,#{attachment}</attachment>
              <presentation-metadata>
                 <name>TOC Heading Levels</name>
                 <value>2</value>
