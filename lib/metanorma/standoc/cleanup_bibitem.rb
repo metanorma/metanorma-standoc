@@ -166,7 +166,7 @@ module Metanorma
           .relative_path_from(Pathname.new(File.expand_path(@localdir)))
         e = (m << "<attachment name='#{f}'/>").last_element_child
         Vectory::Utils::datauri(path, @localdir).scan(/.{1,60}/)
-          .each { |dd| e << dd }
+          .each { |dd| e << "#{dd}\n" }
       end
 
       def valid_attachment?(path, bib)
