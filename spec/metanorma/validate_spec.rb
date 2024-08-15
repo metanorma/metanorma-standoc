@@ -1503,8 +1503,10 @@ RSpec.describe Metanorma::Standoc do
 
         == Terms and Definitions
 
+        [[a]]
         === Term1
 
+        [[b]]
         === Term1
       INPUT
       expect do
@@ -1513,7 +1515,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include "Term Term1 occurs twice as preferred designation"
+      .to include "Term Term1 occurs twice as preferred designation: a, b"
 
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
@@ -1526,8 +1528,10 @@ RSpec.describe Metanorma::Standoc do
 
         == Terms and Definitions
 
+        [[a]]
         === Term1
 
+        [[b]]
         === Term2
 
         preferred:[Term1]
@@ -1538,7 +1542,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include "Term Term1 occurs twice as preferred designation"
+      .to include "Term Term1 occurs twice as preferred designation: a, b"
   end
 
   it "warns if image is too big for Data URI encoding" do
