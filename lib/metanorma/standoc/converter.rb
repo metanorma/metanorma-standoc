@@ -29,6 +29,7 @@ module Metanorma
         inline_macro Metanorma::Plugin::Lutaml::LutamlFigureInlineMacro
         inline_macro Metanorma::Plugin::Lutaml::LutamlTableInlineMacro
         block_macro Metanorma::Plugin::Lutaml::LutamlDiagramBlockMacro
+        block_macro Metanorma::Plugin::Lutaml::LutamlEaDiagramBlockMacro
         block Metanorma::Plugin::Lutaml::LutamlDiagramBlock
         block_macro Metanorma::Plugin::Lutaml::LutamlGmlDictionaryBlockMacro
         block Metanorma::Plugin::Lutaml::LutamlGmlDictionaryBlock
