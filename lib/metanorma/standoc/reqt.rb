@@ -34,7 +34,7 @@ module Metanorma
 
       def requirement_validate(docxml)
         docxml.xpath("//requirement | //recommendation | //permission")
-          .each_with_object([]) do |r, m|
+          .each do |r|
           @reqt_models.model(r["model"]).validate(r, @log)
         end
       end

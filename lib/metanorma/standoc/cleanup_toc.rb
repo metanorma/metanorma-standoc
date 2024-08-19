@@ -10,7 +10,7 @@ module Metanorma
 
       def toc_cleanup_para(xmldoc)
         xmldoc.xpath("//p[toc]").each do |x|
-          x.xpath("./toc").reverse.each do |t|
+          x.xpath("./toc").reverse_each do |t|
             x.next = t
           end
           x.remove if x.text.strip.empty?

@@ -38,7 +38,7 @@ module Metanorma
           case span[:key]
           when "uri", "docid"
             val = link_unwrap(Nokogiri::XML.fragment(span[:val])).to_xml
-            ret[span[:key].to_sym] << { type: span[:type], val: val }
+            ret[span[:key].to_sym] << { type: span[:type], val: }
           when "date"
             ret[span[:key].to_sym] << { type: span[:type] || "published",
                                         val: span[:val] }
@@ -79,7 +79,7 @@ module Metanorma
           else
             msg = "unrecognised key '#{span[:key]}' in " \
                   "`span:#{span[:key]}[#{span[:val]}]`"
-            @err << { msg: msg }
+            @err << { msg: }
           end
         end
 

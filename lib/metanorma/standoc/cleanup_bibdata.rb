@@ -144,8 +144,7 @@ module Metanorma
         yaml.is_a?(Hash) && !yaml["contributor"] and yaml = [yaml]
         yaml.is_a?(Array) and yaml = { "contributor" => yaml }
         r = yaml2relaton(yaml)
-        Nokogiri::XML(r).xpath("//contributor").reverse
-          .each do |c|
+        Nokogiri::XML(r).xpath("//contributor").reverse_each do |c|
           ins.next = c
         end
       end

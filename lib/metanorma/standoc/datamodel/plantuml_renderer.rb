@@ -21,8 +21,8 @@ module Metanorma
       def render
         ERB.new(
           File.read(
-            File.join(TEMPLATES_PATH, "plantuml_representation.adoc.erb")
-          )
+            File.join(TEMPLATES_PATH, "plantuml_representation.adoc.erb"),
+          ),
         ).result(binding)
       end
 
@@ -46,7 +46,7 @@ module Metanorma
           '******* CLASS DEFINITIONS ********************************************
           #{join_as_plantuml(
             classes_to_classes_plantuml(yml['classes']),
-            enums_to_enums_plantuml(yml['enums'])
+            enums_to_enums_plantuml(yml['enums']),
           )}
         TEMPLATE
       end
@@ -57,7 +57,7 @@ module Metanorma
         <<~TEMPLATE
           '******* CLASS GROUPS *************************************************
           #{join_as_plantuml(
-            groups_to_plantuml(yml['groups'])
+            groups_to_plantuml(yml['groups']),
           )}
         TEMPLATE
       end
@@ -69,7 +69,7 @@ module Metanorma
           '******* CLASS RELATIONS **********************************************
           #{join_as_plantuml(
             classes_to_relations_plantuml(yml['classes']),
-            relations_to_plantuml(nil, yml['relations'])
+            relations_to_plantuml(nil, yml['relations']),
           )}
         TEMPLATE
       end
@@ -80,7 +80,7 @@ module Metanorma
         <<~TEMPLATE
           '******* DIAGRAM SPECIFIC CONFIG **************************************
           #{join_as_plantuml(
-            diagram_options_to_plantuml(yml['diagram_options'])
+            diagram_options_to_plantuml(yml['diagram_options']),
           )}
         TEMPLATE
       end
@@ -122,7 +122,7 @@ module Metanorma
           class #{class_name}#{model_stereotype_to_plantuml(class_hash['type'])} {
           #{join_as_plantuml(
             attributes_to_plantuml(class_hash['attributes']),
-            constraints_to_plantuml(class_hash['constraints'])
+            constraints_to_plantuml(class_hash['constraints']),
           )}
           }
         TEMPLATE
@@ -165,7 +165,7 @@ module Metanorma
         <<~TEMPLATE
             __ constraints __
           #{join_as_plantuml(
-            *constraints_output
+            *constraints_output,
           )}
         TEMPLATE
       end
@@ -218,14 +218,14 @@ module Metanorma
 
       def source_arrow_end(source, relationship)
         source_attribute = relationship_cardinality_to_plantuml(
-          relationship["source"]["attribute"]
+          relationship["source"]["attribute"],
         )
         [source, source_attribute].join(" ")
       end
 
       def target_arrow_end(target, relationship, action)
         target_attribute = relationship_cardinality_to_plantuml(
-          relationship["target"]["attribute"]
+          relationship["target"]["attribute"],
         )
         [
           [target_attribute, target].join(" "),
@@ -283,7 +283,7 @@ module Metanorma
         if attribute_cardinality
           cardinality = attribute_cardinality_plantuml(
             attribute_cardinality,
-            false
+            false,
           )
           cardinality = " #{cardinality}"
         end
