@@ -131,6 +131,9 @@ module Metanorma
         xmldoc.xpath("//bibitem//bibitem").each do |b|
           b.delete("id")
         end
+        xmldoc.xpath("//bibdata//bibitem").each do |b|
+          b.delete("id")
+        end
       end
 
       def attachment_cleanup(xmldoc)

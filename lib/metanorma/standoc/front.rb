@@ -74,7 +74,7 @@ module Metanorma
 
       def metadata_date1(node, xml, type)
         date = node.attr("#{type}-date")
-        date and xml.date type: type do |d|
+        date and xml.date(type:) do |d|
           d.on date
         end
       end
@@ -91,7 +91,7 @@ module Metanorma
           a == "date" || /^date_\d+$/.match(a) or next
           type, date = node.attr(a).split(/ /, 2)
           type or next
-          xml.date type: type do |d|
+          xml.date(type:) do |d|
             d.on date
           end
         end
@@ -139,7 +139,7 @@ module Metanorma
       def metadata_getrelation1(doc, xml, type, desc)
         id = doc.split(/,\s*/)
         xml.relation type: relation_normalise(type) do |r|
-          desc.nil? or r.description desc.gsub(/-/, " ")
+          desc.nil? or r.description desc.tr("-", " ")
           fetch_ref(r, doc, nil, **{}) or r.bibitem do |b|
             b.title id[1] || "--"
             b.docidentifier id[0]

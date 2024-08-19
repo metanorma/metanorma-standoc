@@ -1,6 +1,7 @@
 require "spec_helper"
 require "relaton_iso"
 require "fileutils"
+require "relaton_ietf"
 
 IETF_123_SHORT = <<~XML.freeze
   <bibitem type="standard" id="IETF123">
