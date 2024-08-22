@@ -5,7 +5,7 @@ module Metanorma
   module Standoc
     module Refs
       def iso_publisher(bib, code)
-        code.sub(/ .*$/, "").split("/").each do |abbrev|
+        code.sub(/(?<! ) .*$/, "").split("/").each do |abbrev|
           bib.contributor do |c|
             c.role type: "publisher"
             c.organization do |org|

@@ -99,7 +99,7 @@ module Metanorma
       def key_extract_locality(elem)
         elem["key"].include?(",") or return
         elem.add_child("<locality>#{elem['key'].sub(/^[^,]+,/, '')}</locality>")
-        elem["key"] = elem["key"].sub(/,.*$/, "")
+        elem["key"] = elem["key"].sub(/(^[^,]+),.*$/, "\\1")
       end
 
       def concept_termbase_cleanup(elem)

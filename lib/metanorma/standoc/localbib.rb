@@ -23,7 +23,7 @@ module Metanorma
 
       def init_file_bibdb_config(defn, key)
         /=/.match?(defn) or defn = "file=#{defn}"
-        values = defn.split(",").map { |item| item.split /\s*=\s*/ }.to_h
+        values = defn.split(",").map { |item| item.split /(?<!\s)\s*=\s*/ }.to_h
         values["key"] = key
         values["format"] ||= "bibtex" # all we currently suppoort
         values

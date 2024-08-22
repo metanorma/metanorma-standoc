@@ -2,8 +2,8 @@ module Metanorma
   module Standoc
     module Cleanup
       def textcleanup(result)
-        text = result.flatten.map { |l| l.sub(/\s*\Z/, "") } * "\n"
-        text = text.gsub(/\s+<fn /, "<fn ")
+        text = result.flatten.map { |l| l.sub(/(?<!\s)\s*\Z/, "") } * "\n"
+        text = text.gsub(/(?<!\s)\s+<fn /, "<fn ")
         %w(passthrough passthrough-inline).each do |v|
           text.gsub!(%r{<#{v}\s+formats="metanorma">([^<]*)
                     </#{v}>}mx) { @c.decode($1) }

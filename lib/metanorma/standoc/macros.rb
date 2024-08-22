@@ -22,7 +22,7 @@ module Metanorma
       on_context :example, :sourcecode
 
       def init_indent(line)
-        /^(?<prefix>[ \t]*)(?<suffix>.*)$/ =~ line
+        /^(?<prefix>[ \t]*)(?![ \t])(?<suffix>.*)$/ =~ line
         prefix = prefix.gsub("\t", "\u00a0\u00a0\u00a0\u00a0")
           .tr(" ", "\u00a0")
         prefix + suffix

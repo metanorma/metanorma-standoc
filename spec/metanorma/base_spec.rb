@@ -1378,7 +1378,7 @@ RSpec.describe Metanorma::Standoc do
       :scripts: spec/assets/scripts.html
     INPUT
     html = File.read("test.html", encoding: "utf-8")
-    expect(html).to match(%r{<script>})
+    expect(html).to match(%r{<script>}i)
   end
 
   it "uses specified fonts and assets in HTML" do

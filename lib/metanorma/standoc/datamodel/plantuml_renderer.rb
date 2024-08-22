@@ -15,7 +15,7 @@ module Metanorma
       end
 
       def join_as_plantuml(*ary)
-        ary.compact.join("\n").sub(/\s+\Z/, "")
+        ary.compact.join("\n").sub(/(?<!\s)\s+\Z/, "")
       end
 
       def render
