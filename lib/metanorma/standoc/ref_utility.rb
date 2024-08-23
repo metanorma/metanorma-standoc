@@ -20,7 +20,7 @@ module Metanorma
       def norm_year(year)
         /^&\#821[12];$/.match(year) and return "--"
         /^\d\d\d\d-\d\d\d\d$/.match(year) and return year
-        year&.sub(/(?<=[0-9])-.*$/, "")
+        year&.sub(/^([0-9]+)-.*$/, "\\1")
       end
 
       def conditional_date(bib, match, noyr)
@@ -46,7 +46,7 @@ module Metanorma
                         @bibdb&.docid_type(code) || [nil, code]
                       end
         code1.sub!(/^nofetch\((.+)\)$/, "\\1")
-        bib.docidentifier **attr_code(type: type) do |d|
+        bib.docidentifier **attr_code(type:) do |d|
           d << code1
         end
       end
@@ -59,7 +59,7 @@ module Metanorma
       end
 
       def mn_code(code)
-        code.sub(/^\(/, "[").sub(/\).*$/, "]")
+        code.sub(/^\(/, "[").sub(/^([^)]+)\).*$/, "\\1]")
           .sub(/^dropid\((.+)\)$/, "\\1")
           .sub(/^hidden\((.+)\)$/, "\\1")
           .sub(/^nofetch\((.+)\)$/, "\\1")
@@ -67,7 +67,8 @@ module Metanorma
       end
 
       def analyse_ref_localfile(ret)
-        m = /^local-file\((?:(?<source>[^,]+),\s*)?(?<id>.+)\)$/.match(ret[:id])
+        m = /^local-file\((?:(?<source>[^,)]+),\s*)?(?<id>[^)]+)\)$/
+          .match(ret[:id])
         m or return ret
         ret.merge(id: m[:id], localfile: m[:source] || "default")
       end
@@ -88,7 +89,7 @@ module Metanorma
       end
 
       def analyse_ref_repo_path(ret)
-        m = /^(?<type>repo|path|attachment):\((?<key>[^,]+),?(?<id>[^)]*)\)$/
+        m = /^(?<type>repo|path|attachment):\((?<key>[^,)]+),?(?<id>[^)]*)\)$/
           .match(ret[:id]) or return ret
         id = if m[:id].empty?
                if m[:type] == "attachment"
@@ -96,7 +97,7 @@ module Metanorma
                else m[:key].sub(%r{^[^/]+/}, "")
                end
              else m[:id] end
-        ret.merge(id: id, type: m[:type], key: m[:key], nofetch: true)
+        ret.merge(id:, type: m[:type], key: m[:key], nofetch: true)
       end
 
       def analyse_ref_numeric(ret)

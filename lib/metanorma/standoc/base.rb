@@ -47,15 +47,15 @@ module Metanorma
 
       def insert_xml_cr(doc)
         doc.gsub(%r{(</(clause|table|figure|p|bibitem|ul|ol|dl|dt|dd|li|example|
-                       sourcecode|formula|quote|references|annex|appendix|title|
-                       name|note|thead|tbody|tfoot|th|td|form|requirement|
-                       recommendation|permission|imagemap|svgmap|preferred|
-                       admitted|related|deprecates|letter-symbol|domain|
-                       graphical-symbol|expression|abbreviation-type|subject|
-                       pronunciation|grammar|term|terms|termnote|termexample|
-                       termsource|origin|termref|modification)>)}x, "\\1\n")
+            sourcecode|formula|quote|references|annex|appendix|title|name|note|
+            thead|tbody|tfoot|th|td|form|requirement|recommendation|permission|
+            imagemap|svgmap|preferred|admitted|related|domain|deprecates|
+            letter-symbol|graphical-symbol|expression|subject|abbreviation-type|
+            pronunciation|grammar|term|terms|termnote|termexample|termsource|
+            origin|termref|modification)>)}x, "\\1\n")
           .gsub(%r{(<(title|name))}, "\n\\1")
-          .gsub(%r{(<sourcecode[^>]*>)\s+(<name[^>]*>[^<]+</name>)\s+}, "\\1\\2")
+          .gsub(%r{(<sourcecode[^<>]*>)\s+(<name[^<>]*>[^<]+</name>)\s+},
+                "\\1\\2")
       end
 
       def version

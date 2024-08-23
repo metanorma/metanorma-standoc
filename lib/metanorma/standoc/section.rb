@@ -14,8 +14,8 @@ module Metanorma
         node.attr("heading")&.downcase ||
           node.title
             .gsub(%r{<index>.*?</index>}m, "")
-            .gsub(%r{<fn[^>]*>.*?</fn>}m, "")
-            .gsub(/<[^>]+>/, "")
+            .gsub(%r{<fn[^<>]*>.*?</fn>}m, "")
+            .gsub(/<[^<>]+>/, "")
             .strip.downcase.sub(/\.$/, "")
       end
 
