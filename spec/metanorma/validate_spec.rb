@@ -44,9 +44,9 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include "Anchor abc has already been used at line"
+      .to include("Anchor abc has already been used at line")
     expect(File.read("test.err.html"))
-      .to include %(&lt;clause id=&quot;abc&quot; inline-header=&quot;false&quot; obligation=&quot;normative&quot;&gt;)
+      .to include(%(&lt;clause id=&quot;abc&quot; inline-header=&quot;false&quot; obligation=&quot;normative&quot;&gt;))
   end
 
   it "aborts on a missing include file" do
@@ -69,7 +69,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include "Unresolved directive in &lt;​stdin&gt; - include::​spec/​subdir/a4.​adoc[]"
+      .to include("Unresolved directive in &lt;​stdin&gt; - include::​spec/​subdir/a4.​adoc[]")
   end
 
   it "aborts on embedding a headerless document" do
@@ -119,7 +119,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include %(Attachment hien/​spec_helper.​rb does not exist)
+      .to include(%(Attachment hien/​spec_helper.​rb does not exist))
   end
 
   it "aborts on an index cross-reference with too few terms" do
@@ -142,7 +142,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include "invalid index \"see\" cross-reference: wrong number of attributes in <code>index:​see[term]</code>"
+      .to include("invalid index \"see\" cross-reference: wrong number of attributes in <code>index:​see[term]</code>")
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -166,7 +166,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include "invalid index \"see\" cross-reference: wrong number of attributes in <code>index:​see[term,a,​b,c,d,e]</code>"
+      .to include("invalid index \"see\" cross-reference: wrong number of attributes in <code>index:​see[term,a,​b,c,d,e]</code>")
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -218,7 +218,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include "Empty table"
+      .to include("Empty table")
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -241,7 +241,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include "Malformed URI: http://​a@x@x@"
+      .to include("Malformed URI: http://​a@x@x@")
     expect(File.exist?("test.xml")).to be false
 
     FileUtils.rm_f "test.xml"
@@ -259,7 +259,7 @@ RSpec.describe Metanorma::Standoc do
       Asciidoctor.convert(input, *OPTIONS)
     end.not_to raise_error
     expect(File.read("test.err.html"))
-      .not_to include "Malformed URI: http:"
+      .not_to include("Malformed URI: http:")
   end
 
   it "aborts on unsupported format in localbib" do
@@ -280,7 +280,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include "Cannot process format pizza for local relaton data source default"
+      .to include("Cannot process format pizza for local relaton data source default")
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -302,7 +302,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include "Cannot process file spec/​assets/fred.​bib for local relaton data source default"
+      .to include("Cannot process file spec/​assets/fred.​bib for local relaton data source default")
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -327,7 +327,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include "Cannot find reference xyz for local relaton data source default"
+      .to include("Cannot find reference xyz for local relaton data source default")
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -365,7 +365,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     errf = File.read("test.err.html")
     expect(errf)
-      .to include "Reference iso123 is missing a document identifier (docid)"
+      .to include("Reference iso123 is missing a document identifier (docid)")
   end
 
   it "warns about missing fields in asciibib" do
@@ -385,7 +385,7 @@ RSpec.describe Metanorma::Standoc do
           name:::: ISO
     INPUT
     errf = File.read("test.err.html")
-    expect(errf).to include "The following reference is missing an anchor"
+    expect(errf).to include("The following reference is missing an anchor")
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       #{VALIDATING_BLANK_HDR}
 
@@ -402,7 +402,7 @@ RSpec.describe Metanorma::Standoc do
           name:::: ISO
     INPUT
     errf = File.read("test.err.html")
-    expect(errf).not_to include "The following reference is missing an anchor"
+    expect(errf).not_to include("The following reference is missing an anchor")
   end
 
   it "warns and aborts if malformed MathML" do
@@ -433,13 +433,13 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     #     expect(File.read("test.err.html"))
-    #       .to include "Invalid MathML"
+    #       .to include("Invalid MathML")
     #     expect(File.read("test.err.html"))
-    #       .to include "<mew>1<mn>3</mn>2</mn>"
+    #       .to include("<mew>1<mn>3</mn>2</mn>")
     #     expect(File.read("test.err.html"))
-    #       .to include "Asciimath original: sum x"
+    #       .to include("Asciimath original: sum x")
     #     expect(File.read("test.err.html"))
-    #       .to include "<mo>∑</mo>"
+    #       .to include("<mo>∑</mo>")
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -454,7 +454,7 @@ RSpec.describe Metanorma::Standoc do
       * [[[A, B]]], span:surname1[Wozniak]
     INPUT
     errf = File.read("test.err.html")
-    expect(errf).to include "unrecognised key 'surname1' in <code>span:​surname1[Wozn­iak]"
+    expect(errf).to include("unrecognised key 'surname1' in <code>span:​surname1[Wozn­iak]")
   end
 
   #   it "warns about malformed LaTeX" do
@@ -470,7 +470,7 @@ RSpec.describe Metanorma::Standoc do
   #
   #   Subclause
   #   INPUT
-  #   expect(File.read("test.err.html")).to include "latexmlmath failed to process equation"
+  #   expect(File.read("test.err.html")).to include("latexmlmath failed to process equation")
   #   end
 
   #   it "warns about reparsing LaTeX" do
@@ -505,7 +505,7 @@ RSpec.describe Metanorma::Standoc do
 
       Subclause
     INPUT
-    expect(File.read("test.err.html")).to include "Hanging paragraph in clause"
+    expect(File.read("test.err.html")).to include("Hanging paragraph in clause")
   end
 
   it "warns that video is a skipped node" do
@@ -515,7 +515,7 @@ RSpec.describe Metanorma::Standoc do
 
       video::video_file.mp4[]
     INPUT
-    expect(File.read("test.err.html")).to include "converter missing for video node"
+    expect(File.read("test.err.html")).to include("converter missing for video node")
   end
 
   it "warns that figure does not have title" do
@@ -525,7 +525,7 @@ RSpec.describe Metanorma::Standoc do
 
       image::spec/examples/rice_images/rice_image1.png[]
     INPUT
-    expect(File.read("test.err.html")).to include "Figure should have title"
+    expect(File.read("test.err.html")).to include("Figure should have title")
   end
 
   it "aborts if callouts do not match annotations" do
@@ -550,7 +550,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include "mismatch of callouts (1) and annotations (2)"
+      .to include("mismatch of callouts (1) and annotations (2)")
     expect(File.exist?("test.xml")).to be false
 
     FileUtils.rm_f "test.xml"
@@ -573,7 +573,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include "mismatch of callouts (2) and annotations (1)"
+      .to include("mismatch of callouts (2) and annotations (1)")
     expect(File.exist?("test.xml")).to be false
 
     FileUtils.rm_f "test.xml"
@@ -597,7 +597,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .not_to include "mismatch of callouts"
+      .not_to include("mismatch of callouts")
     # expect(File.exist?("test.xml")).to be true
 
     FileUtils.rm_f "test.xml"
@@ -621,7 +621,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .not_to include "mismatch of callouts"
+      .not_to include("mismatch of callouts")
     # expect(File.exist?("test.xml")).to be true
 
     FileUtils.rm_f "test.xml"
@@ -642,7 +642,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .not_to include "mismatch of callouts"
+      .not_to include("mismatch of callouts")
   end
 
   it "warns that cross-reference to bibliography is not a real reference" do
@@ -654,7 +654,7 @@ RSpec.describe Metanorma::Standoc do
       <<iso123>>
     INPUT
     expect(File.read("test.err.html"))
-      .to include "iso123 does not have a corresponding anchor ID in the bibliography"
+      .to include("iso123 does not have a corresponding anchor ID in the bibliography")
 
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       #{VALIDATING_BLANK_HDR}
@@ -673,7 +673,7 @@ RSpec.describe Metanorma::Standoc do
           name:::: ISO
     INPUT
     expect(File.read("test.err.html"))
-      .not_to include "iso123 does not have a corresponding anchor ID in the bibliography"
+      .not_to include("iso123 does not have a corresponding anchor ID in the bibliography")
   end
 
   it "warns of Non-reference in bibliography" do
@@ -684,7 +684,7 @@ RSpec.describe Metanorma::Standoc do
       == Normative References
       * I am not a reference
     INPUT
-    expect(File.read("test.err.html")).to include "no anchor on reference"
+    expect(File.read("test.err.html")).to include("no anchor on reference")
   end
 
   it "warns that Table should have title" do
@@ -696,7 +696,7 @@ RSpec.describe Metanorma::Standoc do
       |a |b |c
       |===
     INPUT
-    expect(File.read("test.err.html")).to include "Table should have title"
+    expect(File.read("test.err.html")).to include("Table should have title")
   end
 
   it "validates document against ISO XML schema" do
@@ -708,7 +708,7 @@ RSpec.describe Metanorma::Standoc do
       Para
     INPUT
     expect(File.read("test.err.html"))
-      .to include 'value of attribute "align" is invalid; must be equal to'
+      .to include('value of attribute "align" is invalid; must be equal to')
   end
 
   it "Logs Relaton errors onto Metanorma log" do
@@ -727,9 +727,9 @@ RSpec.describe Metanorma::Standoc do
 
       INPUT
       expect(File.read("test.err.html"))
-        .to include "<code>ISO 0a</code>"
+        .to include("<code>ISO 0a</code>")
       expect(File.read("test.err.html"))
-        .to include "Is not recognized as a standards identifier"
+        .to include("Is not recognized as a standards identifier")
     end
   end
 
@@ -753,7 +753,7 @@ RSpec.describe Metanorma::Standoc do
         <<iev,clause="103-01-02">>
       INPUT
       expect(File.read("test.err.html"))
-        .to include 'Term "automation" does not match IEV 103-01-02 "functional"'
+        .to include('Term "automation" does not match IEV 103-01-02 "functional"')
 
       FileUtils.rm_f "test.err.html"
       Asciidoctor.convert(<<~INPUT, *OPTIONS)
@@ -772,7 +772,7 @@ RSpec.describe Metanorma::Standoc do
         [.source]
         <<iev,clause="103-01-02">>
       INPUT
-      expect(File.read("test.err.html")).not_to include "does not match IEV 103-01-02"
+      expect(File.read("test.err.html")).not_to include("does not match IEV 103-01-02")
 
       FileUtils.rm_f "test.err.html"
       Asciidoctor.convert(<<~INPUT, *OPTIONS)
@@ -793,7 +793,7 @@ RSpec.describe Metanorma::Standoc do
         <<iev,clause="103-01-02">>
       INPUT
       expect(File.read("test.err.html"))
-        .not_to include "does not match IEV 103-01-02"
+        .not_to include("does not match IEV 103-01-02")
     end
   end
 
@@ -823,7 +823,7 @@ RSpec.describe Metanorma::Standoc do
       rescue SystemExit, RuntimeError
       end
       expect(File.read("test.err.html"))
-        .to include "The IEV document 60050-03 that has been cited does not exist"
+        .to include("The IEV document 60050-03 that has been cited does not exist")
     end
   end
 
@@ -856,7 +856,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include 'processing {{&lt;​&lt;def&gt;​&gt;,term,​option=​"noital"}}: error processing ,term,​option=​"noital" as CSV'
+      .to include('processing {{&lt;​&lt;def&gt;​&gt;,term,​option=​"noital"}}: error processing ,term,​option=​"noital" as CSV')
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -896,15 +896,15 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include %(Term reference to <code>Terms-and-Definitions</code> missing: "Terms-and-Definitions" is not defined in document.​ Did you mean to point to a subterm)
+      .to include(%(Term reference to <code>Terms-and-Definitions</code> missing: "Terms-and-Definitions" is not defined in document.​ Did you mean to point to a subterm))
     expect(File.read("test.err.html"))
-      .to include "Concept term1 is pointing to jkl, which is not a term or symbol. Did you mean to point to a subterm?"
+      .to include("Concept term1 is pointing to jkl, which is not a term or symbol. Did you mean to point to a subterm?")
     expect(File.read("test.err.html"))
-      .to include "Concept term is pointing to abc, which is not a term or symbol"
+      .to include("Concept term is pointing to abc, which is not a term or symbol")
     expect(File.read("test.err.html"))
-      .not_to include "Concept term is pointing to def, which is not a term or symbol"
+      .not_to include("Concept term is pointing to def, which is not a term or symbol")
     expect(File.read("test.err.html"))
-      .to include "Concept term is pointing to ghi, which is not a term or symbol"
+      .to include("Concept term is pointing to ghi, which is not a term or symbol")
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -935,11 +935,11 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include "Related term is pointing to abc, which is not a term or symbol"
+      .to include("Related term is pointing to abc, which is not a term or symbol")
     expect(File.read("test.err.html"))
-      .not_to include "Related term is pointing to def, which is not a term or symbol"
+      .not_to include("Related term is pointing to def, which is not a term or symbol")
     expect(File.read("test.err.html"))
-      .to include "Related term is pointing to ghi, which is not a term or symbol"
+      .to include("Related term is pointing to ghi, which is not a term or symbol")
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -965,7 +965,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include "Anchor abc has already been used at line"
+      .to include("Anchor abc has already been used at line")
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -991,7 +991,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include "Anchor abc has already been used at line"
+      .to include("Anchor abc has already been used at line")
     expect(File.exist?("test.xml")).to be false
 
     begin
@@ -1013,7 +1013,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .not_to include "Anchor abc has already been used at line"
+      .not_to include("Anchor abc has already been used at line")
   end
 
   it "warns if numeric normative reference" do
@@ -1031,7 +1031,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     Asciidoctor.convert(input, *OPTIONS)
     expect(File.read("test.err.html"))
-      .to include "Numeric reference in normative references"
+      .to include("Numeric reference in normative references")
   end
 
   it "does not warn and abort if columns and rows not out of bounds" do
@@ -1059,11 +1059,11 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .not_to include "Table exceeds maximum number of columns defined"
+      .not_to include("Table exceeds maximum number of columns defined")
     expect(File.read("test.err.html"))
-      .not_to include "Table rows in table are inconsistent: check rowspan"
+      .not_to include("Table rows in table are inconsistent: check rowspan")
     expect(File.read("test.err.html"))
-      .not_to include "Table rows in table cannot go outside thead: check rowspan"
+      .not_to include("Table rows in table cannot go outside thead: check rowspan")
   end
 
   it "warns if rowspan goes across thead" do
@@ -1092,7 +1092,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include "Table rows in table cannot go outside thead: check rowspan"
+      .to include("Table rows in table cannot go outside thead: check rowspan")
   end
 
   xit "warns and aborts if columns out of bounds against colgroup" do
@@ -1119,9 +1119,9 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include "Table exceeds maximum number of columns defined (4)"
+      .to include("Table exceeds maximum number of columns defined (4)")
     expect(File.read("test.err.html"))
-      .not_to include "Table rows in table are inconsistent: check rowspan"
+      .not_to include("Table rows in table are inconsistent: check rowspan")
   end
 
   xit "warns and aborts if columns out of bounds against cell count per row" do
@@ -1147,9 +1147,9 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include "Table exceeds maximum number of columns defined (3)"
+      .to include("Table exceeds maximum number of columns defined (3)")
     expect(File.read("test.err.html"))
-      .not_to include "Table rows in table are inconsistent: check rowspan"
+      .not_to include("Table rows in table are inconsistent: check rowspan")
   end
 
   it "warns and aborts if rows out of bounds" do
@@ -1175,9 +1175,9 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .not_to include "Table exceeds maximum number of columns defined"
+      .not_to include("Table exceeds maximum number of columns defined")
     expect(File.read("test.err.html"))
-      .to include "Table rows in table are inconsistent: check rowspan"
+      .to include("Table rows in table are inconsistent: check rowspan")
   end
 
   it "err file succesfully created for docfile path" do
@@ -1198,7 +1198,7 @@ RSpec.describe Metanorma::Standoc do
       Subclause
     INPUT
 
-    expect(File.read("test/test.err.html")).to include "Hanging paragraph in clause"
+    expect(File.read("test/test.err.html")).to include("Hanging paragraph in clause")
   end
 
   it "Warning if no block for footnoteblock" do
@@ -1212,7 +1212,7 @@ RSpec.describe Metanorma::Standoc do
       footnoteblock:[id1]
     INPUT
     expect(File.read("test.err.html"))
-      .to include "Could not resolve footnoteblock:[id1]"
+      .to include("Could not resolve footnoteblock:[id1]")
   end
 
   it "Warning if xref/@target does not point to a real identifier" do
@@ -1226,7 +1226,7 @@ RSpec.describe Metanorma::Standoc do
       <<id1>>
     INPUT
     expect(File.read("test.err.html"))
-      .to include "Crossreference target id1 is undefined"
+      .to include("Crossreference target id1 is undefined")
   end
 
   it "Warns if illegal nessting of assets within assets" do
@@ -1254,7 +1254,7 @@ RSpec.describe Metanorma::Standoc do
       --
     INPUT
     expect(File.read("test.err.html"))
-      .to include "There is an instance of table nested within note"
+      .to include("There is an instance of table nested within note")
   end
 
   it "Warns if illegal nesting of assets within assets with crossreferencing" do
@@ -1283,8 +1283,8 @@ RSpec.describe Metanorma::Standoc do
       --
     INPUT
     expect(File.read("test.err.html"))
-      .to include "There is a crossreference to an instance of table " \
-                  "nested within note"
+      .to include("There is a crossreference to an instance of table " \
+                  "nested within note")
   end
 
   it "Warning if metadata deflist not after a designation" do
@@ -1305,7 +1305,7 @@ RSpec.describe Metanorma::Standoc do
       language:: fr
     INPUT
     expect(File.read("test.err.html"))
-      .to include "Metadata definition list does not follow a term designation"
+      .to include("Metadata definition list does not follow a term designation")
   end
 
   it "Warning if related term missing" do
@@ -1323,9 +1323,9 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     expect(File.read("test.err.html"))
-      .to include "Error: Term reference to <code>xyz</code> missing:"
+      .to include("Error: Term reference to <code>xyz</code> missing:")
     expect(File.read("test.err.html"))
-      .not_to include "Did you mean to point to a subterm?"
+      .not_to include("Did you mean to point to a subterm?")
 
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       #{VALIDATING_BLANK_HDR}
@@ -1341,9 +1341,9 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     expect(File.read("test.err.html"))
-      .to include "Error: Term reference to <code>xyz</code> missing:"
+      .to include("Error: Term reference to <code>xyz</code> missing:")
     expect(File.read("test.err.html"))
-      .to include "Did you mean to point to a subterm?"
+      .to include("Did you mean to point to a subterm?")
 
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       #{VALIDATING_BLANK_HDR}
@@ -1358,7 +1358,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     expect(File.read("test.err.html"))
-      .to include "Symbol reference in <code>symbol​[xyz]</code> missing:"
+      .to include("Symbol reference in <code>symbol​[xyz]</code> missing:")
 
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       #{VALIDATING_BLANK_HDR}
@@ -1380,9 +1380,9 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     expect(File.read("test.err.html"))
-      .not_to include "Error: Term reference to <code>xyz</code> missing:"
+      .not_to include("Error: Term reference to <code>xyz</code> missing:")
     expect(File.read("test.err.html"))
-      .not_to include "Symbol reference in <code>symbol[xyz]</code> missing:"
+      .not_to include("Symbol reference in <code>symbol[xyz]</code> missing:")
   end
 
   it "warns if corrupt PNG" do
@@ -1401,7 +1401,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     Asciidoctor.convert(input, *OPTIONS)
     expect(File.read("test.err.html"))
-      .to include "Corrupt PNG image"
+      .to include("Corrupt PNG image")
     expect(File.exist?("test.xml")).to be true
   end
 
@@ -1422,7 +1422,7 @@ RSpec.describe Metanorma::Standoc do
 
     Asciidoctor.convert(input, *OPTIONS)
     expect(File.read("test.err.html"))
-      .not_to include "Corrupt PNG image"
+      .not_to include("Corrupt PNG image")
     expect(File.exist?("test.xml")).to be true
   end
 
@@ -1449,7 +1449,7 @@ RSpec.describe Metanorma::Standoc do
     end
 
     expect(File.read("test.err.html"))
-      .to include "Image not found"
+      .to include("Image not found")
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -1462,7 +1462,7 @@ RSpec.describe Metanorma::Standoc do
       . A
     INPUT
     expect(File.read("test.err.html"))
-      .to include "Style override set for ordered list"
+      .to include("Style override set for ordered list")
 
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       #{VALIDATING_BLANK_HDR}
@@ -1471,7 +1471,7 @@ RSpec.describe Metanorma::Standoc do
       . A
     INPUT
     expect(File.read("test.err.html"))
-      .not_to include "Style override set for ordered list"
+      .not_to include("Style override set for ordered list")
   end
 
   it "warns if two identical term designations in the same term" do
@@ -1488,7 +1488,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     Asciidoctor.convert(input, *OPTIONS)
     expect(File.read("test.err.html"))
-      .to include "Removed duplicate designation Term1"
+      .to include("Removed duplicate designation Term1")
   end
 
   it "warns if two identical preferred term designations" do
@@ -1515,7 +1515,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include "Term Term1 occurs twice as preferred designation: a, b"
+      .to include("Term Term1 occurs twice as preferred designation: a, b")
 
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
@@ -1542,7 +1542,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include "Term Term1 occurs twice as preferred designation: a, b"
+      .to include("Term Term1 occurs twice as preferred designation: a, b")
   end
 
   it "warns if image is too big for Data URI encoding" do
@@ -1565,7 +1565,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include "Image too large for Data URI encoding"
+      .to include("Image too large for Data URI encoding")
 
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
@@ -1627,7 +1627,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include "Image too large for Data URI encoding"
+      .to include("Image too large for Data URI encoding")
   end
 
   private

@@ -1141,8 +1141,8 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include "Missing surname: issue with bibliographic markup in " \
-                  "\"The adoption of urban digital twins\""
+      .to include("Missing surname: issue with bibliographic markup in " \
+                  "\"The adoption of urban digital twins\"")
     expect(File.exist?("test.xml")).to be false
   end
 

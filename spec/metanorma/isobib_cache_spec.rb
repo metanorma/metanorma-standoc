@@ -447,8 +447,8 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso123,ISO 123:2001]]] _Standard_
       * [[[ietf123,RFC 123]]] _Standard_
     INPUT
-    expect(out).to include '<eref type="inline" bibitemid="iso123" citeas="ISO 123:2001"/>'
-    expect(out).to include '<eref type="inline" bibitemid="ietf123" citeas="IETF RFC 123"/>'
+    expect(out).to include('<eref type="inline" bibitemid="iso123" citeas="ISO 123:2001"/>')
+    expect(out).to include('<eref type="inline" bibitemid="ietf123" citeas="IETF RFC 123"/>')
   end
 
   it "activates global cache" do

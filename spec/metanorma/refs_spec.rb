@@ -323,16 +323,16 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     doc = Asciidoctor.convert(input
       .sub(":novalid:", ":language: de\n:novalid:"), *OPTIONS)
-    expect(doc).to include '<eref type="inline" bibitemid="iso123" citeas="ISO 8342-DE"/>'
-    expect(doc).to include '<eref type="inline" bibitemid="iso124" citeas="ISO 8343-DE"/>'
+    expect(doc).to include('<eref type="inline" bibitemid="iso123" citeas="ISO 8342-DE"/>')
+    expect(doc).to include('<eref type="inline" bibitemid="iso124" citeas="ISO 8343-DE"/>')
     doc = Asciidoctor.convert(input
   .sub(":novalid:", ":language: fr\n:novalid:"), *OPTIONS)
-    expect(doc).to include '<eref type="inline" bibitemid="iso123" citeas="ISO 8342-EN"/>'
-    expect(doc).to include '<eref type="inline" bibitemid="iso124" citeas="ISO 8343-FR"/>'
+    expect(doc).to include('<eref type="inline" bibitemid="iso123" citeas="ISO 8342-EN"/>')
+    expect(doc).to include('<eref type="inline" bibitemid="iso124" citeas="ISO 8343-FR"/>')
     doc = Asciidoctor.convert(input
       .sub(":novalid:", ":language: en\n:novalid:"), *OPTIONS)
-    expect(doc).to include '<eref type="inline" bibitemid="iso123" citeas="ISO 8342-EN"/>'
-    expect(doc).to include '<eref type="inline" bibitemid="iso124" citeas="ISO 8341"/>'
+    expect(doc).to include('<eref type="inline" bibitemid="iso123" citeas="ISO 8342-EN"/>')
+    expect(doc).to include('<eref type="inline" bibitemid="iso124" citeas="ISO 8341"/>')
   end
 
   it "processes simple IEC reference" do
