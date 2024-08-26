@@ -71,7 +71,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
-  it "profiles number formatting" do
+  it "profiles number formatting in macros" do
     input = <<~INPUT
       = Document title
       Author
@@ -83,12 +83,12 @@ RSpec.describe Metanorma::Standoc do
       :number-presentation-profile-3: notation=scientific,exponent_sign=nil,decimal=","
       :number-presentation-profile-x: notation=engineering,precision=4,times=','
 
-      number:345[]
-      number:345[profile=3]
+      number:145[]
+      number:245[profile=3]
       number:345[profile=x]
-      number:345[profile=x,precision=5]
-      number:345[profile=x,precision=5,digit_count=10,precision=nil]
-      number:345[precision=5,digit_count=10,exponent_sign=nil]
+      number:445[profile=x,precision=5]
+      number:545[profile=x,precision=5,digit_count=10,precision=nil]
+      number:645[precision=5,digit_count=10,exponent_sign=nil]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -96,12 +96,12 @@ RSpec.describe Metanorma::Standoc do
            <p id="_">
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="notation='basic',exponent_sign='plus',precision='4'">0.345e3</mn>
+                 <mn data-metanorma-numberformat="notation='e',exponent_sign='plus',precision='4'">0.145e3</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="notation='scientific',precision='4',decimal=','">0.345e3</mn>
+                 <mn data-metanorma-numberformat="notation='scientific',precision='4',decimal=','">0.245e3</mn>
                </math>
              </stem>
              <stem type="MathML">
@@ -111,17 +111,17 @@ RSpec.describe Metanorma::Standoc do
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='5',times=','">0.345e3</mn>
+                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='5',times=','">0.445e3</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',times=',',digit_count='10'">0.345e3</mn>
+                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',times=',',digit_count='10'">0.545e3</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="notation='e',precision='5',digit_count='10'">0.345e3</mn>
+                 <mn data-metanorma-numberformat="notation='e',precision='5',digit_count='10'">0.645e3</mn>
                </math>
              </stem>
            </p>
@@ -129,6 +129,370 @@ RSpec.describe Metanorma::Standoc do
        </standard-document>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
+  end
+
+  it "applies number formatting in formulas" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :stem:
+
+      [stem]
+      ++++
+      1 + x
+      ++++
+
+      [stem,number-format="notation=basic,exponent_sign='plus',precision=4"]
+      ++++
+      2 + x
+      ++++
+
+      [stem,number-format=default]
+      ++++
+      3 + x
+      ++++
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+          <sections>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn>1</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>1 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='basic',exponent_sign='plus',precision='4'">2</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>2 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='basic'">3</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>3 + x</asciimath>
+                </stem>
+             </formula>
+          </sections>
+       </standard-document>
+    OUTPUT
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
+  end
+
+  it "profiles number formatting in formulas" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :stem:
+      :number-presentation: notation=e,exponent_sign=plus,precision=4
+      :number-presentation-profile-3: notation=scientific,exponent_sign=nil,decimal=","
+      :number-presentation-profile-x: notation=engineering,precision=4,times=','
+
+      [stem]
+      ++++
+      1 + x
+      ++++
+
+      [stem,number-format="notation=basic,significant='7',precision=4"]
+      ++++
+      2 + x
+      ++++
+
+      [stem,number-format=default]
+      ++++
+      3 + x
+      ++++
+
+      [stem,number-format=profile=3]
+      ++++
+      4 + x
+      ++++
+
+      [stem,number-format=profile=x,precision=5]
+      ++++
+      5 + x
+      ++++
+
+      [stem,number-format=nil]
+      ++++
+      6 + x
+      ++++
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+          <sections>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn>1</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>1 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='basic',exponent_sign='plus',precision='4',significant='7'">2</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>2 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='e',exponent_sign='plus',precision='4'">3</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>3 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='scientific',precision='4',decimal=','">4</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>4 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='4',times=','">5</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>5 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn>6</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>6 + x</asciimath>
+                </stem>
+             </formula>
+          </sections>
+       </standard-document>
+    OUTPUT
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
+
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+          <sections>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="precision='6',decimal=':'">1</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>1 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='basic',exponent_sign='plus',precision='4',significant='7'">2</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>2 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='e',exponent_sign='plus',precision='4'">3</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>3 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='scientific',precision='4',decimal=','">4</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>4 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='4',times=','">5</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>5 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn>6</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>6 + x</asciimath>
+                </stem>
+             </formula>
+          </sections>
+       </standard-document>
+    OUTPUT
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input
+      .sub(":number-presentation:",
+           ":number-presentation-formula: precision=6,decimal=:\n" \
+              ":number-presentation:"), *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
+
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+          <sections>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='e',exponent_sign='plus',precision='4'">1</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>1 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='basic',exponent_sign='plus',precision='4',significant='7'">2</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>2 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='e',exponent_sign='plus',precision='4'">3</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>3 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='scientific',precision='4',decimal=','">4</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>4 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='4',times=','">5</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>5 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn>6</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>6 + x</asciimath>
+                </stem>
+             </formula>
+          </sections>
+       </standard-document>
+    OUTPUT
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input
+      .sub(":number-presentation:",
+           ":number-presentation-formula: number-presentation\n" \
+              ":number-presentation:"), *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 

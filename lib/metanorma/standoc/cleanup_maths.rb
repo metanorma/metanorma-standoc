@@ -1,4 +1,5 @@
 require "asciimath2unitsml"
+require_relative "cleanup_mathvariant"
 
 module Metanorma
   module Standoc
@@ -58,15 +59,19 @@ module Metanorma
         xml
       end
 
-      def progress_conv(idx, step, total, threshold, msg)
-        return unless (idx % step).zero? && total > threshold && idx.positive?
+      def mathml_xml_cleanup(stem)
+        xml_unescape_mathml(stem)
+        mathml_namespace(stem)
+        mathml_preserve_space(stem)
+      end
 
+      def progress_conv(idx, step, total, threshold, msg)
+        (idx % step).zero? && total > threshold && idx.positive? or return
         warn "#{msg} #{idx} of #{total}"
       end
 
       def xml_unescape_mathml(xml)
-        return if xml.children.any?(&:element?)
-
+        xml.children.any?(&:element?) and return
         math = xml.text.gsub("&lt;", "<").gsub("&gt;", ">")
           .gsub("&quot;", '"').gsub("&apos;", "'").gsub("&amp;", "&")
           .gsub(/<[^: \r\n\t\/]+:/, "<").gsub(/<\/[^ \r\n\t:]+:/, "</")
@@ -86,33 +91,6 @@ module Metanorma
         end
       end
 
-      def mathml_mi_italics
-        { uppergreek: true, upperroman: true,
-          lowergreek: true, lowerroman: true }
-      end
-
-      # presuppose multichar mi upright, singlechar mi MathML default italic
-      def mathml_italicise(xml)
-        xml.xpath(".//m:mi[not(ancestor::*[@mathvariant])]",
-                  "m" => MATHML_NS).each do |i|
-          char = @c.decode(i.text)
-          i["mathvariant"] = "normal" if mi_italicise?(char)
-        end
-      end
-
-      def mi_italicise?(char)
-        char.length > 1 and return false
-        case char
-        when /\p{Greek}/
-          (/\p{Lower}/.match(char) && !mathml_mi_italics[:lowergreek]) ||
-            (/\p{Upper}/.match(char) && !mathml_mi_italics[:uppergreek])
-        when /\p{Latin}/
-          (/\p{Lower}/.match(char) && !mathml_mi_italics[:lowerroman]) ||
-            (/\p{Upper}/.match(char) && !mathml_mi_italics[:upperroman])
-        else false
-        end
-      end
-
       UNITSML_NS = "https://schema.unitsml.org/unitsml/1.0".freeze
 
       def add_misc_container(xmldoc)
@@ -125,8 +103,7 @@ module Metanorma
       end
 
       def mathml_unitsML(xmldoc)
-        return unless xmldoc.at(".//m:*", "m" => UNITSML_NS)
-
+        xmldoc.at(".//m:*", "m" => UNITSML_NS) or return
         misc = add_misc_container(xmldoc)
         unitsml = misc.add_child("<UnitsML xmlns='#{UNITSML_NS}'/>").first
         %w(Unit CountedItem Quantity Dimension Prefix).each do |t|
@@ -139,8 +116,7 @@ module Metanorma
           .each_with_object({}) do |x, m|
           m[x["xml:id"]] = x.remove
         end
-        return if tags.empty?
-
+        tags.empty? and return
         set = unitsml.add_child("<#{tag}Set/>").first
         tags.each_value { |v| set << v }
       end
@@ -149,62 +125,8 @@ module Metanorma
         { multiplier: :space }
       end
 
-      MATHVARIANT_OVERRIDE = {
-        bold: { normal: "bold", italic: "bold-italic", fraktur: "bold-fraktur",
-                script: "bold-script", "sans-serif": "bold-sans-serif",
-                "sans-serif-italic": "sans-serif-bold-italic" },
-        italic: { normal: "italic", bod: "bold-italic",
-                  "sans-serif": "sans-serif-italic",
-                  "bold-sans-serif": "sans-serif-bold-italic" },
-        "bold-italic": { normal: "bold-italic", bold: "bold-italic",
-                         italic: "bold-italic",
-                         "sans-serif": "sans-serif-bold-italic",
-                         "bold-sans-serif": "sans-serif-bold-italic",
-                         "sans-serif-italic": "sans-serif-bold-italic" },
-        fraktur: { normal: "fraktur", bold: "bold-fraktur" },
-        "bold-fraktur": { normal: "bold-fraktur", fraktur: "bold-fraktur" },
-        script: { normal: "script", bold: "bold-script" },
-        "bold-script": { normal: "script", script: "bold-script" },
-        "sans-serif": { normal: "sans-serif", bold: "bold-sans-serif",
-                        italic: "sans-serif-italic",
-                        "bold-italic": "sans-serif-bold-italic" },
-        "bold-sans-serif": { normal: "bold-sans-serif", bold: "bold-sans-serif",
-                             "sans-serif": "bold-sans-serif",
-                             italic: "sans-serif-bold-italic",
-                             "bold-italic": "sans-serif-bold-italic",
-                             "sans-serif-italic": "sans-serif-bold-italic" },
-        "sans-serif-italic": { normal: "sans-serif-italic",
-                               italic: "sans-serif-italic",
-                               "sans-serif": "sans-serif-italic",
-                               bold: "sans-serif-bold-italic",
-                               "bold-italic": "sans-serif-bold-italic",
-                               "sans-serif-bold": "sans-serif-bold-italic" },
-        "sans-serif-bold-italic": { normal: "sans-serif-bold-italic",
-                                    italic: "sans-serif-bold-italic",
-                                    "sans-serif": "sans-serif-bold-italic",
-                                    "sans-serif-italic": "sans-serif-bold-italic",
-                                    bold: "sans-serif-bold-italic",
-                                    "bold-italic": "sans-serif-bold-italic",
-                                    "sans-serif-bold": "sans-serif-bold-italic" },
-      }.freeze
-
-      def mathvariant_override(inner, outer)
-        o = outer.to_sym
-        i = inner.to_sym
-        MATHVARIANT_OVERRIDE[o] or return inner
-        MATHVARIANT_OVERRIDE[o][i] || inner
-      end
-
-      def mathml_mathvariant(math)
-        math.xpath(".//*[@mathvariant]").each do |outer|
-          outer.xpath(".//*[@mathvariant]").each do |inner|
-            inner["mathvariant"] =
-              mathvariant_override(inner["mathvariant"], outer["mathvariant"])
-          end
-        end
-      end
-
       def mathml_mn_format(math)
+        math["number-format"] or return
         math.xpath(".//m:mn", "m" => MATHML_NS).each do |m|
           profile = mathml_mn_profile(m)
           attr = profile.each_with_object([]) do |(k, v), acc|
@@ -226,17 +148,44 @@ module Metanorma
         fmt.merge(fmt1).merge(fmt2)
       end
 
+      def mathml_stem_format(stem)
+        f = mathml_stem_format_attr(stem) or return
+        attr = quoted_csv_split(f, ",").map do |x|
+          m = /^(.+?)=(.+)?$/.match(x) or next
+          "#{m[1]}='#{m[2]}'"
+        end.join(",")
+        stem.xpath(".//m:mn", "m" => MATHML_NS).each do |m|
+          m["data-metanorma-numberformat"] = attr
+        end
+      end
+
+      def mathml_stem_format_attr(stem)
+        f = stem["number-format"] || @numberfmt_formula or return
+        if f == "nil"
+          stem.delete("number-format")
+          return
+        end
+        f == "default" or return f
+        if @numberfmt_default.empty?
+          "notation='basic'"
+        else @numberfmt_default&.map { |k, v| "#{k}=#{v}" }&.join(",")
+        end
+      end
+
+      def mathml_number_format(stem)
+        mathml_stem_format(stem)
+        mathml_mn_format(stem)
+        stem.delete("number-format")
+      end
+
       def mathml_cleanup(xmldoc)
         unitsml = Asciimath2UnitsML::Conv.new(asciimath2unitsml_options)
         xmldoc.xpath("//stem[@type = 'MathML'][not(@validate = 'false')]")
           .each do |x|
-          xml_unescape_mathml(x)
-          mathml_namespace(x)
-          mathml_preserve_space(x)
+          mathml_xml_cleanup(x)
           unitsml.MathML2UnitsML(x)
           mathml_mathvariant(x)
-          mathml_italicise(x)
-          mathml_mn_format(x)
+          mathml_number_format(x)
         end
         mathml_unitsML(xmldoc)
       end
