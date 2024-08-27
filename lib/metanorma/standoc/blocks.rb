@@ -77,7 +77,7 @@ module Metanorma
       def stem(node)
         noko do |xml|
           xml.formula **formula_attrs(node) do |s|
-            stem_parse(node.lines.join("\n"), s, node.style.to_sym, node.block?)
+            stem_parse(node.lines.join("\n"), s, node.style.to_sym, node)
           end
         end
       end

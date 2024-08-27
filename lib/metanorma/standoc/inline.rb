@@ -39,25 +39,30 @@ module Metanorma
         results.sub(%r{<math ([^>]+ )?display="block"}, "<math \\1")
       end
 
-      def stem_parse(text, xml, style, block)
+      def stem_parse(text, xml, style, node)
+        attr = stem_attrs(node)
         if /&lt;([^:>&]+:)?math(\s+[^>&]+)?&gt; |
           <([^:>&]+:)?math(\s+[^>&]+)?>/x.match? text
-          math = xml_encode(text)
-          xml.stem(type: "MathML", block:) do |s|
-            s << math
+          xml.stem **attr.merge(type: "MathML") do |s|
+            s << xml_encode(text)
           end
-        elsif style == :latexmath then latex_parse(text, xml, block)
+        elsif style == :latexmath then latex_parse(text, xml, attr)
         else
-          xml.stem text&.gsub("&amp;#", "&#"), type: "AsciiMath", block:
+          xml.stem text&.gsub("&amp;#", "&#"), **attr.merge(type: "AsciiMath")
         end
       end
 
-      def latex_parse(text, xml, block)
-        latex = latex_parse1(text, block) or
-          return xml.stem(type: "MathML", block:)
-        xml.stem(type: "MathML", block:) do |s|
+      def stem_attrs(node)
+        n = node.attr("number-format")
+        { block: node.block?, "number-format": n }.compact
+      end
+
+      def latex_parse(text, xml, attr)
+        latex = latex_parse1(text, attr[:block]) or
+          return xml.stem **attr.merge(type: "MathML")
+        xml.stem **attr.merge(type: "MathML") do |s|
           math = Nokogiri::XML.fragment(latex.sub(/<\?[^>]+>/, ""))
-              .elements[0]
+            .elements[0]
           math.delete("alttext")
           s.parent.children = math
           s << "<latexmath>#{text}</latexmath>"
@@ -78,8 +83,8 @@ module Metanorma
           when :single then xml << "'#{node.text}'"
           when :superscript then xml.sup { |s| s << node.text }
           when :subscript then xml.sub { |s| s << node.text }
-          when :asciimath then stem_parse(node.text, xml, :asciimath, false)
-          when :latexmath then stem_parse(node.text, xml, :latexmath, false)
+          when :asciimath then stem_parse(node.text, xml, :asciimath, node)
+          when :latexmath then stem_parse(node.text, xml, :latexmath, node)
           when :mark then highlight_parse(node.text, xml)
           else
             case node.role
@@ -123,7 +128,7 @@ module Metanorma
         end
         uri = node.image_uri (nodetarget)
         if Gem.win_platform? && /^\/[a-zA-Z]:/.match?(uri)
-          uri = uri[1..-1]
+          uri = uri[1..]
         end
         types = if /^data:/.match?(uri) then Vectory::Utils::datauri2mime(uri)
                 else MIME::Types.type_for(uri)
