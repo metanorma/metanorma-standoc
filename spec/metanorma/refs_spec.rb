@@ -1175,21 +1175,21 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes attachments" do
-    attachment = 
-      if RUBY_PLATFORM.include?('mingw') || RUBY_PLATFORM.include?('mswin')
+    attachment =
+      if RUBY_PLATFORM.include?("mingw") || RUBY_PLATFORM.include?("mswin")
         <<~OUTPUT
-       DQpwIHsNCiAgZm9udC1mYW1
-       pbHk6ICRib2R5Zm9udDsNCn0NCg0KaDEgew0KICBmb250LWZhbWlseTogJGh
-       lYWRlcmZvbnQ7DQp9DQoNCnByZSB7DQogIGZvbnQtZmFtaWx5OiAkbW9ub3N
-       wYWNlZm9udDsNCn0NCg0K
-       OUTPUT
+          DQpwIHsNCiAgZm9udC1mYW1
+          pbHk6ICRib2R5Zm9udDsNCn0NCg0KaDEgew0KICBmb250LWZhbWlseTogJGh
+          lYWRlcmZvbnQ7DQp9DQoNCnByZSB7DQogIGZvbnQtZmFtaWx5OiAkbW9ub3N
+          wYWNlZm9udDsNCn0NCg0K
+        OUTPUT
       else
         <<~OUTPUT
-       CnAgewogIGZvbnQtZmFtaWx
-       5OiAkYm9keWZvbnQ7Cn0KCmgxIHsKICBmb250LWZhbWlseTogJGhlYWRlcmZ
-       vbnQ7Cn0KCnByZSB7CiAgZm9udC1mYW1pbHk6ICRtb25vc3BhY2Vmb250Owp
-       9Cgo=
-       OUTPUT
+          CnAgewogIGZvbnQtZmFtaWx
+          5OiAkYm9keWZvbnQ7Cn0KCmgxIHsKICBmb250LWZhbWlseTogJGhlYWRlcmZ
+          vbnQ7Cn0KCnByZSB7CiAgZm9udC1mYW1pbHk6ICRtb25vc3BhY2Vmb250Owp
+          9Cgo=
+        OUTPUT
       end
     input = File.read("spec/assets/attach.adoc")
       .gsub("iso.xml", "spec/assets/iso.xml")
@@ -1276,7 +1276,9 @@ RSpec.describe Metanorma::Standoc do
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
       .to be_equivalent_to Xml::C14n.format(output
-      .gsub(%r{<attachment .+?</attachment>}m, ""))
+      .gsub(%r{<attachment .+?</attachment>}m, "")
+      .gsub("_attach_attachments", "spec/assets")
+      .gsub("iso.xml_", "iso.xml"))
 
     FileUtils.rm_rf "spec/assets/attach.xml"
     system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/assets/attach.adoc"
