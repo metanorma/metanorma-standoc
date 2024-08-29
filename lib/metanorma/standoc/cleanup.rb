@@ -54,6 +54,7 @@ module Metanorma
         normref_cleanup(xmldoc)
         biblio_cleanup(xmldoc)
         reference_names(xmldoc)
+        boilerplate_cleanup(xmldoc) # feeds: xref_cleanup
         asciimath_cleanup(xmldoc) # feeds: mathml_cleanup, termdef_cleanup,
         # symbols_cleanup
         symbols_cleanup(xmldoc) # feeds: termdef_cleanup
@@ -79,7 +80,6 @@ module Metanorma
         ext_dochistory_cleanup(xmldoc) # feeds: bibdata_cleanup
         bibdata_cleanup(xmldoc)
         svgmap_cleanup(xmldoc) # feeds: img_cleanup
-        boilerplate_cleanup(xmldoc)
         toc_cleanup(xmldoc)
         smartquotes_cleanup(xmldoc)
         linebreak_cleanup(xmldoc)

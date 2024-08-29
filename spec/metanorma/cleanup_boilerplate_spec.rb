@@ -902,22 +902,51 @@ RSpec.describe Metanorma::Standoc do
 
       === Term1
 
+      [bibliography]
+      == Bibliography
+      * [[[iso1234,A]]]
+      * [[[iso5678,B]]]
     INPUT
     output = <<~OUTPUT
-                   #{BLANK_HDR}
+      #{BLANK_HDR}
                    <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
               <preface><foreword id='_' obligation="informative">
                <title>Foreword</title>
                <p id="_">Foreword</p>
-             </foreword></preface><sections>
+             </foreword></preface>
+             <sections>
              <terms id="_" obligation="normative">
-                <title>Terms and definitions</title><p id="_">For the purposes of this document, the terms and definitions
-        given in <eref bibitemid="iso1234"/> and <eref bibitemid="iso5678"/> and the following apply.</p>
-        <term id="term-Term1">
-        <preferred><expression><name>Term1</name></expression></preferred>
-      </term>
-             </terms></sections>
-             </standard-document>
+                <title>Terms and definitions</title>
+                <p id="_">
+                   For the purposes of this document, the terms and definitions given in
+                   <eref bibitemid="iso1234" citeas="A"/>
+                   and
+                   <eref bibitemid="iso5678" citeas="B"/>
+                   and the following apply.
+                </p>
+                <term id="term-Term1">
+                   <preferred>
+                      <expression>
+                         <name>Term1</name>
+                      </expression>
+                   </preferred>
+                </term>
+             </terms>
+          </sections>
+          <bibliography>
+             <references id="_" normative="false" obligation="informative">
+                <title>Bibliography</title>
+                <bibitem id="iso1234">
+                   <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+                   <docidentifier>A</docidentifier>
+                </bibitem>
+                <bibitem id="iso5678">
+                   <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+                   <docidentifier>B</docidentifier>
+                </bibitem>
+             </references>
+          </bibliography>
+       </standard-document>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -958,6 +987,10 @@ RSpec.describe Metanorma::Standoc do
       [source="iso1234,iso5678"]
       == Terms and Definitions
 
+      [bibliography]
+      == Bibliography
+      * [[[iso1234,A]]]
+      * [[[iso5678,B]]]
     INPUT
     output = <<~OUTPUT
             #{BLANK_HDR}
@@ -965,13 +998,33 @@ RSpec.describe Metanorma::Standoc do
        <preface><foreword id='_' obligation="informative">
         <title>Foreword</title>
         <p id="_">Foreword</p>
-      </foreword></preface><sections>
-      <terms id="_" obligation="normative">
-        <title>Terms and definitions</title>
-        <p id="_">For the purposes of this document,
-       the terms and definitions given in <eref bibitemid="iso1234"/> and <eref bibitemid="iso5678"/> apply.</p>
-      </terms></sections>
-      </standard-document>
+      </foreword></preface>
+      <sections>
+             <terms id="_" obligation="normative">
+                <title>Terms and definitions</title>
+                <p id="_">
+                   For the purposes of this document, the terms and definitions given in
+                   <eref bibitemid="iso1234" citeas="A"/>
+                   and
+                   <eref bibitemid="iso5678" citeas="B"/>
+                   apply.
+                </p>
+             </terms>
+          </sections>
+          <bibliography>
+             <references id="_" normative="false" obligation="informative">
+                <title>Bibliography</title>
+                <bibitem id="iso1234">
+                   <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+                   <docidentifier>A</docidentifier>
+                </bibitem>
+                <bibitem id="iso5678">
+                   <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+                   <docidentifier>B</docidentifier>
+                </bibitem>
+             </references>
+          </bibliography>
+       </standard-document>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -992,6 +1045,10 @@ RSpec.describe Metanorma::Standoc do
       [source="iso1234,iso5678"]
       == Terms and Definitions
 
+      [bibliography]
+      == Bibliography
+      * [[[iso1234,A]]]
+      * [[[iso5678,B]]]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>fr</language>')}
@@ -999,12 +1056,33 @@ RSpec.describe Metanorma::Standoc do
          <preface><foreword id='_' obligation="informative">
           <title>Avant-propos</title>
           <p id="_">Foreword</p>
-        </foreword></preface><sections>
-        <terms id="_" obligation="normative">
-          <title>Termes et définitions</title>
-         <p id="_">Pour les besoins du présent document, les termes et définitions de <eref bibitemid="iso1234"/> et <eref bibitemid="iso5678"/> s’appliquent.</p>
-        </terms></sections>
-        </standard-document>
+        </foreword></preface>
+                  <sections>
+             <terms id="_" obligation="normative">
+                <title>Termes et définitions</title>
+                <p id="_">
+                   Pour les besoins du présent document, les termes et définitions de
+                   <eref bibitemid="iso1234" citeas="A"/>
+                   et
+                   <eref bibitemid="iso5678" citeas="B"/>
+                   s’appliquent.
+                </p>
+             </terms>
+          </sections>
+          <bibliography>
+             <references id="_" normative="false" obligation="informative">
+                <title>Bibliographie</title>
+                <bibitem id="iso1234">
+                   <formattedref format="application/x-isodoc+xml">[PAS D’INFORMATION DISPONIBLE]</formattedref>
+                   <docidentifier>A</docidentifier>
+                </bibitem>
+                <bibitem id="iso5678">
+                   <formattedref format="application/x-isodoc+xml">[PAS D’INFORMATION DISPONIBLE]</formattedref>
+                   <docidentifier>B</docidentifier>
+                </bibitem>
+             </references>
+          </bibliography>
+       </standard-document>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1026,17 +1104,42 @@ RSpec.describe Metanorma::Standoc do
       [source="iso1234,iso5678"]
       == Terms and Definitions
 
+      [bibliography]
+      == Bibliography
+      * [[[iso1234,A]]]
+      * [[[iso5678,B]]]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>zh</language>').sub(%r{<script>Latn</script>}, '<script>Hans</script>')}
         <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/><preface><foreword id='_' obligation="informative">
           <title>前言</title>
           <p id="_">Foreword</p>
-        </foreword></preface><sections>
-        <terms id="_" obligation="normative">
-          <title>术语和定义</title><p id="_"><eref bibitemid="iso1234"/>和<eref bibitemid="iso5678"/>界定的术语和定义适用于本文件。</p>
-        </terms></sections>
-        </standard-document>
+        </foreword></preface>
+        <sections>
+             <terms id="_" obligation="normative">
+                <title>术语和定义</title>
+                <p id="_">
+                   <eref bibitemid="iso1234" citeas="A"/>
+                   和
+                   <eref bibitemid="iso5678" citeas="B"/>
+                   界定的术语和定义适用于本文件。
+                </p>
+             </terms>
+          </sections>
+          <bibliography>
+             <references id="_" normative="false" obligation="informative">
+                <title>参考文献</title>
+                <bibitem id="iso1234">
+                   <formattedref format="application/x-isodoc+xml">[无资料]</formattedref>
+                   <docidentifier>A</docidentifier>
+                </bibitem>
+                <bibitem id="iso5678">
+                   <formattedref format="application/x-isodoc+xml">[无资料]</formattedref>
+                   <docidentifier>B</docidentifier>
+                </bibitem>
+             </references>
+          </bibliography>
+       </standard-document>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
