@@ -12,7 +12,7 @@ module Metanorma
           %w(references bibitem).include? e.name
         end
         pref = refs.empty? ? @i18n.norm_empty_pref : @i18n.norm_with_refs_pref
-        ins.next = "<p>#{pref}</p>"
+        ins.next = boilerplate_snippet_convert(pref)
       end
 
       def norm_ref_process_boilerplate_note(ref)

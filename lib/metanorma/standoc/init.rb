@@ -103,6 +103,7 @@ module Metanorma
       def init_biblio(node)
         @no_isobib_cache = node.attr("no-isobib-cache")
         @no_isobib = node.attr("no-isobib")
+        @flush_caches = node.attr("flush-caches")
         init_bib_log
         @bibdb = nil
         init_bib_caches(node)

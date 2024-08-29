@@ -100,8 +100,9 @@ module Metanorma
       # wrapped in <sections>
       def adoc2xml(text, flavour)
         Nokogiri::XML(text).root and return text
+        f = @flush_caches ? ":flush-caches:\n" : ""
         c = Asciidoctor.convert("= X\nA\n:semantic-metadata-headless: true\n" \
-                                ":novalid:\n\n#{text}\n",
+                                ":no-isobib:\n#{f}:novalid:\n\n#{text}\n",
                                 backend: flavour, header_footer: true)
         Nokogiri::XML(c).at("//xmlns:sections")
       end
