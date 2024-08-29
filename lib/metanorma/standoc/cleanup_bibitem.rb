@@ -142,16 +142,21 @@ module Metanorma
           u = b.at("./uri[@type = 'attachment']")
           c = b.at("./uri[@type = 'citation']") ||
             u.after("<uri type='citation'/>")
-          uri = save_attachment(u.text, b)
+          uri = attachment_uri(u.text, b)
           u.children = uri
           c.children = uri
         end
       end
 
-      def save_attachment(path, bib)
-        init_attachments
+      def attachment_uri(path, bib)
         path = File.join(@localdir, path)
         valid_attachment?(path, bib) or return ""
+        @datauriattachment or return Pathname.new(path).cleanpath.to_s
+        save_attachment(path, bib)
+      end
+
+      def save_attachment(path, bib)
+        init_attachments
         f = File.basename(path)
         File.exist?(File.join(@attachmentsdir, f)) and
           f += "_#{UUIDTools::UUID.random_create}"
