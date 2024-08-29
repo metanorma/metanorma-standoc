@@ -55,11 +55,6 @@ module Metanorma
         biblio_cleanup(xmldoc)
         reference_names(xmldoc)
         terms_terms_cleanup(xmldoc) # feeds: boilerplate_cleanup
-        docidentifier_cleanup(xmldoc) # feeds: bibdata_cleanup
-        ext_contributor_cleanup(xmldoc) # feeds: bibdata_cleanup
-        ext_dochistory_cleanup(xmldoc) # feeds: bibdata_cleanup
-        bibdata_cleanup(xmldoc) # feeds: boilerplate_cleanup
-        boilerplate_cleanup(xmldoc) # feeds: xref_cleanup
         asciimath_cleanup(xmldoc) # feeds: mathml_cleanup, termdef_cleanup,
         # symbols_cleanup
         symbols_cleanup(xmldoc) # feeds: termdef_cleanup
@@ -80,6 +75,12 @@ module Metanorma
         ol_cleanup(xmldoc)
         mathml_cleanup(xmldoc)
         script_cleanup(xmldoc)
+        docidentifier_cleanup(xmldoc) # feeds: bibdata_cleanup
+        ext_contributor_cleanup(xmldoc) # feeds: bibdata_cleanup
+        ext_dochistory_cleanup(xmldoc) # feeds: bibdata_cleanup
+        bibdata_cleanup(xmldoc) # feeds: boilerplate_cleanup
+        boilerplate_cleanup(xmldoc) # feeds: xref_cleanup for new <<>> introduced
+        xref_cleanup(xmldoc)
         svgmap_cleanup(xmldoc) # feeds: img_cleanup
         toc_cleanup(xmldoc)
         smartquotes_cleanup(xmldoc)
