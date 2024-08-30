@@ -152,8 +152,7 @@ module Metanorma
         init_attachments
         path = File.join(@localdir, path)
         valid_attachment?(path, bib) or return ""
-        @datauriattachment or return attachment_location(path) # Pathname.new(path)
-            #.relative_path_from(@localdir).cleanpath.to_s
+        @datauriattachment or return attachment_location(path)
         save_attachment(path, bib)
       end
 
@@ -165,12 +164,12 @@ module Metanorma
         out_fld = File.join(@attachmentsdir, f)
         FileUtils.cp(path, out_fld)
         datauri_attachment(out_fld, bib.document)
-        File.join(@attachmentsfld, f)
       end
 
       def attachment_location(path)
         f = path
-        @datauriattachment and f = File.join(@attachmentsdir, File.basename(path))
+        @datauriattachment and
+          f = File.join(@attachmentsdir, File.basename(path))
         Pathname.new(File.expand_path(f))
           .relative_path_from(Pathname.new(File.expand_path(@localdir))).to_s
       end
@@ -182,6 +181,7 @@ module Metanorma
         e = (m << "<attachment name='#{f}'/>").last_element_child
         Vectory::Utils::datauri(path, @localdir).scan(/.{1,60}/)
           .each { |dd| e << "#{dd}\n" }
+        f
       end
 
       def valid_attachment?(path, bib)
