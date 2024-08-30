@@ -151,9 +151,12 @@ module Metanorma
       def attachment_uri(path, bib)
         path = File.join(@localdir, path)
         valid_attachment?(path, bib) or return ""
-        @datauriattachment or return Pathname.new(path).cleanpath.to_s
+        @datauriattachment or return Pathname.new(path)
+            .relative_path_from(@output_dir).cleanpath.to_s
         save_attachment(path, bib)
       end
+
+      @output_dir
 
       def save_attachment(path, bib)
         init_attachments

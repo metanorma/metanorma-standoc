@@ -1271,6 +1271,7 @@ RSpec.describe Metanorma::Standoc do
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
       .to be_equivalent_to Xml::C14n.format(output)
+
     input.sub!(":docfile:", ":data-uri-attachment: false\n:docfile:")
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS)
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
@@ -1288,9 +1289,24 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Xml::C14n.format(output
       .gsub("spec/assets/iso.xml", "iso.xml")
       .gsub("spec/assets/html.scss", "html.scss"))
+
+    mock_absolute_localdir
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS)
+      .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
+      .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
+      .to be_equivalent_to Xml::C14n.format(output
+      .gsub(%r{<attachment .+?</attachment>}m, "")
+      .gsub("_attach_attachments", "spec/assets")
+      .gsub("iso.xml_", "iso.xml"))
   end
 
   private
+
+  def mock_absolute_localdir
+    expect(Metanorma::Utils).to receive(:localdir)
+      .exactly(2).times.with(anything)
+      .and_return(File.expand_path(FileUtils.pwd))
+  end
 
   def mock_isobib_get_123_nil
     expect(RelatonNist::NistBibliography).to receive(:get)
