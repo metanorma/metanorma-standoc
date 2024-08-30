@@ -176,7 +176,7 @@ module Metanorma
 
       def xref_compound_cleanup1(xref, locations)
         xref.children.empty? and xref.children = "<sentinel/>"
-        xref_parse_compound_locations(locations).reverse.each do |y|
+        xref_parse_compound_locations(locations).reverse_each do |y|
           xref.children.first.previous =
             "<xref target='#{y[1]}' connective='#{y[0]}'/>"
         end

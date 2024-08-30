@@ -4,7 +4,7 @@ module Metanorma
   module Standoc
     # Intelligent term lookup xml modifier
     class TermLookupCleanup
-      AUTO_GEN_ID_REGEXP = /\A_/.freeze
+      AUTO_GEN_ID_REGEXP = /\A_/
 
       attr_reader :xmldoc, :lookup, :log
 
@@ -130,7 +130,7 @@ module Metanorma
       end
 
       def remove_missing_ref_msg1(_node, target, ret)
-        target2 = "_#{target.downcase.gsub('-', '_')}"
+        target2 = "_#{target.downcase.tr('-', '_')}"
         if @terms_tags[target] || @terms_tags[target2]
           ret.strip!
           ret += ". Did you mean to point to a subterm?"

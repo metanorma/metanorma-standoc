@@ -156,8 +156,7 @@ module Metanorma
           while %w(domain subject).include? p&.name
             p = p.previous_element
           end
-          DESIGNATOR.include?(p&.name) or
-            next
+          DESIGNATOR.include?(p&.name) or next
           related2pref(p) << t.remove
         end
       end
