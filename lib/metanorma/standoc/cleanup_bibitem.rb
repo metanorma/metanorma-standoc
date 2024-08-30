@@ -152,7 +152,7 @@ module Metanorma
         path = File.join(@localdir, path)
         valid_attachment?(path, bib) or return ""
         @datauriattachment or return Pathname.new(path)
-            .relative_path_from(@output_dir).cleanpath.to_s
+            .relative_path_from(@localdir).cleanpath.to_s
         save_attachment(path, bib)
       end
 
