@@ -1290,7 +1290,7 @@ RSpec.describe Metanorma::Standoc do
       .gsub("spec/assets/iso.xml", "iso.xml")
       .gsub("spec/assets/html.scss", "html.scss"))
 
-    mock_absolute_localdir
+    mock_absolute_localdir(4)
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS)
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
@@ -1302,9 +1302,9 @@ RSpec.describe Metanorma::Standoc do
 
   private
 
-  def mock_absolute_localdir
+  def mock_absolute_localdir(times)
     expect(Metanorma::Utils).to receive(:localdir)
-      .exactly(2).times.with(anything)
+      .exactly(times).times.with(anything)
       .and_return(File.expand_path(FileUtils.pwd))
   end
 
