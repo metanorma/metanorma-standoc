@@ -37,7 +37,8 @@ module Metanorma
                                    %("\\1#{eql}\\3"))
         Metanorma::Utils::csv_split(text, delim)
           .map do |x|
-            c.encode(x.sub(/^(["'])(.+)\1$/, "\\2"), :basic, :hexadecimal)
+            c.encode(x.sub(/^(["'])(.+)\1$/, "\\2"),
+                     :basic, :hexadecimal)
           end
       end
 

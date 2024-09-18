@@ -155,7 +155,7 @@ module Metanorma
           "#{m[1]}='#{m[2]}'"
         end.join(",")
         stem.xpath(".//m:mn", "m" => MATHML_NS).each do |m|
-          m["data-metanorma-numberformat"] = attr
+          attr.empty? or m["data-metanorma-numberformat"] = attr
         end
       end
 

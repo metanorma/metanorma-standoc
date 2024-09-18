@@ -123,15 +123,15 @@ module Metanorma
       def init_math(node)
         @keepasciimath = node.attr("mn-keep-asciimath") &&
           node.attr("mn-keep-asciimath") != "false"
-        @numberfmt_default = kv_parse(node.attr("number-presentation"))
-        @numberfmt_formula = node.attr("number-presentation-formula")
+        @numberfmt_default = kv_parse(@c.decode(node.attr("number-presentation")))
+        @numberfmt_formula = @c.decode(node.attr("number-presentation-formula"))
         @numberfmt_formula == "number-presentation" and
-          @numberfmt_formula = node.attr("number-presentation")
+          @numberfmt_formula = @c.decode(node.attr("number-presentation"))
         @numberfmt_formula == "default" and
           @numberfmt_formula = "notation='basic'"
         @numberfmt_prof =  node.attributes.each_with_object({}) do |(k, v), m|
           p = /^number-presentation-profile-(.*)$/.match(k) or next
-          m[p[1]] = kv_parse(v)
+          m[p[1]] = kv_parse(@c.decode(v))
         end
       end
 
