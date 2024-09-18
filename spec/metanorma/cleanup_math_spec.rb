@@ -79,9 +79,10 @@ RSpec.describe Metanorma::Standoc do
       :nodoc:
       :novalid:
       :no-isobib:
-      :number-presentation: notation=e,exponent_sign=plus,precision=4
+      :number-presentation: notation=e,,exponent_sign=plus,precision=4
       :number-presentation-profile-3: notation=scientific,exponent_sign=nil,decimal=","
       :number-presentation-profile-x: notation=engineering,precision=4,times=','
+      :number-presentation-profile-y: group_digits=3,fraction_group_digits=3,decimal=",",group=&#x2009;,notation=general
 
       number:145[]
       number:245[profile=3]
@@ -89,6 +90,7 @@ RSpec.describe Metanorma::Standoc do
       number:445[profile=x,precision=5]
       number:545[profile=x,precision=5,digit_count=10,precision=nil]
       number:645[precision=5,digit_count=10,exponent_sign=nil]
+      number:745[profile=y]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -123,6 +125,11 @@ RSpec.describe Metanorma::Standoc do
                <math xmlns="http://www.w3.org/1998/Math/MathML">
                  <mn data-metanorma-numberformat="notation='e',precision='5',digit_count='10'">0.645e3</mn>
                </math>
+             </stem>
+             <stem type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mn data-metanorma-numberformat="notation='general',exponent_sign='plus',precision='4',group_digits='3',fraction_group_digits='3',decimal=',',group=' '">0.745e3</mn>
+                   </math>
              </stem>
            </p>
          </sections>

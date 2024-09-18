@@ -163,7 +163,7 @@ module Metanorma
       def format(attrs)
         # a="," => "a=,"
         quoted_csv_split(attrs || "", ",").map do |x|
-          m = /^(.+?)=(.+)?$/.match(x) or next
+          m = /^(.+?)=(.+)?$/.match(HTMLEntities.new.decode(x)) or next
           "#{m[1]}='#{m[2]}'"
         end.join(",")
       end
