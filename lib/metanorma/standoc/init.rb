@@ -7,6 +7,8 @@ module Metanorma
         init_vars
         init_misc(node)
         init_processing(node)
+        init_log(node)
+        init_image(node)
         init_reqt(node)
         init_toc(node)
         init_output(node) # feeds init_biblio
@@ -47,11 +49,22 @@ module Metanorma
         @smartquotes = node.attr("smartquotes") != "false"
         @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
         @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
+        @blockunnumbered = (node.attr("block-unnumbered") || "").split(",")
+          .map(&:strip)
+      end
+
+      def init_log(node)
+        @log or return
+        severity = node.attr("log-filter-severity")&.to_i || 4
+        category = node.attr("log-filter-category") || ""
+        category = category.split(",").map(&:strip)
+        @log.suppress_log = { severity:, category: }
+      end
+
+      def init_image(node)
         @datauriimage = node.attr("data-uri-image") != "false"
         @datauriattachment = node.attr("data-uri-attachment") != "false"
         @dataurimaxsize = node.attr("data-uri-maxsize")&.to_i || 13981013
-        @blockunnumbered = (node.attr("block-unnumbered") || "").split(",")
-          .map(&:strip)
       end
 
       def init_reqt(node)
