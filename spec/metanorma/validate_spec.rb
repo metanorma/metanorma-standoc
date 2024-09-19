@@ -21,34 +21,6 @@ RSpec.describe Metanorma::Standoc do
     expect(File.exist?("spec/assets/xref_error.err.html")).to be true
   end
 
-  it "provides context for log" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
-        :no-pdf:
-
-        [[abc]]
-        == Clause 1
-
-        [[abc]]
-        == Clause 2
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
-    expect(File.read("test.err.html"))
-      .to include("Anchor abc has already been used at line")
-    expect(File.read("test.err.html"))
-      .to include(%(&lt;clause id=&quot;abc&quot; inline-header=&quot;false&quot; obligation=&quot;normative&quot;&gt;))
-  end
-
   it "aborts on a missing include file" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
@@ -622,7 +594,6 @@ RSpec.describe Metanorma::Standoc do
     end
     expect(File.read("test.err.html"))
       .not_to include("mismatch of callouts")
-    # expect(File.exist?("test.xml")).to be true
 
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
@@ -711,25 +682,113 @@ RSpec.describe Metanorma::Standoc do
       .to include('value of attribute "align" is invalid; must be equal to')
   end
 
-  it "Logs Relaton errors onto Metanorma log" do
-    FileUtils.rm_f "test.err.html"
-    VCR.use_cassette "missing-reference", record: :new_episodes do
-      Asciidoctor.convert(<<~INPUT, *OPTIONS)
+  context "logs errors" do
+    let(:input) do
+      <<~INPUT
         = Document title
         Author
         :docfile: test.adoc
         :no-pdf:
         :no-isobib-cache:
 
+        == Clause
+        [align=mid-air]
+        A <<X>>
+
         [bibliography]
         == Normative References
         * [[[iev,ISO 0a]]], _iev_
-
       INPUT
-      expect(File.read("test.err.html"))
+    end
+
+    it "provides context for log" do
+      FileUtils.rm_f "test.xml"
+      FileUtils.rm_f "test.err.html"
+      begin
+        input1 = <<~INPUT
+          = Document title
+          Author
+          :docfile: test.adoc
+          :nodoc:
+          :no-pdf:
+
+          [[abc]]
+          == Clause 1
+
+          [[abc]]
+          == Clause 2
+        INPUT
+        expect do
+          Asciidoctor.convert(input1, *OPTIONS)
+        end.to raise_error(SystemExit)
+      rescue SystemExit, RuntimeError
+      end
+      f = File.read("test.err.html")
+      expect(f)
+        .to include("Anchor abc has already been used at line")
+      expect(f)
+        .to include(%(&lt;clause id=&quot;abc&quot; inline-header=&quot;false&quot; obligation=&quot;normative&quot;&gt;))
+    end
+
+    it "logs Relaton errors onto Metanorma log" do
+      FileUtils.rm_f "test.err.html"
+      Asciidoctor.convert(input, *OPTIONS)
+      f = File.read("test.err.html")
+      expect(f)
         .to include("<code>ISO 0a</code>")
-      expect(File.read("test.err.html"))
+      expect(f)
         .to include("Is not recognized as a standards identifier")
+      expect(f)
+        .to include("Crossreference target X is undefined")
+      expect(f)
+        .to include("value of attribute \"align\" is invalid")
+    end
+
+    it "logs Relaton errors onto Metanorma log" do
+      FileUtils.rm_f "test.err.html"
+      Asciidoctor.convert(
+        input.sub(/:no-isobib-cache:/,
+                  ":log-filter-severity: 2\n:no-isobib-cache:"), *OPTIONS
+      )
+      f = File.read("test.err.html")
+      expect(f)
+        .not_to include("<code>ISO 0a</code>")
+      expect(f)
+        .not_to include("Is not recognized as a standards identifier")
+      expect(f)
+        .to include("Crossreference target X is undefined")
+      expect(f)
+        .not_to include("value of attribute \"align\" is invalid")
+
+      Asciidoctor.convert(
+        input.sub(/:no-isobib-cache:/,
+                  ":log-filter-category: Relaton, Anchors \n "\
+                  ":no-isobib-cache:"), *OPTIONS
+      )
+      f = File.read("test.err.html")
+      expect(f)
+        .not_to include("<code>ISO 0a</code>")
+      expect(f)
+        .not_to include("Is not recognized as a standards identifier")
+      expect(f)
+        .not_to include("Crossreference target X is undefined")
+      expect(f)
+        .to include("value of attribute \"align\" is invalid")
+
+      Asciidoctor.convert(
+        input.sub(/:no-isobib-cache:/,
+                  ":log-filter-category: Metanorma XML Syntax \n" \
+                  ":no-isobib-cache:"), *OPTIONS
+      )
+      f = File.read("test.err.html")
+      expect(f)
+        .to include("<code>ISO 0a</code>")
+      expect(f)
+        .to include("Is not recognized as a standards identifier")
+      expect(f)
+        .to include("Crossreference target X is undefined")
+      expect(f)
+        .not_to include("value of attribute \"align\" is invalid")
     end
   end
 
@@ -826,14 +885,6 @@ RSpec.describe Metanorma::Standoc do
         .to include("The IEV document 60050-03 that has been cited does not exist")
     end
   end
-
-  # it "No warning if attributes on formatted strong or stem extraneous to Metanorra XML" do
-  #   expect { Metanorma::Standoc::Converter.new(nil,nil).validate(Nokogiri::XML(<<~INPUT)) }.not_to output('found attribute "close", but no attributes allowed here').to_stderr
-  #   <standard-document>
-  #   <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfenced open="(" close=")"><mi>r</mi></mfenced></stem>
-  #   </standard-document>
-  # INPUT
-  # end
 
   it "warns and aborts if concept attributes are malformed" do
     FileUtils.rm_f "test.xml"
