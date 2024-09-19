@@ -219,7 +219,7 @@ RSpec.describe Metanorma::Standoc do
       :novalid:
       :no-isobib:
       :stem:
-      :number-presentation: notation=e,exponent_sign=plus,precision=4
+      :number-presentation: notation=e,group=&#x2009;,exponent_sign=plus,precision=4
       :number-presentation-profile-3: notation=scientific,exponent_sign=nil,decimal=","
       :number-presentation-profile-x: notation=engineering,precision=4,times=','
 
@@ -255,7 +255,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-          <sections>
+        <sections>
              <formula id="_">
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -272,7 +272,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='basic',exponent_sign='plus',precision='4',significant='7'">2</mn>
+                         <mn data-metanorma-numberformat="notation='basic',group=' ',exponent_sign='plus',precision='4',significant='7'">2</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -284,7 +284,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='e',exponent_sign='plus',precision='4'">3</mn>
+                         <mn data-metanorma-numberformat="notation='e',group=' ',exponent_sign='plus',precision='4'">3</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -296,7 +296,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='scientific',precision='4',decimal=','">4</mn>
+                         <mn data-metanorma-numberformat="notation='scientific',group=' ',precision='4',decimal=','">4</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -308,7 +308,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='4',times=','">5</mn>
+                         <mn data-metanorma-numberformat="notation='engineering',group=' ',exponent_sign='plus',precision='4',times=','">5</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -336,7 +336,7 @@ RSpec.describe Metanorma::Standoc do
 
     output = <<~OUTPUT
       #{BLANK_HDR}
-          <sections>
+       <sections>
              <formula id="_">
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -353,7 +353,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='basic',exponent_sign='plus',precision='4',significant='7'">2</mn>
+                         <mn data-metanorma-numberformat="notation='basic',group=' ',exponent_sign='plus',precision='4',significant='7'">2</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -365,7 +365,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='e',exponent_sign='plus',precision='4'">3</mn>
+                         <mn data-metanorma-numberformat="notation='e',group=' ',exponent_sign='plus',precision='4'">3</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -377,7 +377,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='scientific',precision='4',decimal=','">4</mn>
+                         <mn data-metanorma-numberformat="notation='scientific',group=' ',precision='4',decimal=','">4</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -389,7 +389,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='4',times=','">5</mn>
+                         <mn data-metanorma-numberformat="notation='engineering',group=' ',exponent_sign='plus',precision='4',times=','">5</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -420,12 +420,12 @@ RSpec.describe Metanorma::Standoc do
 
     output = <<~OUTPUT
       #{BLANK_HDR}
-          <sections>
+        <sections>
              <formula id="_">
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='e',exponent_sign='plus',precision='4'">1</mn>
+                         <mn data-metanorma-numberformat="notation='e',group=' ',exponent_sign='plus',precision='4'">1</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -437,7 +437,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='basic',exponent_sign='plus',precision='4',significant='7'">2</mn>
+                         <mn data-metanorma-numberformat="notation='basic',group=' ',exponent_sign='plus',precision='4',significant='7'">2</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -449,7 +449,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='e',exponent_sign='plus',precision='4'">3</mn>
+                         <mn data-metanorma-numberformat="notation='e',group=' ',exponent_sign='plus',precision='4'">3</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -461,7 +461,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='scientific',precision='4',decimal=','">4</mn>
+                         <mn data-metanorma-numberformat="notation='scientific',group=' ',precision='4',decimal=','">4</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -473,7 +473,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='4',times=','">5</mn>
+                         <mn data-metanorma-numberformat="notation='engineering',group=' ',exponent_sign='plus',precision='4',times=','">5</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>

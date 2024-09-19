@@ -102,7 +102,7 @@ module Metanorma
         ins
       end
 
-      def mathml_unitsML(xmldoc)
+      def mathml_unitsml(xmldoc)
         xmldoc.at(".//m:*", "m" => UNITSML_NS) or return
         misc = add_misc_container(xmldoc)
         unitsml = misc.add_child("<UnitsML xmlns='#{UNITSML_NS}'/>").first
@@ -131,7 +131,7 @@ module Metanorma
           profile = mathml_mn_profile(m)
           attr = profile.each_with_object([]) do |(k, v), acc|
             v == "nil" and next
-            acc << "#{k}='#{v}'"
+            acc << "#{k}='#{@c.decode v}'"
           end.join(",")
           attr.empty? or m["data-metanorma-numberformat"] = attr
         end
@@ -152,7 +152,7 @@ module Metanorma
         f = mathml_stem_format_attr(stem) or return
         attr = quoted_csv_split(f, ",").map do |x|
           m = /^(.+?)=(.+)?$/.match(x) or next
-          "#{m[1]}='#{m[2]}'"
+          "#{m[1]}='#{@c.decode m[2]}'"
         end.join(",")
         stem.xpath(".//m:mn", "m" => MATHML_NS).each do |m|
           attr.empty? or m["data-metanorma-numberformat"] = attr
@@ -179,15 +179,16 @@ module Metanorma
       end
 
       def mathml_cleanup(xmldoc)
-        unitsml = Asciimath2UnitsML::Conv.new(asciimath2unitsml_options)
         xmldoc.xpath("//stem[@type = 'MathML'][not(@validate = 'false')]")
           .each do |x|
           mathml_xml_cleanup(x)
-          unitsml.MathML2UnitsML(x)
+          Asciimath2UnitsML::Conv.new(asciimath2unitsml_options)
+            .MathML2UnitsML(x)
           mathml_mathvariant(x)
-          mathml_number_format(x)
         end
-        mathml_unitsML(xmldoc)
+        xmldoc.xpath("//stem[@type = 'MathML']")
+          .each { |x| mathml_number_format(x) }
+        mathml_unitsml(xmldoc)
       end
     end
   end
