@@ -20,7 +20,7 @@ module Metanorma
       def asciimath2mathml_indiv(elem)
         elem["type"] = "MathML"
         expr = @c.decode(elem.text)
-        ret = asciimath_parse(expr, elem)
+        ret = asciimath_parse(expr, elem).strip
         ret += "<asciimath>#{@c.encode(expr, :basic)}</asciimath>"
         elem.children = ret
       rescue StandardError => e
