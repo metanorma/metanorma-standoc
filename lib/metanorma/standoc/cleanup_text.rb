@@ -40,12 +40,19 @@ module Metanorma
       def linebreak_cleanup_block(block)
         block.each_with_index do |e, i|
           e[:skip] and next
-          lines = e[:text].lines.map(&:rstrip)
-          e[:last] or lines << block[i + 1][:text].lines.first # next token context
+          lines = lines_strip_textspan(e, block[i + 1])
           out = Metanorma::Utils.line_sanitise(lines)
           e[:last] or out.pop
           e[:elem].replace(out.join)
         end
+      end
+
+      def lines_strip_textspan(span, nextspan)
+        lines = span[:text].lines[0..-2].map(&:rstrip) <<
+          span[:text].lines[-1]&.sub(/\n$/, "")
+        # no final line rstrip: can be space linking to next line
+        span[:last] or lines << nextspan[:text].lines.first # next token context
+        lines
       end
 
       def gather_text_for_linebreak_cleanup(block)
