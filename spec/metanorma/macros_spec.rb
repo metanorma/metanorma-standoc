@@ -96,6 +96,7 @@ RSpec.describe Metanorma::Standoc do
       number:1.0e-19[decimal=",",notation=exponential]
       number:327428.7432878432992[decimal=",",group=&#x2009;,notation=exponential]
       number:327428.7432878432992[group_digits=3,fraction_group_digits=3,decimal=",",group=&#x2009;,notation=general]
+      number:+31[]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -176,6 +177,11 @@ RSpec.describe Metanorma::Standoc do
                       <mn data-metanorma-numberformat="group_digits='3',fraction_group_digits='3',decimal=',',group=' ',notation='general'">0.3274287432878432992e6</mn>
                    </math>
            </stem>
+           <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+               <mn data-metanorma-numberformat="number_sign='plus'">0.31e2</mn>
+            </math>
+         </stem>
            </p>
          </sections>
        </standard-document>
