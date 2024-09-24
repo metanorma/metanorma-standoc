@@ -160,24 +160,26 @@ module Metanorma
         str.sub(/^(["'])(.+)\1$/, "\\2")
       end
 
-      def format(attrs)
+      def format(attrs, number)
         # a="," => "a=,"
-        quoted_csv_split(attrs || "", ",").map do |x|
+        out = quoted_csv_split(attrs || "", ",").map do |x|
           m = /^(.+?)=(.+)?$/.match(HTMLEntities.new.decode(x)) or next
           "#{m[1]}='#{m[2]}'"
-        end.join(",")
+        end
+        /^\+/.match?(number.strip) and out << "number_sign='plus'"
+        out.join(",")
       end
 
       def number(text)
         n = BigDecimal(text)
         trailing_zeroes = 0
         m = /\.[1-9]*(0+)/.match(text) and trailing_zeroes += m[1].size
-        n.to_s("E").sub("e", "0" * trailing_zeroes + "e")
+        n.to_s("E").sub("e", "0" * trailing_zeroes + "e") # rubocop:disable Style/StringConcatenation
       end
 
       def process(parent, target, attrs)
         out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
-        fmt = format(out)
+        fmt = format(out, target)
         fmt.empty? and fmt = "default"
         fmt = %( number-format="#{fmt}")
         <<~OUTPUT
