@@ -163,6 +163,8 @@ RSpec.describe Metanorma::Standoc do
       ++++
       3 + x
       ++++
+
+      stem:[number-format="notation=basic,exponent_sign=&#x25;,precision=4"% 1 xx 3]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -203,6 +205,18 @@ RSpec.describe Metanorma::Standoc do
                    <asciimath>3 + x</asciimath>
                 </stem>
              </formula>
+              <p id="_">
+                <stem block="false" type="MathML">
+                  <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="false">
+                        <mn data-metanorma-numberformat="notation='basic,exponent_sign=%,precision=4'">1</mn>
+                        <mo>×</mo>
+                        <mn data-metanorma-numberformat="notation='basic,exponent_sign=%,precision=4'">3</mn>
+                      </mstyle>
+                  </math>
+                  <asciimath> 1 xx 3</asciimath>
+                </stem>
+            </p>
           </sections>
        </standard-document>
     OUTPUT
