@@ -1,0 +1,1 @@
+gem "plurimath", git: "https://github.com/plurimath/plurimath", branch: "feature/unitsml_semantics_in_mathml"

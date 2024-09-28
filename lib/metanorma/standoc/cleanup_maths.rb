@@ -40,7 +40,8 @@ module Metanorma
           MATH
         else
           Plurimath::Math.parse(expr, "asciimath")
-            .to_mathml(display_style: elem["block"])
+            .to_mathml(display_style: elem["block"],
+                       unitsml_xml: expr.include?("unitsml"))
         end
       end
 

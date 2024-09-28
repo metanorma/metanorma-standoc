@@ -536,7 +536,7 @@ RSpec.describe Metanorma::Standoc do
             <math xmlns="http://www.w3.org/1998/Math/MathML">
               <mstyle displaystyle="false">
                 <mstyle mathvariant="sans-serif">
-              <mrow>
+              <mrow xref="U_NISTu7">
                    <mstyle mathvariant="sans-serif">
                      <mi>cd</mi>
                    </mstyle>
@@ -561,6 +561,8 @@ RSpec.describe Metanorma::Standoc do
       Author
       :stem:
 
+      stem:[1 "unitsml(cd)"]
+
       [stem]
       ++++
       <math xmlns='http://www.w3.org/1998/Math/MathML'>
@@ -579,6 +581,16 @@ RSpec.describe Metanorma::Standoc do
         <metanorma-extension>
              <UnitsML xmlns='https://schema.unitsml.org/unitsml/1.0'>
                <UnitSet>
+            <Unit id="U_NISTu7" dimensionURL="#NISTd7">
+               <UnitSystem name="SI" type="SI_derived" lang="en-US"/>
+               <UnitName lang="en">candela</UnitName>
+               <UnitSymbol type="HTML">cd</UnitSymbol>
+               <UnitSymbol type="MathMl">
+                  <math xmlns="http://www.w3.org/1998/Math/MathML">
+                     <mi mathvariant="normal">cd</mi>
+                  </math>
+               </UnitSymbol>
+            </Unit>
                  <Unit xml:id='U_m.kg-2' dimensionURL='#D_LM-2'>
                    <UnitSystem name='SI' type='SI_derived' xml:lang='en-US'/>
                    <UnitName xml:lang='en'>m*kg^-2</UnitName>
@@ -635,7 +647,15 @@ RSpec.describe Metanorma::Standoc do
                  </RootUnits>
                </Unit>
              </UnitSet>
+         <QuantitySet>
+            <Quantity id="NISTq7" dimensionURL="#NISTd7" quantityType="base">
+               <QuantityName lang="en-US">luminous intensity</QuantityName>
+            </Quantity>
+         </QuantitySet>
                <DimensionSet>
+            <Dimension id="NISTd7">
+               <LuminousIntensity symbol="J" powerNumerator="1"/>
+            </Dimension>
                  <Dimension xml:id='D_LM-2'>
                    <Length symbol='L' powerNumerator='1'/>
                    <Mass symbol='M' powerNumerator='-2'/>
@@ -658,6 +678,22 @@ RSpec.describe Metanorma::Standoc do
       EXT
       )}
          <sections>
+           <p id="_">
+                <stem block="false" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="false">
+                         <mn>1</mn>
+                         <mo rspace="thickmathspace">⁢</mo>
+                         <mrow  xref="U_NISTu7">
+                            <mstyle mathvariant="normal">
+                               <mi>cd</mi>
+                            </mstyle>
+                         </mrow>
+                      </mstyle>
+                   </math>
+                   <asciimath>1 "unitsml(cd)"</asciimath>
+                </stem>
+             </p>
            <formula id='_'>
              <stem type='MathML' block="true">
                <math xmlns='http://www.w3.org/1998/Math/MathML'>
