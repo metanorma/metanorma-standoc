@@ -40,21 +40,29 @@ module Metanorma
       end
 
       def stem_parse(text, xml, style, node)
-        attr = stem_attrs(node)
+        attrs, text = stem_attrs(node, text)
         if /&lt;([^:>&]+:)?math(\s+[^>&]+)?&gt; |
           <([^:>&]+:)?math(\s+[^>&]+)?>/x.match? text
-          xml.stem **attr.merge(type: "MathML") do |s|
+          xml.stem **attrs.merge(type: "MathML") do |s|
             s << xml_encode(text)
           end
-        elsif style == :latexmath then latex_parse(text, xml, attr)
+        elsif style == :latexmath then latex_parse(text, xml, attrs)
         else
-          xml.stem text&.gsub("&amp;#", "&#"), **attr.merge(type: "AsciiMath")
+          xml.stem text&.gsub("&amp;#", "&#"), **attrs.merge(type: "AsciiMath")
         end
       end
 
-      def stem_attrs(node)
-        n = node.attr("number-format")
-        { block: node.block?, "number-format": n }.compact
+      STEM_ATTRS = "number-format".freeze
+
+      def stem_attrs(node, text)
+        attrs = STEM_ATTRS.split("|").each_with_object({}) do |k, m|
+          n = node.attr(k) and m[k.to_sym] = n
+        end
+        while m = /^(#{STEM_ATTRS})(=[^%]+)?%(.*)$/o.match(text)
+          text = m[3]
+          attrs[m[1].to_sym] = m[2]&.sub(/^=/, "")
+        end
+        [{ block: node.block? }.merge(attrs), text]
       end
 
       def latex_parse(text, xml, attr)
