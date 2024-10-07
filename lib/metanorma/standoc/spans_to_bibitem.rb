@@ -38,10 +38,17 @@ module Metanorma
           ret += spans_to_bibitem_docid(spans)
           ret += spans_to_contribs(spans)
           ret += spans_to_bibitem_edn(spans)
+          spans[:abstract] and ret += "<abstract>#{spans[:abstract]}</abstract>"
           ret += spans_to_series(spans)
           spans[:pubplace] and ret += "<place>#{spans[:pubplace]}</place>"
           ret += spans_to_bibitem_host(spans)
           ret += spans_to_bibitem_extent(spans[:extent])
+          spans[:classification]&.each do |s|
+            ret += span_to_docid(s, "classification")
+          end
+          spans[:image]&.each do |s|
+            ret += "<depiction>#{s[:val]}</depiction>"
+          end
           ret
         end
 
