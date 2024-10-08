@@ -3,10 +3,15 @@ module Metanorma
     module Cleanup
       class SpansToBibitem
         def extract_spans(bib)
-          bib.xpath("./formattedref//span").each_with_object([]) do |s, m|
+          ret = bib.xpath("./formattedref//span").each_with_object([]) do |s, m|
             s.at("./ancestor::span") and next
             extract_spans1(s, m)
           end
+          bib.xpath("./formattedref//image").each do |i|
+            i.delete("id")
+            ret << { key: "image", type: nil, val: i.remove.to_xml }
+          end
+          ret
         end
 
         def extract_spans1(span, acc)
@@ -25,7 +30,8 @@ module Metanorma
         end
 
         def empty_span_hash
-          { contrib: [], docid: [], uri: [], date: [], extent: {}, in: {} }
+          { contrib: [], docid: [], uri: [], date: [], classification: [],
+            image: [], extent: {}, in: {} }
         end
 
         def spans_preprocess(spans)
@@ -36,7 +42,7 @@ module Metanorma
 
         def span_preprocess1(span, ret)
           case span[:key]
-          when "uri", "docid"
+          when "uri", "docid", "classification"
             val = link_unwrap(Nokogiri::XML.fragment(span[:val])).to_xml
             ret[span[:key].to_sym] << { type: span[:type], val: }
           when "date"
@@ -45,8 +51,11 @@ module Metanorma
           when "pages", "volume", "issue"
             ret[:extent][span[:key].to_sym] ||= []
             ret[:extent][span[:key].to_sym] << span[:val]
-          when "pubplace", "title", "type", "series", "edition", "version"
+          when "pubplace", "title", "type", "series", "edition", "version",
+            "abstract"
             ret[span[:key].to_sym] = span[:val]
+          when "image"
+            ret[span[:key].to_sym] << { type: span[:type], val: span[:val] }
           when "note"
             ret[span[:key].to_sym] = { type: span[:type], val: span[:val] }
           when "in_title"
