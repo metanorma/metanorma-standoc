@@ -100,7 +100,9 @@ module Metanorma
       def hdr2bibitem_type(hdr)
         m = /:mn-document-class: (\S+)/.match(hdr[:text])
         if m then m[1].to_sym
-        else processor.new.asciidoctor_backend
+        else Processor.new.asciidoctor_backend
+          # don't want processor() : we will leave embedded headers as standoc,
+          # not local flavour
         end
       end
 
