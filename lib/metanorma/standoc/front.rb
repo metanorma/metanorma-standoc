@@ -127,6 +127,7 @@ module Metanorma
       def relation_normalise(type)
         type.sub(/-by$/, "By").sub(/-of$/, "Of").sub(/-from$/, "From")
           .sub(/-in$/, "In")
+          .sub(/^has-([a-z])/) { "has#{$1.upcase}" }
       end
 
       def metadata_getrelation(node, xml, type, desc = nil)
