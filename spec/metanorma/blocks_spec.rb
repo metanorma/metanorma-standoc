@@ -381,6 +381,7 @@ RSpec.describe Metanorma::Standoc do
          </copyright>
          <ext>
          <doctype>standard</doctype>
+            <flavor>standoc</flavor>
          </ext>
        </bibdata>
        <sections><p id="foreword">Foreword</p>

@@ -13,6 +13,16 @@ module Metanorma
         opts.empty? ? (send transform, node) : (send transform, node, opts)
       end
 
+      def processor
+        parent_type = self.class.name.split("::")[0...-1]
+        parent_type << "Processor"
+        begin
+          Object.const_get(parent_type.join("::"))
+        rescue NameError
+          nil
+        end
+      end
+
       def document_ns_attributes(_doc)
         nil
       end

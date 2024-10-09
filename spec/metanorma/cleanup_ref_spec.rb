@@ -644,6 +644,7 @@ RSpec.describe Metanorma::Standoc do
           </relation>
           <ext>
             <doctype>standard</doctype>
+            <flavor>standoc</flavor>
           </ext>
         </bibdata>
         <sections> </sections>

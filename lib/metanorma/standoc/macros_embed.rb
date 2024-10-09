@@ -66,8 +66,8 @@ module Metanorma
       # -- but it won't: https://github.com/metanorma/metanorma-standoc/issues/802
       def read_flattened_embeds(ret, doc)
         reader = ::Asciidoctor::PreprocessorReader.new doc
-        b = Pathname.new doc.base_dir
-        ret.reverse.each do |l|
+        Pathname.new doc.base_dir
+        ret.reverse_each do |l|
           # if l[:file]
           # new = Pathname.new(l[:path]).relative_path_from(b).to_s
           # reader.push_include l[:lines], new, l[:path]

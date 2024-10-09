@@ -896,6 +896,7 @@ RSpec.describe Metanorma::Standoc do
          </copyright>
          <ext>
            <doctype>standard</doctype>
+            <flavor>standoc</flavor>
          </ext>
          <relation type='derivedFrom'>
            <bibitem>
@@ -910,6 +911,7 @@ RSpec.describe Metanorma::Standoc do
              </copyright>
              <ext>
                <doctype>standard</doctype>
+            <flavor>standoc</flavor>
              </ext>
            </bibitem>
          </relation>
@@ -956,6 +958,7 @@ RSpec.describe Metanorma::Standoc do
           </copyright>
           <ext>
             <doctype>standard</doctype>
+            <flavor>standoc</flavor>
           </ext>
           <relation type='derivedFrom'>
             <bibitem>
@@ -970,6 +973,7 @@ RSpec.describe Metanorma::Standoc do
               </copyright>
               <ext>
                 <doctype>standard</doctype>
+            <flavor>standoc</flavor>
               </ext>
             </bibitem>
           </relation>
@@ -1013,6 +1017,7 @@ RSpec.describe Metanorma::Standoc do
             </copyright>
             <ext>
               <doctype>standard</doctype>
+            <flavor>standoc</flavor>
             </ext>
             <relation type='derivedFrom'>
               <bibitem>
@@ -1028,6 +1033,7 @@ RSpec.describe Metanorma::Standoc do
                 </copyright>
                 <ext>
                   <doctype>standard</doctype>
+            <flavor>standoc</flavor>
                 </ext>
                 <relation type='derivedFrom'>
                   <bibitem>
@@ -1043,6 +1049,7 @@ RSpec.describe Metanorma::Standoc do
                     </copyright>
                     <ext>
                       <doctype>standard</doctype>
+            <flavor>standoc</flavor>
                     </ext>
                     <relation type='derivedFrom'>
                        <bibitem>
@@ -1057,6 +1064,7 @@ RSpec.describe Metanorma::Standoc do
                          </copyright>
                          <ext>
                            <doctype>standard</doctype>
+            <flavor>standoc</flavor>
                          </ext>
                        </bibitem>
                      </relation>
@@ -1073,6 +1081,7 @@ RSpec.describe Metanorma::Standoc do
                          </copyright>
                          <ext>
                            <doctype>standard</doctype>
+            <flavor>standoc</flavor>
                          </ext>
                        </bibitem>
                      </relation>
