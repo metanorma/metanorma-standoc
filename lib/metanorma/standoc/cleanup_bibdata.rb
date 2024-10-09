@@ -100,7 +100,7 @@ module Metanorma
       def hdr2bibitem_type(hdr)
         m = /:mn-document-class: (\S+)/.match(hdr[:text])
         if m then m[1].to_sym
-        else Processor.new.asciidoctor_backend
+        else processor.new.asciidoctor_backend
         end
       end
 

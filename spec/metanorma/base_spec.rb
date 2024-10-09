@@ -78,6 +78,7 @@ RSpec.describe Metanorma::Standoc do
              </copyright>
              <ext>
                <doctype>standard</doctype>
+               <flavor>standoc</flavor>
              </ext>
            </bibdata>
            <sections> </sections>
@@ -176,6 +177,7 @@ RSpec.describe Metanorma::Standoc do
           </copyright>
           <ext>
             <doctype>standard</doctype>
+            <flavor>standoc</flavor>
           </ext>
         </bibdata>
         <sections> </sections>
@@ -508,6 +510,7 @@ RSpec.describe Metanorma::Standoc do
                 <keyword>c</keyword>
                 <ext>
                 <doctype>standard</doctype>
+            <flavor>standoc</flavor>
                   <editorialgroup>
                     <technical-committee number="1" type="A">TC</technical-committee>
                     <technical-committee number="11" type="A1">TC1</technical-committee>
@@ -733,6 +736,7 @@ RSpec.describe Metanorma::Standoc do
                   <ext>
                   <doctype>this-is-a-doctype</doctype>
                   <subdoctype>This is a DocSubType</subdoctype>
+            <flavor>standoc</flavor>
                   </ext>
                 </bibdata>
                   <metanorma-extension>
@@ -997,6 +1001,7 @@ RSpec.describe Metanorma::Standoc do
            </copyright>
            <ext>
              <doctype>standard</doctype>
+            <flavor>standoc</flavor>
            </ext>
          </bibdata>
          <metanorma-extension>
@@ -1131,6 +1136,7 @@ RSpec.describe Metanorma::Standoc do
            </copyright>
            <ext>
              <doctype>standard</doctype>
+            <flavor>standoc</flavor>
            </ext>
          </bibdata>
          <sections/>
@@ -1316,6 +1322,7 @@ RSpec.describe Metanorma::Standoc do
           </copyright>
           <ext>
             <doctype>this-is-a-doctype</doctype>
+            <flavor>standoc</flavor>
           </ext>
         </bibdata>
         <sections/>
@@ -1359,6 +1366,7 @@ RSpec.describe Metanorma::Standoc do
         </relation>
         <ext>
           <doctype>standard</doctype>
+            <flavor>standoc</flavor>
         </ext>
       </bibdata>
       <sections> </sections>
