@@ -190,6 +190,7 @@ module Metanorma
       def metadata_ext(node, ext)
         metadata_doctype(node, ext)
         metadata_subdoctype(node, ext)
+        metadata_flavor(node, ext)
         metadata_committee(node, ext)
         metadata_ics(node, ext)
       end
@@ -200,6 +201,10 @@ module Metanorma
 
       def metadata_subdoctype(node, xml)
         s = node.attr("docsubtype") and xml.subdoctype s
+      end
+
+      def metadata_flavor(_node, ext)
+        ext.flavor processor.new.asciidoctor_backend
       end
 
       def metadata_note(node, xml); end

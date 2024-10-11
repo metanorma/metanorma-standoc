@@ -582,6 +582,7 @@ RSpec.describe Metanorma::Standoc do
                  </copyright>
                  <ext>
                    <doctype>standard</doctype>
+            <flavor>standoc</flavor>
                  </ext>
                </bibdata>
                <sections> </sections>
@@ -1029,6 +1030,7 @@ RSpec.describe Metanorma::Standoc do
          </copyright>
          <ext>
            <doctype>standard</doctype>
+            <flavor>standoc</flavor>
          </ext>
        </bibdata>
     OUTPUT
@@ -1305,6 +1307,7 @@ RSpec.describe Metanorma::Standoc do
          </copyright>
          <ext>
            <doctype>standard</doctype>
+            <flavor>standoc</flavor>
          </ext>
        </bibdata>
     OUTPUT
@@ -1852,6 +1855,7 @@ RSpec.describe Metanorma::Standoc do
          </relation>
          <ext>
            <doctype>standard</doctype>
+            <flavor>standoc</flavor>
          </ext>
        </bibdata>
     OUTPUT

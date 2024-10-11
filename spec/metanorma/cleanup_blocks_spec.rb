@@ -1343,7 +1343,7 @@ RSpec.describe Metanorma::Standoc do
       <standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
              <bibdata type="standard">
        <title language="en" format="text/plain">Document title</title>
-       <language>en</language><script>Latn</script><status><stage>published</stage></status><copyright><from>2024</from></copyright><ext><doctype>standard</doctype></ext></bibdata><metanorma-extension><presentation-metadata><name>TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>HTML TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>DOC TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>PDF TOC Heading Levels</name><value>2</value></presentation-metadata></metanorma-extension>
+       <language>en</language><script>Latn</script><status><stage>published</stage></status><copyright><from>2024</from></copyright><ext><doctype>standard</doctype><flavor>standoc</flavor></ext></bibdata><metanorma-extension><presentation-metadata><name>TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>HTML TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>DOC TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>PDF TOC Heading Levels</name><value>2</value></presentation-metadata></metanorma-extension>
        <sections><clause id="_" type="scope" inline-header="false" obligation="normative">
        <title>Scope</title>
        <example id="_">

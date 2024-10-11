@@ -93,7 +93,7 @@ module Metanorma
                          pdf-allow-print pdf-allow-print-hq
                          pdf-allow-access-content pdf-encrypt-metadata fonts
                          font-license-agreement).each_with_object({}) do |x, m|
-          m[x.gsub("-", "").to_i] = node.attr(x)
+          m[x.delete("-").to_i] = node.attr(x)
         end
 
         pdf_options.merge(fonts_manifest_option(node) || {})

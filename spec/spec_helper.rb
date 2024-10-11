@@ -164,6 +164,7 @@ BLANK_HDR = <<~"HDR".freeze
     </copyright>
     <ext>
     <doctype>standard</doctype>
+    <flavor>standoc</flavor>
     </ext>
   </bibdata>
     <metanorma-extension>
@@ -200,6 +201,7 @@ BLANK_METANORMA_HDR = <<~"HDR".freeze
     </copyright>
     <ext>
     <doctype>article</doctype>
+    <flavor>standoc</flavor>
     </ext>
   </bibdata>
 HDR
