@@ -14,11 +14,11 @@ module Metanorma
 
     def versioned(mod, flavour)
       all_modules(mod).select { |c| defined? c::VERSION }
-        .select { |c| c.name =~ /::#{flavour}$/ }
+        .select { |c| c.name =~ /Metanorma::#{flavour}$/ }
     end
   end
 
   module Standoc
-    VERSION = "2.9.8".freeze
+    VERSION = "2.9.9".freeze
   end
 end
