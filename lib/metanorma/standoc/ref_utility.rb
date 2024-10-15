@@ -39,11 +39,12 @@ module Metanorma
         ref
       end
 
-      def docid(bib, code)
+      def docid(bib, code, codetype)
         type, code1 = if /^\[\d+\]$|^\([^)]+\).*$/.match?(code)
                         ["metanorma", mn_code(code)]
-                      else
-                        @bibdb&.docid_type(code) || [nil, code]
+                      elsif %(attachment report).include?(codetype)
+                        [nil, code]
+                      else @bibdb&.docid_type(code) || [nil, code]
                       end
         code1.sub!(/^nofetch\((.+)\)$/, "\\1")
         bib.docidentifier **attr_code(type:) do |d|

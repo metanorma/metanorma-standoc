@@ -110,10 +110,10 @@ module Metanorma
 
       def refitem_render1(match, code, bib)
         refitem_uri(code, bib)
-        # code[:id].sub!(/[:-](19|20)[0-9][0-9]$/, "")
-        docid(bib, match[:usrlbl]) if match[:usrlbl]
-        docid(bib, code[:usrlabel]) if code[:usrlabel]
-        i = code[:id] and docid(bib, /^\d+$/.match?(i) ? "[#{i}]" : i)
+        match[:usrlbl] and docid(bib, match[:usrlbl])
+        code[:usrlabel] and docid(bib, code[:usrlabel])
+        i = code[:id] and
+          docid(bib, /^\d+$/.match?(i) ? "[#{i}]" : i, code[:type])
         code[:type] == "repo" and
           bib.docidentifier code[:key], type: "repository"
       end
