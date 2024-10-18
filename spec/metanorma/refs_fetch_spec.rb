@@ -25,7 +25,7 @@ RSpec.describe Metanorma::Standoc do
                 #{BLANK_HDR}
                <sections>
 
-               </sections><bibliography><references id="_" obligation="informative" normative="true"><title>Normative references</title>
+               </sections><bibliography><references id="_normative_references" obligation="informative" normative="true"><title>Normative references</title>
                 #{NORM_REF_BOILERPLATE}
                      <bibitem id='iso123' type='standard'>
                 <fetched/>
@@ -246,7 +246,7 @@ RSpec.describe Metanorma::Standoc do
                #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>fr</language>')}
                         <sections> </sections>
           <bibliography>
-            <references id='_' normative='true' obligation='informative'>
+            <references id='_normative_references' normative='true' obligation='informative'>
               <title>R&#233;f&#233;rences normatives</title>
               <p id='_'>
                 Les documents suivants cit&#233;s dans le texte constituent, pour tout
@@ -472,7 +472,7 @@ RSpec.describe Metanorma::Standoc do
          #{BLANK_HDR}
          <sections>
 
-         </sections><bibliography><references id="_" obligation="informative" normative="true">
+         </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
            <title>Normative references</title>
          #{NORM_REF_BOILERPLATE}
                       <bibitem id="iso123" type="standard">
@@ -692,12 +692,12 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
          #{BLANK_HDR}
                         <sections>
-            <clause id="_" inline-header="false" obligation="normative">
+            <clause id="_section" inline-header="false" obligation="normative">
               <title>Section</title>
             </clause>
           </sections>
           <bibliography>
-            <references id="_" normative="false" obligation="informative">
+            <references id="_bibliography" normative="false" obligation="informative">
               <title>Bibliography</title>
               <bibitem type="article" id="ref1">
                 <fetched/>
@@ -801,12 +801,12 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
           #{BLANK_HDR}
            <sections>
-             <clause id="_" inline-header="false" obligation="normative">
+             <clause id="_section" inline-header="false" obligation="normative">
                <title>Section</title>
              </clause>
            </sections>
                     <bibliography>
-            <references id="_" normative="false" obligation="informative">
+            <references id="_bibliography" normative="false" obligation="informative">
               <title>Bibliography</title>
               <bibitem id="ref1" type="inbook">
                 <fetched/>
@@ -1024,7 +1024,7 @@ RSpec.describe Metanorma::Standoc do
                            <sections>
                     </sections>
                              <bibliography>
-             <references id="_" normative="true" obligation="informative">
+             <references id="_normative_references" normative="true" obligation="informative">
                <title>Normative references</title>
                <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
                            <bibitem id="iso123" type="proceedings">
@@ -1090,7 +1090,7 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
         <sections>
 
-        </sections><bibliography><references id="_" normative="true" obligation="informative" >
+        </sections><bibliography><references id="_normative_references" normative="true" obligation="informative" >
           <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id='iso123'>
@@ -1255,13 +1255,13 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
          #{BLANK_HDR}
          <sections>
-         <clause id="_" inline-header="false" obligation="normative">
+         <clause id="_clause_4" inline-header="false" obligation="normative">
            <title>Clause 4</title>
            <p id="_">
            <eref type="inline" bibitemid="iso123" citeas="IETF&#xa0;RFC&#xa0;8341"/>
          </p>
          </clause>
-         </sections><bibliography><references id="_" obligation="informative" normative="true">
+         </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
          <title>Normative references</title>
                #{NORM_REF_BOILERPLATE}
               <bibitem id='iso123' type='standard'>
@@ -1398,7 +1398,7 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
                #{BLANK_HDR}
                       <sections>
-               </sections><bibliography><references id="_" obligation="informative" normative="true">
+               </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
                  <title>Normative references</title>
                 #{NORM_REF_BOILERPLATE}
                              <bibitem id="iso123" type="standard">
@@ -1526,7 +1526,7 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
               #{BLANK_HDR}
                      <sections>
-              </sections><bibliography><references id="_" obligation="informative" normative="true">
+              </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
                 <title>Normative references</title>
                #{NORM_REF_BOILERPLATE}
                             <bibitem id="iso123" type="standard">
@@ -1711,7 +1711,7 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
         #{BLANK_HDR}
         <sections>
-        <clause id="_" inline-header="false" obligation="normative">
+        <clause id="_section" inline-header="false" obligation="normative">
         <title>Section</title>
         <p id="_"><eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><em>reference</em></eref>
         <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><em><strong>reference</strong></em></eref>

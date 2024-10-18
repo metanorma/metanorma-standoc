@@ -25,7 +25,7 @@ module Metanorma
       end
 
       def norm_ref_boilerplate_insert_location(ref)
-        while (n = ref.parent) && %w(clause references).include?(n&.name)
+        while (n = ref.parent) && %w(clause references).include?(n.name)
           n.elements.detect do |e|
             !%(title references).include?(e.name) &&
               !e.at("./self::clause[@type = 'boilerplate']") &&
@@ -113,6 +113,7 @@ module Metanorma
       def merge_boilerplate_files(built_in, user_add)
         %w(copyright license legal feedback).each do |w|
           resolve_boilerplate_statement(built_in, user_add, w)
+          resolve_boilerplate_append(built_in, user_add, w)
         end
         to_xml(built_in)
       end
@@ -123,6 +124,26 @@ module Metanorma
           b.text.strip.empty? and a.remove or a.replace(b)
         else
           built_in << b
+        end
+      end
+
+      def resolve_boilerplate_append(built_in, user_add, statement)
+        b = user_add.at("./#{statement}-statement-append") or return
+        if a = built_in.at("./#{statement}-statement")
+          resolve_boilerplate_append1(a, b, statement)
+        else
+          b.name = "#{statement}-statement"
+          built_in << b
+        end
+      end
+
+      def resolve_boilerplate_append1(built_in, user_add, statement)
+        if user_add.at("./clause") then built_in << user_add.children
+        else
+          user_add.name = "clause"
+          user_add["id"].nil? || uuid?(user_add["id"]) and
+            user_add["id"] = "_boilerplate-#{statement}-statement-append"
+          built_in << user_add
         end
       end
 
@@ -139,7 +160,6 @@ module Metanorma
         boilerplate_file_restructure(file)
       end
 
-      # If Asciidoctor, convert top clauses to tags and wrap in <boilerplate>
       def boilerplate_file_restructure(file)
         ret = adoc2xml(file, backend.to_sym)
         boilerplate_xml_cleanup(ret)
@@ -165,7 +185,8 @@ module Metanorma
 
       def boilerplate_top_elements(xml)
         xml.elements.each do |e|
-          (t = e.at("./title") and /-statement$/.match?(t.text)) or next
+          (t = e.at("./title") and
+           /-statement(-append)?$/.match?(t.text)) or next
           e.name = t.remove.text
           e.keys.each { |a| e.delete(a) } # rubocop:disable Style/HashEachMethods
         end
