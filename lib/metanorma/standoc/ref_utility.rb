@@ -39,7 +39,7 @@ module Metanorma
         ref
       end
 
-      def docid(bib, code, codetype)
+      def docid(bib, code, codetype = nil)
         type, code1 = if /^\[\d+\]$|^\([^)]+\).*$/.match?(code)
                         ["metanorma", mn_code(code)]
                       elsif %w(attachment repo path).include?(codetype)

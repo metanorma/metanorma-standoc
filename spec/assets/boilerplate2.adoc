@@ -1,0 +1,13 @@
+== copyright-statement-append
+
+Hello
+
+== license-statement-append
+
+=== clause 3
+
+=== clause 4
+
+== legal-statement-append
+
+Stuff

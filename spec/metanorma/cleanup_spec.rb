@@ -15,7 +15,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
                     <sections>
-        <clause id="_" inline-header="false" obligation="normative">
+        <clause id="_quotation_as" inline-header="false" obligation="normative">
         <title>“Quotation” A’s</title>
         <p id='_'>‘24:00:00’.</p>
         <p id='_'>
@@ -47,7 +47,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
-        <clause id="_" inline-header="false" obligation="normative">
+        <clause id="_quotation_as" inline-header="false" obligation="normative">
         <title>“Quotation” A’s</title>
       </clause>
              </sections>
@@ -74,7 +74,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
-        <clause id="_" inline-header="false" obligation="normative">
+        <clause id="_quotation_as" inline-header="false" obligation="normative">
         <title>"Quotation" A's</title>
       <p id="_">
         <tt>"quote" A's</tt>
@@ -117,7 +117,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
-                      <clause id="_" inline-header="false" obligation="normative"><title>“Quotation” A’s</title><p id="_">“Quotation” A’s</p>
+                      <clause id="_quotation_as" inline-header="false" obligation="normative"><title>“Quotation” A’s</title><p id="_">“Quotation” A’s</p>
       <p id="_">
         <tt>"quote" A’s</tt>
       </p>
@@ -674,7 +674,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR.sub('<metanorma-extension>', <<~EXT
         <metanorma-extension>
-          <table id='_'>
+          <table id='_misccontainer_anchor_aliases'>
             <tbody>
               <tr>
                 <td valign='top' align='left'>id1</td>
@@ -750,7 +750,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <clause id="_" inline-header="false" obligation="normative">
+      <clause id="_clause" inline-header="false" obligation="normative">
         <title>Clause</title>
         <p id="_">
         <link target="http://user:pass@www.example.com/a%20&lt;a&gt;%3cb%3e">x</link>
@@ -850,7 +850,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <clause id="_" inline-header="false" obligation="normative">
+      <clause id="_clause" inline-header="false" obligation="normative">
          <title>Clause</title>
          <p id="_">http://www.example.com/…​abc</p>
          <p id="_">
@@ -939,7 +939,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <clause id="_" inline-header="false" obligation="normative">
+      <clause id="_clause" inline-header="false" obligation="normative">
          <title>Clause</title>
          <p id="_">
            <link target="http://www.example.com/...abc"/>

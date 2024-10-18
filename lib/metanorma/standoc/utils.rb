@@ -112,9 +112,17 @@ module Metanorma
       def adoc2xml(text, flavour)
         Nokogiri::XML(text).root and return text
         f = @flush_caches ? ":flush-caches:\n" : ""
-        c = Asciidoctor.convert("= X\nA\n:semantic-metadata-headless: true\n" \
-                                ":no-isobib:\n#{f}:novalid:\n\n#{text}\n",
-                                backend: flavour, header_footer: true)
+        doc = <<~ADOC
+          = X
+          A
+          :semantic-metadata-headless: true
+          :no-isobib:
+          #{f}:novalid:
+          :!sectids:
+
+          #{text}
+        ADOC
+        c = Asciidoctor.convert(doc, backend: flavour, header_footer: true)
         Nokogiri::XML(c).at("//xmlns:sections")
       end
 
@@ -139,6 +147,11 @@ module Metanorma
 
       def refid?(ref)
         @refids.include? ref
+      end
+
+      def uuid?(ref)
+        /^_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
+          .match?(ref)
       end
 
       module_function :adoc2xml

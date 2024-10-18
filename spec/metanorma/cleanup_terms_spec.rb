@@ -46,11 +46,11 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
          <sections>
-           <clause id="_" obligation="normative" type="terms">
+           <clause id="_terms_definitions_symbols_and_abbreviations" obligation="normative" type="terms">
              <title>Terms, definitions and symbols</title>
              <p id="_">For the purposes of this document,
            the following terms and definitions apply.</p>
-             <terms id="_" obligation="normative">
+             <terms id="_terms_and_definitions" obligation="normative">
                <title>Terms and definitions</title>
                <note id="_">
                  <p id="_">These terms and definitions are taken from a published British Standard.</p>
@@ -71,7 +71,7 @@ RSpec.describe Metanorma::Standoc do
                    </verbal-definition>
                  </definition>
                </term>
-               <terms id="_" obligation="normative">
+               <terms id="_dampers" obligation="normative">
                  <title>dampers</title>
                  <term id="term-fire-damper">
                    <preferred>
@@ -114,7 +114,7 @@ RSpec.describe Metanorma::Standoc do
                  </definition>
                </term>
              </terms>
-             <definitions id="_" type="symbols" obligation="normative">
+             <definitions id="_symbols" type="symbols" obligation="normative">
                <title>Symbols</title>
              </definitions>
            </clause>
@@ -206,7 +206,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
-          <terms id='_' obligation='normative'>
+          <terms id='_terms_and_definitions' obligation='normative'>
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <term id='term-First-Designation'>
@@ -343,7 +343,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
          <sections>
-           <terms id="_" obligation="normative">
+           <terms id="_terms_and_definitions" obligation="normative">
              <title>Terms and definitions</title>
              <p id="_">For the purposes of this document,
            the following terms and definitions apply.</p>
@@ -415,7 +415,7 @@ RSpec.describe Metanorma::Standoc do
                </preferred>
              </term>
            </terms>
-           <clause id="_" inline-header="false" obligation="normative">
+           <clause id="_clause" inline-header="false" obligation="normative">
              <title>Clause</title>
              <p id="_">
                <concept>
@@ -469,7 +469,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
         <sections>
-          <terms id='_' obligation='normative'>
+          <terms id='_terms_and_definitions' obligation='normative'>
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <term id='term-First-Designation'>
@@ -497,7 +497,7 @@ RSpec.describe Metanorma::Standoc do
               </definition>
             </term>
           </terms>
-          <clause id='_' inline-header='false' obligation='normative'>
+          <clause id='_clause' inline-header='false' obligation='normative'>
             <title>Clause</title>
             <p id='_'>
               <concept>
@@ -576,7 +576,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
          <sections>
-           <terms id="_" obligation="normative">
+           <terms id="_terms_and_definitions" obligation="normative">
              <title>Terms and definitions</title>
              <p id="_">For the purposes of this document,
            the following terms and definitions apply.</p>
@@ -639,7 +639,7 @@ RSpec.describe Metanorma::Standoc do
                </definition>
              </term>
            </terms>
-                      <clause id="_" inline-header="false" obligation="normative">
+                      <clause id="_clause" inline-header="false" obligation="normative">
              <title>Clause</title>
              <p id="_">
                <concept>
@@ -741,7 +741,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
          <sections>
-           <terms id="_" obligation="normative">
+           <terms id="_terms_and_definitions" obligation="normative">
              <title>Terms and definitions</title>
              <p id="_">For the purposes of this document,#{' '}
            the following terms and definitions apply.</p>
@@ -772,7 +772,7 @@ RSpec.describe Metanorma::Standoc do
                <domain>Wheat</domain>
              </term>
            </terms>
-           <clause id="_" inline-header="false" obligation="normative">
+           <clause id="_clause" inline-header="false" obligation="normative">
              <title>Clause</title>
              <p id="_">
                <concept>
@@ -833,7 +833,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
         <sections>
-          <terms id='_' obligation='normative'>
+          <terms id='_terms_and_definitions' obligation='normative'>
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <term id='term-First-Designation'>
@@ -917,7 +917,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
                <sections>
-           <terms id="_" obligation="normative">
+           <terms id="_terms_and_definitions" obligation="normative">
              <title>Terms and definitions</title>
              <p id="_">For the purposes of this document,
            the following terms and definitions apply.</p>
@@ -1020,7 +1020,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
         <sections>
-          <terms id='_' obligation='normative'>
+          <terms id='_terms_and_definitions' obligation='normative'>
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
              <term id='second'>
@@ -1132,7 +1132,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
         <sections>
-          <terms id='_' obligation='normative'>
+          <terms id='_terms_and_definitions' obligation='normative'>
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <term id='des1'>
@@ -1205,7 +1205,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
            #{BLANK_HDR}
                     <sections>
-          <terms id="_" obligation="normative">
+          <terms id="_terms_and_definitions" obligation="normative">
             <title>Terms and definitions</title>
             <p id="_">For the purposes of this document,
           the following terms and definitions apply.</p>
@@ -1284,7 +1284,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
-               <terms id="_" obligation="normative">
+               <terms id="_terms_and_definitions" obligation="normative">
                <title>Terms and definitions</title>
                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
                <term id="term-_lt_relativity_gt_-Tempus">
@@ -1337,7 +1337,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
-               <terms id="_" obligation="normative">
+               <terms id="_terms_and_definitions" obligation="normative">
                <title>Terms and definitions</title>
                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
                <term id="term-t_90"><preferred><letter-symbol><name>
@@ -1427,7 +1427,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
-      <terms id="_" obligation="normative">
+      <terms id="_terms_and_definitions" obligation="normative">
         <title>Terms and definitions</title>
         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
         <term id="term-Term"><preferred><expression><name>Term</name></expression></preferred>
@@ -1506,7 +1506,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
           <sections>
-            <terms id='_' obligation='normative'>
+            <terms id='_terms_and_definitions' obligation='normative'>
               <title>Terms and definitions</title>
               <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
               <term id='term-Term'>
@@ -1626,7 +1626,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
                 <sections>
-            <terms id="_" obligation="normative">
+            <terms id="_terms_and_definitions" obligation="normative">
               <title>Terms and definitions</title>
               <p id="_">For the purposes of this document,
             the following terms and definitions apply.</p>
@@ -1721,7 +1721,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
         #{BLANK_HDR}
                   <sections>
-          <terms id="_" obligation="normative">
+          <terms id="_terms_and_definitions" obligation="normative">
             <title>Terms and definitions</title>
             <p id="_">For the purposes of this document,
           the following terms and definitions apply.</p>
@@ -1803,7 +1803,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
                <sections>
-           <terms id="_" obligation="normative">
+           <terms id="_terms_and_definitions" obligation="normative">
              <title>Terms and definitions</title>
              <p id="_">For the purposes of this document,
            the following terms and definitions apply.</p>
@@ -1877,7 +1877,7 @@ RSpec.describe Metanorma::Standoc do
                </preferred>
              </term>
            </terms>
-           <definitions id="_" obligation="normative">
+           <definitions id="_symbols_and_abbreviated_terms" obligation="normative">
              <title>Symbols and abbreviated terms</title>
              <dl id="_">
                <dt id="symbol-x2">x<sup>2</sup><index><primary>x<sup>2</sup></primary></index></dt>
@@ -1915,7 +1915,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
        #{BLANK_HDR}
                 <sections>
-            <terms id="_" obligation="normative">
+            <terms id="_terms_and_definitions" obligation="normative">
               <title>Terms and definitions</title>
               <p id="_">For the purposes of this document,
             the following terms and definitions apply.</p>

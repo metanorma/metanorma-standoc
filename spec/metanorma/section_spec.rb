@@ -93,96 +93,120 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
             #{BLANK_HDR.sub('<status>', '<abstract> <p>Text</p> </abstract><status>').sub('<metanorma-extension>', "<metanorma-extension><p id='_'>Content</p>")}
-          <preface><abstract id="_">
-          <title>Abstract</title>
-        <p id="_">Text</p>
-      </abstract><foreword id='_' obligation="informative">
-        <title>Foreword</title>
-        <p id="_">Text</p>
-      </foreword><introduction id="_" obligation="informative">
-        <title>Introduction</title>
-        <clause id="_" inline-header="false" obligation="informative">
-        <title>Introduction Subsection</title>
-      </clause>
-      </introduction>
-      <clause id='_' inline-header='false' obligation='informative'>
-        <title>Dedication</title>
-      </clause>
-       <acknowledgements id='_' obligation='informative'>
-         <title>Acknowledgements</title>
-       </acknowledgements>
-      </preface><sections>
-      <clause id="_" inline-header="false" obligation="normative" type="scope">
-        <title>Scope</title>
-        <p id="_">Text</p>
-      </clause>
-      <terms id="_" obligation="normative">
-        <title>Terms and definitions</title>
-        <p id="_">For the purposes of this document,
-             the following terms and definitions apply.</p>
-        <term id="term-Term1">
-        <preferred><expression><name>Term1</name></expression></preferred>
-      </term>
-      </terms>
-      <clause id="_" obligation="normative" type="terms"><title>Terms, definitions, symbols and abbreviated terms</title>
-      <p id='_'>Boilerplate text</p>
-      <terms id="_" obligation="normative">
-        <title>Normal Terms</title>
-        <term id="term-Term2">
-        <preferred><expression><name>Term2</name></expression></preferred>
-      </term>
-      </terms>
-      <definitions id="_" obligation="normative"><title>Symbols and abbreviated terms</title><clause id="_" inline-header="false" obligation="normative">
-        <title>General</title>
-      </clause>
-      <definitions id="_" obligation="normative" type="symbols">
-        <title>Symbols</title>
-      </definitions></definitions></clause>
-      <definitions id="_" obligation="normative" type="abbreviated_terms">
-        <title>Abbreviated terms</title>
-      </definitions>
-      <clause id="_" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="_" inline-header="false" obligation="normative">
-        <title>Introduction</title>
-      </clause>
-      <clause id="_" inline-header="false" obligation="normative">
-        <title>Clause 4.2</title>
-      </clause></clause>
-      <clause id="_" inline-header="false" obligation="normative">
-        <title>Terms and Definitions</title>
-      </clause>
-      <clause id='_' inline-header='false' obligation='normative'>
-        <title>Acknowledgements</title>
-      </clause>
-      </sections><annex id="_" inline-header="false" obligation="normative">
-        <title>Annex</title>
-        <clause id="_" inline-header="false" obligation="normative">
-        <title>Annex A.1</title>
-      </clause>
-      </annex><bibliography><references id="_" obligation="informative" normative="true">
-        <title>Normative references</title>
-        <p id="_">There are no normative references in this document.</p>
-      </references><clause id="_" obligation="informative">
-        <title>Bibliography</title>
-        <references id="_" obligation="informative" normative="false">
-        <title>Bibliography Subsection</title>
-      </references>
-      </clause></bibliography>
-      <indexsect id='_'>
-        <title>Index</title>
-        <p id='_'>This is an index</p>
-      </indexsect>
-      <indexsect id='_' type='thematic'>
-        <title>Thematic Index</title>
-      </indexsect>
-        <colophon>
-        <clause id="_" inline-header="false" obligation="normative">
-          <title>First Colophon Section</title>
-        </clause>
-        <clause id="_" inline-header="false" obligation="normative">
-          <title>Second Colophon Section</title>
-        </clause>
-      </colophon>
-      </standard-document>
+                      <preface>
+             <abstract id="_abstract">
+                <title>Abstract</title>
+                <p id="_">Text</p>
+             </abstract>
+             <foreword id="_" obligation="informative">
+                <title>Foreword</title>
+                <p id="_">Text</p>
+             </foreword>
+             <introduction id="_introduction" obligation="informative">
+                <title>Introduction</title>
+                <clause id="_introduction_subsection" inline-header="false" obligation="informative">
+                   <title>Introduction Subsection</title>
+                </clause>
+             </introduction>
+             <clause id="_dedication" inline-header="false" obligation="informative">
+                <title>Dedication</title>
+             </clause>
+             <acknowledgements id="_acknowledgements" obligation="informative">
+                <title>Acknowledgements</title>
+             </acknowledgements>
+          </preface>
+          <sections>
+             <clause id="_scope" type="scope" inline-header="false" obligation="normative">
+                <title>Scope</title>
+                <p id="_">Text</p>
+             </clause>
+             <terms id="_terms_and_definitions" obligation="normative">
+                <title>Terms and definitions</title>
+                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+                <term id="term-Term1">
+                   <preferred>
+                      <expression>
+                         <name>Term1</name>
+                      </expression>
+                   </preferred>
+                </term>
+             </terms>
+             <clause id="_terms_definitions_symbols_and_abbreviated_terms" obligation="normative" type="terms">
+                <title>Terms, definitions, symbols and abbreviated terms</title>
+                <p id="_">Boilerplate text</p>
+                <terms id="_normal_terms" obligation="normative">
+                   <title>Normal Terms</title>
+                   <term id="term-Term2">
+                      <preferred>
+                         <expression>
+                            <name>Term2</name>
+                         </expression>
+                      </preferred>
+                   </term>
+                </terms>
+                <definitions id="_symbols_and_abbreviated_terms" obligation="normative">
+                   <title>Symbols and abbreviated terms</title>
+                   <clause id="_general" inline-header="false" obligation="normative">
+                      <title>General</title>
+                   </clause>
+                   <definitions id="_symbols" type="symbols" obligation="normative">
+                      <title>Symbols</title>
+                   </definitions>
+                </definitions>
+             </clause>
+             <definitions id="_abbreviated_terms" type="abbreviated_terms" obligation="normative">
+                <title>Abbreviated terms</title>
+             </definitions>
+             <clause id="_clause_4" inline-header="false" obligation="normative">
+                <title>Clause 4</title>
+                <clause id="_introduction_2" inline-header="false" obligation="normative">
+                   <title>Introduction</title>
+                </clause>
+                <clause id="_clause_4_2" inline-header="false" obligation="normative">
+                   <title>Clause 4.2</title>
+                </clause>
+             </clause>
+             <clause id="_terms_and_definitions_2" inline-header="false" obligation="normative">
+                <title>Terms and Definitions</title>
+             </clause>
+             <clause id="_acknowledgements_2" inline-header="false" obligation="normative">
+                <title>Acknowledgements</title>
+             </clause>
+          </sections>
+          <annex id="_annex" inline-header="false" obligation="normative">
+             <title>Annex</title>
+             <clause id="_annex_a_1" inline-header="false" obligation="normative">
+                <title>Annex A.1</title>
+             </clause>
+          </annex>
+          <bibliography>
+             <references id="_normative_references" normative="true" obligation="informative">
+                <title>Normative references</title>
+                <p id="_">There are no normative references in this document.</p>
+             </references>
+             <clause id="_bibliography" obligation="informative">
+                <title>Bibliography</title>
+                <references id="_bibliography_subsection" normative="false" obligation="informative">
+                   <title>Bibliography Subsection</title>
+                </references>
+             </clause>
+          </bibliography>
+          <indexsect id="_index">
+             <title>Index</title>
+             <p id="_">This is an index</p>
+          </indexsect>
+          <indexsect id="_thematic_index" type="thematic">
+             <title>Thematic Index</title>
+          </indexsect>
+          <colophon>
+             <clause id="_first_colophon_section" inline-header="false" obligation="normative">
+                <title>First Colophon Section</title>
+             </clause>
+             <clause id="_second_colophon_section" inline-header="false" obligation="normative">
+                <title>Second Colophon Section</title>
+             </clause>
+          </colophon>
+       </standard-document>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -204,16 +228,16 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
                <preface>
-             <foreword id="_" obligation="informative">
+             <foreword id="_foreword" obligation="informative">
                <title>Foreword</title>
                <p id="_">Text</p>
              </foreword>
-             <clause id="_" inline-header="false" obligation="informative">
+             <clause id="_frontispiece" inline-header="false" obligation="informative">
                <title>Frontispiece</title>
              </clause>
            </preface>
            <sections>
-             <clause id="_" type="scope" inline-header="false" obligation="normative">
+             <clause id="_scope" type="scope" inline-header="false" obligation="normative">
                <title>Scope</title>
              </clause>
            </sections>
@@ -291,69 +315,69 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
            <sections>
-             <clause id='_' number='1bis' type='scope' inline-header='false' obligation='normative'>
+             <clause id='_scope' number='1bis' type='scope' inline-header='false' obligation='normative'>
                <title>Scope</title>
                <p id='_'>Text</p>
              </clause>
-             <terms id='_' number='3bis' obligation='normative'>
+             <terms id='_terms_and_definitions' number='3bis' obligation='normative'>
                <title>Terms and definitions</title>
                <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
                <term id='term-Term1' number='4bis'>
                  <preferred><expression><name>Term1</name></expression></preferred>
                </term>
              </terms>
-             <terms id='_' number='5bis' obligation='normative'>
+             <terms id='_terms_definitions_symbols_and_abbreviated_terms' number='5bis' obligation='normative'>
                <title>Terms, definitions, symbols and abbreviated terms</title>
                <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-               <clause id='_' number='6bis' inline-header='false' obligation='normative'>
+               <clause id='_introduction' number='6bis' inline-header='false' obligation='normative'>
                  <title>Introduction</title>
-                 <clause id='_' number='7bis' inline-header='false' obligation='normative'>
+                 <clause id='_intro_1' number='7bis' inline-header='false' obligation='normative'>
                    <title>Intro 1</title>
                  </clause>
                </clause>
                <term id='term-Intro-2' number='8bis'>
                  <preferred><expression><name>Intro 2</name></expression></preferred>
                </term>
-               <definitions id='_' number='9bis' obligation='normative'>
+               <definitions id='_symbols_and_abbreviated_terms' number='9bis' obligation='normative'>
                  <title>Symbols and abbreviated terms</title>
-                 <clause id='_' number='10bis' inline-header='false' obligation='normative'>
+                 <clause id='_general' number='10bis' inline-header='false' obligation='normative'>
                    <title>General</title>
                  </clause>
-                 <definitions id='_' number='11bis' type='symbols' obligation='normative'>
+                 <definitions id='_symbols' number='11bis' type='symbols' obligation='normative'>
                    <title>Symbols</title>
                  </definitions>
                </definitions>
              </terms>
-             <definitions id='_' number='12bis' type='abbreviated_terms' obligation='normative'>
+             <definitions id='_abbreviated_terms' number='12bis' type='abbreviated_terms' obligation='normative'>
                <title>Abbreviated terms</title>
              </definitions>
-             <clause id='_' number='13bis' inline-header='false' obligation='normative'>
+             <clause id='_clause_4' number='13bis' inline-header='false' obligation='normative'>
                <title>Clause 4</title>
-               <clause id='_' number='14bis' inline-header='false' obligation='normative'>
+               <clause id='_introduction_2' number='14bis' inline-header='false' obligation='normative'>
                  <title>Introduction</title>
                </clause>
-               <clause id='_' number='15bis' inline-header='false' obligation='normative'>
+               <clause id='_clause_4_2' number='15bis' inline-header='false' obligation='normative'>
                  <title>Clause 4.2</title>
                </clause>
              </clause>
-             <clause id='_' number='16bis' inline-header='false' obligation='normative'>
+             <clause id='_terms_and_definitions_2' number='16bis' inline-header='false' obligation='normative'>
                <title>Terms and Definitions</title>
              </clause>
            </sections>
-           <annex id='_' number='17bis' inline-header='false' obligation='normative'>
+           <annex id='_annex' number='17bis' inline-header='false' obligation='normative'>
              <title>Annex</title>
-             <clause id='_' number='18bis' inline-header='false' obligation='normative'>
+             <clause id='_annex_a_1' number='18bis' inline-header='false' obligation='normative'>
                <title>Annex A.1</title>
              </clause>
            </annex>
            <bibliography>
-             <references id='_' number='2bis' normative='true' obligation='informative'>
+             <references id='_normative_references' number='2bis' normative='true' obligation='informative'>
                <title>Normative references</title>
                <p id='_'>There are no normative references in this document.</p>
              </references>
-             <clause id='_' number='19bis' obligation='informative'>
+             <clause id='_bibliography' number='19bis' obligation='informative'>
                <title>Bibliography</title>
-               <references id='_' number='20bis' normative='false' obligation='informative'>
+               <references id='_bibliography_subsection' number='20bis' normative='false' obligation='informative'>
                  <title>Bibliography Subsection</title>
                </references>
              </clause>
@@ -432,69 +456,69 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
            <sections>
-             <clause id='_' branch-number='1bis' type='scope' inline-header='false' obligation='normative'>
+             <clause id='_scope' branch-number='1bis' type='scope' inline-header='false' obligation='normative'>
                <title>Scope</title>
                <p id='_'>Text</p>
              </clause>
-             <terms id='_' branch-number='3bis' obligation='normative'>
+             <terms id='_terms_and_definitions' branch-number='3bis' obligation='normative'>
                <title>Terms and definitions</title>
                <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
                <term id='term-Term1' branch-number='4bis'>
                  <preferred><expression><name>Term1</name></expression></preferred>
                </term>
              </terms>
-             <terms id='_' branch-number='5bis' obligation='normative'>
+             <terms id='_terms_definitions_symbols_and_abbreviated_terms' branch-number='5bis' obligation='normative'>
                <title>Terms, definitions, symbols and abbreviated terms</title>
                <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-               <clause id='_' branch-number='6bis' inline-header='false' obligation='normative'>
+               <clause id='_introduction' branch-number='6bis' inline-header='false' obligation='normative'>
                  <title>Introduction</title>
-                 <clause id='_' branch-number='7bis' inline-header='false' obligation='normative'>
+                 <clause id='_intro_1' branch-number='7bis' inline-header='false' obligation='normative'>
                    <title>Intro 1</title>
                  </clause>
                </clause>
                <term id='term-Intro-2' branch-number='8bis'>
                  <preferred><expression><name>Intro 2</name></expression></preferred>
                </term>
-               <definitions id='_' branch-number='9bis' obligation='normative'>
+               <definitions id='_symbols_and_abbreviated_terms' branch-number='9bis' obligation='normative'>
                  <title>Symbols and abbreviated terms</title>
-                 <clause id='_' branch-number='10bis' inline-header='false' obligation='normative'>
+                 <clause id='_general' branch-number='10bis' inline-header='false' obligation='normative'>
                    <title>General</title>
                  </clause>
-                 <definitions id='_' branch-number='11bis' type='symbols' obligation='normative'>
+                 <definitions id='_symbols' branch-number='11bis' type='symbols' obligation='normative'>
                    <title>Symbols</title>
                  </definitions>
                </definitions>
              </terms>
-             <definitions id='_' branch-number='12bis' type='abbreviated_terms' obligation='normative'>
+             <definitions id='_abbreviated_terms' branch-number='12bis' type='abbreviated_terms' obligation='normative'>
                <title>Abbreviated terms</title>
              </definitions>
-             <clause id='_' branch-number='13bis' inline-header='false' obligation='normative'>
+             <clause id='_clause_4' branch-number='13bis' inline-header='false' obligation='normative'>
                <title>Clause 4</title>
-               <clause id='_' branch-number='14bis' inline-header='false' obligation='normative'>
+               <clause id='_introduction_2' branch-number='14bis' inline-header='false' obligation='normative'>
                  <title>Introduction</title>
                </clause>
-               <clause id='_' branch-number='15bis' inline-header='false' obligation='normative'>
+               <clause id='_clause_4_2' branch-number='15bis' inline-header='false' obligation='normative'>
                  <title>Clause 4.2</title>
                </clause>
              </clause>
-             <clause id='_' branch-number='16bis' inline-header='false' obligation='normative'>
+             <clause id='_terms_and_definitions_2' branch-number='16bis' inline-header='false' obligation='normative'>
                <title>Terms and Definitions</title>
              </clause>
            </sections>
-           <annex id='_' branch-number='17bis' inline-header='false' obligation='normative'>
+           <annex id='_annex' branch-number='17bis' inline-header='false' obligation='normative'>
              <title>Annex</title>
-             <clause id='_' branch-number='18bis' inline-header='false' obligation='normative'>
+             <clause id='_annex_a_1' branch-number='18bis' inline-header='false' obligation='normative'>
                <title>Annex A.1</title>
              </clause>
            </annex>
            <bibliography>
-             <references id='_' branch-number='2bis' normative='true' obligation='informative'>
+             <references id='_normative_references' branch-number='2bis' normative='true' obligation='informative'>
                <title>Normative references</title>
                <p id='_'>There are no normative references in this document.</p>
              </references>
-             <clause id='_' branch-number='19bis' obligation='informative'>
+             <clause id='_bibliography' branch-number='19bis' obligation='informative'>
                <title>Bibliography</title>
-               <references id='_' branch-number='20bis' normative='false' obligation='informative'>
+               <references id='_bibliography_subsection' branch-number='20bis' normative='false' obligation='informative'>
                  <title>Bibliography Subsection</title>
                </references>
              </clause>
@@ -604,110 +628,135 @@ RSpec.describe Metanorma::Standoc do
       [language=en,script=Latn]
       === Annex A.1
 
-      [language=en,script=Latn]
+      [bibliography,language=en,script=Latn]
       == Bibliography
 
       [language=en,script=Latn]
       === Bibliography Subsection
     INPUT
     output = <<~OUTPUT
-                   #{BLANK_HDR.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')}
-           <preface><abstract id="_" language="en" script="Latn">
-           <title>Abstract</title>
-               <p id="_">Text</p>
-             </abstract><foreword id='_' language='en' script='Latn' obligation='informative'>
-               <title>Foreword</title>
-               <p id="_">Text</p>
-             </foreword><introduction id="_" language="en" script="Latn" obligation="informative">
-               <title>Introduction</title>
-               <clause id="_" language="en" script="Latn" inline-header="false" obligation="informative">
-               <title>Introduction Subsection</title>
-             </clause>
+      #{BLANK_HDR.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')}
+                             <preface>
+             <abstract id="_abstract" language="en" script="Latn">
+                <title>Abstract</title>
+                <p id="_">Text</p>
+             </abstract>
+             <foreword id="_foreword" language="en" script="Latn" obligation="informative">
+                <title>Foreword</title>
+                <p id="_">Text</p>
+             </foreword>
+             <introduction id="_introduction" language="en" script="Latn" obligation="informative">
+                <title>Introduction</title>
+                <clause id="_introduction_subsection" language="en" script="Latn" inline-header="false" obligation="informative">
+                   <title>Introduction Subsection</title>
+                </clause>
              </introduction>
-             <clause id='_' language='en' script='Latn' inline-header='false' obligation='informative'>
-        <title>Dedication</title>
-      </clause>
-             <acknowledgements id='_' language='en' script='Latn' obligation='informative'>
-        <title>Acknowledgements</title>
-      </acknowledgements>
-      </preface><sections>
-             <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative" type="scope">
-               <title>Scope</title>
-               <p id="_">Text</p>
+             <clause id="_dedication" language="en" script="Latn" inline-header="false" obligation="informative">
+                <title>Dedication</title>
              </clause>
-             <terms id="_" language="en" script="Latn" obligation="normative">
-               <title>Terms and definitions</title>
-               <p id="_">For the purposes of this document,
-             the following terms and definitions apply.</p>
-               <term id="term-Term1" language="en" script="Latn">
-               <preferred><expression><name>Term1</name></expression></preferred>
-             </term>
+             <acknowledgements id="_acknowledgements" language="en" script="Latn" obligation="informative">
+                <title>Acknowledgements</title>
+             </acknowledgements>
+          </preface>
+          <sections>
+             <clause id="_scope" language="en" script="Latn" type="scope" inline-header="false" obligation="normative">
+                <title>Scope</title>
+                <p id="_">Text</p>
+             </clause>
+             <terms id="_terms_and_definitions" language="en" script="Latn" obligation="normative">
+                <title>Terms and definitions</title>
+                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+                <term id="term-Term1" language="en" script="Latn">
+                   <preferred>
+                      <expression>
+                         <name>Term1</name>
+                      </expression>
+                   </preferred>
+                </term>
              </terms>
-             <clause id="_" language="en" script="Latn" obligation="normative" type="terms">
-            <title>Terms, definitions, symbols and abbreviated terms</title>
-        <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-      <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
-               <title>Introduction</title>
-               <clause id="_" inline-header="false" obligation="normative">
-               <title>Intro 1</title>
+             <clause id="_terms_definitions_symbols_and_abbreviated_terms" language="en" script="Latn" obligation="normative" type="terms">
+                <title>Terms, definitions, symbols and abbreviated terms</title>
+                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+                <clause id="_introduction_2" language="en" script="Latn" inline-header="false" obligation="normative">
+                   <title>Introduction</title>
+                   <clause id="_intro_1" inline-header="false" obligation="normative">
+                      <title>Intro 1</title>
+                   </clause>
+                </clause>
+                <terms id="_intro_2" language="en" script="Latn" obligation="normative">
+                   <title>Intro 2</title>
+                   <clause id="_intro_3" language="en" script="Latn" inline-header="false" obligation="normative">
+                      <title>Intro 3</title>
+                   </clause>
+                </terms>
+                <clause id="_intro_4" language="en" script="Latn" obligation="normative" type="terms">
+                   <title>Intro 4</title>
+                   <terms id="_intro_5" language="en" script="Latn" obligation="normative">
+                      <title>Intro 5</title>
+                      <term id="term-Term1-1">
+                         <preferred>
+                            <expression>
+                               <name>Term1</name>
+                            </expression>
+                         </preferred>
+                      </term>
+                   </terms>
+                </clause>
+                <terms id="_normal_terms" language="en" script="Latn" obligation="normative">
+                   <title>Normal Terms</title>
+                   <term id="term-Term2">
+                      <preferred>
+                         <expression>
+                            <name>Term2</name>
+                         </expression>
+                      </preferred>
+                   </term>
+                </terms>
+                <definitions id="_symbols_and_abbreviated_terms" language="en" script="Latn" obligation="normative">
+                   <title>Symbols and abbreviated terms</title>
+                   <clause id="_general" language="en" script="Latn" inline-header="false" obligation="normative">
+                      <title>General</title>
+                   </clause>
+                   <definitions id="_symbols" type="symbols" obligation="normative">
+                      <title>Symbols</title>
+                   </definitions>
+                </definitions>
              </clause>
-             </clause>
-             <terms id="_" language="en" script="Latn" obligation="normative">
-               <title>Intro 2</title>
-               <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
-               <title>Intro 3</title>
-             </clause>
-             </terms>
-             <clause id="_" language="en" script="Latn" obligation="normative" type="terms">
-               <title>Intro 4</title>
-               <terms id="_" language="en" script="Latn" obligation="normative">
-               <title>Intro 5</title>
-               <term id="term-Term1-1">
-               <preferred><expression><name>Term1</name></expression></preferred>
-             </term>
-             </terms>
-             </clause>
-             <terms id="_" language="en" script="Latn" obligation="normative">
-               <title>Normal Terms</title>
-               <term id="term-Term2">
-               <preferred><expression><name>Term2</name></expression></preferred>
-             </term>
-             </terms>
-             <definitions id="_" language="en" script="Latn" obligation="normative"><title>Symbols and abbreviated terms</title>
-              <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
-               <title>General</title>
-             </clause>
-             <definitions id="_" obligation="normative" type="symbols">
-               <title>Symbols</title>
-             </definitions></definitions></clause>
-             <definitions id="_" language="en" script="Latn" obligation="normative" type="abbreviated_terms">
-               <title>Abbreviated terms</title>
+             <definitions id="_abbreviated_terms" language="en" script="Latn" type="abbreviated_terms" obligation="normative">
+                <title>Abbreviated terms</title>
              </definitions>
-             <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative"><title>Clause 4</title>
-            <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
-               <title>Introduction</title>
+             <clause id="_clause_4" language="en" script="Latn" inline-header="false" obligation="normative">
+                <title>Clause 4</title>
+                <clause id="_introduction_3" language="en" script="Latn" inline-header="false" obligation="normative">
+                   <title>Introduction</title>
+                </clause>
+                <clause id="_clause_4_2" language="en" script="Latn" inline-header="false" obligation="normative">
+                   <title>Clause 4.2</title>
+                </clause>
              </clause>
-             <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
-               <title>Clause 4.2</title>
-             </clause></clause>
-             <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
-               <title>Terms and Definitions</title>
+             <clause id="_terms_and_definitions_2" language="en" script="Latn" inline-header="false" obligation="normative">
+                <title>Terms and Definitions</title>
              </clause>
-             </sections><annex id="_" language="en" script="Latn" inline-header="false" obligation="normative">
-               <title>Annex</title>
-               <clause id="_" language="en" script="Latn" inline-header="false" obligation="normative">
-               <title>Annex A.1</title>
+          </sections>
+          <annex id="_annex" language="en" script="Latn" inline-header="false" obligation="normative">
+             <title>Annex</title>
+             <clause id="_annex_a_1" language="en" script="Latn" inline-header="false" obligation="normative">
+                <title>Annex A.1</title>
              </clause>
-             </annex><bibliography><references id="_" language="en" script="Latn" obligation="informative" normative="true">
-               <title>Normative references</title>
-               <p id="_">There are no normative references in this document.</p>
-             </references><clause id="_" language="en" script="Latn" obligation="informative">
-               <title>Bibliography</title>
-               <references id="_" language="en" script="Latn" obligation="informative" normative="false">
-               <title>Bibliography Subsection</title>
+          </annex>
+          <bibliography>
+             <references id="_normative_references" language="en" script="Latn" normative="true" obligation="informative">
+                <title>Normative references</title>
+                <p id="_">There are no normative references in this document.</p>
              </references>
-             </clause></bibliography>
-             </standard-document>
+             <clause id="_bibliography" language="en" script="Latn" obligation="informative">
+                <title>Bibliography</title>
+                <references id="_bibliography_subsection" language="en" script="Latn" normative="false" obligation="informative">
+                   <title>Bibliography Subsection</title>
+                </references>
+             </clause>
+          </bibliography>
+       </standard-document>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -781,87 +830,85 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')}
-               <preface>
-           <abstract id="_" unnumbered="true">
-             <title>Abstract</title>
-             <p id="_">Text</p>
-           </abstract>
-           <foreword id="_" obligation="informative">
-             <title>Foreword</title>
-             <p id="_">Text</p>
-           </foreword>
-           <introduction id="_" unnumbered="true" obligation="informative">
-             <title>Introduction</title>
-             <clause id="_" unnumbered="true" inline-header="false" obligation="informative">
-               <title>Introduction Subsection</title>
-             </clause>
-           </introduction>
-           <acknowledgements id="_" unnumbered="true" obligation="informative">
-             <title>Acknowledgements</title>
-           </acknowledgements>
-         </preface>
-         <sections>
-           <terms id="_" unnumbered="true" obligation="normative">
-             <title>Terms and definitions</title>
-             <p id="_">For the purposes of this document,
-           the following terms and definitions apply.</p>
-             <term id="term-Term1" unnumbered="true">
-               <preferred>
-                 <expression>
-                   <name>Term1</name>
-                 </expression>
-               </preferred>
-             </term>
-           </terms>
-           <clause id="_" unnumbered="true" obligation="normative" type="terms">
-             <title>Terms, definitions and symbols</title>
-             <p id="_">For the purposes of this document,
-           the following terms and definitions apply.</p>
-             <terms id="_" unnumbered="true" obligation="normative">
-               <title>Normal Terms</title>
-               <term id="term-Term2" unnumbered="true">
-                 <preferred>
-                   <expression>
-                     <name>Term2</name>
-                   </expression>
-                 </preferred>
-               </term>
+                <preface>
+             <abstract id="___x3c0___x3b5___x3c1___x3af___x3bb___x3b7___x3c8___x3b7_" unnumbered="true">
+                <title>Abstract</title>
+                <p id="_">Text</p>
+             </abstract>
+             <foreword id="_" obligation="informative">
+                <title>Foreword</title>
+                <p id="_">Text</p>
+             </foreword>
+             <introduction id="___x3b5___x3b9___x3c3___x3b1___x3b3___x3c9___x3b3___x3ae_" unnumbered="true" obligation="informative">
+                <title>Introduction</title>
+                <clause id="_introduction_subsection" unnumbered="true" inline-header="false" obligation="informative">
+                   <title>Introduction Subsection</title>
+                </clause>
+             </introduction>
+             <acknowledgements id="___x3b5___x3c5___x3c7___x3b1___x3c1___x3b9___x3c3___x3c4___x3af___x3b5___x3c2_" unnumbered="true" obligation="informative">
+                <title>Acknowledgements</title>
+             </acknowledgements>
+          </preface>
+          <sections>
+             <terms id="___x3cc___x3c1___x3bf___x3b9____x3ba___x3b1___x3b9____x3bf___x3c1___x3b9___x3c3___x3bc___x3bf___x3af_" unnumbered="true" obligation="normative">
+                <title>Terms and definitions</title>
+                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+                <term id="term-Term1" unnumbered="true">
+                   <preferred>
+                      <expression>
+                         <name>Term1</name>
+                      </expression>
+                   </preferred>
+                </term>
              </terms>
-             <definitions id="_" unnumbered="true" type="symbols" obligation="normative">
-               <title>Symbols</title>
+             <clause id="___x3cc___x3c1___x3bf___x3b9____x3bf___x3c1___x3b9___x3c3___x3bc___x3bf___x3af____x3c3___x3cd___x3bc___x3b2___x3bf___x3bb___x3b1____x3ba___x3b1___x3b9____x3c3___x3c5___x3bd___x3c4___x3bf___x3bc___x3bf___x3b3___x3c1___x3b1___x3c6___x3af___x3b5___x3c2_" unnumbered="true" obligation="normative" type="terms">
+                <title>Terms, definitions and symbols</title>
+                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+                <terms id="_normal_terms" unnumbered="true" obligation="normative">
+                   <title>Normal Terms</title>
+                   <term id="term-Term2" unnumbered="true">
+                      <preferred>
+                         <expression>
+                            <name>Term2</name>
+                         </expression>
+                      </preferred>
+                   </term>
+                </terms>
+                <definitions id="___x3c3___x3cd___x3bc___x3b2___x3bf___x3bb___x3b1____x3ba___x3b1___x3b9____x3c3___x3c5___x3bd___x3c4___x3bf___x3bc___x3bf___x3b3___x3c1___x3b1___x3c6___x3af___x3b5___x3c2_" unnumbered="true" type="symbols" obligation="normative">
+                   <title>Symbols</title>
+                </definitions>
+             </clause>
+             <definitions id="___x3c3___x3cd___x3bc___x3b2___x3bf___x3bb___x3b1____x3ba___x3b1___x3b9____x3c3___x3c5___x3bd___x3c4___x3bf___x3bc___x3bf___x3b3___x3c1___x3b1___x3c6___x3af___x3b5___x3c2__2" unnumbered="true" type="abbreviated_terms" obligation="normative">
+                <title>Abbreviated terms</title>
              </definitions>
-           </clause>
-           <definitions id="_" unnumbered="true" type="abbreviated_terms" obligation="normative">
-             <title>Abbreviated terms</title>
-           </definitions>
-           <clause id="_" unnumbered="true" type="ABC" inline-header="false" obligation="normative">
-             <title>Clause 4</title>
-             <clause id="_" unnumbered="true" type="DEF" inline-header="false" obligation="normative">
-               <title>Introduction</title>
+             <clause id="_clause_4" unnumbered="true" type="ABC" inline-header="false" obligation="normative">
+                <title>Clause 4</title>
+                <clause id="_introduction" unnumbered="true" type="DEF" inline-header="false" obligation="normative">
+                   <title>Introduction</title>
+                </clause>
+                <clause id="_clause_4_2" unnumbered="true" inline-header="false" obligation="normative">
+                   <title>Clause 4.2</title>
+                </clause>
              </clause>
-             <clause id="_" unnumbered="true" inline-header="false" obligation="normative">
-               <title>Clause 4.2</title>
+          </sections>
+          <annex id="_annex" unnumbered="true" inline-header="false" obligation="normative">
+             <title>Annex</title>
+             <clause id="_annex_a_1" unnumbered="true" inline-header="false" obligation="normative">
+                <title>Annex A.1</title>
              </clause>
-           </clause>
-         </sections>
-         <annex id="_" unnumbered="true" inline-header="false" obligation="normative">
-           <title>Annex</title>
-           <clause id="_" unnumbered="true" inline-header="false" obligation="normative">
-             <title>Annex A.1</title>
-           </clause>
-         </annex>
-         <bibliography>
-           <references id="_" unnumbered="true" normative="true" obligation="informative">
-             <title>Normative references</title>
-             <p id="_">There are no normative references in this document.</p>
-           </references>
-           <clause id="_" unnumbered="true" obligation="informative">
-             <title>Bibliography</title>
-             <references id="_" unnumbered="true" normative="false" obligation="informative">
-               <title>Bibliography Subsection</title>
+          </annex>
+          <bibliography>
+             <references id="___x3ba___x3b1___x3bd___x3bf___x3bd___x3b9___x3c3___x3c4___x3b9___x3ba___x3ad___x3c2____x3c0___x3b1___x3c1___x3b1___x3c0___x3bf___x3bc___x3c0___x3ad___x3c2_" unnumbered="true" normative="true" obligation="informative">
+                <title>Normative references</title>
+                <p id="_">There are no normative references in this document.</p>
              </references>
-           </clause>
-         </bibliography>
+             <clause id="___x3b2___x3b9___x3b2___x3bb___x3b9___x3bf___x3b3___x3c1___x3b1___x3c6___x3af___x3b1_" unnumbered="true" obligation="informative">
+                <title>Bibliography</title>
+                <references id="_bibliography_subsection" unnumbered="true" normative="false" obligation="informative">
+                   <title>Bibliography Subsection</title>
+                </references>
+             </clause>
+          </bibliography>
        </standard-document>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
@@ -897,48 +944,46 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-       #{BLANK_HDR}
-               <sections>
-           <clause id="_" inline-header="false" obligation="normative">
-             <title>First section</title>
-             <references id="_" normative="true" obligation="informative">
-               <title>Κανονιστικές Παραπομπές</title>
-             </references>
-             <terms id="_" obligation="normative">
-               <title>Terms and definitions</title>
-               <p id="_">For the purposes of this document,
-           the following terms and definitions apply.</p>
-               <term id="term-Term1">
-                 <preferred>
-                   <expression>
-                     <name>Term1</name>
-                   </expression>
-                 </preferred>
-               </term>
-             </terms>
-             <clause id="_" obligation="normative" type="terms">
-               <title>Terms, definitions and symbols</title>
-               <terms id="_" obligation="normative">
-                 <title>Normal Terms</title>
-                 <p id="_">For the purposes of this document,
-           the following terms and definitions apply.</p>
-                 <term id="term-Term2">
-                   <preferred>
-                     <expression>
-                       <name>Term2</name>
-                     </expression>
-                   </preferred>
-                 </term>
-               </terms>
-               <definitions id="_" type="symbols" obligation="normative">
-                 <title>Symbols</title>
-               </definitions>
+      #{BLANK_HDR}
+                <sections>
+             <clause id="_first_section" inline-header="false" obligation="normative">
+                <title>First section</title>
+                <references id="___x3ba___x3b1___x3bd___x3bf___x3bd___x3b9___x3c3___x3c4___x3b9___x3ba___x3ad___x3c2____x3c0___x3b1___x3c1___x3b1___x3c0___x3bf___x3bc___x3c0___x3ad___x3c2_" normative="true" obligation="informative">
+                   <title>Κανονιστικές Παραπομπές</title>
+                </references>
+                <terms id="___x3cc___x3c1___x3bf___x3b9____x3ba___x3b1___x3b9____x3bf___x3c1___x3b9___x3c3___x3bc___x3bf___x3af_" obligation="normative">
+                   <title>Terms and definitions</title>
+                   <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+                   <term id="term-Term1">
+                      <preferred>
+                         <expression>
+                            <name>Term1</name>
+                         </expression>
+                      </preferred>
+                   </term>
+                </terms>
+                <clause id="___x3cc___x3c1___x3bf___x3b9____x3bf___x3c1___x3b9___x3c3___x3bc___x3bf___x3af____x3c3___x3cd___x3bc___x3b2___x3bf___x3bb___x3b1____x3ba___x3b1___x3b9____x3c3___x3c5___x3bd___x3c4___x3bf___x3bc___x3bf___x3b3___x3c1___x3b1___x3c6___x3af___x3b5___x3c2_" obligation="normative" type="terms">
+                   <title>Terms, definitions and symbols</title>
+                   <terms id="_normal_terms" obligation="normative">
+                      <title>Normal Terms</title>
+                      <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+                      <term id="term-Term2">
+                         <preferred>
+                            <expression>
+                               <name>Term2</name>
+                            </expression>
+                         </preferred>
+                      </term>
+                   </terms>
+                   <definitions id="___x3c3___x3cd___x3bc___x3b2___x3bf___x3bb___x3b1____x3ba___x3b1___x3b9____x3c3___x3c5___x3bd___x3c4___x3bf___x3bc___x3bf___x3b3___x3c1___x3b1___x3c6___x3af___x3b5___x3c2_" type="symbols" obligation="normative">
+                      <title>Symbols</title>
+                   </definitions>
+                </clause>
+                <definitions id="___x3c3___x3cd___x3bc___x3b2___x3bf___x3bb___x3b1____x3ba___x3b1___x3b9____x3c3___x3c5___x3bd___x3c4___x3bf___x3bc___x3bf___x3b3___x3c1___x3b1___x3c6___x3af___x3b5___x3c2__2" type="abbreviated_terms" obligation="normative">
+                   <title>Abbreviated terms</title>
+                </definitions>
              </clause>
-             <definitions id="_" type="abbreviated_terms" obligation="normative">
-               <title>Abbreviated terms</title>
-             </definitions>
-           </clause>
-         </sections>
+          </sections>
        </standard-document>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
@@ -998,77 +1043,75 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')}
-      <preface>
-           <abstract id="_">
-             <p id="_">Text</p>
-           </abstract>
-           <foreword id="_" obligation="informative">
-             <title>Foreword</title>
-             <p id="_">Text</p>
-           </foreword>
-           <introduction id="_" obligation="informative">
-             <title>Introduction</title>
-             <clause id="_" inline-header="false" obligation="informative">
-               <title>Introduction Subsection</title>
-             </clause>
-           </introduction>
-           <acknowledgements id="_" obligation="informative">
-             <title>Ευχαριστίες</title>
-           </acknowledgements>
-         </preface>
-         <sections>
-           <terms id="_" obligation="normative">
-             <title>Όροι και Ορισμοί</title>
-             <p id="_">For the purposes of this document,
-           the following terms and definitions apply.</p>
-             <term id="term-Term1">
-               <preferred>
-                 <expression>
-                   <name>Term1</name>
-                 </expression>
-               </preferred>
-             </term>
-           </terms>
-           <clause id="_" obligation="normative" type="terms">
-             <title>Όροι, Ορισμοί, Σύμβολα και Συντομογραφίες</title>
-             <p id="_">For the purposes of this document,
-           the following terms and definitions apply.</p>
-             <terms id="_" obligation="normative">
-               <title>Normal Terms</title>
-               <term id="term-Term2">
-                 <preferred>
-                   <expression>
-                     <name>Term2</name>
-                   </expression>
-                 </preferred>
-               </term>
+                <preface>
+             <abstract id="___x3c0___x3b5___x3c1___x3af___x3bb___x3b7___x3c8___x3b7_">
+                <p id="_">Text</p>
+             </abstract>
+             <foreword id="_" obligation="informative">
+                <title>Foreword</title>
+                <p id="_">Text</p>
+             </foreword>
+             <introduction id="___x3b5___x3b9___x3c3___x3b1___x3b3___x3c9___x3b3___x3ae_" obligation="informative">
+                <title>Introduction</title>
+                <clause id="_introduction_subsection" inline-header="false" obligation="informative">
+                   <title>Introduction Subsection</title>
+                </clause>
+             </introduction>
+             <acknowledgements id="___x3b5___x3c5___x3c7___x3b1___x3c1___x3b9___x3c3___x3c4___x3af___x3b5___x3c2_" obligation="informative">
+                <title>Ευχαριστίες</title>
+             </acknowledgements>
+          </preface>
+          <sections>
+             <terms id="___x3cc___x3c1___x3bf___x3b9____x3ba___x3b1___x3b9____x3bf___x3c1___x3b9___x3c3___x3bc___x3bf___x3af_" obligation="normative">
+                <title>Όροι και Ορισμοί</title>
+                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+                <term id="term-Term1">
+                   <preferred>
+                      <expression>
+                         <name>Term1</name>
+                      </expression>
+                   </preferred>
+                </term>
              </terms>
-             <definitions id="_" type="symbols" obligation="normative">
-               <title>Σύμβολα και Συντομογραφίες</title>
+             <clause id="___x3cc___x3c1___x3bf___x3b9____x3bf___x3c1___x3b9___x3c3___x3bc___x3bf___x3af____x3c3___x3cd___x3bc___x3b2___x3bf___x3bb___x3b1____x3ba___x3b1___x3b9____x3c3___x3c5___x3bd___x3c4___x3bf___x3bc___x3bf___x3b3___x3c1___x3b1___x3c6___x3af___x3b5___x3c2_" obligation="normative" type="terms">
+                <title>Όροι, Ορισμοί, Σύμβολα και Συντομογραφίες</title>
+                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+                <terms id="_normal_terms" obligation="normative">
+                   <title>Normal Terms</title>
+                   <term id="term-Term2">
+                      <preferred>
+                         <expression>
+                            <name>Term2</name>
+                         </expression>
+                      </preferred>
+                   </term>
+                </terms>
+                <definitions id="___x3c3___x3cd___x3bc___x3b2___x3bf___x3bb___x3b1____x3ba___x3b1___x3b9____x3c3___x3c5___x3bd___x3c4___x3bf___x3bc___x3bf___x3b3___x3c1___x3b1___x3c6___x3af___x3b5___x3c2_" type="symbols" obligation="normative">
+                   <title>Σύμβολα και Συντομογραφίες</title>
+                </definitions>
+             </clause>
+             <definitions id="___x3c3___x3cd___x3bc___x3b2___x3bf___x3bb___x3b1____x3ba___x3b1___x3b9____x3c3___x3c5___x3bd___x3c4___x3bf___x3bc___x3bf___x3b3___x3c1___x3b1___x3c6___x3af___x3b5___x3c2__2" type="abbreviated_terms" obligation="normative">
+                <title>Σύμβολα και Συντομογραφίες</title>
              </definitions>
-           </clause>
-           <definitions id="_" type="abbreviated_terms" obligation="normative">
-             <title>Σύμβολα και Συντομογραφίες</title>
-           </definitions>
-         </sections>
-         <annex id="_" inline-header="false" obligation="normative">
-           <title>Annex</title>
-           <clause id="_" inline-header="false" obligation="normative">
-             <title>Annex A.1</title>
-           </clause>
-         </annex>
-         <bibliography>
-           <references id="_" normative="true" obligation="informative">
-             <title>Κανονιστικές Παραπομπές</title>
-             <p id="_">There are no normative references in this document.</p>
-           </references>
-           <clause id="_" obligation="informative">
-             <title>Βιβλιογραφία</title>
-             <references id="_" normative="false" obligation="informative">
-               <title>Bibliography Subsection</title>
+          </sections>
+          <annex id="_annex" inline-header="false" obligation="normative">
+             <title>Annex</title>
+             <clause id="_annex_a_1" inline-header="false" obligation="normative">
+                <title>Annex A.1</title>
+             </clause>
+          </annex>
+          <bibliography>
+             <references id="___x3ba___x3b1___x3bd___x3bf___x3bd___x3b9___x3c3___x3c4___x3b9___x3ba___x3ad___x3c2____x3c0___x3b1___x3c1___x3b1___x3c0___x3bf___x3bc___x3c0___x3ad___x3c2_" normative="true" obligation="informative">
+                <title>Κανονιστικές Παραπομπές</title>
+                <p id="_">There are no normative references in this document.</p>
              </references>
-           </clause>
-         </bibliography>
+             <clause id="___x3b2___x3b9___x3b2___x3bb___x3b9___x3bf___x3b3___x3c1___x3b1___x3c6___x3af___x3b1_" obligation="informative">
+                <title>Βιβλιογραφία</title>
+                <references id="_bibliography_subsection" normative="false" obligation="informative">
+                   <title>Bibliography Subsection</title>
+                </references>
+             </clause>
+          </bibliography>
        </standard-document>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
@@ -1087,7 +1130,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
                <sections>
-           <terms id='_' obligation='normative'>
+           <terms id='_terms_definitions_symbols_section' obligation='normative'>
              <title>Terms and definitions</title>
              <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
              <term id='term-Term' language='en' tag='x123' multilingual-rendering='all-columns'>
@@ -1119,13 +1162,13 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
-          <terms id='_' obligation='normative'>
+          <terms id='_terms_definitions_symbols_section' obligation='normative'>
             <title>Terms, definitions and symbols</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <term id='term-Term'>
               <preferred><expression><name>Term</name></expression></preferred>
             </term>
-            <definitions id='_' obligation="normative" type="symbols">
+            <definitions id='_symbols' obligation="normative" type="symbols">
               <title>Symbols</title>
             </definitions>
           </terms>
@@ -1151,13 +1194,13 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
         <sections>
-          <terms id='_' obligation='normative'>
+          <terms id='_terms_definitions_abbreviated_terms_section' obligation='normative'>
             <title>Terms, definitions and abbreviated terms</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <term id='term-Term'>
               <preferred><expression><name>Term</name></expression></preferred>
             </term>
-            <definitions id='_' obligation="normative" type="abbreviated_terms">
+            <definitions id='_symbols' obligation="normative" type="abbreviated_terms">
               <title>Abbreviated terms</title>
             </definitions>
           </terms>
@@ -1184,16 +1227,16 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
         <sections>
-          <terms id='_' obligation='normative'>
+          <terms id='_terms_definitions_abbreviated_terms_section' obligation='normative'>
             <title>Terms, definitions, symbols and abbreviated terms</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <term id='term-Term'>
               <preferred><expression><name>Term</name></expression></preferred>
             </term>
-            <definitions id='_' type='abbreviated_terms' obligation='normative'>
+            <definitions id='_abbreviated_terms' type='abbreviated_terms' obligation='normative'>
                 <title>Abbreviated terms</title>
                 </definitions>
-                <definitions id='_' type='symbols' obligation='normative'>
+                <definitions id='_symbols' type='symbols' obligation='normative'>
                 <title>Symbols</title>
                 </definitions>
           </terms>
@@ -1229,10 +1272,10 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
          <sections>
-           <clause id="_" obligation="normative" type="terms">
+           <clause id="_terms_definitions_symbols_and_abbreviated_terms" obligation="normative" type="terms">
              <title>Terms, definitions, symbols and abbreviated terms</title>
              <p id="_">Boilerplate text</p>
-             <terms id="_" obligation="normative">
+             <terms id="_intro_4" obligation="normative">
                <title>Terms and definitions</title>
                <term id="term-Term2">
                  <preferred>
@@ -1242,12 +1285,12 @@ RSpec.describe Metanorma::Standoc do
                  </preferred>
                </term>
              </terms>
-             <definitions id="_" obligation="normative">
+             <definitions id="_symbols_and_abbreviated_terms" obligation="normative">
                <title>Symbols and abbreviated terms</title>
-               <clause id="_" inline-header="false" obligation="normative">
+               <clause id="_general" inline-header="false" obligation="normative">
                  <title>General</title>
                </clause>
-               <definitions id="_" type="symbols" obligation="normative">
+               <definitions id="_symbols" type="symbols" obligation="normative">
                  <title>Symbols</title>
                </definitions>
              </definitions>
@@ -1287,13 +1330,13 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
               <sections>
-           <clause id="_" obligation="normative" type="terms">
+           <clause id="_terms_definitions_symbols_and_abbreviated_terms" obligation="normative" type="terms">
              <title>Terms, Definitions, Symbols and Abbreviated Terms</title>
              <p id="_">Boilerplate text</p>
-             <clause id="_" inline-header="false" obligation="normative">
+             <clause id="_intro_3" inline-header="false" obligation="normative">
                <title>Intro 3</title>
              </clause>
-             <terms id="_" obligation="normative">
+             <terms id="_intro_4" obligation="normative">
                <title>Intro 4</title>
                <term id="term-Term2">
                  <preferred>
@@ -1303,12 +1346,12 @@ RSpec.describe Metanorma::Standoc do
                  </preferred>
                </term>
              </terms>
-             <definitions id="_" obligation="normative">
+             <definitions id="_symbols_and_abbreviated_terms" obligation="normative">
                <title>Symbols and abbreviated terms</title>
-               <clause id="_" inline-header="false" obligation="normative">
+               <clause id="_general" inline-header="false" obligation="normative">
                  <title>General</title>
                </clause>
-               <definitions id="_" type="symbols" obligation="normative">
+               <definitions id="_symbols" type="symbols" obligation="normative">
                  <title>Symbols</title>
                </definitions>
              </definitions>
@@ -1347,10 +1390,10 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
                <sections>
-           <clause id="_" obligation="normative" type="terms">
+           <clause id="_terms_definitions_symbols_and_abbreviated_terms" obligation="normative" type="terms">
              <title>Terms, Definitions, Symbols and Abbreviated Terms</title>
              <p id="_">Boilerplate text</p>
-             <terms id="_" obligation="normative">
+             <terms id="_intro_3" obligation="normative">
                <title>Intro 3</title>
                <term id="term-Term2">
                  <preferred>
@@ -1360,7 +1403,7 @@ RSpec.describe Metanorma::Standoc do
                  </preferred>
                </term>
              </terms>
-             <terms id="_" obligation="normative">
+             <terms id="_intro_4" obligation="normative">
                <title>Intro 4</title>
                <term id="term-Term3">
                  <preferred>
@@ -1370,12 +1413,12 @@ RSpec.describe Metanorma::Standoc do
                  </preferred>
                </term>
              </terms>
-             <definitions id="_" obligation="normative">
+             <definitions id="_symbols_and_abbreviated_terms" obligation="normative">
                <title>Symbols and abbreviated terms</title>
-               <clause id="_" inline-header="false" obligation="normative">
+               <clause id="_general" inline-header="false" obligation="normative">
                  <title>General</title>
                </clause>
-               <definitions id="_" type="symbols" obligation="normative">
+               <definitions id="_symbols" type="symbols" obligation="normative">
                  <title>Symbols</title>
                </definitions>
              </definitions>
@@ -1430,7 +1473,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
        #{BLANK_HDR}
                 <sections>
-            <terms id="_" obligation="normative">
+            <terms id="_terms_and_definitions" obligation="normative">
               <title>Terms and definitions</title>
               <p id="_">For the purposes of this document,
             the following terms and definitions apply.</p>
@@ -1442,24 +1485,24 @@ RSpec.describe Metanorma::Standoc do
                 </preferred>
               </term>
             </terms>
-            <clause id="_" obligation="normative" type="terms">
+            <clause id="_terms_definitions_symbols_and_abbreviated_terms" obligation="normative" type="terms">
               <title>Terms, definitions, symbols and abbreviated terms</title>
               <p id="_">Boilerplate text</p>
-              <clause id="_" inline-header="false" obligation="normative">
+              <clause id="_introduction" inline-header="false" obligation="normative">
                 <title>Introduction</title>
-                <clause id="_" inline-header="false" obligation="normative">
+                <clause id="_intro_1" inline-header="false" obligation="normative">
                   <title>Intro 1</title>
                 </clause>
               </clause>
-              <terms id="_" obligation="normative">
+              <terms id="_intro_2" obligation="normative">
                 <title>Intro 2</title>
-                <clause id="_" inline-header="false" obligation="normative">
+                <clause id="_intro_3" inline-header="false" obligation="normative">
                   <title>Intro 3</title>
                 </clause>
               </terms>
-              <clause id="_" obligation="normative" type="terms">
+              <clause id="_intro_4" obligation="normative" type="terms">
                 <title>Intro 4</title>
-                <terms id="_" obligation="normative">
+                <terms id="_intro_5" obligation="normative">
                   <title>Intro 5</title>
                   <term id="term-Term2">
                     <preferred>
@@ -1470,7 +1513,7 @@ RSpec.describe Metanorma::Standoc do
                   </term>
                 </terms>
               </clause>
-              <terms id="_" obligation="normative">
+              <terms id="_normal_terms" obligation="normative">
                 <title>Normal Terms</title>
                 <term id="term-Term3">
                   <preferred>
@@ -1480,12 +1523,12 @@ RSpec.describe Metanorma::Standoc do
                   </preferred>
                 </term>
               </terms>
-              <definitions id="_" obligation="normative">
+              <definitions id="_symbols_and_abbreviated_terms" obligation="normative">
                 <title>Symbols and abbreviated terms</title>
-                <clause id="_" inline-header="false" obligation="normative">
+                <clause id="_general" inline-header="false" obligation="normative">
                   <title>General</title>
                 </clause>
-                <definitions id="_" type="symbols" obligation="normative">
+                <definitions id="_symbols" type="symbols" obligation="normative">
                   <title>Symbols</title>
                 </definitions>
               </definitions>
@@ -1513,16 +1556,16 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
             #{BLANK_HDR}
-      <sections><clause id="_" inline-header="false" obligation="informative">
+      <sections><clause id="_clause_1" inline-header="false" obligation="informative">
         <title>Clause 1</title>
-        <clause id="_" inline-header="false" obligation="informative">
+        <clause id="_clause_1a" inline-header="false" obligation="informative">
         <title>Clause 1a</title>
       </clause>
       </clause>
-      <clause id="_" inline-header="false" obligation="normative">
+      <clause id="_clause_2" inline-header="false" obligation="normative">
         <title>Clause 2</title>
       </clause>
-      </sections><annex id="_" inline-header="false" obligation="informative">
+      </sections><annex id="_annex" inline-header="false" obligation="informative">
         <title>Annex</title>
       </annex>
       </standard-document>
@@ -1547,15 +1590,15 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
             #{BLANK_HDR}
-      <sections><clause id="_" inline-header="false" obligation="normative">
+      <sections><clause id="_clause_1" inline-header="false" obligation="normative">
         <title>Clause 1</title>
-        <clause id="_" inline-header="true" obligation="normative">
+        <clause id="_clause_1a" inline-header="true" obligation="normative">
         <title>Clause 1a</title>
       </clause>
       </clause>
-      </sections><annex id="_" inline-header="false" obligation="normative">
+      </sections><annex id="_annex_a" inline-header="false" obligation="normative">
         <title>Annex A</title>
-        <clause id="_" inline-header="true" obligation="normative">
+        <clause id="_clause_aa" inline-header="true" obligation="normative">
         <title>Clause Aa</title>
       </clause>
       </annex>
@@ -1576,7 +1619,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
             #{BLANK_HDR}
       <sections>
-        <clause id="_" inline-header="false" obligation="normative">
+        <clause id="_clause_1" inline-header="false" obligation="normative">
         <title>Clause 1</title>
         <clause id="_" inline-header="false" obligation="normative">
       </clause>
@@ -1602,13 +1645,13 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
                    #{BLANK_HDR}
                    <sections>
-        <terms id='_' obligation='normative'>
+        <terms id='_terms_definitions_symbols_and_abbreviated_terms' obligation='normative'>
           <title>Terms, definitions, symbols and abbreviated terms</title>
           <p id='_'>No terms and definitions are listed in this document.</p>
-          <clause id='_' inline-header='false' obligation='normative'>
+          <clause id='_terms_and_definitions' inline-header='false' obligation='normative'>
             <title>Terms and definitions</title>
           </clause>
-          <definitions id='_' obligation="normative" type="symbols">
+          <definitions id='_symbols' obligation="normative" type="symbols">
             <title>Symbols</title>
           </definitions>
         </terms>
@@ -1640,7 +1683,7 @@ RSpec.describe Metanorma::Standoc do
             <clause id='terms' inline-header='false' obligation='normative'>
               <title>Terms and definitions</title>
             </clause>
-            <definitions id='_' obligation="normative" type="symbols">
+            <definitions id='_symbols' obligation="normative" type="symbols">
               <title>Symbols</title>
             </definitions>
           </terms>
@@ -1674,7 +1717,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-         <clause id='_' inline-header='false' obligation='normative' type="scope">
+         <clause id='_scope' inline-header='false' obligation='normative' type="scope">
            <title>Scope</title>
          </clause>
          <clause id='tda' obligation='normative' type="terms">
@@ -1769,7 +1812,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
-        <clause id='_' type='scope' inline-header='false' obligation='normative'>
+        <clause id='_scope_indexterm' type='scope' inline-header='false' obligation='normative'>
           <title>Scope<index><primary>indexterm</primary></index></title>
         </clause>
       </sections>
@@ -1810,24 +1853,24 @@ RSpec.describe Metanorma::Standoc do
            </foreword>
          </preface>
          <sections>
-           <floating-title id='_' depth='1' type='floating-title'>
+           <floating-title id='_i_am_a_top_level_floating_title' depth='1' type='floating-title'>
              I am a top-level
              <em>floating</em>
               title
            </floating-title>
-           <clause id='_' inline-header='false' obligation='normative'>
+           <clause id='_clause_1' inline-header='false' obligation='normative'>
              <title>Clause 1</title>
-             <floating-title id='_' depth='2' type='floating-title'>
+             <floating-title id='_i_am_a_floating_title' depth='2' type='floating-title'>
                I am a
                <em>floating</em>
                 title
              </floating-title>
-             <clause id='_' inline-header='false' obligation='normative'>
+             <clause id='_clause_1_2' inline-header='false' obligation='normative'>
                <title>Clause 1.2</title>
              </clause>
            </clause>
-           <floating-title id='_' depth='1' type='floating-title'>Another top-level floating title</floating-title>
-           <clause id='_' inline-header='false' obligation='normative'>
+           <floating-title id='_another_top_level_floating_title' depth='1' type='floating-title'>Another top-level floating title</floating-title>
+           <clause id='_clause_2' inline-header='false' obligation='normative'>
              <title>Clause 2</title>
            </clause>
          </sections>

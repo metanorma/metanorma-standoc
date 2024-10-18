@@ -890,7 +890,7 @@ RSpec.describe Metanorma::Standoc do
             <title>Foreword</title>
             <p id='_'>Foreword</p>
           </foreword>
-          <introduction id='_' obligation='informative'>
+          <introduction id='_introduction' obligation='informative'>
             <title>Introduction</title>
             <p id='_'>Introduction</p>
           </introduction>
@@ -899,7 +899,7 @@ RSpec.describe Metanorma::Standoc do
           <admonition id='_' type='important'>
             <p id='_'>Notice which is very important</p>
           </admonition>
-          <clause id='_' inline-header='false' obligation='normative' type="scope">
+          <clause id='_scope' inline-header='false' obligation='normative' type="scope">
             <title>Scope</title>
             <p id='_'>Scope statement</p>
           </clause>
@@ -1156,7 +1156,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
               <sections>
-          <clause id='_' inline-header='false' obligation='normative'>
+          <clause id='_clause_1' inline-header='false' obligation='normative'>
             <title>Clause 1</title>
             <p id='_'>
               Paragraph
@@ -1180,7 +1180,7 @@ RSpec.describe Metanorma::Standoc do
             </note>
             </p>
           </clause>
-          <clause id='_' inline-header='false' obligation='normative'>
+          <clause id='_clause_2' inline-header='false' obligation='normative'>
              <title>Clause 2</title>
              <p id='_'>Paragraph</p>
              <p id='_'>
@@ -1254,7 +1254,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
            <sections>
-             <clause id="_" inline-header="false" obligation="normative">
+             <clause id="_clause_1" inline-header="false" obligation="normative">
                <title>Clause 1</title>
                <figure id="_">
                  <pre id="_">A</pre>
@@ -1265,10 +1265,10 @@ RSpec.describe Metanorma::Standoc do
                </example>
                <sourcecode id="_" unnumbered="true">B</sourcecode>
                <sourcecode id="block" unnumbered="false">C</sourcecode>
-               <sourcecode id="_" unnumbered="true">D</sourcecode>
+               <sourcecode id="_block" unnumbered="true">D</sourcecode>
              </clause>
            </sections>
-           <annex id="_" inline-header="false" obligation="normative">
+           <annex id="_appendix" inline-header="false" obligation="normative">
              <title>Appendix</title>
              <figure id="_">
                <pre id="_">A</pre>
@@ -1344,7 +1344,7 @@ RSpec.describe Metanorma::Standoc do
              <bibdata type="standard">
        <title language="en" format="text/plain">Document title</title>
        <language>en</language><script>Latn</script><status><stage>published</stage></status><copyright><from>2024</from></copyright><ext><doctype>standard</doctype><flavor>standoc</flavor></ext></bibdata><metanorma-extension><presentation-metadata><name>TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>HTML TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>DOC TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>PDF TOC Heading Levels</name><value>2</value></presentation-metadata></metanorma-extension>
-       <sections><clause id="_" type="scope" inline-header="false" obligation="normative">
+       <sections><clause id="_scope" type="scope" inline-header="false" obligation="normative">
        <title>Scope</title>
        <example id="_">
        <name>Fragment of a collection description document with a links array and with one item of the array pointing to a list of map tilesets.</name>

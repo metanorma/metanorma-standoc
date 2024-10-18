@@ -783,14 +783,14 @@ RSpec.describe Metanorma::Standoc do
         </presentation-metadata>
       </metanorma-extension>
                   <preface>
-             <abstract id='_'>
+             <abstract id='_abstract'>
              <title>Abstract</title>
                <p id='_'>This is the abstract of the document</p>
                <p id='_'>This is the second paragraph of the abstract of the document.</p>
              </abstract>
            </preface>
            <sections>
-             <clause id='_' language='en' inline-header='false' obligation='normative'>
+             <clause id='_clause_1' language='en' inline-header='false' obligation='normative'>
                <title>Clause 1</title>
              </clause>
            </sections>
