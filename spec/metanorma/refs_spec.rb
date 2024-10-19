@@ -973,7 +973,7 @@ RSpec.describe Metanorma::Standoc do
               </formattedref>
               <uri type='URI'>a/b</uri>
       <uri type='citation'>a/b</uri>
-              <docidentifier type="ISO">ISO 124</docidentifier>
+              <docidentifier>ISO 124</docidentifier>
               <docnumber>124</docnumber>
             </bibitem>
           </references>
