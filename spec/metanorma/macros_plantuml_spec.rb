@@ -170,7 +170,7 @@ RSpec.describe Metanorma::Standoc do
         Xml::C14n.format(
           strip_guid(Asciidoctor.convert(input, *OPTIONS))
           .gsub(%r{spec/assets/lutaml/[^./]+\.png},
-                            "spec/assets/_.png"),
+                "spec/assets/_.png"),
         ),
       ).to(be_equivalent_to(Xml::C14n.format(output)))
     end
@@ -195,7 +195,7 @@ RSpec.describe Metanorma::Standoc do
       <<~"OUTPUT"
         #{BLANK_HDR}
           <sections>
-            <clause id='_' inline-header='false' obligation='normative'>
+            <clause id='_attributeprofile' inline-header='false' obligation='normative'>
               <title>AttributeProfile</title>
               <table id='_'>
                 <name>AttributeProfile attributes</name>

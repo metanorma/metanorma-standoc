@@ -60,7 +60,7 @@ RSpec.describe Metanorma::Standoc do
       </preface>
       <sections> </sections>
       <bibliography>
-        <references id='_' obligation='informative' normative="false">
+        <references id='_bibliography' obligation='informative' normative="false">
           <title>Bibliography</title>
           <bibitem id='ref1'>
             <formattedref format='application/x-isodoc+xml'>
@@ -294,7 +294,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
-        <clause id='_' inline-header='false' obligation='normative'>
+        <clause id='_english_fran__xe7_ais' inline-header='false' obligation='normative'>
           <title>
             <variant lang='en'>English</variant>
             <variant lang='fr' script='Latn'>Français</variant>
@@ -920,7 +920,7 @@ RSpec.describe Metanorma::Standoc do
                 <clause id='clause1' inline-header='false' obligation='normative'>
                   <title>Clause 1</title>
                 </clause>
-                <clause id='_' inline-header='false' obligation='normative'>
+                <clause id='_clause' inline-header='false' obligation='normative'>
                   <title>Clause</title>
                   <p id='_'>
                     <xref target='a'>b</xref>
@@ -1108,11 +1108,11 @@ RSpec.describe Metanorma::Standoc do
               <title>Clause 2</title>
               <p id='_'>X</p>
             </clause>
-            <clause id='_' inline-header='false' obligation='normative'>
+            <clause id='_clause_3' inline-header='false' obligation='normative'>
               <title>Clause 3</title>
               <p id='_'>X</p>
             </clause>
-            <clause id="_" inline-header="false" obligation="normative">
+            <clause id="_clause_4" inline-header="false" obligation="normative">
               <title>Clause 4</title>
               <p id="_">X</p>
               <figure id="_">
@@ -1122,7 +1122,7 @@ RSpec.describe Metanorma::Standoc do
                 <image src="../rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
               </figure>
             </clause>
-            <clause id="_" inline-header="false" obligation="normative">
+            <clause id="_clause_3a" inline-header="false" obligation="normative">
               <title>Clause 3a</title>
               <p id="_">X</p>
               <figure id="_">
