@@ -1,5 +1,4 @@
 require "date"
-require "nokogiri"
 require "htmlentities"
 require "pathname"
 require_relative "./front_contributor"
@@ -91,9 +90,7 @@ module Metanorma
           a == "date" || /^date_\d+$/.match(a) or next
           type, date = node.attr(a).split(/ /, 2)
           type or next
-          xml.date(type:) do |d|
-            d.on date
-          end
+          xml.date(type:) { |d| d.on date }
         end
       end
 
@@ -126,8 +123,7 @@ module Metanorma
 
       def relation_normalise(type)
         type.sub(/-by$/, "By").sub(/-of$/, "Of").sub(/-from$/, "From")
-          .sub(/-in$/, "In")
-          .sub(/^has-([a-z])/) { "has#{$1.upcase}" }
+          .sub(/-in$/, "In").sub(/^has-([a-z])/) { "has#{$1.upcase}" }
       end
 
       def metadata_getrelation(node, xml, type, desc = nil)
@@ -193,6 +189,7 @@ module Metanorma
         metadata_flavor(node, ext)
         metadata_committee(node, ext)
         metadata_ics(node, ext)
+        metadata_coverpage_images(node, ext)
       end
 
       def metadata_doctype(node, xml)
@@ -220,9 +217,9 @@ module Metanorma
         ["en"].each do |lang|
           at = { language: lang, format: "text/plain" }
           xml.title **attr_code(at) do |t|
-            t << (Metanorma::Utils::asciidoc_sub(node.attr("title") ||
-                                                 node.attr("title-en")) ||
-            node.title)
+            title = Metanorma::Utils::asciidoc_sub(node.attr("title") ||
+                                                 node.attr("title-en"))
+            t << (title || node.title)
           end
         end
       end
@@ -232,6 +229,17 @@ module Metanorma
           /^title-(?<titlelang>.+)$/ =~ k or next
           titlelang == "en" and next
           xml.title v, { language: titlelang, format: "text/plain" }
+        end
+      end
+
+      def metadata_coverpage_images(node, xml)
+        %w(coverpage-image innercoverpage-image tocside-image
+           backpage-image).each do |n|
+          if a = node.attr(n)
+            xml.send n do |c|
+              a.split(",").each { |x| c.image src: x }
+            end
+          end
         end
       end
     end

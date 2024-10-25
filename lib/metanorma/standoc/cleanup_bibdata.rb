@@ -7,6 +7,19 @@ module Metanorma
         bibdata_embed_hdr_cleanup(xmldoc) # feeds bibdata_embed_id_cleanup
         bibdata_embed_id_cleanup(xmldoc)
         biblio_indirect_erefs(xmldoc, @internal_eref_namespaces&.uniq)
+        coverpage_images(xmldoc)
+      end
+
+      def coverpage_images(xmldoc)
+        %w(coverpage-image innercoverpage-image tocside-image
+           backpage-image).each do |n|
+             xmldoc.xpath("//bibdata/ext/#{n}").each do |x|
+               ins = add_misc_container(xmldoc)
+               ins << "<presentation-metadata><name>#{n}</name>" \
+                      "<value>#{x.remove.children.to_xml}</value>" \
+                      "</presentation-metadata>"
+             end
+           end
       end
 
       def bibdata_anchor_cleanup(xmldoc)

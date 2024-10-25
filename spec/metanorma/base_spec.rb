@@ -1378,6 +1378,74 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
+   it "populates cover images" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :docnumber: 1000
+      :coverpage-image: images/image1.gif,images/image2.gif
+      :innercoverpage-image: images/image1.gif,images/image2.gif
+      :tocside-image: images/image1.gif,images/image2.gif
+      :backpage-image: images/image1.gif,images/image2.gif
+    INPUT
+    output = <<~OUTPUT
+      <metanorma-extension>
+        <presentation-metadata>
+          <name>coverpage-image</name>
+          <value>
+            <image src="images/image1.gif"/>
+            <image src="images/image2.gif"/>
+          </value>
+        </presentation-metadata>
+        <presentation-metadata>
+          <name>innercoverpage-image</name>
+          <value>
+            <image src="images/image1.gif"/>
+            <image src="images/image2.gif"/>
+          </value>
+        </presentation-metadata>
+        <presentation-metadata>
+          <name>tocside-image</name>
+          <value>
+            <image src="images/image1.gif"/>
+            <image src="images/image2.gif"/>
+          </value>
+        </presentation-metadata>
+        <presentation-metadata>
+          <name>backpage-image</name>
+          <value>
+            <image src="images/image1.gif"/>
+            <image src="images/image2.gif"/>
+          </value>
+        </presentation-metadata>
+                  <presentation-metadata>
+             <name>TOC Heading Levels</name>
+             <value>2</value>
+          </presentation-metadata>
+          <presentation-metadata>
+             <name>HTML TOC Heading Levels</name>
+             <value>2</value>
+          </presentation-metadata>
+          <presentation-metadata>
+             <name>DOC TOC Heading Levels</name>
+             <value>2</value>
+          </presentation-metadata>
+          <presentation-metadata>
+             <name>PDF TOC Heading Levels</name>
+             <value>2</value>
+          </presentation-metadata>
+      </metanorma-extension>
+    OUTPUT
+    expect(Xml::C14n.format(strip_guid(Nokogiri::XML(Asciidoctor
+      .convert(input, *OPTIONS))
+      .at("//xmlns:metanorma-extension").to_xml)))
+      .to be_equivalent_to Xml::C14n.format(output)
+  end
+
   it "reads scripts into blank HTML document" do
     FileUtils.rm_f "test.html"
     Asciidoctor.convert(<<~INPUT, *OPTIONS)
