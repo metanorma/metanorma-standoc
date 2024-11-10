@@ -24,7 +24,7 @@ module Metanorma
         ret1 = preface_main_filter(sectiontype_streamline(ret), node)
         ret1 == "symbols and abbreviated terms" and return ret1
         !level || node.level == 1 || node.attr("heading") or return nil
-        @seen_headers.include? ret and return nil
+        !node.attr("heading") && @seen_headers.include?(ret) and return nil
         @seen_headers << ret unless ret1.nil?
         @seen_headers_canonical << ret1 unless ret1.nil?
         ret1

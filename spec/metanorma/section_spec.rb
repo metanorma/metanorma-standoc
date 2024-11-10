@@ -1879,4 +1879,88 @@ RSpec.describe Metanorma::Standoc do
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
+
+  it "ignores second terms section" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Terms and definitions
+
+      === Term1
+
+      == Terms and definitions
+
+      === Term2
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+                <sections>
+             <terms id="_terms_and_definitions" obligation="normative">
+                <title>Terms and definitions</title>
+                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+                <term id="term-Term1">
+                   <preferred>
+                      <expression>
+                         <name>Term1</name>
+                      </expression>
+                   </preferred>
+                </term>
+             </terms>
+             <clause id="_terms_and_definitions_2" inline-header="false" obligation="normative">
+                <title>Terms and definitions</title>
+                <clause id="_term2" inline-header="false" obligation="normative">
+                   <title>Term2</title>
+                </clause>
+             </clause>
+          </sections>
+       </standard-document>
+    OUTPUT
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
+  end
+
+  it "does not ignore second terms section if specified as heading" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Terms and definitions
+
+      === Term1
+
+      [heading="Terms and definitions"]
+      == Terms and definitions
+
+      === Term2
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+                <sections>
+             <terms id="_terms_and_definitions" obligation="normative">
+                <title>Terms and definitions</title>
+                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+                <term id="term-Term1">
+                   <preferred>
+                      <expression>
+                         <name>Term1</name>
+                      </expression>
+                   </preferred>
+                </term>
+             </terms>
+             <terms id="_terms_and_definitions_2" obligation="normative">
+                <title>Terms and definitions</title>
+                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+                <term id="term-Term2">
+                   <preferred>
+                      <expression>
+                         <name>Term2</name>
+                      </expression>
+                   </preferred>
+                </term>
+             </terms>
+          </sections>
+       </standard-document>
+    OUTPUT
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
+  end
 end
