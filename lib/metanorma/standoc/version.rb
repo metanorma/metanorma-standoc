@@ -19,6 +19,6 @@ module Metanorma
   end
 
   module Standoc
-    VERSION = "2.9.10".freeze
+    VERSION = "2.10.0".freeze
   end
 end

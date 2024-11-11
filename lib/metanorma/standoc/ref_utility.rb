@@ -112,7 +112,7 @@ module Metanorma
         line = CSV.parse_line(m[:keys], liberal_parsing: true) or return ret
         line.size > 1 or return ret
         ret[:id] = line.first
-        ret[m[:type].to_sym] = line[1..-1].map(&:strip)
+        ret[m[:type].to_sym] = line[1..].map(&:strip)
         ret
       end
 
