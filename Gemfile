@@ -7,3 +7,4 @@ git_source(:github) { |repo| "https://github.com/#{repo}" }
 gemspec
 
 eval_gemfile("Gemfile.devel") rescue nil
+
