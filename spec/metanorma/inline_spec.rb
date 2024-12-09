@@ -905,7 +905,7 @@ RSpec.describe Metanorma::Standoc do
         <p id="_">
           <eref type="inline" bibitemid="reference" citeas="IDLONG ISO 1234 (E)"/>
           <eref type="inline" style="IDLONG" bibitemid="reference" citeas="IDLONG ISO 1234 (E)"/>
-          <eref type="inline" style="IDPROSE" bibitemid="reference" citeas="IDPROSE document 1234 of the ISO"/>
+          <eref type="inline" style="IDPROSE" bibitemid="reference" citeas="IDPROSE document 1234 of the ISO"/>
         </p>
       </foreword>
     OUTPUT

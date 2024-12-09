@@ -702,7 +702,7 @@ RSpec.describe Metanorma::Standoc do
               <bibitem type="article" id="ref1">
                 <fetched/>
                 <title type="main" format="text/plain" script="Latn">Taming the Metadata Beast: ILOX</title>
-                <uri type="DOI">http://dx.doi.org/10.1045/november2010-massart</uri>
+                <uri type="DOI">https://doi.org/10.1045/november2010-massart</uri>
                 <uri type="src">http://www.dlib.org/dlib/november10/massart/11massart.html</uri>
                 <docidentifier type="DOI" primary="true">10.1045/november2010-massart</docidentifier>
                 <docidentifier type="issn.electronic">1082-9873</docidentifier>
@@ -811,7 +811,7 @@ RSpec.describe Metanorma::Standoc do
               <bibitem id="ref1" type="inbook">
                 <fetched/>
                 <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
-                <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
+                <uri type="DOI">https://doi.org/10.1515/9783110889406.257</uri>
                 <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
                 <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
                 <docidentifier type="ISBN">9783110170269</docidentifier>
@@ -889,7 +889,7 @@ RSpec.describe Metanorma::Standoc do
               <bibitem id="ref2" type="book">
                 <fetched/>
                 <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
-                <uri type="DOI">http://dx.doi.org/10.1515/9783110889406.257</uri>
+                <uri type="DOI">https://doi.org/10.1515/9783110889406.257</uri>
                 <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
                 <docidentifier type="DOI">DOI-ANON</docidentifier>
                 <docidentifier type="ISBN">9783110170269</docidentifier>
