@@ -34,14 +34,21 @@ module Metanorma
         end
       end
 
-      def table_footnote_renumber1(fnote, idx, seen)
+      def duplicate_footnote(fnote, idx, seen)
         content = footnote_content(fnote)
-        if seen[content] then outnum = seen[content]
+        if seen[content]
+          outnum = seen[content]
+          fnote.xpath(".//index | .//bookmark").each(&:remove)
         else
           idx += 1
           outnum = idx
           seen[content] = outnum
         end
+        [fnote, idx, seen, outnum]
+      end
+
+      def table_footnote_renumber1(fnote, idx, seen)
+        fnote, idx, seen, outnum = duplicate_footnote(fnote, idx, seen)
         fnote["reference"] = table_footnote_number(outnum)
         fnote["table"] = true
         [idx, seen]
@@ -62,15 +69,8 @@ module Metanorma
       end
 
       def other_footnote_renumber1(fnote, idx, seen)
-        return [idx, seen] if fnote["table"]
-
-        content = footnote_content(fnote)
-        if seen[content] then outnum = seen[content]
-        else
-          idx += 1
-          outnum = idx
-          seen[content] = outnum
-        end
+        fnote["table"] and return [idx, seen]
+        fnote, idx, seen, outnum = duplicate_footnote(fnote, idx, seen)
         fnote["reference"] = outnum.to_s
         [idx, seen]
       end

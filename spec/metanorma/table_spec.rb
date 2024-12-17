@@ -289,7 +289,7 @@ RSpec.describe Metanorma::Standoc do
       | Husked rice, parboiled | 1,0 | 1,0 | Not applicable | 1,0
       | Milled rice, parboiled | 1,0 | 1,0 | 1,0 | Not applicable
       | Chips | 0,1 | 0,1 | 0,1 | 0,1
-      | HDK | 2,0 footnote:defectsmass[The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.] | 2,0 | 2,0 footnote:defectsmass[] | 2,0
+      | HDK | 2,0 footnote:defectsmass[The maximum permissible mass fraction of ((defects)) shall be determined with respect to the mass fraction obtained after milling.] | 2,0 | 2,0 footnote:defectsmass[] | 2,0
       | Damaged kernels | 4,0 | 3,0 | 4,0 | 3,0
       | Immature and/or malformed kernels | 8,0 | 2,0 | 8,0 | 2,0
       | Chalky kernels | 5,0 footnote:defectsmass[] | 5,0 | Not applicable | Not applicable
@@ -391,7 +391,11 @@ RSpec.describe Metanorma::Standoc do
                   <tr>
                     <td valign="middle" align="left">HDK</td>
                     <td valign="top" align="center">2,0<fn reference="c">
-                <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
+                <p id="_">The maximum permissible mass fraction of defects
+                         <index>
+                           <primary>defects</primary>
+                        </index>
+                      shall be determined with respect to the mass fraction obtained after milling.</p>
               </fn></td>
                     <td valign="bottom" align="center">2,0</td>
                     <td valign="top" align="center">2,0<fn reference="c">
