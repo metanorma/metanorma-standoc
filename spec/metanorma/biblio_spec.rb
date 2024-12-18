@@ -1224,6 +1224,7 @@ RSpec.describe Metanorma::Standoc do
                    <name>World Wide Web Consortium</name>
                  </organization>
                </contributor>
+               <extent/>
                <docidentifier>ISOTC211</docidentifier>
              </bibitem>
            </references>
@@ -1303,6 +1304,7 @@ RSpec.describe Metanorma::Standoc do
                    <name>World Wide Web Consortium</name>
                  </organization>
                </contributor>
+               <extent/>
                <docidentifier>ISOTC211</docidentifier>
              </bibitem>
              <bibitem id="B" type="techreport">
@@ -1342,6 +1344,7 @@ RSpec.describe Metanorma::Standoc do
                  </organization>
                </contributor>
                <edition>Edition 1</edition>
+               <extent/>
                <docidentifier>ISOTC211t</docidentifier>
              </bibitem>
            </references>

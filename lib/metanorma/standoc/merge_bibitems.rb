@@ -59,8 +59,11 @@ module Metanorma
             new[:extent] = [{ locality_stack: new[:extent] }]
           ret = merge_by_type(old.dig(:extent, 0),
                               new.dig(:extent, 0), :locality_stack,
-                              %i[locality type])
-          (ret && !old.dig(:extent, 0)) or return
+                              [:locality, 0, :type])
+          ret = ret.each_with_object([{ locality: [] }]) do |r, m|
+            m[0][:locality] += r[:locality]
+          end
+          ret or return
           old[:extent] ||= []
           old[:extent][0] ||= {}
           old[:extent][0][:locality_stack] = ret
