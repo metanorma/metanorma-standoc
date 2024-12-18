@@ -767,14 +767,12 @@ RSpec.describe Metanorma::Standoc do
           <title format="text/plain">D-Lib Magazine</title>
         </series>
         <extent>
-          <localityStack>
             <locality type="volume">
               <referenceFrom>16</referenceFrom>
             </locality>
             <locality type="issue">
               <referenceFrom>11/12</referenceFrom>
             </locality>
-          </localityStack>
         </extent>
               </bibitem>
             </references>
@@ -878,12 +876,10 @@ RSpec.describe Metanorma::Standoc do
                   </bibitem>
                 </relation>
                 <extent>
-                  <localityStack>
                     <locality type="page">
                       <referenceFrom>257</referenceFrom>
                       <referenceTo>282</referenceTo>
                     </locality>
-                  </localityStack>
                 </extent>
               </bibitem>
               <bibitem id="ref2" type="book">

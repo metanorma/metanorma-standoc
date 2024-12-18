@@ -1009,7 +1009,7 @@ RSpec.describe Metanorma::Standoc do
 
       == Title footnote:[Footnote text 2]
 
-      Hello.footnote:abc[This is a repeated footnote]
+      Hello.footnote:abc[This is a repeated footnote (((a)))]
 
       Repetition.footnote:abc[]
     INPUT
@@ -1020,25 +1020,35 @@ RSpec.describe Metanorma::Standoc do
                <p id="_">Hello!<fn reference="1">
                <p id="_">Footnote text</p>
              </fn></p>
-             </foreword></preface><sections>
+             </foreword></preface>
+          <sections>
              <clause id="_title_footnote_text_2" inline-header="false" obligation="normative">
-               <title>Title<fn reference="2">
-               <p id="_">Footnote text 2</p>
-             </fn></title>
-             <p id='_'>
-        Hello.
-        <fn reference='3'>
-          <p id='_'>This is a repeated footnote</p>
-        </fn>
-      </p>
-      <p id='_'>
-        Repetition.
-        <fn reference='3'>
-          <p id='_'>This is a repeated footnote</p>
-        </fn>
-      </p>
-             </clause></sections>
-             </standard-document>
+                <title>
+                   Title
+                   <fn reference="2">
+                      <p id="_">Footnote text 2</p>
+                   </fn>
+                </title>
+                <p id="_">
+                   Hello.
+                   <fn reference="3">
+                      <p id="_">
+                         This is a repeated footnote
+                         <index>
+                            <primary>a</primary>
+                         </index>
+                      </p>
+                   </fn>
+                </p>
+                <p id="_">
+                   Repetition.
+                   <fn reference="3">
+                      <p id="_">This is a repeated footnote </p>
+                   </fn>
+                </p>
+             </clause>
+          </sections>
+       </standard-document>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
