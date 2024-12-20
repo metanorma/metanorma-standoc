@@ -219,7 +219,7 @@ module Metanorma
 
       # manually check for xref/@target, xref/@to integrity
       def xref_validate(doc)
-        @doc_xrefs = doc.xpath("//xref/@target | //xref/@to")
+        @doc_xrefs = doc.xpath("//xref/@target | //xref/@to | //index/@to")
           .each_with_object({}) do |x, m|
           m[x.text] = x
           @doc_ids[x.text] and next

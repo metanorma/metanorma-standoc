@@ -1266,7 +1266,7 @@ RSpec.describe Metanorma::Standoc do
       .to include("Could not resolve footnoteblock:[id1]")
   end
 
-  it "Warning if xref/@target does not point to a real identifier" do
+  it "Warning if xref/@target, (xref/@to), index/@to does not point to a real identifier" do
     FileUtils.rm_f "test.err.html"
     Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
@@ -1275,9 +1275,12 @@ RSpec.describe Metanorma::Standoc do
       :no-pdf:
 
       <<id1>>
+      index-range:id3[(((A)))]
     INPUT
     expect(File.read("test.err.html"))
       .to include("Crossreference target id1 is undefined")
+    expect(File.read("test.err.html"))
+      .to include("Crossreference target id3 is undefined")
   end
 
   it "Warns if illegal nessting of assets within assets" do
