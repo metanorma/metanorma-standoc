@@ -550,6 +550,7 @@ RSpec.describe Metanorma::Standoc do
             <math xmlns="http://www.w3.org/1998/Math/MathML">
               <mstyle displaystyle="false">
                 <mstyle mathvariant="sans-serif">
+                <mo rspace="thickmathspace">⁢</mo>
               <mrow xref="U_NISTu7">
                    <mstyle mathvariant="sans-serif">
                      <mi>cd</mi>
