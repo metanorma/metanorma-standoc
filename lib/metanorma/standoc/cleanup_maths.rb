@@ -1,4 +1,3 @@
-require "asciimath2unitsml"
 require_relative "cleanup_mathvariant"
 
 module Metanorma
@@ -180,11 +179,11 @@ module Metanorma
       end
 
       def mathml_cleanup(xmldoc)
-        a2u = Asciimath2UnitsML::Conv.new(asciimath2unitsml_options)
+        #a2u = Asciimath2UnitsML::Conv.new(asciimath2unitsml_options)
         xmldoc.xpath("//stem[@type = 'MathML'][not(@validate = 'false')]")
           .each do |x|
           mathml_xml_cleanup(x)
-          a2u.MathML2UnitsML(x)
+          #a2u.MathML2UnitsML(x)
           mathml_mathvariant(x)
         end
         xmldoc.xpath("//stem[@type = 'MathML']")
