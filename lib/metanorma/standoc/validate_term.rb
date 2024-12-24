@@ -1,3 +1,5 @@
+require "iev"
+
 module Metanorma
   module Standoc
     module Validate
@@ -7,7 +9,7 @@ module Metanorma
       def init_iev
         @no_isobib and return nil
         @iev and return @iev
-        @iev = Iev::Db.new(@iev_globalname, @iev_localname) unless @no_isobib
+        @iev = ::IEV::Db.new(@iev_globalname, @iev_localname) unless @no_isobib
         @iev
       end
 
