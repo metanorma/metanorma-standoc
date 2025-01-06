@@ -1027,6 +1027,7 @@ RSpec.describe Metanorma::Standoc do
                 <fetched/>
                 <title format="text/plain" language="en" script="Latn">Signes abréviatifs pour les poids et mesures métriques</title>
                 <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/ci/cipm/4-1879/resolution-</uri>
+                <uri type="citation" language="fr" script="Latn">https://www.bipm.org/fr/committees/ci/cipm/4-1879/resolution-</uri>
                 <uri type="src" language="en" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-4.yml</uri>
                 <uri type="src" language="fr" script="Latn">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-4.yml</uri>
                 <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM4.pdf/47e647d4-26c2-d3d6-b367-e749fb22b261</uri>
