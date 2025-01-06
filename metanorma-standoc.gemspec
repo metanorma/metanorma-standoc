@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "addressable", "~> 2.8.0"
   spec.add_dependency "asciidoctor", "~> 2.0.0"
   spec.add_dependency "crass", "~> 1.0.0"
-  spec.add_dependency "iev", "~> 0.3.0"
+  spec.add_dependency "iev", "~> 0.3.5"
   spec.add_dependency "isodoc", "~> 2.12.4"
   spec.add_dependency "metanorma", ">= 1.6.0"
   spec.add_dependency "metanorma-plugin-datastruct", "~> 0.3.0"
