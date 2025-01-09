@@ -2,12 +2,14 @@ module Metanorma
   module Standoc
     module Base
       def html_extract_attributes(node)
+        i18nyaml = node.attr("i18nyaml")
+        i18nyaml &&= File.join(@localdir, i18nyaml)
         {
           script: node.attr("script"),
           bodyfont: node.attr("body-font"),
           headerfont: node.attr("header-font"),
           monospacefont: node.attr("monospace-font"),
-          i18nyaml: node.attr("i18nyaml"),
+          i18nyaml: i18nyaml,
           scope: node.attr("scope"),
           htmlstylesheet: node.attr("htmlstylesheet"),
           htmlstylesheet_override: node.attr("htmlstylesheet-override"),
@@ -48,12 +50,14 @@ module Metanorma
       end
 
       def doc_extract_attributes(node)
+        i18nyaml = node.attr("i18nyaml")
+        i18nyaml &&= File.join(@localdir, i18nyaml)
         attrs = {
           script: node.attr("script"),
           bodyfont: node.attr("body-font"),
           headerfont: node.attr("header-font"),
           monospacefont: node.attr("monospace-font"),
-          i18nyaml: node.attr("i18nyaml"),
+          i18nyaml: i18nyaml,
           scope: node.attr("scope"),
           wordstylesheet: node.attr("wordstylesheet"),
           wordstylesheet_override: node.attr("wordstylesheet-override"),
