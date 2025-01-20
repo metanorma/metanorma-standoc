@@ -6,7 +6,7 @@ module Metanorma
       def init(node)
         init_vars
         init_misc(node)
-        init_processing(node)
+        init_processing(node) # feeds init_i18n
         init_log(node)
         init_image(node)
         init_reqt(node)
@@ -39,12 +39,13 @@ module Metanorma
         @embed_hdr = node.attr("embed_hdr")
         @embed_id = node.attr("embed_id")
         @document_scheme = document_scheme(node)
-        @xrefstyle = node.attr("xrefstyle")
         @source_linenums = node.attr("source-linenums-option") == "true"
         @default_doctype = "standard"
       end
 
       def init_processing(node)
+        @localdir = Metanorma::Utils::localdir(node)
+        @xrefstyle = node.attr("xrefstyle")
         @novalid = node.attr("novalid")
         @smartquotes = node.attr("smartquotes") != "false"
         @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
@@ -100,7 +101,6 @@ module Metanorma
                       File.basename(node.attr("docfile"))&.gsub(/\.adoc$/, "")
                     else ""
                     end
-        @localdir = Metanorma::Utils::localdir(node)
         @output_dir = outputdir node
       end
 
@@ -109,7 +109,9 @@ module Metanorma
         @script = node.attr("script") ||
           Metanorma::Utils.default_script(node.attr("language"))
         @locale = node.attr("locale")
-        @isodoc = isodoc(@lang, @script, @locale, node.attr("i18nyaml"))
+        i18nyaml = node.attr("i18nyaml")
+        i18nyaml &&= File.join(@localdir, i18nyaml)
+        @isodoc = isodoc(@lang, @script, @locale, i18nyaml)
         @i18n = @isodoc.i18n
       end
 
