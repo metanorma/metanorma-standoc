@@ -216,7 +216,7 @@ RSpec.describe Metanorma::Standoc do
               </bibitem>
             </references>
           </bibliography>
-        </standard-document>
+        </metanorma>
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
@@ -446,7 +446,7 @@ RSpec.describe Metanorma::Standoc do
               </bibitem>
             </references>
           </bibliography>
-        </standard-document>
+        </metanorma>
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
@@ -669,7 +669,7 @@ RSpec.describe Metanorma::Standoc do
               </bibitem>
             </references>
           </bibliography>
-        </standard-document>
+        </metanorma>
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
@@ -777,7 +777,7 @@ RSpec.describe Metanorma::Standoc do
               </bibitem>
             </references>
           </bibliography>
-          </standard-document>
+          </metanorma>
       OUTPUT
       expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to Xml::C14n.format(output)
@@ -998,7 +998,7 @@ RSpec.describe Metanorma::Standoc do
               </bibitem>
             </references>
           </bibliography>
-        </standard-document>
+        </metanorma>
       OUTPUT
       expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to Xml::C14n.format(output)
@@ -1065,7 +1065,7 @@ RSpec.describe Metanorma::Standoc do
               </bibitem>
             </references>
           </bibliography>
-        </standard-document>
+        </metanorma>
       OUTPUT
       expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to Xml::C14n.format(output)
@@ -1153,7 +1153,7 @@ RSpec.describe Metanorma::Standoc do
                </relation>
                  <place>Geneva</place>
              </bibitem>
-        </references></bibliography></standard-document>
+        </references></bibliography></metanorma>
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
@@ -1374,7 +1374,7 @@ RSpec.describe Metanorma::Standoc do
               </bibitem>
                   </references>
                 </bibliography>
-              </standard-document>
+              </metanorma>
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
@@ -1502,7 +1502,7 @@ RSpec.describe Metanorma::Standoc do
               </bibitem>
             </references>
           </bibliography>
-        </standard-document>
+        </metanorma>
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
@@ -1678,7 +1678,7 @@ RSpec.describe Metanorma::Standoc do
               </bibitem>
             </references>
           </bibliography>
-        </standard-document>
+        </metanorma>
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
@@ -1724,7 +1724,7 @@ RSpec.describe Metanorma::Standoc do
         <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></eref>
         <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></eref></p>
         </clause></sections>
-        </standard-document>
+        </metanorma>
       OUTPUT
       a = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       a.at("//xmlns:bibliography").remove

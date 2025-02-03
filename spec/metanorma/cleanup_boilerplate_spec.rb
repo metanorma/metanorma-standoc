@@ -34,7 +34,7 @@ RSpec.describe Metanorma::Standoc do
        <p id='_'>This is also extraneous information</p>
       </references>
       </bibliography>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -74,7 +74,7 @@ RSpec.describe Metanorma::Standoc do
        <p id='_'>This is also extraneous information</p>
       </references>
       </bibliography>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -133,7 +133,7 @@ RSpec.describe Metanorma::Standoc do
              <p id="_">This is also extraneous information</p>
            </references>
          </bibliography>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -177,7 +177,7 @@ RSpec.describe Metanorma::Standoc do
              <p id="_">This is also extraneous information</p>
            </references>
          </bibliography>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -222,7 +222,7 @@ RSpec.describe Metanorma::Standoc do
              </clause>
            </clause>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -269,7 +269,7 @@ RSpec.describe Metanorma::Standoc do
              </references>
            </clause>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -316,7 +316,7 @@ RSpec.describe Metanorma::Standoc do
              </clause>
            </clause>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -349,7 +349,7 @@ RSpec.describe Metanorma::Standoc do
              </term>
            </terms>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -382,7 +382,7 @@ RSpec.describe Metanorma::Standoc do
              </term>
            </terms>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -405,7 +405,7 @@ RSpec.describe Metanorma::Standoc do
                 <p id="_">No terms and definitions are listed in this document.</p>
            </terms>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -440,7 +440,7 @@ RSpec.describe Metanorma::Standoc do
                <definition><verbal-definition><p id="_">This paragraph is extraneous</p></verbal-definition></definition>
              </term></terms>
              </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -483,7 +483,7 @@ RSpec.describe Metanorma::Standoc do
              </clause>
            </clause>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -536,7 +536,7 @@ RSpec.describe Metanorma::Standoc do
              </terms>
            </clause>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -604,7 +604,7 @@ RSpec.describe Metanorma::Standoc do
              </definitions>
            </clause>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -673,7 +673,7 @@ RSpec.describe Metanorma::Standoc do
              </definitions>
            </clause>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -693,7 +693,7 @@ RSpec.describe Metanorma::Standoc do
       </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
         <title>Normative references</title><p id="_">There are no normative references in this document.</p>
       </references></bibliography>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -719,7 +719,7 @@ RSpec.describe Metanorma::Standoc do
            <docidentifier>b</docidentifier>
          </bibitem>
          </references></bibliography>
-         </standard-document>
+         </metanorma>
 
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
@@ -746,7 +746,7 @@ RSpec.describe Metanorma::Standoc do
       </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
         <title>Références normatives</title><p id="_">Le présent document ne contient aucune référence normative.</p>
       </references></bibliography>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -788,7 +788,7 @@ RSpec.describe Metanorma::Standoc do
             </definitions>
           </clause>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -839,7 +839,7 @@ RSpec.describe Metanorma::Standoc do
             </terms>
           </clause>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -885,7 +885,7 @@ RSpec.describe Metanorma::Standoc do
             </terms>
           </clause>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -946,7 +946,7 @@ RSpec.describe Metanorma::Standoc do
                 </bibitem>
              </references>
           </bibliography>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -971,7 +971,7 @@ RSpec.describe Metanorma::Standoc do
       <terms id="_terms_and_definitions" obligation="normative">
          <title>Terms and definitions</title><p id="_">No terms and definitions are listed in this document.</p>
       </terms></sections>
-      </standard-document>
+      </metanorma>
 
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
@@ -1024,7 +1024,7 @@ RSpec.describe Metanorma::Standoc do
                 </bibitem>
              </references>
           </bibliography>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1082,7 +1082,7 @@ RSpec.describe Metanorma::Standoc do
                 </bibitem>
              </references>
           </bibliography>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1139,7 +1139,7 @@ RSpec.describe Metanorma::Standoc do
                 </bibitem>
              </references>
           </bibliography>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1175,7 +1175,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-          <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+          <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
         <bibdata type='standard'>
           <title language='en' format='text/plain'>Document title</title>
                      <contributor>
@@ -1226,7 +1226,7 @@ RSpec.describe Metanorma::Standoc do
             <title>Clause 1</title>
           </clause>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
@@ -1252,7 +1252,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
                    <boilerplate>
            <copyright-statement>
              <clause id="B" inline-header="false" obligation="normative">
@@ -1282,7 +1282,7 @@ RSpec.describe Metanorma::Standoc do
              <title>Clause 1</title>
            </clause>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
@@ -1309,7 +1309,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
          <boilerplate>
            <license-statement>
              <clause id="_" inline-header="false" obligation="normative">
@@ -1337,7 +1337,7 @@ RSpec.describe Metanorma::Standoc do
              <title>Clause 1</title>
            </clause>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     mock_boilerplate_file
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
@@ -1365,7 +1365,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
                  <boilerplate>
               <copyright-statement>
                  <clause id="B" inline-header="false" obligation="normative">
@@ -1411,7 +1411,7 @@ RSpec.describe Metanorma::Standoc do
                  <title>Clause 1</title>
               </clause>
            </sections>
-        </standard-document>
+        </metanorma>
     OUTPUT
     mock_boilerplate_file
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))

@@ -95,7 +95,7 @@ RSpec.describe Metanorma::Standoc do
           </bibitem>
         </references>
       </bibliography>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
       .gsub(%r{<image[^>]+?/>}m, "<image/>")
@@ -134,7 +134,7 @@ RSpec.describe Metanorma::Standoc do
            &lt;tag/&gt;
         </sourcecode>
       </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -169,7 +169,7 @@ RSpec.describe Metanorma::Standoc do
           <xref target='A'>recursive</xref>
         </sourcecode>
       </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -215,7 +215,7 @@ RSpec.describe Metanorma::Standoc do
           </formula>
           <p id="_">Indeed.</p>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -264,7 +264,7 @@ RSpec.describe Metanorma::Standoc do
           </note>
           <p id="_">Indeed.</p>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -337,7 +337,7 @@ RSpec.describe Metanorma::Standoc do
            </table>
            <p id='_'>Indeed.</p>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -361,7 +361,7 @@ RSpec.describe Metanorma::Standoc do
       <note id="_">
         <p id="_">That loop does not do much</p>
       </note></sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -377,7 +377,7 @@ RSpec.describe Metanorma::Standoc do
       <sections>
         <p id="_">Paragraph</p>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -400,7 +400,7 @@ RSpec.describe Metanorma::Standoc do
       </note>
       </example>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -479,7 +479,7 @@ RSpec.describe Metanorma::Standoc do
             </dd>
           </dl>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -521,7 +521,7 @@ RSpec.describe Metanorma::Standoc do
         </tbody>
       </table>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -569,7 +569,7 @@ RSpec.describe Metanorma::Standoc do
         </tbody>
       </table>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -603,7 +603,7 @@ RSpec.describe Metanorma::Standoc do
       </note></table>
 
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -709,7 +709,7 @@ RSpec.describe Metanorma::Standoc do
              </dd>
            </dl>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -749,7 +749,7 @@ RSpec.describe Metanorma::Standoc do
         </fn>
       </p>
              </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -804,7 +804,7 @@ RSpec.describe Metanorma::Standoc do
             </dd>
           </dl>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -842,7 +842,7 @@ RSpec.describe Metanorma::Standoc do
         <image src="spec/examples/rice_images/rice_image3_3.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure></figure>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -904,7 +904,7 @@ RSpec.describe Metanorma::Standoc do
             <p id='_'>Scope statement</p>
           </clause>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -969,7 +969,7 @@ RSpec.describe Metanorma::Standoc do
          <circle fill="url(#gradient1)" cx="128" cy="128" r="100" />
        </svg>
              </sections>
-      </standard-document>
+      </metanorma>
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -1005,7 +1005,7 @@ RSpec.describe Metanorma::Standoc do
          <circle fill="url(#gradient1_inject_2)" cx="128" cy="128" r="100"/>
        </svg>
              </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(Metanorma::Standoc::Converter.new(nil, *OPTIONS)
       .cleanup(Nokogiri::XML(input)).to_xml))
@@ -1065,7 +1065,7 @@ RSpec.describe Metanorma::Standoc do
             </image>
           </figure>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.xpath("//*[local-name() = 'svg']/*[local-name() = 'image']").each do |x|
@@ -1095,7 +1095,7 @@ RSpec.describe Metanorma::Standoc do
         </g>
        </svg>
         </sections>
-      </standard-document>
+      </metanorma>
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -1113,7 +1113,7 @@ RSpec.describe Metanorma::Standoc do
              </g>
            </svg>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(Metanorma::Standoc::Converter.new(nil, *OPTIONS)
       .cleanup(Nokogiri::XML(input)).to_xml))
@@ -1191,7 +1191,7 @@ RSpec.describe Metanorma::Standoc do
              </p>
            </clause>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.xpath("//*[local-name() = 'image']").each do |x|
@@ -1275,7 +1275,7 @@ RSpec.describe Metanorma::Standoc do
              </figure>
              <sourcecode id="_" unnumbered="true">A</sourcecode>
            </annex>
-         </standard-document>
+         </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1302,7 +1302,7 @@ RSpec.describe Metanorma::Standoc do
              </li>
            </ul>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1340,7 +1340,7 @@ RSpec.describe Metanorma::Standoc do
       =================
     INPUT
     output = <<~OUTPUT
-      <standard-document xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
+      <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
        <bibdata type="standard">
        <title language="en" format="text/plain">Document title</title>
        <language>en</language><script>Latn</script><status><stage>published</stage></status><copyright><from>2025</from></copyright><ext><doctype>standard</doctype><flavor>standoc</flavor></ext></bibdata><metanorma-extension><presentation-metadata><name>TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>HTML TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>DOC TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>PDF TOC Heading Levels</name><value>2</value></presentation-metadata></metanorma-extension>
@@ -1366,7 +1366,7 @@ RSpec.describe Metanorma::Standoc do
        </example>
        </clause>
        </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
       .to be_equivalent_to output

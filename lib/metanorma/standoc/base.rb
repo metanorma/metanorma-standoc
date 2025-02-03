@@ -14,18 +14,20 @@ require "mn-requirements"
 module Metanorma
   module Standoc
     module Base
-      XML_ROOT_TAG = "standard-document".freeze
-      XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
+      #XML_ROOT_TAG = "standard-document".freeze
+      #XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
       FONTS_MANIFEST = "fonts-manifest".freeze
 
       attr_accessor :log
 
       def xml_root_tag
-        self.class::XML_ROOT_TAG
+        #self.class::XML_ROOT_TAG
+        "metanorma"
       end
 
       def xml_namespace
-        self.class::XML_NAMESPACE
+        #self.class::XML_NAMESPACE
+        "https://www.metanorma.org/ns/standoc"
       end
 
       def document(node)
