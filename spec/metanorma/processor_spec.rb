@@ -42,7 +42,7 @@ RSpec.describe Metanorma::Standoc::Processor do
       <sections>
       <terms id="H" obligation="normative" displayorder="1"><fmt-title>Terms, Definitions, Symbols and Abbreviated Terms</fmt-title>
         <term id="J">
-        <preferred>Term2</preferred>
+        <fmt-preferred><p>Term2</p></fmt-preferred>
       </term>
        </terms>
        </sections>
@@ -59,7 +59,7 @@ RSpec.describe Metanorma::Standoc::Processor do
       OUTPUT
   end
 
-  it "generates HTML from IsoDoc XML" do
+  it "generates DOC from IsoDoc XML" do
     FileUtils.rm_f "test.doc"
     processor.output(<<~INPUT, "test.xml", "test.doc", :doc)
               <iso-standard xmlns="http://riboseinc.com/isoxml">
