@@ -101,7 +101,7 @@ RSpec.describe Metanorma::Standoc do
       :publisher: International Electrotechnical Commission;IETF;ISO
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}' flavor='standoc'o
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}' flavor='standoc'>
         <bibdata type='standard'>
           <title language='en' format='text/plain'>Document title</title>
           <contributor>
