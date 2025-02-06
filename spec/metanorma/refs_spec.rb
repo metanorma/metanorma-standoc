@@ -634,7 +634,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
             <?xml version="1.0" encoding="UTF-8"?>
-            <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+            <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
             <bibdata type="standard">
             <title language="en" format="text/plain">Document title</title>
               <language>en</language>
@@ -1196,7 +1196,7 @@ RSpec.describe Metanorma::Standoc do
       .gsub("iso.xml", "spec/assets/iso.xml")
       .gsub("html.scss", "spec/assets/html.scss")
     output = <<~OUTPUT
-      <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
+      <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
          <bibdata type="standard">
            <title language="en" format="text/plain">Document title</title>
            <language>en</language>

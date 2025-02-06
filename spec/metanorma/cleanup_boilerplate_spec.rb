@@ -1175,7 +1175,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-          <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+          <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
         <bibdata type='standard'>
           <title language='en' format='text/plain'>Document title</title>
                      <contributor>
@@ -1252,7 +1252,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                    <boilerplate>
            <copyright-statement>
              <clause id="B" inline-header="false" obligation="normative">
@@ -1309,7 +1309,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
          <boilerplate>
            <license-statement>
              <clause id="_" inline-header="false" obligation="normative">
@@ -1365,7 +1365,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                  <boilerplate>
               <copyright-statement>
                  <clause id="B" inline-header="false" obligation="normative">

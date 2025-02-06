@@ -883,7 +883,7 @@ RSpec.describe Metanorma::Standoc do
       embed::spec/assets/xref_error.adoc[]
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}' flavor='standoc'>
        <bibdata type='standard'>
          <title language='en' format='text/plain'>Document title</title>
          <language>en</language>
@@ -945,7 +945,7 @@ RSpec.describe Metanorma::Standoc do
       embed::spec/assets/xref_error.adoc[]
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}' flavor='standoc'>
               <bibdata type='standard'>
                   <title language='en' format='text/plain'>Document title</title>
           <language>en</language>
@@ -1004,7 +1004,7 @@ RSpec.describe Metanorma::Standoc do
       embed::spec/assets/a1.adoc[]
     INPUT
     output = <<~OUTPUT
-       <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
+       <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}' flavor='standoc'>
           <bibdata type='standard'>
             <title language='en' format='text/plain'>Document title</title>
             <language>en</language>

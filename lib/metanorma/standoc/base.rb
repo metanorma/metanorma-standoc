@@ -89,7 +89,8 @@ module Metanorma
       def makexml1(node)
         result = ["<?xml version='1.0' encoding='UTF-8'?>",
                   "<#{xml_root_tag} type='semantic' version='#{version}' " \
-                  "schema-version='#{schema_version}'>"]
+                  "schema-version='#{schema_version}' " \
+                  "flavor='#{processor.new.asciidoctor_backend}'>"]
         result << noko { |ixml| front node, ixml }
         result << noko { |ixml| middle node, ixml }
         result << "</#{xml_root_tag}>"

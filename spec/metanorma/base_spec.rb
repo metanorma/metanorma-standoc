@@ -65,7 +65,7 @@ RSpec.describe Metanorma::Standoc do
       :language: ar
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}' flavor='standoc'>
            <bibdata type='standard'>
              <title language='en' format='text/plain'>Document title</title>
              <language>ar</language>
@@ -101,7 +101,7 @@ RSpec.describe Metanorma::Standoc do
       :publisher: International Electrotechnical Commission;IETF;ISO
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}' flavor='standoc'o
         <bibdata type='standard'>
           <title language='en' format='text/plain'>Document title</title>
           <contributor>
@@ -292,7 +292,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
                     <?xml version="1.0" encoding="UTF-8"?>
-                <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}">
+                <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                 <bibdata type="standard">
                 <title language="en" format="text/plain">Main Title — Title</title>
                   <docidentifier primary="true">1000-1</docidentifier>
@@ -610,7 +610,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
                     <?xml version="1.0" encoding="UTF-8"?>
-                <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+                <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                 <bibdata type="standard">
                   <title language="en" format="text/plain">Document title</title>
                   <title language="eo" format="text/plain">Dokumenttitolo</title>
@@ -848,7 +848,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+      <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                <bibdata type="standard">
            <title language="en" format="text/plain">Document title</title>
            <contributor>
@@ -1053,7 +1053,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+      <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                <bibdata type="standard">
            <title language="en" format="text/plain">Document title</title>
            <contributor>
@@ -1182,7 +1182,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-            <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+            <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
             <bibdata type="standard">
           <title language="en" format="text/plain">Document title</title>
           <docidentifier primary="true">OVERRIDE-DOCIDENTIFIER</docidentifier>
@@ -1346,7 +1346,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+      <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
       <bibdata type='standard'>
         <title language='en' format='text/plain'>Document title</title>
         <language>en</language>
