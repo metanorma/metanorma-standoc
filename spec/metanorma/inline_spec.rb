@@ -17,7 +17,7 @@ RSpec.describe Metanorma::Standoc do
       markup <em>for</em>
       text, including <strong><em>nest</em></strong>ed markup.</p>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -72,7 +72,7 @@ RSpec.describe Metanorma::Standoc do
       <span style="font-family:'Noto Sans JP'">text</span>
       <span custom-charset="weather">xyz</span>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -101,7 +101,7 @@ RSpec.describe Metanorma::Standoc do
             </stem>
           </p>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -157,7 +157,7 @@ RSpec.describe Metanorma::Standoc do
             </stem>
           </p>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -212,7 +212,7 @@ RSpec.describe Metanorma::Standoc do
               </stem>
             </p>
           </sections>
-        </standard-document>
+        </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -259,7 +259,7 @@ RSpec.describe Metanorma::Standoc do
       </stem>
             </p>
           </sections>
-           </standard-document>
+           </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -275,7 +275,7 @@ RSpec.describe Metanorma::Standoc do
            #{BLANK_HDR}
       <sections><p id="_">‘99’.</p>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -306,7 +306,7 @@ RSpec.describe Metanorma::Standoc do
       <pagebreak orientation="landscape"/>
       <pagebreak orientation="portrait"/>
        </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -366,7 +366,7 @@ RSpec.describe Metanorma::Standoc do
              <link target="http://www.example3.com"/>
            </p>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -382,7 +382,7 @@ RSpec.describe Metanorma::Standoc do
       <sections>
         <p id="_">Text <bookmark id="bookmark"/> Text</p>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -438,7 +438,7 @@ RSpec.describe Metanorma::Standoc do
       </p>
              </clause>
              </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -478,7 +478,7 @@ RSpec.describe Metanorma::Standoc do
             </p>
           </clause>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -506,7 +506,7 @@ RSpec.describe Metanorma::Standoc do
             </p>
           </clause>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -543,7 +543,7 @@ RSpec.describe Metanorma::Standoc do
        <xref target="reference"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></xref></p>
        </clause>
        </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -579,7 +579,7 @@ RSpec.describe Metanorma::Standoc do
        <xref target="reference"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></xref></p>
        </clause>
        </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -610,7 +610,7 @@ RSpec.describe Metanorma::Standoc do
        <xref target="ref1"><location target="ref1" connective="from"/><location target="ref2" connective="to"/><location target="ref3" connective="and"/><location target="ref4" connective="to"/></xref></p>
        </clause>
        </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -644,7 +644,7 @@ RSpec.describe Metanorma::Standoc do
       </bibitem>
       </references>
       </bibliography>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -830,7 +830,7 @@ RSpec.describe Metanorma::Standoc do
             </bibitem>
           </references>
         </bibliography>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -878,7 +878,7 @@ RSpec.describe Metanorma::Standoc do
        <docidentifier>ABC</docidentifier>
        </bibitem>
        </references></bibliography>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -996,7 +996,7 @@ RSpec.describe Metanorma::Standoc do
 
        </bibitem>
        </references></bibliography>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1048,7 +1048,7 @@ RSpec.describe Metanorma::Standoc do
                 </p>
              </clause>
           </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1064,7 +1064,7 @@ RSpec.describe Metanorma::Standoc do
         <sections>
         <p id="_">See<index><primary>See</primary></index> Index <em>term</em><index><primary><em>term</em></primary></index> and<index><primary>A<sub>B</sub></primary><secondary><stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mi>α</mi></mstyle></math><asciimath>alpha</asciimath></stem></secondary><tertiary>Ⲁ</tertiary></index>.</p>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1083,7 +1083,7 @@ RSpec.describe Metanorma::Standoc do
       <passthrough formats='rfc,html'>&lt;abc&gt;X &gt; Y&lt;/abc&gt; http://www.example.com (c)</passthrough>
       </p>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1100,7 +1100,7 @@ RSpec.describe Metanorma::Standoc do
       <sections>
       <p id='_'>&lt;abc&gt;X &gt; A<sub>b<sub>c</sub></sub> &lt;/abc&gt;</p>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1236,7 +1236,7 @@ RSpec.describe Metanorma::Standoc do
             </bibitem>
           </references>
         </bibliography>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)

@@ -48,7 +48,7 @@ RSpec.describe Metanorma::Standoc do
         <image src="plantuml/filename.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
               </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))
       .gsub(%r{plantuml/plantuml[^./]+\.}, "plantuml/_.")))
@@ -84,7 +84,7 @@ RSpec.describe Metanorma::Standoc do
         <image src="spec/assets/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))
       .gsub(%r{spec/assets/[^./]+\.}, "spec/assets/_.")))
@@ -121,7 +121,7 @@ RSpec.describe Metanorma::Standoc do
           <image src="spec/assets/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
           </figure>
           </sections>
-          </standard-document>
+          </metanorma>
       OUTPUT
     end
 
@@ -161,7 +161,7 @@ RSpec.describe Metanorma::Standoc do
         <image src="spec/assets/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
         </figure>
         </sections>
-        </standard-document>
+        </metanorma>
       TEXT
     end
 
@@ -231,7 +231,7 @@ RSpec.describe Metanorma::Standoc do
               </table>
             </clause>
           </sections>
-          </standard-document>
+          </metanorma>
       OUTPUT
     end
 
@@ -290,7 +290,7 @@ RSpec.describe Metanorma::Standoc do
       Alice &lt;-- Bob: another authentication Response
       @enduml</sourcecode>
               </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -341,7 +341,7 @@ RSpec.describe Metanorma::Standoc do
       Alice &lt;-- Bob: another authentication Response
       @enduml</sourcecode>
               </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -373,7 +373,7 @@ RSpec.describe Metanorma::Standoc do
       Alice -&gt; Bob: Another authentication Request
       Alice &lt;-- Bob: another authentication Response</sourcecode>
               </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)

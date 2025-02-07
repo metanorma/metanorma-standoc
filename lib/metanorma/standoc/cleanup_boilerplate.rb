@@ -46,7 +46,7 @@ module Metanorma
         xmldoc.at("//metanorma-extension/semantic-metadata/" \
                   "headless[text() = 'true']") and return nil
         x = xmldoc.dup
-        x.root.add_namespace(nil, self.class::XML_NAMESPACE)
+        x.root.add_namespace(nil, xml_namespace)
         xml = Nokogiri::XML(x.to_xml)
         @isodoc ||= isodoc(@lang, @script, @locale)
         @isodoc.info(xml, nil)
