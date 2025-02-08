@@ -831,25 +831,25 @@ RSpec.describe Metanorma::Standoc do
       <toc>
         <ul id='_'>
           <li>
-            <xref target='clause1A'>Clause 1A</xref>
+            <xref target='clause1A'><display-text>Clause 1A</display-text></xref>
           </li>
           <li>
             <ul id='_'>
               <li>
-                <xref target='clause1Aa'>Clause 1Aa</xref>
+                <xref target='clause1Aa'><display-text>Clause 1Aa</display-text></xref>
               </li>
               <li>
-                <xref target='clause1Ab'>1Ab Clause</xref>
+                <xref target='clause1Ab'><display-text>1Ab Clause</display-text></xref>
               </li>
             </ul>
           </li>
           <li>
-            <xref target='clause1B'>Clause 1B</xref>
+            <xref target='clause1B'><display-text>Clause 1B</display-text></xref>
           </li>
           <li>
             <ul id='_'>
               <li>
-                <xref target='clause1Ba'>Clause 1Ba</xref>
+                <xref target='clause1Ba'><display-text>Clause 1Ba</display-text></xref>
               </li>
             </ul>
           </li>
@@ -858,10 +858,10 @@ RSpec.describe Metanorma::Standoc do
       <toc>
         <ul id='_'>
           <li>
-            <xref target='clause1A'>Clause 1A</xref>
+            <xref target='clause1A'><display-text>Clause 1A</display-text></xref>
           </li>
           <li>
-            <xref target='clause1B'>Clause 1B</xref>
+            <xref target='clause1B'><display-text>Clause 1B</display-text></xref>
           </li>
         </ul>
       </toc>
@@ -923,7 +923,7 @@ RSpec.describe Metanorma::Standoc do
                 <clause id='_clause' inline-header='false' obligation='normative'>
                   <title>Clause</title>
                   <p id='_'>
-                    <xref target='a'>b</xref>
+                    <xref target='a'><display-text>b</display-text></xref>
                   </p>
                 </clause>
               </sections>
@@ -1094,14 +1094,14 @@ RSpec.describe Metanorma::Standoc do
             <clause id='clause1' inline-header='false' obligation='normative'>
               <title>Clause</title>
                     <p id="_">
-         <xref target="A">DOCIDENTIFIER-1</xref>
-         <xref target="A">B</xref>
+         <xref target="A"><display-text>DOCIDENTIFIER-1</display-text></xref>
+         <xref target="A"><display-text>B</display-text></xref>
        </p>
             </clause>
             <clause id='A' inline-header='false' obligation='normative'>
               <title>Clause 1</title>
                    <p id="_">
-        <xref target="B">DOCIDENTIFIER-2</xref>
+        <xref target="B"><display-text>DOCIDENTIFIER-2</display-text></xref>
       </p>
             </clause>
             <clause id='B' inline-header='false' obligation='normative'>
@@ -1165,7 +1165,7 @@ RSpec.describe Metanorma::Standoc do
                       <referenceFrom>4</referenceFrom>
                     </locality>
                   </localityStack>
-                  text
+                  <display-text>text</display-text>
                 </eref>
               </p>
             </clause>

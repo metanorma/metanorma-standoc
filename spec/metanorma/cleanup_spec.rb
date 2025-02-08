@@ -694,7 +694,7 @@ RSpec.describe Metanorma::Standoc do
                <xref target='id1'/>
                <xref target='id1' style='id'/>
                <xref target='id1'/>
-               <xref target='id1' style="id">http://www.example.com</xref>
+               <xref target='id1' style="id"><display-text>http://www.example.com</display-text></xref>
              </p>
            </clause>
          </sections>

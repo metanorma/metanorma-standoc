@@ -1661,17 +1661,23 @@ RSpec.describe Metanorma::Standoc do
         </definition>
         <termsource status='identical' type="authoritative">
           <origin citeas=''>
+          <display-text>
             <termref base='IEV' target='xyz'/>
+            </display-text>
           </origin>
         </termsource>
         <termsource status='identical' type="authoritative">
           <origin citeas=''>
+          <display-text>
             <termref base='IEV' target='xyz'/>
+            </display-text>
           </origin>
         </termsource>
         <termsource status='identical' type="authoritative">
           <origin citeas=''>
+          <display-text>
             <termref base='IEV' target='xyz'/>
+            </display-text>
           </origin>
         </termsource>
       </term>
@@ -1730,7 +1736,9 @@ RSpec.describe Metanorma::Standoc do
         </verbal-definition></definition>
         <termsource status='modified' type="authoritative">
           <origin citeas=''>
+          <display-text>
             <termref base='IEV' target='xyz'/>
+          </display-text>
           </origin>
           <modification>
             <p id='_'>with adjustments</p>
@@ -1801,7 +1809,9 @@ RSpec.describe Metanorma::Standoc do
             </verbal-definition></definition>
             <termsource status='modified' type='lineage'>
               <origin citeas=''>
+              <display-text>
                 <termref base='IEV' target='xyz'/>
+                </display-text>
               </origin>
               <modification>
                 <p id='_'>with adjustments</p>

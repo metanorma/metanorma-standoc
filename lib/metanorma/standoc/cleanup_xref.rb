@@ -35,11 +35,12 @@ module Metanorma
       def extract_localities(elem)
         elem.children.empty? and return
         f = elem.children.first
-        f.text? or return
+        f.text? or return xref_display_text(elem, elem.children.remove)
         head = f.remove.text
         tail = elem.children.remove
-        extract_localities1(elem, head)
-        tail and elem << tail
+        d = extract_localities1(elem, head)
+        tail and d << tail
+        d.children.empty? and d.remove
       end
 
       LOCALITY_REGEX_STR_TRIPLEDASH = <<~REGEXP.freeze
@@ -69,7 +70,13 @@ module Metanorma
           b = elem.add_child("<localityStack/>").first if m[:punct] == ";"
         end
         fill_in_eref_connectives(elem)
-        elem.add_child(text) if text
+        xref_display_text(elem, text)
+      end
+
+      def xref_display_text(elem, text)
+        d = elem.add_child("<display-text></display-text>").first
+        d.add_child(text) if text
+        d
       end
 
       # clause=3;and!5 => clause=3;and!clause=5
@@ -135,6 +142,9 @@ module Metanorma
       end
 
       def eref_stack(xmldoc)
+        xmldoc.xpath("//eref/display-text[eref]").each do |e|
+          e.replace(e.children)
+        end
         xmldoc.xpath("//eref[eref]").each do |e|
           e.name = "erefstack"
           e.delete("bibitemid")
@@ -195,6 +205,11 @@ module Metanorma
       def xref_compound_wrapup(xmldoc)
         xmldoc.xpath("//xref//xref").each do |x|
           x.name = "location"
+        end
+        xmldoc.xpath("//xref[not(./display-text)]").each do |x|
+          c = x.xpath("./*[not(self::locality or self::localityStack or self::location)] | ./text()")
+          c.empty? and next
+          xref_display_text(x, c.remove)
         end
       end
 

@@ -41,7 +41,7 @@ RSpec.describe Metanorma::Standoc do
          <sections>
            <svgmap unnumbered='true' number='8' subsequence='A' keep-with-next='true' keep-lines-together='true'>
              <target href='http://www.example.com'>
-               <xref target='ref1'>Computer</xref>
+               <xref target='ref1'><display-text>Computer</display-text></xref>
              </target>
            </svgmap>
            <figure id='ref1'>
@@ -83,7 +83,7 @@ RSpec.describe Metanorma::Standoc do
                            <referenceFrom>action_schema.basic</referenceFrom>
                          </locality>
                        </localityStack>
-                       Coffee
+                       <display-text>Coffee</display-text>
                      </eref>
                    </target>
                  </svgmap>
@@ -130,7 +130,7 @@ RSpec.describe Metanorma::Standoc do
           var
           <strong>x</strong>
            :
-          <xref target='A'>recursive</xref>
+          <xref target='A'><display-text>recursive</display-text></xref>
            &lt;tag/&gt;
         </sourcecode>
       </sections>
@@ -166,7 +166,7 @@ RSpec.describe Metanorma::Standoc do
           var
           <strong>x</strong>
            :
-          <xref target='A'>recursive</xref>
+          <xref target='A'><display-text>recursive</display-text></xref>
         </sourcecode>
       </sections>
              </metanorma>

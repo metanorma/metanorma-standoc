@@ -384,7 +384,7 @@ RSpec.describe Metanorma::Standoc do
                      <name>Sixth Designation</name>
                    </expression>
                  </preferred>
-                 <xref target="term-Sixth-Designation">Sixth Designation</xref>
+                 <xref target="term-Sixth-Designation"><display-text>Sixth Designation</display-text></xref>
                </related>
                <related type="contrast">
                  <preferred>
@@ -392,7 +392,7 @@ RSpec.describe Metanorma::Standoc do
                      <name>Seventh Designation</name>
                    </expression>
                  </preferred>
-                 <xref target="term-Seventh-Designation">Seventh Designation</xref>
+                 <xref target="term-Seventh-Designation"><display-text>Seventh Designation</display-text></xref>
                </related>
                <definition>
                  <verbal-definition>

@@ -1594,12 +1594,12 @@ RSpec.describe Metanorma::Standoc do
                    <ul id="_">
                      <li>
                        <p id="_">
-                         <xref target="cl2">Clause <em>A</em><stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mi>x</mi></mstyle></math><asciimath>x</asciimath></stem></xref>
+                         <xref target="cl2"><display-text>Clause <em>A</em><stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mi>x</mi></mstyle></math><asciimath>x</asciimath></stem></display-text></xref>
                        </p>
                        <ul id="_">
                          <li>
                            <p id="_">
-                             <xref target="a1">Clause <em>A</em><stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mi>y</mi></mstyle></math><asciimath>y</asciimath></stem></xref>
+                             <xref target="a1"><display-text>Clause <em>A</em><stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mi>y</mi></mstyle></math><asciimath>y</asciimath></stem></display-text></xref>
                            </p>
                          </li>
                        </ul>
@@ -1613,12 +1613,12 @@ RSpec.describe Metanorma::Standoc do
                    <ul id="_">
                      <li>
                        <p id="_">
-                         <xref target="cl2">some text</xref>
+                         <xref target="cl2"><display-text>some text</display-text></xref>
                        </p>
                        <ul id="_">
                          <li>
                            <p id="_">
-                             <xref target="a1">some more text</xref>
+                             <xref target="a1"><display-text>some more text</display-text></xref>
                            </p>
                          </li>
                        </ul>
