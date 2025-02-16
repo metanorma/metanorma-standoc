@@ -132,7 +132,7 @@ module Metanorma
           bibdata = bibdata.at("./relation[@type = 'derivedFrom']/bibitem")
           ident = bibdata.at("./docidentifier[@primary = 'true']") ||
             bibdata.at("./docidentifier")
-          xmldoc.xpath("//xref[@target = '#{d}'][normalize-space(text()) = '']")
+          xmldoc.xpath("//xref[@target = '#{d}'][normalize-space(.//text()) = '']")
             .each { |x| x << ident.text }
         end
       end

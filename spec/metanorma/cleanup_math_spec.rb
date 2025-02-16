@@ -22,7 +22,7 @@ RSpec.describe Metanorma::Standoc do
         <stem type="AsciiMath" block="false">1/r</stem>
       </p>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -65,7 +65,7 @@ RSpec.describe Metanorma::Standoc do
           </stem>
           </p>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -133,7 +133,7 @@ RSpec.describe Metanorma::Standoc do
              </stem>
            </p>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -218,7 +218,7 @@ RSpec.describe Metanorma::Standoc do
                 </stem>
             </p>
           </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -343,7 +343,7 @@ RSpec.describe Metanorma::Standoc do
                 </stem>
              </formula>
           </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -424,7 +424,7 @@ RSpec.describe Metanorma::Standoc do
                 </stem>
              </formula>
           </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input
       .sub(":number-presentation:",
@@ -508,7 +508,7 @@ RSpec.describe Metanorma::Standoc do
                 </stem>
              </formula>
           </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input
       .sub(":number-presentation:",
@@ -519,18 +519,18 @@ RSpec.describe Metanorma::Standoc do
 
   it "cleans up text MathML" do
     input = <<~INPUT
-      #{BLANK_HDR.sub(/<standard-document [^>]+>/, '<standard-document>')}
+      #{BLANK_HDR.sub(/<metanorma [^>]+>/, '<standard-document>')}
       <sections>
       <stem type="MathML">&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;&lt;mfrac&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;/mfrac&gt;&lt;/math&gt;</stem>
       </sections>
-      </standard-document>
+      </metanorma>
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR.sub(/<standard-document [^>]+>/, '<standard-document>')}
+      #{BLANK_HDR.sub(/<metanorma [^>]+>/, '<standard-document>')}
       <sections>
       <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mi>r</mi></mfrac></math></stem>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(Metanorma::Standoc::Converter.new(nil, *OPTIONS)
       .cleanup(Nokogiri::XML(input)).to_xml))
@@ -749,7 +749,7 @@ RSpec.describe Metanorma::Standoc do
              </stem>
            </formula>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -791,7 +791,7 @@ RSpec.describe Metanorma::Standoc do
           <mi>A</mi><mo>+</mo><mi>a</mi><mo>+</mo><mi>Α</mi><mo>+</mo><mi>α</mi><mo>+</mo><mi>AB</mi><mstyle mathvariant="italic"><mrow><mi>Α</mi></mrow></mstyle></stem>
             </formula>
           </sections>
-        </standard-document>
+        </metanorma>
       OUTPUT
     mock_mathml_italicise({ uppergreek: false, upperroman: true,
                             lowergreek: true, lowerroman: true })
@@ -820,7 +820,7 @@ RSpec.describe Metanorma::Standoc do
               </stem>
             </formula>
           </sections>
-        </standard-document>
+        </metanorma>
       OUTPUT
     mock_mathml_italicise({ uppergreek: true, upperroman: false,
                             lowergreek: true, lowerroman: true })
@@ -849,7 +849,7 @@ RSpec.describe Metanorma::Standoc do
               </stem>
             </formula>
           </sections>
-        </standard-document>
+        </metanorma>
       OUTPUT
     mock_mathml_italicise({ uppergreek: true, upperroman: true,
                             lowergreek: false, lowerroman: true })
@@ -878,7 +878,7 @@ RSpec.describe Metanorma::Standoc do
               </stem>
             </formula>
           </sections>
-        </standard-document>
+        </metanorma>
       OUTPUT
     mock_mathml_italicise({ uppergreek: true, upperroman: true,
                             lowergreek: true, lowerroman: false })
@@ -907,7 +907,7 @@ RSpec.describe Metanorma::Standoc do
               </stem>
             </formula>
           </sections>
-        </standard-document>
+        </metanorma>
       OUTPUT
     mock_mathml_italicise({ uppergreek: true, upperroman: true,
                             lowergreek: true, lowerroman: true })

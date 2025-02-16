@@ -23,7 +23,7 @@ RSpec.describe Metanorma::Standoc do
        </description>
        </recommendation>
               </sections>
-              </standard-document>
+              </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove

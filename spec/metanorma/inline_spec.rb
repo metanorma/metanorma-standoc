@@ -17,7 +17,7 @@ RSpec.describe Metanorma::Standoc do
       markup <em>for</em>
       text, including <strong><em>nest</em></strong>ed markup.</p>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -72,7 +72,7 @@ RSpec.describe Metanorma::Standoc do
       <span style="font-family:'Noto Sans JP'">text</span>
       <span custom-charset="weather">xyz</span>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -101,7 +101,7 @@ RSpec.describe Metanorma::Standoc do
             </stem>
           </p>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -157,7 +157,7 @@ RSpec.describe Metanorma::Standoc do
             </stem>
           </p>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -212,7 +212,7 @@ RSpec.describe Metanorma::Standoc do
               </stem>
             </p>
           </sections>
-        </standard-document>
+        </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -259,7 +259,7 @@ RSpec.describe Metanorma::Standoc do
       </stem>
             </p>
           </sections>
-           </standard-document>
+           </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -275,7 +275,7 @@ RSpec.describe Metanorma::Standoc do
            #{BLANK_HDR}
       <sections><p id="_">‘99’.</p>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -306,7 +306,7 @@ RSpec.describe Metanorma::Standoc do
       <pagebreak orientation="landscape"/>
       <pagebreak orientation="portrait"/>
        </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -366,7 +366,7 @@ RSpec.describe Metanorma::Standoc do
              <link target="http://www.example3.com"/>
            </p>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -382,7 +382,7 @@ RSpec.describe Metanorma::Standoc do
       <sections>
         <p id="_">Text <bookmark id="bookmark"/> Text</p>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -416,8 +416,8 @@ RSpec.describe Metanorma::Standoc do
                <title>Section</title>
                <p id="_">Inline Reference to <xref target="reference"/>
              Footnoted Reference to <xref target="reference"/>
-             Inline Reference with Text to <xref target="reference">text</xref>
-             Footnoted Reference with Text to <xref target="reference">text</xref>
+             Inline Reference with Text to <xref target="reference"><display-text>text</display-text></xref>
+             Footnoted Reference with Text to <xref target="reference"><display-text>text</display-text></xref>
              Anchored Crossreference to other document <xref target="a#b"/>
              Capitalised Reference to <xref target='reference' case='capital' droploc="true"></xref>
              Lowercase Footnoted Reference to <xref target='reference' case='capital' droploc="true"></xref>
@@ -434,11 +434,11 @@ RSpec.describe Metanorma::Standoc do
        Lowercase Footnoted Reference to
       <xref target='reference' case='capital' droploc='true'/>
        Lowercase Footnoted Reference to
-      <xref target='reference' case='capital' droploc='true'>text</xref>
+      <xref target='reference' case='capital' droploc='true'><display-text>text</display-text></xref>
       </p>
              </clause>
              </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -468,9 +468,9 @@ RSpec.describe Metanorma::Standoc do
                Inline Reference to
               <xref target='reference' style='basic'/>
                Inline Reference to
-              <xref target='reference'>style=basic</xref>
+              <xref target='reference'><display-text>style=basic</display-text></xref>
                Inline Reference to
-              <xref target='reference'>style=%</xref>
+              <xref target='reference'><display-text>style=%</display-text></xref>
                Inline Reference to
               <xref target='reference' label="Subclause"/>
                Inline Reference to
@@ -478,7 +478,7 @@ RSpec.describe Metanorma::Standoc do
             </p>
           </clause>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -506,7 +506,7 @@ RSpec.describe Metanorma::Standoc do
             </p>
           </clause>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -528,9 +528,9 @@ RSpec.describe Metanorma::Standoc do
       <sections>
        <clause id="reference" inline-header="false" obligation="normative">
        <title>Section</title>
-       <p id="_"><xref target="reference"><em>reference</em></xref>
-       <xref target="reference"><em><strong>reference</strong></em></xref>
-       <xref target="reference"><em>A</em> <stem type="MathML" block="false">
+       <p id="_"><xref target="reference"><display-text><em>reference</em></display-text></xref>
+       <xref target="reference"><display-text><em><strong>reference</strong></em></display-text></xref>
+       <xref target="reference"><display-text><em>A</em> <stem type="MathML" block="false">
                            <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="false">
                         <msup>
@@ -539,11 +539,11 @@ RSpec.describe Metanorma::Standoc do
                         </msup>
                       </mstyle>
                     </math>
-          <asciimath>x^2</asciimath></stem></xref>
-       <xref target="reference"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></xref></p>
+          <asciimath>x^2</asciimath></stem></display-text></xref>
+       <xref target="reference"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></xref></p>
        </clause>
        </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -564,9 +564,9 @@ RSpec.describe Metanorma::Standoc do
              <sections>
        <clause id="_section" inline-header="false" obligation="normative">
        <title>Section</title>
-       <p id="_"><xref target="reference"><em>reference</em></xref>
-       <xref target="reference"><em><strong>reference</strong></em></xref>
-       <xref target="reference"><em>A</em> <stem type="MathML" block="false">
+       <p id="_"><xref target="reference"><display-text><em>reference</em></display-text></xref>
+       <xref target="reference"><display-text><em><strong>reference</strong></em></display-text></xref>
+       <xref target="reference"><display-text><em>A</em> <stem type="MathML" block="false">
                            <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="false">
                         <msup>
@@ -575,11 +575,11 @@ RSpec.describe Metanorma::Standoc do
                         </msup>
                       </mstyle>
                     </math>
-        <asciimath>x^2</asciimath></stem></xref>
-       <xref target="reference"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></xref></p>
+        <asciimath>x^2</asciimath></stem></display-text></xref>
+       <xref target="reference"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></xref></p>
        </clause>
        </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -603,14 +603,14 @@ RSpec.describe Metanorma::Standoc do
        <clause id="_section" inline-header="false" obligation="normative">
        <title>Section</title>
        <p id="_"><xref target="ref1"><location target="ref1" connective="from"/><location target="ref2" connective="to"/></xref>
-       <xref target="ref1"><location target="ref1" connective="from"/><location target="ref2" connective="to"/>text</xref>
+       <xref target="ref1"><location target="ref1" connective="from"/><location target="ref2" connective="to"/><display-text>text</display-text></xref>
        <xref target="ref1"><location target="ref1" connective="and"/><location target="ref2" connective="and"/></xref>
        <xref target="ref1"><location target="ref1" connective="and"/><location target="ref2" connective="and"/></xref>
-       <xref target="ref1"><location target="ref1" connective="and"/><location target="ref2" connective="or"/>text</xref>
+       <xref target="ref1"><location target="ref1" connective="and"/><location target="ref2" connective="or"/><display-text>text</display-text></xref>
        <xref target="ref1"><location target="ref1" connective="from"/><location target="ref2" connective="to"/><location target="ref3" connective="and"/><location target="ref4" connective="to"/></xref></p>
        </clause>
        </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Xml::C14n.format(output))
@@ -644,7 +644,7 @@ RSpec.describe Metanorma::Standoc do
       </bibitem>
       </references>
       </bibliography>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -666,7 +666,7 @@ RSpec.describe Metanorma::Standoc do
            <foreword id="_" obligation="informative">
              <title>Foreword</title>
              <p id="_">
-               <eref type="inline" bibitemid="ISO712" citeas="x"><localityStack><locality type="clause"><referenceFrom>3-4-5</referenceFrom></locality><locality type="table"><referenceFrom>9</referenceFrom></locality></localityStack>text</eref>
+               <eref type="inline" bibitemid="ISO712" citeas="x"><localityStack><locality type="clause"><referenceFrom>3-4-5</referenceFrom></locality><locality type="table"><referenceFrom>9</referenceFrom></locality></localityStack><display-text>text</display-text></eref>
              </p>
            </foreword>
        </preface>
@@ -733,7 +733,7 @@ RSpec.describe Metanorma::Standoc do
                     <referenceFrom>5</referenceFrom>
                   </locality>
                 </localityStack>
-                text
+                <display-text>text</display-text>
               </eref>
               <eref type='inline' bibitemid='ref1' citeas='XYZ'>
                 <localityStack connective='and'>
@@ -770,7 +770,7 @@ RSpec.describe Metanorma::Standoc do
                     <referenceFrom>5</referenceFrom>
                   </locality>
                 </localityStack>
-                text
+                <display-text>text</display-text>
               </eref>
               <eref type='inline' bibitemid='ref1' citeas='XYZ'>
                 <localityStack connective='from'>
@@ -830,7 +830,7 @@ RSpec.describe Metanorma::Standoc do
             </bibitem>
           </references>
         </bibliography>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -856,9 +856,9 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
              <sections><clause id="_section" inline-header="false" obligation="normative">
        <title>Section</title>
-       <p id="_"><eref type="inline" bibitemid="reference" citeas="ABC"><em>reference</em></eref>
-       <eref type="inline" bibitemid="reference" citeas="ABC"><em><strong>reference</strong></em></eref>
-       <eref type="inline" bibitemid="reference" citeas="ABC"><em>A</em> <stem type="MathML" block="false">
+       <p id="_"><eref type="inline" bibitemid="reference" citeas="ABC"><display-text><em>reference</em></display-text></eref>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><display-text><em><strong>reference</strong></em></display-text></eref>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><display-text><em>A</em> <stem type="MathML" block="false">
                     <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="false">
                         <msup>
@@ -867,9 +867,9 @@ RSpec.describe Metanorma::Standoc do
                         </msup>
                       </mstyle>
                     </math>
-        <asciimath>x^2</asciimath></stem></eref>
-       <eref type="inline" bibitemid="reference" citeas="ABC"><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></eref>
-       <eref type="inline" bibitemid="reference" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></eref></p>
+        <asciimath>x^2</asciimath></stem></display-text></eref>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></eref>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></display-text></eref></p>
        </clause>
        </sections><bibliography><references id="_normative_references" normative="true" obligation="informative">
        <title>Normative references</title><p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
@@ -878,7 +878,7 @@ RSpec.describe Metanorma::Standoc do
        <docidentifier>ABC</docidentifier>
        </bibitem>
        </references></bibliography>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -951,16 +951,21 @@ RSpec.describe Metanorma::Standoc do
 
        <term id="term-Term1"><preferred><expression><name>Term1</name></expression><termsource status="identical" type="authoritative">
        <origin bibitemid="reference" type="inline" citeas="ABC">
+       <display-text>
        <em>reference</em>
+       </display-text>
        </origin>
        </termsource><termsource status="identical" type="authoritative">
        <origin bibitemid="reference" type="inline" citeas="ABC">
+       <display-text>
        <em>
          <strong>reference</strong>
        </em>
+       </display-text>
        </origin>
        </termsource><termsource status="identical" type="authoritative">
-       <origin bibitemid="reference" type="inline" citeas="ABC"><em>A</em> <stem type="MathML" block="false">
+       <origin bibitemid="reference" type="inline" citeas="ABC">
+        <display-text><em>A</em> <stem type="MathML" block="false">
                                <math xmlns="http://www.w3.org/1998/Math/MathML">
                           <mstyle displaystyle="false">
                             <msup>
@@ -971,17 +976,19 @@ RSpec.describe Metanorma::Standoc do
                         </math>
                         <asciimath>x^2</asciimath>
                       </stem>
+                      </display-text>
                       </origin>
        </termsource><termsource status="identical" type="authoritative">
-       <origin bibitemid="reference" type="inline" citeas="ABC"><em>A</em><fn reference="1">
+       <origin bibitemid="reference" type="inline" citeas="ABC">
+        <display-text><em>A</em><fn reference="1">
          <p id="_">
            <em>B</em>
          </p>
-       </fn></origin>
+       </fn></display-text></origin>
        </termsource><termsource status="identical" type="authoritative">
-       <origin bibitemid="reference" type="inline" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack>ISO 9000:2005<fn reference="2">
+       <origin bibitemid="reference" type="inline" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn reference="2">
          <p id="_">Superseded by ISO 9000:2015.</p>
-       </fn></origin>
+       </fn></display-text></origin>
        </termsource></preferred>
 
 
@@ -996,7 +1003,7 @@ RSpec.describe Metanorma::Standoc do
 
        </bibitem>
        </references></bibliography>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1048,7 +1055,7 @@ RSpec.describe Metanorma::Standoc do
                 </p>
              </clause>
           </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1064,7 +1071,7 @@ RSpec.describe Metanorma::Standoc do
         <sections>
         <p id="_">See<index><primary>See</primary></index> Index <em>term</em><index><primary><em>term</em></primary></index> and<index><primary>A<sub>B</sub></primary><secondary><stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mi>α</mi></mstyle></math><asciimath>alpha</asciimath></stem></secondary><tertiary>Ⲁ</tertiary></index>.</p>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1083,7 +1090,7 @@ RSpec.describe Metanorma::Standoc do
       <passthrough formats='rfc,html'>&lt;abc&gt;X &gt; Y&lt;/abc&gt; http://www.example.com (c)</passthrough>
       </p>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1100,7 +1107,7 @@ RSpec.describe Metanorma::Standoc do
       <sections>
       <p id='_'>&lt;abc&gt;X &gt; A<sub>b<sub>c</sub></sub> &lt;/abc&gt;</p>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1161,7 +1168,7 @@ RSpec.describe Metanorma::Standoc do
                     <referenceFrom>5</referenceFrom>
                   </locality>
                 </localityStack>
-                text
+                <display-text>text</display-text>
               </eref>
               <eref type='inline' bibitemid='ref1' citeas='XYZ'>
                 <localityStack connective='and'>
@@ -1198,7 +1205,7 @@ RSpec.describe Metanorma::Standoc do
                     <referenceFrom>5</referenceFrom>
                   </locality>
                 </localityStack>
-                text
+                <display-text>text</display-text>
               </eref>
               <eref type='inline' bibitemid='ref1' citeas='XYZ'>
                 <localityStack connective='from'>
@@ -1236,7 +1243,7 @@ RSpec.describe Metanorma::Standoc do
             </bibitem>
           </references>
         </bibliography>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
