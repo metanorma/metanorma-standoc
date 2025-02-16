@@ -26,7 +26,7 @@ RSpec.describe Metanorma::Standoc do
        </p>
       </clause>
              </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -51,7 +51,7 @@ RSpec.describe Metanorma::Standoc do
         <title>“Quotation” A’s</title>
       </clause>
              </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -81,7 +81,7 @@ RSpec.describe Metanorma::Standoc do
       </p>
       </clause>
              </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -127,7 +127,7 @@ RSpec.describe Metanorma::Standoc do
       </figure>
       </clause>
              </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -147,7 +147,7 @@ RSpec.describe Metanorma::Standoc do
       <p id="_">&lt;&amp;&gt;</p>
              </clause>
              </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -190,7 +190,7 @@ RSpec.describe Metanorma::Standoc do
              <pre id="_">((ppm))",</pre>
            </figure>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -208,7 +208,7 @@ RSpec.describe Metanorma::Standoc do
 
       </clause>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -244,7 +244,7 @@ RSpec.describe Metanorma::Standoc do
         </p>
       </fn>
       </p></sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -316,7 +316,7 @@ RSpec.describe Metanorma::Standoc do
             </dl>
           </definitions>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     doc = Asciidoctor.convert(input, *OPTIONS)
     expect(Xml::C14n.format(strip_guid(doc)))
@@ -411,7 +411,7 @@ RSpec.describe Metanorma::Standoc do
               </dl>
             </definitions>
           </sections>
-        </standard-document>
+        </metanorma>
     OUTPUT
     doc = Asciidoctor.convert(input, *OPTIONS)
     expect(Xml::C14n.format(strip_guid(doc)))
@@ -527,7 +527,7 @@ RSpec.describe Metanorma::Standoc do
              </bibitem>
            </references>
          </bibliography>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))
       .gsub(/<p id="_[^"]+">/, "").gsub("</p>", "")))
@@ -563,7 +563,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <standard-document xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}">
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                <bibdata type='standard'>
                  <title language='en' format='text/plain'>Document title</title>
                  <note type='title-footnote'>
@@ -586,7 +586,7 @@ RSpec.describe Metanorma::Standoc do
                  </ext>
                </bibdata>
                <sections> </sections>
-               </standard-document>
+               </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
@@ -619,32 +619,32 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-          <preface>
-             <note id="_2cfe95f6-7ad6-aa57-8207-6f7d7928aa8e">
-                <p id="_76d95913-a379-c60f-5144-1f09655cafa6">
+                <preface>
+             <note id="_55e11b0f-6e72-8c69-60c3-4f276a04b2cd">
+                <p id="_a877a5e9-28a1-be75-c5a6-13da74ffd20a">
                    Note which is very important
                    <xref target="a"/>
                 </p>
              </note>
-             <foreword id="_96b556cb-657c-985b-351b-ed70d8bd6fdd" obligation="informative">
+             <foreword id="_c4ed5244-dd15-eb83-1eab-e935fc376ea9" obligation="informative">
                 <title>Foreword</title>
-                <p id="_d2f825bf-3e18-6143-8777-34e59928d48c">Foreword</p>
+                <p id="_82273bb2-9729-2179-e364-4dbceaa3e7a1">Foreword</p>
              </foreword>
              <introduction id="_introduction" obligation="informative">
                 <title>Introduction</title>
-                <p id="_272021ab-1bfa-78ae-e860-ed770e36f3d2">Introduction</p>
+                <p id="_9fe8092e-7508-826b-87ab-137652bcc88a">Introduction</p>
              </introduction>
           </preface>
           <sections>
-             <admonition id="_6abb9105-854c-e79c-c351-73a56d6ca81f" type="important">
-                <p id="_69ec375e-c992-5be3-76dd-a2311f9bb6cc">Notice which is very important</p>
+             <admonition id="_6c0f0fe2-050a-efee-d118-dbe50bac31ce" type="important">
+                <p id="_076fdc2d-399b-eaae-0c30-43f9ee0c414a">Notice which is very important</p>
              </admonition>
              <clause id="_scope" type="scope" inline-header="false" obligation="normative">
                 <title>Scope</title>
-                <p id="_fdcef9f1-c898-da99-eff6-f3e6abde7799">Scope statement</p>
+                <p id="_c7deb0c6-abf2-07ec-468c-68d2ecbf922e">Scope statement</p>
              </clause>
           </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))
       .sub(/ schema-version="v[^"]+"/, ""))
@@ -694,11 +694,11 @@ RSpec.describe Metanorma::Standoc do
                <xref target='id1'/>
                <xref target='id1' style='id'/>
                <xref target='id1'/>
-               <xref target='id1' style="id">http://www.example.com</xref>
+               <xref target='id1' style="id"><display-text>http://www.example.com</display-text></xref>
              </p>
            </clause>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)

@@ -71,7 +71,7 @@ RSpec.describe Metanorma::Standoc do
           </bibitem>
         </references>
       </bibliography>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -184,7 +184,7 @@ RSpec.describe Metanorma::Standoc do
          </stem>
            </p>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -277,7 +277,7 @@ RSpec.describe Metanorma::Standoc do
                    <bookmark id='id3'/>
                  </p>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -313,7 +313,7 @@ RSpec.describe Metanorma::Standoc do
           </p>
         </clause>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -345,7 +345,7 @@ RSpec.describe Metanorma::Standoc do
              <p id='_'>Note3</p>
            </admonition>
          </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -375,7 +375,7 @@ RSpec.describe Metanorma::Standoc do
       <review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z" type="todo">
         <p id="_">Note3</p>
       </review></sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -402,7 +402,7 @@ RSpec.describe Metanorma::Standoc do
               <smallcap>B</smallcap></p>
       <p id="_">  <em>C</em></p></figure>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -437,7 +437,7 @@ RSpec.describe Metanorma::Standoc do
                    </p>
                  </figure>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -495,7 +495,7 @@ RSpec.describe Metanorma::Standoc do
              </formula>
            </figure>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -524,7 +524,7 @@ RSpec.describe Metanorma::Standoc do
              <ruby><pronunciation value="Tō" script="Latn"/>東</ruby><ruby><pronunciation value="kyō" script="Latn"/>京</ruby>
            </p>
            </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -549,7 +549,7 @@ RSpec.describe Metanorma::Standoc do
              <ruby><pronunciation value="プロテゴ"/>れ<ruby><pronunciation value="まも"/>護</ruby></ruby>!</p>
            </p>
            </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -604,7 +604,7 @@ RSpec.describe Metanorma::Standoc do
                   </p>
                   <p id="_"><fn reference="2"><ul id="_"><li><p id="_">A</p></li><li><p id="_">B</p></li><li><p id="_">C</p></li></ul></fn>. <fn reference="2"><ul id="_"><li><p id="_">A</p></li><li><p id="_">B</p></li><li><p id="_">C</p></li></ul></fn></p>
                   </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -664,7 +664,7 @@ RSpec.describe Metanorma::Standoc do
           </note>
           </p>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -764,7 +764,7 @@ RSpec.describe Metanorma::Standoc do
         </p>
       </form>
               </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -831,25 +831,25 @@ RSpec.describe Metanorma::Standoc do
       <toc>
         <ul id='_'>
           <li>
-            <xref target='clause1A'>Clause 1A</xref>
+            <xref target='clause1A'><display-text>Clause 1A</display-text></xref>
           </li>
           <li>
             <ul id='_'>
               <li>
-                <xref target='clause1Aa'>Clause 1Aa</xref>
+                <xref target='clause1Aa'><display-text>Clause 1Aa</display-text></xref>
               </li>
               <li>
-                <xref target='clause1Ab'>1Ab Clause</xref>
+                <xref target='clause1Ab'><display-text>1Ab Clause</display-text></xref>
               </li>
             </ul>
           </li>
           <li>
-            <xref target='clause1B'>Clause 1B</xref>
+            <xref target='clause1B'><display-text>Clause 1B</display-text></xref>
           </li>
           <li>
             <ul id='_'>
               <li>
-                <xref target='clause1Ba'>Clause 1Ba</xref>
+                <xref target='clause1Ba'><display-text>Clause 1Ba</display-text></xref>
               </li>
             </ul>
           </li>
@@ -858,16 +858,16 @@ RSpec.describe Metanorma::Standoc do
       <toc>
         <ul id='_'>
           <li>
-            <xref target='clause1A'>Clause 1A</xref>
+            <xref target='clause1A'><display-text>Clause 1A</display-text></xref>
           </li>
           <li>
-            <xref target='clause1B'>Clause 1B</xref>
+            <xref target='clause1B'><display-text>Clause 1B</display-text></xref>
           </li>
         </ul>
       </toc>
               </clause>
             </sections>
-                  </standard-document>
+                  </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -883,7 +883,7 @@ RSpec.describe Metanorma::Standoc do
       embed::spec/assets/xref_error.adoc[]
     INPUT
     output = <<~OUTPUT
-      <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}' flavor='standoc'>
        <bibdata type='standard'>
          <title language='en' format='text/plain'>Document title</title>
          <language>en</language>
@@ -923,11 +923,11 @@ RSpec.describe Metanorma::Standoc do
                 <clause id='_clause' inline-header='false' obligation='normative'>
                   <title>Clause</title>
                   <p id='_'>
-                    <xref target='a'>b</xref>
+                    <xref target='a'><display-text>b</display-text></xref>
                   </p>
                 </clause>
               </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
@@ -945,7 +945,7 @@ RSpec.describe Metanorma::Standoc do
       embed::spec/assets/xref_error.adoc[]
     INPUT
     output = <<~OUTPUT
-      <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}' flavor='standoc'>
               <bibdata type='standard'>
                   <title language='en' format='text/plain'>Document title</title>
           <language>en</language>
@@ -983,7 +983,7 @@ RSpec.describe Metanorma::Standoc do
                   <title>Clause</title>
                 </clause>
               </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
@@ -1004,7 +1004,7 @@ RSpec.describe Metanorma::Standoc do
       embed::spec/assets/a1.adoc[]
     INPUT
     output = <<~OUTPUT
-       <standard-document xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}'>
+       <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}' flavor='standoc'>
           <bibdata type='standard'>
             <title language='en' format='text/plain'>Document title</title>
             <language>en</language>
@@ -1094,14 +1094,14 @@ RSpec.describe Metanorma::Standoc do
             <clause id='clause1' inline-header='false' obligation='normative'>
               <title>Clause</title>
                     <p id="_">
-         <xref target="A">DOCIDENTIFIER-1</xref>
-         <xref target="A">B</xref>
+         <xref target="A"><display-text>DOCIDENTIFIER-1</display-text></xref>
+         <xref target="A"><display-text>B</display-text></xref>
        </p>
             </clause>
             <clause id='A' inline-header='false' obligation='normative'>
               <title>Clause 1</title>
                    <p id="_">
-        <xref target="B">DOCIDENTIFIER-2</xref>
+        <xref target="B"><display-text>DOCIDENTIFIER-2</display-text></xref>
       </p>
             </clause>
             <clause id='B' inline-header='false' obligation='normative'>
@@ -1133,7 +1133,7 @@ RSpec.describe Metanorma::Standoc do
               </figure>
             </clause>
           </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
@@ -1165,7 +1165,7 @@ RSpec.describe Metanorma::Standoc do
                       <referenceFrom>4</referenceFrom>
                     </locality>
                   </localityStack>
-                  text
+                  <display-text>text</display-text>
                 </eref>
               </p>
             </clause>
@@ -1276,7 +1276,7 @@ RSpec.describe Metanorma::Standoc do
               </bibitem>
             </references>
           </bibliography>
-        </standard-document>
+        </metanorma>
       OUTPUT
       expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))
                   .gsub(%r{ bibitemid="_[^"]+"}, ' bibitemid="_"')))
