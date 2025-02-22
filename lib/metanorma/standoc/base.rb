@@ -11,6 +11,14 @@ require_relative "localbib"
 require_relative "init"
 require "mn-requirements"
 
+require 'set'
+
+module Asciidoctor
+  module Compliance
+    ADMONITION_STYLES.add('EDITOR') unless ADMONITION_STYLES.include?('EDITOR')
+  end
+end
+
 module Metanorma
   module Standoc
     module Base

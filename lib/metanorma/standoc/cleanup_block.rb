@@ -119,8 +119,8 @@ module Metanorma
 
       def align_callouts_to_annotations(xmldoc)
         xmldoc.xpath("//sourcecode").each do |x|
-          callouts = x.elements.select { |e| e.name == "callout" }
-          annotations = x.elements.select { |e| e.name == "annotation" }
+          callouts = x.xpath("./body/callout")
+          annotations = x.xpath("./annotation")
           callouts.size == annotations.size and
             link_callouts_to_annotations(callouts, annotations)
         end
@@ -163,7 +163,7 @@ module Metanorma
           acc << safe_noko(a[0], node.document)
           a.size == 4 or next
           acc << Asciidoctor.convert(
-            a[2], doctype: :inline, backend: self&.backend&.to_sym || :standoc
+            a[2], doctype: :inline, backend: backend&.to_sym || :standoc
           )
         end.join
       end

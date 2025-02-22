@@ -213,13 +213,13 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
              <sections>
-               <sourcecode id="_" lang="plantuml">@startuml
+               <sourcecode id="_" lang="plantuml"><body>@startuml
       Alice -&gt; Bob: Authentication Request
       Bob --&gt; Alice: Authentication Response
 
       Alice -&gt; Bob: Another authentication Request
       Alice &lt;-- Bob: another authentication Response
-      @enduml</sourcecode>
+      @enduml</body></sourcecode>
               </sections>
              </metanorma>
     OUTPUT
@@ -264,13 +264,13 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
              <sections>
-               <sourcecode id="_" lang="plantuml">@startuml
+               <sourcecode id="_" lang="plantuml"><body>@startuml
       Alice -&gt; Bob: Authentication Request
       Bob --&gt; Alice: Authentication Response
 
       Alice -&gt; Bob: Another authentication Request
       Alice &lt;-- Bob: another authentication Response
-      @enduml</sourcecode>
+      @enduml</body></sourcecode>
               </sections>
              </metanorma>
     OUTPUT
@@ -297,12 +297,12 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
              <sections>
-               <sourcecode id="_" lang="plantuml">@startuml
+               <sourcecode id="_" lang="plantuml"><body>@startuml
       Alice -&gt; Bob: Authentication Request
       Bob --&gt; Alice: Authentication Response
 
       Alice -&gt; Bob: Another authentication Request
-      Alice &lt;-- Bob: another authentication Response</sourcecode>
+      Alice &lt;-- Bob: another authentication Response</body></sourcecode>
               </sections>
              </metanorma>
     OUTPUT

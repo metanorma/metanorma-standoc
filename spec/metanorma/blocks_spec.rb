@@ -1511,15 +1511,15 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
        <sections>
          <sourcecode id="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' linenums='true'>
-        <name>Caption</name>puts "Hello, world."
+        <name>Caption</name><body>puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
-       end</sourcecode>
-         <sourcecode id="_">
+       end</body></sourcecode>
+         <sourcecode id="_"><body>
         puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
-       end</sourcecode>
+       end</body></sourcecode>
        </sections>
        </metanorma>
     OUTPUT
@@ -1554,15 +1554,15 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
        <sections>
          <sourcecode id="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' linenums='true'>
-        <name>Caption</name>puts "Hello, world."
+        <name>Caption</name><body>puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
-       end</sourcecode>
-         <sourcecode id="_" linenums='true'>
+       end</body></sourcecode>
+         <sourcecode id="_" linenums='true'><body>
         puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
-       end</sourcecode>
+       end</body></sourcecode>
        </sections>
        </metanorma>
     OUTPUT
@@ -1585,10 +1585,10 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-              <sections><sourcecode id="_" lang="ruby">puts "Hello, world." <callout target="_">1</callout>
+              <sections><sourcecode id="_" lang="ruby"><body>puts "Hello, world." <callout target="_">1</callout>
        %w{a b c}.each do |x|
          puts x <callout target="_">2</callout>
-       end<annotation id="_">
+       end</body><annotation id="_">
          <p id="_">This is one callout</p>
        </annotation><annotation id="_">
          <p id="_">This is another callout</p>
