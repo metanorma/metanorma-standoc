@@ -592,6 +592,21 @@ RSpec.describe Metanorma::Standoc do
     xml.at("//xmlns:metanorma-extension")&.remove
     expect(Xml::C14n.format(strip_guid(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
+
+    input = <<~INPUT
+      = XXXX
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :title-en: Document title footnote:[ABC] footnote:[DEF]
+
+    INPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "creates content-based GUIDs" do
@@ -952,7 +967,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to(Xml::C14n.format(output))
   end
 
-  it "reads contributors from YAML" do
+  it "reads contributors from YAML, simple" do
     input = <<~INPUT
       = X
       A
@@ -1039,7 +1054,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to(Xml::C14n.format(output))
   end
 
-  it "reads contributors from YAML" do
+  it "reads contributors from YAML, complex" do
     input = <<~INPUT
       = X
       A
