@@ -56,7 +56,7 @@ module Metanorma
         elsif depth < entry[:depth]
           ret += "<li><ul>" * (entry[:depth] - depth)
         end
-        ret + "<li><xref target='#{entry[:target]}'>#{entry[:text]}</xref></li>"
+        ret + "<li><xref target='#{entry[:target]}'><display-text>#{entry[:text]}</display-text></xref></li>"
       end
 
       def toc_cleanup_clause(xmldoc)
@@ -70,10 +70,10 @@ module Metanorma
       end
 
       def toc_cleanup_clause_entry(xmldoc, list)
-        list.xpath(".//xref[not(text())]").each do |x|
+        list.xpath(".//xref[not(text())][not(display-text)]").each do |x|
           c1 = xmldoc.at("//*[@id = '#{x['target']}']")
           t = c1.at("./variant-title[@type = 'toc']") || c1.at("./title")
-          x << t.dup.children
+          x << "<display-text>#{to_xml(t.dup.children)}</display-text>"
         end
       end
 

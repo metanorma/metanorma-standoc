@@ -183,7 +183,7 @@ RSpec.describe Metanorma::Standoc do
           <p id='_'>Terms are defined here</p>
         </clause>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -282,17 +282,17 @@ RSpec.describe Metanorma::Standoc do
                <concept>
                  <refterm>word</refterm>
                  <renderterm>term</renderterm>
-                 <xref target='Clause2'>xref</xref>
+                 <xref target='Clause2'><display-text>xref</display-text></xref>
                </concept>
                 <concept ital='false' ref='false' linkmention='false' linkref='false'>
                   <refterm>word</refterm>
                   <renderterm>term</renderterm>
-                  <xref target='Clause2'>xref</xref>
+                  <xref target='Clause2'><display-text>xref</display-text></xref>
                 </concept>
                 <concept ital='true' ref='true' linkmention='true' linkref='true'>
                  <refterm>word</refterm>
                  <renderterm>term</renderterm>
-                 <xref target='Clause2'>xref</xref>
+                 <xref target='Clause2'><display-text>xref</display-text></xref>
                </concept>
                    </p>
                  </foreword>
@@ -319,7 +319,7 @@ RSpec.describe Metanorma::Standoc do
                    </dl>
                  </definitions>
                </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -361,7 +361,7 @@ RSpec.describe Metanorma::Standoc do
                <concept>
                  <refterm>term</refterm>
                  <renderterm>w[o]rd</renderterm>
-                 <xref target='clause1'>Clause #1</xref>
+                 <xref target='clause1'><display-text>Clause #1</display-text></xref>
                </concept>
              </p>
                    <related type='supersedes'>
@@ -380,7 +380,7 @@ RSpec.describe Metanorma::Standoc do
           <p id='_'>Terms are defined here</p>
         </clause>
       </sections>
-            </standard-document>
+            </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -452,7 +452,7 @@ RSpec.describe Metanorma::Standoc do
              </term>
            </terms>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -606,7 +606,7 @@ RSpec.describe Metanorma::Standoc do
              </bibitem>
            </references>
          </bibliography>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -654,7 +654,7 @@ RSpec.describe Metanorma::Standoc do
             <termref base='IEV' target='135-13-13'/>
           </related>
         </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -708,7 +708,7 @@ RSpec.describe Metanorma::Standoc do
              </dl>
            </definitions>
          </sections>
-       </standard-document>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -775,11 +775,11 @@ RSpec.describe Metanorma::Standoc do
             <name>name</name>
           </expression>
         </preferred>
-          <xref target='term-name'>name</xref>
+          <xref target='term-name'><display-text>name</display-text></xref>
           </related>
           </clause>
         </sections>
-        </standard-document>
+        </metanorma>
       XML
     end
 
@@ -834,7 +834,7 @@ RSpec.describe Metanorma::Standoc do
               </p>
             </clause>
           </sections>
-          </standard-document>
+          </metanorma>
         XML
       end
 
@@ -895,7 +895,7 @@ RSpec.describe Metanorma::Standoc do
               </p>
             </clause>
           </sections>
-          </standard-document>
+          </metanorma>
         XML
       end
 
@@ -976,7 +976,7 @@ RSpec.describe Metanorma::Standoc do
               </p>
             </clause>
           </sections>
-          </standard-document>
+          </metanorma>
         XML
       end
 
@@ -1097,7 +1097,7 @@ RSpec.describe Metanorma::Standoc do
                   </term>
                 </terms>
               </sections>
-            </standard-document>
+            </metanorma>
         XML
       end
 

@@ -48,7 +48,7 @@ RSpec.describe Metanorma::Standoc do
         <image src="plantuml/filename.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
               </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))
       .gsub(%r{plantuml/plantuml[^./]+\.}, "plantuml/_.")))
@@ -84,7 +84,7 @@ RSpec.describe Metanorma::Standoc do
         <image src="spec/assets/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       </sections>
-      </standard-document>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))
       .gsub(%r{spec/assets/[^./]+\.}, "spec/assets/_.")))
@@ -121,7 +121,7 @@ RSpec.describe Metanorma::Standoc do
           <image src="spec/assets/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
           </figure>
           </sections>
-          </standard-document>
+          </metanorma>
       OUTPUT
     end
 
@@ -161,7 +161,7 @@ RSpec.describe Metanorma::Standoc do
         <image src="spec/assets/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
         </figure>
         </sections>
-        </standard-document>
+        </metanorma>
       TEXT
     end
 
@@ -173,75 +173,6 @@ RSpec.describe Metanorma::Standoc do
                 "spec/assets/_.png"),
         ),
       ).to(be_equivalent_to(Xml::C14n.format(output)))
-    end
-  end
-
-  context "when lutaml_uml_attributes_table" do
-    let(:example_file) { fixtures_path("diagram_definitions.lutaml") }
-    let(:input) do
-      <<~"OUTPUT"
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
-        :novalid:
-        :no-isobib:
-        :imagesdir: spec/assets
-
-        [lutaml_uml_attributes_table,#{example_file},AttributeProfile]
-      OUTPUT
-    end
-    let(:output) do
-      <<~"OUTPUT"
-        #{BLANK_HDR}
-          <sections>
-            <clause id='_attributeprofile' inline-header='false' obligation='normative'>
-              <title>AttributeProfile</title>
-              <table id='_'>
-                <name>AttributeProfile attributes</name>
-                <thead>
-                  <tr>
-                    <th valign='top' align='left'>Name</th>
-                    <th valign='top' align='left'>Definition</th>
-                    <th valign='top' align='left'>Mandatory / Optional / Conditional</th>
-                    <th valign='top' align='left'>Max Occur</th>
-                    <th valign='top' align='left'>Data Type</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td valign='top' align='left'>addressClassProfile</td>
-                    <td valign='top' align='left'></td>
-                    <td valign='top' align='left'>O</td>
-                    <td valign='top' align='left'>1</td>
-                    <td valign='top' align='left'>
-                      <tt>CharacterString</tt>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td valign='top' align='left'>imlicistAttributeProfile</td>
-                    <td valign='top' align='left'>this is attribute definition with multiply lines</td>
-                    <td valign='top' align='left'>O</td>
-                    <td valign='top' align='left'>1</td>
-                    <td valign='top' align='left'>
-                      <tt>CharacterString</tt>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </clause>
-          </sections>
-          </standard-document>
-      OUTPUT
-    end
-
-    it "processes the lutaml_uml_attributes_table macro" do
-      expect(
-        Xml::C14n.format(
-          strip_guid(Asciidoctor.convert(input, *OPTIONS)),
-        ),
-      )
-        .to(be_equivalent_to(Xml::C14n.format(output)))
     end
   end
 
@@ -290,7 +221,7 @@ RSpec.describe Metanorma::Standoc do
       Alice &lt;-- Bob: another authentication Response
       @enduml</sourcecode>
               </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -341,7 +272,7 @@ RSpec.describe Metanorma::Standoc do
       Alice &lt;-- Bob: another authentication Response
       @enduml</sourcecode>
               </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -373,7 +304,7 @@ RSpec.describe Metanorma::Standoc do
       Alice -&gt; Bob: Another authentication Request
       Alice &lt;-- Bob: another authentication Response</sourcecode>
               </sections>
-             </standard-document>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)

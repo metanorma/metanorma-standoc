@@ -14,18 +14,20 @@ require "mn-requirements"
 module Metanorma
   module Standoc
     module Base
-      XML_ROOT_TAG = "standard-document".freeze
-      XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
+      #XML_ROOT_TAG = "standard-document".freeze
+      #XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
       FONTS_MANIFEST = "fonts-manifest".freeze
 
       attr_accessor :log
 
       def xml_root_tag
-        self.class::XML_ROOT_TAG
+        #self.class::XML_ROOT_TAG
+        "metanorma"
       end
 
       def xml_namespace
-        self.class::XML_NAMESPACE
+        #self.class::XML_NAMESPACE
+        "https://www.metanorma.org/ns/standoc"
       end
 
       def document(node)
@@ -87,7 +89,8 @@ module Metanorma
       def makexml1(node)
         result = ["<?xml version='1.0' encoding='UTF-8'?>",
                   "<#{xml_root_tag} type='semantic' version='#{version}' " \
-                  "schema-version='#{schema_version}'>"]
+                  "schema-version='#{schema_version}' " \
+                  "flavor='#{processor.new.asciidoctor_backend}'>"]
         result << noko { |ixml| front node, ixml }
         result << noko { |ixml| middle node, ixml }
         result << "</#{xml_root_tag}>"
