@@ -563,7 +563,6 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                <bibdata type='standard'>
                  <title language='en' format='text/plain'>Document title</title>
                  <note type='title-footnote'>
@@ -585,11 +584,24 @@ RSpec.describe Metanorma::Standoc do
             <flavor>standoc</flavor>
                  </ext>
                </bibdata>
-               <sections> </sections>
-               </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    xml.at("//xmlns:metanorma-extension")&.remove
+    xml = xml.at("//xmlns:bibdata")
+    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+      .to be_equivalent_to Xml::C14n.format(output)
+
+    input = <<~INPUT
+      = XXXX
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :title-en: Document title footnote:[ABC] footnote:[DEF]
+
+    INPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml = xml.at("//xmlns:bibdata")
     expect(Xml::C14n.format(strip_guid(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
@@ -952,7 +964,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to(Xml::C14n.format(output))
   end
 
-  it "reads contributors from YAML" do
+  it "reads contributors from YAML, simple" do
     input = <<~INPUT
       = X
       A
@@ -1039,7 +1051,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to(Xml::C14n.format(output))
   end
 
-  it "reads contributors from YAML" do
+  it "reads contributors from YAML, complex" do
     input = <<~INPUT
       = X
       A
