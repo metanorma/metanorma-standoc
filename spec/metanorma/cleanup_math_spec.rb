@@ -578,18 +578,7 @@ RSpec.describe Metanorma::Standoc do
 
       stem:[1 "unitsml(cd)"]
 
-      [stem]
-      ++++
-      <math xmlns='http://www.w3.org/1998/Math/MathML'>
-        <mrow>
-        <mn>7</mn>
-        <mtext>unitsml(m*kg^-2)</mtext>
-        <mo>+</mo>
-        <mn>8</mn>
-        <mtext>unitsml(m*kg^-3)</mtext>
-        </mrow>
-      </math>
-      ++++
+      stem:[7 "unitsml(m*kg^-2)" + 8 "unitsml(m*kg^-3)"]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR.sub('<metanorma-extension>', <<~EXT
