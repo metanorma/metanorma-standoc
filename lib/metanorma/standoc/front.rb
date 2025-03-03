@@ -217,9 +217,9 @@ module Metanorma
         ["en"].each do |lang|
           at = { language: lang, format: "text/plain" }
           xml.title **attr_code(at) do |t|
-            title = Metanorma::Utils::asciidoc_sub(node.attr("title") ||
-                                                 node.attr("title-en"))
-            t << (title || node.title)
+            title = Metanorma::Utils::asciidoc_sub(
+              node.attr("title") || node.attr("title-en") || node.attr("doctitle"))
+            t << title
           end
         end
       end

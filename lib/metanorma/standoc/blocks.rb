@@ -201,7 +201,9 @@ module Metanorma
         fragment = ::Nokogiri::XML::Builder.new do |xml|
           xml.sourcecode **listing_attrs(node) do |s|
             figure_title(node, s)
-            s << node.content
+            s.body do |b|
+              b << node.content
+            end
           end
         end
         fragment.to_xml(encoding: "US-ASCII", save_with:

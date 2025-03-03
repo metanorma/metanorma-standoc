@@ -803,202 +803,202 @@ RSpec.describe Metanorma::Standoc do
                <title>Section</title>
              </clause>
            </sections>
-                    <bibliography>
-            <references id="_bibliography" normative="false" obligation="informative">
-              <title>Bibliography</title>
-              <bibitem id="ref1" type="inbook">
-                <fetched/>
-                <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
-                <uri type="DOI">https://doi.org/10.1515/9783110889406.257</uri>
-                <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
-                <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
-                <docidentifier type="ISBN">9783110170269</docidentifier>
-                <date type="issued">
-                  <on>2001-12-31</on>
-                </date>
-                <date type="published">
-                  <on>2001-12-31</on>
-                </date>
-                <contributor>
-                  <role type="author"/>
-                  <person>
-                    <name>
-                      <forename language="en" script="Latn">Monica</forename>
-                      <surname language="en" script="Latn">Heller</surname>
-                    </name>
-                  </person>
-                </contributor>
-                <contributor>
-                  <role type="publisher"/>
-                  <organization>
-                    <name>DE GRUYTER MOUTON</name>
-                  </organization>
-                </contributor>
-                <relation type="includedIn">
-                  <bibitem>
-                    <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
-                    <contributor>
+          <bibliography>
+             <references id="_bibliography" normative="false" obligation="informative">
+                <title>Bibliography</title>
+                <bibitem id="ref1" type="inbook">
+                   <fetched/>
+                   <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
+                   <uri type="DOI">https://doi.org/10.1515/9783110889406.257</uri>
+                   <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
+                   <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
+                   <docidentifier type="ISBN">9783110170269</docidentifier>
+                   <date type="issued">
+                      <on>2001-12-31</on>
+                   </date>
+                   <date type="published">
+                      <on>2001-12-31</on>
+                   </date>
+                   <contributor>
+                      <role type="author"/>
+                      <person>
+                         <name>
+                            <forename language="en" script="Latn">Monica</forename>
+                            <surname language="en" script="Latn">Heller</surname>
+                         </name>
+                      </person>
+                   </contributor>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>DE GRUYTER MOUTON</name>
+                      </organization>
+                   </contributor>
+                   <relation type="includedIn">
+                      <bibitem>
+                         <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
+                         <contributor>
+                            <role type="editor"/>
+                            <person>
+                               <name>
+                                  <forename language="en" script="Latn">Aneta</forename>
+                                  <surname language="en" script="Latn">Pavlenko</surname>
+                               </name>
+                            </person>
+                         </contributor>
+                         <contributor>
+                            <role type="editor"/>
+                            <person>
+                               <name>
+                                  <forename language="en" script="Latn">Adrian</forename>
+                                  <surname language="en" script="Latn">Blackledge</surname>
+                               </name>
+                            </person>
+                         </contributor>
+                         <contributor>
+                            <role type="editor"/>
+                            <person>
+                               <name>
+                                  <forename language="en" script="Latn">Ingrid</forename>
+                                  <surname language="en" script="Latn">Piller</surname>
+                               </name>
+                            </person>
+                         </contributor>
+                         <contributor>
+                            <role type="editor"/>
+                            <person>
+                               <name>
+                                  <forename language="en" script="Latn">Marya</forename>
+                                  <surname language="en" script="Latn">Teutsch-Dwyer</surname>
+                               </name>
+                            </person>
+                         </contributor>
+                      </bibitem>
+                   </relation>
+                   <extent>
+                      <locality type="page">
+                         <referenceFrom>257</referenceFrom>
+                         <referenceTo>282</referenceTo>
+                      </locality>
+                   </extent>
+                </bibitem>
+                <bibitem id="ref2" type="book">
+                   <fetched/>
+                   <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
+                   <uri type="DOI">https://doi.org/10.1515/9783110889406.257</uri>
+                   <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
+                   <docidentifier type="DOI">DOI-ANON</docidentifier>
+                   <docidentifier type="ISBN">9783110170269</docidentifier>
+                   <date type="issued">
+                      <on>1234</on>
+                   </date>
+                   <date type="published">
+                      <on>2001-12-31</on>
+                   </date>
+                   <contributor>
+                      <role type="author"/>
+                      <person>
+                         <name>
+                            <forename language="en" script="Latn">Monica</forename>
+                            <surname language="en" script="Latn">Heller</surname>
+                         </name>
+                      </person>
+                   </contributor>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>DE GRUYTER MOUTON</name>
+                      </organization>
+                   </contributor>
+                   <contributor>
                       <role type="editor"/>
                       <person>
-                        <name>
-                          <forename language="en" script="Latn">Aneta</forename>
-                          <surname language="en" script="Latn">Pavlenko</surname>
-                        </name>
+                         <name>
+                            <forename>Boris</forename>
+                            <surname>Johnson</surname>
+                         </name>
                       </person>
-                    </contributor>
-                    <contributor>
-                      <role type="editor"/>
-                      <person>
-                        <name>
-                          <forename language="en" script="Latn">Adrian</forename>
-                          <surname language="en" script="Latn">Blackledge</surname>
-                        </name>
-                      </person>
-                    </contributor>
-                    <contributor>
-                      <role type="editor"/>
-                      <person>
-                        <name>
-                          <forename language="en" script="Latn">Ingrid</forename>
-                          <surname language="en" script="Latn">Piller</surname>
-                        </name>
-                      </person>
-                    </contributor>
-                    <contributor>
-                      <role type="editor"/>
-                      <person>
-                        <name>
-                          <forename language="en" script="Latn">Marya</forename>
-                          <surname language="en" script="Latn">Teutsch-Dwyer</surname>
-                        </name>
-                      </person>
-                    </contributor>
-                  </bibitem>
-                </relation>
-                <extent>
-                    <locality type="page">
-                      <referenceFrom>257</referenceFrom>
-                      <referenceTo>282</referenceTo>
-                    </locality>
-                </extent>
-              </bibitem>
-              <bibitem id="ref2" type="book">
-                <fetched/>
-                <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
-                <uri type="DOI">https://doi.org/10.1515/9783110889406.257</uri>
-                <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
-                <docidentifier type="DOI">DOI-ANON</docidentifier>
-                <docidentifier type="ISBN">9783110170269</docidentifier>
-                <date type="issued">
-                  <on>1234</on>
-                </date>
-                <date type="published">
-                  <on>2001-12-31</on>
-                </date>
-                <contributor>
-                  <role type="author"/>
-                  <person>
-                    <name>
-                      <forename language="en" script="Latn">Monica</forename>
-                      <surname language="en" script="Latn">Heller</surname>
-                    </name>
-                  </person>
-                </contributor>
-                <contributor>
-                  <role type="publisher"/>
-                  <organization>
-                    <name>DE GRUYTER MOUTON</name>
-                  </organization>
-                </contributor>
-                <contributor>
-                  <role type="editor"/>
-                  <person>
-                    <name>
-                      <forename>Boris</forename>
-                      <surname>Johnson</surname>
-                    </name>
-                  </person>
-                </contributor>
-                            <relation type="includedIn">
-               <bibitem>
-                  <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
-                  <contributor>
-                     <role type="editor"/>
-                     <person>
-                        <name>
-                           <forename language="en" script="Latn">Aneta</forename>
-                           <surname language="en" script="Latn">Pavlenko</surname>
-                        </name>
-                     </person>
-                  </contributor>
-                  <contributor>
-                     <role type="editor"/>
-                     <person>
-                        <name>
-                           <forename language="en" script="Latn">Adrian</forename>
-                           <surname language="en" script="Latn">Blackledge</surname>
-                        </name>
-                     </person>
-                  </contributor>
-                  <contributor>
-                     <role type="editor"/>
-                     <person>
-                        <name>
-                           <forename language="en" script="Latn">Ingrid</forename>
-                           <surname language="en" script="Latn">Piller</surname>
-                        </name>
-                     </person>
-                  </contributor>
-                  <contributor>
-                     <role type="editor"/>
-                     <person>
-                        <name>
-                           <forename language="en" script="Latn">Marya</forename>
-                           <surname language="en" script="Latn">Teutsch-Dwyer</surname>
-                        </name>
-                     </person>
-                  </contributor>
-               </bibitem>
-            </relation>
-                <relation type="includedIn">
-                  <bibitem type="misc">
-                    <title format="text/plain">Nested Title</title>
-                    <contributor>
-                      <role type="editor"/>
-                      <person>
-                        <name>
-                          <forename>John</forename>
-                          <surname>Jones</surname>
-                        </name>
-                      </person>
-                    </contributor>
-                    <contributor>
-                      <role type="editor"/>
-                      <person>
-                        <name>
-                          <forename>Jim</forename>
-                          <surname>James</surname>
-                        </name>
-                      </person>
-                    </contributor>
-                  </bibitem>
-                </relation>
-                <place>Vienna</place>
-                <extent>
-                  <localityStack>
-                    <locality type="page">
-                      <referenceFrom>257</referenceFrom>
-                      <referenceTo>282</referenceTo>
-                    </locality>
-                    <locality type="volume">
-                      <referenceFrom>2</referenceFrom>
-                    </locality>
-                  </localityStack>
-                </extent>
-              </bibitem>
-            </references>
+                   </contributor>
+                   <relation type="includedIn">
+                      <bibitem>
+                         <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
+                         <contributor>
+                            <role type="editor"/>
+                            <person>
+                               <name>
+                                  <forename language="en" script="Latn">Aneta</forename>
+                                  <surname language="en" script="Latn">Pavlenko</surname>
+                               </name>
+                            </person>
+                         </contributor>
+                         <contributor>
+                            <role type="editor"/>
+                            <person>
+                               <name>
+                                  <forename language="en" script="Latn">Adrian</forename>
+                                  <surname language="en" script="Latn">Blackledge</surname>
+                               </name>
+                            </person>
+                         </contributor>
+                         <contributor>
+                            <role type="editor"/>
+                            <person>
+                               <name>
+                                  <forename language="en" script="Latn">Ingrid</forename>
+                                  <surname language="en" script="Latn">Piller</surname>
+                               </name>
+                            </person>
+                         </contributor>
+                         <contributor>
+                            <role type="editor"/>
+                            <person>
+                               <name>
+                                  <forename language="en" script="Latn">Marya</forename>
+                                  <surname language="en" script="Latn">Teutsch-Dwyer</surname>
+                               </name>
+                            </person>
+                         </contributor>
+                      </bibitem>
+                   </relation>
+                   <relation type="includedIn">
+                      <bibitem type="misc">
+                         <title format="text/plain">Nested Title</title>
+                         <contributor>
+                            <role type="editor"/>
+                            <person>
+                               <name>
+                                  <forename>John</forename>
+                                  <surname>Jones</surname>
+                               </name>
+                            </person>
+                         </contributor>
+                         <contributor>
+                            <role type="editor"/>
+                            <person>
+                               <name>
+                                  <forename>Jim</forename>
+                                  <surname>James</surname>
+                               </name>
+                            </person>
+                         </contributor>
+                      </bibitem>
+                   </relation>
+                   <place>Vienna</place>
+                   <extent>
+                      <localityStack>
+                         <locality type="page">
+                            <referenceFrom>257</referenceFrom>
+                            <referenceTo>282</referenceTo>
+                         </locality>
+                         <locality type="volume">
+                            <referenceFrom>2</referenceFrom>
+                         </locality>
+                      </localityStack>
+                   </extent>
+                </bibitem>
+             </references>
           </bibliography>
-        </metanorma>
+       </metanorma>
       OUTPUT
       expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to Xml::C14n.format(output)
