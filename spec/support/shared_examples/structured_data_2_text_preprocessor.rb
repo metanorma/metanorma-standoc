@@ -354,15 +354,15 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             <sections>
               <clause id='_0_1_lorem_lorem' inline-header='false' obligation='normative'>
                 <title>0 → 1 lorem == lorem</title>
-                <sourcecode lang='ruby' id='_'>link:doc-0.rb[role=include]</sourcecode>
+                <sourcecode lang='ruby' id='_'><body>link:doc-0.rb[role=include]</body></sourcecode>
               </clause>
               <clause id='_1_2_ipsum_ipsum' inline-header='false' obligation='normative'>
                 <title>1 → 2 ipsum == ipsum</title>
-                <sourcecode lang='ruby' id='_'>link:doc-1.rb[role=include]</sourcecode>
+                <sourcecode lang='ruby' id='_'><body>link:doc-1.rb[role=include]</body></sourcecode>
               </clause>
               <clause id='_2_3_dolor_dolor' inline-header='false' obligation='normative'>
                 <title>2 → 3 dolor == dolor</title>
-                <sourcecode lang='ruby' id='_'>link:doc-2.rb[role=include]</sourcecode>
+                <sourcecode lang='ruby' id='_'><body>link:doc-2.rb[role=include]</body></sourcecode>
               </clause>
             </sections>
           </standard-document>
