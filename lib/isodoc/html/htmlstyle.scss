@@ -29,7 +29,7 @@ $docstage-colors-list: (
   retired: #2E382E
 );
 
-@import 'base_style/all';
+@use 'base_style/all' as *;
 
 /*
     1. HTML & Body
@@ -92,24 +92,6 @@ nav {
   @include sidebarNavToggle(white, #C70039)
 }
 
-@media screen and (min-width: 768px) {
-  .container {
-    padding-left: 360px;
-  }
-
-  .rule.toc {
-    display: none;
-  }
-
-  h1.toc-contents {
-    margin-top: 1em;
-  }
-
-  ul#toc-list, ul#toc-list > :is(.h1, .h2, .h3, .h4, .h5, .h6) {
-    padding: 0;
-    margin: 0;
-  }
-}
 
 div.figure {
   @include figureBlock();
@@ -642,6 +624,27 @@ To top button
 @page {
   margin: 2cm 1cm;
 }
+
+
+@media screen and (min-width: 768px) {
+  .container {
+    padding-left: 360px;
+  }
+
+  .rule.toc {
+    display: none;
+  }
+
+  h1.toc-contents {
+    margin-top: 1em;
+  }
+
+  ul#toc-list, ul#toc-list > :is(.h1, .h2, .h3, .h4, .h5, .h6) {
+    padding: 0;
+    margin: 0;
+  }
+}
+
 
 @media print {
   .document-info,  nav, .copyright {
