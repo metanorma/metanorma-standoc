@@ -118,9 +118,21 @@ module Metanorma
         fnote.children = "[ERROR]"
       end
 
+      def process_hidden_footnotes(xmldoc)
+        xmldoc.xpath("//fn").each do |fn|
+          first_text = fn.xpath(".//text()")
+            .find { |node| !node.text.strip.empty? } or return
+          if first_text.text.strip.start_with?("hiddenref%")
+            first_text.content = first_text.text.sub(/^hiddenref%/, "")
+            fn["hiddenref"] = true
+          end
+        end
+      end
+
       def footnote_cleanup(xmldoc)
         footnote_block_cleanup(xmldoc)
         title_footnote_move(xmldoc)
+        process_hidden_footnotes(xmldoc)
         table_footnote_renumber(xmldoc)
         other_footnote_renumber(xmldoc)
         xmldoc.xpath("//fn").each do |fn|
