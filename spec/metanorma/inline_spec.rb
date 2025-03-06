@@ -1018,10 +1018,12 @@ RSpec.describe Metanorma::Standoc do
 
       Hello.footnote:abc[This is a repeated footnote (((a)))]
 
+      Hidden reference.footnote:[hiddenref%Another footnote]
+
       Repetition.footnote:abc[]
     INPUT
     output = <<~OUTPUT
-                  #{BLANK_HDR}
+      #{BLANK_HDR}
                     <preface><foreword id="_" obligation="informative">
                <title>Foreword</title>
                <p id="_">Hello!<fn reference="1">
@@ -1047,7 +1049,13 @@ RSpec.describe Metanorma::Standoc do
                       </p>
                    </fn>
                 </p>
-                <p id="_">
+          <p id="_">
+            Hidden reference.
+            <fn reference="4" hiddenref="true">
+               <p id="_">Another footnote</p>
+            </fn>
+         </p>
+               <p id="_">
                    Repetition.
                    <fn reference="3">
                       <p id="_">This is a repeated footnote </p>
