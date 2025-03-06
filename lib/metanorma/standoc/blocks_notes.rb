@@ -90,8 +90,10 @@ module Metanorma
       end
 
       def admonition_name(node)
-        ret = node.attr("type") || node.attr("name")
-        ret&.downcase
+        ret = node.attr("type") || node.attr("name") or return
+        ret = ret.downcase
+        ret == "editor" and ret = "editorial"
+        ret
       end
 
       def admonition(node)

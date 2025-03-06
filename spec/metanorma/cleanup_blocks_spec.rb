@@ -125,14 +125,14 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
              <sections>
-        <sourcecode id='_'>&lt;tag/&gt;</sourcecode>
-        <sourcecode id='A'>
+        <sourcecode id='_'><body>&lt;tag/&gt;</body></sourcecode>
+        <sourcecode id='A'><body>
           var
           <strong>x</strong>
            :
           <xref target='A'><display-text>recursive</display-text></xref>
            &lt;tag/&gt;
-        </sourcecode>
+        </body></sourcecode>
       </sections>
              </metanorma>
     OUTPUT
@@ -162,12 +162,12 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
              <sections>
-        <sourcecode id='A'>
+        <sourcecode id='A'><body>
           var
           <strong>x</strong>
            :
           <xref target='A'><display-text>recursive</display-text></xref>
-        </sourcecode>
+        </body></sourcecode>
       </sections>
              </metanorma>
     OUTPUT
@@ -355,9 +355,9 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-             <sections><sourcecode id="_" lang="ruby">[1...x].each do |y|
+             <sections><sourcecode id="_" lang="ruby"><body>[1...x].each do |y|
         puts y
-      end</sourcecode>
+      end</body></sourcecode>
       <note id="_">
         <p id="_">That loop does not do much</p>
       </note></sections>
@@ -1259,13 +1259,13 @@ RSpec.describe Metanorma::Standoc do
                <figure id="_">
                  <pre id="_">A</pre>
                </figure>
-               <sourcecode id="_" unnumbered="true">A</sourcecode>
+               <sourcecode id="_" unnumbered="true"><body>A</body></sourcecode>
                <example id="_">
                  <p id="_">A</p>
                </example>
-               <sourcecode id="_" unnumbered="true">B</sourcecode>
-               <sourcecode id="block" unnumbered="false">C</sourcecode>
-               <sourcecode id="_block" unnumbered="true">D</sourcecode>
+               <sourcecode id="_" unnumbered="true"><body>B</body></sourcecode>
+               <sourcecode id="block" unnumbered="false"><body>C</body></sourcecode>
+               <sourcecode id="_block" unnumbered="true"><body>D</body></sourcecode>
              </clause>
            </sections>
            <annex id="_appendix" inline-header="false" obligation="normative">
@@ -1273,7 +1273,7 @@ RSpec.describe Metanorma::Standoc do
              <figure id="_">
                <pre id="_">A</pre>
              </figure>
-             <sourcecode id="_" unnumbered="true">A</sourcecode>
+             <sourcecode id="_" unnumbered="true"><body>A</body></sourcecode>
            </annex>
          </metanorma>
     OUTPUT
@@ -1352,7 +1352,7 @@ RSpec.describe Metanorma::Standoc do
 
        <p id="_">读写汉字<em>学</em>中文</p>
 
-       <sourcecode id="_" lang="json">{
+       <sourcecode id="_" lang="json"><body>{
            "links": [
            ...
            {
@@ -1361,7 +1361,7 @@ RSpec.describe Metanorma::Standoc do
              "type": "application/json"
            }
          ]
-       }</sourcecode>
+       }</body></sourcecode>
 
        </example>
        </clause>

@@ -11,8 +11,8 @@ module Metanorma
 
       def sourcecode_style(root)
         root.xpath("//sourcecode").each do |x|
-          callouts = x.elements.select { |e| e.name == "callout" }
-          annotations = x.elements.select { |e| e.name == "annotation" }
+          callouts = x.xpath("./body/callout")
+          annotations = x.xpath("./annotation")
           callouts_error(x, callouts, annotations)
         end
       end

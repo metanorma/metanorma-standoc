@@ -44,6 +44,7 @@ module Metanorma
       on_contexts :example, :paragraph
 
       def process(parent, reader, attrs)
+        require "debug"; binding.b
         attrs["name"] = "editorial"
         attrs["caption"] = "EDITOR"
         create_block(parent, :admonition, reader.lines, attrs,

@@ -121,7 +121,7 @@ RSpec.describe Metanorma::Standoc do
       <p id="_">
         <tt>"quote" A’s</tt>
       </p>
-      <sourcecode id="_">"quote" A's</sourcecode>
+      <sourcecode id="_"><body>"quote" A's</body></sourcecode>
       <figure id='_' class='pseudocode'>
         <p id='_'>"quote" A's</p>
       </figure>
@@ -499,9 +499,9 @@ RSpec.describe Metanorma::Standoc do
                <name>
                  See
                  <eref type='inline' bibitemid='L__xf6_wner2016' citeas='Löwner&#xa0;et&#xa0;al.&#xa0;2016'/>
-               </name>
+               </name><body>
                ABC
-             </sourcecode>
+             </body></sourcecode>
            </clause>
          </sections>
          <bibliography>
@@ -563,7 +563,6 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                <bibdata type='standard'>
                  <title language='en' format='text/plain'>Document title</title>
                  <note type='title-footnote'>
@@ -585,11 +584,24 @@ RSpec.describe Metanorma::Standoc do
             <flavor>standoc</flavor>
                  </ext>
                </bibdata>
-               <sections> </sections>
-               </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    xml.at("//xmlns:metanorma-extension")&.remove
+    xml = xml.at("//xmlns:bibdata")
+    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+      .to be_equivalent_to Xml::C14n.format(output)
+
+    input = <<~INPUT
+      = XXXX
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :title-en: Document title footnote:[ABC] footnote:[DEF]
+
+    INPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml = xml.at("//xmlns:bibdata")
     expect(Xml::C14n.format(strip_guid(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
@@ -904,13 +916,13 @@ RSpec.describe Metanorma::Standoc do
          <a xmlns="http://www.example.com"/>
          <p id="_">http://www.example.com
          And http://www.example.com and http://www.example.com</p>
-         <sourcecode id="_" filename="http://www.example.com">A
-       http://www.example.com/...abc2[]</sourcecode>
-         <sourcecode id="_">http://www.example.com/...def[]</sourcecode>
+         <sourcecode id="_" filename="http://www.example.com"><body>A
+       http://www.example.com/...abc2[]</body></sourcecode>
+         <sourcecode id="_"><body>http://www.example.com/...def[]</body></sourcecode>
          <p id="_">
            <link target="http://www.example.com/...ghi"/>
          </p>
-         <sourcecode id="_">http://www.example.com/...jkl[]</sourcecode>
+         <sourcecode id="_"><body>http://www.example.com/...jkl[]</body></sourcecode>
          <example id="_">
            <p id="_">
              <link target="http://www.example.com/...mno"/>
@@ -952,7 +964,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to(Xml::C14n.format(output))
   end
 
-  it "reads contributors from YAML" do
+  it "reads contributors from YAML, simple" do
     input = <<~INPUT
       = X
       A
@@ -1039,7 +1051,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to(Xml::C14n.format(output))
   end
 
-  it "reads contributors from YAML" do
+  it "reads contributors from YAML, complex" do
     input = <<~INPUT
       = X
       A
