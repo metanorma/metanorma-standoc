@@ -803,7 +803,7 @@ RSpec.describe Metanorma::Standoc do
                <title>Section</title>
              </clause>
            </sections>
-          <bibliography>
+                     <bibliography>
              <references id="_bibliography" normative="false" obligation="informative">
                 <title>Bibliography</title>
                 <bibitem id="ref1" type="inbook">
