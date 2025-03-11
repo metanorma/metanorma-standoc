@@ -108,6 +108,15 @@ module Metanorma
           .gsub("&apos;", "'")
       end
 
+      SECTION_CONTAINERS =
+        %w(foreword introduction acknowledgements abstract
+           clause references terms definitions annex appendix indexsect 
+           executivesummary).freeze
+
+      def section_containers
+        SECTION_CONTAINERS
+      end
+
       # wrapped in <sections>
       def adoc2xml(text, flavour)
         Nokogiri::XML(text).root and return text

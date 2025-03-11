@@ -21,13 +21,14 @@ module Metanorma
         concept_validate(doc, "concept", "refterm")
         concept_validate(doc, "related", "preferred//name")
         preferred_validate(doc)
+        termsect_validate(doc)
         table_validate(doc)
         requirement_validate(doc)
         image_validate(doc)
         math_validate(doc)
         fatalerrors = @log.abort_messages
         fatalerrors.empty? or
-          clean_abort(fatalerrors.join("\n"), doc)
+          clean_abort("\n\nFATAL ERRROS:\n\n#{fatalerrors.join("\n\n")}", doc)
       end
 
       MATHML_NS = "http://www.w3.org/1998/Math/MathML".freeze
