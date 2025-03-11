@@ -578,128 +578,116 @@ RSpec.describe Metanorma::Standoc do
 
       stem:[1 "unitsml(cd)"]
 
-      [stem]
-      ++++
-      <math xmlns='http://www.w3.org/1998/Math/MathML'>
-        <mrow>
-        <mn>7</mn>
-        <mtext>unitsml(m*kg^-2)</mtext>
-        <mo>+</mo>
-        <mn>8</mn>
-        <mtext>unitsml(m*kg^-3)</mtext>
-        </mrow>
-      </math>
-      ++++
+      stem:[7 "unitsml(m*kg^-2)" + 8 "unitsml(m*kg^-3)"]
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR.sub('<metanorma-extension>', <<~EXT
-        <metanorma-extension>
-             <UnitsML xmlns='https://schema.unitsml.org/unitsml/1.0'>
-               <UnitSet>
-            <Unit id="U_NISTu7" dimensionURL="#NISTd7">
-               <UnitSystem name="SI" type="SI_derived" lang="en-US"/>
-               <UnitName lang="en">candela</UnitName>
-               <UnitSymbol type="HTML">cd</UnitSymbol>
-               <UnitSymbol type="MathMl">
-                  <math xmlns="http://www.w3.org/1998/Math/MathML">
-                     <mi mathvariant="normal">cd</mi>
-                  </math>
-               </UnitSymbol>
-            </Unit>
-                 <Unit xml:id='U_m.kg-2' dimensionURL='#D_LM-2'>
-                   <UnitSystem name='SI' type='SI_derived' xml:lang='en-US'/>
-                   <UnitName xml:lang='en'>m*kg^-2</UnitName>
-                   <UnitSymbol type='HTML'>
-                     m&#160;kg
-                     <sup>&#8722;2</sup>
-                   </UnitSymbol>
-                   <UnitSymbol type='MathML'>
-                     <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                       <mrow>
-                         <mi mathvariant='normal'>m</mi>
-                         <mo rspace='thickmathspace'>&#8290;</mo>
-                         <msup>
-                           <mrow>
-                             <mi mathvariant='normal'>kg</mi>
-                           </mrow>
-                           <mrow>
-                             <mo>&#8722;</mo>
-                             <mn>2</mn>
-                           </mrow>
-                         </msup>
-                       </mrow>
-                     </math>
-                   </UnitSymbol>
-                   <RootUnits>
-                     <EnumeratedRootUnit unit='meter'/>
-                     <EnumeratedRootUnit unit='gram' prefix='k' powerNumerator='-2'/>
-                   </RootUnits>
-                 </Unit>
-                 <Unit xml:id="U_m.kg-3" dimensionURL="#D_LM-3">
-                 <UnitSystem name="SI" type="SI_derived" xml:lang="en-US"/>
-                 <UnitName xml:lang="en">m*kg^-3</UnitName>
-                 <UnitSymbol type="HTML">m kg<sup>−3</sup></UnitSymbol>
-                 <UnitSymbol type="MathML">
-                   <math xmlns="http://www.w3.org/1998/Math/MathML">
-                     <mrow>
-                       <mi mathvariant="normal">m</mi>
-                       <mo rspace="thickmathspace">⁢</mo>
-                       <msup>
-                         <mrow>
-                           <mi mathvariant="normal">kg</mi>
-                         </mrow>
-                         <mrow>
-                           <mo>−</mo>
-                           <mn>3</mn>
-                         </mrow>
-                       </msup>
-                     </mrow>
-                   </math>
-                 </UnitSymbol>
-                 <RootUnits>
-                   <EnumeratedRootUnit unit="meter"/>
-                   <EnumeratedRootUnit unit="gram" prefix="k" powerNumerator="-3"/>
-                 </RootUnits>
-               </Unit>
-             </UnitSet>
-         <QuantitySet>
-            <Quantity id="NISTq7" dimensionURL="#NISTd7" quantityType="base">
-               <QuantityName lang="en-US">luminous intensity</QuantityName>
-            </Quantity>
-         </QuantitySet>
-               <DimensionSet>
-            <Dimension id="NISTd7">
-               <LuminousIntensity symbol="J" powerNumerator="1"/>
-            </Dimension>
-                 <Dimension xml:id='D_LM-2'>
-                   <Length symbol='L' powerNumerator='1'/>
-                   <Mass symbol='M' powerNumerator='-2'/>
-                 </Dimension>
-                 <Dimension xml:id="D_LM-3">
-                 <Length symbol="L" powerNumerator="1"/>
-                 <Mass symbol="M" powerNumerator="-3"/>
-               </Dimension>
-               </DimensionSet>
-               <PrefixSet>
-                 <Prefix prefixBase='10' prefixPower='3' xml:id='NISTp10_3'>
-                   <PrefixName xml:lang='en'>kilo</PrefixName>
-                   <PrefixSymbol type='ASCII'>k</PrefixSymbol>
-                   <PrefixSymbol type='unicode'>k</PrefixSymbol>
-                   <PrefixSymbol type='LaTeX'>k</PrefixSymbol>
-                   <PrefixSymbol type='HTML'>k</PrefixSymbol>
-                 </Prefix>
-               </PrefixSet>
+          <metanorma-extension>
+             <UnitsML xmlns="https://schema.unitsml.org/unitsml/1.0">
+                <UnitSet>
+                   <Unit dimensionURL="#NISTd7" id="U_NISTu7">
+                      <UnitSystem name="SI" type="SI_derived" lang="en-US"/>
+                      <UnitName lang="en">candela</UnitName>
+                      <UnitSymbol type="HTML">cd</UnitSymbol>
+                      <UnitSymbol type="MathMl">
+                         <math xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi mathvariant="normal">cd</mi>
+                         </math>
+                      </UnitSymbol>
+                   </Unit>
+                   <Unit dimensionURL="#D_LM-2" id="U_m.kg-2">
+                      <UnitSystem name="SI" type="SI_derived" lang="en-US"/>
+                      <UnitName lang="en">m*kg^-2</UnitName>
+                      <UnitSymbol type="HTML">
+                         m kg
+                         <sup>−2</sup>
+                      </UnitSymbol>
+                      <UnitSymbol type="MathMl">
+                         <math xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi mathvariant="normal">m</mi>
+                            <mo rspace="thickmathspace">⁢</mo>
+                            <msup>
+                               <mrow>
+                                  <mi mathvariant="normal">kg</mi>
+                               </mrow>
+                               <mrow>
+                                  <mo>−</mo>
+                                  <mn>2</mn>
+                               </mrow>
+                            </msup>
+                         </math>
+                      </UnitSymbol>
+                      <RootUnits>
+                         <EnumeratedRootUnit unit="meter"/>
+                         <EnumeratedRootUnit unit="gram" prefix="k" powerNumerator="-2"/>
+                      </RootUnits>
+                   </Unit>
+                   <Unit dimensionURL="#D_LM-3" id="U_m.kg-3">
+                      <UnitSystem name="SI" type="SI_derived" lang="en-US"/>
+                      <UnitName lang="en">m*kg^-3</UnitName>
+                      <UnitSymbol type="HTML">
+                         m kg
+                         <sup>−3</sup>
+                      </UnitSymbol>
+                      <UnitSymbol type="MathMl">
+                         <math xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi mathvariant="normal">m</mi>
+                            <mo rspace="thickmathspace">⁢</mo>
+                            <msup>
+                               <mrow>
+                                  <mi mathvariant="normal">kg</mi>
+                               </mrow>
+                               <mrow>
+                                  <mo>−</mo>
+                                  <mn>3</mn>
+                               </mrow>
+                            </msup>
+                         </math>
+                      </UnitSymbol>
+                      <RootUnits>
+                         <EnumeratedRootUnit unit="meter"/>
+                         <EnumeratedRootUnit unit="gram" prefix="k" powerNumerator="-3"/>
+                      </RootUnits>
+                   </Unit>
+                </UnitSet>
+                <QuantitySet>
+                   <Quantity id="NISTq7" quantityType="base" dimensionURL="#NISTd7">
+                      <QuantityName lang="en-US">luminous intensity</QuantityName>
+                   </Quantity>
+                </QuantitySet>
+                <DimensionSet>
+                   <Dimension id="NISTd7">
+                      <LuminousIntensity symbol="J" powerNumerator="1"/>
+                   </Dimension>
+                   <Dimension id="D_LM-2">
+                      <Length symbol="L" powerNumerator="1"/>
+                      <Mass symbol="M" powerNumerator="-2"/>
+                   </Dimension>
+                   <Dimension id="D_LM-3">
+                      <Length symbol="L" powerNumerator="1"/>
+                      <Mass symbol="M" powerNumerator="-3"/>
+                   </Dimension>
+                </DimensionSet>
+                <PrefixSet>
+                   <Prefix prefixBase="10" prefixPower="3" id="NISTp10_3">
+                      <PrefixName lang="en">kilo</PrefixName>
+                      <PrefixSymbol type="ASCII">k</PrefixSymbol>
+                      <PrefixSymbol type="unicode">k</PrefixSymbol>
+                      <PrefixSymbol type="LaTex">k</PrefixSymbol>
+                      <PrefixSymbol type="HTML">k</PrefixSymbol>
+                   </Prefix>
+                </PrefixSet>
              </UnitsML>
       EXT
       )}
-         <sections>
-           <p id="_">
+          <sections>
+             <p id="_">
                 <stem block="false" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="false">
                          <mn>1</mn>
                          <mo rspace="thickmathspace">⁢</mo>
-                         <mrow  xref="U_NISTu7">
+                         <mrow xref="U_NISTu7">
                             <mstyle mathvariant="normal">
                                <mi>cd</mi>
                             </mstyle>
@@ -709,46 +697,51 @@ RSpec.describe Metanorma::Standoc do
                    <asciimath>1 "unitsml(cd)"</asciimath>
                 </stem>
              </p>
-           <formula id='_'>
-             <stem type='MathML' block="true">
-               <math xmlns='http://www.w3.org/1998/Math/MathML'>
-                 <mrow>
-                   <mn>7</mn>
-                   <mo rspace='thickmathspace'>&#8290;</mo>
-                   <mrow xref='U_m.kg-2'>
-                     <mi mathvariant='normal'>m</mi>
-                     <mo rspace='thickmathspace'>&#8290;</mo>
-                     <msup>
-                       <mrow>
-                         <mi mathvariant='normal'>kg</mi>
-                       </mrow>
-                       <mrow>
-                         <mo>&#8722;</mo>
-                         <mn>2</mn>
-                       </mrow>
-                     </msup>
-                   </mrow>
-                   <mo>+</mo>
-                   <mn>8</mn>
-                   <mo rspace='thickmathspace'>&#8290;</mo>
-                   <mrow xref='U_m.kg-3'>
-                     <mi mathvariant='normal'>m</mi>
-                     <mo rspace='thickmathspace'>&#8290;</mo>
-                     <msup>
-                       <mrow>
-                         <mi mathvariant='normal'>kg</mi>
-                       </mrow>
-                       <mrow>
-                         <mo>&#8722;</mo>
-                         <mn>3</mn>
-                       </mrow>
-                     </msup>
-                   </mrow>
-                 </mrow>
-               </math>
-             </stem>
-           </formula>
-         </sections>
+             <p id="_">
+                <stem block="false" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="false">
+                         <mn>7</mn>
+                         <mo rspace="thickmathspace">⁢</mo>
+                         <mrow xref="U_m.kg-2">
+                            <mstyle mathvariant="normal">
+                               <mi>m</mi>
+                            </mstyle>
+                            <mi rspace="thickmathspace">⁢</mi>
+                            <msup>
+                               <mstyle mathvariant="normal">
+                                  <mi>kg</mi>
+                               </mstyle>
+                               <mrow>
+                                  <mo>−</mo>
+                                  <mn>2</mn>
+                               </mrow>
+                            </msup>
+                         </mrow>
+                         <mo>+</mo>
+                         <mn>8</mn>
+                         <mo rspace="thickmathspace">⁢</mo>
+                         <mrow xref="U_m.kg-3">
+                            <mstyle mathvariant="normal">
+                               <mi>m</mi>
+                            </mstyle>
+                            <mi rspace="thickmathspace">⁢</mi>
+                            <msup>
+                               <mstyle mathvariant="normal">
+                                  <mi>kg</mi>
+                               </mstyle>
+                               <mrow>
+                                  <mo>−</mo>
+                                  <mn>3</mn>
+                               </mrow>
+                            </msup>
+                         </mrow>
+                      </mstyle>
+                   </math>
+                   <asciimath>7 "unitsml(m*kg^-2)" + 8 "unitsml(m*kg^-3)"</asciimath>
+                </stem>
+             </p>
+          </sections>
        </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))

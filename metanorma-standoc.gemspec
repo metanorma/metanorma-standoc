@@ -40,7 +40,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "metanorma-utils", "~> 1.10.0"
   spec.add_dependency "ruby-jing"
   # relaton-cli not just relaton, to avoid circular reference in metanorma
-  spec.add_dependency "asciimath2unitsml", "~> 0.4.0"
   spec.add_dependency "concurrent-ruby"
   spec.add_dependency "pngcheck"
   spec.add_dependency "relaton-cli", "~> 1.20.0"
