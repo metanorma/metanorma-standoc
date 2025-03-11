@@ -38,10 +38,12 @@ module Metanorma
             <math xmlns='#{MATHML_NS}'><mstyle displaystyle='false'><mn>#{expr}</mn></mstyle></math>
           MATH
         else
-          unitsml = expr.include?("unitsml") ? { unitsml: { xml: true, multiplier: :space } } : {}
+          unitsml = if expr.include?("unitsml")
+                      { unitsml: { xml: true,
+                                   multiplier: :space } }
+                    else {} end
           Plurimath::Math.parse(expr, "asciimath")
-            .to_mathml(**({display_style: elem["block"]}.merge(unitsml)))
-                       #unitsml_xml: expr.include?("unitsml"))
+            .to_mathml(**{ display_style: elem["block"] }.merge(unitsml))
         end
       end
 
@@ -180,14 +182,9 @@ module Metanorma
       end
 
       def mathml_cleanup(xmldoc)
-        #a2u = Asciimath2UnitsML::Conv.new(asciimath2unitsml_options)
         xmldoc.xpath("//stem[@type = 'MathML'][not(@validate = 'false')]")
           .each do |x|
           mathml_xml_cleanup(x)
-          warn x.to_xml
-          #a2u.MathML2UnitsML(x)
-          #m = x.at("./*[local-name() = 'math']")
-          #m.replace(Plurimath::Math.parse(m, "mathml").to_mathml(unitsml: { xml: true, multiplier: :space }))
           mathml_mathvariant(x)
         end
         xmldoc.xpath("//stem[@type = 'MathML']")
