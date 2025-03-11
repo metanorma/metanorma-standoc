@@ -82,6 +82,36 @@ module Metanorma
           @log.add("Terms", v.first, err, severity: 1)
         end
       end
+
+      def find_illegal_designations(xmldoc)
+        xmldoc.xpath("//preferred | //admitted | //deprecates")
+          .each_with_object({}) do |d, m|
+          d.ancestors.detect { |x| x.name == "terms" } and next
+          c = d.ancestors.detect do |x|
+            section_containers.include?(x.name)
+          end
+          c["id"] ||= "_#{UUIDTools::UUID.random_create}"
+          m[c["id"]] ||= { clause: c, designations: [] }
+          m[c["id"]][:designations] << d
+        end
+      end
+
+      def termsect_validate(xmldoc)
+        errors = find_illegal_designations(xmldoc)
+        errors.each_value do |v|
+          desgns = v[:designations].map do |x|
+            @c.encode(x.text.strip,  :basic, :hexadecimal)
+          end.join(", ")
+          err = <<~ERROR
+            Clause not recognised as a term clause, but contains designation markup
+             (preferred:[], admitted:[], alt:[], deprecated:[]):<br/>
+            #{desgns}</br>
+            Ensure the parent clause is recognised as a terms clause by inserting <code>[heading=terms and definitions]</code> above the title,
+            in case the heading is not automatically recognised. See also <a href="https://www.metanorma.org/author/topics/sections/concepts/#clause-title">Metanorma documentation</a>.
+          ERROR
+          @log.add("Terms", v[:clause], err, severity: 0)
+        end
+      end
     end
   end
 end

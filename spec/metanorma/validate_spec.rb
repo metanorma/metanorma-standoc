@@ -994,6 +994,48 @@ RSpec.describe Metanorma::Standoc do
     expect(File.exist?("test.xml")).to be false
   end
 
+  it "warns and aborts if a designation appears in a non-term clause" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        [[abc]]
+        == Clause 1
+
+        preferred:[ABC]
+
+        alt:[DE&F]
+
+        == Clause 2
+
+        [[ghi]]
+        === Clause 3
+
+        deprecated:[GHI]
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+    expect(File.read("test.err.html"))
+      .to include("Clause not recognised as a term clause, but contains designation markup")
+    expect(File.read("test.err.html"))
+      .to include("href='./test.html#abc'")
+    expect(File.read("test.err.html"))
+      .to include("href='./test.html#ghi'")
+    expect(File.read("test.err.html"))
+      .to include("ABC, DE&amp;F")
+    expect(File.read("test.err.html"))
+      .to include("GHI")
+    expect(File.exist?("test.xml")).to be false
+  end
+
   it "warns and aborts if id used twice" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"

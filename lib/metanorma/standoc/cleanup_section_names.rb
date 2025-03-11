@@ -144,12 +144,8 @@ module Metanorma
         sym and m[sym] += 1
       end
 
-      SECTION_CONTAINERS = %w(foreword introduction acknowledgements abstract
-                              clause clause references terms definitions annex
-                              appendix).freeze
-
       def sections_variant_title_cleanup(xml)
-        path = SECTION_CONTAINERS.map { |x| "./ancestor::#{x}" }.join(" | ")
+        path = section_containers.map { |x| "./ancestor::#{x}" }.join(" | ")
         xml.xpath("//p[@variant_title]").each do |p|
           p.name = "variant-title"
           p.delete("id")
