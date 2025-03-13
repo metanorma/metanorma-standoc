@@ -1,0 +1,1 @@
+gem "html2doc", git: "https://github.com/metanorma/html2doc", branch: "main"
