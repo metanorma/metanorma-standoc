@@ -34,24 +34,27 @@ module Metanorma
       # Windows Ruby 2.4 will crash if a Tempfile is "mv"ed.
       # This is why we need to copy and then unlink.
       def self.generate_file(parent, reader)
-        localdir = Metanorma::Utils::localdir(parent.document)
+        ldir = localdir(parent)
         imagesdir = parent.document.attr("imagesdir")
-        umlfile, outfile = save_plantuml parent, reader, localdir
+        umlfile, outfile = save_plantuml parent, reader, ldir
         run(umlfile, outfile) or
           raise "No image output from PlantUML (#{umlfile}, #{outfile})!"
         umlfile.unlink
-
-        path = path_prep(localdir, imagesdir)
+        path = path_prep(ldir, imagesdir)
         filename = File.basename(outfile.to_s)
         FileUtils.cp(outfile, path) and outfile.unlink
-
         imagesdir ? filename : File.join(path, filename)
+      end
+
+      def self.localdir(parent)
+        ret = Metanorma::Utils::localdir(parent.document)
+        File.writable?(ret) or
+          raise "Destination directory #{ret} not writable for PlantUML!"
+        ret
       end
 
       def self.path_prep(localdir, imagesdir)
         path = Pathname.new(localdir) + (imagesdir || "plantuml")
-        File.writable?(localdir) or
-          raise "Destination path #{path} not writable for PlantUML!"
         path.mkpath
         File.writable?(path) or
           raise "Destination path #{path} not writable for PlantUML!"
