@@ -219,7 +219,7 @@ module Metanorma
         doc.xpath("//ol[@explicit-type]").each do |x|
           x.delete("explicit-type")
           @log.add("Style", x,
-                   "Style override set for ordered list")
+                   "Style override set for ordered list", display: false)
         end
       end
 

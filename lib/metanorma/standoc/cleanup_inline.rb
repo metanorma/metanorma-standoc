@@ -148,7 +148,8 @@ module Metanorma
             output = s.parent.dup
             output.children.remove
             @log.add("Anchors", s.parent,
-                     "normalised identifier in #{output} from #{orig}")
+                     "normalised identifier in #{output} from #{orig}",
+                     display: false)
           end
         end
       end
@@ -160,7 +161,8 @@ module Metanorma
             output = s.parent.dup
             output.children.remove
             @log.add("Anchors", s.parent,
-                     "normalised identifier in #{output} from #{orig}")
+                     "normalised identifier in #{output} from #{orig}",
+                     display: false)
           end
         end
       end
