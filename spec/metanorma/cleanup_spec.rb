@@ -457,7 +457,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "fixes illegal anchors" do
     input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
+      #{VALIDATING_BLANK_HDR}
 
       [[a:b]]
       == A
@@ -529,27 +529,23 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
        </metanorma>
     OUTPUT
+    FileUtils.rm_rf("test.err.html")
     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))
       .gsub(/<p id="_[^"]+">/, "").gsub("</p>", "")))
       .to be_equivalent_to(strip_guid(Xml::C14n.format(output)))
-    expect { Asciidoctor.convert(input, *OPTIONS) }
-      .to output(%r{normalised identifier in <clause id="a_b" inline-header="false" obligation="normative"/> from a:b})
-      .to_stderr
-    expect { Asciidoctor.convert(input, *OPTIONS) }
-      .to output(%r{normalised identifier in <eref bibitemid="__ab" citeas=""/> from /_ab})
-      .to_stderr
-    expect { Asciidoctor.convert(input, *OPTIONS) }
-      .to output(%r{normalised identifier in <xref target="_"/> from :})
-      .to_stderr
-    expect { Asciidoctor.convert(input, *OPTIONS) }
-      .to output(%r{normalised identifier in <xref target="_1"/> from 1})
-      .to_stderr
-    expect { Asciidoctor.convert(input, *OPTIONS) }
-      .to output(%r{normalised identifier in <xref target="_1_"/> from 1:})
-      .to_stderr
-    expect { Asciidoctor.convert(input, *OPTIONS) }
-      .to output(%r{normalised identifier in <xref target="_a#b_"/> from :a#b:})
-      .to_stderr
+    err = File.read("test.err.html")
+    expect(err)
+      .to include(%r{normalised identifier to a_b from a:b})
+    expect(err)
+      .to include(%r{normalised identifier to __ab from /_ab})
+    expect(err)
+      .to include(%r{normalised identifier to _ from :})
+    expect(err)
+      .to include(%r{normalised identifier to _1 from 1})
+    expect(err)
+      .to include(%r{normalised identifier to _1_ from 1:})
+    expect(err)
+      .to include(%r{normalised identifier to _a#b_ from :a#b:})
   end
 
   it "moves title footnotes to bibdata" do
