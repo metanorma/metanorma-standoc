@@ -147,6 +147,30 @@ module Metanorma
       end
     end
 
+    class TrStyleInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :"tr-style"
+      parse_content_as :text
+      using_format :short
+
+      def process(parent, _target, attrs)
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        %{<tr-style>#{out}</tr-style>}
+      end
+    end
+
+    class TdStyleInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :"td-style"
+      parse_content_as :text
+      using_format :short
+
+      def process(parent, _target, attrs)
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        %{<td-style>#{out}</td-style>}
+      end
+    end
+
     class NumberInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       include ::Metanorma::Standoc::Utils
 
