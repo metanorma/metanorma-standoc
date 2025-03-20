@@ -82,6 +82,7 @@ module Metanorma
         boilerplate_cleanup(xmldoc) # feeds: xref_cleanup for new <<>> introduced
         xref_cleanup(xmldoc)
         svgmap_cleanup(xmldoc) # feeds: img_cleanup
+        review_cleanup(xmldoc)
         toc_cleanup(xmldoc)
         smartquotes_cleanup(xmldoc)
         linebreak_cleanup(xmldoc)
