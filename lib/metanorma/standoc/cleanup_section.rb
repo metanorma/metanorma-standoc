@@ -192,7 +192,7 @@ module Metanorma
         xmldoc.at("//sections") or return
         ins = insert_before(xmldoc, "//sections")
         xmldoc.xpath("//sections//*[@beforeclauses = 'true']")
-          .reverse.each do |x|
+          .reverse_each do |x|
           x.delete("beforeclauses")
           ins.previous = x.remove
         end
@@ -201,7 +201,7 @@ module Metanorma
 
       # only move clausebefore notes at the very end of preface
       def endofpreface_clausebefore(xml, ins)
-        xml.xpath("//preface//*[@beforeclauses = 'true']").reverse.each do |x|
+        xml.xpath("//preface//*[@beforeclauses = 'true']").reverse_each do |x|
           textafter = xml.xpath("//preface//*") & x.xpath("./following::*")
           textafter.text.strip.empty? or break
           x.delete("beforeclauses")
@@ -217,29 +217,11 @@ module Metanorma
         ins
       end
 
-      def floatingtitle_cleanup(xmldoc)
-        pop_floating_title(xmldoc) # done again, after endofpreface_clausebefore
-        floating_title_preface2sections(xmldoc)
-      end
-
-      def pop_floating_title(xmldoc)
-        loop do
-          found = false
-          xmldoc.xpath("//floating-title").each do |t|
-            t.next_element.nil? or next
-            %w(sections annex preface).include? t.parent.name and next
-            t.parent.next = t
-            found = true
-          end
-          break unless found
-        end
-      end
-
-      def floating_title_preface2sections(xmldoc)
-        t = xmldoc.at("//preface/floating-title") or return
-        s = xmldoc.at("//sections")
-        t.next_element or
-          s.children.first.previous = t.remove
+      def review_cleanup(xmldoc)
+        reviews = xmldoc.xpath("//review")
+        reviews.empty? and return
+        ctr = xmldoc.root.add_child("<review-container/>").first
+        reviews.each { |r| ctr << r }
       end
     end
   end

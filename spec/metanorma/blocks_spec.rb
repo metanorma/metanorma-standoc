@@ -363,6 +363,11 @@ RSpec.describe Metanorma::Standoc do
 
       For further information on the Foreword, see *ISO/IEC Directives, Part 2, 2016, Clause 12.*
       ****
+
+      == Clause 3
+
+      [appendix]
+      == Annex 1
     INPUT
     output = <<~OUTPUT
       <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
@@ -384,9 +389,24 @@ RSpec.describe Metanorma::Standoc do
             <flavor>standoc</flavor>
          </ext>
        </bibdata>
-       <sections><p id="foreword">Foreword</p>
+                 <preface>
+             <foreword id="_" obligation="informative">
+                <title>Foreword</title>
+                <p id="foreword">Foreword</p>
+             </foreword>
+          </preface>
+          <sections>
+             <clause id="_clause_3" inline-header="false" obligation="normative">
+                <title>Clause 3</title>
+             </clause>
+          </sections>
+          <annex id="_annex_1" inline-header="false" obligation="normative">
+             <title>Annex 1</title>
+          </annex>
+       <review-container>
        <review reviewer="ISO" id="_" date="20170101T00:00:00Z" from="foreword" to="foreword" type="whatever"><p id="_">A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.</p>
-       <p id="_">For further information on the Foreword, see <strong>ISO/IEC Directives, Part 2, 2016, Clause 12.</strong></p></review></sections>
+       <p id="_">For further information on the Foreword, see <strong>ISO/IEC Directives, Part 2, 2016, Clause 12.</strong></p></review>
+        </review-container>
        </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))

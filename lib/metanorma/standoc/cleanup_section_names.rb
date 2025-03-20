@@ -156,6 +156,31 @@ module Metanorma
           end
         end
       end
+
+      def floatingtitle_cleanup(xmldoc)
+        pop_floating_title(xmldoc) # done again, after endofpreface_clausebefore
+        floating_title_preface2sections(xmldoc)
+      end
+
+      def pop_floating_title(xmldoc)
+        loop do
+          found = false
+          xmldoc.xpath("//floating-title").each do |t|
+            t.next_element.nil? or next
+            %w(sections annex preface).include? t.parent.name and next
+            t.parent.next = t
+            found = true
+          end
+          break unless found
+        end
+      end
+
+      def floating_title_preface2sections(xmldoc)
+        t = xmldoc.at("//preface/floating-title") or return
+        s = xmldoc.at("//sections")
+        t.next_element or
+          s.children.first.previous = t.remove
+      end
     end
   end
 end

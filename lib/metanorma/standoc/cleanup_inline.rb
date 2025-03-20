@@ -145,10 +145,8 @@ module Metanorma
         elem.xpath(IDREF).each do |s|
           if (ret = Metanorma::Utils::to_ncname(s.value)) != (orig = s.value)
             s.value = ret
-            output = s.parent.dup
-            output.children.remove
             @log.add("Anchors", s.parent,
-                     "normalised identifier in #{output} from #{orig}",
+                     "normalised identifier to #{ret} from #{orig}",
                      display: false)
           end
         end
@@ -158,10 +156,8 @@ module Metanorma
         elem.xpath("//xref/@target").each do |s|
           if (ret = to_xreftarget(s.value)) != (orig = s.value)
             s.value = ret
-            output = s.parent.dup
-            output.children.remove
             @log.add("Anchors", s.parent,
-                     "normalised identifier in #{output} from #{orig}",
+                     "normalised identifier to #{ret} from #{orig}",
                      display: false)
           end
         end

@@ -354,19 +354,36 @@ RSpec.describe Metanorma::Standoc do
   it "processes the TODO custom admonition" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
+
+      == Clause 1
       TODO: Note1
 
+      == Clause 2
       [TODO]
       ====
       Note2
       ====
 
+      [appendix]
+      == Annex 1
       [TODO]
       Note3
     INPUT
     output = <<~OUTPUT
            #{BLANK_HDR}
-           <sections><review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z" type="todo">
+                     <sections>
+             <clause id="_clause_1" inline-header="false" obligation="normative">
+                <title>Clause 1</title>
+             </clause>
+             <clause id="_clause_2" inline-header="false" obligation="normative">
+                <title>Clause 2</title>
+             </clause>
+          </sections>
+          <annex id="_annex_1" inline-header="false" obligation="normative">
+             <title>Annex 1</title>
+          </annex>
+        <review-container>
+           <review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z" type="todo">
         <p id="_">Note1</p>
       </review>
       <review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z" type="todo">
@@ -374,7 +391,7 @@ RSpec.describe Metanorma::Standoc do
       </review>
       <review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z" type="todo">
         <p id="_">Note3</p>
-      </review></sections>
+      </review></review-container>
       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
