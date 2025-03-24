@@ -221,7 +221,19 @@ module Metanorma
         reviews = xmldoc.xpath("//review")
         reviews.empty? and return
         ctr = xmldoc.root.add_child("<review-container/>").first
-        reviews.each { |r| ctr << r }
+        reviews.each do |r|
+          review_set_location(r)
+          ctr << r
+        end
+      end
+
+      def review_set_location(review)
+        unless review["from"]
+          id = "_#{UUIDTools::UUID.random_create}"
+          review.previous = "<bookmark '#{id}'/>"
+          review["from"] = id
+        end
+        review["to"] ||= review["from"]
       end
     end
   end
