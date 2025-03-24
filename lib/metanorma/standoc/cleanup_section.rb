@@ -230,7 +230,7 @@ module Metanorma
       def review_set_location(review)
         unless review["from"]
           id = "_#{UUIDTools::UUID.random_create}"
-          review.previous = "<bookmark '#{id}'/>"
+          review.previous = "<bookmark id='#{id}'/>"
           review["from"] = id
         end
         review["to"] ||= review["from"]
