@@ -345,6 +345,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes review blocks" do
+    mock_uuid_increment
     input = <<~INPUT
       = Document title
       Author
@@ -362,6 +363,10 @@ RSpec.describe Metanorma::Standoc do
       A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.
 
       For further information on the Foreword, see *ISO/IEC Directives, Part 2, 2016, Clause 12.*
+      ****
+
+      ****
+      Blank review
       ****
 
       == Clause 3
@@ -389,10 +394,11 @@ RSpec.describe Metanorma::Standoc do
             <flavor>standoc</flavor>
          </ext>
        </bibdata>
-                 <preface>
-             <foreword id="_" obligation="informative">
+          <preface>
+             <foreword id="_1" obligation="informative">
                 <title>Foreword</title>
                 <p id="foreword">Foreword</p>
+                <bookmark id="_10"/>
              </foreword>
           </preface>
           <sections>
@@ -403,10 +409,18 @@ RSpec.describe Metanorma::Standoc do
           <annex id="_annex_1" inline-header="false" obligation="normative">
              <title>Annex 1</title>
           </annex>
-       <review-container>
-       <review reviewer="ISO" id="_" date="20170101T00:00:00Z" from="foreword" to="foreword" type="whatever"><p id="_">A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.</p>
-       <p id="_">For further information on the Foreword, see <strong>ISO/IEC Directives, Part 2, 2016, Clause 12.</strong></p></review>
-        </review-container>
+          <review-container>
+             <review id="_3" reviewer="ISO" date="20170101T00:00:00Z" type="whatever" from="foreword" to="foreword">
+                <p id="_4">A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.</p>
+                <p id="_5">
+                   For further information on the Foreword, see
+                   <strong>ISO/IEC Directives, Part 2, 2016, Clause 12.</strong>
+                </p>
+             </review>
+             <review id="_6" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_10" to="_10">
+                <p id="_7">Blank review</p>
+             </review>
+          </review-container>
        </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))

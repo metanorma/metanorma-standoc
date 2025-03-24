@@ -22,6 +22,7 @@ require "rspec/matchers"
 require "equivalent-xml"
 require "metanorma/standoc"
 require "xml-c14n"
+require_relative "support/uuid_mock"
 
 Dir[File.expand_path("./support/**/**/*.rb", __dir__)]
   .sort.each { |f| require f }
