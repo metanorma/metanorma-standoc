@@ -52,7 +52,7 @@ module Metanorma
 
       PREFACE_CLAUSE_NAMES =
         %w(abstract foreword introduction metanorma-extension termdocsource
-           misc-container acknowledgements).freeze
+           misc-container metanorma-extension acknowledgements).freeze
 
       MAIN_CLAUSE_NAMES =
         ["normative references", "terms and definitions", "scope",

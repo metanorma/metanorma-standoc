@@ -47,6 +47,8 @@ module Metanorma
         sources_table_cleanup(xmldoc)
         notes_table_cleanup(xmldoc)
         header_rows_cleanup(xmldoc)
+        tr_style_cleanup(xmldoc)
+        td_style_cleanup(xmldoc)
       end
 
       def sources_table_cleanup(xmldoc)
@@ -74,6 +76,26 @@ module Metanorma
             nomatches = false
           end
         end
+      end
+
+      def tr_style_cleanup(xmldoc)
+        xmldoc.xpath("//tr[.//tr-style]").each do |tr|
+          ret = tr.xpath(".//tr-style").each_with_object([]) do |s, m|
+            m << s.text
+          end
+          tr["style"] = ret.join(";")
+        end
+        xmldoc.xpath(".//tr-style").each(&:remove)
+      end
+
+      def td_style_cleanup(xmldoc)
+        xmldoc.xpath("//td[.//td-style] | //th[.//td-style]").each do |tr|
+          ret = tr.xpath(".//td-style").each_with_object([]) do |s, m|
+            m << s.text
+          end
+          tr["style"] = ret.join(";")
+        end
+        xmldoc.xpath(".//td-style").each(&:remove)
       end
     end
   end

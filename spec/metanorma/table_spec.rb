@@ -504,4 +504,39 @@ RSpec.describe Metanorma::Standoc do
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
+
+  it "processes table styles" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      |===
+      |A tr-style:[color: blue] |B |C tr-style:[background-color: red]
+
+      h|1 td-style:[color: green] td-style:[background-color: blue] |2 tr-style:[color: green] |3 td-style:[color: blue] td-style:[background-color: gren]
+      |===
+    INPUT
+    output = <<~OUTPUT
+           #{BLANK_HDR}
+          <sections>
+             <table id="_">
+                <thead>
+                   <tr style="color: blue;background-color: red">
+                      <th valign="top" align="left">A </th>
+                      <th valign="top" align="left">B</th>
+                      <th valign="top" align="left">C </th>
+                   </tr>
+                </thead>
+                <tbody>
+                   <tr style="color: green">
+                      <th valign="top" align="left" style="color: green;background-color: blue">1  </th>
+                      <td valign="top" align="left">2 </td>
+                      <td valign="top" align="left" style="color: blue;background-color: gren">3  </td>
+                   </tr>
+                </tbody>
+             </table>
+          </sections>
+       </metanorma>
+    OUTPUT
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
+  end
 end
