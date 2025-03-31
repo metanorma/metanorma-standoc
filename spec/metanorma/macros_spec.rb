@@ -352,6 +352,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes the TODO custom admonition" do
+    mock_uuid_increment
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
@@ -371,28 +372,32 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
            #{BLANK_HDR}
-                     <sections>
+          <sections>
              <clause id="_clause_1" inline-header="false" obligation="normative">
                 <title>Clause 1</title>
+                <bookmark id="_9"/>
              </clause>
              <clause id="_clause_2" inline-header="false" obligation="normative">
                 <title>Clause 2</title>
+                <bookmark id="_10"/>
              </clause>
           </sections>
           <annex id="_annex_1" inline-header="false" obligation="normative">
              <title>Annex 1</title>
+             <bookmark id="_11"/>
           </annex>
-        <review-container>
-           <review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z" type="todo">
-        <p id="_">Note1</p>
-      </review>
-      <review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z" type="todo">
-        <p id="_">Note2</p>
-      </review>
-      <review reviewer="(Unknown)" id="_" date="#{Date.today}T00:00:00Z" type="todo">
-        <p id="_">Note3</p>
-      </review></review-container>
-      </metanorma>
+          <review-container>
+             <review id="_2" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_9" to="_9">
+                <p id="_12">Note1</p>
+             </review>
+             <review id="_4" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_10" to="_10">
+                <p id="_5">Note2</p>
+             </review>
+             <review id="_7" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_11" to="_11">
+                <p id="_8">Note3</p>
+             </review>
+          </review-container>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
