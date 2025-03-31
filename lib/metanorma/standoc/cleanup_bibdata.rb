@@ -59,29 +59,23 @@ module Metanorma
       end
 
       def indirect_eref_to_xref(eref, ident, id_map=nil)
-        before = Time.now
-        begin
-          loc = eref.at(".//locality[@type='anchor'][ancestor::localityStack] | .//locality[@type='anchor']")
-          #loc = eref.at("./localityStack[locality[@type = 'anchor']]") || eref.at("./locality[@type = 'anchor']")
-          loc = loc&.remove&.text || ident
-          eref.name = "xref"
-          eref.delete("bibitemid")
-          eref.delete("citeas")
-          eref["target"] = loc
-          if id_map
-            return if id_map.has_key?(loc)
-          else
-            eref.document.at("//*[@id = '#{loc}']") and return
-          end
-          eref.children = %(** Missing target #{loc})
-          eref["target"] = ident
-        ensure
-          #puts "indirect_eref_to_xref #{eref.path} in #{Time.now - before}"
+        loc = eref.at(".//locality[@type='anchor'][ancestor::localityStack] | .//locality[@type='anchor']")
+        #loc = eref.at("./localityStack[locality[@type = 'anchor']]") || eref.at("./locality[@type = 'anchor']")
+        loc = loc&.remove&.text || ident
+        eref.name = "xref"
+        eref.delete("bibitemid")
+        eref.delete("citeas")
+        eref["target"] = loc
+        if id_map
+          return if id_map.has_key?(loc)
+        else
+          eref.document.at("//*[@id = '#{loc}']") and return
         end
+        eref.children = %(** Missing target #{loc})
+        eref["target"] = ident
       end
 
       def resolve_local_indirect_erefs(xmldoc, refs, prefix)
-        before = Time.now
         # Pre-index elements by ID
         id_map = xmldoc.xpath("//*[@id]").each_with_object({}) do |node, map|
           map[node["id"]] = node
@@ -90,7 +84,7 @@ module Metanorma
         # Pre-index all <eref> elements by bibitemid
         eref_map = xmldoc.xpath("//eref[@bibitemid]").group_by { |e| e["bibitemid"] }
 
-        ret = refs.each_with_object([]) do |r, m|
+        refs.each_with_object([]) do |r, m|
           id = r.sub(/^#{prefix}_/, "")
           n = id_map[id]
           if n&.at("./ancestor-or-self::*[@type = '#{prefix}']")
@@ -100,8 +94,6 @@ module Metanorma
           else m << r
           end
         end
-        puts "#{refs.size} references, #{ret.size} references found in #{Time.now - before} seconds"
-        ret
       end
 
       def biblio_indirect_erefs(xmldoc, prefixes)
