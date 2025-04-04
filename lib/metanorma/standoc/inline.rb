@@ -26,7 +26,6 @@ module Metanorma
       end
 
       def latex_parse1(text, block)
-        #lxm_input = Unicode2LaTeX.unicode2latex(@c.decode(text))
         lxm_input = @c.decode(text)
         results = Plurimath::Math.parse(lxm_input, "latex")
           .to_mathml(display_style: block)

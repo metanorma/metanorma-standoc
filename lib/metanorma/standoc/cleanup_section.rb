@@ -96,9 +96,7 @@ module Metanorma
           y.name == "annex" || !y.ancestors("annex").empty? and next
           y.wrap("<annex/>")
           y.parent["id"] = "_#{UUIDTools::UUID.random_create}"
-          %w(obligation language script).each do |w|
-            y.parent[w] = y[w]
-          end
+          %w(obligation language script).each { |w| y.parent[w] = y[w] }
         end
       end
 
@@ -207,33 +205,6 @@ module Metanorma
           x.delete("beforeclauses")
           ins.previous = x.remove
         end
-      end
-
-      def insert_before(xmldoc, xpath)
-        unless ins = xmldoc.at(xpath).children.first
-          xmldoc.at(xpath) << " "
-          ins = xmldoc.at(xpath).children.first
-        end
-        ins
-      end
-
-      def review_cleanup(xmldoc)
-        reviews = xmldoc.xpath("//review")
-        reviews.empty? and return
-        ctr = xmldoc.root.add_child("<review-container/>").first
-        reviews.each do |r|
-          review_set_location(r)
-          ctr << r
-        end
-      end
-
-      def review_set_location(review)
-        unless review["from"]
-          id = "_#{UUIDTools::UUID.random_create}"
-          review.previous = "<bookmark id='#{id}'/>"
-          review["from"] = id
-        end
-        review["to"] ||= review["from"]
       end
     end
   end

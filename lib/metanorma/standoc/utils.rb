@@ -100,6 +100,14 @@ module Metanorma
         para
       end
 
+      def insert_before(xmldoc, xpath)
+        unless ins = xmldoc.at(xpath).children.first
+          xmldoc.at(xpath) << " "
+          ins = xmldoc.at(xpath).children.first
+        end
+        ins
+      end
+
       def xml_encode(text)
         @c.encode(text, :basic, :hexadecimal)
           .gsub("&amp;gt;", ">").gsub("&amp;lt;", "<").gsub("&amp;amp;", "&")
