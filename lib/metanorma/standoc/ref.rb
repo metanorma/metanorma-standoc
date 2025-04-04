@@ -67,7 +67,7 @@ module Metanorma
           iso_publisher(t, match[:code])
           unless match[:fn].nil?
             t.note(**plaintxt.merge(type: "Unpublished-Status")) do |p|
-              p << (match[:fn]).to_s
+              p << match[:fn].to_s
             end
           end
         end
@@ -99,7 +99,7 @@ module Metanorma
           iso_publisher(t, match[:code])
           if match.names.include?("fn") && match[:fn]
             t.note(**plaintxt.merge(type: "Unpublished-Status")) do |p|
-              p << (match[:fn]).to_s
+              p << match[:fn].to_s
             end
           end
           t.extent type: "part" do |e|
@@ -184,30 +184,6 @@ module Metanorma
         use_retrieved_relaton(item, xml)
       end
 
-      ISO_REF =
-        %r{^<ref\sid="(?<anchor>[^"]+)">
-      \[(?<usrlbl>\([^)]+\))?(?<code>(?:ISO|IEC)[^0-9]*\s[0-9-]+|IEV)
-      (?::(?<year>[0-9][0-9-]+))?\]</ref>,?\s*(?<text>.*)$}xm
-
-      ISO_REF_NO_YEAR =
-        %r{^<ref\sid="(?<anchor>[^"]+)">
-      \[(?<usrlbl>\([^)]+\))?(?<code>(?:ISO|IEC)[^0-9]*\s[0-9-]+):
-      (?:--|–|—|&\#821[12];)\]</ref>,?\s*
-        (?:<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>)?,?\s?(?<text>.*)$}xm
-
-      ISO_REF_ALL_PARTS =
-        %r{^<ref\sid="(?<anchor>[^"]+)">
-      \[(?<usrlbl>\([^)]+\))?(?<code>(?:ISO|IEC)[^0-9]*\s[0-9]+)
-      (?::(?<year>--|–|—|&\#821[12];|[0-9][0-9-]+))?\s
-      \(all\sparts\)\]</ref>,?\s*
-        (?:<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>,?\s?)?(?<text>.*)$}xm
-
-      NON_ISO_REF = %r{^<ref\sid="(?<anchor>[^"]+)">
-      \[(?<usrlbl>\([^)]+\))?(?<code>.+?)\]</ref>,?\s*(?<text>.*)$}xm
-
-      NON_ISO_REF1 = %r{^<ref\sid="(?<anchor>[^"]+)">
-      (?<usrlbl>\([^)]+\))?(?<code>.+?)</ref>,?\s*(?<text>.*)$}xm
-
       def reference1_matches(item)
         matched = ISO_REF.match item
         matched2 = ISO_REF_NO_YEAR.match item
@@ -233,6 +209,8 @@ module Metanorma
         when 3 then isorefmatches3out(item, xml)
         end
       end
+
+      include ::Metanorma::Standoc::Regex
     end
   end
 end

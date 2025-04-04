@@ -26,9 +26,6 @@ module Metanorma
         asciimath2mathml_err(elem.to_xml, e)
       end
 
-      # https://medium.com/@rickwang_wxc/in-ruby-given-a-string-detect-if-it-is-valid-numeric-c58275eace60
-      NUMERIC_REGEX = %r{^((\+|-)?\d*\.?\d+)([eE](\+|-){1}\d+)?$}
-
       MATHML_NS = "http://www.w3.org/1998/Math/MathML".freeze
 
       def asciimath_parse(expr, elem)
@@ -191,6 +188,8 @@ module Metanorma
           .each { |x| mathml_number_format(x) }
         mathml_unitsml(xmldoc)
       end
+
+      include ::Metanorma::Standoc::Regex
     end
   end
 end

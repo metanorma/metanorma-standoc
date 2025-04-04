@@ -140,15 +140,6 @@ module Metanorma
         end
       end
 
-      TERM_REFERENCE_RE_STR = <<~REGEXP.freeze
-        ^(?<xref><(xref|concept)[^>]+>(.*?</(xref|concept)>)?)
-               (,\s(?<text>.*))?
-        $
-      REGEXP
-      TERM_REFERENCE_RE =
-        Regexp.new(TERM_REFERENCE_RE_STR.gsub(/\s/, "").gsub(/_/, "\\s"),
-                   Regexp::IGNORECASE | Regexp::MULTILINE)
-
       def extract_termsource_refs(text, node)
         matched = TERM_REFERENCE_RE.match text
         matched.nil? and @log.add("AsciiDoc Input", node,
