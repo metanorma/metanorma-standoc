@@ -142,6 +142,166 @@ RSpec.describe Metanorma::Standoc do
     expect(File.exist?("test.xml")).to be false
   end
 
+  it "aborts on passing through invalid Metanorma XML with no format specification" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      == Clause
+
+      ++++
+      <formula>
+      <fred/>
+      <stem>
+      <asciimath/>
+      </stem>
+      </formula>
+      ++++
+
+    INPUT
+
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to output("Invalid passthrough content").to_stderr
+    rescue SystemExit, RuntimeError
+    end
+
+        input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      == Clause
+
+      ++++
+      <formulae>
+      <fred/>
+      <stem>
+      <asciimath/>
+      </stem>
+      </formulae>
+      ++++
+
+    INPUT
+
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to output("Invalid passthrough content").to_stderr
+    rescue SystemExit, RuntimeError
+    end
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      == Clause
+
+      ++++
+      <formula>
+      <stem>
+      <asciimath/>
+      </stem>
+      </formula>
+      ++++
+
+    INPUT
+
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.not_to raise_error
+    rescue SystemExit, RuntimeError
+    end
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.not_to output("Invalid passthrough content").to_stderr
+    rescue SystemExit, RuntimeError
+    end
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      == Clause
+
+      [format=html]
+      ++++
+      <formula>
+      <stem>
+      <asciimath/>
+      </stem>
+      </formula>
+      ++++
+
+    INPUT
+
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.not_to raise_error
+    rescue SystemExit, RuntimeError
+    end
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.not_to output("Invalid passthrough content").to_stderr
+    rescue SystemExit, RuntimeError
+    end
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      == Clause
+
+      ++++
+      <formula>
+      <stem>
+      <fred/>
+      ++++
+
+    INPUT
+
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.not_to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.not_to output("Invalid passthrough content").to_stderr
+    rescue SystemExit, RuntimeError
+    end
+  end
+
   it "aborts on embedding a missing document" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"

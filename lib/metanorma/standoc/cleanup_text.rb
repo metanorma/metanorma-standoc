@@ -4,10 +4,10 @@ module Metanorma
       def textcleanup(result)
         text = result.flatten.map(&:rstrip) * "\n"
         text = text.gsub(/(?<!\s)\s+<fn /, "<fn ")
-        %w(passthrough passthrough-inline).each do |v|
-          text.gsub!(%r{<#{v}\s+formats="metanorma">([^<]*)
-                    </#{v}>}mx) { @c.decode($1) }
-        end
+        #%w(passthrough passthrough-inline).each do |v|
+        #  text.gsub!(%r{<#{v}\s+formats="metanorma">([^<]*)
+        #            </#{v}>}mx) { @c.decode($1) }
+        #end
         text
       end
 
@@ -91,7 +91,7 @@ module Metanorma
       # "abc<tag/>", def => "abc",<tag/> def
       # TODO?
       def uninterrupt_quotes_around_xml1(xmldoc)
-          xmldoc.xpath("//text()[preceding-sibling::*[1]]").each do |n|
+        xmldoc.xpath("//text()[preceding-sibling::*[1]]").each do |n|
           uninterrupt_quotes_around_xml_skip(n) and next
           uninterrupt_quotes_around_xml1(n.previous)
         end
@@ -157,25 +157,8 @@ module Metanorma
           block?(x) and prev = ""
           empty_tag_with_text_content?(x) and prev = "dummy"
           x.text? or next
-
-          # ancestors = x.path.gsub(/\[\d+\]/, "").split(%r{/})[1..-2]
-          # ancestors.intersection(IGNORE_QUOTES_ELEMENTS).empty? or next
           ancestor_include?(x, IGNORE_QUOTES_ELEMENTS) and next
           dumb2smart_quotes1(x, prev)
-          prev = x.text
-        end
-      end
-
-      def dumb2smart_quotesx(xmldoc)
-        # TODO?>
-        prev = ""
-        xmldoc.xpath("//* | //text()").each do |x|
-          x.is_a?(Nokogiri::XML::Node) or next
-          block?(x) and prev = ""
-          empty_tag_with_text_content?(x) and prev = "dummy"
-          x.text? or next
-ancestor_include?(x, IGNORE_QUOTES_ELEMENTS) and next
- dumb2smart_quotes1(x, prev)
           prev = x.text
         end
       end

@@ -111,9 +111,6 @@ module Metanorma
       def schema_validate1(file, doc, schema)
         file.write(to_xml(doc))
         file.close
-        require "debug"
-        binding.b
-        validate_with_dynamic_schema(File.read("a1.xml"))
         errors = Jing.new(schema, encoding: "UTF-8").validate(file.path)
         warn "Syntax Valid!" if errors.none?
         errors.each do |e|
@@ -123,12 +120,15 @@ module Metanorma
       end
 
       def validate_document_fragment(xml_fragment)
-        fragment_doc = add_ns_to_fragment(xml_fragment)
+        f = add_ns_to_fragment(xml_fragment) or
+          return [true,
+                  "Fragment is not well-formed XML, not validating"]
         begin
-          temp_schema, schema = fragment_schema(fragment_doc.root.name)
-          validation_errors = schema.validate(fragment_doc)
-          [validation_errors.any? do |x|
-            x.include?("Did not expect element")
+          temp_schema, schema = fragment_schema(f.root.name)
+          schema or return [false, "Did not expect element #{f.root.name}"]
+          validation_errors = schema.validate(f)
+          [validation_errors.none? do |x|
+            x.to_s.include?("Did not expect element")
           end, validation_errors]
         ensure
           temp_schema.unlink
@@ -136,13 +136,16 @@ module Metanorma
       end
 
       def add_ns_to_fragment(xml_fragment)
-        fragment_doc = Nokogiri::XML(xml_fragment)
-        root_tag = fragment_doc.root.name
-        fragment_doc.root.namespace or
-          fragment_doc = Nokogiri::XML(xml_fragment
+        f = Nokogiri::XML(xml_fragment, &:strict)
+        f.errors.any? || f.root.nil? and return nil
+        root_tag = f.root.name
+        f.root.namespace or
+          f = Nokogiri::XML(xml_fragment
           .sub(/<#{root_tag}([^>]*)>/,
                "<#{root_tag}\\1 xmlns='#{xml_namespace}'>"))
-        fragment_doc
+        f
+      rescue StandardError
+        nil
       end
 
       def fragment_schema(root_element)
@@ -158,6 +161,8 @@ module Metanorma
         SCHEMA
         temp_schema.close
         [temp_schema, Nokogiri::XML::RelaxNG(File.open(temp_schema.path))]
+      rescue StandardError # error because root_element is not in schema
+        [temp_schema, nil]
       end
 
       SVG_NS = "http://www.w3.org/2000/svg".freeze
