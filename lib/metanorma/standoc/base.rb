@@ -11,30 +11,28 @@ require_relative "localbib"
 require_relative "init"
 require "mn-requirements"
 
-require 'set'
-
 module Asciidoctor
   module Compliance
-    ADMONITION_STYLES.add('EDITOR') unless ADMONITION_STYLES.include?('EDITOR')
+    ADMONITION_STYLES.add("EDITOR") unless ADMONITION_STYLES.include?("EDITOR")
   end
 end
 
 module Metanorma
   module Standoc
     module Base
-      #XML_ROOT_TAG = "standard-document".freeze
-      #XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
+      # XML_ROOT_TAG = "standard-document".freeze
+      # XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
       FONTS_MANIFEST = "fonts-manifest".freeze
 
       attr_accessor :log
 
       def xml_root_tag
-        #self.class::XML_ROOT_TAG
+        # self.class::XML_ROOT_TAG
         "metanorma"
       end
 
       def xml_namespace
-        #self.class::XML_NAMESPACE
+        # self.class::XML_NAMESPACE
         "https://www.metanorma.org/ns/standoc"
       end
 

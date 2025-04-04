@@ -371,20 +371,26 @@ RSpec.describe Metanorma::Standoc do
       Note3
     INPUT
     output = <<~OUTPUT
-           #{BLANK_HDR}
+      #{BLANK_HDR}
           <sections>
              <clause id="_clause_1" inline-header="false" obligation="normative">
-                <title>Clause 1</title>
-                <bookmark id="_9"/>
+                <title>
+                   <bookmark id="_9"/>
+                   Clause 1
+                </title>
              </clause>
              <clause id="_clause_2" inline-header="false" obligation="normative">
-                <title>Clause 2</title>
-                <bookmark id="_10"/>
+                <title>
+                   <bookmark id="_10"/>
+                   Clause 2
+                </title>
              </clause>
           </sections>
           <annex id="_annex_1" inline-header="false" obligation="normative">
-             <title>Annex 1</title>
-             <bookmark id="_11"/>
+             <title>
+                <bookmark id="_11"/>
+                Annex 1
+             </title>
           </annex>
           <review-container>
              <review id="_2" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_9" to="_9">

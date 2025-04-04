@@ -1,4 +1,5 @@
 require_relative "utils"
+require_relative "regex"
 
 module Metanorma
   module Standoc

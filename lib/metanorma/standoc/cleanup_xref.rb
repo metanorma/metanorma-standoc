@@ -1,33 +1,6 @@
 module Metanorma
   module Standoc
     module Cleanup
-      # extending localities to cover ISO referencing
-      CONN_REGEX_STR = "(?<conn>and|or|from|to)!".freeze
-
-      LOCALITIES = "section|clause|part|paragraph|chapter|page|line|" \
-        "table|annex|figure|example|note|formula|list|time|anchor|" \
-        "locality:[^ \\t\\n\\r:,;=]+".freeze
-
-      LOCALITY_REGEX_STR = <<~REGEXP.freeze
-        ^((#{CONN_REGEX_STR})?
-            (?<locality>#{LOCALITIES})(\\s+|=)
-               (?<ref>[^"][^ \\t\\n,:;-]*|"[^"]+")
-                 (-(?<to>[^"][^ \\t\\n,:;-]*|"[^"]"))?|
-          (?<locality2>whole|title|locality:[^ \\t\\n\\r:,;=]+))(?<punct>[,:;]?)\\s*
-         (?<text>.*)$
-      REGEXP
-
-      def to_regex(str)
-        Regexp.new(str.gsub(/\s/, ""), Regexp::IGNORECASE | Regexp::MULTILINE)
-      end
-
-      LOCALITY_REGEX_VALUE_ONLY_STR = <<~REGEXP.freeze
-        ^(?<conn0>(#{CONN_REGEX_STR}))
-          (?!whole|title|locality:)
-          (?<value>[^=,;:\\t\\n\\r]+)
-          (?<punct>[,;\\t\\n\\r]|$)
-      REGEXP
-
       def tq(text)
         text.sub(/^"/, "").sub(/"$/, "")
       end
@@ -42,16 +15,6 @@ module Metanorma
         tail and d << tail
         d.children.empty? and d.remove
       end
-
-      LOCALITY_REGEX_STR_TRIPLEDASH = <<~REGEXP.freeze
-        ^(?<locality>(#{CONN_REGEX_STR})?
-            (#{LOCALITIES})(\\s+|=))
-               (?<ref>[^"][^ \\t\\n,:;-]*
-                 -[^ \\t\\n,:;"-]+
-                 -[^ \\t\\n,:;"]+)
-          (?<text>[,:;]?\\s*
-         .*)$
-      REGEXP
 
       # treat n-n-n locality as "n-n-n", do not parse as a range
       def locality_normalise(text)
@@ -261,6 +224,8 @@ module Metanorma
           extract_localities(x)
         end
       end
+
+      include ::Metanorma::Standoc::Regex
     end
   end
 end

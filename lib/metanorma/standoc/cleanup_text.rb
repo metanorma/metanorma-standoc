@@ -16,16 +16,6 @@ module Metanorma
         !path.intersection(ancestors).empty?
       end
 
-      def linebreak_cleanup(xmldoc)
-        xmldoc.traverse do |x|
-          x.text? && x.text.include?("\n") or next
-          ancestor_include?(x, PRESERVE_LINEBREAK_ELEMENTS) and next
-          ancestor_include?(x, STRIP_LINEBREAK_ELEMENTS) or next
-          x.replace(Metanorma::Utils
-            .line_sanitise(x.text.lines.map(&:rstrip)).join)
-        end
-      end
-
       # process example/p, example/sourcecode, not example on its own:
       # this is about stripping lines for blocks containing inline elems & text
       def linebreak_cleanup(xmldoc)
@@ -173,7 +163,7 @@ module Metanorma
 
       def dumbquote_cleanup(xmldoc)
         xmldoc.traverse do |n|
-          next unless n.text? && /\u2019/.match?(n.text)
+          next unless n.text? && n.text.include?("\u2019")
 
           n.replace(@c.encode(
                       @c.decode(n.text)

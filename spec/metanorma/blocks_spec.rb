@@ -356,7 +356,8 @@ RSpec.describe Metanorma::Standoc do
 
       [[foreword]]
       .Foreword
-      Foreword
+
+      _**Foreword**_
 
       [reviewer=ISO,date=20170101,from=foreword,to=foreword,type="whatever"]
       ****
@@ -369,10 +370,25 @@ RSpec.describe Metanorma::Standoc do
       Blank review
       ****
 
-      == Clause 3
+      == Clause title
 
-      [appendix]
-      == Annex 1
+      ****
+      Second Blank review
+      ****
+
+      == {blank}
+
+      ****
+      Third Blank review
+      ****
+
+      == {blank}
+
+      ****
+      Fourth Blank review
+      ****
+
+      Following paragraph
     INPUT
     output = <<~OUTPUT
       <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
@@ -397,18 +413,35 @@ RSpec.describe Metanorma::Standoc do
           <preface>
              <foreword id="_1" obligation="informative">
                 <title>Foreword</title>
-                <p id="foreword">Foreword</p>
-                <bookmark id="_10"/>
+                <p id="foreword">
+                   <em>
+                      <strong>
+                         <bookmark id="_18"/>
+                         Foreword
+                      </strong>
+                   </em>
+                </p>
              </foreword>
           </preface>
           <sections>
-             <clause id="_clause_3" inline-header="false" obligation="normative">
-                <title>Clause 3</title>
+             <clause id="_clause_title" inline-header="false" obligation="normative">
+                <title>
+                   <bookmark id="_19"/>
+                   Clause title
+                </title>
+             </clause>
+             <clause id="_11" inline-header="false" obligation="normative">
+                <p id="_22">
+                   <bookmark id="_20"/>
+                </p>
+             </clause>
+             <clause id="_2" inline-header="false" obligation="normative">
+                <p id="_17">
+                   <bookmark id="_21"/>
+                   Following paragraph
+                </p>
              </clause>
           </sections>
-          <annex id="_annex_1" inline-header="false" obligation="normative">
-             <title>Annex 1</title>
-          </annex>
           <review-container>
              <review id="_3" reviewer="ISO" date="20170101T00:00:00Z" type="whatever" from="foreword" to="foreword">
                 <p id="_4">A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.</p>
@@ -417,8 +450,17 @@ RSpec.describe Metanorma::Standoc do
                    <strong>ISO/IEC Directives, Part 2, 2016, Clause 12.</strong>
                 </p>
              </review>
-             <review id="_6" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_10" to="_10">
+             <review id="_6" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_18" to="_18">
                 <p id="_7">Blank review</p>
+             </review>
+             <review id="_9" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_19" to="_19">
+                <p id="_10">Second Blank review</p>
+             </review>
+             <review id="_12" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_20" to="_20">
+                <p id="_13">Third Blank review</p>
+             </review>
+             <review id="_15" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_21" to="_21">
+                <p id="_16">Fourth Blank review</p>
              </review>
           </review-container>
        </metanorma>
