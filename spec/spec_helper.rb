@@ -58,6 +58,44 @@ def strip_src(xml)
   xml.gsub(/\ssrc="[^"]+"/, ' src="_"')
 end
 
+def capture_stderr
+  original_stderr = $stderr
+  $stderr = StringIO.new
+  yield
+  $stderr.string
+ensure
+  $stderr = original_stderr
+end
+
+RSpec::Matchers.define :abort_with_message do |expected_message|
+  match do |actual|
+    @stderr_output = capture_stderr do
+      begin
+        actual.call
+        @error_raised = false
+      rescue SystemExit, RuntimeError => e
+        @error_raised = true
+        @error = e
+      end
+    end
+    
+    @error_raised && (@stderr_output.include?(expected_message) || @error&.message&.include?(expected_message))
+  end
+  
+  failure_message do
+    if !@error_raised
+      "expected code to raise SystemExit or RuntimeError, but it didn't"
+    else
+      "expected stderr or exception message to include '#{expected_message}', but got: stderr='#{@stderr_output}', error='#{@error&.message}'"
+    end
+  end
+  
+  # This allows chaining with other matchers if needed
+  def supports_block_expectations?
+    true
+  end
+end
+
 XSL = Nokogiri::XSLT(<<~XSL.freeze)
   <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:output method="xml" encoding="UTF-8" indent="yes"/>

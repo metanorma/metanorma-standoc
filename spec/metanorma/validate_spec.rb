@@ -56,18 +56,10 @@ RSpec.describe Metanorma::Standoc do
       embed::spec/assets/subdir/a4.adoc[]
 
     INPUT
-    begin
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(RuntimeError)
-    rescue SystemExit, RuntimeError
-    end
-    begin
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to output("Embedding an incomplete document with no header: spec/assets/subdir/a4.adoc").to_stderr
-    rescue SystemExit, RuntimeError
-    end
+    
+    expect { Asciidoctor.convert(input, *OPTIONS) }.to abort_with_message(
+      "Embedding an incomplete document with no header:"
+    )
   end
 
   it "aborts on attaching a non-existent file" do
@@ -142,6 +134,117 @@ RSpec.describe Metanorma::Standoc do
     expect(File.exist?("test.xml")).to be false
   end
 
+  it "aborts on passing through invalid Metanorma XML with no format specification" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    
+    # Test case 1: Invalid formula with fred element
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      == Clause
+
+      ++++
+      <formula>
+      <fred/>
+      <stem>
+      <asciimath/>
+      </stem>
+      </formula>
+      ++++
+    INPUT
+    expect { Asciidoctor.convert(input, *OPTIONS) }.to abort_with_message(
+      "Invalid passthrough content"
+    )
+
+    # Test case 2: Invalid formulae element
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      == Clause
+
+      ++++
+      <formulae>
+      <fred/>
+      <stem>
+      <asciimath/>
+      </stem>
+      </formulae>
+      ++++
+    INPUT
+    expect { Asciidoctor.convert(input, *OPTIONS) }.to abort_with_message(
+      "Invalid passthrough content"
+    )
+
+    # Test case 3: Valid formula without fred element - should not raise error
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      == Clause
+
+      ++++
+      <formula>
+      <stem>
+      <asciimath/>
+      </stem>
+      </formula>
+      ++++
+    INPUT
+    expect { Asciidoctor.convert(input, *OPTIONS) }.not_to abort_with_message(
+      "Invalid passthrough content"
+    )
+
+    # Test case 4: Valid formula with format=html - should not raise error
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      == Clause
+
+      [format=html]
+      ++++
+      <formula>
+      <stem>
+      <asciimath/>
+      </stem>
+      </formula>
+      ++++
+    INPUT
+    expect { Asciidoctor.convert(input, *OPTIONS) }.not_to abort_with_message(
+      "Invalid passthrough content"
+    )
+
+    # Test case 5: Malformed XML - should not raise specific error
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      == Clause
+
+      ++++
+      <formula>
+      <stem>
+      <fred/>
+      ++++
+    INPUT
+    expect { Asciidoctor.convert(input, *OPTIONS) }.not_to abort_with_message(
+      "Invalid passthrough content"
+    )
+  end
+
   it "aborts on embedding a missing document" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
@@ -154,6 +257,7 @@ RSpec.describe Metanorma::Standoc do
       embed::spec/assets/a6.adoc[]
 
     INPUT
+=begin
     begin
       expect do
         Asciidoctor.convert(input, *OPTIONS)
@@ -166,6 +270,10 @@ RSpec.describe Metanorma::Standoc do
       end.to output("Missing embed file: spec/assets/a5.").to_stderr
     rescue SystemExit, RuntimeError
     end
+=end
+    expect { Asciidoctor.convert(input, *OPTIONS) }.to abort_with_message(
+      "Missing embed file:"
+    )
   end
 
   it "aborts on empty table" do
