@@ -291,7 +291,7 @@ RSpec.describe Metanorma::Standoc do
     begin
       expect do
         Asciidoctor.convert(input, *OPTIONS)
-      end.not_to raise_error(SystemExit)
+      end.not_to raise_error
     rescue SystemExit, RuntimeError
     end
     begin

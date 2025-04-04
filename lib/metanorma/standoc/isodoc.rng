@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- VERSION v2.0.3 -->
 <grammar xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+<!-- VERSION v2.0.3 -->
+
   <!--
     ALERT: cannot have root comments, because of https://github.com/metanorma/metanorma/issues/437
     

@@ -25,6 +25,7 @@ module Metanorma
       end
 
       def validate_document_fragment(xml_fragment)
+        require "debug"; binding.b
         f = add_ns_to_fragment(xml_fragment) or
           return [true,
                   "Fragment is not well-formed XML, not validating"]
