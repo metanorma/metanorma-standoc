@@ -58,8 +58,9 @@ module Metanorma
         end
       end
 
-      def indirect_eref_to_xref(eref, ident, id_map=nil)
-        loc = eref.at("./localityStack[locality[@type = 'anchor']]") || eref.at("./locality[@type = 'anchor']")
+      def indirect_eref_to_xref(eref, ident)
+        loc = eref.at("./localityStack[locality[@type = 'anchor']]") ||
+          eref.at("./locality[@type = 'anchor']")
         loc = loc&.remove&.text || ident
         eref.name = "xref"
         eref.delete("bibitemid")
