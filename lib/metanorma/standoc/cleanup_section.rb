@@ -206,34 +206,6 @@ module Metanorma
           ins.previous = x.remove
         end
       end
-
-      def review_cleanup(xmldoc)
-        reviews = xmldoc.xpath("//review")
-        reviews.empty? and return
-        ctr = xmldoc.root.add_child("<review-container/>").first
-        reviews.each do |r|
-          review_set_location(r)
-          ctr << r
-        end
-      end
-
-      def review_insert_bookmark(review, id)
-        x = review.at("./preceding-sibling::*[.//text()][not(self::review)][1]") ||
-          review.at("./following-sibling::*[.//text()][not(self::review)]")
-        ins = if x then x.at(".//text()")
-              else review.before("<p> </p>").previous.at(".//text()")
-              end
-        ins.previous = "<bookmark id='#{id}'/>"
-      end
-
-      def review_set_location(review)
-        unless review["from"]
-          id = "_#{UUIDTools::UUID.random_create}"
-          review_insert_bookmark(review, id)
-          review["from"] = id
-        end
-        review["to"] ||= review["from"]
-      end
     end
   end
 end
