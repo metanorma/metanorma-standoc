@@ -221,27 +221,23 @@ module Metanorma
         end
       end
 
-    PASSTHROUGH_ERR = <<~ERRMSG.freeze
-      This is not valid Metanorma XML. If you intended a different format, such as HTML, you need to specify `format=` on the pass markup;
-      refer to https://www.metanorma.org/author/topics/blocks/passthroughs/
-    ERRMSG
+      PASSTHROUGH_ERR = <<~ERRMSG.freeze
+        This is not valid Metanorma XML. If you intended a different format, such as HTML, you need to specify `format=` on the pass markup;
+        refer to https://www.metanorma.org/author/topics/blocks/passthroughs/
+      ERRMSG
 
-    # need to validate Metanorma XML before it passes to textcleanup,
-    # where passthrough wrapper and escaped tags are removed:
-    # <passthrough format="metanorma>&lt;tag&gt</passthrough> => <tag> 
-    # Do not treat not well-formed XML as invalid,
-    # as it may be fragment, e.g. unterminated start of element markup
-    def passthrough_validate(node, content, encoded_content)
-      require "debug"; binding.b
-        valid, errors = validate_document_fragment(content.dup)
+      # need to validate Metanorma XML before it passes to textcleanup,
+      # where passthrough wrapper and escaped tags are removed:
+      # <passthrough format="metanorma>&lt;tag&gt</passthrough> => <tag>
+      # Do not treat not well-formed XML as invalid,
+      # as it may be fragment, e.g. unterminated start of element markup
+      def passthrough_validate(node, content, encoded_content)
+        valid, = validate_document_fragment(content.dup)
+        err =
+          "Invalid passthrough content: #{encoded_content}\n#{PASSTHROUGH_ERR}"
         !valid and
-          @log.add("Metanorma XML Syntax", node,
-                   "Invalid passthrough content: #{encoded_content}\n#{PASSTHROUGH_ERR}",
-                   severity: 0)
-    end
-
-
-
+          @log.add("Metanorma XML Syntax", node, err, severity: 0)
+      end
     end
   end
 end

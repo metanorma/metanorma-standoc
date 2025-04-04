@@ -4,10 +4,10 @@ module Metanorma
       def textcleanup(result)
         text = result.flatten.map(&:rstrip) * "\n"
         text = text.gsub(/(?<!\s)\s+<fn /, "<fn ")
-        #%w(passthrough passthrough-inline).each do |v|
-        #  text.gsub!(%r{<#{v}\s+formats="metanorma">([^<]*)
-        #            </#{v}>}mx) { @c.decode($1) }
-        #end
+        %w(passthrough passthrough-inline).each do |v|
+          text.gsub!(%r{<#{v}\s+formats="metanorma">([^<]*)
+                    </#{v}>}mx) { @c.decode($1) }
+        end
         text
       end
 
