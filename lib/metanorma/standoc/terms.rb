@@ -171,6 +171,8 @@ module Metanorma
           end
         end
       end
+
+      include ::Metanorma::Standoc::Regex
     end
   end
 end
