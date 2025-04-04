@@ -111,12 +111,53 @@ module Metanorma
       def schema_validate1(file, doc, schema)
         file.write(to_xml(doc))
         file.close
+        require "debug"
+        binding.b
+        validate_with_dynamic_schema(File.read("a1.xml"))
         errors = Jing.new(schema, encoding: "UTF-8").validate(file.path)
         warn "Syntax Valid!" if errors.none?
         errors.each do |e|
           @log.add("Metanorma XML Syntax",
                    "XML Line #{'%06d' % e[:line]}:#{e[:column]}", e[:message])
         end
+      end
+
+      def validate_document_fragment(xml_fragment)
+        fragment_doc = add_ns_to_fragment(xml_fragment)
+        begin
+          temp_schema, schema = fragment_schema(fragment_doc.root.name)
+          validation_errors = schema.validate(fragment_doc)
+          [validation_errors.any? do |x|
+            x.include?("Did not expect element")
+          end, validation_errors]
+        ensure
+          temp_schema.unlink
+        end
+      end
+
+      def add_ns_to_fragment(xml_fragment)
+        fragment_doc = Nokogiri::XML(xml_fragment)
+        root_tag = fragment_doc.root.name
+        fragment_doc.root.namespace or
+          fragment_doc = Nokogiri::XML(xml_fragment
+          .sub(/<#{root_tag}([^>]*)>/,
+               "<#{root_tag}\\1 xmlns='#{xml_namespace}'>"))
+        fragment_doc
+      end
+
+      def fragment_schema(root_element)
+        temp_schema = Tempfile.new(["dynamic_schema", ".rng"])
+        temp_schema.write(<<~SCHEMA)
+                  <grammar xmlns="http://relaxng.org/ns/structure/1.0">
+            <include href="#{File.join(File.dirname(__FILE__), 'isodoc-compile.rng')}">
+              <start combine="choice">
+                  <ref name="#{root_element}"/>
+              </start>
+          </include>
+                  </grammar>
+        SCHEMA
+        temp_schema.close
+        [temp_schema, Nokogiri::XML::RelaxNG(File.open(temp_schema.path))]
       end
 
       SVG_NS = "http://www.w3.org/2000/svg".freeze
