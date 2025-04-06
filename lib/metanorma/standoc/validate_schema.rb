@@ -4,7 +4,10 @@ module Metanorma
   module Standoc
     module Validate
       def schema_location
-        File.join(File.dirname(__FILE__), schema_file)
+        self.class.respond_to?(:_file) and ret = self.class::_file
+        ret ||= caller_locations(1..1).first.absolute_path
+        ret ||= __FILE__
+        File.join(File.dirname(ret), schema_file)
       end
 
       def schema_file
