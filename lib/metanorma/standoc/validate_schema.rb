@@ -4,7 +4,7 @@ module Metanorma
   module Standoc
     module Validate
       def schema_location
-        File.join(File.dirname(__FILE__), "isodoc-compile.rng")
+        File.join(File.dirname(__FILE__), schema_file)
       end
 
       def schema_file
