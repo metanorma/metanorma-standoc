@@ -2,8 +2,8 @@ require "metanorma/standoc/utils"
 require_relative "validate_section"
 require_relative "validate_table"
 require_relative "validate_term"
+require_relative "validate_schema"
 require "nokogiri"
-require "jing"
 require "iev"
 require "pngcheck"
 
@@ -98,49 +98,6 @@ module Metanorma
         @log.add("Style", i, err2)
       end
 
-      def schema_validate(doc, schema)
-        Tempfile.open(["tmp", ".xml"], encoding: "UTF-8") do |f|
-          schema_validate1(f, doc, schema)
-        rescue Jing::Error => e
-          clean_abort("Jing failed with error: #{e}", doc)
-        ensure
-          f.close!
-        end
-      end
-
-      def schema_validate1(file, doc, schema)
-        file.write(to_xml(doc))
-        file.close
-        errors = Jing.new(schema, encoding: "UTF-8").validate(file.path)
-        warn "Syntax Valid!" if errors.none?
-        errors.each do |e|
-          @log.add("Metanorma XML Syntax",
-                   "XML Line #{'%06d' % e[:line]}:#{e[:column]}", e[:message])
-        end
-      end
-
-      SVG_NS = "http://www.w3.org/2000/svg".freeze
-
-      WILDCARD_ATTRS =
-        "//*[@format] | //stem | //bibdata//description | " \
-        "//formattedref | //bibdata//note | //bibdata/abstract | " \
-        "//bibitem/abstract | //bibitem/note | //metanorma-extension".freeze
-
-      # RelaxNG cannot cope well with wildcard attributes. So we strip
-      # any attributes from FormattedString instances (which can contain
-      # xs:any markup, and are signalled with @format) before validation.
-      def formattedstr_strip(doc)
-        doc.xpath(WILDCARD_ATTRS, "m" => SVG_NS).each do |n|
-          n.elements.each do |e|
-            e.traverse do |e1|
-              e1.element? and e1.each { |k, _v| e1.delete(k) } # rubocop:disable Style/HashEachMethods
-            end
-          end
-        end
-        doc.xpath("//m:svg", "m" => SVG_NS).each { |n| n.replace("<svg/>") }
-        doc
-      end
-
       def image_validate(doc)
         image_exists(doc)
         image_toobig(doc)
@@ -198,8 +155,7 @@ module Metanorma
 
       def validate(doc)
         content_validate(doc)
-        schema_validate(formattedstr_strip(doc.dup),
-                        File.join(File.dirname(__FILE__), "isodoc-compile.rng"))
+        schema_validate(formattedstr_strip(doc.dup), schema_location)
       end
 
       def repeat_id_validate1(elem)
