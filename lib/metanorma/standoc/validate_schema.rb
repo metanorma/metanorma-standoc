@@ -3,6 +3,14 @@ require "jing"
 module Metanorma
   module Standoc
     module Validate
+      def schema_location
+        File.join(File.dirname(__FILE__), "isodoc-compile.rng")
+      end
+
+      def schema_file
+        "isodoc-compile.rng"
+      end
+
       def schema_validate(doc, schema)
         Tempfile.open(["tmp", ".xml"], encoding: "UTF-8") do |f|
           schema_validate1(f, doc, schema)
@@ -57,7 +65,7 @@ module Metanorma
         temp_schema = Tempfile.new(["dynamic_schema", ".rng"])
         temp_schema.write(<<~SCHEMA)
                   <grammar xmlns="http://relaxng.org/ns/structure/1.0">
-            <include href="#{File.join(File.dirname(__FILE__), 'isodoc-compile.rng')}">
+            <include href="#{schema_location}">
               <start combine="choice">
                   <ref name="#{root_element}"/>
               </start>
