@@ -58,7 +58,7 @@ module Metanorma
         end
       end
 
-      def indirect_eref_to_xref(eref, ident)
+      def indirect_eref_to_xref(eref, ident, id_map=nil)
         loc = eref.at("./localityStack[locality[@type = 'anchor']]") ||
           eref.at("./locality[@type = 'anchor']")
         loc = loc&.remove&.text || ident
@@ -66,18 +66,30 @@ module Metanorma
         eref.delete("bibitemid")
         eref.delete("citeas")
         eref["target"] = loc
-        eref.document.at("//*[@id = '#{loc}']") and return
+        if id_map
+          return if id_map.has_key?(loc)
+        else
+          eref.document.at("//*[@id = '#{loc}']") and return
+        end
         eref.children = %(** Missing target #{loc})
         eref["target"] = ident
       end
 
       def resolve_local_indirect_erefs(xmldoc, refs, prefix)
+        # Pre-index elements by ID
+        id_map = xmldoc.xpath("//*[@id]").each_with_object({}) do |node, map|
+          map[node["id"]] = node
+        end
+
+        # Pre-index all <eref> elements by bibitemid
+        eref_map = xmldoc.xpath("//eref[@bibitemid]").group_by { |e| e["bibitemid"] }
+
         refs.each_with_object([]) do |r, m|
           id = r.sub(/^#{prefix}_/, "")
-          n = xmldoc.at("//*[@id = '#{id}']")
+          n = id_map[id]
           if n&.at("./ancestor-or-self::*[@type = '#{prefix}']")
-            xmldoc.xpath("//eref[@bibitemid = '#{r}']").each do |e|
-              indirect_eref_to_xref(e, id)
+            eref_map[r]&.each do |e|
+              indirect_eref_to_xref(e, id, id_map)
             end
           else m << r
           end

@@ -147,23 +147,6 @@ module Metanorma
           block?(x) and prev = ""
           empty_tag_with_text_content?(x) and prev = "dummy"
           x.text? or next
-
-          # ancestors = x.path.gsub(/\[\d+\]/, "").split(%r{/})[1..-2]
-          # ancestors.intersection(IGNORE_QUOTES_ELEMENTS).empty? or next
-          ancestor_include?(x, IGNORE_QUOTES_ELEMENTS) and next
-          dumb2smart_quotes1(x, prev)
-          prev = x.text
-        end
-      end
-
-      def dumb2smart_quotesx(xmldoc)
-        # TODO?>
-        prev = ""
-        xmldoc.xpath("//* | //text()").each do |x|
-          x.is_a?(Nokogiri::XML::Node) or next
-          block?(x) and prev = ""
-          empty_tag_with_text_content?(x) and prev = "dummy"
-          x.text? or next
           ancestor_include?(x, IGNORE_QUOTES_ELEMENTS) and next
           dumb2smart_quotes1(x, prev)
           prev = x.text
@@ -180,7 +163,7 @@ module Metanorma
 
       def dumbquote_cleanup(xmldoc)
         xmldoc.traverse do |n|
-          next unless n.text? && /\u2019/.match?(n.text)
+          next unless n.text? && n.text.include?("\u2019")
 
           n.replace(@c.encode(
                       @c.decode(n.text)
