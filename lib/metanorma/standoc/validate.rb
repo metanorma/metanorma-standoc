@@ -197,9 +197,25 @@ module Metanorma
       end
 
       def validate(doc)
-        content_validate(doc)
-        schema_validate(formattedstr_strip(doc.dup),
-                        File.join(File.dirname(__FILE__), "isodoc-compile.rng"))
+        def validate(doc)
+          # Start schema validation in a bg thread
+          exception = nil
+          thread = Thread.new do
+            begin
+              schema_validate(formattedstr_strip(doc.dup),
+                              File.join(File.dirname(__FILE__), "isodoc-compile.rng"))
+            rescue => e
+              exception = e
+            end
+          end
+
+          # Continue content validation on the main thread
+          content_validate(doc)
+
+          # Join
+          thread.join
+          raise exception if exception
+        end
       end
 
       def repeat_id_validate1(elem)
