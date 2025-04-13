@@ -1,5 +1,4 @@
 require "date"
-require "htmlentities"
 require "pathname"
 require_relative "./front_contributor"
 require "isoics"
@@ -13,7 +12,7 @@ module Metanorma
       end
 
       def metadata_id_build(node)
-        part, subpart = node&.attr("partnumber")&.split(/-/)
+        part, subpart = node&.attr("partnumber")&.split("-")
         id = node.attr("docnumber") || ""
         id += "-#{part}" if part
         id += "-#{subpart}" if subpart
@@ -189,8 +188,11 @@ module Metanorma
         metadata_flavor(node, ext)
         metadata_committee(node, ext)
         metadata_ics(node, ext)
+        structured_id(node, ext)
         metadata_coverpage_images(node, ext)
       end
+
+      def structured_id(node, xml); end
 
       def metadata_doctype(node, xml)
         xml.doctype doctype(node)
@@ -218,7 +220,8 @@ module Metanorma
           at = { language: lang, format: "text/plain" }
           xml.title **attr_code(at) do |t|
             title = Metanorma::Utils::asciidoc_sub(
-              node.attr("title") || node.attr("title-en") || node.attr("doctitle"))
+              node.attr("title") || node.attr("title-en") || node.attr("doctitle"),
+            )
             t << title
           end
         end
