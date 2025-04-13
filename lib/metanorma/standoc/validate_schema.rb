@@ -83,10 +83,7 @@ module Metanorma
 
       SVG_NS = "http://www.w3.org/2000/svg".freeze
 
-      WILDCARD_ATTRS =
-        "//*[@format] | //stem | //bibdata//description | " \
-        "//formattedref | //bibdata//note | //bibdata/abstract | " \
-        "//bibitem/abstract | //bibitem/note | //metanorma-extension".freeze
+      WILDCARD_ATTRS = "//stem | //metanorma-extension".freeze
 
       # RelaxNG cannot cope well with wildcard attributes. So we strip
       # any attributes from FormattedString instances (which can contain
