@@ -65,6 +65,9 @@ module Metanorma
         if @smartquotes then smartquotes_cleanup1(xmldoc)
         else dumbquote_cleanup(xmldoc)
         end
+        xmldoc.xpath("//passthrough[@formats = 'straightquotes']").each do |x|
+          x.replace(x.children)
+        end
       end
 
       def smartquotes_cleanup1(xmldoc)

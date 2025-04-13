@@ -114,10 +114,12 @@ module Metanorma
     class PassInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :"pass-format"
+      parse_content_as :text
 
       def process(parent, target, attrs)
+        #require "debug"; binding.b
         format = target || "metanorma"
-        out = Asciidoctor::Inline.new(parent, :quoted, attrs[1]).convert
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
           .gsub(/((?![<>&])[[:punct:]])/, "\\1&#x200c;")
         %{<passthrough-inline formats="#{format}">#{out}</passthrough-inline>}
       end
