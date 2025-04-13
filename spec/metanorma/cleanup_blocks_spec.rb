@@ -1337,6 +1337,8 @@ RSpec.describe Metanorma::Standoc do
         ]
       }
       ----
+
+      We do not preserve line breaks in Maths though (stem:[x])
       =================
     INPUT
     output = <<~OUTPUT
@@ -1363,12 +1365,18 @@ RSpec.describe Metanorma::Standoc do
          ]
        }</body></sourcecode>
 
+       <p id="_">We do not preserve line breaks in Maths though (<stem block="false" type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML">
+         <mstyle displaystyle="false">
+           <mi>x</mi>
+         </mstyle>
+       </math><asciimath>x</asciimath></stem>)</p>
+
        </example>
        </clause>
        </sections>
        </metanorma>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
-      .to be_equivalent_to output
+      .to be_equivalent_to (output)
   end
 end

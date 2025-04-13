@@ -47,11 +47,15 @@ module Metanorma
 
       def gather_text_for_linebreak_cleanup(block)
         x = block.xpath(".//text()").map do |e|
-          { elem: e, text: e.text,
+          { elem: e, text: e.text, stem: ancestor_include?(e, %w(stem)),
             skip: ancestor_include?(e, PRESERVE_LINEBREAK_ELEMENTS) }
         end
         x.empty? and return x
         x.each { |e| e[:skip] ||= !e[:text].include?("\n") }
+        x.each_with_index do |e, i|
+          # do not treat stem linebreaks as meaningful
+          e[:skip] ||= x[i + 1]&.dig(:stem)
+        end
         x[-1][:last] = true
         x
       end
@@ -92,7 +96,7 @@ module Metanorma
            identifier metanorma-extension).freeze
 
       PRESERVE_LINEBREAK_ELEMENTS =
-        %w(pre sourcecode passthrough metanorma-extension).freeze
+        %w(pre sourcecode passthrough metanorma-extension stem).freeze
 
       STRIP_LINEBREAK_ELEMENTS =
         %w(title name variant-title figure example review admonition
