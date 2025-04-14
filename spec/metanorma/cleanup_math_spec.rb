@@ -673,7 +673,7 @@ RSpec.describe Metanorma::Standoc do
                       <PrefixName lang="en">kilo</PrefixName>
                       <PrefixSymbol type="ASCII">k</PrefixSymbol>
                       <PrefixSymbol type="unicode">k</PrefixSymbol>
-                      <PrefixSymbol type="LaTex">k</PrefixSymbol>
+                      <PrefixSymbol type="LaTeX">k</PrefixSymbol>
                       <PrefixSymbol type="HTML">k</PrefixSymbol>
                    </Prefix>
                 </PrefixSet>
