@@ -211,12 +211,13 @@ module Metanorma
       end
 
       def pass(node)
+        format = node.attr("format") || "metanorma"
         noko do |xml|
-          xml.passthrough **attr_code(formats:
-                                      node.attr("format") || "metanorma") do |p|
+          xml.passthrough **attr_code(formats: format) do |p|
             content = @c.encode(node.content, :basic, :hexadecimal)
             p << content
-            passthrough_validate(node, node.content, content)
+            format == "metanorma" and
+              passthrough_validate(node, node.content, content)
           end
         end
       end
