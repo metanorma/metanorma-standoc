@@ -203,7 +203,7 @@ RSpec.describe Metanorma::Standoc do
       "Invalid passthrough content"
     )
 
-    # Test case 4: Valid formula with format=html - should not raise error
+    # Test case 4: Invalid formula with format=html - should not raise error
     input = <<~INPUT
       = Document title
       Author
@@ -215,6 +215,7 @@ RSpec.describe Metanorma::Standoc do
       [format=html]
       ++++
       <formula>
+      <fred/>
       <stem>
       <asciimath/>
       </stem>

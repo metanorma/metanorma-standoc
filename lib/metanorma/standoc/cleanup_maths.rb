@@ -166,8 +166,7 @@ module Metanorma
           return
         end
         f == "default" or return f
-        if @numberfmt_default.empty?
-          "notation='basic'"
+        if @numberfmt_default.empty? then "notation='basic'"
         else @numberfmt_default&.map { |k, v| "#{k}='#{v}'" }&.join(",")
         end
       end

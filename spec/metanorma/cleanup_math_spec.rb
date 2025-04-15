@@ -80,8 +80,8 @@ RSpec.describe Metanorma::Standoc do
       :novalid:
       :no-isobib:
       :number-presentation: notation=e,,exponent_sign=plus,precision=4
-      :number-presentation-profile-3: notation=scientific,exponent_sign=nil,decimal=","
-      :number-presentation-profile-x: notation=engineering,precision=4,times=','
+      :number-presentation-profile-3: notation=scientific,exponent_sign=nil,decimal=",",e=" "
+      :number-presentation-profile-x: notation=engineering,precision=4,times=',',e=""
       :number-presentation-profile-y: group_digits=3,fraction_group_digits=3,decimal=",",group=&#x2009;,notation=general
 
       number:145[]
@@ -103,22 +103,22 @@ RSpec.describe Metanorma::Standoc do
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="notation='scientific',precision='4',decimal=','">0.245e3</mn>
+                 <mn data-metanorma-numberformat="notation='scientific',precision='4',decimal=',',e=' '">0.245e3</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='4',times=','">0.345e3</mn>
+                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='4',times=',',e=''">0.345e3</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='5',times=','">0.445e3</mn>
+                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='5',times=',',e=''">0.445e3</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',times=',',digit_count='10'">0.545e3</mn>
+                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',times=',',e='',digit_count='10'">0.545e3</mn>
                </math>
              </stem>
              <stem type="MathML">
@@ -578,6 +578,9 @@ RSpec.describe Metanorma::Standoc do
 
       stem:[1 "unitsml(cd)"]
 
+      stem:[1 
+      "unitsml(cd)"]
+
       stem:[7 "unitsml(m*kg^-2)" + 8 "unitsml(m*kg^-3)"]
     INPUT
     output = <<~OUTPUT
@@ -695,6 +698,23 @@ RSpec.describe Metanorma::Standoc do
                       </mstyle>
                    </math>
                    <asciimath>1 "unitsml(cd)"</asciimath>
+                </stem>
+             </p>
+             <p id="_">
+                <stem block="false" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="false">
+                         <mn>1</mn>
+                         <mo rspace="thickmathspace">⁢</mo>
+                         <mrow xref="U_NISTu7">
+                            <mstyle mathvariant="normal">
+                               <mi>cd</mi>
+                            </mstyle>
+                         </mrow>
+                      </mstyle>
+                   </math>
+                   <asciimath>1
+       "unitsml(cd)"</asciimath>
                 </stem>
              </p>
              <p id="_">

@@ -76,7 +76,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes complex lists" do
-    output = Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [[id]]
       [keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
@@ -100,6 +100,11 @@ RSpec.describe Metanorma::Standoc do
       . Fifth
       . Sixth
 
+      * A
+      * B
+      a. C
+      b. D
+
       [lowerroman]
       . A
       . B
@@ -121,76 +126,102 @@ RSpec.describe Metanorma::Standoc do
       a:: b
 
     INPUT
-    expect(Xml::C14n.format(strip_guid(output))).to be_equivalent_to Xml::C14n.format(<<~"OUTPUT")
-                  #{BLANK_HDR}
-             <sections><ul id="id" keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common' >
+    output = <<~OUTPUT
+                 #{BLANK_HDR}
+         <sections>
+            <ul id="id" tag="X" multilingual-rendering="common" keep-with-next="true" keep-lines-together="true">
                <li>
-                 <p id="_">First</p>
-               </li>
-               <li><p id="_">Second</p><p id="_">entry1</p>
-             <p id="_">entry2</p></li>
-             </ul>
-             <ol id="id1" type="alphabet"  keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common' >
-               <li>
-                 <p id="_">First</p>
+                  <p id="_">First</p>
                </li>
                <li>
-                 <p id="_">Second</p>
-                 <ol id="_" type="alphabet_upper">
-               <li>
-                 <p id="_">Third</p>
+                  <p id="_">Second</p>
+                  <p id="_">entry1</p>
+                  <p id="_">entry2</p>
                </li>
+            </ul>
+            <ol id="id1" tag="X" multilingual-rendering="common" keep-with-next="true" keep-lines-together="true" type="alphabet">
                <li>
-                 <p id="_">Fourth</p>
-               </li>
-             </ol>
-               </li>
-               <li>
-                 <p id="_">Fifth</p>
+                  <p id="_">First</p>
                </li>
                <li>
-                 <p id="_">Sixth</p>
-               </li>
-             </ol>
-             <ol id="_" type="roman">
-               <li>
-                 <p id="_">A</p>
-               </li>
-               <li>
-                 <p id="_">B</p>
-                 <ol id="_" type="roman_upper">
-               <li>
-                 <p id="_">C</p>
+                  <p id="_">Second</p>
+                  <ol id="_" type="alphabet_upper">
+                     <li>
+                        <p id="_">Third</p>
+                     </li>
+                     <li>
+                        <p id="_">Fourth</p>
+                     </li>
+                  </ol>
                </li>
                <li>
-                 <p id="_">D</p>
-                 <ol id="_" type="arabic">
-               <li>
-                 <p id="_">E</p>
+                  <p id="_">Fifth</p>
                </li>
                <li>
-                 <p id="_">F</p>
-                 <dl id="_"  keep-with-next="true" keep-lines-together="true" tag='X' multilingual-rendering='common'>
-               <dt>Notes1</dt>
-               <dd/>
-               <dt>Notes</dt>
-               <dd><p id="_">Note 1.</p><p id="_">Note 2.</p>
-             <p id="_">Note 3.</p></dd>
-             </dl>
+                  <p id="_">Sixth</p>
+                  <ul id="_">
+                     <li>
+                        <p id="_">A</p>
+                     </li>
+                     <li>
+                        <p id="_">B</p>
+                        <ol id="_" type="alphabet">
+                           <li>
+                              <p id="_">C</p>
+                           </li>
+                           <li>
+                              <p id="_">D</p>
+                           </li>
+                        </ol>
+                     </li>
+                  </ul>
                </li>
-             </ol>
+            </ol>
+            <ol id="_" type="roman">
+               <li>
+                  <p id="_">A</p>
                </li>
-             </ol>
+               <li>
+                  <p id="_">B</p>
+                  <ol id="_" type="roman_upper">
+                     <li>
+                        <p id="_">C</p>
+                     </li>
+                     <li>
+                        <p id="_">D</p>
+                        <ol id="_" type="arabic">
+                           <li>
+                              <p id="_">E</p>
+                           </li>
+                           <li>
+                              <p id="_">F</p>
+                              <dl id="_" tag="X" multilingual-rendering="common" keep-with-next="true" keep-lines-together="true">
+                                 <dt>Notes1</dt>
+                                 <dd/>
+                                 <dt>Notes</dt>
+                                 <dd>
+                                    <p id="_">Note 1.</p>
+                                    <p id="_">Note 2.</p>
+                                    <p id="_">Note 3.</p>
+                                 </dd>
+                              </dl>
+                           </li>
+                        </ol>
+                     </li>
+                  </ol>
                </li>
-             </ol><dl id='_' key='true'>
-        <dt>a</dt>
-        <dd>
-          <p id='_'>b</p>
-        </dd>
-      </dl>
-      </sections>
-             </metanorma>
+            </ol>
+            <dl id="_" key="true">
+               <dt>a</dt>
+               <dd>
+                  <p id="_">b</p>
+               </dd>
+            </dl>
+         </sections>
+      </metanorma>
     OUTPUT
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "anchors lists and list items" do

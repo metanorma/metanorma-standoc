@@ -389,6 +389,74 @@ RSpec.describe Metanorma::Standoc do
       ****
 
       Following paragraph
+
+      == {blank}
+
+      Express the mass fraction of each defect using <<formulaA-1>>:
+
+      [[formulaA-1,A.1]]
+      [stem]
+      ++++
+      w = (m_D) / (m_s)
+      ++++
+
+      where
+
+      stem:[w]:: is the mass fraction of grains with a particular defect in the test
+
+      ****
+      Fifth Blank review
+      ****
+
+      == {blank}
+
+      Express the mass fraction of each defect using <<formulaA-1>>:
+
+      [[formulaA-1,A.1]]
+      [stem]
+      ++++
+      w = (m_D) / (m_s)
+      ++++
+
+      where
+
+      w:: is the mass fraction of grains with a particular defect in the test
+
+      ****
+      Sixth Blank review
+      ****
+
+      == {blank}
+
+      [NOTE]
+      .Label
+      Text
+
+      ****
+      Seventh Blank review
+      ****
+
+      == {blank}
+
+      |===
+      | A
+      |===
+
+      ****
+      Eighth Blank review
+      ****
+
+
+      == {blank}
+
+      .Caption
+      |===
+      | A
+      |===
+
+      ****
+      Ninth Blank review
+      ****
     INPUT
     output = <<~OUTPUT
       <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
@@ -416,7 +484,7 @@ RSpec.describe Metanorma::Standoc do
                 <p id="foreword">
                    <em>
                       <strong>
-                         <bookmark id="_18"/>
+                         <bookmark id="_44"/>
                          Foreword
                       </strong>
                    </em>
@@ -426,20 +494,134 @@ RSpec.describe Metanorma::Standoc do
           <sections>
              <clause id="_clause_title" inline-header="false" obligation="normative">
                 <title>
-                   <bookmark id="_19"/>
+                   <bookmark id="_45"/>
                    Clause title
                 </title>
              </clause>
              <clause id="_11" inline-header="false" obligation="normative">
-                <p id="_22">
-                   <bookmark id="_20"/>
+                <p id="_53">
+                   <bookmark id="_46"/>
                 </p>
              </clause>
              <clause id="_2" inline-header="false" obligation="normative">
                 <p id="_17">
-                   <bookmark id="_21"/>
+                   <bookmark id="_47"/>
                    Following paragraph
                 </p>
+             </clause>
+             <clause id="_3" inline-header="false" obligation="normative">
+                <p id="_19">
+                   <bookmark id="_48"/>
+                   Express the mass fraction of each defect using
+                   <xref target="formulaA-1"/>
+                   :
+                </p>
+                <formula id="formulaA-1">
+                   <stem block="true" type="MathML">
+                      <math xmlns="http://www.w3.org/1998/Math/MathML">
+                         <mstyle displaystyle="true">
+                            <mi>w</mi>
+                            <mo>=</mo>
+                            <mfrac>
+                               <msub>
+                                  <mi>m</mi>
+                                  <mi>D</mi>
+                               </msub>
+                               <msub>
+                                  <mi>m</mi>
+                                  <mi>s</mi>
+                               </msub>
+                            </mfrac>
+                         </mstyle>
+                      </math>
+                      <asciimath>w = (m_D) / (m_s)</asciimath>
+                   </stem>
+                   <dl id="_22" key="true">
+                      <dt>
+                         <stem block="false" type="MathML">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                               <mstyle displaystyle="false">
+                                  <mi>w</mi>
+                               </mstyle>
+                            </math>
+                            <asciimath>w</asciimath>
+                         </stem>
+                      </dt>
+                      <dd>
+                         <p id="_54">is the mass fraction of grains with a particular defect in the test</p>
+                      </dd>
+                   </dl>
+                </formula>
+             </clause>
+             <clause id="_4" inline-header="false" obligation="normative">
+                <p id="_26">
+                   Express the mass fraction of each defect using
+                   <xref target="formulaA-1"/>
+                   :
+                </p>
+                <formula id="formulaA-1">
+                   <stem block="true" type="MathML">
+                      <math xmlns="http://www.w3.org/1998/Math/MathML">
+                         <mstyle displaystyle="true">
+                            <mi>w</mi>
+                            <mo>=</mo>
+                            <mfrac>
+                               <msub>
+                                  <mi>m</mi>
+                                  <mi>D</mi>
+                               </msub>
+                               <msub>
+                                  <mi>m</mi>
+                                  <mi>s</mi>
+                               </msub>
+                            </mfrac>
+                         </mstyle>
+                      </math>
+                      <asciimath>w = (m_D) / (m_s)</asciimath>
+                   </stem>
+                   <dl id="_29" key="true">
+                      <dt>
+                         <bookmark id="_49"/>
+                         w
+                      </dt>
+                      <dd>
+                         <p id="_55">is the mass fraction of grains with a particular defect in the test</p>
+                      </dd>
+                   </dl>
+                </formula>
+             </clause>
+             <clause id="_5" inline-header="false" obligation="normative">
+                <note id="_33">
+                   <p id="_56">
+                      <bookmark id="_50"/>
+                      Text
+                   </p>
+                </note>
+             </clause>
+             <clause id="_6" inline-header="false" obligation="normative">
+                <table id="_37">
+                   <tbody>
+                      <tr>
+                         <td valign="top" align="left">
+                            <bookmark id="_51"/>
+                            A
+                         </td>
+                      </tr>
+                   </tbody>
+                </table>
+             </clause>
+             <clause id="_7" inline-header="false" obligation="normative">
+                <table id="_41">
+                   <name>Caption</name>
+                   <tbody>
+                      <tr>
+                         <td valign="top" align="left">
+                            <bookmark id="_52"/>
+                            A
+                         </td>
+                      </tr>
+                   </tbody>
+                </table>
              </clause>
           </sections>
           <review-container>
@@ -450,17 +632,32 @@ RSpec.describe Metanorma::Standoc do
                    <strong>ISO/IEC Directives, Part 2, 2016, Clause 12.</strong>
                 </p>
              </review>
-             <review id="_6" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_18" to="_18">
+             <review id="_6" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_44" to="_44">
                 <p id="_7">Blank review</p>
              </review>
-             <review id="_9" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_19" to="_19">
+             <review id="_9" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_45" to="_45">
                 <p id="_10">Second Blank review</p>
              </review>
-             <review id="_12" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_20" to="_20">
+             <review id="_12" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_46" to="_46">
                 <p id="_13">Third Blank review</p>
              </review>
-             <review id="_15" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_21" to="_21">
+             <review id="_15" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_47" to="_47">
                 <p id="_16">Fourth Blank review</p>
+             </review>
+             <review id="_23" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_48" to="_48">
+                <p id="_24">Fifth Blank review</p>
+             </review>
+             <review id="_30" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_49" to="_49">
+                <p id="_31">Sixth Blank review</p>
+             </review>
+             <review id="_34" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_50" to="_50">
+                <p id="_35">Seventh Blank review</p>
+             </review>
+             <review id="_38" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_51" to="_51">
+                <p id="_39">Eighth Blank review</p>
+             </review>
+             <review id="_42" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_52" to="_52">
+                <p id="_43">Ninth Blank review</p>
              </review>
           </review-container>
        </metanorma>

@@ -40,16 +40,18 @@ module Metanorma
           .map { |x| @c.encode(x, :basic, :hexadecimal) }
       end
 
+      # quoted strings: key="va,lue",
       def quoted_csv_split(text, delim = ",", eql = "=")
-        # quoted strings: key="va,lue",
         c = HTMLEntities.new
-        text = c.decode(text).gsub(/([a-zA-Z_]+)#{eql}(["'])(.+?)\2/,
-                                   %("\\1#{eql}\\3"))
-        Metanorma::Utils::csv_split(text, delim)
-          .map do |x|
-            c.encode(x.sub(/^(["'])(.+)\1$/, "\\2"),
-                     :basic, :hexadecimal)
-          end
+        text = c.decode(text).gsub(/([a-zA-Z_]+)#{eql}(["'])(.*?)\2/) do |_|
+          key = Regexp.last_match(1)
+          value = Regexp.last_match(3).gsub(" ", "&#x20;")
+          "\"#{key}#{eql}#{value}\""
+        end
+        Metanorma::Utils::csv_split(text, delim).map do |x|
+          c.encode(x.sub(/^(["'])(.*?)\1$/, "\\2"),
+                   :basic, :hexadecimal)
+        end
       end
 
       def kv_parse(text, delim = ",", eql = "=")
@@ -118,7 +120,7 @@ module Metanorma
 
       SECTION_CONTAINERS =
         %w(foreword introduction acknowledgements abstract
-           clause references terms definitions annex appendix indexsect 
+           clause references terms definitions annex appendix indexsect
            executivesummary).freeze
 
       def section_containers
