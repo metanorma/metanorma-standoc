@@ -578,6 +578,9 @@ RSpec.describe Metanorma::Standoc do
 
       stem:[1 "unitsml(cd)"]
 
+      stem:[1 
+      "unitsml(cd)"]
+
       stem:[7 "unitsml(m*kg^-2)" + 8 "unitsml(m*kg^-3)"]
     INPUT
     output = <<~OUTPUT
@@ -695,6 +698,23 @@ RSpec.describe Metanorma::Standoc do
                       </mstyle>
                    </math>
                    <asciimath>1 "unitsml(cd)"</asciimath>
+                </stem>
+             </p>
+             <p id="_">
+                <stem block="false" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="false">
+                         <mn>1</mn>
+                         <mo rspace="thickmathspace">⁢</mo>
+                         <mrow xref="U_NISTu7">
+                            <mstyle mathvariant="normal">
+                               <mi>cd</mi>
+                            </mstyle>
+                         </mrow>
+                      </mstyle>
+                   </math>
+                   <asciimath>1
+       "unitsml(cd)"</asciimath>
                 </stem>
              </p>
              <p id="_">

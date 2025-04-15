@@ -2,7 +2,7 @@ module Metanorma
   module Standoc
     module Regex
       # https://medium.com/@rickwang_wxc/in-ruby-given-a-string-detect-if-it-is-valid-numeric-c58275eace60
-      NUMERIC_REGEX = %r{^((\+|-)?\d*\.?\d+)([eE](\+|-){1}\d+)?$}
+      NUMERIC_REGEX = %r{\A((\+|-)?\d*\.?\d+)([eE](\+|-){1}\d+)?\Z}
 
       # extending localities to cover ISO referencing
       CONN_REGEX_STR = "(?<conn>and|or|from|to)!".freeze
