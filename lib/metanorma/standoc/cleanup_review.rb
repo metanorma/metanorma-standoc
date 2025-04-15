@@ -23,11 +23,14 @@ module Metanorma
         ins.previous = "<bookmark id='#{id}'/>"
       end
 
+      BLOCK_REVIEW_BOOKMARK_ELEMS = %w(review stem).freeze
+
       def previous_review_siblings(children, index)
         x = nil
         (index - 1).downto(0) do |i|
           node = children[i]
-          if node.element? && node.name != "review" && node.text.strip != ""
+          if node.element? && node.text.strip != "" &&
+              !BLOCK_REVIEW_BOOKMARK_ELEMS.include?(node.name)
             x = node
             break
           end
@@ -39,7 +42,8 @@ module Metanorma
         x = nil
         (index + 1).upto(children.size - 1) do |i|
           node = children[i]
-          if node.element? && node.name != "review" && node.text.strip != ""
+          if node.element? && node.text.strip != "" &&
+              !BLOCK_REVIEW_BOOKMARK_ELEMS.include?(node.name)
             x = node
             break
           end
