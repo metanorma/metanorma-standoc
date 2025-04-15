@@ -45,6 +45,7 @@ module Metanorma
       end
 
       def olist_style(style)
+        style = style.to_s
         return "alphabet" if style == "loweralpha"
         return "roman" if style == "lowerroman"
         return "roman_upper" if style == "upperroman"
