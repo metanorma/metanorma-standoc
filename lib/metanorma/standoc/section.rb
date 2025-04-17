@@ -45,7 +45,7 @@ module Metanorma
           "symbols and abbreviated terms"
         when "acknowledgements", "acknowledgments"
           "acknowledgements"
-        when "executive summary"
+        when "executive summary", "executive-summary"
           "executivesummary"
         else
           ret
