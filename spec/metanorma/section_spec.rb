@@ -1986,4 +1986,53 @@ RSpec.describe Metanorma::Standoc do
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
+
+  it "conditionally supports annex appendixes" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [appendix]
+      == Mammals
+
+      [%appendix]
+      === Cetaceae
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+          <sections>
+       </sections>
+          <annex id="_mammals" inline-header="false" obligation="normative">
+             <title>Mammals</title>
+             <clause id="_cetaceae" inline-header="false" obligation="normative">
+                <title>Cetaceae</title>
+             </clause>
+          </annex>
+       </metanorma>
+    OUTPUT
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
+    mock_support_appendix
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+          <sections>
+       </sections>
+          <annex id="_mammals" inline-header="false" obligation="normative">
+             <title>Mammals</title>
+              <appendix id="_cetaceae" inline-header="false" obligation="normative">
+                <title>Cetaceae</title>
+             </appendix>
+          </annex>
+       </metanorma>
+    OUTPUT
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
+  end
+
+  private
+
+  def mock_support_appendix
+    allow_any_instance_of(Metanorma::Standoc::Section)
+    .to receive(:support_appendix?).and_return(true)
+  end
 end

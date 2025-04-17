@@ -124,11 +124,13 @@ module Metanorma
         attrs[:"inline-header"] = node.option? "inline-header"
         attrs[:bibitem] = true if node.option? "bibitem"
         attrs[:level] = node.attr("level")
+        set_obligation(attrs, node)
       end
 
       def clause_parse(attrs, xml, node)
         clause_attrs_preprocess(attrs, node)
-        set_obligation(attrs, node)
+        node.option?("appendix") && support_appendix?(node) and
+          return appendix_parse(attrs, xml, node)
         xml.send :clause, **attr_code(attrs) do |xml_section|
           xml_section.title { |n| n << node.title } unless node.title.nil?
           xml_section << node.content
@@ -139,6 +141,19 @@ module Metanorma
         attrs[:"inline-header"] = node.option? "inline-header"
         set_obligation(attrs, node)
         xml.annex **attr_code(attrs) do |xml_section|
+          xml_section.title { |name| name << node.title }
+          xml_section << node.content
+        end
+      end
+
+      def support_appendix?(_node)
+        false
+      end
+
+      def appendix_parse(attrs, xml, node)
+        attrs[:"inline-header"] = node.option? "inline-header"
+        set_obligation(attrs, node)
+        xml.appendix **attr_code(attrs) do |xml_section|
           xml_section.title { |name| name << node.title }
           xml_section << node.content
         end
