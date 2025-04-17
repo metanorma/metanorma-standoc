@@ -42,6 +42,7 @@ module Metanorma
         replace_title(xml, "//foreword", @i18n&.foreword)
         replace_title(xml, "//introduction", @i18n&.introduction)
         replace_title(xml, "//acknowledgements", @i18n&.acknowledgements)
+        replace_title(xml, "//executivesummary", @i18n&.executivesummary)
       end
 
       def section_names_refs_cleanup(xml)

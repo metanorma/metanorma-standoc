@@ -46,12 +46,11 @@ module Metanorma
 
       def hanging_para_style(root)
         root.xpath("//clause | //annex | //foreword | //introduction | " \
-                   "//acknowledgements").each do |c|
-          next unless c.at("./clause")
-          next if c.elements.reject do |n|
-                    %w(clause title).include? n.name
-                  end.empty?
-
+                   "//acknowledgements | //executivesummary").each do |c|
+          c.at("./clause") or next
+          c.elements.reject do |n|
+            %w(clause title).include? n.name
+          end.empty? and next
           style_warning(c, "Hanging paragraph in clause")
         end
       end

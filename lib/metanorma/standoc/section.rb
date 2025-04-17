@@ -45,6 +45,8 @@ module Metanorma
           "symbols and abbreviated terms"
         when "acknowledgements", "acknowledgments"
           "acknowledgements"
+        when "executive summary"
+          "executivesummary"
         else
           ret
         end
@@ -52,7 +54,8 @@ module Metanorma
 
       PREFACE_CLAUSE_NAMES =
         %w(abstract foreword introduction metanorma-extension termdocsource
-           misc-container metanorma-extension acknowledgements).freeze
+           misc-container metanorma-extension acknowledgements executivesummary)
+          .freeze
 
       MAIN_CLAUSE_NAMES =
         ["normative references", "terms and definitions", "scope",
@@ -71,12 +74,8 @@ module Metanorma
 
       def preface_main_filter(ret, node)
         start_main_section(ret, node)
-        if @preface
-          self.class::MAIN_CLAUSE_NAMES.include?(ret) and return nil
-        else
-          self.class::PREFACE_CLAUSE_NAMES.include?(ret) and return nil
-        end
-
+        @preface && self.class::MAIN_CLAUSE_NAMES.include?(ret) and return nil
+        !@preface && self.class::PREFACE_CLAUSE_NAMES.include?(ret) and return nil
         ret
       end
 
@@ -120,6 +119,8 @@ module Metanorma
             symbols_parse(symbols_attrs(node, a), xml, node)
           when "acknowledgements"
             acknowledgements_parse(a, xml, node)
+          when "executivesummary"
+            executivesummary_parse(a, xml, node)
           when "bibliography"
             bibliography_parse(a, xml, node)
           else
@@ -211,24 +212,28 @@ module Metanorma
       def introduction_parse(attrs, xml, node)
         xml.introduction **attr_code(attrs) do |xml_section|
           xml_section.title { |t| t << @i18n.introduction }
-          content = node.content
-          xml_section << content
+          xml_section << node.content
         end
       end
 
       def foreword_parse(attrs, xml, node)
         xml.foreword **attr_code(attrs) do |xml_section|
           xml_section.title { |t| t << node.title }
-          content = node.content
-          xml_section << content
+          xml_section << node.content
         end
       end
 
       def acknowledgements_parse(attrs, xml, node)
         xml.acknowledgements **attr_code(attrs) do |xml_section|
           xml_section.title { |t| (t << node.title) || @i18n.acknowledgements }
-          content = node.content
-          xml_section << content
+          xml_section << node.content
+        end
+      end
+
+      def executivesummary_parse(attrs, xml, node)
+        xml.executivesummary **attr_code(attrs) do |xml_section|
+          xml_section.title { |t| (t << node.title) || @i18n.executivesummary }
+          xml_section << node.content
         end
       end
 
