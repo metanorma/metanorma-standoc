@@ -137,9 +137,13 @@ module Metanorma
         end
       end
 
-      def annex_parse(attrs, xml, node)
+      def annex_attrs_preprocess(attrs, node)
         attrs[:"inline-header"] = node.option? "inline-header"
         set_obligation(attrs, node)
+      end
+
+      def annex_parse(attrs, xml, node)
+        annex_attrs_preprocess(attrs, node)
         xml.annex **attr_code(attrs) do |xml_section|
           xml_section.title { |name| name << node.title }
           xml_section << node.content
