@@ -44,6 +44,44 @@ RSpec.describe Metanorma::Standoc do
       .to include("Unresolved directive in &lt;​stdin&gt; - include::​spec/​subdir/a4.​adoc[]")
   end
 
+  it "aborts on a missing boilerplate file" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :boilerplate-authority: spec/subdir/a4.adoc
+
+    INPUT
+    begin
+      expect do
+        a = [OPTIONS[0].merge(safe: :unsafe)]
+        Asciidoctor.convert(input, *a)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err.html"))
+      .to include("Specified boilerplate file does not exist: ./spec/​subdir/a4.​adoc")
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :boilerplate-authority:#{' '}
+
+    INPUT
+    begin
+      expect do
+        a = [OPTIONS[0].merge(safe: :unsafe)]
+        Asciidoctor.convert(input, *a)
+      end.not_to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+  end
+
   it "aborts on embedding a headerless document" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
@@ -56,9 +94,9 @@ RSpec.describe Metanorma::Standoc do
       embed::spec/assets/subdir/a4.adoc[]
 
     INPUT
-    
+
     expect { Asciidoctor.convert(input, *OPTIONS) }.to abort_with_message(
-      "Embedding an incomplete document with no header:"
+      "Embedding an incomplete document with no header:",
     )
   end
 
@@ -137,7 +175,7 @@ RSpec.describe Metanorma::Standoc do
   it "aborts on passing through invalid Metanorma XML with no format specification" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
-    
+
     # Test case 1: Invalid formula with fred element
     input = <<~INPUT
       = Document title
@@ -157,7 +195,7 @@ RSpec.describe Metanorma::Standoc do
       ++++
     INPUT
     expect { Asciidoctor.convert(input, *OPTIONS) }.to abort_with_message(
-      "Invalid passthrough content"
+      "Invalid passthrough content",
     )
 
     # Test case 2: Invalid formulae element
@@ -179,7 +217,7 @@ RSpec.describe Metanorma::Standoc do
       ++++
     INPUT
     expect { Asciidoctor.convert(input, *OPTIONS) }.to abort_with_message(
-      "Invalid passthrough content"
+      "Invalid passthrough content",
     )
 
     # Test case 3: Valid formula without fred element - should not raise error
@@ -200,7 +238,7 @@ RSpec.describe Metanorma::Standoc do
       ++++
     INPUT
     expect { Asciidoctor.convert(input, *OPTIONS) }.not_to abort_with_message(
-      "Invalid passthrough content"
+      "Invalid passthrough content",
     )
 
     # Test case 4: Invalid formula with format=html - should not raise error
@@ -223,7 +261,7 @@ RSpec.describe Metanorma::Standoc do
       ++++
     INPUT
     expect { Asciidoctor.convert(input, *OPTIONS) }.not_to abort_with_message(
-      "Invalid passthrough content"
+      "Invalid passthrough content",
     )
 
     # Test case 5: Malformed XML - should not raise specific error
@@ -242,7 +280,7 @@ RSpec.describe Metanorma::Standoc do
       ++++
     INPUT
     expect { Asciidoctor.convert(input, *OPTIONS) }.not_to abort_with_message(
-      "Invalid passthrough content"
+      "Invalid passthrough content",
     )
   end
 
@@ -258,22 +296,20 @@ RSpec.describe Metanorma::Standoc do
       embed::spec/assets/a6.adoc[]
 
     INPUT
-=begin
-    begin
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(RuntimeError)
-    rescue SystemExit, RuntimeError
-    end
-    begin
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to output("Missing embed file: spec/assets/a5.").to_stderr
-    rescue SystemExit, RuntimeError
-    end
-=end
+    #     begin
+    #       expect do
+    #         Asciidoctor.convert(input, *OPTIONS)
+    #       end.to raise_error(RuntimeError)
+    #     rescue SystemExit, RuntimeError
+    #     end
+    #     begin
+    #       expect do
+    #         Asciidoctor.convert(input, *OPTIONS)
+    #       end.to output("Missing embed file: spec/assets/a5.").to_stderr
+    #     rescue SystemExit, RuntimeError
+    #     end
     expect { Asciidoctor.convert(input, *OPTIONS) }.to abort_with_message(
-      "Missing embed file:"
+      "Missing embed file:",
     )
   end
 
