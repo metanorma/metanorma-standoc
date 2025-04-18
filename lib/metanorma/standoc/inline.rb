@@ -77,7 +77,9 @@ module Metanorma
       end
 
       def highlight_parse(text, xml)
-        xml << text
+        xml.span **{ class: "fmt-hi" } do |s|
+          s << text
+        end
       end
 
       def inline_quoted(node)
