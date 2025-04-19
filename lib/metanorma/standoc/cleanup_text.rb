@@ -32,16 +32,16 @@ module Metanorma
           e[:skip] and next
           lines = lines_strip_textspan(e, block[i + 1])
           out = Metanorma::Utils.line_sanitise(lines)
-          e[:last] or out.pop
+          # e[:last] or out.pop
           e[:elem].replace(out.join)
         end
       end
 
-      def lines_strip_textspan(span, nextspan)
+      def lines_strip_textspan(span, _nextspan)
         lines = span[:text].lines[0..-2].map(&:rstrip) <<
           span[:text].lines[-1]&.sub(/\n$/, "")
         # no final line rstrip: can be space linking to next line
-        span[:last] or lines << nextspan[:text].lines.first # next token context
+        # span[:last] or lines << nextspan[:text].lines.first # next token context
         lines
       end
 
