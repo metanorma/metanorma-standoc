@@ -84,7 +84,8 @@ module Metanorma
       end
 
       def boilerplate_file(_xmldoc)
-        File.join(@libdir, "boilerplate.xml")
+        ret = File.join(@libdir, "boilerplate.xml")
+        File.exist?(ret) ? ret : ""
       end
 
       def boilerplate(xml, conv)
@@ -93,13 +94,19 @@ module Metanorma
                "headless[text() = 'true']") and return nil
         file = boilerplate_file(xml)
         @boilerplateauthority and
-          file2 = File.join(@localdir, @boilerplateauthority)
+          file2 = File.join(@localdir, @boilerplateauthority)&.strip
         resolve_boilerplate_files(process_boilerplate_file(file, conv),
                                   process_boilerplate_file(file2, conv))
       end
 
       def process_boilerplate_file(filename, conv)
-        (!filename.nil? and File.exist?(filename)) or return
+        filename.nil? || filename.empty? and return
+        unless File.exist?(filename)
+          msg = "Specified boilerplate file does not exist: #{filename}"
+          @log.add("Include", nil, msg, severity: 0)
+          return
+        end
+
         b = conv.populate_template(boilerplate_read(filename), nil)
         boilerplate_file_convert(b)
       end

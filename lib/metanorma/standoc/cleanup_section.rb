@@ -5,12 +5,13 @@ module Metanorma
     module Cleanup
       def make_preface(xml, sect)
         if xml.at("//foreword | //introduction | //acknowledgements | " \
-                  "//*[@preface]")
+                  "//executivesummary | //*[@preface]")
           preface = sect.add_previous_sibling("<preface/>").first
           f = xml.at("//foreword") and to_preface(preface, f)
           f = xml.at("//introduction") and to_preface(preface, f)
           move_clauses_into_preface(xml, preface)
           f = xml.at("//acknowledgements") and to_preface(preface, f)
+          f = xml.at("//executivesummary") and to_preface(preface, f)
         end
         make_abstract(xml, sect)
       end
@@ -148,7 +149,8 @@ module Metanorma
 
       def obligations_cleanup_info(xml)
         xml.xpath("//foreword | //introduction | //acknowledgements | " \
-                  "//references | //preface//clause").each do |r|
+                  "//executivesummary | //references | //preface//clause")
+          .each do |r|
           r["obligation"] = "informative"
         end
       end

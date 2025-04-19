@@ -137,11 +137,12 @@ module Metanorma
 
       def block?(elem)
         %w(title name variant-title clause figure annex example introduction
-           foreword acknowledgements note li th td dt dd p quote label
-           abstract preferred admitted related deprecates field-of-application
-           usage-info expression pronunciation grammar-value domain
-           definition termnote termexample modification description
-           newcontent floating-title tab review admonition annotation).include? elem.name
+           foreword acknowledgements executivesummary note li th td dt dd p
+           quote label abstract preferred admitted related deprecates
+           field-of-application usage-info expression pronunciation
+           grammar-value domain definition termnote termexample modification
+           description newcontent floating-title tab review admonition
+           annotation).include? elem.name
       end
 
       def empty_tag_with_text_content?(elem)

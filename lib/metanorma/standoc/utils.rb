@@ -119,7 +119,7 @@ module Metanorma
       end
 
       SECTION_CONTAINERS =
-        %w(foreword introduction acknowledgements abstract
+        %w(foreword introduction acknowledgements executivesummary abstract
            clause references terms definitions annex appendix indexsect
            executivesummary).freeze
 

@@ -60,7 +60,7 @@ RSpec.describe Metanorma::Standoc do
       sub<sub>script</sub>
       sub<sub><em>scr</em>ipt</sub>
       <stem type="MathML" block="false"><mml:math><mml:msub xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"> <mml:mrow> <mml:mrow> <mml:mi mathvariant="bold-italic">F</mml:mi> </mml:mrow> </mml:mrow> <mml:mrow> <mml:mrow> <mml:mi mathvariant="bold-italic">Α</mml:mi> </mml:mrow> </mml:mrow> </mml:msub> </mml:math></stem>
-      mark
+      <span class="fmt-hi">mark</span>
       <admitted><expression><name>alt</name></expression></admitted>
       <deprecates><expression><name>deprecated</name></expression></deprecates>
       <domain>domain</domain>

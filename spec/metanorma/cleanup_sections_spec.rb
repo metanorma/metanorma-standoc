@@ -192,6 +192,9 @@ RSpec.describe Metanorma::Standoc do
       [heading=acknowledgements]
       == Acknowledgements.footnote:[A]
 
+      [heading=executivesummary]
+      == Executive summary.footnote:[A]
+
       [.preface]
       == Dedication
 
@@ -319,6 +322,14 @@ RSpec.describe Metanorma::Standoc do
                    </fn>
                 </title>
              </acknowledgements>
+          <executivesummary id="_executive_summary_a" obligation="informative">
+            <title>
+                Executive summary
+                <fn reference="1">
+                  <p id="_">A</p>
+                </fn>
+            </title>
+          </executivesummary>
           </preface>
           <sections>
              <clause id="_scope_a" type="scope" inline-header="false" obligation="normative">
@@ -507,6 +518,9 @@ RSpec.describe Metanorma::Standoc do
       [heading=acknowledgements]
       == Acknowledgements
 
+      [heading=executivesummary]
+      == Executive summary
+
       [.preface]
       == Dedication
 
@@ -624,6 +638,9 @@ RSpec.describe Metanorma::Standoc do
              <acknowledgements id="_acknowledgements" obligation="informative">
                 <title>Acknowledgements</title>
              </acknowledgements>
+            <executivesummary id="_executive_summary" obligation="informative">
+              <title>Executive summary</title>
+            </executivesummary>
           </preface>
           <sections>
              <clause id="_scope" type="scope" inline-header="false" obligation="normative">
@@ -757,6 +774,9 @@ RSpec.describe Metanorma::Standoc do
       [heading=acknowledgements]
       == Acknowledgements
 
+      [heading=executivesummary]
+      == Executive summary
+
       [.preface]
       == Dedication
 
@@ -874,6 +894,9 @@ RSpec.describe Metanorma::Standoc do
              <acknowledgements id="_acknowledgements" obligation="informative">
                 <title>Remerciements</title>
              </acknowledgements>
+          <executivesummary id="_executive_summary" obligation="informative">
+            <title>Résumé exécutif</title>
+          </executivesummary>
           </preface>
           <sections>
              <clause id="_scope" type="scope" inline-header="false" obligation="normative">
@@ -1007,6 +1030,9 @@ RSpec.describe Metanorma::Standoc do
       [heading=acknowledgements]
       == Acknowledgements
 
+      [heading=executivesummary]
+      == Executive summary
+
       [.preface]
       == Dedication
 
@@ -1124,6 +1150,9 @@ RSpec.describe Metanorma::Standoc do
              <acknowledgements id="_acknowledgements" obligation="informative">
                 <title>致謝</title>
              </acknowledgements>
+            <executivesummary id="_executive_summary" obligation="informative">
+              <title>执行摘要</title>
+            </executivesummary>
           </preface>
           <sections>
              <clause id="_scope" type="scope" inline-header="false" obligation="normative">
@@ -1257,6 +1286,9 @@ RSpec.describe Metanorma::Standoc do
       [heading=acknowledgements]
       == Acknowledgements
 
+      [heading=executivesummary]
+      == Executive summary
+
       [.preface]
       == Dedication
 
@@ -1374,6 +1406,9 @@ RSpec.describe Metanorma::Standoc do
              <acknowledgements id="_acknowledgements" obligation="informative">
                 <title>Acknowledgements</title>
              </acknowledgements>
+            <executivesummary id="_executive_summary" obligation="informative">
+              <title>Executive summary</title>
+            </executivesummary>
           </preface>
           <sections>
              <clause id="_scope" type="scope" inline-header="false" obligation="normative">

@@ -23,6 +23,8 @@ RSpec.describe Metanorma::Standoc do
 
       == Acknowledgements
 
+      == Executive summary
+
       [.preface]
       == Dedication
 
@@ -114,6 +116,9 @@ RSpec.describe Metanorma::Standoc do
              <acknowledgements id="_acknowledgements" obligation="informative">
                 <title>Acknowledgements</title>
              </acknowledgements>
+          <executivesummary id="_executive_summary" obligation="informative">
+            <title>Executive summary</title>
+          </executivesummary>
           </preface>
           <sections>
              <clause id="_scope" type="scope" inline-header="false" obligation="normative">
@@ -551,6 +556,9 @@ RSpec.describe Metanorma::Standoc do
       [language=en,script=Latn]
       == Acknowledgements
 
+      [language=en,script=Latn]
+      == Executive summary
+
       [.preface]
       [language=en,script=Latn]
       == Dedication
@@ -657,6 +665,9 @@ RSpec.describe Metanorma::Standoc do
              <acknowledgements id="_acknowledgements" language="en" script="Latn" obligation="informative">
                 <title>Acknowledgements</title>
              </acknowledgements>
+            <executivesummary id="_executive_summary" language="en" script="Latn" obligation="informative">
+              <title>Executive summary</title>
+            </executivesummary>
           </preface>
           <sections>
              <clause id="_scope" language="en" script="Latn" type="scope" inline-header="false" obligation="normative">
@@ -783,6 +794,9 @@ RSpec.describe Metanorma::Standoc do
       [%unnumbered,heading=acknowledgements]
       == Ευχαριστίες
 
+      [%unnumbered,heading=executivesummary]
+      == Εκτελεστική Περίληψη
+
       [%unnumbered,heading=normative references]
       == Κανονιστικές Παραπομπές
 
@@ -848,6 +862,9 @@ RSpec.describe Metanorma::Standoc do
              <acknowledgements id="___x3b5___x3c5___x3c7___x3b1___x3c1___x3b9___x3c3___x3c4___x3af___x3b5___x3c2_" unnumbered="true" obligation="informative">
                 <title>Acknowledgements</title>
              </acknowledgements>
+             <executivesummary id="___x3b5___x3ba___x3c4___x3b5___x3bb___x3b5___x3c3___x3c4___x3b9___x3ba___x3ae____x3c0___x3b5___x3c1___x3af___x3bb___x3b7___x3c8___x3b7_" unnumbered="true" obligation="informative">
+                <title>Executive summary</title>
+             </executivesummary>
           </preface>
           <sections>
              <terms id="___x3cc___x3c1___x3bf___x3b9____x3ba___x3b1___x3b9____x3bf___x3c1___x3b9___x3c3___x3bc___x3bf___x3af_" unnumbered="true" obligation="normative">
@@ -1010,6 +1027,9 @@ RSpec.describe Metanorma::Standoc do
       [heading=acknowledgements,keeptitle=true]
       == Ευχαριστίες
 
+      [heading=executivesummary,keeptitle=true]
+      == Εκτελιστική Περίληψη
+
       [heading=normative references,keeptitle=true]
       == Κανονιστικές Παραπομπές
 
@@ -1060,6 +1080,9 @@ RSpec.describe Metanorma::Standoc do
              <acknowledgements id="___x3b5___x3c5___x3c7___x3b1___x3c1___x3b9___x3c3___x3c4___x3af___x3b5___x3c2_" obligation="informative">
                 <title>Ευχαριστίες</title>
              </acknowledgements>
+             <executivesummary id="___x3b5___x3ba___x3c4___x3b5___x3bb___x3b9___x3c3___x3c4___x3b9___x3ba___x3ae____x3c0___x3b5___x3c1___x3af___x3bb___x3b7___x3c8___x3b7_" obligation="informative">
+                <title>Εκτελιστική Περίληψη</title>
+             </executivesummary>
           </preface>
           <sections>
              <terms id="___x3cc___x3c1___x3bf___x3b9____x3ba___x3b1___x3b9____x3bf___x3c1___x3b9___x3c3___x3bc___x3bf___x3af_" obligation="normative">
@@ -1962,5 +1985,54 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
+  end
+
+  it "conditionally supports annex appendixes" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [appendix]
+      == Mammals
+
+      [%appendix]
+      === Cetaceae
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+          <sections>
+       </sections>
+          <annex id="_mammals" inline-header="false" obligation="normative">
+             <title>Mammals</title>
+             <clause id="_cetaceae" inline-header="false" obligation="normative">
+                <title>Cetaceae</title>
+             </clause>
+          </annex>
+       </metanorma>
+    OUTPUT
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
+    mock_support_appendix
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+          <sections>
+       </sections>
+          <annex id="_mammals" inline-header="false" obligation="normative">
+             <title>Mammals</title>
+              <appendix id="_cetaceae" inline-header="false" obligation="normative">
+                <title>Cetaceae</title>
+             </appendix>
+          </annex>
+       </metanorma>
+    OUTPUT
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
+  end
+
+  private
+
+  def mock_support_appendix
+    allow_any_instance_of(Metanorma::Standoc::Section)
+    .to receive(:support_appendix?).and_return(true)
   end
 end
