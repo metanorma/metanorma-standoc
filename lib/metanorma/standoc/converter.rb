@@ -39,6 +39,7 @@ module Metanorma
         preprocessor Metanorma::Standoc::Datamodel::DiagramPreprocessor
         preprocessor Metanorma::Plugin::Datastruct::Json2TextPreprocessor
         preprocessor Metanorma::Plugin::Datastruct::Yaml2TextPreprocessor
+        preprocessor Metanorma::Plugin::Datastruct::Data2TextPreprocessor
         preprocessor Metanorma::Plugin::Glossarist::DatasetPreprocessor
         preprocessor Metanorma::Standoc::NamedEscapePreprocessor
         inline_macro Metanorma::Standoc::PreferredTermInlineMacro
