@@ -1436,7 +1436,8 @@ RSpec.describe Metanorma::Standoc do
       Subclause
     INPUT
 
-    expect(File.read("test/test.err.html")).to include("Hanging paragraph in clause")
+    expect(File.read("test/test.err.html"))
+      .to include("Hanging paragraph in clause")
   end
 
   it "Warning if no block for footnoteblock" do
@@ -1453,7 +1454,7 @@ RSpec.describe Metanorma::Standoc do
       .to include("Could not resolve footnoteblock:[id1]")
   end
 
-  it "Warning if xref/@target, (xref/@to), index/@to does not point to a real identifier" do
+  it "Warning if xref/@target, xref/location/@target, index/@to does not point to a real anchor" do
     FileUtils.rm_f "test.err.html"
     Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
@@ -1462,10 +1463,13 @@ RSpec.describe Metanorma::Standoc do
       :no-pdf:
 
       <<id1>>
+      <<id1;to!id2>>
       index-range:id3[(((A)))]
     INPUT
     expect(File.read("test.err.html"))
       .to include("Crossreference target id1 is undefined")
+    expect(File.read("test.err.html"))
+      .to include("Crossreference target id2 is undefined")
     expect(File.read("test.err.html"))
       .to include("Crossreference target id3 is undefined")
   end
@@ -1518,6 +1522,38 @@ RSpec.describe Metanorma::Standoc do
       |c |d
       |===
 
+      * A
+      * B
+      * C
+      --
+    INPUT
+    expect(File.read("test.err.html"))
+      .to include("There is a crossreference to an instance of table " \
+                  "nested within note")
+  end
+
+  it "Warns if illegal nesting of assets within assets with crossreferencing across a range" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      <<id1;to!id3>>
+
+      [[id1]]
+      [NOTE]
+      --
+      [[id2]]
+      |===
+      |a |b
+
+      |c |d
+      |===
+
+      [[id3]]
       * A
       * B
       * C
