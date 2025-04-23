@@ -199,7 +199,7 @@ module Metanorma
 
       def xref_validate_exists(doc)
         @doc_xrefs =
-          doc.xpath("//xref/@target | //xref//location/@to | //index/@to")
+          doc.xpath("//xref/@target | //xref//location/@target | //index/@to")
             .each_with_object({}) do |x, m|
             m[x.text] = x.parent
             @doc_ids[x.text] and next
