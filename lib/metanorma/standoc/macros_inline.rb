@@ -208,7 +208,7 @@ module Metanorma
         fmt = format(out, target)
         fmt.empty? and fmt = "default"
         fmt = %( number-format="#{fmt}")
-        <<~OUTPUT
+        <<~OUTPUT.strip
           <stem type="MathML"#{fmt}><math xmlns='#{MATHML_NS}'><mn>#{number(target)}</mn></math></stem>
         OUTPUT
       end
