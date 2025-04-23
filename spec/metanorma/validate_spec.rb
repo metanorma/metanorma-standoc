@@ -1528,6 +1528,38 @@ RSpec.describe Metanorma::Standoc do
                   "nested within note")
   end
 
+  it "Warns if illegal nesting of assets within assets with crossreferencing across a range" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      <<id1;to!id3>>
+
+      [[id1]]
+      [NOTE]
+      --
+      [[id2]]
+      |===
+      |a |b
+
+      |c |d
+      |===
+
+      [[id3]]
+      * A
+      * B
+      * C
+      --
+    INPUT
+    expect(File.read("test.err.html"))
+      .to include("There is a crossreference to an instance of table " \
+                  "nested within note")
+  end
+
   it "Warning if metadata deflist not after a designation" do
     FileUtils.rm_f "test.err.html"
     Asciidoctor.convert(<<~INPUT, *OPTIONS)

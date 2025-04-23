@@ -51,7 +51,7 @@ module Metanorma
           case: %w(capital lowercase).detect { |x| attrs.key?(x) },
           label: attrs["label"],
           style: attrs["style"] || @xrefstyle,
-          droploc: attrs.key?("droploc") ? true : nil,
+          droploc: attrs.key?("droploc") || nil,
           text: }.compact
       end
 

@@ -163,26 +163,65 @@ module Metanorma
           @log.add("Anchors", elem,
                    "Anchor #{elem['id']} has already been " \
                    "used at line #{@doc_ids[elem['id']]}", severity: 0)
+        else
+          @doc_ids[elem["id"]] = elem.line
         end
-        @doc_ids[elem["id"]] = elem.line
       end
 
       def repeat_id_validate(doc)
-        @doc_ids = {}
+        @doc_ids = {} # hash of all ids in document to line number
+        @doc_id_seq = [] # ordered list of all ids in document
         doc.xpath("//*[@id]").each do |x|
+          @doc_id_seq << x["id"]
           repeat_id_validate1(x)
+        end
+        @doc_id_seq.sort!
+      end
+
+      # Retrieve IDs between two nominated values
+      # (exclusive of start_id AND exclusive of end_id)
+      def get_ids_between(start_id, end_id)
+        start_index = @doc_id_seq.bsearch_index { |id| id > start_id }
+        end_index = @doc_id_seq.bsearch_index { |id| id >= end_id }
+        # start_id is greater than or equal to all elements
+        start_index.nil? and return []
+        # end_id is greater than all elements
+        end_index.nil? and end_index = @doc_id_seq.length
+        start_index >= end_index and return []
+        @doc_id_seq[start_index...end_index]
+      end
+
+      # manually check for xref/@target et sim. integrity
+      def xref_validate(doc)
+        xref_validate_exists(doc)
+        xref_range_record(doc)
+      end
+
+      def xref_validate_exists(doc)
+        @doc_xrefs =
+          doc.xpath("//xref/@target | //xref//location/@to | //index/@to")
+            .each_with_object({}) do |x, m|
+            m[x.text] = x.parent
+            @doc_ids[x.text] and next
+            @log.add("Anchors", x.parent,
+                     "Crossreference target #{x} is undefined", severity: 1)
+          end
+      end
+
+      # If there is an xref range, record the IDs between the two targets
+      def xref_range_record(doc)
+        doc.xpath("//xref//location[@connective = 'to']").each do |to|
+          process_range_location(to)
         end
       end
 
-      # manually check for xref/@target, xref/@to integrity
-      def xref_validate(doc)
-        @doc_xrefs = doc.xpath("//xref/@target | //xref/@to | //index/@to")
-          .each_with_object({}) do |x, m|
-          m[x.text] = x
-          @doc_ids[x.text] and next
-          @log.add("Anchors", x.parent,
-                   "Crossreference target #{x} is undefined", severity: 1)
-        end
+      def process_range_location(to_location)
+        # Get the preceding location element if it exists
+        from = to_location.previous_element
+        from && from.name == "location" or return
+        from["target"] && to_location["target"] or return
+        get_ids_between(from["target"], to_location["target"])
+          .each { |id| @doc_xrefs[id] = from }
       end
     end
   end
