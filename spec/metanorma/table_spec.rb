@@ -318,7 +318,15 @@ RSpec.describe Metanorma::Standoc do
                   <tr>
                     <th rowspan="2" valign="middle" align="left">Defect</th>
                     <th colspan="4" valign="top" align="center">Maximum permissible mass fraction of defects in husked rice<br/>
-                    <stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><msub><mi>w</mi><mi>max</mi></msub></mstyle></math><asciimath>w_max</asciimath></stem></th>
+                    <stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false">
+                      <msub>
+                          <mi>w</mi>
+                                 <mrow>
+                                 <mo rspace="thickmathspace"/>
+                                 <mi>max</mi>
+                              </mrow>
+                      </msub>
+                      </mstyle></math><asciimath>w_max</asciimath></stem></th>
                   </tr>
                 <tr>
                     <th valign="middle" align="left">in husked rice</th>
