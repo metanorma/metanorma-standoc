@@ -93,7 +93,8 @@ module Metanorma
         xml.at("//metanorma-extension/semantic-metadata/" \
                "headless[text() = 'true']") and return nil
         file = boilerplate_file(xml)
-        @boilerplateauthority and
+        @boilerplateauthority &&
+          !(Pathname.new @boilerplateauthority).absolute? and
           file2 = File.join(@localdir, @boilerplateauthority)&.strip
         resolve_boilerplate_files(process_boilerplate_file(file, conv),
                                   process_boilerplate_file(file2, conv))
