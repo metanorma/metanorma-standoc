@@ -90,7 +90,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
-  it "processes publisher abbreviations" do
+  it "processes publisher abbreviations in CSV :publisher: attribute" do
     mock_org_abbrevs
     input = <<~INPUT
       = Document title
@@ -815,6 +815,7 @@ RSpec.describe Metanorma::Standoc do
       :publisher_logo: correct.png
       :publisher_2: Ribose, Inc.
       :publisher_logo_2: corrupt.png
+      :publisher_abbr_2: RIBS
       :sponsor: Monsters, Inc.
       :sponsor_logo: corrupt.png
       :sponsor_2: Ribose, Inc.
@@ -864,6 +865,7 @@ RSpec.describe Metanorma::Standoc do
              <role type="author"/>
              <organization>
                <name>Ribose, Inc.</name>
+               <abbreviation>RIBS</abbreviation>
                <address>
                  <formattedAddress>1 Infinity Loop<br/>California</formattedAddress>
                </address>
@@ -905,6 +907,7 @@ RSpec.describe Metanorma::Standoc do
              <role type="publisher"/>
              <organization>
                <name>Ribose, Inc.</name>
+               <abbreviation>RIBS</abbreviation>
                <address>
                  <formattedAddress>1 Infinity Loop<br/>California</formattedAddress>
                </address>
@@ -986,6 +989,7 @@ RSpec.describe Metanorma::Standoc do
              <owner>
                <organization>
                  <name>Ribose, Inc.</name>
+                 <abbreviation>RIBS</abbreviation>
                  <address>
                    <formattedAddress>1 Infinity Loop<br/>California</formattedAddress>
                  </address>

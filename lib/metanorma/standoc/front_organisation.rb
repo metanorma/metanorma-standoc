@@ -14,14 +14,22 @@ module Metanorma
       end
 
       def organization(org, orgname, node = nil, default_org = nil, attrs = {})
-        abbrevs = org_abbrev
-        n = abbrevs.invert[orgname] and orgname = n
+        orgname, abbr = org_name_and_abbrev(attrs, orgname)
         org.name orgname
         default_org && (a = node&.attr("subdivision")) && !attrs[:subdiv] and
           subdivision(a, node&.attr("subdivision-abbr"), org)
         a = attrs[:subdiv] and subdivision(a, nil, org)
-        abbr = org_abbrev[orgname]
         abbr and org.abbreviation abbr
+      end
+
+      def org_name_and_abbrev(org, orgname)
+        if org[:abbrev]
+          [orgname, org[:abbrev]]
+        else
+          abbrevs = org_abbrev
+          n = abbrevs.invert[orgname] and orgname = n
+          [orgname, org_abbrev[orgname]]
+        end
       end
 
       def subdivision(attr, abbr, org)
@@ -50,7 +58,7 @@ module Metanorma
         list.empty? and return
         org.subdivision **attr_code(type: list[0][:type]) do |s|
           s.name { |n| n << list[0][:value] }
-          subdiv_build(list[1..-1], s)
+          subdiv_build(list[1..], s)
           a = list[0][:abbr] and s.abbreviation { |n| n << a }
         end
       end
@@ -180,6 +188,7 @@ module Metanorma
 
       def extract_org_attrs_complex(node, opts, source, suffix)
         { name: node.attr(source + suffix),
+          abbrev: node.attr("#{source}_abbr#{suffix}"),
           role: opts[:role], desc: opts[:desc],
           subdiv: node.attr("#{source}_subdivision#{suffix}"),
           logo: node.attr("#{source}_logo#{suffix}") }.compact
