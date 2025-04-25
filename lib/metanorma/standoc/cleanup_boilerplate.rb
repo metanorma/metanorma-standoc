@@ -93,15 +93,17 @@ module Metanorma
         xml.at("//metanorma-extension/semantic-metadata/" \
                "headless[text() = 'true']") and return nil
         file = boilerplate_file(xml)
+        file2 = @boilerplateauthority
         @boilerplateauthority &&
           !(Pathname.new @boilerplateauthority).absolute? and
-          file2 = File.join(@localdir, @boilerplateauthority)&.strip
+          file2 = File.join(@localdir, @boilerplateauthority)
         resolve_boilerplate_files(process_boilerplate_file(file, conv),
                                   process_boilerplate_file(file2, conv))
       end
 
       def process_boilerplate_file(filename, conv)
         filename.nil? || filename.empty? and return
+        filename = filename.strip
         unless File.exist?(filename)
           msg = "Specified boilerplate file does not exist: #{filename}"
           @log.add("Include", nil, msg, severity: 0)
