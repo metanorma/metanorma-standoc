@@ -59,7 +59,7 @@ module Metanorma
             thead|tbody|tfoot|th|td|form|requirement|recommendation|permission|
             imagemap|svgmap|preferred|admitted|related|domain|deprecates|
             letter-symbol|graphical-symbol|expression|subject|abbreviation-type|
-            pronunciation|grammar|term|terms|termnote|termexample|termsource|
+            pronunciation|grammar|term|terms|termnote|termexample|source|
             origin|termref|modification)>)}x, "\\1\n")
           .gsub(%r{(<(title|name))}, "\n\\1")
           .gsub(%r{(<sourcecode[^<>]*>)\s+(<name[^<>]*>[^<]+</name>)\s+},

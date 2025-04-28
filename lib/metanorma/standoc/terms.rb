@@ -157,7 +157,7 @@ module Metanorma
       def termsource(node)
         matched = extract_termsource_refs(node.content, node) or return
         noko do |xml|
-          xml.termsource **termsource_attrs(node, matched) do |xml_t|
+          xml.source **termsource_attrs(node, matched) do |xml_t|
             seen_xref = Nokogiri::XML.fragment(matched[:xref])
             add_term_source(node, xml_t, seen_xref, matched)
           end

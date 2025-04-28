@@ -949,13 +949,13 @@ RSpec.describe Metanorma::Standoc do
        <title>Terms and definitions</title><p id="_">For the purposes of this document,
            the following terms and definitions apply.</p>
 
-       <term id="term-Term1"><preferred><expression><name>Term1</name></expression><termsource status="identical" type="authoritative">
+       <term id="term-Term1"><preferred><expression><name>Term1</name></expression><source status="identical" type="authoritative">
        <origin bibitemid="reference" type="inline" citeas="ABC">
        <display-text>
        <em>reference</em>
        </display-text>
        </origin>
-       </termsource><termsource status="identical" type="authoritative">
+       </source><source status="identical" type="authoritative">
        <origin bibitemid="reference" type="inline" citeas="ABC">
        <display-text>
        <em>
@@ -963,7 +963,7 @@ RSpec.describe Metanorma::Standoc do
        </em>
        </display-text>
        </origin>
-       </termsource><termsource status="identical" type="authoritative">
+       </source><source status="identical" type="authoritative">
        <origin bibitemid="reference" type="inline" citeas="ABC">
         <display-text><em>A</em> <stem type="MathML" block="false">
                                <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -978,18 +978,18 @@ RSpec.describe Metanorma::Standoc do
                       </stem>
                       </display-text>
                       </origin>
-       </termsource><termsource status="identical" type="authoritative">
+       </source><source status="identical" type="authoritative">
        <origin bibitemid="reference" type="inline" citeas="ABC">
         <display-text><em>A</em><fn reference="1">
          <p id="_">
            <em>B</em>
          </p>
        </fn></display-text></origin>
-       </termsource><termsource status="identical" type="authoritative">
+       </source><source status="identical" type="authoritative">
        <origin bibitemid="reference" type="inline" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn reference="2">
          <p id="_">Superseded by ISO 9000:2015.</p>
        </fn></display-text></origin>
-       </termsource></preferred>
+       </source></preferred>
 
 
 

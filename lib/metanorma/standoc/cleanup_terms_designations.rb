@@ -151,7 +151,7 @@ module Metanorma
       DESIGNATOR = %w(preferred admitted deprecates related).freeze
 
       def term_termsource_to_designation(xmldoc)
-        xmldoc.xpath("//term/termsource").each do |t|
+        xmldoc.xpath("//term/source").each do |t|
           p = t.previous_element
           while %w(domain subject).include? p&.name
             p = p.previous_element
