@@ -36,7 +36,7 @@ module Metanorma
       def unique_designators
         ret = xmldoc
           .xpath("//preferred/expression/name | //admitted/expression/name | " \
-                 "//deprecated/expression/name").each_with_object({}) do |n, m|
+                 "//deprecates/expression/name").each_with_object({}) do |n, m|
           m[n.text] ||= 0
           m[n.text] += 1
         end

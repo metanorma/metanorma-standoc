@@ -17,7 +17,7 @@ module Metanorma
         @iev = init_iev or return
         xmldoc.xpath("//term").each do |t|
           #t.xpath(".//termsource").each do |src|
-          t.xpath("./source | ./preferred/source | ./admitted/source | ./deprecated/source | ./related/source").each do |src|
+          t.xpath("./source | ./preferred/source | ./admitted/source | ./deprecates/source | ./related/source").each do |src|
             (/^IEC[  ]60050-/.match(src.at("./origin/@citeas")&.text) &&
           loc = src.xpath(SOURCELOCALITY)&.text) or next
             iev_validate1(t, loc, xmldoc)
