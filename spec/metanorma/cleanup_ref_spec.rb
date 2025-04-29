@@ -219,13 +219,13 @@ RSpec.describe Metanorma::Standoc do
         <term id="term-Term1">
         <preferred><expression><name>Term1</name></expression></preferred>
         <definition><verbal-definition><p id='_'>Definition 0</p></verbal-definition></definition>
-        <termsource status="identical" type="authoritative">
+        <source status="identical" type="authoritative">
         <origin bibitemid="ISO2191" type="inline" citeas="">
         <localityStack>
        <locality type="section"><referenceFrom>1</referenceFrom></locality>
        </localityStack>
        </origin>
-      </termsource>
+      </source>
       </term>
       </terms>
       </sections>
@@ -285,35 +285,35 @@ RSpec.describe Metanorma::Standoc do
           <term id="term-Automation1">
            <preferred><expression><name>Automation1</name></expression></preferred>
            <definition><verbal-definition><p id='_'>Definition 1</p></verbal-definition></definition>
-           <termsource status="identical" type="authoritative">
+           <source status="identical" type="authoritative">
            <origin bibitemid="IEC60050-103" type="inline" citeas="IEC&#xa0;60050-103:2009">
            <localityStack>
          <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
            </localityStack>
          </origin>
-         </termsource>
+         </source>
          </term>
          <term id="term-Automation2">
            <preferred><expression><name>Automation2</name></expression></preferred>
            <definition><verbal-definition><p id='_'>Definition 2</p></verbal-definition></definition>
-           <termsource status="identical" type="authoritative">
+           <source status="identical" type="authoritative">
            <origin bibitemid="IEC60050-102" type="inline" citeas="IEC&#xa0;60050-102:2007">
            <localityStack>
          <locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality>
            </localityStack>
          </origin>
-         </termsource>
+         </source>
          </term>
          <term id="term-Automation3">
            <preferred><expression><name>Automation3</name></expression></preferred>
            <definition><verbal-definition><p id='_'>Definition 3</p></verbal-definition></definition>
-           <termsource status="identical" type="authoritative">
+           <source status="identical" type="authoritative">
            <origin bibitemid="IEC60050-103" type="inline" citeas="IEC&#xa0;60050-103:2009">
            <localityStack>
          <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
            </localityStack>
          </origin>
-         </termsource>
+         </source>
          </term></terms></sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
            <title>Normative references</title>
          #{NORM_REF_BOILERPLATE}

@@ -82,7 +82,7 @@ module Metanorma
 
       def term_children_cleanup(xmldoc)
         xmldoc.xpath("//term").each do |t|
-          %w(termnote termexample termsource term).each do |w|
+          %w(termnote termexample source term).each do |w|
             t.xpath("./#{w}").each { |n| t << n.remove }
           end
         end

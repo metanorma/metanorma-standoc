@@ -744,7 +744,7 @@ RSpec.describe Metanorma::Standoc do
                <definition>
                  <verbal-definition>
                  <p id='_'>first definition</p>
-                 <termsource status='identical' type="authoritative">
+                 <source status='identical' type="authoritative">
                    <origin bibitemid='ISO2191' type='inline' citeas=''>
                      <localityStack>
                        <locality type='section'>
@@ -752,13 +752,13 @@ RSpec.describe Metanorma::Standoc do
                        </locality>
                      </localityStack>
                    </origin>
-                 </termsource>
+                 </source>
                  </verbal-definition>
                </definition>
                <definition type="simple">
                <verbal-definition>
                  <p id='_'>second definition</p>
-                 <termsource status='identical' type="authoritative">
+                 <source status='identical' type="authoritative">
                    <origin bibitemid='ISO2191' type='inline' citeas=''>
                      <localityStack>
                        <locality type='section'>
@@ -766,13 +766,13 @@ RSpec.describe Metanorma::Standoc do
                        </locality>
                      </localityStack>
                    </origin>
-                 </termsource>
+                 </source>
                  </verbal-definition>
                </definition>
                <termnote id='_'>
                  <p id='_'>This is a note</p>
                </termnote>
-               <termsource status='identical' type="authoritative">
+               <source status='identical' type="authoritative">
                  <origin bibitemid='ISO2191' type='inline' citeas=''>
                    <localityStack>
                      <locality type='section'>
@@ -780,7 +780,7 @@ RSpec.describe Metanorma::Standoc do
                      </locality>
                    </localityStack>
                  </origin>
-               </termsource>
+               </source>
              </term>
            </terms>
          </sections>
@@ -1946,20 +1946,20 @@ RSpec.describe Metanorma::Standoc do
                <term id="term-Term1">
                <preferred><expression><name>Term1</name></expression></preferred>
                <definition><verbal-definition><p id='_'>Definition 0</p></verbal-definition></definition>
-               <termsource status="identical" type="authoritative">
+               <source status="identical" type="authoritative">
                <origin bibitemid="ISO2191" type="inline" citeas="">
                <localityStack>
               <locality type="section"><referenceFrom>1</referenceFrom></locality>
               </localityStack>
               </origin>
-             </termsource>
-             <termsource status="identical" type="authoritative">
+             </source>
+             <source status="identical" type="authoritative">
                <origin bibitemid="ISO2191" type="inline" citeas="" case='capital' droploc='true'>
                <localityStack>
               <locality type="section"><referenceFrom>1</referenceFrom></locality>
               </localityStack>
               </origin>
-             </termsource>
+             </source>
              </term>
              <term id='term-Term2'>
         <preferred><expression><name>Term2</name></expression></preferred>
@@ -1968,27 +1968,27 @@ RSpec.describe Metanorma::Standoc do
           <p id='_'>Definition</p>
           </verbal-definition>
         </definition>
-        <termsource status='identical' type="authoritative">
+        <source status='identical' type="authoritative">
           <origin citeas=''>
           <display-text>
             <termref base='IEV' target='xyz'/>
             </display-text>
           </origin>
-        </termsource>
-        <termsource status='identical' type="authoritative">
+        </source>
+        <source status='identical' type="authoritative">
           <origin citeas=''>
           <display-text>
             <termref base='IEV' target='xyz'/>
             </display-text>
           </origin>
-        </termsource>
-        <termsource status='identical' type="authoritative">
+        </source>
+        <source status='identical' type="authoritative">
           <origin citeas=''>
           <display-text>
             <termref base='IEV' target='xyz'/>
             </display-text>
           </origin>
-        </termsource>
+        </source>
       </term>
              </terms>
              </sections>
@@ -2027,7 +2027,7 @@ RSpec.describe Metanorma::Standoc do
                <term id="term-Term1">
                <preferred><expression><name>Term1</name></expression></preferred>
                <definition><verbal-definition><p id='_'>Definition 0</p></verbal-definition></definition>
-               <termsource status="modified" type="authoritative">
+               <source status="modified" type="authoritative">
                <origin bibitemid="ISO2191" type="inline" citeas="">
                <localityStack>
               <locality type="section"><referenceFrom>1</referenceFrom></locality>
@@ -2036,14 +2036,14 @@ RSpec.describe Metanorma::Standoc do
                <modification>
                  <p id="_">with adjustments</p>
                </modification>
-             </termsource>
+             </source>
              </term>
              <term id='term-Term2'>
         <preferred><expression><name>Term2</name></expression></preferred>
         <definition><verbal-definition>
           <p id='_'>Definition</p>
         </verbal-definition></definition>
-        <termsource status='modified' type="authoritative">
+        <source status='modified' type="authoritative">
           <origin citeas=''>
           <display-text>
             <termref base='IEV' target='xyz'/>
@@ -2052,7 +2052,7 @@ RSpec.describe Metanorma::Standoc do
           <modification>
             <p id='_'>with adjustments</p>
           </modification>
-        </termsource>
+        </source>
       </term>
              </terms>
              </sections>
@@ -2094,7 +2094,7 @@ RSpec.describe Metanorma::Standoc do
               </expression>
             </preferred>
             <definition><verbal-definition><p id='_'>Definition 0</p></verbal-definition></definition>
-            <termsource status='generalisation' type='authoritative'>
+            <source status='generalisation' type='authoritative'>
               <origin bibitemid='ISO2191' type='inline' citeas=''>
                 <localityStack>
                   <locality type='section'>
@@ -2105,7 +2105,7 @@ RSpec.describe Metanorma::Standoc do
               <modification>
                 <p id='_'>with adjustments</p>
               </modification>
-            </termsource>
+            </source>
           </term>
           <term id='term-Term2'>
             <preferred>
@@ -2116,7 +2116,7 @@ RSpec.describe Metanorma::Standoc do
             <definition><verbal-definition>
               <p id='_'>Definition</p>
             </verbal-definition></definition>
-            <termsource status='modified' type='lineage'>
+            <source status='modified' type='lineage'>
               <origin citeas=''>
               <display-text>
                 <termref base='IEV' target='xyz'/>
@@ -2125,7 +2125,7 @@ RSpec.describe Metanorma::Standoc do
               <modification>
                 <p id='_'>with adjustments</p>
               </modification>
-            </termsource>
+            </source>
           </term>
         </terms>
       </sections>

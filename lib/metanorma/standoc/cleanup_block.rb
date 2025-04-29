@@ -224,8 +224,9 @@ module Metanorma
       end
 
       def blocksource_cleanup(xmldoc)
-        xmldoc.xpath("//figure//termsource | //table//termsource").each do |s|
-          s.name = "source"
+        #xmldoc.xpath("//figure//termsource | //table//termsource").each do |s|
+        xmldoc.xpath("//figure//source | //table//source").each do |s|
+          #s.name = "source"
           s.delete("type")
         end
       end

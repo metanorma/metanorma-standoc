@@ -56,10 +56,9 @@ module Metanorma
         until nomatches
           nomatches = true
           xmldoc.xpath("//table/following-sibling::*[1]" \
-                       "[self::termsource]").each do |n|
+                       "[self::source]").each do |n|
             n.previous_element << n.remove
             nomatches = false
-            # will be renamed source from termsource later
           end
         end
       end

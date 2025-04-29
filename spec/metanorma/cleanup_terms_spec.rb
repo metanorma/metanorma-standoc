@@ -218,7 +218,7 @@ RSpec.describe Metanorma::Standoc do
                 </expression>
                 <field-of-application>Field</field-of-application>
                 <usage-info>This is usage.</usage-info>
-                        <termsource status='identical' type='authoritative'>
+                        <source status='identical' type='authoritative'>
           <origin bibitemid='ISO2191' type='inline' citeas=''>
             <localityStack>
               <locality type='section'>
@@ -226,7 +226,7 @@ RSpec.describe Metanorma::Standoc do
               </locality>
             </localityStack>
           </origin>
-        </termsource>
+        </source>
               </preferred>
               <admitted absent="true">
                 <expression language='he' script='Hebr' type='suffix'>
@@ -257,7 +257,7 @@ RSpec.describe Metanorma::Standoc do
                 <gender>neuter</gender>
               </grammar>
             </expression>
-                                  <termsource status='identical' type='authoritative'>
+                                  <source status='identical' type='authoritative'>
               <origin bibitemid='ISO2191' type='inline' citeas=''>
                 <localityStack>
                   <locality type='section'>
@@ -265,7 +265,7 @@ RSpec.describe Metanorma::Standoc do
                   </locality>
                 </localityStack>
               </origin>
-            </termsource>
+            </source>
           </preferred>
           <xref target='second'/>
         </related>
@@ -274,7 +274,7 @@ RSpec.describe Metanorma::Standoc do
               <definition><verbal-definition>
                 <p id='_'>Definition</p>
               </verbal-definition></definition>
-          <termsource status='identical' type='authoritative'>
+          <source status='identical' type='authoritative'>
           <origin bibitemid='ISO2191' type='inline' citeas=''>
             <localityStack>
               <locality type='section'>
@@ -282,7 +282,7 @@ RSpec.describe Metanorma::Standoc do
               </locality>
             </localityStack>
           </origin>
-        </termsource>
+        </source>
             </term>
         <term id='second'>
         <preferred>
@@ -1440,13 +1440,13 @@ RSpec.describe Metanorma::Standoc do
         <p id="_">Example 1</p>
       </termexample><termexample id="_">
         <p id="_">Example 2</p>
-      </termexample><termsource status="identical" type="authoritative">
+      </termexample><source status="identical" type="authoritative">
         <origin bibitemid="ISO2191" type="inline" citeas="">
         <localityStack>
        <locality type="section"><referenceFrom>1</referenceFrom></locality>
         </localityStack>
        </origin>
-      </termsource></term>
+      </source></term>
       </terms>
       </sections>
       </metanorma>
@@ -1518,7 +1518,7 @@ RSpec.describe Metanorma::Standoc do
                 <definition>
                   <verbal-definition>
                     <p id='_'>Definition</p>
-                    <termsource status='identical' type='authoritative'>
+                    <source status='identical' type='authoritative'>
                       <origin bibitemid='ISO2191' type='inline' citeas=''>
                         <localityStack>
                           <locality type='section'>
@@ -1526,7 +1526,7 @@ RSpec.describe Metanorma::Standoc do
                           </locality>
                         </localityStack>
                       </origin>
-                    </termsource>
+                    </source>
                   </verbal-definition>
                   <non-verbal-representation>
                     <table id='_'>
@@ -1545,7 +1545,7 @@ RSpec.describe Metanorma::Standoc do
                     </table>
                   </non-verbal-representation>
                 </definition>
-                <termsource status='identical' type='authoritative'>
+                <source status='identical' type='authoritative'>
                   <origin bibitemid='ISO2191' type='inline' citeas=''>
                     <localityStack>
                       <locality type='section'>
@@ -1553,7 +1553,7 @@ RSpec.describe Metanorma::Standoc do
                       </locality>
                     </localityStack>
                   </origin>
-                </termsource>
+                </source>
               </term>
               <term id='term-Term-2'>
                 <preferred>
@@ -1578,7 +1578,7 @@ RSpec.describe Metanorma::Standoc do
                         <asciimath>x = y</asciimath>
                       </stem>
                     </formula>
-                    <termsource status='identical' type='authoritative'>
+                    <source status='identical' type='authoritative'>
                       <origin bibitemid='ISO2191' type='inline' citeas=''>
                         <localityStack>
                           <locality type='section'>
@@ -1586,7 +1586,7 @@ RSpec.describe Metanorma::Standoc do
                           </locality>
                         </localityStack>
                       </origin>
-                    </termsource>
+                    </source>
                   </non-verbal-representation>
                 </definition>
               </term>
