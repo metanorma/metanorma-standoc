@@ -494,13 +494,13 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
                 </thead>
                 <tbody>
                   <tr>
-                    td id="_" valign="top" align='left'>
+                    <td id="_" valign="top" align='left'>
                       <p id='_'>acadsin-zho-hani-latn-2002</p>
                     </td>
-                    td id="_" valign="top" align='left'>
+                    <td id="_" valign="top" align='left'>
                       <p id='_'>acadsin-zho-hani-latn-2002</p>
                     </td>
-                    td id="_" valign="top" align='left'>
+                    <td id="_" valign="top" align='left'>
                       <note id='_'>
                         <p id='_'>
                           OGC 11-122r1 code
@@ -508,7 +508,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
                         </p>
                       </note>
                     </td>
-                    td id="_" valign="top" align='left'>
+                    <td id="_" valign="top" align='left'>
                       <p id='_'>Academica Sinica — Chinese Tongyong Pinyin (2002)</p>
                     </td>
                   </tr>

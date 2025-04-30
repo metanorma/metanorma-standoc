@@ -68,7 +68,7 @@ module Metanorma
 
       def process(parent, _target, attrs)
         t = attrs["text"]
-        t = if /,/.match?(t)
+        t = if t.include?(",")
               t.sub(/,/, "%")
             else
               "#{t}%"

@@ -71,7 +71,7 @@ module Metanorma
 
       def toc_cleanup_clause_entry(xmldoc, list)
         list.xpath(".//xref[not(text())][not(display-text)]").each do |x|
-          c1 = xmldoc.at("//*[@id = '#{x['target']}']")
+          c1 = xmldoc.at("//*[@anchor = '#{x['target']}']")
           t = c1.at("./variant-title[@type = 'toc']") || c1.at("./title")
           x << "<display-text>#{to_xml(t.dup.children)}</display-text>"
         end
