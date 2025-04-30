@@ -196,7 +196,8 @@ module Metanorma
 
       def ref_attributes(match)
         code = analyse_ref_code(match[:code])
-        { id: match[:anchor], type: "standard",
+        { anchor: match[:anchor], id: "_#{UUIDTools::UUID.random_create}",
+          type: "standard",
           suppress_identifier: code[:dropid] || nil }
       end
 

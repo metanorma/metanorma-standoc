@@ -155,8 +155,8 @@ RSpec.describe Metanorma::Standoc do
           <foreword id='_' obligation='informative'>
             <title>Foreword</title>
             <p id='_'>
-              <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123'/>
-              <eref type='inline' bibitemid='iso124' citeas='[1]'/>
+              <eref type='inline' bibitemid='_' citeas='ISO&#xa0;123'/>
+              <eref type='inline' bibitemid='_' citeas='[1]'/>
             </p>
           </foreword>
         </preface>
@@ -323,16 +323,16 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     doc = Asciidoctor.convert(input
       .sub(":novalid:", ":language: de\n:novalid:"), *OPTIONS)
-    expect(doc).to include('<eref type="inline" bibitemid="iso123" citeas="ISO 8342-DE"/>')
-    expect(doc).to include('<eref type="inline" bibitemid="iso124" citeas="ISO 8343-DE"/>')
+    expect(doc).to include('citeas="ISO 8342-DE"')
+    expect(doc).to include('citeas="ISO 8343-DE"')
     doc = Asciidoctor.convert(input
   .sub(":novalid:", ":language: fr\n:novalid:"), *OPTIONS)
-    expect(doc).to include('<eref type="inline" bibitemid="iso123" citeas="ISO 8342-EN"/>')
-    expect(doc).to include('<eref type="inline" bibitemid="iso124" citeas="ISO 8343-FR"/>')
+    expect(doc).to include('citeas="ISO 8342-EN"')
+    expect(doc).to include('citeas="ISO 8343-FR"')
     doc = Asciidoctor.convert(input
       .sub(":novalid:", ":language: en\n:novalid:"), *OPTIONS)
-    expect(doc).to include('<eref type="inline" bibitemid="iso123" citeas="ISO 8342-EN"/>')
-    expect(doc).to include('<eref type="inline" bibitemid="iso124" citeas="ISO 8341"/>')
+    expect(doc).to include('citeas="ISO 8342-EN"')
+    expect(doc).to include('citeas="ISO 8341"')
   end
 
   it "processes simple IEC reference" do
@@ -710,16 +710,16 @@ RSpec.describe Metanorma::Standoc do
                  <clause id="_" anchor="_scope" type='scope' inline-header='false' obligation='normative'>
                    <title>Scope</title>
                    <p id='_'>
-                     <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123'/>
-                     <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123'>
+                     <eref type='inline' bibitemid='_' citeas='ISO&#xa0;123'/>
+                     <eref type='inline' bibitemid='_' citeas='ISO&#xa0;123'>
                        <localityStack>
                          <locality type='clause'>
                            <referenceFrom>1</referenceFrom>
                          </locality>
                        </localityStack>
                      </eref>
-                     <eref type='inline' bibitemid='iso124' citeas='id'/>
-                     <eref type='inline' bibitemid='iso124' citeas='id'>
+                     <eref type='inline' bibitemid='_' citeas='id'/>
+                     <eref type='inline' bibitemid='_' citeas='id'>
                        <localityStack>
                          <locality type='clause'>
                            <referenceFrom>1</referenceFrom>
@@ -816,10 +816,10 @@ RSpec.describe Metanorma::Standoc do
           <clause id="_" anchor="_scope" type="scope" inline-header='false' obligation='normative'>
             <title>Scope</title>
             <p id='_'>
-              <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123&#xa0;(all&#xa0;parts)'/>
+              <eref type='inline' bibitemid='_' citeas='ISO&#xa0;123&#xa0;(all&#xa0;parts)'/>
             </p>
             <p id='_'>
-              <eref type='inline' bibitemid='iso124' citeas='ISO&#xa0;124'>
+              <eref type='inline' bibitemid='_' citeas='ISO&#xa0;124'>
                 <localityStack>
                   <locality type='clause'>
                     <referenceFrom>1</referenceFrom>
@@ -828,7 +828,7 @@ RSpec.describe Metanorma::Standoc do
               </eref>
             </p>
             <p id='_'>
-              <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123&#xa0;(all&#xa0;parts)'>
+              <eref type='inline' bibitemid='_' citeas='ISO&#xa0;123&#xa0;(all&#xa0;parts)'>
                 <localityStack>
               <locality type='anchor'>
         <referenceFrom>xyz</referenceFrom>
@@ -837,7 +837,7 @@ RSpec.describe Metanorma::Standoc do
               </eref>
             </p>
             <p id='_'>
-              <eref type='inline' bibitemid='iso124' citeas='ISO&#xa0;124'>
+              <eref type='inline' bibitemid='_' citeas='ISO&#xa0;124'>
                 <localityStack>
                   <locality type='clause'>
                     <referenceFrom>1</referenceFrom>
@@ -1039,7 +1039,7 @@ RSpec.describe Metanorma::Standoc do
       == Bibliography
 
       * [[[iso124,(*A*.footnote:[hello])XYZ]]] _Standard_
-      * [[[iso125,usrlabel="*A*.footnote:[hello]",XYZ]]] _Standard_
+      * [[[iso125,usrlabel="*B*.footnote:[hello]",XYZ]]] _Standard_
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -1047,8 +1047,8 @@ RSpec.describe Metanorma::Standoc do
            <foreword id='_' obligation='informative'>
              <title>Foreword</title>
              <p id='_'>
-               <eref type="inline" bibitemid="iso124" citeas="[&lt;strong&gt;A&lt;/strong&gt;.]"/>
-               <eref type="inline" bibitemid="iso125" citeas="[&lt;strong&gt;A&lt;/strong&gt;.]"/>
+               <eref type="inline" bibitemid="_" citeas="[&lt;strong&gt;A&lt;/strong&gt;.]"/>
+               <eref type="inline" bibitemid="_" citeas="[&lt;strong&gt;B&lt;/strong&gt;.]"/>
              </p>
            </foreword>
          </preface>
@@ -1077,7 +1077,7 @@ RSpec.describe Metanorma::Standoc do
                </formattedref>
                <docidentifier type='metanorma'>
                  [
-                 <strong>A</strong>
+                 <strong>B</strong>
                  .
                  <fn reference='1'>
                    <p id='_'>hello</p>
@@ -1176,6 +1176,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes attachments" do
+    mock_preserve_idrefs
     attachment =
       if RUBY_PLATFORM.include?("mingw") || RUBY_PLATFORM.include?("mswin")
         <<~OUTPUT
@@ -1233,40 +1234,40 @@ RSpec.describe Metanorma::Standoc do
                 <value>2</value>
              </presentation-metadata>
           </metanorma-extension>
-          <sections>
-             <clause id="_" anchor="_clause" inline-header="false" obligation="normative">
-                <title>Clause</title>
-                <p id="_">
-                   <eref type="inline" bibitemid="iso123" citeas="[spec/assets/iso.xml]"/>
-                </p>
-             </clause>
-          </sections>
-          <bibliography>
-             <references id="_" anchor="_normative_references" normative="true" obligation="informative">
-                <title>Normative references</title>
-                <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-                <bibitem id="_" anchor="iso123" hidden="true">
-                   <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
-                   <uri type="attachment">_attach_attachments/iso.xml</uri>
-                   <uri type="citation">_attach_attachments/iso.xml</uri>
-                   <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
-                </bibitem>
-                <bibitem id="_" anchor="iso124" hidden="true">
-                   <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
-                   <uri type="attachment">_attach_attachments/iso.xml_</uri>
-                   <uri type="citation">_attach_attachments/iso.xml_</uri>
-                   <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
-                </bibitem>
-                <bibitem id="_" anchor="iso125" hidden="true">
-                   <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
-                   <uri type="attachment">_attach_attachments/html.scss</uri>
-                   <uri type="citation">_attach_attachments/html.scss</uri>
-                   <docidentifier type="metanorma">[spec/assets/html.scss]</docidentifier>
-                </bibitem>
-             </references>
-          </bibliography>
-       </metanorma>
-    OUTPUT
+           <sections>
+              <clause id="_" anchor="_clause" inline-header="false" obligation="normative">
+                 <title>Clause</title>
+                 <p id="_">
+                    <eref type="inline" bibitemid="iso123" citeas="[spec/assets/iso.xml]"/>
+                 </p>
+              </clause>
+           </sections>
+           <bibliography>
+              <references id="_" anchor="_normative_references" normative="true" obligation="informative">
+                 <title>Normative references</title>
+                 <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+                 <bibitem anchor="iso123" id="_" hidden="true">
+                    <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+                    <uri type="attachment">_attach_attachments/iso.xml</uri>
+                    <uri type="citation">_attach_attachments/iso.xml</uri>
+                    <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
+                 </bibitem>
+                 <bibitem anchor="iso124" id="_" hidden="true">
+                    <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+                    <uri type="attachment">_attach_attachments/iso.xml_</uri>
+                    <uri type="citation">_attach_attachments/iso.xml_</uri>
+                    <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
+                 </bibitem>
+                 <bibitem anchor="iso125" id="_" hidden="true">
+                    <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+                    <uri type="attachment">_attach_attachments/html.scss</uri>
+                    <uri type="citation">_attach_attachments/html.scss</uri>
+                    <docidentifier type="metanorma">[spec/assets/html.scss]</docidentifier>
+                 </bibitem>
+              </references>
+           </bibliography>
+        </metanorma>
+              OUTPUT
 
     # Windows/Unix differences in XML encoding: remove body of Data URI
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS)
@@ -1290,7 +1291,9 @@ RSpec.describe Metanorma::Standoc do
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
       .to be_equivalent_to Xml::C14n.format(output
       .gsub("spec/assets/iso.xml", "iso.xml")
-      .gsub("spec/assets/html.scss", "html.scss"))
+      .gsub("spec/assets/html.scss", "html.scss")
+      .gsub('bibitemid="iso123"', 'bibitemid="_"') # can't mock this in system call
+      )
 
     mock_absolute_localdir(4)
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS)
