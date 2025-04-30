@@ -18,16 +18,16 @@ RSpec.describe Metanorma::Standoc do
         <name>Table Name</name>
         <thead>
           <tr>
-            <th valign="top" align="left">A</th>
-            <th valign="top" align="left">B</th>
-            <th valign="top" align="left">C</th>
+            <th id="_" valign="top" align="left">A</th>
+            <th id="_" valign="top" align="left">B</th>
+            <th id="_" valign="top" align="left">C</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th valign="top" align="left">1</th>
-            <td valign="top" align="left">2</td>
-            <td valign="top" align="left">3</td>
+            <th id="_" valign="top" align="left">1</th>
+            <td id="_" valign="top" align="left">2</td>
+            <td id="_" valign="top" align="left">3</td>
           </tr>
         </tbody>
       </table>
@@ -66,30 +66,30 @@ RSpec.describe Metanorma::Standoc do
           <table id='_' width='75%'>
             <tbody>
               <tr>
-                <td valign='top' align='left'>A</td>
+                <td id="_" valign='top' align='left'>A</td>
               </tr>
               <tr>
-                <td valign='top' align='left'>B</td>
+                <td id="_" valign='top' align='left'>B</td>
               </tr>
             </tbody>
           </table>
           <table id='_' width='75'>
             <tbody>
               <tr>
-                <td valign='top' align='left'>A</td>
+                <td id="_" valign='top' align='left'>A</td>
               </tr>
               <tr>
-                <td valign='top' align='left'>B</td>
+                <td id="_" valign='top' align='left'>B</td>
               </tr>
             </tbody>
           </table>
           <table id='_' width='575'>
             <tbody>
               <tr>
-                <td valign='top' align='left'>A</td>
+                <td id="_" valign='top' align='left'>A</td>
               </tr>
               <tr>
-                <td valign='top' align='left'>B</td>
+                <td id="_" valign='top' align='left'>B</td>
               </tr>
             </tbody>
           </table>
@@ -132,32 +132,32 @@ RSpec.describe Metanorma::Standoc do
           <table id='_'>
             <thead>
               <tr>
-                <th valign='top' align='left'>A</th>
-                <th valign='middle' align='left'>B</th>
-                <th valign='bottom' align='center'>C</th>
+                <th id="_" valign='top' align='left'>A</th>
+                <th id="_" valign='middle' align='left'>B</th>
+                <th id="_" valign='bottom' align='center'>C</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td valign='top' align='left'>1</td>
-                <td valign='middle' align='left'>2</td>
-                <td valign='bottom' align='center'>3</td>
+                <td id="_" valign='top' align='left'>1</td>
+                <td id="_" valign='middle' align='left'>2</td>
+                <td id="_" valign='bottom' align='center'>3</td>
               </tr>
             </tbody>
           </table>
            <table id='_'>
             <thead>
               <tr>
-                <th valign='top' align='left'>A</th>
-                <th valign='top' align='left'>B</th>
-                <th valign='top' align='left'>C</th>
+                <th id="_" valign='top' align='left'>A</th>
+                <th id="_" valign='top' align='left'>B</th>
+                <th id="_" valign='top' align='left'>C</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td valign='top' align='left'>1</td>
-                <td valign='top' align='left'>2</td>
-                <td valign='top' align='left'>3</td>
+                <td id="_" valign='top' align='left'>1</td>
+                <td id="_" valign='top' align='left'>2</td>
+                <td id="_" valign='top' align='left'>3</td>
               </tr>
             </tbody>
           </table>
@@ -169,16 +169,16 @@ RSpec.describe Metanorma::Standoc do
             </colgroup>
             <thead>
               <tr>
-                <th valign='top' align='left'>A</th>
-                <th valign='top' align='left'>B</th>
-                <th valign='top' align='left'>C</th>
+                <th id="_" valign='top' align='left'>A</th>
+                <th id="_" valign='top' align='left'>B</th>
+                <th id="_" valign='top' align='left'>C</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td valign='top' align='left'>1</td>
-                <td valign='top' align='left'>2</td>
-                <td valign='top' align='left'>3</td>
+                <td id="_" valign='top' align='left'>1</td>
+                <td id="_" valign='top' align='left'>2</td>
+                <td id="_" valign='top' align='left'>3</td>
               </tr>
             </tbody>
           </table>
@@ -206,21 +206,21 @@ RSpec.describe Metanorma::Standoc do
            <table id="_">
            <name>Table Name</name>
            <thead><tr>
-               <th valign="top" align="left">A</th>
-               <th valign="top" align="left">B</th>
-               <th valign="top" align="left">C</th>
+               <th id="_" valign="top" align="left">A</th>
+               <th id="_" valign="top" align="left">B</th>
+               <th id="_" valign="top" align="left">C</th>
              </tr><tr>
-               <th valign="top" align="left">1</th>
-               <th valign="top" align="left">2</th>
-               <th valign="top" align="left">3</th>
+               <th id="_" valign="top" align="left">1</th>
+               <th id="_" valign="top" align="left">2</th>
+               <th id="_" valign="top" align="left">3</th>
              </tr></thead>
            <tbody>
 
 
              <tr>
-               <th valign="top" align="left">1</th>
-               <td valign="top" align="left">2</td>
-               <td valign="top" align="left">3</td>
+               <th id="_" valign="top" align="left">1</th>
+               <td id="_" valign="top" align="left">2</td>
+               <td id="_" valign="top" align="left">3</td>
              </tr>
            </tbody>
          </table>
@@ -245,21 +245,21 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
              <sections>
            <table id="_"><thead><tr>
-               <th valign="top" align="left">A</th>
-               <th valign="top" align="left">B</th>
-               <th valign="top" align="left">C</th>
+               <th id="_" valign="top" align="left">A</th>
+               <th id="_" valign="top" align="left">B</th>
+               <th id="_" valign="top" align="left">C</th>
              </tr><tr>
-               <th valign="top" align="left">1</th>
-               <th valign="top" align="left">2</th>
-               <th valign="top" align="left">3</th>
+               <th id="_" valign="top" align="left">1</th>
+               <th id="_" valign="top" align="left">2</th>
+               <th id="_" valign="top" align="left">3</th>
              </tr></thead>
            <tbody>
 
 
              <tr>
-               <th valign="top" align="left">1</th>
-               <td valign="top" align="left">2</td>
-               <td valign="top" align="left">3</td>
+               <th id="_" valign="top" align="left">1</th>
+               <td id="_" valign="top" align="left">2</td>
+               <td id="_" valign="top" align="left">3</td>
              </tr>
            </tbody>
          </table>
@@ -316,8 +316,8 @@ RSpec.describe Metanorma::Standoc do
                 <name>Maximum <em>permissible</em> mass fraction of defects</name>
                 <thead>
                   <tr>
-                    <th rowspan="2" valign="middle" align="left">Defect</th>
-                    <th colspan="4" valign="top" align="center">Maximum permissible mass fraction of defects in husked rice<br/>
+                    <th id="_" rowspan="2" valign="middle" align="left">Defect</th>
+                    <th id="_" colspan="4" valign="top" align="center">Maximum permissible mass fraction of defects in husked rice<br/>
                     <stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false">
                       <msub>
                           <mi>w</mi>
@@ -329,151 +329,151 @@ RSpec.describe Metanorma::Standoc do
                       </mstyle></math><asciimath>w_max</asciimath></stem></th>
                   </tr>
                 <tr>
-                    <th valign="middle" align="left">in husked rice</th>
-                    <th valign="top" align="center">in milled rice (non-glutinous)</th>
-                    <th valign="bottom" align="center">in husked parboiled rice</th>
-                    <th valign="top" align="center">in milled parboiled rice</th>
+                    <th id="_" valign="middle" align="left">in husked rice</th>
+                    <th id="_" valign="top" align="center">in milled rice (non-glutinous)</th>
+                    <th id="_" valign="bottom" align="center">in husked parboiled rice</th>
+                    <th id="_" valign="top" align="center">in milled parboiled rice</th>
                   </tr></thead>
                 <tbody>
 
                   <tr>
-                    <td valign="middle" align="left">Extraneous matter: organic<fn reference="a">
+                    <td id="_" valign="middle" align="left">Extraneous matter: organic<fn reference="a">
                 <p id="_">Organic extraneous matter includes foreign seeds, husks, bran, parts of straw, etc.</p>
               </fn></td>
-                    <td valign="top" align="center">1,0</td>
-                    <td valign="bottom" align="center">0,5</td>
-                    <td valign="top" align="center">1,0</td>
-                    <td valign="top" align="center">0,5</td>
+                    <td id="_" valign="top" align="center">1,0</td>
+                    <td id="_" valign="bottom" align="center">0,5</td>
+                    <td id="_" valign="top" align="center">1,0</td>
+                    <td id="_" valign="top" align="center">0,5</td>
                   </tr>
                   <tr>
-                    <td valign="middle" align="left">Extraneous matter: inorganic<fn reference="b">
+                    <td id="_" valign="middle" align="left">Extraneous matter: inorganic<fn reference="b">
                 <p id="_">Inorganic extraneous matter includes stones, sand, dust, etc.</p>
               </fn></td>
-                    <td valign="top" align="center">0,5</td>
-                    <td valign="bottom" align="center">0,5</td>
-                    <td valign="top" align="center">0,5</td>
-                    <td valign="top" align="center">0,5</td>
+                    <td id="_" valign="top" align="center">0,5</td>
+                    <td id="_" valign="bottom" align="center">0,5</td>
+                    <td id="_" valign="top" align="center">0,5</td>
+                    <td id="_" valign="top" align="center">0,5</td>
                   </tr>
                   <tr>
-                    <td valign="middle" align="left">Paddy</td>
-                    <td valign="top" align="center">2,5</td>
-                    <td valign="bottom" align="center">0,3</td>
-                    <td valign="top" align="center">2,5</td>
-                    <td valign="top" align="center">0,3</td>
+                    <td id="_" valign="middle" align="left">Paddy</td>
+                    <td id="_" valign="top" align="center">2,5</td>
+                    <td id="_" valign="bottom" align="center">0,3</td>
+                    <td id="_" valign="top" align="center">2,5</td>
+                    <td id="_" valign="top" align="center">0,3</td>
                   </tr>
                   <tr>
-                    <td valign="middle" align="left">Husked rice, non-parboiled</td>
-                    <td valign="top" align="center">Not applicable</td>
-                    <td valign="bottom" align="center">1,0</td>
-                    <td valign="top" align="center">1,0</td>
-                    <td valign="top" align="center">1,0</td>
+                    <td id="_" valign="middle" align="left">Husked rice, non-parboiled</td>
+                    <td id="_" valign="top" align="center">Not applicable</td>
+                    <td id="_" valign="bottom" align="center">1,0</td>
+                    <td id="_" valign="top" align="center">1,0</td>
+                    <td id="_" valign="top" align="center">1,0</td>
                   </tr>
                   <tr>
-                    <td valign="middle" align="left">Milled rice, non-parboiled</td>
-                    <td valign="top" align="center">1,0</td>
-                    <td valign="bottom" align="center">Not applicable</td>
-                    <td valign="top" align="center">1,0</td>
-                    <td valign="top" align="center">1,0</td>
+                    <td id="_" valign="middle" align="left">Milled rice, non-parboiled</td>
+                    <td id="_" valign="top" align="center">1,0</td>
+                    <td id="_" valign="bottom" align="center">Not applicable</td>
+                    <td id="_" valign="top" align="center">1,0</td>
+                    <td id="_" valign="top" align="center">1,0</td>
                   </tr>
                   <tr>
-                    <td valign="middle" align="left">Husked rice, parboiled</td>
-                    <td valign="top" align="center">1,0</td>
-                    <td valign="bottom" align="center">1,0</td>
-                    <td valign="top" align="center">Not applicable</td>
-                    <td valign="top" align="center">1,0</td>
+                    <td id="_" valign="middle" align="left">Husked rice, parboiled</td>
+                    <td id="_" valign="top" align="center">1,0</td>
+                    <td id="_" valign="bottom" align="center">1,0</td>
+                    <td id="_" valign="top" align="center">Not applicable</td>
+                    <td id="_" valign="top" align="center">1,0</td>
                   </tr>
                   <tr>
-                    <td valign="middle" align="left">Milled rice, parboiled</td>
-                    <td valign="top" align="center">1,0</td>
-                    <td valign="bottom" align="center">1,0</td>
-                    <td valign="top" align="center">1,0</td>
-                    <td valign="top" align="center">Not applicable</td>
+                    <td id="_" valign="middle" align="left">Milled rice, parboiled</td>
+                    <td id="_" valign="top" align="center">1,0</td>
+                    <td id="_" valign="bottom" align="center">1,0</td>
+                    <td id="_" valign="top" align="center">1,0</td>
+                    <td id="_" valign="top" align="center">Not applicable</td>
                   </tr>
                   <tr>
-                    <td valign="middle" align="left">Chips</td>
-                    <td valign="top" align="center">0,1</td>
-                    <td valign="bottom" align="center">0,1</td>
-                    <td valign="top" align="center">0,1</td>
-                    <td valign="top" align="center">0,1</td>
+                    <td id="_" valign="middle" align="left">Chips</td>
+                    <td id="_" valign="top" align="center">0,1</td>
+                    <td id="_" valign="bottom" align="center">0,1</td>
+                    <td id="_" valign="top" align="center">0,1</td>
+                    <td id="_" valign="top" align="center">0,1</td>
                   </tr>
                   <tr>
-                    <td valign="middle" align="left">HDK</td>
-                    <td valign="top" align="center">2,0<fn reference="c">
+                    <td id="_" valign="middle" align="left">HDK</td>
+                    <td id="_" valign="top" align="center">2,0<fn reference="c">
                 <p id="_">The maximum permissible mass fraction of defects
                          <index>
                            <primary>defects</primary>
                         </index>
                       shall be determined with respect to the mass fraction obtained after milling.</p>
               </fn></td>
-                    <td valign="bottom" align="center">2,0</td>
-                    <td valign="top" align="center">2,0<fn reference="c">
+                    <td id="_" valign="bottom" align="center">2,0</td>
+                    <td id="_" valign="top" align="center">2,0<fn reference="c">
                 <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
               </fn></td>
-                    <td valign="top" align="center">2,0</td>
+                    <td id="_" valign="top" align="center">2,0</td>
                   </tr>
                   <tr>
-                    <td valign="middle" align="left">Damaged kernels</td>
-                    <td valign="top" align="center">4,0</td>
-                    <td valign="bottom" align="center">3,0</td>
-                    <td valign="top" align="center">4,0</td>
-                    <td valign="top" align="center">3,0</td>
+                    <td id="_" valign="middle" align="left">Damaged kernels</td>
+                    <td id="_" valign="top" align="center">4,0</td>
+                    <td id="_" valign="bottom" align="center">3,0</td>
+                    <td id="_" valign="top" align="center">4,0</td>
+                    <td id="_" valign="top" align="center">3,0</td>
                   </tr>
                   <tr>
-                    <td valign="middle" align="left">Immature and/or malformed kernels</td>
-                    <td valign="top" align="center">8,0</td>
-                    <td valign="bottom" align="center">2,0</td>
-                    <td valign="top" align="center">8,0</td>
-                    <td valign="top" align="center">2,0</td>
+                    <td id="_" valign="middle" align="left">Immature and/or malformed kernels</td>
+                    <td id="_" valign="top" align="center">8,0</td>
+                    <td id="_" valign="bottom" align="center">2,0</td>
+                    <td id="_" valign="top" align="center">8,0</td>
+                    <td id="_" valign="top" align="center">2,0</td>
                   </tr>
                   <tr>
-                    <td valign="middle" align="left">Chalky kernels</td>
-                    <td valign="top" align="center">5,0<fn reference="c">
+                    <td id="_" valign="middle" align="left">Chalky kernels</td>
+                    <td id="_" valign="top" align="center">5,0<fn reference="c">
                 <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
               </fn></td>
-                    <td valign="bottom" align="center">5,0</td>
-                    <td valign="top" align="center">Not applicable</td>
-                    <td valign="top" align="center">Not applicable</td>
+                    <td id="_" valign="bottom" align="center">5,0</td>
+                    <td id="_" valign="top" align="center">Not applicable</td>
+                    <td id="_" valign="top" align="center">Not applicable</td>
                   </tr>
                   <tr>
-                    <td valign="middle" align="left">Red kernels and red-streaked kernels</td>
-                    <td valign="top" align="center">12,0</td>
-                    <td valign="bottom" align="center">12,0</td>
-                    <td valign="top" align="center">12,0<fn reference="c">
+                    <td id="_" valign="middle" align="left">Red kernels and red-streaked kernels</td>
+                    <td id="_" valign="top" align="center">12,0</td>
+                    <td id="_" valign="bottom" align="center">12,0</td>
+                    <td id="_" valign="top" align="center">12,0<fn reference="c">
                 <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
               </fn></td>
-                    <td valign="top" align="center">12,0</td>
+                    <td id="_" valign="top" align="center">12,0</td>
                   </tr>
                   <tr>
-                    <td valign="middle" align="left">Partly gelatinized kernels</td>
-                    <td valign="top" align="center">Not applicable</td>
-                    <td valign="bottom" align="center">Not applicable</td>
-                    <td valign="top" align="center">11,0<fn reference="c">
+                    <td id="_" valign="middle" align="left">Partly gelatinized kernels</td>
+                    <td id="_" valign="top" align="center">Not applicable</td>
+                    <td id="_" valign="bottom" align="center">Not applicable</td>
+                    <td id="_" valign="top" align="center">11,0<fn reference="c">
                 <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
               </fn></td>
-                    <td valign="top" align="center">11,0</td>
+                    <td id="_" valign="top" align="center">11,0</td>
                   </tr>
                   <tr>
-                    <td valign="middle" align="left">Pecks</td>
-                    <td valign="top" align="center">Not applicable</td>
-                    <td valign="bottom" align="center">Not applicable</td>
-                    <td valign="top" align="center">4,0</td>
-                    <td valign="top" align="center">2,0</td>
+                    <td id="_" valign="middle" align="left">Pecks</td>
+                    <td id="_" valign="top" align="center">Not applicable</td>
+                    <td id="_" valign="bottom" align="center">Not applicable</td>
+                    <td id="_" valign="top" align="center">4,0</td>
+                    <td id="_" valign="top" align="center">2,0</td>
                   </tr>
                   <tr>
-                    <td valign="middle" align="left">Waxy rice</td>
-                    <td valign="top" align="center">1,0<fn reference="c">
+                    <td id="_" valign="middle" align="left">Waxy rice</td>
+                    <td id="_" valign="top" align="center">1,0<fn reference="c">
                 <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
               </fn></td>
-                    <td valign="bottom" align="center">1,0</td>
-                    <td valign="top" align="center">1,0<fn reference="c">
+                    <td id="_" valign="bottom" align="center">1,0</td>
+                    <td id="_" valign="top" align="center">1,0<fn reference="c">
                 <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
               </fn></td>
-                    <td valign="top" align="center">1,0</td>
+                    <td id="_" valign="top" align="center">1,0</td>
                   </tr>
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td colspan="5" valign="middle" align="left">
+                    <td id="_" colspan="5" valign="middle" align="left">
                       <p id="_">Live insects shall not be present. Dead insects shall be included in extraneous matter.</p>
                     </td>
                   </tr>
@@ -528,16 +528,16 @@ RSpec.describe Metanorma::Standoc do
              <table id="_">
                 <thead>
                    <tr style="color: blue;background-color: red">
-                      <th valign="top" align="left">A </th>
-                      <th valign="top" align="left">B</th>
-                      <th valign="top" align="left">C </th>
+                      <th id="_" valign="top" align="left">A </th>
+                      <th id="_" valign="top" align="left">B</th>
+                      <th id="_" valign="top" align="left">C </th>
                    </tr>
                 </thead>
                 <tbody>
                    <tr style="color: green">
-                      <th valign="top" align="left" style="color: green;background-color: blue">1  </th>
-                      <td valign="top" align="left">2 </td>
-                      <td valign="top" align="left" style="color: blue;background-color: gren">3  </td>
+                      <th id="_" valign="top" align="left" style="color: green;background-color: blue">1  </th>
+                      <td id="_" valign="top" align="left">2 </td>
+                      <td id="_" valign="top" align="left" style="color: blue;background-color: gren">3  </td>
                    </tr>
                 </tbody>
              </table>

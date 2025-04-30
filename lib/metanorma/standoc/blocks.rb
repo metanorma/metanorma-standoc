@@ -6,10 +6,13 @@ module Metanorma
   module Standoc
     module Blocks
       def id_attr(node = nil)
-        { id: Metanorma::Utils::anchor_or_uuid(node),
+        anchor = node&.id
+        { id: "_#{UUIDTools::UUID.random_create}",
+          anchor: anchor && !anchor.empty? ? anchor : nil,
           tag: node&.attr("tag"),
           columns: node&.attr("columns"),
           "multilingual-rendering": node&.attr("multilingual-rendering") }
+          .compact
       end
 
       def id_unnum_attrs(node)

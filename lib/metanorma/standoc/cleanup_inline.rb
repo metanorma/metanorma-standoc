@@ -123,8 +123,7 @@ module Metanorma
       end
 
       def to_xreftarget(str)
-        return Metanorma::Utils::to_ncname(str) unless /^[^#]+#.+$/.match?(str)
-
+        /^[^#]+#.+$/.match?(str) or return Metanorma::Utils::to_ncname(str)
         /^(?<pref>[^#]+)#(?<suff>.+)$/ =~ str
         pref = pref.gsub(%r([#{Metanorma::Utils::NAMECHAR}])o, "_")
         suff = suff.gsub(%r([#{Metanorma::Utils::NAMECHAR}])o, "_")
@@ -136,12 +135,13 @@ module Metanorma
               "//eref/@bibitemid".freeze
 
       def anchor_cleanup(elem)
-        anchor_cleanup1(elem)
-        xreftarget_cleanup(elem)
+        # anchor_cleanup1(elem)
+        # xreftarget_cleanup(elem)
         contenthash_id_cleanup(elem)
       end
 
-      def anchor_cleanup1(elem)
+      # KILL
+      def anchor_cleanup1x(elem)
         elem.xpath(IDREF).each do |s|
           if (ret = Metanorma::Utils::to_ncname(s.value)) != (orig = s.value)
             s.value = ret
@@ -152,7 +152,8 @@ module Metanorma
         end
       end
 
-      def xreftarget_cleanup(elem)
+      # KILL
+      def xreftarget_cleanupx(elem)
         elem.xpath("//xref/@target").each do |s|
           if (ret = to_xreftarget(s.value)) != (orig = s.value)
             s.value = ret
@@ -164,22 +165,25 @@ module Metanorma
       end
 
       def contenthash_id_cleanup(doc)
-        ids = contenthash_id_make(doc)
-        contenthash_id_update_refs(doc, ids)
+        @contenthash_ids = contenthash_id_make(doc)
+        contenthash_id_update_idrefs(doc, @contenthash_ids)
       end
 
       def contenthash_id_make(doc)
         doc.xpath("//*[@id]").each_with_object({}) do |x, m|
-          next unless Metanorma::Utils::guid_anchor?(x["id"])
-
+          # should always be true
+          Metanorma::Utils::guid_anchor?(x["id"]) or next
           m[x["id"]] = contenthash(x)
+          x["anchor"] and m[x["anchor"]] = m[x["id"]]
           x["id"] = m[x["id"]]
         end
       end
 
-      def contenthash_id_update_refs(doc, ids)
+      def contenthash_id_update_idrefs(doc, ids)
         [%w(review from), %w(review to), %w(callout target), %w(eref bibitemid),
-         %w(citation bibitemid), %w(xref target), %w(xref to)].each do |a|
+         %w(citation bibitemid), %w(xref target), %w(xref to), %w(label for),
+         %w(location target), %w(index to)]
+          .each do |a|
           doc.xpath("//#{a[0]}").each do |x|
             ids[x[a[1]]] and x[a[1]] = ids[x[a[1]]]
           end

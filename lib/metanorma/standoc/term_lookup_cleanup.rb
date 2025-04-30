@@ -29,6 +29,7 @@ module Metanorma
         related_cleanup
         remove_missing_refs
         concept_cleanup2
+        id_to_anchor
       end
 
       private
@@ -252,6 +253,14 @@ module Metanorma
         (1..Float::INFINITY).lazy.each do |index|
           @idhash["#{prefix}-#{text}-#{index}"] or
             break("#{prefix}-#{text}-#{index}")
+        end
+      end
+
+      def id_to_anchor
+        xmldoc.xpath("//*[@id]").each do |n|
+          /^(term|symbol)-/.match?(n["id"]) or next
+          n["anchor"] = n["id"] # replacing any preexisting user-supplied anchor
+          n["id"] = "_#{UUIDTools::UUID.random_create}" # to become content id
         end
       end
 

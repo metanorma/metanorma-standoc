@@ -11,8 +11,10 @@ module Metanorma
       @norm_ref = false
 
       def section_attributes(node)
+        anchor = node&.id
         ret =
-          { id: Metanorma::Utils::anchor_or_uuid(node),
+          { id: "_#{UUIDTools::UUID.random_create}",
+            anchor: anchor && !anchor.empty? ? anchor : nil,
             unnumbered: node.option?("unnumbered") ? "true" : nil,
             annex: role_style(node, "appendix") && node.level == 1 ? true : nil,
             colophon: role_style(node, "colophon") ? true : nil,

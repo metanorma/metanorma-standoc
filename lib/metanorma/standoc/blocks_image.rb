@@ -3,7 +3,7 @@ module Metanorma
     module Blocks
       def svgmap_attrs(node)
         attr_code(id_attr(node)
-          .merge(id: node.id, number: node.attr("number"),
+          .merge(number: node.attr("number"),
                  unnumbered: node.option?("unnumbered") ? "true" : nil,
                  subsequence: node.attr("subsequence"))
         .merge(keep_attrs(node)))

@@ -1,5 +1,3 @@
-require "date"
-require "htmlentities"
 require "json"
 
 module Metanorma

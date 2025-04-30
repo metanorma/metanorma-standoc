@@ -486,21 +486,21 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
               <table id='_'>
                 <thead>
                   <tr>
-                    <th valign="top" align='left'>Script conversion system authority code</th>
-                    <th valign="top" align='left'>Name in English</th>
-                    <th valign="top" align='left'>Notes</th>
-                    <th valign="top" align='left'>Name en</th>
+                    <th id="_" valign="top" align='left'>Script conversion system authority code</th>
+                    <th id="_" valign="top" align='left'>Name in English</th>
+                    <th id="_" valign="top" align='left'>Notes</th>
+                    <th id="_" valign="top" align='left'>Name en</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td valign="top" align='left'>
+                    td id="_" valign="top" align='left'>
                       <p id='_'>acadsin-zho-hani-latn-2002</p>
                     </td>
-                    <td valign="top" align='left'>
+                    td id="_" valign="top" align='left'>
                       <p id='_'>acadsin-zho-hani-latn-2002</p>
                     </td>
-                    <td valign="top" align='left'>
+                    td id="_" valign="top" align='left'>
                       <note id='_'>
                         <p id='_'>
                           OGC 11-122r1 code
@@ -508,7 +508,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
                         </p>
                       </note>
                     </td>
-                    <td valign="top" align='left'>
+                    td id="_" valign="top" align='left'>
                       <p id='_'>Academica Sinica — Chinese Tongyong Pinyin (2002)</p>
                     </td>
                   </tr>
