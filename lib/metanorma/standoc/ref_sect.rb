@@ -76,7 +76,7 @@ module Metanorma
           @log.add("Bibliography", nil,
                    "ERROR: No title retrieved for #{code}")
           !fmt and
-          xml.root << "<title>#{title || '(MISSING TITLE)'}</title>"
+            xml.root << "<title>#{title || '(MISSING TITLE)'}</title>"
         end
         fmt and xml.root << "<formattedref>#{title}</formattedref>"
       end

@@ -25,6 +25,7 @@ module Metanorma
       def bibdata_anchor_cleanup(xmldoc)
         xmldoc.xpath("//bibdata//bibitem | //bibdata//note").each do |b|
           b.delete("id")
+          b.delete("anchor")
         end
       end
 
@@ -51,7 +52,7 @@ module Metanorma
         i = i.add_child("<references hidden='true' normative='false'/>").first
         refs.each do |x|
           i << <<~BIB
-            <bibitem id="#{x}" type="internal">
+            <bibitem anchor="#{x}" id="__#{UUIDTools::UUID.random_create}" type="internal">
             <docidentifier type="repository">#{x.sub(/^#{prefix}_/, "#{prefix}/")}</docidentifier>
             </bibitem>
           BIB
@@ -69,16 +70,16 @@ module Metanorma
         if id_map
           return if id_map.has_key?(loc)
         else
-          eref.document.at("//*[@id = '#{loc}']") and return
+          eref.document.at("//*[@anchor = '#{loc}']") and return
         end
         eref.children = %(** Missing target #{loc})
         eref["target"] = ident
       end
 
       def resolve_local_indirect_erefs(xmldoc, refs, prefix)
-        # Pre-index elements by ID
-        id_map = xmldoc.xpath("//*[@id]").each_with_object({}) do |node, map|
-          map[node["id"]] = node
+        # Pre-index elements by anchor (which is what bibitemid currently points to)
+        id_map = xmldoc.xpath("//*[@anchor]").each_with_object({}) do |node, map|
+          map[node["anchor"]] = node
         end
 
         # Pre-index all <eref> elements by bibitemid

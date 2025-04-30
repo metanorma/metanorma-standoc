@@ -64,11 +64,11 @@ module Metanorma
 
       def reference_names(xmldoc)
         xmldoc.xpath("//bibitem[not(ancestor::bibitem)]").each do |ref|
-          @anchors[ref["id"]] =
+          @anchors[ref["anchor"]] =
             if docid = select_docid(ref)
               reference = format_ref(docid.children.to_xml, docid["type"])
               { xref: reference, id: idtype2cit(ref) }
-            else { xref: ref["id"], id: { "" => ref["id"] } }
+            else { xref: ref["anchor"], id: { "" => ref["anchor"] } }
             end
         end
       end
@@ -123,6 +123,7 @@ module Metanorma
           uri = b&.at("./uri[@type = 'citation']")&.text
           bibitem = read_local_bibitem(uri) or next
           bibitem["id"] = b["id"]
+          bibitem["anchor"] = b["anchor"]
           b.replace(bibitem)
         end
       end
@@ -130,9 +131,11 @@ module Metanorma
       def bibitem_nested_id(xmldoc)
         xmldoc.xpath("//bibitem//bibitem").each do |b|
           b.delete("id")
+          b.delete("anchor")
         end
         xmldoc.xpath("//bibdata//bibitem").each do |b|
           b.delete("id")
+          b.delete("anchor")
         end
       end
 
@@ -211,11 +214,11 @@ module Metanorma
       end
 
       def bibitem_id_docid_hash(xmldoc)
-        xmldoc.xpath("//bibitem[@id]").each_with_object({}) do |b, m|
-          m[b["id"]] ||= {}
+        xmldoc.xpath("//bibitem[@anchor]").each_with_object({}) do |b, m|
+          m[b["anchor"]] ||= {}
           docid = b.at("./docidentifier")&.text || "NO ID"
-          m[b["id"]][docid] ||= []
-          m[b["id"]][docid] << b
+          m[b["anchor"]][docid] ||= []
+          m[b["anchor"]][docid] << b
         end
       end
 

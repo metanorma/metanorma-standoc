@@ -25,9 +25,9 @@ RSpec.describe Metanorma::Standoc do
                 #{BLANK_HDR}
                <sections>
 
-               </sections><bibliography><references id="_normative_references" obligation="informative" normative="true"><title>Normative references</title>
+               </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true"><title>Normative references</title>
                 #{NORM_REF_BOILERPLATE}
-                     <bibitem id='iso123' type='standard'>
+                     <bibitem id="_" anchor="iso123" type='standard'>
                 <fetched/>
                 <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                 <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
@@ -120,7 +120,7 @@ RSpec.describe Metanorma::Standoc do
                 </relation>
                 <place>Geneva</place>
               </bibitem>
-              <bibitem id='iso124' type='standard'>
+              <bibitem id="_" anchor="iso124" type='standard'>
                 <fetched/>
                 <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                 <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
@@ -246,7 +246,7 @@ RSpec.describe Metanorma::Standoc do
                #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>fr</language>')}
                         <sections> </sections>
           <bibliography>
-            <references id='_normative_references' normative='true' obligation='informative'>
+            <references id="_" anchor="_normative_references" normative='true' obligation='informative'>
               <title>R&#233;f&#233;rences normatives</title>
               <p id='_'>
                 Les documents suivants cit&#233;s dans le texte constituent, pour tout
@@ -257,7 +257,7 @@ RSpec.describe Metanorma::Standoc do
                 r&#233;f&#233;rence s&#8217;applique (y compris les &#233;ventuels
                 amendements).
               </p>
-              <bibitem id='iso123' type='standard'>
+              <bibitem id="_" anchor="iso123" type='standard'>
                 <fetched/>
                 <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
                 <title type='title-main' format='text/plain' language='fr' script='Latn'>&#201;chantillonnage</title>
@@ -350,7 +350,7 @@ RSpec.describe Metanorma::Standoc do
                 </relation>
                 <place>Geneva</place>
               </bibitem>
-              <bibitem id='iso124' type='standard'>
+              <bibitem id="_" anchor="iso124" type='standard'>
                 <fetched/>
                 <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
                 <title type='title-main' format='text/plain' language='fr' script='Latn'>&#201;chantillonnage</title>
@@ -472,10 +472,10 @@ RSpec.describe Metanorma::Standoc do
          #{BLANK_HDR}
          <sections>
 
-         </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
+         </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
            <title>Normative references</title>
          #{NORM_REF_BOILERPLATE}
-                      <bibitem id="iso123" type="standard">
+                      <bibitem id="_" anchor="iso123" type="standard">
                 <fetched/>
                 <title type="title-main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
                 <title type="main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
@@ -523,7 +523,7 @@ RSpec.describe Metanorma::Standoc do
                 </copyright>
                 <place>Geneva</place>
               </bibitem>
-              <bibitem id="iso124" type="standard">
+              <bibitem id="_" anchor="iso124" type="standard">
                 <fetched/>
                 <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
                 <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
@@ -570,7 +570,7 @@ RSpec.describe Metanorma::Standoc do
                 </relation>
                 <place>Geneva</place>
               </bibitem>
-              <bibitem id="iso125" type="standard">
+              <bibitem id="_" anchor="iso125" type="standard">
                 <fetched/>
                 <title type="title-main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
                 <title type="main" format="text/plain" language="en" script="Latn">Permuted index of the vocabulary of information technology</title>
@@ -619,7 +619,7 @@ RSpec.describe Metanorma::Standoc do
                 </copyright>
                 <place>Geneva</place>
               </bibitem>
-              <bibitem id="iso126" type="standard">
+              <bibitem id="_" anchor="iso126" type="standard">
                 <fetched/>
                 <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
                 <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
@@ -692,14 +692,14 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
          #{BLANK_HDR}
                         <sections>
-            <clause id="_section" inline-header="false" obligation="normative">
+            <clause id="_" anchor="_section" inline-header="false" obligation="normative">
               <title>Section</title>
             </clause>
           </sections>
           <bibliography>
-            <references id="_bibliography" normative="false" obligation="informative">
+            <references id="_" anchor="_bibliography" normative="false" obligation="informative">
               <title>Bibliography</title>
-              <bibitem type="article" id="ref1">
+              <bibitem type="article" id="_" anchor="ref1">
                 <fetched/>
                 <title type="main" format="text/plain" script="Latn">Taming the Metadata Beast: ILOX</title>
                 <uri type="DOI">https://doi.org/10.1045/november2010-massart</uri>
@@ -799,14 +799,14 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
           #{BLANK_HDR}
            <sections>
-             <clause id="_section" inline-header="false" obligation="normative">
+             <clause id="_" anchor="_section" inline-header="false" obligation="normative">
                <title>Section</title>
              </clause>
            </sections>
                      <bibliography>
-             <references id="_bibliography" normative="false" obligation="informative">
+             <references id="_" anchor="_bibliography" normative="false" obligation="informative">
                 <title>Bibliography</title>
-                <bibitem id="ref1" type="inbook">
+                <bibitem id="_" anchor="ref1" type="inbook">
                    <fetched/>
                    <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
                    <uri type="DOI">https://doi.org/10.1515/9783110889406.257</uri>
@@ -882,7 +882,7 @@ RSpec.describe Metanorma::Standoc do
                       </locality>
                    </extent>
                 </bibitem>
-                <bibitem id="ref2" type="book">
+                <bibitem id="_" anchor="ref2" type="book">
                    <fetched/>
                    <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
                    <uri type="DOI">https://doi.org/10.1515/9783110889406.257</uri>
@@ -1020,10 +1020,10 @@ RSpec.describe Metanorma::Standoc do
                            <sections>
                     </sections>
                              <bibliography>
-             <references id="_normative_references" normative="true" obligation="informative">
+             <references id="_" anchor="_normative_references" normative="true" obligation="informative">
                <title>Normative references</title>
                <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-                           <bibitem id="iso123" type="proceedings">
+                           <bibitem id="_" anchor="iso123" type="proceedings">
                 <fetched/>
                 <title format="text/plain" language="en" script="Latn">Signes abréviatifs pour les poids et mesures métriques</title>
                 <uri type="citation" language="en" script="Latn">https://www.bipm.org/en/committees/ci/cipm/4-1879/resolution-</uri>
@@ -1087,10 +1087,10 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
         <sections>
 
-        </sections><bibliography><references id="_normative_references" normative="true" obligation="informative" >
+        </sections><bibliography><references id="_" anchor="_normative_references" normative="true" obligation="informative" >
           <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
-        <bibitem id='iso123'>
+        <bibitem id="_" anchor="iso123">
                <formattedref format='application/x-isodoc+xml'>
                  <em>Standard</em>
                </formattedref>
@@ -1098,7 +1098,7 @@ RSpec.describe Metanorma::Standoc do
                <docnumber>12382</docnumber>
                 <date type='published'><on>1992</on></date>
              </bibitem>
-                     <bibitem id='iso124'>
+                     <bibitem id="_" anchor="iso124">
                <formattedref format='application/x-isodoc+xml'>
                  <em>Standard</em>
                </formattedref>
@@ -1106,7 +1106,7 @@ RSpec.describe Metanorma::Standoc do
                <docnumber>12382</docnumber>
                 <date type='published'><on>1992</on></date>
              </bibitem>
-             <bibitem id='iso125' type='standard'>
+             <bibitem id="_" anchor="iso125" type='standard'>
                <fetched/>
                <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
@@ -1175,13 +1175,13 @@ RSpec.describe Metanorma::Standoc do
         * [[[iso126,dropid=true,ISO 124:2014]]] _Standard_
       INPUT
       doc = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-      expect(doc.at("//xmlns:bibitem[@id = 'iso123']/@suppress_identifier")&.text)
+      expect(doc.at("//xmlns:bibitem[@anchor = 'iso123']/@suppress_identifier")&.text)
         .to eq("true")
-      expect(doc.at("//xmlns:bibitem[@id = 'iso124']/@suppress_identifier")&.text)
+      expect(doc.at("//xmlns:bibitem[@anchor = 'iso124']/@suppress_identifier")&.text)
         .to eq("true")
-      expect(doc.at("//xmlns:bibitem[@id = 'iso125']/@suppress_identifier")&.text)
+      expect(doc.at("//xmlns:bibitem[@anchor = 'iso125']/@suppress_identifier")&.text)
         .to eq("true")
-      expect(doc.at("//xmlns:bibitem[@id = 'iso126']/@suppress_identifier")&.text)
+      expect(doc.at("//xmlns:bibitem[@anchor = 'iso126']/@suppress_identifier")&.text)
         .to eq("true")
     end
   end
@@ -1206,10 +1206,10 @@ RSpec.describe Metanorma::Standoc do
         * [[[iso128,hidden=false,ABC]]] _Standard_
       INPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-      expect(xml.at("//xmlns:bibitem[@id = 'iso125']/@hidden")&.text).to eq "true"
-      expect(xml.at("//xmlns:bibitem[@id = 'iso126']/@hidden")&.text).to eq "true"
-      expect(xml.at("//xmlns:bibitem[@id = 'iso127']/@hidden")&.text).not_to eq "true"
-      expect(xml.at("//xmlns:bibitem[@id = 'iso128']/@hidden")&.text).not_to eq "true"
+      expect(xml.at("//xmlns:bibitem[@anchor = 'iso125']/@hidden")&.text).to eq "true"
+      expect(xml.at("//xmlns:bibitem[@anchor = 'iso126']/@hidden")&.text).to eq "true"
+      expect(xml.at("//xmlns:bibitem[@anchor = 'iso127']/@hidden")&.text).not_to eq "true"
+      expect(xml.at("//xmlns:bibitem[@anchor = 'iso128']/@hidden")&.text).not_to eq "true"
     end
   end
 
@@ -1252,16 +1252,16 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
          #{BLANK_HDR}
          <sections>
-         <clause id="_clause_4" inline-header="false" obligation="normative">
+         <clause id="_" anchor="_clause_4" inline-header="false" obligation="normative">
            <title>Clause 4</title>
            <p id="_">
            <eref type="inline" bibitemid="iso123" citeas="IETF&#xa0;RFC&#xa0;8341"/>
          </p>
          </clause>
-         </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
+         </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
          <title>Normative references</title>
                #{NORM_REF_BOILERPLATE}
-              <bibitem id='iso123' type='standard'>
+              <bibitem id="_" anchor="iso123" type='standard'>
                 <fetched/>
                 <title type='main' format='text/plain'>Network Configuration Access Control Model</title>
                 <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
@@ -1316,7 +1316,7 @@ RSpec.describe Metanorma::Standoc do
                 <keyword>YANG</keyword>
                 <keyword>XML</keyword>
               </bibitem>
-              <bibitem id='iso124' type='standard'>
+              <bibitem id="_" anchor="iso124" type='standard'>
                 <fetched/>
                 <title type='main' format='text/plain'>Network Configuration Access Control Model</title>
                 <uri type='src'>https://www.rfc-editor.org/info/rfc8341</uri>
@@ -1395,10 +1395,10 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
                #{BLANK_HDR}
                       <sections>
-               </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
+               </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
                  <title>Normative references</title>
                 #{NORM_REF_BOILERPLATE}
-                             <bibitem id="iso123" type="standard">
+                             <bibitem id="_" anchor="iso123" type="standard">
                 <fetched/>
                 <title type="title-intro" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate</title>
                 <title type="title-main" format="text/plain" language="en" script="Latn">Determination of alkalinity</title>
@@ -1523,10 +1523,10 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
               #{BLANK_HDR}
                      <sections>
-              </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
+              </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
                 <title>Normative references</title>
                #{NORM_REF_BOILERPLATE}
-                            <bibitem id="iso123" type="standard">
+                            <bibitem id="_" anchor="iso123" type="standard">
                 <fetched/>
                 <title type="title-intro" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate</title>
                 <title type="title-main" format="text/plain" language="en" script="Latn">Determination of alkalinity</title>
@@ -1708,7 +1708,7 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
         #{BLANK_HDR}
         <sections>
-        <clause id="_section" inline-header="false" obligation="normative">
+        <clause id="_" anchor="_section" inline-header="false" obligation="normative">
         <title>Section</title>
         <p id="_"><eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><display-text><em>reference</em></display-text></eref>
         <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><display-text><em><strong>reference</strong></em></display-text></eref>

@@ -131,8 +131,8 @@ module Metanorma
 
       def refitem_render(xml, match, code)
         xml.bibitem **attr_code(
-          id: match[:anchor], suppress_identifier: code[:dropid],
-          hidden: code[:hidden]
+          anchor: match[:anchor], suppress_identifier: code[:dropid],
+          hidden: code[:hidden], id: "_#{UUIDTools::UUID.random_create}",
         ) do |t|
           refitem_render_formattedref(t, match[:text])
           yr_match = refitem1yr(code[:id])

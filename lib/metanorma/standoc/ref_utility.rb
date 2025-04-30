@@ -32,7 +32,8 @@ module Metanorma
       end
 
       def use_my_anchor(ref, id, opt)
-        ref.parent.elements.last["id"] = id
+        ref.parent.elements.last["anchor"] = id
+        ref.parent.elements.last["id"] = "_#{UUIDTools::UUID.random_create}"
         a = opt[:hidden] and ref.parent.elements.last["hidden"] = a
         a = opt[:dropid] and
           ref.parent.elements.last["suppress_identifier"] = a
@@ -195,7 +196,6 @@ module Metanorma
 
       def ref_attributes(match)
         code = analyse_ref_code(match[:code])
-
         { id: match[:anchor], type: "standard",
           suppress_identifier: code[:dropid] || nil }
       end

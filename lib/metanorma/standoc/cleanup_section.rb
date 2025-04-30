@@ -46,7 +46,10 @@ module Metanorma
       end
 
       def clean_abstract(dupabstract)
-        dupabstract.traverse { |n| n.remove_attribute("id") }
+        dupabstract.traverse do |n|
+          n.remove_attribute("id")
+          n.remove_attribute("anchor")
+        end
         %w(language script unnumbered).each do |w|
           dupabstract.remove_attribute(w)
         end

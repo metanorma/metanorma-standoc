@@ -33,7 +33,7 @@ module Metanorma
         xmldoc.xpath("//bookmark").each do |b|
           p = b
           while !p.xml? && p = p.parent
-            p["id"] == b["id"] or next
+            p["anchor"] == b["anchor"] or next
             b.remove
             break
           end
@@ -43,6 +43,7 @@ module Metanorma
       def bookmark_to_id(elem, bookmark)
         parent = bookmark.parent
         elem["id"] = bookmark.remove["id"]
+        elem["anchor"] = bookmark.remove["anchor"]
         strip_initial_space(parent)
       end
 
@@ -130,7 +131,8 @@ module Metanorma
         "#{pref}##{suff}"
       end
 
-      IDREF = "//*/@id | //review/@from | //review/@to | " \
+      #KILL
+      IDREFx = "//*/@id | //review/@from | //review/@to | " \
               "//callout/@target | //citation/@bibitemid | " \
               "//eref/@bibitemid".freeze
 
@@ -142,7 +144,7 @@ module Metanorma
 
       # KILL
       def anchor_cleanup1x(elem)
-        elem.xpath(IDREF).each do |s|
+        elem.xpath(IDREFx).each do |s|
           if (ret = Metanorma::Utils::to_ncname(s.value)) != (orig = s.value)
             s.value = ret
             @log.add("Anchors", s.parent,

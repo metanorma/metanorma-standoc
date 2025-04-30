@@ -1,4 +1,3 @@
-require "set"
 require "relaton_bib"
 
 module Metanorma
@@ -10,7 +9,8 @@ module Metanorma
           validate_ref_dl(bib, c)
           bibitemxml = RelatonBib::BibliographicItem.from_hash(bib).to_xml or next
           bibitem = Nokogiri::XML(bibitemxml)
-          bibitem.root["id"] = c["id"] if c["id"] && !/^_/.match(c["id"])
+          bibitem.root["anchor"] = c["id"] if c["id"] && !/^_/.match(c["id"])
+          bibitem.root["id"] = "_#{UUIDTools::UUID.random_create}"
           c.replace(bibitem.root)
         end
       end
@@ -18,7 +18,7 @@ module Metanorma
       # do not accept implicit id
       def validate_ref_dl(bib, clause)
         id = bib["id"]
-        id ||= clause["id"] unless /^_/.match?(clause["id"])
+        id ||= clause["anchor"] unless /^_/.match?(clause["id"])
         unless id
           @log.add("Anchors", clause,
                    "The following reference is missing an anchor:\n" \
@@ -83,8 +83,7 @@ module Metanorma
         end
         clause.xpath("./clause").each do |c1|
           key = c1&.at("./title")&.text&.downcase&.strip
-          next unless %w(contributor relation series).include? key
-
+          %w(contributor relation series).include?(key) or next
           add_to_hash(bib, key, dl_bib_extract(c1, true))
         end
         dl_bib_extract_title(bib, clause, nested)
