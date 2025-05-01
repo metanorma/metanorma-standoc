@@ -131,39 +131,8 @@ module Metanorma
         "#{pref}##{suff}"
       end
 
-      #KILL
-      IDREFx = "//*/@id | //review/@from | //review/@to | " \
-              "//callout/@target | //citation/@bibitemid | " \
-              "//eref/@bibitemid".freeze
-
       def anchor_cleanup(elem)
-        # anchor_cleanup1(elem)
-        # xreftarget_cleanup(elem)
         contenthash_id_cleanup(elem)
-      end
-
-      # KILL
-      def anchor_cleanup1x(elem)
-        elem.xpath(IDREFx).each do |s|
-          if (ret = Metanorma::Utils::to_ncname(s.value)) != (orig = s.value)
-            s.value = ret
-            @log.add("Anchors", s.parent,
-                     "normalised identifier to #{ret} from #{orig}",
-                     display: false)
-          end
-        end
-      end
-
-      # KILL
-      def xreftarget_cleanupx(elem)
-        elem.xpath("//xref/@target").each do |s|
-          if (ret = to_xreftarget(s.value)) != (orig = s.value)
-            s.value = ret
-            @log.add("Anchors", s.parent,
-                     "normalised identifier to #{ret} from #{orig}",
-                     display: false)
-          end
-        end
       end
 
       def contenthash_id_cleanup(doc)
@@ -182,10 +151,7 @@ module Metanorma
       end
 
       def contenthash_id_update_idrefs(doc, ids)
-        [%w(review from), %w(review to), %w(callout target), %w(eref bibitemid),
-         %w(citation bibitemid), %w(xref target), %w(xref to), %w(label for),
-         %w(location target), %w(index to), %w(termsource bibitemid)]
-          .each do |a|
+        IDREF.each do |a|
           doc.xpath("//#{a[0]}").each do |x|
             ids[x[a[1]]] and x[a[1]] = ids[x[a[1]]]
           end
@@ -233,6 +199,8 @@ module Metanorma
       def select_odd_chars(text)
         text.gsub(/(?!&)([[:punct:]])\u200c/, "\\1")
       end
+
+      include ::Metanorma::Standoc::Utils
     end
   end
 end

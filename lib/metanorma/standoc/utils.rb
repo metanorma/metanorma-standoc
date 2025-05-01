@@ -118,6 +118,11 @@ module Metanorma
           .gsub("&apos;", "'")
       end
 
+      IDREF =
+        [%w(review from), %w(review to), %w(callout target), %w(eref bibitemid),
+         %w(citation bibitemid), %w(xref target), %w(xref to), %w(label for),
+         %w(location target), %w(index to), %w(termsource bibitemid)].freeze
+
       SECTION_CONTAINERS =
         %w(foreword introduction acknowledgements executivesummary abstract
            clause references terms definitions annex appendix indexsect

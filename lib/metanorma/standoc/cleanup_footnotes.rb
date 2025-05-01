@@ -95,7 +95,7 @@ module Metanorma
         ids = xmldoc.xpath("//footnoteblock").each_with_object([]) do |f, m|
           f.name = "fn"
           m << f.text
-          if id = xmldoc.at("//*[@id = '#{f.text}']")
+          if id = xmldoc.at("//*[@anchor = '#{f.text}']")
             f.children = id.dup.children
           else footnote_block_error(f)
           end
@@ -105,7 +105,7 @@ module Metanorma
 
       def footnote_block_remove(xmldoc, ids)
         ids.each do |id|
-          n = xmldoc.at("//*[@id = '#{id}']") and
+          n = xmldoc.at("//*[@anchor = '#{id}']") and
             n.remove
         end
       end

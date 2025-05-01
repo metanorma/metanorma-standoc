@@ -70,11 +70,10 @@ module Metanorma
         t = attrs["text"]
         t = if t.include?(",")
               t.sub(/,/, "%")
-            else
-              "#{t}%"
+            else "#{t}%"
             end
-        create_anchor(parent, "hidden=#{t}",
-                      type: :xref, target: "_#{UUIDTools::UUID.random_create}")
+        target = attrs["text"].sub(/,.*$/, "").gsub(":", "_") # special char
+        create_anchor(parent, "hidden=#{t}", type: :xref, target: target)
       end
     end
   end

@@ -21,7 +21,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
                     <sections>
-        <clause id="_quotation_as" inline-header="false" obligation="normative">
+        <clause id="_" anchor="_quotation_as" inline-header="false" obligation="normative">
         <title>“Quotation” A’s</title>
         <p id='_'>‘24:00:00’.</p>
                 <p id="_">“Quote1”</p>
@@ -66,7 +66,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
-        <clause id="_quotation_as" inline-header="false" obligation="normative">
+        <clause id="_" anchor="_quotation_as" inline-header="false" obligation="normative">
         <title>“Quotation” A’s</title>
                         <p id="_">‘24:00:00’.</p>
                 <p id="_">“Quote1”</p>
@@ -113,7 +113,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
-        <clause id="_quotation_as" inline-header="false" obligation="normative">
+        <clause id="_" anchor="_quotation_as" inline-header="false" obligation="normative">
         <title>"Quotation" A's</title>
       <p id="_">
         <tt>"quote" A's</tt>
@@ -166,7 +166,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
-                      <clause id="_quotation_as" inline-header="false" obligation="normative"><title>“Quotation” A’s</title><p id="_">“Quotation” A’s</p>
+                      <clause id="_" anchor="_quotation_as" inline-header="false" obligation="normative"><title>“Quotation” A’s</title><p id="_">“Quotation” A’s</p>
       <p id="_">
         <tt>"quote" A’s</tt>
       </p>
@@ -318,14 +318,14 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
         #{BLANK_HDR}
         <sections>
-          <definitions id='L' obligation="normative">
+          <definitions id="_" anchor="L" obligation="normative">
             <title>Symbols and abbreviated terms</title>
             <dl id='_'>
-            <dt id="symbol-m">m</dt>
+            <dt id="_" anchor="symbol-m">m</dt>
       <dd>
         <p id='_'>Definition 7</p>
       </dd>
-      <dt id="symbol-n">
+      <dt id="_" anchor="symbol-n">
         <stem type='MathML' block="false">
           <math xmlns='http://www.w3.org/1998/Math/MathML'>
           <mstyle displaystyle="false">
@@ -338,27 +338,27 @@ RSpec.describe Metanorma::Standoc do
       <dd>
         <p id='_'>Definition 6</p>
       </dd>
-                   <dt id='symbol-Xa'>Xa</dt>
+                   <dt id="_" anchor="symbol-Xa">Xa</dt>
               <dd>
                 <p id='_'>Definition 2</p>
               </dd>
-              <dt id="symbol-x">x</dt>
+              <dt id="_" anchor="symbol-x">x</dt>
               <dd>
                 <p id='_'>Definition 5</p>
               </dd>
-              <dt  id='symbol-x_m_'>x_m_</dt>
+              <dt  id="_" anchor="symbol-x_m_">x_m_</dt>
               <dd>
                 <p id='_'>Definition 4</p>
               </dd>
-              <dt id='symbol-x_1_'>x_1_</dt>
+              <dt id="_" anchor="symbol-x_1_">x_1_</dt>
               <dd>
                 <p id='_'>Definition 3</p>
               </dd>
-              <dt id="symbol-_2d">2d</dt>
+              <dt id="_" anchor="symbol-_2d">2d</dt>
             <dd>
               <p id="_">Definition 8</p>
             </dd>
-              <dt  id='symbol-__x3b1_'>α</dt>
+              <dt  id="_" anchor="symbol-__x3b1_">α</dt>
               <dd>
                 <p id='_'>Definition 1</p>
               </dd>
@@ -371,8 +371,8 @@ RSpec.describe Metanorma::Standoc do
     expect(Xml::C14n.format(strip_guid(doc)))
       .to be_equivalent_to Xml::C14n.format(output)
     sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
-    expect(sym).to be_equivalent_to <<~OUTPUT
-          <dt id="symbol-m">m</dt><dt id="symbol-n">
+    expect(strip_guid(sym)).to be_equivalent_to <<~OUTPUT
+          <dt id="_" anchor="symbol-m">m</dt><dt id="_" anchor="symbol-n">
         <stem type="MathML" block="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
         <mstyle displaystyle="false">
@@ -381,7 +381,7 @@ RSpec.describe Metanorma::Standoc do
       </math>
           <asciimath>n</asciimath>
         </stem>
-      </dt><dt id="symbol-Xa">Xa</dt><dt id="symbol-x">x</dt><dt id="symbol-x_m_">x_m_</dt><dt id="symbol-x_1_">x_1_</dt><dt id="symbol-_2d">2d</dt><dt id="symbol-__x3b1_">α</dt>
+      </dt><dt id="_" anchor="symbol-Xa">Xa</dt><dt id="_" anchor="symbol-x">x</dt><dt id="_" anchor="symbol-x_m_">x_m_</dt><dt id="_" anchor="symbol-x_1_">x_1_</dt><dt id="_" anchor="symbol-_2d">2d</dt><dt id="_" anchor="symbol-__x3b1_">α</dt>
     OUTPUT
   end
 
@@ -401,14 +401,14 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
                 <sections>
-            <definitions id="L" obligation="normative">
+            <definitions id="_" anchor="L" obligation="normative">
               <title>Symbols and abbreviated terms</title>
               <dl id="_">
-                <dt id="symbol-x">x</dt>
+                <dt id="_" anchor="symbol-x">x</dt>
                 <dd>
                   <p id="_">Definition 5</p>
                 </dd>
-                <dt id="symbol-x_m">
+                <dt id="_" anchor="symbol-x_m">
                   <stem type="MathML" block="false">
                     <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="false">
@@ -424,7 +424,7 @@ RSpec.describe Metanorma::Standoc do
                 <dd>
                   <p id="_">Definition 4</p>
                 </dd>
-                <dt id="symbol-x_1">
+                <dt id="_" anchor="symbol-x_1">
                   <stem type="MathML" block="false">
                     <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="false">
@@ -440,11 +440,11 @@ RSpec.describe Metanorma::Standoc do
                 <dd>
                   <p id="_">Definition 3</p>
                 </dd>
-                <dt id="symbol-xa">xa</dt>
+                <dt id="_" anchor="symbol-xa">xa</dt>
                 <dd>
                   <p id="_">Definition 2</p>
                 </dd>
-                <dt id="symbol-__x3b1_">
+                <dt id="_" anchor="symbol-__x3b1_">
                   <stem type="MathML" block="false">
                     <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="false">
@@ -466,8 +466,8 @@ RSpec.describe Metanorma::Standoc do
     expect(Xml::C14n.format(strip_guid(doc)))
       .to be_equivalent_to Xml::C14n.format(output)
     sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
-    expect(sym).to be_equivalent_to <<~OUTPUT
-          <dt id="symbol-x">x</dt><dt id="symbol-x_m">
+    expect(strip_guid(sym)).to be_equivalent_to <<~OUTPUT
+          <dt id="_" anchor="symbol-x">x</dt><dt id="_" anchor="symbol-x_m">
         <stem type="MathML" block="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
         <mstyle displaystyle="false">
@@ -479,7 +479,7 @@ RSpec.describe Metanorma::Standoc do
       </math>
           <asciimath>x_m</asciimath>
         </stem>
-      </dt><dt id="symbol-x_1">
+      </dt><dt id="_" anchor="symbol-x_1">
         <stem type="MathML" block="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
         <mstyle displaystyle="false">
@@ -491,7 +491,7 @@ RSpec.describe Metanorma::Standoc do
       </math>
           <asciimath>x_1</asciimath>
         </stem>
-      </dt><dt id="symbol-xa">xa</dt><dt id="symbol-__x3b1_">
+      </dt><dt id="_" anchor="symbol-xa">xa</dt><dt id="_" anchor="symbol-__x3b1_">
         <stem type="MathML" block="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
         <mstyle displaystyle="false">
@@ -504,7 +504,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
   end
 
-  it "fixes illegal anchors" do
+  it "does not alter  anchors illegal as xsd:ID, xsd:IDREF" do
     input = <<~INPUT
       #{VALIDATING_BLANK_HDR}
 
@@ -532,69 +532,55 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-                 <sections>
-           <clause id='a_b' inline-header='false' obligation='normative'>
-             <title>A</title>
-             <eref bibitemid='__ab' citeas=''/>
-             <xref target='_'/>
-             <xref target='_1'/>
-             <xref target='_1_'/>
-             <xref target='1#b'/>
-             <xref target='_a#b_'/>
-             <xref target='__ab'/>
-             <xref target='_1_'/>
-             <xref target='L__xf6_we'/>
-             <sourcecode id='L__xf6_we'>
-               <name>
-                 See
-                 <eref type='inline' bibitemid='L__xf6_wner2016' citeas='Löwner&#xa0;et&#xa0;al.&#xa0;2016'/>
-               </name><body>
-               ABC
-             </body></sourcecode>
-           </clause>
-         </sections>
-         <bibliography>
-           <references id='_bibliography' normative='false' obligation='informative'>
-             <title>Bibliography</title>
-             <bibitem id='L__xf6_wner2016'>
-               <formattedref format='application/x-isodoc+xml'>
-                 L&#246;wner, M.-O., Gr&#246;ger, G., Benner, J., Biljecki, F., Nagel,
-                 C., 2016:
-                 <strong>Proposal for a new LOD and multi-representation concept for CityGML</strong>
-                 . In: Proceedings of the 11th 3D Geoinfo Conference 2016, ISPRS Annals
-                 of the Photogrammetry, Remote Sensing and Spatial Information
-                 Sciences, Vol. IV-2/W1, 3&#8211;12.
-                 <link target='https://doi.org/10.5194/isprs-annals-IV-2-W1-3-2016'/>
-               </formattedref>
-               <docidentifier>L&#246;wner et al. 2016</docidentifier>
-               <docnumber>2016</docnumber>
-             </bibitem>
-           </references>
-           <references hidden='true' normative='false'>
-             <bibitem id='__ab' type='internal'>
-               <docidentifier type='repository'>//ab</docidentifier>
-             </bibitem>
-           </references>
-         </bibliography>
+           <sections>
+             <clause id="_" anchor="a:b" inline-header="false" obligation="normative">
+                <title>A</title>
+                <p id="_">
+                   <eref bibitemid="_" citeas=""/>
+                   <xref target=":"/>
+                   <xref target="1"/>
+                   <xref target="1:"/>
+                   <xref target="1#b"/>
+                   <xref target=":a#b:"/>
+                   <xref target="/%ab"/>
+                   <xref target="1!"/>
+                   <xref target="_"/>
+                
+                <sourcecode id="_" anchor="Löwe">
+                   <name>
+                      See
+                      <eref type="inline" bibitemid="_" citeas="Löwner et al. 2016"/>
+                   </name>
+                   <body>ABC</body>
+                </sourcecode>
+             </clause>
+          </sections>
+          <bibliography>
+             <references id="_" anchor="_bibliography" normative="false" obligation="informative">
+                <title>Bibliography</title>
+                <bibitem anchor="Löwner2016" id="_">
+                   <formattedref format="application/x-isodoc+xml">
+                      Löwner, M.-O., Gröger, G., Benner, J., Biljecki, F., Nagel, C., 2016:
+                      <strong>Proposal for a new LOD and multi-representation concept for CityGML</strong>
+                      . In: Proceedings of the 11th 3D Geoinfo Conference 2016, ISPRS Annals of the Photogrammetry, Remote Sensing and Spatial Information Sciences, Vol. IV-2/W1, 3–12.
+                      <link target="https://doi.org/10.5194/isprs-annals-IV-2-W1-3-2016"/>
+                   </formattedref>
+                   <docidentifier>Löwner et al. 2016</docidentifier>
+                   <docnumber>2016</docnumber>
+                </bibitem>
+             </references>
+             <references hidden="true" normative="false">
+                <bibitem anchor="/_ab" id="_" type="internal">
+                   <docidentifier type="repository">//ab</docidentifier>
+                </bibitem>
+             </references>
+          </bibliography>
        </metanorma>
     OUTPUT
     FileUtils.rm_rf("test.err.html")
     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))
-      .gsub(/<p id="_[^"]+">/, "").gsub("</p>", "")))
+      .gsub(/<p id="_" anchor="_[^"]+">/, "").gsub("</p>", "")))
       .to be_equivalent_to(strip_guid(Xml::C14n.format(output)))
-    err = File.read("test.err.html")
-    expect(err)
-      .to include(%r{normalised identifier to a_b from a:b})
-    expect(err)
-      .to include(%r{normalised identifier to __ab from /_ab})
-    expect(err)
-      .to include(%r{normalised identifier to _ from :})
-    expect(err)
-      .to include(%r{normalised identifier to _1 from 1})
-    expect(err)
-      .to include(%r{normalised identifier to _1_ from 1:})
-    expect(err)
-      .to include(%r{normalised identifier to _a#b_ from :a#b:})
   end
 
   it "moves title footnotes to bibdata" do
@@ -687,7 +673,7 @@ RSpec.describe Metanorma::Standoc do
                 <title>Foreword</title>
                 <p id="_82273bb2-9729-2179-e364-4dbceaa3e7a1">Foreword</p>
              </foreword>
-             <introduction id="_introduction" obligation="informative">
+             <introduction id="_2f104f30-6e11-5838-9236-2dac93424538" anchor="_introduction" obligation="informative">
                 <title>Introduction</title>
                 <p id="_9fe8092e-7508-826b-87ab-137652bcc88a">Introduction</p>
              </introduction>
@@ -696,7 +682,7 @@ RSpec.describe Metanorma::Standoc do
              <admonition id="_6c0f0fe2-050a-efee-d118-dbe50bac31ce" type="important">
                 <p id="_076fdc2d-399b-eaae-0c30-43f9ee0c414a">Notice which is very important</p>
              </admonition>
-             <clause id="_scope" type="scope" inline-header="false" obligation="normative">
+             <clause id="_3f790a3c-6599-f0b3-b794-2e36cbde5d7b" anchor="_scope" type="scope" inline-header="false" obligation="normative">
                 <title>Scope</title>
                 <p id="_c7deb0c6-abf2-07ec-468c-68d2ecbf922e">Scope statement</p>
              </clause>
@@ -731,27 +717,27 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR.sub('<metanorma-extension>', <<~EXT
         <metanorma-extension>
-          <table id='_misccontainer_anchor_aliases'>
+          <table id="_" anchor="_misccontainer_anchor_aliases">
             <tbody>
               <tr>
-                <td valign='top' align='left'>id1</td>
-                <td valign='top' align='left'>
+                <td id="_" valign='top' align='left'>id1</td>
+                <td id="_" valign='top' align='left'>
                   <link target='http://www.example.com'/>
                 </td>
-                <td valign='top' align='left'>%2</td>
+                <td id="_" valign='top' align='left'>%2</td>
               </tr>
             </tbody>
           </table>
       EXT
       )}
          <sections>
-           <clause id='id1' inline-header='false' obligation='normative'>
+           <clause id="_" anchor="id1" inline-header='false' obligation='normative'>
              <title>Clause 1</title>
              <p id='_'>
-               <xref target='id1'/>
-               <xref target='id1' style='id'/>
-               <xref target='id1'/>
-               <xref target='id1' style="id"><display-text>http://www.example.com</display-text></xref>
+               <xref target='_'/>
+               <xref target='_' style='id'/>
+               <xref target='_'/>
+               <xref target='_' style="id"><display-text>http://www.example.com</display-text></xref>
              </p>
            </clause>
          </sections>
@@ -770,7 +756,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <annex id="bookmark" inline-header="false" obligation="normative">
+      <annex id="_" anchor="bookmark" inline-header="false" obligation="normative">
         <title>Annex</title>
       </annex>
     OUTPUT
@@ -787,8 +773,8 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <annex id="annex" inline-header="false" obligation="normative">
-        <title>Annex <bookmark id="bookmark"/></title>
+      <annex id="_" anchor="annex" inline-header="false" obligation="normative">
+        <title>Annex <bookmark id="_" anchor="bookmark"/></title>
       </annex>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
@@ -807,7 +793,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <clause id="_clause" inline-header="false" obligation="normative">
+      <clause id="_" anchor="_clause" inline-header="false" obligation="normative">
         <title>Clause</title>
         <p id="_">
         <link target="http://user:pass@www.example.com/a%20&lt;a&gt;%3cb%3e">x</link>
@@ -907,7 +893,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <clause id="_clause" inline-header="false" obligation="normative">
+      <clause id="_" anchor="_clause" inline-header="false" obligation="normative">
          <title>Clause</title>
          <p id="_">http://www.example.com/…​abc</p>
          <p id="_">
@@ -996,7 +982,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <clause id="_clause" inline-header="false" obligation="normative">
+      <clause id="_" anchor="_clause" inline-header="false" obligation="normative">
          <title>Clause</title>
          <p id="_">
            <link target="http://www.example.com/...abc"/>

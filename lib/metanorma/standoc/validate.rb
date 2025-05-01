@@ -12,7 +12,7 @@ module Metanorma
     module Validate
       def content_validate(doc)
         @doctype = doc.at("//bibdata/ext/doctype")&.text
-        repeat_id_validate(doc.root) # feeds xref_validate
+        repeat_id_validate(doc.root) # feeds xref_validate, termsect_validate
         xref_validate(doc) # feeds nested_asset_validate
         nested_asset_validate(doc)
         section_validate(doc)
@@ -158,35 +158,54 @@ module Metanorma
         schema_validate(formattedstr_strip(doc.dup), schema_location)
       end
 
+      # Check should never happen with content ids, but will check it anyway
+      # since consequences are so catastrophic
       def repeat_id_validate1(elem)
         if @doc_ids[elem["id"]]
           @log.add("Anchors", elem,
-                   "Anchor #{elem['id']} has already been " \
-                   "used at line #{@doc_ids[elem['id']]}", severity: 0)
+                   "ID #{elem['id']} has already been " \
+                   "used at line #{@doc_ids[elem['id']][:line]}", severity: 0)
         else
-          @doc_ids[elem["id"]] = elem.line
+          @doc_ids[elem["id"]] =
+            { line: elem.line, anchor: elem["anchor"] }.compact
         end
       end
 
+      def repeat_anchor_validate1(elem)
+        if @doc_anchors[elem["anchor"]]
+          @log.add("Anchors", elem,
+                   "Anchor #{elem['anchor']} has already been used at line " \
+                   "#{@doc_ids[elem['anchor']][:line]}", severity: 0)
+        else @doc_anchors[elem["anchor"]] = { line: elem.line, id: elem["id"] }
+        end
+      end
+
+      # Check should never happen with content ids, but will check it anyway
       def repeat_id_validate(doc)
-        @doc_ids = {} # hash of all ids in document to line number
-        @doc_id_seq = [] # ordered list of all ids in document
+        repeat_id_validate_prep
         doc.xpath("//*[@id]").each do |x|
           @doc_id_seq << x["id"]
           repeat_id_validate1(x)
+          x["anchor"] and repeat_anchor_validate1(x)
         end
-        @doc_id_seq.sort!
+        @doc_id_seq_hash = @doc_id_seq.each_with_index
+          .with_object({}) do |(x, i), m|
+          m[x] = i
+        end
+      end
+
+      def repeat_id_validate_prep
+        @doc_ids = {} # hash of all ids in document to line number, anchor
+        @doc_anchors = {} # hash of all anchors in document to line number, id
+        @doc_id_seq = [] # ordered list of all ids in document
       end
 
       # Retrieve IDs between two nominated values
       # (exclusive of start_id AND exclusive of end_id)
       def get_ids_between(start_id, end_id)
-        start_index = @doc_id_seq.bsearch_index { |id| id > start_id }
-        end_index = @doc_id_seq.bsearch_index { |id| id >= end_id }
-        # start_id is greater than or equal to all elements
-        start_index.nil? and return []
-        # end_id is greater than all elements
-        end_index.nil? and end_index = @doc_id_seq.length
+        start_index = @doc_id_seq_hash[start_id]
+        end_index = @doc_id_seq_hash[end_id]
+        start_index.nil? || end_index.nil? and return []
         start_index >= end_index and return []
         @doc_id_seq[start_index...end_index]
       end
@@ -198,14 +217,15 @@ module Metanorma
       end
 
       def xref_validate_exists(doc)
-        @doc_xrefs =
-          doc.xpath("//xref/@target | //xref//location/@target | //index/@to")
-            .each_with_object({}) do |x, m|
-            m[x.text] = x.parent
+        @doc_xrefs = {}
+        IDREF.each do |a|
+          doc.xpath("//#{a[0]}/@#{a[1]}").each do |x|
+            @doc_xrefs[x.text] = x.parent
             @doc_ids[x.text] and next
             @log.add("Anchors", x.parent,
                      "Crossreference target #{x} is undefined", severity: 1)
           end
+        end
       end
 
       # If there is an xref range, record the IDs between the two targets

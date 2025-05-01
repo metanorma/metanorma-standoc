@@ -53,8 +53,9 @@ module Metanorma
       end
 
       def concept_validate_msg(_doc, tag, refterm, xref)
+        t = @doc_ids[xref["target"]][:anchor] || xref["target"]
         ret = <<~LOG
-          #{tag.capitalize} #{xref.at("../#{refterm}")&.text} is pointing to #{xref['target']}, which is not a term or symbol
+          #{tag.capitalize} #{xref.at("../#{refterm}")&.text} is pointing to #{t}, which is not a term or symbol
         LOG
         if @concept_terms_tags[xref["target"]]
           ret = ret.strip
@@ -79,7 +80,7 @@ module Metanorma
       def preferred_validate_report(terms)
         terms.each do |k, v|
           v.size > 1 or next
-          loc = v.map { |x| x["id"] }.join(", ")
+          loc = v.map { |x| x["anchor"] }.join(", ")
           err = "Term #{k} occurs twice as preferred designation: #{loc}"
           @log.add("Terms", v.first, err, severity: 1)
         end
@@ -106,7 +107,7 @@ module Metanorma
           end.join(", ")
           err = <<~ERROR
             Clause not recognised as a term clause, but contains designation markup
-             (preferred:[], admitted:[], alt:[], deprecated:[]):<br/>
+             (<code>preferred:[], admitted:[], alt:[], deprecated:[]</code>):<br/>
             #{desgns}</br>
             Ensure the parent clause is recognised as a terms clause by inserting <code>[heading=terms and definitions]</code> above the title,
             in case the heading is not automatically recognised. See also <a href="https://www.metanorma.org/author/topics/sections/concepts/#clause-title">Metanorma documentation</a>.
