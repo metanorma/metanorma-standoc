@@ -151,8 +151,10 @@ module Metanorma
         if user_add.at("./clause") then built_in << user_add.children
         else
           user_add.name = "clause"
-          user_add["id"].nil? || uuid?(user_add["id"]) and
-            user_add["id"] = "_boilerplate-#{statement}-statement-append"
+          if user_add["id"].nil? || uuid?(user_add["id"])
+            user_add["anchor"] = "_boilerplate-#{statement}-statement-append"
+            user_add["id"] = "_#{UUIDTools::UUID.random_create}"
+          end
           built_in << user_add
         end
       end

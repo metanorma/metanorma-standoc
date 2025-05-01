@@ -184,7 +184,7 @@ module Metanorma
       def contenthash_id_update_idrefs(doc, ids)
         [%w(review from), %w(review to), %w(callout target), %w(eref bibitemid),
          %w(citation bibitemid), %w(xref target), %w(xref to), %w(label for),
-         %w(location target), %w(index to)]
+         %w(location target), %w(index to), %w(termsource bibitemid)]
           .each do |a|
           doc.xpath("//#{a[0]}").each do |x|
             ids[x[a[1]]] and x[a[1]] = ids[x[a[1]]]

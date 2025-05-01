@@ -39,10 +39,10 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
-      </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
+      </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
         <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
-        <bibitem id="iso123" type="standard">
+        <bibitem id="_" anchor="iso123" type="standard">
         <title type='title-main' format='text/plain'>Standard</title>
         <title type='main' format='text/plain'>Standard</title>
          <docidentifier type="ISO">ISO 123</docidentifier>
@@ -301,17 +301,17 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
             #{BLANK_HDR}
             <sections>
-        <clause id='_clause' inline-header='false' obligation='normative'>
+        <clause id="_" anchor="_clause" inline-header='false' obligation='normative'>
           <title>Clause</title>
           <p id='_'>
-            <eref type='inline' bibitemid='ISOTC211' citeas='TC211'/>
+            <eref type='inline' bibitemid='_' citeas='TC211'/>
           </p>
         </clause>
             </sections>
-      <bibliography><references id="_normative_references" obligation="informative" normative="true">
+      <bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
               <title>Normative references</title>
               #{NORM_REF_BOILERPLATE}
-              <bibitem id="ISOTC211" type="standard">
+              <bibitem id="_" anchor="ISOTC211" type="standard">
         <fetched/>
         <title type="main" format="text/plain">Geographic information</title>
         <title type="subtitle" format="text/plain" language="en" script="Latn">Geographic information subtitle</title>
@@ -639,10 +639,10 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
             #{BLANK_HDR}
             <sections>
-            </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
+            </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
               <title>Normative references</title>
               #{NORM_REF_BOILERPLATE}
-              <bibitem id="ISOTC211" type="standard">
+              <bibitem id="_" anchor="ISOTC211" type="standard">
         <fetched/>
         <title type="main" format="text/plain">Geographic information</title>
         <title type="subtitle" format="text/plain" language="en" script="Latn">Geographic information subtitle</title>
@@ -842,18 +842,18 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
            <sections>
-         <clause id='_section' inline-header='false' obligation='normative'>
+         <clause id="_" anchor="_section" inline-header='false' obligation='normative'>
            <title>Section</title>
-           <clause id='_subsection' inline-header='false' obligation='normative'>
+           <clause id="_" anchor="_subsection" inline-header='false' obligation='normative'>
              <title>Subsection</title>
            </clause>
-           <references id='_normative_references' obligation='informative'  normative="true">
+           <references id="_" anchor="_normative_references" obligation='informative'  normative="true">
              <title>Normative References</title>
-             <bibitem id='A'>
+             <bibitem id="_" anchor="A">
                <formattedref format='application/x-isodoc+xml'>Title</formattedref>
                <docidentifier>B</docidentifier>
              </bibitem>
-             <bibitem id='iso123' type='standard'>
+             <bibitem id="_" anchor="iso123" type='standard'>
                <title type='title-main' format='text/plain'>Standard</title>
                <title type='main' format='text/plain'>Standard</title>
                <docidentifier type='ISO'>ISO 123</docidentifier>
@@ -902,10 +902,10 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
          <sections> </sections>
                   <bibliography>
-           <references id="_normative_references" normative="true" obligation="informative">
+           <references id="_" anchor="_normative_references" normative="true" obligation="informative">
              <title>Normative references</title>
              <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-              <bibitem id="A" type="inbook">
+              <bibitem id="_" anchor="A" type="inbook">
                <formattedref format="application/x-isodoc+xml">Wozniak, S., Jobs, Steve &amp; Hoover, J. Edgar. 1991-1992. 1996-01-02. <em>Work</em>. Gates, W. H &amp; UNICEF, Collected Essays. <em>Bibliographers Anonymous</em>. 4, draft. Also available in paperback. ISO 1234. Geneva: International Standardization Organization. <link target="http://www.example.com"/>. 4 2–3 12-13 19. A C D This is a <em>journey</em> into sound</formattedref>
                <title>
                  <em>Work</em>
@@ -1029,10 +1029,10 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
        <sections/>
          <bibliography>
-           <references id="_normative_references" normative="true" obligation="informative">
+           <references id="_" anchor="_normative_references" normative="true" obligation="informative">
              <title>Normative references</title>
              <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-             <bibitem id="A">
+             <bibitem id="_" anchor="A">
                <formattedref format="application/x-isodoc+xml">Wozniak, S. A.D. Hope A D Navarro Cortez A. D. Hope &amp; Jobs, Steve. <em>Work</em>. Gates, W. H J. Edgar Hoover &amp; UNICEF, Collected Essays.</formattedref>
                <title>
                  <em>Work</em>
@@ -1177,10 +1177,10 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
                <sections/>
          <bibliography>
-           <references id="_normative_references" normative="true" obligation="informative">
+           <references id="_" anchor="_normative_references" normative="true" obligation="informative">
              <title>Normative references</title>
              <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-             <bibitem id="A" type="manual">
+             <bibitem id="_" anchor="A" type="manual">
                <title type="main" format="text/plain">Geographic information</title>
                <contributor>
                  <role type="author"/>
@@ -1257,10 +1257,10 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
       <sections/>
          <bibliography>
-           <references id="_normative_references" normative="true" obligation="informative">
+           <references id="_" anchor="_normative_references" normative="true" obligation="informative">
              <title>Normative references</title>
              <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-             <bibitem id="A" type="manual">
+             <bibitem id="_" anchor="A" type="manual">
                <title type="main" format="text/plain">Geographic information</title>
                <contributor>
                  <role type="author"/>
@@ -1307,7 +1307,7 @@ RSpec.describe Metanorma::Standoc do
                <extent/>
                <docidentifier>ISOTC211</docidentifier>
              </bibitem>
-             <bibitem id="B" type="techreport">
+             <bibitem id="_" anchor="B" type="techreport">
                <title type="main" format="text/plain">Techreport Geographic information</title>
                <contributor>
                  <role type="author"/>

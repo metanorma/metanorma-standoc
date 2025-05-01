@@ -52,7 +52,7 @@ module Metanorma
         i = i.add_child("<references hidden='true' normative='false'/>").first
         refs.each do |x|
           i << <<~BIB
-            <bibitem anchor="#{x}" id="__#{UUIDTools::UUID.random_create}" type="internal">
+            <bibitem anchor="#{x}" id="_#{UUIDTools::UUID.random_create}" type="internal">
             <docidentifier type="repository">#{x.sub(/^#{prefix}_/, "#{prefix}/")}</docidentifier>
             </bibitem>
           BIB
@@ -68,7 +68,7 @@ module Metanorma
         eref.delete("citeas")
         eref["target"] = loc
         if id_map
-          return if id_map.has_key?(loc)
+          id_map.has_key?(loc) and return
         else
           eref.document.at("//*[@anchor = '#{loc}']") and return
         end
@@ -77,24 +77,29 @@ module Metanorma
       end
 
       def resolve_local_indirect_erefs(xmldoc, refs, prefix)
-        # Pre-index elements by anchor (which is what bibitemid currently points to)
-        id_map = xmldoc.xpath("//*[@anchor]").each_with_object({}) do |node, map|
-          map[node["anchor"]] = node
-        end
-
-        # Pre-index all <eref> elements by bibitemid
-        eref_map = xmldoc.xpath("//eref[@bibitemid]").group_by { |e| e["bibitemid"] }
-
+        id_map, eref_map = resolve_local_indirect_erefs_prep(xmldoc)
         refs.each_with_object([]) do |r, m|
           id = r.sub(/^#{prefix}_/, "")
-          n = id_map[id]
-          if n&.at("./ancestor-or-self::*[@type = '#{prefix}']")
+          if id_map[id]&.at("./ancestor-or-self::*[@type = '#{prefix}']")
             eref_map[r]&.each do |e|
               indirect_eref_to_xref(e, id, id_map)
             end
           else m << r
           end
         end
+      end
+
+      def resolve_local_indirect_erefs_prep(xmldoc)
+        # Pre-index elements by anchor
+        # (which is what bibitemid currently points to)
+        id_map = xmldoc.xpath("//*[@anchor]")
+          .each_with_object({}) do |node, map|
+          map[node["anchor"]] = node
+        end
+        # Pre-index all <eref> elements by bibitemid
+        eref_map = xmldoc.xpath("//eref[@bibitemid]")
+          .group_by { |e| e["bibitemid"] }
+        [id_map, eref_map]
       end
 
       def biblio_indirect_erefs(xmldoc, prefixes)

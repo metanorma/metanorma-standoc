@@ -7,18 +7,24 @@ module Metanorma
         xmldoc.xpath("//clause[@bibitem = 'true']").each do |c|
           bib = dl_bib_extract(c) or next
           validate_ref_dl(bib, c)
-          bibitemxml = RelatonBib::BibliographicItem.from_hash(bib).to_xml or next
-          bibitem = Nokogiri::XML(bibitemxml)
-          bibitem.root["anchor"] = c["id"] if c["id"] && !/^_/.match(c["id"])
-          bibitem.root["id"] = "_#{UUIDTools::UUID.random_create}"
+          xml = RelatonBib::BibliographicItem.from_hash(bib).to_xml or next
+          bibitem = Nokogiri::XML(xml)
+          ref_dl_cleanup_id(bibitem.root, c)
           c.replace(bibitem.root)
         end
+      end
+
+      def ref_dl_cleanup_id(bibitem, clause)
+        bibitem["anchor"] = bibitem["id"]
+        clause["anchor"] && !/^_/.match(clause["anchor"]) and
+          bibitem["anchor"] = clause["anchor"]
+        bibitem["id"] = "_#{UUIDTools::UUID.random_create}"
       end
 
       # do not accept implicit id
       def validate_ref_dl(bib, clause)
         id = bib["id"]
-        id ||= clause["anchor"] unless /^_/.match?(clause["id"])
+        id ||= clause["anchor"] unless /^_/.match?(clause["anchor"])
         unless id
           @log.add("Anchors", clause,
                    "The following reference is missing an anchor:\n" \
@@ -57,8 +63,7 @@ module Metanorma
       end
 
       def dd_bib_extract(dtd)
-        return nil if dtd.children.empty?
-
+        dtd.children.empty? and return nil
         dtd.at("./dl") and return dl_bib_extract(dtd)
         elems = dtd.remove.elements
         return p_unwrap(dtd) unless elems.size == 1 &&
@@ -74,7 +79,7 @@ module Metanorma
       end
 
       # definition list, with at most one level of unordered lists
-      def dl_bib_extract(clause, nested = false)
+      def dl_bib_extract(clause, nested: false)
         dl = clause.at("./dl") or return
         key = ""
         bib = dl.xpath("./dt | ./dd").each_with_object({}) do |dtd, m|
@@ -82,9 +87,9 @@ module Metanorma
           add_to_hash(m, key, dd_bib_extract(dtd))
         end
         clause.xpath("./clause").each do |c1|
-          key = c1&.at("./title")&.text&.downcase&.strip
+          key = c1.at("./title")&.text&.downcase&.strip
           %w(contributor relation series).include?(key) or next
-          add_to_hash(bib, key, dl_bib_extract(c1, true))
+          add_to_hash(bib, key, dl_bib_extract(c1, nested: true))
         end
         dl_bib_extract_title(bib, clause, nested)
       end
@@ -95,7 +100,7 @@ module Metanorma
         bib["title"] = [bib["title"]] if bib["title"].is_a?(Hash) ||
           bib["title"].is_a?(String)
         bib["title"] ||= []
-        bib["title"] << title if !title.empty?
+        title.empty? or bib["title"] << title
         bib
       end
     end
