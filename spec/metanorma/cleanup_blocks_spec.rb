@@ -39,7 +39,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
          #{BLANK_HDR}
          <sections>
-           <svgmap unnumbered='true' number='8' subsequence='A' keep-with-next='true' keep-lines-together='true'>
+           <svgmap id="_" unnumbered='true' number='8' subsequence='A' keep-with-next='true' keep-lines-together='true'>
              <target href='http://www.example.com'>
                <xref target='ref1'><display-text>Computer</display-text></xref>
              </target>
@@ -60,7 +60,7 @@ RSpec.describe Metanorma::Standoc do
         </a>
       </svg>
                  </figure>
-                 <svgmap>
+                 <svgmap id="_">
                    <figure id="_" anchor="ref2" unnumbered='true' number='8' subsequence='A' keep-with-next='true' keep-lines-together='true'>
         <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id="Layer_1_000000002" x='0px' y='0px' viewBox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve'>
           <style/>
@@ -97,6 +97,7 @@ RSpec.describe Metanorma::Standoc do
       </bibliography>
              </metanorma>
     OUTPUT
+    mock_preserve_idrefs
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
       .gsub(%r{<image[^>]+?/>}m, "<image/>")
       .gsub(%r{<image.*?</image>}m, "<image/>")

@@ -435,6 +435,7 @@ RSpec.describe Metanorma::Standoc do
     FileUtils.rm_rf "relaton/cache"
     mock_isobib_get_123
     mock_ietfbib_get_123
+    mock_preserve_idrefs
     out = Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       #{CACHED_ISOBIB_BLANK_HDR}
 

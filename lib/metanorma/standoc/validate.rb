@@ -175,7 +175,7 @@ module Metanorma
         if @doc_anchors[elem["anchor"]]
           @log.add("Anchors", elem,
                    "Anchor #{elem['anchor']} has already been used at line " \
-                   "#{@doc_ids[elem['anchor']][:line]}", severity: 0)
+                   "#{@doc_anchors[elem['anchor']][:line]}", severity: 0)
         else @doc_anchors[elem["anchor"]] = { line: elem.line, id: elem["id"] }
         end
       end

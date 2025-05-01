@@ -224,9 +224,7 @@ module Metanorma
       end
 
       def blocksource_cleanup(xmldoc)
-        #xmldoc.xpath("//figure//termsource | //table//termsource").each do |s|
         xmldoc.xpath("//figure//source | //table//source").each do |s|
-          #s.name = "source"
           s.delete("type")
         end
       end
@@ -234,7 +232,7 @@ module Metanorma
       def unnumbered_blocks_cleanup(xmldoc)
         @blockunnumbered&.each do |b|
           xmldoc.xpath("//#{b}").each do |e|
-            /^[^_]/.match?(e["id"]) and e["unnumbered"] = "false"
+            /^[^_]/.match?(e["anchor"]) and e["unnumbered"] = "false"
             e["unnumbered"] ||= "true"
           end
         end
