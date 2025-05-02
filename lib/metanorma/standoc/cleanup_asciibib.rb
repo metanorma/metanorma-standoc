@@ -18,7 +18,7 @@ module Metanorma
         bibitem["anchor"] = bibitem["id"]
         clause["anchor"] && !/^_/.match(clause["anchor"]) and
           bibitem["anchor"] = clause["anchor"]
-        bibitem["id"] = "_#{UUIDTools::UUID.random_create}"
+        add_id(bibitem)
       end
 
       # do not accept implicit id

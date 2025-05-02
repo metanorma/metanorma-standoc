@@ -93,7 +93,7 @@ module Metanorma
           c = d.ancestors.detect do |x|
             section_containers.include?(x.name)
           end
-          c["id"] ||= "_#{UUIDTools::UUID.random_create}"
+          c["id"] or add_id(c["id"])
           m[c["id"]] ||= { clause: c, designations: [] }
           m[c["id"]][:designations] << d
         end

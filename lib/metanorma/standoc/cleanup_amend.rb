@@ -8,8 +8,8 @@ module Metanorma
       end
 
       def create_amend(clause)
-        a = clause.add_child("<amend id='_#{UUIDTools::UUID.random_create}'/>")
-          .first
+        a = clause.add_child("<amend/>").first
+        add_id(a)
         clause.elements.each do |e|
           e.parent = a unless %w(amend title).include? e.name
         end
@@ -32,8 +32,8 @@ module Metanorma
           amend.children = "<description>#{amend.children.to_xml}</description>"
           return
         end
-        pre = q.xpath("./preceding-sibling::*")&.remove
-        post = q.xpath("./following-sibling::*")&.remove
+        pre = q.xpath("./preceding-sibling::*").each(&:remove)
+        post = q.xpath("./following-sibling::*").each(&:remove)
         pre.empty? or amend << "<description>#{pre.to_xml}</description>"
         amend << q.remove
         post.empty? or amend << "<description>#{post.to_xml}</description>"
@@ -41,13 +41,11 @@ module Metanorma
 
       def move_attrs_to_amend(clause, amend)
         %w(change path path_end title).each do |e|
-          next unless clause[e]
-
+          clause[e] or next
           amend[e] = clause[e]
           clause.delete(e)
         end
-        return unless amend["locality"]
-
+        amend["locality"] or return
         loc = amend.children.add_previous_sibling("<location/>")
         extract_localities1(loc, amend["locality"])
         loc1 = loc.at("./localityStack") and loc.replace(loc1.elements)

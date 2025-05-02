@@ -11,14 +11,15 @@ module Metanorma
         end
       end
 
-      def review_insert_bookmark(review, id)
+      def review_insert_bookmark(review)
         parent = review.parent
         children = parent.children
         index = children.index(review)
         x = find_review_sibling(children, index, :previous) ||
           find_review_sibling(children, index, :following)
         ins = x || review.before("<p> </p>").previous.at(".//text()")
-        ins.previous = "<bookmark id='#{id}'/>"
+        ins.previous = "<bookmark/>"
+        ins.previous
       end
 
       # we know node is a block: dig for a place bookmark can go
@@ -65,9 +66,9 @@ module Metanorma
 
       def review_set_location(review)
         unless review["from"]
-          id = "_#{UUIDTools::UUID.random_create}"
-          review_insert_bookmark(review, id)
-          review["from"] = id
+          bookmark = review_insert_bookmark(review)
+          add_id(bookmark)
+          review["from"] = bookmark["id"]
         end
         review["to"] ||= review["from"]
       end

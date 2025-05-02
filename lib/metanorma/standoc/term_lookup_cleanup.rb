@@ -268,7 +268,7 @@ module Metanorma
       def anchor_to_id
         xmldoc.xpath("//*[@anchor]").each do |n|
           /^(term|symbol)-/.match?(n["anchor"]) or next
-          n["id"] ||= "_#{UUIDTools::UUID.random_create}"
+          n["id"] or add_id(n)
         end
       end
 

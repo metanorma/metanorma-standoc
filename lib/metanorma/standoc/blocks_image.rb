@@ -2,11 +2,7 @@ module Metanorma
   module Standoc
     module Blocks
       def svgmap_attrs(node)
-        attr_code(id_attr(node)
-          .merge(number: node.attr("number"),
-                 unnumbered: node.option?("unnumbered") ? "true" : nil,
-                 subsequence: node.attr("subsequence"))
-        .merge(keep_attrs(node)))
+        attr_code(id_unnum_attrs(node).merge(keep_attrs(node)))
       end
 
       def svgmap_example(node)

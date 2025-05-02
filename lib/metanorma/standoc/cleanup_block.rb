@@ -112,8 +112,8 @@ module Metanorma
 
       def link_callouts_to_annotations(callouts, annotations)
         callouts.each_with_index do |c, i|
-          c["target"] = "_#{UUIDTools::UUID.random_create}"
-          annotations[i]["id"] = c["target"]
+          add_id(annotations[i])
+          c["target"] = annotations[i]["id"]
         end
       end
 

@@ -3,11 +3,8 @@ module Metanorma
     module Table
       def table_attrs(node)
         keep_attrs(node)
-          .merge(id_attr(node))
+          .merge(id_unnum_attrs(node))
           .merge(headerrows: node.attr("headerrows"),
-                 unnumbered: node.option?("unnumbered") ? "true" : nil,
-                 number: node.attr("number"),
-                 subsequence: node.attr("subsequence"),
                  alt: node.attr("alt"),
                  summary: node.attr("summary"),
                  width: node.attr("width"))

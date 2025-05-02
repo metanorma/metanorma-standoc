@@ -153,7 +153,7 @@ module Metanorma
           user_add.name = "clause"
           if user_add["id"].nil? || uuid?(user_add["id"])
             user_add["anchor"] = "_boilerplate-#{statement}-statement-append"
-            user_add["id"] = "_#{UUIDTools::UUID.random_create}"
+            add_id(user_add)
           end
           built_in << user_add
         end
@@ -189,8 +189,7 @@ module Metanorma
         xml.traverse do |n|
           n.element? or next
           n.namespace.href == ns and n.namespace = nil
-          /^_\d+$/.match?(n["id"]) and
-            n["id"] = "_#{UUIDTools::UUID.random_create}"
+          /^_\d+$/.match?(n["id"]) and add_id(n)
         end
         xml
       end
