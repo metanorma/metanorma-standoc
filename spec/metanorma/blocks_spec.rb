@@ -1041,7 +1041,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
        <sections>
            <figure id="_" anchor="ABC" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common'>
-        <pre alt="Literal" id="_">&lt;LITERAL&gt;
+        <pre id="_" tag="X" columns="1" multilingual-rendering="common" alt="Literal">&lt;LITERAL&gt;
         FIGURATIVE
         </pre>
         </figure>
@@ -1346,15 +1346,15 @@ RSpec.describe Metanorma::Standoc do
              <sections>
         <figure id="_" anchor="figureC-2"><name>Stages of gelatinization</name><figure id="_">
         <name>Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
-        <image src="spec/examples/rice_images/rice_image3_1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image id="_" src="spec/examples/rice_images/rice_image3_1.png" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
         <name>Intermediate stages: Some fully gelatinized kernels are visible</name>
-        <image src="spec/examples/rice_images/rice_image3_2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image id="_" src="spec/examples/rice_images/rice_image3_2.png" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
         <name>Final stages: All kernels are fully gelatinized</name>
-        <image src="spec/examples/rice_images/rice_image3_3.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image id="_" src="spec/examples/rice_images/rice_image3_3.png" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <dl id='_' key='true'>
         <dt>A</dt>
@@ -1616,7 +1616,7 @@ RSpec.describe Metanorma::Standoc do
        <sections>
          <figure id="_" tag='X' columns='1' multilingual-rendering='common' width="3">
          <name>Caption</name>
-         <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="4" width="3" title="TITLE" alt="IMAGE" filename="riceimg1.png"/>
+         <image id="_" tag="X" columns="1" multilingual-rendering="common" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="4" width="3" filename="riceimg1.png" title="TITLE" alt="IMAGE"/>
        </figure>
        </sections>
        </metanorma>
@@ -1645,16 +1645,16 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
        <sections>
          <figure id="_" width="auto">
-            <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="4.3" width="auto"/>
+            <image id="_" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="4.3" width="auto"/>
           </figure>
          <figure id="_" width="9.3%">
-            <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="9.3%"/>
+            <image id="_" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="9.3%"/>
           </figure>
          <figure id="_" width="9%">
-            <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="9.3%" width="9%"/>
+            <image id="_" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="9.3%" width="9%"/>
           </figure>
           <figure id="_" width="text-width">
-              <image src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" id="_" height="auto" width="text-width"/>
+              <image id="_" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="text-width"/>
           </figure>
        </sections>
        </metanorma>
@@ -1697,7 +1697,7 @@ RSpec.describe Metanorma::Standoc do
       image::spec/examples/rice_images/rice_image1.png[]
     INPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
-      .to include('<image src="data:image/png;base64')
+      .to include('<image id="_" src="data:image/png;base64')
 
     input = <<~INPUT
       = Document title
@@ -1712,7 +1712,7 @@ RSpec.describe Metanorma::Standoc do
       image::spec/examples/rice_images/rice_image1.png[]
     INPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
-      .to include('<image src="data:image/png;base64')
+      .to include('<image id="_" src="data:image/png;base64')
 
     input = <<~INPUT
       = Document title
@@ -1727,7 +1727,7 @@ RSpec.describe Metanorma::Standoc do
       image::spec/examples/rice_images/rice_image1.png[]
     INPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
-      .not_to include('<image src="data:image/png;base64')
+      .not_to include('<image id="_" src="data:image/png;base64')
 
     input = <<~INPUT
       = Document title
@@ -1741,11 +1741,12 @@ RSpec.describe Metanorma::Standoc do
       image::spec/examples/rice_images/rice_image1.png[]
     INPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
-      .to include('<image src="data:image/png;base64')
+      .to include('<image id="_" src="data:image/png;base64')
 
     FileUtils.rm_rf "spec/examples/test.xml"
     system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/examples/test.adoc"
-    expect(File.read("spec/examples/test.xml")).to include('<image src="data:image/png;base64')
+    expect(strip_guid(File.read("spec/examples/test.xml")))
+      .to include('<image id="_" src="data:image/png;base64')
   end
 
   it "accepts attributes on paragraphs" do

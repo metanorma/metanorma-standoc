@@ -69,9 +69,9 @@ module Metanorma
         noko do |xml|
           xml.figure **literal_attrs(node) do |f|
             figure_title(node, f)
-            f.pre node.lines.join("\n"),
-                  **attr_code(id: Metanorma::Utils::anchor_or_uuid,
-                              alt: node.attr("alt"))
+            pre_attrs = id_attr(node).tap { |h| h.delete(:anchor) }
+              .merge(alt: node.attr("alt"))
+            f.pre node.lines.join("\n"), **attr_code(pre_attrs)
           end
         end
       end

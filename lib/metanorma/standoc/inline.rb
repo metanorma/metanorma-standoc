@@ -148,13 +148,13 @@ module Metanorma
       end
 
       def image_attributes1(node, uri, type)
-        attr_code(src: uri, mimetype: type,
-                  id: Metanorma::Utils::anchor_or_uuid,
-                  height: node.attr("height") || "auto",
-                  width: node.attr("width") || "auto",
-                  filename: node.attr("filename"),
-                  title: node.attr("titleattr"),
-                  alt: node.alt == node.attr("default-alt") ? nil : node.alt)
+        attr_code(id_attr(node)
+          .merge(src: uri, mimetype: type,
+                 height: node.attr("height") || "auto",
+                 width: node.attr("width") || "auto",
+                 filename: node.attr("filename"),
+                 title: node.attr("titleattr"),
+                 alt: node.alt == node.attr("default-alt") ? nil : node.alt))
       end
 
       def inline_image(node)

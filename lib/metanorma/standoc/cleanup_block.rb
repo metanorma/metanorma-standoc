@@ -17,7 +17,7 @@ module Metanorma
 
       def inject_id(xmldoc, path)
         xmldoc.xpath(path).each do |x|
-          x["id"] ||= Metanorma::Utils::anchor_or_uuid
+          x["id"] or add_id(x)
         end
       end
 
