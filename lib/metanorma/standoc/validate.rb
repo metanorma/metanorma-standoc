@@ -218,7 +218,7 @@ module Metanorma
 
       def xref_validate_exists(doc)
         @doc_xrefs = {}
-        IDREF.each do |a|
+        idref.each do |a|
           doc.xpath("//#{a[0]}/@#{a[1]}").each do |x|
             @doc_xrefs[x.text] = x.parent
             @doc_ids[x.text] and next

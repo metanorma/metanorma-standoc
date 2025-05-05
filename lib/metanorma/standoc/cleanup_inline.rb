@@ -151,7 +151,7 @@ module Metanorma
       end
 
       def contenthash_id_update_idrefs(doc, ids)
-        IDREF.each do |a|
+        idref.each do |a|
           doc.xpath("//#{a[0]}").each do |x|
             ids[x[a[1]]] and x[a[1]] = ids[x[a[1]]]
           end
