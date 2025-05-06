@@ -414,27 +414,27 @@ RSpec.describe Metanorma::Standoc do
               <sections>
                <clause id="_" anchor="reference" inline-header="false" obligation="normative">
                <title>Section</title>
-               <p id="_">Inline Reference to <xref target="_"/>
-             Footnoted Reference to <xref target="_"/>
-             Inline Reference with Text to <xref target="_"><display-text>text</display-text></xref>
-             Footnoted Reference with Text to <xref target="_"><display-text>text</display-text></xref>
+               <p id="_">Inline Reference to <xref target="reference"/>
+             Footnoted Reference to <xref target="reference"/>
+             Inline Reference with Text to <xref target="reference"><display-text>text</display-text></xref>
+             Footnoted Reference with Text to <xref target="reference"><display-text>text</display-text></xref>
              Anchored Crossreference to other document <xref target="a#b"/>
-             Capitalised Reference to <xref target='_' case='capital' droploc="true"></xref>
-             Lowercase Footnoted Reference to <xref target='_' case='capital' droploc="true"></xref>
+             Capitalised Reference to <xref target='reference' case='capital' droploc="true"></xref>
+             Lowercase Footnoted Reference to <xref target='reference' case='capital' droploc="true"></xref>
               Capitalised Reference to
-      <xref target='_' case='capital'/>
+      <xref target='reference' case='capital'/>
        Lowercase Footnoted Reference to
-      <xref target='_' case='capital'/>
+      <xref target='reference' case='capital'/>
        Capitalised Reference to
-      <xref target='_' droploc='true'/>
+      <xref target='reference' droploc='true'/>
        Lowercase Footnoted Reference to
-      <xref target='_' droploc='true'/>
+      <xref target='reference' droploc='true'/>
        Capitalised Reference to
-      <xref target='_' case='capital' droploc='true'/>
+      <xref target='reference' case='capital' droploc='true'/>
        Lowercase Footnoted Reference to
-      <xref target='_' case='capital' droploc='true'/>
+      <xref target='reference' case='capital' droploc='true'/>
        Lowercase Footnoted Reference to
-      <xref target='_' case='capital' droploc='true'><display-text>text</display-text></xref>
+      <xref target='reference' case='capital' droploc='true'><display-text>text</display-text></xref>
       </p>
              </clause>
              </sections>
@@ -464,17 +464,17 @@ RSpec.describe Metanorma::Standoc do
             <title>Section</title>
             <p id='_'>
               Inline Reference to
-              <xref target='_'/>
+              <xref target='reference'/>
                Inline Reference to
-              <xref target='_' style='basic'/>
+              <xref target='reference' style='basic'/>
                Inline Reference to
-              <xref target='_'><display-text>style=basic</display-text></xref>
+              <xref target='reference'><display-text>style=basic</display-text></xref>
                Inline Reference to
-              <xref target='_'><display-text>style=%</display-text></xref>
+              <xref target='reference'><display-text>style=%</display-text></xref>
                Inline Reference to
-              <xref target='_' label="Subclause"/>
+              <xref target='reference' label="Subclause"/>
                Inline Reference to
-              <xref target='_' label="Subclause" style='basic'/>
+              <xref target='reference' label="Subclause" style='basic'/>
             </p>
           </clause>
         </sections>
@@ -500,9 +500,9 @@ RSpec.describe Metanorma::Standoc do
             <title>Section</title>
             <p id='_'>
               Inline Reference to
-              <xref target='_' style='full'/>
+              <xref target='reference' style='full'/>
                Inline Reference to
-              <xref target='_' style='basic'/>
+              <xref target='reference' style='basic'/>
             </p>
           </clause>
         </sections>
@@ -528,9 +528,9 @@ RSpec.describe Metanorma::Standoc do
       <sections>
        <clause id="_" anchor="reference" inline-header="false" obligation="normative">
        <title>Section</title>
-       <p id="_"><xref target="_"><display-text><em>reference</em></display-text></xref>
-       <xref target="_"><display-text><em><strong>reference</strong></em></display-text></xref>
-       <xref target="_"><display-text><em>A</em> <stem type="MathML" block="false">
+       <p id="_"><xref target="reference"><display-text><em>reference</em></display-text></xref>
+       <xref target="reference"><display-text><em><strong>reference</strong></em></display-text></xref>
+       <xref target="reference"><display-text><em>A</em> <stem type="MathML" block="false">
                            <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="false">
                         <msup>
@@ -540,7 +540,7 @@ RSpec.describe Metanorma::Standoc do
                       </mstyle>
                     </math>
           <asciimath>x^2</asciimath></stem></display-text></xref>
-       <xref target="_"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></xref></p>
+       <xref target="reference"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></xref></p>
        </clause>
        </sections>
       </metanorma>
@@ -617,7 +617,6 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes bibliographic anchors" do
-    mock_preserve_idrefs
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Clause
@@ -678,7 +677,7 @@ RSpec.describe Metanorma::Standoc do
            <foreword id="_" obligation="informative">
              <title>Foreword</title>
              <p id="_">
-               <eref type="inline" bibitemid="_" citeas="x"><localityStack><locality type="clause"><referenceFrom>3-4-5</referenceFrom></locality><locality type="table"><referenceFrom>9</referenceFrom></locality></localityStack><display-text>text</display-text></eref>
+               <eref type="inline" bibitemid="ISO712" citeas="x"><localityStack><locality type="clause"><referenceFrom>3-4-5</referenceFrom></locality><locality type="table"><referenceFrom>9</referenceFrom></locality></localityStack><display-text>text</display-text></eref>
              </p>
            </foreword>
        </preface>
@@ -714,7 +713,7 @@ RSpec.describe Metanorma::Standoc do
           <clause id="_" anchor="_section" inline-header='false' obligation='normative'>
             <title>Section</title>
             <p id='_'>
-            <eref type='inline' bibitemid='_' citeas='XYZ'>
+            <eref type='inline' bibitemid='ref1' citeas='XYZ'>
                <localityStack>
                  <locality type='clause'>
                    <referenceFrom>3</referenceFrom>
@@ -722,7 +721,7 @@ RSpec.describe Metanorma::Standoc do
                  </locality>
                </localityStack>
              </eref>
-              <eref type='inline' bibitemid='_' citeas='XYZ'>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
                 <localityStack connective='from'>
                   <locality type='clause'>
                     <referenceFrom>3</referenceFrom>
@@ -734,7 +733,7 @@ RSpec.describe Metanorma::Standoc do
                   </locality>
                 </localityStack>
               </eref>
-              <eref type='inline' bibitemid='_' citeas='XYZ'>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
                 <localityStack connective='from'>
                   <locality type='clause'>
                     <referenceFrom>3</referenceFrom>
@@ -747,7 +746,7 @@ RSpec.describe Metanorma::Standoc do
                 </localityStack>
                 <display-text>text</display-text>
               </eref>
-              <eref type='inline' bibitemid='_' citeas='XYZ'>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
                 <localityStack connective='and'>
                   <locality type='clause'>
                     <referenceFrom>3</referenceFrom>
@@ -759,7 +758,7 @@ RSpec.describe Metanorma::Standoc do
                   </locality>
                 </localityStack>
               </eref>
-              <eref type='inline' bibitemid='_' citeas='XYZ'>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
                 <localityStack connective='and'>
                   <locality type='clause'>
                     <referenceFrom>3</referenceFrom>
@@ -771,7 +770,7 @@ RSpec.describe Metanorma::Standoc do
                   </locality>
                 </localityStack>
               </eref>
-              <eref type='inline' bibitemid='_' citeas='XYZ'>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
                 <localityStack connective='and'>
                   <locality type='clause'>
                     <referenceFrom>3</referenceFrom>
@@ -784,7 +783,7 @@ RSpec.describe Metanorma::Standoc do
                 </localityStack>
                 <display-text>text</display-text>
               </eref>
-              <eref type='inline' bibitemid='_' citeas='XYZ'>
+              <eref type='inline' bibitemid='ref1' citeas='XYZ'>
                 <localityStack connective='from'>
                   <locality type='clause'>
                     <referenceFrom>3</referenceFrom>
@@ -806,7 +805,7 @@ RSpec.describe Metanorma::Standoc do
                   </locality>
                 </localityStack>
               </eref>
-              <eref type="inline" bibitemid="_" citeas="XYZ">
+              <eref type="inline" bibitemid="ref1" citeas="XYZ">
                  <localityStack connective="from">
                    <locality type="clause">
                      <referenceFrom>3</referenceFrom>
@@ -868,9 +867,9 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
              <sections><clause id="_" anchor="_section" inline-header="false" obligation="normative">
        <title>Section</title>
-       <p id="_"><eref type="inline" bibitemid="_" citeas="ABC"><display-text><em>reference</em></display-text></eref>
-       <eref type="inline" bibitemid="_" citeas="ABC"><display-text><em><strong>reference</strong></em></display-text></eref>
-       <eref type="inline" bibitemid="_" citeas="ABC"><display-text><em>A</em> <stem type="MathML" block="false">
+       <p id="_"><eref type="inline" bibitemid="reference" citeas="ABC"><display-text><em>reference</em></display-text></eref>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><display-text><em><strong>reference</strong></em></display-text></eref>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><display-text><em>A</em> <stem type="MathML" block="false">
                     <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="false">
                         <msup>
@@ -880,8 +879,8 @@ RSpec.describe Metanorma::Standoc do
                       </mstyle>
                     </math>
         <asciimath>x^2</asciimath></stem></display-text></eref>
-       <eref type="inline" bibitemid="_" citeas="ABC"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></eref>
-       <eref type="inline" bibitemid="_" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></display-text></eref></p>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></eref>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></display-text></eref></p>
        </clause>
        </sections><bibliography><references id="_" anchor="_normative_references" normative="true" obligation="informative">
        <title>Normative references</title><p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
@@ -915,9 +914,9 @@ RSpec.describe Metanorma::Standoc do
       <foreword id="_" anchor="_foreword" obligation="informative">
         <title>Foreword</title>
         <p id="_">
-          <eref type="inline" bibitemid="_" citeas="IDLONG ISO 1234 (E)"/>
-          <eref type="inline" style="IDLONG" bibitemid="_" citeas="IDLONG ISO 1234 (E)"/>
-          <eref type="inline" style="IDPROSE" bibitemid="_" citeas="IDPROSE document 1234 of the ISO"/>
+          <eref type="inline" bibitemid="reference" citeas="IDLONG ISO 1234 (E)"/>
+          <eref type="inline" style="IDLONG" bibitemid="reference" citeas="IDLONG ISO 1234 (E)"/>
+          <eref type="inline" style="IDPROSE" bibitemid="reference" citeas="IDPROSE document 1234 of the ISO"/>
         </p>
       </foreword>
     OUTPUT
@@ -1134,7 +1133,6 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes combinations of crossreferences" do
-    mock_preserve_idrefs
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Section

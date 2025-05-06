@@ -40,14 +40,6 @@ module UuidMock
       ret
     end
   end
-
-  # Do not rewrite idref elements to content hash ids, 
-  # so we can inspect their anchor-based content
-  def mock_preserve_idrefs
-    allow_any_instance_of(Metanorma::Standoc::Cleanup)
-      .to receive(:contenthash_id_update_idrefs) do |_instance, doc, *_args|
-      end
-  end
 end
 
 RSpec.configure do |config|

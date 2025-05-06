@@ -92,7 +92,7 @@ module Metanorma
       end
 
       def nested_asset_xref_report(outer, inner, _doc)
-        i = @doc_xrefs[inner["id"]] or return
+        i = @doc_xrefs[inner["anchor"]] or return
         err2 = "There is a crossreference to an instance of #{inner.name} " \
                "nested within #{outer.name}: #{i.to_xml}"
         @log.add("Style", i, err2)
@@ -176,7 +176,9 @@ module Metanorma
           @log.add("Anchors", elem,
                    "Anchor #{elem['anchor']} has already been used at line " \
                    "#{@doc_anchors[elem['anchor']][:line]}", severity: 0)
-        else @doc_anchors[elem["anchor"]] = { line: elem.line, id: elem["id"] }
+        else
+          @doc_anchors[elem["anchor"]] = { line: elem.line, id: elem["id"] }
+          @doc_anchor_seq << elem["anchor"]
         end
       end
 
@@ -192,22 +194,27 @@ module Metanorma
           .with_object({}) do |(x, i), m|
           m[x] = i
         end
+        @doc_anchor_seq_hash = @doc_anchor_seq.each_with_index
+          .with_object({}) do |(x, i), m|
+          m[x] = i
+        end
       end
 
       def repeat_id_validate_prep
         @doc_ids = {} # hash of all ids in document to line number, anchor
         @doc_anchors = {} # hash of all anchors in document to line number, id
         @doc_id_seq = [] # ordered list of all ids in document
+        @doc_anchor_seq = [] # ordered list of all anchors in document
       end
 
-      # Retrieve IDs between two nominated values
+      # Retrieve anchors between two nominated values
       # (exclusive of start_id AND exclusive of end_id)
-      def get_ids_between(start_id, end_id)
-        start_index = @doc_id_seq_hash[start_id]
-        end_index = @doc_id_seq_hash[end_id]
+      def get_anchors_between(start_id, end_id)
+        start_index = @doc_anchor_seq_hash[start_id]
+        end_index = @doc_anchor_seq_hash[end_id]
         start_index.nil? || end_index.nil? and return []
         start_index >= end_index and return []
-        @doc_id_seq[start_index...end_index]
+        @doc_anchor_seq[start_index...end_index]
       end
 
       # manually check for xref/@target et sim. integrity
@@ -218,10 +225,10 @@ module Metanorma
 
       def xref_validate_exists(doc)
         @doc_xrefs = {}
-        idref.each do |a|
+        Metanorma::Utils::anchor_attributes.each do |a|
           doc.xpath("//#{a[0]}/@#{a[1]}").each do |x|
             @doc_xrefs[x.text] = x.parent
-            @doc_ids[x.text] and next
+            @doc_anchors[x.text] and next
             @log.add("Anchors", x.parent,
                      "Crossreference target #{x} is undefined", severity: 1)
           end
@@ -240,7 +247,7 @@ module Metanorma
         from = to_location.previous_element
         from && from.name == "location" or return
         from["target"] && to_location["target"] or return
-        get_ids_between(from["target"], to_location["target"])
+        get_anchors_between(from["target"], to_location["target"])
           .each { |id| @doc_xrefs[id] = from }
       end
     end

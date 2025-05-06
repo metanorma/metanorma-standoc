@@ -97,7 +97,6 @@ RSpec.describe Metanorma::Standoc do
       </bibliography>
              </metanorma>
     OUTPUT
-    mock_preserve_idrefs
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
       .gsub(%r{<image[^>]+?/>}m, "<image/>")
       .gsub(%r{<image.*?</image>}m, "<image/>")
@@ -131,7 +130,7 @@ RSpec.describe Metanorma::Standoc do
           var
           <strong>x</strong>
            :
-          <xref target='_'><display-text>recursive</display-text></xref>
+          <xref target='A'><display-text>recursive</display-text></xref>
            &lt;tag/&gt;
         </body></sourcecode>
       </sections>
@@ -167,7 +166,7 @@ RSpec.describe Metanorma::Standoc do
           var
           <strong>x</strong>
            :
-          <xref target='_'><display-text>recursive</display-text></xref>
+          <xref target='A'><display-text>recursive</display-text></xref>
         </body></sourcecode>
       </sections>
              </metanorma>
@@ -909,30 +908,6 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
-  end
-
-  it "updates anchor reference along with anchor to match content" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-
-      [[samplecode]]
-      .Sample Code
-      ====
-
-      [source,ruby]
-      --
-      puts "Hello, world."
-      %w{a b c}.each do |x| <1>
-        puts x
-      end
-      --
-      <1> This is an annotation
-      ====
-    INPUT
-    output = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    callout_id = output.at("//xmlns:callout/@target").text
-    annotation_id = output.at("//xmlns:annotation/@id").text
-    expect(callout_id).to eq(annotation_id)
   end
 
   it "deduplicates identifiers in inline SVGs" do

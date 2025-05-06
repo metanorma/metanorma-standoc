@@ -137,7 +137,7 @@ module Metanorma
 
       def contenthash_id_cleanup(doc)
         @contenthash_ids = contenthash_id_make(doc)
-        contenthash_id_update_idrefs(doc, @contenthash_ids)
+        #contenthash_id_update_idrefs(doc, @contenthash_ids)
       end
 
       def contenthash_id_make(doc)
@@ -151,7 +151,7 @@ module Metanorma
       end
 
       def contenthash_id_update_idrefs(doc, ids)
-        idref.each do |a|
+        Metanorma::Utils::anchor_attributes.each do |a|
           doc.xpath("//#{a[0]}").each do |x|
             ids[x[a[1]]] and x[a[1]] = ids[x[a[1]]]
           end

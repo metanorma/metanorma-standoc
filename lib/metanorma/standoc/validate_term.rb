@@ -46,14 +46,14 @@ module Metanorma
 
       def concept_validate_ids(doc)
         @concept_ids ||= doc.xpath("//term | //definitions//dt")
-          .each_with_object({}) { |x, m| m[x["id"]] = true }
+          .each_with_object({}) { |x, m| m[x["anchor"]] = true }
         @concept_terms_tags ||= doc.xpath("//terms")
-          .each_with_object({}) { |t, m| m[t["id"]] = true }
+          .each_with_object({}) { |t, m| m[t["anchor"]] = true }
         nil
       end
 
       def concept_validate_msg(_doc, tag, refterm, xref)
-        t = @doc_ids[xref["target"]][:anchor] || xref["target"]
+        t = @doc_ids.dig(xref["target"], :anchor) || xref["target"]
         ret = <<~LOG
           #{tag.capitalize} #{xref.at("../#{refterm}")&.text} is pointing to #{t}, which is not a term or symbol
         LOG

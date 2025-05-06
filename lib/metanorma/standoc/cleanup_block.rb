@@ -113,6 +113,7 @@ module Metanorma
       def link_callouts_to_annotations(callouts, annotations)
         callouts.each_with_index do |c, i|
           add_id(annotations[i])
+          annotations[i]["anchor"] = annotations[i]["id"]
           c["target"] = annotations[i]["id"]
         end
       end

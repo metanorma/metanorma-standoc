@@ -1573,7 +1573,6 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes TOC clause" do
-    mock_preserve_idrefs
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 

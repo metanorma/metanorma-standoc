@@ -1255,7 +1255,7 @@ RSpec.describe Metanorma::Standoc do
          <clause id="_" anchor="_clause_4" inline-header="false" obligation="normative">
            <title>Clause 4</title>
            <p id="_">
-           <eref type="inline" bibitemid="_" citeas="IETF&#xa0;RFC&#xa0;8341"/>
+           <eref type="inline" bibitemid="iso123" citeas="IETF&#xa0;RFC&#xa0;8341"/>
          </p>
          </clause>
          </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
@@ -1710,9 +1710,9 @@ RSpec.describe Metanorma::Standoc do
         <sections>
         <clause id="_" anchor="_section" inline-header="false" obligation="normative">
         <title>Section</title>
-        <p id="_"><eref type="inline" bibitemid="_" citeas="ISO&#xa0;123"><display-text><em>reference</em></display-text></eref>
-        <eref type="inline" bibitemid="_" citeas="ISO&#xa0;123"><display-text><em><strong>reference</strong></em></display-text></eref>
-        <eref type="inline" bibitemid="_" citeas="ISO&#xa0;123"><display-text><em>A</em> <stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML">
+        <p id="_"><eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><display-text><em>reference</em></display-text></eref>
+        <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><display-text><em><strong>reference</strong></em></display-text></eref>
+        <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><display-text><em>A</em> <stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML">
         <mstyle displaystyle="false">
           <msup>
             <mi>x</mi>
@@ -1721,8 +1721,8 @@ RSpec.describe Metanorma::Standoc do
         </mstyle>
         </math><asciimath>x^2</asciimath></stem></display-text>
         </eref>
-        <eref type="inline" bibitemid="_" citeas="ISO&#xa0;123"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></eref>
-        <eref type="inline" bibitemid="_" citeas="ISO&#xa0;123"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></display-text></eref></p>
+        <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></eref>
+        <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></display-text></eref></p>
         </clause></sections>
         </metanorma>
       OUTPUT

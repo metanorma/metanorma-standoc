@@ -299,7 +299,6 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    mock_preserve_idrefs
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
@@ -443,7 +442,6 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    mock_preserve_idrefs
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
@@ -519,7 +517,6 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    mock_preserve_idrefs
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
@@ -711,7 +708,6 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    mock_preserve_idrefs
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
@@ -801,7 +797,6 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    mock_preserve_idrefs
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
@@ -943,7 +938,7 @@ RSpec.describe Metanorma::Standoc do
                  </expression>
                </deprecates>
                <related type="see">
-                 <xref target="_"/>
+                 <xref target="second"/>
                </related>
                <definition>
                  <verbal-definition>
@@ -1074,7 +1069,6 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    mock_preserve_idrefs
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
@@ -1175,7 +1169,7 @@ RSpec.describe Metanorma::Standoc do
               </deprecates>
               <related type='see'>
               <preferred><expression><name>Fifth Designation</name><grammar><gender>neuter</gender></grammar></expression>
-              </preferred><xref target='_'/>
+              </preferred><xref target='des1'/>
               </related>
               <domain>Hydraulics</domain>
               <subject>pipes</subject>

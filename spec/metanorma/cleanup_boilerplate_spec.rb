@@ -892,7 +892,6 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes terms & definitions with external source" do
-    mock_preserve_idrefs
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
@@ -980,7 +979,6 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes empty terms & definitions with external source" do
-    mock_preserve_idrefs
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
@@ -1033,7 +1031,6 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes term document sources in French" do
-    mock_preserve_idrefs
     input = <<~INPUT
       = Document title
       Author
@@ -1092,7 +1089,6 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes term document sources in Chinese" do
-    mock_preserve_idrefs
     input = <<~INPUT
       = Document title
       Author

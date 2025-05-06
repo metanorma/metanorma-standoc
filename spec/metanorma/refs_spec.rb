@@ -155,8 +155,8 @@ RSpec.describe Metanorma::Standoc do
           <foreword id='_' obligation='informative'>
             <title>Foreword</title>
             <p id='_'>
-              <eref type='inline' bibitemid='_' citeas='ISO&#xa0;123'/>
-              <eref type='inline' bibitemid='_' citeas='[1]'/>
+              <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123'/>
+              <eref type='inline' bibitemid='iso124' citeas='[1]'/>
             </p>
           </foreword>
         </preface>
@@ -710,16 +710,16 @@ RSpec.describe Metanorma::Standoc do
                  <clause id="_" anchor="_scope" type='scope' inline-header='false' obligation='normative'>
                    <title>Scope</title>
                    <p id='_'>
-                     <eref type='inline' bibitemid='_' citeas='ISO&#xa0;123'/>
-                     <eref type='inline' bibitemid='_' citeas='ISO&#xa0;123'>
+                     <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123'/>
+                     <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123'>
                        <localityStack>
                          <locality type='clause'>
                            <referenceFrom>1</referenceFrom>
                          </locality>
                        </localityStack>
                      </eref>
-                     <eref type='inline' bibitemid='_' citeas='id'/>
-                     <eref type='inline' bibitemid='_' citeas='id'>
+                     <eref type='inline' bibitemid='iso124' citeas='id'/>
+                     <eref type='inline' bibitemid='iso124' citeas='id'>
                        <localityStack>
                          <locality type='clause'>
                            <referenceFrom>1</referenceFrom>
@@ -816,10 +816,10 @@ RSpec.describe Metanorma::Standoc do
           <clause id="_" anchor="_scope" type="scope" inline-header='false' obligation='normative'>
             <title>Scope</title>
             <p id='_'>
-              <eref type='inline' bibitemid='_' citeas='ISO&#xa0;123&#xa0;(all&#xa0;parts)'/>
+              <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123&#xa0;(all&#xa0;parts)'/>
             </p>
             <p id='_'>
-              <eref type='inline' bibitemid='_' citeas='ISO&#xa0;124'>
+              <eref type='inline' bibitemid='iso124' citeas='ISO&#xa0;124'>
                 <localityStack>
                   <locality type='clause'>
                     <referenceFrom>1</referenceFrom>
@@ -828,7 +828,7 @@ RSpec.describe Metanorma::Standoc do
               </eref>
             </p>
             <p id='_'>
-              <eref type='inline' bibitemid='_' citeas='ISO&#xa0;123&#xa0;(all&#xa0;parts)'>
+              <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123&#xa0;(all&#xa0;parts)'>
                 <localityStack>
               <locality type='anchor'>
         <referenceFrom>xyz</referenceFrom>
@@ -837,7 +837,7 @@ RSpec.describe Metanorma::Standoc do
               </eref>
             </p>
             <p id='_'>
-              <eref type='inline' bibitemid='_' citeas='ISO&#xa0;124'>
+              <eref type='inline' bibitemid='iso124' citeas='ISO&#xa0;124'>
                 <localityStack>
                   <locality type='clause'>
                     <referenceFrom>1</referenceFrom>
@@ -1047,8 +1047,8 @@ RSpec.describe Metanorma::Standoc do
            <foreword id='_' obligation='informative'>
              <title>Foreword</title>
              <p id='_'>
-               <eref type="inline" bibitemid="_" citeas="[&lt;strong&gt;A&lt;/strong&gt;.]"/>
-               <eref type="inline" bibitemid="_" citeas="[&lt;strong&gt;B&lt;/strong&gt;.]"/>
+               <eref type="inline" bibitemid="iso124" citeas="[&lt;strong&gt;A&lt;/strong&gt;.]"/>
+               <eref type="inline" bibitemid="iso125" citeas="[&lt;strong&gt;B&lt;/strong&gt;.]"/>
              </p>
            </foreword>
          </preface>
@@ -1176,7 +1176,6 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes attachments" do
-    mock_preserve_idrefs
     attachment =
       if RUBY_PLATFORM.include?("mingw") || RUBY_PLATFORM.include?("mswin")
         <<~OUTPUT
@@ -1267,7 +1266,7 @@ RSpec.describe Metanorma::Standoc do
               </references>
            </bibliography>
         </metanorma>
-              OUTPUT
+    OUTPUT
 
     # Windows/Unix differences in XML encoding: remove body of Data URI
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS)
@@ -1291,9 +1290,7 @@ RSpec.describe Metanorma::Standoc do
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
       .to be_equivalent_to Xml::C14n.format(output
       .gsub("spec/assets/iso.xml", "iso.xml")
-      .gsub("spec/assets/html.scss", "html.scss")
-      .gsub('bibitemid="iso123"', 'bibitemid="_"') # can't mock this in system call
-      )
+      .gsub("spec/assets/html.scss", "html.scss"))
 
     mock_absolute_localdir(4)
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS)

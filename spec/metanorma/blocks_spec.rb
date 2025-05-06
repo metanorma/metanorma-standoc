@@ -89,14 +89,14 @@ RSpec.describe Metanorma::Standoc do
           <sections>
              <form id="_1" anchor="N0" class="checkboxes" name="N1" action="/action_page.php">
                 <p id="_2">
-                   <label for="_6">First name:</label>
+                   <label for="fname">First name:</label>
                    <br/>
                    <input type="text" anchor="fname" name="fname" id="_3"/>
                 </p>
              </form>
              <form id="_4" anchor="N1" class="checkboxes" name="N1" action="/action_page.php">
                 <p id="_5">
-                   <label for="_6">First name:</label>
+                   <label for="fname">First name:</label>
                    <br/>
                    <input type="text" anchor="fname" name="fname" id="_6"/>
                 </p>
@@ -550,7 +550,7 @@ RSpec.describe Metanorma::Standoc do
                 <p id="_19">
                    <bookmark id="_50"/>
                    Express the mass fraction of each defect using
-                   <xref target="_27"/>
+                   <xref target="formulaA-1"/>
                    :
                 </p>
                 <formula id="_20" anchor="formulaA-1">
@@ -593,7 +593,7 @@ RSpec.describe Metanorma::Standoc do
              <clause id="_25" anchor="_4" inline-header="false" obligation="normative">
                 <p id="_26">
                    Express the mass fraction of each defect using
-                   <xref target="_27"/>
+                   <xref target="formulaA-1"/>
                    :
                 </p>
                 <formula id="_27" anchor="formulaA-1">
@@ -662,7 +662,7 @@ RSpec.describe Metanorma::Standoc do
              </clause>
           </sections>
           <review-container>
-             <review id="_3" reviewer="ISO" date="20170101T00:00:00Z" type="whatever" from="_2" to="_2">
+             <review id="_3" reviewer="ISO" date="20170101T00:00:00Z" type="whatever" from="foreword" to="foreword">
                 <p id="_4">A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.</p>
                 <p id="_5">
                    For further information on the Foreword, see
@@ -1882,6 +1882,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes callouts" do
+    mock_uuid_increment
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [source,ruby]
@@ -1896,15 +1897,23 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-              <sections><sourcecode id="_" lang="ruby"><body>puts "Hello, world." <callout target="_">1</callout>
-       %w{a b c}.each do |x|
-         puts x <callout target="_">2</callout>
-       end</body><annotation id="_">
-         <p id="_">This is one callout</p>
-       </annotation><annotation id="_">
-         <p id="_">This is another callout</p>
-       </annotation></sourcecode>
-       </sections>
+          <sections>
+             <sourcecode id="_1" lang="ruby">
+                <body>
+                   puts "Hello, world."
+                   <callout target="_2">1</callout>
+                   %w{a b c}.each do |x| puts x
+                   <callout target="_3">2</callout>
+                   end
+                </body>
+                <annotation id="_2" anchor="_2">
+                   <p id="_4">This is one callout</p>
+                </annotation>
+                <annotation id="_3" anchor="_3">
+                   <p id="_5">This is another callout</p>
+                </annotation>
+             </sourcecode>
+          </sections>
        </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))

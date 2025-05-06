@@ -536,7 +536,7 @@ RSpec.describe Metanorma::Standoc do
              <clause id="_" anchor="a:b" inline-header="false" obligation="normative">
                 <title>A</title>
                 <p id="_">
-                   <eref bibitemid="_" citeas=""/>
+                   <eref bibitemid="/_ab" citeas=""/>
                    <xref target=":"/>
                    <xref target="1"/>
                    <xref target="1:"/>
@@ -544,12 +544,12 @@ RSpec.describe Metanorma::Standoc do
                    <xref target=":a#b:"/>
                    <xref target="/%ab"/>
                    <xref target="1!"/>
-                   <xref target="_"/>
+                   <xref target="Löwe"/>
                 
                 <sourcecode id="_" anchor="Löwe">
                    <name>
                       See
-                      <eref type="inline" bibitemid="_" citeas="Löwner et al. 2016"/>
+                      <eref type="inline" bibitemid="Löwner2016" citeas="Löwner et al. 2016"/>
                    </name>
                    <body>ABC</body>
                 </sourcecode>
@@ -734,10 +734,10 @@ RSpec.describe Metanorma::Standoc do
            <clause id="_" anchor="id1" inline-header='false' obligation='normative'>
              <title>Clause 1</title>
              <p id='_'>
-               <xref target='_'/>
-               <xref target='_' style='id'/>
-               <xref target='_'/>
-               <xref target='_' style="id"><display-text>http://www.example.com</display-text></xref>
+               <xref target='id1'/>
+               <xref target='id1' style='id'/>
+               <xref target='id1'/>
+               <xref target='id1' style="id"><display-text>http://www.example.com</display-text></xref>
              </p>
            </clause>
          </sections>

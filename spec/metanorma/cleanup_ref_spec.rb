@@ -25,8 +25,8 @@ RSpec.describe Metanorma::Standoc do
         <preface><foreword id="_" obligation="informative">
         <title>Foreword</title>
         <p id="_">
-        <eref type="inline" bibitemid="_" citeas="ISO&#xa0;216:2001"/>
-        <eref type='inline' case='capital' droploc='true' bibitemid='_' citeas='ISO&#xa0;216:2001'/>
+        <eref type="inline" bibitemid="iso216" citeas="ISO&#xa0;216:2001"/>
+        <eref type='inline' case='capital' droploc='true' bibitemid='iso216' citeas='ISO&#xa0;216:2001'/>
       </p>
       </foreword></preface><sections>
       </sections>
@@ -57,12 +57,12 @@ RSpec.describe Metanorma::Standoc do
             <preface><foreword id="_" obligation="informative">
               <title>Foreword</title>
               <p id="_">
-              <eref type="inline" bibitemid="_" citeas="ISO&#xa0;216">
+              <eref type="inline" bibitemid="iso216" citeas="ISO&#xa0;216">
               <localityStack>
               <locality type="whole"/><locality type="clause"><referenceFrom>3</referenceFrom></locality><locality type="example"><referenceFrom>9</referenceFrom><referenceTo>11</referenceTo></locality><locality type="locality:prelude"><referenceFrom>33 a</referenceFrom></locality><locality type="locality:entirety"/>
               </localityStack>
               <display-text>the reference,xyz</display-text></eref>
-       <eref type='inline' bibitemid='_' citeas='ISO&#xa0;216'>
+       <eref type='inline' bibitemid='iso216' citeas='ISO&#xa0;216'>
          <localityStack connective="and">
            <locality type='whole'/>
            <locality type='clause'>
@@ -95,16 +95,16 @@ RSpec.describe Metanorma::Standoc do
          </localityStack>
          <display-text>the reference,xyz</display-text>
        </eref>
-      <eref type='inline' bibitemid='_' citeas='ISO&#xa0;216'>
+      <eref type='inline' bibitemid='iso216' citeas='ISO&#xa0;216'>
         <display-text><em>whole</em></display-text>
       </eref>
-      <eref type='inline' bibitemid='_' citeas='ISO&#xa0;216'>
+      <eref type='inline' bibitemid='iso216' citeas='ISO&#xa0;216'>
         <display-text>a
         <em>whole</em>
          flagon
          </display-text>
       </eref>
-      <eref type='inline' bibitemid='_' citeas='ISO&#xa0;216'>
+      <eref type='inline' bibitemid='iso216' citeas='ISO&#xa0;216'>
         <localityStack>
           <locality type='whole'/>
           <locality type='clause'>
@@ -117,7 +117,7 @@ RSpec.describe Metanorma::Standoc do
          flagon
          </display-text>
       </eref>
-      <eref type='inline' case='capital' droploc='true' bibitemid='_' citeas='ISO&#xa0;216'>
+      <eref type='inline' case='capital' droploc='true' bibitemid='iso216' citeas='ISO&#xa0;216'>
         <localityStack>
           <locality type='whole'/>
           <locality type='clause'>
@@ -154,7 +154,7 @@ RSpec.describe Metanorma::Standoc do
       <foreword id="_" obligation="informative">
         <title>Foreword</title>
         <p id="_">
-        <eref type="inline" bibitemid="_" citeas="ISO&#xa0;216"/>
+        <eref type="inline" bibitemid="iso216" citeas="ISO&#xa0;216"/>
       </p>
       </foreword></preface><sections>
       </sections>
@@ -183,8 +183,8 @@ RSpec.describe Metanorma::Standoc do
              <title>Foreword</title>
              <p id='_'>
                <erefstack>
-                 <eref connective='from' bibitemid='_' citeas='ISO&#xa0;216' type='inline'/>
-                 <eref connective='to' bibitemid='_' citeas='ISO&#xa0;216' type='inline'/>
+                 <eref connective='from' bibitemid='iso216' citeas='ISO&#xa0;216' type='inline'/>
+                 <eref connective='to' bibitemid='iso216' citeas='ISO&#xa0;216' type='inline'/>
                </erefstack>
              </p>
            </foreword>
@@ -456,7 +456,6 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "renumbers numeric references in Bibliography sequentially" do
-    mock_preserve_idrefs
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
@@ -504,7 +503,6 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "renumbers numeric references in Bibliography subclauses sequentially" do
-    mock_preserve_idrefs
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
@@ -668,7 +666,6 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "process express_ref macro with existing bibliography" do
-    mock_preserve_idrefs
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Clause
@@ -734,7 +731,6 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "process express_ref macro with no existing bibliography" do
-    mock_preserve_idrefs
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [[B]]

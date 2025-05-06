@@ -43,7 +43,7 @@ RSpec.describe Metanorma::Standoc do
           <deprecates><expression><name>term2</name></expression></deprecates>
           <domain>term3</domain>
           <inherit>
-            <eref type='inline' bibitemid='_' citeas='XYZ&#xa0;123'/>
+            <eref type='inline' bibitemid='ref1' citeas='XYZ&#xa0;123'/>
           </inherit>
           <autonumber type='table'>3</autonumber>
           <add>
@@ -212,7 +212,6 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes the Metanorma::Standoc index macros" do
-    mock_preserve_idrefs
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       index:also[]
@@ -700,7 +699,6 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes input form macros" do
-     mock_preserve_idrefs
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
@@ -1037,7 +1035,6 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes recursive embed macro with includes, xrefs to embedded documents" do
-    mock_preserve_idrefs
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
@@ -1204,8 +1201,8 @@ RSpec.describe Metanorma::Standoc do
             <clause id="_" anchor="clause1" inline-header='false' obligation='normative'>
               <title>Clause</title>
               <p id='_'>
-                <eref type='inline' bibitemid='_' citeas='ISO&#xa0;131'/>
-                <eref type='inline' droploc='true' bibitemid='_' citeas='iso:std:iso:13485:en'>
+                <eref type='inline' bibitemid='ISO 131' citeas='ISO&#xa0;131'/>
+                <eref type='inline' droploc='true' bibitemid='iso_std_iso_13485_en' citeas='iso:std:iso:13485:en'>
                   <localityStack>
                     <locality type='clause'>
                       <referenceFrom>4</referenceFrom>

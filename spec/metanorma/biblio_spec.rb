@@ -304,7 +304,7 @@ RSpec.describe Metanorma::Standoc do
         <clause id="_" anchor="_clause" inline-header='false' obligation='normative'>
           <title>Clause</title>
           <p id='_'>
-            <eref type='inline' bibitemid='_' citeas='TC211'/>
+            <eref type='inline' bibitemid='ISOTC211' citeas='TC211'/>
           </p>
         </clause>
             </sections>

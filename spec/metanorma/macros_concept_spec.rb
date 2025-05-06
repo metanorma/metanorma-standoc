@@ -185,7 +185,6 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    mock_preserve_idrefs
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
@@ -322,7 +321,6 @@ RSpec.describe Metanorma::Standoc do
                </sections>
              </metanorma>
     OUTPUT
-    mock_preserve_idrefs
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
@@ -343,46 +341,48 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
             #{BLANK_HDR}
-            <preface>
-            <foreword id='_' obligation='informative'>
-             <title>Foreword</title>
-             <p id='_'>
-               <concept>
-                 <xref target='_'/>
-               </concept>
-               <concept>
-                 <refterm>w[o]rd</refterm>
-                 <renderterm>w[o]rd</renderterm>
-                 <xref target='_'/>
-               </concept>
-               <concept>
-                 <refterm>term</refterm>
-                 <renderterm>w[o]rd</renderterm>
-                 <xref target='_'/>
-               </concept>
-               <concept>
-                 <refterm>term</refterm>
-                 <renderterm>w[o]rd</renderterm>
-                 <xref target='_'><display-text>Clause #1</display-text></xref>
-               </concept>
-             </p>
-              <related type='supersedes'>
-        <preferred>
-          <expression>
-            <name>term</name>
-          </expression>
-        </preferred>
-        <xref target='_'/>
-      </related>
-           </foreword>
-      </preface>
-      <sections>
-        <clause id="_" anchor="clause1" inline-header='false' obligation='normative'>
-          <title>Clause</title>
-          <p id='_'>Terms are defined here</p>
-        </clause>
-      </sections>
-            </metanorma>
+          <preface>
+             <foreword id="_" obligation="informative">
+                <title>Foreword</title>
+                <p id="_">
+                   <concept>
+                      <xref target="clause1"/>
+                   </concept>
+                   <concept>
+                      <refterm>w[o]rd</refterm>
+                      <renderterm>w[o]rd</renderterm>
+                      <xref target="clause1"/>
+                   </concept>
+                   <concept>
+                      <refterm>term</refterm>
+                      <renderterm>w[o]rd</renderterm>
+                      <xref target="clause1"/>
+                   </concept>
+                   <concept>
+                      <refterm>term</refterm>
+                      <renderterm>w[o]rd</renderterm>
+                      <xref target="clause1">
+                         <display-text>Clause #1</display-text>
+                      </xref>
+                   </concept>
+                </p>
+                <related type="supersedes">
+                   <preferred>
+                      <expression>
+                         <name>term</name>
+                      </expression>
+                   </preferred>
+                   <xref target="clause1"/>
+                </related>
+             </foreword>
+          </preface>
+          <sections>
+             <clause id="_" anchor="clause1" inline-header="false" obligation="normative">
+                <title>Clause</title>
+                <p id="_">Terms are defined here</p>
+             </clause>
+          </sections>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -456,7 +456,6 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    mock_preserve_idrefs
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
@@ -483,133 +482,135 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-      <preface>
-           <foreword id='_' obligation='informative'>
-             <title>Foreword</title>
-             <p id='_'>
-               <concept>
-                 <eref bibitemid='_'/>
-               </concept>
-               <concept>
-                 <refterm>word</refterm>
-                 <renderterm>word</renderterm>
-                 <eref bibitemid='_'/>
-               </concept>
-               <concept>
-                 <refterm>term</refterm>
-                 <renderterm>word</renderterm>
-                 <eref bibitemid='_'/>
-               </concept>
-               <concept>
-                 <refterm>term</refterm>
-                 <renderterm>word</renderterm>
-                 <eref bibitemid='_'>Clause #1</eref>
-               </concept>
-               <concept>
-                 <eref bibitemid='_'>
-                   <localityStack>
-                     <locality type='clause'>
-                       <referenceFrom>3.1</referenceFrom>
-                     </locality>
-                   </localityStack>
-                 </eref>
-               </concept>
-               <concept>
-                 <refterm>word</refterm>
-                 <renderterm>word</renderterm>
-                 <eref bibitemid='_'>
-                   <localityStack>
-                     <locality type='clause'>
-                       <referenceFrom>3.1</referenceFrom>
-                     </locality>
-                   </localityStack>
-                 </eref>
-               </concept>
-               <concept>
-                 <refterm>term</refterm>
-                 <renderterm>word</renderterm>
-                 <eref bibitemid='_'>
-                   <localityStack>
-                     <locality type='clause'>
-                       <referenceFrom>3.1</referenceFrom>
-                     </locality>
-                   </localityStack>
-                 </eref>
-               </concept>
-               <concept>
-                 <eref bibitemid='_'>
-                   <localityStack>
-                     <locality type='clause'>
-                       <referenceFrom>3.1</referenceFrom>
-                     </locality>
-                     <locality type='figure'>
-                       <referenceFrom>a</referenceFrom>
-                     </locality>
-                   </localityStack>
-                 </eref>
-               </concept>
-               <concept>
-                 <refterm>word</refterm>
-                 <renderterm>word</renderterm>
-                 <eref bibitemid='_'>
-                   <localityStack>
-                     <locality type='clause'>
-                       <referenceFrom>3.1</referenceFrom>
-                     </locality>
-                     <locality type='figure'>
-                       <referenceFrom>a</referenceFrom>
-                     </locality>
-                   </localityStack>
-                 </eref>
-               </concept>
-               <concept>
-                 <refterm>term</refterm>
-                 <renderterm>word</renderterm>
-                 <eref bibitemid='_'>
-                   <localityStack>
-                     <locality type='clause'>
-                       <referenceFrom>3.1</referenceFrom>
-                     </locality>
-                     <locality type='figure'>
-                       <referenceFrom>a</referenceFrom>
-                     </locality>
-                   </localityStack>
-                   Clause #1
-                 </eref>
-               </concept>
-             </p>
-                   <related type='narrower'>
-        <preferred>
-          <expression>
-            <name>term</name>
-          </expression>
-        </preferred>
-        <eref bibitemid='_'>
-          <localityStack>
-            <locality type='clause'>
-              <referenceFrom>3.1</referenceFrom>
-            </locality>
-            <locality type='figure'>
-              <referenceFrom>a</referenceFrom>
-            </locality>
-          </localityStack>
-        </eref>
-      </related>
-           </foreword>
-         </preface>
-         <sections> </sections>
-         <bibliography>
-           <references id="_" anchor="_bibliography" normative='false' obligation='informative'>
-             <title>Bibliography</title>
-             <bibitem id="_" anchor="blah">
-               <formattedref format='application/x-isodoc+xml'>
-                 <em>Blah</em>
-               </formattedref>
-               <docidentifier>blah</docidentifier>
-             </bibitem>
-           </references>
-         </bibliography>
-       </metanorma>
+           <preface>
+              <foreword id="_" obligation="informative">
+                 <title>Foreword</title>
+                 <p id="_">
+                    <concept>
+                       <eref bibitemid="blah"/>
+                    </concept>
+                    <concept>
+                       <refterm>word</refterm>
+                       <renderterm>word</renderterm>
+                       <eref bibitemid="blah"/>
+                    </concept>
+                    <concept>
+                       <refterm>term</refterm>
+                       <renderterm>word</renderterm>
+                       <eref bibitemid="blah"/>
+                    </concept>
+                    <concept>
+                       <refterm>term</refterm>
+                       <renderterm>word</renderterm>
+                       <eref bibitemid="blah">Clause #1</eref>
+                    </concept>
+                    <concept>
+                       <eref bibitemid="blah">
+                          <localityStack>
+                             <locality type="clause">
+                                <referenceFrom>3.1</referenceFrom>
+                             </locality>
+                          </localityStack>
+                       </eref>
+                    </concept>
+                    <concept>
+                       <refterm>word</refterm>
+                       <renderterm>word</renderterm>
+                       <eref bibitemid="blah">
+                          <localityStack>
+                             <locality type="clause">
+                                <referenceFrom>3.1</referenceFrom>
+                             </locality>
+                          </localityStack>
+                       </eref>
+                    </concept>
+                    <concept>
+                       <refterm>term</refterm>
+                       <renderterm>word</renderterm>
+                       <eref bibitemid="blah">
+                          <localityStack>
+                             <locality type="clause">
+                                <referenceFrom>3.1</referenceFrom>
+                             </locality>
+                          </localityStack>
+                       </eref>
+                    </concept>
+                    <concept>
+                       <eref bibitemid="blah">
+                          <localityStack>
+                             <locality type="clause">
+                                <referenceFrom>3.1</referenceFrom>
+                             </locality>
+                             <locality type="figure">
+                                <referenceFrom>a</referenceFrom>
+                             </locality>
+                          </localityStack>
+                       </eref>
+                    </concept>
+                    <concept>
+                       <refterm>word</refterm>
+                       <renderterm>word</renderterm>
+                       <eref bibitemid="blah">
+                          <localityStack>
+                             <locality type="clause">
+                                <referenceFrom>3.1</referenceFrom>
+                             </locality>
+                             <locality type="figure">
+                                <referenceFrom>a</referenceFrom>
+                             </locality>
+                          </localityStack>
+                       </eref>
+                    </concept>
+                    <concept>
+                       <refterm>term</refterm>
+                       <renderterm>word</renderterm>
+                       <eref bibitemid="blah">
+                          <localityStack>
+                             <locality type="clause">
+                                <referenceFrom>3.1</referenceFrom>
+                             </locality>
+                             <locality type="figure">
+                                <referenceFrom>a</referenceFrom>
+                             </locality>
+                          </localityStack>
+                          Clause #1
+                       </eref>
+                    </concept>
+                 </p>
+                 <related type="narrower">
+                    <preferred>
+                       <expression>
+                          <name>term</name>
+                       </expression>
+                    </preferred>
+                    <eref bibitemid="blah">
+                       <localityStack>
+                          <locality type="clause">
+                             <referenceFrom>3.1</referenceFrom>
+                          </locality>
+                          <locality type="figure">
+                             <referenceFrom>a</referenceFrom>
+                          </locality>
+                       </localityStack>
+                    </eref>
+                 </related>
+              </foreword>
+           </preface>
+           <sections>
+      
+        </sections>
+           <bibliography>
+              <references id="_" anchor="_bibliography" normative="false" obligation="informative">
+                 <title>Bibliography</title>
+                 <bibitem anchor="blah" id="_">
+                    <formattedref format="application/x-isodoc+xml">
+                       <em>Blah</em>
+                    </formattedref>
+                    <docidentifier>blah</docidentifier>
+                 </bibitem>
+              </references>
+           </bibliography>
+        </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -787,7 +788,6 @@ RSpec.describe Metanorma::Standoc do
     end
 
     it "converts macro into the correct xml" do
-      mock_preserve_idrefs
       expect(convert).to(be_equivalent_to(Xml::C14n.format(output)))
     end
 
@@ -843,7 +843,6 @@ RSpec.describe Metanorma::Standoc do
       end
 
       it "uses `name` as termref name" do
-        mock_preserve_idrefs
         expect(convert).to(be_equivalent_to(Xml::C14n.format(output)))
       end
     end
@@ -905,7 +904,6 @@ RSpec.describe Metanorma::Standoc do
       end
 
       it "strips index terms in terms anchors" do
-        mock_preserve_idrefs
         expect(convert).to(be_equivalent_to(Xml::C14n.format(output)))
       end
     end
@@ -987,7 +985,6 @@ RSpec.describe Metanorma::Standoc do
       end
 
       it "generates unique ids which do not match existing ids" do
-        mock_preserve_idrefs
         expect(convert).to(be_equivalent_to(Xml::C14n.format(output)))
       end
     end
@@ -1109,7 +1106,6 @@ RSpec.describe Metanorma::Standoc do
       end
 
       it "generates unique ids which do not match existing ids" do
-        mock_preserve_idrefs
         expect(convert).to(be_equivalent_to(Xml::C14n.format(output)))
       end
     end
