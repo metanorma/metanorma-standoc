@@ -372,23 +372,23 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-          <sections>
+         <sections>
              <clause id="_1" anchor="_clause_1" inline-header="false" obligation="normative">
                 <title>
-                   <bookmark id="_9"/>
+                   <bookmark id="_9" anchor="_9"/>
                    Clause 1
                 </title>
              </clause>
              <clause id="_3" anchor="_clause_2" inline-header="false" obligation="normative">
                 <title>
-                   <bookmark id="_10"/>
+                   <bookmark id="_10" anchor="_10"/>
                    Clause 2
                 </title>
              </clause>
           </sections>
           <annex id="_6" anchor="_annex_1" inline-header="false" obligation="normative">
              <title>
-                <bookmark id="_11"/>
+                <bookmark id="_11" anchor="_11"/>
                 Annex 1
              </title>
           </annex>
