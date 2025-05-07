@@ -68,6 +68,7 @@ module Metanorma
         unless review["from"]
           bookmark = review_insert_bookmark(review)
           add_id(bookmark)
+          bookmark["anchor"] = bookmark["id"]
           review["from"] = bookmark["id"]
         end
         review["to"] ||= review["from"]

@@ -391,8 +391,16 @@ RSpec.describe Metanorma::Standoc do
       :novalid:
       :draft: 1.2
 
+      ****
+      Initial review 1
+      ****
+
+      ****
+      Initial review 2
+      ****
+
       [[foreword]]
-      .Foreword
+      == Foreword
 
       _**Foreword**_
 
@@ -515,45 +523,52 @@ RSpec.describe Metanorma::Standoc do
             <flavor>standoc</flavor>
          </ext>
        </bibdata>
-                 <preface>
+          <preface>
              <foreword id="_1" obligation="informative">
+                <title>
+                   <bookmark id="_51" anchor="_51"/>
+                   <bookmark id="_52" anchor="_52"/>
+                   Foreword
+                </title>
+             </foreword>
+          </preface>
+          <sections>
+             <foreword id="_6" anchor="foreword" obligation="informative">
                 <title>Foreword</title>
-                <p id="_2" anchor="foreword">
+                <p id="_7">
                    <em>
                       <strong>
-                         <bookmark id="_46"/>
+                         <bookmark id="_53" anchor="_53"/>
                          Foreword
                       </strong>
                    </em>
                 </p>
              </foreword>
-          </preface>
-          <sections>
-             <clause id="_8" anchor="_clause_title" inline-header="false" obligation="normative">
+             <clause id="_13" anchor="_clause_title" inline-header="false" obligation="normative">
                 <title>
-                   <bookmark id="_47"/>
+                   <bookmark id="_54" anchor="_54"/>
                    Clause title
                 </title>
              </clause>
-             <clause id="_11" inline-header="false" obligation="normative">
-                <p id="_55">
-                   <bookmark id="_48"/>
+             <clause id="_16" inline-header="false" obligation="normative">
+                <p id="_62">
+                   <bookmark id="_55" anchor="_55"/>
                 </p>
              </clause>
-             <clause id="_14" anchor="_2" inline-header="false" obligation="normative">
-                <p id="_17">
-                   <bookmark id="_49"/>
+             <clause id="_19" anchor="_2" inline-header="false" obligation="normative">
+                <p id="_22">
+                   <bookmark id="_56" anchor="_56"/>
                    Following paragraph
                 </p>
              </clause>
-             <clause id="_18" anchor="_3" inline-header="false" obligation="normative">
-                <p id="_19">
-                   <bookmark id="_50"/>
+             <clause id="_23" anchor="_3" inline-header="false" obligation="normative">
+                <p id="_24">
+                   <bookmark id="_57" anchor="_57"/>
                    Express the mass fraction of each defect using
                    <xref target="formulaA-1"/>
                    :
                 </p>
-                <formula id="_20" anchor="formulaA-1">
+                <formula id="_25" anchor="formulaA-1">
                    <stem block="true" type="MathML">
                       <math xmlns="http://www.w3.org/1998/Math/MathML">
                          <mstyle displaystyle="true">
@@ -573,7 +588,7 @@ RSpec.describe Metanorma::Standoc do
                       </math>
                       <asciimath>w = (m_D) / (m_s)</asciimath>
                    </stem>
-                   <dl id="_22" key="true">
+                   <dl id="_27" key="true">
                       <dt>
                          <stem block="false" type="MathML">
                             <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -585,18 +600,18 @@ RSpec.describe Metanorma::Standoc do
                          </stem>
                       </dt>
                       <dd>
-                         <p id="_56">is the mass fraction of grains with a particular defect in the test</p>
+                         <p id="_63">is the mass fraction of grains with a particular defect in the test</p>
                       </dd>
                    </dl>
                 </formula>
              </clause>
-             <clause id="_25" anchor="_4" inline-header="false" obligation="normative">
-                <p id="_26">
+             <clause id="_30" anchor="_4" inline-header="false" obligation="normative">
+                <p id="_31">
                    Express the mass fraction of each defect using
                    <xref target="formulaA-1"/>
                    :
                 </p>
-                <formula id="_27" anchor="formulaA-1">
+                <formula id="_32" anchor="formulaA-1">
                    <stem block="true" type="MathML">
                       <math xmlns="http://www.w3.org/1998/Math/MathML">
                          <mstyle displaystyle="true">
@@ -616,44 +631,44 @@ RSpec.describe Metanorma::Standoc do
                       </math>
                       <asciimath>w = (m_D) / (m_s)</asciimath>
                    </stem>
-                   <dl id="_29" key="true">
+                   <dl id="_34" key="true">
                       <dt>
-                         <bookmark id="_51"/>
+                         <bookmark id="_58" anchor="_58"/>
                          w
                       </dt>
                       <dd>
-                         <p id="_57">is the mass fraction of grains with a particular defect in the test</p>
+                         <p id="_64">is the mass fraction of grains with a particular defect in the test</p>
                       </dd>
                    </dl>
                 </formula>
              </clause>
-             <clause id="_32" anchor="_5" inline-header="false" obligation="normative">
-                <note id="_33">
-                   <p id="_58">
-                      <bookmark id="_52"/>
+             <clause id="_37" anchor="_5" inline-header="false" obligation="normative">
+                <note id="_38">
+                   <p id="_65">
+                      <bookmark id="_59" anchor="_59"/>
                       Text
                    </p>
                 </note>
              </clause>
-             <clause id="_36" anchor="_6" inline-header="false" obligation="normative">
-                <table id="_37">
+             <clause id="_41" anchor="_6" inline-header="false" obligation="normative">
+                <table id="_42">
                    <tbody>
                       <tr>
-                         <td id="_38" valign="top" align="left">
-                            <bookmark id="_53"/>
+                         <td id="_43" valign="top" align="left">
+                            <bookmark id="_60" anchor="_60"/>
                             A
                          </td>
                       </tr>
                    </tbody>
                 </table>
              </clause>
-             <clause id="_41" anchor="_7" inline-header="false" obligation="normative">
-                <table id="_42">
+             <clause id="_46" anchor="_7" inline-header="false" obligation="normative">
+                <table id="_47">
                    <name>Caption</name>
                    <tbody>
                       <tr>
-                         <td id="_43" valign="top" align="left">
-                            <bookmark id="_54"/>
+                         <td id="_48" valign="top" align="left">
+                            <bookmark id="_61" anchor="_61"/>
                             A
                          </td>
                       </tr>
@@ -662,39 +677,45 @@ RSpec.describe Metanorma::Standoc do
              </clause>
           </sections>
           <review-container>
-             <review id="_3" reviewer="ISO" date="20170101T00:00:00Z" type="whatever" from="foreword" to="foreword">
-                <p id="_4">A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.</p>
-                <p id="_5">
+             <review id="_2" reviewer="(Unknown)" date="2025-05-07T00:00:00Z" type="todo" from="_51" to="_51">
+                <p id="_3">Initial review 1</p>
+             </review>
+             <review id="_4" reviewer="(Unknown)" date="2025-05-07T00:00:00Z" type="todo" from="_52" to="_52">
+                <p id="_5">Initial review 2</p>
+             </review>
+             <review id="_8" reviewer="ISO" date="20170101T00:00:00Z" type="whatever" from="foreword" to="foreword">
+                <p id="_9">A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.</p>
+                <p id="_10">
                    For further information on the Foreword, see
                    <strong>ISO/IEC Directives, Part 2, 2016, Clause 12.</strong>
                 </p>
              </review>
-             <review id="_6" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_46" to="_46">
-                <p id="_7">Blank review</p>
+             <review id="_11" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_53" to="_53">
+                <p id="_12">Blank review</p>
              </review>
-             <review id="_9" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_47" to="_47">
-                <p id="_10">Second Blank review</p>
+             <review id="_14" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_54" to="_54">
+                <p id="_15">Second Blank review</p>
              </review>
-             <review id="_12" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_48" to="_48">
-                <p id="_13">Third Blank review</p>
+             <review id="_17" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_55" to="_55">
+                <p id="_18">Third Blank review</p>
              </review>
-             <review id="_15" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_49" to="_49">
-                <p id="_16">Fourth Blank review</p>
+             <review id="_20" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_56" to="_56">
+                <p id="_21">Fourth Blank review</p>
              </review>
-             <review id="_23" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_50" to="_50">
-                <p id="_24">Fifth Blank review</p>
+             <review id="_28" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_57" to="_57">
+                <p id="_29">Fifth Blank review</p>
              </review>
-             <review id="_30" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_51" to="_51">
-                <p id="_31">Sixth Blank review</p>
+             <review id="_35" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_58" to="_58">
+                <p id="_36">Sixth Blank review</p>
              </review>
-             <review id="_34" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_52" to="_52">
-                <p id="_35">Seventh Blank review</p>
+             <review id="_39" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_59" to="_59">
+                <p id="_40">Seventh Blank review</p>
              </review>
-             <review id="_39" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_53" to="_53">
-                <p id="_40">Eighth Blank review</p>
+             <review id="_44" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_60" to="_60">
+                <p id="_45">Eighth Blank review</p>
              </review>
-             <review id="_44" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_54" to="_54">
-                <p id="_45">Ninth Blank review</p>
+             <review id="_49" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_61" to="_61">
+                <p id="_50">Ninth Blank review</p>
              </review>
           </review-container>
        </metanorma>
