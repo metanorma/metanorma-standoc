@@ -1,6 +1,6 @@
 RSpec.shared_examples "structured data 2 text preprocessor" do
   describe "#process" do
-    let(:example_file) { "example.#{extention}" }
+    let(:example_file) { "example.#{extension}" }
 
     before do
       File.open(example_file, "w") do |n|
@@ -30,7 +30,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           :no-isobib:
           :imagesdir: spec/assets
 
-          [#{extention}2text,#{example_file},my_context]
+          [#{extension}2text,#{example_file},my_context]
           ----
           {my_context.*,item,EOF}
             {item.name}:: {item.desc}
@@ -49,7 +49,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             </dd>
           </dl>
           </sections>
-          </standard-document>
+          </metanorma>
         TEXT
       end
 
@@ -80,7 +80,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           :no-isobib:
           :imagesdir: spec/assets
 
-          [#{extention}2text,#{example_file},ar]
+          [#{extension}2text,#{example_file},ar]
           ----
           {ar.*,s,EOS}
           === {s.#} {s}
@@ -108,7 +108,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
              <p id='_'>This section is about dolor.</p>
             </clause>
           </sections>
-          </standard-document>
+          </metanorma>
         TEXT
       end
 
@@ -139,7 +139,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           :no-isobib:
           :imagesdir: spec/assets
 
-          [#{extention}2text,#{example_file},my_item]
+          [#{extension}2text,#{example_file},my_item]
           ----
           === {my_item.name}
 
@@ -156,7 +156,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             <p id='_'>dolor sit amet</p>
           </clause>
           </sections>
-          </standard-document>
+          </metanorma>
         TEXT
       end
 
@@ -187,7 +187,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           :no-isobib:
           :imagesdir: spec/assets
 
-          [#{extention}2text,#{example_file},my_item]
+          [#{extension}2text,#{example_file},my_item]
           ----
           {my_item.*,key,EOI}
           === {key}
@@ -211,7 +211,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
               <p id='_'>dolor sit amet</p>
           </clause>
           </sections>
-          </standard-document>
+          </metanorma>
         TEXT
       end
 
@@ -244,7 +244,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           :no-isobib:
           :imagesdir: spec/assets
 
-          [#{extention}2text,#{example_file},ar]
+          [#{extension}2text,#{example_file},ar]
           ----
           {ar.*,item,EOF}
 
@@ -293,7 +293,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             </dd>
           </dl>
             </sections>
-            </standard-document>
+            </metanorma>
         TEXT
       end
 
@@ -325,17 +325,17 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           :no-isobib:
           :imagesdir: spec/assets
 
-          [#{extention}2text,#{example_file},#{extention}]
+          [#{extension}2text,#{example_file},#{extension}]
           ------
-          First item is {#{extention}.items[0]}.
-          Last item is {#{extention}.items[-1]}.
+          First item is {#{extension}.items[0]}.
+          Last item is {#{extension}.items[-1]}.
 
-          {#{extention}.items.*,s,EOS}
-          === {s.#} -> {s.# + 1} {s} == {#{extention}.items[s.#]}
+          {#{extension}.items.*,s,EOS}
+          === {s.#} -> {s.# + 1} {s} == {#{extension}.items[s.#]}
 
           [source,ruby]
           ----
-          include::{#{extention}.prefix}{s.#}.rb[]
+          include::{#{extension}.prefix}{s.#}.rb[]
           ----
 
           {EOS}
@@ -365,7 +365,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
                 <sourcecode lang='ruby' id='_'><body>link:doc-2.rb[role=include]</body></sourcecode>
               </clause>
             </sections>
-          </standard-document>
+          </metanorma>
         TEXT
       end
 
@@ -398,7 +398,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           :no-isobib:
           :imagesdir: spec/assets
 
-          [#{extention}2text,#{example_file},ar]
+          [#{extension}2text,#{example_file},ar]
           ----
           {ar.*,item,EOF}
           .{item.values[1]}
@@ -419,7 +419,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             <sections>
               #{File.read(File.expand_path('../../examples/codes_table.html', __dir__))}
             </sections>
-          </standard-document>
+          </metanorma>
         TEXT
       end
 
@@ -465,7 +465,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           :no-isobib:
           :imagesdir: spec/assets
 
-          [#{extention}2text,#{example_file},authorities]
+          [#{extension}2text,#{example_file},authorities]
           ----
           [cols="a,a,a,a",options="header"]
           |===
@@ -515,7 +515,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
                 </tbody>
               </table>
             </sections>
-          </standard-document>
+          </metanorma>
         TEXT
       end
 
@@ -548,7 +548,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           :no-isobib:
           :imagesdir: spec/assets
 
-          [#{extention}2text,#{example_file},my_context]
+          [#{extension}2text,#{example_file},my_context]
           ----
           {% for item in my_context %}
           {% if item.show %}
@@ -566,7 +566,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             <p id='_'>ONE 3</p>
             <p id='_'>TWO 3</p>
           </sections>
-          </standard-document>
+          </metanorma>
         TEXT
       end
 
@@ -600,7 +600,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           :no-isobib:
           :imagesdir: spec/assets
 
-          [#{extention}2text,#{example_file},my_context]
+          [#{extension}2text,#{example_file},my_context]
           ----
           {{my_context.time}}
 
@@ -615,7 +615,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             <p id='_'>1889-09-28</p>
             <p id='_'>2020-10-15 05:34:00 UTC</p>
           </sections>
-          </standard-document>
+          </metanorma>
         TEXT
       end
 
@@ -639,30 +639,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           "time" => Time.gm(2020, 10, 15, 5, 34),
         }
       end
-      let(:parent_file) { "parent_file.#{extention}" }
-      let(:parent_file_content) { [nested_file, nested_file_2] }
-      let(:parent_file_2) { "parent_file_2.#{extention}" }
-      let(:parent_file_2_content) { ["name", "description"] }
-      let(:parent_file_3) { "parent_file_3.#{extention}" }
-      let(:parent_file_3_content) { ["one", "two"] }
-      let(:nested_file) { "nested_file.#{extention}" }
-      let(:nested_file_content) do
-        {
-          "name" => "nested file-main",
-          "description" => "nested description-main",
-          "one" => "nested one-main",
-          "two" => "nested two-main",
-        }
-      end
-      let(:nested_file_2) { "nested_file_2.#{extention}" }
-      let(:nested_file_2_content) do
-        {
-          "name" => "nested2 name-main",
-          "description" => "nested2 description-main",
-          "one" => "nested2 one-main",
-          "two" => "nested2 two-main",
-        }
-      end
+      let(:parent_file_1) { fixtures_path("parent_file_1.#{extension}") }
+      let(:parent_file_2) { fixtures_path("parent_file_2.#{extension}") }
+      let(:parent_file_3) { fixtures_path("parent_file_3.#{extension}") }
       let(:input) do
         <<~TEXT
           = Document title
@@ -673,37 +652,21 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           :no-isobib:
           :imagesdir: spec/assets
 
-          [#{extention}2text,#{parent_file},paths]
+          [#{extension}2text,paths=#{parent_file_1},attribute_names=#{parent_file_2},another_attribute_names=#{parent_file_3}]
           ----
           {% for path in paths %}
-
-          [#{extention}2text,#{parent_file_2},attribute_names]
-          ---
           {% for name in attribute_names %}
-
-          [#{extention}2text,{{ path }},data]
-          --
+          {% assign data = path | load_file %}
 
           == {{ data[name] | split: "-" | last }}: {{ data[name] }}
 
-          --
+          {% endfor %}
+
+          {% for another_name in another_attribute_names %}
+
+          == {{ data[another_name] }}
 
           {% endfor %}
-          ---
-
-          [#{extention}2text,#{parent_file_3},attribute_names]
-          ---
-          {% for name in attribute_names %}
-
-          [#{extention}2text,{{ path }},data]
-          --
-
-          == {{ data[name] }}
-
-          --
-
-          {% endfor %}
-          ---
 
           {% endfor %}
           ----
@@ -738,43 +701,12 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
               <title>nested2 two-main</title>
             </clause>
           </sections>
-          </standard-document>
         TEXT
-      end
-      let(:file_list) do
-        {
-          parent_file => parent_file_content,
-          parent_file_2 => parent_file_2_content,
-          parent_file_3 => parent_file_3_content,
-          nested_file => nested_file_content,
-          nested_file_2 => nested_file_2_content,
-        }
-      end
-
-      before do
-        file_list.each_pair do |file, content|
-          File.open(file, "w") do |n|
-            n.puts(transform_to_type(content))
-          end
-        end
-      end
-
-      after do
-        file_list.keys.each do |file|
-          FileUtils.rm_rf(file)
-        end
       end
 
       it "renders liquid markup" do
-        expect(
-          Xml::C14n.format(
-            strip_guid(
-              Asciidoctor.convert(input,
-                                  backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
-        ).to(be_equivalent_to(Xml::C14n.format(output)))
+        expect(xml_string_content(metanorma_process(input)))
+          .to(be_equivalent_to(output))
       end
     end
   end

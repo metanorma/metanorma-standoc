@@ -348,6 +348,6 @@ def metanorma_process(input)
     .process(input, "test.adoc", :standoc)
 end
 
-def xml_string_conent(xml)
-  strip_guid(Nokogiri::HTML(xml).to_s)
+def xml_string_content(xml)
+  strip_guid(Xml::C14n.format(xml))
 end

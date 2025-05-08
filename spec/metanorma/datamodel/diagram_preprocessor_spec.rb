@@ -21,10 +21,10 @@ RSpec.describe Metanorma::Standoc::Datamodel::DiagramPreprocessor do
       end
 
       after do
-        %w[doc html xml err].each do |extention|
-          path = examples_path("datamodel/common_models_diagram.#{extention}")
+        %w[doc html xml err].each do |extension|
+          path = examples_path("datamodel/common_models_diagram.#{extension}")
           FileUtils.rm_f(path)
-          FileUtils.rm_f("common_models_diagram.#{extention}")
+          FileUtils.rm_f("common_models_diagram.#{extension}")
         end
         FileUtils.rm_rf("common_models_diagram_htmlimages")
       end
@@ -50,10 +50,10 @@ RSpec.describe Metanorma::Standoc::Datamodel::DiagramPreprocessor do
       end
 
       after do
-        %w[doc html xml err].each do |extention|
-          path = examples_path("datamodel/top_down_diagram.#{extention}")
+        %w[doc html xml err].each do |extension|
+          path = examples_path("datamodel/top_down_diagram.#{extension}")
           FileUtils.rm_f(path)
-          FileUtils.rm_f("top_down_diagram.#{extention}")
+          FileUtils.rm_f("top_down_diagram.#{extension}")
         end
         FileUtils.rm_rf(examples_path("datamodel/plantuml"))
         FileUtils.rm_rf("top_down_diagram_htmlimages")
