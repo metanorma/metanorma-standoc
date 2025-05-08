@@ -27,7 +27,6 @@
     <define name="amend">
       <a:documentation>Block expressing a machine-readable change in a document</a:documentation>
       <element name="amend">
-        <ref name="RequiredId"/>
         <ref name="BlockAttributes"/>
         <ref name="AmendType"/>
         <zeroOrMore>

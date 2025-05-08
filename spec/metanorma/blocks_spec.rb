@@ -677,10 +677,10 @@ RSpec.describe Metanorma::Standoc do
              </clause>
           </sections>
           <review-container>
-             <review id="_2" reviewer="(Unknown)" date="2025-05-07T00:00:00Z" type="todo" from="_51" to="_51">
+             <review id="_2" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_51" to="_51">
                 <p id="_3">Initial review 1</p>
              </review>
-             <review id="_4" reviewer="(Unknown)" date="2025-05-07T00:00:00Z" type="todo" from="_52" to="_52">
+             <review id="_4" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_52" to="_52">
                 <p id="_5">Initial review 2</p>
              </review>
              <review id="_8" reviewer="ISO" date="20170101T00:00:00Z" type="whatever" from="foreword" to="foreword">
