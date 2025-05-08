@@ -20,10 +20,10 @@ RSpec.describe Metanorma::Standoc::Datamodel::AttributesTablePreprocessor do
       end
 
       after do
-        %w[doc html xml err].each do |extention|
-          path = examples_path("datamodel/address_class_profile.#{extention}")
+        %w[doc html xml err].each do |extension|
+          path = examples_path("datamodel/address_class_profile.#{extension}")
           FileUtils.rm_f(path)
-          FileUtils.rm_f("address_class_profile.#{extention}")
+          FileUtils.rm_f("address_class_profile.#{extension}")
         end
       end
 
@@ -54,12 +54,12 @@ RSpec.describe Metanorma::Standoc::Datamodel::AttributesTablePreprocessor do
       end
 
       after do
-        %w[doc html xml err].each do |extention|
+        %w[doc html xml err].each do |extension|
           path = examples_path(
-            "datamodel/address_component_profile.#{extention}",
+            "datamodel/address_component_profile.#{extension}",
           )
           FileUtils.rm_f(path)
-          FileUtils.rm_f("address_component_profile.#{extention}")
+          FileUtils.rm_f("address_component_profile.#{extension}")
         end
       end
 
@@ -89,12 +89,12 @@ RSpec.describe Metanorma::Standoc::Datamodel::AttributesTablePreprocessor do
       end
 
       after do
-        %w[doc html xml err].each do |extention|
+        %w[doc html xml err].each do |extension|
           path = examples_path(
-            "datamodel/blank_definition_profile.#{extention}",
+            "datamodel/blank_definition_profile.#{extension}",
           )
           FileUtils.rm_f(path)
-          FileUtils.rm_f("blank_definition_profile.#{extention}")
+          FileUtils.rm_f("blank_definition_profile.#{extension}")
         end
       end
 
