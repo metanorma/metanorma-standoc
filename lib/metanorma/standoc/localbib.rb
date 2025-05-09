@@ -22,7 +22,7 @@ module Metanorma
       end
 
       def init_file_bibdb_config(defn, key)
-        /=/.match?(defn) or defn = "file=#{defn}"
+        defn.include?("=") or defn = "file=#{defn}"
         values = defn.split(",").map { |item| item.split /(?<!\s)\s*=\s*/ }.to_h
         values["key"] = key
         values["format"] ||= "bibtex" # all we currently suppoort
@@ -63,7 +63,6 @@ module Metanorma
 
       def get(id, file = default)
         ret = @file_bibdb.dig(file, id) and return ret
-
         msg = "Cannot find reference #{id} for local relaton " \
               "data source #{file}"
         @parent.log.add("Bibliography", nil, msg, severity: 0)

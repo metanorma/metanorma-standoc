@@ -33,7 +33,7 @@ module Metanorma
         xmldoc.xpath("//bookmark").each do |b|
           p = b
           while !p.xml? && p = p.parent
-            p["id"] == b["id"] or next
+            p["anchor"] == b["anchor"] or next
             b.remove
             break
           end
@@ -43,6 +43,7 @@ module Metanorma
       def bookmark_to_id(elem, bookmark)
         parent = bookmark.parent
         elem["id"] = bookmark.remove["id"]
+        elem["anchor"] = bookmark.remove["anchor"]
         strip_initial_space(parent)
       end
 
@@ -123,63 +124,34 @@ module Metanorma
       end
 
       def to_xreftarget(str)
-        return Metanorma::Utils::to_ncname(str) unless /^[^#]+#.+$/.match?(str)
-
+        /^[^#]+#.+$/.match?(str) or return Metanorma::Utils::to_ncname(str)
         /^(?<pref>[^#]+)#(?<suff>.+)$/ =~ str
         pref = pref.gsub(%r([#{Metanorma::Utils::NAMECHAR}])o, "_")
         suff = suff.gsub(%r([#{Metanorma::Utils::NAMECHAR}])o, "_")
         "#{pref}##{suff}"
       end
 
-      IDREF = "//*/@id | //review/@from | //review/@to | " \
-              "//callout/@target | //citation/@bibitemid | " \
-              "//eref/@bibitemid".freeze
-
       def anchor_cleanup(elem)
-        anchor_cleanup1(elem)
-        xreftarget_cleanup(elem)
         contenthash_id_cleanup(elem)
       end
 
-      def anchor_cleanup1(elem)
-        elem.xpath(IDREF).each do |s|
-          if (ret = Metanorma::Utils::to_ncname(s.value)) != (orig = s.value)
-            s.value = ret
-            @log.add("Anchors", s.parent,
-                     "normalised identifier to #{ret} from #{orig}",
-                     display: false)
-          end
-        end
-      end
-
-      def xreftarget_cleanup(elem)
-        elem.xpath("//xref/@target").each do |s|
-          if (ret = to_xreftarget(s.value)) != (orig = s.value)
-            s.value = ret
-            @log.add("Anchors", s.parent,
-                     "normalised identifier to #{ret} from #{orig}",
-                     display: false)
-          end
-        end
-      end
-
       def contenthash_id_cleanup(doc)
-        ids = contenthash_id_make(doc)
-        contenthash_id_update_refs(doc, ids)
+        @contenthash_ids = contenthash_id_make(doc)
+        #contenthash_id_update_idrefs(doc, @contenthash_ids)
       end
 
       def contenthash_id_make(doc)
         doc.xpath("//*[@id]").each_with_object({}) do |x, m|
-          next unless Metanorma::Utils::guid_anchor?(x["id"])
-
+          # should always be true
+          Metanorma::Utils::guid_anchor?(x["id"]) or next
           m[x["id"]] = contenthash(x)
+          x["anchor"] and m[x["anchor"]] = m[x["id"]]
           x["id"] = m[x["id"]]
         end
       end
 
-      def contenthash_id_update_refs(doc, ids)
-        [%w(review from), %w(review to), %w(callout target), %w(eref bibitemid),
-         %w(citation bibitemid), %w(xref target), %w(xref to)].each do |a|
+      def contenthash_id_update_idrefs(doc, ids)
+        Metanorma::Utils::anchor_attributes.each do |a|
           doc.xpath("//#{a[0]}").each do |x|
             ids[x[a[1]]] and x[a[1]] = ids[x[a[1]]]
           end
@@ -227,6 +199,8 @@ module Metanorma
       def select_odd_chars(text)
         text.gsub(/(?!&)([[:punct:]])\u200c/, "\\1")
       end
+
+      include ::Metanorma::Standoc::Utils
     end
   end
 end

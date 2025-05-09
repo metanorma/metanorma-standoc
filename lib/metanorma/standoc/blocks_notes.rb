@@ -2,11 +2,8 @@ module Metanorma
   module Standoc
     module Blocks
       def termnote_attrs(node)
-        attr_code(id_attr(node).merge(keep_attrs(node)
+        attr_code(id_unnum_attrs(node).merge(keep_attrs(node)
           .merge(
-            unnumbered: node.attr("unnumbered"),
-            number: node.attr("number"),
-            subsequence: node.attr("subsequence"),
             "keep-separate": node.attr("keep-separate"),
             keepasterm: node.option?("termnote") ? "true" : nil,
           )))
@@ -61,8 +58,7 @@ module Metanorma
       end
 
       def note(node)
-        return termnote(node) if node.option?("termnote")
-
+        node.option?("termnote") and return termnote(node)
         noko do |xml|
           xml.note **note_attrs(node) do |c|
             wrap_in_para(node, c)

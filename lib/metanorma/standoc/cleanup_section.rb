@@ -46,7 +46,10 @@ module Metanorma
       end
 
       def clean_abstract(dupabstract)
-        dupabstract.traverse { |n| n.remove_attribute("id") }
+        dupabstract.traverse do |n|
+          n.remove_attribute("id")
+          n.remove_attribute("anchor")
+        end
         %w(language script unnumbered).each do |w|
           dupabstract.remove_attribute(w)
         end
@@ -96,7 +99,7 @@ module Metanorma
           y.delete("annex")
           y.name == "annex" || !y.ancestors("annex").empty? and next
           y.wrap("<annex/>")
-          y.parent["id"] = "_#{UUIDTools::UUID.random_create}"
+          add_id(y.parent)
           %w(obligation language script).each { |w| y.parent[w] = y[w] }
         end
       end

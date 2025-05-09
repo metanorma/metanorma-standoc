@@ -15,9 +15,9 @@ module Metanorma
           f = s.at(".//figure") or next
           (t = s.at("./name")) && !f.at("./name") and
             f.children.first.previous = t.remove
-          if s["id"] && Metanorma::Utils::guid_anchor?(f["id"])
-            f["id"] = s["id"]
-            s.delete("id")
+          if s["anchor"] # && Metanorma::Utils::guid_anchor?(f["id"])
+            f["anchor"] = s["anchor"]
+            s.delete("anchor")
           end
           svgmap_moveattrs1(s, f)
         end

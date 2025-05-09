@@ -1,5 +1,5 @@
   <sections>
-    <clause id='_signature' inline-header='false' obligation='normative'>
+    <clause id="_" anchor="_signature" inline-header='false' obligation='normative'>
       <title>Signature</title>
       <p id='_'>
         A cryptographic signature used to determine data integrity and validity
@@ -9,38 +9,38 @@
         <name>Signature attributes</name>
         <thead>
           <tr>
-            <th valign='top' align='left'>Name</th>
-            <th valign='top' align='left'>Definition</th>
-            <th valign='top' align='left'>Mandatory/ Optional/ Conditional</th>
-            <th valign='top' align='left'>Max Occur</th>
-            <th valign='top' align='left'>Data Type</th>
+            <th id="_" valign='top' align='left'>Name</th>
+            <th id="_" valign='top' align='left'>Definition</th>
+            <th id="_" valign='top' align='left'>Mandatory/ Optional/ Conditional</th>
+            <th id="_" valign='top' align='left'>Max Occur</th>
+            <th id="_" valign='top' align='left'>Data Type</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td valign='top' align='left'>algorithm</td>
-            <td valign='top' align='left'>TODO: enum algorithm’s definition</td>
-            <td valign='top' align='left'>M</td>
-            <td valign='top' align='left'>1</td>
-            <td valign='top' align='left'>
+            <td id="_" valign='top' align='left'>algorithm</td>
+            <td id="_" valign='top' align='left'>TODO: enum algorithm’s definition</td>
+            <td id="_" valign='top' align='left'>M</td>
+            <td id="_" valign='top' align='left'>1</td>
+            <td id="_" valign='top' align='left'>
               <tt>iso14888Oid</tt>
             </td>
           </tr>
           <tr>
-            <td valign='top' align='left'>publicKey</td>
-            <td valign='top' align='left'>TODO: enum publicKey’s definition</td>
-            <td valign='top' align='left'>M</td>
-            <td valign='top' align='left'>1</td>
-            <td valign='top' align='left'>
+            <td id="_" valign='top' align='left'>publicKey</td>
+            <td id="_" valign='top' align='left'>TODO: enum publicKey’s definition</td>
+            <td id="_" valign='top' align='left'>M</td>
+            <td id="_" valign='top' align='left'>1</td>
+            <td id="_" valign='top' align='left'>
               <tt>Uri</tt>
             </td>
           </tr>
           <tr>
-            <td valign='top' align='left'>signature</td>
-            <td valign='top' align='left'>The actual digital signature value encoded in Base64 format.</td>
-            <td valign='top' align='left'>M</td>
-            <td valign='top' align='left'>1</td>
-            <td valign='top' align='left'>
+            <td id="_" valign='top' align='left'>signature</td>
+            <td id="_" valign='top' align='left'>The actual digital signature value encoded in Base64 format.</td>
+            <td id="_" valign='top' align='left'>M</td>
+            <td id="_" valign='top' align='left'>1</td>
+            <td id="_" valign='top' align='left'>
               <tt>CharacterString</tt>
             </td>
           </tr>

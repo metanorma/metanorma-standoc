@@ -14,7 +14,7 @@ module Metanorma
 
       def inline_anchor_ref(node)
         noko do |xml|
-          xml.bookmark nil, **attr_code(id: node.id)
+          xml.bookmark nil, **attr_code(id_attr(node))
         end
       end
 

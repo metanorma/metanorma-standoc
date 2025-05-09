@@ -35,6 +35,10 @@ module Metanorma
         Metanorma::Utils::attr_code(attributes)
       end
 
+      def add_id(node)
+        node["id"] = "_#{UUIDTools::UUID.random_create}"
+      end
+
       def csv_split(text, delim = ";")
         Metanorma::Utils::csv_split(@c.decode(text), delim)
           .map { |x| @c.encode(x, :basic, :hexadecimal) }

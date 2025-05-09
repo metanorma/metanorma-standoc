@@ -19,10 +19,10 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
             #{BLANK_HDR}
             <sections>
-            </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
+            </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
               <title>Normative references</title>
               #{NORM_REF_BOILERPLATE}
-              <bibitem id="iso123" type="standard">
+              <bibitem id="_" anchor="iso123" type="standard">
                <title format="text/plain">Standard</title>
                <docidentifier>ISO 123</docidentifier>
                <docnumber>123</docnumber>
@@ -33,7 +33,7 @@ RSpec.describe Metanorma::Standoc do
                  </organization>
                </contributor>
              </bibitem>
-             <bibitem id='iso124' type='standard'>
+             <bibitem id="_" anchor="iso124" type='standard'>
         <title format='text/plain'>Standard</title>
         <docidentifier type='metanorma'>[1]</docidentifier>
         <docidentifier>ISO 123</docidentifier>
@@ -45,7 +45,7 @@ RSpec.describe Metanorma::Standoc do
           </organization>
         </contributor>
       </bibitem>
-            <bibitem id="iso124">
+            <bibitem id="_" anchor="iso124">
         <formattedref format="application/x-isodoc+xml">
           <em>Standard</em>
         </formattedref>
@@ -53,7 +53,7 @@ RSpec.describe Metanorma::Standoc do
         <docidentifier>ISO 123</docidentifier>
         <docnumber>123</docnumber>
       </bibitem>
-      <bibitem id="iso124">
+      <bibitem id="_" anchor="iso124">
         <formattedref format="application/x-isodoc+xml">
           <em>Standard</em>
         </formattedref>
@@ -61,7 +61,7 @@ RSpec.describe Metanorma::Standoc do
         <docidentifier>ISO 123</docidentifier>
         <docnumber>123</docnumber>
       </bibitem>
-            <bibitem id="iso124">
+            <bibitem id="_" anchor="iso124">
         <formattedref format="application/x-isodoc+xml">
           <em>Standard</em>
         </formattedref>
@@ -89,10 +89,10 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
           #{BLANK_HDR}
           <sections>
-          </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
+          </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
             <title>Normative references</title>
             #{NORM_REF_BOILERPLATE}
-            <bibitem id="iso123" type="standard">
+            <bibitem id="_" anchor="iso123" type="standard">
               <title format="text/plain">Standard</title>
       <docidentifier>ISO 123:1066-1067</docidentifier>
              <docnumber>123</docnumber>
@@ -107,7 +107,7 @@ RSpec.describe Metanorma::Standoc do
         </organization>
       </contributor>
            </bibitem>
-           <bibitem id="iso124" type="standard">
+           <bibitem id="_" anchor="iso124" type="standard">
               <title format="text/plain">Standard</title>
               <docidentifier type='metanorma'>[1]</docidentifier>
       <docidentifier>ISO 123:1066-1067</docidentifier>
@@ -161,9 +161,9 @@ RSpec.describe Metanorma::Standoc do
           </foreword>
         </preface>
                <sections>
-               </sections><bibliography><references id="_normative_references" obligation="informative" normative="true"><title>Normative references</title>
+               </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true"><title>Normative references</title>
                 #{NORM_REF_BOILERPLATE}
-        <bibitem type="standard" id="iso123">
+        <bibitem type="standard" id="_" anchor="iso123">
           <uri type="src">https://www.iso.org/standard/23281.html</uri>
           <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
           <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -207,7 +207,7 @@ RSpec.describe Metanorma::Standoc do
         <docidentifier>ISO 123</docidentifier>
         <title><em>Standard</em></title>
         </bibitem>
-        <bibitem type="standard" id="iso124">
+        <bibitem type="standard" id="_" anchor="iso124">
           <uri type="src">https://www.iso.org/standard/23281.html</uri>
           <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
           <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -252,7 +252,7 @@ RSpec.describe Metanorma::Standoc do
          <docidentifier type='metanorma'>[1]</docidentifier>
         <title><em>Standard</em></title>
         </bibitem>
-        <bibitem type="standard" id="iso125">
+        <bibitem type="standard" id="_" anchor="iso125">
                <uri type="src">https://www.iso.org/standard/23281.html</uri>
                <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -323,16 +323,16 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     doc = Asciidoctor.convert(input
       .sub(":novalid:", ":language: de\n:novalid:"), *OPTIONS)
-    expect(doc).to include('<eref type="inline" bibitemid="iso123" citeas="ISO 8342-DE"/>')
-    expect(doc).to include('<eref type="inline" bibitemid="iso124" citeas="ISO 8343-DE"/>')
+    expect(doc).to include('citeas="ISO 8342-DE"')
+    expect(doc).to include('citeas="ISO 8343-DE"')
     doc = Asciidoctor.convert(input
   .sub(":novalid:", ":language: fr\n:novalid:"), *OPTIONS)
-    expect(doc).to include('<eref type="inline" bibitemid="iso123" citeas="ISO 8342-EN"/>')
-    expect(doc).to include('<eref type="inline" bibitemid="iso124" citeas="ISO 8343-FR"/>')
+    expect(doc).to include('citeas="ISO 8342-EN"')
+    expect(doc).to include('citeas="ISO 8343-FR"')
     doc = Asciidoctor.convert(input
       .sub(":novalid:", ":language: en\n:novalid:"), *OPTIONS)
-    expect(doc).to include('<eref type="inline" bibitemid="iso123" citeas="ISO 8342-EN"/>')
-    expect(doc).to include('<eref type="inline" bibitemid="iso124" citeas="ISO 8341"/>')
+    expect(doc).to include('citeas="ISO 8342-EN"')
+    expect(doc).to include('citeas="ISO 8341"')
   end
 
   it "processes simple IEC reference" do
@@ -347,10 +347,10 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
-             </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
+             </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
                <title>Normative references</title>
               #{NORM_REF_BOILERPLATE}
-               <bibitem id="iso123" type="standard">
+               <bibitem id="_" anchor="iso123" type="standard">
                <title format="text/plain">Standard</title>
                <docidentifier>IEC 123</docidentifier>
                <docnumber>123</docnumber>
@@ -361,7 +361,7 @@ RSpec.describe Metanorma::Standoc do
                  </organization>
                </contributor>
              </bibitem>
-             <bibitem id='iso124' type='standard'>
+             <bibitem id="_" anchor="iso124" type='standard'>
         <title format='text/plain'>Standard</title>
         <docidentifier type='metanorma'>[1]</docidentifier>
         <docidentifier>IEC 123</docidentifier>
@@ -397,10 +397,10 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
              <sections>
-                    </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
+                    </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
                <title>Normative references</title>
               #{NORM_REF_BOILERPLATE}
-               <bibitem id="iso123" type="standard">
+               <bibitem id="_" anchor="iso123" type="standard">
                <title format="text/plain">Standard</title>
                <docidentifier>ISO 123:—</docidentifier>
                <docnumber>123</docnumber>
@@ -414,7 +414,7 @@ RSpec.describe Metanorma::Standoc do
                  </organization>
                </contributor>
              </bibitem>
-               <bibitem id="iso124" type="standard">
+               <bibitem id="_" anchor="iso124" type="standard">
                <title format="text/plain">Standard</title>
                <docidentifier>ISO 124:—</docidentifier>
                <docnumber>124</docnumber>
@@ -429,7 +429,7 @@ RSpec.describe Metanorma::Standoc do
                </contributor>
                <note format="text/plain" type="Unpublished-Status">The standard is in press</note>
              </bibitem>
-               <bibitem id="iso125" type="standard">
+               <bibitem id="_" anchor="iso125" type="standard">
                <title format="text/plain">Standard</title>
                <docidentifier>ISO 125:—</docidentifier>
                <docnumber>125</docnumber>
@@ -444,7 +444,7 @@ RSpec.describe Metanorma::Standoc do
                </contributor>
                <note format="text/plain" type="Unpublished-Status">The standard is in press</note>
              </bibitem>
-             <bibitem id='iso126' type='standard'>
+             <bibitem id="_" anchor="iso126" type='standard'>
         <title format='text/plain'>Standard</title>
         <docidentifier type='metanorma'>[1]</docidentifier>
         <docidentifier>ISO 123:—</docidentifier>
@@ -479,10 +479,10 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
             #{BLANK_HDR}
             <sections>
-            </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
+            </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
               <title>Normative references</title>
               #{NORM_REF_BOILERPLATE}
-              <bibitem id="iso123" type="standard">
+              <bibitem id="_" anchor="iso123" type="standard">
                <title format="text/plain">Standard</title>
                <docidentifier>ISO 123:1066 (all parts)</docidentifier>
                <docnumber>123</docnumber>
@@ -499,7 +499,7 @@ RSpec.describe Metanorma::Standoc do
                       <referenceFrom>all</referenceFrom>
               </extent>
              </bibitem>
-             <bibitem id='iso124' type='standard'>
+             <bibitem id="_" anchor="iso124" type='standard'>
         <title format='text/plain'>Standard</title>
         <docidentifier type='metanorma'>[1]</docidentifier>
         <docidentifier>ISO 123:1066 (all parts)</docidentifier>
@@ -537,17 +537,17 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
-             </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
+             </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
                <title>Normative references</title>
               #{NORM_REF_BOILERPLATE}
-               <bibitem id="iso123">
+               <bibitem id="_" anchor="iso123">
                <formattedref format="application/x-isodoc+xml">
                  <em>Standard</em>
                </formattedref>
                <docidentifier>XYZ 123:1966 (all parts)</docidentifier>
                <docnumber>123:1966 (all parts)</docnumber>
              </bibitem>
-             <bibitem id='iso124'>
+             <bibitem id="_" anchor="iso124">
         <formattedref format='application/x-isodoc+xml'>
           <em>Standard</em>
         </formattedref>
@@ -582,29 +582,29 @@ RSpec.describe Metanorma::Standoc do
              #{BLANK_HDR}
                     <sections>
              </sections>
-             <bibliography><references id="_bibliography" obligation="informative" normative="false">
-               <title>Bibliography</title><bibitem id="iso123">
+             <bibliography><references id="_" anchor="_bibliography" obligation="informative" normative="false">
+               <title>Bibliography</title><bibitem id="_" anchor="iso123">
                <formattedref format="application/x-isodoc+xml">
                  <em>Standard</em>
                </formattedref>
                <docidentifier type="metanorma">[1]</docidentifier>
-             </bibitem><bibitem id="iso124">
+             </bibitem><bibitem id="_" anchor="iso124">
                <formattedref format="application/x-isodoc+xml">
                  <em>Standard</em>
                </formattedref>
                <docidentifier type="metanorma">[B]</docidentifier>
-             </bibitem><bibitem id="iso125">
+             </bibitem><bibitem id="_" anchor="iso125">
                <formattedref format="application/x-isodoc+xml">
                  <em>Standard</em>
                </formattedref>
                <docidentifier type="metanorma">[3]</docidentifier>
-             </bibitem><bibitem id="iso126">
+             </bibitem><bibitem id="_" anchor="iso126">
                <formattedref format="application/x-isodoc+xml">
                  <em>Standard</em>
                </formattedref>
                <docidentifier type="metanorma">[A1]</docidentifier>
              </bibitem>
-      <bibitem id='iso127'>
+      <bibitem id="_" anchor="iso127">
         <formattedref format='application/x-isodoc+xml'>
           <em>Standard</em>
         </formattedref>
@@ -649,10 +649,10 @@ RSpec.describe Metanorma::Standoc do
               </ext>
             </bibdata>
             <sections>
-            </sections><bibliography><references id="_normative_references" obligation="informative" normative="true">
+            </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
               <title>Normative references</title>
               #{NORM_REF_BOILERPLATE}
-              <bibitem id="iso123" type="standard">
+              <bibitem id="_" anchor="iso123" type="standard">
               <title format="text/plain">Standard</title>
               <docidentifier type="ISO">ISO 123</docidentifier>
         <docnumber>123</docnumber>
@@ -663,7 +663,7 @@ RSpec.describe Metanorma::Standoc do
                 </organization>
               </contributor>
             </bibitem>
-            <bibitem id='iso124' type='standard'>
+            <bibitem id="_" anchor="iso124" type='standard'>
         <title format='text/plain'>Standard</title>
         <docidentifier type='metanorma'>[1]</docidentifier>
         <docidentifier type='ISO'>ISO 123</docidentifier>
@@ -707,7 +707,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
            #{BLANK_HDR}
       <sections>
-                 <clause id='_scope' type='scope' inline-header='false' obligation='normative'>
+                 <clause id="_" anchor="_scope" type='scope' inline-header='false' obligation='normative'>
                    <title>Scope</title>
                    <p id='_'>
                      <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123'/>
@@ -730,7 +730,7 @@ RSpec.describe Metanorma::Standoc do
                  </clause>
                </sections>
                <bibliography>
-                 <references id='_normative_references' normative='true' obligation='informative'>
+                 <references id="_" anchor="_normative_references" normative='true' obligation='informative'>
                    <title>Normative references</title>
                    <p id='_'>
                      The following documents are referred to in the text in such a way that
@@ -739,7 +739,7 @@ RSpec.describe Metanorma::Standoc do
                      references, the latest edition of the referenced document (including any
                      amendments) applies.
                    </p>
-                   <bibitem id='iso123'>
+                   <bibitem id="_" anchor="iso123">
                      <formattedref format='application/x-isodoc+xml'>
                        <em>Standard</em>
                      </formattedref>
@@ -747,7 +747,7 @@ RSpec.describe Metanorma::Standoc do
                      <docidentifier type='repository'>ab/ISO 123</docidentifier>
                      <docnumber>123</docnumber>
                    </bibitem>
-                   <bibitem id='iso123a'>
+                   <bibitem id="_" anchor="iso123a">
                      <formattedref format='application/x-isodoc+xml'>
                        <em>Standard</em>
                      </formattedref>
@@ -755,28 +755,28 @@ RSpec.describe Metanorma::Standoc do
                      <docidentifier type='repository'>ab/ISO 123</docidentifier>
                      <docnumber>123</docnumber>
                    </bibitem>
-                   <bibitem id='iso124'>
+                   <bibitem id="_" anchor="iso124">
                      <formattedref format='application/x-isodoc+xml'>
                       <em>Standard</em>
                     </formattedref>
                     <docidentifier>id</docidentifier>
                     <docidentifier type='repository'>ab/ISO 124</docidentifier>
                   </bibitem>
-                  <bibitem id='iso124a'>
+                  <bibitem id="_" anchor="iso124a">
                      <formattedref format='application/x-isodoc+xml'>
                       <em>Standard</em>
                     </formattedref>
                     <docidentifier>id</docidentifier>
                     <docidentifier type='repository'>ab/ISO 124</docidentifier>
                   </bibitem>
-                  <bibitem id='iso125' suppress_identifier='true'>
+                  <bibitem id="_" anchor="iso125" suppress_identifier='true'>
                      <formattedref format='application/x-isodoc+xml'>
                        <em>Standard</em>
                      </formattedref>
                      <docidentifier>id</docidentifier>
                      <docidentifier type='repository'>ab/ISO 124</docidentifier>
                    </bibitem>
-                   <bibitem id='iso125a' suppress_identifier='true'>
+                   <bibitem id="_" anchor="iso125a" suppress_identifier='true'>
                      <formattedref format='application/x-isodoc+xml'>
                        <em>Standard</em>
                      </formattedref>
@@ -813,7 +813,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
            #{BLANK_HDR}
         <sections>
-          <clause id='_scope' type="scope" inline-header='false' obligation='normative'>
+          <clause id="_" anchor="_scope" type="scope" inline-header='false' obligation='normative'>
             <title>Scope</title>
             <p id='_'>
               <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123&#xa0;(all&#xa0;parts)'/>
@@ -851,7 +851,7 @@ RSpec.describe Metanorma::Standoc do
           </clause>
         </sections>
         <bibliography>
-          <references id='_normative_references' normative='true' obligation='informative'>
+          <references id="_" anchor="_normative_references" normative='true' obligation='informative'>
             <title>Normative references</title>
             <p id='_'>
               The following documents are referred to in the text in such a way that
@@ -860,7 +860,7 @@ RSpec.describe Metanorma::Standoc do
               references, the latest edition of the referenced document (including any
               amendments) applies.
             </p>
-            <bibitem id='iso123' type='standard'>
+            <bibitem id="_" anchor="iso123" type='standard'>
         <fetched/>
         <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
         <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
@@ -967,7 +967,7 @@ RSpec.describe Metanorma::Standoc do
         </relation>
         <place>Geneva</place>
       </bibitem>
-            <bibitem id='iso124'>
+            <bibitem id="_" anchor="iso124">
               <formattedref format='application/x-isodoc+xml'>
                 <em>Standard</em>
               </formattedref>
@@ -1002,19 +1002,19 @@ RSpec.describe Metanorma::Standoc do
        #{BLANK_HDR}
         <sections/>
         <bibliography>
-          <references id="_normative_references" normative="false" obligation="informative">
+          <references id="_" anchor="_normative_references" normative="false" obligation="informative">
             <title>Bibliography</title>
-            <bibitem id="iso123">
+            <bibitem id="_" anchor="iso123">
               <formattedref format="application/x-isodoc+xml">
                 <em>Standard</em>
               </formattedref>
               <docidentifier>A</docidentifier>
             </bibitem>
           </references>
-          <references id="_bibliography" normative="true" obligation="informative">
+          <references id="_" anchor="_bibliography" normative="true" obligation="informative">
             <title>Normative references</title>
             <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-            <bibitem id="iso124">
+            <bibitem id="_" anchor="iso124">
               <formattedref format="application/x-isodoc+xml">
                 <em>Standard</em>
               </formattedref>
@@ -1039,7 +1039,7 @@ RSpec.describe Metanorma::Standoc do
       == Bibliography
 
       * [[[iso124,(*A*.footnote:[hello])XYZ]]] _Standard_
-      * [[[iso125,usrlabel="*A*.footnote:[hello]",XYZ]]] _Standard_
+      * [[[iso125,usrlabel="*B*.footnote:[hello]",XYZ]]] _Standard_
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -1048,15 +1048,15 @@ RSpec.describe Metanorma::Standoc do
              <title>Foreword</title>
              <p id='_'>
                <eref type="inline" bibitemid="iso124" citeas="[&lt;strong&gt;A&lt;/strong&gt;.]"/>
-               <eref type="inline" bibitemid="iso125" citeas="[&lt;strong&gt;A&lt;/strong&gt;.]"/>
+               <eref type="inline" bibitemid="iso125" citeas="[&lt;strong&gt;B&lt;/strong&gt;.]"/>
              </p>
            </foreword>
          </preface>
          <sections> </sections>
          <bibliography>
-           <references id='_bibliography' normative='false' obligation='informative'>
+           <references id="_" anchor="_bibliography" normative='false' obligation='informative'>
              <title>Bibliography</title>
-             <bibitem id='iso124'>
+             <bibitem id="_" anchor="iso124">
                <formattedref format='application/x-isodoc+xml'>
                  <em>Standard</em>
                </formattedref>
@@ -1071,13 +1071,13 @@ RSpec.describe Metanorma::Standoc do
                </docidentifier>
                <docidentifier>XYZ</docidentifier>
              </bibitem>
-             <bibitem id='iso125'>
+             <bibitem id="_" anchor="iso125">
                <formattedref format='application/x-isodoc+xml'>
                  <em>Standard</em>
                </formattedref>
                <docidentifier type='metanorma'>
                  [
-                 <strong>A</strong>
+                 <strong>B</strong>
                  .
                  <fn reference='1'>
                    <p id='_'>hello</p>
@@ -1115,11 +1115,11 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
          <sections/>
          <bibliography>
-           <clause id="_bibliography" obligation="informative">
+           <clause id="_" anchor="_bibliography" obligation="informative">
              <title>Bibliography</title>
              <p id="_">Text</p>
              <references unnumbered="true" normative="false">
-               <bibitem id="iso124">
+               <bibitem id="_" anchor="iso124">
                  <formattedref format="application/x-isodoc+xml">
                    <em>Standard</em>
                  </formattedref>
@@ -1128,9 +1128,9 @@ RSpec.describe Metanorma::Standoc do
                </bibitem>
                <p id="_">More text</p>
              </references>
-             <references id="_bibliography_1" normative="false" obligation="informative">
+             <references id="_" anchor="_bibliography_1" normative="false" obligation="informative">
                <title>Bibliography 1</title>
-               <bibitem id="iso125">
+               <bibitem id="_" anchor="iso125">
                  <formattedref format="application/x-isodoc+xml">
                    <em>Standard</em>
                  </formattedref>
@@ -1161,10 +1161,10 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
            <sections/>
            <bibliography>
-             <references id="_normative_references" normative="true" obligation="informative">
+             <references id="_" anchor="_normative_references" normative="true" obligation="informative">
                <title>Normative references</title>
                <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-               <bibitem id="iso123">
+               <bibitem id="_" anchor="iso123">
                  <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
                  <docidentifier type="NIST">NIST 123</docidentifier>
                  <docnumber>123</docnumber>
@@ -1233,39 +1233,39 @@ RSpec.describe Metanorma::Standoc do
                 <value>2</value>
              </presentation-metadata>
           </metanorma-extension>
-          <sections>
-             <clause id="_clause" inline-header="false" obligation="normative">
-                <title>Clause</title>
-                <p id="_">
-                   <eref type="inline" bibitemid="iso123" citeas="[spec/assets/iso.xml]"/>
-                </p>
-             </clause>
-          </sections>
-          <bibliography>
-             <references id="_normative_references" normative="true" obligation="informative">
-                <title>Normative references</title>
-                <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-                <bibitem id="iso123" hidden="true">
-                   <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
-                   <uri type="attachment">_attach_attachments/iso.xml</uri>
-                   <uri type="citation">_attach_attachments/iso.xml</uri>
-                   <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
-                </bibitem>
-                <bibitem id="iso124" hidden="true">
-                   <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
-                   <uri type="attachment">_attach_attachments/iso.xml_</uri>
-                   <uri type="citation">_attach_attachments/iso.xml_</uri>
-                   <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
-                </bibitem>
-                <bibitem id="iso125" hidden="true">
-                   <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
-                   <uri type="attachment">_attach_attachments/html.scss</uri>
-                   <uri type="citation">_attach_attachments/html.scss</uri>
-                   <docidentifier type="metanorma">[spec/assets/html.scss]</docidentifier>
-                </bibitem>
-             </references>
-          </bibliography>
-       </metanorma>
+           <sections>
+              <clause id="_" anchor="_clause" inline-header="false" obligation="normative">
+                 <title>Clause</title>
+                 <p id="_">
+                    <eref type="inline" bibitemid="iso123" citeas="[spec/assets/iso.xml]"/>
+                 </p>
+              </clause>
+           </sections>
+           <bibliography>
+              <references id="_" anchor="_normative_references" normative="true" obligation="informative">
+                 <title>Normative references</title>
+                 <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+                 <bibitem anchor="iso123" id="_" hidden="true">
+                    <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+                    <uri type="attachment">_attach_attachments/iso.xml</uri>
+                    <uri type="citation">_attach_attachments/iso.xml</uri>
+                    <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
+                 </bibitem>
+                 <bibitem anchor="iso124" id="_" hidden="true">
+                    <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+                    <uri type="attachment">_attach_attachments/iso.xml_</uri>
+                    <uri type="citation">_attach_attachments/iso.xml_</uri>
+                    <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
+                 </bibitem>
+                 <bibitem anchor="iso125" id="_" hidden="true">
+                    <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+                    <uri type="attachment">_attach_attachments/html.scss</uri>
+                    <uri type="citation">_attach_attachments/html.scss</uri>
+                    <docidentifier type="metanorma">[spec/assets/html.scss]</docidentifier>
+                 </bibitem>
+              </references>
+           </bibliography>
+        </metanorma>
     OUTPUT
 
     # Windows/Unix differences in XML encoding: remove body of Data URI
@@ -1333,7 +1333,7 @@ RSpec.describe Metanorma::Standoc do
                               usrlbl: nil,
                               year: nil }) do
       RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
-        <bibitem type="standard" id="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
+        <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
     end.exactly(times).times
   end
@@ -1350,7 +1350,7 @@ RSpec.describe Metanorma::Standoc do
                               usrlbl: "(1)",
                               year: nil }) do
       RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
-        <bibitem type="standard" id="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
+        <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
     end.exactly(times).times
   end
@@ -1367,7 +1367,7 @@ RSpec.describe Metanorma::Standoc do
                               usrlbl: "(2)",
                               year: nil }) do
       RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
-        <bibitem type="standard" id="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
+        <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
     end.exactly(times).times
   end
@@ -1376,7 +1376,7 @@ RSpec.describe Metanorma::Standoc do
     expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 8342", nil,
                                                               anything) do
       RelatonBib::XMLParser.from_xml(<<~OUTPUT)
-              <bibitem id="RFC8342">
+              <bibitem id="_" anchor="RFC8342">
           <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>
           <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
           <docidentifier type="ISO">ISO 8341</docidentifier>
@@ -1396,7 +1396,7 @@ RSpec.describe Metanorma::Standoc do
     expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 8343", nil,
                                                               anything) do
       RelatonBib::XMLParser.from_xml(<<~OUTPUT)
-              <bibitem id="RFC8343">
+              <bibitem id="_" anchor="RFC8343">
           <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>
           <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
           <docidentifier type="ISO">ISO 8341</docidentifier>

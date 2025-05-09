@@ -151,8 +151,10 @@ module Metanorma
         if user_add.at("./clause") then built_in << user_add.children
         else
           user_add.name = "clause"
-          user_add["id"].nil? || uuid?(user_add["id"]) and
-            user_add["id"] = "_boilerplate-#{statement}-statement-append"
+          if user_add["id"].nil? || uuid?(user_add["id"])
+            user_add["anchor"] = "_boilerplate-#{statement}-statement-append"
+            add_id(user_add)
+          end
           built_in << user_add
         end
       end
@@ -187,8 +189,7 @@ module Metanorma
         xml.traverse do |n|
           n.element? or next
           n.namespace.href == ns and n.namespace = nil
-          /^_\d+$/.match?(n["id"]) and
-            n["id"] = "_#{UUIDTools::UUID.random_create}"
+          /^_\d+$/.match?(n["id"]) and add_id(n)
         end
         xml
       end

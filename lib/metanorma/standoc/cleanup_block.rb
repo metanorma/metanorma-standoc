@@ -17,7 +17,7 @@ module Metanorma
 
       def inject_id(xmldoc, path)
         xmldoc.xpath(path).each do |x|
-          x["id"] ||= Metanorma::Utils::anchor_or_uuid
+          x["id"] or add_id(x)
         end
       end
 
@@ -112,8 +112,9 @@ module Metanorma
 
       def link_callouts_to_annotations(callouts, annotations)
         callouts.each_with_index do |c, i|
-          c["target"] = "_#{UUIDTools::UUID.random_create}"
-          annotations[i]["id"] = c["target"]
+          add_id(annotations[i])
+          annotations[i]["anchor"] = annotations[i]["id"]
+          c["target"] = annotations[i]["id"]
         end
       end
 
@@ -224,9 +225,7 @@ module Metanorma
       end
 
       def blocksource_cleanup(xmldoc)
-        #xmldoc.xpath("//figure//termsource | //table//termsource").each do |s|
         xmldoc.xpath("//figure//source | //table//source").each do |s|
-          #s.name = "source"
           s.delete("type")
         end
       end
@@ -234,7 +233,7 @@ module Metanorma
       def unnumbered_blocks_cleanup(xmldoc)
         @blockunnumbered&.each do |b|
           xmldoc.xpath("//#{b}").each do |e|
-            /^[^_]/.match?(e["id"]) and e["unnumbered"] = "false"
+            /^[^_]/.match?(e["anchor"]) and e["unnumbered"] = "false"
             e["unnumbered"] ||= "true"
           end
         end

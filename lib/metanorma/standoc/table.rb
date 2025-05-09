@@ -3,11 +3,8 @@ module Metanorma
     module Table
       def table_attrs(node)
         keep_attrs(node)
-          .merge(id: Metanorma::Utils::anchor_or_uuid(node),
-                 headerrows: node.attr("headerrows"),
-                 unnumbered: node.option?("unnumbered") ? "true" : nil,
-                 number: node.attr("number"),
-                 subsequence: node.attr("subsequence"),
+          .merge(id_unnum_attrs(node))
+          .merge(headerrows: node.attr("headerrows"),
                  alt: node.attr("alt"),
                  summary: node.attr("summary"),
                  width: node.attr("width"))
@@ -28,11 +25,9 @@ module Metanorma
       private
 
       def colgroup(node, xml_table)
-        return if node.option? "autowidth"
-
-        cols = node&.attr("cols")&.split(/,/) or return
-        return unless (cols.size > 1) && cols.all? { |c| /\d/.match(c) }
-
+        node.option? "autowidth" and return
+        cols = node.attr("cols")&.split(",") or return
+        (cols.size > 1) && cols.all? { |c| /\d/.match(c) } or return
         xml_table.colgroup do |cg|
           node.columns.each do |col|
             cg.col width: "#{col.attr 'colpcwidth'}%"
@@ -57,9 +52,10 @@ module Metanorma
       end
 
       def table_cell(node, xml_tr, tblsec)
-        cell_attributes =
-          { id: node.id, colspan: node.colspan, valign: node.attr("valign"),
-            rowspan: node.rowspan, align: node.attr("halign") }
+        cell_attributes = id_attr(node).merge(
+          { colspan: node.colspan, valign: node.attr("valign"),
+            rowspan: node.rowspan, align: node.attr("halign") },
+        )
         cell_tag = "td"
         cell_tag = "th" if tblsec == :head || node.style == :header
         xml_tr.send cell_tag, **attr_code(cell_attributes) do |thd|

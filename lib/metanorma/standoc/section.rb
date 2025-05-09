@@ -11,13 +11,12 @@ module Metanorma
       @norm_ref = false
 
       def section_attributes(node)
-        ret =
-          { id: Metanorma::Utils::anchor_or_uuid(node),
-            unnumbered: node.option?("unnumbered") ? "true" : nil,
-            annex: role_style(node, "appendix") && node.level == 1 ? true : nil,
+        ret = id_unnum_attrs(node).merge(
+          { annex: role_style(node, "appendix") && node.level == 1 ? true : nil,
             colophon: role_style(node, "colophon") ? true : nil,
-            preface: role_style(node, "preface") ? true : nil }
-        %w(language script number branch-number type tag keeptitle
+            preface: role_style(node, "preface") ? true : nil },
+        )
+        %w(language script branch-number type tag keeptitle
            multilingual-rendering).each do |k|
           a = node.attr(k) and ret[k.to_sym] = a
         end

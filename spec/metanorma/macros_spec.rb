@@ -60,9 +60,9 @@ RSpec.describe Metanorma::Standoc do
       </preface>
       <sections> </sections>
       <bibliography>
-        <references id='_bibliography' obligation='informative' normative="false">
+        <references id="_" anchor="_bibliography" obligation='informative' normative="false">
           <title>Bibliography</title>
-          <bibitem id='ref1'>
+          <bibitem id="_" anchor="ref1">
             <formattedref format='application/x-isodoc+xml'>
               <em>Title</em>
             </formattedref>
@@ -270,11 +270,11 @@ RSpec.describe Metanorma::Standoc do
           </p>
           <p id='_'>
                    Text
-                   <bookmark id='id2'/>
+                   <bookmark id="_" anchor="id2"/>
                  </p>
                  <p id='_'>
                    Text
-                   <bookmark id='id3'/>
+                   <bookmark id="_" anchor="id3"/>
                  </p>
         </sections>
       </metanorma>
@@ -294,7 +294,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
-        <clause id='_english_fran__xe7_ais' inline-header='false' obligation='normative'>
+        <clause id="_" anchor="_english_français" inline-header='false' obligation='normative'>
           <title>
             <variant lang='en'>English</variant>
             <variant lang='fr' script='Latn'>Français</variant>
@@ -372,23 +372,23 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-          <sections>
-             <clause id="_clause_1" inline-header="false" obligation="normative">
+         <sections>
+             <clause id="_1" anchor="_clause_1" inline-header="false" obligation="normative">
                 <title>
-                   <bookmark id="_9"/>
+                   <bookmark id="_9" anchor="_9"/>
                    Clause 1
                 </title>
              </clause>
-             <clause id="_clause_2" inline-header="false" obligation="normative">
+             <clause id="_3" anchor="_clause_2" inline-header="false" obligation="normative">
                 <title>
-                   <bookmark id="_10"/>
+                   <bookmark id="_10" anchor="_10"/>
                    Clause 2
                 </title>
              </clause>
           </sections>
-          <annex id="_annex_1" inline-header="false" obligation="normative">
+          <annex id="_6" anchor="_annex_1" inline-header="false" obligation="normative">
              <title>
-                <bookmark id="_11"/>
+                <bookmark id="_11" anchor="_11"/>
                 Annex 1
              </title>
           </annex>
@@ -617,14 +617,14 @@ RSpec.describe Metanorma::Standoc do
         <table id='_'>
           <thead>
             <tr>
-              <th valign='top' align='left'>a</th>
-              <th valign='top' align='left'>b</th>
+              <th id="_" valign='top' align='left'>a</th>
+              <th id="_" valign='top' align='left'>b</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td valign='top' align='left'>c</td>
-              <td valign='top' align='left'>d</td>
+              <td id="_" valign='top' align='left'>c</td>
+              <td id="_" valign='top' align='left'>d</td>
             </tr>
           </tbody>
         </table>
@@ -663,18 +663,18 @@ RSpec.describe Metanorma::Standoc do
        <sections>
           <p id='_'>
             <fn reference='1'>[ERROR]</fn>
-          <note id='id2'>
+          <note id="_" anchor="id2">
             <table id='_'>
               <thead>
                 <tr>
-                  <th valign='top' align='left'>a</th>
-                  <th valign='top' align='left'>b</th>
+                  <th id="_" valign='top' align='left'>a</th>
+                  <th id="_" valign='top' align='left'>b</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td valign='top' align='left'>c</td>
-                  <td valign='top' align='left'>d</td>
+                  <td id="_" valign='top' align='left'>c</td>
+                  <td id="_" valign='top' align='left'>d</td>
                 </tr>
               </tbody>
             </table>
@@ -740,55 +740,55 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
         #{BLANK_HDR}
         <sections>
-        <form id='N0' name='N1' action='/action_page.php' class="checkboxes">
+        <form id="_" anchor="N0" name='N1' action='/action_page.php' class="checkboxes">
         <p id='_'>
           <label for='fname'>First name:</label>
           <br/>
-          <input type='text' id='fname' name='fname'/>
+          <input type='text' id="_" anchor="fname" name='fname'/>
           <br/>
           <label for='lname'>Last name:</label>
           <br/>
-          <input type='text' id='lname' name='lname'/>
+          <input type='text' id="_" anchor="lname" name='lname'/>
           <br/>
           <label for='pwd'>Password:</label>
           <br/>
-          <input type='password' id='pwd' name='pwd'/>
+          <input type='password' id="_" anchor="pwd" name='pwd'/>
           <br/>
-          <input type='radio' id='male' name='gender' value='male'/>
+          <input type='radio' id="_" anchor="male" name='gender' value='male'/>
           <label for='male'>Male</label>
           <br/>
-          <input type='radio' id='female' name='gender' value='female'/>
+          <input type='radio' id="_" anchor="female" name='gender' value='female'/>
           <label for='female'>Female</label>
           <br/>
-          <input type='radio' id='other' name='gender' value='other'/>
+          <input type='radio' id="_" anchor="other" name='gender' value='other'/>
           <label for='other'>Other</label>
           <br/>
-          <input type='checkbox' id='vehicle1' name='vehicle1' value='Bike' checked='true'/>
+          <input type='checkbox' id="_" anchor="vehicle1" name='vehicle1' value='Bike' checked='true'/>
           <label for='vehicle1'>I have a bike</label>
           <br/>
-          <input type='checkbox' id='vehicle2' name='vehicle2' value='Car'/>
+          <input type='checkbox' id="_" anchor="vehicle2" name='vehicle2' value='Car'/>
           <label for='vehicle2'>I have a car</label>
           <br/>
-          <input type='checkbox' id='vehicle3' name='vehicle3' value='Boat'/>
+          <input type='checkbox' id="_" anchor="vehicle3" name='vehicle3' value='Boat'/>
           <label for='vehicle3'>I have a boat</label>
           <br/>
-          <input type='date' id='birthday' name='birthday'/>
+          <input type='date' id="_" anchor="birthday" name='birthday'/>
           <br/>
           <label for='myfile'>Select a file:</label>
-          <input type='file' id='myfile' name='myfile'/>
+          <input type='file' id="_" anchor="myfile" name='myfile'/>
           <br/>
           <label for='cars'>Select a car:</label>
           <br/>
-          <select id='cars' name='cars' size='4' disabled='true' multiple='true' value='fiat'>
+          <select id="_" anchor="cars" name='cars' size='4' disabled='true' multiple='true' value='fiat'>
             <option disabled='true' value='volvo'/>
             <option value='saab'/>
             <option value='fiat'/>
             <option value='audi'/>
           </select>
-          <textarea id='t1' name='message' rows='10' cols='30' value='The cat was playing in the garden.'/>
-          <input type='button' value='Click Me!'/>
-          <input type='button'/>
-          <input type='submit' value='Submit'/>
+          <textarea id="_" anchor="t1" name='message' rows='10' cols='30' value='The cat was playing in the garden.'/>
+          <input type='button' value='Click Me!' id="_"/>
+          <input type='button' id="_"/>
+          <input type='submit' value='Submit' id="_"/>
         </p>
       </form>
               </sections>
@@ -799,6 +799,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes ToC form macros" do
+    mock_uuid_increment
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
@@ -827,75 +828,89 @@ RSpec.describe Metanorma::Standoc do
       == Clause 2
 
       And introducing:
-      toc:["//clause[@id = 'clause1'\\]/clause/title","//clause[@id = 'clause1'\\]/clause/clause/title:2"]
+      toc:["//clause[@anchor = 'clause1'\\]/clause/title","//clause[@anchor = 'clause1'\\]/clause/clause/title:2"]
 
-      toc:["//clause[@id = 'clause1'\\]/clause/title"]
+      toc:["//clause[@anchor = 'clause1'\\]/clause/title"]
     INPUT
     output = <<~OUTPUT
                   #{BLANK_HDR}
-                  <sections>
-              <clause id='clause1' inline-header='false' obligation='normative'>
+          <sections>
+             <clause id="_1" anchor="clause1" inline-header="false" obligation="normative">
                 <title>Clause 1</title>
-                <clause id='clause1A' inline-header='false' obligation='normative'>
-                  <title>Clause 1A</title>
-                  <clause id='clause1Aa' inline-header='false' obligation='normative'>
-                    <title>Clause 1Aa</title>
-                  </clause>
-                  <clause id='clause1Ab' inline-header='false' obligation='normative'>
-                    <title>Clause 1Ab</title>
-                    <variant-title type='toc'>1Ab Clause</variant-title>
-                  </clause>
+                <clause id="_2" anchor="clause1A" inline-header="false" obligation="normative">
+                   <title>Clause 1A</title>
+                   <clause id="_3" anchor="clause1Aa" inline-header="false" obligation="normative">
+                      <title>Clause 1Aa</title>
+                   </clause>
+                   <clause id="_4" anchor="clause1Ab" inline-header="false" obligation="normative">
+                      <title>Clause 1Ab</title>
+                      <variant-title type="toc">1Ab Clause</variant-title>
+                   </clause>
                 </clause>
-                <clause id='clause1B' inline-header='false' obligation='normative'>
-                  <title>Clause 1B</title>
-                  <clause id='clause1Ba' inline-header='false' obligation='normative'>
-                    <title>Clause 1Ba</title>
-                  </clause>
+                <clause id="_6" anchor="clause1B" inline-header="false" obligation="normative">
+                   <title>Clause 1B</title>
+                   <clause id="_7" anchor="clause1Ba" inline-header="false" obligation="normative">
+                      <title>Clause 1Ba</title>
+                   </clause>
                 </clause>
-              </clause>
-              <clause id='clause2' inline-header='false' obligation='normative'>
+             </clause>
+             <clause id="_8" anchor="clause2" inline-header="false" obligation="normative">
                 <title>Clause 2</title>
-                <p id='_'>And introducing: </p>
-      <toc>
-        <ul id='_'>
-          <li>
-            <xref target='clause1A'><display-text>Clause 1A</display-text></xref>
-          </li>
-          <li>
-            <ul id='_'>
-              <li>
-                <xref target='clause1Aa'><display-text>Clause 1Aa</display-text></xref>
-              </li>
-              <li>
-                <xref target='clause1Ab'><display-text>1Ab Clause</display-text></xref>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <xref target='clause1B'><display-text>Clause 1B</display-text></xref>
-          </li>
-          <li>
-            <ul id='_'>
-              <li>
-                <xref target='clause1Ba'><display-text>Clause 1Ba</display-text></xref>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </toc>
-      <toc>
-        <ul id='_'>
-          <li>
-            <xref target='clause1A'><display-text>Clause 1A</display-text></xref>
-          </li>
-          <li>
-            <xref target='clause1B'><display-text>Clause 1B</display-text></xref>
-          </li>
-        </ul>
-      </toc>
-              </clause>
-            </sections>
-                  </metanorma>
+                <p id="_9">And introducing:</p>
+                <toc>
+                   <ul id="_11">
+                      <li>
+                         <xref target="_2">
+                            <display-text>Clause 1A</display-text>
+                         </xref>
+                      </li>
+                      <li>
+                         <ul id="_12">
+                            <li>
+                               <xref target="_3">
+                                  <display-text>Clause 1Aa</display-text>
+                               </xref>
+                            </li>
+                            <li>
+                               <xref target="_4">
+                                  <display-text>1Ab Clause</display-text>
+                               </xref>
+                            </li>
+                         </ul>
+                      </li>
+                      <li>
+                         <xref target="_6">
+                            <display-text>Clause 1B</display-text>
+                         </xref>
+                      </li>
+                      <li>
+                         <ul id="_13">
+                            <li>
+                               <xref target="_7">
+                                  <display-text>Clause 1Ba</display-text>
+                               </xref>
+                            </li>
+                         </ul>
+                      </li>
+                   </ul>
+                </toc>
+                <toc>
+                   <ul id="_14">
+                      <li>
+                         <xref target="_2">
+                            <display-text>Clause 1A</display-text>
+                         </xref>
+                      </li>
+                      <li>
+                         <xref target="_6">
+                            <display-text>Clause 1B</display-text>
+                         </xref>
+                      </li>
+                   </ul>
+                </toc>
+             </clause>
+          </sections>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -945,10 +960,10 @@ RSpec.describe Metanorma::Standoc do
          </relation>
               </bibdata>
               <sections>
-                <clause id='clause1' inline-header='false' obligation='normative'>
+                <clause id="_" anchor="clause1" inline-header='false' obligation='normative'>
                   <title>Clause 1</title>
                 </clause>
-                <clause id='_clause' inline-header='false' obligation='normative'>
+                <clause id="_" anchor="_clause" inline-header='false' obligation='normative'>
                   <title>Clause</title>
                   <p id='_'>
                     <xref target='a'><display-text>b</display-text></xref>
@@ -1007,7 +1022,7 @@ RSpec.describe Metanorma::Standoc do
           </relation>
               </bibdata>
               <sections>
-                <clause id='clause1' inline-header='false' obligation='normative'>
+                <clause id="_" anchor="clause1" inline-header='false' obligation='normative'>
                   <title>Clause</title>
                 </clause>
               </sections>
@@ -1119,28 +1134,28 @@ RSpec.describe Metanorma::Standoc do
             </relation>
           </bibdata>
           <sections>
-            <clause id='clause1' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="clause1" inline-header='false' obligation='normative'>
               <title>Clause</title>
                     <p id="_">
          <xref target="A"><display-text>DOCIDENTIFIER-1</display-text></xref>
          <xref target="A"><display-text>B</display-text></xref>
        </p>
             </clause>
-            <clause id='A' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="A" inline-header='false' obligation='normative'>
               <title>Clause 1</title>
                    <p id="_">
         <xref target="B"><display-text>DOCIDENTIFIER-2</display-text></xref>
       </p>
             </clause>
-            <clause id='B' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="B" inline-header='false' obligation='normative'>
               <title>Clause 2</title>
               <p id='_'>X</p>
             </clause>
-            <clause id='_clause_3' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="_clause_3" inline-header='false' obligation='normative'>
               <title>Clause 3</title>
               <p id='_'>X</p>
             </clause>
-            <clause id="_clause_4" inline-header="false" obligation="normative">
+            <clause id="_" anchor="_clause_4" inline-header="false" obligation="normative">
               <title>Clause 4</title>
               <p id="_">X</p>
               <figure id="_">
@@ -1150,7 +1165,7 @@ RSpec.describe Metanorma::Standoc do
                 <image src="../rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
               </figure>
             </clause>
-            <clause id="_clause_3a" inline-header="false" obligation="normative">
+            <clause id="_" anchor="_clause_3a" inline-header="false" obligation="normative">
               <title>Clause 3a</title>
               <p id="_">X</p>
               <figure id="_">
@@ -1183,11 +1198,11 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
          #{BLANK_HDR}
                   <sections>
-            <clause id='clause1' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="clause1" inline-header='false' obligation='normative'>
               <title>Clause</title>
               <p id='_'>
-                <eref type='inline' bibitemid='_' citeas='ISO&#xa0;131'/>
-                <eref type='inline' droploc='true' bibitemid='_' citeas='iso:std:iso:13485:en'>
+                <eref type='inline' bibitemid='ISO 131' citeas='ISO&#xa0;131'/>
+                <eref type='inline' droploc='true' bibitemid='iso_std_iso_13485_en' citeas='iso:std:iso:13485:en'>
                   <localityStack>
                     <locality type='clause'>
                       <referenceFrom>4</referenceFrom>
@@ -1200,7 +1215,7 @@ RSpec.describe Metanorma::Standoc do
           </sections>
           <bibliography>
             <references hidden='true' normative='true'>
-              <bibitem id='_' type='standard' hidden="true">
+              <bibitem id="_" type="standard" anchor="ISO 131" hidden="true">
                 <fetched/>
                 <title type='title-intro' format='text/plain' language='en' script='Latn'>Acoustics</title>
                 <title type='title-main' format='text/plain' language='en' script='Latn'>Expression of physical and subjective magnitudes of sound or noise in air</title>
@@ -1297,7 +1312,7 @@ RSpec.describe Metanorma::Standoc do
                 </relation>
                 <place>Geneva</place>
               </bibitem>
-              <bibitem id='_' hidden="true">
+              <bibitem anchor="iso_std_iso_13485_en" id="_" hidden="true">
                 <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
                 <docidentifier type='ISO'>iso:std:iso:13485:en</docidentifier>
                 <docnumber>13485:en</docnumber>
@@ -1325,7 +1340,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       <sections>
-        <clause id="clause1" inline-header="false" obligation="normative">
+        <clause id="_" anchor="clause1" inline-header="false" obligation="normative">
           <title>Clause</title>
           <p id="_">A</p>
         </clause>

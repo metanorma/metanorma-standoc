@@ -48,8 +48,11 @@ end
 OPTIONS = [backend: :standoc, header_footer: true, agree_to_terms: true].freeze
 
 def strip_guid(xml)
-  xml.gsub(%r( id="_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"), ' id="_"')
-    .gsub(%r{ target="_[^"]+"}, ' target="_"')
+  xml
+    .gsub(%r( id="_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"), ' id="_"')
+    .gsub(%r( bibitemid="_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"), ' bibitemid="_"')
+    .gsub(%r( target="_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"), ' target="_"')
+    #.gsub(%r{ target="_[^"]+"}, ' target="_"')
     .gsub(%r{<fetched>[^<]+</fetched>}, "<fetched/>")
     .gsub(%r{ schema-version="[^"]+"}, "")
 end
@@ -70,26 +73,24 @@ end
 RSpec::Matchers.define :abort_with_message do |expected_message|
   match do |actual|
     @stderr_output = capture_stderr do
-      begin
-        actual.call
-        @error_raised = false
-      rescue SystemExit, RuntimeError => e
-        @error_raised = true
-        @error = e
-      end
+      actual.call
+      @error_raised = false
+    rescue SystemExit, RuntimeError => e
+      @error_raised = true
+      @error = e
     end
-    
+
     @error_raised && (@stderr_output.include?(expected_message) || @error&.message&.include?(expected_message))
   end
-  
+
   failure_message do
-    if !@error_raised
-      "expected code to raise SystemExit or RuntimeError, but it didn't"
-    else
+    if @error_raised
       "expected stderr or exception message to include '#{expected_message}', but got: stderr='#{@stderr_output}', error='#{@error&.message}'"
+    else
+      "expected code to raise SystemExit or RuntimeError, but it didn't"
     end
   end
-  
+
   # This allows chaining with other matchers if needed
   def supports_block_expectations?
     true

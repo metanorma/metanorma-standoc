@@ -4,9 +4,15 @@ module Metanorma
       use_dsl
       named :input
 
+      def map_attr_name(attr)
+        attr == "id" ? "anchor" : attr
+      end
+
       def process(_parent, target, attr)
         m = %w(id name value disabled readonly checked maxlength minlength)
-          .map { |a| attr[a] ? " #{a}='#{attr[a]}'" : nil }.compact
+          .map { |a| attr[a] ? " #{map_attr_name(a)}='#{attr[a]}'" : nil }
+          .compact
+        m << " id='_#{UUIDTools::UUID.random_create}'"
         %{<input type='#{target}' #{m.join}/>}
       end
     end
@@ -27,9 +33,15 @@ module Metanorma
       named :textarea
       using_format :short
 
+      def map_attr_name(attr)
+        attr == "id" ? "anchor" : attr
+      end
+
       def process(_parent, _target, attr)
         m = %w(id name rows cols value)
-          .map { |a| attr[a] ? " #{a}='#{attr[a]}'" : nil }.compact
+          .map { |a| attr[a] ? " #{map_attr_name(a)}='#{attr[a]}'" : nil }
+          .compact
+        m << " id='_#{UUIDTools::UUID.random_create}'"
         %{<textarea #{m.join}/>}
       end
     end
@@ -39,9 +51,15 @@ module Metanorma
       named :select
       using_format :short
 
+      def map_attr_name(attr)
+        attr == "id" ? "anchor" : attr
+      end
+
       def process(parent, _target, attr)
         m = %w(id name size disabled multiple value)
-          .map { |a| attr[a] ? " #{a}='#{attr[a]}'" : nil }.compact
+          .map { |a| attr[a] ? " #{map_attr_name(a)}='#{attr[a]}'" : nil }
+          .compact
+        m << " id='_#{UUIDTools::UUID.random_create}'"
         out = Asciidoctor::Inline.new(parent, :quoted, attr["text"]).convert
         %{<select #{m.join}>#{out}</select>}
       end

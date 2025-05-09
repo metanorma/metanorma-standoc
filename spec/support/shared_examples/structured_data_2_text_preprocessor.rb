@@ -95,15 +95,15 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
         <<~TEXT
           #{BLANK_HDR}
           <sections>
-          <clause id="_0_lorem" inline-header="false" obligation="normative">
+          <clause id="_" anchor="_0_lorem" inline-header="false" obligation="normative">
              <title>0 lorem</title>
              <p id='_'>This section is about lorem.</p>
            </clause>
-           <clause id='_1_ipsum' inline-header='false' obligation='normative'>
+           <clause id="_" anchor="_1_ipsum" inline-header='false' obligation='normative'>
              <title>1 ipsum</title>
              <p id='_'>This section is about ipsum.</p>
            </clause>
-           <clause id='_2_dolor' inline-header='false' obligation='normative'>
+           <clause id="_" anchor="_2_dolor" inline-header='false' obligation='normative'>
              <title>2 dolor</title>
              <p id='_'>This section is about dolor.</p>
             </clause>
@@ -151,7 +151,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
         <<~TEXT
           #{BLANK_HDR}
           <sections>
-          <clause id="_lorem_ipsum" inline-header="false" obligation="normative">
+          <clause id="_" anchor="_lorem_ipsum" inline-header="false" obligation="normative">
             <title>Lorem ipsum</title>
             <p id='_'>dolor sit amet</p>
           </clause>
@@ -202,11 +202,11 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
         <<~TEXT
           #{BLANK_HDR}
           <sections>
-          <clause id="_name" inline-header="false" obligation="normative">
+          <clause id="_" anchor="_name" inline-header="false" obligation="normative">
               <title>name</title>
               <p id='_'>Lorem ipsum</p>
             </clause>
-            <clause id='_desc' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="_desc" inline-header='false' obligation='normative'>
               <title>desc</title>
               <p id='_'>dolor sit amet</p>
           </clause>
@@ -352,15 +352,15 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
               </foreword>
             </preface>
             <sections>
-              <clause id='_0_1_lorem_lorem' inline-header='false' obligation='normative'>
+              <clause id="_" anchor="_0_1_lorem_lorem" inline-header='false' obligation='normative'>
                 <title>0 → 1 lorem == lorem</title>
                 <sourcecode lang='ruby' id='_'><body>link:doc-0.rb[role=include]</body></sourcecode>
               </clause>
-              <clause id='_1_2_ipsum_ipsum' inline-header='false' obligation='normative'>
+              <clause id="_" anchor="_1_2_ipsum_ipsum" inline-header='false' obligation='normative'>
                 <title>1 → 2 ipsum == ipsum</title>
                 <sourcecode lang='ruby' id='_'><body>link:doc-1.rb[role=include]</body></sourcecode>
               </clause>
-              <clause id='_2_3_dolor_dolor' inline-header='false' obligation='normative'>
+              <clause id="_" anchor="_2_3_dolor_dolor" inline-header='false' obligation='normative'>
                 <title>2 → 3 dolor == dolor</title>
                 <sourcecode lang='ruby' id='_'><body>link:doc-2.rb[role=include]</body></sourcecode>
               </clause>
@@ -486,21 +486,21 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
               <table id='_'>
                 <thead>
                   <tr>
-                    <th valign="top" align='left'>Script conversion system authority code</th>
-                    <th valign="top" align='left'>Name in English</th>
-                    <th valign="top" align='left'>Notes</th>
-                    <th valign="top" align='left'>Name en</th>
+                    <th id="_" valign="top" align='left'>Script conversion system authority code</th>
+                    <th id="_" valign="top" align='left'>Name in English</th>
+                    <th id="_" valign="top" align='left'>Notes</th>
+                    <th id="_" valign="top" align='left'>Name en</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td valign="top" align='left'>
+                    <td id="_" valign="top" align='left'>
                       <p id='_'>acadsin-zho-hani-latn-2002</p>
                     </td>
-                    <td valign="top" align='left'>
+                    <td id="_" valign="top" align='left'>
                       <p id='_'>acadsin-zho-hani-latn-2002</p>
                     </td>
-                    <td valign="top" align='left'>
+                    <td id="_" valign="top" align='left'>
                       <note id='_'>
                         <p id='_'>
                           OGC 11-122r1 code
@@ -508,7 +508,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
                         </p>
                       </note>
                     </td>
-                    <td valign="top" align='left'>
+                    <td id="_" valign="top" align='left'>
                       <p id='_'>Academica Sinica — Chinese Tongyong Pinyin (2002)</p>
                     </td>
                   </tr>
@@ -676,28 +676,28 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
         <<~TEXT
           #{BLANK_HDR}
           <sections>
-            <clause id='_main_nested_file_main' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="_main_nested_file_main" inline-header='false' obligation='normative'>
               <title>main: nested file-main</title>
             </clause>
-            <clause id='_main_nested_description_main' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="_main_nested_description_main" inline-header='false' obligation='normative'>
               <title>main: nested description-main</title>
             </clause>
-            <clause id='_nested_one_main' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="_nested_one_main" inline-header='false' obligation='normative'>
               <title>nested one-main</title>
             </clause>
-            <clause id='_nested_two_main' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="_nested_two_main" inline-header='false' obligation='normative'>
               <title>nested two-main</title>
             </clause>
-            <clause id='_main_nested2_name_main' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="_main_nested2_name_main" inline-header='false' obligation='normative'>
               <title>main: nested2 name-main</title>
             </clause>
-            <clause id='_main_nested2_description_main' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="_main_nested2_description_main" inline-header='false' obligation='normative'>
               <title>main: nested2 description-main</title>
             </clause>
-            <clause id='_nested2_one_main' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="_nested2_one_main" inline-header='false' obligation='normative'>
               <title>nested2 one-main</title>
             </clause>
-            <clause id='_nested2_two_main' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="_nested2_two_main" inline-header='false' obligation='normative'>
               <title>nested2 two-main</title>
             </clause>
           </sections>

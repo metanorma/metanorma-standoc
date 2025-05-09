@@ -16,11 +16,13 @@ module Metanorma
         @unique_designs = {}
         @c = HTMLEntities.new
         @terms_tags = xmldoc.xpath("//terms").each_with_object({}) do |t, m|
-          m[t["id"]] = true
+          #m[t["id"]] = true
+          m[t["anchor"]] = true
         end
       end
 
       def call
+        #require "debug"; binding.b
         @idhash = populate_idhash
         @unique_designs = unique_designators
         @lookup = replace_automatic_generated_ids_terms
@@ -29,6 +31,7 @@ module Metanorma
         related_cleanup
         remove_missing_refs
         concept_cleanup2
+        anchor_to_id
       end
 
       private
@@ -69,9 +72,12 @@ module Metanorma
       end
 
       def populate_idhash
-        xmldoc.xpath("//*[@id]").each_with_object({}) do |n, mem|
-          /^(term|symbol)-/.match?(n["id"]) or next
-          mem[n["id"]] = true
+        #xmldoc.xpath("//*[@id]").each_with_object({}) do |n, mem|
+        xmldoc.xpath("//*[@anchor]").each_with_object({}) do |n, mem|
+          #/^(term|symbol)-/.match?(n["id"]) or next
+          /^(term|symbol)-/.match?(n["anchor"]) or next
+          #mem[n["id"]] = true
+          mem[n["anchor"]] = true
         end
       end
 
@@ -207,18 +213,22 @@ module Metanorma
 
       def norm_id_memorize_init(node, res_table, selector, prefix, use_domain)
         term_text = norm_ref_id(node, selector, use_domain) or return
-        unless AUTO_GEN_ID_REGEXP.match(node["id"]).nil? && !node["id"].nil?
+        #unless AUTO_GEN_ID_REGEXP.match(node["id"]).nil? && !node["id"].nil?
+        unless AUTO_GEN_ID_REGEXP.match(node["anchor"]).nil? && !node["anchor"].nil?
           id = unique_text_id(term_text, prefix)
-          node["id"] = id
+          #node["id"] = id
+          node["anchor"] = id
           @idhash[id] = true
         end
-        res_table[term_text] = node["id"]
+        #res_table[term_text] = node["id"]
+        res_table[term_text] = node["anchor"]
       end
 
       def memorize_other_pref_terms(node, res_table, text_selector, use_domain)
         node.xpath(text_selector).each_with_index do |p, i|
           i.positive? or next
-          res_table[norm_ref_id1(p, use_domain ? node : nil)] = node["id"]
+          #res_table[norm_ref_id1(p, use_domain ? node : nil)] = node["id"]
+          res_table[norm_ref_id1(p, use_domain ? node : nil)] = node["anchor"]
         end
       end
 
@@ -252,6 +262,13 @@ module Metanorma
         (1..Float::INFINITY).lazy.each do |index|
           @idhash["#{prefix}-#{text}-#{index}"] or
             break("#{prefix}-#{text}-#{index}")
+        end
+      end
+
+      def anchor_to_id
+        xmldoc.xpath("//*[@anchor]").each do |n|
+          /^(term|symbol)-/.match?(n["anchor"]) or next
+          n["id"] or add_id(n)
         end
       end
 

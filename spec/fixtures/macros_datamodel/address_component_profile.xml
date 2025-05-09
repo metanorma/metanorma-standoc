@@ -1,5 +1,5 @@
   <sections>
-    <clause id='_addresscomponentprofile' inline-header='false' obligation='normative'>
+    <clause id="_" anchor="_addresscomponentprofile" inline-header='false' obligation='normative'>
       <title>AddressComponentProfile</title>
       <p id='_'>
         An
@@ -23,44 +23,44 @@
         <name>AddressComponentProfile attributes</name>
         <thead>
           <tr>
-            <th valign='top' align='left'>Name</th>
-            <th valign='top' align='left'>Definition</th>
-            <th valign='top' align='left'>Mandatory/ Optional/ Conditional</th>
-            <th valign='top' align='left'>Max Occur</th>
-            <th valign='top' align='left'>Data Type</th>
+            <th id="_" valign='top' align='left'>Name</th>
+            <th id="_" valign='top' align='left'>Definition</th>
+            <th id="_" valign='top' align='left'>Mandatory/ Optional/ Conditional</th>
+            <th id="_" valign='top' align='left'>Max Occur</th>
+            <th id="_" valign='top' align='left'>Data Type</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td valign='top' align='left'>key</td>
-            <td valign='top' align='left'>
+            <td id="_" valign='top' align='left'>key</td>
+            <td id="_" valign='top' align='left'>
               An identifier of this
               <tt>AddressComponentProfile</tt>
               , shall be unique within the
               <tt>AddressProfile</tt>
               .
             </td>
-            <td valign='top' align='left'>M</td>
-            <td valign='top' align='left'>1</td>
-            <td valign='top' align='left'>
+            <td id="_" valign='top' align='left'>M</td>
+            <td id="_" valign='top' align='left'>1</td>
+            <td id="_" valign='top' align='left'>
               <tt>CharacterString</tt>
             </td>
           </tr>
           <tr>
-            <td valign='top' align='left'>description</td>
-            <td valign='top' align='left'>Textual description of this component.</td>
-            <td valign='top' align='left'>M</td>
-            <td valign='top' align='left'>1</td>
-            <td valign='top' align='left'>
+            <td id="_" valign='top' align='left'>description</td>
+            <td id="_" valign='top' align='left'>Textual description of this component.</td>
+            <td id="_" valign='top' align='left'>M</td>
+            <td id="_" valign='top' align='left'>1</td>
+            <td id="_" valign='top' align='left'>
               <tt>CharacterString</tt>
             </td>
           </tr>
           <tr>
-            <td valign='top' align='left'>example</td>
-            <td valign='top' align='left'>A textual example to demonstrate the correct use of this component.</td>
-            <td valign='top' align='left'>O</td>
-            <td valign='top' align='left'>1</td>
-            <td valign='top' align='left'>
+            <td id="_" valign='top' align='left'>example</td>
+            <td id="_" valign='top' align='left'>A textual example to demonstrate the correct use of this component.</td>
+            <td id="_" valign='top' align='left'>O</td>
+            <td id="_" valign='top' align='left'>1</td>
+            <td id="_" valign='top' align='left'>
               <tt>CharacterString</tt>
             </td>
           </tr>

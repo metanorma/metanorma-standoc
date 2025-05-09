@@ -16,7 +16,6 @@ module Metanorma
       def iev_validate(xmldoc)
         @iev = init_iev or return
         xmldoc.xpath("//term").each do |t|
-          #t.xpath(".//termsource").each do |src|
           t.xpath("./source | ./preferred/source | ./admitted/source | ./deprecates/source | ./related/source").each do |src|
             (/^IEC[  ]60050-/.match(src.at("./origin/@citeas")&.text) &&
           loc = src.xpath(SOURCELOCALITY)&.text) or next
@@ -47,15 +46,16 @@ module Metanorma
 
       def concept_validate_ids(doc)
         @concept_ids ||= doc.xpath("//term | //definitions//dt")
-          .each_with_object({}) { |x, m| m[x["id"]] = true }
+          .each_with_object({}) { |x, m| m[x["anchor"]] = true }
         @concept_terms_tags ||= doc.xpath("//terms")
-          .each_with_object({}) { |t, m| m[t["id"]] = true }
+          .each_with_object({}) { |t, m| m[t["anchor"]] = true }
         nil
       end
 
       def concept_validate_msg(_doc, tag, refterm, xref)
+        t = @doc_ids.dig(xref["target"], :anchor) || xref["target"]
         ret = <<~LOG
-          #{tag.capitalize} #{xref.at("../#{refterm}")&.text} is pointing to #{xref['target']}, which is not a term or symbol
+          #{tag.capitalize} #{xref.at("../#{refterm}")&.text} is pointing to #{t}, which is not a term or symbol
         LOG
         if @concept_terms_tags[xref["target"]]
           ret = ret.strip
@@ -80,7 +80,7 @@ module Metanorma
       def preferred_validate_report(terms)
         terms.each do |k, v|
           v.size > 1 or next
-          loc = v.map { |x| x["id"] }.join(", ")
+          loc = v.map { |x| x["anchor"] }.join(", ")
           err = "Term #{k} occurs twice as preferred designation: #{loc}"
           @log.add("Terms", v.first, err, severity: 1)
         end
@@ -93,7 +93,7 @@ module Metanorma
           c = d.ancestors.detect do |x|
             section_containers.include?(x.name)
           end
-          c["id"] ||= "_#{UUIDTools::UUID.random_create}"
+          c["id"] or add_id(c["id"])
           m[c["id"]] ||= { clause: c, designations: [] }
           m[c["id"]][:designations] << d
         end
@@ -107,7 +107,7 @@ module Metanorma
           end.join(", ")
           err = <<~ERROR
             Clause not recognised as a term clause, but contains designation markup
-             (preferred:[], admitted:[], alt:[], deprecated:[]):<br/>
+             (<code>preferred:[], admitted:[], alt:[], deprecated:[]</code>):<br/>
             #{desgns}</br>
             Ensure the parent clause is recognised as a terms clause by inserting <code>[heading=terms and definitions]</code> above the title,
             in case the heading is not automatically recognised. See also <a href="https://www.metanorma.org/author/topics/sections/concepts/#clause-title">Metanorma documentation</a>.

@@ -129,7 +129,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
                  #{BLANK_HDR}
          <sections>
-            <ul id="id" tag="X" multilingual-rendering="common" keep-with-next="true" keep-lines-together="true">
+            <ul id="_" anchor="id" tag="X" multilingual-rendering="common" keep-with-next="true" keep-lines-together="true">
                <li>
                   <p id="_">First</p>
                </li>
@@ -139,7 +139,7 @@ RSpec.describe Metanorma::Standoc do
                   <p id="_">entry2</p>
                </li>
             </ul>
-            <ol id="id1" tag="X" multilingual-rendering="common" keep-with-next="true" keep-lines-together="true" type="alphabet">
+            <ol id="_" anchor="id1" tag="X" multilingual-rendering="common" keep-with-next="true" keep-lines-together="true" type="alphabet">
                <li>
                   <p id="_">First</p>
                </li>
@@ -237,19 +237,19 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
-      <ul id="id1">
-        <li id="id2">
+      <ul id="_" anchor="id1">
+        <li id="_" anchor="id2">
           <p id="_">List item</p>
         </li>
         <li>
-          <p id="_">Hello <bookmark id="id3"/> List item</p>
+          <p id="_">Hello <bookmark id="_" anchor="id3"/> List item</p>
         </li>
       </ul>
-      <dl id='id4'>
-          <dt id='id5'>a</dt>
+      <dl id="_" anchor="id4">
+          <dt id="_" anchor="id5">a</dt>
           <dd>
             <p id='_'>
-              <bookmark id='id6'/>
+              <bookmark id="_" anchor="id6"/>
               b
             </p>
           </dd>

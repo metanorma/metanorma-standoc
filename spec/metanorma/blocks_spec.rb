@@ -68,6 +68,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes form blocks" do
+    mock_uuid_increment
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [form,id=N0,name=N1,action="/action_page.php",class="checkboxes"]
@@ -84,23 +85,23 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-       #{BLANK_HDR}
-               <sections>
-           <form id="N0" class="checkboxes" name="N1" action="/action_page.php">
-             <p id="_">
-               <label for="fname">First name:</label>
-               <br/>
-               <input type="text" id="fname" name="fname"/>
-             </p>
-           </form>
-           <form id="N1" class="checkboxes" name="N1" action="/action_page.php">
-             <p id="_">
-               <label for="fname">First name:</label>
-               <br/>
-               <input type="text" id="fname" name="fname"/>
-             </p>
-           </form>
-         </sections>
+      #{BLANK_HDR}
+          <sections>
+             <form id="_1" anchor="N0" class="checkboxes" name="N1" action="/action_page.php">
+                <p id="_2">
+                   <label for="fname">First name:</label>
+                   <br/>
+                   <input type="text" anchor="fname" name="fname" id="_3"/>
+                </p>
+             </form>
+             <form id="_4" anchor="N1" class="checkboxes" name="N1" action="/action_page.php">
+                <p id="_5">
+                   <label for="fname">First name:</label>
+                   <br/>
+                   <input type="text" anchor="fname" name="fname" id="_6"/>
+                </p>
+             </form>
+          </sections>
        </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
@@ -137,7 +138,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
                 <sections>
-             <formula id="ABC" tag="X" columns="1" multilingual-rendering="common" number="3" keep-with-next="true" keep-lines-together="true" inequality="true">
+             <formula id="_" anchor="ABC" tag="X" columns="1" multilingual-rendering="common" number="3" keep-with-next="true" keep-lines-together="true" inequality="true">
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
@@ -372,7 +373,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
              #{BLANK_HDR}
-      <sections><p id="foreword">Foreword</p>
+      <sections><p id="_" anchor="foreword">Foreword</p>
       </sections>
       </metanorma>
     OUTPUT
@@ -390,8 +391,16 @@ RSpec.describe Metanorma::Standoc do
       :novalid:
       :draft: 1.2
 
+      ****
+      Initial review 1
+      ****
+
+      ****
+      Initial review 2
+      ****
+
       [[foreword]]
-      .Foreword
+      == Foreword
 
       _**Foreword**_
 
@@ -516,43 +525,50 @@ RSpec.describe Metanorma::Standoc do
        </bibdata>
           <preface>
              <foreword id="_1" obligation="informative">
+                <title>
+                   <bookmark id="_51" anchor="_51"/>
+                   <bookmark id="_52" anchor="_52"/>
+                   Foreword
+                </title>
+             </foreword>
+          </preface>
+          <sections>
+             <foreword id="_6" anchor="foreword" obligation="informative">
                 <title>Foreword</title>
-                <p id="foreword">
+                <p id="_7">
                    <em>
                       <strong>
-                         <bookmark id="_44"/>
+                         <bookmark id="_53" anchor="_53"/>
                          Foreword
                       </strong>
                    </em>
                 </p>
              </foreword>
-          </preface>
-          <sections>
-             <clause id="_clause_title" inline-header="false" obligation="normative">
+             <clause id="_13" anchor="_clause_title" inline-header="false" obligation="normative">
                 <title>
-                   <bookmark id="_45"/>
+                   <bookmark id="_54" anchor="_54"/>
                    Clause title
                 </title>
              </clause>
-             <clause id="_11" inline-header="false" obligation="normative">
-                <p id="_53">
-                   <bookmark id="_46"/>
+             <clause id="_16" inline-header="false" obligation="normative">
+                <p id="_62">
+                   <bookmark id="_55" anchor="_55"/>
                 </p>
              </clause>
-             <clause id="_2" inline-header="false" obligation="normative">
-                <p id="_17">
-                   <bookmark id="_47"/>
+             <clause id="_19" anchor="_2" inline-header="false" obligation="normative">
+                <p id="_22">
+                   <bookmark id="_56" anchor="_56"/>
                    Following paragraph
                 </p>
              </clause>
-             <clause id="_3" inline-header="false" obligation="normative">
-                <p id="_19">
-                   <bookmark id="_48"/>
+             <clause id="_23" anchor="_3" inline-header="false" obligation="normative">
+                <p id="_24">
+                   <bookmark id="_57" anchor="_57"/>
                    Express the mass fraction of each defect using
                    <xref target="formulaA-1"/>
                    :
                 </p>
-                <formula id="formulaA-1">
+                <formula id="_25" anchor="formulaA-1">
                    <stem block="true" type="MathML">
                       <math xmlns="http://www.w3.org/1998/Math/MathML">
                          <mstyle displaystyle="true">
@@ -572,7 +588,7 @@ RSpec.describe Metanorma::Standoc do
                       </math>
                       <asciimath>w = (m_D) / (m_s)</asciimath>
                    </stem>
-                   <dl id="_22" key="true">
+                   <dl id="_27" key="true">
                       <dt>
                          <stem block="false" type="MathML">
                             <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -584,18 +600,18 @@ RSpec.describe Metanorma::Standoc do
                          </stem>
                       </dt>
                       <dd>
-                         <p id="_54">is the mass fraction of grains with a particular defect in the test</p>
+                         <p id="_63">is the mass fraction of grains with a particular defect in the test</p>
                       </dd>
                    </dl>
                 </formula>
              </clause>
-             <clause id="_4" inline-header="false" obligation="normative">
-                <p id="_26">
+             <clause id="_30" anchor="_4" inline-header="false" obligation="normative">
+                <p id="_31">
                    Express the mass fraction of each defect using
                    <xref target="formulaA-1"/>
                    :
                 </p>
-                <formula id="formulaA-1">
+                <formula id="_32" anchor="formulaA-1">
                    <stem block="true" type="MathML">
                       <math xmlns="http://www.w3.org/1998/Math/MathML">
                          <mstyle displaystyle="true">
@@ -615,44 +631,44 @@ RSpec.describe Metanorma::Standoc do
                       </math>
                       <asciimath>w = (m_D) / (m_s)</asciimath>
                    </stem>
-                   <dl id="_29" key="true">
+                   <dl id="_34" key="true">
                       <dt>
-                         <bookmark id="_49"/>
+                         <bookmark id="_58" anchor="_58"/>
                          w
                       </dt>
                       <dd>
-                         <p id="_55">is the mass fraction of grains with a particular defect in the test</p>
+                         <p id="_64">is the mass fraction of grains with a particular defect in the test</p>
                       </dd>
                    </dl>
                 </formula>
              </clause>
-             <clause id="_5" inline-header="false" obligation="normative">
-                <note id="_33">
-                   <p id="_56">
-                      <bookmark id="_50"/>
+             <clause id="_37" anchor="_5" inline-header="false" obligation="normative">
+                <note id="_38">
+                   <p id="_65">
+                      <bookmark id="_59" anchor="_59"/>
                       Text
                    </p>
                 </note>
              </clause>
-             <clause id="_6" inline-header="false" obligation="normative">
-                <table id="_37">
+             <clause id="_41" anchor="_6" inline-header="false" obligation="normative">
+                <table id="_42">
                    <tbody>
                       <tr>
-                         <td valign="top" align="left">
-                            <bookmark id="_51"/>
+                         <td id="_43" valign="top" align="left">
+                            <bookmark id="_60" anchor="_60"/>
                             A
                          </td>
                       </tr>
                    </tbody>
                 </table>
              </clause>
-             <clause id="_7" inline-header="false" obligation="normative">
-                <table id="_41">
+             <clause id="_46" anchor="_7" inline-header="false" obligation="normative">
+                <table id="_47">
                    <name>Caption</name>
                    <tbody>
                       <tr>
-                         <td valign="top" align="left">
-                            <bookmark id="_52"/>
+                         <td id="_48" valign="top" align="left">
+                            <bookmark id="_61" anchor="_61"/>
                             A
                          </td>
                       </tr>
@@ -661,46 +677,52 @@ RSpec.describe Metanorma::Standoc do
              </clause>
           </sections>
           <review-container>
-             <review id="_3" reviewer="ISO" date="20170101T00:00:00Z" type="whatever" from="foreword" to="foreword">
-                <p id="_4">A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.</p>
-                <p id="_5">
+             <review id="_2" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_51" to="_51">
+                <p id="_3">Initial review 1</p>
+             </review>
+             <review id="_4" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_52" to="_52">
+                <p id="_5">Initial review 2</p>
+             </review>
+             <review id="_8" reviewer="ISO" date="20170101T00:00:00Z" type="whatever" from="foreword" to="foreword">
+                <p id="_9">A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.</p>
+                <p id="_10">
                    For further information on the Foreword, see
                    <strong>ISO/IEC Directives, Part 2, 2016, Clause 12.</strong>
                 </p>
              </review>
-             <review id="_6" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_44" to="_44">
-                <p id="_7">Blank review</p>
+             <review id="_11" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_53" to="_53">
+                <p id="_12">Blank review</p>
              </review>
-             <review id="_9" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_45" to="_45">
-                <p id="_10">Second Blank review</p>
+             <review id="_14" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_54" to="_54">
+                <p id="_15">Second Blank review</p>
              </review>
-             <review id="_12" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_46" to="_46">
-                <p id="_13">Third Blank review</p>
+             <review id="_17" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_55" to="_55">
+                <p id="_18">Third Blank review</p>
              </review>
-             <review id="_15" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_47" to="_47">
-                <p id="_16">Fourth Blank review</p>
+             <review id="_20" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_56" to="_56">
+                <p id="_21">Fourth Blank review</p>
              </review>
-             <review id="_23" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_48" to="_48">
-                <p id="_24">Fifth Blank review</p>
+             <review id="_28" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_57" to="_57">
+                <p id="_29">Fifth Blank review</p>
              </review>
-             <review id="_30" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_49" to="_49">
-                <p id="_31">Sixth Blank review</p>
+             <review id="_35" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_58" to="_58">
+                <p id="_36">Sixth Blank review</p>
              </review>
-             <review id="_34" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_50" to="_50">
-                <p id="_35">Seventh Blank review</p>
+             <review id="_39" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_59" to="_59">
+                <p id="_40">Seventh Blank review</p>
              </review>
-             <review id="_38" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_51" to="_51">
-                <p id="_39">Eighth Blank review</p>
+             <review id="_44" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_60" to="_60">
+                <p id="_45">Eighth Blank review</p>
              </review>
-             <review id="_42" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_52" to="_52">
-                <p id="_43">Ninth Blank review</p>
+             <review id="_49" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_61" to="_61">
+                <p id="_50">Ninth Blank review</p>
              </review>
           </review-container>
        </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+    expect(Xml::C14n.format(xml.to_xml.gsub(%r{ schema-version="[^"]+"}, "")))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -736,10 +758,10 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
          <sections>
-           <terms id='_terms_and_definitions' obligation='normative'>
+           <terms id="_" anchor="_terms_and_definitions" obligation='normative'>
              <title>Terms and definitions</title>
              <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-             <term id='term-Term1'>
+             <term id="_" anchor="term-Term1">
                <preferred><expression><name>Term1</name></expression></preferred>
                <definition>
                  <verbal-definition>
@@ -809,10 +831,10 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
                    #{BLANK_HDR}
             <sections>
-              <terms id="_terms_and_definitions" obligation="normative">
+              <terms id="_" anchor="_terms_and_definitions" obligation="normative">
               <title>Terms and definitions</title>
               <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-              <term id="term-Term1">
+              <term id="_" anchor="term-Term1">
               <preferred><expression><name>Term1</name></expression></preferred>
               <termnote id="_">
               <p id="_">This is a note</p>
@@ -845,7 +867,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
                      #{BLANK_HDR}
               <sections>
-                  <clause id='_clause' inline-header='false' obligation='normative'>
+                  <clause id="_" anchor="_clause" inline-header='false' obligation='normative'>
         <title>Clause</title>
         <termnote id='_'>
           <p id='_'>XYZ</p>
@@ -877,7 +899,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
                     #{BLANK_HDR}
                     <sections>
-        <terms id="_terms_and_definitions" obligation="normative">
+        <terms id="_" anchor="_terms_and_definitions" obligation="normative">
         <title>Terms and Definitions</title>
                <p id="_">No terms and definitions are listed in this document.</p>
                <note id='_'>
@@ -886,7 +908,7 @@ RSpec.describe Metanorma::Standoc do
         <example id='_'>
         <p id='_'>This is not a termexample</p>
       </example>
-        <clause id="_term1" inline-header="false" obligation="normative">
+        <clause id="_" anchor="_term1" inline-header="false" obligation="normative">
         <title>Term1</title>
         <note id="_">
         <p id="_">This is a note</p>
@@ -914,12 +936,12 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
                     #{BLANK_HDR}
                     <sections>
-        <terms id="_terms_and_definitions" obligation="normative"><title>Terms, definitions and symbols</title>
+        <terms id="_" anchor="_terms_and_definitions" obligation="normative"><title>Terms, definitions and symbols</title>
       <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-      <term id="term-Term1">
+      <term id="_" anchor="term-Term1">
         <preferred><expression><name>Term1</name></expression></preferred>
       </term>
-      <definitions id="_symbols" obligation="normative" type="symbols">
+      <definitions id="_" anchor="_symbols" obligation="normative" type="symbols">
         <title>Symbols</title>
         <note id="_">
         <p id="_">This is a note</p>
@@ -952,16 +974,16 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
                 <sections>
-           <clause id='_terms_and_definitions' obligation='normative' type="terms">
+           <clause id="_" anchor="_terms_and_definitions" obligation='normative' type="terms">
              <title>Terms and definitions</title>
              <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-             <terms id='_term1' obligation='normative'>
+             <terms id="_" anchor="_term1" obligation='normative'>
                <title>Term1</title>
                <p id='_'>definition</p>
                <note id='_'>
                  <p id='_'>Note 1</p>
                </note>
-               <term id='term-Term11'>
+               <term id="_" anchor="term-Term11">
                  <preferred>
                    <expression>
                      <name>Term11</name>
@@ -1011,9 +1033,9 @@ RSpec.describe Metanorma::Standoc do
              <note id='_' number="7" subsequence="A" keep-with-next="true" keep-lines-together="true" type="classified" tag='X' columns='1' multilingual-rendering='common'>
         <p id='_'>XYZ</p>
       </note>
-           <clause id="_clause_1" inline-header="false" obligation="normative">
+           <clause id="_" anchor="_clause_1" inline-header="false" obligation="normative">
              <title>Clause 1</title>
-             <note id="ABC">
+             <note id="_" anchor="ABC">
              <p id="_">This is a note</p>
            </note>
            </clause></sections>
@@ -1039,8 +1061,8 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-           <figure id="ABC" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common'>
-        <pre alt="Literal" id="_">&lt;LITERAL&gt;
+           <figure id="_" anchor="ABC" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common'>
+        <pre id="_" tag="X" columns="1" multilingual-rendering="common" alt="Literal">&lt;LITERAL&gt;
         FIGURATIVE
         </pre>
         </figure>
@@ -1094,7 +1116,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
-         <admonition id="ABC" type="safety precautions" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' notag="true" unnumbered="true">
+         <admonition id="_" anchor="ABC" type="safety precautions" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' notag="true" unnumbered="true">
         <name>Precautions</name><p id="_">While werewolves are hardy community members, keep in mind the following dietary concerns:</p>
        <ol id="_" type="arabic">
          <li>
@@ -1132,12 +1154,12 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
             #{BLANK_HDR}
             <sections>
-        <terms id="_terms_and_definitions" obligation="normative">
+        <terms id="_" anchor="_terms_and_definitions" obligation="normative">
         <title>Terms and definitions</title>
       <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-        <term id="term-Term1">
+        <term id="_" anchor="term-Term1">
         <preferred><expression><name>Term1</name></expression></preferred>
-      <termexample id="ABC" tag='X' columns='1' multilingual-rendering='common'>
+      <termexample id="_" anchor="ABC" tag='X' columns='1' multilingual-rendering='common'>
         <p id="_">This is an example</p>
       </termexample></term>
       </terms>
@@ -1161,7 +1183,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
         #{BLANK_HDR}
               <sections>
-                  <clause id='_clause' inline-header='false' obligation='normative'>
+                  <clause id="_" anchor="_clause" inline-header='false' obligation='normative'>
         <title>Clause</title>
         <termexample id='_'>
           <p id='_'>XYZ</p>
@@ -1188,10 +1210,10 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
             #{BLANK_HDR}
       <sections>
-        <terms id="_terms_and_definitions" obligation="normative">
+        <terms id="_" anchor="_terms_and_definitions" obligation="normative">
         <title>Terms and Definitions</title>
       <p id="_">No terms and definitions are listed in this document.</p>
-        <clause id="_term1" inline-header="false" obligation="normative">
+        <clause id="_" anchor="_term1" inline-header="false" obligation="normative">
         <title>Term1</title>
         <example id="_">
         <p id="_">This is an example</p>
@@ -1220,11 +1242,11 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
                     #{BLANK_HDR}
       <sections>
-        <terms id="_terms_and_definitions" obligation="normative"><title>Terms, definitions and symbols</title>
-      <p id="_">For the purposes of this document, the following terms and definitions apply.</p><term id="term-Term1">
+        <terms id="_" anchor="_terms_and_definitions" obligation="normative"><title>Terms, definitions and symbols</title>
+      <p id="_">For the purposes of this document, the following terms and definitions apply.</p><term id="_" anchor="term-Term1">
         <preferred><expression><name>Term1</name></expression></preferred>
       </term>
-      <definitions id="_symbols" obligation="normative" type="symbols">
+      <definitions id="_" anchor="_symbols" obligation="normative" type="symbols">
         <title>Symbols</title>
         <example id="_">
         <p id="_">This is an example</p>
@@ -1263,7 +1285,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-         <example id="ABC" subsequence="A"  keep-with-next='true' keep-lines-together='next' tag='X' columns='1' multilingual-rendering='common'>
+         <example id="_" anchor="ABC" subsequence="A"  keep-with-next='true' keep-lines-together='next' tag='X' columns='1' multilingual-rendering='common'>
          <name>Title</name>
         <p id="_">This is an example</p>
        <p id="_">Amen</p></example>
@@ -1289,7 +1311,7 @@ RSpec.describe Metanorma::Standoc do
          <title>Foreword</title>
          <p id="_">This is a preamble</p>
        </foreword></preface><sections>
-       <clause id="_section_1" inline-header="false" obligation="normative">
+       <clause id="_" anchor="_section_1" inline-header="false" obligation="normative">
          <title>Section 1</title>
        </clause></sections>
        </metanorma>
@@ -1312,7 +1334,7 @@ RSpec.describe Metanorma::Standoc do
          <title>Foreword</title>
          <p id="_">This is a preamble</p>
        </foreword></preface><sections>
-       <clause id="_section_1" inline-header="false" obligation="normative">
+       <clause id="_" anchor="_section_1" inline-header="false" obligation="normative">
          <title>Section 1</title>
        </clause></sections>
        </metanorma>
@@ -1343,17 +1365,17 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
              <sections>
-        <figure id="figureC-2"><name>Stages of gelatinization</name><figure id="_">
+        <figure id="_" anchor="figureC-2"><name>Stages of gelatinization</name><figure id="_">
         <name>Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
-        <image src="spec/examples/rice_images/rice_image3_1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image id="_" src="spec/examples/rice_images/rice_image3_1.png" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
         <name>Intermediate stages: Some fully gelatinized kernels are visible</name>
-        <image src="spec/examples/rice_images/rice_image3_2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image id="_" src="spec/examples/rice_images/rice_image3_2.png" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
         <name>Final stages: All kernels are fully gelatinized</name>
-        <image src="spec/examples/rice_images/rice_image3_3.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image id="_" src="spec/examples/rice_images/rice_image3_3.png" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <dl id='_' key='true'>
         <dt>A</dt>
@@ -1382,7 +1404,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
              <sections>
-        <figure id="figureC-2"><name>Stages of gelatinization</name>
+        <figure id="_" anchor="figureC-2"><name>Stages of gelatinization</name>
         <image src="spec/examples/rice_images/rice_image3_1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       </sections>
@@ -1413,7 +1435,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
              <sections>
-        <example id="figureC-2"><name>Stages of gelatinization</name><figure id="_">
+        <example id="_" anchor="figureC-2"><name>Stages of gelatinization</name><figure id="_">
         <name>Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
         <image src="spec/examples/rice_images/rice_image3_1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
@@ -1461,7 +1483,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
              <sections>
-        <figure id="figureC-2"><name>Stages of gelatinization</name><figure id="_">
+        <figure id="_" anchor="figureC-2"><name>Stages of gelatinization</name><figure id="_">
         <name>Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
         <image src="spec/examples/rice_images/rice_image3_1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
@@ -1569,7 +1591,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
               <sections>
-         <figure id="ABC" unnumbered="true" number="3" class="plate">
+         <figure id="_" anchor="ABC" unnumbered="true" number="3" class="plate">
          <name>Split-it-right sample divider</name>
                   <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto" alt="alttext"/>
        </figure>
@@ -1615,7 +1637,7 @@ RSpec.describe Metanorma::Standoc do
        <sections>
          <figure id="_" tag='X' columns='1' multilingual-rendering='common' width="3">
          <name>Caption</name>
-         <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="4" width="3" title="TITLE" alt="IMAGE" filename="riceimg1.png"/>
+         <image id="_" tag="X" columns="1" multilingual-rendering="common" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="4" width="3" filename="riceimg1.png" title="TITLE" alt="IMAGE"/>
        </figure>
        </sections>
        </metanorma>
@@ -1644,16 +1666,16 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
        <sections>
          <figure id="_" width="auto">
-            <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="4.3" width="auto"/>
+            <image id="_" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="4.3" width="auto"/>
           </figure>
          <figure id="_" width="9.3%">
-            <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="9.3%"/>
+            <image id="_" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="9.3%"/>
           </figure>
          <figure id="_" width="9%">
-            <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="9.3%" width="9%"/>
+            <image id="_" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="9.3%" width="9%"/>
           </figure>
           <figure id="_" width="text-width">
-              <image src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" id="_" height="auto" width="text-width"/>
+              <image id="_" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="text-width"/>
           </figure>
        </sections>
        </metanorma>
@@ -1696,7 +1718,7 @@ RSpec.describe Metanorma::Standoc do
       image::spec/examples/rice_images/rice_image1.png[]
     INPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
-      .to include('<image src="data:image/png;base64')
+      .to include('<image id="_" src="data:image/png;base64')
 
     input = <<~INPUT
       = Document title
@@ -1711,7 +1733,7 @@ RSpec.describe Metanorma::Standoc do
       image::spec/examples/rice_images/rice_image1.png[]
     INPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
-      .to include('<image src="data:image/png;base64')
+      .to include('<image id="_" src="data:image/png;base64')
 
     input = <<~INPUT
       = Document title
@@ -1726,7 +1748,7 @@ RSpec.describe Metanorma::Standoc do
       image::spec/examples/rice_images/rice_image1.png[]
     INPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
-      .not_to include('<image src="data:image/png;base64')
+      .not_to include('<image id="_" src="data:image/png;base64')
 
     input = <<~INPUT
       = Document title
@@ -1740,11 +1762,12 @@ RSpec.describe Metanorma::Standoc do
       image::spec/examples/rice_images/rice_image1.png[]
     INPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
-      .to include('<image src="data:image/png;base64')
+      .to include('<image id="_" src="data:image/png;base64')
 
     FileUtils.rm_rf "spec/examples/test.xml"
     system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/examples/test.adoc"
-    expect(File.read("spec/examples/test.xml")).to include('<image src="data:image/png;base64')
+    expect(strip_guid(File.read("spec/examples/test.xml")))
+      .to include('<image id="_" src="data:image/png;base64')
   end
 
   it "accepts attributes on paragraphs" do
@@ -1777,7 +1800,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-         <quote id="ABC" align="right" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common'>
+         <quote id="_" anchor="ABC" align="right" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common'>
          <source type="inline" bibitemid="ISO7301" citeas="">
          <localityStack>
         <locality type="section"><referenceFrom>1</referenceFrom></locality>
@@ -1819,7 +1842,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-         <sourcecode id="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' linenums='true'>
+         <sourcecode id="_" anchor="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' linenums='true'>
         <name>Caption</name><body>puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
@@ -1862,7 +1885,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-         <sourcecode id="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' linenums='true'>
+         <sourcecode id="_" anchor="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' linenums='true'>
         <name>Caption</name><body>puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
@@ -1880,6 +1903,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "processes callouts" do
+    mock_uuid_increment
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [source,ruby]
@@ -1894,15 +1918,23 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-              <sections><sourcecode id="_" lang="ruby"><body>puts "Hello, world." <callout target="_">1</callout>
-       %w{a b c}.each do |x|
-         puts x <callout target="_">2</callout>
-       end</body><annotation id="_">
-         <p id="_">This is one callout</p>
-       </annotation><annotation id="_">
-         <p id="_">This is another callout</p>
-       </annotation></sourcecode>
-       </sections>
+          <sections>
+             <sourcecode id="_1" lang="ruby">
+                <body>
+                   puts "Hello, world."
+                   <callout target="_2">1</callout>
+                   %w{a b c}.each do |x| puts x
+                   <callout target="_3">2</callout>
+                   end
+                </body>
+                <annotation id="_2" anchor="_2">
+                   <p id="_4">This is one callout</p>
+                </annotation>
+                <annotation id="_3" anchor="_3">
+                   <p id="_5">This is another callout</p>
+                </annotation>
+             </sourcecode>
+          </sections>
        </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
@@ -1940,10 +1972,10 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
             #{BLANK_HDR}
              <sections>
-               <terms id="_terms_and_definitions" obligation="normative">
+               <terms id="_" anchor="_terms_and_definitions" obligation="normative">
                <title>Terms and definitions</title><p id="_">For the purposes of this document,
              the following terms and definitions apply.</p>
-               <term id="term-Term1">
+               <term id="_" anchor="term-Term1">
                <preferred><expression><name>Term1</name></expression></preferred>
                <definition><verbal-definition><p id='_'>Definition 0</p></verbal-definition></definition>
                <source status="identical" type="authoritative">
@@ -1961,7 +1993,7 @@ RSpec.describe Metanorma::Standoc do
               </origin>
              </source>
              </term>
-             <term id='term-Term2'>
+             <term id="_" anchor="term-Term2">
         <preferred><expression><name>Term2</name></expression></preferred>
         <definition>
         <verbal-definition>
@@ -2020,11 +2052,11 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
             #{BLANK_HDR}
                   <sections>
-               <terms id="_terms_and_definitions" obligation="normative">
+               <terms id="_" anchor="_terms_and_definitions" obligation="normative">
                <title>Terms and definitions</title>
                <p id="_">For the purposes of this document,
              the following terms and definitions apply.</p>
-               <term id="term-Term1">
+               <term id="_" anchor="term-Term1">
                <preferred><expression><name>Term1</name></expression></preferred>
                <definition><verbal-definition><p id='_'>Definition 0</p></verbal-definition></definition>
                <source status="modified" type="authoritative">
@@ -2038,7 +2070,7 @@ RSpec.describe Metanorma::Standoc do
                </modification>
              </source>
              </term>
-             <term id='term-Term2'>
+             <term id="_" anchor="term-Term2">
         <preferred><expression><name>Term2</name></expression></preferred>
         <definition><verbal-definition>
           <p id='_'>Definition</p>
@@ -2084,10 +2116,10 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
                 #{BLANK_HDR}
                   <sections>
-        <terms id='_terms_and_definitions' obligation='normative'>
+        <terms id="_" anchor="_terms_and_definitions" obligation='normative'>
           <title>Terms and definitions</title>
           <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-          <term id='term-Term1'>
+          <term id="_" anchor="term-Term1">
             <preferred>
               <expression>
                 <name>Term1</name>
@@ -2107,7 +2139,7 @@ RSpec.describe Metanorma::Standoc do
               </modification>
             </source>
           </term>
-          <term id='term-Term2'>
+          <term id="_" anchor="term-Term2">
             <preferred>
               <expression>
                 <name>Term2</name>
@@ -2145,7 +2177,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~"OUTPUT"
                   #{BLANK_HDR}
                   <sections>
-        <clause id='_change_clause' inline-header='false' obligation='normative'>
+        <clause id="_" anchor="_change_clause" inline-header='false' obligation='normative'>
           <title>Change Clause</title>
           <amend id='_' change='modify' path='//table[2]' path_end='//table[2]/following-sibling:example[1]' title='Change'>
             <description>
@@ -2200,7 +2232,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~"OUTPUT"
                   #{BLANK_HDR}
            <sections>
-        <clause id='_change_clause' inline-header='false' obligation='normative'>
+        <clause id="_" anchor="_change_clause" inline-header='false' obligation='normative'>
           <title>Change Clause</title>
           <amend id='_' change='modify' path='//table[2]' path_end='//table[2]/following-sibling:example[1]' title='Change'>
           <autonumber type='table'>2</autonumber>
@@ -2219,38 +2251,38 @@ RSpec.describe Metanorma::Standoc do
                 <name>Edges of triangle and quadrilateral cells</name>
                 <tbody>
                   <tr>
-                    <th colspan='2' valign='middle' align='center'>triangle</th>
-                    <th colspan='2' valign='middle' align='center'>quadrilateral</th>
+                    <th id="_" colspan='2' valign='middle' align='center'>triangle</th>
+                    <th id="_" colspan='2' valign='middle' align='center'>quadrilateral</th>
                   </tr>
                   <tr>
-                    <td valign='middle' align='center'>edge</td>
-                    <td valign='middle' align='center'>vertices</td>
-                    <td valign='middle' align='center'>edge</td>
-                    <td valign='middle' align='center'>vertices</td>
+                    <td id="_" valign='middle' align='center'>edge</td>
+                    <td id="_" valign='middle' align='center'>vertices</td>
+                    <td id="_" valign='middle' align='center'>edge</td>
+                    <td id="_" valign='middle' align='center'>vertices</td>
                   </tr>
                   <tr>
-                    <td valign='middle' align='center'>1</td>
-                    <td valign='middle' align='center'>1, 2</td>
-                    <td valign='middle' align='center'>1</td>
-                    <td valign='middle' align='center'>1, 2</td>
+                    <td id="_" valign='middle' align='center'>1</td>
+                    <td id="_" valign='middle' align='center'>1, 2</td>
+                    <td id="_" valign='middle' align='center'>1</td>
+                    <td id="_" valign='middle' align='center'>1, 2</td>
                   </tr>
                   <tr>
-                    <td valign='middle' align='center'>2</td>
-                    <td valign='middle' align='center'>2, 3</td>
-                    <td valign='middle' align='center'>2</td>
-                    <td valign='middle' align='center'>2, 3</td>
+                    <td id="_" valign='middle' align='center'>2</td>
+                    <td id="_" valign='middle' align='center'>2, 3</td>
+                    <td id="_" valign='middle' align='center'>2</td>
+                    <td id="_" valign='middle' align='center'>2, 3</td>
                   </tr>
                   <tr>
-                    <td valign='middle' align='center'>3</td>
-                    <td valign='middle' align='center'>3, 1</td>
-                    <td valign='middle' align='center'>3</td>
-                    <td valign='middle' align='center'>3, 4</td>
+                    <td id="_" valign='middle' align='center'>3</td>
+                    <td id="_" valign='middle' align='center'>3, 1</td>
+                    <td id="_" valign='middle' align='center'>3</td>
+                    <td id="_" valign='middle' align='center'>3, 4</td>
                   </tr>
                   <tr>
-                    <td valign='top' align='left'/>
-                    <td valign='top' align='left'/>
-                    <td valign='middle' align='center'>4</td>
-                    <td valign='middle' align='center'>4, 1</td>
+                    <td id="_" valign='top' align='left'/>
+                    <td id="_" valign='top' align='left'/>
+                    <td id="_" valign='middle' align='center'>4</td>
+                    <td id="_" valign='middle' align='center'>4, 1</td>
                   </tr>
                 </tbody>
               </table>

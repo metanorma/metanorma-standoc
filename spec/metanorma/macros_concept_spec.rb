@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe Metanorma::Standoc do
+RSpec.describe Metanorma::Standoc do  
   it "processes the Metanorma::Standoc concept and related macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -178,7 +178,7 @@ RSpec.describe Metanorma::Standoc do
         </foreword>
       </preface>
       <sections>
-        <clause id='clause1' inline-header='false' obligation='normative'>
+        <clause id="_" anchor="clause1" inline-header='false' obligation='normative'>
           <title>Clause</title>
           <p id='_'>Terms are defined here</p>
         </clause>
@@ -298,21 +298,21 @@ RSpec.describe Metanorma::Standoc do
                  </foreword>
                </preface>
                <sections>
-                 <terms id='_terms_and_definitions' obligation='normative'>
+                 <terms id="_" anchor="_terms_and_definitions" obligation='normative'>
                    <title>Terms and definitions</title>
                    <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-                   <term id='term-Clause1'>
+                   <term id="_" anchor="term-Clause1">
                      <preferred><expression><name>Clause1</name></expression></preferred>
                    </term>
                  </terms>
-                 <definitions id='_symbols_and_abbreviated_terms' obligation='normative'>
+                 <definitions id="_" anchor="_symbols_and_abbreviated_terms" obligation='normative'>
                    <title>Symbols and abbreviated terms</title>
                    <dl id='_'>
-                     <dt id="symbol-Clause1">Clause1</dt>
+                     <dt id="_" anchor="symbol-Clause1">Clause1</dt>
                      <dd>
                        <p id='_'>A</p>
                      </dd>
-                     <dt id='Clause2'>Clause 2</dt>
+                     <dt id="_" anchor="Clause2">Clause 2</dt>
                      <dd>
                        <p id='_'>C</p>
                      </dd>
@@ -341,46 +341,48 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
             #{BLANK_HDR}
-            <preface>
-            <foreword id='_' obligation='informative'>
-             <title>Foreword</title>
-             <p id='_'>
-               <concept>
-                 <xref target='clause1'/>
-               </concept>
-               <concept>
-                 <refterm>w[o]rd</refterm>
-                 <renderterm>w[o]rd</renderterm>
-                 <xref target='clause1'/>
-               </concept>
-               <concept>
-                 <refterm>term</refterm>
-                 <renderterm>w[o]rd</renderterm>
-                 <xref target='clause1'/>
-               </concept>
-               <concept>
-                 <refterm>term</refterm>
-                 <renderterm>w[o]rd</renderterm>
-                 <xref target='clause1'><display-text>Clause #1</display-text></xref>
-               </concept>
-             </p>
-                   <related type='supersedes'>
-        <preferred>
-          <expression>
-            <name>term</name>
-          </expression>
-        </preferred>
-        <xref target='clause1'/>
-      </related>
-           </foreword>
-      </preface>
-      <sections>
-        <clause id='clause1' inline-header='false' obligation='normative'>
-          <title>Clause</title>
-          <p id='_'>Terms are defined here</p>
-        </clause>
-      </sections>
-            </metanorma>
+          <preface>
+             <foreword id="_" obligation="informative">
+                <title>Foreword</title>
+                <p id="_">
+                   <concept>
+                      <xref target="clause1"/>
+                   </concept>
+                   <concept>
+                      <refterm>w[o]rd</refterm>
+                      <renderterm>w[o]rd</renderterm>
+                      <xref target="clause1"/>
+                   </concept>
+                   <concept>
+                      <refterm>term</refterm>
+                      <renderterm>w[o]rd</renderterm>
+                      <xref target="clause1"/>
+                   </concept>
+                   <concept>
+                      <refterm>term</refterm>
+                      <renderterm>w[o]rd</renderterm>
+                      <xref target="clause1">
+                         <display-text>Clause #1</display-text>
+                      </xref>
+                   </concept>
+                </p>
+                <related type="supersedes">
+                   <preferred>
+                      <expression>
+                         <name>term</name>
+                      </expression>
+                   </preferred>
+                   <xref target="clause1"/>
+                </related>
+             </foreword>
+          </preface>
+          <sections>
+             <clause id="_" anchor="clause1" inline-header="false" obligation="normative">
+                <title>Clause</title>
+                <p id="_">Terms are defined here</p>
+             </clause>
+          </sections>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -421,11 +423,11 @@ RSpec.describe Metanorma::Standoc do
            </foreword>
          </preface>
          <sections>
-           <terms id="_terms_and_definitions" obligation="normative">
+           <terms id="_" anchor="_terms_and_definitions" obligation="normative">
              <title>Terms and definitions</title>
              <p id="_">For the purposes of this document,
            the following terms and definitions apply.</p>
-             <term id="term-term-first">
+             <term id="_" anchor="term-term-first">
                <preferred>
                  <expression>
                    <name>term first</name>
@@ -437,7 +439,7 @@ RSpec.describe Metanorma::Standoc do
                  </verbal-definition>
                </definition>
              </term>
-             <term id="term-_lt_dummy_gt_-term-second">
+             <term id="_" anchor="term-_lt_dummy_gt_-term-second">
                <preferred>
                  <expression>
                    <name>term second</name>
@@ -480,133 +482,135 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-      <preface>
-           <foreword id='_' obligation='informative'>
-             <title>Foreword</title>
-             <p id='_'>
-               <concept>
-                 <eref bibitemid='blah'/>
-               </concept>
-               <concept>
-                 <refterm>word</refterm>
-                 <renderterm>word</renderterm>
-                 <eref bibitemid='blah'/>
-               </concept>
-               <concept>
-                 <refterm>term</refterm>
-                 <renderterm>word</renderterm>
-                 <eref bibitemid='blah'/>
-               </concept>
-               <concept>
-                 <refterm>term</refterm>
-                 <renderterm>word</renderterm>
-                 <eref bibitemid='blah'>Clause #1</eref>
-               </concept>
-               <concept>
-                 <eref bibitemid='blah'>
-                   <localityStack>
-                     <locality type='clause'>
-                       <referenceFrom>3.1</referenceFrom>
-                     </locality>
-                   </localityStack>
-                 </eref>
-               </concept>
-               <concept>
-                 <refterm>word</refterm>
-                 <renderterm>word</renderterm>
-                 <eref bibitemid='blah'>
-                   <localityStack>
-                     <locality type='clause'>
-                       <referenceFrom>3.1</referenceFrom>
-                     </locality>
-                   </localityStack>
-                 </eref>
-               </concept>
-               <concept>
-                 <refterm>term</refterm>
-                 <renderterm>word</renderterm>
-                 <eref bibitemid='blah'>
-                   <localityStack>
-                     <locality type='clause'>
-                       <referenceFrom>3.1</referenceFrom>
-                     </locality>
-                   </localityStack>
-                 </eref>
-               </concept>
-               <concept>
-                 <eref bibitemid='blah'>
-                   <localityStack>
-                     <locality type='clause'>
-                       <referenceFrom>3.1</referenceFrom>
-                     </locality>
-                     <locality type='figure'>
-                       <referenceFrom>a</referenceFrom>
-                     </locality>
-                   </localityStack>
-                 </eref>
-               </concept>
-               <concept>
-                 <refterm>word</refterm>
-                 <renderterm>word</renderterm>
-                 <eref bibitemid='blah'>
-                   <localityStack>
-                     <locality type='clause'>
-                       <referenceFrom>3.1</referenceFrom>
-                     </locality>
-                     <locality type='figure'>
-                       <referenceFrom>a</referenceFrom>
-                     </locality>
-                   </localityStack>
-                 </eref>
-               </concept>
-               <concept>
-                 <refterm>term</refterm>
-                 <renderterm>word</renderterm>
-                 <eref bibitemid='blah'>
-                   <localityStack>
-                     <locality type='clause'>
-                       <referenceFrom>3.1</referenceFrom>
-                     </locality>
-                     <locality type='figure'>
-                       <referenceFrom>a</referenceFrom>
-                     </locality>
-                   </localityStack>
-                   Clause #1
-                 </eref>
-               </concept>
-             </p>
-                   <related type='narrower'>
-        <preferred>
-          <expression>
-            <name>term</name>
-          </expression>
-        </preferred>
-        <eref bibitemid='blah'>
-          <localityStack>
-            <locality type='clause'>
-              <referenceFrom>3.1</referenceFrom>
-            </locality>
-            <locality type='figure'>
-              <referenceFrom>a</referenceFrom>
-            </locality>
-          </localityStack>
-        </eref>
-      </related>
-           </foreword>
-         </preface>
-         <sections> </sections>
-         <bibliography>
-           <references id='_bibliography' normative='false' obligation='informative'>
-             <title>Bibliography</title>
-             <bibitem id='blah'>
-               <formattedref format='application/x-isodoc+xml'>
-                 <em>Blah</em>
-               </formattedref>
-               <docidentifier>blah</docidentifier>
-             </bibitem>
-           </references>
-         </bibliography>
-       </metanorma>
+           <preface>
+              <foreword id="_" obligation="informative">
+                 <title>Foreword</title>
+                 <p id="_">
+                    <concept>
+                       <eref bibitemid="blah"/>
+                    </concept>
+                    <concept>
+                       <refterm>word</refterm>
+                       <renderterm>word</renderterm>
+                       <eref bibitemid="blah"/>
+                    </concept>
+                    <concept>
+                       <refterm>term</refterm>
+                       <renderterm>word</renderterm>
+                       <eref bibitemid="blah"/>
+                    </concept>
+                    <concept>
+                       <refterm>term</refterm>
+                       <renderterm>word</renderterm>
+                       <eref bibitemid="blah">Clause #1</eref>
+                    </concept>
+                    <concept>
+                       <eref bibitemid="blah">
+                          <localityStack>
+                             <locality type="clause">
+                                <referenceFrom>3.1</referenceFrom>
+                             </locality>
+                          </localityStack>
+                       </eref>
+                    </concept>
+                    <concept>
+                       <refterm>word</refterm>
+                       <renderterm>word</renderterm>
+                       <eref bibitemid="blah">
+                          <localityStack>
+                             <locality type="clause">
+                                <referenceFrom>3.1</referenceFrom>
+                             </locality>
+                          </localityStack>
+                       </eref>
+                    </concept>
+                    <concept>
+                       <refterm>term</refterm>
+                       <renderterm>word</renderterm>
+                       <eref bibitemid="blah">
+                          <localityStack>
+                             <locality type="clause">
+                                <referenceFrom>3.1</referenceFrom>
+                             </locality>
+                          </localityStack>
+                       </eref>
+                    </concept>
+                    <concept>
+                       <eref bibitemid="blah">
+                          <localityStack>
+                             <locality type="clause">
+                                <referenceFrom>3.1</referenceFrom>
+                             </locality>
+                             <locality type="figure">
+                                <referenceFrom>a</referenceFrom>
+                             </locality>
+                          </localityStack>
+                       </eref>
+                    </concept>
+                    <concept>
+                       <refterm>word</refterm>
+                       <renderterm>word</renderterm>
+                       <eref bibitemid="blah">
+                          <localityStack>
+                             <locality type="clause">
+                                <referenceFrom>3.1</referenceFrom>
+                             </locality>
+                             <locality type="figure">
+                                <referenceFrom>a</referenceFrom>
+                             </locality>
+                          </localityStack>
+                       </eref>
+                    </concept>
+                    <concept>
+                       <refterm>term</refterm>
+                       <renderterm>word</renderterm>
+                       <eref bibitemid="blah">
+                          <localityStack>
+                             <locality type="clause">
+                                <referenceFrom>3.1</referenceFrom>
+                             </locality>
+                             <locality type="figure">
+                                <referenceFrom>a</referenceFrom>
+                             </locality>
+                          </localityStack>
+                          Clause #1
+                       </eref>
+                    </concept>
+                 </p>
+                 <related type="narrower">
+                    <preferred>
+                       <expression>
+                          <name>term</name>
+                       </expression>
+                    </preferred>
+                    <eref bibitemid="blah">
+                       <localityStack>
+                          <locality type="clause">
+                             <referenceFrom>3.1</referenceFrom>
+                          </locality>
+                          <locality type="figure">
+                             <referenceFrom>a</referenceFrom>
+                          </locality>
+                       </localityStack>
+                    </eref>
+                 </related>
+              </foreword>
+           </preface>
+           <sections>
+      
+        </sections>
+           <bibliography>
+              <references id="_" anchor="_bibliography" normative="false" obligation="informative">
+                 <title>Bibliography</title>
+                 <bibitem anchor="blah" id="_">
+                    <formattedref format="application/x-isodoc+xml">
+                       <em>Blah</em>
+                    </formattedref>
+                    <docidentifier>blah</docidentifier>
+                 </bibitem>
+              </references>
+           </bibliography>
+        </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -672,10 +676,10 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
               <sections>
-           <definitions id="clause1" obligation="normative">
+           <definitions id="_" anchor="clause1" obligation="normative">
              <title>Symbols and abbreviated terms</title>
              <dl id="_">
-               <dt id="symbol-___-x-___">
+               <dt id="_" anchor="symbol-___-x-___">
                  <stem type="MathML" block="false">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                      <mstyle displaystyle="false">
@@ -690,7 +694,7 @@ RSpec.describe Metanorma::Standoc do
                <dd>
                  <p id="_">A function that returns the largest integer less than or equal to <stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mi>x</mi></mstyle></math><asciimath>x</asciimath></stem>; also known as the <em>floor</em> function.</p>
                </dd>
-               <dt id="symbol-__-x-__">
+               <dt id="_" anchor="symbol-__-x-__">
                  <stem type="MathML" block="false">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                      <mstyle displaystyle="false">
@@ -744,14 +748,14 @@ RSpec.describe Metanorma::Standoc do
       <<~XML
         #{BLANK_HDR}
         <sections>
-          <terms id='_terms_and_definitions' obligation='normative'>
+          <terms id="_" anchor="_terms_and_definitions" obligation='normative'>
             <title>Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-            <term id='term-name'>
+            <term id="_" anchor="term-name">
               <preferred><expression><name>name</name></expression></preferred>
             </term>
           </terms>
-          <clause id='_main' inline-header='false' obligation='normative'>
+          <clause id="_" anchor="_main" inline-header='false' obligation='normative'>
             <title>Main</title>
             <p id='_'>
             <concept>
@@ -807,14 +811,14 @@ RSpec.describe Metanorma::Standoc do
         <<~XML
           #{BLANK_HDR}
           <sections>
-            <terms id='_terms_and_definitions' obligation='normative'>
+            <terms id="_" anchor="_terms_and_definitions" obligation='normative'>
               <title>Terms and definitions</title>
               <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-              <term id='term-name'>
+              <term id="_" anchor="term-name">
                 <preferred><expression><name>name</name></expression></preferred>
               </term>
             </terms>
-            <clause id='_main' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="_main" inline-header='false' obligation='normative'>
               <title>Main</title>
               <p id='_'>
               <concept>
@@ -863,10 +867,10 @@ RSpec.describe Metanorma::Standoc do
         <<~XML
           #{BLANK_HDR}
           <sections>
-            <terms id='_terms_and_definitions' obligation='normative'>
+            <terms id="_" anchor="_terms_and_definitions" obligation='normative'>
               <title>Terms and definitions</title>
               <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-              <term id='term-name'>
+              <term id="_" anchor="term-name">
                 <preferred><expression><name>name
            <index>
                <primary>name</primary>
@@ -875,7 +879,7 @@ RSpec.describe Metanorma::Standoc do
                 </expression></preferred>
               </term>
             </terms>
-            <clause id='_main' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="_main" inline-header='false' obligation='normative'>
               <title>Main</title>
               <p id='_'>
               <concept>
@@ -932,21 +936,21 @@ RSpec.describe Metanorma::Standoc do
         <<~XML
           #{BLANK_HDR}
           <sections>
-            <terms id='_terms_and_definitions' obligation='normative'>
+            <terms id="_" anchor="_terms_and_definitions" obligation='normative'>
               <title>Terms and definitions</title>
               <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-              <term id='term-name-1'>
+              <term id="_" anchor="term-name-1">
                  <preferred><expression><name>name</name></expression></preferred>
               </term>
-              <term id='term-name2-1'>
+              <term id="_" anchor="term-name2-1">
                 <preferred><expression><name>name2</name></expression></preferred>
               </term>
             </terms>
-            <clause id='term-name' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="term-name" inline-header='false' obligation='normative'>
               <title>Main</title>
               <p id='_'>paragraph</p>
             </clause>
-            <clause id='term-name2' inline-header='false' obligation='normative'>
+            <clause id="_" anchor="term-name2" inline-header='false' obligation='normative'>
               <title>Second</title>
               <p id='_'>
                <concept>
@@ -1019,13 +1023,13 @@ RSpec.describe Metanorma::Standoc do
         <<~XML
                #{BLANK_HDR}
                       <sections>
-                <terms id='_terms_and_definitions' obligation='normative'>
+                <terms id="_" anchor="_terms_and_definitions" obligation='normative'>
                   <title>Terms and definitions</title>
                   <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-                  <term id='term-name-identity'>
+                  <term id="_" anchor="term-name-identity">
                     <preferred><expression><name>name identity</name></expression></preferred>
                   </term>
-                  <term id='name-check'>
+                  <term id="_" anchor="name-check">
                     <preferred><expression><name>name check</name></expression></preferred>
           <related type='equivalent'>
             <strong>

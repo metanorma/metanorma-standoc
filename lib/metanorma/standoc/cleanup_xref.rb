@@ -118,7 +118,7 @@ module Metanorma
       end
 
       def anchor_alias(xmldoc)
-        t = xmldoc.at("//metanorma-extension/table[@id = " \
+        t = xmldoc.at("//metanorma-extension/table[@anchor = " \
                       "'_misccontainer_anchor_aliases']") or return
         key = ""
         t.xpath("./tbody/tr").each do |tr|

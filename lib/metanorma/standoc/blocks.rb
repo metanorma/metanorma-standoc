@@ -6,10 +6,13 @@ module Metanorma
   module Standoc
     module Blocks
       def id_attr(node = nil)
-        { id: Metanorma::Utils::anchor_or_uuid(node),
+        anchor = node&.id
+        { id: "_#{UUIDTools::UUID.random_create}",
+          anchor: anchor && !anchor.empty? ? anchor : nil,
           tag: node&.attr("tag"),
           columns: node&.attr("columns"),
           "multilingual-rendering": node&.attr("multilingual-rendering") }
+          .compact
       end
 
       def id_unnum_attrs(node)
@@ -66,9 +69,9 @@ module Metanorma
         noko do |xml|
           xml.figure **literal_attrs(node) do |f|
             figure_title(node, f)
-            f.pre node.lines.join("\n"),
-                  **attr_code(id: Metanorma::Utils::anchor_or_uuid,
-                              alt: node.attr("alt"))
+            pre_attrs = id_attr(node).tap { |h| h.delete(:anchor) }
+              .merge(alt: node.attr("alt"))
+            f.pre node.lines.join("\n"), **attr_code(pre_attrs)
           end
         end
       end

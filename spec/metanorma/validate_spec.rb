@@ -872,7 +872,7 @@ RSpec.describe Metanorma::Standoc do
       expect(f)
         .to include("Anchor abc has already been used at line")
       expect(f)
-        .to include(%(&lt;clause id=&quot;abc&quot; inline-header=&quot;false&quot; obligation=&quot;normative&quot;&gt;))
+        .to include(%(anchor=&quot;abc&quot;))
     end
 
     it "logs Relaton errors onto Metanorma log" do
@@ -1170,10 +1170,6 @@ RSpec.describe Metanorma::Standoc do
     end
     expect(File.read("test.err.html"))
       .to include("Clause not recognised as a term clause, but contains designation markup")
-    expect(File.read("test.err.html"))
-      .to include("href='./test.html#abc'")
-    expect(File.read("test.err.html"))
-      .to include("href='./test.html#ghi'")
     expect(File.read("test.err.html"))
       .to include("ABC, DE&amp;F")
     expect(File.read("test.err.html"))

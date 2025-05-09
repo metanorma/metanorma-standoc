@@ -99,6 +99,8 @@ module Metanorma
         doc.xpath("//m:svg", "m" => SVG_NS).each { |n| n.replace("<svg/>") }
         doc
       end
+
+      include ::Metanorma::Standoc::Utils
     end
   end
 end
