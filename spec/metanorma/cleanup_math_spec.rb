@@ -274,7 +274,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn>1</mn>
+                         <mn data-metanorma-numberformat="notation='e',group=' ',exponent_sign='plus',precision='4'">1</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -513,6 +513,90 @@ RSpec.describe Metanorma::Standoc do
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input
       .sub(":number-presentation:",
            ":number-presentation-formula: number-presentation\n" \
+              ":number-presentation:"), *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
+
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn>1</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>1 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='basic',group=' ',exponent_sign='plus',precision='4',significant='7'">2</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>2 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='e',group=' ',exponent_sign='plus',precision='4'">3</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>3 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='scientific',group=' ',precision='4',decimal=','">4</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>4 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn data-metanorma-numberformat="notation='engineering',group=' ',exponent_sign='plus',precision='4',times=','">5</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>5 + x</asciimath>
+                </stem>
+             </formula>
+             <formula id="_">
+                <stem block="true" type="MathML">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mstyle displaystyle="true">
+                         <mn>6</mn>
+                         <mo>+</mo>
+                         <mi>x</mi>
+                      </mstyle>
+                   </math>
+                   <asciimath>6 + x</asciimath>
+                </stem>
+             </formula>
+          </sections>
+       </metanorma>
+    OUTPUT
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input
+      .sub(":number-presentation:",
+           ":number-presentation-formula: nil\n" \
               ":number-presentation:"), *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
