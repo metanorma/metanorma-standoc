@@ -185,7 +185,7 @@ module Metanorma
       end
 
       def source_id_cleanup(xmldoc)
-        xmldoc.xpath("//span[not(text())][@source]").each do |s|
+        xmldoc.xpath("//span[normalize-space(.)=''][@source]").each do |s|
           s.parent["source"] = s["source"]
           s.remove
         end
