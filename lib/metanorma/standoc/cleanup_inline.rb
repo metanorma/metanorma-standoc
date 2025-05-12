@@ -137,7 +137,6 @@ module Metanorma
 
       def contenthash_id_cleanup(doc)
         @contenthash_ids = contenthash_id_make(doc)
-        #contenthash_id_update_idrefs(doc, @contenthash_ids)
       end
 
       def contenthash_id_make(doc)
@@ -147,14 +146,6 @@ module Metanorma
           m[x["id"]] = contenthash(x)
           x["anchor"] and m[x["anchor"]] = m[x["id"]]
           x["id"] = m[x["id"]]
-        end
-      end
-
-      def contenthash_id_update_idrefs(doc, ids)
-        Metanorma::Utils::anchor_attributes.each do |a|
-          doc.xpath("//#{a[0]}").each do |x|
-            ids[x[a[1]]] and x[a[1]] = ids[x[a[1]]]
-          end
         end
       end
 
@@ -191,6 +182,13 @@ module Metanorma
 
       def uri_component_encode(comp)
         CGI.escape(comp).gsub("+", "%20")
+      end
+
+      def source_id_cleanup(xmldoc)
+        xmldoc.xpath("//span[not(text())][@source]").each do |s|
+          s.parent["source"] = s["source"]
+          s.remove
+        end
       end
 
       private

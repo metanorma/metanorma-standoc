@@ -89,6 +89,7 @@ module Metanorma
         linebreak_cleanup(xmldoc)
         variant_cleanup(xmldoc)
         para_cleanup(xmldoc)
+        source_id_cleanup(xmldoc)
         empty_element_cleanup(xmldoc)
         img_cleanup(xmldoc)
         anchor_cleanup(xmldoc)
