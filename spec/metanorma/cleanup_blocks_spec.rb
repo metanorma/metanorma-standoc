@@ -1365,11 +1365,67 @@ RSpec.describe Metanorma::Standoc do
       Hello source-id:ABC[text] source-id:DEF[]
     INPUT
     output = <<~OUTPUT
-       <sections><clause id="_" anchor="_scope" type="scope" inline-header="false" obligation="normative">
-       <title>Scope</title>
-       <p id="_" source="DEF">Hello <span id="_" source="ABC">text</span> </p>
-       </clause>
-       </sections>
+      <sections><clause id="_" anchor="_scope" type="scope" inline-header="false" obligation="normative">
+      <title>Scope</title>
+      <p id="_" source="DEF">Hello <span id="_" source="ABC">text</span> </p>
+      </clause>
+      </sections>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml = xml.at("//xmlns:sections")
+    expect(strip_guid(xml.to_xml))
+      .to be_equivalent_to (output)
+  end
+
+  it "preserves asciidoctor source linebreaks in blocks as space, but not in CJK, and not incorrectly inserting space before inline markup" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Scope
+
+      日本規格協会
+      （*JSA*）から，
+
+      日本規格協会（*JSA*）から，
+
+      日本規格協会
+      （*JSA*）から，
+
+      日本規格協会
+      *JSA*）から，
+
+      日本規格協会
+      *日*）から，
+
+      ABC (*JSA*)
+
+      ABC
+      (*JSA*)
+
+      ABC
+      *JSA*)
+
+    INPUT
+    output = <<~OUTPUT
+      <sections><clause id="_" anchor="_scope" type="scope" inline-header="false" obligation="normative">
+      <title>Scope</title>
+      <p id="_">日本規格協会（<strong>JSA</strong>）から，</p>
+
+      <p id="_">日本規格協会（<strong>JSA</strong>）から，</p>
+
+      <p id="_">日本規格協会（<strong>JSA</strong>）から，</p>
+
+      <p id="_">日本規格協会 <strong>JSA</strong>）から，</p>
+
+      <p id="_">日本規格協会<strong>日</strong>）から，</p>
+
+      <p id="_">ABC (<strong>JSA</strong>)</p>
+
+      <p id="_">ABC (<strong>JSA</strong>)</p>
+
+      <p id="_">ABC <strong>JSA</strong>)</p>
+      </clause>
+      </sections>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:sections")
