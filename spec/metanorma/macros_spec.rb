@@ -25,6 +25,8 @@ RSpec.describe Metanorma::Standoc do
       span:category[text]
       date:[2012-03-04,%a-%b%s]
       date:[2012-03-04]
+      anchor:ABC[*emphasised text*]
+      source-id:ABC[*emphasised text*]
 
       columnbreak::[]
 
@@ -55,6 +57,12 @@ RSpec.describe Metanorma::Standoc do
                     <span class='category'>text</span>
                     <date format="%a-%b%s" value="2012-03-04"/>
                     <date format="%F" value="2012-03-04"/>
+                    <span id="_" anchor="ABC">
+                   <strong>emphasised text</strong>
+                </span>
+                <span id="_" source="ABC">
+                   <strong>emphasised text</strong>
+                </span>
                     <columnbreak/>
         </foreword>
       </preface>

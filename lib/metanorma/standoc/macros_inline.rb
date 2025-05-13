@@ -58,6 +58,30 @@ module Metanorma
       end
     end
 
+    class AnchorInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :anchor
+      parse_content_as :text
+
+      def process(parent, target, attrs)
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        id = "_#{UUIDTools::UUID.random_create}"
+        %{<span id='#{id}' anchor='#{target}'>#{out}</span>}
+      end
+    end
+
+    class SourceIdInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :"source-id"
+      parse_content_as :text
+
+      def process(parent, target, attrs)
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        id = "_#{UUIDTools::UUID.random_create}"
+        %{<span id='#{id}' source='#{target}'>#{out}</span>}
+      end
+    end
+
     class VariantInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :lang
@@ -117,7 +141,6 @@ module Metanorma
       parse_content_as :text
 
       def process(parent, target, attrs)
-        #require "debug"; binding.b
         format = target || "metanorma"
         out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
           .gsub(/((?![<>&])[[:punct:]])/, "\\1&#x200c;")

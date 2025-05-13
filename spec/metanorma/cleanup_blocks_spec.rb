@@ -1355,4 +1355,25 @@ RSpec.describe Metanorma::Standoc do
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
       .to be_equivalent_to (output)
   end
+
+  it "moves identifier of empty source-id:[] macro to its parent node" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Scope
+
+      Hello source-id:ABC[text] source-id:DEF[]
+    INPUT
+    output = <<~OUTPUT
+       <sections><clause id="_" anchor="_scope" type="scope" inline-header="false" obligation="normative">
+       <title>Scope</title>
+       <p id="_" source="DEF">Hello <span id="_" source="ABC">text</span> </p>
+       </clause>
+       </sections>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml = xml.at("//xmlns:sections")
+    expect(strip_guid(xml.to_xml))
+      .to be_equivalent_to (output)
+  end
 end
