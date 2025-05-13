@@ -14,7 +14,9 @@ module Metanorma
       def sectiontype(node, level = true)
         ret = sectiontype1(node)
         ret1 = preface_main_filter(sectiontype_streamline(ret), node)
-        ret1 == "symbols and abbreviated terms" and return ret1
+        # permit multiple instances
+        ["symbols and abbreviated terms",
+         "metanorma-extension"].include?(ret1) and return ret1
         !level || node.level == 1 || node.attr("heading") or return nil
         !node.attr("heading") && @seen_headers.include?(ret) and return nil
         @seen_headers << ret unless ret1.nil?
@@ -22,31 +24,37 @@ module Metanorma
         ret1
       end
 
+      SECTIONTYPE_STREAMLINE =
+        { "terms and definitions":
+          ["terms, definitions, symbols and abbreviated terms",
+           "terms, definitions, symbols and abbreviations",
+           "terms, definitions and symbols",
+           "terms, definitions and abbreviations",
+           "terms, definitions and abbreviated terms",
+           "terms and definitions"],
+          "symbols and abbreviated terms":
+        ["symbols and abbreviated terms",
+         "symbols", "abbreviated terms", "abbreviations",
+         "symbols and abbreviations",
+         "symbols and abbreviated terms"],
+          "acknowledgements":
+        ["acknowledgements", "acknowledgments"],
+          "executivesummary":
+          ["executive summary", "executive-summary",
+           "executive_summary"],
+          "metanorma-extension":
+       ["misc-container", "metanorma-extension"] }.freeze
+
       def sectiontype_streamline(ret)
-        case ret
-        when "terms and definitions",
-          "terms, definitions, symbols and abbreviated terms",
-          "terms, definitions, symbols and abbreviations",
-          "terms, definitions and symbols",
-          "terms, definitions and abbreviations",
-          "terms, definitions and abbreviated terms"
-          "terms and definitions"
-        when "symbols and abbreviated terms",
-          "symbols", "abbreviated terms", "abbreviations",
-          "symbols and abbreviations"
-          "symbols and abbreviated terms"
-        when "acknowledgements", "acknowledgments"
-          "acknowledgements"
-        when "executive summary", "executive-summary", "executive_summary"
-          "executivesummary"
-        else
-          ret
+        SECTIONTYPE_STREAMLINE.each do |k, v|
+          v.include?(ret) and return k.to_s
         end
+        ret
       end
 
       PREFACE_CLAUSE_NAMES =
         %w(abstract foreword introduction metanorma-extension termdocsource
-           misc-container metanorma-extension acknowledgements executivesummary)
+           metanorma-extension acknowledgements executivesummary)
           .freeze
 
       MAIN_CLAUSE_NAMES =
