@@ -15,8 +15,9 @@ module Metanorma
         end
       end
 
-      def self.run(umlfile, outfile)
-        system "#{plantuml_bin} #{umlfile.path}" or (warn $? and return false)
+      def self.run(umlfile, outfile, fmt)
+        system "#{plantuml_bin} #{umlfile.path} -t#{fmt}" or
+          (warn $? and return false)
         i = 0
         until !Gem.win_platform? || File.exist?(outfile) || i == 15
           sleep(1)
@@ -34,16 +35,23 @@ module Metanorma
       # Windows Ruby 2.4 will crash if a Tempfile is "mv"ed.
       # This is why we need to copy and then unlink.
       def self.generate_file(parent, reader)
-        ldir = localdir(parent)
-        imagesdir = parent.document.attr("imagesdir")
-        umlfile, outfile = save_plantuml parent, reader, ldir
-        run(umlfile, outfile) or
+        ldir, imagesdir, fmt = generate_file_prep(parent)
+        umlfile, outfile = save_plantuml parent, reader, ldir, fmt
+        run(umlfile, outfile, fmt) or
           raise "No image output from PlantUML (#{umlfile}, #{outfile})!"
         umlfile.unlink
         path = path_prep(ldir, imagesdir)
         filename = File.basename(outfile.to_s)
         FileUtils.cp(outfile, path) and outfile.unlink
         imagesdir ? filename : File.join(path, filename)
+      end
+
+      def self.generate_file_prep(parent)
+        ldir = localdir(parent)
+        imagesdir = parent.document.attr("imagesdir")
+        fmt = parent.document.attr("plantuml-image-format")&.strip&.downcase ||
+          "png"
+        [ldir, imagesdir, fmt]
       end
 
       def self.localdir(parent)
@@ -62,13 +70,13 @@ module Metanorma
         path
       end
 
-      def self.save_plantuml(_parent, reader, _localdir)
+      def self.save_plantuml(_parent, reader, _localdir, fmt)
         src = prep_source(reader)
         /^@startuml (?<fn>[^\n]+)\n/ =~ src
         Tempfile.open(["plantuml", ".pml"], encoding: "utf-8") do |f|
           f.write(src)
           [f, File.join(File.dirname(f.path),
-                        "#{fn || File.basename(f.path, '.pml')}.png")]
+                        "#{fn || File.basename(f.path, '.pml')}.#{fmt}")]
         end
       end
 
