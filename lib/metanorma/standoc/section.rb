@@ -35,8 +35,8 @@ module Metanorma
         a = section_attributes(node)
         noko do |xml|
           case sectiontype(node)
-          when "misc-container", "metanorma-extension"
-            misccontainer_parse(a, xml, node)
+          when "metanorma-extension"
+            metanorma_extension_parse(a, xml, node)
           when "introduction" then introduction_parse(a, xml, node)
           when "foreword" then foreword_parse(a, xml, node)
           when "scope" then scope_parse(a, xml, node)
@@ -96,8 +96,8 @@ module Metanorma
         end
       end
 
-      def misccontainer_parse(_attrs, xml, node)
-        xml.send :"misc-container-clause" do |xml_section|
+      def metanorma_extension_parse(_attrs, xml, node)
+        xml.send :"metanorma-extension-clause" do |xml_section|
           xml_section << node.content
         end
       end

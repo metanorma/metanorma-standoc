@@ -133,9 +133,12 @@ module Metanorma
       end
 
       def misccontainer_cleanup(xml)
-        m = xml.at("//misc-container-clause") or return
+        m = xml.xpath("//metanorma-extension-clause")
+        m.empty? and return
         ins = add_misc_container(xml)
-        ins << m.remove.children
+        m.each do |m1|
+          ins << m1.remove.children
+        end
       end
 
       def single_clause_annex(xml)
