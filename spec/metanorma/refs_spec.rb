@@ -73,7 +73,7 @@ RSpec.describe Metanorma::Standoc do
             </bibliography>
             </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -127,7 +127,7 @@ RSpec.describe Metanorma::Standoc do
           </bibliography>
           </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -148,14 +148,14 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso124,(1)ISO 123]]] _Standard_
       * [[[iso125,(2)ISO 123]]] _Standard_.footnote:[footnote]
     INPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(<<~"OUTPUT")
                #{BLANK_HDR}
                <preface>
           <foreword id='_' obligation='informative'>
             <title>Foreword</title>
             <p id='_'>
-              <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123'/>
+              <eref type='inline' bibitemid='iso123' citeas='ISO\\u00a0123'/>
               <eref type='inline' bibitemid='iso124' citeas='[1]'/>
             </p>
           </foreword>
@@ -321,18 +321,18 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso123,ISO 8342]]] _Standard_
       * [[[iso124,ISO 8343]]] _Standard_
     INPUT
-    doc = Asciidoctor.convert(input
-      .sub(":novalid:", ":language: de\n:novalid:"), *OPTIONS)
-    expect(doc).to include('citeas="ISO 8342-DE"')
-    expect(doc).to include('citeas="ISO 8343-DE"')
-    doc = Asciidoctor.convert(input
-  .sub(":novalid:", ":language: fr\n:novalid:"), *OPTIONS)
-    expect(doc).to include('citeas="ISO 8342-EN"')
-    expect(doc).to include('citeas="ISO 8343-FR"')
-    doc = Asciidoctor.convert(input
-      .sub(":novalid:", ":language: en\n:novalid:"), *OPTIONS)
-    expect(doc).to include('citeas="ISO 8342-EN"')
-    expect(doc).to include('citeas="ISO 8341"')
+    doc = strip_guid(Asciidoctor.convert(input
+      .sub(":novalid:", ":language: de\n:novalid:"), *OPTIONS))
+    expect(doc).to include('citeas="ISO\\u00a08342-DE"')
+    expect(doc).to include('citeas="ISO\\u00a08343-DE"')
+    doc = strip_guid(Asciidoctor.convert(input
+  .sub(":novalid:", ":language: fr\n:novalid:"), *OPTIONS))
+    expect(doc).to include('citeas="ISO\\u00a08342-EN"')
+    expect(doc).to include('citeas="ISO\\u00a08343-FR"')
+    doc = strip_guid(Asciidoctor.convert(input
+      .sub(":novalid:", ":language: en\n:novalid:"), *OPTIONS))
+    expect(doc).to include('citeas="ISO\\u00a08342-EN"')
+    expect(doc).to include('citeas="ISO\\u00a08341"')
   end
 
   it "processes simple IEC reference" do
@@ -377,7 +377,7 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -463,7 +463,7 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -521,7 +521,7 @@ RSpec.describe Metanorma::Standoc do
             </bibliography>
             </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -562,7 +562,7 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -616,7 +616,7 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -680,7 +680,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -710,8 +710,8 @@ RSpec.describe Metanorma::Standoc do
                  <clause id="_" anchor="_scope" type='scope' inline-header='false' obligation='normative'>
                    <title>Scope</title>
                    <p id='_'>
-                     <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123'/>
-                     <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123'>
+                     <eref type='inline' bibitemid='iso123' citeas='ISO\\u00a0123'/>
+                     <eref type='inline' bibitemid='iso123' citeas='ISO\\u00a0123'>
                        <localityStack>
                          <locality type='clause'>
                            <referenceFrom>1</referenceFrom>
@@ -787,7 +787,7 @@ RSpec.describe Metanorma::Standoc do
                </bibliography>
              </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -816,10 +816,10 @@ RSpec.describe Metanorma::Standoc do
           <clause id="_" anchor="_scope" type="scope" inline-header='false' obligation='normative'>
             <title>Scope</title>
             <p id='_'>
-              <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123&#xa0;(all&#xa0;parts)'/>
+              <eref type='inline' bibitemid='iso123' citeas='ISO\\u00a0123\\u00a0(all\\u00a0parts)'/>
             </p>
             <p id='_'>
-              <eref type='inline' bibitemid='iso124' citeas='ISO&#xa0;124'>
+              <eref type='inline' bibitemid='iso124' citeas='ISO\\u00a0124'>
                 <localityStack>
                   <locality type='clause'>
                     <referenceFrom>1</referenceFrom>
@@ -828,7 +828,7 @@ RSpec.describe Metanorma::Standoc do
               </eref>
             </p>
             <p id='_'>
-              <eref type='inline' bibitemid='iso123' citeas='ISO&#xa0;123&#xa0;(all&#xa0;parts)'>
+              <eref type='inline' bibitemid='iso123' citeas='ISO\\u00a0123\\u00a0(all\\u00a0parts)'>
                 <localityStack>
               <locality type='anchor'>
         <referenceFrom>xyz</referenceFrom>
@@ -837,7 +837,7 @@ RSpec.describe Metanorma::Standoc do
               </eref>
             </p>
             <p id='_'>
-              <eref type='inline' bibitemid='iso124' citeas='ISO&#xa0;124'>
+              <eref type='inline' bibitemid='iso124' citeas='ISO\\u00a0124'>
                 <localityStack>
                   <locality type='clause'>
                     <referenceFrom>1</referenceFrom>
@@ -980,7 +980,7 @@ RSpec.describe Metanorma::Standoc do
         </bibliography>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -1024,7 +1024,7 @@ RSpec.describe Metanorma::Standoc do
         </bibliography>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -1090,7 +1090,7 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -1142,7 +1142,7 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -1156,7 +1156,7 @@ RSpec.describe Metanorma::Standoc do
 
       * [[[iso123,NIST 123]]]
     INPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(<<~"OUTPUT")
         #{BLANK_HDR}
            <sections/>
@@ -1269,13 +1269,13 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
 
     # Windows/Unix differences in XML encoding: remove body of Data URI
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS)
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS)
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
       .to be_equivalent_to Xml::C14n.format(output)
 
     input.sub!(":docfile:", ":data-uri-attachment: false\n:docfile:")
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS)
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS)
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
       .to be_equivalent_to Xml::C14n.format(output
@@ -1285,7 +1285,7 @@ RSpec.describe Metanorma::Standoc do
 
     FileUtils.rm_rf "spec/assets/attach.xml"
     system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/assets/attach.adoc"
-    expect(Xml::C14n.format(strip_guid(File.read("spec/assets/attach.xml")
+    expect(strip_guid(Xml::C14n.format(File.read("spec/assets/attach.xml")
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
       .to be_equivalent_to Xml::C14n.format(output
@@ -1293,7 +1293,7 @@ RSpec.describe Metanorma::Standoc do
       .gsub("spec/assets/html.scss", "html.scss"))
 
     mock_absolute_localdir(4)
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS)
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS)
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
       .to be_equivalent_to Xml::C14n.format(output

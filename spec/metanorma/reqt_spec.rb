@@ -27,7 +27,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 

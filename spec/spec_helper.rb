@@ -48,13 +48,14 @@ end
 OPTIONS = [backend: :standoc, header_footer: true, agree_to_terms: true].freeze
 
 def strip_guid(xml)
-  xml
+  xml = xml
     .gsub(%r( id="_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"), ' id="_"')
     .gsub(%r( bibitemid="_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"), ' bibitemid="_"')
     .gsub(%r( target="_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"), ' target="_"')
     #.gsub(%r{ target="_[^"]+"}, ' target="_"')
     .gsub(%r{<fetched>[^<]+</fetched>}, "<fetched/>")
     .gsub(%r{ schema-version="[^"]+"}, "")
+  escape_zs_chars(xml)
 end
 
 def strip_src(xml)
@@ -350,4 +351,14 @@ end
 
 def xml_string_content(xml)
   strip_guid(Xml::C14n.format(xml))
+end
+
+# Converts all characters in a string matching Unicode regex character class \p{Zs},
+# except for space (U+0020), to their HTMLEntities escaped counterparts.
+# Note: Tab (U+0009) is not in \p{Zs}, it's in \p{Cc} (control characters)
+def escape_zs_chars(str)
+  # Match all characters in \p{Zs} except space (U+0020)
+  str.gsub(/[\p{Zs}&&[^\u0020]]/) do |char|
+    "\\u#{char.ord.to_s(16).rjust(4, '0')}"
+  end
 end

@@ -32,7 +32,7 @@ RSpec.describe Metanorma::Standoc::Datamodel::AttributesTablePreprocessor do
                                  backend: :standoc,
                                  safe: :safe,
                                  header_footer: true)
-        expect(Xml::C14n.format(strip_guid(File.read(result_file))))
+        expect(strip_guid(Xml::C14n.format(File.read(result_file))))
           .to(be_equivalent_to(Xml::C14n.format(output)))
       end
     end
@@ -68,7 +68,7 @@ RSpec.describe Metanorma::Standoc::Datamodel::AttributesTablePreprocessor do
                                  backend: :standoc,
                                  safe: :safe,
                                  header_footer: true)
-        expect(Xml::C14n.format(strip_guid(File.read(result_file))))
+        expect(strip_guid(Xml::C14n.format(File.read(result_file))))
           .to(be_equivalent_to(Xml::C14n.format(output)))
       end
     end
@@ -103,7 +103,7 @@ RSpec.describe Metanorma::Standoc::Datamodel::AttributesTablePreprocessor do
                                  backend: :standoc,
                                  safe: :safe,
                                  header_footer: true)
-        expect(Xml::C14n.format(strip_guid(File.read(result_file))))
+        expect(strip_guid(Xml::C14n.format(File.read(result_file))))
           .to(be_equivalent_to(Xml::C14n.format(output)))
       end
     end

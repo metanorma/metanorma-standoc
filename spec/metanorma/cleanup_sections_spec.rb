@@ -76,7 +76,7 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -104,7 +104,7 @@ RSpec.describe Metanorma::Standoc do
       </annex>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -168,7 +168,7 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -494,7 +494,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -750,7 +750,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -1006,7 +1006,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -1262,7 +1262,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -1518,7 +1518,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -1568,7 +1568,7 @@ RSpec.describe Metanorma::Standoc do
          </annex>
        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -1677,7 +1677,7 @@ RSpec.describe Metanorma::Standoc do
          </annex>
        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -1700,7 +1700,7 @@ RSpec.describe Metanorma::Standoc do
       </annex>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(Xml::C14n.format(strip_guid(ret.at("//xmlns:annex").to_xml)))
+    expect(strip_guid(Xml::C14n.format(ret.at("//xmlns:annex").to_xml)))
       .to be_equivalent_to(Xml::C14n.format(output))
   end
 
@@ -1728,7 +1728,7 @@ RSpec.describe Metanorma::Standoc do
       </annex>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(Xml::C14n.format(strip_guid(ret.at("//xmlns:annex").to_xml)))
+    expect(strip_guid(Xml::C14n.format(ret.at("//xmlns:annex").to_xml)))
       .to be_equivalent_to(Xml::C14n.format(output))
   end
 
@@ -1759,7 +1759,7 @@ RSpec.describe Metanorma::Standoc do
        </metanorma>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(Xml::C14n.format(strip_guid(ret.to_xml)))
+    expect(strip_guid(Xml::C14n.format(ret.to_xml)))
       .to be_equivalent_to(Xml::C14n.format(output))
   end
 
@@ -1799,7 +1799,7 @@ RSpec.describe Metanorma::Standoc do
        </metanorma>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(Xml::C14n.format(strip_guid(ret.to_xml)))
+    expect(strip_guid(Xml::C14n.format(ret.to_xml)))
       .to be_equivalent_to(Xml::C14n.format(output))
 
     input = <<~INPUT
@@ -1840,7 +1840,7 @@ RSpec.describe Metanorma::Standoc do
        </metanorma>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(Xml::C14n.format(strip_guid(ret.to_xml)))
+    expect(strip_guid(Xml::C14n.format(ret.to_xml)))
       .to be_equivalent_to(Xml::C14n.format(output))
   end
 end

@@ -235,7 +235,7 @@
           </colophon>
        </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -270,7 +270,7 @@
             </sections>
           </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -411,7 +411,7 @@
             </bibliography>
           </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -552,7 +552,7 @@
             </bibliography>
           </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -791,7 +791,7 @@
            </bibliography>
         </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -950,7 +950,7 @@
            </bibliography>
         </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1025,7 +1025,7 @@
            </sections>
         </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1159,7 +1159,7 @@
            </bibliography>
         </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1189,7 +1189,7 @@
           </sections>
         </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1220,7 +1220,7 @@
          </sections>
        </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1252,7 +1252,7 @@
          </sections>
        </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1288,7 +1288,7 @@
          </sections>
        </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1343,7 +1343,7 @@
           </sections>
         </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1404,7 +1404,7 @@
           </sections>
         </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
 
      input = <<~INPUT
@@ -1470,7 +1470,7 @@
             </clause>
           </sections>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1581,7 +1581,7 @@
            </sections>
        </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1615,7 +1615,7 @@
        </annex>
        </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1649,7 +1649,7 @@
        </annex>
        </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1672,7 +1672,7 @@
        </sections>
        </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1703,7 +1703,7 @@
        </sections>
               </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1735,7 +1735,7 @@
          </sections>
        </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1797,7 +1797,7 @@
         </sections>
        </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1844,7 +1844,7 @@
          </annex>
        </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1863,7 +1863,7 @@
        </sections>
        </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1921,7 +1921,7 @@
           </sections>
           </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -1960,7 +1960,7 @@
            </sections>
         </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -2005,7 +2005,7 @@
            </sections>
         </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 
@@ -2032,7 +2032,7 @@
            </annex>
         </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
      mock_support_appendix
      output = <<~OUTPUT
@@ -2047,7 +2047,7 @@
            </annex>
         </metanorma>
      OUTPUT
-     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
        .to be_equivalent_to Xml::C14n.format(output)
    end
 

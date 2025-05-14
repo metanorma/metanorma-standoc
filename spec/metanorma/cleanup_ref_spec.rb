@@ -25,8 +25,8 @@ RSpec.describe Metanorma::Standoc do
         <preface><foreword id="_" obligation="informative">
         <title>Foreword</title>
         <p id="_">
-        <eref type="inline" bibitemid="iso216" citeas="ISO&#xa0;216:2001"/>
-        <eref type='inline' case='capital' droploc='true' bibitemid='iso216' citeas='ISO&#xa0;216:2001'/>
+        <eref type="inline" bibitemid="iso216" citeas="ISO\\u00a0216:2001"/>
+        <eref type='inline' case='capital' droploc='true' bibitemid='iso216' citeas='ISO\\u00a0216:2001'/>
       </p>
       </foreword></preface><sections>
       </sections>
@@ -34,7 +34,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:bibliography")&.remove
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -57,12 +57,12 @@ RSpec.describe Metanorma::Standoc do
             <preface><foreword id="_" obligation="informative">
               <title>Foreword</title>
               <p id="_">
-              <eref type="inline" bibitemid="iso216" citeas="ISO&#xa0;216">
+              <eref type="inline" bibitemid="iso216" citeas="ISO\\u00a0216">
               <localityStack>
               <locality type="whole"/><locality type="clause"><referenceFrom>3</referenceFrom></locality><locality type="example"><referenceFrom>9</referenceFrom><referenceTo>11</referenceTo></locality><locality type="locality:prelude"><referenceFrom>33 a</referenceFrom></locality><locality type="locality:entirety"/>
               </localityStack>
               <display-text>the reference,xyz</display-text></eref>
-       <eref type='inline' bibitemid='iso216' citeas='ISO&#xa0;216'>
+       <eref type='inline' bibitemid='iso216' citeas='ISO\\u00a0216'>
          <localityStack connective="and">
            <locality type='whole'/>
            <locality type='clause'>
@@ -95,16 +95,16 @@ RSpec.describe Metanorma::Standoc do
          </localityStack>
          <display-text>the reference,xyz</display-text>
        </eref>
-      <eref type='inline' bibitemid='iso216' citeas='ISO&#xa0;216'>
+      <eref type='inline' bibitemid='iso216' citeas='ISO\\u00a0216'>
         <display-text><em>whole</em></display-text>
       </eref>
-      <eref type='inline' bibitemid='iso216' citeas='ISO&#xa0;216'>
+      <eref type='inline' bibitemid='iso216' citeas='ISO\\u00a0216'>
         <display-text>a
         <em>whole</em>
          flagon
          </display-text>
       </eref>
-      <eref type='inline' bibitemid='iso216' citeas='ISO&#xa0;216'>
+      <eref type='inline' bibitemid='iso216' citeas='ISO\\u00a0216'>
         <localityStack>
           <locality type='whole'/>
           <locality type='clause'>
@@ -117,7 +117,7 @@ RSpec.describe Metanorma::Standoc do
          flagon
          </display-text>
       </eref>
-      <eref type='inline' case='capital' droploc='true' bibitemid='iso216' citeas='ISO&#xa0;216'>
+      <eref type='inline' case='capital' droploc='true' bibitemid='iso216' citeas='ISO\\u00a0216'>
         <localityStack>
           <locality type='whole'/>
           <locality type='clause'>
@@ -135,7 +135,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:bibliography")&.remove
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -154,7 +154,7 @@ RSpec.describe Metanorma::Standoc do
       <foreword id="_" obligation="informative">
         <title>Foreword</title>
         <p id="_">
-        <eref type="inline" bibitemid="iso216" citeas="ISO&#xa0;216"/>
+        <eref type="inline" bibitemid="iso216" citeas="ISO\\u00a0216"/>
       </p>
       </foreword></preface><sections>
       </sections>
@@ -162,7 +162,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:bibliography")&.remove
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -183,8 +183,8 @@ RSpec.describe Metanorma::Standoc do
              <title>Foreword</title>
              <p id='_'>
                <erefstack>
-                 <eref connective='from' bibitemid='iso216' citeas='ISO&#xa0;216' type='inline'/>
-                 <eref connective='to' bibitemid='iso216' citeas='ISO&#xa0;216' type='inline'/>
+                 <eref connective='from' bibitemid='iso216' citeas='ISO\\u00a0216' type='inline'/>
+                 <eref connective='to' bibitemid='iso216' citeas='ISO\\u00a0216' type='inline'/>
                </erefstack>
              </p>
            </foreword>
@@ -194,7 +194,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:bibliography")&.remove
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -231,7 +231,7 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -286,7 +286,7 @@ RSpec.describe Metanorma::Standoc do
            <preferred><expression><name>Automation1</name></expression></preferred>
            <definition><verbal-definition><p id='_'>Definition 1</p></verbal-definition></definition>
            <source status="identical" type="authoritative">
-           <origin bibitemid="IEC60050-103" type="inline" citeas="IEC&#xa0;60050-103:2009">
+           <origin bibitemid="IEC60050-103" type="inline" citeas="IEC\\u00a060050-103:2009">
            <localityStack>
          <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
            </localityStack>
@@ -297,7 +297,7 @@ RSpec.describe Metanorma::Standoc do
            <preferred><expression><name>Automation2</name></expression></preferred>
            <definition><verbal-definition><p id='_'>Definition 2</p></verbal-definition></definition>
            <source status="identical" type="authoritative">
-           <origin bibitemid="IEC60050-102" type="inline" citeas="IEC&#xa0;60050-102:2007">
+           <origin bibitemid="IEC60050-102" type="inline" citeas="IEC\\u00a060050-102:2007">
            <localityStack>
          <locality type="clause"><referenceFrom>102-01-02</referenceFrom></locality>
            </localityStack>
@@ -308,7 +308,7 @@ RSpec.describe Metanorma::Standoc do
            <preferred><expression><name>Automation3</name></expression></preferred>
            <definition><verbal-definition><p id='_'>Definition 3</p></verbal-definition></definition>
            <source status="identical" type="authoritative">
-           <origin bibitemid="IEC60050-103" type="inline" citeas="IEC&#xa0;60050-103:2009">
+           <origin bibitemid="IEC60050-103" type="inline" citeas="IEC\\u00a060050-103:2009">
            <localityStack>
          <locality type="clause"><referenceFrom>103-01-02</referenceFrom></locality>
            </localityStack>
@@ -320,11 +320,11 @@ RSpec.describe Metanorma::Standoc do
                       <bibitem id="_" anchor="IEC60050-102" type="standard">
                <fetched/>
                <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
-               <title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics — General concepts and linear algebra</title>
-               <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 102: Mathematics — General concepts and linear algebra</title>
+               <title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics\\u2009—\\u2009General concepts and linear algebra</title>
+               <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)\\u2009—\\u2009Part 102: Mathematics\\u2009—\\u2009General concepts and linear algebra</title>
                <title type="title-main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV)</title>
-               <title type="title-part" format="text/plain" language="fr" script="Latn">Partie 102: Mathématiques — Concepts généraux et algèbre linéaire</title>
-               <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV) — Partie 102: Mathématiques — Concepts généraux et algèbre linéaire</title>
+               <title type="title-part" format="text/plain" language="fr" script="Latn">Partie 102: Mathématiques\\u2009—\\u2009Concepts généraux et algèbre linéaire</title>
+               <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV)\\u2009—\\u2009Partie 102: Mathématiques\\u2009—\\u2009Concepts généraux et algèbre linéaire</title>
                <uri type="src">https://webstore.iec.ch/publication/160</uri>
                <uri type="obp">https://webstore.iec.ch/preview/info_iec60050-102{ed1.0}b.pdf</uri>
                <docidentifier type="IEC" primary="true">IEC 60050-102:2007</docidentifier>
@@ -364,14 +364,14 @@ RSpec.describe Metanorma::Standoc do
              <bibitem id="_" anchor="IEC60050-103" type="standard">
                <fetched/>
                <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
-               <title type="title-part" format="text/plain" language="en" script="Latn">Part 103: Mathematics — Functions</title>
-               <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) — Part 103: Mathematics — Functions</title>
+               <title type="title-part" format="text/plain" language="en" script="Latn">Part 103: Mathematics\\u2009—\\u2009Functions</title>
+               <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)\\u2009—\\u2009Part 103: Mathematics\\u2009—\\u2009Functions</title>
                <title type="title-main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV)</title>
-               <title type="title-part" format="text/plain" language="fr" script="Latn">Partie 103: Mathématiques — Fonctions</title>
-               <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV) — Partie 103: Mathématiques — Fonctions</title>
+               <title type="title-part" format="text/plain" language="fr" script="Latn">Partie 103: Mathématiques\\u2009—\\u2009Fonctions</title>
+               <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV)\\u2009—\\u2009Partie 103: Mathématiques\\u2009—\\u2009Fonctions</title>
                <title type="title-intro" format="text/plain" language="es" script="Latn">Versión Oficial En español</title>
                <title type="title-main" format="text/plain" language="es" script="Latn">Vocabulario Electrotécnico Internacional. Parte 103: Matemáticas. Funciones.</title>
-               <title type="main" format="text/plain" language="es" script="Latn">Versión Oficial En español — Vocabulario Electrotécnico Internacional. Parte 103: Matemáticas. Funciones.</title>
+               <title type="main" format="text/plain" language="es" script="Latn">Versión Oficial En español\\u2009—\\u2009Vocabulario Electrotécnico Internacional. Parte 103: Matemáticas. Funciones.</title>
                <uri type="src">https://webstore.iec.ch/publication/161</uri>
                <uri type="obp">https://webstore.iec.ch/preview/info_iec60050-103{ed1.0}b.pdf</uri>
                <docidentifier type="IEC" primary="true">IEC 60050-103:2009</docidentifier>
@@ -413,7 +413,7 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
        </metanorma>
       OUTPUT
-      expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to Xml::C14n.format(output)
     end
     FileUtils.rm_rf File.expand_path("~/.iev.pstore")
@@ -474,7 +474,7 @@ RSpec.describe Metanorma::Standoc do
       <sections><clause id="_" anchor="_clause" inline-header="false" obligation="normative">
         <title>Clause</title>
         <p id="_"><eref type="inline" bibitemid="iso123" citeas="[2]"/>
-      <eref type="inline" bibitemid="iso124" citeas="ISO&#xa0;124"/></p>
+      <eref type="inline" bibitemid="iso124" citeas="ISO\\u00a0124"/></p>
       </clause>
       </sections><bibliography><references id="_" anchor="_bibliography" obligation="informative" normative="false">
         <title>Bibliography</title>
@@ -498,7 +498,7 @@ RSpec.describe Metanorma::Standoc do
       </references></bibliography>
              </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -539,8 +539,8 @@ RSpec.describe Metanorma::Standoc do
         <sections><clause id="_" anchor="_clause" inline-header="false" obligation="normative">
              <title>Clause</title>
              <p id="_"><eref type="inline" bibitemid="iso123" citeas="[2]"/>
-           <eref type="inline" bibitemid="iso124" citeas="ISO&#xa0;124"/>
-           <eref type="inline" bibitemid="iso125" citeas="ISO&#xa0;125"/>
+           <eref type="inline" bibitemid="iso124" citeas="ISO\\u00a0124"/>
+           <eref type="inline" bibitemid="iso125" citeas="ISO\\u00a0125"/>
            <eref type="inline" bibitemid="iso126" citeas="[4]"/></p>
            </clause>
            </sections><bibliography><clause id="_" anchor="_bibliography" obligation="informative"><title>Bibliography</title>
@@ -608,7 +608,7 @@ RSpec.describe Metanorma::Standoc do
            </references></clause></bibliography>
            </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -661,7 +661,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -726,7 +726,7 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -777,7 +777,7 @@ RSpec.describe Metanorma::Standoc do
                </bibliography>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -832,7 +832,7 @@ RSpec.describe Metanorma::Standoc do
       </bibliography>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -873,7 +873,7 @@ RSpec.describe Metanorma::Standoc do
       </bibliography>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 

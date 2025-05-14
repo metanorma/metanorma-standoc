@@ -24,7 +24,7 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -67,7 +67,7 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -128,14 +128,14 @@ RSpec.describe Metanorma::Standoc do
              </stem>
              <stem type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
-                      <mn data-metanorma-numberformat="notation='general',exponent_sign='plus',precision='4',group_digits='3',fraction_group_digits='3',decimal=',',group=' '">0.745e3</mn>
+                      <mn data-metanorma-numberformat="notation='general',exponent_sign='plus',precision='4',group_digits='3',fraction_group_digits='3',decimal=',',group='\\u2009'">0.745e3</mn>
                    </math>
              </stem>
            </p>
          </sections>
        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -220,7 +220,7 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -274,7 +274,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='e',group=' ',exponent_sign='plus',precision='4'">1</mn>
+                         <mn data-metanorma-numberformat="notation='e',group='\\u2009',exponent_sign='plus',precision='4'">1</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -286,7 +286,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='basic',group=' ',exponent_sign='plus',precision='4',significant='7'">2</mn>
+                         <mn data-metanorma-numberformat="notation='basic',group='\\u2009',exponent_sign='plus',precision='4',significant='7'">2</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -298,7 +298,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='e',group=' ',exponent_sign='plus',precision='4'">3</mn>
+                         <mn data-metanorma-numberformat="notation='e',group='\\u2009',exponent_sign='plus',precision='4'">3</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -310,7 +310,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='scientific',group=' ',precision='4',decimal=','">4</mn>
+                         <mn data-metanorma-numberformat="notation='scientific',group='\\u2009',precision='4',decimal=','">4</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -322,7 +322,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='engineering',group=' ',exponent_sign='plus',precision='4',times=','">5</mn>
+                         <mn data-metanorma-numberformat="notation='engineering',group='\\u2009',exponent_sign='plus',precision='4',times=','">5</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -345,7 +345,7 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
 
     output = <<~OUTPUT
@@ -367,7 +367,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='basic',group=' ',exponent_sign='plus',precision='4',significant='7'">2</mn>
+                         <mn data-metanorma-numberformat="notation='basic',group='\\u2009',exponent_sign='plus',precision='4',significant='7'">2</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -379,7 +379,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='e',group=' ',exponent_sign='plus',precision='4'">3</mn>
+                         <mn data-metanorma-numberformat="notation='e',group='\\u2009',exponent_sign='plus',precision='4'">3</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -391,7 +391,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='scientific',group=' ',precision='4',decimal=','">4</mn>
+                         <mn data-metanorma-numberformat="notation='scientific',group='\\u2009',precision='4',decimal=','">4</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -403,7 +403,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='engineering',group=' ',exponent_sign='plus',precision='4',times=','">5</mn>
+                         <mn data-metanorma-numberformat="notation='engineering',group='\\u2009',exponent_sign='plus',precision='4',times=','">5</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -426,7 +426,7 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input
       .sub(":number-presentation:",
            ":number-presentation-formula: precision=6,decimal=:\n" \
               ":number-presentation:"), *OPTIONS))))
@@ -439,7 +439,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='e',group=' ',exponent_sign='plus',precision='4'">1</mn>
+                         <mn data-metanorma-numberformat="notation='e',group='\\u2009',exponent_sign='plus',precision='4'">1</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -451,7 +451,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='basic',group=' ',exponent_sign='plus',precision='4',significant='7'">2</mn>
+                         <mn data-metanorma-numberformat="notation='basic',group='\\u2009',exponent_sign='plus',precision='4',significant='7'">2</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -463,7 +463,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='e',group=' ',exponent_sign='plus',precision='4'">3</mn>
+                         <mn data-metanorma-numberformat="notation='e',group='\\u2009',exponent_sign='plus',precision='4'">3</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -475,7 +475,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='scientific',group=' ',precision='4',decimal=','">4</mn>
+                         <mn data-metanorma-numberformat="notation='scientific',group='\\u2009',precision='4',decimal=','">4</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -487,7 +487,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='engineering',group=' ',exponent_sign='plus',precision='4',times=','">5</mn>
+                         <mn data-metanorma-numberformat="notation='engineering',group='\\u2009',exponent_sign='plus',precision='4',times=','">5</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -510,7 +510,7 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input
       .sub(":number-presentation:",
            ":number-presentation-formula: number-presentation\n" \
               ":number-presentation:"), *OPTIONS))))
@@ -535,7 +535,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='basic',group=' ',exponent_sign='plus',precision='4',significant='7'">2</mn>
+                         <mn data-metanorma-numberformat="notation='basic',group='\\u2009',exponent_sign='plus',precision='4',significant='7'">2</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -547,7 +547,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='e',group=' ',exponent_sign='plus',precision='4'">3</mn>
+                         <mn data-metanorma-numberformat="notation='e',group='\\u2009',exponent_sign='plus',precision='4'">3</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -559,7 +559,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='scientific',group=' ',precision='4',decimal=','">4</mn>
+                         <mn data-metanorma-numberformat="notation='scientific',group='\\u2009',precision='4',decimal=','">4</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -571,7 +571,7 @@ RSpec.describe Metanorma::Standoc do
                 <stem block="true" type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="true">
-                         <mn data-metanorma-numberformat="notation='engineering',group=' ',exponent_sign='plus',precision='4',times=','">5</mn>
+                         <mn data-metanorma-numberformat="notation='engineering',group='\\u2009',exponent_sign='plus',precision='4',times=','">5</mn>
                          <mo>+</mo>
                          <mi>x</mi>
                       </mstyle>
@@ -594,7 +594,7 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input
       .sub(":number-presentation:",
            ":number-presentation-formula: nil\n" \
               ":number-presentation:"), *OPTIONS))))
@@ -648,7 +648,7 @@ RSpec.describe Metanorma::Standoc do
         </p>
       </sections>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Nokogiri::XML(
+    expect(strip_guid(Xml::C14n.format(Nokogiri::XML(
       Asciidoctor.convert(input, *OPTIONS),
     ).at("//xmlns:sections").to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -686,7 +686,7 @@ RSpec.describe Metanorma::Standoc do
                       <UnitSystem name="SI" type="SI_derived" lang="en-US"/>
                       <UnitName lang="en">m*kg^-2</UnitName>
                       <UnitSymbol type="HTML">
-                         m kg
+                         m\\u00a0kg
                          <sup>−2</sup>
                       </UnitSymbol>
                       <UnitSymbol type="MathMl">
@@ -713,7 +713,7 @@ RSpec.describe Metanorma::Standoc do
                       <UnitSystem name="SI" type="SI_derived" lang="en-US"/>
                       <UnitName lang="en">m*kg^-3</UnitName>
                       <UnitSymbol type="HTML">
-                         m kg
+                         m\\u00a0kg
                          <sup>−3</sup>
                       </UnitSymbol>
                       <UnitSymbol type="MathMl">
@@ -848,7 +848,7 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -879,7 +879,7 @@ RSpec.describe Metanorma::Standoc do
       ++++
     INPUT
 
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(<<~"OUTPUT")
         #{BLANK_HDR}
                  <sections>
@@ -892,7 +892,7 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
     mock_mathml_italicise({ uppergreek: false, upperroman: true,
                             lowergreek: true, lowerroman: true })
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(<<~"OUTPUT")
         #{BLANK_HDR}
           <sections>
@@ -921,7 +921,7 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
     mock_mathml_italicise({ uppergreek: true, upperroman: false,
                             lowergreek: true, lowerroman: true })
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(<<~"OUTPUT")
         #{BLANK_HDR}
           <sections>
@@ -950,7 +950,7 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
     mock_mathml_italicise({ uppergreek: true, upperroman: true,
                             lowergreek: false, lowerroman: true })
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(<<~"OUTPUT")
         #{BLANK_HDR}
           <sections>
@@ -979,7 +979,7 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
     mock_mathml_italicise({ uppergreek: true, upperroman: true,
                             lowergreek: true, lowerroman: false })
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(<<~"OUTPUT")
         #{BLANK_HDR}
           <sections>

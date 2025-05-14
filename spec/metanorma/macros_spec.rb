@@ -45,7 +45,7 @@ RSpec.describe Metanorma::Standoc do
           <deprecates><expression><name>term2</name></expression></deprecates>
           <domain>term3</domain>
           <inherit>
-            <eref type='inline' bibitemid='ref1' citeas='XYZ&#xa0;123'/>
+            <eref type='inline' bibitemid='ref1' citeas='XYZ\\u00a0123'/>
           </inherit>
           <autonumber type='table'>3</autonumber>
           <add>
@@ -81,7 +81,7 @@ RSpec.describe Metanorma::Standoc do
       </bibliography>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -177,12 +177,12 @@ RSpec.describe Metanorma::Standoc do
              </stem>
              <stem type="MathML">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-               <mn data-metanorma-numberformat="decimal=',',group=' ',notation='exponential'">0.3274287432878432992e6</mn>
+               <mn data-metanorma-numberformat="decimal=',',group='\\u2009',notation='exponential'">0.3274287432878432992e6</mn>
             </math>
          </stem>
            <stem type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
-                      <mn data-metanorma-numberformat="group_digits='3',fraction_group_digits='3',decimal=',',group=' ',notation='general'">0.3274287432878432992e6</mn>
+                      <mn data-metanorma-numberformat="group_digits='3',fraction_group_digits='3',decimal=',',group='\\u2009',notation='general'">0.3274287432878432992e6</mn>
                    </math>
            </stem>
            <stem type="MathML">
@@ -194,7 +194,7 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -215,7 +215,7 @@ RSpec.describe Metanorma::Standoc do
            </admitted>
          </sections>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -287,7 +287,7 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -323,7 +323,7 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -355,7 +355,7 @@ RSpec.describe Metanorma::Standoc do
          </sections>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -413,7 +413,7 @@ RSpec.describe Metanorma::Standoc do
           </review-container>
        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -434,13 +434,13 @@ RSpec.describe Metanorma::Standoc do
               #{BLANK_HDR}
               <sections>
         <figure id="_"  subsequence='A' class="pseudocode" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true">
-              <p id="_">  <strong>A</strong><br/>
-              <smallcap>B</smallcap></p>
-      <p id="_">  <em>C</em></p></figure>
+              <p id="_">\\u00a0\\u00a0<strong>A</strong><br/>
+      \\u00a0\\u00a0\\u00a0\\u00a0\\u00a0\\u00a0\\u00a0\\u00a0<smallcap>B</smallcap></p>
+      <p id="_">\\u00a0\\u00a0<em>C</em></p></figure>
       </sections>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -475,7 +475,7 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -533,7 +533,7 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -562,7 +562,7 @@ RSpec.describe Metanorma::Standoc do
            </sections>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -587,7 +587,7 @@ RSpec.describe Metanorma::Standoc do
            </sections>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -642,7 +642,7 @@ RSpec.describe Metanorma::Standoc do
                   </sections>
              </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -702,7 +702,7 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -802,7 +802,7 @@ RSpec.describe Metanorma::Standoc do
               </sections>
              </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -920,7 +920,7 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -982,7 +982,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -1038,7 +1038,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -1188,7 +1188,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -1209,7 +1209,7 @@ RSpec.describe Metanorma::Standoc do
             <clause id="_" anchor="clause1" inline-header='false' obligation='normative'>
               <title>Clause</title>
               <p id='_'>
-                <eref type='inline' bibitemid='ISO 131' citeas='ISO&#xa0;131'/>
+                <eref type='inline' bibitemid='ISO 131' citeas='ISO\\u00a0131'/>
                 <eref type='inline' droploc='true' bibitemid='iso_std_iso_13485_en' citeas='iso:std:iso:13485:en'>
                   <localityStack>
                     <locality type='clause'>
@@ -1228,7 +1228,7 @@ RSpec.describe Metanorma::Standoc do
                 <title type='title-intro' format='text/plain' language='en' script='Latn'>Acoustics</title>
                 <title type='title-main' format='text/plain' language='en' script='Latn'>Expression of physical and subjective magnitudes of sound or noise in air</title>
                 <title type='main' format='text/plain' language='en' script='Latn'>
-                  Acoustics — Expression of physical and subjective magnitudes of sound
+                  Acoustics\\u2009—\\u2009Expression of physical and subjective magnitudes of sound
                   or noise in air
                 </title>
                 <uri type='src'>https://www.iso.org/standard/3944.html</uri>
@@ -1273,7 +1273,7 @@ RSpec.describe Metanorma::Standoc do
                     <title type='title-intro' format='text/plain' language='en' script='Latn'>Acoustics</title>
                     <title type='title-main' format='text/plain' language='en' script='Latn'>Expression of physical and subjective magnitudes of sound or noise in air</title>
                     <title type='main' format='text/plain' language='en' script='Latn'>
-                      Acoustics — Expression of physical and subjective magnitudes of
+                      Acoustics\\u2009—\\u2009Expression of physical and subjective magnitudes of
                       sound or noise in air
                     </title>
                     <uri type='src'>https://www.iso.org/standard/3944.html</uri>
@@ -1329,7 +1329,7 @@ RSpec.describe Metanorma::Standoc do
           </bibliography>
         </metanorma>
       OUTPUT
-      expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))
+      expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))
                   .gsub(%r{ bibitemid="_[^"]+"}, ' bibitemid="_"')))
         .to be_equivalent_to Xml::C14n.format(output)
     end
@@ -1356,7 +1356,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:sections")
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 

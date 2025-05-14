@@ -31,7 +31,7 @@ RSpec.describe Metanorma::Standoc do
                 <fetched/>
                 <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                 <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
-                <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
+                <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex\\u2009—\\u2009Sampling</title>
                 <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                 <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -74,7 +74,7 @@ RSpec.describe Metanorma::Standoc do
                     <fetched/>
                     <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                     <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
-                    <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
+                    <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex\\u2009—\\u2009Sampling</title>
                     <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                     <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -124,7 +124,7 @@ RSpec.describe Metanorma::Standoc do
                 <fetched/>
                 <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                 <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
-                <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
+                <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex\\u2009—\\u2009Sampling</title>
                 <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                 <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -168,7 +168,7 @@ RSpec.describe Metanorma::Standoc do
                     <fetched/>
                     <title type='title-intro' format='text/plain' language='en' script='Latn'>Rubber latex</title>
                     <title type='title-main' format='text/plain' language='en' script='Latn'>Sampling</title>
-                    <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex&#8201;&#8212;&#8201;Sampling</title>
+                    <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex\\u2009—\\u2009Sampling</title>
                     <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                     <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -220,7 +220,7 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
-      expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+      expect(strip_guid(Xml::C14n.format(xml.to_xml)))
         .to be_equivalent_to Xml::C14n.format(output)
     end
   end
@@ -261,7 +261,7 @@ RSpec.describe Metanorma::Standoc do
                 <fetched/>
                 <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
                 <title type='title-main' format='text/plain' language='fr' script='Latn'>&#201;chantillonnage</title>
-                <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc&#8201;&#8212;&#8201;&#201;chantillonnage</title>
+                <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc\\u2009—\\u2009&#201;chantillonnage</title>
                 <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                 <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -304,7 +304,7 @@ RSpec.describe Metanorma::Standoc do
                     <fetched/>
                     <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
                     <title type='title-main' format='text/plain' language='fr' script='Latn'>&#201;chantillonnage</title>
-                    <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc&#8201;&#8212;&#8201;&#201;chantillonnage</title>
+                    <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc\\u2009—\\u2009&#201;chantillonnage</title>
                     <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                     <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -354,7 +354,7 @@ RSpec.describe Metanorma::Standoc do
                 <fetched/>
                 <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
                 <title type='title-main' format='text/plain' language='fr' script='Latn'>&#201;chantillonnage</title>
-                <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc&#8201;&#8212;&#8201;&#201;chantillonnage</title>
+                <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc\\u2009—\\u2009&#201;chantillonnage</title>
                 <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                 <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                 <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -398,7 +398,7 @@ RSpec.describe Metanorma::Standoc do
                     <fetched/>
                     <title type='title-intro' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc</title>
                     <title type='title-main' format='text/plain' language='fr' script='Latn'>&#201;chantillonnage</title>
-                    <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc&#8201;&#8212;&#8201;&#201;chantillonnage</title>
+                    <title type='main' format='text/plain' language='fr' script='Latn'>Latex de caoutchouc\\u2009—\\u2009&#201;chantillonnage</title>
                     <uri type='src'>https://www.iso.org/standard/23281.html</uri>
                     <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                     <uri type='rss'>https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -450,7 +450,7 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
-      expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+      expect(strip_guid(Xml::C14n.format(xml.to_xml)))
         .to be_equivalent_to Xml::C14n.format(output)
     end
   end
@@ -527,7 +527,7 @@ RSpec.describe Metanorma::Standoc do
                 <fetched/>
                 <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
                 <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
-                <title type="main" format="text/plain" language="en" script="Latn">Latex, rubber — Determination of total solids content</title>
+                <title type="main" format="text/plain" language="en" script="Latn">Latex, rubber\\u2009—\\u2009Determination of total solids content</title>
                 <uri type="src">https://www.iso.org/standard/61884.html</uri>
                 <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:61884:en</uri>
                 <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
@@ -623,7 +623,7 @@ RSpec.describe Metanorma::Standoc do
                 <fetched/>
                 <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
                 <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
-                <title type="main" format="text/plain" language="en" script="Latn">Latex, rubber — Determination of total solids content</title>
+                <title type="main" format="text/plain" language="en" script="Latn">Latex, rubber\\u2009—\\u2009Determination of total solids content</title>
                 <uri type="src">https://www.iso.org/standard/61884.html</uri>
                 <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:61884:en</uri>
                 <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
@@ -673,7 +673,7 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
-      expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+      expect(strip_guid(Xml::C14n.format(xml.to_xml)))
         .to be_equivalent_to Xml::C14n.format(output)
     end
   end
@@ -779,7 +779,7 @@ RSpec.describe Metanorma::Standoc do
           </bibliography>
           </metanorma>
       OUTPUT
-      expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to Xml::C14n.format(output)
     end
   end
@@ -1000,7 +1000,7 @@ RSpec.describe Metanorma::Standoc do
           </bibliography>
        </metanorma>
       OUTPUT
-      expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to Xml::C14n.format(output)
     end
   end
@@ -1067,7 +1067,7 @@ RSpec.describe Metanorma::Standoc do
           </bibliography>
         </metanorma>
       OUTPUT
-      expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to Xml::C14n.format(output)
     end
   end
@@ -1110,7 +1110,7 @@ RSpec.describe Metanorma::Standoc do
                <fetched/>
                <title type='title-intro' format='text/plain' language='en' script='Latn'>Latex, rubber</title>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Determination of total solids content</title>
-               <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber — Determination of total solids content</title>
+               <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber\\u2009—\\u2009Determination of total solids content</title>
                <uri type='src'>https://www.iso.org/standard/61884.html</uri>
                <uri type='obp'>https://www.iso.org/obp/ui/en/#!iso:std:61884:en</uri>
                <uri type='rss'>https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
@@ -1157,7 +1157,7 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
-      expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+      expect(strip_guid(Xml::C14n.format(xml.to_xml)))
         .to be_equivalent_to Xml::C14n.format(output)
     end
   end
@@ -1255,7 +1255,7 @@ RSpec.describe Metanorma::Standoc do
          <clause id="_" anchor="_clause_4" inline-header="false" obligation="normative">
            <title>Clause 4</title>
            <p id="_">
-           <eref type="inline" bibitemid="iso123" citeas="IETF&#xa0;RFC&#xa0;8341"/>
+           <eref type="inline" bibitemid="iso123" citeas="IETF\\u00a0RFC\\u00a08341"/>
          </p>
          </clause>
          </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
@@ -1378,7 +1378,7 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
-      expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+      expect(strip_guid(Xml::C14n.format(xml.to_xml)))
         .to be_equivalent_to Xml::C14n.format(output)
     end
   end
@@ -1402,7 +1402,7 @@ RSpec.describe Metanorma::Standoc do
                 <fetched/>
                 <title type="title-intro" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate</title>
                 <title type="title-main" format="text/plain" language="en" script="Latn">Determination of alkalinity</title>
-                <title type="main" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate — Determination of alkalinity</title>
+                <title type="main" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate\\u2009—\\u2009Determination of alkalinity</title>
                 <uri type="src">https://www.iso.org/standard/72849.html</uri>
                 <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
                 <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
@@ -1454,7 +1454,7 @@ RSpec.describe Metanorma::Standoc do
                     <fetched/>
                     <title type="title-intro" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate</title>
                     <title type="title-main" format="text/plain" language="en" script="Latn">Determination of alkalinity</title>
-                    <title type="main" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate — Determination of alkalinity</title>
+                    <title type="main" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate\\u2009—\\u2009Determination of alkalinity</title>
                     <uri type="src">https://www.iso.org/standard/72849.html</uri>
                     <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
                     <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
@@ -1506,7 +1506,7 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
-      expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+      expect(strip_guid(Xml::C14n.format(xml.to_xml)))
         .to be_equivalent_to Xml::C14n.format(output)
     end
   end
@@ -1530,7 +1530,7 @@ RSpec.describe Metanorma::Standoc do
                 <fetched/>
                 <title type="title-intro" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate</title>
                 <title type="title-main" format="text/plain" language="en" script="Latn">Determination of alkalinity</title>
-                <title type="main" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate — Determination of alkalinity</title>
+                <title type="main" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate\\u2009—\\u2009Determination of alkalinity</title>
                 <uri type="src">https://www.iso.org/standard/72849.html</uri>
                 <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
                 <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
@@ -1573,7 +1573,7 @@ RSpec.describe Metanorma::Standoc do
                     <fetched/>
                     <title type="title-intro" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate</title>
                     <title type="title-main" format="text/plain" language="en" script="Latn">Determination of alkalinity</title>
-                    <title type="main" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate — Determination of alkalinity</title>
+                    <title type="main" format="text/plain" language="en" script="Latn">Natural rubber latex concentrate\\u2009—\\u2009Determination of alkalinity</title>
                     <uri type="src">https://www.iso.org/standard/72849.html</uri>
                     <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
                     <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
@@ -1682,7 +1682,7 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       xml.xpath("//xmlns:abstract").each(&:remove)
-      expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+      expect(strip_guid(Xml::C14n.format(xml.to_xml)))
         .to be_equivalent_to Xml::C14n.format(output)
     end
   end
@@ -1710,9 +1710,9 @@ RSpec.describe Metanorma::Standoc do
         <sections>
         <clause id="_" anchor="_section" inline-header="false" obligation="normative">
         <title>Section</title>
-        <p id="_"><eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><display-text><em>reference</em></display-text></eref>
-        <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><display-text><em><strong>reference</strong></em></display-text></eref>
-        <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><display-text><em>A</em> <stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML">
+        <p id="_"><eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><display-text><em>reference</em></display-text></eref>
+        <eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><display-text><em><strong>reference</strong></em></display-text></eref>
+        <eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><display-text><em>A</em> <stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML">
         <mstyle displaystyle="false">
           <msup>
             <mi>x</mi>
@@ -1721,8 +1721,8 @@ RSpec.describe Metanorma::Standoc do
         </mstyle>
         </math><asciimath>x^2</asciimath></stem></display-text>
         </eref>
-        <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></eref>
-        <eref type="inline" bibitemid="reference" citeas="ISO&#xa0;123"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></display-text></eref></p>
+        <eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></eref>
+        <eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></display-text></eref></p>
         </clause></sections>
         </metanorma>
       OUTPUT

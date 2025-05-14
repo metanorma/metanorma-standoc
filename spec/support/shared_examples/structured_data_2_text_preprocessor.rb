@@ -509,7 +509,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
                       </note>
                     </td>
                     <td id="_" valign="top" align='left'>
-                      <p id='_'>Academica Sinica — Chinese Tongyong Pinyin (2002)</p>
+                      <p id='_'>Academica Sinica\\u2009—\\u2009Chinese Tongyong Pinyin (2002)</p>
                     </td>
                   </tr>
                 </tbody>
