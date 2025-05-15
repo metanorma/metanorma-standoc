@@ -39,20 +39,83 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
              <sections><figure id="_">
-        <image src="plantuml/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image src="_plantuml_images/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
-        <image src="plantuml/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image src="_plantuml_images/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
-        <image src="plantuml/filename.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image src="_plantuml_images/filename.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
               </sections>
              </metanorma>
     OUTPUT
     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))
-      .gsub(%r{plantuml/plantuml[^./]+\.}, "plantuml/_.")))
+      .gsub(%r{_plantuml_images/plantuml[^./]+\.}, "_plantuml_images/_.")))
       .to be_equivalent_to Xml::C14n.format(output)
+  end
+
+  it "processes the PlantUML macro, SVG" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [plantuml]
+      ....
+      @startuml
+      Alice -> Bob: Authentication Request
+      Bob --> Alice: Authentication Response
+
+      Alice -> Bob: Another authentication Request
+      Alice <-- Bob: another authentication Response
+      @enduml
+      ....
+
+      [plantuml]
+      ....
+      Alice -> Bob: Authentication Request
+      Bob --> Alice: Authentication Response
+
+      Alice -> Bob: Another authentication Request
+      Alice <-- Bob: another authentication Response
+      ....
+
+      [plantuml]
+      ....
+      @startuml filename
+      Alice -> Bob: Authentication Request
+      Bob --> Alice: Authentication Response
+
+      Alice -> Bob: Another authentication Request
+      Alice <-- Bob: another authentication Response
+      @enduml
+      ....
+    INPUT
+    output = <<~OUTPUT
+             #{BLANK_HDR}
+             <sections><figure id="_">
+        <image src="_plantuml_images/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+      </figure>
+      <figure id="_">
+        <image src="_plantuml_images/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+      </figure>
+      <figure id="_">
+        <image src="_plantuml_images/filename.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+      </figure>
+              </sections>
+             </metanorma>
+    OUTPUT
+    expect(strip_guid(Xml::C14n.format(Asciidoctor
+      .convert(input.sub(/:nodoc:/, ":nodoc:\n:plantuml-image-format: png"),
+               *OPTIONS)
+      .gsub(%r{_plantuml_images/plantuml[^./]+\.}, "_plantuml_images/_."))))
+      .to be_equivalent_to Xml::C14n.format(output)
+
+    expect(strip_guid(Xml::C14n.format(Asciidoctor
+      .convert(input.sub(/:nodoc:/, ":nodoc:\n:plantuml-image-format: svg"),
+               *OPTIONS)
+      .gsub(%r{_plantuml_images/plantuml[^./]+\.}, "_plantuml_images/_."))))
+      .to be_equivalent_to Xml::C14n.format(output.gsub(".png", ".svg")
+      .gsub("image/png", "image/svg+xml"))
   end
 
   it "processes the PlantUML macro with imagesdir" do
@@ -81,13 +144,13 @@ RSpec.describe Metanorma::Standoc do
                 #{BLANK_HDR}
                 <sections>
         <figure id="_">
-        <image src="spec/assets/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image src="_plantuml_images/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       </sections>
       </metanorma>
     OUTPUT
     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))
-      .gsub(%r{spec/assets/[^./]+\.}, "spec/assets/_.")))
+      .gsub(%r{plantuml[^./]+\.png}, "_.png")))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
