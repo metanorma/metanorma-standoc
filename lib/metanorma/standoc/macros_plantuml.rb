@@ -16,7 +16,11 @@ module Metanorma
       end
 
       def self.run(umlfile, outfile, fmt)
-        system "#{plantuml_bin} #{umlfile.path} -t#{fmt}" or
+        valid_formats = %w[png svg eps]
+        unless valid_formats.include?(fmt)
+          raise ArgumentError, "Invalid format: #{fmt}. Allowed formats are: #{valid_formats.join(', ')}"
+        end
+        system(plantuml_bin, umlfile.path, "-t#{fmt}") or
           (warn $? and return false)
         i = 0
         until !Gem.win_platform? || File.exist?(outfile) || i == 15
