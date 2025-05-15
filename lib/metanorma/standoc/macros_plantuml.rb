@@ -40,10 +40,11 @@ module Metanorma
         run(umlfile, outfile, fmt) or
           raise "No image output from PlantUML (#{umlfile}, #{outfile})!"
         umlfile.unlink
-        path = path_prep(ldir, imagesdir)
+        absolute_path, relative_path = path_prep(ldir, imagesdir)
         filename = File.basename(outfile.to_s)
-        FileUtils.cp(outfile, path) and outfile.unlink
-        imagesdir ? filename : File.join(path, filename)
+        FileUtils.cp(outfile, absolute_path) and outfile.unlink
+        #imagesdir ? filename : File.join(path, filename)
+        File.join(relative_path, filename)
       end
 
       def self.generate_file_prep(parent)
@@ -62,12 +63,13 @@ module Metanorma
       end
 
       def self.path_prep(localdir, imagesdir)
-        path = Pathname.new(localdir) + (imagesdir || "plantuml")
+        #path = Pathname.new(localdir) + (imagesdir || "plantuml")
+        path = Pathname.new(File.join(localdir, "_plantuml_images"))
+        sourcepath = imagesdir ? File.join(localdir, imagesdir) : localdir
         path.mkpath
         File.writable?(path) or
           raise "Destination path #{path} not writable for PlantUML!"
-        # File.exist?(path) or raise "Destination path #{path} already exists for PlantUML!"
-        path
+        [path, Pathname.new(path).relative_path_from(Pathname.new(sourcepath)).to_s]
       end
 
       def self.save_plantuml(_parent, reader, _localdir, fmt)
