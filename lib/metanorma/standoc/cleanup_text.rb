@@ -33,7 +33,7 @@ module Metanorma
           lines = lines_strip_textspan(e, block[i + 1])
           out = Metanorma::Utils.line_sanitise(lines)
           e[:last] or out.pop
-          e[:text][-1].end_with?("\n") or out[-1].rstrip!
+          /\s$/.match?(e[:text][-1]) or out[-1].rstrip!
           e[:elem].replace(out.join)
         end
       end
@@ -46,6 +46,7 @@ module Metanorma
         lines
       end
 
+      # TODO: we are not counting empty xref, eref here
       def gather_text_for_linebreak_cleanup(block)
         x = block.xpath(".//text()").map do |e|
           { elem: e, text: e.text, stem: ancestor_include?(e, %w(stem)),

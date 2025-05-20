@@ -1377,7 +1377,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to (output)
   end
 
-  it "preserves asciidoctor source linebreaks in blocks as space, but not in CJK, and not incorrectly inserting space before inline markup" do
+  it "preserves asciidoctor source linebreaks in blocks as space, but not in CJK, and not incorrectly inserting space or stripping space before inline markup" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
@@ -1387,6 +1387,8 @@ RSpec.describe Metanorma::Standoc do
       （*JSA*）から，
 
       日本規格協会（*JSA*）から，
+
+      日本規格協会 *JSA* から，
 
       日本規格協会
       （*JSA*）から，
@@ -1399,6 +1401,8 @@ RSpec.describe Metanorma::Standoc do
 
       ABC (*JSA*)
 
+      ABC *JSA*
+
       ABC
       (*JSA*)
 
@@ -1409,21 +1413,25 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       <sections><clause id="_" anchor="_scope" type="scope" inline-header="false" obligation="normative">
       <title>Scope</title>
-      <p id="_">日本規格協会（<strong>JSA</strong>）から，</p>
-
-      <p id="_">日本規格協会（<strong>JSA</strong>）から，</p>
-
-      <p id="_">日本規格協会（<strong>JSA</strong>）から，</p>
-
-      <p id="_">日本規格協会 <strong>JSA</strong>）から，</p>
-
-      <p id="_">日本規格協会<strong>日</strong>）から，</p>
-
-      <p id="_">ABC (<strong>JSA</strong>)</p>
-
-      <p id="_">ABC (<strong>JSA</strong>)</p>
-
-      <p id="_">ABC <strong>JSA</strong>)</p>
+       <p id="_">日本規格協会（<strong>JSA</strong>）から，</p>
+     
+       <p id="_">日本規格協会（<strong>JSA</strong>）から，</p>
+     
+       <p id="_">日本規格協会 <strong>JSA</strong> から，</p>
+     
+       <p id="_">日本規格協会（<strong>JSA</strong>）から，</p>
+     
+       <p id="_">日本規格協会 <strong>JSA</strong>）から，</p>
+     
+       <p id="_">日本規格協会<strong>日</strong>）から，</p>
+     
+       <p id="_">ABC (<strong>JSA</strong>)</p>
+     
+       <p id="_">ABC <strong>JSA</strong></p>
+     
+       <p id="_">ABC (<strong>JSA</strong>)</p>
+     
+       <p id="_">ABC <strong>JSA</strong>)</p>
       </clause>
       </sections>
     OUTPUT
