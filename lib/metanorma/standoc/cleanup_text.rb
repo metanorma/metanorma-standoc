@@ -46,6 +46,7 @@ module Metanorma
         lines
       end
 
+      # TODO: we are not counting empty xref, eref here
       def gather_text_for_linebreak_cleanup(block)
         x = block.xpath(".//text()").map do |e|
           { elem: e, text: e.text, stem: ancestor_include?(e, %w(stem)),
