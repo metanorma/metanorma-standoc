@@ -33,7 +33,7 @@ module Metanorma
           lines = lines_strip_textspan(e, block[i + 1])
           out = Metanorma::Utils.line_sanitise(lines)
           e[:last] or out.pop
-          e[:text][-1].end_with?("\n") or out[-1].rstrip!
+          /\s$/.match?(e[:text][-1]) or out[-1].rstrip!
           e[:elem].replace(out.join)
         end
       end
