@@ -124,7 +124,6 @@ module Metanorma
       end
 
       def sections_cleanup(xml)
-        misccontainer_cleanup(xml)
         sections_order_cleanup(xml)
         sections_level_cleanup(xml)
         sections_names_cleanup(xml)
@@ -139,6 +138,26 @@ module Metanorma
         m.each do |m1|
           ins << m1.remove.children
         end
+      end
+
+      def source_include_cleanup(xml)
+        xml.xpath("//source-include").each do |s|
+          f = File.join(@localdir, s["path"])
+          s.remove
+          r = source_sanitise(File.read(f))
+          xml.root << <<~XML
+            <metanorma-extension-clause>
+            <clause>
+            <title>#{s['path']}</title>
+            <source>#{r} </source>
+            </clause>
+            </metanorma-extension-clause>
+          XML
+        end
+      end
+
+      def source_sanitise(code)
+        code
       end
 
       def single_clause_annex(xml)
