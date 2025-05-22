@@ -76,6 +76,7 @@ module Metanorma
         inline_macro Metanorma::Standoc::TdStyleInlineMacro
         inline_macro Metanorma::Standoc::AnchorInlineMacro
         inline_macro Metanorma::Standoc::SourceIdInlineMacro
+        inline_macro Metanorma::Standoc::SourceIncludeInlineMacro
         block Metanorma::Standoc::ToDoAdmonitionBlock
         block Metanorma::Standoc::EditorAdmonitionBlock
         treeprocessor Metanorma::Standoc::EditorInlineAdmonitionBlock

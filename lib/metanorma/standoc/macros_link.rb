@@ -76,5 +76,14 @@ module Metanorma
         create_anchor(parent, "hidden=#{t}", type: :xref, target: target)
       end
     end
+
+    class SourceIncludeInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+      use_dsl
+      named :source_include
+
+      def process(_parent, target, _attrs)
+        "<source-include path='#{target}'/>"
+      end
+    end
   end
 end

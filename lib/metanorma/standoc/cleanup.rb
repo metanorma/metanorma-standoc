@@ -29,10 +29,12 @@ module Metanorma
       def cleanup(xmldoc)
         @doctype = xmldoc.at("//bibdata/ext/doctype")&.text
         element_name_cleanup(xmldoc)
+        source_include_cleanup(xmldoc) # feeds: misccontainer_cleanup
         passthrough_cleanup(xmldoc)
         unnumbered_blocks_cleanup(xmldoc)
         termdocsource_cleanup(xmldoc) # feeds: metadata_cleanup
         metadata_cleanup(xmldoc) # feeds: boilerplate_cleanup
+        misccontainer_cleanup(xmldoc)
         sections_cleanup(xmldoc) # feeds: obligations_cleanup, toc_cleanup,
         # floatingtitle_cleanup
         obligations_cleanup(xmldoc)

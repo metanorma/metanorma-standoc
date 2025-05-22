@@ -1360,6 +1360,81 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
+  it "processes source_include" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [[clause1]]
+      == Clause
+
+      source_include:spec/fixtures/nested_file_1.yaml[]
+
+      A
+
+      source_include:spec/fixtures/nested_file_1.json[]
+    INPUT
+    output = <<~OUTPUT
+       <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}' flavor='standoc'>
+          <bibdata type="standard">
+             <title language="en" format="text/plain">Document title</title>
+             <language>en</language>
+             <script>Latn</script>
+             <status>
+                <stage>published</stage>
+             </status>
+             <copyright>
+                <from>2025</from>
+             </copyright>
+             <ext>
+                <doctype>standard</doctype>
+                <flavor>standoc</flavor>
+             </ext>
+          </bibdata>
+          <metanorma-extension>
+             <title>spec/fixtures/nested_file_1.yaml</title>
+             <source>---
+       name: nested file-main
+       description: nested description-main
+       one: nested one-main
+       two: nested two-main </source>
+             <title>spec/fixtures/nested_file_1.json</title>
+             <source>{
+         "name": "nested file-main",
+         "description": "nested description-main",
+         "one": "nested one-main",
+         "two": "nested two-main"
+       } </source>
+             <presentation-metadata>
+                <name>TOC Heading Levels</name>
+                <value>2</value>
+             </presentation-metadata>
+             <presentation-metadata>
+                <name>HTML TOC Heading Levels</name>
+                <value>2</value>
+             </presentation-metadata>
+             <presentation-metadata>
+                <name>DOC TOC Heading Levels</name>
+                <value>2</value>
+             </presentation-metadata>
+             <presentation-metadata>
+                <name>PDF TOC Heading Levels</name>
+                <value>2</value>
+             </presentation-metadata>
+          </metanorma-extension>
+          <sections>
+             <clause id="_" anchor="clause1" inline-header="false" obligation="normative">
+                <title>Clause</title>
+                <p id="_">A</p>
+             </clause>
+          </sections>
+       </metanorma>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    #xml = xml.at("//xmlns:sections")
+    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
+      .to be_equivalent_to Xml::C14n.format(output)
+  end
+
   describe "lutaml_figure macro" do
     let(:example_file) { fixtures_path("test.xmi") }
     let(:input) do
