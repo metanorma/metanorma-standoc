@@ -1391,19 +1391,24 @@ RSpec.describe Metanorma::Standoc do
              </ext>
           </bibdata>
           <metanorma-extension>
-             <title>spec/fixtures/nested_file_1.yaml</title>
-             <source>---
+          <metanorma-extension>
+             <clause obligation="normative">
+                <title>spec/fixtures/nested_file_1.yaml</title>
+                <source>---
        name: nested file-main
        description: nested description-main
        one: nested one-main
        two: nested two-main </source>
-             <title>spec/fixtures/nested_file_1.json</title>
-             <source>{
+             </clause>
+             <clause obligation="normative">
+                <title>spec/fixtures/nested_file_1.json</title>
+                <source>{
          "name": "nested file-main",
          "description": "nested description-main",
          "one": "nested one-main",
          "two": "nested two-main"
        } </source>
+             </clause>
              <presentation-metadata>
                 <name>TOC Heading Levels</name>
                 <value>2</value>
@@ -1430,7 +1435,6 @@ RSpec.describe Metanorma::Standoc do
        </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    #xml = xml.at("//xmlns:sections")
     expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end

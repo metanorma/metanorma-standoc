@@ -147,8 +147,10 @@ module Metanorma
           r = source_sanitise(File.read(f))
           xml.root << <<~XML
             <metanorma-extension-clause>
+            <clause>
             <title>#{s['path']}</title>
             <source>#{r} </source>
+            </clause>
             </metanorma-extension-clause>
           XML
         end
