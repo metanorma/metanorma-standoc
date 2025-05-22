@@ -1391,7 +1391,6 @@ RSpec.describe Metanorma::Standoc do
              </ext>
           </bibdata>
           <metanorma-extension>
-          <metanorma-extension>
              <clause obligation="normative">
                 <title>spec/fixtures/nested_file_1.yaml</title>
                 <source>---
