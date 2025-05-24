@@ -21,7 +21,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
                     <sections>
-        <clause id="_" anchor="_quotation_as" inline-header="false" obligation="normative">
+        <clause id="_" inline-header="false" obligation="normative">
         <title>“Quotation” A’s</title>
         <p id='_'>‘24:00:00’.</p>
                 <p id="_">“Quote1”</p>
@@ -66,7 +66,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
-        <clause id="_" anchor="_quotation_as" inline-header="false" obligation="normative">
+        <clause id="_" inline-header="false" obligation="normative">
         <title>“Quotation” A’s</title>
                         <p id="_">‘24:00:00’.</p>
                 <p id="_">“Quote1”</p>
@@ -113,7 +113,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
-        <clause id="_" anchor="_quotation_as" inline-header="false" obligation="normative">
+        <clause id="_" inline-header="false" obligation="normative">
         <title>"Quotation" A's</title>
       <p id="_">
         <tt>"quote" A's</tt>
@@ -166,7 +166,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
-                      <clause id="_" anchor="_quotation_as" inline-header="false" obligation="normative"><title>“Quotation” A’s</title><p id="_">“Quotation” A’s</p>
+                      <clause id="_" inline-header="false" obligation="normative"><title>“Quotation” A’s</title><p id="_">“Quotation” A’s</p>
       <p id="_">
         <tt>"quote" A’s</tt>
       </p>
@@ -354,11 +354,11 @@ RSpec.describe Metanorma::Standoc do
               <dd>
                 <p id='_'>Definition 3</p>
               </dd>
-              <dt id="_" anchor="symbol-_2d">2d</dt>
+              <dt id="_" anchor="symbol-_d">2d</dt>
             <dd>
               <p id="_">Definition 8</p>
             </dd>
-              <dt  id="_" anchor="symbol-__x3b1_">α</dt>
+              <dt  id="_" anchor="symbol-α">α</dt>
               <dd>
                 <p id='_'>Definition 1</p>
               </dd>
@@ -370,19 +370,6 @@ RSpec.describe Metanorma::Standoc do
     doc = Asciidoctor.convert(input, *OPTIONS)
     expect(strip_guid(Xml::C14n.format(doc)))
       .to be_equivalent_to Xml::C14n.format(output)
-    sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
-    expect(strip_guid(sym)).to be_equivalent_to <<~OUTPUT
-          <dt id="_" anchor="symbol-m">m</dt><dt id="_" anchor="symbol-n">
-        <stem type="MathML" block="false">
-          <math xmlns="http://www.w3.org/1998/Math/MathML">
-        <mstyle displaystyle="false">
-          <mi>n</mi>
-        </mstyle>
-      </math>
-          <asciimath>n</asciimath>
-        </stem>
-      </dt><dt id="_" anchor="symbol-Xa">Xa</dt><dt id="_" anchor="symbol-x">x</dt><dt id="_" anchor="symbol-x_m_">x_m_</dt><dt id="_" anchor="symbol-x_1_">x_1_</dt><dt id="_" anchor="symbol-_2d">2d</dt><dt id="_" anchor="symbol-__x3b1_">α</dt>
-    OUTPUT
   end
 
   it "sorts symbols lists #2" do
@@ -444,7 +431,7 @@ RSpec.describe Metanorma::Standoc do
                 <dd>
                   <p id="_">Definition 2</p>
                 </dd>
-                <dt id="_" anchor="symbol-__x3b1_">
+                <dt id="_" anchor="symbol-α">
                   <stem type="MathML" block="false">
                     <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mstyle displaystyle="false">
@@ -491,7 +478,7 @@ RSpec.describe Metanorma::Standoc do
       </math>
           <asciimath>x_1</asciimath>
         </stem>
-      </dt><dt id="_" anchor="symbol-xa">xa</dt><dt id="_" anchor="symbol-__x3b1_">
+      </dt><dt id="_" anchor="symbol-xa">xa</dt><dt id="_" anchor="symbol-α">
         <stem type="MathML" block="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
         <mstyle displaystyle="false">
@@ -556,7 +543,7 @@ RSpec.describe Metanorma::Standoc do
              </clause>
           </sections>
           <bibliography>
-             <references id="_" anchor="_bibliography" normative="false" obligation="informative">
+             <references id="_" normative="false" obligation="informative">
                 <title>Bibliography</title>
                 <bibitem anchor="Löwner2016" id="_">
                    <formattedref format="application/x-isodoc+xml">
@@ -673,7 +660,7 @@ RSpec.describe Metanorma::Standoc do
                 <title>Foreword</title>
                 <p id="_82273bb2-9729-2179-e364-4dbceaa3e7a1">Foreword</p>
              </foreword>
-             <introduction id="_2f104f30-6e11-5838-9236-2dac93424538" anchor="_introduction" obligation="informative">
+             <introduction id="_2f104f30-6e11-5838-9236-2dac93424538" obligation="informative">
                 <title>Introduction</title>
                 <p id="_9fe8092e-7508-826b-87ab-137652bcc88a">Introduction</p>
              </introduction>
@@ -682,7 +669,7 @@ RSpec.describe Metanorma::Standoc do
              <admonition id="_6c0f0fe2-050a-efee-d118-dbe50bac31ce" type="important">
                 <p id="_076fdc2d-399b-eaae-0c30-43f9ee0c414a">Notice which is very important</p>
              </admonition>
-             <clause id="_3f790a3c-6599-f0b3-b794-2e36cbde5d7b" anchor="_scope" type="scope" inline-header="false" obligation="normative">
+             <clause id="_3f790a3c-6599-f0b3-b794-2e36cbde5d7b" type="scope" inline-header="false" obligation="normative">
                 <title>Scope</title>
                 <p id="_c7deb0c6-abf2-07ec-468c-68d2ecbf922e">Scope statement</p>
              </clause>
@@ -793,7 +780,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <clause id="_" anchor="_clause" inline-header="false" obligation="normative">
+      <clause id="_" inline-header="false" obligation="normative">
         <title>Clause</title>
         <p id="_">
         <link target="http://user:pass@www.example.com/a%20&lt;a&gt;%3cb%3e">x</link>
@@ -893,7 +880,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <clause id="_" anchor="_clause" inline-header="false" obligation="normative">
+      <clause id="_" inline-header="false" obligation="normative">
          <title>Clause</title>
          <p id="_">http://www.example.com/…​abc</p>
          <p id="_">
@@ -982,7 +969,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-      <clause id="_" anchor="_clause" inline-header="false" obligation="normative">
+      <clause id="_" inline-header="false" obligation="normative">
          <title>Clause</title>
          <p id="_">
            <link target="http://www.example.com/...abc"/>

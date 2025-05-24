@@ -1,5 +1,5 @@
   <sections>
-    <clause id="_" anchor="_signature" inline-header='false' obligation='normative'>
+    <clause id="_" inline-header='false' obligation='normative'>
       <title>Signature</title>
       <p id='_'>
         A cryptographic signature used to determine data integrity and validity

@@ -68,7 +68,7 @@ RSpec.describe Metanorma::Standoc do
       </preface>
       <sections> </sections>
       <bibliography>
-        <references id="_" anchor="_bibliography" obligation='informative' normative="false">
+        <references id="_" obligation='informative' normative="false">
           <title>Bibliography</title>
           <bibitem id="_" anchor="ref1">
             <formattedref format='application/x-isodoc+xml'>
@@ -302,7 +302,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
       <sections>
-        <clause id="_" anchor="_english_français" inline-header='false' obligation='normative'>
+        <clause id="_" inline-header='false' obligation='normative'>
           <title>
             <variant lang='en'>English</variant>
             <variant lang='fr' script='Latn'>Français</variant>
@@ -381,20 +381,20 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
          <sections>
-             <clause id="_1" anchor="_clause_1" inline-header="false" obligation="normative">
+             <clause id="_1" inline-header="false" obligation="normative">
                 <title>
                    <bookmark id="_9" anchor="_9"/>
                    Clause 1
                 </title>
              </clause>
-             <clause id="_3" anchor="_clause_2" inline-header="false" obligation="normative">
+             <clause id="_3" inline-header="false" obligation="normative">
                 <title>
                    <bookmark id="_10" anchor="_10"/>
                    Clause 2
                 </title>
              </clause>
           </sections>
-          <annex id="_6" anchor="_annex_1" inline-header="false" obligation="normative">
+          <annex id="_6" inline-header="false" obligation="normative">
              <title>
                 <bookmark id="_11" anchor="_11"/>
                 Annex 1
@@ -971,7 +971,7 @@ RSpec.describe Metanorma::Standoc do
                 <clause id="_" anchor="clause1" inline-header='false' obligation='normative'>
                   <title>Clause 1</title>
                 </clause>
-                <clause id="_" anchor="_clause" inline-header='false' obligation='normative'>
+                <clause id="_" inline-header='false' obligation='normative'>
                   <title>Clause</title>
                   <p id='_'>
                     <xref target='a'><display-text>b</display-text></xref>
@@ -1159,11 +1159,11 @@ RSpec.describe Metanorma::Standoc do
               <title>Clause 2</title>
               <p id='_'>X</p>
             </clause>
-            <clause id="_" anchor="_clause_3" inline-header='false' obligation='normative'>
+            <clause id="_" inline-header='false' obligation='normative'>
               <title>Clause 3</title>
               <p id='_'>X</p>
             </clause>
-            <clause id="_" anchor="_clause_4" inline-header="false" obligation="normative">
+            <clause id="_" inline-header="false" obligation="normative">
               <title>Clause 4</title>
               <p id="_">X</p>
               <figure id="_">
@@ -1173,7 +1173,7 @@ RSpec.describe Metanorma::Standoc do
                 <image src="../rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
               </figure>
             </clause>
-            <clause id="_" anchor="_clause_3a" inline-header="false" obligation="normative">
+            <clause id="_" inline-header="false" obligation="normative">
               <title>Clause 3a</title>
               <p id="_">X</p>
               <figure id="_">
