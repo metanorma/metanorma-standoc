@@ -37,9 +37,9 @@ module Metanorma
         preprocessor Metanorma::Standoc::LinkProtectPreprocessor
         preprocessor Metanorma::Standoc::Datamodel::AttributesTablePreprocessor
         preprocessor Metanorma::Standoc::Datamodel::DiagramPreprocessor
-        preprocessor Metanorma::Plugin::Datastruct::Json2TextPreprocessor
-        preprocessor Metanorma::Plugin::Datastruct::Yaml2TextPreprocessor
-        preprocessor Metanorma::Plugin::Datastruct::Data2TextPreprocessor
+        preprocessor Metanorma::Plugin::Lutaml::Json2TextPreprocessor
+        preprocessor Metanorma::Plugin::Lutaml::Yaml2TextPreprocessor
+        preprocessor Metanorma::Plugin::Lutaml::Data2TextPreprocessor
         preprocessor Metanorma::Plugin::Glossarist::DatasetPreprocessor
         preprocessor Metanorma::Standoc::NamedEscapePreprocessor
         inline_macro Metanorma::Standoc::PreferredTermInlineMacro
