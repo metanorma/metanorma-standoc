@@ -112,10 +112,10 @@ module Metanorma
         outfilesuffix ".xml"
         @libdir = File.dirname(self.class::_file || __FILE__)
         @c = HTMLEntities.new
-        init_log(doc)
+        local_log(doc)
       end
 
-      def init_log(doc)
+      def local_log(doc)
         @log = doc&.options&.dig(:log) and return
         @log = Metanorma::Utils::Log.new
         @local_log = true
