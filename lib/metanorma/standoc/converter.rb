@@ -106,15 +106,20 @@ module Metanorma
       $xreftext = {}
 
       def initialize(backend, opts)
+        doc = opts&.dig(:document)
+        doc&.delete_attribute("sectids") # no autoassign sect ids from title
         super
         basebackend "html"
         outfilesuffix ".xml"
         @libdir = File.dirname(self.class::_file || __FILE__)
         @c = HTMLEntities.new
-        unless opts && @log = opts[:document]&.options&.dig(:log)
-          @log = Metanorma::Utils::Log.new
-          @local_log = true
-        end
+        local_log(doc)
+      end
+
+      def local_log(doc)
+        @log = doc&.options&.dig(:log) and return
+        @log = Metanorma::Utils::Log.new
+        @local_log = true
       end
 
       class << self

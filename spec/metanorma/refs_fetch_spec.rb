@@ -25,7 +25,7 @@ RSpec.describe Metanorma::Standoc do
                 #{BLANK_HDR}
                <sections>
 
-               </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true"><title>Normative references</title>
+               </sections><bibliography><references id="_" obligation="informative" normative="true"><title>Normative references</title>
                 #{NORM_REF_BOILERPLATE}
                      <bibitem id="_" anchor="iso123" type='standard'>
                 <fetched/>
@@ -246,7 +246,7 @@ RSpec.describe Metanorma::Standoc do
                #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>fr</language>')}
                         <sections> </sections>
           <bibliography>
-            <references id="_" anchor="_normative_references" normative='true' obligation='informative'>
+            <references id="_" normative='true' obligation='informative'>
               <title>R&#233;f&#233;rences normatives</title>
               <p id='_'>
                 Les documents suivants cit&#233;s dans le texte constituent, pour tout
@@ -472,7 +472,7 @@ RSpec.describe Metanorma::Standoc do
          #{BLANK_HDR}
          <sections>
 
-         </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
+         </sections><bibliography><references id="_" obligation="informative" normative="true">
            <title>Normative references</title>
          #{NORM_REF_BOILERPLATE}
                       <bibitem id="_" anchor="iso123" type="standard">
@@ -692,12 +692,12 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
          #{BLANK_HDR}
                         <sections>
-            <clause id="_" anchor="_section" inline-header="false" obligation="normative">
+            <clause id="_" inline-header="false" obligation="normative">
               <title>Section</title>
             </clause>
           </sections>
           <bibliography>
-            <references id="_" anchor="_bibliography" normative="false" obligation="informative">
+            <references id="_" normative="false" obligation="informative">
               <title>Bibliography</title>
               <bibitem type="article" id="_" anchor="ref1">
                 <fetched/>
@@ -799,20 +799,21 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
           #{BLANK_HDR}
            <sections>
-             <clause id="_" anchor="_section" inline-header="false" obligation="normative">
+             <clause id="_" inline-header="false" obligation="normative">
                <title>Section</title>
              </clause>
            </sections>
-                     <bibliography>
-             <references id="_" anchor="_bibliography" normative="false" obligation="informative">
+         <bibliography>
+             <references id="_" normative="false" obligation="informative">
                 <title>Bibliography</title>
-                <bibitem id="_" anchor="ref1" type="inbook">
+                <bibitem id="_" type="inbook" anchor="ref1">
                    <fetched/>
                    <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
                    <uri type="DOI">https://doi.org/10.1515/9783110889406.257</uri>
-                   <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
+                   <uri type="src">https://www.degruyterbrill.com/document/doi/10.1515/9783110889406.257/html</uri>
                    <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
                    <docidentifier type="ISBN">9783110170269</docidentifier>
+                   <docidentifier type="ISBN">9783110889406</docidentifier>
                    <date type="issued">
                       <on>2001-12-31</on>
                    </date>
@@ -882,13 +883,14 @@ RSpec.describe Metanorma::Standoc do
                       </locality>
                    </extent>
                 </bibitem>
-                <bibitem id="_" anchor="ref2" type="book">
+                <bibitem id="_" type="book" anchor="ref2">
                    <fetched/>
                    <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
                    <uri type="DOI">https://doi.org/10.1515/9783110889406.257</uri>
-                   <uri type="src">https://www.degruyter.com/document/doi/10.1515/9783110889406.257/html</uri>
+                   <uri type="src">https://www.degruyterbrill.com/document/doi/10.1515/9783110889406.257/html</uri>
                    <docidentifier type="DOI">DOI-ANON</docidentifier>
                    <docidentifier type="ISBN">9783110170269</docidentifier>
+                   <docidentifier type="ISBN">9783110889406</docidentifier>
                    <date type="issued">
                       <on>1234</on>
                    </date>
@@ -1020,7 +1022,7 @@ RSpec.describe Metanorma::Standoc do
                            <sections>
                     </sections>
                              <bibliography>
-             <references id="_" anchor="_normative_references" normative="true" obligation="informative">
+             <references id="_" normative="true" obligation="informative">
                <title>Normative references</title>
                <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
                            <bibitem id="_" anchor="iso123" type="proceedings">
@@ -1087,7 +1089,7 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
         <sections>
 
-        </sections><bibliography><references id="_" anchor="_normative_references" normative="true" obligation="informative" >
+        </sections><bibliography><references id="_" normative="true" obligation="informative" >
           <title>Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="_" anchor="iso123">
@@ -1206,10 +1208,14 @@ RSpec.describe Metanorma::Standoc do
         * [[[iso128,hidden=false,ABC]]] _Standard_
       INPUT
       xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-      expect(xml.at("//xmlns:bibitem[@anchor = 'iso125']/@hidden")&.text).to eq "true"
-      expect(xml.at("//xmlns:bibitem[@anchor = 'iso126']/@hidden")&.text).to eq "true"
-      expect(xml.at("//xmlns:bibitem[@anchor = 'iso127']/@hidden")&.text).not_to eq "true"
-      expect(xml.at("//xmlns:bibitem[@anchor = 'iso128']/@hidden")&.text).not_to eq "true"
+      expect(xml.at("//xmlns:bibitem[@anchor = 'iso125']/@hidden")&.text)
+        .to eq "true"
+      expect(xml.at("//xmlns:bibitem[@anchor = 'iso126']/@hidden")&.text)
+        .to eq "true"
+      expect(xml.at("//xmlns:bibitem[@anchor = 'iso127']/@hidden")&.text)
+        .not_to eq "true"
+      expect(xml.at("//xmlns:bibitem[@anchor = 'iso128']/@hidden")&.text)
+        .not_to eq "true"
     end
   end
 
@@ -1252,13 +1258,13 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
          #{BLANK_HDR}
          <sections>
-         <clause id="_" anchor="_clause_4" inline-header="false" obligation="normative">
+         <clause id="_" inline-header="false" obligation="normative">
            <title>Clause 4</title>
            <p id="_">
            <eref type="inline" bibitemid="iso123" citeas="IETF\\u00a0RFC\\u00a08341"/>
          </p>
          </clause>
-         </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
+         </sections><bibliography><references id="_" obligation="informative" normative="true">
          <title>Normative references</title>
                #{NORM_REF_BOILERPLATE}
               <bibitem id="_" anchor="iso123" type='standard'>
@@ -1395,7 +1401,7 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
                #{BLANK_HDR}
                       <sections>
-               </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
+               </sections><bibliography><references id="_" obligation="informative" normative="true">
                  <title>Normative references</title>
                 #{NORM_REF_BOILERPLATE}
                              <bibitem id="_" anchor="iso123" type="standard">
@@ -1523,7 +1529,7 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
               #{BLANK_HDR}
                      <sections>
-              </sections><bibliography><references id="_" anchor="_normative_references" obligation="informative" normative="true">
+              </sections><bibliography><references id="_" obligation="informative" normative="true">
                 <title>Normative references</title>
                #{NORM_REF_BOILERPLATE}
                             <bibitem id="_" anchor="iso123" type="standard">
@@ -1708,7 +1714,7 @@ RSpec.describe Metanorma::Standoc do
       output = <<~OUTPUT
         #{BLANK_HDR}
         <sections>
-        <clause id="_" anchor="_section" inline-header="false" obligation="normative">
+        <clause id="_" inline-header="false" obligation="normative">
         <title>Section</title>
         <p id="_"><eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><display-text><em>reference</em></display-text></eref>
         <eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><display-text><em><strong>reference</strong></em></display-text></eref>
@@ -1728,7 +1734,8 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       a = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       a.at("//xmlns:bibliography").remove
-      expect(strip_guid(Xml::C14n.format(a.to_xml))).to be_equivalent_to Xml::C14n.format(output)
+      expect(strip_guid(Xml::C14n.format(a.to_xml)))
+        .to be_equivalent_to Xml::C14n.format(output)
     end
   end
 end
