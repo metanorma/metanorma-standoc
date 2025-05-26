@@ -887,11 +887,11 @@ RSpec.describe Metanorma::Standoc do
             <p id='_'>Notice which is also very important</p>
           </admonition>
           <foreword id='_' obligation='informative'>
-            <title>Foreword</title>
+            <title id="_">Foreword</title>
             <p id='_'>Foreword</p>
           </foreword>
           <introduction id="_" obligation='informative'>
-            <title>Introduction</title>
+            <title id="_">Introduction</title>
             <p id='_'>Introduction</p>
           </introduction>
         </preface>
@@ -900,7 +900,7 @@ RSpec.describe Metanorma::Standoc do
             <p id='_'>Notice which is very important</p>
           </admonition>
           <clause id="_" inline-header='false' obligation='normative' type="scope">
-            <title>Scope</title>
+            <title id="_">Scope</title>
             <p id='_'>Scope statement</p>
           </clause>
         </sections>
@@ -1133,7 +1133,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
               <sections>
           <clause id="_" inline-header='false' obligation='normative'>
-            <title>Clause 1</title>
+            <title id="_">Clause 1</title>
             <p id='_'>
               Paragraph
               <index>
@@ -1157,7 +1157,7 @@ RSpec.describe Metanorma::Standoc do
             </p>
           </clause>
           <clause id="_" inline-header='false' obligation='normative'>
-             <title>Clause 2</title>
+             <title id="_">Clause 2</title>
              <p id='_'>Paragraph</p>
              <p id='_'>
                index
@@ -1231,7 +1231,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
            <sections>
              <clause id="_" inline-header="false" obligation="normative">
-               <title>Clause 1</title>
+               <title id="_">Clause 1</title>
                <figure id="_">
                  <pre id="_">A</pre>
                </figure>
@@ -1245,7 +1245,7 @@ RSpec.describe Metanorma::Standoc do
              </clause>
            </sections>
            <annex id="_" inline-header="false" obligation="normative">
-             <title>Appendix</title>
+             <title id="_">Appendix</title>
              <figure id="_">
                <pre id="_">A</pre>
              </figure>
@@ -1323,7 +1323,7 @@ RSpec.describe Metanorma::Standoc do
        <title language="en" format="text/plain">Document title</title>
        <language>en</language><script>Latn</script><status><stage>published</stage></status><copyright><from>2025</from></copyright><ext><doctype>standard</doctype><flavor>standoc</flavor></ext></bibdata><metanorma-extension><presentation-metadata><name>TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>HTML TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>DOC TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>PDF TOC Heading Levels</name><value>2</value></presentation-metadata></metanorma-extension>
        <sections><clause id="_" type="scope" inline-header="false" obligation="normative">
-       <title>Scope</title>
+       <title id="_">Scope</title>
        <example id="_">
        <name>Fragment of a collection description document with a links array and with one item of the array pointing to a list of map tilesets.</name>
        <p id="_"><strong>Hello <em>And</em> This</strong></p>
@@ -1366,7 +1366,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       <sections><clause id="_" type="scope" inline-header="false" obligation="normative">
-      <title>Scope</title>
+      <title id="_">Scope</title>
       <p id="_" source="DEF">Hello <span id="_" source="ABC">text</span> </p>
       </clause>
       </sections>
@@ -1412,7 +1412,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       <sections><clause id="_" type="scope" inline-header="false" obligation="normative">
-      <title>Scope</title>
+      <title id="_">Scope</title>
        <p id="_">日本規格協会（<strong>JSA</strong>）から，</p>
      
        <p id="_">日本規格協会（<strong>JSA</strong>）から，</p>

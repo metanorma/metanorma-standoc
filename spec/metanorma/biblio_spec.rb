@@ -40,7 +40,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
       <sections>
       </sections><bibliography><references id="_" obligation="informative" normative="true">
-        <title>Normative references</title>
+        <title id="_">Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="_" anchor="iso123" type="standard">
         <title type='title-main' format='text/plain'>Standard</title>
@@ -302,14 +302,14 @@ RSpec.describe Metanorma::Standoc do
             #{BLANK_HDR}
             <sections>
         <clause id="_" inline-header='false' obligation='normative'>
-          <title>Clause</title>
+          <title id="_">Clause</title>
           <p id='_'>
             <eref type='inline' bibitemid='ISOTC211' citeas='TC211'/>
           </p>
         </clause>
             </sections>
       <bibliography><references id="_" obligation="informative" normative="true">
-              <title>Normative references</title>
+              <title id="_">Normative references</title>
               #{NORM_REF_BOILERPLATE}
               <bibitem id="_" anchor="ISOTC211" type="standard">
         <fetched/>
@@ -640,7 +640,7 @@ RSpec.describe Metanorma::Standoc do
             #{BLANK_HDR}
             <sections>
             </sections><bibliography><references id="_" obligation="informative" normative="true">
-              <title>Normative references</title>
+              <title id="_">Normative references</title>
               #{NORM_REF_BOILERPLATE}
               <bibitem id="_" anchor="ISOTC211" type="standard">
         <fetched/>
@@ -843,12 +843,12 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
            <sections>
          <clause id="_" inline-header='false' obligation='normative'>
-           <title>Section</title>
+           <title id="_">Section</title>
            <clause id="_" inline-header='false' obligation='normative'>
-             <title>Subsection</title>
+             <title id="_">Subsection</title>
            </clause>
            <references id="_" obligation='informative'  normative="true">
-             <title>Normative References</title>
+             <title id="_">Normative References</title>
              <bibitem id="_" anchor="A">
                <formattedref format='application/x-isodoc+xml'>Title</formattedref>
                <docidentifier>B</docidentifier>
@@ -903,7 +903,7 @@ RSpec.describe Metanorma::Standoc do
          <sections> </sections>
                   <bibliography>
            <references id="_" normative="true" obligation="informative">
-             <title>Normative references</title>
+             <title id="_">Normative references</title>
              <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
               <bibitem id="_" anchor="A" type="inbook">
                <formattedref format="application/x-isodoc+xml">Wozniak, S., Jobs, Steve &amp; Hoover, J. Edgar. 1991-1992. 1996-01-02. <em>Work</em>. Gates, W. H &amp; UNICEF, Collected Essays. <em>Bibliographers Anonymous</em>. 4, draft. Also available in paperback. ISO 1234. Geneva: International Standardization Organization. <link target="http://www.example.com"/>. 4 2–3 12-13 19. A C D This is a <em>journey</em> into sound</formattedref>
@@ -1030,7 +1030,7 @@ RSpec.describe Metanorma::Standoc do
        <sections/>
          <bibliography>
            <references id="_" normative="true" obligation="informative">
-             <title>Normative references</title>
+             <title id="_">Normative references</title>
              <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
              <bibitem id="_" anchor="A">
                <formattedref format="application/x-isodoc+xml">Wozniak, S. A.D. Hope A D Navarro Cortez A. D. Hope &amp; Jobs, Steve. <em>Work</em>. Gates, W. H J. Edgar Hoover &amp; UNICEF, Collected Essays.</formattedref>
@@ -1178,7 +1178,7 @@ RSpec.describe Metanorma::Standoc do
                <sections/>
          <bibliography>
            <references id="_" normative="true" obligation="informative">
-             <title>Normative references</title>
+             <title id="_">Normative references</title>
              <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
              <bibitem id="_" anchor="A" type="manual">
                <title type="main" format="text/plain">Geographic information</title>
@@ -1258,7 +1258,7 @@ RSpec.describe Metanorma::Standoc do
       <sections/>
          <bibliography>
            <references id="_" normative="true" obligation="informative">
-             <title>Normative references</title>
+             <title id="_">Normative references</title>
              <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
              <bibitem id="_" anchor="A" type="manual">
                <title type="main" format="text/plain">Geographic information</title>

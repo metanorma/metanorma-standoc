@@ -81,7 +81,7 @@ RSpec.describe Metanorma::Standoc::Processor do
     processor.output(<<~INPUT, "test.xml", "test.xml", :xml)
               <iso-standard xmlns="http://riboseinc.com/isoxml">
       <sections>
-      <terms id="H" obligation="normative" displayorder="1"><title>Terms, Definitions, Symbols and Abbreviated Terms</title>
+      <terms id="H" obligation="normative" displayorder="1"><title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
         <term id="J">
         <preferred>Term2</preferred>
       </term>

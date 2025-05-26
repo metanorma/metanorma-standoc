@@ -96,15 +96,15 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           #{BLANK_HDR}
           <sections>
           <clause id="_" inline-header="false" obligation="normative">
-             <title>0 lorem</title>
+             <title id="_">0 lorem</title>
              <p id='_'>This section is about lorem.</p>
            </clause>
            <clause id="_" inline-header='false' obligation='normative'>
-             <title>1 ipsum</title>
+             <title id="_">1 ipsum</title>
              <p id='_'>This section is about ipsum.</p>
            </clause>
            <clause id="_" inline-header='false' obligation='normative'>
-             <title>2 dolor</title>
+             <title id="_">2 dolor</title>
              <p id='_'>This section is about dolor.</p>
             </clause>
           </sections>
@@ -152,7 +152,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           #{BLANK_HDR}
           <sections>
           <clause id="_" inline-header="false" obligation="normative">
-            <title>Lorem ipsum</title>
+            <title id="_">Lorem ipsum</title>
             <p id='_'>dolor sit amet</p>
           </clause>
           </sections>
@@ -203,11 +203,11 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           #{BLANK_HDR}
           <sections>
           <clause id="_" inline-header="false" obligation="normative">
-              <title>name</title>
+              <title id="_">name</title>
               <p id='_'>Lorem ipsum</p>
             </clause>
             <clause id="_" inline-header='false' obligation='normative'>
-              <title>desc</title>
+              <title id="_">desc</title>
               <p id='_'>dolor sit amet</p>
           </clause>
           </sections>
@@ -347,21 +347,21 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           #{BLANK_HDR}
             <preface>
               <foreword id='_' obligation='informative'>
-                <title>Foreword</title>
+                <title id="_">Foreword</title>
                 <p id='_'>First item is lorem. Last item is dolor.</p>
               </foreword>
             </preface>
             <sections>
               <clause id="_" inline-header='false' obligation='normative'>
-                <title>0 → 1 lorem == lorem</title>
+                <title id="_">0 → 1 lorem == lorem</title>
                 <sourcecode lang='ruby' id='_'><body>link:doc-0.rb[role=include]</body></sourcecode>
               </clause>
               <clause id="_" inline-header='false' obligation='normative'>
-                <title>1 → 2 ipsum == ipsum</title>
+                <title id="_">1 → 2 ipsum == ipsum</title>
                 <sourcecode lang='ruby' id='_'><body>link:doc-1.rb[role=include]</body></sourcecode>
               </clause>
               <clause id="_" inline-header='false' obligation='normative'>
-                <title>2 → 3 dolor == dolor</title>
+                <title id="_">2 → 3 dolor == dolor</title>
                 <sourcecode lang='ruby' id='_'><body>link:doc-2.rb[role=include]</body></sourcecode>
               </clause>
             </sections>
@@ -677,28 +677,28 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           #{BLANK_HDR}
           <sections>
             <clause id="_" inline-header='false' obligation='normative'>
-              <title>main: nested file-main</title>
+              <title id="_">main: nested file-main</title>
             </clause>
             <clause id="_" inline-header='false' obligation='normative'>
-              <title>main: nested description-main</title>
+              <title id="_">main: nested description-main</title>
             </clause>
             <clause id="_" inline-header='false' obligation='normative'>
-              <title>nested one-main</title>
+              <title id="_">nested one-main</title>
             </clause>
             <clause id="_" inline-header='false' obligation='normative'>
-              <title>nested two-main</title>
+              <title id="_">nested two-main</title>
             </clause>
             <clause id="_" inline-header='false' obligation='normative'>
-              <title>main: nested2 name-main</title>
+              <title id="_">main: nested2 name-main</title>
             </clause>
             <clause id="_" inline-header='false' obligation='normative'>
-              <title>main: nested2 description-main</title>
+              <title id="_">main: nested2 description-main</title>
             </clause>
             <clause id="_" inline-header='false' obligation='normative'>
-              <title>nested2 one-main</title>
+              <title id="_">nested2 one-main</title>
             </clause>
             <clause id="_" inline-header='false' obligation='normative'>
-              <title>nested2 two-main</title>
+              <title id="_">nested2 two-main</title>
             </clause>
           </sections>
         TEXT

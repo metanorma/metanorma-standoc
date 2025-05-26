@@ -86,6 +86,7 @@ module Metanorma
       end
 
       def section_title(xml, title)
+        title.nil? and return
         xml.title **attr_code(id_attr(nil)) do |t|
           t << title
         end
@@ -94,9 +95,7 @@ module Metanorma
       def preamble(node)
         noko do |xml|
           xml.foreword **attr_code(section_attributes(node)) do |xml_abstract|
-            xml_abstract.title do |t|
-              t << (node.blocks[0].title || @i18n.foreword)
-            end
+            section_title(xml_abstract, node.blocks[0].title || @i18n.foreword)
             xml_abstract << node.content
           end
         end
@@ -110,7 +109,7 @@ module Metanorma
 
       def indexsect_parse(attrs, xml, node)
         xml.indexsect **attr_code(attrs) do |xml_section|
-          xml_section.title { |name| name << node.title }
+          section_title(xml_section, node.title)
           xml_section << node.content
         end
       end
@@ -137,7 +136,7 @@ module Metanorma
         node.option?("appendix") && support_appendix?(node) and
           return appendix_parse(attrs, xml, node)
         xml.send :clause, **attr_code(attrs) do |xml_section|
-          xml_section.title { |n| n << node.title } unless node.title.nil?
+          section_title(xml_section, node.title)
           xml_section << node.content
         end
       end
@@ -150,7 +149,7 @@ module Metanorma
       def annex_parse(attrs, xml, node)
         annex_attrs_preprocess(attrs, node)
         xml.annex **attr_code(attrs) do |xml_section|
-          xml_section.title { |name| name << node.title }
+          section_title(xml_section, node.title)
           xml_section << node.content
         end
       end
@@ -163,35 +162,35 @@ module Metanorma
         attrs[:"inline-header"] = node.option? "inline-header"
         set_obligation(attrs, node)
         xml.appendix **attr_code(attrs) do |xml_section|
-          xml_section.title { |name| name << node.title }
+          section_title(xml_section, node.title)
           xml_section << node.content
         end
       end
 
       def introduction_parse(attrs, xml, node)
         xml.introduction **attr_code(attrs) do |xml_section|
-          xml_section.title { |t| t << @i18n.introduction }
+          section_title(xml_section, @i18n.introduction)
           xml_section << node.content
         end
       end
 
       def foreword_parse(attrs, xml, node)
         xml.foreword **attr_code(attrs) do |xml_section|
-          xml_section.title { |t| t << node.title }
+          section_title(xml_section, node.title)
           xml_section << node.content
         end
       end
 
       def acknowledgements_parse(attrs, xml, node)
         xml.acknowledgements **attr_code(attrs) do |xml_section|
-          xml_section.title { |t| (t << node.title) || @i18n.acknowledgements }
+          section_title(xml_section, node.title || @i18n.acknowledgements)
           xml_section << node.content
         end
       end
 
       def executivesummary_parse(attrs, xml, node)
         xml.executivesummary **attr_code(attrs) do |xml_section|
-          xml_section.title { |t| (t << node.title) || @i18n.executivesummary }
+          section_title(xml_section, node.title || @i18n.executivesummary)
           xml_section << node.content
         end
       end

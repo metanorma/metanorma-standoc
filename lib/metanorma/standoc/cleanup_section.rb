@@ -148,7 +148,7 @@ module Metanorma
           xml.root << <<~XML
             <metanorma-extension-clause>
             <clause>
-            <title>#{s['path']}</title>
+            <title id='_#{UUIDTools::UUID.random_create}'>#{s['path']}</title>
             <source>#{r} </source>
             </clause>
             </metanorma-extension-clause>

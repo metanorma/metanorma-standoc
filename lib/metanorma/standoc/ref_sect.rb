@@ -14,7 +14,7 @@ module Metanorma
         @biblio = true
         attrs = attrs.merge(normative: node.attr("normative") || false)
         xml.references **attr_code(attrs) do |xml_section|
-          xml_section.title { |t| t << node.title }
+          section_title(xml_section, node.title)
           xml_section << node.content
         end
         @biblio = false
@@ -36,7 +36,7 @@ module Metanorma
         @norm_ref = true
         attrs = attrs.merge(normative: node.attr("normative") || true)
         xml.references **attr_code(attrs) do |xml_section|
-          xml_section.title { |t| t << node.title }
+          section_title(xml_section, node.title)
           xml_section << node.content
         end
         @norm_ref = false

@@ -18,7 +18,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
       <sections></sections>
-      <bibliography><references id="_" obligation="informative" normative="true"><title>Normative references</title>
+      <bibliography><references id="_" obligation="informative" normative="true"><title id="_">Normative references</title>
         #{NORM_REF_BOILERPLATE}
              <bibitem id="_" anchor="iso216" type="standard">
          <title format="text/plain">Reference</title>
@@ -58,7 +58,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
       <sections></sections>
-      <bibliography><references id="_" obligation="informative" normative="true"><title>Normative references</title>
+      <bibliography><references id="_" obligation="informative" normative="true"><title id="_">Normative references</title>
        <p id='_'>This is extraneous information</p>
          <bibitem id="_" anchor="iso216" type="standard">
          <title format="text/plain">Reference</title>
@@ -117,7 +117,7 @@ RSpec.describe Metanorma::Standoc do
       <sections></sections>
                <bibliography>
            <references id="_" normative="true" obligation="informative">
-             <title>Normative references</title>
+             <title id="_">Normative references</title>
              <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
              <bibitem id="_" anchor="iso216" type="standard">
                <title format="text/plain">Reference</title>
@@ -172,7 +172,7 @@ RSpec.describe Metanorma::Standoc do
       <sections></sections>
                <bibliography>
            <references id="_" normative="true" obligation="informative">
-             <title>Normative references</title>
+             <title id="_">Normative references</title>
              <p id="_">There are no normative references in this document.</p>
              <p id="_">This is also extraneous information</p>
            </references>
@@ -201,9 +201,9 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
          <sections>
            <clause id="_" inline-header="false" obligation="normative">
-             <title>A clause</title>
+             <title id="_">A clause</title>
              <references id="_" normative="true" obligation="informative">
-               <title>Normative References</title>
+               <title id="_">Normative References</title>
                <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
                <bibitem id="_" anchor="iso216" type="standard">
                  <title format="text/plain">Reference</title>
@@ -218,7 +218,7 @@ RSpec.describe Metanorma::Standoc do
                </bibitem>
              </references>
              <clause id="_" inline-header="false" obligation="normative">
-               <title>Another clause</title>
+               <title id="_">Another clause</title>
              </clause>
            </clause>
          </sections>
@@ -248,10 +248,10 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
          <sections>
            <clause id="_" inline-header="false" obligation="normative">
-             <title>A clause</title>
+             <title id="_">A clause</title>
              <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
              <references id="_" normative="true" obligation="informative">
-               <title>Normative References</title>
+               <title id="_">Normative References</title>
                <bibitem id="_" anchor="iso216" type="standard">
                  <title format="text/plain">Reference</title>
                  <docidentifier>ISO 216</docidentifier>
@@ -265,7 +265,7 @@ RSpec.describe Metanorma::Standoc do
                </bibitem>
              </references>
              <references id="_" normative="false" obligation="informative">
-               <title>Another clause</title>
+               <title id="_">Another clause</title>
              </references>
            </clause>
          </sections>
@@ -295,10 +295,10 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
                <sections>
            <clause id="_" inline-header="false" obligation="normative">
-             <title>A clause</title>
+             <title id="_">A clause</title>
              <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
              <references id="_" normative="true" obligation="informative">
-               <title>Normative References</title>
+               <title id="_">Normative References</title>
                <bibitem id="_" anchor="iso216" type="standard">
                  <title format="text/plain">Reference</title>
                  <docidentifier>ISO 216</docidentifier>
@@ -312,7 +312,7 @@ RSpec.describe Metanorma::Standoc do
                </bibitem>
              </references>
              <clause id="_" type="boilerplate" inline-header="false" obligation="normative">
-               <title>Another clause</title>
+               <title id="_">Another clause</title>
              </clause>
            </clause>
          </sections>
@@ -338,7 +338,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
                <sections>
            <terms id="_" obligation="normative">
-             <title>Terms and definitions</title>
+             <title id="_">Terms and definitions</title>
              <p id="_">This is extraneous information</p>
              <term id="_" anchor="term-Term-1">
                <preferred>
@@ -371,7 +371,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
                <sections>
            <terms id="_" obligation="normative">
-             <title>Terms and definitions</title>
+             <title id="_">Terms and definitions</title>
                 <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
              <term id="_" anchor="term-Term-1">
                <preferred>
@@ -401,7 +401,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
                <sections>
            <terms id="_" obligation="normative">
-             <title>Terms and definitions</title>
+             <title id="_">Terms and definitions</title>
                 <p id="_">No terms and definitions are listed in this document.</p>
            </terms>
          </sections>
@@ -427,7 +427,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
                     <sections>
-               <terms id="_" obligation="normative"><title>Terms and definitions</title>
+               <terms id="_" obligation="normative"><title id="_">Terms and definitions</title>
                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
       <p id='_'>I am boilerplate</p>
       <ul id='_'>
@@ -465,9 +465,9 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
                <sections>
            <clause id="_" inline-header="false" obligation="normative">
-             <title>A clause</title>
+             <title id="_">A clause</title>
              <terms id="_" obligation="normative">
-               <title>Terms and definitions</title>
+               <title id="_">Terms and definitions</title>
                <p id="_">For the purposes of this document,
            the following terms and definitions apply.</p>
                <term id="_" anchor="term-Term-1">
@@ -479,7 +479,7 @@ RSpec.describe Metanorma::Standoc do
                </term>
              </terms>
              <clause id="_" inline-header="false" obligation="normative">
-               <title>Another clause</title>
+               <title id="_">Another clause</title>
              </clause>
            </clause>
          </sections>
@@ -511,9 +511,9 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
                <sections>
            <clause id="_" inline-header="false" obligation="normative">
-             <title>A clause</title>
+             <title id="_">A clause</title>
              <terms id="_" obligation="normative">
-               <title>Terms and definitions</title>
+               <title id="_">Terms and definitions</title>
                <p id="_">For the purposes of this document,
            the following terms and definitions apply.</p>
                <term id="_" anchor="term-Term-1">
@@ -525,7 +525,7 @@ RSpec.describe Metanorma::Standoc do
                </term>
              </terms>
              <terms id="_" obligation="normative">
-               <title>More terms and definitions</title>
+               <title id="_">More terms and definitions</title>
                <term id="_" anchor="term-Term-2">
                  <preferred>
                    <expression>
@@ -571,12 +571,12 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
                 <sections>
            <clause id="_" inline-header="false" obligation="normative">
-             <title>First section</title>
+             <title id="_">First section</title>
              <clause id="_" inline-header="false" obligation="normative">
-               <title>Normative References</title>
+               <title id="_">Normative References</title>
              </clause>
              <terms id="_" obligation="normative">
-               <title>Terms and definitions</title>
+               <title id="_">Terms and definitions</title>
                 <p id="_">For the purposes of this document,
                 the following terms and definitions apply.</p>
                <term id="_" anchor="term-Term1">
@@ -588,19 +588,19 @@ RSpec.describe Metanorma::Standoc do
                </term>
              </terms>
              <clause id="_" inline-header="false" obligation="normative">
-               <title>Terms, definitions, symbols and abbreviated terms</title>
+               <title id="_">Terms, definitions, symbols and abbreviated terms</title>
                <clause id="_" inline-header="false" obligation="normative">
-                 <title>Normal Terms</title>
+                 <title id="_">Normal Terms</title>
                  <clause id="_" inline-header="false" obligation="normative">
-                   <title>Term2</title>
+                   <title id="_">Term2</title>
                  </clause>
                </clause>
                <definitions id="_" type="symbols" obligation="normative">
-                 <title>Symbols</title>
+                 <title id="_">Symbols</title>
                </definitions>
              </clause>
              <definitions id="_" type="abbreviated_terms" obligation="normative">
-               <title>Abbreviated terms</title>
+               <title id="_">Abbreviated terms</title>
              </definitions>
            </clause>
          </sections>
@@ -640,12 +640,12 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
                 <sections>
            <clause id="_" inline-header="false" obligation="normative">
-             <title>First section</title>
+             <title id="_">First section</title>
              <clause id="_" inline-header="false" obligation="normative">
-               <title>Normative References</title>
+               <title id="_">Normative References</title>
              </clause>
              <terms id="_" obligation="normative">
-               <title>Terms and definitions</title>
+               <title id="_">Terms and definitions</title>
                 <p id="_">For the purposes of this document,
                 the following terms and definitions apply.</p>
                <term id="_" anchor="term-Term1">
@@ -657,19 +657,19 @@ RSpec.describe Metanorma::Standoc do
                </term>
              </terms>
              <clause id="_" inline-header="false" obligation="normative">
-               <title>Terms, definitions, symbols and abbreviated terms</title>
+               <title id="_">Terms, definitions, symbols and abbreviated terms</title>
                <clause id="_" inline-header="false" obligation="normative">
-                 <title>Normal Terms</title>
+                 <title id="_">Normal Terms</title>
                  <clause id="_" inline-header="false" obligation="normative">
-                   <title>Term2</title>
+                   <title id="_">Term2</title>
                  </clause>
                </clause>
                <definitions id="_" type="symbols" obligation="normative">
-                 <title>Symbols</title>
+                 <title id="_">Symbols</title>
                </definitions>
              </clause>
              <definitions id="_" type="abbreviated_terms" obligation="normative">
-               <title>Abbreviated terms</title>
+               <title id="_">Abbreviated terms</title>
              </definitions>
            </clause>
          </sections>
@@ -691,7 +691,7 @@ RSpec.describe Metanorma::Standoc do
             #{BLANK_HDR}
             <sections>
       </sections><bibliography><references id="_" obligation="informative" normative="true">
-        <title>Normative references</title><p id="_">There are no normative references in this document.</p>
+        <title id="_">Normative references</title><p id="_">There are no normative references in this document.</p>
       </references></bibliography>
       </metanorma>
     OUTPUT
@@ -713,7 +713,7 @@ RSpec.describe Metanorma::Standoc do
       <sections>
 
          </sections><bibliography><references id="_" obligation="informative" normative="true">
-           <title>Normative references</title><p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+           <title id="_">Normative references</title><p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
            <bibitem id="_" anchor="a">
            <formattedref format="application/x-isodoc+xml">A</formattedref>
            <docidentifier>b</docidentifier>
@@ -744,7 +744,7 @@ RSpec.describe Metanorma::Standoc do
           #{BLANK_HDR.sub(/<language>en/, '<language>fr')}
           <sections>
       </sections><bibliography><references id="_" obligation="informative" normative="true">
-        <title>Références normatives</title><p id="_">Le présent document ne contient aucune référence normative.</p>
+        <title id="_">Références normatives</title><p id="_">Le présent document ne contient aucune référence normative.</p>
       </references></bibliography>
       </metanorma>
     OUTPUT
@@ -770,9 +770,9 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
                  <sections>
           <clause id="_" obligation="normative" type="terms">
-            <title>Terms, definitions and symbols</title>
+            <title id="_">Terms, definitions and symbols</title>
             <terms id="_" obligation="normative">
-              <title>Terms and definitions</title>
+              <title id="_">Terms and definitions</title>
             <p id="_">For the purposes of this document,
           the following terms and definitions apply.</p>
               <term id="_" anchor="term-term">
@@ -784,7 +784,7 @@ RSpec.describe Metanorma::Standoc do
               </term>
             </terms>
             <definitions id="_" type="symbols" obligation="normative">
-              <title>Symbols</title>
+              <title id="_">Symbols</title>
             </definitions>
           </clause>
         </sections>
@@ -814,11 +814,11 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
         <sections>
           <clause id="_" obligation="normative" type="terms">
-            <title>Terms and definitions</title>
+            <title id="_">Terms and definitions</title>
             <p id="_">For the purposes of this document,
           the following terms and definitions apply.</p>
             <terms id="_" obligation="normative">
-              <title>Terms</title>
+              <title id="_">Terms</title>
               <term id="_" anchor="term-term">
                 <preferred>
                   <expression>
@@ -828,7 +828,7 @@ RSpec.describe Metanorma::Standoc do
               </term>
             </terms>
             <terms id="_" obligation="normative">
-              <title>Terms 2</title>
+              <title id="_">Terms 2</title>
               <term id="_" anchor="term-term-1">
                 <preferred>
                   <expression>
@@ -866,15 +866,15 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
                 <sections>
           <clause id="_" obligation="normative" type="terms">
-            <title>Terms and definitions</title>
+            <title id="_">Terms and definitions</title>
             <p id="_">For the purposes of this document,
           the following terms and definitions apply.</p>
             <clause id="_" inline-header="false" obligation="normative">
-              <title>Terms0</title>
+              <title id="_">Terms0</title>
               <p id="_">Boilerplate</p>
             </clause>
             <terms id="_" obligation="normative">
-              <title>Terms</title>
+              <title id="_">Terms</title>
               <term id="_" anchor="term-term">
                 <preferred>
                   <expression>
@@ -911,12 +911,12 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
                    <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
               <preface><foreword id='_' obligation="informative">
-               <title>Foreword</title>
+               <title id="_">Foreword</title>
                <p id="_">Foreword</p>
              </foreword></preface>
              <sections>
              <terms id="_" obligation="normative">
-                <title>Terms and definitions</title>
+                <title id="_">Terms and definitions</title>
                 <p id="_">
                    For the purposes of this document, the terms and definitions given in
                    <eref bibitemid="iso1234" citeas="A"/>
@@ -935,7 +935,7 @@ RSpec.describe Metanorma::Standoc do
           </sections>
           <bibliography>
              <references id="_" normative="false" obligation="informative">
-                <title>Bibliography</title>
+                <title id="_">Bibliography</title>
                 <bibitem id="_" anchor="iso1234">
                    <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
                    <docidentifier>A</docidentifier>
@@ -965,11 +965,11 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
             #{BLANK_HDR}
        <preface><foreword id='_' obligation="informative">
-        <title>Foreword</title>
+        <title id="_">Foreword</title>
         <p id="_">Foreword</p>
       </foreword></preface><sections>
       <terms id="_" obligation="normative">
-         <title>Terms and definitions</title><p id="_">No terms and definitions are listed in this document.</p>
+         <title id="_">Terms and definitions</title><p id="_">No terms and definitions are listed in this document.</p>
       </terms></sections>
       </metanorma>
 
@@ -996,12 +996,12 @@ RSpec.describe Metanorma::Standoc do
             #{BLANK_HDR}
             <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
        <preface><foreword id='_' obligation="informative">
-        <title>Foreword</title>
+        <title id="_">Foreword</title>
         <p id="_">Foreword</p>
       </foreword></preface>
       <sections>
              <terms id="_" obligation="normative">
-                <title>Terms and definitions</title>
+                <title id="_">Terms and definitions</title>
                 <p id="_">
                    For the purposes of this document, the terms and definitions given in
                    <eref bibitemid="iso1234" citeas="A"/>
@@ -1013,7 +1013,7 @@ RSpec.describe Metanorma::Standoc do
           </sections>
           <bibliography>
              <references id="_" normative="false" obligation="informative">
-                <title>Bibliography</title>
+                <title id="_">Bibliography</title>
                 <bibitem id="_" anchor="iso1234">
                    <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
                    <docidentifier>A</docidentifier>
@@ -1054,12 +1054,12 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>fr</language>')}
               <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
          <preface><foreword id='_' obligation="informative">
-          <title>Avant-propos</title>
+          <title id="_">Avant-propos</title>
           <p id="_">Foreword</p>
         </foreword></preface>
                   <sections>
              <terms id="_" obligation="normative">
-                <title>Termes et définitions</title>
+                <title id="_">Termes et définitions</title>
                 <p id="_">
                    Pour les besoins du présent document, les termes et définitions de
                    <eref bibitemid="iso1234" citeas="A"/>
@@ -1071,7 +1071,7 @@ RSpec.describe Metanorma::Standoc do
           </sections>
           <bibliography>
              <references id="_" normative="false" obligation="informative">
-                <title>Bibliographie</title>
+                <title id="_">Bibliographie</title>
                 <bibitem id="_" anchor="iso1234">
                    <formattedref format="application/x-isodoc+xml">[PAS D’INFORMATION DISPONIBLE]</formattedref>
                    <docidentifier>A</docidentifier>
@@ -1112,12 +1112,12 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>zh</language>').sub(%r{<script>Latn</script>}, '<script>Hans</script>')}
         <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/><preface><foreword id='_' obligation="informative">
-          <title>前言</title>
+          <title id="_">前言</title>
           <p id="_">Foreword</p>
         </foreword></preface>
         <sections>
              <terms id="_" obligation="normative">
-                <title>术语和定义</title>
+                <title id="_">术语和定义</title>
                 <p id="_">
                    <eref bibitemid="iso1234" citeas="A"/>
                    和
@@ -1128,7 +1128,7 @@ RSpec.describe Metanorma::Standoc do
           </sections>
           <bibliography>
              <references id="_" normative="false" obligation="informative">
-                <title>参考文献</title>
+                <title id="_">参考文献</title>
                 <bibitem id="_" anchor="iso1234">
                    <formattedref format="application/x-isodoc+xml">[无资料]</formattedref>
                    <docidentifier>A</docidentifier>
@@ -1223,7 +1223,7 @@ RSpec.describe Metanorma::Standoc do
         </boilerplate>
         <sections>
           <clause id="_" inline-header='false' obligation='normative'>
-            <title>Clause 1</title>
+            <title id="_">Clause 1</title>
           </clause>
         </sections>
       </metanorma>
@@ -1261,25 +1261,25 @@ RSpec.describe Metanorma::Standoc do
            </copyright-statement>
            <license-statement>
              <clause id="_" inline-header="false" obligation="normative">
-               <title>clause 1</title>
+               <title id="_">clause 1</title>
              </clause>
              <clause id="_" inline-header="false" obligation="normative">
-               <title>clause 2</title>
+               <title id="_">clause 2</title>
              </clause>
            </license-statement>
            <feedback-statement>
              <p id="_">10 Jack St<br/>Antarctica</p>
            </feedback-statement>
            <clause id="_" inline-header="false" obligation="normative">
-             <title>Random Title</title>
+             <title id="_">Random Title</title>
              <clause id="_" inline-header="false" obligation="normative">
-               <title>feedback-statement</title>
+               <title id="_">feedback-statement</title>
              </clause>
            </clause>
          </boilerplate>
          <sections>
            <clause id="_" inline-header="false" obligation="normative">
-             <title>Clause 1</title>
+             <title id="_">Clause 1</title>
            </clause>
          </sections>
        </metanorma>
@@ -1313,19 +1313,19 @@ RSpec.describe Metanorma::Standoc do
          <boilerplate>
            <license-statement>
              <clause id="_" inline-header="false" obligation="normative">
-               <title>clause 3</title>
+               <title id="_">clause 3</title>
              </clause>
              <clause id="_" inline-header="false" obligation="normative">
-               <title>clause 4</title>
+               <title id="_">clause 4</title>
              </clause>
            </license-statement>
            <feedback-statement>
              <p id="_">10 Jack St<br/>Antarctica</p>
            </feedback-statement>
            <clause id="_" inline-header="false" obligation="normative">
-             <title>Random Title</title>
+             <title id="_">Random Title</title>
              <clause id="_" inline-header="false" obligation="normative">
-               <title>feedback-statement</title>
+               <title id="_">feedback-statement</title>
              </clause>
            </clause>
            <legal-statement>
@@ -1334,7 +1334,7 @@ RSpec.describe Metanorma::Standoc do
          </boilerplate>
          <sections>
            <clause id="_" inline-header="false" obligation="normative">
-             <title>Clause 1</title>
+             <title id="_">Clause 1</title>
            </clause>
          </sections>
        </metanorma>
@@ -1377,16 +1377,16 @@ RSpec.describe Metanorma::Standoc do
               </copyright-statement>
               <license-statement>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>clause 1</title>
+                    <title id="_">clause 1</title>
                  </clause>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>clause 2</title>
+                    <title id="_">clause 2</title>
                  </clause>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>clause 3</title>
+                    <title id="_">clause 3</title>
                  </clause>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>clause 4</title>
+                    <title id="_">clause 4</title>
                  </clause>
               </license-statement>
               <feedback-statement>
@@ -1397,9 +1397,9 @@ RSpec.describe Metanorma::Standoc do
                  </p>
               </feedback-statement>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Random Title</title>
+                 <title id="_">Random Title</title>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>feedback-statement</title>
+                    <title id="_">feedback-statement</title>
                  </clause>
               </clause>
               <legal-statement>
@@ -1408,7 +1408,7 @@ RSpec.describe Metanorma::Standoc do
            </boilerplate>
            <sections>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Clause 1</title>
+                 <title id="_">Clause 1</title>
               </clause>
            </sections>
         </metanorma>

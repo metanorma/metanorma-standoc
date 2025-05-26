@@ -24,7 +24,7 @@ module Metanorma
       def symbols_parse(attr, xml, node)
         node.role == "nonterm" and return nonterm_symbols_parse(attr, xml, node)
         xml.definitions **attr_code(attr) do |xml_section|
-          xml_section.title { |t| t << node.title }
+          section_title(xml_section, node.title)
           stash_symbols
           @definitions = true
           stash_term_def
@@ -98,7 +98,7 @@ module Metanorma
 
       def term_def_parse(attrs, xml, node, _toplevel)
         xml.terms **attr_code(attrs) do |section|
-          section.title { |t| t << node.title }
+          section_title(section, node.title)
           (s = node.attr("source")) && s.split(",").each do |s1|
             section.termdocsource(nil, **attr_code(bibitemid: s1))
           end
