@@ -322,7 +322,7 @@ RSpec.describe Metanorma::Standoc do
             <title>Symbols and abbreviated terms</title>
             <dl id='_'>
             <dt id="_" anchor="symbol-m">m</dt>
-      <dd>
+      <dd id="_">
         <p id='_'>Definition 7</p>
       </dd>
       <dt id="_" anchor="symbol-n">
@@ -335,31 +335,31 @@ RSpec.describe Metanorma::Standoc do
            <asciimath>n</asciimath>
         </stem>
       </dt>
-      <dd>
+      <dd id="_">
         <p id='_'>Definition 6</p>
       </dd>
                    <dt id="_" anchor="symbol-Xa">Xa</dt>
-              <dd>
+              <dd id="_">
                 <p id='_'>Definition 2</p>
               </dd>
               <dt id="_" anchor="symbol-x">x</dt>
-              <dd>
+              <dd id="_">
                 <p id='_'>Definition 5</p>
               </dd>
               <dt  id="_" anchor="symbol-x_m_">x_m_</dt>
-              <dd>
+              <dd id="_">
                 <p id='_'>Definition 4</p>
               </dd>
               <dt id="_" anchor="symbol-x_1_">x_1_</dt>
-              <dd>
+              <dd id="_">
                 <p id='_'>Definition 3</p>
               </dd>
               <dt id="_" anchor="symbol-_d">2d</dt>
-            <dd>
+            <dd id="_">
               <p id="_">Definition 8</p>
             </dd>
               <dt  id="_" anchor="symbol-α">α</dt>
-              <dd>
+              <dd id="_">
                 <p id='_'>Definition 1</p>
               </dd>
             </dl>
@@ -392,7 +392,7 @@ RSpec.describe Metanorma::Standoc do
               <title>Symbols and abbreviated terms</title>
               <dl id="_">
                 <dt id="_" anchor="symbol-x">x</dt>
-                <dd>
+                <dd id="_">
                   <p id="_">Definition 5</p>
                 </dd>
                 <dt id="_" anchor="symbol-x_m">
@@ -408,7 +408,7 @@ RSpec.describe Metanorma::Standoc do
                     <asciimath>x_m</asciimath>
                   </stem>
                 </dt>
-                <dd>
+                <dd id="_">
                   <p id="_">Definition 4</p>
                 </dd>
                 <dt id="_" anchor="symbol-x_1">
@@ -424,11 +424,11 @@ RSpec.describe Metanorma::Standoc do
                     <asciimath>x_1</asciimath>
                   </stem>
                 </dt>
-                <dd>
+                <dd id="_">
                   <p id="_">Definition 3</p>
                 </dd>
                 <dt id="_" anchor="symbol-xa">xa</dt>
-                <dd>
+                <dd id="_">
                   <p id="_">Definition 2</p>
                 </dd>
                 <dt id="_" anchor="symbol-α">
@@ -441,7 +441,7 @@ RSpec.describe Metanorma::Standoc do
                     <asciimath>alpha</asciimath>
                   </stem>
                 </dt>
-                <dd>
+                <dd id="_">
                   <p id="_">Definition 1</p>
                 </dd>
               </dl>
@@ -706,7 +706,7 @@ RSpec.describe Metanorma::Standoc do
         <metanorma-extension>
           <table id="_" anchor="_misccontainer_anchor_aliases">
             <tbody>
-              <tr>
+              <tr id="_">
                 <td id="_" valign='top' align='left'>id1</td>
                 <td id="_" valign='top' align='left'>
                   <link target='http://www.example.com'/>

@@ -85,6 +85,12 @@ module Metanorma
           end
       end
 
+      def section_title(xml, title)
+        xml.title **attr_code(id_attr(nil)) do |t|
+          t << title
+        end
+      end
+
       def preamble(node)
         noko do |xml|
           xml.foreword **attr_code(section_attributes(node)) do |xml_abstract|

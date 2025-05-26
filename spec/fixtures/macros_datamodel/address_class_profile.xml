@@ -51,7 +51,7 @@
       <table id='_'>
         <name>AddressClassProfile attributes</name>
         <thead>
-          <tr>
+          <tr id="_">
             <th id="_" valign='top' align='left'>Name</th>
             <th id="_" valign='top' align='left'>Definition</th>
             <th id="_" valign='top' align='left'>Mandatory/ Optional/ Conditional</th>
@@ -60,7 +60,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr id="_">
             <td id="_" valign='top' align='left'>id</td>
             <td id="_" valign='top' align='left'>Unique identifier of this AddressClassProfile.</td>
             <td id="_" valign='top' align='left'>M</td>
@@ -69,7 +69,7 @@
               <tt>CharacterString</tt>
             </td>
           </tr>
-          <tr>
+          <tr id="_">
             <td id="_" valign='top' align='left'>type</td>
             <td id="_" valign='top' align='left'>Intended usage of this profile.</td>
             <td id="_" valign='top' align='left'>M</td>
@@ -78,7 +78,7 @@
               <tt>CharacterString</tt>
             </td>
           </tr>
-          <tr>
+          <tr id="_">
             <td id="_" valign='top' align='left'>description</td>
             <td id="_" valign='top' align='left'>Textual description of this profile.</td>
             <td id="_" valign='top' align='left'>M</td>
@@ -87,7 +87,7 @@
               <tt>CharacterString</tt>
             </td>
           </tr>
-          <tr>
+          <tr id="_">
             <td id="_" valign='top' align='left'>localization</td>
             <td id="_" valign='top' align='left'>The language and script used within this profile.</td>
             <td id="_" valign='top' align='left'>M</td>
@@ -96,7 +96,7 @@
               <tt>Localization</tt>
             </td>
           </tr>
-          <tr>
+          <tr id="_">
             <td id="_" valign='top' align='left'>signature</td>
             <td id="_" valign='top' align='left'>
               The digital signature to verify the integrity of this profile, and
@@ -108,7 +108,7 @@
               <tt>Signature</tt>
             </td>
           </tr>
-          <tr>
+          <tr id="_">
             <td id="_" valign='top' align='left'>areaApplicability</td>
             <td id="_" valign='top' align='left'>
               The geographic representation of which this AddressClassProfile
@@ -121,7 +121,7 @@
               <tt>iso19115MD_SpatialRepresentation</tt>
             </td>
           </tr>
-          <tr>
+          <tr id="_">
             <td id="_" valign='top' align='left'>timeToLive</td>
             <td id="_" valign='top' align='left'>
               The maximum time interval between refreshing of this profile via
@@ -133,7 +133,7 @@
               <tt>Integer</tt>
             </td>
           </tr>
-          <tr>
+          <tr id="_">
             <td id="_" valign='top' align='left'>validity</td>
             <td id="_" valign='top' align='left'>The period of date and time that this profile should be considered as valid.</td>
             <td id="_" valign='top' align='left'>M</td>

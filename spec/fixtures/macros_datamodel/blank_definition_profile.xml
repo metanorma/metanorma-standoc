@@ -8,7 +8,7 @@
       <table id='_'>
         <name>Signature attributes</name>
         <thead>
-          <tr>
+          <tr id="_">
             <th id="_" valign='top' align='left'>Name</th>
             <th id="_" valign='top' align='left'>Definition</th>
             <th id="_" valign='top' align='left'>Mandatory/ Optional/ Conditional</th>
@@ -17,7 +17,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr id="_">
             <td id="_" valign='top' align='left'>algorithm</td>
             <td id="_" valign='top' align='left'>TODO: enum algorithm’s definition</td>
             <td id="_" valign='top' align='left'>M</td>
@@ -26,7 +26,7 @@
               <tt>iso14888Oid</tt>
             </td>
           </tr>
-          <tr>
+          <tr id="_">
             <td id="_" valign='top' align='left'>publicKey</td>
             <td id="_" valign='top' align='left'>TODO: enum publicKey’s definition</td>
             <td id="_" valign='top' align='left'>M</td>
@@ -35,7 +35,7 @@
               <tt>Uri</tt>
             </td>
           </tr>
-          <tr>
+          <tr id="_">
             <td id="_" valign='top' align='left'>signature</td>
             <td id="_" valign='top' align='left'>The actual digital signature value encoded in Base64 format.</td>
             <td id="_" valign='top' align='left'>M</td>

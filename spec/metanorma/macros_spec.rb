@@ -624,13 +624,13 @@ RSpec.describe Metanorma::Standoc do
                     <fn reference='1'>
         <table id='_'>
           <thead>
-            <tr>
+            <tr id="_">
               <th id="_" valign='top' align='left'>a</th>
               <th id="_" valign='top' align='left'>b</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr id="_">
               <td id="_" valign='top' align='left'>c</td>
               <td id="_" valign='top' align='left'>d</td>
             </tr>
@@ -674,13 +674,13 @@ RSpec.describe Metanorma::Standoc do
           <note id="_" anchor="id2">
             <table id='_'>
               <thead>
-                <tr>
+                <tr id="_">
                   <th id="_" valign='top' align='left'>a</th>
                   <th id="_" valign='top' align='left'>b</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr id="_">
                   <td id="_" valign='top' align='left'>c</td>
                   <td id="_" valign='top' align='left'>d</td>
                 </tr>

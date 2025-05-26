@@ -523,11 +523,11 @@ RSpec.describe Metanorma::Standoc do
             <flavor>standoc</flavor>
          </ext>
        </bibdata>
-          <preface>
+         <preface>
              <foreword id="_1" obligation="informative">
                 <title>
-                   <bookmark id="_51" anchor="_51"/>
-                   <bookmark id="_52" anchor="_52"/>
+                   <bookmark id="_55" anchor="_55"/>
+                   <bookmark id="_56" anchor="_56"/>
                    Foreword
                 </title>
              </foreword>
@@ -538,7 +538,7 @@ RSpec.describe Metanorma::Standoc do
                 <p id="_7">
                    <em>
                       <strong>
-                         <bookmark id="_53" anchor="_53"/>
+                         <bookmark id="_57" anchor="_57"/>
                          Foreword
                       </strong>
                    </em>
@@ -546,24 +546,24 @@ RSpec.describe Metanorma::Standoc do
              </foreword>
              <clause id="_13" inline-header="false" obligation="normative">
                 <title>
-                   <bookmark id="_54" anchor="_54"/>
+                   <bookmark id="_58" anchor="_58"/>
                    Clause title
                 </title>
              </clause>
              <clause id="_16" inline-header="false" obligation="normative">
-                <p id="_62">
-                   <bookmark id="_55" anchor="_55"/>
+                <p id="_66">
+                   <bookmark id="_59" anchor="_59"/>
                 </p>
              </clause>
              <clause id="_19" inline-header="false" obligation="normative">
                 <p id="_22">
-                   <bookmark id="_56" anchor="_56"/>
+                   <bookmark id="_60" anchor="_60"/>
                    Following paragraph
                 </p>
              </clause>
              <clause id="_23" inline-header="false" obligation="normative">
                 <p id="_24">
-                   <bookmark id="_57" anchor="_57"/>
+                   <bookmark id="_61" anchor="_61"/>
                    Express the mass fraction of each defect using
                    <xref target="formulaA-1"/>
                    :
@@ -599,19 +599,19 @@ RSpec.describe Metanorma::Standoc do
                             <asciimath>w</asciimath>
                          </stem>
                       </dt>
-                      <dd>
-                         <p id="_63">is the mass fraction of grains with a particular defect in the test</p>
+                      <dd id="_28">
+                         <p id="_67">is the mass fraction of grains with a particular defect in the test</p>
                       </dd>
                    </dl>
                 </formula>
              </clause>
-             <clause id="_30" inline-header="false" obligation="normative">
-                <p id="_31">
+             <clause id="_31" inline-header="false" obligation="normative">
+                <p id="_32">
                    Express the mass fraction of each defect using
                    <xref target="formulaA-1"/>
                    :
                 </p>
-                <formula id="_32" anchor="formulaA-1">
+                <formula id="_33" anchor="formulaA-1">
                    <stem block="true" type="MathML">
                       <math xmlns="http://www.w3.org/1998/Math/MathML">
                          <mstyle displaystyle="true">
@@ -631,44 +631,44 @@ RSpec.describe Metanorma::Standoc do
                       </math>
                       <asciimath>w = (m_D) / (m_s)</asciimath>
                    </stem>
-                   <dl id="_34" key="true">
+                   <dl id="_35" key="true">
                       <dt>
-                         <bookmark id="_58" anchor="_58"/>
+                         <bookmark id="_62" anchor="_62"/>
                          w
                       </dt>
-                      <dd>
-                         <p id="_64">is the mass fraction of grains with a particular defect in the test</p>
+                      <dd id="_36">
+                         <p id="_68">is the mass fraction of grains with a particular defect in the test</p>
                       </dd>
                    </dl>
                 </formula>
              </clause>
-             <clause id="_37" inline-header="false" obligation="normative">
-                <note id="_38">
-                   <p id="_65">
-                      <bookmark id="_59" anchor="_59"/>
+             <clause id="_39" inline-header="false" obligation="normative">
+                <note id="_40">
+                   <p id="_69">
+                      <bookmark id="_63" anchor="_63"/>
                       Text
                    </p>
                 </note>
              </clause>
-             <clause id="_41" inline-header="false" obligation="normative">
-                <table id="_42">
+             <clause id="_43" inline-header="false" obligation="normative">
+                <table id="_44">
                    <tbody>
-                      <tr>
-                         <td id="_43" valign="top" align="left">
-                            <bookmark id="_60" anchor="_60"/>
+                      <tr id="_45">
+                         <td id="_46" valign="top" align="left">
+                            <bookmark id="_64" anchor="_64"/>
                             A
                          </td>
                       </tr>
                    </tbody>
                 </table>
              </clause>
-             <clause id="_46" inline-header="false" obligation="normative">
-                <table id="_47">
+             <clause id="_49" inline-header="false" obligation="normative">
+                <table id="_50">
                    <name>Caption</name>
                    <tbody>
-                      <tr>
-                         <td id="_48" valign="top" align="left">
-                            <bookmark id="_61" anchor="_61"/>
+                      <tr id="_51">
+                         <td id="_52" valign="top" align="left">
+                            <bookmark id="_65" anchor="_65"/>
                             A
                          </td>
                       </tr>
@@ -677,10 +677,10 @@ RSpec.describe Metanorma::Standoc do
              </clause>
           </sections>
           <review-container>
-             <review id="_2" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_51" to="_51">
+             <review id="_2" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_55" to="_55">
                 <p id="_3">Initial review 1</p>
              </review>
-             <review id="_4" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_52" to="_52">
+             <review id="_4" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_56" to="_56">
                 <p id="_5">Initial review 2</p>
              </review>
              <review id="_8" reviewer="ISO" date="20170101T00:00:00Z" type="whatever" from="foreword" to="foreword">
@@ -690,32 +690,32 @@ RSpec.describe Metanorma::Standoc do
                    <strong>ISO/IEC Directives, Part 2, 2016, Clause 12.</strong>
                 </p>
              </review>
-             <review id="_11" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_53" to="_53">
+             <review id="_11" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_57" to="_57">
                 <p id="_12">Blank review</p>
              </review>
-             <review id="_14" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_54" to="_54">
+             <review id="_14" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_58" to="_58">
                 <p id="_15">Second Blank review</p>
              </review>
-             <review id="_17" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_55" to="_55">
+             <review id="_17" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_59" to="_59">
                 <p id="_18">Third Blank review</p>
              </review>
-             <review id="_20" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_56" to="_56">
+             <review id="_20" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_60" to="_60">
                 <p id="_21">Fourth Blank review</p>
              </review>
-             <review id="_28" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_57" to="_57">
-                <p id="_29">Fifth Blank review</p>
+             <review id="_29" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_61" to="_61">
+                <p id="_30">Fifth Blank review</p>
              </review>
-             <review id="_35" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_58" to="_58">
-                <p id="_36">Sixth Blank review</p>
+             <review id="_37" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_62" to="_62">
+                <p id="_38">Sixth Blank review</p>
              </review>
-             <review id="_39" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_59" to="_59">
-                <p id="_40">Seventh Blank review</p>
+             <review id="_41" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_63" to="_63">
+                <p id="_42">Seventh Blank review</p>
              </review>
-             <review id="_44" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_60" to="_60">
-                <p id="_45">Eighth Blank review</p>
+             <review id="_47" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_64" to="_64">
+                <p id="_48">Eighth Blank review</p>
              </review>
-             <review id="_49" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_61" to="_61">
-                <p id="_50">Ninth Blank review</p>
+             <review id="_53" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_65" to="_65">
+                <p id="_54">Ninth Blank review</p>
              </review>
           </review-container>
        </metanorma>
@@ -1379,7 +1379,7 @@ RSpec.describe Metanorma::Standoc do
       </figure>
       <dl id='_' key='true'>
         <dt>A</dt>
-        <dd>
+        <dd id="_">
           <p id='_'>B</p>
         </dd>
       </dl>
@@ -2250,35 +2250,35 @@ RSpec.describe Metanorma::Standoc do
               <table id='_'>
                 <name>Edges of triangle and quadrilateral cells</name>
                 <tbody>
-                  <tr>
+                  <tr id="_">
                     <th id="_" colspan='2' valign='middle' align='center'>triangle</th>
                     <th id="_" colspan='2' valign='middle' align='center'>quadrilateral</th>
                   </tr>
-                  <tr>
+                  <tr id="_">
                     <td id="_" valign='middle' align='center'>edge</td>
                     <td id="_" valign='middle' align='center'>vertices</td>
                     <td id="_" valign='middle' align='center'>edge</td>
                     <td id="_" valign='middle' align='center'>vertices</td>
                   </tr>
-                  <tr>
+                  <tr id="_">
                     <td id="_" valign='middle' align='center'>1</td>
                     <td id="_" valign='middle' align='center'>1, 2</td>
                     <td id="_" valign='middle' align='center'>1</td>
                     <td id="_" valign='middle' align='center'>1, 2</td>
                   </tr>
-                  <tr>
+                  <tr id="_">
                     <td id="_" valign='middle' align='center'>2</td>
                     <td id="_" valign='middle' align='center'>2, 3</td>
                     <td id="_" valign='middle' align='center'>2</td>
                     <td id="_" valign='middle' align='center'>2, 3</td>
                   </tr>
-                  <tr>
+                  <tr id="_">
                     <td id="_" valign='middle' align='center'>3</td>
                     <td id="_" valign='middle' align='center'>3, 1</td>
                     <td id="_" valign='middle' align='center'>3</td>
                     <td id="_" valign='middle' align='center'>3, 4</td>
                   </tr>
-                  <tr>
+                  <tr id="_">
                     <td id="_" valign='top' align='left'/>
                     <td id="_" valign='top' align='left'/>
                     <td id="_" valign='middle' align='center'>4</td>

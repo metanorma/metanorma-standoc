@@ -1385,7 +1385,7 @@ RSpec.describe Metanorma::Standoc do
             </ol>
             <dl id='_'>
               <dt>This is</dt>
-              <dd>
+              <dd id="_">
                 <p id='_'>another list</p>
               </dd>
             </dl>
@@ -1531,13 +1531,13 @@ RSpec.describe Metanorma::Standoc do
                   <non-verbal-representation>
                     <table id='_'>
                       <thead>
-                        <tr>
+                        <tr id="_">
                           <th id="_" valign='top' align='left'>A</th>
                           <th id="_" valign='top' align='left'>B</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
+                        <tr id="_">
                           <td id="_" valign='top' align='left'>C</td>
                           <td id="_" valign='top' align='left'>D</td>
                         </tr>
@@ -1881,7 +1881,7 @@ RSpec.describe Metanorma::Standoc do
              <title>Symbols and abbreviated terms</title>
              <dl id="_">
                <dt id="_" anchor="symbol-x2">x<sup>2</sup><index><primary>x<sup>2</sup></primary></index></dt>
-               <dd>
+               <dd id="_">
                  <p id="_">Definition</p>
                </dd>
              </dl>

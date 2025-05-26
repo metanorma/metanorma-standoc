@@ -309,11 +309,11 @@ RSpec.describe Metanorma::Standoc do
                    <title>Symbols and abbreviated terms</title>
                    <dl id='_'>
                      <dt id="_" anchor="symbol-Clause1">Clause1</dt>
-                     <dd>
+                     <dd id="_">
                        <p id='_'>A</p>
                      </dd>
                      <dt id="_" anchor="Clause2">Clause 2</dt>
-                     <dd>
+                     <dd id="_">
                        <p id='_'>C</p>
                      </dd>
                    </dl>
@@ -691,7 +691,7 @@ RSpec.describe Metanorma::Standoc do
                    <asciimath>|__ x __|</asciimath>
                  </stem>
                </dt>
-               <dd>
+               <dd id="_">
                  <p id="_">A function that returns the largest integer less than or equal to <stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mi>x</mi></mstyle></math><asciimath>x</asciimath></stem>; also known as the <em>floor</em> function.</p>
                </dd>
                <dt id="_" anchor="symbol-__-x-__">
@@ -706,7 +706,7 @@ RSpec.describe Metanorma::Standoc do
                    <asciimath>|~ x ~|</asciimath>
                  </stem>
                </dt>
-               <dd>
+               <dd id="_">
                  <p id="_">A function that returns the smallest integer greater than or equal to <stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mi>x</mi></mstyle></math><asciimath>x</asciimath></stem>; also known as the <em>ceiling</em> function.</p>
                </dd>
              </dl>

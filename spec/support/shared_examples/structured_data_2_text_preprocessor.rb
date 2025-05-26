@@ -44,7 +44,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
           <sections>
           <dl id='_'>
             <dt>spaghetti</dt>
-            <dd>
+            <dd id="_">
               <p id='_'>wheat noodles of 9mm diameter</p>
             </dd>
           </dl>
@@ -264,7 +264,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             <sections>
             <dl id='_'>
             <dt>Lorem</dt>
-            <dd>
+            <dd id="_">
               <p id='_'>ipsum</p>
               <ul id='_'>
                 <li>
@@ -273,11 +273,11 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
               </ul>
             </dd>
             <dt>dolor</dt>
-            <dd>
+            <dd id="_">
               <p id='_'>sit</p>
             </dd>
             <dt>amet</dt>
-            <dd>
+            <dd id="_">
               <p id='_'>lorem</p>
               <ul id='_'>
                 <li>
@@ -485,7 +485,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
             <sections>
               <table id='_'>
                 <thead>
-                  <tr>
+                  <tr id="_">
                     <th id="_" valign="top" align='left'>Script conversion system authority code</th>
                     <th id="_" valign="top" align='left'>Name in English</th>
                     <th id="_" valign="top" align='left'>Notes</th>
@@ -493,7 +493,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
+                  <tr id="_">
                     <td id="_" valign="top" align='left'>
                       <p id='_'>acadsin-zho-hani-latn-2002</p>
                     </td>

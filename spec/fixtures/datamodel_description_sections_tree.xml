@@ -40,13 +40,13 @@
               XML::RE_Register&#8221; (interface)
             </name>
             <tbody>
-              <tr>
+              <tr id="_">
                 <th valign='top' align='left'>Name:</th>
                 <td colspan='7' valign='top' align='left'>
                   <p id='_'>RE_Register</p>
                 </td>
               </tr>
-              <tr>
+              <tr id="_">
                 <th valign='top' align='left'>Definition:</th>
                 <td colspan='7' valign='top' align='left'>
                   <p id='_'>
@@ -56,31 +56,31 @@
                   </p>
                 </td>
               </tr>
-              <tr>
+              <tr id="_">
                 <th valign='top' align='left'>Stereotype:</th>
                 <td colspan='7' valign='top' align='left'>
                   <p id='_'>interface</p>
                 </td>
               </tr>
-              <tr>
+              <tr id="_">
                 <th valign='top' align='left'>Inheritance from:</th>
                 <td colspan='7' valign='top' align='left'>
                   <p id='_'>Register</p>
                 </td>
               </tr>
-              <tr>
+              <tr id="_">
                 <th valign='top' align='left'>Generalization of:</th>
                 <td colspan='7' valign='top' align='left'>
                   <p id='_'>TermRegister, CL_ClassificationRegister, LC_LCMLRegister</p>
                 </td>
               </tr>
-              <tr>
+              <tr id="_">
                 <th valign='top' align='left'>Abstract:</th>
                 <td colspan='7' valign='top' align='left'>
                   <p id='_'>True</p>
                 </td>
               </tr>
-              <tr>
+              <tr id="_">
                 <th valign='top' rowspan='2' align='left'>Associations:</th>
                 <td colspan='4' valign='top' align='left'>
                   <p id='_'>
@@ -103,7 +103,7 @@
                   </p>
                 </td>
               </tr>
-              <tr>
+              <tr id="_">
                 <td colspan='4' valign='top' align='left'>
                   <p id='_'>RE_ReferenceSource</p>
                 </td>
@@ -117,7 +117,7 @@
                   <p id='_'>citation</p>
                 </td>
               </tr>
-              <tr>
+              <tr id="_">
                 <th valign='top' rowspan='6' align='left'>Public attributes:</th>
                 <td valign='top' align='left'>
                   <p id='_'>
@@ -150,7 +150,7 @@
                   </p>
                 </td>
               </tr>
-              <tr>
+              <tr id="_">
                 <td valign='top' align='left'>
                   <p id='_'>alternativeLanguages</p>
                 </td>
@@ -188,7 +188,7 @@
                   <p id='_'>Set&lt;RE_Locale&gt;</p>
                 </td>
               </tr>
-              <tr>
+              <tr id="_">
                 <td valign='top' align='left'>
                   <p id='_'>contentSummary</p>
                 </td>
@@ -217,7 +217,7 @@
                   <p id='_'>CharacterString</p>
                 </td>
               </tr>
-              <tr>
+              <tr id="_">
                 <td valign='top' align='left'>
                   <p id='_'>name</p>
                 </td>
@@ -252,7 +252,7 @@
                   <p id='_'>CharacterString</p>
                 </td>
               </tr>
-              <tr>
+              <tr id="_">
                 <td valign='top' align='left'>
                   <p id='_'>operatingLanguage</p>
                 </td>
@@ -278,7 +278,7 @@
                   <p id='_'>EAID_3996125E_4828_4f3c_93BD_605E9059DE05</p>
                 </td>
               </tr>
-              <tr>
+              <tr id="_">
                 <td valign='top' align='left'>
                   <p id='_'>uniformResourceIdentifier</p>
                 </td>
@@ -308,7 +308,7 @@
                   <p id='_'>URI</p>
                 </td>
               </tr>
-              <tr>
+              <tr id="_">
                 <th valign='top' align='left'>Constraints:</th>
                 <td colspan='7' valign='top' align='left'>
                   <p id='_'>

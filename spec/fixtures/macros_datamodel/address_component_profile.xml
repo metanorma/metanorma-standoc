@@ -22,7 +22,7 @@
       <table id='_'>
         <name>AddressComponentProfile attributes</name>
         <thead>
-          <tr>
+          <tr id="_">
             <th id="_" valign='top' align='left'>Name</th>
             <th id="_" valign='top' align='left'>Definition</th>
             <th id="_" valign='top' align='left'>Mandatory/ Optional/ Conditional</th>
@@ -31,7 +31,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr id="_">
             <td id="_" valign='top' align='left'>key</td>
             <td id="_" valign='top' align='left'>
               An identifier of this
@@ -46,7 +46,7 @@
               <tt>CharacterString</tt>
             </td>
           </tr>
-          <tr>
+          <tr id="_">
             <td id="_" valign='top' align='left'>description</td>
             <td id="_" valign='top' align='left'>Textual description of this component.</td>
             <td id="_" valign='top' align='left'>M</td>
@@ -55,7 +55,7 @@
               <tt>CharacterString</tt>
             </td>
           </tr>
-          <tr>
+          <tr id="_">
             <td id="_" valign='top' align='left'>example</td>
             <td id="_" valign='top' align='left'>A textual example to demonstrate the correct use of this component.</td>
             <td id="_" valign='top' align='left'>O</td>

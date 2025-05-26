@@ -67,7 +67,7 @@ module Metanorma
         %i(head body foot).reject { |s| node.rows[s].empty? }.each do |s|
           xml.send "t#{s}" do |xml_tblsec|
             node.rows[s].each do |row|
-              xml_tblsec.tr do |xml_tr|
+              xml_tblsec.tr **attr_code(id_attr(nil)) do |xml_tr|
                 row.each { |cell| table_cell(cell, xml_tr, s) }
               end
             end
