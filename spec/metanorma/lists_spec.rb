@@ -27,7 +27,7 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
         <sections>
           <ul id='_'>
-            <name>Unordered list</name>
+            <name id="_">Unordered list</name>
             <li>
               <p id='_'>List 1</p>
             </li>
@@ -48,7 +48,7 @@ RSpec.describe Metanorma::Standoc do
               </li>
               </ul>
               <ol id='_' type='arabic'>
-                <name>Ordered list</name>
+                <name id="_">Ordered list</name>
                 <li>
                   <p id='_'>List A</p>
                 </li>
@@ -60,7 +60,7 @@ RSpec.describe Metanorma::Standoc do
                   </li>
                   </ol>
                   <dl id='_'>
-                    <name>Definition list</name>
+                    <name id="_">Definition list</name>
                     <dt>List D</dt>
                     <dd id="_">
                       <p id='_'>List E</p>

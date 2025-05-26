@@ -1058,7 +1058,7 @@ RSpec.describe Metanorma::Standoc do
                <definition>
                  <verbal-definition>
                    <figure id='_'>
-                     <name>Caption</name>
+                     <name id="_">Caption</name>
                      <pre id='_'>&lt;LITERAL&gt; FIGURATIVE</pre>
                    </figure>
                    <p id='_'>Definition</p>

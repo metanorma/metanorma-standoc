@@ -523,202 +523,202 @@ RSpec.describe Metanorma::Standoc do
             <flavor>standoc</flavor>
          </ext>
        </bibdata>
-         <preface>
-             <foreword id="_1" obligation="informative">
-                <title id="_65">
-                   <bookmark id="_67" anchor="_67"/>
-                   <bookmark id="_68" anchor="_68"/>
-                   Foreword
-                </title>
-             </foreword>
-          </preface>
-          <sections>
-             <foreword id="_7" anchor="foreword" obligation="informative">
-                <title id="_66">Foreword</title>
-                <p id="_9">
-                   <em>
-                      <strong>
-                         <bookmark id="_69" anchor="_69"/>
-                         Foreword
-                      </strong>
-                   </em>
-                </p>
-             </foreword>
-             <clause id="_15" inline-header="false" obligation="normative">
-                <title id="_16">
-                   <bookmark id="_70" anchor="_70"/>
-                   Clause title
-                </title>
-             </clause>
-             <clause id="_19" inline-header="false" obligation="normative">
-                <p id="_78">
-                   <bookmark id="_71" anchor="_71"/>
-                </p>
-             </clause>
-             <clause id="_23" inline-header="false" obligation="normative">
-                <p id="_27">
-                   <bookmark id="_72" anchor="_72"/>
-                   Following paragraph
-                </p>
-             </clause>
-             <clause id="_28" inline-header="false" obligation="normative">
-                <p id="_30">
-                   <bookmark id="_73" anchor="_73"/>
-                   Express the mass fraction of each defect using
-                   <xref target="formulaA-1"/>
-                   :
-                </p>
-                <formula id="_31" anchor="formulaA-1">
-                   <stem block="true" type="MathML">
-                      <math xmlns="http://www.w3.org/1998/Math/MathML">
-                         <mstyle displaystyle="true">
-                            <mi>w</mi>
-                            <mo>=</mo>
-                            <mfrac>
-                               <msub>
-                                  <mi>m</mi>
-                                  <mi>D</mi>
-                               </msub>
-                               <msub>
-                                  <mi>m</mi>
-                                  <mi>s</mi>
-                               </msub>
-                            </mfrac>
-                         </mstyle>
-                      </math>
-                      <asciimath>w = (m_D) / (m_s)</asciimath>
-                   </stem>
-                   <dl id="_33" key="true">
-                      <dt>
-                         <stem block="false" type="MathML">
-                            <math xmlns="http://www.w3.org/1998/Math/MathML">
-                               <mstyle displaystyle="false">
-                                  <mi>w</mi>
-                               </mstyle>
-                            </math>
-                            <asciimath>w</asciimath>
-                         </stem>
-                      </dt>
-                      <dd id="_34">
-                         <p id="_79">is the mass fraction of grains with a particular defect in the test</p>
-                      </dd>
-                   </dl>
-                </formula>
-             </clause>
-             <clause id="_37" inline-header="false" obligation="normative">
-                <p id="_39">
-                   Express the mass fraction of each defect using
-                   <xref target="formulaA-1"/>
-                   :
-                </p>
-                <formula id="_40" anchor="formulaA-1">
-                   <stem block="true" type="MathML">
-                      <math xmlns="http://www.w3.org/1998/Math/MathML">
-                         <mstyle displaystyle="true">
-                            <mi>w</mi>
-                            <mo>=</mo>
-                            <mfrac>
-                               <msub>
-                                  <mi>m</mi>
-                                  <mi>D</mi>
-                               </msub>
-                               <msub>
-                                  <mi>m</mi>
-                                  <mi>s</mi>
-                               </msub>
-                            </mfrac>
-                         </mstyle>
-                      </math>
-                      <asciimath>w = (m_D) / (m_s)</asciimath>
-                   </stem>
-                   <dl id="_42" key="true">
-                      <dt>
-                         <bookmark id="_74" anchor="_74"/>
-                         w
-                      </dt>
-                      <dd id="_43">
-                         <p id="_80">is the mass fraction of grains with a particular defect in the test</p>
-                      </dd>
-                   </dl>
-                </formula>
-             </clause>
-             <clause id="_46" inline-header="false" obligation="normative">
-                <note id="_48">
-                   <p id="_81">
-                      <bookmark id="_75" anchor="_75"/>
-                      Text
-                   </p>
-                </note>
-             </clause>
-             <clause id="_51" inline-header="false" obligation="normative">
-                <table id="_53">
-                   <tbody>
-                      <tr id="_54">
-                         <td id="_55" valign="top" align="left">
-                            <bookmark id="_76" anchor="_76"/>
-                            A
-                         </td>
-                      </tr>
-                   </tbody>
-                </table>
-             </clause>
-             <clause id="_58" inline-header="false" obligation="normative">
-                <table id="_60">
-                   <name>Caption</name>
-                   <tbody>
-                      <tr id="_61">
-                         <td id="_62" valign="top" align="left">
-                            <bookmark id="_77" anchor="_77"/>
-                            A
-                         </td>
-                      </tr>
-                   </tbody>
-                </table>
-             </clause>
-          </sections>
-          <review-container>
-             <review id="_3" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_67" to="_67">
-                <p id="_4">Initial review 1</p>
-             </review>
-             <review id="_5" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_68" to="_68">
-                <p id="_6">Initial review 2</p>
-             </review>
-             <review id="_10" reviewer="ISO" date="20170101T00:00:00Z" type="whatever" from="foreword" to="foreword">
-                <p id="_11">A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.</p>
-                <p id="_12">
-                   For further information on the Foreword, see
-                   <strong>ISO/IEC Directives, Part 2, 2016, Clause 12.</strong>
-                </p>
-             </review>
-             <review id="_13" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_69" to="_69">
-                <p id="_14">Blank review</p>
-             </review>
-             <review id="_17" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_70" to="_70">
-                <p id="_18">Second Blank review</p>
-             </review>
-             <review id="_21" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_71" to="_71">
-                <p id="_22">Third Blank review</p>
-             </review>
-             <review id="_25" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_72" to="_72">
-                <p id="_26">Fourth Blank review</p>
-             </review>
-             <review id="_35" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_73" to="_73">
-                <p id="_36">Fifth Blank review</p>
-             </review>
-             <review id="_44" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_74" to="_74">
-                <p id="_45">Sixth Blank review</p>
-             </review>
-             <review id="_49" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_75" to="_75">
-                <p id="_50">Seventh Blank review</p>
-             </review>
-             <review id="_56" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_76" to="_76">
-                <p id="_57">Eighth Blank review</p>
-             </review>
-             <review id="_63" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_77" to="_77">
-                <p id="_64">Ninth Blank review</p>
-             </review>
-          </review-container>
-       </metanorma>
+            <preface>
+              <foreword id="_1" obligation="informative">
+                 <title id="_66">
+                    <bookmark id="_68" anchor="_68"/>
+                    <bookmark id="_69" anchor="_69"/>
+                    Foreword
+                 </title>
+              </foreword>
+           </preface>
+           <sections>
+              <foreword id="_7" anchor="foreword" obligation="informative">
+                 <title id="_67">Foreword</title>
+                 <p id="_9">
+                    <em>
+                       <strong>
+                          <bookmark id="_70" anchor="_70"/>
+                          Foreword
+                       </strong>
+                    </em>
+                 </p>
+              </foreword>
+              <clause id="_15" inline-header="false" obligation="normative">
+                 <title id="_16">
+                    <bookmark id="_71" anchor="_71"/>
+                    Clause title
+                 </title>
+              </clause>
+              <clause id="_19" inline-header="false" obligation="normative">
+                 <p id="_79">
+                    <bookmark id="_72" anchor="_72"/>
+                 </p>
+              </clause>
+              <clause id="_23" inline-header="false" obligation="normative">
+                 <p id="_27">
+                    <bookmark id="_73" anchor="_73"/>
+                    Following paragraph
+                 </p>
+              </clause>
+              <clause id="_28" inline-header="false" obligation="normative">
+                 <p id="_30">
+                    <bookmark id="_74" anchor="_74"/>
+                    Express the mass fraction of each defect using
+                    <xref target="formulaA-1"/>
+                    :
+                 </p>
+                 <formula id="_31" anchor="formulaA-1">
+                    <stem block="true" type="MathML">
+                       <math xmlns="http://www.w3.org/1998/Math/MathML">
+                          <mstyle displaystyle="true">
+                             <mi>w</mi>
+                             <mo>=</mo>
+                             <mfrac>
+                                <msub>
+                                   <mi>m</mi>
+                                   <mi>D</mi>
+                                </msub>
+                                <msub>
+                                   <mi>m</mi>
+                                   <mi>s</mi>
+                                </msub>
+                             </mfrac>
+                          </mstyle>
+                       </math>
+                       <asciimath>w = (m_D) / (m_s)</asciimath>
+                    </stem>
+                    <dl id="_33" key="true">
+                       <dt>
+                          <stem block="false" type="MathML">
+                             <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                <mstyle displaystyle="false">
+                                   <mi>w</mi>
+                                </mstyle>
+                             </math>
+                             <asciimath>w</asciimath>
+                          </stem>
+                       </dt>
+                       <dd id="_34">
+                          <p id="_80">is the mass fraction of grains with a particular defect in the test</p>
+                       </dd>
+                    </dl>
+                 </formula>
+              </clause>
+              <clause id="_37" inline-header="false" obligation="normative">
+                 <p id="_39">
+                    Express the mass fraction of each defect using
+                    <xref target="formulaA-1"/>
+                    :
+                 </p>
+                 <formula id="_40" anchor="formulaA-1">
+                    <stem block="true" type="MathML">
+                       <math xmlns="http://www.w3.org/1998/Math/MathML">
+                          <mstyle displaystyle="true">
+                             <mi>w</mi>
+                             <mo>=</mo>
+                             <mfrac>
+                                <msub>
+                                   <mi>m</mi>
+                                   <mi>D</mi>
+                                </msub>
+                                <msub>
+                                   <mi>m</mi>
+                                   <mi>s</mi>
+                                </msub>
+                             </mfrac>
+                          </mstyle>
+                       </math>
+                       <asciimath>w = (m_D) / (m_s)</asciimath>
+                    </stem>
+                    <dl id="_42" key="true">
+                       <dt>
+                          <bookmark id="_75" anchor="_75"/>
+                          w
+                       </dt>
+                       <dd id="_43">
+                          <p id="_81">is the mass fraction of grains with a particular defect in the test</p>
+                       </dd>
+                    </dl>
+                 </formula>
+              </clause>
+              <clause id="_46" inline-header="false" obligation="normative">
+                 <note id="_48">
+                    <p id="_82">
+                       <bookmark id="_76" anchor="_76"/>
+                       Text
+                    </p>
+                 </note>
+              </clause>
+              <clause id="_51" inline-header="false" obligation="normative">
+                 <table id="_53">
+                    <tbody>
+                       <tr id="_54">
+                          <td id="_55" valign="top" align="left">
+                             <bookmark id="_77" anchor="_77"/>
+                             A
+                          </td>
+                       </tr>
+                    </tbody>
+                 </table>
+              </clause>
+              <clause id="_58" inline-header="false" obligation="normative">
+                 <table id="_60">
+                    <name id="_61">Caption</name>
+                    <tbody>
+                       <tr id="_62">
+                          <td id="_63" valign="top" align="left">
+                             <bookmark id="_78" anchor="_78"/>
+                             A
+                          </td>
+                       </tr>
+                    </tbody>
+                 </table>
+              </clause>
+           </sections>
+           <review-container>
+              <review id="_3" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_68" to="_68">
+                 <p id="_4">Initial review 1</p>
+              </review>
+              <review id="_5" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_69" to="_69">
+                 <p id="_6">Initial review 2</p>
+              </review>
+              <review id="_10" reviewer="ISO" date="20170101T00:00:00Z" type="whatever" from="foreword" to="foreword">
+                 <p id="_11">A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.</p>
+                 <p id="_12">
+                    For further information on the Foreword, see
+                    <strong>ISO/IEC Directives, Part 2, 2016, Clause 12.</strong>
+                 </p>
+              </review>
+              <review id="_13" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_70" to="_70">
+                 <p id="_14">Blank review</p>
+              </review>
+              <review id="_17" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_71" to="_71">
+                 <p id="_18">Second Blank review</p>
+              </review>
+              <review id="_21" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_72" to="_72">
+                 <p id="_22">Third Blank review</p>
+              </review>
+              <review id="_25" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_73" to="_73">
+                 <p id="_26">Fourth Blank review</p>
+              </review>
+              <review id="_35" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_74" to="_74">
+                 <p id="_36">Fifth Blank review</p>
+              </review>
+              <review id="_44" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_75" to="_75">
+                 <p id="_45">Sixth Blank review</p>
+              </review>
+              <review id="_49" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_76" to="_76">
+                 <p id="_50">Seventh Blank review</p>
+              </review>
+              <review id="_56" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_77" to="_77">
+                 <p id="_57">Eighth Blank review</p>
+              </review>
+              <review id="_64" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_78" to="_78">
+                 <p id="_65">Ninth Blank review</p>
+              </review>
+           </review-container>
+        </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
@@ -762,7 +762,8 @@ RSpec.describe Metanorma::Standoc do
              <title id="_">Terms and definitions</title>
              <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
              <term id="_" anchor="term-Term1">
-               <preferred><expression><name>Term1</name></expression></preferred>
+               <preferred><expression>
+               <name>Term1</name></expression></preferred>
                <definition>
                  <verbal-definition>
                  <p id='_'>first definition</p>
@@ -1117,7 +1118,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
       <sections>
          <admonition id="_" anchor="ABC" type="safety precautions" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' notag="true" unnumbered="true">
-        <name>Precautions</name><p id="_">While werewolves are hardy community members, keep in mind the following dietary concerns:</p>
+        <name id="_">Precautions</name><p id="_">While werewolves are hardy community members, keep in mind the following dietary concerns:</p>
        <ol id="_" type="arabic">
          <li>
            <p id="_">They are allergic to cinnamon.</p>
@@ -1286,7 +1287,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
        <sections>
          <example id="_" anchor="ABC" subsequence="A"  keep-with-next='true' keep-lines-together='next' tag='X' columns='1' multilingual-rendering='common'>
-         <name>Title</name>
+         <name id="_">Title</name>
         <p id="_">This is an example</p>
        <p id="_">Amen</p></example>
          <example id="_" unnumbered="true"><p id="_">This is another example</p></example>
@@ -1365,16 +1366,16 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
              <sections>
-        <figure id="_" anchor="figureC-2"><name>Stages of gelatinization</name><figure id="_">
-        <name>Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
+        <figure id="_" anchor="figureC-2"><name id="_">Stages of gelatinization</name><figure id="_">
+        <name id="_">Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
         <image id="_" src="spec/examples/rice_images/rice_image3_1.png" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
-        <name>Intermediate stages: Some fully gelatinized kernels are visible</name>
+        <name id="_">Intermediate stages: Some fully gelatinized kernels are visible</name>
         <image id="_" src="spec/examples/rice_images/rice_image3_2.png" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
-        <name>Final stages: All kernels are fully gelatinized</name>
+        <name id="_">Final stages: All kernels are fully gelatinized</name>
         <image id="_" src="spec/examples/rice_images/rice_image3_3.png" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <dl id='_' key='true'>
@@ -1404,7 +1405,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
              <sections>
-        <figure id="_" anchor="figureC-2"><name>Stages of gelatinization</name>
+        <figure id="_" anchor="figureC-2"><name id="_">Stages of gelatinization</name>
         <image src="spec/examples/rice_images/rice_image3_1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       </sections>
@@ -1435,17 +1436,17 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
              <sections>
-        <example id="_" anchor="figureC-2"><name>Stages of gelatinization</name><figure id="_">
-        <name>Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
+        <example id="_" anchor="figureC-2"><name id="_">Stages of gelatinization</name><figure id="_">
+        <name id="_">Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
         <image src="spec/examples/rice_images/rice_image3_1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <p id="_">Text</p>
       <figure id="_">
-        <name>Intermediate stages: Some fully gelatinized kernels are visible</name>
+        <name id="_">Intermediate stages: Some fully gelatinized kernels are visible</name>
         <image src="spec/examples/rice_images/rice_image3_2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
-        <name>Final stages: All kernels are fully gelatinized</name>
+        <name id="_">Final stages: All kernels are fully gelatinized</name>
         <image src="spec/examples/rice_images/rice_image3_3.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure></example>
       </sections>
@@ -1483,17 +1484,17 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
              <sections>
-        <figure id="_" anchor="figureC-2"><name>Stages of gelatinization</name><figure id="_">
-        <name>Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
+        <figure id="_" anchor="figureC-2"><name id="_">Stages of gelatinization</name><figure id="_">
+        <name id="_">Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
         <image src="spec/examples/rice_images/rice_image3_1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <p id="_">Text</p>
       <figure id="_">
-        <name>Intermediate stages: Some fully gelatinized kernels are visible</name>
+        <name id="_">Intermediate stages: Some fully gelatinized kernels are visible</name>
         <image src="spec/examples/rice_images/rice_image3_2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
-        <name>Final stages: All kernels are fully gelatinized</name>
+        <name id="_">Final stages: All kernels are fully gelatinized</name>
         <image src="spec/examples/rice_images/rice_image3_3.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <source status="generalisation">
@@ -1592,7 +1593,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
               <sections>
          <figure id="_" anchor="ABC" unnumbered="true" number="3" class="plate">
-         <name>Split-it-right sample divider</name>
+         <name id="_">Split-it-right sample divider</name>
                   <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto" alt="alttext"/>
        </figure>
        </sections>
@@ -1614,7 +1615,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
               <sections>
          <figure id="_" subsequence="A">
-         <name>Split-it-right sample divider</name>
+         <name id="_">Split-it-right sample divider</name>
            <image src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAM4AAAAjCAYAAADcxTWYAAAAAXNSR0IArs4c6QAAExZJREFUeAHtnQmYVcWVx6t3oGn2xRVwQUEQIiKi0YgGVNxmjBCXQcOHkTiaxIwy6mSMqKhJXJKMcUky7kZjBDUoKsEIqIggLsEFUFFAFGSHpmm2Xub3v30LDuW7bwEUP+ed7/u9OudU3br3VtWpqnvfoykYdN2zbgekEccOgZOhNzSHDTAbJsBfYS5sl2wsLHVF9bXu5x/e4w6oWuBWl1RsVz35g3ZtC7TYvNZ90LSju7Hz+a62oMiV1W3atRe0E85evAN1DOLY38GeQR0a3W3hO3A93AL/CXnJt8A3pgUKt/NOruG40WCDZjn2HPgErIzAmAQ7EqS2vryeb4Fd3gLbEzjncdUjzZVPQz8DOkBX6Ai94G7w0g/lOW/k0/9/LVDvClz9N+i2cw2cPbj3B8z9/x79CHgC1hv/W+gXwCnG1x/9QmNnVNXYRfV1rhF7YukZZBj5U+EhaJahbD77K2wBhUxdQSHPN8Wu8Ivho628+u2aFJfUHt898DLcCV+bh9xct092pZnEjfwU0skzZJ4JekkguRm0EtXIyCQl9TXRC4GlpS1dl7Xz3OrSCldQn3Le6kNdamCJAnkzKJDy8jVoAb3kabNplWtaW+1WljR3JXXqnkiG83lZrKvfPoSHY1vJ/XCiFOQoKIcfyNjVkuuK831zwUONnk59jMwZcYGmpIelK2zzigmc9UVl7qXWh0YrTiGrT4Joa2jlEGvk9V3bAtVFjVyn6kWuz6p33MrSZs70Y9/gyg4O7P0Cu3Ng7zIzl8DRstkivtIppJ/kcNX3mrLnous1dkbR9qwtM9UrrXq6N1t0ce02rkzasq0LKqsM7Ly5C1tA/biuqLE7ZckUt9f6Ja6ypKnfeIf9VBVcprb2H8c+vXi6OMjfZWY2gaOHix5wpbnK542ejbrAFPp3dAXdS6Bt20Wg+lNKWe0mV1XcxE1oe4Qrrqtlj5xy1Um5f0tZYd75lbeAnnG0RetcNd+dsOxVtwI9flUQ9ltoT+RiteponOrFk56dvxaS9IxTwtXpe5qB8B3oCFZy/QZry6Y2rqQtqTgazo9975E+DrfDstgXPVTutmGFm9ymtxuwbJrrtWaOW1zWxje8LxamPrr2IkPPYd2gFObDeNB5kmQwGXqpMRN+ExfSPlzB/Td4MvbZpA3GEDgUdoMa+BT0UPsQhAMCV7R3P5v0Y7hWjkBaYf8KtMqPjiHZRrpjjYBVcDmE7XwGvgGg3YLaxE9Yuo9U14Q7Ep17GPQG3Vs1zAVdx6uQJLofPZO8AbfFha4gPajA1Y1eU1Ix7rhlr7mJrQ9z64obu8a1G+IiaZOzyNV9zoCxKUqOwtcB7oUX4/yhpBq7rWE5yH8XpBP12w9B2/zmsBKmw++gFtQON4Bi46owcPbG+TM4E/aEJGmWlJHgX2L8i9BXw0HGJ1WDW/wHqDFuhkjK6je56qI2bnz7I92hq2dHq06Gt2zzOPC78BQ0iSrZ+qHGeQHOgaVb3ZGmB9THjE9ve9Qpt8S+80i/BQoqL/+NosFR4R0m1blGwi/gEePXQHjO2OrcO4wt9Vk4PPYpmHVt02JbSRloEDeVgWhWviTSGq7lafRjYtsm6l/tANTG99iMWB9OehNo8ISivnkAhoYZ2DqXv0e1k9quCyj4tTU7b01xRfcO6z9/r8faD93f2UFkETjqo4d1fCyaBP7hDdJr4arY1jn3j+2hsc8nGs+DQMGUatK/GP+voRysqN0vhCGgPj4dJH3U2F4uRfkAlNqg0Yk00MZAHUhoh5zEBtokjlSAdAa9bFCAvA1eNADVcX/0jjrGRPuNK9y0lj3cm827upabKn1WUno8GWrgJgkFFFQzoDTIl9/K/RgPWge6BoMXder1kCpofJl9UVRuhHeQ2jrkvtjkSe0IPmh81o+9Eqe6Rx80cimgvSQFjc9X/XeDrs2KVi21e6qg8eV+gDLZGybVoLbyEMY2gVlfUNBZLwaa1GxgJ1FkyybpGuhWjrEG+imBrT4dGvi8eRzK771h0mHot0O58VlVwTgNfNAor1uhPhF17K3QSEYs40jVSJ2gPyigfHkN+J/A7pBOvk2mZlJ1pJdesTKXdDSos3rCkaDg9DIc5V+9od83rS6ucO822881ybzE28BX0OteNvq64rQD6X2Bb31gH4itmd3LbBQFpORXcE6kbf1Yh/oivL7VtUW7Ge2k2BpPavcpXbE7x3lKBhndqwoUK6dZA/2p2FbA2QGm61FfaWWcDlZsm6gPNOtaUdtdDQoyK6r/KutArw5sTQ6lxvcOb0knb+At6eeN2mT7e7W15nipal8ra6yB3jK25deEH4rGlJ3k9sLeJrjjA7SS/wmeie0wqVIgqFHtAHgUuzecCg/CYpC0akiiz335vA3mgwbJX+AGuAZ+CxqoH8EUuAj8DaFu8wWqbC+62MGgJdfLJV7R1qyElwPLylq6TUUlWPU+KyldRIYGkYJe97IP+EGPGonuu2OsK/ErqnFF6kQ+NVl0hxWgBr8CrNyJ0Qn6wWHQB+aAlf+NjSrSv9kM9FOMbfvDu9ui6H68nOyVONUML/luQ7LlcxTa7XAj9AUNeulHwWfg5S6vxOkvSdV2Ov4COAFqwct1KE29QZrUds+TN7iuoKBH240rV/+z+YHujeZdXIvNlebQRDWsM5Ot4D0d1D/q17shFPWLlx97JU51f4PgSPgRqE/UlwvBSn0hlga8RCc9A86GNyCUd3FcCB+YjFL0Q+Es+DmMBO2h1akKLitjMLSdCGc1W0a63V7ZWTnaICa8VQvrkH0ivGYyFqMPgE+NT6oaJ52MI1ODUauj77ifBgdocFwMy41/BroG6jrj2wNddUnCgeqvow15vaISX/zwK7Dqtau9VpWlcfFwRD6E/1LoEOe/RKrV55XYVtIJjpASy+uk6k8rEzBGGUcB+kBjp1KfwHk8jNEb0Xo2LOPbHcl3c42iSTDVATvou5XjNSFVweeggF8CVuxjw5E2A13t8njgU1tofG8jCpyK2KNlWzeaJIrGP8KBcCrcAXMhSTTo1aEjoDMMhpmQJAq0MfAHU+Amr2uFqeFnG+03rHSltZux1G+J8hY57yTkaiBZ2d8agb4e+/uBT6Yf/D7rN14JUm0ZwvP5VUMDeIUprxVAoqDwonwb6JqQJGp/K/YcCnArCrBbYT48A0MgFE1+VtTXCpzrDdeiaztnpZs1Al0Txpny8WzDM+pKN7V1z+g7ud14XmUFCorvFNNOBr7CN7wSp3bV3C3IGxvY3pyKssobSovhOdDM0RIUnVfCn2EzJIlmYSHZD9Q5bUGrhU6g2W8BLIN0Uk6mZiQF1VlgW/MW7EkQyYbCMtdq0xrXvfIjvtdp7N1J6UdJGfjnB3ltAtua0zEUPKE0DRx2cAdZblbgaGHsx9GHx3Yp6f5gV5snsR+Al0FyMOwFXWXEoglP/eVFfTgM7vWOOFXbnhRzEana+xOQtG9ItnwejiYySboxokFcowqK6xp+AfJcu2+7zfxerQT7SwqcVNdbHzitbYNIxQqDstYsskYxhhr5A6iAdqAGHwUKjKfhbVgISaJBmm6g2uNU/76gTlHA9IFw4G7Cp63FHRCJ3sQsKWvtBi6d4npWvu8WN1KMppVWaXJ1n1aqrBHocwPbm37L5u2wTu9XGgbZBpP5CLoPHLlvho5SYplBOsUbcap2OcT41E8KHiv3YcyGq0HtvE2nYx8Bqncf0OCpBitrMUpirF+6AlD3PxPugSTRmIpEP9JdzAuB+U324Nmm6ssMGo3nUMJ7t/mLMLoYh2JhhLG9ejqK3eJFK472gprJ7ob+INkTfhSjRlInqCE+BZVfDFpV1oEGukSRrAsvAw1cBcQeoFG+GyhgDoBSSCXLcT4It8ECW0BvYprVVLmB/GSjhteYmq0SfuzpD+uLousIB5TyB+vDyDbnMn6pdpDbrFkYYYO/agsYfZDRpb5n7BfRtSqrjST+GabBaviyVvpEOC52nhanPvmzV4J0GrZWmL1B/SrdXov858BDMAesaMI4DDTRFZoMBVSlsdOpW9pekVbA6NBvD7N4qZOuzp2dZ9tVdV8Gn8EfYD1IzoD7pVjRQJdo8AwAFRoOx4MXNVy3GO/bWekaKpoMz8AjsA62Eb/anPr5i+6w1bPcwsbtMwWNjm8CekgcKMPIVeha7axMskagJ81WatjvmbI/RH8BHjU+qddCL+OrRR9nbKlaHS4PfDLfhU9i/1hSHzixK0rUuWo7K8diCA2KybAQdA6h9ngWvGjClLwJ6ovmMpBDoDdMlxHIydg6r+pPJ1varp5SCphCftme4dk0XX1fRt6dVDoquryttet59UrQQrE77AdfEB84PuNxFNEJjoEToAfsAxqMOyLzObgaPgZ1yEswE9RhibKxqNRV1Kxz/fm5zabCkqjhU8xaBSkqOBHfLNBKqo7+F9D9WHkfI9XgsGVS6c/j1MDubjL/gn4W/B20zRkER4OVazHCyUHBdrktFOtjje8p9P8xtlc1OdjnjA7YfkD/Al1BpYBRO2sFOBSszI4N7Ro0WO4ymVqxRoLq0Dk0AVwC3wLJ+XBvpH15H6n6dWeebRWVaQV/Oqi0HbbwshBFbeSDqDAMHF9wPop4ACStoTNoC9cSloL27n2gGTQCNe4aWAGSKtCFaSuiAar8eZC1KECWlrVyA5ZOc4eseZ8vzlonLfWNEyrtiv/WhDy5zwzywueR0LbFB2K8B7p/LwpOkUqewzkqRcZb+D4Dta2VJ40xH13n0spv5Q5roIcDTauDSCX1OMeYDK2iao9+xqdAF6nEDyKfF7ZVuc9Ik9q2U7HwmEx2RVB3qnEQ1hEuAOOoQ8FzCxwQ1CfzMdCOQhOJl7qkwPEFfKpg8AEhX1+ohp/JyEJ0UdrajIAnsigfFdEbmPKa9e645a9hN/wrwoRnG+3JrWj2Xw4/sU6jK4i1OmgmtjLHGuiaaZLkUzJ6w+NwcFKh2P8w6ZA0ZbQqanb3sgzlDW/EqVaD241vNforxpa6ALTdvhU6QToZRObaoMCx2Lof9VU6mUDmL4MCYdupfbZItFXjnUKwVdOEasVvTb3vI6/E6fwUtiZvL6n6a4XPjFPteELRiiM0JvqCAnoVvADPguSghiT6rCw66Nh/M3ZWqhr3ZTgPKsFHoiJb25RfgzpwFkhag7YUWqkU2TdAVlLNv+HQb9ROXzyJFwKFvBhIjHOtZAqGTqABp5lzHHwOzaEtaIbVvvWvcA68CqHomnWdbWASXA7a4iTJSjI0oBdBCbQCP+vpmnQNl4EGcjqZSmZX0CyuthsM2ww8bK1M6jyV0QBTmVQDZTb+O0Hn1/ZCuwGtBrWgQaMBcgFoUKQSzbCaUApBbVEBkqUwEUbClaC6rbyNoXZWG/wD/guiMqXRP0hsFP3CXS96ZMfyGuk+oLGjfrkR6sDLDJROoPzRoGCtBy+aOA4B3dtNoDpCmY6jJ+ikKqN6QumGYxm8C+NhLEyAD0GiYw6KtIaP6QXb8XfVNAgujSu5glQXI+kHk6Qg6pT+kdawfVCjdo/tPqQzYj1ton/81Hrzanf1+39yLfmJhuztFHWmom7pdh6f7WHlFNwbFGwauLlKOw7IdI0anOrkXET1SjLV3VBq62cRaidQqoBON4mQnVrKa9dH/x7nugOHR6nsr4loZXkGjgJNTE+BJtTFoImjMwyDE8HK2YlTuC0V6P7hUG5FphfbGuu8k1QzxBjwgfM99KwCR6uMfqqhH3VK3wHRyvBViO57zg6cKJuBnWvQ6HKyqTfVZWsm/yhVxjfE14v7UNBItHKJTDKTAo/mOhq17fEnUlR+YM5SafRSo0t9zNiDjJ5WLeWLM/2oc1lpK744W8tfScn1ctNWn8/Mt8DbNMFrOTTDZMpG4z/XkXg0B/qgmIJu95vV2F60r7aifbcuUrI/9I60DB+NCZzK4qbuvg6nRT/VKGflCR4uM9SQz863QNoW0E7kcDgb7oN3YDnoeVnPWmthLmhndS4cC1UQ7fuVZit6PvEyzStxqm2KHgYVWE1in01GY/SIHWeSvm4zU+l1Tj8OXBH9MPCJ3Y9z5y582s0r3zubL0BTVZf35VsgqQUeJUNINOm3BD3GaBe1Br4gua44ijgvL3slTvWM41ed8iBP5hPGp1d5WZ1brzHbblrtHtnrJDeTf/3ZZuOqbZY5U2dezbfAzmiBDVSixxC9sUwZNDpJVoNXBRGtJP75RrbfekmXKHD8S4FUK84s8vU6VNIaCiItw4e2Zs35YeDy0hbuyd378Xsn/tJN6j9KmKGmfHa+BXZeC+QSOHrDMjU+9W9Jw1eT2hPaFUffa4TSH8dI6AeqLyvRS4Fm/OxmCX/dRv/Vh4InL/kW2JUtoH1ctqLRegzotfI/Ew7SqiNpCtqu6dttK/MwrrOOXPRS/nSq/vZwbXaLVS5V58vmWyCnFshlxVHFNZAUNMr3zzbaqqVacVRmuyXFjzu3u678gfkW2JEWyDVwMp3rLgqsAr2h+Kq+dMx0Tfn8fAvs9Bb4P/RCZMfd+bNlAAAAAElFTkSuQmCC" id="_" mimetype="image/png" height="auto" width="auto" alt="alttext"/>
        </figure>
        </sections>
@@ -1636,7 +1637,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
        <sections>
          <figure id="_" tag='X' columns='1' multilingual-rendering='common' width="3">
-         <name>Caption</name>
+         <name id="_">Caption</name>
          <image id="_" tag="X" columns="1" multilingual-rendering="common" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="4" width="3" filename="riceimg1.png" title="TITLE" alt="IMAGE"/>
        </figure>
        </sections>
@@ -1843,7 +1844,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
        <sections>
          <sourcecode id="_" anchor="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' linenums='true'>
-        <name>Caption</name><body>puts "Hello, world."
+        <name id="_">Caption</name><body>puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
        end</body></sourcecode>
@@ -1886,7 +1887,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
        <sections>
          <sourcecode id="_" anchor="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' linenums='true'>
-        <name>Caption</name><body>puts "Hello, world."
+        <name id="_">Caption</name><body>puts "Hello, world."
        %w{a b c}.each do |x|
          puts x
        end</body></sourcecode>
@@ -2248,7 +2249,7 @@ RSpec.describe Metanorma::Standoc do
                      </description>
             <newcontent id='_'>
               <table id='_'>
-                <name>Edges of triangle and quadrilateral cells</name>
+                <name id="_">Edges of triangle and quadrilateral cells</name>
                 <tbody>
                   <tr id="_">
                     <th id="_" colspan='2' valign='middle' align='center'>triangle</th>

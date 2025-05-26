@@ -45,7 +45,7 @@ RSpec.describe Metanorma::Standoc do
              </target>
            </svgmap>
            <figure id="_" anchor="ref1">
-             <name>SVG title</name>
+             <name id="_">SVG title</name>
              <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id="Layer_1_000000001" x='0px' y='0px' viewBox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve'>
         <style/>
         <image/>
@@ -730,7 +730,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
              <sections><figure id="_">
-             <name>
+             <name id="_">
         Figuretitle.
         <fn reference='1'>
           <p id='_'>xyz</p>
@@ -829,16 +829,16 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
              <sections>
-        <figure id="_" anchor="figureC-2"><name>Stages of gelatinization</name><figure id="_">
-        <name>Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
+        <figure id="_" anchor="figureC-2"><name id="_">Stages of gelatinization</name><figure id="_">
+        <name id="_">Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
         <image src="spec/examples/rice_images/rice_image3_1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
-        <name>Intermediate stages: Some fully gelatinized kernels are visible</name>
+        <name id="_">Intermediate stages: Some fully gelatinized kernels are visible</name>
         <image src="spec/examples/rice_images/rice_image3_2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
-        <name>Final stages: All kernels are fully gelatinized</name>
+        <name id="_">Final stages: All kernels are fully gelatinized</name>
         <image src="spec/examples/rice_images/rice_image3_3.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure></figure>
       </sections>
@@ -1325,7 +1325,7 @@ RSpec.describe Metanorma::Standoc do
        <sections><clause id="_" type="scope" inline-header="false" obligation="normative">
        <title id="_">Scope</title>
        <example id="_">
-       <name>Fragment of a collection description document with a links array and with one item of the array pointing to a list of map tilesets.</name>
+       <name id="_">Fragment of a collection description document with a links array and with one item of the array pointing to a list of map tilesets.</name>
        <p id="_"><strong>Hello <em>And</em> This</strong></p>
 
        <p id="_">读写汉字<em>学</em>中文</p>

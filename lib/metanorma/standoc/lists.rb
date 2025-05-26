@@ -122,7 +122,7 @@ module Metanorma
       end
 
       def list_caption(node, out)
-        a = node.title and out.name { |n| n << a }
+        block_title(node, out)
       end
     end
   end

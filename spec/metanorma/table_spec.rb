@@ -15,7 +15,7 @@ RSpec.describe Metanorma::Standoc do
            #{BLANK_HDR}
       <sections>
         <table id="_">
-        <name>Table Name</name>
+        <name id="_">Table Name</name>
         <thead>
           <tr id="_" id="_">
             <th id="_" valign="top" align="left">A</th>
@@ -204,7 +204,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
              <sections>
            <table id="_">
-           <name>Table Name</name>
+           <name id="_">Table Name</name>
            <thead><tr id="_" id="_">
                <th id="_" valign="top" align="left">A</th>
                <th id="_" valign="top" align="left">B</th>
@@ -313,7 +313,7 @@ RSpec.describe Metanorma::Standoc do
        #{BLANK_HDR}
               <sections>
                 <table id="_" alt="An extensive summary, and illustration, of tables" unnumbered="true" subsequence="A" summary="This is an extremely long, convoluted summary" width="70%" number="3" keep-with-next="true" keep-lines-together="true">
-                <name>Maximum <em>permissible</em> mass fraction of defects</name>
+                <name id="_">Maximum <em>permissible</em> mass fraction of defects</name>
                 <thead>
                   <tr id="_" id="_">
                     <th id="_" rowspan="2" valign="middle" align="left">Defect</th>

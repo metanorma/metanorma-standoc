@@ -534,7 +534,7 @@ RSpec.describe Metanorma::Standoc do
                    <xref target="Löwe"/>
                 
                 <sourcecode id="_" anchor="Löwe">
-                   <name>
+                   <name id="_">
                       See
                       <eref type="inline" bibitemid="Löwner2016" citeas="Löwner\\u00a0et\\u00a0al.\\u00a02016"/>
                    </name>

@@ -36,11 +36,7 @@ module Metanorma
       end
 
       def table_name(node, xml_table)
-        if node.title?
-          xml_table.name do |n|
-            n << node.title
-          end
-        end
+        block_title(node, xml_table)
       end
 
       def table_cell1(cell)
