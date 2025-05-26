@@ -13,6 +13,11 @@ module Metanorma
         end
       end
 
+      def pass(node)
+        require "debug"; binding.b
+        "<passthrough-inline formats='metanorma'>#{node.content}</passthrough-inline>"
+      end
+
       def page_break(node)
         attrs = {}
         node.option?("landscape") and attrs[:orientation] = "landscape"

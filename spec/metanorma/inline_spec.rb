@@ -1120,11 +1120,20 @@ RSpec.describe Metanorma::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       +<abc>X &gt;+ +++A<sub>b<sub>c</sub></sub>+++ pass:c[</abc>]
+
+      (c)
+
+      pass:[(c)]
+
+      pass-format:metanorma[(c)]
     INPUT
     output = <<~OUTPUT
        #{BLANK_HDR}
       <sections>
       <p id='_'>&lt;abc&gt;X &gt; A<sub>b<sub>c</sub></sub> &lt;/abc&gt;</p>
+      <p id="_">©</p>
+      <p id="_">©</p>
+      <p id="_">(‌c)‌</p>
       </sections>
       </metanorma>
     OUTPUT

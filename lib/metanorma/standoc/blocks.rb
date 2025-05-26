@@ -232,7 +232,7 @@ module Metanorma
 
       # need to validate Metanorma XML before it passes to textcleanup,
       # where passthrough wrapper and escaped tags are removed:
-      # <passthrough format="metanorma>&lt;tag&gt</passthrough> => <tag>
+      # <passthrough formats="metanorma>&lt;tag&gt</passthrough> => <tag>
       # Do not treat not well-formed XML as invalid,
       # as it may be fragment, e.g. unterminated start of element markup
       def passthrough_validate(node, content, encoded_content)

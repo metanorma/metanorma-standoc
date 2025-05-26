@@ -159,11 +159,14 @@ module Metanorma
           p.name = "passthrough"
           p.children = select_odd_chars(p.children.to_xml)
         end
-        doc.xpath("//passthrough[@format = 'metanorma']").each do |p|
-          p.replace(p.children)
-        end
         doc.xpath("//identifier").each do |p|
           p.children = select_odd_chars(p.children.to_xml)
+        end
+      end
+
+      def passthrough_metanorma_cleanup(doc)
+        doc.xpath("//passthrough[@formats = 'metanorma']").each do |p|
+          p.replace(p.children)
         end
       end
 

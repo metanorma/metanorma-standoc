@@ -30,7 +30,7 @@ module Metanorma
         @doctype = xmldoc.at("//bibdata/ext/doctype")&.text
         element_name_cleanup(xmldoc)
         source_include_cleanup(xmldoc) # feeds: misccontainer_cleanup
-        passthrough_cleanup(xmldoc)
+        passthrough_cleanup(xmldoc) # feeds: smartquotes_cleanup
         unnumbered_blocks_cleanup(xmldoc)
         termdocsource_cleanup(xmldoc) # feeds: metadata_cleanup
         metadata_cleanup(xmldoc) # feeds: boilerplate_cleanup
@@ -96,6 +96,7 @@ module Metanorma
         img_cleanup(xmldoc)
         anchor_cleanup(xmldoc)
         link_cleanup(xmldoc)
+        passthrough_metanorma_cleanup(xmldoc)
         xmldoc
       end
 
