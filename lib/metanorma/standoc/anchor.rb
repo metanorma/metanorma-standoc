@@ -121,7 +121,7 @@ module Metanorma
         @fn_number ||= 0
         noko do |xml|
           @fn_number += 1
-          xml.fn reference: @fn_number do |fn|
+          xml.fn **attr_code(id_attr(nil).merge(reference: @fn_number)) do |fn|
             fn.p { |p| p << node.text }
           end
         end

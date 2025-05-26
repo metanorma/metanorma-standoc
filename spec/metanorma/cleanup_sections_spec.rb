@@ -299,7 +299,7 @@ RSpec.describe Metanorma::Standoc do
              <foreword id="_" obligation="informative">
                 <title id="_">
                    Foreword
-                   <fn reference="1">
+                   <fn id="_" reference="1">
                       <p id="_">A</p>
                    </fn>
                 </title>
@@ -317,7 +317,7 @@ RSpec.describe Metanorma::Standoc do
              <acknowledgements id="_" obligation="informative">
                 <title id="_">
                    Acknowledgements
-                   <fn reference="1">
+                   <fn id="_" reference="1">
                       <p id="_">A</p>
                    </fn>
                 </title>
@@ -325,7 +325,7 @@ RSpec.describe Metanorma::Standoc do
           <executivesummary id="_" obligation="informative">
             <title id="_">
                 Executive summary
-                <fn reference="1">
+                <fn id="_" reference="1">
                   <p id="_">A</p>
                 </fn>
             </title>
@@ -335,7 +335,7 @@ RSpec.describe Metanorma::Standoc do
              <clause id="_" type="scope" inline-header="false" obligation="normative">
                 <title id="_">
                    Scope
-                   <fn reference="1">
+                   <fn id="_" reference="1">
                       <p id="_">A</p>
                    </fn>
                 </title>
@@ -344,7 +344,7 @@ RSpec.describe Metanorma::Standoc do
              <terms id="_" obligation="normative">
                 <title id="_">
                    Terms and definitions
-                   <fn reference="1">
+                   <fn id="_" reference="1">
                       <p id="_">A</p>
                    </fn>
                 </title>
@@ -360,7 +360,7 @@ RSpec.describe Metanorma::Standoc do
              <clause id="_" obligation="normative" type="terms">
                 <title id="_">
                    Terms, definitions, symbols and abbreviated terms
-                   <fn reference="1">
+                   <fn id="_" reference="1">
                       <p id="_">A</p>
                    </fn>
                 </title>
@@ -403,7 +403,7 @@ RSpec.describe Metanorma::Standoc do
                 <definitions id="_" obligation="normative">
                    <title id="_">
                       Symbols and abbreviated terms
-                      <fn reference="1">
+                      <fn id="_" reference="1">
                          <p id="_">A</p>
                       </fn>
                    </title>
@@ -413,7 +413,7 @@ RSpec.describe Metanorma::Standoc do
                    <definitions id="_" type="symbols" obligation="normative">
                       <title id="_">
                          Symbols
-                         <fn reference="1">
+                         <fn id="_" reference="1">
                             <p id="_">A</p>
                          </fn>
                       </title>
@@ -423,7 +423,7 @@ RSpec.describe Metanorma::Standoc do
              <definitions id="_" type="abbreviated_terms" obligation="normative">
                 <title id="_">
                    Abbreviated terms
-                   <fn reference="1">
+                   <fn id="_" reference="1">
                       <p id="_">A</p>
                    </fn>
                 </title>
@@ -444,7 +444,7 @@ RSpec.describe Metanorma::Standoc do
           <annex id="_" inline-header="false" obligation="normative">
              <title id="_">
                 Annex.
-                <fn reference="1">
+                <fn id="_" reference="1">
                    <p id="_">A</p>
                 </fn>
              </title>
@@ -456,7 +456,7 @@ RSpec.describe Metanorma::Standoc do
              <references id="_" normative="true" obligation="informative">
                 <title id="_">
                    Normative references
-                   <fn reference="1">
+                   <fn id="_" reference="1">
                       <p id="_">A</p>
                    </fn>
                 </title>
@@ -465,7 +465,7 @@ RSpec.describe Metanorma::Standoc do
              <references id="_" normative="true" obligation="informative">
                 <title id="_">
                    Normative References 2.
-                   <fn reference="1">
+                   <fn id="_" reference="1">
                       <p id="_">A</p>
                    </fn>
                 </title>
@@ -473,7 +473,7 @@ RSpec.describe Metanorma::Standoc do
              <references id="_" normative="false" obligation="informative">
                 <title id="_">
                    Bibliography
-                   <fn reference="1">
+                   <fn id="_" reference="1">
                       <p id="_">A</p>
                    </fn>
                 </title>
@@ -481,7 +481,7 @@ RSpec.describe Metanorma::Standoc do
              <clause id="_" obligation="informative">
                 <title id="_">
                    Bibliography 2.
-                   <fn reference="1">
+                   <fn id="_" reference="1">
                       <p id="_">A</p>
                    </fn>
                 </title>

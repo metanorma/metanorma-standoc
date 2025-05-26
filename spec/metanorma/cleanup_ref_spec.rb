@@ -218,7 +218,7 @@ RSpec.describe Metanorma::Standoc do
         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
         <term id="_" anchor="term-Term1">
         <preferred><expression><name>Term1</name></expression></preferred>
-        <definition><verbal-definition><p id='_'>Definition 0</p></verbal-definition></definition>
+        <definition id="_"><verbal-definition id="_"><p id='_'>Definition 0</p></verbal-definition></definition>
         <source status="identical" type="authoritative">
         <origin bibitemid="ISO2191" type="inline" citeas="">
         <localityStack>
@@ -284,7 +284,7 @@ RSpec.describe Metanorma::Standoc do
           <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
           <term id="_" anchor="term-Automation1">
            <preferred><expression><name>Automation1</name></expression></preferred>
-           <definition><verbal-definition><p id='_'>Definition 1</p></verbal-definition></definition>
+           <definition id="_"><verbal-definition id="_"><p id='_'>Definition 1</p></verbal-definition></definition>
            <source status="identical" type="authoritative">
            <origin bibitemid="IEC60050-103" type="inline" citeas="IEC\\u00a060050-103:2009">
            <localityStack>
@@ -295,7 +295,7 @@ RSpec.describe Metanorma::Standoc do
          </term>
          <term id="_" anchor="term-Automation2">
            <preferred><expression><name>Automation2</name></expression></preferred>
-           <definition><verbal-definition><p id='_'>Definition 2</p></verbal-definition></definition>
+           <definition id="_"><verbal-definition id="_"><p id='_'>Definition 2</p></verbal-definition></definition>
            <source status="identical" type="authoritative">
            <origin bibitemid="IEC60050-102" type="inline" citeas="IEC\\u00a060050-102:2007">
            <localityStack>
@@ -306,7 +306,7 @@ RSpec.describe Metanorma::Standoc do
          </term>
          <term id="_" anchor="term-Automation3">
            <preferred><expression><name>Automation3</name></expression></preferred>
-           <definition><verbal-definition><p id='_'>Definition 3</p></verbal-definition></definition>
+           <definition id="_"><verbal-definition id="_"><p id='_'>Definition 3</p></verbal-definition></definition>
            <source status="identical" type="authoritative">
            <origin bibitemid="IEC60050-103" type="inline" citeas="IEC\\u00a060050-103:2009">
            <localityStack>
@@ -798,7 +798,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
       <preface><foreword id="_" obligation="informative">
         <title id="_">Foreword</title>
-        <p id="_"><fn reference="1">
+        <p id="_"><fn id="_" reference="1">
         <p id="_">Footnote</p>
       </fn>
       </p>
@@ -806,7 +806,7 @@ RSpec.describe Metanorma::Standoc do
 
       <clause id="_" inline-header="false" obligation="normative">
         <title id="_">Clause</title>
-        <p id="_"><fn reference="2">
+        <p id="_"><fn id="_" reference="2">
         <p id="_">Footnote2</p>
       </fn>
       </p>

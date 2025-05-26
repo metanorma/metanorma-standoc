@@ -732,19 +732,19 @@ RSpec.describe Metanorma::Standoc do
              <sections><figure id="_">
              <name id="_">
         Figuretitle.
-        <fn reference='1'>
+        <fn id="_" reference='1'>
           <p id='_'>xyz</p>
         </fn>
       </name>
                <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
-             <fn reference="a">
+             <fn id="_" reference="a">
                <p id="_">This is a footnote to a figure</p>
-             </fn><fn reference="b">
+             </fn><fn id="_" reference="b">
                <p id="_">This is another footnote to a figure</p>
              </fn></figure>
              <p id='_'>
         A
-        <fn reference='2'>
+        <fn id="_" reference='2'>
           <p id='_'>This is a third footnote</p>
         </fn>
       </p>

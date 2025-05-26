@@ -1774,7 +1774,7 @@
                 <title id="_">Basic concepts</title>
                 <term id="_" anchor="term-date">
                   <preferred><expression><name>date</name></expression></preferred>
-                  <definition><verbal-definition>
+                  <definition id="_"><verbal-definition id="_">
                     <p id='_'>
                       <em>time</em>
                        (

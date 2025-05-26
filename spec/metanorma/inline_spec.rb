@@ -540,7 +540,7 @@ RSpec.describe Metanorma::Standoc do
                       </mstyle>
                     </math>
           <asciimath>x^2</asciimath></stem></display-text></xref>
-       <xref target="reference"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></xref></p>
+       <xref target="reference"><display-text><em>A</em><fn id="_" reference="1"><p id="_"><em>B</em></p></fn></display-text></xref></p>
        </clause>
        </sections>
       </metanorma>
@@ -576,7 +576,7 @@ RSpec.describe Metanorma::Standoc do
                       </mstyle>
                     </math>
         <asciimath>x^2</asciimath></stem></display-text></xref>
-       <xref target="reference"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></xref></p>
+       <xref target="reference"><display-text><em>A</em><fn id="_" reference="1"><p id="_"><em>B</em></p></fn></display-text></xref></p>
        </clause>
        </sections>
        </metanorma>
@@ -879,8 +879,8 @@ RSpec.describe Metanorma::Standoc do
                       </mstyle>
                     </math>
         <asciimath>x^2</asciimath></stem></display-text></eref>
-       <eref type="inline" bibitemid="reference" citeas="ABC"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></eref>
-       <eref type="inline" bibitemid="reference" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></display-text></eref></p>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><display-text><em>A</em><fn id="_" reference="1"><p id="_"><em>B</em></p></fn></display-text></eref>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn id="_" reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></display-text></eref></p>
        </clause>
        </sections><bibliography><references id="_" normative="true" obligation="informative">
        <title id="_">Normative references</title><p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
@@ -991,13 +991,13 @@ RSpec.describe Metanorma::Standoc do
                       </origin>
        </source><source status="identical" type="authoritative">
        <origin bibitemid="reference" type="inline" citeas="ABC">
-        <display-text><em>A</em><fn reference="1">
+        <display-text><em>A</em><fn id="_" reference="1">
          <p id="_">
            <em>B</em>
          </p>
        </fn></display-text></origin>
        </source><source status="identical" type="authoritative">
-       <origin bibitemid="reference" type="inline" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn reference="2">
+       <origin bibitemid="reference" type="inline" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn id="_" reference="2">
          <p id="_">Superseded by ISO 9000:2015.</p>
        </fn></display-text></origin>
        </source></preferred>
@@ -1037,7 +1037,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
                     <preface><foreword id="_" obligation="informative">
                <title id="_">Foreword</title>
-               <p id="_">Hello!<fn reference="1">
+               <p id="_">Hello!<fn id="_" reference="1">
                <p id="_">Footnote text</p>
              </fn></p>
              </foreword></preface>
@@ -1045,13 +1045,13 @@ RSpec.describe Metanorma::Standoc do
              <clause id="_" inline-header="false" obligation="normative">
                 <title id="_">
                    Title
-                   <fn reference="2">
+                   <fn id="_" reference="2">
                       <p id="_">Footnote text 2</p>
                    </fn>
                 </title>
                 <p id="_">
                    Hello.
-                   <fn reference="3">
+                   <fn id="_" reference="3">
                       <p id="_">
                          This is a repeated footnote
                          <index>
@@ -1062,13 +1062,13 @@ RSpec.describe Metanorma::Standoc do
                 </p>
           <p id="_">
             Hidden reference.
-            <fn reference="4" hiddenref="true">
+            <fn id="_" reference="4" hiddenref="true">
                <p id="_">Another footnote</p>
             </fn>
          </p>
                <p id="_">
                    Repetition.
-                   <fn reference="3">
+                   <fn id="_" reference="3">
                       <p id="_">This is a repeated footnote </p>
                    </fn>
                 </p>

@@ -94,6 +94,7 @@ module Metanorma
       def footnote_block_cleanup(xmldoc)
         ids = xmldoc.xpath("//footnoteblock").each_with_object([]) do |f, m|
           f.name = "fn"
+          add_id(f)
           m << f.text
           if id = xmldoc.at("//*[@anchor = '#{f.text}']")
             f.children = id.dup.children

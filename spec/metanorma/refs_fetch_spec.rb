@@ -1727,8 +1727,8 @@ RSpec.describe Metanorma::Standoc do
         </mstyle>
         </math><asciimath>x^2</asciimath></stem></display-text>
         </eref>
-        <eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></eref>
-        <eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></display-text></eref></p>
+        <eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><display-text><em>A</em><fn id="_" reference="1"><p id="_"><em>B</em></p></fn></display-text></eref>
+        <eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn id="_" reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></display-text></eref></p>
         </clause></sections>
         </metanorma>
       OUTPUT

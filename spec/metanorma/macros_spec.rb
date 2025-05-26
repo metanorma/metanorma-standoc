@@ -621,7 +621,7 @@ RSpec.describe Metanorma::Standoc do
                   #{BLANK_HDR}
                   <sections>
                     <p id="_">
-                    <fn reference='1'>
+                    <fn id="_" reference='1'>
         <table id='_'>
           <thead>
             <tr id="_">
@@ -638,7 +638,7 @@ RSpec.describe Metanorma::Standoc do
         </table>
       </fn>
                   </p>
-                  <p id="_"><fn reference="2"><ul id="_"><li><p id="_">A</p></li><li><p id="_">B</p></li><li><p id="_">C</p></li></ul></fn>. <fn reference="2"><ul id="_"><li><p id="_">A</p></li><li><p id="_">B</p></li><li><p id="_">C</p></li></ul></fn></p>
+                  <p id="_"><fn id="_" reference="2"><ul id="_"><li><p id="_">A</p></li><li><p id="_">B</p></li><li><p id="_">C</p></li></ul></fn>. <fn id="_" reference="2"><ul id="_"><li><p id="_">A</p></li><li><p id="_">B</p></li><li><p id="_">C</p></li></ul></fn></p>
                   </sections>
              </metanorma>
     OUTPUT
@@ -670,7 +670,7 @@ RSpec.describe Metanorma::Standoc do
            #{BLANK_HDR}
        <sections>
           <p id='_'>
-            <fn reference='1'>[ERROR]</fn>
+            <fn id="_" reference='1'>[ERROR]</fn>
           <note id="_" anchor="id2">
             <table id='_'>
               <thead>

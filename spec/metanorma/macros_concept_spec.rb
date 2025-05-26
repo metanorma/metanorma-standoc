@@ -433,8 +433,8 @@ RSpec.describe Metanorma::Standoc do
                    <name>term first</name>
                  </expression>
                </preferred>
-               <definition>
-                 <verbal-definition>
+               <definition id="_">
+                 <verbal-definition id="_">
                    <p id="_">Term</p>
                  </verbal-definition>
                </definition>
@@ -446,8 +446,8 @@ RSpec.describe Metanorma::Standoc do
                  </expression>
                </preferred>
                <domain>dummy</domain>
-               <definition>
-                 <verbal-definition>
+               <definition id="_">
+                 <verbal-definition id="_">
                    <p id="_">Term1</p>
                  </verbal-definition>
                </definition>
@@ -1039,7 +1039,7 @@ RSpec.describe Metanorma::Standoc do
               <tt>missing</tt>
             </strong>
           </related>
-                    <definition><verbal-definition>
+                    <definition id="_"><verbal-definition id="_">
                       <p id='_'>paragraph</p>
                       <p id='_'>
                         <concept>

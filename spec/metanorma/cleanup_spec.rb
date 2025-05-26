@@ -234,7 +234,7 @@ RSpec.describe Metanorma::Standoc do
            <p id="_">“ppm”,<index><primary>ppm</primary></index> “ppt”<index><primary>ppt</primary></index></p>
            <p id="_">“ppm<index><primary>ppm</primary></index>”\\u00a0</p>
            <p id="_">“<em>x</em>”</p>
-           <p id="_">“<stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mn>3</mn></mstyle></math><asciimath>3</asciimath></stem>”.<fn reference="1"><p id="_">The mole</p></fn></p>
+           <p id="_">“<stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mn>3</mn></mstyle></math><asciimath>3</asciimath></stem>”.<fn id="_" reference="1"><p id="_">The mole</p></fn></p>
            <figure id="_">
              <pre id="_">((ppm))",</pre>
            </figure>
@@ -275,19 +275,19 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
              #{BLANK_HDR}
-             <sections><p id="_"><fn reference="1">
+             <sections><p id="_"><fn id="_" reference="1">
         <p id="_">
           <link target="http://www.example.com"/>
         </p>
       </fn>
       </p>
-      <p id="_"><fn reference="1">
+      <p id="_"><fn id="_" reference="1">
         <p id="_">
           <link target="http://www.example.com"/>
         </p>
       </fn>
       </p>
-      <p id="_"><fn reference="2">
+      <p id="_"><fn id="_" reference="2">
         <p id="_">
           <link target="http://www.example1.com"/>
         </p>

@@ -166,7 +166,8 @@ module Metanorma
 
       def termdefinition(node)
         noko do |xml|
-          xml.definition **attr_code(type: node.attr("type")) do |d|
+          xml.definition **attr_code(id_attr(nil)
+            .merge(type: node.attr("type"))) do |d|
             d << node.content
           end
         end

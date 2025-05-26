@@ -337,7 +337,7 @@ RSpec.describe Metanorma::Standoc do
                 <tbody>
 
                   <tr id="_" id="_">
-                    <td id="_" valign="middle" align="left">Extraneous matter: organic<fn reference="a">
+                    <td id="_" valign="middle" align="left">Extraneous matter: organic<fn id="_" reference="a">
                 <p id="_">Organic extraneous matter includes foreign seeds, husks, bran, parts of straw, etc.</p>
               </fn></td>
                     <td id="_" valign="top" align="center">1,0</td>
@@ -346,7 +346,7 @@ RSpec.describe Metanorma::Standoc do
                     <td id="_" valign="top" align="center">0,5</td>
                   </tr>
                   <tr id="_" id="_">
-                    <td id="_" valign="middle" align="left">Extraneous matter: inorganic<fn reference="b">
+                    <td id="_" valign="middle" align="left">Extraneous matter: inorganic<fn id="_" reference="b">
                 <p id="_">Inorganic extraneous matter includes stones, sand, dust, etc.</p>
               </fn></td>
                     <td id="_" valign="top" align="center">0,5</td>
@@ -398,7 +398,7 @@ RSpec.describe Metanorma::Standoc do
                   </tr>
                   <tr id="_" id="_">
                     <td id="_" valign="middle" align="left">HDK</td>
-                    <td id="_" valign="top" align="center">2,0<fn reference="c">
+                    <td id="_" valign="top" align="center">2,0<fn id="_" reference="c">
                 <p id="_">The maximum permissible mass fraction of defects
                          <index>
                            <primary>defects</primary>
@@ -406,7 +406,7 @@ RSpec.describe Metanorma::Standoc do
                       shall be determined with respect to the mass fraction obtained after milling.</p>
               </fn></td>
                     <td id="_" valign="bottom" align="center">2,0</td>
-                    <td id="_" valign="top" align="center">2,0<fn reference="c">
+                    <td id="_" valign="top" align="center">2,0<fn id="_" reference="c">
                 <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
               </fn></td>
                     <td id="_" valign="top" align="center">2,0</td>
@@ -427,7 +427,7 @@ RSpec.describe Metanorma::Standoc do
                   </tr>
                   <tr id="_" id="_">
                     <td id="_" valign="middle" align="left">Chalky kernels</td>
-                    <td id="_" valign="top" align="center">5,0<fn reference="c">
+                    <td id="_" valign="top" align="center">5,0<fn id="_" reference="c">
                 <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
               </fn></td>
                     <td id="_" valign="bottom" align="center">5,0</td>
@@ -438,7 +438,7 @@ RSpec.describe Metanorma::Standoc do
                     <td id="_" valign="middle" align="left">Red kernels and red-streaked kernels</td>
                     <td id="_" valign="top" align="center">12,0</td>
                     <td id="_" valign="bottom" align="center">12,0</td>
-                    <td id="_" valign="top" align="center">12,0<fn reference="c">
+                    <td id="_" valign="top" align="center">12,0<fn id="_" reference="c">
                 <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
               </fn></td>
                     <td id="_" valign="top" align="center">12,0</td>
@@ -447,7 +447,7 @@ RSpec.describe Metanorma::Standoc do
                     <td id="_" valign="middle" align="left">Partly gelatinized kernels</td>
                     <td id="_" valign="top" align="center">Not applicable</td>
                     <td id="_" valign="bottom" align="center">Not applicable</td>
-                    <td id="_" valign="top" align="center">11,0<fn reference="c">
+                    <td id="_" valign="top" align="center">11,0<fn id="_" reference="c">
                 <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
               </fn></td>
                     <td id="_" valign="top" align="center">11,0</td>
@@ -461,11 +461,11 @@ RSpec.describe Metanorma::Standoc do
                   </tr>
                   <tr id="_" id="_">
                     <td id="_" valign="middle" align="left">Waxy rice</td>
-                    <td id="_" valign="top" align="center">1,0<fn reference="c">
+                    <td id="_" valign="top" align="center">1,0<fn id="_" reference="c">
                 <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
               </fn></td>
                     <td id="_" valign="bottom" align="center">1,0</td>
-                    <td id="_" valign="top" align="center">1,0<fn reference="c">
+                    <td id="_" valign="top" align="center">1,0<fn id="_" reference="c">
                 <p id="_">The maximum permissible mass fraction of defects shall be determined with respect to the mass fraction obtained after milling.</p>
               </fn></td>
                     <td id="_" valign="top" align="center">1,0</td>

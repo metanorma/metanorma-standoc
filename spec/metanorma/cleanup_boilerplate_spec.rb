@@ -437,7 +437,7 @@ RSpec.describe Metanorma::Standoc do
       </ul>
              <term id="_" anchor="term-Time">
              <preferred><expression><name>Time</name></expression></preferred>
-               <definition><verbal-definition><p id="_">This paragraph is extraneous</p></verbal-definition></definition>
+               <definition id="_"><verbal-definition id="_"><p id="_">This paragraph is extraneous</p></verbal-definition></definition>
              </term></terms>
              </sections>
              </metanorma>

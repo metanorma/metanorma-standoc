@@ -295,7 +295,7 @@ RSpec.describe Metanorma::Standoc do
                </relation>
                <docidentifier>ISO 123</docidentifier>
                <docidentifier type="metanorma">[2]</docidentifier>
-               <formattedref><em>Standard</em>.<fn reference="1"><p id="_">footnote</p></fn></formattedref>
+               <formattedref><em>Standard</em>.<fn id="_" reference="1"><p id="_">footnote</p></fn></formattedref>
              </bibitem>
         </references></bibliography>
         </metanorma>
@@ -1064,7 +1064,7 @@ RSpec.describe Metanorma::Standoc do
                  [
                  <strong>A</strong>
                  .
-                 <fn reference='1'>
+                 <fn id="_" reference='1'>
                    <p id='_'>hello</p>
                  </fn>
                  ]
@@ -1079,7 +1079,7 @@ RSpec.describe Metanorma::Standoc do
                  [
                  <strong>B</strong>
                  .
-                 <fn reference='1'>
+                 <fn id="_" reference='1'>
                    <p id='_'>hello</p>
                  </fn>
                  ]
@@ -1123,7 +1123,7 @@ RSpec.describe Metanorma::Standoc do
                  <formattedref format="application/x-isodoc+xml">
                    <em>Standard</em>
                  </formattedref>
-                 <docidentifier type="metanorma">[<strong>A</strong>.<fn reference="1"><p id="_">hello</p></fn>]</docidentifier>
+                 <docidentifier type="metanorma">[<strong>A</strong>.<fn id="_" reference="1"><p id="_">hello</p></fn>]</docidentifier>
                  <docidentifier>XYZ</docidentifier>
                </bibitem>
                <p id="_">More text</p>
@@ -1134,7 +1134,7 @@ RSpec.describe Metanorma::Standoc do
                  <formattedref format="application/x-isodoc+xml">
                    <em>Standard</em>
                  </formattedref>
-                 <docidentifier type="metanorma">[<strong>A</strong>.<fn reference="1"><p id="_">hello</p></fn>]</docidentifier>
+                 <docidentifier type="metanorma">[<strong>A</strong>.<fn id="_" reference="1"><p id="_">hello</p></fn>]</docidentifier>
                  <docidentifier>XYZ</docidentifier>
                </bibitem>
              </references>
@@ -1363,7 +1363,7 @@ RSpec.describe Metanorma::Standoc do
                               match: anything,
                               process: 1,
                               ord: anything,
-                              title: "<em>Standard</em>.<fn reference=\"1\"><p>footnote</p></fn>",
+                              title: anything,
                               usrlbl: "(2)",
                               year: nil }) do
       RelatonBib::XMLParser.from_xml(<<~"OUTPUT")

@@ -63,8 +63,8 @@ RSpec.describe Metanorma::Standoc do
                      <name>competent person</name>
                    </expression>
                  </preferred>
-                 <definition>
-                   <verbal-definition>
+                 <definition id="_">
+                   <verbal-definition id="_">
                      <p id="_">person, suitably trained and qualified by knowledge and practical experience,
        and provided with the necessary instructions, to enable the required task(s) to
        be carried out correctly</p>
@@ -79,8 +79,8 @@ RSpec.describe Metanorma::Standoc do
                        <name>fire damper</name>
                      </expression>
                    </preferred>
-                   <definition>
-                     <verbal-definition>
+                   <definition id="_">
+                     <verbal-definition id="_">
                        <p id="_">moveable closure within a duct which is operated automatically or manually and
        is designed to prevent the passage of fire</p>
                      </verbal-definition>
@@ -92,8 +92,8 @@ RSpec.describe Metanorma::Standoc do
                        <name>smoke damper</name>
                      </expression>
                    </preferred>
-                   <definition>
-                     <verbal-definition>
+                   <definition id="_">
+                     <verbal-definition id="_">
                        <p id="_">moveable closure within a duct which is operated automatically or manually and
        is designed to prevent or allow the passage of smoke</p>
                      </verbal-definition>
@@ -106,8 +106,8 @@ RSpec.describe Metanorma::Standoc do
                      <name>ductwork</name>
                    </expression>
                  </preferred>
-                 <definition>
-                   <verbal-definition>
+                 <definition id="_">
+                   <verbal-definition id="_">
                      <p id="_">system of enclosures of any cross-sectional shape for the distribution or
        extraction of air and/or smoke</p>
                    </verbal-definition>
@@ -271,7 +271,7 @@ RSpec.describe Metanorma::Standoc do
         </related>
               <domain>Hydraulics</domain>
               <subject>pipes</subject>
-              <definition><verbal-definition>
+              <definition id="_"><verbal-definition id="_">
                 <p id='_'>Definition</p>
               </verbal-definition></definition>
           <source status='identical' type='authoritative'>
@@ -394,8 +394,8 @@ RSpec.describe Metanorma::Standoc do
                  </preferred>
                  <xref target="term-Seventh-Designation"><display-text>Seventh Designation</display-text></xref>
                </related>
-               <definition>
-                 <verbal-definition>
+               <definition id="_">
+                 <verbal-definition id="_">
                    <p id="_">Definition</p>
                  </verbal-definition>
                </definition>
@@ -478,8 +478,8 @@ RSpec.describe Metanorma::Standoc do
                   <name>First Designation</name>
                 </expression>
               </preferred>
-              <definition>
-                <verbal-definition>
+              <definition id="_">
+                <verbal-definition id="_">
                   <p id='_'>Definition</p>
                 </verbal-definition>
               </definition>
@@ -490,8 +490,8 @@ RSpec.describe Metanorma::Standoc do
                   <name>First designation</name>
                 </expression>
               </preferred>
-              <definition>
-                <verbal-definition>
+              <definition id="_">
+                <verbal-definition id="_">
                   <p id='_'>Definition</p>
                 </verbal-definition>
               </definition>
@@ -632,8 +632,8 @@ RSpec.describe Metanorma::Standoc do
                    <name>Third Designation</name>
                  </expression>
                </admitted>
-               <definition>
-                 <verbal-definition>
+               <definition id="_">
+                 <verbal-definition id="_">
                    <p id="_">Definition</p>
                  </verbal-definition>
                </definition>
@@ -877,7 +877,7 @@ RSpec.describe Metanorma::Standoc do
                 </preferred>
                 <xref target='second'/>
               </related>
-              <definition><verbal-definition>
+              <definition id="_"><verbal-definition id="_">
                 <p id='_'>Definition</p>
               </verbal-definition></definition>
             </term>
@@ -940,8 +940,8 @@ RSpec.describe Metanorma::Standoc do
                <related type="see">
                  <xref target="second"/>
                </related>
-               <definition>
-                 <verbal-definition>
+               <definition id="_">
+                 <verbal-definition id="_">
                    <p id="_">Definition</p>
                  </verbal-definition>
                </definition>
@@ -1055,8 +1055,8 @@ RSpec.describe Metanorma::Standoc do
                <related type='see'>
                  <xref target='second'/>
                </related>
-               <definition>
-                 <verbal-definition>
+               <definition id="_">
+                 <verbal-definition id="_">
                    <figure id='_'>
                      <name id="_">Caption</name>
                      <pre id='_'>&lt;LITERAL&gt; FIGURATIVE</pre>
@@ -1173,7 +1173,7 @@ RSpec.describe Metanorma::Standoc do
               </related>
               <domain>Hydraulics</domain>
               <subject>pipes</subject>
-              <definition><verbal-definition>
+              <definition id="_"><verbal-definition id="_">
                 <p id='_'>Definition</p>
               </verbal-definition></definition>
             </term>
@@ -1227,8 +1227,8 @@ RSpec.describe Metanorma::Standoc do
                   </name>
                 </letter-symbol>
               </preferred>
-              <definition>
-                <verbal-definition>
+              <definition id="_">
+                <verbal-definition id="_">
                   <p id="_">Time</p>
                 </verbal-definition>
               </definition>
@@ -1240,8 +1240,8 @@ RSpec.describe Metanorma::Standoc do
                   <math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><msub><mi>t</mi><mn>90</mn></msub></mstyle></math><asciimath>t_90</asciimath></stem>-sensitivity</name>
                 </expression>
               </preferred>
-              <definition>
-                <verbal-definition>
+              <definition id="_">
+                <verbal-definition id="_">
                   <p id="_">Sensitivity</p>
                 </verbal-definition>
               </definition>
@@ -1252,8 +1252,8 @@ RSpec.describe Metanorma::Standoc do
                   <name>sensitivity to <stem type="MathML"  block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><msub><mi>t</mi><mn>90</mn></msub></mstyle></math><asciimath>t_90</asciimath></stem></name>
                 </expression>
               </preferred>
-              <definition>
-                <verbal-definition>
+              <definition id="_">
+                <verbal-definition id="_">
                   <p id="_">Sensitivity #2</p>
                 </verbal-definition>
               </definition>
@@ -1289,12 +1289,12 @@ RSpec.describe Metanorma::Standoc do
                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
                <term id="_" anchor="term-_relativity_-Tempus">
                <preferred><expression><name>Tempus</name></expression></preferred>
-               <domain>relativity</domain><definition><verbal-definition><p id="_"> Time</p></verbal-definition></definition>
+               <domain>relativity</domain><definition id="_"><verbal-definition id="_"><p id="_"> Time</p></verbal-definition></definition>
              </term>
              <term id="_" anchor="term-_relativity2_-Tempus1">
         <preferred><expression><name>Tempus1</name></expression></preferred>
         <domain>relativity2</domain>
-        <definition><verbal-definition>
+        <definition id="_"><verbal-definition id="_">
           <p id='_'>Time2</p>
         </verbal-definition></definition>
       </term>
@@ -1370,8 +1370,8 @@ RSpec.describe Metanorma::Standoc do
            </name>
          </letter-symbol>
        </admitted>
-      <definition>
-      <verbal-definition>
+      <definition id="_">
+      <verbal-definition id="_">
       <p id="_">This paragraph is extraneous</p>
                   <ul id='_'>
               <li>
@@ -1431,7 +1431,7 @@ RSpec.describe Metanorma::Standoc do
         <title id="_">Terms and definitions</title>
         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
         <term id="_" anchor="term-Term"><preferred><expression><name>Term</name></expression></preferred>
-        <definition><verbal-definition><p id='_'>Definition</p></verbal-definition></definition>
+        <definition id="_"><verbal-definition id="_"><p id='_'>Definition</p></verbal-definition></definition>
       <termnote id="_">
         <p id="_">Note</p>
       </termnote><termnote id="_">
@@ -1515,8 +1515,8 @@ RSpec.describe Metanorma::Standoc do
                     <name>Term</name>
                   </expression>
                 </preferred>
-                <definition>
-                  <verbal-definition>
+                <definition id="_">
+                  <verbal-definition id="_">
                     <p id='_'>Definition</p>
                     <source status='identical' type='authoritative'>
                       <origin bibitemid='ISO2191' type='inline' citeas=''>
@@ -1528,7 +1528,7 @@ RSpec.describe Metanorma::Standoc do
                       </origin>
                     </source>
                   </verbal-definition>
-                  <non-verbal-representation>
+                  <non-verbal-representation id="_">
                     <table id='_'>
                       <thead>
                         <tr id="_">
@@ -1561,8 +1561,8 @@ RSpec.describe Metanorma::Standoc do
                     <name>Term 2</name>
                   </expression>
                 </preferred>
-                <definition>
-                  <non-verbal-representation>
+                <definition id="_">
+                  <non-verbal-representation id="_">
                     <figure id='_'>
                       <pre id='_'>Literal</pre>
                     </figure>
@@ -1646,8 +1646,8 @@ RSpec.describe Metanorma::Standoc do
                         <asciimath>lambda</asciimath>
                       </stem>
                     </p>
-                <definition>
-                  <verbal-definition>
+                <definition id="_">
+                  <verbal-definition id="_">
                     <p id="_">Definition</p>
                     <p id="_">
                       <stem type="MathML" block="false">
@@ -1661,8 +1661,8 @@ RSpec.describe Metanorma::Standoc do
                     </p>
                   </verbal-definition>
                 </definition>
-                <definition>
-                  <verbal-definition>
+                <definition id="_">
+                  <verbal-definition id="_">
                     <p id="_">
                       <stem type="MathML" block="false">
                         <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -1741,8 +1741,8 @@ RSpec.describe Metanorma::Standoc do
                       <asciimath>lambda</asciimath>
                     </stem>
                   </formula>
-              <definition>
-                <verbal-definition>
+              <definition id="_">
+                <verbal-definition id="_">
                   <p id="_">Definition</p>
                   <formula id="_">
                     <stem type="MathML" block="true">
@@ -1755,7 +1755,7 @@ RSpec.describe Metanorma::Standoc do
                     </stem>
                   </formula>
                 </verbal-definition>
-                <non-verbal-representation>
+                <non-verbal-representation id="_">
                   <formula id="_">
                     <stem type="MathML" block="true">
                       <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -1818,8 +1818,8 @@ RSpec.describe Metanorma::Standoc do
                    <name>x</name>
                  </expression>
                </admitted>
-               <definition>
-                 <non-verbal-representation>
+               <definition id="_">
+                 <non-verbal-representation id="_">
                    <formula id="_">
                      <stem type="MathML" block="true">
                        <math xmlns="http://www.w3.org/1998/Math/MathML">
