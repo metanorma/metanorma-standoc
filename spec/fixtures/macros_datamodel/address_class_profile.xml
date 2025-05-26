@@ -1,6 +1,6 @@
   <sections>
     <clause id='_' inline-header='false' obligation='normative'>
-      <title>AddressClassProfile</title>
+      <title id="_">AddressClassProfile</title>
       <p id='_'>
         An
         <tt>AddressClassProfile</tt>
@@ -49,7 +49,7 @@
         </p>
       </example>
       <table id='_'>
-        <name>AddressClassProfile attributes</name>
+        <name id="_">AddressClassProfile attributes</name>
         <thead>
           <tr id="_">
             <th id="_" valign='top' align='left'>Name</th>

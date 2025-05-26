@@ -1,12 +1,12 @@
   <sections>
     <clause id="_" inline-header='false' obligation='normative'>
-      <title>Signature</title>
+      <title id="_">Signature</title>
       <p id='_'>
         A cryptographic signature used to determine data integrity and validity
         of the object it belongs to.
       </p>
       <table id='_'>
-        <name>Signature attributes</name>
+        <name id="_">Signature attributes</name>
         <thead>
           <tr id="_">
             <th id="_" valign='top' align='left'>Name</th>

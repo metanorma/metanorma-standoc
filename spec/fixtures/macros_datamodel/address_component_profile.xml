@@ -1,6 +1,6 @@
   <sections>
     <clause id="_" inline-header='false' obligation='normative'>
-      <title>AddressComponentProfile</title>
+      <title id="_">AddressComponentProfile</title>
       <p id='_'>
         An
         <tt>AddressComponentProfile</tt>
@@ -20,7 +20,7 @@
         . It also represents metadata for the use of the profile.
       </p>
       <table id='_'>
-        <name>AddressComponentProfile attributes</name>
+        <name id="_">AddressComponentProfile attributes</name>
         <thead>
           <tr id="_">
             <th id="_" valign='top' align='left'>Name</th>
