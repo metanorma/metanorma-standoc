@@ -47,11 +47,11 @@ module Metanorma
         xmldoc.xpath("//definition").each do |d|
           if d.at("./p | ./ol | ./dl | ./ul")
             d.children = <<~XML.strip
-              <verbal-definition id='_#{UUIDTools::UUID.random_create}'>#{d.children}</verbal-definition>
+              <verbal-definition #{add_id_text}>#{d.children}</verbal-definition>
             XML
           else
             d.children = <<~XML.strip
-              <non-verbal-representation id='_#{UUIDTools::UUID.random_create}'>#{d.children}</non-verbal-representation>
+              <non-verbal-representation #{add_id_text}>#{d.children}</non-verbal-representation>
             XML
           end
         end
