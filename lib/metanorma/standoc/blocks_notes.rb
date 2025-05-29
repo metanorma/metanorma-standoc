@@ -96,7 +96,7 @@ module Metanorma
         ret = admonition_alternatives(node) and return ret
         noko do |xml|
           xml.admonition **admonition_attrs(node) do |a|
-            node.title.nil? or a.name { |name| name << node.title }
+            block_title(node, a)
             wrap_in_para(node, a)
           end
         end

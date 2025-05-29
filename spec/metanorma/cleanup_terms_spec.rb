@@ -47,11 +47,11 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
          <sections>
            <clause id="_" obligation="normative" type="terms">
-             <title>Terms, definitions and symbols</title>
+             <title id="_">Terms, definitions and symbols</title>
              <p id="_">For the purposes of this document,
            the following terms and definitions apply.</p>
              <terms id="_" obligation="normative">
-               <title>Terms and definitions</title>
+               <title id="_">Terms and definitions</title>
                <note id="_">
                  <p id="_">These terms and definitions are taken from a published British Standard.</p>
                </note>
@@ -63,8 +63,8 @@ RSpec.describe Metanorma::Standoc do
                      <name>competent person</name>
                    </expression>
                  </preferred>
-                 <definition>
-                   <verbal-definition>
+                 <definition id="_">
+                   <verbal-definition id="_">
                      <p id="_">person, suitably trained and qualified by knowledge and practical experience,
        and provided with the necessary instructions, to enable the required task(s) to
        be carried out correctly</p>
@@ -72,15 +72,15 @@ RSpec.describe Metanorma::Standoc do
                  </definition>
                </term>
                <terms id="_" obligation="normative">
-                 <title>dampers</title>
+                 <title id="_">dampers</title>
                  <term id="_" anchor="term-fire-damper">
                    <preferred>
                      <expression>
                        <name>fire damper</name>
                      </expression>
                    </preferred>
-                   <definition>
-                     <verbal-definition>
+                   <definition id="_">
+                     <verbal-definition id="_">
                        <p id="_">moveable closure within a duct which is operated automatically or manually and
        is designed to prevent the passage of fire</p>
                      </verbal-definition>
@@ -92,8 +92,8 @@ RSpec.describe Metanorma::Standoc do
                        <name>smoke damper</name>
                      </expression>
                    </preferred>
-                   <definition>
-                     <verbal-definition>
+                   <definition id="_">
+                     <verbal-definition id="_">
                        <p id="_">moveable closure within a duct which is operated automatically or manually and
        is designed to prevent or allow the passage of smoke</p>
                      </verbal-definition>
@@ -106,8 +106,8 @@ RSpec.describe Metanorma::Standoc do
                      <name>ductwork</name>
                    </expression>
                  </preferred>
-                 <definition>
-                   <verbal-definition>
+                 <definition id="_">
+                   <verbal-definition id="_">
                      <p id="_">system of enclosures of any cross-sectional shape for the distribution or
        extraction of air and/or smoke</p>
                    </verbal-definition>
@@ -115,7 +115,7 @@ RSpec.describe Metanorma::Standoc do
                </term>
              </terms>
              <definitions id="_" type="symbols" obligation="normative">
-               <title>Symbols</title>
+               <title id="_">Symbols</title>
              </definitions>
            </clause>
          </sections>
@@ -207,7 +207,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
       <sections>
           <terms id="_" obligation='normative'>
-            <title>Terms and definitions</title>
+            <title id="_">Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <term id="_" anchor="term-First-Designation">
               <preferred>
@@ -271,7 +271,7 @@ RSpec.describe Metanorma::Standoc do
         </related>
               <domain>Hydraulics</domain>
               <subject>pipes</subject>
-              <definition><verbal-definition>
+              <definition id="_"><verbal-definition id="_">
                 <p id='_'>Definition</p>
               </verbal-definition></definition>
           <source status='identical' type='authoritative'>
@@ -344,7 +344,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
          <sections>
            <terms id="_" obligation="normative">
-             <title>Terms and definitions</title>
+             <title id="_">Terms and definitions</title>
              <p id="_">For the purposes of this document,
            the following terms and definitions apply.</p>
              <term id="_" anchor="term-First-Designation">
@@ -394,8 +394,8 @@ RSpec.describe Metanorma::Standoc do
                  </preferred>
                  <xref target="term-Seventh-Designation"><display-text>Seventh Designation</display-text></xref>
                </related>
-               <definition>
-                 <verbal-definition>
+               <definition id="_">
+                 <verbal-definition id="_">
                    <p id="_">Definition</p>
                  </verbal-definition>
                </definition>
@@ -416,7 +416,7 @@ RSpec.describe Metanorma::Standoc do
              </term>
            </terms>
            <clause id="_" inline-header="false" obligation="normative">
-             <title>Clause</title>
+             <title id="_">Clause</title>
              <p id="_">
                <concept>
                  <refterm>First Designation</refterm>
@@ -470,7 +470,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
         <sections>
           <terms id="_" obligation='normative'>
-            <title>Terms and definitions</title>
+            <title id="_">Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <term id="_" anchor="term-First-Designation">
               <preferred>
@@ -478,8 +478,8 @@ RSpec.describe Metanorma::Standoc do
                   <name>First Designation</name>
                 </expression>
               </preferred>
-              <definition>
-                <verbal-definition>
+              <definition id="_">
+                <verbal-definition id="_">
                   <p id='_'>Definition</p>
                 </verbal-definition>
               </definition>
@@ -490,15 +490,15 @@ RSpec.describe Metanorma::Standoc do
                   <name>First designation</name>
                 </expression>
               </preferred>
-              <definition>
-                <verbal-definition>
+              <definition id="_">
+                <verbal-definition id="_">
                   <p id='_'>Definition</p>
                 </verbal-definition>
               </definition>
             </term>
           </terms>
           <clause id="_" inline-header='false' obligation='normative'>
-            <title>Clause</title>
+            <title id="_">Clause</title>
             <p id='_'>
               <concept>
                 <refterm>First Designation</refterm>
@@ -577,7 +577,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
          <sections>
            <terms id="_" obligation="normative">
-             <title>Terms and definitions</title>
+             <title id="_">Terms and definitions</title>
              <p id="_">For the purposes of this document,
            the following terms and definitions apply.</p>
              <term id="_" anchor="term-_Rice_-First-Designation">
@@ -632,15 +632,15 @@ RSpec.describe Metanorma::Standoc do
                    <name>Third Designation</name>
                  </expression>
                </admitted>
-               <definition>
-                 <verbal-definition>
+               <definition id="_">
+                 <verbal-definition id="_">
                    <p id="_">Definition</p>
                  </verbal-definition>
                </definition>
              </term>
            </terms>
                       <clause id="_" inline-header="false" obligation="normative">
-             <title>Clause</title>
+             <title id="_">Clause</title>
              <p id="_">
                <concept>
                  <refterm>First Designation</refterm>
@@ -742,7 +742,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
          <sections>
            <terms id="_" obligation="normative">
-             <title>Terms and definitions</title>
+             <title id="_">Terms and definitions</title>
              <p id="_">For the purposes of this document,#{' '}
            the following terms and definitions apply.</p>
              <term id="_" anchor="term-_Rice_-First-Designation">
@@ -773,7 +773,7 @@ RSpec.describe Metanorma::Standoc do
              </term>
            </terms>
            <clause id="_" inline-header="false" obligation="normative">
-             <title>Clause</title>
+             <title id="_">Clause</title>
              <p id="_">
                <concept>
                  <strong>term <tt>First Designation</tt> not resolved via ID <tt>First-Designation</tt></strong>
@@ -834,7 +834,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
         <sections>
           <terms id="_" obligation='normative'>
-            <title>Terms and definitions</title>
+            <title id="_">Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <term id="_" anchor="term-First-Designation">
               <preferred>
@@ -877,7 +877,7 @@ RSpec.describe Metanorma::Standoc do
                 </preferred>
                 <xref target='second'/>
               </related>
-              <definition><verbal-definition>
+              <definition id="_"><verbal-definition id="_">
                 <p id='_'>Definition</p>
               </verbal-definition></definition>
             </term>
@@ -918,7 +918,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
                <sections>
            <terms id="_" obligation="normative">
-             <title>Terms and definitions</title>
+             <title id="_">Terms and definitions</title>
              <p id="_">For the purposes of this document,
            the following terms and definitions apply.</p>
              <term id="_" anchor="second">
@@ -940,8 +940,8 @@ RSpec.describe Metanorma::Standoc do
                <related type="see">
                  <xref target="second"/>
                </related>
-               <definition>
-                 <verbal-definition>
+               <definition id="_">
+                 <verbal-definition id="_">
                    <p id="_">Definition</p>
                  </verbal-definition>
                </definition>
@@ -1021,7 +1021,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
         <sections>
           <terms id="_" obligation='normative'>
-            <title>Terms and definitions</title>
+            <title id="_">Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
              <term id="_" anchor="second">
                <preferred>
@@ -1055,10 +1055,10 @@ RSpec.describe Metanorma::Standoc do
                <related type='see'>
                  <xref target='second'/>
                </related>
-               <definition>
-                 <verbal-definition>
+               <definition id="_">
+                 <verbal-definition id="_">
                    <figure id='_'>
-                     <name>Caption</name>
+                     <name id="_">Caption</name>
                      <pre id='_'>&lt;LITERAL&gt; FIGURATIVE</pre>
                    </figure>
                    <p id='_'>Definition</p>
@@ -1133,7 +1133,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
         <sections>
           <terms id="_" obligation='normative'>
-            <title>Terms and definitions</title>
+            <title id="_">Terms and definitions</title>
             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
             <term id="_" anchor="des1">
               <preferred>
@@ -1173,7 +1173,7 @@ RSpec.describe Metanorma::Standoc do
               </related>
               <domain>Hydraulics</domain>
               <subject>pipes</subject>
-              <definition><verbal-definition>
+              <definition id="_"><verbal-definition id="_">
                 <p id='_'>Definition</p>
               </verbal-definition></definition>
             </term>
@@ -1206,7 +1206,7 @@ RSpec.describe Metanorma::Standoc do
            #{BLANK_HDR}
                     <sections>
           <terms id="_" obligation="normative">
-            <title>Terms and definitions</title>
+            <title id="_">Terms and definitions</title>
             <p id="_">For the purposes of this document,
           the following terms and definitions apply.</p>
             <term id="_" anchor="term-t_90">
@@ -1227,8 +1227,8 @@ RSpec.describe Metanorma::Standoc do
                   </name>
                 </letter-symbol>
               </preferred>
-              <definition>
-                <verbal-definition>
+              <definition id="_">
+                <verbal-definition id="_">
                   <p id="_">Time</p>
                 </verbal-definition>
               </definition>
@@ -1240,8 +1240,8 @@ RSpec.describe Metanorma::Standoc do
                   <math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><msub><mi>t</mi><mn>90</mn></msub></mstyle></math><asciimath>t_90</asciimath></stem>-sensitivity</name>
                 </expression>
               </preferred>
-              <definition>
-                <verbal-definition>
+              <definition id="_">
+                <verbal-definition id="_">
                   <p id="_">Sensitivity</p>
                 </verbal-definition>
               </definition>
@@ -1252,8 +1252,8 @@ RSpec.describe Metanorma::Standoc do
                   <name>sensitivity to <stem type="MathML"  block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><msub><mi>t</mi><mn>90</mn></msub></mstyle></math><asciimath>t_90</asciimath></stem></name>
                 </expression>
               </preferred>
-              <definition>
-                <verbal-definition>
+              <definition id="_">
+                <verbal-definition id="_">
                   <p id="_">Sensitivity #2</p>
                 </verbal-definition>
               </definition>
@@ -1285,16 +1285,16 @@ RSpec.describe Metanorma::Standoc do
              #{BLANK_HDR}
                     <sections>
                <terms id="_" obligation="normative">
-               <title>Terms and definitions</title>
+               <title id="_">Terms and definitions</title>
                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
                <term id="_" anchor="term-_relativity_-Tempus">
                <preferred><expression><name>Tempus</name></expression></preferred>
-               <domain>relativity</domain><definition><verbal-definition><p id="_"> Time</p></verbal-definition></definition>
+               <domain>relativity</domain><definition id="_"><verbal-definition id="_"><p id="_"> Time</p></verbal-definition></definition>
              </term>
              <term id="_" anchor="term-_relativity2_-Tempus1">
         <preferred><expression><name>Tempus1</name></expression></preferred>
         <domain>relativity2</domain>
-        <definition><verbal-definition>
+        <definition id="_"><verbal-definition id="_">
           <p id='_'>Time2</p>
         </verbal-definition></definition>
       </term>
@@ -1338,7 +1338,7 @@ RSpec.describe Metanorma::Standoc do
              #{BLANK_HDR}
                     <sections>
                <terms id="_" obligation="normative">
-               <title>Terms and definitions</title>
+               <title id="_">Terms and definitions</title>
                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
                <term id="_" anchor="term-t_90"><preferred><letter-symbol><name>
                                      <stem type="MathML" block="false">
@@ -1370,8 +1370,8 @@ RSpec.describe Metanorma::Standoc do
            </name>
          </letter-symbol>
        </admitted>
-      <definition>
-      <verbal-definition>
+      <definition id="_">
+      <verbal-definition id="_">
       <p id="_">This paragraph is extraneous</p>
                   <ul id='_'>
               <li>
@@ -1385,7 +1385,7 @@ RSpec.describe Metanorma::Standoc do
             </ol>
             <dl id='_'>
               <dt>This is</dt>
-              <dd>
+              <dd id="_">
                 <p id='_'>another list</p>
               </dd>
             </dl>
@@ -1428,10 +1428,10 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
       <sections>
       <terms id="_" obligation="normative">
-        <title>Terms and definitions</title>
+        <title id="_">Terms and definitions</title>
         <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
         <term id="_" anchor="term-Term"><preferred><expression><name>Term</name></expression></preferred>
-        <definition><verbal-definition><p id='_'>Definition</p></verbal-definition></definition>
+        <definition id="_"><verbal-definition id="_"><p id='_'>Definition</p></verbal-definition></definition>
       <termnote id="_">
         <p id="_">Note</p>
       </termnote><termnote id="_">
@@ -1507,7 +1507,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
           <sections>
             <terms id="_" obligation='normative'>
-              <title>Terms and definitions</title>
+              <title id="_">Terms and definitions</title>
               <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
               <term id="_" anchor="term-Term">
                 <preferred>
@@ -1515,8 +1515,8 @@ RSpec.describe Metanorma::Standoc do
                     <name>Term</name>
                   </expression>
                 </preferred>
-                <definition>
-                  <verbal-definition>
+                <definition id="_">
+                  <verbal-definition id="_">
                     <p id='_'>Definition</p>
                     <source status='identical' type='authoritative'>
                       <origin bibitemid='ISO2191' type='inline' citeas=''>
@@ -1528,16 +1528,16 @@ RSpec.describe Metanorma::Standoc do
                       </origin>
                     </source>
                   </verbal-definition>
-                  <non-verbal-representation>
+                  <non-verbal-representation id="_">
                     <table id='_'>
                       <thead>
-                        <tr>
+                        <tr id="_">
                           <th id="_" valign='top' align='left'>A</th>
                           <th id="_" valign='top' align='left'>B</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
+                        <tr id="_">
                           <td id="_" valign='top' align='left'>C</td>
                           <td id="_" valign='top' align='left'>D</td>
                         </tr>
@@ -1561,8 +1561,8 @@ RSpec.describe Metanorma::Standoc do
                     <name>Term 2</name>
                   </expression>
                 </preferred>
-                <definition>
-                  <non-verbal-representation>
+                <definition id="_">
+                  <non-verbal-representation id="_">
                     <figure id='_'>
                       <pre id='_'>Literal</pre>
                     </figure>
@@ -1627,7 +1627,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
                 <sections>
             <terms id="_" obligation="normative">
-              <title>Terms and definitions</title>
+              <title id="_">Terms and definitions</title>
               <p id="_">For the purposes of this document,
             the following terms and definitions apply.</p>
               <term id="_" anchor="term-Term">
@@ -1646,8 +1646,8 @@ RSpec.describe Metanorma::Standoc do
                         <asciimath>lambda</asciimath>
                       </stem>
                     </p>
-                <definition>
-                  <verbal-definition>
+                <definition id="_">
+                  <verbal-definition id="_">
                     <p id="_">Definition</p>
                     <p id="_">
                       <stem type="MathML" block="false">
@@ -1661,8 +1661,8 @@ RSpec.describe Metanorma::Standoc do
                     </p>
                   </verbal-definition>
                 </definition>
-                <definition>
-                  <verbal-definition>
+                <definition id="_">
+                  <verbal-definition id="_">
                     <p id="_">
                       <stem type="MathML" block="false">
                         <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -1722,7 +1722,7 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
                   <sections>
           <terms id="_" obligation="normative">
-            <title>Terms and definitions</title>
+            <title id="_">Terms and definitions</title>
             <p id="_">For the purposes of this document,
           the following terms and definitions apply.</p>
             <term id="_" anchor="term-Term">
@@ -1741,8 +1741,8 @@ RSpec.describe Metanorma::Standoc do
                       <asciimath>lambda</asciimath>
                     </stem>
                   </formula>
-              <definition>
-                <verbal-definition>
+              <definition id="_">
+                <verbal-definition id="_">
                   <p id="_">Definition</p>
                   <formula id="_">
                     <stem type="MathML" block="true">
@@ -1755,7 +1755,7 @@ RSpec.describe Metanorma::Standoc do
                     </stem>
                   </formula>
                 </verbal-definition>
-                <non-verbal-representation>
+                <non-verbal-representation id="_">
                   <formula id="_">
                     <stem type="MathML" block="true">
                       <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -1804,7 +1804,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
                <sections>
            <terms id="_" obligation="normative">
-             <title>Terms and definitions</title>
+             <title id="_">Terms and definitions</title>
              <p id="_">For the purposes of this document,
            the following terms and definitions apply.</p>
              <term id="_" anchor="term-Term">
@@ -1818,8 +1818,8 @@ RSpec.describe Metanorma::Standoc do
                    <name>x</name>
                  </expression>
                </admitted>
-               <definition>
-                 <non-verbal-representation>
+               <definition id="_">
+                 <non-verbal-representation id="_">
                    <formula id="_">
                      <stem type="MathML" block="true">
                        <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -1878,10 +1878,10 @@ RSpec.describe Metanorma::Standoc do
              </term>
            </terms>
            <definitions id="_" obligation="normative">
-             <title>Symbols and abbreviated terms</title>
+             <title id="_">Symbols and abbreviated terms</title>
              <dl id="_">
                <dt id="_" anchor="symbol-x2">x<sup>2</sup><index><primary>x<sup>2</sup></primary></index></dt>
-               <dd>
+               <dd id="_">
                  <p id="_">Definition</p>
                </dd>
              </dl>
@@ -1916,7 +1916,7 @@ RSpec.describe Metanorma::Standoc do
        #{BLANK_HDR}
                 <sections>
             <terms id="_" obligation="normative">
-              <title>Terms and definitions</title>
+              <title id="_">Terms and definitions</title>
               <p id="_">For the purposes of this document,
             the following terms and definitions apply.</p>
               <term id="_" anchor="term-term">

@@ -27,7 +27,7 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
         <sections>
           <ul id='_'>
-            <name>Unordered list</name>
+            <name id="_">Unordered list</name>
             <li>
               <p id='_'>List 1</p>
             </li>
@@ -48,7 +48,7 @@ RSpec.describe Metanorma::Standoc do
               </li>
               </ul>
               <ol id='_' type='arabic'>
-                <name>Ordered list</name>
+                <name id="_">Ordered list</name>
                 <li>
                   <p id='_'>List A</p>
                 </li>
@@ -60,13 +60,13 @@ RSpec.describe Metanorma::Standoc do
                   </li>
                   </ol>
                   <dl id='_'>
-                    <name>Definition list</name>
+                    <name id="_">Definition list</name>
                     <dt>List D</dt>
-                    <dd>
+                    <dd id="_">
                       <p id='_'>List E</p>
                     </dd>
                     <dt>List F</dt>
-                    <dd>
+                    <dd id="_">
                       <p id='_'>List G</p>
                     </dd>
                   </dl>
@@ -199,7 +199,7 @@ RSpec.describe Metanorma::Standoc do
                                  <dt>Notes1</dt>
                                  <dd/>
                                  <dt>Notes</dt>
-                                 <dd>
+                                 <dd id="_">
                                     <p id="_">Note 1.</p>
                                     <p id="_">Note 2.</p>
                                     <p id="_">Note 3.</p>
@@ -213,7 +213,7 @@ RSpec.describe Metanorma::Standoc do
             </ol>
             <dl id="_" key="true">
                <dt>a</dt>
-               <dd>
+               <dd id="_">
                   <p id="_">b</p>
                </dd>
             </dl>
@@ -247,7 +247,7 @@ RSpec.describe Metanorma::Standoc do
       </ul>
       <dl id="_" anchor="id4">
           <dt id="_" anchor="id5">a</dt>
-          <dd>
+          <dd id="_">
             <p id='_'>
               <bookmark id="_" anchor="id6"/>
               b

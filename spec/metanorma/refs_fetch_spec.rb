@@ -25,7 +25,7 @@ RSpec.describe Metanorma::Standoc do
                 #{BLANK_HDR}
                <sections>
 
-               </sections><bibliography><references id="_" obligation="informative" normative="true"><title>Normative references</title>
+               </sections><bibliography><references id="_" obligation="informative" normative="true"><title id="_">Normative references</title>
                 #{NORM_REF_BOILERPLATE}
                      <bibitem id="_" anchor="iso123" type='standard'>
                 <fetched/>
@@ -247,7 +247,7 @@ RSpec.describe Metanorma::Standoc do
                         <sections> </sections>
           <bibliography>
             <references id="_" normative='true' obligation='informative'>
-              <title>R&#233;f&#233;rences normatives</title>
+              <title id="_">R&#233;f&#233;rences normatives</title>
               <p id='_'>
                 Les documents suivants cit&#233;s dans le texte constituent, pour tout
                 ou partie de leur contenu, des exigences du pr&#233;sent document. Pour
@@ -473,7 +473,7 @@ RSpec.describe Metanorma::Standoc do
          <sections>
 
          </sections><bibliography><references id="_" obligation="informative" normative="true">
-           <title>Normative references</title>
+           <title id="_">Normative references</title>
          #{NORM_REF_BOILERPLATE}
                       <bibitem id="_" anchor="iso123" type="standard">
                 <fetched/>
@@ -693,12 +693,12 @@ RSpec.describe Metanorma::Standoc do
          #{BLANK_HDR}
                         <sections>
             <clause id="_" inline-header="false" obligation="normative">
-              <title>Section</title>
+              <title id="_">Section</title>
             </clause>
           </sections>
           <bibliography>
             <references id="_" normative="false" obligation="informative">
-              <title>Bibliography</title>
+              <title id="_">Bibliography</title>
               <bibitem type="article" id="_" anchor="ref1">
                 <fetched/>
                 <title type="main" format="text/plain" script="Latn">Taming the Metadata Beast: ILOX</title>
@@ -800,12 +800,12 @@ RSpec.describe Metanorma::Standoc do
           #{BLANK_HDR}
            <sections>
              <clause id="_" inline-header="false" obligation="normative">
-               <title>Section</title>
+               <title id="_">Section</title>
              </clause>
            </sections>
          <bibliography>
              <references id="_" normative="false" obligation="informative">
-                <title>Bibliography</title>
+                <title id="_">Bibliography</title>
                 <bibitem id="_" type="inbook" anchor="ref1">
                    <fetched/>
                    <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
@@ -1023,7 +1023,7 @@ RSpec.describe Metanorma::Standoc do
                     </sections>
                              <bibliography>
              <references id="_" normative="true" obligation="informative">
-               <title>Normative references</title>
+               <title id="_">Normative references</title>
                <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
                            <bibitem id="_" anchor="iso123" type="proceedings">
                 <fetched/>
@@ -1090,7 +1090,7 @@ RSpec.describe Metanorma::Standoc do
         <sections>
 
         </sections><bibliography><references id="_" normative="true" obligation="informative" >
-          <title>Normative references</title>
+          <title id="_">Normative references</title>
         #{NORM_REF_BOILERPLATE}
         <bibitem id="_" anchor="iso123">
                <formattedref format='application/x-isodoc+xml'>
@@ -1259,13 +1259,13 @@ RSpec.describe Metanorma::Standoc do
          #{BLANK_HDR}
          <sections>
          <clause id="_" inline-header="false" obligation="normative">
-           <title>Clause 4</title>
+           <title id="_">Clause 4</title>
            <p id="_">
            <eref type="inline" bibitemid="iso123" citeas="IETF\\u00a0RFC\\u00a08341"/>
          </p>
          </clause>
          </sections><bibliography><references id="_" obligation="informative" normative="true">
-         <title>Normative references</title>
+         <title id="_">Normative references</title>
                #{NORM_REF_BOILERPLATE}
               <bibitem id="_" anchor="iso123" type='standard'>
                 <fetched/>
@@ -1402,7 +1402,7 @@ RSpec.describe Metanorma::Standoc do
                #{BLANK_HDR}
                       <sections>
                </sections><bibliography><references id="_" obligation="informative" normative="true">
-                 <title>Normative references</title>
+                 <title id="_">Normative references</title>
                 #{NORM_REF_BOILERPLATE}
                              <bibitem id="_" anchor="iso123" type="standard">
                 <fetched/>
@@ -1530,7 +1530,7 @@ RSpec.describe Metanorma::Standoc do
               #{BLANK_HDR}
                      <sections>
               </sections><bibliography><references id="_" obligation="informative" normative="true">
-                <title>Normative references</title>
+                <title id="_">Normative references</title>
                #{NORM_REF_BOILERPLATE}
                             <bibitem id="_" anchor="iso123" type="standard">
                 <fetched/>
@@ -1715,7 +1715,7 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
         <sections>
         <clause id="_" inline-header="false" obligation="normative">
-        <title>Section</title>
+        <title id="_">Section</title>
         <p id="_"><eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><display-text><em>reference</em></display-text></eref>
         <eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><display-text><em><strong>reference</strong></em></display-text></eref>
         <eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><display-text><em>A</em> <stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -1727,8 +1727,8 @@ RSpec.describe Metanorma::Standoc do
         </mstyle>
         </math><asciimath>x^2</asciimath></stem></display-text>
         </eref>
-        <eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></eref>
-        <eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></display-text></eref></p>
+        <eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><display-text><em>A</em><fn id="_" reference="1"><p id="_"><em>B</em></p></fn></display-text></eref>
+        <eref type="inline" bibitemid="reference" citeas="ISO\\u00a0123"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn id="_" reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></display-text></eref></p>
         </clause></sections>
         </metanorma>
       OUTPUT

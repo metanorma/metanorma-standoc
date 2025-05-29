@@ -52,7 +52,7 @@ module Metanorma
         i = i.add_child("<references hidden='true' normative='false'/>").first
         refs.each do |x|
           i << <<~BIB
-            <bibitem anchor="#{x}" id="_#{UUIDTools::UUID.random_create}" type="internal">
+            <bibitem anchor="#{x}" #{add_id_text} type="internal">
             <docidentifier type="repository">#{x.sub(/^#{prefix}_/, "#{prefix}/")}</docidentifier>
             </bibitem>
           BIB

@@ -34,6 +34,7 @@ module Metanorma
         xmldoc.xpath("//term[not(definition)]").each do |d|
           first_child = d.at(TERMDEF_BLOCKS) || next
           t = Nokogiri::XML::Element.new("definition", xmldoc)
+          add_id(t)
           first_child.replace(t)
           t << first_child.remove
           d.xpath(TERMDEF_BLOCKS).each do |n|
@@ -45,10 +46,13 @@ module Metanorma
       def split_termdefinitions(xmldoc)
         xmldoc.xpath("//definition").each do |d|
           if d.at("./p | ./ol | ./dl | ./ul")
-            d.children = "<verbal-definition>#{d.children}</verbal-definition>"
+            d.children = <<~XML.strip
+              <verbal-definition #{add_id_text}>#{d.children}</verbal-definition>
+            XML
           else
-            d.children = "<non-verbal-representation>" \
-                         "#{d.children}</non-verbal-representation>"
+            d.children = <<~XML.strip
+              <non-verbal-representation #{add_id_text}>#{d.children}</non-verbal-representation>
+            XML
           end
         end
       end
@@ -124,7 +128,14 @@ module Metanorma
         termdefinition_cleanup(xmldoc)
         termdomain1_cleanup(xmldoc)
         termnote_example_cleanup(xmldoc)
+        term_id_attr_cleanup(xmldoc)
         term_children_cleanup(xmldoc)
+      end
+
+      def term_id_attr_cleanup(xmldoc)
+        xmldoc.xpath("//usage-info[@id]").each do |u|
+          u.delete("id")
+        end
       end
 
       def term_index_cleanup(xmldoc)

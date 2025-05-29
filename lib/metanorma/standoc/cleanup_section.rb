@@ -148,7 +148,7 @@ module Metanorma
           xml.root << <<~XML
             <metanorma-extension-clause>
             <clause>
-            <title>#{s['path']}</title>
+            <title #{add_id_text}>#{s['path']}</title>
             <source>#{r} </source>
             </clause>
             </metanorma-extension-clause>

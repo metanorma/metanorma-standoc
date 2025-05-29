@@ -413,7 +413,7 @@ RSpec.describe Metanorma::Standoc do
              #{BLANK_HDR}
               <sections>
                <clause id="_" anchor="reference" inline-header="false" obligation="normative">
-               <title>Section</title>
+               <title id="_">Section</title>
                <p id="_">Inline Reference to <xref target="reference"/>
              Footnoted Reference to <xref target="reference"/>
              Inline Reference with Text to <xref target="reference"><display-text>text</display-text></xref>
@@ -461,7 +461,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
         <sections>
           <clause id="_" anchor="reference" inline-header='false' obligation='normative'>
-            <title>Section</title>
+            <title id="_">Section</title>
             <p id='_'>
               Inline Reference to
               <xref target='reference'/>
@@ -497,7 +497,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
         <sections>
           <clause id="_" anchor="reference" inline-header='false' obligation='normative'>
-            <title>Section</title>
+            <title id="_">Section</title>
             <p id='_'>
               Inline Reference to
               <xref target='reference' style='full'/>
@@ -527,7 +527,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
       <sections>
        <clause id="_" anchor="reference" inline-header="false" obligation="normative">
-       <title>Section</title>
+       <title id="_">Section</title>
        <p id="_"><xref target="reference"><display-text><em>reference</em></display-text></xref>
        <xref target="reference"><display-text><em><strong>reference</strong></em></display-text></xref>
        <xref target="reference"><display-text><em>A</em> <stem type="MathML" block="false">
@@ -540,7 +540,7 @@ RSpec.describe Metanorma::Standoc do
                       </mstyle>
                     </math>
           <asciimath>x^2</asciimath></stem></display-text></xref>
-       <xref target="reference"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></xref></p>
+       <xref target="reference"><display-text><em>A</em><fn id="_" reference="1"><p id="_"><em>B</em></p></fn></display-text></xref></p>
        </clause>
        </sections>
       </metanorma>
@@ -563,7 +563,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
              <sections>
        <clause id="_" inline-header="false" obligation="normative">
-       <title>Section</title>
+       <title id="_">Section</title>
        <p id="_"><xref target="reference"><display-text><em>reference</em></display-text></xref>
        <xref target="reference"><display-text><em><strong>reference</strong></em></display-text></xref>
        <xref target="reference"><display-text><em>A</em> <stem type="MathML" block="false">
@@ -576,7 +576,7 @@ RSpec.describe Metanorma::Standoc do
                       </mstyle>
                     </math>
         <asciimath>x^2</asciimath></stem></display-text></xref>
-       <xref target="reference"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></xref></p>
+       <xref target="reference"><display-text><em>A</em><fn id="_" reference="1"><p id="_"><em>B</em></p></fn></display-text></xref></p>
        </clause>
        </sections>
        </metanorma>
@@ -601,7 +601,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
        <sections>
        <clause id="_" inline-header="false" obligation="normative">
-       <title>Section</title>
+       <title id="_">Section</title>
        <p id="_"><xref target="ref1"><location target="ref1" connective="from"/><location target="ref2" connective="to"/></xref>
        <xref target="ref1"><location target="ref1" connective="from"/><location target="ref2" connective="to"/><display-text>text</display-text></xref>
        <xref target="ref1"><location target="ref1" connective="and"/><location target="ref2" connective="and"/></xref>
@@ -635,14 +635,14 @@ RSpec.describe Metanorma::Standoc do
            #{BLANK_HDR}
       <sections>
              <clause id="_" inline-header="false" obligation="normative">
-                <title>Clause</title>
+                <title id="_">Clause</title>
                 <p id="_">
                    <eref type="inline" bibitemid="ISO712" citeas="x"/>
                    <eref type="inline" bibitemid="ISO713" citeas="ISO713"/>
                 </p>
              </clause>
       </sections><bibliography><references id="_" obligation="informative" normative="true">
-        <title>Normative references</title>
+        <title id="_">Normative references</title>
         <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
         <bibitem id="_" anchor="ISO712">
         <formattedref format="application/x-isodoc+xml">Reference</formattedref>
@@ -675,7 +675,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       <preface>
            <foreword id="_" obligation="informative">
-             <title>Foreword</title>
+             <title id="_">Foreword</title>
              <p id="_">
                <eref type="inline" bibitemid="ISO712" citeas="x"><localityStack><locality type="clause"><referenceFrom>3-4-5</referenceFrom></locality><locality type="table"><referenceFrom>9</referenceFrom></locality></localityStack><display-text>text</display-text></eref>
              </p>
@@ -711,7 +711,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
             <sections>
           <clause id="_" inline-header='false' obligation='normative'>
-            <title>Section</title>
+            <title id="_">Section</title>
             <p id='_'>
             <eref type='inline' bibitemid='ref1' citeas='XYZ'>
                <localityStack>
@@ -832,7 +832,7 @@ RSpec.describe Metanorma::Standoc do
         </sections>
         <bibliography>
           <references id="_" normative='false' obligation='informative'>
-            <title>Bibliography</title>
+            <title id="_">Bibliography</title>
             <bibitem id="_" anchor="ref1">
               <formattedref format='application/x-isodoc+xml'>
                 <em>Standard</em>
@@ -866,7 +866,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
              <sections><clause id="_" inline-header="false" obligation="normative">
-       <title>Section</title>
+       <title id="_">Section</title>
        <p id="_"><eref type="inline" bibitemid="reference" citeas="ABC"><display-text><em>reference</em></display-text></eref>
        <eref type="inline" bibitemid="reference" citeas="ABC"><display-text><em><strong>reference</strong></em></display-text></eref>
        <eref type="inline" bibitemid="reference" citeas="ABC"><display-text><em>A</em> <stem type="MathML" block="false">
@@ -879,11 +879,11 @@ RSpec.describe Metanorma::Standoc do
                       </mstyle>
                     </math>
         <asciimath>x^2</asciimath></stem></display-text></eref>
-       <eref type="inline" bibitemid="reference" citeas="ABC"><display-text><em>A</em><fn reference="1"><p id="_"><em>B</em></p></fn></display-text></eref>
-       <eref type="inline" bibitemid="reference" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></display-text></eref></p>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><display-text><em>A</em><fn id="_" reference="1"><p id="_"><em>B</em></p></fn></display-text></eref>
+       <eref type="inline" bibitemid="reference" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn id="_" reference="2"><p id="_">Superseded by ISO 9000:2015.</p></fn></display-text></eref></p>
        </clause>
        </sections><bibliography><references id="_" normative="true" obligation="informative">
-       <title>Normative references</title><p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+       <title id="_">Normative references</title><p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
        <bibitem id="_" anchor="reference">
        <formattedref format="application/x-isodoc+xml">Reference</formattedref>
        <docidentifier>ABC</docidentifier>
@@ -912,7 +912,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       <foreword id="_" obligation="informative">
-        <title>Foreword</title>
+        <title id="_">Foreword</title>
         <p id="_">
           <eref type="inline" bibitemid="reference" citeas="IDLONG\\u00a0ISO\\u00a01234\\u00a0(E)"/>
           <eref type="inline" style="IDLONG" bibitemid="reference" citeas="IDLONG\\u00a0ISO\\u00a01234\\u00a0(E)"/>
@@ -957,7 +957,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
              <sections><terms id="_" obligation="normative">
-       <title>Terms and definitions</title><p id="_">For the purposes of this document,
+       <title id="_">Terms and definitions</title><p id="_">For the purposes of this document,
            the following terms and definitions apply.</p>
 
        <term id="_" anchor="term-Term1"><preferred><expression><name>Term1</name></expression><source status="identical" type="authoritative">
@@ -991,13 +991,13 @@ RSpec.describe Metanorma::Standoc do
                       </origin>
        </source><source status="identical" type="authoritative">
        <origin bibitemid="reference" type="inline" citeas="ABC">
-        <display-text><em>A</em><fn reference="1">
+        <display-text><em>A</em><fn id="_" reference="1">
          <p id="_">
            <em>B</em>
          </p>
        </fn></display-text></origin>
        </source><source status="identical" type="authoritative">
-       <origin bibitemid="reference" type="inline" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn reference="2">
+       <origin bibitemid="reference" type="inline" citeas="ABC"><localityStack><locality type="clause"><referenceFrom>3.4.2</referenceFrom></locality></localityStack><display-text>ISO 9000:2005<fn id="_" reference="2">
          <p id="_">Superseded by ISO 9000:2015.</p>
        </fn></display-text></origin>
        </source></preferred>
@@ -1007,7 +1007,7 @@ RSpec.describe Metanorma::Standoc do
        </term>
        </terms>
        </sections><bibliography><references id="_" normative="true" obligation="informative">
-       <title>Normative references</title><p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+       <title id="_">Normative references</title><p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
        <bibitem id="_" anchor="reference">
        <formattedref format="application/x-isodoc+xml">Reference</formattedref>
        <docidentifier>ABC</docidentifier>
@@ -1036,22 +1036,22 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
                     <preface><foreword id="_" obligation="informative">
-               <title>Foreword</title>
-               <p id="_">Hello!<fn reference="1">
+               <title id="_">Foreword</title>
+               <p id="_">Hello!<fn id="_" reference="1">
                <p id="_">Footnote text</p>
              </fn></p>
              </foreword></preface>
           <sections>
              <clause id="_" inline-header="false" obligation="normative">
-                <title>
+                <title id="_">
                    Title
-                   <fn reference="2">
+                   <fn id="_" reference="2">
                       <p id="_">Footnote text 2</p>
                    </fn>
                 </title>
                 <p id="_">
                    Hello.
-                   <fn reference="3">
+                   <fn id="_" reference="3">
                       <p id="_">
                          This is a repeated footnote
                          <index>
@@ -1062,13 +1062,13 @@ RSpec.describe Metanorma::Standoc do
                 </p>
           <p id="_">
             Hidden reference.
-            <fn reference="4" hiddenref="true">
+            <fn id="_" reference="4" hiddenref="true">
                <p id="_">Another footnote</p>
             </fn>
          </p>
                <p id="_">
                    Repetition.
-                   <fn reference="3">
+                   <fn id="_" reference="3">
                       <p id="_">This is a repeated footnote </p>
                    </fn>
                 </p>
@@ -1163,7 +1163,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
             <sections>
           <clause id="_" inline-header='false' obligation='normative'>
-            <title>Section</title>
+            <title id="_">Section</title>
             <p id='_'>
             <eref type='inline' bibitemid='ref1' citeas='XYZ'>
                <localityStack>
@@ -1262,7 +1262,7 @@ RSpec.describe Metanorma::Standoc do
         </sections>
         <bibliography>
           <references id="_" normative='false' obligation='informative'>
-            <title>Bibliography</title>
+            <title id="_">Bibliography</title>
             <bibitem id="_" anchor="ref1">
               <formattedref format='application/x-isodoc+xml'>
                 <em>Standard</em>

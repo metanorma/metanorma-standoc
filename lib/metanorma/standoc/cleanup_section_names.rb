@@ -9,7 +9,9 @@ module Metanorma
             node.children.first.previous = "<title/>"
           end
         end
-        node.at("./title")
+        ret = node.at("./title")
+        add_id(ret)
+        ret
       end
 
       def replace_title(doc, xpath, text, first = false)
@@ -149,7 +151,6 @@ module Metanorma
         path = section_containers.map { |x| "./ancestor::#{x}" }.join(" | ")
         xml.xpath("//p[@variant_title]").each do |p|
           p.name = "variant-title"
-          p.delete("id")
           p.delete("variant_title")
           p.xpath("(#{path})[last()]").each do |sect|
             (ins = sect.at("./title") and ins.next = p) or

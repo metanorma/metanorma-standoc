@@ -47,6 +47,13 @@ module Metanorma
         result
       end
 
+      def block_title(node, out)
+        node.title.nil? and return
+        out.name **attr_code(id_attr(nil)) do |name|
+          name << node.title
+        end
+      end
+
       def form_attrs(node)
         attr_code(id_attr(node)
           .merge(class: node.attr("class"),
@@ -68,7 +75,7 @@ module Metanorma
       def literal(node)
         noko do |xml|
           xml.figure **literal_attrs(node) do |f|
-            figure_title(node, f)
+            block_title(node, f)
             pre_attrs = id_attr(node).tap { |h| h.delete(:anchor) }
               .merge(alt: node.attr("alt"))
             f.pre node.lines.join("\n"), **attr_code(pre_attrs)
@@ -128,7 +135,7 @@ module Metanorma
         node.blocks.each { |b| b.remove_sub(:replacements) }
         noko do |xml|
           xml.figure **example_attrs(node).merge(class: "pseudocode") do |ex|
-            figure_title(node, ex)
+            block_title(node, ex)
             wrap_in_para(node, ex)
           end
         end
@@ -141,7 +148,7 @@ module Metanorma
       def example_proper(node)
         noko do |xml|
           xml.example **example_attrs(node) do |ex|
-            node.title.nil? or ex.name { |name| name << node.title }
+            block_title(node, xml)
             wrap_in_para(node, ex)
           end
         end
@@ -203,7 +210,7 @@ module Metanorma
       def listing(node)
         fragment = ::Nokogiri::XML::Builder.new do |xml|
           xml.sourcecode **listing_attrs(node) do |s|
-            figure_title(node, s)
+            block_title(node, s)
             s.body do |b|
               b << node.content
             end

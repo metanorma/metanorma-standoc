@@ -85,7 +85,7 @@ module Metanorma
           xml_dl.dd
           return
         end
-        xml_dl.dd do |xml_dd|
+        xml_dl.dd **dl_attrs(ddefn) do |xml_dd|
           xml_dd.p { |t| t << ddefn.text } if ddefn.text?
           xml_dd << ddefn.content if ddefn.blocks?
         end
@@ -122,7 +122,7 @@ module Metanorma
       end
 
       def list_caption(node, out)
-        a = node.title and out.name { |n| n << a }
+        block_title(node, out)
       end
     end
   end

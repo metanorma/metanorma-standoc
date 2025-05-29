@@ -1,6 +1,6 @@
   <sections>
     <figure id='_'>
-      <name>Common models to be used in this standard</name>
+      <name id="_">Common models to be used in this standard</name>
       <image src='_' id='_' mimetype='image/png' height='auto' width='auto'/>
     </figure>
   </sections>
