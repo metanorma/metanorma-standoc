@@ -143,8 +143,25 @@ module Metanorma
       def process(parent, target, attrs)
         format = target || "metanorma"
         out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
-          .gsub(/((?![<>&])[[:punct:]])/, "\\1&#x200c;")
-        %{<passthrough-inline formats="#{format}">#{out}</passthrough-inline>}
+        <<~XML
+          <passthrough-inline formats="#{format}">#{xml_process(out)}</passthrough-inline>
+        XML
+      end
+
+      # Split content into XML tags (including XML-escaped instances),
+      # XML escapes, and text segments
+      # Then only apply ZWNJ to punctuation in text segments
+      def xml_process(out)
+        processed_out = ""
+        segments = out.split(/(<[^>]*>|&lt;[^&]*&gt;|&[^;]*;)/)
+        segments.each_with_index do |segment, index|
+          processed_out += if index.even? # Text segment (not a tag or escape)
+                             segment.gsub(/([[:punct:]])/, "\\1&#x200c;")
+                           else # XML tag or escape
+                             segment
+                           end
+        end
+        processed_out
       end
     end
 
