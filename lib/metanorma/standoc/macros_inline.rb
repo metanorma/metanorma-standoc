@@ -135,7 +135,7 @@ module Metanorma
     end
 
     # inject ZWNJ to prevent Asciidoctor from attempting regex substitutions
-    class PassInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+    class PassFormatInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :"pass-format"
       parse_content_as :text

@@ -107,8 +107,12 @@ module Metanorma
 
       def pass_inline_split(text)
         text.split(PASS_INLINE_MACRO_RX).each.map do |x|
-          PASS_INLINE_MACRO_RX.match?(x) ? x : yield(x)
+          PASS_INLINE_MACRO_RX.match?(x) ? pass_convert(x) : yield(x)
         end
+      end
+
+      def pass_convert(text)
+        text.sub(/^pass:\[(.+)$/, "pass-format:metanorma[\\1")
       end
 
       # InlineLinkRx = %r((^|link:|#{CG_BLANK}|&lt;|[>\(\)\[\];"'])(\\?(?:https?|file|ftp|irc)://)(?:([^\s\[\]]+)\[(|#{CC_ALL}*?[^\\])\]|([^\s\[\]<]*([^\s,.?!\[\]<\)]))))m
@@ -183,6 +187,34 @@ module Metanorma
             "#{$1}#{$2}++#{$3}++#{linkcontents_escape($4)}"
           end
         end.join
+      end
+    end
+
+    # convert pass:[] to pass-format:metanorma[]
+    class PassProtectPreprocessor < LinkProtectPreprocessor
+      def process(document, reader)
+        p = Metanorma::Utils::LineStatus.new
+        lines = reader.lines.map do |t|
+          p.process(t)
+          !p.pass && t.include?("pass:") and t = inlinelink(t)
+          t
+        end
+        ::Asciidoctor::PreprocessorReader.new document, lines
+      end
+
+      def pass_inline_split(text)
+        text.split(PASS_INLINE_MACRO_RX).each.map do |x|
+          PASS_INLINE_MACRO_RX.match?(x) ? pass_convert(x) : x
+        end
+      end
+
+      def pass_convert(text)
+        text.sub(/^pass:\[(.+)$/, "pass-format:metanorma[\\1")
+      end
+
+      def inlinelink(text)
+        /^\[.*\]\s*$/.match?(text) and return text
+        pass_inline_split(text).join
       end
     end
   end
