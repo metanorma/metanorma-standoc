@@ -57,6 +57,7 @@ module Metanorma
           p.process(l)
           p.pass ? l : convert(l, c)
         end
+        log(document, lines)
         ::Asciidoctor::PreprocessorReader.new document, lines
       end
 
@@ -64,6 +65,18 @@ module Metanorma
         line.split(/(&[A-Za-z][^&;]*;)/).map do |s|
           /^&[A-Za-z]/.match?(s) ? esc.encode(esc.decode(s), :hexadecimal) : s
         end.join
+      end
+
+      # debugging output of results of all preprocessing,
+      # including include files concatenation and Lutaml/Liquid processing
+      def log(doc, text)
+        source = doc.attr("docfile") || "metanorma"
+        dirname  = File.dirname(source)
+        basename = File.basename(source, ".*")
+        fname = File.join(dirname, "#{basename}.asciidoc.log.txt")
+        File.open(fname, "w:UTF-8") do |f|
+          f.write(text.join("\n"))
+        end
       end
     end
 
