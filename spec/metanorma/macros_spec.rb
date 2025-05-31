@@ -9,7 +9,6 @@ RSpec.describe Metanorma::Standoc do
     allow_any_instance_of(Relaton::Index::FileIO).to receive(:check_file)
       .and_return(nil)
   end
-
   it "processes the Metanorma::Standoc inline macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1191,6 +1190,58 @@ RSpec.describe Metanorma::Standoc do
     expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
+
+  it "processes asciidoc.log file which reflects all preprocessing, including embeds and includes" do
+    FileUtils.rm_rf("spec/examples/test.asciidoc.log.txt")
+system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/examples/test.adoc"
+      expect(File.exist? ("spec/examples/test.asciidoc.log.txt")).to be true
+      log = File.read("spec/examples/test.asciidoc.log.txt")
+      source = File.read("spec/examples/test.adoc")
+      expect(log).to be_equivalent_to(source)
+    FileUtils.rm_rf("spec/examples/test.asciidoc.log.txt")
+
+    FileUtils.rm_rf("spec/assets/a1.asciidoc.log.txt")
+system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/assets/a1.adoc"
+expect(File.exist? ("spec/assets/a1.asciidoc.log.txt")).to be true
+      log = File.read("spec/assets/a1.asciidoc.log.txt")
+      expect(log).to be_equivalent_to <<~ADOC
+       = X
+       A
+       :docidentifier: DOCIDENTIFIER-1
+     
+       == Clause 1
+     
+       <<B>>
+     
+       [[B]]
+       == Clause 2 [[B]]
+     
+       X
+     
+       == Clause 3
+     
+       X
+     
+       == Clause 4
+     
+       X
+     
+       image::rice_image2.png[]
+     
+     
+       image::../rice_image1.png[]
+     
+       == Clause 3a
+     
+       X
+     
+       image::rice_image1.png[]
+     
+       image::subdir/rice_image2.png[]
+
+      ADOC
+    FileUtils.rm_rf("spec/assets/a1.asciidoc.log.txt")
+    end
 
   it "processes std-link macro" do
     VCR.use_cassette("std-link", match_requests_on: %i[method uri body]) do
