@@ -96,7 +96,8 @@ module Metanorma
                          pdf-allow-access-content pdf-encrypt-metadata fonts
                          pdf-stylesheet pdf-stylesheet-override
                          font-license-agreement).each_with_object({}) do |x, m|
-          m[x.delete("-").to_sym] = node.attr(x)
+          m[x.delete("-").to_sym] =
+            node.attr(x) || node.attr(x.sub("pdf-", "pdf"))
         end
         absolute_path_pdf_attributes(pdf_options)
         pdf_options.merge(fonts_manifest_option(node) || {})
