@@ -110,8 +110,10 @@ module Metanorma
         @script = node.attr("script") ||
           Metanorma::Utils.default_script(node.attr("language"))
         @locale = node.attr("locale")
-        i18nyaml = node.attr("i18nyaml")
-        i18nyaml &&= File.join(@localdir, i18nyaml)
+        if i18nyaml = node.attr("i18nyaml")
+          (Pathname.new i18nyaml).absolute? or
+            i18nyaml = File.join(@localdir, i18nyaml)
+        end
         @isodoc = isodoc(@lang, @script, @locale, i18nyaml)
         @i18n = @isodoc.i18n
       end
