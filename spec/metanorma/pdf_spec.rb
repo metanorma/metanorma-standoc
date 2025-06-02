@@ -4,13 +4,19 @@ require "fileutils"
 RSpec.describe Metanorma::Standoc do
   it "uses specified attributes in PDF" do
     FileUtils.rm_f "test.pdf"
-    
+
     # Create a mock for IsoDoc::Standoc::PdfConvert
     pdf_converter = double("PdfConvert")
-    
+
     # Mock the convert method to avoid actual PDF generation
     allow(pdf_converter).to receive(:convert)
-    
+
+    rootdir = File.expand_path(
+      File.join(
+        File.dirname(__FILE__), "..", ".."
+      ),
+    )
+
     # Mock the PdfConvert class constructor to return our mock and capture the attributes
     expect(IsoDoc::Standoc::PdfConvert).to receive(:new) do |attrs|
       # Verify that the attributes were correctly extracted and passed
@@ -28,14 +34,14 @@ RSpec.describe Metanorma::Standoc do
       expect(attrs[:pdfencryptmetadata]).to eq "true"
       expect(attrs[:pdfallowaccesscontent]).to eq "true"
       expect(attrs[:fonts]).to eq "Zapf Chancery"
-      expect(attrs[:pdfstylesheet]).to eq "spec/assets/pdf.scss"
-      expect(attrs[:pdfstylesheetoverride]).to eq "spec/assets/pdf-override.css"
+      expect(attrs[:pdfstylesheet]).to eq File.join(rootdir, "spec/assets/pdf.scss")
+      expect(attrs[:pdfstylesheetoverride]).to eq File.join(rootdir, "spec/assets/pdf-override.css")
       expect(attrs[:fontlicenseagreement]).to eq "true"
-      
+
       # Return the mock converter
       pdf_converter
     end
-    
+
     Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author

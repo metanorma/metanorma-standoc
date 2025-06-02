@@ -2,8 +2,7 @@ module Metanorma
   module Standoc
     module Base
       def html_extract_attributes(node)
-        i18nyaml = node.attr("i18nyaml")
-        i18nyaml &&= File.join(@localdir, i18nyaml)
+        i18nyaml = i18nyaml_path(node)
         {
           script: node.attr("script"),
           bodyfont: node.attr("body-font"),
@@ -50,8 +49,7 @@ module Metanorma
       end
 
       def doc_extract_attributes(node)
-        i18nyaml = node.attr("i18nyaml")
-        i18nyaml &&= File.join(@localdir, i18nyaml)
+        i18nyaml = i18nyaml_path(node)
         attrs = {
           script: node.attr("script"),
           bodyfont: node.attr("body-font"),
@@ -100,8 +98,17 @@ module Metanorma
                          font-license-agreement).each_with_object({}) do |x, m|
           m[x.delete("-").to_sym] = node.attr(x)
         end
-
+        absolute_path_pdf_attributes(pdf_options)
         pdf_options.merge(fonts_manifest_option(node) || {})
+      end
+
+      def absolute_path_pdf_attributes(pdf_options)
+        %i(pdfstylesheet pdfstylesheetoverride).each do |x|
+          pdf_options[x] or next
+          (Pathname.new pdf_options[x]).absolute? or
+            pdf_options[x] =
+              File.join(File.expand_path(@localdir), pdf_options[x])
+        end
       end
 
       def doc_converter(node)
