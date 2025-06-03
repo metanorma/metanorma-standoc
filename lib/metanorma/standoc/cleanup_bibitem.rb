@@ -196,6 +196,7 @@ module Metanorma
       end
 
       def init_attachments
+        @datauriattachment or return
         @attachmentsdir and return
         @attachmentsfld = "_#{@filename}_attachments"
         @attachmentsdir = File.join(@output_dir, @attachmentsfld)
