@@ -35,7 +35,7 @@ RSpec.describe Metanorma::Standoc do
       expect(attrs[:pdfallowaccesscontent]).to eq "true"
       expect(attrs[:fonts]).to eq "Zapf Chancery"
       expect(attrs[:pdfstylesheet]).to eq File.join(rootdir, "spec/assets/pdf.scss")
-      expect(attrs[:pdfstylesheetoverride]).to eq File.join(rootdir, "spec/assets/pdf-override.css")
+      expect(attrs[:pdfstylesheet_override]).to eq File.join(rootdir, "spec/assets/pdf-override.css")
       expect(attrs[:fontlicenseagreement]).to eq "true"
 
       # Return the mock converter

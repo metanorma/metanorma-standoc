@@ -96,7 +96,7 @@ module Metanorma
                          pdf-allow-access-content pdf-encrypt-metadata fonts
                          pdf-stylesheet pdf-stylesheet-override
                          font-license-agreement).each_with_object({}) do |x, m|
-          m[x.delete("-").to_sym] =
+          m[x.delete("-").sub(/override$/, "_override").to_sym] =
             node.attr(x) || node.attr(x.sub("pdf-", "pdf"))
         end
         absolute_path_pdf_attributes(pdf_options)
@@ -104,7 +104,7 @@ module Metanorma
       end
 
       def absolute_path_pdf_attributes(pdf_options)
-        %i(pdfstylesheet pdfstylesheetoverride).each do |x|
+        %i(pdfstylesheet pdfstylesheet_override).each do |x|
           pdf_options[x] or next
           (Pathname.new pdf_options[x]).absolute? or
             pdf_options[x] =
