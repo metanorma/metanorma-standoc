@@ -1132,7 +1132,8 @@ RSpec.describe Metanorma::Standoc do
       <sections>
       <p id='_'>&lt;abc&gt;X &gt; A<sub>b<sub>c</sub></sub> &lt;/abc&gt;</p>
       <p id="_">©</p>
-      <p id="_">©</p>
+      <!--<p id="_">©</p>-->
+      <p id="_">(‌c)‌</p>
       <p id="_">(‌c)‌</p>
       </sections>
       </metanorma>

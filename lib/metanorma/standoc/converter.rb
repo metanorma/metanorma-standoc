@@ -35,6 +35,7 @@ module Metanorma
         block_macro Metanorma::Plugin::Lutaml::LutamlKlassTableBlockMacro
         preprocessor Metanorma::Standoc::EmbedIncludeProcessor
         preprocessor Metanorma::Standoc::LinkProtectPreprocessor
+        preprocessor Metanorma::Standoc::PassProtectPreprocessor
         preprocessor Metanorma::Standoc::Datamodel::AttributesTablePreprocessor
         preprocessor Metanorma::Standoc::Datamodel::DiagramPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::Json2TextPreprocessor
@@ -69,7 +70,7 @@ module Metanorma
         inline_macro Metanorma::Standoc::FormSelectMacro
         inline_macro Metanorma::Standoc::FormOptionMacro
         inline_macro Metanorma::Standoc::ToCInlineMacro
-        inline_macro Metanorma::Standoc::PassInlineMacro
+        inline_macro Metanorma::Standoc::PassFormatInlineMacro
         inline_macro Metanorma::Standoc::StdLinkInlineMacro
         inline_macro Metanorma::Standoc::NumberInlineMacro
         inline_macro Metanorma::Standoc::TrStyleInlineMacro
