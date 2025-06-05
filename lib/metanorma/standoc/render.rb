@@ -2,8 +2,7 @@ module Metanorma
   module Standoc
     module Base
       def html_extract_attributes(node)
-        i18nyaml = node.attr("i18nyaml")
-        i18nyaml &&= File.join(@localdir, i18nyaml)
+        i18nyaml = i18nyaml_path(node)
         {
           script: node.attr("script"),
           bodyfont: node.attr("body-font"),
@@ -11,10 +10,10 @@ module Metanorma
           monospacefont: node.attr("monospace-font"),
           i18nyaml: i18nyaml,
           scope: node.attr("scope"),
-          htmlstylesheet: node.attr("htmlstylesheet"),
-          htmlstylesheet_override: node.attr("htmlstylesheet-override"),
-          htmlcoverpage: node.attr("htmlcoverpage"),
-          htmlintropage: node.attr("htmlintropage"),
+          htmlstylesheet: node.attr("htmlstylesheet") || node.attr("html-stylesheet"),
+          htmlstylesheet_override: node.attr("htmlstylesheet-override") || node.attr("html-stylesheet-override"),
+          htmlcoverpage: node.attr("htmlcoverpage") || node.attr("htmlcoverpage"),
+          htmlintropage: node.attr("htmlintropage") || node.attr("html-intropage"),
           scripts: node.attr("scripts"),
           scripts_override: node.attr("scripts-override"),
           scripts_pdf: node.attr("scripts-pdf"),
@@ -50,8 +49,7 @@ module Metanorma
       end
 
       def doc_extract_attributes(node)
-        i18nyaml = node.attr("i18nyaml")
-        i18nyaml &&= File.join(@localdir, i18nyaml)
+        i18nyaml = i18nyaml_path(node)
         attrs = {
           script: node.attr("script"),
           bodyfont: node.attr("body-font"),
@@ -59,9 +57,9 @@ module Metanorma
           monospacefont: node.attr("monospace-font"),
           i18nyaml: i18nyaml,
           scope: node.attr("scope"),
-          wordstylesheet: node.attr("wordstylesheet"),
-          wordstylesheet_override: node.attr("wordstylesheet-override"),
-          standardstylesheet: node.attr("standardstylesheet"),
+          wordstylesheet: node.attr("wordstylesheet") || node.attr("word-stylesheet"),
+          wordstylesheet_override: node.attr("wordstylesheet-override") || node.attr("word-stylesheet-override"),
+          standardstylesheet: node.attr("standardstylesheet") || node.attr("standard-stylesheet"),
           header: node.attr("header"),
           wordcoverpage: node.attr("wordcoverpage"),
           wordintropage: node.attr("wordintropage"),
@@ -96,11 +94,22 @@ module Metanorma
                          pdf-allow-assemble-document pdf-allow-edit-annotations
                          pdf-allow-print pdf-allow-print-hq
                          pdf-allow-access-content pdf-encrypt-metadata fonts
+                         pdf-stylesheet pdf-stylesheet-override
                          font-license-agreement).each_with_object({}) do |x, m|
-          m[x.delete("-").to_i] = node.attr(x)
+          m[x.delete("-").sub(/override$/, "_override").to_sym] =
+            node.attr(x) || node.attr(x.sub("pdf-", "pdf"))
         end
-
+        absolute_path_pdf_attributes(pdf_options)
         pdf_options.merge(fonts_manifest_option(node) || {})
+      end
+
+      def absolute_path_pdf_attributes(pdf_options)
+        %i(pdfstylesheet pdfstylesheet_override).each do |x|
+          pdf_options[x] or next
+          (Pathname.new pdf_options[x]).absolute? or
+            pdf_options[x] =
+              File.join(File.expand_path(@localdir), pdf_options[x])
+        end
       end
 
       def doc_converter(node)
