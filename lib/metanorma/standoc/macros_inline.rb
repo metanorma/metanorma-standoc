@@ -143,7 +143,7 @@ module Metanorma
       def process(parent, target, attrs)
         format = target || "metanorma"
         out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
-        <<~XML
+        <<~XML.strip
           <passthrough-inline formats="#{format}">#{xml_process(out)}</passthrough-inline>
         XML
       end
