@@ -125,6 +125,7 @@ module Metanorma
         end
 
         b = conv.populate_template(boilerplate_read(filename), nil)
+          .gsub("pass-format:metanorma[++++]", "")
         boilerplate_file_convert(b)
       end
 
