@@ -159,11 +159,25 @@ module Metanorma
         end
       end
 
+      # Asciidoc macro, e.g. span:publisher[...
+      ADOC_MACRO_START = '\s+:[^\[\] ]*\['.freeze
+
+      # Replace {{ ... }} with {{ pass:[...]}} to preserve any XML markup
+      # use pass:[...\] if {{}} is already inside an Asciidoc macro
       def boilerplate_read(file)
+        in_macro = false
         ret = File.read(file, encoding: "UTF-8")
-        /\.adoc$/.match?(file) and
-          ret.gsub!(/(?<!\{)(\{\{[^{}]+\}\})(?!\})/, "pass:[\\1]")
-        ret
+        /\.adoc$/.match?(file) or return ret
+        ret.split(/(#{ADOC_MACRO_START}|\])/o).map do |r|
+          if /^#{ADOC_MACRO_START}$/o.match?(r)
+            in_macro = true
+            r
+          else
+            delim = in_macro ? '\]' : "]"
+            in_macro = false
+            r.gsub(/(?<!\{)(\{\{[^{}]+\}\})(?!\})/, "pass:[\\1#{delim}")
+          end
+        end.join
       end
 
       # If Asciidoctor, convert top clauses to tags and wrap in <boilerplate>
