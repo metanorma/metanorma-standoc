@@ -96,7 +96,7 @@ module Metanorma
         img_cleanup(xmldoc)
         anchor_cleanup(xmldoc)
         link_cleanup(xmldoc)
-        xmldoc = passthrough_metanorma_cleanup(xmldoc)
+        passthrough_metanorma_cleanup(xmldoc)
         xmldoc
       end
 
