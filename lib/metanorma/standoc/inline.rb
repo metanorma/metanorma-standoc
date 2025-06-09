@@ -14,7 +14,6 @@ module Metanorma
       end
 
       def pass(node)
-        require "debug"; binding.b
         "<passthrough-inline formats='metanorma'>#{node.content}</passthrough-inline>"
       end
 

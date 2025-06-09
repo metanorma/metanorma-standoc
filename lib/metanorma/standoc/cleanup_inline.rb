@@ -168,7 +168,7 @@ module Metanorma
       def passthrough_metanorma_cleanup(doc)
         ret = to_xml(doc)
           .gsub(%r{<passthrough formats="metanorma">([^<]*)</passthrough>}) { @c.decode($1) }
-        Nokogiri::XML(ret)
+        Nokogiri::XML(ret, &:huge)
       end
 
       def link_cleanup(xmldoc)
