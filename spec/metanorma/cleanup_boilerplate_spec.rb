@@ -3,7 +3,6 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
-=begin
   it "removes initial extraneous material from Normative References" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -891,7 +890,7 @@ RSpec.describe Metanorma::Standoc do
     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
-=end
+
   it "processes terms & definitions with external source" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
