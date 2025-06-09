@@ -41,6 +41,7 @@ module Metanorma
         @embed_id = node.attr("embed_id")
         @document_scheme = document_scheme(node)
         @source_linenums = node.attr("source-linenums-option") == "true"
+        @semantic_headless = node.attr("semantic-metadata-headless") == "true"
         @default_doctype = "standard"
       end
 

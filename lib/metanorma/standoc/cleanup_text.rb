@@ -4,6 +4,7 @@ module Metanorma
       def textcleanup(result)
         text = result.flatten.map(&:rstrip) * "\n"
         text = text.gsub(/(?<!\s)\s+<fn /, "<fn ")
+        #@semantic_headless and return text
         %w(passthrough passthrough-inline).each do |v|
           text.gsub!(%r{<#{v}\s+formats="metanorma">([^<]*)
                     </#{v}>}mx) { @c.decode($1) }
@@ -73,6 +74,7 @@ module Metanorma
       end
 
       def smartquotes_cleanup1(xmldoc)
+        # prevent normalising boilerplate text twice
         uninterrupt_quotes_around_xml(xmldoc)
         dumb2smart_quotes(xmldoc)
       end
@@ -98,7 +100,7 @@ module Metanorma
 
       IGNORE_QUOTES_ELEMENTS =
         %w(pre tt sourcecode stem asciimath figure bibdata passthrough
-           identifier metanorma-extension).freeze
+           identifier metanorma-extension boilerplate).freeze
 
       PRESERVE_LINEBREAK_ELEMENTS =
         %w(pre sourcecode passthrough metanorma-extension stem).freeze
