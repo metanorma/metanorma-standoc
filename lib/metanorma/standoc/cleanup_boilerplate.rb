@@ -160,7 +160,7 @@ module Metanorma
       end
 
       # Asciidoc macro, e.g. span:publisher[...
-      ADOC_MACRO_START = '\s+:[^\[\] ]*\['.freeze
+      ADOC_MACRO_START = '\S+:[^\[\] ]*\['.freeze
 
       # Replace {{ ... }} with {{ pass:[...]}} to preserve any XML markup
       # use pass:[...\] if {{}} is already inside an Asciidoc macro
