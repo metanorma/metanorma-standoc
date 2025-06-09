@@ -1,5 +1,5 @@
 == copyright-statement
-{{ text }}
+{%if text %}{{ text }}{%endif%}
 
 [[B]]
 === {blank}
@@ -17,6 +17,14 @@ A
 
 == feedback-statement
 {{ pub_address}}
+
+{% if pub_email %}
+mailto:{{ pub_email }}[]
+{% endif %}
+
+{% if pub_uri %}
+link:{{ pub_uri}}[{{ pub_address }}, {{ pub_uri }}]
+{% endif %}
 
 == Random Title
 

@@ -65,7 +65,7 @@ module Metanorma
 
       def boilerplate_cleanup(xmldoc)
         isodoc = boilerplate_isodoc(xmldoc) or return
-        #boilerplate_isodoc_values(isodoc)
+        # boilerplate_isodoc_values(isodoc)
         termdef_boilerplate_cleanup(xmldoc)
         termdef_boilerplate_insert(xmldoc, isodoc)
         unwrap_boilerplate_clauses(xmldoc, self.class::TERM_CLAUSE)
@@ -173,23 +173,24 @@ module Metanorma
         end
       end
 
-      # Asciidoc macro, e.g. span:publisher[...
-      ADOC_MACRO_START = '\S+:[^\[\] ]*\['.freeze
+      # Asciidoc macro, e.g. span:publisher[...]
+      # May contain one or more {{ }} in target, with spaces in them
+      # Does not end in \]
+      ADOC_MACRO_START = '\S+:(?:[^\[\] ]+|\{\{[^{}]+\}\})*\[.*?(?<!\\\\)\]'.freeze
 
       # Replace {{ ... }} with {{ pass:[...]}} to preserve any XML markup
       # use pass:[...\] if {{}} is already inside an Asciidoc macro
+      # Do not use pass: if this is a macro target: mailto:{{x}}[] 
+      # or body: mailto:[{{x}}]
       def boilerplate_read(file)
-        in_macro = false
         ret = File.read(file, encoding: "UTF-8")
         /\.adoc$/.match?(file) or return ret
         ret.split(/(#{ADOC_MACRO_START}|\])/o).map do |r|
           if /^#{ADOC_MACRO_START}$/o.match?(r)
-            in_macro = true
             r
           else
-            delim = in_macro ? '\]' : "]"
-            in_macro = false
-            r.gsub(/(?<!\{)(\{\{[^{}]+\}\})(?!\})/, "pass:[\\1#{delim}")
+            r.gsub(/(?<!\{)(\{\{[^{}]+\}\})(?!\})/,
+                   "pass-format:metanorma[++\\1++]")
           end
         end.join
       end

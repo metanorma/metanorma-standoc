@@ -1247,6 +1247,8 @@ RSpec.describe Metanorma::Standoc do
       :publisher: Fred
       :pub-address: 10 Jack St + \\
       Antarctica & <UK>
+      :pub-email: x@example.com
+      :pub-uri: http://www.example.com
 
       == Clause 1
 
@@ -1266,6 +1268,8 @@ RSpec.describe Metanorma::Standoc do
                   Antarctica &amp; &lt;UK&gt;
                </formattedAddress>
             </address>
+                        <email>x@example.com</email>
+            <uri>http://www.example.com</uri>
          </organization>
       </contributor>
       <contributor>
@@ -1279,6 +1283,8 @@ RSpec.describe Metanorma::Standoc do
                   Antarctica &amp; &lt;UK&gt;
                </formattedAddress>
             </address>
+                        <email>x@example.com</email>
+            <uri>http://www.example.com</uri>
          </organization>
       </contributor>
       <language>en</language>
@@ -1298,6 +1304,8 @@ RSpec.describe Metanorma::Standoc do
                      Antarctica &amp; &lt;UK&gt;
                   </formattedAddress>
                </address>
+                           <email>x@example.com</email>
+            <uri>http://www.example.com</uri>
             </organization>
          </owner>
       </copyright>
@@ -1322,6 +1330,12 @@ RSpec.describe Metanorma::Standoc do
            </license-statement>
            <feedback-statement>
              <p id="_">10 Jack St<br/>Antarctica &amp; &lt;UK&gt;</p>
+           <p id="_">
+            <link target="mailto:x@example.com"/>
+         </p>
+           <p id="_">
+           <link target="http://www.example.com">10 Jack St&lt;br/&gt;Antarctica &amp; &lt;UK&gt;, http://www.example.com</link>
+        </p>
            </feedback-statement>
            <clause id="_" inline-header="false" obligation="normative">
              <title id="_">Random Title</title>
