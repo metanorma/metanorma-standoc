@@ -1246,7 +1246,7 @@ RSpec.describe Metanorma::Standoc do
       :boilerplate-authority: spec/assets/boilerplate.adoc
       :publisher: Fred
       :pub-address: 10 Jack St + \\
-      Antarctica
+      Antarctica & <UK>
 
       == Clause 1
 
@@ -1268,7 +1268,7 @@ RSpec.describe Metanorma::Standoc do
              </clause>
            </license-statement>
            <feedback-statement>
-             <p id="_">10 Jack St<br/>Antarctica</p>
+             <p id="_">10 Jack St<br/>Antarctica &amp;‌ &lt;‌UK&gt;‌</p>
            </feedback-statement>
            <clause id="_" inline-header="false" obligation="normative">
              <title id="_">Random Title</title>
