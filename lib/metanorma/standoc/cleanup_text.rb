@@ -35,7 +35,8 @@ module Metanorma
           out = Metanorma::Utils.line_sanitise(lines)
           e[:last] or out.pop
           /\s$/.match?(e[:text][-1]) or out[-1].rstrip!
-          e[:elem].replace(out.join)
+          # do not accidentally XML tags when inserting text with &lt; back in to doc
+          e[:elem].replace(@c.encode(out.join, :hexadecimal, :basic))
         end
       end
 
