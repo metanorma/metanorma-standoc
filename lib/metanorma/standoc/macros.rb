@@ -120,10 +120,11 @@ module Metanorma
 
       def pass_inline_split(text)
         text.split(PASS_INLINE_MACRO_RX).each.map do |x|
-          PASS_INLINE_MACRO_RX.match?(x) ? pass_convert(x) : yield(x)
+          PASS_INLINE_MACRO_RX.match?(x) ? x : yield(x)
         end
       end
 
+      # KILL
       def pass_convert(text)
         text.sub(/^pass:\[(.+)$/, "pass-format:metanorma[\\1")
       end
@@ -209,7 +210,8 @@ module Metanorma
         p = Metanorma::Utils::LineStatus.new
         lines = reader.lines.map do |t|
           p.process(t)
-          !p.pass && t.include?("pass:") and t = inlinelink(t)
+          !p.pass && (t.include?("pass:") || t.include?("pass-format:")) and
+            t = inlinelink(t)
           t
         end
         ::Asciidoctor::PreprocessorReader.new document, lines
@@ -221,8 +223,17 @@ module Metanorma
         end
       end
 
+      # pass:[A] => pass-format:metanorma[++A++],
+      # so long as A doesn't already start with ++
+      # ditto pass-format:[A] => pass-format:[++A++]
       def pass_convert(text)
-        text.sub(/^pass:\[(.+)$/, "pass-format:metanorma[\\1")
+        text
+          .gsub(/pass-format:([^\[ ]*)\[(?!\+\+)(.+?)(?<!\\)\]/,
+                "pass-format:\\1[++\\2++]")
+          .gsub(/pass:\[(?=\+\+)(.+?)(?<!\\)\]/,
+                "pass-format:metanorma[\\1]")
+          .gsub(/pass:\[(?!\+\+)(.+?)(?<!\\)\]/,
+                "pass-format:metanorma[++\\1++]")
       end
 
       def inlinelink(text)

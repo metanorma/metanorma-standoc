@@ -65,7 +65,7 @@ module Metanorma
 
       def boilerplate_cleanup(xmldoc)
         isodoc = boilerplate_isodoc(xmldoc) or return
-        boilerplate_isodoc_values(isodoc)
+        #boilerplate_isodoc_values(isodoc)
         termdef_boilerplate_cleanup(xmldoc)
         termdef_boilerplate_insert(xmldoc, isodoc)
         unwrap_boilerplate_clauses(xmldoc, self.class::TERM_CLAUSE)
@@ -76,6 +76,7 @@ module Metanorma
         initial_boilerplate(xmldoc, isodoc)
       end
 
+      # KILL
       # escape &lt; &gt; &amp; to &amp;gt; etc,
       # for passthrough insertion into boilerplate
       def boilerplate_isodoc_values(isodoc)

@@ -25,7 +25,7 @@ RSpec.describe Metanorma::Standoc do
         <title id="_">“Quotation” A’s</title>
         <p id='_'>‘24:00:00’.</p>
                 <p id="_">“Quote1”</p>
-                <p id="_">“‌Quote2”‌</p>
+                <p id="_">"Quote2"</p>
                 <p id="_">"Quote3"</p>
         <p id='_'>
        <em>emphasis</em>
@@ -70,7 +70,7 @@ RSpec.describe Metanorma::Standoc do
         <title id="_">“Quotation” A’s</title>
                         <p id="_">‘24:00:00’.</p>
                 <p id="_">“Quote1”</p>
-                <p id="_">“‌Quote2”‌</p>
+                <p id="_">"Quote2"</p>
                 <p id="_">"Quote3"</p>
                 <p id="_">
                    <em>emphasis</em>
@@ -120,7 +120,7 @@ RSpec.describe Metanorma::Standoc do
       </p>
                <p id="_">'24:00:00'.</p>
                 <p id="_">"Quote1"</p>
-                <p id="_">"‌Quote2"‌</p>
+                <p id="_">"Quote2"</p>
                 <p id="_">"Quote3"</p>
                 <p id="_">
                    <em>emphasis</em>
@@ -933,7 +933,7 @@ RSpec.describe Metanorma::Standoc do
          </p>
          <a xmlns="http://www.example.com"/>
          <p id="_">http://www.example.com
-         And http:‌/‌/‌www.‌example.‌com and http://www.example.com</p>
+         And http://www.example.com and http://www.example.com</p>
          <sourcecode id="_" filename="http://www.example.com"><body>A
        http://www.example.com/...abc2[]</body></sourcecode>
          <sourcecode id="_"><body>http://www.example.com/...def[]</body></sourcecode>

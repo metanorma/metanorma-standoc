@@ -138,16 +138,18 @@ module Metanorma
     class PassFormatInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :"pass-format"
-      parse_content_as :text
+      parse_content_as :raw
 
       def process(parent, target, attrs)
         format = target || "metanorma"
-        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
+        out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"],
+                                      type: :pass, attributes: { 'subs' => [] }).convert
         <<~XML.strip
           <passthrough-inline formats="#{format}">#{xml_process(out)}</passthrough-inline>
         XML
       end
 
+      # KILL
       # Split content into XML tags (including XML-escaped instances),
       # XML escapes, and text segments
       # Then only apply ZWNJ to punctuation in text segments
@@ -156,7 +158,8 @@ module Metanorma
         segments = out.split(/(<[^>]*>|&lt;[^&]*&gt;|&[^;]*;)/)
         segments.each_with_index do |segment, index|
           processed_out += if index.even? # Text segment (not a tag or escape)
-                             segment.gsub(/([[:punct:]])/, "\\1&#x200c;")
+                             #segment.gsub(/([[:punct:]])/, "\\1&#x200c;")
+                             segment
                            else # XML tag or escape
                              segment
                            end

@@ -1106,7 +1106,7 @@ RSpec.describe Metanorma::Standoc do
        #{BLANK_HDR}
       <sections>
       <p id='_'>
-      <passthrough formats='rfc,html'>&lt;abc&gt;X &gt; Y&lt;/abc&gt; http://www.example.com (c)</passthrough>
+      <passthrough formats='rfc,html'>&lt;abc&gt;X &amp;#x3e; Y&lt;/abc&gt; http://www.example.com (c)</passthrough>
       </p>
       </sections>
       </metanorma>
@@ -1121,20 +1121,21 @@ RSpec.describe Metanorma::Standoc do
 
       +<abc>X &gt;+ +++A<sub>b<sub>c</sub></sub>+++ pass:c[</abc>]
 
-      (c)
+      (c) ...
 
-      pass:[(c)]
+      pass:[(c)] pass:[...]
+      pass:[++(c)++] pass:[++...++]
 
-      pass-format:metanorma[(c)]
+      pass-format:metanorma[(c)] pass-format:metanorma[...]
+      pass-format:metanorma[++(c)++] pass-format:metanorma[++...++]
     INPUT
     output = <<~OUTPUT
        #{BLANK_HDR}
       <sections>
       <p id='_'>&lt;abc&gt;X &gt; A<sub>b<sub>c</sub></sub> &lt;/abc&gt;</p>
-      <p id="_">©</p>
-      <!--<p id="_">©</p>-->
-      <p id="_">(‌c)‌</p>
-      <p id="_">(‌c)‌</p>
+              <p id="_">© …​</p>
+              <p id="_">(c) ... (c) ...</p>
+              <p id="_">(c) ... (c) ...</p>
       </sections>
       </metanorma>
     OUTPUT

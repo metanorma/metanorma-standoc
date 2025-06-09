@@ -164,10 +164,11 @@ module Metanorma
         end
       end
 
+      # overwrite xmldoc, so must assign result to xmldoc
       def passthrough_metanorma_cleanup(doc)
-        doc.xpath("//passthrough[@formats = 'metanorma']").each do |p|
-          p.replace(p.children)
-        end
+        ret = to_xml(doc)
+          .gsub(%r{<passthrough formats="metanorma">([^<]*)</passthrough>}) { @c.decode($1) }
+        Nokogiri::XML(ret)
       end
 
       def link_cleanup(xmldoc)

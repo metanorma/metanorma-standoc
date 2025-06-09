@@ -1253,6 +1253,59 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
+         <bibdata type="standard">
+      <title language="en" format="text/plain">Document title</title>
+      <contributor>
+         <role type="author"/>
+         <organization>
+            <name>Fred</name>
+            <address>
+               <formattedAddress>
+                  10 Jack St
+                  <br/>
+                  Antarctica &amp; &lt;UK&gt;
+               </formattedAddress>
+            </address>
+         </organization>
+      </contributor>
+      <contributor>
+         <role type="publisher"/>
+         <organization>
+            <name>Fred</name>
+            <address>
+               <formattedAddress>
+                  10 Jack St
+                  <br/>
+                  Antarctica &amp; &lt;UK&gt;
+               </formattedAddress>
+            </address>
+         </organization>
+      </contributor>
+      <language>en</language>
+      <script>Latn</script>
+      <status>
+         <stage>10</stage>
+      </status>
+      <copyright>
+         <from>2025</from>
+         <owner>
+            <organization>
+               <name>Fred</name>
+               <address>
+                  <formattedAddress>
+                     10 Jack St
+                     <br/>
+                     Antarctica &amp; &lt;UK&gt;
+                  </formattedAddress>
+               </address>
+            </organization>
+         </owner>
+      </copyright>
+      <ext>
+         <doctype>standard</doctype>
+         <flavor>standoc</flavor>
+      </ext>
+   </bibdata>
                    <boilerplate>
            <copyright-statement>
              <clause id="_" anchor="B" inline-header="false" obligation="normative">
@@ -1268,7 +1321,7 @@ RSpec.describe Metanorma::Standoc do
              </clause>
            </license-statement>
            <feedback-statement>
-             <p id="_">10 Jack St<br/>Antarctica &amp;‌ &lt;‌UK&gt;‌</p>
+             <p id="_">10 Jack St<br/>Antarctica &amp; &lt;UK&gt;</p>
            </feedback-statement>
            <clause id="_" inline-header="false" obligation="normative">
              <title id="_">Random Title</title>
@@ -1286,7 +1339,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    xml.at("//xmlns:bibdata")&.remove
+    #xml.at("//xmlns:bibdata")&.remove
     expect(strip_guid(Xml::C14n.format(xml.to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end

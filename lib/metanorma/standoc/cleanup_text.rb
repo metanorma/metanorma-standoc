@@ -5,10 +5,10 @@ module Metanorma
         text = result.flatten.map(&:rstrip) * "\n"
         text = text.gsub(/(?<!\s)\s+<fn /, "<fn ")
         #@semantic_headless and return text
-        %w(passthrough passthrough-inline).each do |v|
-          text.gsub!(%r{<#{v}\s+formats="metanorma">([^<]*)
-                    </#{v}>}mx) { @c.decode($1) }
-        end
+        #%w(passthrough passthrough-inline).each do |v|
+          #text.gsub!(%r{<#{v}\s+formats="metanorma">([^<]*)
+                    #</#{v}>}mx) { @c.decode($1) }
+        #end
         text
       end
 
