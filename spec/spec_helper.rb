@@ -1,3 +1,4 @@
+=begin
 require "vcr"
 
 VCR.configure do |config|
@@ -9,6 +10,7 @@ VCR.configure do |config|
     record: :once,
   }
 end
+=end
 
 require "simplecov"
 SimpleCov.start do
@@ -165,7 +167,7 @@ LOCAL_CACHED_ISOBIB_BLANK_HDR = <<~HDR.freeze
   :docfile: test.adoc
   :nodoc:
   :novalid:
-  :local-cache:
+  :local-cache: spec/relatondb
 
 HDR
 
@@ -175,7 +177,7 @@ LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR = <<~HDR.freeze
   :docfile: test.adoc
   :nodoc:
   :novalid:
-  :local-cache-only:
+  :local-cache-only: spec/relatondb
 
 HDR
 

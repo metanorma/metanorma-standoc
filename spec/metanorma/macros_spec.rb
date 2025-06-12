@@ -2,14 +2,6 @@ require "spec_helper"
 require "relaton_iso"
 
 RSpec.describe Metanorma::Standoc do
-  before do
-    # Force to download Relaton index file
-    allow_any_instance_of(Relaton::Index::Type).to receive(:actual?)
-      .and_return(false)
-    allow_any_instance_of(Relaton::Index::FileIO).to receive(:check_file)
-      .and_return(nil)
-  end
-
   it "processes the Metanorma::Standoc inline macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1245,9 +1237,8 @@ expect(File.exist? ("spec/assets/a1.asciidoc.log.txt")).to be true
     end
 
   it "processes std-link macro" do
-    VCR.use_cassette("std-link", match_requests_on: %i[method uri body]) do
       input = <<~INPUT
-        #{ISOBIB_BLANK_HDR}
+        #{LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR}
 
         [[clause1]]
         == Clause
@@ -1384,7 +1375,6 @@ expect(File.exist? ("spec/assets/a1.asciidoc.log.txt")).to be true
       expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))
                   .gsub(%r{ bibitemid="_[^"]+"}, ' bibitemid="_"')))
         .to be_equivalent_to Xml::C14n.format(output)
-    end
   end
 
   it "preserves ifdefs after preprocessing" do
