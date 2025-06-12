@@ -367,9 +367,9 @@ RSpec.describe Metanorma::Standoc do
     FileUtils.rm_rf File.expand_path("#{Dir.home}/.iev/cache")
 
     # mock_isobib_get_123
-    VCR.use_cassette("isobib_get_123_2001_and_iev",
-                     record: :new_episodes,
-                     match_requests_on: %i[method uri body]) do
+    #VCR.use_cassette("isobib_get_123_2001_and_iev",
+                     #record: :new_episodes,
+                     #match_requests_on: %i[method uri body]) do
       Asciidoctor.convert(<<~"INPUT", *OPTIONS)
         #{FLUSH_CACHE_ISOBIB_BLANK_HDR}
         [bibliography]
@@ -392,7 +392,7 @@ RSpec.describe Metanorma::Standoc do
         <<iev,clause="103-01-02">>
       INPUT
       expect(File.exist?("#{Dir.home}/.iev/cache")).to be true
-    end
+    #end
 
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
     entry = db.load_entry("ISO(ISO 123:2001)")
@@ -455,8 +455,8 @@ RSpec.describe Metanorma::Standoc do
     FileUtils.mv File.expand_path("~/.relaton/cache"),
                  File.expand_path("~/.relaton-bib.pstore1"), force: true
     FileUtils.rm_rf "relaton/cache"
-    VCR.use_cassette("isobib_get_123_2001a",
-                     match_requests_on: %i[method uri body]) do
+    #VCR.use_cassette("isobib_get_123_2001a",
+    #                 match_requests_on: %i[method uri body]) do
       Asciidoctor.convert(<<~"INPUT", *OPTIONS)
         #{CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
@@ -464,7 +464,7 @@ RSpec.describe Metanorma::Standoc do
 
         * [[[iso123,ISO 123:2001]]] _Standard_
       INPUT
-    end
+    #end
 
     # mock_isobib_get_123
     # Asciidoctor.convert(<<~"INPUT", *OPTIONS)
@@ -492,7 +492,8 @@ RSpec.describe Metanorma::Standoc do
     FileUtils.rm_rf "relaton/cache"
     mock_isobib_get_123
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
-      #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
+      #{LOCAL_CACHED_ISOBIB_BLANK_HDR.sub(":local-cache: spec/relatondb", ":local-cache:")}
+
       [bibliography]
       == Normative References
 
@@ -553,6 +554,7 @@ RSpec.describe Metanorma::Standoc do
     mock_isobib_get_123
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
       #{LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR}
+
       [bibliography]
       == Normative References
 
@@ -584,7 +586,7 @@ RSpec.describe Metanorma::Standoc do
     # )
 
     # mock_isobib_get_124
-    VCR.use_cassette "isobib_get_124" do
+    #VCR.use_cassette "isobib_get_124" do
       Asciidoctor.convert(<<~"INPUT", *OPTIONS)
         #{CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
@@ -593,7 +595,7 @@ RSpec.describe Metanorma::Standoc do
         * [[[iso123,ISO 123:2001]]] _Standard_
         * [[[iso124,ISO 124:2014]]] _Standard_
       INPUT
-    end
+    #end
 
     entry = db.load_entry("ISO(ISO 123:2001)")
     # expect(db.fetched("ISO(ISO 123:2001)")).to eq(Date.today.to_s)
@@ -626,7 +628,7 @@ RSpec.describe Metanorma::Standoc do
     # )
 
     # mock_isobib_get_123_undated
-    VCR.use_cassette "isobib_get_123" do
+    #VCR.use_cassette "isobib_get_123" do
       Asciidoctor.convert(<<~"INPUT", *OPTIONS)
         #{CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
@@ -634,7 +636,7 @@ RSpec.describe Metanorma::Standoc do
 
         * [[[iso123,ISO 123]]] _Standard_
       INPUT
-    end
+    #end
 
     entry = db.load_entry("ISO(ISO 123)")
     # expect(db.fetched("ISO(ISO 123)")).to eq(Date.today.to_s)
@@ -647,7 +649,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "does not expire stale dated references" do
-    VCR.use_cassette "isobib_get_123_2001" do
+    #VCR.use_cassette "isobib_get_123_2001" do
       FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore1")
       FileUtils.mv File.expand_path("~/.relaton/cache"),
                    File.expand_path("~/.relaton-bib.pstore1"), force: true
@@ -680,12 +682,12 @@ RSpec.describe Metanorma::Standoc do
       FileUtils.rm_rf File.expand_path("~/.relaton/cache")
       FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"),
                    File.expand_path("~/.relaton/cache"), force: true
-    end
+    #end
   end
 
   it "prioritises local over global cache values" do
-    VCR.use_cassette "isobib_get_123_2001" do
-      VCR.use_cassette "isobib_get_124" do
+    #VCR.use_cassette "isobib_get_123_2001" do
+      #VCR.use_cassette "isobib_get_124" do
         FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore1")
         FileUtils.mv File.expand_path("~/.relaton/cache"),
                      File.expand_path("~/.relaton-bib.pstore1"), force: true
@@ -718,7 +720,7 @@ RSpec.describe Metanorma::Standoc do
         # )
 
         input = <<~DOC
-          #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
+          #{LOCAL_CACHED_ISOBIB_BLANK_HDR.sub(":local-cache: spec/relatondb", ":local-cache:")}
           [bibliography]
           == Normative References
 
@@ -738,8 +740,8 @@ RSpec.describe Metanorma::Standoc do
         FileUtils.rm_rf File.expand_path("~/.relaton/cache")
         FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"),
                      File.expand_path("~/.relaton/cache"), force: true
-      end
-    end
+      #end
+    #end
   end
 
   private

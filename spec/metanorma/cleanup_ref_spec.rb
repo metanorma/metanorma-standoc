@@ -3,13 +3,6 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
-  before do
-    # Force to download Relaton index file
-    allow_any_instance_of(Relaton::Index::Type).to receive(:actual?)
-      .and_return(false)
-    allow_any_instance_of(Relaton::Index::FileIO).to receive(:check_file)
-      .and_return(nil)
-  end
   it "converts xrefs to references into erefs" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -245,9 +238,9 @@ RSpec.describe Metanorma::Standoc do
     FileUtils.rm_rf "relaton/cache"
     FileUtils.rm_rf "test.iev.pstore"
     # mock_iev
-    VCR.use_cassette("separates_iev_citations_by_top_level_clause",
-                     record: :new_episodes,
-                     match_requests_on: %i[method uri body]) do
+    #VCR.use_cassette("separates_iev_citations_by_top_level_clause",
+                     #record: :new_episodes,
+                     #match_requests_on: %i[method uri body]) do
       input = <<~INPUT
         #{CACHED_ISOBIB_BLANK_HDR}
 
@@ -415,7 +408,7 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to Xml::C14n.format(output)
-    end
+    #end
     FileUtils.rm_rf File.expand_path("~/.iev.pstore")
     FileUtils.mv File.expand_path("~/.iev.pstore1"),
                  File.expand_path("~/.iev.pstore"), force: true

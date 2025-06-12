@@ -939,7 +939,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "Warning if terms mismatches IEV" do
     FileUtils.rm_f "test.err.html"
-    VCR.use_cassette "iev_103-01-02", record: :new_episodes do
+    #VCR.use_cassette "iev_103-01-02", record: :new_episodes do
       Asciidoctor.convert(<<~INPUT, *OPTIONS)
         = Document title
         Author
@@ -998,13 +998,13 @@ RSpec.describe Metanorma::Standoc do
       INPUT
       expect(File.read("test.err.html"))
         .not_to include("does not match IEV 103-01-02")
-    end
+    #end
   end
 
   it "Abort if non-existent IEV document cited" do
     FileUtils.rm_f "test.err.html"
     begin
-      VCR.use_cassette "iev_03-01-02", record: :new_episodes do
+      #VCR.use_cassette "iev_03-01-02", record: :new_episodes do
         Asciidoctor.convert(<<~INPUT, *OPTIONS)
           = Document title
           Author
@@ -1025,7 +1025,7 @@ RSpec.describe Metanorma::Standoc do
           Asciidoctor.convert(input, *OPTIONS)
         end.to raise_error(RuntimeError)
       rescue SystemExit, RuntimeError
-      end
+      #end
       expect(File.read("test.err.html"))
         .to include("The IEV document 60050-03 that has been cited does not exist")
     end

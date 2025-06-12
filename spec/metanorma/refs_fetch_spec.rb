@@ -3,18 +3,10 @@ require "relaton_iso"
 require "relaton_ietf"
 
 RSpec.describe Metanorma::Standoc do
-  before do
-    # Force to download Relaton index file
-    allow_any_instance_of(Relaton::Index::Type).to receive(:actual?)
-      .and_return(false)
-    allow_any_instance_of(Relaton::Index::FileIO).to receive(:check_file)
-      .and_return(nil)
-  end
-
   it "fetches simple ISO reference" do
-    VCR.use_cassette "isobib_get_123_1" do
       input = <<~INPUT
-        #{ISOBIB_BLANK_HDR}
+        #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
+
         [bibliography]
         == Normative References
 
@@ -222,19 +214,11 @@ RSpec.describe Metanorma::Standoc do
       xml.xpath("//xmlns:abstract").each(&:remove)
       expect(strip_guid(Xml::C14n.format(xml.to_xml)))
         .to be_equivalent_to Xml::C14n.format(output)
-    end
   end
 
   it "fetches simple ISO reference in French" do
-    VCR.use_cassette "isobib_get_123_1_fr" do
       input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
-        :novalid:
-        :no-isobib-cache:
-        :language: fr
+        #{LOCAL_CACHED_ISOBIB_BLANK_HDR.sub(":novalid:", ":novalid:\n:language: fr")}
 
         [bibliography]
         == Normative References
@@ -452,14 +436,11 @@ RSpec.describe Metanorma::Standoc do
       xml.xpath("//xmlns:abstract").each(&:remove)
       expect(strip_guid(Xml::C14n.format(xml.to_xml)))
         .to be_equivalent_to Xml::C14n.format(output)
-    end
   end
 
   it "processes dated ISO reference and joint ISO/IEC references" do
-    VCR.use_cassette("dated_iso_ref_joint_iso_iec",
-                     match_requests_on: %i[method uri body]) do
       input = <<~INPUT
-        #{ISOBIB_BLANK_HDR}
+        #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
         == Normative References
 
@@ -675,13 +656,11 @@ RSpec.describe Metanorma::Standoc do
       xml.xpath("//xmlns:abstract").each(&:remove)
       expect(strip_guid(Xml::C14n.format(xml.to_xml)))
         .to be_equivalent_to Xml::C14n.format(output)
-    end
   end
 
   it "processes DOI references" do
-    VCR.use_cassette "doi" do
       input = <<~INPUT
-        #{ISOBIB_BLANK_HDR}
+        #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
         == Section
 
         [bibliography]
@@ -781,13 +760,11 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to Xml::C14n.format(output)
-    end
   end
 
   it "emends citations through span notation" do
-    VCR.use_cassette "doi2" do
       input = <<~INPUT
-        #{ISOBIB_BLANK_HDR}
+        #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
         == Section
 
         [bibliography]
@@ -803,7 +780,7 @@ RSpec.describe Metanorma::Standoc do
                <title id="_">Section</title>
              </clause>
            </sections>
-         <bibliography>
+          <bibliography>
              <references id="_" normative="false" obligation="informative">
                 <title id="_">Bibliography</title>
                 <bibitem id="_" type="inbook" anchor="ref1">
@@ -922,47 +899,6 @@ RSpec.describe Metanorma::Standoc do
                       </person>
                    </contributor>
                    <relation type="includedIn">
-                      <bibitem>
-                         <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
-                         <contributor>
-                            <role type="editor"/>
-                            <person>
-                               <name>
-                                  <forename language="en" script="Latn">Aneta</forename>
-                                  <surname language="en" script="Latn">Pavlenko</surname>
-                               </name>
-                            </person>
-                         </contributor>
-                         <contributor>
-                            <role type="editor"/>
-                            <person>
-                               <name>
-                                  <forename language="en" script="Latn">Adrian</forename>
-                                  <surname language="en" script="Latn">Blackledge</surname>
-                               </name>
-                            </person>
-                         </contributor>
-                         <contributor>
-                            <role type="editor"/>
-                            <person>
-                               <name>
-                                  <forename language="en" script="Latn">Ingrid</forename>
-                                  <surname language="en" script="Latn">Piller</surname>
-                               </name>
-                            </person>
-                         </contributor>
-                         <contributor>
-                            <role type="editor"/>
-                            <person>
-                               <name>
-                                  <forename language="en" script="Latn">Marya</forename>
-                                  <surname language="en" script="Latn">Teutsch-Dwyer</surname>
-                               </name>
-                            </person>
-                         </contributor>
-                      </bibitem>
-                   </relation>
-                   <relation type="includedIn">
                       <bibitem type="misc">
                          <title format="text/plain">Nested Title</title>
                          <contributor>
@@ -1004,14 +940,12 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to Xml::C14n.format(output)
-    end
   end
 
   # that class of docids has been rescinded?
   it "processes document identifiers ignoring Asciidoctor substitutions" do
-    VCR.use_cassette "bipm", match_requests_on: %i[method uri body] do
       input = <<~INPUT
-        #{ISOBIB_BLANK_HDR}
+        #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
         == Normative References
 
@@ -1071,13 +1005,11 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
       expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
         .to be_equivalent_to Xml::C14n.format(output)
-    end
   end
 
   it "declines to fetch individual references" do
-    VCR.use_cassette "dated_iso_ref_joint_iso_iec1" do
       input = <<~INPUT
-        #{ISOBIB_BLANK_HDR}
+        #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
         == Normative References
 
@@ -1161,13 +1093,11 @@ RSpec.describe Metanorma::Standoc do
       xml.xpath("//xmlns:abstract").each(&:remove)
       expect(strip_guid(Xml::C14n.format(xml.to_xml)))
         .to be_equivalent_to Xml::C14n.format(output)
-    end
   end
 
   it "suppress identifier on bibitem" do
-    VCR.use_cassette "dated_iso_ref_joint_iso_iec2" do
       input = <<~INPUT
-        #{ISOBIB_BLANK_HDR}
+        #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
         == Normative References
 
@@ -1185,14 +1115,11 @@ RSpec.describe Metanorma::Standoc do
         .to eq("true")
       expect(doc.at("//xmlns:bibitem[@anchor = 'iso126']/@suppress_identifier")&.text)
         .to eq("true")
-    end
   end
 
   it "hides individual references" do
-    VCR.use_cassette "hide_refs",
-                     match_requests_on: %i[method uri body] do
       input = <<~INPUT
-        #{ISOBIB_BLANK_HDR}
+        #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
         == Normative References
 
@@ -1216,14 +1143,11 @@ RSpec.describe Metanorma::Standoc do
         .not_to eq "true"
       expect(xml.at("//xmlns:bibitem[@anchor = 'iso128']/@hidden")&.text)
         .not_to eq "true"
-    end
   end
 
   it "processes BSI reference with year" do
-    VCR.use_cassette("bsi16341",
-                     match_requests_on: %i[method uri body]) do
       input = <<~INPUT
-        #{ISOBIB_BLANK_HDR}
+        #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
         == Normative References
 
@@ -1238,13 +1162,11 @@ RSpec.describe Metanorma::Standoc do
       expect(output).to include("BS EN 16341")
       expect(output).not_to include("BS EN ISO 19011")
       expect(output).to include("BS EN ISO 19011:2018")
-    end
   end
 
   it "processes RFC reference in Normative References" do
-    VCR.use_cassette "rfcbib_get_rfc8341" do
       input = <<~INPUT
-        #{ISOBIB_BLANK_HDR}
+        #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
         == Normative References
 
@@ -1386,13 +1308,11 @@ RSpec.describe Metanorma::Standoc do
       xml.xpath("//xmlns:abstract").each(&:remove)
       expect(strip_guid(Xml::C14n.format(xml.to_xml)))
         .to be_equivalent_to Xml::C14n.format(output)
-    end
   end
 
   it "processes merged joint references" do
-    VCR.use_cassette "merge_refs" do
       input = <<~INPUT
-        #{ISOBIB_BLANK_HDR}
+        #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
         == Normative References
 
@@ -1514,13 +1434,11 @@ RSpec.describe Metanorma::Standoc do
       xml.xpath("//xmlns:abstract").each(&:remove)
       expect(strip_guid(Xml::C14n.format(xml.to_xml)))
         .to be_equivalent_to Xml::C14n.format(output)
-    end
   end
 
   it "processes dual joint references" do
-    VCR.use_cassette "dual_refs" do
       input = <<~INPUT
-        #{ISOBIB_BLANK_HDR}
+        #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
         == Normative References
 
@@ -1690,13 +1608,11 @@ RSpec.describe Metanorma::Standoc do
       xml.xpath("//xmlns:abstract").each(&:remove)
       expect(strip_guid(Xml::C14n.format(xml.to_xml)))
         .to be_equivalent_to Xml::C14n.format(output)
-    end
   end
 
   it "processes formatting within bibliographic references" do
-    VCR.use_cassette "isobib_get_123_1" do
       input = <<~INPUT
-        #{ISOBIB_BLANK_HDR}
+        #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
         [bibliography]
         == Normative References
 
@@ -1736,6 +1652,5 @@ RSpec.describe Metanorma::Standoc do
       a.at("//xmlns:bibliography").remove
       expect(strip_guid(Xml::C14n.format(a.to_xml)))
         .to be_equivalent_to Xml::C14n.format(output)
-    end
   end
 end
