@@ -177,7 +177,7 @@ LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR = <<~HDR.freeze
   :docfile: test.adoc
   :nodoc:
   :novalid:
-  :local-cache-only:
+  :local-cache-only: spec/relatondb
 
 HDR
 

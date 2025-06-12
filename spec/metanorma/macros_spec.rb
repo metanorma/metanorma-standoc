@@ -1238,7 +1238,7 @@ expect(File.exist? ("spec/assets/a1.asciidoc.log.txt")).to be true
 
   it "processes std-link macro" do
       input = <<~INPUT
-        #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
+        #{LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR}
 
         [[clause1]]
         == Clause

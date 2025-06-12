@@ -553,7 +553,7 @@ RSpec.describe Metanorma::Standoc do
     FileUtils.rm_rf "relaton/cache"
     mock_isobib_get_123
     Asciidoctor.convert(<<~"INPUT", *OPTIONS)
-      #{LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR}
+      #{LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR.sub(":local-cache-only: spec/relatondb", ":local-cache-only:")}
 
       [bibliography]
       == Normative References
