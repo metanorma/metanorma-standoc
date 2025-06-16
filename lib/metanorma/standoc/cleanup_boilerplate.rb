@@ -49,6 +49,7 @@ module Metanorma
         x.root.add_namespace(nil, xml_namespace)
         xml = Nokogiri::XML(x.to_xml)
         @isodoc ||= isodoc(@lang, @script, @locale)
+        @isodoc.bibdata(xml) # do i18n
         @isodoc.info(xml, nil)
         @isodoc
       end

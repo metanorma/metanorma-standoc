@@ -15,3 +15,5 @@ all_parts: ĉiuj partoj
 locality: {
   table: Tabelo
 }
+doctype_dict:
+  document-type: Dokument-tipo

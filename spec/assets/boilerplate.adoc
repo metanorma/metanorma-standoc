@@ -9,6 +9,9 @@ A
 
 === clause 1
 
+Doctype: {{ doctype }}
+Document Display: {{ doctype_display }}
+
 === clause 2
 
 {% if 1 == 2 %}

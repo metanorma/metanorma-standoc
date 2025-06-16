@@ -1249,6 +1249,8 @@ RSpec.describe Metanorma::Standoc do
       Antarctica & <UK>
       :pub-email: x@example.com
       :pub-uri: http://www.example.com
+      :doctype: document-type
+      :i18nyaml: spec/assets/i18n.yaml
 
       == Clause 1
 
@@ -1310,7 +1312,7 @@ RSpec.describe Metanorma::Standoc do
          </owner>
       </copyright>
       <ext>
-         <doctype>standard</doctype>
+         <doctype>document-type</doctype>
          <flavor>standoc</flavor>
       </ext>
    </bibdata>
@@ -1323,6 +1325,7 @@ RSpec.describe Metanorma::Standoc do
            <license-statement>
              <clause id="_" inline-header="false" obligation="normative">
                <title id="_">clause 1</title>
+               <p id="_">Doctype: Document Type Document Display:  Dokument Tipo</p>
              </clause>
              <clause id="_" inline-header="false" obligation="normative">
                <title id="_">clause 2</title>
@@ -1445,6 +1448,7 @@ RSpec.describe Metanorma::Standoc do
               <license-statement>
                  <clause id="_" inline-header="false" obligation="normative">
                     <title id="_">clause 1</title>
+                    <p id="_">Doctype: Standard Document Display:  Standard</p>
                  </clause>
                  <clause id="_" inline-header="false" obligation="normative">
                     <title id="_">clause 2</title>
