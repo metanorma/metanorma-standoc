@@ -38,7 +38,6 @@ module Metanorma
           if m.parent["validate"] == "false"
             m.parent.delete("validate")
           else
-            require "debug"; binding.b
             math = mathml_sanitise(m.dup)
             Plurimath::Math.parse(math, "mathml").to_mathml
           end
