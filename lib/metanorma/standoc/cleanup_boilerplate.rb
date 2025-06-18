@@ -77,19 +77,6 @@ module Metanorma
         initial_boilerplate(xmldoc, isodoc)
       end
 
-      # KILL
-      # escape &lt; &gt; &amp; to &amp;gt; etc,
-      # for passthrough insertion into boilerplate
-      def boilerplate_isodoc_values(isodoc)
-        isodoc.meta.get.each do |k, v|
-          if v.is_a?(String)
-            isodoc.meta.set(k, v.gsub("&amp;", "&&&&&&&")
-              .gsub("&lt;", "&amp;lt;").gsub("&gt;", "&amp;gt;")
-              .gsub("&&&&&&&", "&amp;amp;"))
-          end
-        end
-      end
-
       def initial_boilerplate(xml, isodoc)
         xml.at("//boilerplate") and return
         preface = xml.at("//preface | //sections | //annex | //references") or
