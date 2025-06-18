@@ -48,9 +48,11 @@ module Metanorma
         x = xmldoc.dup
         x.root.add_namespace(nil, xml_namespace)
         xml = Nokogiri::XML(x.to_xml)
+        #require "debug"; binding.b
         @isodoc ||= isodoc(@lang, @script, @locale)
+        # initialise @isodoc.xrefs, for @isodoc.xrefs.info
         @isodoc.bibdata(xml) # do i18n
-        @isodoc.info(xml, nil)
+        #@isodoc.info(xml, nil)
         @isodoc
       end
 
