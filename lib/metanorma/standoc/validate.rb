@@ -1,11 +1,11 @@
 require "metanorma/standoc/utils"
+require_relative "validate_image"
 require_relative "validate_section"
 require_relative "validate_table"
 require_relative "validate_term"
 require_relative "validate_schema"
 require "nokogiri"
 require "iev"
-require "pngcheck"
 
 module Metanorma
   module Standoc
@@ -14,7 +14,6 @@ module Metanorma
         @doctype = doc.at("//bibdata/ext/doctype")&.text
         repeat_id_validate(doc.root) # feeds xref_validate, termsect_validate
         xref_validate(doc) # feeds nested_asset_validate
-        nested_asset_validate(doc)
         section_validate(doc)
         norm_ref_validate(doc)
         iev_validate(doc.root)
@@ -25,6 +24,7 @@ module Metanorma
         table_validate(doc)
         requirement_validate(doc)
         image_validate(doc)
+        block_validate(doc)
         math_validate(doc)
         fatalerrors = @log.abort_messages
         fatalerrors.empty? or
@@ -96,61 +96,6 @@ module Metanorma
         err2 = "There is a crossreference to an instance of #{inner.name} " \
                "nested within #{outer.name}: #{i.to_xml}"
         @log.add("Style", i, err2)
-      end
-
-      def image_validate(doc)
-        image_exists(doc)
-        image_toobig(doc)
-        png_validate(doc)
-      end
-
-      def image_exists(doc)
-        doc.xpath("//image").each do |i|
-          Vectory::Utils::url?(i["src"]) and next
-          Vectory::Utils::datauri?(i["src"]) and next
-          expand_path(i["src"]) and next
-          @log.add("Images", i.parent,
-                   "Image not found: #{i['src']}", severity: 0)
-        end
-      end
-
-      def expand_path(loc)
-        relative_path = File.join(@localdir, loc)
-        [loc, relative_path].detect do |p|
-          File.exist?(p) ? p : nil
-        end
-      end
-
-      def png_validate(doc)
-        doc.xpath("//image[@mimetype = 'image/png']").each do |i|
-          Vectory::Utils::url?(i["src"]) and next
-          decoded = if Vectory::Utils::datauri?(i["src"])
-                      Vectory::Utils::decode_datauri(i["src"])[:data]
-                    else
-                      path = expand_path(i["src"]) or next
-                      File.binread(path)
-                    end
-          png_validate1(i, decoded)
-        end
-      end
-
-      def png_validate1(img, buffer)
-        PngCheck.check_buffer(buffer)
-      rescue PngCheck::CorruptPngError => e
-        @log.add("Images", img.parent,
-                 "Corrupt PNG image detected: #{e.message}")
-      end
-
-      TOO_BIG_IMG_ERR = <<~ERR.freeze
-        Image too large for Data URI encoding: disable Data URI encoding (`:data-uri-image: false`), or set `:data-uri-maxsize: 0`
-      ERR
-
-      def image_toobig(doc)
-        @dataurimaxsize.zero? and return
-        doc.xpath("//image").each do |i|
-          i["src"].size > @dataurimaxsize and
-            @log.add("Images", i.parent, TOO_BIG_IMG_ERR, severity: 0)
-        end
       end
 
       def validate(doc)
@@ -249,6 +194,39 @@ module Metanorma
         from["target"] && to_location["target"] or return
         get_anchors_between(from["target"], to_location["target"])
           .each { |id| @doc_xrefs[id] = from }
+      end
+
+      def block_validate(doc)
+        nested_asset_validate(doc)
+        all_empty_block_validate(doc)
+      end
+
+      def all_empty_block_validate(doc)
+        %w(note example admonition figure quote pre).each do |tag|
+          empty_block_validate(doc, "//#{tag}", nil)
+        end
+        empty_block_validate(doc, "//sourcecode", "body")
+        empty_block_validate(doc, "//formula", "stem")
+        empty_block_validate(doc, "//ol", "li")
+        empty_block_validate(doc, "//ul", "li")
+        empty_block_validate(doc, "//dl", "dt")
+      end
+
+      def empty_block_validate(doc, tag, body)
+        # require "debug"; binding.b
+        doc.xpath(tag).each do |t|
+          body and t = t.at("./#{body}")
+          empty_block?(t) or next
+          @log.add("Blocks", t, "#{tag.sub(/^\/\//, '')} is empty", severity: 1)
+        end
+      end
+
+      def empty_block?(block)
+        content = block.children.reject { |n| n.name == "name" }
+        content.map do |n|
+          %w(image xref eref).include?(n.name) ? n.name : n
+        end
+        content.map(&:to_s).join.strip.empty?
       end
     end
   end

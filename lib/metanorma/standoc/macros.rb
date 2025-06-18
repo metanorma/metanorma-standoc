@@ -124,11 +124,6 @@ module Metanorma
         end
       end
 
-      # KILL
-      def pass_convert(text)
-        text.sub(/^pass:\[(.+)$/, "pass-format:metanorma[\\1")
-      end
-
       # InlineLinkRx = %r((^|link:|#{CG_BLANK}|&lt;|[>\(\)\[\];"'])(\\?(?:https?|file|ftp|irc)://)(?:([^\s\[\]]+)\[(|#{CC_ALL}*?[^\\])\]|([^\s\[\]<]*([^\s,.?!\[\]<\)]))))m
       #
       InlineLinkRx = %r((^|(?<![-\\])\blink:(?!\+)|\p{Blank}|&lt;|[<>\(\)\[\];"'])((?:https?|file|ftp|irc)://)(?:([^\s\[\]]+)(?:(\[(|.*?[^\\])\])|([^\s\[\]<]*([^\s,.?!\[\]<\)])))))m

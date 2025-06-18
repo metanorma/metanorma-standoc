@@ -19,6 +19,7 @@ module Metanorma
       def asciimath2mathml_indiv(elem)
         elem["type"] = "MathML"
         expr = @c.decode(elem.text)
+        expr.strip.empty? and return
         ret = asciimath_parse(expr, elem)&.strip
         ret += "<asciimath>#{@c.encode(expr, :basic)}</asciimath>"
         elem.children = ret
@@ -35,9 +36,9 @@ module Metanorma
             <math xmlns='#{MATHML_NS}'><mstyle displaystyle='false'><mn>#{expr}</mn></mstyle></math>
           MATH
         else
+          expr.strip.empty? and return
           unitsml = if expr.include?("unitsml")
-                      { unitsml: { xml: true,
-                                   multiplier: :space } }
+                      { unitsml: { xml: true, multiplier: :space } }
                     else {} end
           Plurimath::Math.parse(expr, "asciimath")
             .to_mathml(**{ display_style: elem["block"] }.merge(unitsml))
