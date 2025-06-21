@@ -30,7 +30,7 @@ module Metanorma
       end
 
       def metadata_version(node, xml)
-        draft = metadata_version1(node)
+        draft = metadata_version_value(node)
         xml.edition node.attr("edition") if node.attr("edition")
         xml.version do |v|
           v.revision_date node.attr("revdate") if node.attr("revdate")
@@ -38,7 +38,7 @@ module Metanorma
         end
       end
 
-      def metadata_version1(node)
+      def metadata_version_value(node)
         draft = node.attr("version") and return draft
         draft = node.attr("draft") or return nil
         draft.empty? and return nil
