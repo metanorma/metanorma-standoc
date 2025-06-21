@@ -214,7 +214,7 @@ RSpec.describe Metanorma::Standoc do
       :vote-ended-date: 1012-01-01
       :date: Fred 1010-01-01
       :date_2: Jack 1010-01-01
-      :draft: 3.4
+      :version: 3.4
       :technical-committee: TC
       :technical-committee-number: 1
       :technical-committee-type: A
@@ -560,6 +560,7 @@ RSpec.describe Metanorma::Standoc do
       :revdate: 2000-01
       :published-date: 1000-01
       :docnumber: 1000
+      :draft: 3.4
       :partnumber: 1-1
       :tc-docnumber: 2000
       :language: el
@@ -702,6 +703,7 @@ RSpec.describe Metanorma::Standoc do
                   </contributor>
                   <version>
                     <revision-date>2000-01</revision-date>
+                     <draft>3.4</draft>
                   </version>
                   <language>el</language>
                   <locale>CY</locale>
