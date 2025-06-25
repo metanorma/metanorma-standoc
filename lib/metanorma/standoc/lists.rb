@@ -114,7 +114,7 @@ module Metanorma
       def colist(node)
         noko do |xml|
           node.items.each_with_index do |item, i|
-            xml.annotation **attr_code(id: i + 1) do |xml_li|
+            xml.callout_annotation **attr_code(id: i + 1) do |xml_li|
               xml_li.p { |p| p << item.text }
             end
           end

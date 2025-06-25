@@ -121,7 +121,7 @@ module Metanorma
       def align_callouts_to_annotations(xmldoc)
         xmldoc.xpath("//sourcecode").each do |x|
           callouts = x.xpath("./body/callout")
-          annotations = x.xpath("./annotation")
+          annotations = x.xpath("./callout-annotation")
           callouts.size == annotations.size and
             link_callouts_to_annotations(callouts, annotations)
         end
@@ -129,7 +129,7 @@ module Metanorma
 
       def merge_annotations_into_sourcecode(xmldoc)
         xmldoc.xpath("//sourcecode").each do |x|
-          while x.next_element&.name == "annotation"
+          while x.next_element&.name == "callout-annotation"
             x.next_element.parent = x
           end
         end

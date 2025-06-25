@@ -2,9 +2,9 @@ module Metanorma
   module Standoc
     module Cleanup
       def review_cleanup(xmldoc)
-        reviews = xmldoc.xpath("//review")
+        reviews = xmldoc.xpath("//annotation")
         reviews.empty? and return
-        ctr = xmldoc.root.add_child("<review-container/>").first
+        ctr = xmldoc.root.add_child("<annotation-container/>").first
         reviews.each do |r|
           review_set_location(r)
           ctr << r

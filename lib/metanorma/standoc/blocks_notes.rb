@@ -14,36 +14,33 @@ module Metanorma
           .merge(type: node.attr("type"))))
       end
 
-      def sidebar_attrs(node)
-        todo_attrs(node).merge(
-          attr_code(
-            from: node.attr("from"),
-            to: node.attr("to") || node.attr("from"),
-            type: node.attr("type") || nil,
-          ),
-        )
-      end
-
       def sidebar(node)
         noko do |xml|
-          xml.review **sidebar_attrs(node) do |r|
+          xml.annotation **sidebar_attrs(node) do |r|
             wrap_in_para(node, r)
           end
         end
       end
 
-      def todo_attrs(node)
+      def sidebar_attrs(node)
         date = node.attr("date") || Date.today.iso8601.gsub(/\+.*$/, "")
         date += "T00:00:00Z" unless date.include?("T")
         attr_code(id_attr(node)
           .merge(reviewer: node.attr("reviewer") || node.attr("source") ||
                  "(Unknown)",
-                 date:, type: "todo"))
+                 from: node.attr("from"),
+                 to: node.attr("to") || node.attr("from"),
+                 type: node.attr("type") || "review",
+                 date:))
+      end
+
+      def todo_attrs(node)
+        sidebar_attrs(node).merge(type: "todo")
       end
 
       def todo(node)
         noko do |xml|
-          xml.review **todo_attrs(node) do |r|
+          xml.annotation **todo_attrs(node) do |r|
             wrap_in_para(node, r)
           end
         end
