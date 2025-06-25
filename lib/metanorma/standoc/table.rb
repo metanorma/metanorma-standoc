@@ -2,10 +2,14 @@ module Metanorma
   module Standoc
     module Table
       def table_attrs(node)
+        style = node.attr("style")&.sub(/^style:/, "")
+          &.strip&.sub(/^['"](.+)['"]$/, "\\1")
+        style == "table" and style = nil
         keep_attrs(node)
           .merge(id_unnum_attrs(node))
           .merge(headerrows: node.attr("headerrows"),
                  alt: node.attr("alt"),
+                 style: style,
                  summary: node.attr("summary"),
                  width: node.attr("width"))
       end

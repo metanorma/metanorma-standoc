@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <grammar xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
-<!-- VERSION v2.0.7 -->
+<!-- VERSION v2.0.8 -->
 
   <!--
     ALERT: cannot have root comments, because of https://github.com/metanorma/metanorma/issues/437
@@ -540,7 +540,7 @@ normative or informative references, some split references into sections organiz
       <ref name="OptionalId"/>
       <optional>
         <attribute name="style">
-          <a:documentation>CSS style: only background-color supported</a:documentation>
+          <a:documentation>CSS style: only background-color, color, border supported</a:documentation>
         </attribute>
       </optional>
     </define>
@@ -620,7 +620,7 @@ This is done if the footnote reference is already presented in some other form, 
     <ref name="RequiredId"/>
     <optional>
       <attribute name="style">
-        <a:documentation>CSS style: only background-color supported</a:documentation>
+        <a:documentation>CSS style: only background-color, color, border supported</a:documentation>
       </attribute>
     </optional>
   </define>
@@ -698,6 +698,11 @@ titlecase, or lowercase</a:documentation>
     <optional>
       <attribute name="width">
         <a:documentation>Width of the table block in rendering</a:documentation>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="style">
+        <a:documentation>CSS style: only background-color, color, border supported</a:documentation>
       </attribute>
     </optional>
     <ref name="BlockAttributes"/>
