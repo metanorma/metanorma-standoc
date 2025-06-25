@@ -357,14 +357,14 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
-  xit "ignores review blocks unless document is in draft mode" do
+  xit "ignores annotation blocks unless document is in draft mode" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [[foreword]]
       .Foreword
       Foreword
 
-      [reviewer=ISO,date=20170101,from=foreword,to=foreword]
+      [annotation=ISO,date=20170101,from=foreword,to=foreword]
       ****
       A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.
 
@@ -381,7 +381,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
-  it "processes review blocks" do
+  it "processes annotation blocks" do
     mock_uuid_increment
     input = <<~INPUT
       = Document title
@@ -676,48 +676,48 @@ RSpec.describe Metanorma::Standoc do
                  </table>
               </clause>
            </sections>
-           <review-container>
-              <review id="_3" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_68" to="_68">
+           <annotation-container>
+              <annotation id="_3" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="review" from="_68" to="_68">
                  <p id="_4">Initial review 1</p>
-              </review>
-              <review id="_5" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_69" to="_69">
+              </annotation>
+              <annotation id="_5" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="review" from="_69" to="_69">
                  <p id="_6">Initial review 2</p>
-              </review>
-              <review id="_10" reviewer="ISO" date="20170101T00:00:00Z" type="whatever" from="foreword" to="foreword">
+              </annotation>
+              <annotation id="_10" reviewer="ISO" date="20170101T00:00:00Z" type="whatever" from="foreword" to="foreword">
                  <p id="_11">A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.</p>
                  <p id="_12">
                     For further information on the Foreword, see
                     <strong>ISO/IEC Directives, Part 2, 2016, Clause 12.</strong>
                  </p>
-              </review>
-              <review id="_13" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_70" to="_70">
+              </annotation>
+              <annotation id="_13" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="review" from="_70" to="_70">
                  <p id="_14">Blank review</p>
-              </review>
-              <review id="_17" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_71" to="_71">
+              </annotation>
+              <annotation id="_17" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="review" from="_71" to="_71">
                  <p id="_18">Second Blank review</p>
-              </review>
-              <review id="_21" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_72" to="_72">
+              </annotation>
+              <annotation id="_21" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="review" from="_72" to="_72">
                  <p id="_22">Third Blank review</p>
-              </review>
-              <review id="_25" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_73" to="_73">
+              </annotation>
+              <annotation id="_25" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="review" from="_73" to="_73">
                  <p id="_26">Fourth Blank review</p>
-              </review>
-              <review id="_35" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_74" to="_74">
+              </annotation>
+              <annotation id="_35" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="review" from="_74" to="_74">
                  <p id="_36">Fifth Blank review</p>
-              </review>
-              <review id="_44" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_75" to="_75">
+              </annotation>
+              <annotation id="_44" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="review" from="_75" to="_75">
                  <p id="_45">Sixth Blank review</p>
-              </review>
-              <review id="_49" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_76" to="_76">
+              </annotation>
+              <annotation id="_49" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="review" from="_76" to="_76">
                  <p id="_50">Seventh Blank review</p>
-              </review>
-              <review id="_56" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_77" to="_77">
+              </annotation>
+              <annotation id="_56" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="review" from="_77" to="_77">
                  <p id="_57">Eighth Blank review</p>
-              </review>
-              <review id="_64" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_78" to="_78">
+              </annotation>
+              <annotation id="_64" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="review" from="_78" to="_78">
                  <p id="_65">Ninth Blank review</p>
-              </review>
-           </review-container>
+              </annotation>
+           </annotation-container>
         </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
@@ -1928,12 +1928,12 @@ RSpec.describe Metanorma::Standoc do
                    <callout target="_3">2</callout>
                    end
                 </body>
-                <annotation id="_2" anchor="_2">
+                <callout-annotation id="_2" anchor="_2">
                    <p id="_4">This is one callout</p>
-                </annotation>
-                <annotation id="_3" anchor="_3">
+                </callout-annotation>
+                <callout-annotation id="_3" anchor="_3">
                    <p id="_5">This is another callout</p>
-                </annotation>
+                </callout-annotation>
              </sourcecode>
           </sections>
        </metanorma>

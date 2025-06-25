@@ -107,7 +107,7 @@ module Metanorma
         %w(pre sourcecode passthrough metanorma-extension stem).freeze
 
       STRIP_LINEBREAK_ELEMENTS =
-        %w(title name variant-title figure example review admonition
+        %w(title name variant-title figure example annotation admonition
            note li th td dt dd p quote label annotation
            preferred admitted related deprecates field-of-application
            usage-info expression pronunciation grammar-value domain
@@ -146,8 +146,8 @@ module Metanorma
            quote label abstract preferred admitted related deprecates
            field-of-application usage-info expression pronunciation
            grammar-value domain definition termnote termexample modification
-           description newcontent floating-title tab review admonition
-           annotation).include? elem.name
+           description newcontent floating-title tab annotation admonition
+           callout-annotation).include? elem.name
       end
 
       def empty_tag_with_text_content?(elem)

@@ -392,17 +392,17 @@ RSpec.describe Metanorma::Standoc do
                 Annex 1
              </title>
           </annex>
-          <review-container>
-             <review id="_3" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_12" to="_12">
+          <annotation-container>
+             <annotation id="_3" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_12" to="_12">
                 <p id="_15">Note1</p>
-             </review>
-             <review id="_6" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_13" to="_13">
+             </annotation>
+             <annotation id="_6" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_13" to="_13">
                 <p id="_7">Note2</p>
-             </review>
-             <review id="_10" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_14" to="_14">
+             </annotation>
+             <annotation id="_10" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_14" to="_14">
                 <p id="_11">Note3</p>
-             </review>
-          </review-container>
+             </annotation>
+          </annotation-container>
        </metanorma>
     OUTPUT
     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
@@ -544,12 +544,12 @@ RSpec.describe Metanorma::Standoc do
            #{BLANK_HDR}
            <sections>
              <p id="_">
-             <ruby><pronunciation value="とうきょう"/>東京</ruby>
-             <ruby><pronunciation value="とうきょう" lang="ja" script="Hira"/>東京</ruby>
-             <ruby><pronunciation value="Tōkyō" script="Latn"/>東京</ruby>
-             <ruby><annotation value="ライバル"/>親友</ruby>
-             <ruby><pronunciation value="とう"/>東</ruby> <ruby><pronunciation value="きょう"/>京</ruby>
-             <ruby><pronunciation value="Tō" script="Latn"/>東</ruby><ruby><pronunciation value="kyō" script="Latn"/>京</ruby>
+             <ruby><ruby-pronunciation value="とうきょう"/>東京</ruby>
+             <ruby><ruby-pronunciation value="とうきょう" lang="ja" script="Hira"/>東京</ruby>
+             <ruby><ruby-pronunciation value="Tōkyō" script="Latn"/>東京</ruby>
+             <ruby><ruby-annotation value="ライバル"/>親友</ruby>
+             <ruby><ruby-pronunciation value="とう"/>東</ruby> <ruby><ruby-pronunciation value="きょう"/>京</ruby>
+             <ruby><ruby-pronunciation value="Tō" script="Latn"/>東</ruby><ruby><ruby-pronunciation value="kyō" script="Latn"/>京</ruby>
            </p>
            </sections>
       </metanorma>
@@ -571,10 +571,10 @@ RSpec.describe Metanorma::Standoc do
            #{BLANK_HDR}
            <sections>
              <p id="_">
-             <ruby><pronunciation value="とう"/><ruby><pronunciation value="tou"/>東</ruby></ruby> <ruby><pronunciation value="なん"/><ruby><pronunciation value="nan"/>南</ruby></ruby> の方角
-             <ruby><pronunciation value="たつみ"/><ruby><pronunciation value="とう"/>東</ruby><ruby><pronunciation value="なん"/>南</ruby></ruby>
-             <ruby><pronunciation value="プロテゴ"/><ruby><pronunciation value="まも"/>護</ruby>れ</ruby>!
-             <ruby><pronunciation value="プロテゴ"/>れ<ruby><pronunciation value="まも"/>護</ruby></ruby>!</p>
+             <ruby><ruby-pronunciation value="とう"/><ruby><ruby-pronunciation value="tou"/>東</ruby></ruby> <ruby><ruby-pronunciation value="なん"/><ruby><ruby-pronunciation value="nan"/>南</ruby></ruby> の方角
+             <ruby><ruby-pronunciation value="たつみ"/><ruby><ruby-pronunciation value="とう"/>東</ruby><ruby><ruby-pronunciation value="なん"/>南</ruby></ruby>
+             <ruby><ruby-pronunciation value="プロテゴ"/><ruby><ruby-pronunciation value="まも"/>護</ruby>れ</ruby>!
+             <ruby><ruby-pronunciation value="プロテゴ"/>れ<ruby><ruby-pronunciation value="まも"/>護</ruby></ruby>!</p>
            </p>
            </sections>
       </metanorma>

@@ -43,7 +43,7 @@ module Metanorma
         attrs = " value='#{target}'"
         x = args[:lang] and attrs += " lang='#{x}'"
         x = args[:script] and attrs += " script='#{x}'"
-        "<ruby><#{args[:type]} #{attrs}/>#{out}</ruby>"
+        "<ruby><ruby-#{args[:type]} #{attrs}/>#{out}</ruby>"
       end
     end
 

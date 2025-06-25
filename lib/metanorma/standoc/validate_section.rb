@@ -12,7 +12,7 @@ module Metanorma
       def sourcecode_style(root)
         root.xpath("//sourcecode").each do |x|
           callouts = x.xpath("./body/callout")
-          annotations = x.xpath("./annotation")
+          annotations = x.xpath("./callout-annotation")
           callouts_error(x, callouts, annotations)
         end
       end
