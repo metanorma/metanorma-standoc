@@ -8,6 +8,7 @@ module Metanorma
       def process(parent, reader, attrs)
         attrs["name"] = "todo"
         attrs["caption"] = "TODO"
+        # these will be converted from admonition to annotation downstream
         create_block(parent, :admonition, reader.lines, attrs,
                      content_model: :compound)
       end
@@ -21,6 +22,7 @@ module Metanorma
           para.set_attr("name", "todo")
           para.set_attr("caption", "TODO")
           para.lines[0].sub!(/^TODO: /, "")
+          # these will be converted from admonition to annotation downstream
           para.context = :admonition
         end
       end

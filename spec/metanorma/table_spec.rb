@@ -516,7 +516,7 @@ RSpec.describe Metanorma::Standoc do
   it "processes table styles" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
-      [style: "border: none; color: purple;"]
+      [css-style="border: none; color: purple;"]
       |===
       |A tr-style:[color: blue] |B |C tr-style:[background-color: red]
 

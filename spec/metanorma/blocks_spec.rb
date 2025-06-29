@@ -357,30 +357,6 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
-  xit "ignores annotation blocks unless document is in draft mode" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      [[foreword]]
-      .Foreword
-      Foreword
-
-      [annotation=ISO,date=20170101,from=foreword,to=foreword]
-      ****
-      A Foreword shall appear in each document. The generic text is shown here. It does not contain requirements, recommendations or permissions.
-
-      For further information on the Foreword, see *ISO/IEC Directives, Part 2, 2016, Clause 12.*
-      ****
-    INPUT
-    output = <<~OUTPUT
-             #{BLANK_HDR}
-      <sections><p id="_" anchor="foreword">Foreword</p>
-      </sections>
-      </metanorma>
-    OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
-  end
-
   it "processes annotation blocks" do
     mock_uuid_increment
     input = <<~INPUT
