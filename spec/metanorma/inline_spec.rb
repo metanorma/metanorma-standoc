@@ -1128,6 +1128,8 @@ RSpec.describe Metanorma::Standoc do
 
       pass-format:metanorma[(c)] pass-format:metanorma[...]
       pass-format:metanorma[++(c)++] pass-format:metanorma[++...++]
+
+      pass:[http://a[b\\]c]
     INPUT
     output = <<~OUTPUT
        #{BLANK_HDR}
@@ -1136,6 +1138,7 @@ RSpec.describe Metanorma::Standoc do
               <p id="_">© …​</p>
               <p id="_">(c) ... (c) ...</p>
               <p id="_">(c) ... (c) ...</p>
+              <p id="_">http://a[b]c</p>
       </sections>
       </metanorma>
     OUTPUT
