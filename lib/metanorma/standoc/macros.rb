@@ -221,14 +221,17 @@ module Metanorma
       # pass:[A] => pass-format:metanorma[++A++],
       # so long as A doesn't already start with ++
       # ditto pass-format:[A] => pass-format:[++A++]
+      # convert any \] in the ++...++ body to ]
       def pass_convert(text)
         text
-          .gsub(/pass-format:([^\[ ]*)\[(?!\+\+)(.+?)(?<!\\)\]/,
-                "pass-format:\\1[++\\2++]")
+          .gsub(/pass-format:([^\[ ]*)\[(?!\+\+)(.+?)(?<!\\)\]/) do |_m|
+          "pass-format:#{$1}[++#{$2.gsub(/\\\]/, ']')}++]"
+        end
           .gsub(/pass:\[(?=\+\+)(.+?)(?<!\\)\]/,
                 "pass-format:metanorma[\\1]")
-          .gsub(/pass:\[(?!\+\+)(.+?)(?<!\\)\]/,
-                "pass-format:metanorma[++\\1++]")
+          .gsub(/pass:\[(?!\+\+)(.+?)(?<!\\)\]/) do |_m|
+          "pass-format:metanorma[++#{$1.gsub(/\\\]/, ']')}++]"
+        end
       end
 
       def inlinelink(text)
