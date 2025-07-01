@@ -39,13 +39,13 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
              <sections><figure id="_">
-        <image src="_plantuml_images/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image src="_plantuml_images/_.png" filename="_plantuml_images/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
-        <image src="_plantuml_images/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image src="_plantuml_images/_.png" filename="_plantuml_images/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
-        <image src="_plantuml_images/filename.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image src="_plantuml_images/filename.png" filename="_plantuml_images/filename.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
               </sections>
              </metanorma>
@@ -93,13 +93,13 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
              <sections><figure id="_">
-        <image src="_plantuml_images/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image src="_plantuml_images/_.png" filename="_plantuml_images/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
-        <image src="_plantuml_images/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image src="_plantuml_images/_.png" filename="_plantuml_images/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
-        <image src="_plantuml_images/filename.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image src="_plantuml_images/filename.png" filename="_plantuml_images/filename.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
               </sections>
              </metanorma>
@@ -144,7 +144,7 @@ RSpec.describe Metanorma::Standoc do
                 #{BLANK_HDR}
                 <sections>
         <figure id="_">
-        <image src="_plantuml_images/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image src="_plantuml_images/_.png" filename="_plantuml_images/_.png"  id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       </sections>
       </metanorma>
@@ -181,7 +181,7 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
           <sections>
           <figure id="_">
-          <image src="spec/assets/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+          <image src="spec/assets/_.png" filename="spec/assets/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
           </figure>
           </sections>
           </metanorma>
@@ -221,7 +221,7 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
         <sections>
         <figure id="_">
-        <image src="spec/assets/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image src="spec/assets/_.png" filename="spec/assets/_.png" id="_" mimetype="image/png" height="auto" width="auto"/>
         </figure>
         </sections>
         </metanorma>
