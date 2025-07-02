@@ -144,9 +144,6 @@ module Metanorma
       def image_attributes(node)
         sourceuri = image_src_uri(node)
         uri = sourceuri
-        types = if /^data:/.match?(uri) then Vectory::Utils::datauri2mime(uri)
-                else MIME::Types.type_for(uri)
-                end
         type = image_mimetype(uri)
         uri = uri.sub(%r{^data:image/\*;}, "data:#{type};")
         image_attributes1(node, uri, sourceuri, type)
@@ -157,7 +154,7 @@ module Metanorma
         if Gem.win_platform? && /^[a-zA-Z]:/.match?(nodetarget)
           nodetarget.prepend("/")
         end
-        uri
+        nodetarget
       end
 
       def image_attributes1(node, uri, sourceuri, type)
