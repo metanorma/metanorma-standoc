@@ -859,7 +859,7 @@ RSpec.describe Metanorma::Standoc do
              <organization>
                <name>Monsters, Inc.</name>
                <logo>
-                 <image src="correct.png"/>
+                 <image src="correct.png"  mimetype="image/png"/>
                </logo>
              </organization>
            </contributor>
@@ -876,7 +876,7 @@ RSpec.describe Metanorma::Standoc do
                <email>x@example.com</email>
                <uri>http://www.example1.com</uri>
                <logo>
-                 <image src="corrupt.png"/>
+                 <image src="corrupt.png"  mimetype="image/png"/>
                </logo>
              </organization>
            </contributor>
@@ -901,7 +901,7 @@ RSpec.describe Metanorma::Standoc do
              <organization>
                <name>Monsters, Inc.</name>
                <logo>
-                 <image src="correct.png"/>
+                 <image src="correct.png"  mimetype="image/png"/>
                </logo>
              </organization>
            </contributor>
@@ -918,7 +918,7 @@ RSpec.describe Metanorma::Standoc do
                <email>x@example.com</email>
                <uri>http://www.example1.com</uri>
                <logo>
-                 <image src="corrupt.png"/>
+                 <image src="corrupt.png"  mimetype="image/png"/>
                </logo>
              </organization>
            </contributor>
@@ -934,7 +934,7 @@ RSpec.describe Metanorma::Standoc do
                <email>y@example.com</email>
                <uri>http://www.example2.com</uri>
                <logo>
-                 <image src="corrupt.png"/>
+                 <image src="corrupt.png"  mimetype="image/png"/>
                </logo>
              </organization>
            </contributor>
@@ -950,7 +950,7 @@ RSpec.describe Metanorma::Standoc do
                <email>z@example.com</email>
                <uri>http://www.example3.com</uri>
                <logo>
-                 <image src="correct.png"/>
+                 <image src="correct.png"  mimetype="image/png"/>
                </logo>
              </organization>
            </contributor>
@@ -966,7 +966,7 @@ RSpec.describe Metanorma::Standoc do
                <email>z@example.com</email>
                <uri>http://www.example3.com</uri>
                <logo>
-                 <image src="correct.png"/>
+                 <image src="correct.png"  mimetype="image/png"/>
                </logo>
              </organization>
            </contributor>
@@ -981,7 +981,7 @@ RSpec.describe Metanorma::Standoc do
                <organization>
                  <name>Monsters, Inc.</name>
                  <logo>
-                   <image src="correct.png"/>
+                   <image src="correct.png"  mimetype="image/png"/>
                  </logo>
                </organization>
              </owner>
@@ -1000,7 +1000,7 @@ RSpec.describe Metanorma::Standoc do
                  <email>x@example.com</email>
                  <uri>http://www.example1.com</uri>
                  <logo>
-                   <image src="corrupt.png"/>
+                   <image src="corrupt.png"  mimetype="image/png"/>
                  </logo>
                </organization>
              </owner>

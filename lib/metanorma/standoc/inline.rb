@@ -134,13 +134,17 @@ module Metanorma
         end
       end
 
-      def image_attributes(node)
-        sourceuri = image_src_uri(node)
-        uri = sourceuri
+      def image_mimetype(uri)
         types = if /^data:/.match?(uri) then Vectory::Utils::datauri2mime(uri)
                 else MIME::Types.type_for(uri)
                 end
-        type = types.first.to_s
+        types.first.to_s
+      end
+
+      def image_attributes(node)
+        sourceuri = image_src_uri(node)
+        uri = sourceuri
+        type = image_mimetype(uri)
         uri = uri.sub(%r{^data:image/\*;}, "data:#{type};")
         image_attributes1(node, uri, sourceuri, type)
       end
