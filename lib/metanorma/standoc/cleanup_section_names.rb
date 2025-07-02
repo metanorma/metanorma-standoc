@@ -123,28 +123,28 @@ module Metanorma
           end
       end
 
-      def terms_subclause_type_tally(node, m, parent)
-        sym = if (node.at(".//term") && !node.at(".//definitions")) ||
-            (node.name == "terms" && !node.at(".//term"))
+      def terms_subclause_type_tally(node, acc, parent)
+        hasterm = node.at(".//term")
+        sym = if (hasterm && !node.at(".//definitions")) ||
+            (node.name == "terms" && !hasterm)
                 unless m[:parent] == :term # don't count Term > Term twice
                   :term
                 end
-              elsif node.at(".//term") && node.at("./self::*#{SYMnoABBR}") then :tsna
-              elsif node.at(".//term") && node.at("./self::*#{ABBRnoSYM}") then :tans
-              elsif node.at(".//term") && node.at("./self::*#{SYMABBR}") then :tsa
-              elsif node.at(".//term") && node.at("./self::*#{NO_SYMABBR}") then :tnsa
+              elsif hasterm && node.at("./self::*#{SYMnoABBR}") then :tsna
+              elsif hasterm && node.at("./self::*#{ABBRnoSYM}") then :tans
+              elsif hasterm && node.at("./self::*#{SYMABBR}") then :tsa
+              elsif hasterm && node.at("./self::*#{NO_SYMABBR}") then :tnsa
               elsif node.at("./self::*#{SYMnoABBR}") then :sna
               elsif node.at("./self::*#{ABBRnoSYM}") then :ans
               elsif node.at("./self::*#{SYMABBR}") then :sa
               elsif node.at("./self::*#{NO_SYMABBR}") then :nsa
               elsif node.name == "definitions" # ignore
-              elsif node == parent && node.at(".//term") &&
-                  node.at(".//definitions")
+              elsif node == parent && hasterm && node.at(".//definitions")
                 :termdef
               else :other
               end
-        node == parent and m[:parent] = sym
-        sym and m[sym] += 1
+        node == parent and acc[:parent] = sym
+        sym and acc[sym] += 1
       end
 
       def sections_variant_title_cleanup(xml)

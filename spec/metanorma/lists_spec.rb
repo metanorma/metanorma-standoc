@@ -94,7 +94,7 @@ RSpec.describe Metanorma::Standoc do
       [loweralpha]
       . First
       . Second
-      [upperalpha]
+      [upperalpha,start=3]
       .. Third
       .. Fourth
       . Fifth
@@ -145,7 +145,7 @@ RSpec.describe Metanorma::Standoc do
                </li>
                <li>
                   <p id="_">Second</p>
-                  <ol id="_" type="alphabet_upper">
+                  <ol id="_" type="alphabet_upper"  start="3">
                      <li>
                         <p id="_">Third</p>
                      </li>
