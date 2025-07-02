@@ -142,23 +142,31 @@ module Metanorma
       end
 
       def image_attributes(node)
+        sourceuri = image_src_uri(node)
+        uri = sourceuri
+        types = if /^data:/.match?(uri) then Vectory::Utils::datauri2mime(uri)
+                else MIME::Types.type_for(uri)
+                end
+        type = image_mimetype(uri)
+        uri = uri.sub(%r{^data:image/\*;}, "data:#{type};")
+        image_attributes1(node, uri, sourceuri, type)
+      end
+
+      def image_src_uri(node)
         nodetarget = node.attr("target") || node.target
         if Gem.win_platform? && /^[a-zA-Z]:/.match?(nodetarget)
           nodetarget.prepend("/")
         end
-        uri = node.image_uri (nodetarget)
-        Gem.win_platform? && /^\/[a-zA-Z]:/.match?(uri) and uri = uri[1..]
-        type = image_mimetype(uri)
-        uri = uri.sub(%r{^data:image/\*;}, "data:#{type};")
-        image_attributes1(node, uri, type)
+        uri
       end
 
-      def image_attributes1(node, uri, type)
+      def image_attributes1(node, uri, sourceuri, type)
+        /^data:/.match?(sourceuri) and sourceuri = nil
         attr_code(id_attr(node)
           .merge(src: uri, mimetype: type,
                  height: node.attr("height") || "auto",
                  width: node.attr("width") || "auto",
-                 filename: node.attr("filename"),
+                 filename: node.attr("filename") || sourceuri,
                  title: node.attr("titleattr"),
                  alt: node.alt == node.attr("default-alt") ? nil : node.alt))
       end

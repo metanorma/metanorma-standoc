@@ -13,7 +13,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~"OUTPUT"
       #{BLANK_HDR.sub(/<metanorma-extension>.*<\/metanorma-extension>/m, '')}
        <sections>
-          <recommendation id="_" tag="X" multilingual-rendering="common" unnumbered="true" model="ogc" type="verification" anchor="/ogc/recommendation/wfs/2">
+         <recommendation id="_" tag="X" multilingual-rendering="common" unnumbered="true" model="ogc" type="verification" anchor="/ogc/recommendation/wfs/2">
          <identifier>/ogc/recommendation/wfs/2</identifier>
        <subject>user</subject>
        <subject>developer, implementer</subject>

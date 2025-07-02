@@ -736,7 +736,7 @@ RSpec.describe Metanorma::Standoc do
           <p id='_'>xyz</p>
         </fn>
       </name>
-               <image src="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+               <image src="spec/examples/rice_images/rice_image1.png" filename="spec/examples/rice_images/rice_image1.png"  id="_" mimetype="image/png" height="auto" width="auto"/>
              <fn id="_" reference="a">
                <p id="_">This is a footnote to a figure</p>
              </fn><fn id="_" reference="b">
@@ -777,7 +777,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
       <sections>
           <figure id='_'>
-            <image src='spec/examples/rice_images/rice_image1.png' id='_' mimetype='image/png' height='auto' width='auto'/>
+            <image src='spec/examples/rice_images/rice_image1.png' filename='spec/examples/rice_images/rice_image1.png' id='_' mimetype='image/png' height='auto' width='auto'/>
             <dl id='_' key='true'>
               <dt>a</dt>
               <dd id="_">
@@ -786,7 +786,7 @@ RSpec.describe Metanorma::Standoc do
             </dl>
           </figure>
           <figure id='_'>
-            <image src='spec/examples/rice_images/rice_image1.png' id='_' mimetype='image/png' height='auto' width='auto'/>
+            <image src='spec/examples/rice_images/rice_image1.png' filename='spec/examples/rice_images/rice_image1.png' id='_' mimetype='image/png' height='auto' width='auto'/>
             <dl id='_' key='true'>
               <dt>a</dt>
               <dd id="_">
@@ -795,7 +795,7 @@ RSpec.describe Metanorma::Standoc do
             </dl>
           </figure>
           <figure id='_'>
-            <image src='spec/examples/rice_images/rice_image1.png' id='_' mimetype='image/png' height='auto' width='auto'/>
+            <image src='spec/examples/rice_images/rice_image1.png' filename='spec/examples/rice_images/rice_image1.png' id='_' mimetype='image/png' height='auto' width='auto'/>
           </figure>
           <dl id='_'>
             <dt>a</dt>
@@ -831,15 +831,15 @@ RSpec.describe Metanorma::Standoc do
              <sections>
         <figure id="_" anchor="figureC-2"><name id="_">Stages of gelatinization</name><figure id="_">
         <name id="_">Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
-        <image src="spec/examples/rice_images/rice_image3_1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image src="spec/examples/rice_images/rice_image3_1.png" filename="spec/examples/rice_images/rice_image3_1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
         <name id="_">Intermediate stages: Some fully gelatinized kernels are visible</name>
-        <image src="spec/examples/rice_images/rice_image3_2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image src="spec/examples/rice_images/rice_image3_2.png" filename="spec/examples/rice_images/rice_image3_2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure>
       <figure id="_">
         <name id="_">Final stages: All kernels are fully gelatinized</name>
-        <image src="spec/examples/rice_images/rice_image3_3.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+        <image src="spec/examples/rice_images/rice_image3_3.png" filename="spec/examples/rice_images/rice_image3_3.png" id="_" mimetype="image/png" height="auto" width="auto"/>
       </figure></figure>
       </sections>
       </metanorma>
@@ -1004,7 +1004,7 @@ RSpec.describe Metanorma::Standoc do
         #{BLANK_HDR}
               <sections>
           <figure id="_" width="100">
-            <image src="spec/fixtures/action_schemaexpg1.svg" mimetype="image/svg+xml" id="_" height="100" width="100">
+            <image src="spec/fixtures/action_schemaexpg1.svg" filename="spec/fixtures/action_schemaexpg1.svg" mimetype="image/svg+xml" id="_" height="100" width="100">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
                 <style/>
                 <image/>
@@ -1021,10 +1021,10 @@ RSpec.describe Metanorma::Standoc do
             </image>
           </figure>
           <figure id="_">
-            <image src="data:image/png" mimetype="image/png" id="_" height="auto" width="auto"/>
+            <image src="data:image/png" filename="spec/examples/rice_images/rice_image1.png" mimetype="image/png" id="_" height="auto" width="auto"/>
           </figure>
           <figure id="_">
-            <image src="spec/fixtures/action_schemaexpg1.svg" mimetype="image/svg+xml" id="_" height="auto" width="auto">
+            <image src="spec/fixtures/action_schemaexpg1.svg" filename="spec/fixtures/action_schemaexpg1.svg" mimetype="image/svg+xml" id="_" height="auto" width="auto">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1_inject_1" x="0px" y="0px" viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
                 <style/>
                 <image/>
