@@ -127,7 +127,7 @@ module Metanorma
         hasterm = node.at(".//term")
         sym = if (hasterm && !node.at(".//definitions")) ||
             (node.name == "terms" && !hasterm)
-                unless m[:parent] == :term # don't count Term > Term twice
+                unless acc[:parent] == :term # don't count Term > Term twice
                   :term
                 end
               elsif hasterm && node.at("./self::*#{SYMnoABBR}") then :tsna
