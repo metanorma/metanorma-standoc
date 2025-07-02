@@ -115,7 +115,7 @@ module Metanorma
 
       def org_logo(xml, logo)
         logo and xml.logo do |l|
-          l.image src: logo
+          l.image src: logo, mimetype: image_mimetype(logo)
         end
       end
 
