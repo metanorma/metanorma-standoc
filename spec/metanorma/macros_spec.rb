@@ -1159,20 +1159,20 @@ RSpec.describe Metanorma::Standoc do
               <title id="_">Clause 4</title>
               <p id="_">X</p>
               <figure id="_">
-                <image src="rice_image2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+                <image src="rice_image2.png" filename="rice_image2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
               </figure>
               <figure id="_">
-                <image src="../rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+                <image src="../rice_image1.png" filename="../rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
               </figure>
             </clause>
             <clause id="_" inline-header="false" obligation="normative">
               <title id="_">Clause 3a</title>
               <p id="_">X</p>
               <figure id="_">
-                <image src="rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+                <image src="rice_image1.png" filename="rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto"/>
               </figure>
               <figure id="_">
-                <image src="subdir/rice_image2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
+                <image src="subdir/rice_image2.png" filename="subdir/rice_image2.png" id="_" mimetype="image/png" height="auto" width="auto"/>
               </figure>
             </clause>
           </sections>
@@ -1186,195 +1186,195 @@ RSpec.describe Metanorma::Standoc do
 
   it "processes asciidoc.log file which reflects all preprocessing, including embeds and includes" do
     FileUtils.rm_rf("spec/examples/test.asciidoc.log.txt")
-system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/examples/test.adoc"
-      expect(File.exist? ("spec/examples/test.asciidoc.log.txt")).to be true
-      log = File.read("spec/examples/test.asciidoc.log.txt")
-      source = File.read("spec/examples/test.adoc")
-      expect(log).to be_equivalent_to(source)
+    system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/examples/test.adoc"
+    expect(File.exist?("spec/examples/test.asciidoc.log.txt")).to be true
+    log = File.read("spec/examples/test.asciidoc.log.txt")
+    source = File.read("spec/examples/test.adoc")
+    expect(log).to be_equivalent_to(source)
     FileUtils.rm_rf("spec/examples/test.asciidoc.log.txt")
 
     FileUtils.rm_rf("spec/assets/a1.asciidoc.log.txt")
-system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/assets/a1.adoc"
-expect(File.exist? ("spec/assets/a1.asciidoc.log.txt")).to be true
-      log = File.read("spec/assets/a1.asciidoc.log.txt")
-      expect(log).to be_equivalent_to <<~ADOC
-       = X
-       A
-       :docidentifier: DOCIDENTIFIER-1
-     
-       == Clause 1
-     
-       <<B>>
-     
-       [[B]]
-       == Clause 2 [[B]]
-     
-       X
-     
-       == Clause 3
-     
-       X
-     
-       == Clause 4
-     
-       X
-     
-       image::rice_image2.png[]
-     
-     
-       image::../rice_image1.png[]
-     
-       == Clause 3a
-     
-       X
-     
-       image::rice_image1.png[]
-     
-       image::subdir/rice_image2.png[]
+    system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/assets/a1.adoc"
+    expect(File.exist?("spec/assets/a1.asciidoc.log.txt")).to be true
+    log = File.read("spec/assets/a1.asciidoc.log.txt")
+    expect(log).to be_equivalent_to <<~ADOC
+      = X
+      A
+      :docidentifier: DOCIDENTIFIER-1
 
-      ADOC
+      == Clause 1
+
+      <<B>>
+
+      [[B]]
+      == Clause 2 [[B]]
+
+      X
+
+      == Clause 3
+
+      X
+
+      == Clause 4
+
+      X
+
+      image::rice_image2.png[]
+
+
+      image::../rice_image1.png[]
+
+      == Clause 3a
+
+      X
+
+      image::rice_image1.png[]
+
+      image::subdir/rice_image2.png[]
+
+    ADOC
     FileUtils.rm_rf("spec/assets/a1.asciidoc.log.txt")
-    end
+  end
 
   it "processes std-link macro" do
-      input = <<~INPUT
-        #{LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR}
+    input = <<~INPUT
+      #{LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR}
 
-        [[clause1]]
-        == Clause
+      [[clause1]]
+      == Clause
 
-        std-link:[ISO 131]
-        std-link:[iso:std:iso:13485:en,droploc%clause=4,text]
-      INPUT
-      output = <<~OUTPUT
-         #{BLANK_HDR}
-                  <sections>
-            <clause id="_" anchor="clause1" inline-header='false' obligation='normative'>
-              <title id="_">Clause</title>
-              <p id='_'>
-                <eref type='inline' bibitemid='ISO 131' citeas='ISO\\u00a0131'/>
-                <eref type='inline' droploc='true' bibitemid='iso_std_iso_13485_en' citeas='iso:std:iso:13485:en'>
-                  <localityStack>
-                    <locality type='clause'>
-                      <referenceFrom>4</referenceFrom>
-                    </locality>
-                  </localityStack>
-                  <display-text>text</display-text>
-                </eref>
-              </p>
-            </clause>
-          </sections>
-          <bibliography>
-            <references hidden='true' normative='true'>
-              <bibitem id="_" type="standard" anchor="ISO 131" hidden="true">
-                <fetched/>
-                <title type='title-intro' format='text/plain' language='en' script='Latn'>Acoustics</title>
-                <title type='title-main' format='text/plain' language='en' script='Latn'>Expression of physical and subjective magnitudes of sound or noise in air</title>
-                <title type='main' format='text/plain' language='en' script='Latn'>
-                  Acoustics\\u2009—\\u2009Expression of physical and subjective magnitudes of sound
-                  or noise in air
-                </title>
-                <uri type='src'>https://www.iso.org/standard/3944.html</uri>
-                <uri type='rss'>https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
-                <docidentifier type='ISO' primary='true'>ISO 131</docidentifier>
-                <docidentifier type="iso-reference">ISO 131(E)</docidentifier>
-                <docidentifier type="URN">urn:iso:std:iso:131:stage-95.99</docidentifier>
-                <docnumber>131</docnumber>
-                <contributor>
-                  <role type='publisher'/>
+      std-link:[ISO 131]
+      std-link:[iso:std:iso:13485:en,droploc%clause=4,text]
+    INPUT
+    output = <<~OUTPUT
+       #{BLANK_HDR}
+                <sections>
+          <clause id="_" anchor="clause1" inline-header='false' obligation='normative'>
+            <title id="_">Clause</title>
+            <p id='_'>
+              <eref type='inline' bibitemid='ISO 131' citeas='ISO\\u00a0131'/>
+              <eref type='inline' droploc='true' bibitemid='iso_std_iso_13485_en' citeas='iso:std:iso:13485:en'>
+                <localityStack>
+                  <locality type='clause'>
+                    <referenceFrom>4</referenceFrom>
+                  </locality>
+                </localityStack>
+                <display-text>text</display-text>
+              </eref>
+            </p>
+          </clause>
+        </sections>
+        <bibliography>
+          <references hidden='true' normative='true'>
+            <bibitem id="_" type="standard" anchor="ISO 131" hidden="true">
+              <fetched/>
+              <title type='title-intro' format='text/plain' language='en' script='Latn'>Acoustics</title>
+              <title type='title-main' format='text/plain' language='en' script='Latn'>Expression of physical and subjective magnitudes of sound or noise in air</title>
+              <title type='main' format='text/plain' language='en' script='Latn'>
+                Acoustics\\u2009—\\u2009Expression of physical and subjective magnitudes of sound
+                or noise in air
+              </title>
+              <uri type='src'>https://www.iso.org/standard/3944.html</uri>
+              <uri type='rss'>https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
+              <docidentifier type='ISO' primary='true'>ISO 131</docidentifier>
+              <docidentifier type="iso-reference">ISO 131(E)</docidentifier>
+              <docidentifier type="URN">urn:iso:std:iso:131:stage-95.99</docidentifier>
+              <docnumber>131</docnumber>
+              <contributor>
+                <role type='publisher'/>
+                <organization>
+                  <name>International Organization for Standardization</name>
+                  <abbreviation>ISO</abbreviation>
+                  <uri>www.iso.org</uri>
+                </organization>
+              </contributor>
+              <edition>1</edition>
+              <language>en</language>
+              <language>fr</language>
+              <script>Latn</script>
+              <status>
+                <stage>95</stage>
+                <substage>99</substage>
+              </status>
+              <copyright>
+                <from>1979</from>
+                <owner>
                   <organization>
-                    <name>International Organization for Standardization</name>
-                    <abbreviation>ISO</abbreviation>
-                    <uri>www.iso.org</uri>
+                    <name>ISO</name>
                   </organization>
-                </contributor>
-                <edition>1</edition>
-                <language>en</language>
-                <language>fr</language>
-                <script>Latn</script>
-                <status>
-                  <stage>95</stage>
-                  <substage>99</substage>
-                </status>
-                <copyright>
-                  <from>1979</from>
-                  <owner>
+                </owner>
+              </copyright>
+              <relation type='obsoletes'>
+                <bibitem type='standard'>
+                  <formattedref format='text/plain'>ISO/R 357:1963</formattedref>
+                  <docidentifier type='ISO' primary='true'>ISO/R 357:1963</docidentifier>
+                </bibitem>
+              </relation>
+              <relation type='instanceOf'>
+                <bibitem type='standard'>
+                  <fetched/>
+                  <title type='title-intro' format='text/plain' language='en' script='Latn'>Acoustics</title>
+                  <title type='title-main' format='text/plain' language='en' script='Latn'>Expression of physical and subjective magnitudes of sound or noise in air</title>
+                  <title type='main' format='text/plain' language='en' script='Latn'>
+                    Acoustics\\u2009—\\u2009Expression of physical and subjective magnitudes of
+                    sound or noise in air
+                  </title>
+                  <uri type='src'>https://www.iso.org/standard/3944.html</uri>
+                  <uri type='rss'>https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
+                  <docidentifier type='ISO' primary='true'>ISO 131:1979</docidentifier>
+                  <docidentifier type="iso-reference">ISO 131:1979(E)</docidentifier>
+                  <docidentifier type="URN">urn:iso:std:iso:131:stage-95.99</docidentifier>
+                  <docnumber>131</docnumber>
+                  <date type='published'>
+                    <on>1979-11</on>
+                  </date>
+                  <contributor>
+                    <role type='publisher'/>
                     <organization>
-                      <name>ISO</name>
+                      <name>International Organization for Standardization</name>
+                      <abbreviation>ISO</abbreviation>
+                      <uri>www.iso.org</uri>
                     </organization>
-                  </owner>
-                </copyright>
-                <relation type='obsoletes'>
-                  <bibitem type='standard'>
-                    <formattedref format='text/plain'>ISO/R 357:1963</formattedref>
-                    <docidentifier type='ISO' primary='true'>ISO/R 357:1963</docidentifier>
-                  </bibitem>
-                </relation>
-                <relation type='instanceOf'>
-                  <bibitem type='standard'>
-                    <fetched/>
-                    <title type='title-intro' format='text/plain' language='en' script='Latn'>Acoustics</title>
-                    <title type='title-main' format='text/plain' language='en' script='Latn'>Expression of physical and subjective magnitudes of sound or noise in air</title>
-                    <title type='main' format='text/plain' language='en' script='Latn'>
-                      Acoustics\\u2009—\\u2009Expression of physical and subjective magnitudes of
-                      sound or noise in air
-                    </title>
-                    <uri type='src'>https://www.iso.org/standard/3944.html</uri>
-                    <uri type='rss'>https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
-                    <docidentifier type='ISO' primary='true'>ISO 131:1979</docidentifier>
-                    <docidentifier type="iso-reference">ISO 131:1979(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso:131:stage-95.99</docidentifier>
-                    <docnumber>131</docnumber>
-                    <date type='published'>
-                      <on>1979-11</on>
-                    </date>
-                    <contributor>
-                      <role type='publisher'/>
+                  </contributor>
+                  <edition>1</edition>
+                  <language>en</language>
+                  <language>fr</language>
+                  <script>Latn</script>
+                  <status>
+                    <stage>95</stage>
+                    <substage>99</substage>
+                  </status>
+                  <copyright>
+                    <from>1979</from>
+                    <owner>
                       <organization>
-                        <name>International Organization for Standardization</name>
-                        <abbreviation>ISO</abbreviation>
-                        <uri>www.iso.org</uri>
+                        <name>ISO</name>
                       </organization>
-                    </contributor>
-                    <edition>1</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                      <stage>95</stage>
-                      <substage>99</substage>
-                    </status>
-                    <copyright>
-                      <from>1979</from>
-                      <owner>
-                        <organization>
-                          <name>ISO</name>
-                        </organization>
-                      </owner>
-                    </copyright>
-                    <relation type='obsoletes'>
-                      <bibitem type='standard'>
-                        <formattedref format='text/plain'>ISO/R 357:1963</formattedref>
-                        <docidentifier type='ISO' primary='true'>ISO/R 357:1963</docidentifier>
-                      </bibitem>
-                    </relation>
-                    <place>Geneva</place>
-                  </bibitem>
-                </relation>
-                <place>Geneva</place>
-              </bibitem>
-              <bibitem anchor="iso_std_iso_13485_en" id="_" hidden="true">
-                <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
-                <docidentifier type='ISO'>iso:std:iso:13485:en</docidentifier>
-                <docnumber>13485:en</docnumber>
-              </bibitem>
-            </references>
-          </bibliography>
-        </metanorma>
-      OUTPUT
-      expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))
-                  .gsub(%r{ bibitemid="_[^"]+"}, ' bibitemid="_"')))
-        .to be_equivalent_to Xml::C14n.format(output)
+                    </owner>
+                  </copyright>
+                  <relation type='obsoletes'>
+                    <bibitem type='standard'>
+                      <formattedref format='text/plain'>ISO/R 357:1963</formattedref>
+                      <docidentifier type='ISO' primary='true'>ISO/R 357:1963</docidentifier>
+                    </bibitem>
+                  </relation>
+                  <place>Geneva</place>
+                </bibitem>
+              </relation>
+              <place>Geneva</place>
+            </bibitem>
+            <bibitem anchor="iso_std_iso_13485_en" id="_" hidden="true">
+              <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+              <docidentifier type='ISO'>iso:std:iso:13485:en</docidentifier>
+              <docnumber>13485:en</docnumber>
+            </bibitem>
+          </references>
+        </bibliography>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))
+                .gsub(%r{ bibitemid="_[^"]+"}, ' bibitemid="_"')))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "preserves ifdefs after preprocessing" do
@@ -1416,64 +1416,64 @@ expect(File.exist? ("spec/assets/a1.asciidoc.log.txt")).to be true
       source_include:spec/fixtures/nested_file_1.json[]
     INPUT
     output = <<~OUTPUT
-       <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}' flavor='standoc'>
-          <bibdata type="standard">
-             <title language="en" format="text/plain">Document title</title>
-             <language>en</language>
-             <script>Latn</script>
-             <status>
-                <stage>published</stage>
-             </status>
-             <copyright>
-                <from>2025</from>
-             </copyright>
-             <ext>
-                <doctype>standard</doctype>
-                <flavor>standoc</flavor>
-             </ext>
-          </bibdata>
-          <metanorma-extension>
-             <clause obligation="normative">
-                <title id="_">spec/fixtures/nested_file_1.yaml</title>
-                <source>---
-       name: nested file-main
-       description: nested description-main
-       one: nested one-main
-       two: nested two-main </source>
-             </clause>
-             <clause obligation="normative">
-                <title id="_">spec/fixtures/nested_file_1.json</title>
-                <source>{
-         "name": "nested file-main",
-         "description": "nested description-main",
-         "one": "nested one-main",
-         "two": "nested two-main"
-       } </source>
-             </clause>
-             <presentation-metadata>
-                <name>TOC Heading Levels</name>
-                <value>2</value>
-             </presentation-metadata>
-             <presentation-metadata>
-                <name>HTML TOC Heading Levels</name>
-                <value>2</value>
-             </presentation-metadata>
-             <presentation-metadata>
-                <name>DOC TOC Heading Levels</name>
-                <value>2</value>
-             </presentation-metadata>
-             <presentation-metadata>
-                <name>PDF TOC Heading Levels</name>
-                <value>2</value>
-             </presentation-metadata>
-          </metanorma-extension>
-          <sections>
-             <clause id="_" anchor="clause1" inline-header="false" obligation="normative">
-                <title id="_">Clause</title>
-                <p id="_">A</p>
-             </clause>
-          </sections>
-       </metanorma>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}' flavor='standoc'>
+         <bibdata type="standard">
+            <title language="en" format="text/plain">Document title</title>
+            <language>en</language>
+            <script>Latn</script>
+            <status>
+               <stage>published</stage>
+            </status>
+            <copyright>
+               <from>2025</from>
+            </copyright>
+            <ext>
+               <doctype>standard</doctype>
+               <flavor>standoc</flavor>
+            </ext>
+         </bibdata>
+         <metanorma-extension>
+            <clause obligation="normative">
+               <title id="_">spec/fixtures/nested_file_1.yaml</title>
+               <source>---
+      name: nested file-main
+      description: nested description-main
+      one: nested one-main
+      two: nested two-main </source>
+            </clause>
+            <clause obligation="normative">
+               <title id="_">spec/fixtures/nested_file_1.json</title>
+               <source>{
+        "name": "nested file-main",
+        "description": "nested description-main",
+        "one": "nested one-main",
+        "two": "nested two-main"
+      } </source>
+            </clause>
+            <presentation-metadata>
+               <name>TOC Heading Levels</name>
+               <value>2</value>
+            </presentation-metadata>
+            <presentation-metadata>
+               <name>HTML TOC Heading Levels</name>
+               <value>2</value>
+            </presentation-metadata>
+            <presentation-metadata>
+               <name>DOC TOC Heading Levels</name>
+               <value>2</value>
+            </presentation-metadata>
+            <presentation-metadata>
+               <name>PDF TOC Heading Levels</name>
+               <value>2</value>
+            </presentation-metadata>
+         </metanorma-extension>
+         <sections>
+            <clause id="_" anchor="clause1" inline-header="false" obligation="normative">
+               <title id="_">Clause</title>
+               <p id="_">A</p>
+            </clause>
+         </sections>
+      </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     expect(strip_guid(Xml::C14n.format(xml.to_xml)))

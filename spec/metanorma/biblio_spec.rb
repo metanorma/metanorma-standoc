@@ -1002,10 +1002,10 @@ RSpec.describe Metanorma::Standoc do
            <classification type="B">C</classification>
            <classification>D</classification>
            <depiction>
-              <image src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="auto"/>
+              <image src="spec/examples/rice_images/rice_image1.png" filename="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="auto"/>
            </depiction>
            <depiction>
-              <image src="spec/examples/rice_images/rice_image3_1.png" mimetype="image/png" height="auto" width="auto"/>
+              <image src="spec/examples/rice_images/rice_image3_1.png" filename="spec/examples/rice_images/rice_image3_1.png" mimetype="image/png" height="auto" width="auto"/>
            </depiction>
              </bibitem>
            </references>

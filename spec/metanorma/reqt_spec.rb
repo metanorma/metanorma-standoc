@@ -13,7 +13,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~"OUTPUT"
       #{BLANK_HDR.sub(/<metanorma-extension>.*<\/metanorma-extension>/m, '')}
        <sections>
-         <recommendation id="_ogc_recommendation_wfs_2" unnumbered="true" type="verification" model="ogc" tag='X' multilingual-rendering='common'>
+         <recommendation id="_" tag="X" multilingual-rendering="common" unnumbered="true" model="ogc" type="verification" anchor="/ogc/recommendation/wfs/2">
          <identifier>/ogc/recommendation/wfs/2</identifier>
        <subject>user</subject>
        <subject>developer, implementer</subject>
@@ -54,7 +54,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
 
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(xml.at("//xmlns:permission[@id = 'A']/@model").text).to eq("ogc")
+    expect(xml.at("//xmlns:permission[@anchor = 'A']/@model").text).to eq("ogc")
     expect(xml.at("//xmlns:permission/xmlns:permission/@model").text)
       .to eq("ogc")
   end
@@ -88,7 +88,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
 
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(xml.at("//xmlns:permission[@id = 'A']/@model").text).to eq("default")
+    expect(xml.at("//xmlns:permission[@anchor = 'A']/@model").text).to eq("default")
     expect(xml.at("//xmlns:permission/xmlns:permission/@model").text)
       .to eq("default")
   end
@@ -115,7 +115,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
 
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(xml.at("//xmlns:permission[@id = 'A']/@model").text).to eq("ogc")
+    expect(xml.at("//xmlns:permission[@anchor = 'A']/@model").text).to eq("ogc")
     expect(xml.at("//xmlns:permission/xmlns:permission/@model").text)
       .to eq("ogc")
   end
