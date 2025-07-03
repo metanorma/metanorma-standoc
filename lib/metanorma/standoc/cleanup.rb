@@ -160,33 +160,41 @@ module Metanorma
 
       def variant_cleanup(xmldoc)
         variant_space_cleanup(xmldoc)
-        xmldoc.xpath("//*[variant]").each do |c|
-          next unless c.children.any? do |n|
-            n.name != "variant" && (!n.text? || !n.text.gsub(/\s/, "").empty?)
+        xmldoc.xpath("//*[lang-variant]").each do |c|
+          if only_langvariant_children?(c)
+            duplicate_langvariants(c, c.xpath("./lang-variant"))
+          else
+            c.xpath(".//lang-variant").each { |x| x.name = "span" }
           end
-
-          variant_cleanup1(c)
         end
-        xmldoc.xpath("//variantwrap").each { |n| n.name = "variant" }
       end
 
-      def variant_cleanup1(elem)
-        elem.xpath("./variant").each do |n|
-          if n.at_xpath("preceding-sibling::node()" \
-                        "[not(self::text()[not(normalize-space())])][1]" \
-                        "[self::variantwrap]")
-            n.previous_element << n
-          else
-            n.replace("<variantwrap/>").first << n
-          end
+      def only_langvariant_children?(node)
+        node.children.none? do |n|
+          n.name != "lang-variant" && (!n.text? || !n.text.strip.empty?)
         end
+      end
+
+      def duplicate_langvariants(container, variants)
+        lang_variant_to_node(variants.first, container)
+        variants[1..].reverse.each do |node|
+          new = container.dup
+          lang_variant_to_node(node, new)
+          container.next = new
+        end
+      end
+
+      def lang_variant_to_node(variant, node)
+        node.children = variant.children
+        node["lang"] = variant["lang"]
+        node.delete("script")
+        variant["script"] and node["script"] = variant["script"]
       end
 
       def variant_space_cleanup(xmldoc)
-        xmldoc.xpath("//*[variant]").each do |c|
-          next if c.next.nil? || c.next.next.nil?
-
-          if c.next.text? && c.next.next.name == "variant"
+        xmldoc.xpath("//*[lang-variant]").each do |c|
+          c.next.nil? || c.next.next.nil? and next
+          if c.next.text? && c.next.next.name == "lang-variant"
             c.next.text.gsub(/\s/, "").empty? and
               c.next.remove
           end

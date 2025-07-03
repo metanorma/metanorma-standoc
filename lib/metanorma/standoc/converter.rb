@@ -56,7 +56,7 @@ module Metanorma
         inline_macro Metanorma::Standoc::IdentifierInlineMacro
         inline_macro Metanorma::Standoc::ConceptInlineMacro
         inline_macro Metanorma::Standoc::AutonumberInlineMacro
-        inline_macro Metanorma::Standoc::VariantInlineMacro
+        inline_macro Metanorma::Standoc::LangVariantInlineMacro
         inline_macro Metanorma::Standoc::FootnoteBlockInlineMacro
         inline_macro Metanorma::Standoc::TermRefInlineMacro
         inline_macro Metanorma::Standoc::SymbolRefInlineMacro

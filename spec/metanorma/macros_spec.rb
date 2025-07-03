@@ -77,6 +77,96 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
+  it "processes the Metanorma::Standoc language variant macros" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      A lang:en[Hello]
+
+      A lang:fr[_What_]
+
+      lang:en[Hello]
+
+      lang:en[Hello] lang:fr[Bonjour]
+
+      lang:en[Hello] lang:fr[Bonjour] A
+
+      lang:en[Hello] lang:fr-Latn[Bonjour] lang:de[Guten Tag] lang:eo[Bonan tagon] lang:el[Καλημέρα]
+
+      == lang:en[Hello]
+
+      == lang:en[Hello] lang:fr[Bonjour]
+
+      == lang:en[Hello] lang:fr[Bonjour] http://example.com[]
+
+      == lang:en[English] lang:fr-Latn[Français]
+
+      this lang:en[English] lang:fr-Latn[Français] section is lang:en[silly]  lang:fr[fou]
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+          <preface>
+             <foreword id="_" obligation="informative">
+                <title id="_">Foreword</title>
+                <p id="_">
+                   A
+                   <span lang="en">Hello</span>
+                </p>
+                <p id="_">
+                   A
+                   <span lang="fr">
+                      <em>What</em>
+                   </span>
+                </p>
+                <p id="_" lang="en">Hello</p>
+                <p id="_" lang="en">Hello</p>
+                <p id="_" lang="fr">Bonjour</p>
+                <p id="_">
+                   <span lang="en">Hello</span>
+                   <span lang="fr">Bonjour</span>
+                   A
+                </p>
+                <p id="_" lang="en">Hello</p>
+                <p id="_" lang="fr" script="Latn">Bonjour</p>
+                <p id="_" lang="de">Guten Tag</p>
+                <p id="_" lang="eo">Bonan tagon</p>
+                <p id="_" lang="el">Καλημέρα</p>
+             </foreword>
+          </preface>
+          <sections>
+             <clause id="_" inline-header="false" obligation="normative">
+                <title id="_" lang="en">Hello</title>
+             </clause>
+             <clause id="_" inline-header="false" obligation="normative">
+                <title id="_" lang="en">Hello</title>
+                <title id="_" lang="fr">Bonjour</title>
+             </clause>
+             <clause id="_" inline-header="false" obligation="normative">
+                <title id="_">
+                   <span lang="en">Hello</span>
+                   <span lang="fr">Bonjour</span>
+                   <link target="http://example.com"/>
+                </title>
+             </clause>
+             <clause id="_" inline-header="false" obligation="normative">
+                <title id="_" lang="en">English</title>
+                <title id="_" lang="fr" script="Latn">Français</title>
+                <p id="_">
+                   this
+                   <span lang="en">English</span>
+                   <span lang="fr" script="Latn">Français</span>
+                   section is
+                   <span lang="en">silly</span>
+                   <span lang="fr">fou</span>
+                </p>
+             </clause>
+          </sections>
+       </metanorma>
+    OUTPUT
+    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
+  end
+
   it "processes the number format macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -277,42 +367,6 @@ RSpec.describe Metanorma::Standoc do
                    <bookmark id="_" anchor="id3"/>
                  </p>
         </sections>
-      </metanorma>
-    OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
-  end
-
-  it "processes the Metanorma::Standoc variant macros" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      == lang:en[English] lang:fr-Latn[Français]
-
-      this lang:en[English] lang:fr-Latn[Français] section is lang:en[silly]  lang:fr[fou]
-
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR}
-      <sections>
-        <clause id="_" inline-header='false' obligation='normative'>
-          <title id="_">
-            <variant lang='en'>English</variant>
-            <variant lang='fr' script='Latn'>Français</variant>
-          </title>
-          <p id='_'>
-            this
-            <variant>
-              <variant lang='en'>English</variant>
-              <variant lang='fr' script='Latn'>Français</variant>
-            </variant>
-             section is
-            <variant>
-              <variant lang='en'>silly</variant>
-              <variant lang='fr'>fou</variant>
-            </variant>
-          </p>
-        </clause>
-      </sections>
       </metanorma>
     OUTPUT
     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))

@@ -82,7 +82,7 @@ module Metanorma
       end
     end
 
-    class VariantInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
+    class LangVariantInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :lang
       parse_content_as :text
@@ -91,9 +91,9 @@ module Metanorma
         /^(?<lang>[^-]*)(?:-(?<script>.*))?$/ =~ target
         out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
         if script
-          %{<variant lang='#{lang}' script='#{script}'>#{out}</variant>}
+          %{<lang-variant lang='#{lang}' script='#{script}'>#{out}</lang-variant>}
         else
-          %{<variant lang='#{lang}'>#{out}</variant>}
+          %{<lang-variant lang='#{lang}'>#{out}</lang-variant>}
         end
       end
     end
