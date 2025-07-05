@@ -1103,7 +1103,7 @@ RSpec.describe Metanorma::Standoc do
       .to include("Crossreference target id3 is undefined")
   end
 
-  it "Warns if illegal nessting of assets within assets" do
+  it "Warns if illegal nesting of assets within assets" do
     FileUtils.rm_f "test.err.html"
     Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
