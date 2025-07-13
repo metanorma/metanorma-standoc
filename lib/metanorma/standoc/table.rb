@@ -6,6 +6,7 @@ module Metanorma
           .merge(id_unnum_attrs(node))
           .merge(headerrows: node.attr("headerrows"),
                  alt: node.attr("alt"),
+                 plain: node.option?("plain") ? "true" : nil,
                  style: node.attr("css-style"),
                  summary: node.attr("summary"),
                  width: node.attr("width"))

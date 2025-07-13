@@ -84,6 +84,7 @@ module Metanorma
         end
 
         def spans_to_bibitem_extent(spans)
+          spans.nil? and return ""
           ret = ""
           { volume: "volume", issue: "issue", pages: "page" }.each do |k, v|
             spans[k]&.each { |s| ret += span_to_extent(s, v) }
