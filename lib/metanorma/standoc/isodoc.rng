@@ -747,11 +747,6 @@ titlecase, or lowercase</a:documentation>
       </attribute>
     </optional>
     <optional>
-      <attribute name="width">
-        <a:documentation>Width of the table block in rendering</a:documentation>
-      </attribute>
-    </optional>
-    <optional>
       <attribute name="style">
         <a:documentation>CSS style: only background-color, color, border supported</a:documentation>
       </attribute>
