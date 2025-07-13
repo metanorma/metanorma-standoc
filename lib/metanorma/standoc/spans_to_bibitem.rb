@@ -9,6 +9,7 @@ module Metanorma
         attr_reader :err, :out
 
         def initialize(bib)
+          require "debug"; binding.b
           @bib = bib
           @err = []
           @spans = spans_preprocess(extract_spans(bib))
@@ -26,6 +27,7 @@ module Metanorma
         end
 
         def convert
+          require "debug"; binding.b
           ret = spans_to_bibitem(@spans)
           @out = Nokogiri::XML("<bibitem>#{ret}</bibitem>").root
           @spans[:type] and @out["type"] = @spans[:type]
@@ -58,7 +60,7 @@ module Metanorma
         end
 
         def spans_to_bibitem_host(spans)
-          spans[:in].empty? and return ""
+          spans[:in].nil? || spans[:in].empty? and return ""
           ret =
             "<relation type='includedIn'><bibitem type='#{spans[:in][:type]}'>"
           spans[:in].delete(:type)
@@ -67,9 +69,9 @@ module Metanorma
 
         def spans_to_bibitem_docid(spans)
           ret = ""
-          spans[:uri].each { |s| ret += span_to_docid(s, "uri") }
-          spans[:docid].each { |s| ret += span_to_docid(s, "docidentifier") }
-          spans[:date].each { |s| ret += span_to_date(s) }
+          spans[:uri]&.each { |s| ret += span_to_docid(s, "uri") }
+          spans[:docid]&.each { |s| ret += span_to_docid(s, "docidentifier") }
+          spans[:date]&.each { |s| ret += span_to_date(s) }
           ret
         end
 
@@ -120,7 +122,7 @@ module Metanorma
 
         def spans_to_contribs(spans)
           ret = ""
-          spans[:contrib].each do |s|
+          spans[:contrib]&.each do |s|
             ret += span_to_contrib(s, spans[:title])
           end
           ret
