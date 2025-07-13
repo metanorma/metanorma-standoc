@@ -9,7 +9,6 @@ module Metanorma
         attr_reader :err, :out
 
         def initialize(bib)
-          require "debug"; binding.b
           @bib = bib
           @err = []
           @spans = spans_preprocess(extract_spans(bib))
@@ -27,7 +26,6 @@ module Metanorma
         end
 
         def convert
-          require "debug"; binding.b
           ret = spans_to_bibitem(@spans)
           @out = Nokogiri::XML("<bibitem>#{ret}</bibitem>").root
           @spans[:type] and @out["type"] = @spans[:type]
