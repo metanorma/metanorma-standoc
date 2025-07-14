@@ -2,13 +2,7 @@ module Metanorma
   module Standoc
     module Cleanup
       def get_or_make_title(node)
-        unless node.at("./title")
-          if node.children.empty?
-            node << "<title/>"
-          else
-            node.children.first.previous = "<title/>"
-          end
-        end
+        node.at("./title") or node.add_first_child "<title/>"
         ret = node.at("./title")
         add_id(ret)
         ret
@@ -154,7 +148,7 @@ module Metanorma
           p.delete("variant_title")
           p.xpath("(#{path})[last()]").each do |sect|
             (ins = sect.at("./title") and ins.next = p) or
-              sect.children.first.previous = p
+              sect.add_first_child(p)
           end
         end
       end
@@ -180,8 +174,7 @@ module Metanorma
       def floating_title_preface2sections(xmldoc)
         t = xmldoc.at("//preface/floating-title") or return
         s = xmldoc.at("//sections")
-        t.next_element or
-          s.children.first.previous = t.remove
+        t.next_element or s.add_first_child(t.remove)
       end
     end
   end

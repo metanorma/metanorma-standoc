@@ -48,11 +48,9 @@ module Metanorma
         x = xmldoc.dup
         x.root.add_namespace(nil, xml_namespace)
         xml = Nokogiri::XML(x.to_xml)
-        #require "debug"; binding.b
         @isodoc ||= isodoc(@lang, @script, @locale)
         # initialise @isodoc.xrefs, for @isodoc.xrefs.info
         @isodoc.bibdata(xml) # do i18n
-        #@isodoc.info(xml, nil)
         @isodoc
       end
 
@@ -156,7 +154,7 @@ module Metanorma
         if user_add.at("./clause") then built_in << user_add.children
         else
           user_add.name = "clause"
-          if user_add["id"].nil? || uuid?(user_add["id"])
+          if user_add["id"].nil? || Metanorma::Utils::guid_anchor?(user_add["id"])
             user_add["anchor"] = "_boilerplate-#{statement}-statement-append"
             add_id(user_add)
           end
@@ -167,11 +165,12 @@ module Metanorma
       # Asciidoc macro, e.g. span:publisher[...]
       # May contain one or more {{ }} in target, with spaces in them
       # Does not end in \]
-      ADOC_MACRO_START = '\S+:(?:[^\[\] ]+|\{\{[^{}]+\}\})*\[.*?(?<!\\\\)\]'.freeze
+      ADOC_MACRO_START =
+        '\S+:(?:[^\[\] ]+|\{\{[^{}]+\}\})*\[.*?(?<!\\\\)\]'.freeze
 
       # Replace {{ ... }} with {{ pass:[...]}} to preserve any XML markup
       # use pass:[...\] if {{}} is already inside an Asciidoc macro
-      # Do not use pass: if this is a macro target: mailto:{{x}}[] 
+      # Do not use pass: if this is a macro target: mailto:{{x}}[]
       # or body: mailto:[{{x}}]
       def boilerplate_read(file)
         ret = File.read(file, encoding: "UTF-8")

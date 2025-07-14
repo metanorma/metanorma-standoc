@@ -143,15 +143,10 @@ module Metanorma
         doc.xpath("//*[@id]").each_with_object({}) do |x, m|
           # should always be true
           Metanorma::Utils::guid_anchor?(x["id"]) or next
-          m[x["id"]] = contenthash(x)
+          m[x["id"]] = Metanorma::Utils::contenthash(x)
           x["anchor"] and m[x["anchor"]] = m[x["id"]]
           x["id"] = m[x["id"]]
         end
-      end
-
-      def contenthash(elem)
-        Digest::MD5.hexdigest("#{elem.path}////#{elem.text}")
-          .sub(/^(.{8})(.{4})(.{4})(.{4})(.{12})$/, "_\\1-\\2-\\3-\\4-\\5")
       end
 
       def passthrough_cleanup(doc)

@@ -211,8 +211,8 @@ module Metanorma
       def para_index_cleanup1(para, prev, foll)
         if include_indexterm?(prev)
           prev << para.remove.children
-        elsif include_indexterm?(foll) && !foll.children.empty?
-          foll.children.first.previous = para.remove.children
+        elsif include_indexterm?(foll) # && !foll.children.empty?
+          foll.add_first_child para.remove.children
         end
       end
 

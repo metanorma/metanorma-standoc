@@ -168,7 +168,7 @@ module Metanorma
           end.reverse
           t << " "
           des.each do |x|
-            t.children.first.previous = x
+            t.add_first_child(x)
           end
         end
       end

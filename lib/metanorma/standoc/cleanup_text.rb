@@ -3,13 +3,7 @@ module Metanorma
     module Cleanup
       def textcleanup(result)
         text = result.flatten.map(&:rstrip) * "\n"
-        text = text.gsub(/(?<!\s)\s+<fn /, "<fn ")
-        #@semantic_headless and return text
-        #%w(passthrough passthrough-inline).each do |v|
-          #text.gsub!(%r{<#{v}\s+formats="metanorma">([^<]*)
-                    #</#{v}>}mx) { @c.decode($1) }
-        #end
-        text
+        text.gsub(/(?<!\s)\s+<fn /, "<fn ")
       end
 
       def ancestor_include?(elem, ancestors)
@@ -133,8 +127,7 @@ module Metanorma
         prev.content = "#{prev.text}#{m[1]}"
       end
 
-      IGNORE_TEXT_ELEMENTS =
-        %w(index fn).freeze
+      IGNORE_TEXT_ELEMENTS = %w(index fn).freeze
 
       def ignoretext?(elem)
         IGNORE_TEXT_ELEMENTS.include? elem.name

@@ -14,7 +14,7 @@ module Metanorma
         xmldoc.xpath("//svgmap").each do |s|
           f = s.at(".//figure") or next
           (t = s.at("./name")) && !f.at("./name") and
-            f.children.first.previous = t.remove
+            f.add_first_child t.remove
           if s["anchor"] # && Metanorma::Utils::guid_anchor?(f["id"])
             f["anchor"] = s["anchor"]
             s.delete("anchor")

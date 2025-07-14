@@ -178,11 +178,6 @@ module Metanorma
         @refids.include? ref
       end
 
-      def uuid?(ref)
-        /^_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
-          .match?(ref)
-      end
-
       module_function :adoc2xml
 
       class EmptyAttr

@@ -12,7 +12,7 @@ module Metanorma
           scope: node.attr("scope"),
           htmlstylesheet: node.attr("htmlstylesheet") || node.attr("html-stylesheet"),
           htmlstylesheet_override: node.attr("htmlstylesheet-override") || node.attr("html-stylesheet-override"),
-          htmlcoverpage: node.attr("htmlcoverpage") || node.attr("htmlcoverpage"),
+          htmlcoverpage: node.attr("htmlcoverpage") || node.attr("html-coverpage"),
           htmlintropage: node.attr("htmlintropage") || node.attr("html-intropage"),
           scripts: node.attr("scripts"),
           scripts_override: node.attr("scripts-override"),
