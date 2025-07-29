@@ -9,8 +9,8 @@ RSpec.describe Metanorma::Standoc do
   it "applies Asciidoctor substitutions" do
     expect(Metanorma::Utils.asciidoc_sub("A -- B"))
       .to eq "A&#8201;&#8212;&#8201;B"
-    expect(Xml::C14n.format(Metanorma::Utils.asciidoc_sub("*A* stem:[x]")))
-      .to be_equivalent_to Xml::C14n.format(<<~XML,
+    expect(Canon.format_xml(Metanorma::Utils.asciidoc_sub("*A* stem:[x]")))
+      .to be_equivalent_to Canon.format_xml(<<~XML,
         <strong>A</strong> <stem type="AsciiMath" block="false">x</stem>
       XML
                                            )
@@ -50,8 +50,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "assigns default scripts to major languages" do
@@ -86,8 +86,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes publisher abbreviations in CSV :publisher: attribute" do
@@ -185,8 +185,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes default metadata" do
@@ -546,8 +546,8 @@ RSpec.describe Metanorma::Standoc do
                 <sections/>
                 </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to strip_guid(Xml::C14n.format(output))
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to strip_guid(Canon.format_xml(output))
   end
 
   it "processes complex metadata" do
@@ -798,8 +798,8 @@ RSpec.describe Metanorma::Standoc do
            </sections>
          </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes broken up organisational contributors and their attributes" do
@@ -1031,8 +1031,8 @@ RSpec.describe Metanorma::Standoc do
          <sections/>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes formatted address overridding address components; publisher attributes" do
@@ -1150,8 +1150,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes subdivisions; override docnumber with docidentifier" do
@@ -1336,8 +1336,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes document relations by description" do
@@ -1380,8 +1380,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
    it "populates cover images" do
@@ -1446,10 +1446,10 @@ RSpec.describe Metanorma::Standoc do
           </presentation-metadata>
       </metanorma-extension>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Nokogiri::XML(Asciidoctor
+    expect(strip_guid(Canon.format_xml(Nokogiri::XML(Asciidoctor
       .convert(input, *OPTIONS))
       .at("//xmlns:metanorma-extension").to_xml)))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "reads scripts into blank HTML document" do

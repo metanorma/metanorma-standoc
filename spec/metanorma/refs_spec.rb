@@ -73,8 +73,8 @@ RSpec.describe Metanorma::Standoc do
             </bibliography>
             </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes simple ISO reference with date range" do
@@ -127,8 +127,8 @@ RSpec.describe Metanorma::Standoc do
           </bibliography>
           </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "repairs simple fetched ISO reference" do
@@ -148,8 +148,8 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso124,(1)ISO 123]]] _Standard_
       * [[[iso125,(2)ISO 123]]] _Standard_.footnote:[footnote]
     INPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(<<~"OUTPUT")
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(<<~"OUTPUT")
                #{BLANK_HDR}
                <preface>
           <foreword id='_' obligation='informative'>
@@ -377,8 +377,8 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes draft ISO reference" do
@@ -463,8 +463,8 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes all-parts ISO reference" do
@@ -521,8 +521,8 @@ RSpec.describe Metanorma::Standoc do
             </bibliography>
             </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes non-ISO reference in Normative References" do
@@ -562,8 +562,8 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes non-ISO reference in Bibliography" do
@@ -616,8 +616,8 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "process ISO reference without an Internet connection" do
@@ -680,8 +680,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(strip_guid(Xml::C14n.format(xml.to_xml)))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes repository reference" do
@@ -787,8 +787,8 @@ RSpec.describe Metanorma::Standoc do
                </bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes hyperlink reference, ingest RXL or XML if available" do
@@ -980,8 +980,8 @@ RSpec.describe Metanorma::Standoc do
         </bibliography>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "overrides normative status of bibliographies" do
@@ -1024,8 +1024,8 @@ RSpec.describe Metanorma::Standoc do
         </bibliography>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "have formatted reference tag" do
@@ -1090,8 +1090,8 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "mixes bibitems and bibliographic subclauses" do
@@ -1142,8 +1142,8 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "renders not found reference with no fall-back title" do
@@ -1156,8 +1156,8 @@ RSpec.describe Metanorma::Standoc do
 
       * [[[iso123,NIST 123]]]
     INPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(<<~"OUTPUT")
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(<<~"OUTPUT")
         #{BLANK_HDR}
            <sections/>
            <bibliography>
@@ -1269,34 +1269,34 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
 
     # Windows/Unix differences in XML encoding: remove body of Data URI
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS)
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .to be_equivalent_to Canon.format_xml(output)
 
     input.sub!(":docfile:", ":data-uri-attachment: false\n:docfile:")
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS)
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
-      .to be_equivalent_to Xml::C14n.format(output
+      .to be_equivalent_to Canon.format_xml(output
       .gsub(%r{<attachment .+?</attachment>}m, "")
       .gsub("_attach_attachments", "spec/assets")
       .gsub("iso.xml_", "iso.xml"))
 
     FileUtils.rm_rf "spec/assets/attach.xml"
     system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/assets/attach.adoc"
-    expect(strip_guid(Xml::C14n.format(File.read("spec/assets/attach.xml")
+    expect(strip_guid(Canon.format_xml(File.read("spec/assets/attach.xml")
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
-      .to be_equivalent_to Xml::C14n.format(output
+      .to be_equivalent_to Canon.format_xml(output
       .gsub("spec/assets/iso.xml", "iso.xml")
       .gsub("spec/assets/html.scss", "html.scss"))
 
     mock_absolute_localdir(4)
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS)
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
       .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
-      .to be_equivalent_to Xml::C14n.format(output
+      .to be_equivalent_to Canon.format_xml(output
       .gsub(%r{<attachment .+?</attachment>}m, "")
       .gsub("_attach_attachments", "spec/assets")
       .gsub("iso.xml_", "iso.xml"))

@@ -55,14 +55,14 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
 
       it "correctly renders input" do
         expect(
-          Xml::C14n.format(
+          Canon.format_xml(
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
                                   header_footer: true),
             ),
           ),
-        ).to(be_equivalent_to(Xml::C14n.format(output)))
+        ).to(be_equivalent_to(Canon.format_xml(output)))
       end
     end
 
@@ -114,14 +114,14 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
 
       it "correctly renders input" do
         expect(
-          Xml::C14n.format(
+          Canon.format_xml(
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
                                   header_footer: true),
             ),
           ),
-        ).to(be_equivalent_to(Xml::C14n.format(output)))
+        ).to(be_equivalent_to(Canon.format_xml(output)))
       end
     end
 
@@ -162,14 +162,14 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
 
       it "correctly renders input" do
         expect(
-          Xml::C14n.format(
+          Canon.format_xml(
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
                                   header_footer: true),
             ),
           ),
-        ).to(be_equivalent_to(Xml::C14n.format(output)))
+        ).to(be_equivalent_to(Canon.format_xml(output)))
       end
     end
 
@@ -217,14 +217,14 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
 
       it "correctly renders input" do
         expect(
-          Xml::C14n.format(
+          Canon.format_xml(
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
                                   header_footer: true),
             ),
           ),
-        ).to(be_equivalent_to(Xml::C14n.format(output)))
+        ).to(be_equivalent_to(Canon.format_xml(output)))
       end
     end
 
@@ -299,14 +299,14 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
 
       it "correctly renders input" do
         expect(
-          Xml::C14n.format(
+          Canon.format_xml(
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
                                   header_footer: true),
             ),
           ),
-        ).to(be_equivalent_to(Xml::C14n.format(output)))
+        ).to(be_equivalent_to(Canon.format_xml(output)))
       end
     end
 
@@ -371,14 +371,14 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
 
       it "correctly renders input" do
         expect(
-          Xml::C14n.format(
+          Canon.format_xml(
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
                                   header_footer: true),
             ),
           ),
-        ).to(be_equivalent_to(Xml::C14n.format(output)))
+        ).to(be_equivalent_to(Canon.format_xml(output)))
       end
     end
 
@@ -425,14 +425,14 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
 
       it "correctly renders input" do
         expect(
-          Xml::C14n.format(
+          Canon.format_xml(
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
                                   header_footer: true),
             ),
           ),
-        ).to(be_equivalent_to(Xml::C14n.format(output)))
+        ).to(be_equivalent_to(Canon.format_xml(output)))
       end
     end
 
@@ -521,14 +521,14 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
 
       it "correctly renders input" do
         expect(
-          Xml::C14n.format(
+          Canon.format_xml(
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
                                   header_footer: true),
             ),
           ),
-        ).to(be_equivalent_to(Xml::C14n.format(output)))
+        ).to(be_equivalent_to(Canon.format_xml(output)))
       end
     end
 
@@ -572,14 +572,14 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
 
       it "renders liquid markup" do
         expect(
-          Xml::C14n.format(
+          Canon.format_xml(
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
                                   header_footer: true),
             ),
           ),
-        ).to(be_equivalent_to(Xml::C14n.format(output)))
+        ).to(be_equivalent_to(Canon.format_xml(output)))
       end
     end
 
@@ -621,14 +621,14 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
 
       it "renders liquid markup" do
         expect(
-          Xml::C14n.format(
+          Canon.format_xml(
             strip_guid(
               Asciidoctor.convert(input,
                                   backend: :standoc,
                                   header_footer: true),
             ),
           ),
-        ).to(be_equivalent_to(Xml::C14n.format(output)))
+        ).to(be_equivalent_to(Canon.format_xml(output)))
       end
     end
 

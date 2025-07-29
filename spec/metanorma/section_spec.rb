@@ -235,8 +235,8 @@
           </colophon>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "processes sections: explicit foreword section, and preface section at start" do
@@ -270,8 +270,8 @@
             </sections>
           </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "processes sections with number attributes" do
@@ -411,8 +411,8 @@
             </bibliography>
           </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "processes sections with number attributes" do
@@ -552,8 +552,8 @@
             </bibliography>
           </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "processes sections with language and script attributes" do
@@ -791,8 +791,8 @@
            </bibliography>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "processes sections with title, type, and unnumbered attributes" do
@@ -950,8 +950,8 @@
            </bibliography>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "processes nested sections with title attributes" do
@@ -1025,8 +1025,8 @@
            </sections>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "does not replace titles with keeptitle attribute" do
@@ -1159,8 +1159,8 @@
            </bibliography>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "tag and multilingual processing attributes on term" do
@@ -1189,8 +1189,8 @@
           </sections>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "varies terms & symbols title" do
@@ -1220,8 +1220,8 @@
          </sections>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "varies terms & abbreviated terms title" do
@@ -1252,8 +1252,8 @@
          </sections>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "varies terms symbols & abbreviated terms title" do
@@ -1288,8 +1288,8 @@
          </sections>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "automates terms & definitions titles if there are no extraneous sections" do
@@ -1343,8 +1343,8 @@
           </sections>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "does not do automated terms & definitions titles if there are extraneous sections" do
@@ -1404,8 +1404,8 @@
           </sections>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
 
      input = <<~INPUT
        #{ASCIIDOC_BLANK_HDR}
@@ -1470,8 +1470,8 @@
             </clause>
           </sections>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "processes non-term clauses" do
@@ -1581,8 +1581,8 @@
            </sections>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "processes section obligations" do
@@ -1615,8 +1615,8 @@
        </annex>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "processes inline headers" do
@@ -1649,8 +1649,8 @@
        </annex>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "processes blank headers" do
@@ -1672,8 +1672,8 @@
        </sections>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "processes terminal nodes in terms with term subsection names" do
@@ -1703,8 +1703,8 @@
        </sections>
               </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "treats terminal terms subclause named as terms clause as a normal clause" do
@@ -1735,8 +1735,8 @@
          </sections>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "treats non-terminal terms subclause named as terms clause as a terms clause" do
@@ -1797,8 +1797,8 @@
         </sections>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "ignore special titles in preface but not appendix" do
@@ -1844,8 +1844,8 @@
          </annex>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "recognises special titles despite following indexterms" do
@@ -1863,8 +1863,8 @@
        </sections>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "handles floating titles" do
@@ -1921,8 +1921,8 @@
           </sections>
           </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "ignores second terms section" do
@@ -1960,8 +1960,8 @@
            </sections>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "does not ignore second terms section if specified as heading" do
@@ -2005,8 +2005,8 @@
            </sections>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    it "conditionally supports annex appendixes" do
@@ -2032,8 +2032,8 @@
            </annex>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
      mock_support_appendix
      output = <<~OUTPUT
        #{BLANK_HDR}
@@ -2047,8 +2047,8 @@
            </annex>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Xml::C14n.format(output)
+     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+       .to be_equivalent_to Canon.format_xml(output)
    end
 
    private

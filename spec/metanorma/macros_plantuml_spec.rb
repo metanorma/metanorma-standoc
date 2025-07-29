@@ -50,9 +50,9 @@ RSpec.describe Metanorma::Standoc do
               </sections>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))
       .gsub(%r{_plantuml_images/plantuml[^./]+\.}, "_plantuml_images/_.")))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes the PlantUML macro, SVG" do
@@ -104,17 +104,17 @@ RSpec.describe Metanorma::Standoc do
               </sections>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor
+    expect(strip_guid(Canon.format_xml(Asciidoctor
       .convert(input.sub(/:nodoc:/, ":nodoc:\n:plantuml-image-format: png"),
                *OPTIONS)
       .gsub(%r{_plantuml_images/plantuml[^./]+\.}, "_plantuml_images/_."))))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .to be_equivalent_to Canon.format_xml(output)
 
-    expect(strip_guid(Xml::C14n.format(Asciidoctor
+    expect(strip_guid(Canon.format_xml(Asciidoctor
       .convert(input.sub(/:nodoc:/, ":nodoc:\n:plantuml-image-format: svg"),
                *OPTIONS)
       .gsub(%r{_plantuml_images/plantuml[^./]+\.}, "_plantuml_images/_."))))
-      .to be_equivalent_to Xml::C14n.format(output.gsub(".png", ".svg")
+      .to be_equivalent_to Canon.format_xml(output.gsub(".png", ".svg")
       .gsub("image/png", "image/svg+xml"))
   end
 
@@ -149,9 +149,9 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))
       .gsub(%r{plantuml[^./]+\.png}, "_.png")))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   context "when lutaml_diagram" do
@@ -190,12 +190,12 @@ RSpec.describe Metanorma::Standoc do
 
     it "processes the lutaml_diagram" do
       expect(
-        Xml::C14n.format(
+        Canon.format_xml(
           strip_guid(Asciidoctor.convert(input, *OPTIONS))
                       .gsub(%r{spec/assets/lutaml/[^./]+\.png},
                             "spec/assets/_.png"),
         ),
-      ).to(be_equivalent_to(Xml::C14n.format(output)))
+      ).to(be_equivalent_to(Canon.format_xml(output)))
     end
   end
 
@@ -230,12 +230,12 @@ RSpec.describe Metanorma::Standoc do
 
     it "correctly renders input" do
       expect(
-        Xml::C14n.format(
+        Canon.format_xml(
           strip_guid(Asciidoctor.convert(input, *OPTIONS))
           .gsub(%r{spec/assets/lutaml/[^./]+\.png},
                 "spec/assets/_.png"),
         ),
-      ).to(be_equivalent_to(Xml::C14n.format(output)))
+      ).to(be_equivalent_to(Canon.format_xml(output)))
     end
   end
 
@@ -286,8 +286,8 @@ RSpec.describe Metanorma::Standoc do
               </sections>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes the PlantUML macro with localdir unwritable" do
@@ -337,8 +337,8 @@ RSpec.describe Metanorma::Standoc do
               </sections>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes the PlantUML macro with mismatched delimiters" do
@@ -369,8 +369,8 @@ RSpec.describe Metanorma::Standoc do
               </sections>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Xml::C14n.format(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   private

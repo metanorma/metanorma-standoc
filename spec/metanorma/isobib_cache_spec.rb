@@ -397,8 +397,8 @@ RSpec.describe Metanorma::Standoc do
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
     entry = db.load_entry("ISO(ISO 123:2001)")
     expect(entry).to include("<fetched>#{Date.today}</fetched>")
-    expect(strip_guid(Xml::C14n.format(entry)))
-      .to be_equivalent_to(strip_guid(Xml::C14n.format(ISO_123_DATED)))
+    expect(strip_guid(Canon.format_xml(entry)))
+      .to be_equivalent_to(strip_guid(Canon.format_xml(ISO_123_DATED)))
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.rm_rf File.expand_path("~/.iev/cache")
@@ -604,8 +604,8 @@ RSpec.describe Metanorma::Standoc do
     entry = db.load_entry("ISO(ISO 124:2014)")
     # expect(db.fetched("ISO(ISO 124:2014)")).to eq(Date.today.to_s)
     expect(entry).to include("<fetched>#{Date.today}</fetched>")
-    expect(strip_guid(Xml::C14n.format(entry)))
-      .to be_equivalent_to(strip_guid(Xml::C14n.format(ISO_124_DATED)))
+    expect(strip_guid(Canon.format_xml(entry)))
+      .to be_equivalent_to(strip_guid(Canon.format_xml(ISO_124_DATED)))
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"),

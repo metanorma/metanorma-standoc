@@ -23,7 +23,7 @@ require "metanorma-standoc"
 require "rspec/matchers"
 require "equivalent-xml"
 require "metanorma/standoc"
-require "xml-c14n"
+require "canon"
 require_relative "support/uuid_mock"
 
 Dir[File.expand_path("./support/**/**/*.rb", __dir__)]
@@ -352,7 +352,7 @@ def metanorma_process(input)
 end
 
 def xml_string_content(xml)
-  strip_guid(Xml::C14n.format(xml))
+  strip_guid(Canon.format_xml(xml))
 end
 
 # Converts all characters in a string matching Unicode regex character class \p{Zs},
