@@ -673,7 +673,7 @@ RSpec.describe Metanorma::Standoc do
              <UnitsML xmlns="https://schema.unitsml.org/unitsml/1.0">
                 <UnitSet>
                    <Unit dimensionURL="#NISTd7" id="U_NISTu7">
-                      <UnitSystem name="SI" type="SI_derived" lang="en-US"/>
+                      <UnitSystem name="SI" type="SI_base" lang="en-US"/>
                       <UnitName lang="en">candela</UnitName>
                       <UnitSymbol type="HTML">cd</UnitSymbol>
                       <UnitSymbol type="MathMl">
@@ -705,7 +705,7 @@ RSpec.describe Metanorma::Standoc do
                          </math>
                       </UnitSymbol>
                       <RootUnits>
-                         <EnumeratedRootUnit unit="meter"/>
+                         <EnumeratedRootUnit unit="metre"/>
                          <EnumeratedRootUnit unit="gram" prefix="k" powerNumerator="-2"/>
                       </RootUnits>
                    </Unit>
@@ -732,7 +732,7 @@ RSpec.describe Metanorma::Standoc do
                          </math>
                       </UnitSymbol>
                       <RootUnits>
-                         <EnumeratedRootUnit unit="meter"/>
+                         <EnumeratedRootUnit unit="metre"/>
                          <EnumeratedRootUnit unit="gram" prefix="k" powerNumerator="-3"/>
                       </RootUnits>
                    </Unit>
