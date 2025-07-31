@@ -6,6 +6,9 @@ module Metanorma
           ret = new_bibitem_from_formattedref_spans(b)
           merge_bibitem_from_formattedref_spans(b, ret)
         end
+        xmldoc.xpath("//bibitem[@amend]").each do |b|
+          b.delete("amend")
+        end
       end
 
       def new_bibitem_from_formattedref_spans(bib)
@@ -18,7 +21,8 @@ module Metanorma
 
       def merge_bibitem_from_formattedref_spans(bib, new)
         new["type"] and bib["type"] = new["type"]
-        if bib.at("./title") # there already is a fetched record here: merge
+        if bib.at("./title") && bib["amend"]
+          # there already is a fetched record here: merge
           bib.children = MergeBibitems
             .new(bib.to_xml, new.to_xml).merge.to_noko.children
         else bib << new.children.to_xml

@@ -32,11 +32,12 @@ module Metanorma
       end
 
       def use_my_anchor(ref, id, opt)
-        ref.parent.elements.last["anchor"] = id
-        add_id(ref.parent.elements.last)
-        a = opt[:hidden] and ref.parent.elements.last["hidden"] = a
-        a = opt[:dropid] and
-          ref.parent.elements.last["suppress_identifier"] = a
+        elem = ref.parent.elements.last
+        elem["anchor"] = id
+        add_id(elem)
+        a = opt[:hidden] and elem["hidden"] = a
+        a = opt[:amend] and elem["amend"] = a
+        a = opt[:dropid] and elem["suppress_identifier"] = a
         ref
       end
 
@@ -66,16 +67,14 @@ module Metanorma
           .sub(/^hidden\((.+)\)$/, "\\1")
           .sub(/^nofetch\((.+)\)$/, "\\1")
           .sub(/^local-file\((.+)\)$/, "\\1")
+          .sub(/^amend\((.+)\)$/, "\\1")
       end
 
-      def analyse_ref_repo_path1(ret)
-        # m = /^(?<type>repo|path|attachment):\((?<key>[^,)]+),?(?<id>[^)]*)\)$/
-        # .match(ret[:id]) or return ret
+      def analyse_ref_repo_path(ret)
         %i(repo path attachment).each do |type|
           ret[type] or next
-         id = if ret[:id].empty?
-                 if type == :attachment
-                   "(#{ret[type]})"
+          id = if ret[:id].empty?
+                 if type == :attachment then "(#{ret[type]})"
                  else ret[type].sub(%r{^[^/]+/}, "")
                  end
                else ret[:id] end
@@ -89,7 +88,7 @@ module Metanorma
         ret.merge(numeric: true)
       end
 
-    def analyse_ref_code(code)
+      def analyse_ref_code(code)
         ret = { id: code }
         code.nil? || code.empty? and return ret
         analyse_ref_code_csv(ret) ||
@@ -143,7 +142,7 @@ module Metanorma
         ret[:id] = id
         ret.merge!(opts)
         analyse_ref_numeric(ret)
-        analyse_ref_repo_path1(ret)
+        analyse_ref_repo_path(ret)
         ret
       end
 
@@ -154,7 +153,7 @@ module Metanorma
       # merge(code, code) | dual(code, code)
       def parse_ref_code_nested(ret, ident)
         keys = %w(nofetch hidden dropid local-file repo path attachment merge
-                  dual)
+                  dual amend)
         if (m = /^(?<key>[a-z-]+):?\((?<val>.*)\)$/.match(ident)) &&
             keys.include?(m[:key])
           case m[:key]
