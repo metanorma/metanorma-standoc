@@ -14,7 +14,7 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso124,(1)ISO 123 ]]] _Standard_
     INPUT
     output = <<~OUTPUT
-              #{BLANK_HDR}
+      #{BLANK_HDR}
              <sections>
 
              </sections><bibliography><references id="_" obligation="informative" normative="true"><title id="_">Normative references</title>
@@ -875,6 +875,80 @@ RSpec.describe Metanorma::Standoc do
 
       * [[[ref2,doi:10.1515/9783110889406.257]]] span:surname.editor[Johnson] span:givenname.editor[Boris] span:pubplace[Vienna] span:volume[2] span:in_title[Nested Title] span:in_surname.editor[Jones] span:in_givenname.editor[John] span:in_surname.editor[James] span:in_givenname.editor[Jim] span:date.issued[1234] span:type[book] span:docid.DOI[DOI-ANON]
     INPUT
+    output = <<~OUTPUT
+        #{BLANK_HDR}
+                  <sections>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Section</title>
+            </clause>
+         </sections>
+         <bibliography>
+            <references id="_" normative="false" obligation="informative">
+               <title id="_">Bibliography</title>
+               <bibitem id="_" type="book" anchor="ref2">
+                  <docidentifier type="DOI">DOI-ANON</docidentifier>
+                  <docidentifier type="ISBN">9783110170269</docidentifier>
+                  <docidentifier type="ISBN">9783110889406</docidentifier>
+                  <date type="issued">
+                     <on>1234</on>
+                  </date>
+                  <contributor>
+                     <role type="editor"/>
+                     <person>
+                        <name>
+                           <forename>Boris</forename>
+                           <surname>Johnson</surname>
+                        </name>
+                     </person>
+                  </contributor>
+                  <place>Vienna</place>
+                  <relation type="includedIn">
+                     <bibitem type="misc">
+                        <title>Nested Title</title>
+                        <contributor>
+                           <role type="editor"/>
+                           <person>
+                              <name>
+                                 <forename>John</forename>
+                                 <surname>Jones</surname>
+                              </name>
+                           </person>
+                        </contributor>
+                        <contributor>
+                           <role type="editor"/>
+                           <person>
+                              <name>
+                                 <forename>Jim</forename>
+                                 <surname>James</surname>
+                              </name>
+                           </person>
+                        </contributor>
+                     </bibitem>
+                  </relation>
+                  <extent>
+                     <locality type="volume">
+                        <referenceFrom>2</referenceFrom>
+                     </locality>
+                  </extent>
+               </bibitem>
+            </references>
+         </bibliography>
+      </metanorma>
+    OUTPUT
+
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+
+    input = <<~INPUT
+      #{LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR}
+      == Section
+
+      [bibliography]
+      == Bibliography
+
+      * [[[ref2,amend(doi:10.1515/9783110889406.257)]]] span:surname.editor[Johnson] span:givenname.editor[Boris] span:pubplace[Vienna] span:volume[2] span:in_title[Nested Title] span:in_surname.editor[Jones] span:in_givenname.editor[John] span:in_surname.editor[James] span:in_givenname.editor[Jim] span:date.issued[1234] span:type[book] span:docid.DOI[DOI-ANON]
+    INPUT
+
     output = <<~OUTPUT
          #{BLANK_HDR}
          <sections>

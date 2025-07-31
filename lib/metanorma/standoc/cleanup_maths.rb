@@ -179,6 +179,7 @@ module Metanorma
       end
 
       def mathml_cleanup(xmldoc)
+        mathml_number_to_mathml(xmldoc)
         xmldoc.xpath("//stem[@type = 'MathML'][not(@validate = 'false')]")
           .each do |x|
           mathml_xml_cleanup(x)
@@ -187,6 +188,15 @@ module Metanorma
         xmldoc.xpath("//stem[@type = 'MathML']")
           .each { |x| mathml_number_format(x) }
         mathml_unitsml(xmldoc)
+      end
+
+      def mathml_number_to_mathml(xmldoc)
+        xmldoc.xpath("//mathml-number").each do |n|
+          n.name = "stem"
+          n["type"] = "MathML"
+          n.children =
+            "<math xmlns='#{MATHML_NS}'><mn>#{n.children.to_xml}</mn></math>"
+        end
       end
 
       include ::Metanorma::Standoc::Regex

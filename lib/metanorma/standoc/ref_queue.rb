@@ -42,8 +42,9 @@ module Metanorma
           ref, i, doc = results.pop
           m[i.to_i] = { ref: }
           if doc.is_a?(RelatonBib::RequestError)
-            @log.add("Bibliography", nil, "Could not retrieve #{ref[:code]}: " \
-                                          "no access to online site", severity: 1)
+            @log.add("Bibliography", nil,
+                     "Could not retrieve #{ref[:code]}: " \
+                     "no access to online site", severity: 1)
           else m[i.to_i][:doc] = doc end
         end
       end
@@ -206,6 +207,7 @@ module Metanorma
         xml.parent.add_child(smart_render_xml(item[:doc], item[:ref][:code],
                                               item[:ref]))
         use_my_anchor(xml, item[:ref][:match][:anchor],
+                      amend: item.dig(:ref, :analyse_code, :amend),
                       hidden: item.dig(:ref, :analyse_code, :hidden),
                       dropid: item.dig(:ref, :analyse_code, :dropid))
       end

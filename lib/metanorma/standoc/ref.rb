@@ -130,10 +130,7 @@ module Metanorma
       end
 
       def refitem_render(xml, match, code)
-        xml.bibitem **attr_code(
-          anchor: match[:anchor], suppress_identifier: code[:dropid],
-          hidden: code[:hidden], id: "_#{UUIDTools::UUID.random_create}"
-        ) do |t|
+        xml.bibitem **refitem_render_attrs(match, code) do |t|
           refitem_render_formattedref(t, match[:text])
           yr_match = refitem1yr(code[:id])
           refitem_render1(match, code, t)
@@ -141,6 +138,12 @@ module Metanorma
             docnumber(t, code[:id]&.sub(/[:-](19|20)[0-9][0-9]$/, ""))
           conditional_date(t, yr_match || match, false)
         end
+      end
+
+      def refitem_render_attrs(match, code)
+        attr_code(anchor: match[:anchor], suppress_identifier: code[:dropid],
+                  amend: code[:amend], hidden: code[:hidden],
+                  id: "_#{UUIDTools::UUID.random_create}")
       end
 
       def refitem_render_formattedref(bibitem, title)

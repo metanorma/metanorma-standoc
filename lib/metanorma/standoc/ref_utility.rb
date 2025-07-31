@@ -32,11 +32,12 @@ module Metanorma
       end
 
       def use_my_anchor(ref, id, opt)
-        ref.parent.elements.last["anchor"] = id
-        add_id(ref.parent.elements.last)
-        a = opt[:hidden] and ref.parent.elements.last["hidden"] = a
-        a = opt[:dropid] and
-          ref.parent.elements.last["suppress_identifier"] = a
+        elem = ref.parent.elements.last
+        elem["anchor"] = id
+        add_id(elem)
+        a = opt[:hidden] and elem["hidden"] = a
+        a = opt[:amend] and elem["amend"] = a
+        a = opt[:dropid] and elem["suppress_identifier"] = a
         ref
       end
 
@@ -66,55 +67,25 @@ module Metanorma
           .sub(/^hidden\((.+)\)$/, "\\1")
           .sub(/^nofetch\((.+)\)$/, "\\1")
           .sub(/^local-file\((.+)\)$/, "\\1")
-      end
-
-      def analyse_ref_localfile(ret)
-        m = /^local-file\((?:(?<source>[^,)]+),\s*)?(?<id>[^)]+)\)$/
-          .match(ret[:id])
-        m or return ret
-        ret.merge(id: m[:id], localfile: m[:source] || "default")
-      end
-
-      def analyse_ref_nofetch(ret)
-        m = /^nofetch\((?<id>.+)\)$/.match(ret[:id]) or return ret
-        ret.merge(id: m[:id], nofetch: true)
-      end
-
-      def analyse_ref_hidden(ret)
-        m = /^hidden\((?<id>.+)\)$/.match(ret[:id]) or return ret
-        ret.merge(id: m[:id], hidden: true)
-      end
-
-      def analyse_ref_dropid(ret)
-        m = /^dropid\((?<id>.+)\)$/.match(ret[:id]) or return ret
-        ret.merge(id: m[:id], dropid: true)
+          .sub(/^amend\((.+)\)$/, "\\1")
       end
 
       def analyse_ref_repo_path(ret)
-        m = /^(?<type>repo|path|attachment):\((?<key>[^,)]+),?(?<id>[^)]*)\)$/
-          .match(ret[:id]) or return ret
-        id = if m[:id].empty?
-               if m[:type] == "attachment"
-                 "(#{m[:key]})"
-               else m[:key].sub(%r{^[^/]+/}, "")
-               end
-             else m[:id] end
-        ret.merge(id:, type: m[:type], key: m[:key], nofetch: true)
+        %i(repo path attachment).each do |type|
+          ret[type] or next
+          id = if ret[:id].empty?
+                 if type == :attachment then "(#{ret[type]})"
+                 else ret[type].sub(%r{^[^/]+/}, "")
+                 end
+               else ret[:id] end
+          ret.merge!(id: id, type: type.to_s, key: ret[type], nofetch: true)
+        end
+        ret
       end
 
       def analyse_ref_numeric(ret)
         /^\d+$/.match?(ret[:id]) or return ret
         ret.merge(numeric: true)
-      end
-
-      def analyse_ref_dual(ret)
-        m = /^(?<type>merge|dual)\((?<keys>.+)\)$/.match(ret[:id]) or
-          return ret
-        line = CSV.parse_line(m[:keys], liberal_parsing: true) or return ret
-        line.size > 1 or return ret
-        ret[:id] = line.first
-        ret[m[:type].to_sym] = line[1..].map(&:strip)
-        ret
       end
 
       def analyse_ref_code(code)
@@ -166,23 +137,49 @@ module Metanorma
         end
       end
 
+      def analyse_ref_code_nested(ret)
+        opts, id = parse_ref_code_nested({}, ret[:id])
+        ret[:id] = id
+        ret.merge!(opts)
+        analyse_ref_numeric(ret)
+        analyse_ref_repo_path(ret)
+        ret
+      end
+
       # ref id = (usrlbl)code[:-]year
       # code = \[? number \]? | ident | nofetch(code) | hidden(code) |
-      # dropid(code) | # (repo|path|attachment):(key,code) |
+      # dropid(code) | amend(code) | (repo|path|attachment):(key,code) |
       # local-file(source,? key) |
       # merge(code, code) | dual(code, code)
-      def analyse_ref_code_nested(ret)
-        analyse_ref_dual(
-          analyse_ref_numeric(
-            analyse_ref_repo_path(
-              analyse_ref_dropid(
-                analyse_ref_hidden(
-                  analyse_ref_nofetch(analyse_ref_localfile(ret)),
-                ),
-              ),
-            ),
-          ),
-        )
+      def parse_ref_code_nested(ret, ident)
+        keys = %w(nofetch hidden dropid local-file repo path attachment merge
+                  dual amend)
+        if (m = /^(?<key>[a-z-]+):?\((?<val>.*)\)$/.match(ident)) &&
+            keys.include?(m[:key])
+          case m[:key]
+          when "nofetch", "hidden", "dropid", "amend"
+            ret[m[:key].to_sym] = true
+            parse_ref_code_nested(ret, m[:val])
+          when "repo", "path", "attachment"
+            kv = m[:val].split(",", 2).map(&:strip)
+            ret[m[:key].to_sym] = kv[0]
+            parse_ref_code_nested(ret, kv.size == 1 ? "" : kv[1])
+          when "local-file"
+            kv = m[:val].split(",", 2).map(&:strip)
+            source = kv.size == 1 ? "default" : kv[0]
+            ret[:localfile] = source
+            parse_ref_code_nested(ret, kv[-1])
+          when "merge", "dual"
+            line = CSV.parse_line(m[:val],
+                                  liberal_parsing: true) or return [ret, ident]
+            line.size > 1 or return [ret, ident]
+            ret[:id] = line.first
+            ret[m[:key].to_sym] = line[1..].map(&:strip)
+            [ret, ret[:id]]
+          end
+
+        else [ret, ident]
+        end
       end
 
       # if no year is supplied, interpret as no_year reference
