@@ -25,6 +25,8 @@ module Metanorma
           # there already is a fetched record here: merge
           bib.children = MergeBibitems
             .new(bib.to_xml, new.to_xml).merge.to_noko.children
+        elsif bib.at("./title") # replace record
+          bib.children = new.children.to_xml
         else bib << new.children.to_xml
         end
       end

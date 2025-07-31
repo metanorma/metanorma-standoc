@@ -14,7 +14,7 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso124,(1)ISO 123 ]]] _Standard_
     INPUT
     output = <<~OUTPUT
-              #{BLANK_HDR}
+      #{BLANK_HDR}
              <sections>
 
              </sections><bibliography><references id="_" obligation="informative" normative="true"><title id="_">Normative references</title>
@@ -886,82 +886,6 @@ RSpec.describe Metanorma::Standoc do
             <references id="_" normative="false" obligation="informative">
                <title id="_">Bibliography</title>
                <bibitem id="_" type="book" anchor="ref2">
-                  <fetched/>
-                  <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
-                  <uri type="DOI">https://doi.org/10.1515/9783110889406.257</uri>
-                  <uri type="src">https://www.degruyterbrill.com/document/doi/10.1515/9783110889406.257/html</uri>
-                  <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
-                  <docidentifier type="ISBN">9783110170269</docidentifier>
-                  <docidentifier type="ISBN">9783110889406</docidentifier>
-                  <date type="issued">
-                     <on>2001-12-31</on>
-                  </date>
-                  <date type="published">
-                     <on>2001-12-31</on>
-                  </date>
-                  <contributor>
-                     <role type="author"/>
-                     <person>
-                        <name>
-                           <forename language="en" script="Latn">Monica</forename>
-                           <surname language="en" script="Latn">Heller</surname>
-                        </name>
-                     </person>
-                  </contributor>
-                  <contributor>
-                     <role type="publisher"/>
-                     <organization>
-                        <name>DE GRUYTER MOUTON</name>
-                     </organization>
-                  </contributor>
-                  <relation type="includedIn">
-                     <bibitem>
-                        <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
-                        <contributor>
-                           <role type="editor"/>
-                           <person>
-                              <name>
-                                 <forename language="en" script="Latn">Aneta</forename>
-                                 <surname language="en" script="Latn">Pavlenko</surname>
-                              </name>
-                           </person>
-                        </contributor>
-                        <contributor>
-                           <role type="editor"/>
-                           <person>
-                              <name>
-                                 <forename language="en" script="Latn">Adrian</forename>
-                                 <surname language="en" script="Latn">Blackledge</surname>
-                              </name>
-                           </person>
-                        </contributor>
-                        <contributor>
-                           <role type="editor"/>
-                           <person>
-                              <name>
-                                 <forename language="en" script="Latn">Ingrid</forename>
-                                 <surname language="en" script="Latn">Piller</surname>
-                              </name>
-                           </person>
-                        </contributor>
-                        <contributor>
-                           <role type="editor"/>
-                           <person>
-                              <name>
-                                 <forename language="en" script="Latn">Marya</forename>
-                                 <surname language="en" script="Latn">Teutsch-Dwyer</surname>
-                              </name>
-                           </person>
-                        </contributor>
-                     </bibitem>
-                  </relation>
-                  <extent>
-                     <locality type="page">
-                        <referenceFrom>257</referenceFrom>
-                        <referenceTo>282</referenceTo>
-                     </locality>
-                  </extent>
-                  <formattedref>Johnson Boris Vienna 2 Nested Title Jones John James Jim 1234  DOI-ANON</formattedref>
                   <docidentifier type="DOI">DOI-ANON</docidentifier>
                   <docidentifier type="ISBN">9783110170269</docidentifier>
                   <docidentifier type="ISBN">9783110889406</docidentifier>
@@ -1012,8 +936,7 @@ RSpec.describe Metanorma::Standoc do
       </metanorma>
     OUTPUT
 
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
-                                                           *OPTIONS))))
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Canon.format_xml(output)
 
     input = <<~INPUT
