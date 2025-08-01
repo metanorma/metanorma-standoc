@@ -161,12 +161,15 @@ module Metanorma
                  type: node.attr("type"))))
       end
 
-      # term sources occasionally turning up as "source source"?
+      # TODO: term sources occasionally turning up as "source source"?
       def paragraph(node)
         node.role&.sub(/ .*$/, "") == "source" and return termsource(node)
+        content = node.content
+        content.start_with?("TODO: ") and return todo_prefixed_para(node)
+        content.start_with?("EDITOR: ") and return editor_prefixed_para(node)
         noko do |xml|
           xml.p **para_attrs(node) do |xml_t|
-            xml_t << node.content
+            xml_t << content
           end
         end
       end

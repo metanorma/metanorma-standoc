@@ -46,6 +46,20 @@ module Metanorma
         end
       end
 
+      # -TO-DO :
+      def todo_prefixed_para(node)
+        node.lines[0].sub!(/^TODO: /, "")
+        todo(node)
+      end
+
+      # EDITOR:
+      def editor_prefixed_para(node)
+        node.lines[0].sub!(/^EDITOR: /, "")
+        node.set_attr("type", "editorial")
+        node.assign_caption "EDITOR"
+        admonition(node)
+      end
+
       def termnote(node)
         noko do |xml|
           xml.termnote **termnote_attrs(node) do |ex|
