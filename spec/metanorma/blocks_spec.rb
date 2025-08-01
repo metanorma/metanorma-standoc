@@ -88,17 +88,17 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
           <sections>
              <form id="_1" anchor="N0" class="checkboxes" name="N1" action="/action_page.php">
-                <p id="_2">
+                <p id="_3">
                    <label for="fname">First name:</label>
                    <br/>
-                   <input type="text" anchor="fname" name="fname" id="_3"/>
+                   <input type="text" anchor="fname" name="fname" id="_2"/>
                 </p>
              </form>
              <form id="_4" anchor="N1" class="checkboxes" name="N1" action="/action_page.php">
-                <p id="_5">
+                <p id="_6">
                    <label for="fname">First name:</label>
                    <br/>
-                   <input type="text" anchor="fname" name="fname" id="_6"/>
+                   <input type="text" anchor="fname" name="fname" id="_5"/>
                 </p>
              </form>
           </sections>

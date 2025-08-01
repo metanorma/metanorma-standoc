@@ -14,20 +14,6 @@ module Metanorma
       end
     end
 
-    class ToDoInlineAdmonitionBlock < Asciidoctor::Extensions::Treeprocessor
-      def process(document)
-        (document.find_by context: :paragraph).each do |para|
-          next unless /^TODO: /.match? para.lines[0]
-
-          para.set_attr("name", "todo")
-          para.set_attr("caption", "TODO")
-          para.lines[0].sub!(/^TODO: /, "")
-          # these will be converted from admonition to annotation downstream
-          para.context = :admonition
-        end
-      end
-    end
-
     class FootnoteBlockInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :footnoteblock

@@ -413,6 +413,10 @@ RSpec.describe Metanorma::Standoc do
       == Clause 1
       TODO: Note1
 
+      ====
+      TODO: Note4
+      ====
+
       == Clause 2
       [TODO]
       ====
@@ -429,32 +433,40 @@ RSpec.describe Metanorma::Standoc do
           <sections>
              <clause id="_1" inline-header="false" obligation="normative">
                 <title id="_2">
-                   <bookmark id="_12" anchor="_12"/>
+                   <bookmark id="_14" anchor="_14"/>
                    Clause 1
                 </title>
+                <example id="_4">
+                   <p id="_18">
+                      <bookmark id="_15" anchor="_15"/>
+                   </p>
+                </example>
              </clause>
-             <clause id="_4" inline-header="false" obligation="normative">
-                <title id="_5">
-                   <bookmark id="_13" anchor="_13"/>
+             <clause id="_6" inline-header="false" obligation="normative">
+                <title id="_7">
+                   <bookmark id="_16" anchor="_16"/>
                    Clause 2
                 </title>
              </clause>
           </sections>
-          <annex id="_8" inline-header="false" obligation="normative">
-             <title id="_9">
-                <bookmark id="_14" anchor="_14"/>
+          <annex id="_10" inline-header="false" obligation="normative">
+             <title id="_11">
+                <bookmark id="_17" anchor="_17"/>
                 Annex 1
              </title>
           </annex>
           <annotation-container>
-             <annotation id="_3" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_12" to="_12">
-                <p id="_15">Note1</p>
+             <annotation id="_3" reviewer="(Unknown)" type="todo" date="#{Date.today}T00:00:00Z" from="_14" to="_14">
+                <p id="_19">Note1</p>
              </annotation>
-             <annotation id="_6" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_13" to="_13">
-                <p id="_7">Note2</p>
+             <annotation id="_5" reviewer="(Unknown)" type="todo" date="#{Date.today}T00:00:00Z" from="_15" to="_15">
+                <p id="_20">Note4</p>
              </annotation>
-             <annotation id="_10" reviewer="(Unknown)" date="#{Date.today}T00:00:00Z" type="todo" from="_14" to="_14">
-                <p id="_11">Note3</p>
+             <annotation id="_8" reviewer="(Unknown)" type="todo" date="#{Date.today}T00:00:00Z" from="_16" to="_16">
+                <p id="_9">Note2</p>
+             </annotation>
+             <annotation id="_12" reviewer="(Unknown)" type="todo" date="#{Date.today}T00:00:00Z" from="_17" to="_17">
+                <p id="_13">Note3</p>
              </annotation>
           </annotation-container>
        </metanorma>

@@ -80,8 +80,6 @@ module Metanorma
         inline_macro Metanorma::Standoc::SourceIncludeInlineMacro
         block Metanorma::Standoc::ToDoAdmonitionBlock
         block Metanorma::Standoc::EditorAdmonitionBlock
-        treeprocessor Metanorma::Standoc::EditorInlineAdmonitionBlock
-        treeprocessor Metanorma::Standoc::ToDoInlineAdmonitionBlock
         block Metanorma::Standoc::PlantUMLBlockMacro
         block Metanorma::Standoc::PseudocodeBlockMacro
         block_macro Metanorma::Standoc::ColumnBreakBlockMacro
