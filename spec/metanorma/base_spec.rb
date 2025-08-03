@@ -595,6 +595,7 @@ RSpec.describe Metanorma::Standoc do
       :semantic-metadata-hello: what-not
       :presentation-metadata-hello: Hello?
       :presentation-metadata-Manifold: "hello, world","yes"
+      :presentation-metadata-ul-label-list: "&#x2022;", &#x2d;, &#x6f;
       :toclevels: 2
       :doctoclevels: 3
       :htmltoclevels: 4
@@ -763,6 +764,15 @@ RSpec.describe Metanorma::Standoc do
         <presentation-metadata>
           <manifold>yes</manifold>
         </presentation-metadata>
+        <presentation-metadata>
+         <ul-label-list>•</ul-label-list>
+      </presentation-metadata>
+      <presentation-metadata>
+         <ul-label-list>-</ul-label-list>
+      </presentation-metadata>
+      <presentation-metadata>
+         <ul-label-list>o</ul-label-list>
+      </presentation-metadata>
         <presentation-metadata>
           <name>TOC Heading Levels</name>
           <value>2</value>
