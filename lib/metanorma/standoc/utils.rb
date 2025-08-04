@@ -87,8 +87,10 @@ module Metanorma
         conv = presentation_xml_converter(EmptyAttr.new)
         i18n = conv.i18n_init(lang, script, locale, i18nyaml)
         conv.metadata_init(lang, script, locale, i18n)
+        conv.meta.localdir = @localdir
         conv.xref_init(lang, script, nil, i18n, {})
         conv.xrefs.klass.meta = conv.meta
+        conv.xrefs.klass.localdir = @localdir
         conv
       end
 
