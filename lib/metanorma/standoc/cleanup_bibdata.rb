@@ -8,7 +8,6 @@ module Metanorma
         bibdata_embed_id_cleanup(xmldoc)
         biblio_indirect_erefs(xmldoc, @internal_eref_namespaces&.uniq)
         coverpage_images(xmldoc)
-        bibdata_published(xmldoc)
       end
 
       def coverpage_images(xmldoc)
