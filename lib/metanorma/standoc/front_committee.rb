@@ -20,8 +20,8 @@ module Metanorma
         agency_arr, agency_abbrev =
           committee_org_prep_agency(node, type, agency, [], [])
         { source: [type], role: "author",
-          default_org: false, committee: true, agency: agency_arr,
-          agency_abbrev:,
+          default_org: false, committee: true,
+          agency: agency_arr, agency_abbrev:,
           desc: type.sub(/^approval-/, "").tr("-", " ").capitalize }.compact
       end
 
@@ -55,7 +55,8 @@ module Metanorma
 
       def contrib_committee_subdiv(xml, committee)
         contributors_committees_filter_empty?(committee) and return
-        xml.subdivision **attr_code(type: committee[:desc]) do |o|
+        xml.subdivision **attr_code(type: committee[:desc],
+                                    subtype: committee[:type]) do |o|
           o.name committee[:name]
           committee[:abbr] and o.abbreviation committee[:abbr]
           committee[:ident] and o.identifier committee[:ident]
@@ -76,6 +77,13 @@ module Metanorma
         ret = agency == default_publisher ? "" : "#{agency} "
         /^\s+/.match?(ret) and ret = ""
         ret
+      end
+
+      def metadata_committee(node, xml)
+        node.attr("technical-committee") or return
+        xml.editorialgroup do |a|
+          committee_component("technical-committee", node, a)
+        end
       end
 
       def committee_component(compname, node, out)

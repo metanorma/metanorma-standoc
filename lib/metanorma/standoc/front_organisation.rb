@@ -185,6 +185,7 @@ module Metanorma
         { name: node.attr(source + suffix), ident: t,
           abbrev: node.attr("#{source}_abbr#{suffix}"),
           role: opts[:role], desc: opts[:desc],
+          type: node.attr("#{source}-type#{suffix}"),
           subdiv: node.attr("#{source}_subdivision#{suffix}"),
           logo: node.attr("#{source}_logo#{suffix}") }.compact
           .merge(extract_org_attrs_address(node, opts, suffix))
