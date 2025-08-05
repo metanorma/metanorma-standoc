@@ -4,7 +4,7 @@ module Metanorma
       def committee_contributors(node, xml, agency, _opts)
         t = metadata_committee_types(node)
         v = t.first
-        if node.attr("#{v}-number")
+        if node.attr("#{v}-number") || node.attr(v)
           node.attr(v) or node.set_attr(v, "")
           o = committee_contrib_org_prep(node, v, agency, _opts)
           o[:groups] = t
