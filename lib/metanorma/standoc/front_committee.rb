@@ -112,7 +112,7 @@ module Metanorma
       def org_attrs_add_committees(node, ret, opts, opts_orig)
         opts_orig[:groups]&.each_with_index do |g, i|
           i.zero? and next
-          contributors_committees_pad_multiples(ret, node, g)
+          contributors_committees_pad_multiples(ret.first, node, g)
           opts = committee_contrib_org_prep(node, g, nil, opts_orig)
           ret << org_attrs_parse_core(node, opts)
         end
