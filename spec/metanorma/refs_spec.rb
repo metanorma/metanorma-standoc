@@ -1217,6 +1217,9 @@ RSpec.describe Metanorma::Standoc do
              <attachment name="_attach_attachments/iso.xml">data:application/octet-stream;base64,ICAgIC...</attachment>
              <attachment name="_attach_attachments/iso.xml_">data:application/octet-stream;base64,ICAgIC...</attachment>
              <attachment name="_attach_attachments/html.scss">data:application/octet-stream;base64,#{attachment}</attachment>
+      <semantic-metadata>
+         <stage-published>true</stage-published>
+      </semantic-metadata>
              <presentation-metadata>
                 <name>TOC Heading Levels</name>
                 <value>2</value>

@@ -59,7 +59,7 @@ module Metanorma
         end
       end
 
-      def indirect_eref_to_xref(eref, ident, id_map=nil)
+      def indirect_eref_to_xref(eref, ident, id_map = nil)
         loc = eref.at("./localityStack[locality[@type = 'anchor']]") ||
           eref.at("./locality[@type = 'anchor']")
         loc = loc&.remove&.text || ident
@@ -72,6 +72,7 @@ module Metanorma
         else
           eref.document.at("//*[@anchor = '#{loc}']") and return
         end
+
         eref.children = %(** Missing target #{loc})
         eref["target"] = ident
       end
@@ -180,6 +181,20 @@ module Metanorma
         Nokogiri::XML(r).xpath("//contributor").reverse_each do |c|
           ins.next = c
         end
+      end
+
+      def bibdata_published(xmldoc)
+        ins = add_misc_container(xmldoc)
+        ins ||= add_misc_container(xmldoc)
+        ins.at("./semantic-metadata/stage-published") and return
+        p = published?(xmldoc.at("bibdata/status/stage")&.text, xmldoc)
+        ins << <<~XML
+          <semantic-metadata><stage-published>#{p}</stage-published></semantic-metadata>
+        XML
+      end
+
+      def published?(stage, _xmldoc)
+        stage.casecmp("published").zero?
       end
     end
   end

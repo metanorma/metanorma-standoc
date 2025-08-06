@@ -96,7 +96,8 @@ module Metanorma
 
       def add_misc_container(xmldoc)
         unless ins = xmldoc.at("//metanorma-extension")
-          a = xmldoc.xpath("//termdocsource")&.last || xmldoc.at("//bibdata")
+          a = xmldoc.xpath("//termdocsource")&.last || xmldoc.at("//bibdata") ||
+            xmldoc.root.children.first
           a.next = "<metanorma-extension/>"
           ins = xmldoc.at("//metanorma-extension")
         end
