@@ -33,7 +33,8 @@ module Metanorma
         passthrough_cleanup(xmldoc) # feeds: smartquotes_cleanup
         unnumbered_blocks_cleanup(xmldoc)
         termdocsource_cleanup(xmldoc) # feeds: metadata_cleanup
-        metadata_cleanup(xmldoc) # feeds: boilerplate_cleanup
+        metadata_cleanup(xmldoc) # feeds: boilerplate_cleanup, bibdata_cleanup,
+        # docidentifier_cleanup (in generic: template)
         misccontainer_cleanup(xmldoc)
         sections_cleanup(xmldoc) # feeds: obligations_cleanup, toc_cleanup,
         # floatingtitle_cleanup
@@ -202,6 +203,8 @@ module Metanorma
       end
 
       def metadata_cleanup(xmldoc)
+        bibdata_published(xmldoc) # feeds: bibdata_cleanup,
+        # docidentifier_cleanup (in generic: template)
         (@metadata_attrs.nil? || @metadata_attrs.empty?) and return
         ins = add_misc_container(xmldoc)
         ins << @metadata_attrs

@@ -912,7 +912,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "deduplicates identifiers in inline SVGs" do
     input = <<~INPUT
-      #{BLANK_HDR}
+      #{BLANK_HDR.sub(/ xmlns="[^"]+"/, "")}
         <sections>
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256">
          <defs>
@@ -948,7 +948,7 @@ RSpec.describe Metanorma::Standoc do
       </metanorma>
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR}
+      #{BLANK_HDR.sub(/ xmlns="[^"]+"/, "")}
                  <sections>
                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 256 256">
          <defs>
@@ -984,7 +984,7 @@ RSpec.describe Metanorma::Standoc do
       </metanorma>
     OUTPUT
     expect(Canon.format_xml(Metanorma::Standoc::Converter.new(nil, *OPTIONS)
-      .cleanup(Nokogiri::XML(input)).to_xml))
+      .cleanup(Nokogiri::XML(input)).root.to_xml))
       .to be_equivalent_to Canon.format_xml(output)
   end
 
@@ -1056,7 +1056,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "deduplicates SVG classes" do
     input = <<~INPUT
-      #{BLANK_HDR}
+      #{BLANK_HDR.sub(/ xmlns="[^"]+"/, "")}
         <sections>
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256">
         <style>.B{fill:none}.C{stroke:#000}.D{stroke-linejoin:round}.E{stroke-miterlimit:10}.F{stroke-width:5}.G{stroke-linecap:round}.H{stroke-width:3.9}.I{fill:#fff}.J{stroke-dasharray:30.0001, 30.0001}.K{stroke-width:15}</style>
@@ -1074,7 +1074,7 @@ RSpec.describe Metanorma::Standoc do
       </metanorma>
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR}
+      #{BLANK_HDR.sub(/ xmlns="[^"]+"/, "")}
                <sections>
            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 256 256">
              <style>.B_inject_0 {fill:none}.C_inject_0 {stroke:#000}.D_inject_0 {stroke-linejoin:round}.E_inject_0 {stroke-miterlimit:10}.F_inject_0 {stroke-width:5}.G_inject_0 {stroke-linecap:round}.H_inject_0 {stroke-width:3.9}.I_inject_0 {fill:#fff}.J_inject_0 {stroke-dasharray:30.0001, 30.0001}.K_inject_0 {stroke-width:15}</style>
@@ -1321,7 +1321,11 @@ RSpec.describe Metanorma::Standoc do
       <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
        <bibdata type="standard">
        <title language="en" format="text/plain">Document title</title>
-       <language>en</language><script>Latn</script><status><stage>published</stage></status><copyright><from>2025</from></copyright><ext><doctype>standard</doctype><flavor>standoc</flavor></ext></bibdata><metanorma-extension><presentation-metadata><name>TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>HTML TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>DOC TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>PDF TOC Heading Levels</name><value>2</value></presentation-metadata></metanorma-extension>
+       <language>en</language><script>Latn</script><status><stage>published</stage></status><copyright><from>2025</from></copyright><ext><doctype>standard</doctype><flavor>standoc</flavor></ext></bibdata><metanorma-extension>
+             <semantic-metadata>
+         <stage-published>true</stage-published>
+      </semantic-metadata>
+        <presentation-metadata><name>TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>HTML TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>DOC TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>PDF TOC Heading Levels</name><value>2</value></presentation-metadata></metanorma-extension>
        <sections><clause id="_" type="scope" inline-header="false" obligation="normative">
        <title id="_">Scope</title>
        <example id="_">
