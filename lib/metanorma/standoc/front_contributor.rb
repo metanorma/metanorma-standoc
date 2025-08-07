@@ -1,4 +1,5 @@
 require_relative "./front_organisation"
+require_relative "./front_committee"
 
 module Metanorma
   module Standoc
@@ -8,6 +9,7 @@ module Metanorma
                         { source: ["publisher", "pub"], role: "author",
                           default: default_publisher })
         personal_author(node, xml)
+        committee_contributors(node, xml, default_publisher, {})
       end
 
       def personal_author(node, xml)

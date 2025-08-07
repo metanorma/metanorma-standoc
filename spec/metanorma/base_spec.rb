@@ -227,6 +227,7 @@ RSpec.describe Metanorma::Standoc do
       :technical-committee_2: TC1
       :technical-committee-number_2: 11
       :technical-committee-type_2: A1
+      :technical-committee-agency_2: TC1
       :subcommittee_2: SC1
       :subcommittee-number_2: 21
       :subcommittee-type_2: B1
@@ -415,6 +416,31 @@ RSpec.describe Metanorma::Standoc do
                    <email>barney@rockhead.example.com</email>
                   </person>
                 </contributor>
+             <contributor>
+                <role type="author">
+                   <description>committee</description>
+                </role>
+                <organization>
+                   <subdivision type="Technical committee" subtype="A">
+                      <name>TC</name>
+                      <identifier>A 1</identifier>
+                      <identifier type="full">A 1</identifier>
+                   </subdivision>
+                </organization>
+             </contributor>
+             <contributor>
+                <role type="author">
+                   <description>committee</description>
+                </role>
+                <organization>
+                   <name>TC1</name>
+                   <subdivision type="Technical committee" subtype="A1">
+                      <name>TC1</name>
+                      <identifier>A1 11</identifier>
+                      <identifier type="full">A1 11</identifier>
+                   </subdivision>
+                </organization>
+             </contributor>
                 <contributor>
                   <role type="publisher"/>
                   <organization>
