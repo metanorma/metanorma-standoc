@@ -19,10 +19,10 @@ module Metanorma
       def committee_contrib_org_prep(node, type, agency, _opts)
         agency_arr, agency_abbrev =
           committee_org_prep_agency(node, type, agency, [], [])
-        { source: [type], role: "author",
+        { source: [type], role: "author", desc: "committee",
           default_org: false, committee: true,
           agency: agency_arr, agency_abbrev:,
-          desc: type.sub(/^approval-/, "").tr("-", " ").capitalize }.compact
+          subdivtype: type.sub(/^approval-/, "").tr("-", " ").capitalize }.compact
       end
 
       def committee_org_prep_agency(node, type, agency, agency_arr, agency_abbr)
@@ -55,7 +55,7 @@ module Metanorma
 
       def contrib_committee_subdiv(xml, committee)
         contributors_committees_filter_empty?(committee) and return
-        xml.subdivision **attr_code(type: committee[:desc],
+        xml.subdivision **attr_code(type: committee[:subdivtype],
                                     subtype: committee[:type]) do |o|
           o.name committee[:name]
           committee[:abbr] and o.abbreviation committee[:abbr]
@@ -102,7 +102,7 @@ module Metanorma
         opts_orig = opts.dup
         ret = []
         ret << org_attrs_parse_core(node, opts)&.map&.with_index do |x, i|
-          x.merge(agency: opts.dig(:agency, i),
+          x.merge(agency: opts.dig(:agency, i), subdivtype: opts[:subdivtype],
                   agency_abbrev: opts.dig(:agency_abbrev, i), abbr: opts[:abbr],
                   committee: opts[:committee], default_org: opts[:default_org])
         end

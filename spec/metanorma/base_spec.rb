@@ -418,7 +418,7 @@ RSpec.describe Metanorma::Standoc do
                 </contributor>
              <contributor>
                 <role type="author">
-                   <description>Technical committee</description>
+                   <description>committee</description>
                 </role>
                 <organization>
                    <subdivision type="Technical committee" subtype="A">
@@ -430,7 +430,7 @@ RSpec.describe Metanorma::Standoc do
              </contributor>
              <contributor>
                 <role type="author">
-                   <description>Technical committee</description>
+                   <description>committee</description>
                 </role>
                 <organization>
                    <name>TC1</name>
