@@ -194,8 +194,8 @@ module Metanorma
       # NOTE: The routine needs to handle cases where the content
       # contains an escaped closing bracket `\]`.
 
-      ADOC_MACRO_START =
-        '\S+:(?:[^\[\] ]+|\{\{[^{}]+\}\}){0-999}\[.*?(?<!\\\\)\]'.freeze
+      ADOC_MACRO_PATTERN = /\S+:[^\[\n]*\[[^\]\\]*(?:\\.[^\]\\]*)*\]/
+
       # Replace {{ ... }} with {{ pass-format:metanorma:[...] }} to preserve any
       # XML markup provided by Metanorma XML Metadata content, through the
       # `pass-format:metanorma` command.
@@ -207,15 +207,28 @@ module Metanorma
 
       def boilerplate_read(file)
         ret = File.read(file, encoding: "UTF-8")
-        /\.adoc$/.match?(file) or return ret
-        ret.split(/(#{ADOC_MACRO_START}|\])/o).map do |r|
-          if /^#{ADOC_MACRO_START}$/o.match?(r)
-            r
+        /\.adoc(\.liquid)?$/.match?(file) or return ret
+
+        # Split content into macro and non-macro parts
+        parts = ret.split(/(#{ADOC_MACRO_PATTERN})/)
+
+        parts.map.with_index do |part, index|
+          if index.odd? && is_valid_macro?(part)
+            # This is a macro - leave unchanged
+            part
           else
-            r.gsub(/(?<!\{)(\{\{[^{}]+\}\})(?!\})/,
-                   "pass-format:metanorma[++\\1++]")
+            # Not a macro - wrap {{ }} patterns
+            part.gsub(/(?<!\{)(\{\{[^{}]+\}\})(?!\})/,
+                     "pass-format:metanorma[++\\1++]")
           end
         end.join
+      end
+
+      private
+
+      def is_valid_macro?(text)
+        # Simple validation - does it look like a macro?
+        text.match?(/^\S+:[^\[]*\[.*\]$/)
       end
 
       # If Asciidoctor, convert top clauses to tags and wrap in <boilerplate>
