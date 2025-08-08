@@ -166,7 +166,7 @@ module Metanorma
       # May contain one or more {{ }} in target, with spaces in them
       # Does not end in \]
       ADOC_MACRO_START =
-        '\S+:(?:[^\[\] ]+|\{\{[^{}]+\}\})*\[.*?(?<!\\\\)\]'.freeze
+        '\S+:(?:[^\[\] ]+|\{\{[^{}]+\}\}){0-999}\[.*?(?<!\\\\)\]'.freeze
 
       # Replace {{ ... }} with {{ pass:[...]}} to preserve any XML markup
       # use pass:[...\] if {{}} is already inside an Asciidoc macro
