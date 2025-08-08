@@ -16,6 +16,8 @@
 
        More content
 
+       === Random clause
+
        == metanorma-extension
 
        Yet more content
@@ -109,6 +111,9 @@
      ext = <<~EXT
            <p id="_">Content</p>
        <p id="_">More content</p>
+       <clause id="_" inline-header="false" obligation="normative">
+          <title id="_">Random clause</title>
+        </clause>
        <p id="_">Yet more content</p>
      EXT
      output = <<~OUTPUT
