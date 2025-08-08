@@ -73,6 +73,7 @@ module Metanorma
       end
 
       def preface_main_filter(ret, node)
+        node.level > 1 and return ret
         start_main_section(ret, node)
         @preface && self.class::MAIN_CLAUSE_NAMES.include?(ret) and return nil
         !@preface && self.class::PREFACE_CLAUSE_NAMES.include?(ret) and
