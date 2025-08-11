@@ -230,19 +230,19 @@ module Metanorma
         boilerplate_file_restructure(file)
       end
 
-      private
-
-      def is_valid_macro?(text)
-        # Simple validation - does it look like a macro?
-        text.match?(/^\S+:[^\[]*\[.*\]$/)
-      end
-
       def boilerplate_file_restructure(file)
         ret = adoc2xml(file, backend.to_sym)
         boilerplate_xml_cleanup(ret)
         ret.name = "boilerplate"
         boilerplate_top_elements(ret)
         ret
+      end
+
+      private
+
+      def is_valid_macro?(text)
+        # Simple validation - does it look like a macro?
+        text.match?(/^\S+:[^\[]*\[.*\]$/)
       end
 
       # remove Metanorma namespace, so generated doc containing boilerplate
