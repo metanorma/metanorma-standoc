@@ -224,17 +224,17 @@ module Metanorma
         end.join
       end
 
+      # If Asciidoctor, convert top clauses to tags and wrap in <boilerplate>
+      def boilerplate_file_convert(file)
+        ret = Nokogiri::XML(file).root and return ret
+        boilerplate_file_restructure(file)
+      end
+
       private
 
       def is_valid_macro?(text)
         # Simple validation - does it look like a macro?
         text.match?(/^\S+:[^\[]*\[.*\]$/)
-      end
-
-      # If Asciidoctor, convert top clauses to tags and wrap in <boilerplate>
-      def boilerplate_file_convert(file)
-        ret = Nokogiri::XML(file).root and return ret
-        boilerplate_file_restructure(file)
       end
 
       def boilerplate_file_restructure(file)
