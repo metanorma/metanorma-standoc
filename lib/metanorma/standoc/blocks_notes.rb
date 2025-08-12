@@ -6,6 +6,7 @@ module Metanorma
           .merge(
             "keep-separate": node.attr("keep-separate"),
             keepasterm: node.option?("termnote") ? "true" : nil,
+            type: node.attr("type")
           )))
       end
 
