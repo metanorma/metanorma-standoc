@@ -170,8 +170,7 @@ module Metanorma
         i = 1
         suffix = ""
         ret = []
-        while node.attr("#{source}-number#{suffix}") ||
-            node.attr("#{source}#{suffix}")
+        while committee_number_or_name?(node, source, suffix)
           ret << extract_org_attrs_complex(node, opts, source, suffix)
           i += 1
           suffix = "_#{i}"
