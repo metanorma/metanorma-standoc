@@ -70,7 +70,7 @@ module Metanorma
         ret = full_committee_agency_id(contrib)
         ids = contrib.xpath("./subdivision").map do |x|
           x.at("./identifier")&.text
-        end
+        end.compact
         ins = contrib.at("./subdivision/identifier") and
           ins.next = "<identifier type='full'>#{ret}#{ids.join('/')}</identifier>"
       end
@@ -137,7 +137,8 @@ module Metanorma
       end
 
       def contributors_committees_filter_empty?(committee)
-        committee[:name].empty? && committee[:ident].nil?
+        (committee[:name].nil? || committee[:name].empty?) &&
+          committee[:ident].nil?
       end
 
       def contributors_committees_nest1(committees)
