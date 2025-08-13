@@ -53,13 +53,6 @@ module Metanorma
         end
       end
 
-      def metadata_committee(node, xml)
-        node.attr("technical-committee") or return
-        xml.editorialgroup do |a|
-          committee_component("technical-committee", node, a)
-        end
-      end
-
       def metadata_ics(node, xml)
         ics = node.attr("library-ics")
         ics&.split(/,\s*/)&.each do |i|

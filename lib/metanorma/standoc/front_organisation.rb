@@ -1,18 +1,6 @@
 module Metanorma
   module Standoc
     module Front
-      def committee_component(compname, node, out)
-        i = 1
-        suffix = ""
-        while node.attr(compname + suffix)
-          out.send compname.gsub(/-/, "_"), node.attr(compname + suffix),
-                   **attr_code(number: node.attr("#{compname}-number#{suffix}"),
-                               type: node.attr("#{compname}-type#{suffix}"))
-          i += 1
-          suffix = "_#{i}"
-        end
-      end
-
       def organization(org, orgname, node = nil, default_org = nil, attrs = {})
         orgname, abbr = org_name_and_abbrev(attrs, orgname)
         org.name orgname
@@ -147,12 +135,16 @@ module Metanorma
       end
 
       def org_organization(node, xml, org)
-        organization(xml, org[:name], node, !node.attr("publisher"), org)
-        org_address(org, xml)
-        org_logo(xml, org[:logo])
+        if org[:committee]
+          contrib_committee_build(xml, org[:agency], org)
+        else
+          organization(xml, org[:name], node, !node.attr("publisher"), org)
+          org_address(org, xml)
+          org_logo(xml, org[:logo])
+        end
       end
 
-      def org_attrs_parse(node, opts)
+      def org_attrs_parse_core(node, opts)
         source = opts[:source]&.detect { |s| node.attr(s) }
         org_attrs_simple_parse(node, opts, source) ||
           org_attrs_complex_parse(node, opts, source)
@@ -178,7 +170,7 @@ module Metanorma
         i = 1
         suffix = ""
         ret = []
-        while node.attr(source + suffix)
+        while committee_number_or_name?(node, source, suffix)
           ret << extract_org_attrs_complex(node, opts, source, suffix)
           i += 1
           suffix = "_#{i}"
@@ -187,12 +179,26 @@ module Metanorma
       end
 
       def extract_org_attrs_complex(node, opts, source, suffix)
-        { name: node.attr(source + suffix),
+        n = node.attr("#{source}-number#{suffix}") # for committees
+        t = committee_ident(node.attr("#{source}-type#{suffix}"), n, source)
+        { name: node.attr(source + suffix), ident: t,
           abbrev: node.attr("#{source}_abbr#{suffix}"),
           role: opts[:role], desc: opts[:desc],
+          type: node.attr("#{source}-type#{suffix}"),
           subdiv: node.attr("#{source}_subdivision#{suffix}"),
           logo: node.attr("#{source}_logo#{suffix}") }.compact
           .merge(extract_org_attrs_address(node, opts, suffix))
+      end
+
+      def committee_abbrevs
+        { "technical-committee" => "TC" }
+      end
+
+      def committee_ident(type, number, level)
+        number.nil? || number.empty? and return
+        type ||= committee_abbrevs[level]
+        type == "Other" and type = ""
+        "#{type} #{number}".strip
       end
 
       def extract_org_attrs_address(node, opts, suffix)
