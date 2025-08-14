@@ -33,6 +33,7 @@ module Metanorma
         block_macro Metanorma::Plugin::Lutaml::LutamlGmlDictionaryBlockMacro
         block Metanorma::Plugin::Lutaml::LutamlGmlDictionaryBlock
         block_macro Metanorma::Plugin::Lutaml::LutamlKlassTableBlockMacro
+        block_macro Metanorma::Plugin::Lutaml::LutamlEnumTableBlockMacro
         preprocessor Metanorma::Standoc::EmbedIncludeProcessor
         preprocessor Metanorma::Standoc::LinkProtectPreprocessor
         preprocessor Metanorma::Standoc::PassProtectPreprocessor
