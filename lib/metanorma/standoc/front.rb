@@ -187,7 +187,6 @@ module Metanorma
         metadata_doctype(node, ext)
         metadata_subdoctype(node, ext)
         metadata_flavor(node, ext)
-        metadata_committee(node, ext)
         metadata_ics(node, ext)
         structured_id(node, ext)
         metadata_coverpage_images(node, ext)

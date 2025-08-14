@@ -537,10 +537,6 @@ RSpec.describe Metanorma::Standoc do
                 <ext>
                 <doctype>standard</doctype>
             <flavor>standoc</flavor>
-                  <editorialgroup>
-                    <technical-committee number="1" type="A">TC</technical-committee>
-                    <technical-committee number="11" type="A1">TC1</technical-committee>
-                  </editorialgroup>
                                   <ics>
                     <code>01.040.11</code>
                     <text>Health care technology (Vocabularies)</text>

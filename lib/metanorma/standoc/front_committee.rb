@@ -82,25 +82,6 @@ module Metanorma
         ret
       end
 
-      def metadata_committee(node, xml)
-        node.attr("technical-committee") or return
-        xml.editorialgroup do |a|
-          committee_component("technical-committee", node, a)
-        end
-      end
-
-      def committee_component(compname, node, out)
-        i = 1
-        suffix = ""
-        while node.attr(compname + suffix)
-          out.send compname.gsub(/-/, "_"), node.attr(compname + suffix),
-                   **attr_code(number: node.attr("#{compname}-number#{suffix}"),
-                               type: node.attr("#{compname}-type#{suffix}"))
-          i += 1
-          suffix = "_#{i}"
-        end
-      end
-
       def org_attrs_parse(node, opts)
         opts_orig = opts.dup
         ret = []
