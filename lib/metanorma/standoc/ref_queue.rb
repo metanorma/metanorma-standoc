@@ -131,7 +131,8 @@ module Metanorma
 
       def fetch_ref(xml, code, year, **opts)
         opts[:no_year] and return nil
-        code = code.sub(/^\([^)]+\)/, "")
+        require 'debug'; binding.b
+        _, code = extract_balanced_parentheses(code)
         hit = fetch_ref1(code, year, opts) or return nil
         xml.parent.add_child(smart_render_xml(hit, code, opts))
         xml

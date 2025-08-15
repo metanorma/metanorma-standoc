@@ -42,7 +42,7 @@ module Metanorma
       end
 
       def docid(bib, code, codetype = nil)
-        type, code1 = if /^\[\d+\]$|^\([^)]+\).*$/.match?(code)
+        type, code1 = if /^\[\d+\]$|^\(.+\).*$/.match?(code)
                         ["metanorma", mn_code(code)]
                       elsif %w(attachment repo path).include?(codetype)
                         [nil, code]
@@ -62,7 +62,10 @@ module Metanorma
       end
 
       def mn_code(code)
-        code.sub(/^\(/, "[").sub(/^([^)]+)\).*$/, "\\1]")
+        # Handle balanced parentheses at the start of the string
+        balance, remainder = extract_balanced_parentheses(code)
+        balance and return "[#{balance}]"
+        remainder
           .sub(/^dropid\((.+)\)$/, "\\1")
           .sub(/^hidden\((.+)\)$/, "\\1")
           .sub(/^nofetch\((.+)\)$/, "\\1")
@@ -217,6 +220,28 @@ module Metanorma
         <<~XPATH.strip.freeze
           @type = 'DOI' or @type = 'doi' or @type = 'ISSN' or @type = 'issn' or @type = 'ISBN' or @type = 'isbn' or starts-with(@type, 'ISSN.') or starts-with(@type, 'ISBN.') or starts-with(@type, 'issn.') or starts-with(@type, 'isbn.')
         XPATH
+      end
+
+      private
+
+      def extract_balanced_parentheses(code)
+        code.start_with?("(") or return [nil, code]
+        paren_count = 0
+        # Find the matching closing parenthesis
+        code.each_char.with_index do |char, index|
+          case char
+          when "(" then paren_count += 1
+          when ")"
+            paren_count -= 1
+            paren_count.zero? or next
+            # Found the matching closing parenthesis
+            content = code[1...index] # Extract content between parentheses
+            remaining = code[(index + 1)..] || "" # Get remaining string
+            return [content, remaining]
+          end
+        end
+        # If we get here, parentheses are unbalanced - return original
+        [nil, code]
       end
     end
   end

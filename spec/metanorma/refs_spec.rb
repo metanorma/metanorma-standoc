@@ -4,7 +4,6 @@ require "relaton_ietf"
 require "relaton_nist"
 
 RSpec.describe Metanorma::Standoc do
-=begin
   it "processes simple ISO reference" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -684,7 +683,7 @@ RSpec.describe Metanorma::Standoc do
     expect(strip_guid(Canon.format_xml(xml.to_xml)))
       .to be_equivalent_to Canon.format_xml(output)
   end
-=end
+
   it "processes repository reference" do
     input = <<~INPUT
       #{ISOBIB_BLANK_HDR}
@@ -1039,7 +1038,7 @@ RSpec.describe Metanorma::Standoc do
       [bibliography]
       == Bibliography
 
-      * [[[iso124,(*A*.footnote:[hello])XYZ]]] _Standard_
+      * [[[iso124,(*A* (which is a note).footnote:[hello])XYZ]]] _Standard_
       * [[[iso125,usrlabel="*B*.footnote:[hello]",XYZ]]] _Standard_
     INPUT
     output = <<~OUTPUT
@@ -1048,7 +1047,7 @@ RSpec.describe Metanorma::Standoc do
            <foreword id='_' obligation='informative'>
              <title id="_">Foreword</title>
              <p id='_'>
-               <eref type="inline" bibitemid="iso124" citeas="[&lt;strong&gt;A&lt;/strong&gt;.]"/>
+               <eref type="inline" bibitemid="iso124" citeas="[&lt;strong&gt;A&lt;/strong&gt; (which is a note).]"/>
                <eref type="inline" bibitemid="iso125" citeas="[&lt;strong&gt;B&lt;/strong&gt;.]"/>
              </p>
            </foreword>
@@ -1064,7 +1063,7 @@ RSpec.describe Metanorma::Standoc do
                <docidentifier type='metanorma'>
                  [
                  <strong>A</strong>
-                 .
+                 (which is a note).
                  <fn id="_" reference='1'>
                    <p id='_'>hello</p>
                  </fn>
