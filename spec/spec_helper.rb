@@ -1,16 +1,14 @@
-=begin
-require "vcr"
-
-VCR.configure do |config|
-  config.cassette_library_dir = "spec/vcr_cassettes"
-  config.hook_into :webmock
-  config.default_cassette_options = {
-    clean_outdated_http_interactions: true,
-    re_record_interval: 1512000,
-    record: :once,
-  }
-end
-=end
+# require "vcr"
+#
+# VCR.configure do |config|
+#   config.cassette_library_dir = "spec/vcr_cassettes"
+#   config.hook_into :webmock
+#   config.default_cassette_options = {
+#     clean_outdated_http_interactions: true,
+#     re_record_interval: 1512000,
+#     record: :once,
+#   }
+# end
 
 require "simplecov"
 SimpleCov.start do
@@ -49,15 +47,18 @@ end
 
 OPTIONS = [backend: :standoc, header_footer: true, agree_to_terms: true].freeze
 
+GUID = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}".freeze
+
 def strip_guid(xml)
   xml = xml
-    .gsub(%r( id="_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"), ' id="_"')
-    .gsub(%r( bibitemid="_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"), ' bibitemid="_"')
-    .gsub(%r( target="_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"), ' target="_"')
-    #.gsub(%r{ target="_[^"]+"}, ' target="_"')
+    .gsub(%r( id="_#{GUID}")o, ' id="_"')
+    .gsub(%r( bibitemid="_#{GUID}")o, ' bibitemid="_"')
+    .gsub(%r( target="_#{GUID}")o, ' target="_"')
     .gsub(%r{<fetched>[^<]+</fetched>}, "<fetched/>")
     .gsub(%r{ schema-version="[^"]+"}, "")
-  escape_zs_chars(xml)
+    .gsub(%r{ reference="_#{GUID}_}o, ' reference="__')
+    # .gsub(%r{ target="_[^"]+"}, ' target="_"')
+    escape_zs_chars(xml)
 end
 
 def strip_src(xml)
@@ -324,8 +325,6 @@ def stub_fetch_ref(**opts)
     hit_pages
   end.at_least :once
 end
-
-private
 
 def get_xml(search, code, opts)
   c = code.gsub(%r{[/\s:-]}, "_").sub(%r{_+$}, "").downcase

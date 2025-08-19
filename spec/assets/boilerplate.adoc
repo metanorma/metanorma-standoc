@@ -20,6 +20,7 @@ Document Display: {{ doctype_display }}
 
 == feedback-statement
 {{ pub_address}}
+A.footnote:[I am a colliding footnote]
 
 {% if pub_email %}
 mailto:{{ pub_email }}[]

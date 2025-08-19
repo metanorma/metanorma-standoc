@@ -1254,6 +1254,8 @@ RSpec.describe Metanorma::Standoc do
 
       == Clause 1
 
+      A.footnote:[do not collide with me, boilerplate footnote!]
+
     INPUT
     output = <<~OUTPUT
       <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
@@ -1332,7 +1334,11 @@ RSpec.describe Metanorma::Standoc do
              </clause>
            </license-statement>
            <feedback-statement>
-             <p id="_">10 Jack St<br/>Antarctica &amp; &lt;UK&gt;</p>
+             <p id="_">10 Jack St<br/>Antarctica &amp; &lt;UK&gt; A.
+             <fn id="_" reference="__1">
+               <p id="_">I am a colliding footnote</p>
+            </fn>
+             </p>
            <p id="_">
             <link target="mailto:x@example.com"/>
          </p>
@@ -1350,13 +1356,18 @@ RSpec.describe Metanorma::Standoc do
          <sections>
            <clause id="_" inline-header="false" obligation="normative">
              <title id="_">Clause 1</title>
+         <p id="_">
+            A.
+            <fn id="_" reference="1">
+               <p id="_">do not collide with me, boilerplate footnote!</p>
+            </fn>
+         </p>
            </clause>
          </sections>
        </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    #xml.at("//xmlns:bibdata")&.remove
     expect(strip_guid(Canon.format_xml(xml.to_xml)))
       .to be_equivalent_to Canon.format_xml(output)
   end
@@ -1390,7 +1401,11 @@ RSpec.describe Metanorma::Standoc do
              </clause>
            </license-statement>
            <feedback-statement>
-             <p id="_">10 Jack St<br/>Antarctica</p>
+             <p id="_">10 Jack St<br/>Antarctica A.
+             <fn id="_" reference="__1">
+               <p id="_">I am a colliding footnote</p>
+            </fn>
+          </p>
            </feedback-statement>
            <clause id="_" inline-header="false" obligation="normative">
              <title id="_">Random Title</title>
@@ -1464,7 +1479,10 @@ RSpec.describe Metanorma::Standoc do
                  <p id="_">
                     10 Jack St
                     <br/>
-                    Antarctica
+                    Antarctica A.
+                 <fn id="_" reference="__1">
+               <p id="_">I am a colliding footnote</p>
+            </fn>
                  </p>
               </feedback-statement>
               <clause id="_" inline-header="false" obligation="normative">
