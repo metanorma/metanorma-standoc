@@ -154,7 +154,17 @@ module Metanorma
           #{text}
         ADOC
         c = Asciidoctor.convert(doc, backend: flavour, header_footer: true)
-        Nokogiri::XML(c).at("//xmlns:sections")
+        ret = Nokogiri::XML(c).at("//xmlns:sections")
+        separate_numbering_footnotes(ret)
+      end
+
+      # separate numbering of externally sourced footnotes
+      # from that of current doc
+      def separate_numbering_footnotes(docxml)
+        docxml.xpath("//xmlns:fn").each do |f|
+          f["reference"] = "_#{UUIDTools::UUID.random_create}_#{f['reference']}"
+        end
+        docxml
       end
 
       def asciimath_key(sym)
