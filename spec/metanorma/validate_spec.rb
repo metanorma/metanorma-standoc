@@ -328,6 +328,30 @@ RSpec.describe Metanorma::Standoc do
     expect(File.read("test.err.html"))
       .to include("Empty table")
     expect(File.exist?("test.xml")).to be false
+
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        == metanorma-extension
+        .Malformed table
+        |===
+
+        |===
+
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.not_to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err.html"))
+      .not_to include("Empty table")
   end
 
   it "aborts on malformed URI" do
@@ -605,6 +629,18 @@ RSpec.describe Metanorma::Standoc do
       |===
     INPUT
     expect(File.read("test.err.html")).to include("Table should have title")
+
+    FileUtils.rm_f "test.err.html"
+    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      #{VALIDATING_BLANK_HDR}
+
+      == metanorma-extension
+
+      |===
+      |a |b |c
+      |===
+    INPUT
+    expect(File.read("test.err.html")).not_to include("Table should have title")
   end
 
   it "validates document against ISO XML schema" do
@@ -960,6 +996,31 @@ RSpec.describe Metanorma::Standoc do
     end
     expect(File.read("test.err.html"))
       .to include("Table rows in table cannot go outside thead: check rowspan")
+
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+
+        == metanorma-extension
+
+        [cols="1,1,1,1",headerrows=2]
+        |===
+        3.3+| a | a
+
+        | a
+        | a | a | a | a
+        |===
+      INPUT
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.not_to raise_error(SystemExit)
+    rescue SystemExit
+    end
   end
 
   xit "warns and aborts if columns out of bounds against colgroup" do

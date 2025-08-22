@@ -28,7 +28,7 @@ module Metanorma
         math_validate(doc)
         fatalerrors = @log.abort_messages
         fatalerrors.empty? or
-          clean_abort("\n\nFATAL ERRROS:\n\n#{fatalerrors.join("\n\n")}", doc)
+          clean_abort("\n\nFATAL ERRORS:\n\n#{fatalerrors.join("\n\n")}", doc)
       end
 
       MATHML_NS = "http://www.w3.org/1998/Math/MathML".freeze
