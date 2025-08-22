@@ -31,11 +31,21 @@ module Metanorma
         @log.add("Style", node, w)
       end
 
+      def reject_metanorma_extension
+        ->(node) {
+          node.ancestors.detect do |x|
+            x.name == "metanorma-extension"
+          end
+        }
+      end
+
       def asset_title_style(root)
-        root.xpath("//figure[image][not(name)]").each do |node|
+        root.xpath("//figure[image][not(name)]")
+          .reject(&reject_metanorma_extension).each do |node|
           style_warning(node, "Figure should have title", nil)
         end
-        root.xpath("//table[not(name)]").each do |node|
+        root.xpath("//table[not(name)]")
+          .reject(&reject_metanorma_extension).each do |node|
           style_warning(node, "Table should have title", nil)
         end
       end

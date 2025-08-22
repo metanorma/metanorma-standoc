@@ -15,7 +15,8 @@ module Metanorma
       end
 
       def empty_table_validate(doc)
-        doc.xpath("//table[not(.//tr)]").each do |t|
+        doc.xpath("//table[not(.//tr)]").reject(&reject_metanorma_extension)
+          .each do |t|
           @log.add("Table", t, "Empty table", severity: 0)
         end
       end
@@ -30,6 +31,7 @@ module Metanorma
       end
 
       def maxrowcols_validate(table, maxcols, mode: "row_cols")
+        reject_metanorma_extension.call(table) and return
         case mode
         when "row_cols"
           maxrowcols_validate0(table, maxcols, "*", mode)
