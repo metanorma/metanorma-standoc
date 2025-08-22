@@ -51,9 +51,9 @@ module Metanorma
       NO_SYMABBR = "[.//definitions[not(@type)]]".freeze
       SYMABBR = "[.//definitions[@type = 'symbols']]" \
                 "[.//definitions[@type = 'abbreviated_terms']]".freeze
-      SYMnoABBR = "[.//definitions[@type = 'symbols']]" \
+      SYM_NO_ABBR = "[.//definitions[@type = 'symbols']]" \
                   "[not(.//definitions[@type = 'abbreviated_terms'])]".freeze
-      ABBRnoSYM = "[.//definitions[@type = 'abbreviated_terms']]" \
+      ABBR_NO_SYM = "[.//definitions[@type = 'abbreviated_terms']]" \
                   "[not(.//definitions[@type = 'symbols'])]".freeze
 
       def section_names_terms_cleanup(xml)
@@ -81,9 +81,9 @@ module Metanorma
 
       def section_names_terms1_cleanup(xml)
         auto_name_terms(xml) or return
-        replace_title(xml, "//terms#{SYMnoABBR} | //clause[@type = 'terms']#{SYMnoABBR}",
+        replace_title(xml, "//terms#{SYM_NO_ABBR} | //clause[@type = 'terms']#{SYM_NO_ABBR}",
                       @i18n&.termsdefsymbols, true)
-        replace_title(xml, "//terms#{ABBRnoSYM} | //clause[@type = 'terms']#{ABBRnoSYM}",
+        replace_title(xml, "//terms#{ABBR_NO_SYM} | //clause[@type = 'terms']#{ABBR_NO_SYM}",
                       @i18n&.termsdefabbrev, true)
         replace_title(xml, "//terms#{SYMABBR} | //clause[@type = 'terms']#{SYMABBR}",
                       @i18n&.termsdefsymbolsabbrev, true)
@@ -124,12 +124,12 @@ module Metanorma
                 unless acc[:parent] == :term # don't count Term > Term twice
                   :term
                 end
-              elsif hasterm && node.at("./self::*#{SYMnoABBR}") then :tsna
-              elsif hasterm && node.at("./self::*#{ABBRnoSYM}") then :tans
+              elsif hasterm && node.at("./self::*#{SYM_NO_ABBR}") then :tsna
+              elsif hasterm && node.at("./self::*#{ABBR_NO_SYM}") then :tans
               elsif hasterm && node.at("./self::*#{SYMABBR}") then :tsa
               elsif hasterm && node.at("./self::*#{NO_SYMABBR}") then :tnsa
-              elsif node.at("./self::*#{SYMnoABBR}") then :sna
-              elsif node.at("./self::*#{ABBRnoSYM}") then :ans
+              elsif node.at("./self::*#{SYM_NO_ABBR}") then :sna
+              elsif node.at("./self::*#{ABBR_NO_SYM}") then :ans
               elsif node.at("./self::*#{SYMABBR}") then :sa
               elsif node.at("./self::*#{NO_SYMABBR}") then :nsa
               elsif node.name == "definitions" # ignore
