@@ -88,7 +88,8 @@ module Metanorma
 
       def self.prep_source(reader)
         src = reader.source
-        reader.lines.first.sub(/(?<!\s)\s+$/, "").match /^@start\S+($| )/ or
+        first_line = reader.lines.first.rstrip
+        first_line.match /^@start\S+($| )/ or
           src = "@startuml\n#{src}\n@enduml\n"
         %r{@end\S+\s*$}m.match?(src) or
           raise "@startuml without matching @enduml in PlantUML!"
