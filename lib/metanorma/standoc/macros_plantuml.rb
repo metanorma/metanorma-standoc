@@ -78,7 +78,7 @@ module Metanorma
 
       def self.save_plantuml(_parent, reader, _localdir, fmt)
         src = prep_source(reader)
-        /^@startuml (?<fn>[^\n]+)\n/ =~ src
+        /^@start\S+ (?<fn>[^\n]+)\n/ =~ src
         Tempfile.open(["plantuml", ".pml"], encoding: "utf-8") do |f|
           f.write(src)
           [f, File.join(File.dirname(f.path),
@@ -88,9 +88,11 @@ module Metanorma
 
       def self.prep_source(reader)
         src = reader.source
-        reader.lines.first.sub(/(?<!\s)\s+$/, "").match /^@startuml($| )/ or
+        first_line = reader.lines.first.rstrip
+        (first_line.start_with?('@start') && 
+         (first_line.match(/^@start\S+$/) || first_line.match(/^@start\S+ /))) or
           src = "@startuml\n#{src}\n@enduml\n"
-        %r{@enduml\s*$}m.match?(src) or
+        %r{@end\S+\s*$}m.match?(src) or
           raise "@startuml without matching @enduml in PlantUML!"
         src
       end
