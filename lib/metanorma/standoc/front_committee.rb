@@ -90,7 +90,7 @@ module Metanorma
                   agency_abbrev: opts.dig(:agency_abbrev, i), abbr: opts[:abbr],
                   committee: opts[:committee], default_org: opts[:default_org])
         end
-        if !opts_orig[:groups] || opts_orig[:groups].empty? then ret
+        if !opts_orig[:groups] || opts_orig[:groups].empty? then ret.first
         else org_attrs_add_committees(node, ret, opts, opts_orig)
         end
       end
