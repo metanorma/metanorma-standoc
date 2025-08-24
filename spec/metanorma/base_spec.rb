@@ -268,6 +268,7 @@ RSpec.describe Metanorma::Standoc do
       :email_2: barney@rockhead.example.com
       :phone_2: 789
       :fax_2: 012
+      :corporate-author: "Cartoon Network"; "Ribose, Inc."
       :publisher: "Hanna Barbera"; "Cartoon Network"; "Ribose, Inc."
       :copyright-holder: "Ribose, Inc."; Hanna Barbera
       :part-of: ABC
@@ -344,12 +345,6 @@ RSpec.describe Metanorma::Standoc do
                 <date type="Jack">
                   <on>1010-01-01</on>
                 </date>
-                <contributor>
-                  <role type="author"/>
-                  <organization>
-                    <name>Hanna Barbera</name>
-                  </organization>
-                </contributor>
                 <contributor>
                   <role type="author"/>
                   <organization>
@@ -851,6 +846,9 @@ RSpec.describe Metanorma::Standoc do
       :affiliation: Slate Rock and Gravel Company
       :address: Address
       :city: Utopia
+      :corporate-author: Pixar
+      :corporate-author_2: Hanna Barbera
+      :corporate-author-address_2: 1 Infinite Loop
       :publisher: Monsters, Inc.
       :publisher_logo: correct.png
       :publisher_2: Ribose, Inc.
@@ -892,32 +890,21 @@ RSpec.describe Metanorma::Standoc do
       <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                <bibdata type="standard">
            <title language="en" format="text/plain">Document title</title>
-           <contributor>
-             <role type="author"/>
-             <organization>
-               <name>Monsters, Inc.</name>
-               <logo>
-                 <image src="correct.png"  mimetype="image/png"/>
-               </logo>
-             </organization>
-           </contributor>
-           <contributor>
-             <role type="author"/>
-             <organization>
-               <name>Ribose, Inc.</name>
-               <abbreviation>RIBS</abbreviation>
-               <address>
-                 <formattedAddress>1 Infinity Loop<br/>California</formattedAddress>
-               </address>
-               <phone>3333333</phone>
-               <phone type="fax">4444444</phone>
-               <email>x@example.com</email>
-               <uri>http://www.example1.com</uri>
-               <logo>
-                 <image src="corrupt.png"  mimetype="image/png"/>
-               </logo>
-             </organization>
-           </contributor>
+             <contributor>
+                <role type="author"/>
+                <organization>
+                   <name>Pixar</name>
+                </organization>
+             </contributor>
+             <contributor>
+                <role type="author"/>
+                <organization>
+                   <name>Hanna Barbera</name>
+                   <address>
+                      <formattedAddress>1 Infinite Loop</formattedAddress>
+                   </address>
+                </organization>
+             </contributor>
            <contributor>
              <role type="author"/>
              <person>

@@ -5,11 +5,20 @@ module Metanorma
   module Standoc
     module Front
       def metadata_author(node, xml)
-        org_contributor(node, xml,
-                        { source: ["publisher", "pub"], role: "author",
-                          default: default_publisher })
+        org_author(node, xml)
         personal_author(node, xml)
         committee_contributors(node, xml, default_publisher, {})
+      end
+
+      def org_author(node, xml)
+        if node.attr("corporate-author")
+          org_contributor(node, xml, { source: ["corporate-author"],
+                                       role: "author" })
+        else
+          org_contributor(node, xml,
+                          { source: ["publisher", "pub"], role: "author",
+                            default: default_publisher })
+        end
       end
 
       def personal_author(node, xml)
