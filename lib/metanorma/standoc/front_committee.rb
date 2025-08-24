@@ -90,11 +90,12 @@ module Metanorma
                   agency_abbrev: opts.dig(:agency_abbrev, i), abbr: opts[:abbr],
                   committee: opts[:committee], default_org: opts[:default_org])
         end
-        org_attrs_add_committees(node, ret, opts, opts_orig)
+        opts_orig[:groups] && !opts_orig[:groups].empty and
+          org_attrs_add_committees(node, ret, opts, opts_orig)
       end
 
       def org_attrs_add_committees(node, ret, opts, opts_orig)
-        opts_orig[:groups]&.each_with_index do |g, i|
+        opts_orig[:groups].each_with_index do |g, i|
           i.zero? and next
           contributors_committees_pad_multiples(ret.first, node, g)
           opts = committee_contrib_org_prep(node, g, nil, opts_orig)
