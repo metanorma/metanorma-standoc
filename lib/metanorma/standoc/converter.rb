@@ -34,6 +34,7 @@ module Metanorma
         block Metanorma::Plugin::Lutaml::LutamlGmlDictionaryBlock
         block_macro Metanorma::Plugin::Lutaml::LutamlKlassTableBlockMacro
         block_macro Metanorma::Plugin::Lutaml::LutamlEnumTableBlockMacro
+        block Metanorma::Plugin::Plantuml::BlockProcessor
         preprocessor Metanorma::Standoc::EmbedIncludeProcessor
         preprocessor Metanorma::Standoc::LinkProtectPreprocessor
         preprocessor Metanorma::Standoc::PassProtectPreprocessor
@@ -81,7 +82,6 @@ module Metanorma
         inline_macro Metanorma::Standoc::SourceIncludeInlineMacro
         block Metanorma::Standoc::ToDoAdmonitionBlock
         block Metanorma::Standoc::EditorAdmonitionBlock
-        block Metanorma::Standoc::PlantUMLBlockMacro
         block Metanorma::Standoc::PseudocodeBlockMacro
         block_macro Metanorma::Standoc::ColumnBreakBlockMacro
       end
