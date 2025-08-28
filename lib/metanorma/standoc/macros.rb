@@ -9,6 +9,7 @@ require_relative "macros_embed"
 require_relative "macros_link"
 require "metanorma-plugin-glossarist"
 require "metanorma-plugin-lutaml"
+require "metanorma-plugin-plantuml"
 
 module Metanorma
   module Standoc
