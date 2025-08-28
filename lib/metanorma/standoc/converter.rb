@@ -38,8 +38,6 @@ module Metanorma
         preprocessor Metanorma::Standoc::EmbedIncludeProcessor
         preprocessor Metanorma::Standoc::LinkProtectPreprocessor
         preprocessor Metanorma::Standoc::PassProtectPreprocessor
-        preprocessor Metanorma::Standoc::Datamodel::AttributesTablePreprocessor
-        preprocessor Metanorma::Standoc::Datamodel::DiagramPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::Json2TextPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::Yaml2TextPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::Data2TextPreprocessor

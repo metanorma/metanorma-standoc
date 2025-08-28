@@ -1,5 +1,0 @@
-= Document title
-Author
-:no-pdf:
-
-[datamodel_diagram,models/views/CommonModels.yml]
