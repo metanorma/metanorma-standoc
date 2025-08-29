@@ -2,16 +2,14 @@ require "uuidtools"
 require "yaml"
 require "csv"
 require_relative "macros_inline"
-require_relative "macros_plantuml"
 require_relative "macros_terms"
 require_relative "macros_form"
 require_relative "macros_note"
 require_relative "macros_embed"
 require_relative "macros_link"
-require_relative "datamodel/attributes_table_preprocessor"
-require_relative "datamodel/diagram_preprocessor"
 require "metanorma-plugin-glossarist"
 require "metanorma-plugin-lutaml"
+require "metanorma-plugin-plantuml"
 
 module Metanorma
   module Standoc

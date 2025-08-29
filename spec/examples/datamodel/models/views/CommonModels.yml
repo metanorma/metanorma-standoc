@@ -1,9 +1,0 @@
-name: CommonModels
-title: Common models
-caption: Common models to be used in this standard
-directive: ix-common
-imports:
-  Localization:
-  Validity:
-  Signature:
-  TextDirectionCode:

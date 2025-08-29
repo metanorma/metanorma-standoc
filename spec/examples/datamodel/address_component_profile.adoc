@@ -1,5 +1,0 @@
-= Document title
-Author
-:no-pdf:
-
-[datamodel_attributes_table,models/models/AddressComponentProfile.yml]
