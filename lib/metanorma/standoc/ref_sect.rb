@@ -53,10 +53,11 @@ module Metanorma
         end
       end
 
-      def emend_biblio(xml, code, title, usrlbl)
+      def emend_biblio(xml, code, opts)
         emend_biblio_id(xml, code)
-        emend_biblio_title(xml, code, title)
-        emend_biblio_usrlbl(xml, usrlbl)
+        emend_biblio_title(xml, code, opts[:title])
+        emend_biblio_usrlbl(xml, opts[:usrlbl])
+        emend_biblio_fn(xml, opts[:fn])
       end
 
       def emend_biblio_id(xml, code)
@@ -85,6 +86,11 @@ module Metanorma
         usrlbl or return
         xml.at("/bibitem/docidentifier").next =
           "<docidentifier type='metanorma'>#{mn_code(usrlbl)}</docidentifier>"
+      end
+
+      def emend_biblio_fn(xml, fnote)
+        fnote or return
+        xml.root << "<note type='Unpublished-Status'><p>#{fnote}</p></note>"
       end
     end
   end

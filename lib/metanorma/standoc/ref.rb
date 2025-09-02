@@ -27,7 +27,7 @@ module Metanorma
       def isorefmatchescode(match, _item)
         code = analyse_ref_code(match[:code])
         yr = norm_year(match[:year])
-        { code: match[:code], year: yr, match:,
+        { code: match[:code], year: yr, match:, fn: match[:fn],
           title: match[:text], usrlbl: match[:usrlbl] || code[:usrlabel],
           analyse_code: code, lang: @lang || :all }
       end
@@ -58,6 +58,14 @@ module Metanorma
         end
       end
 
+      def ref_fn(match, xml)
+        if match.names.include?("fn") && match[:fn]
+          xml.note(**plaintxt.merge(type: "Unpublished-Status")) do |p|
+            p << match[:fn].to_s
+          end
+        end
+      end
+
       def isorefmatches2_1(xml, match, code)
         xml.bibitem **attr_code(ref_attributes(match)) do |t|
           isorefrender1(t, match, code, "--")
@@ -65,11 +73,7 @@ module Metanorma
             d.on "--"
           end
           iso_publisher(t, match[:code])
-          unless match[:fn].nil?
-            t.note(**plaintxt.merge(type: "Unpublished-Status")) do |p|
-              p << match[:fn].to_s
-            end
-          end
+          ref_fn(match, t)
         end
       end
 
@@ -97,11 +101,7 @@ module Metanorma
           isorefrender1(t, match, code, year, " (all parts)")
           conditional_date(t, match, year == "--")
           iso_publisher(t, match[:code])
-          if match.names.include?("fn") && match[:fn]
-            t.note(**plaintxt.merge(type: "Unpublished-Status")) do |p|
-              p << match[:fn].to_s
-            end
-          end
+          ref_fn(match, t)
           t.extent type: "part" do |e|
             e.referenceFrom "all"
           end
@@ -137,6 +137,7 @@ module Metanorma
           /^\d+$|^\(.+\)$/.match?(code[:id]) or
             docnumber(t, code[:id]&.sub(/[:-](19|20)[0-9][0-9]$/, ""))
           conditional_date(t, yr_match || match, false)
+          ref_fn(match, t)
         end
       end
 
@@ -165,11 +166,11 @@ module Metanorma
       def refitem1code(_item, match)
         code = analyse_ref_code(match[:code])
         ((code[:id] && code[:numeric]) || code[:nofetch]) and
-          return { code: nil, match:, analyse_code: code,
+          return { code: nil, match:, analyse_code: code, fn: match[:fn],
                    hidden: code[:hidden] }
         { code: code[:id], analyse_code: code, localfile: code[:localfile],
           year: (m = refitem1yr(code[:id])) ? m[:year] : nil,
-          title: match[:text], match:, hidden: code[:hidden],
+          title: match[:text], match:, hidden: code[:hidden], fn: match[:fn],
           usrlbl: match[:usrlbl] || code[:usrlabel], lang: @lang || :all }
       end
 

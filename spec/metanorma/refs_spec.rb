@@ -131,10 +131,11 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
-  it "repairs simple fetched ISO reference" do
+  it "repairs simple fetched reference" do
     mock_isobib_get_123_no_docid(2)
     mock_isobib_get_123_no_docid_lbl(2)
     mock_isobib_get_123_no_docid_fn(2)
+    mock_isobib_get_123_no_docid_fn_no_title(2)
     input = <<~"INPUT"
       #{ISOBIB_BLANK_HDR}
 
@@ -147,6 +148,8 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso123,ISO 123]]] _Standard_
       * [[[iso124,(1)ISO 123]]] _Standard_
       * [[[iso125,(2)ISO 123]]] _Standard_.footnote:[footnote]
+      * [[[iso126,(3)ISO 123]]] footnote:[footnote2]
+      * [[[iso127,IETF RFC 7200]]] footnote:[footnote3]
     INPUT
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Canon.format_xml(<<~"OUTPUT")
@@ -297,6 +300,119 @@ RSpec.describe Metanorma::Standoc do
                <docidentifier type="metanorma">[2]</docidentifier>
                <formattedref><em>Standard</em>.<fn id="_" reference="1"><p id="_">footnote</p></fn></formattedref>
              </bibitem>
+                <bibitem type="standard" anchor="iso126" id="_">
+                   <uri type="src">https://www.iso.org/standard/23281.html</uri>
+                   <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+                   <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <date type="published">
+                      <on>2001</on>
+                   </date>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>International Organization for Standardization</name>
+                         <abbreviation>ISO</abbreviation>
+                         <uri>www.iso.org</uri>
+                      </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <status>
+                      <stage>Published</stage>
+                   </status>
+                   <copyright>
+                      <from>2001</from>
+                      <owner>
+                         <organization>
+                            <name>ISO</name>
+                            <abbreviation/>
+                         </organization>
+                      </owner>
+                   </copyright>
+                   <relation type="obsoletes">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:1985</formattedref>
+                      </bibitem>
+                   </relation>
+                   <relation type="updates">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:2001</formattedref>
+                      </bibitem>
+                   </relation>
+                   <docidentifier>ISO 123</docidentifier>
+                   <docidentifier type="metanorma">[3]</docidentifier>
+                   <note type="Unpublished-Status">
+                      <p id="_">footnote2</p>
+                   </note>
+                </bibitem>
+                <bibitem id="_" type="standard" anchor="iso127">
+                   <fetched/>
+                   <title type="main" format="text/plain">A Session Initiation Protocol (SIP) Load-Control Event Package</title>
+                   <uri type="src">https://www.rfc-editor.org/info/rfc7200</uri>
+                   <docidentifier type="IETF" primary="true">RFC 7200</docidentifier>
+                   <docidentifier type="DOI">10.17487/RFC7200</docidentifier>
+                   <docnumber>RFC7200</docnumber>
+                   <date type="published">
+                      <on>2014-04</on>
+                   </date>
+                   <contributor>
+                      <role type="author"/>
+                      <person>
+                         <name>
+                            <completename language="en" script="Latn">C. Shen</completename>
+                         </name>
+                      </person>
+                   </contributor>
+                   <contributor>
+                      <role type="author"/>
+                      <person>
+                         <name>
+                            <completename language="en" script="Latn">H. Schulzrinne</completename>
+                         </name>
+                      </person>
+                   </contributor>
+                   <contributor>
+                      <role type="author"/>
+                      <person>
+                         <name>
+                            <completename language="en" script="Latn">A. Koike</completename>
+                         </name>
+                      </person>
+                   </contributor>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>RFC Publisher</name>
+                      </organization>
+                   </contributor>
+                   <contributor>
+                      <role type="authorizer"/>
+                      <organization>
+                         <name>RFC Series</name>
+                      </organization>
+                   </contributor>
+                   <language>en</language>
+                   <script>Latn</script>
+                   <abstract format="text/html" language="en" script="Latn">
+                      <p id="_">This specification defines a load-control event package for the Session Initiation Protocol (SIP). It allows SIP entities to distribute load-filtering policies to other SIP entities in the network. The load-filtering policies contain rules to throttle calls from a specific user or based on their source or destination domain, telephone number prefix. The mechanism helps to prevent signaling overload and complements feedback-based SIP overload control efforts.</p>
+                   </abstract>
+                   <series>
+                      <title format="text/plain">RFC</title>
+                      <number>7200</number>
+                   </series>
+                   <series type="stream">
+                      <title format="text/plain">IETF</title>
+                   </series>
+                   <keyword>SIP</keyword>
+                   <keyword>Overload Control</keyword>
+                   <keyword>Server</keyword>
+                   <keyword>Performance</keyword>
+                   <note type="Unpublished-Status">
+                      <p id="_">footnote3</p>
+                   </note>
+                </bibitem>
         </references></bibliography>
         </metanorma>
       OUTPUT
@@ -1328,6 +1444,7 @@ RSpec.describe Metanorma::Standoc do
     expect(RelatonIso::IsoBibliography).to receive(:get)
       .with("ISO 123", nil, { code: "ISO 123",
                               lang: "en",
+                              fn: nil,
                               match: anything,
                               analyse_code: anything,
                               process: 1,
@@ -1346,6 +1463,7 @@ RSpec.describe Metanorma::Standoc do
       .with("ISO 123", nil, { code: "ISO 123",
                               analyse_code: anything,
                               lang: "en",
+                              fn: nil,
                               match: anything,
                               process: 1,
                               ord: anything,
@@ -1363,11 +1481,30 @@ RSpec.describe Metanorma::Standoc do
       .with("ISO 123", nil, { code: "ISO 123",
                               analyse_code: anything,
                               lang: "en",
+                              fn: nil,
                               match: anything,
                               process: 1,
                               ord: anything,
                               title: anything,
                               usrlbl: "(2)",
+                              year: nil }) do
+      RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
+        <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
+      OUTPUT
+    end.exactly(times).times
+  end
+
+  def mock_isobib_get_123_no_docid_fn_no_title(times)
+    expect(RelatonIso::IsoBibliography).to receive(:get)
+      .with("ISO 123", nil, { code: "ISO 123",
+                              analyse_code: anything,
+                              lang: "en",
+                              fn: "footnote2",
+                              match: anything,
+                              process: 1,
+                              ord: anything,
+                              title: anything,
+                              usrlbl: "(3)",
                               year: nil }) do
       RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
         <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
