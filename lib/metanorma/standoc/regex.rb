@@ -53,7 +53,8 @@ module Metanorma
       ISO_REF =
         %r{^<ref\sid="(?<anchor>[^"]+)">
       \[(?<usrlbl>\(.+\))?(?<code>(?:ISO|IEC)[^0-9]*\s[0-9-]+|IEV)
-      (?::(?<year>[0-9][0-9-]+))?\]</ref>,?\s*(?<text>.*)$}xm
+      (?::(?<year>[0-9][0-9-]+))?\]</ref>,?\s*
+        (?:<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>)?\s*(?<text>.*)$}xm
 
       ISO_REF_NO_YEAR =
         %r{^<ref\sid="(?<anchor>[^"]+)">
@@ -70,10 +71,12 @@ module Metanorma
 
       # These regexes allow () inside usrlbl but not inside code
       NON_ISO_REF = %r{^<ref\sid="(?<anchor>[^"]+)">
-      \[(?<usrlbl>\(.+\))?(?<code>.+?)\]</ref>,?\s*(?<text>.*)$}xm
+      \[(?<usrlbl>\(.+\))?(?<code>.+?)\]</ref>,?\s*
+      (?:<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>)?(?<text>.*)$}xm
 
       NON_ISO_REF1 = %r{^<ref\sid="(?<anchor>[^"]+)">
-      (?<usrlbl>\(.+\))?(?<code>.+?)</ref>,?\s*(?<text>.*)$}xm
+      (?<usrlbl>\(.+\))?(?<code>.+?)</ref>,?\s*
+      (?:<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>\s*)?(?<text>.*)$}xm
     end
   end
 end

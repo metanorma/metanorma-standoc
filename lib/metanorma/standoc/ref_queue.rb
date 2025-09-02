@@ -195,7 +195,7 @@ module Metanorma
       def smart_render_xml(xml, code, opts)
         xml.respond_to? :to_xml or return nil
         xml = Nokogiri::XML(xml.to_xml(lang: opts[:lang]))
-        emend_biblio(xml, code, opts[:title], opts[:usrlbl])
+        emend_biblio(xml, code, opts)
         xml.xpath("//date").each { |d| Metanorma::Utils::endash_date(d) }
         xml.traverse do |n|
           n.text? and n.replace(Metanorma::Utils::smartformat(n.text))
