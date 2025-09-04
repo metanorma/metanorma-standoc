@@ -40,13 +40,18 @@ module Metanorma
         "//bibliography/references[@normative = 'true'][not(@hidden)] | " \
         "//bibliography/clause[.//references[@normative = 'true']]".freeze
 
+      def dup_with_namespace(elem)
+        ret = elem.dup
+        ret.root.add_namespace(nil, xml_namespace)
+        ret
+      end
+
       def boilerplate_isodoc(xmldoc)
         # prevent infinite recursion of asciidoc boilerplate processing
         # in termdef_boilerplate_insert and initial_boilerplate
         xmldoc.at("//metanorma-extension/semantic-metadata/" \
                   "headless[text() = 'true']") and return nil
-        x = xmldoc.dup
-        x.root.add_namespace(nil, xml_namespace)
+        x = dup_with_namespace(xmldoc)
         xml = Nokogiri::XML(x.to_xml)
         @isodoc ||= isodoc(@lang, @script, @locale)
         # initialise @isodoc.xrefs, for @isodoc.xrefs.info
@@ -210,16 +215,16 @@ module Metanorma
         /\.adoc(\.liquid)?$/.match?(file) or return ret
 
         # Split content into macro and non-macro parts
-        parts = ret.split(/(#{ADOC_MACRO_PATTERN})/)
+        parts = ret.split(/(#{ADOC_MACRO_PATTERN})/o)
 
         parts.map.with_index do |part, index|
-          if index.odd? && is_valid_macro?(part)
+          if index.odd? && valid_macro?(part)
             # This is a macro - leave unchanged
             part
           else
             # Not a macro - wrap {{ }} patterns
             part.gsub(/(?<!\{)(\{\{[^{}]+\}\})(?!\})/,
-                     "pass-format:metanorma[++\\1++]")
+                      "pass-format:metanorma[++\\1++]")
           end
         end.join
       end
@@ -240,7 +245,7 @@ module Metanorma
 
       private
 
-      def is_valid_macro?(text)
+      def valid_macro?(text)
         # Simple validation - does it look like a macro?
         text.match?(/^\S+:[^\[]*\[.*\]$/)
       end
