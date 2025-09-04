@@ -42,7 +42,7 @@ module Metanorma
 
       def dup_with_namespace(elem)
         ret = elem.dup
-        ret.root.add_namespace(nil, xml_namespace)
+        ret.add_namespace(nil, xml_namespace)
         ret
       end
 
@@ -51,7 +51,7 @@ module Metanorma
         # in termdef_boilerplate_insert and initial_boilerplate
         xmldoc.at("//metanorma-extension/semantic-metadata/" \
                   "headless[text() = 'true']") and return nil
-        x = dup_with_namespace(xmldoc)
+        x = dup_with_namespace(xmldoc.root)
         xml = Nokogiri::XML(x.to_xml)
         @isodoc ||= isodoc(@lang, @script, @locale)
         # initialise @isodoc.xrefs, for @isodoc.xrefs.info
