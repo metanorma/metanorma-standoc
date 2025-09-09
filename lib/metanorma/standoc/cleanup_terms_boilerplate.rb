@@ -11,19 +11,20 @@ module Metanorma
         e.gsub(/%(?=\p{P}|\p{Z}|$)/, sources || "??")
       end
 
-      def boilerplate_snippet_convert(adoc)
-        ret = boilerplate_xml_cleanup(adoc2xml(adoc, backend.to_sym))
+      def boilerplate_snippet_convert(adoc, isodoc)
+        b = isodoc.populate_template(adoc, nil)
+        ret = boilerplate_xml_cleanup(adoc2xml(b, backend.to_sym))
         @i18n.l10n(ret.children.to_xml, @lang, @script)
       end
 
       def term_defs_boilerplate(div, source, term, _preface, isodoc)
         verify_term_defs_source(source)
         a = @i18n.term_def_boilerplate and
-          div.next = boilerplate_snippet_convert(a)
+          div.next = boilerplate_snippet_convert(a, isodoc)
         a = if source.empty? && term.nil? then @i18n.no_terms_boilerplate
             else term_defs_boilerplate_cont(source, term, isodoc)
             end
-        a and div.next = boilerplate_snippet_convert(a)
+        a and div.next = boilerplate_snippet_convert(a, isodoc)
       end
 
       def verify_term_defs_source(source)

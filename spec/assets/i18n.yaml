@@ -12,6 +12,7 @@ bibliography: Bibliografio
 inform_annex: informa
 norm_annex: norma
 all_parts: ĉiuj partoj
+norm_empty_pref: Neniuj normaj referencoj en ĉi tiu {{ doctype | downcase }}.
 locality: {
   table: Tabelo
 }
