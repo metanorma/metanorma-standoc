@@ -3,7 +3,7 @@ require_relative "cleanup_terms_boilerplate"
 module Metanorma
   module Standoc
     module Cleanup
-      def norm_ref_preface(ref)
+      def norm_ref_preface(ref, isodoc)
         ins = norm_ref_boilerplate_insert_location(ref)
         ins2 = norm_ref_process_boilerplate_note(ref)
         ins2 == :populated and return
@@ -12,7 +12,7 @@ module Metanorma
           %w(references bibitem).include? e.name
         end
         pref = refs.empty? ? @i18n.norm_empty_pref : @i18n.norm_with_refs_pref
-        ins.next = boilerplate_snippet_convert(pref)
+        ins.next = boilerplate_snippet_convert(pref, isodoc)
       end
 
       def norm_ref_process_boilerplate_note(ref)
@@ -76,7 +76,7 @@ module Metanorma
         termdef_boilerplate_insert(xmldoc, isodoc)
         unwrap_boilerplate_clauses(xmldoc, self.class::TERM_CLAUSE)
         if f = xmldoc.at(self.class::NORM_REF)
-          norm_ref_preface(f)
+          norm_ref_preface(f, isodoc)
           unwrap_boilerplate_clauses(f, ".")
         end
         initial_boilerplate(xmldoc, isodoc)

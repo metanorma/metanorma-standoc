@@ -1234,6 +1234,34 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
+    it "uses templates for boilerplate snippets" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :i18nyaml: spec/assets/i18n.yaml
+
+      [bibliography]
+      == Normative references
+
+    INPUT
+output = <<~OUTPUT
+          <bibliography>
+             <references id="_" normative="true" obligation="informative">
+                <title id="_">Normaj citaĵoj</title>
+                <p id="_">Neniuj normaj referencoj en ĉi tiu standard.</p>
+             </references>
+          </bibliography>
+OUTPUT
+xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml = xml.at("//xmlns:bibliography")
+    expect(strip_guid(Canon.format_xml(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
   it "imports boilerplate file in ADOC" do
     input = <<~INPUT
       = Document title
