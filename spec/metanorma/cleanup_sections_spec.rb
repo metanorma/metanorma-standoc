@@ -1499,7 +1499,7 @@ RSpec.describe Metanorma::Standoc do
           <bibliography>
              <references id="_" normative="true" obligation="informative">
                 <title id="_">Normaj citaĵoj</title>
-                <p id="_">There are no normative references in this document.</p>
+                <p id="_">Neniuj normaj referencoj en ĉi tiu standard.</p>
              </references>
              <references id="_" normative="true" obligation="informative">
                 <title id="_">Normative References 2</title>
