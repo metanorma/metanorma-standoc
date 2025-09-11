@@ -629,292 +629,405 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
-     it "tag and multilingual processing attributes on term" do
-     input = <<~INPUT
-       #{ASCIIDOC_BLANK_HDR}
-       [heading="terms, definitions, symbols and abbreviated terms"]
-       == Terms, Definitions, Symbols Section
+  it "tag and multilingual processing attributes on term" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [heading="terms, definitions, symbols and abbreviated terms"]
+      == Terms, Definitions, Symbols Section
 
-       [language=en,tag=x123,multilingual-rendering=all-columns]
-       === Term
-     INPUT
-     output = <<~OUTPUT
+      [language=en,tag=x123,multilingual-rendering=all-columns]
+      === Term
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+               <sections>
+           <terms id="_" obligation='normative'>
+             <title id="_">Terms and definitions</title>
+             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+             <term id="_" anchor="term-Term" language='en' tag='x123' multilingual-rendering='all-columns'>
+               <preferred>
+                 <expression>
+                   <name>Term</name>
+                 </expression>
+               </preferred>
+             </term>
+           </terms>
+         </sections>
+       </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
+  it "varies terms & symbols title" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [heading="terms, definitions, symbols and abbreviated terms"]
+      == Terms, Definitions, Symbols Section
+
+      === Term
+
+      === Symbols
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections>
+          <terms id="_" obligation='normative'>
+            <title id="_">Terms, definitions and symbols</title>
+            <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+            <term id="_" anchor="term-Term">
+              <preferred><expression><name>Term</name></expression></preferred>
+            </term>
+            <definitions id="_" obligation="normative" type="symbols">
+              <title id="_">Symbols</title>
+            </definitions>
+          </terms>
+        </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
+  it "varies terms & abbreviated terms title" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [heading="terms, definitions, symbols and abbreviated terms"]
+      == Terms, Definitions, Abbreviated Terms Section
+
+      === Term
+
+      [heading="abbreviated terms"]
+      === Symbols
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <terms id="_" obligation='normative'>
+            <title id="_">Terms, definitions and abbreviated terms</title>
+            <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+            <term id="_" anchor="term-Term">
+              <preferred><expression><name>Term</name></expression></preferred>
+            </term>
+            <definitions id="_" obligation="normative" type="abbreviated_terms">
+              <title id="_">Abbreviated terms</title>
+            </definitions>
+          </terms>
+        </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
+                                                           *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
+  it "varies terms symbols & abbreviated terms title" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [heading="terms, definitions, symbols and abbreviated terms"]
+      == Terms, Definitions, Abbreviated Terms Section
+
+      === Term
+
+      === Abbreviated Terms
+
+      === Symbols
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <terms id="_" obligation='normative'>
+            <title id="_">Terms, definitions, symbols and abbreviated terms</title>
+            <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+            <term id="_" anchor="term-Term">
+              <preferred><expression><name>Term</name></expression></preferred>
+            </term>
+            <definitions id="_" type='abbreviated_terms' obligation='normative'>
+                <title id="_">Abbreviated terms</title>
+                </definitions>
+                <definitions id="_" type='symbols' obligation='normative'>
+                <title id="_">Symbols</title>
+                </definitions>
+          </terms>
+        </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
+  it "automates terms & definitions titles if there are no extraneous sections" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms, Definitions, Symbols and Abbreviated Terms
+
+      [.boilerplate]
+      === Boilerplate
+
+      Boilerplate text
+
+      === Intro 4
+
+      ==== Term2
+
+      === Symbols and Abbreviated Terms
+
+      [.nonterm]
+      ==== General
+
+      ==== Symbols
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <sections>
+           <clause id="_" obligation="normative" type="terms">
+             <title id="_">Terms, definitions, symbols and abbreviated terms</title>
+             <p id="_">Boilerplate text</p>
+             <terms id="_" obligation="normative">
+               <title id="_">Terms and definitions</title>
+               <term id="_" anchor="term-Term2">
+                 <preferred>
+                   <expression>
+                     <name>Term2</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <definitions id="_" obligation="normative">
+               <title id="_">Symbols and abbreviated terms</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                 <title id="_">General</title>
+               </clause>
+               <definitions id="_" type="symbols" obligation="normative">
+                 <title id="_">Symbols</title>
+               </definitions>
+             </definitions>
+           </clause>
+         </sections>
+       </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
+  it "does not do automated terms & definitions titles if there are extraneous sections" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms, Definitions, Symbols and Abbreviated Terms
+
+      [.boilerplate]
+      === Boilerplate
+
+      Boilerplate text
+
+      [.nonterm]
+      === Intro 3
+
+      === Intro 4
+
+      ==== Term2
+
+      === Symbols and Abbreviated Terms
+
+      [.nonterm]
+      ==== General
+
+      ==== Symbols
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+              <sections>
+           <clause id="_" obligation="normative" type="terms">
+             <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
+             <p id="_">Boilerplate text</p>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Intro 3</title>
+             </clause>
+             <terms id="_" obligation="normative">
+               <title id="_">Intro 4</title>
+               <term id="_" anchor="term-Term2">
+                 <preferred>
+                   <expression>
+                     <name>Term2</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <definitions id="_" obligation="normative">
+               <title id="_">Symbols and abbreviated terms</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                 <title id="_">General</title>
+               </clause>
+               <definitions id="_" type="symbols" obligation="normative">
+                 <title id="_">Symbols</title>
+               </definitions>
+             </definitions>
+           </clause>
+         </sections>
+       </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
+                                                           *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms, Definitions, Symbols and Abbreviated Terms
+
+      [.boilerplate]
+      === Boilerplate
+
+      Boilerplate text
+
+      === Intro 3
+
+      ==== Term2
+
+      === Intro 4
+
+      ==== Term3
+
+      === Symbols and Abbreviated Terms
+
+      [.nonterm]
+      ==== General
+
+      ==== Symbols
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+               <sections>
+           <clause id="_" obligation="normative" type="terms">
+             <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
+             <p id="_">Boilerplate text</p>
+             <terms id="_" obligation="normative">
+               <title id="_">Intro 3</title>
+               <term id="_" anchor="term-Term2">
+                 <preferred>
+                   <expression>
+                     <name>Term2</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <terms id="_" obligation="normative">
+               <title id="_">Intro 4</title>
+               <term id="_" anchor="term-Term3">
+                 <preferred>
+                   <expression>
+                     <name>Term3</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <definitions id="_" obligation="normative">
+               <title id="_">Symbols and abbreviated terms</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                 <title id="_">General</title>
+               </clause>
+               <definitions id="_" type="symbols" obligation="normative">
+                 <title id="_">Symbols</title>
+               </definitions>
+             </definitions>
+           </clause>
+         </sections>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
+                                                           *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
+  it "processes non-term clauses" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      === Term1
+
+      == Terms, Definitions, Symbols and Abbreviated Terms
+
+      [.boilerplate]
+      === Boilerplate
+
+      Boilerplate text
+
+      [.nonterm]
+      === Introduction
+
+      ==== Intro 1
+
+      === Intro 2
+
+      [.nonterm]
+      ==== Intro 3
+
+      === Intro 4
+
+      ==== Intro 5
+
+      ===== Term2
+
+      === Normal Terms
+
+      ==== Term3
+
+      === Symbols and Abbreviated Terms
+
+      [.nonterm]
+      ==== General
+
+      ==== Symbols
+    INPUT
+    output = <<~OUTPUT
        #{BLANK_HDR}
                 <sections>
-            <terms id="_" obligation='normative'>
+            <terms id="_" obligation="normative">
               <title id="_">Terms and definitions</title>
-              <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-              <term id="_" anchor="term-Term" language='en' tag='x123' multilingual-rendering='all-columns'>
+              <p id="_">For the purposes of this document,
+            the following terms and definitions apply.</p>
+              <term id="_" anchor="term-Term1">
                 <preferred>
                   <expression>
-                    <name>Term</name>
+                    <name>Term1</name>
                   </expression>
                 </preferred>
               </term>
             </terms>
-          </sections>
-        </metanorma>
-     OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
-   end
-
-   it "varies terms & symbols title" do
-     input = <<~INPUT
-       #{ASCIIDOC_BLANK_HDR}
-       [heading="terms, definitions, symbols and abbreviated terms"]
-       == Terms, Definitions, Symbols Section
-
-       === Term
-
-       === Symbols
-
-     INPUT
-     output = <<~OUTPUT
-       #{BLANK_HDR}
-       <sections>
-           <terms id="_" obligation='normative'>
-             <title id="_">Terms, definitions and symbols</title>
-             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-             <term id="_" anchor="term-Term">
-               <preferred><expression><name>Term</name></expression></preferred>
-             </term>
-             <definitions id="_" obligation="normative" type="symbols">
-               <title id="_">Symbols</title>
-             </definitions>
-           </terms>
-         </sections>
-       </metanorma>
-     OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
-   end
-
-      it "varies terms & abbreviated terms title" do
-     input = <<~INPUT
-       #{ASCIIDOC_BLANK_HDR}
-       [heading="terms, definitions, symbols and abbreviated terms"]
-       == Terms, Definitions, Abbreviated Terms Section
-
-       === Term
-
-       [heading="abbreviated terms"]
-       === Symbols
-
-     INPUT
-     output = <<~OUTPUT
-       #{BLANK_HDR}
-         <sections>
-           <terms id="_" obligation='normative'>
-             <title id="_">Terms, definitions and abbreviated terms</title>
-             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-             <term id="_" anchor="term-Term">
-               <preferred><expression><name>Term</name></expression></preferred>
-             </term>
-             <definitions id="_" obligation="normative" type="abbreviated_terms">
-               <title id="_">Abbreviated terms</title>
-             </definitions>
-           </terms>
-         </sections>
-       </metanorma>
-     OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
-   end
-
-   it "varies terms symbols & abbreviated terms title" do
-     input = <<~INPUT
-       #{ASCIIDOC_BLANK_HDR}
-       [heading="terms, definitions, symbols and abbreviated terms"]
-       == Terms, Definitions, Abbreviated Terms Section
-
-       === Term
-
-       === Abbreviated Terms
-
-       === Symbols
-
-     INPUT
-     output = <<~OUTPUT
-       #{BLANK_HDR}
-         <sections>
-           <terms id="_" obligation='normative'>
-             <title id="_">Terms, definitions, symbols and abbreviated terms</title>
-             <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-             <term id="_" anchor="term-Term">
-               <preferred><expression><name>Term</name></expression></preferred>
-             </term>
-             <definitions id="_" type='abbreviated_terms' obligation='normative'>
-                 <title id="_">Abbreviated terms</title>
-                 </definitions>
-                 <definitions id="_" type='symbols' obligation='normative'>
-                 <title id="_">Symbols</title>
-                 </definitions>
-           </terms>
-         </sections>
-       </metanorma>
-     OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
-   end
-
-      it "automates terms & definitions titles if there are no extraneous sections" do
-     input = <<~INPUT
-       #{ASCIIDOC_BLANK_HDR}
-       == Terms, Definitions, Symbols and Abbreviated Terms
-
-       [.boilerplate]
-       === Boilerplate
-
-       Boilerplate text
-
-       === Intro 4
-
-       ==== Term2
-
-       === Symbols and Abbreviated Terms
-
-       [.nonterm]
-       ==== General
-
-       ==== Symbols
-
-     INPUT
-     output = <<~OUTPUT
-       #{BLANK_HDR}
-          <sections>
             <clause id="_" obligation="normative" type="terms">
               <title id="_">Terms, definitions, symbols and abbreviated terms</title>
               <p id="_">Boilerplate text</p>
-              <terms id="_" obligation="normative">
-                <title id="_">Terms and definitions</title>
-                <term id="_" anchor="term-Term2">
-                  <preferred>
-                    <expression>
-                      <name>Term2</name>
-                    </expression>
-                  </preferred>
-                </term>
-              </terms>
-              <definitions id="_" obligation="normative">
-                <title id="_">Symbols and abbreviated terms</title>
-                <clause id="_" inline-header="false" obligation="normative">
-                  <title id="_">General</title>
-                </clause>
-                <definitions id="_" type="symbols" obligation="normative">
-                  <title id="_">Symbols</title>
-                </definitions>
-              </definitions>
-            </clause>
-          </sections>
-        </metanorma>
-     OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
-      end
-
-         it "does not do automated terms & definitions titles if there are extraneous sections" do
-     input = <<~INPUT
-       #{ASCIIDOC_BLANK_HDR}
-       == Terms, Definitions, Symbols and Abbreviated Terms
-
-       [.boilerplate]
-       === Boilerplate
-
-       Boilerplate text
-
-       [.nonterm]
-       === Intro 3
-
-       === Intro 4
-
-       ==== Term2
-
-       === Symbols and Abbreviated Terms
-
-       [.nonterm]
-       ==== General
-
-       ==== Symbols
-
-     INPUT
-     output = <<~OUTPUT
-       #{BLANK_HDR}
-               <sections>
-            <clause id="_" obligation="normative" type="terms">
-              <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
-              <p id="_">Boilerplate text</p>
               <clause id="_" inline-header="false" obligation="normative">
-                <title id="_">Intro 3</title>
+                <title id="_">Introduction</title>
+                <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">Intro 1</title>
+                </clause>
               </clause>
               <terms id="_" obligation="normative">
-                <title id="_">Intro 4</title>
-                <term id="_" anchor="term-Term2">
-                  <preferred>
-                    <expression>
-                      <name>Term2</name>
-                    </expression>
-                  </preferred>
-                </term>
-              </terms>
-              <definitions id="_" obligation="normative">
-                <title id="_">Symbols and abbreviated terms</title>
+                <title id="_">Intro 2</title>
                 <clause id="_" inline-header="false" obligation="normative">
-                  <title id="_">General</title>
+                  <title id="_">Intro 3</title>
                 </clause>
-                <definitions id="_" type="symbols" obligation="normative">
-                  <title id="_">Symbols</title>
-                </definitions>
-              </definitions>
-            </clause>
-          </sections>
-        </metanorma>
-     OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
-     input = <<~INPUT
-       #{ASCIIDOC_BLANK_HDR}
-       == Terms, Definitions, Symbols and Abbreviated Terms
-
-       [.boilerplate]
-       === Boilerplate
-
-       Boilerplate text
-
-       === Intro 3
-
-       ==== Term2
-
-       === Intro 4
-
-       ==== Term3
-
-       === Symbols and Abbreviated Terms
-
-       [.nonterm]
-       ==== General
-
-       ==== Symbols
-
-     INPUT
-     output = <<~OUTPUT
-       #{BLANK_HDR}
-                <sections>
-            <clause id="_" obligation="normative" type="terms">
-              <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
-              <p id="_">Boilerplate text</p>
-              <terms id="_" obligation="normative">
-                <title id="_">Intro 3</title>
-                <term id="_" anchor="term-Term2">
-                  <preferred>
-                    <expression>
-                      <name>Term2</name>
-                    </expression>
-                  </preferred>
-                </term>
               </terms>
-              <terms id="_" obligation="normative">
+              <clause id="_" obligation="normative" type="terms">
                 <title id="_">Intro 4</title>
+                <terms id="_" obligation="normative">
+                  <title id="_">Intro 5</title>
+                  <term id="_" anchor="term-Term2">
+                    <preferred>
+                      <expression>
+                        <name>Term2</name>
+                      </expression>
+                    </preferred>
+                  </term>
+                </terms>
+              </clause>
+              <terms id="_" obligation="normative">
+                <title id="_">Normal Terms</title>
                 <term id="_" anchor="term-Term3">
                   <preferred>
                     <expression>
@@ -934,328 +1047,223 @@ RSpec.describe Metanorma::Standoc do
               </definitions>
             </clause>
           </sections>
-     OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
-   end
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
+                                                           *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
 
-            it "processes non-term clauses" do
-     input = <<~INPUT
-       #{ASCIIDOC_BLANK_HDR}
-       == Terms and Definitions
+  it "processes terminal nodes in terms with term subsection names" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
 
-       === Term1
+      == Terms, definitions, symbols and abbreviated terms
 
-       == Terms, Definitions, Symbols and Abbreviated Terms
+      === Terms and definitions
 
-       [.boilerplate]
-       === Boilerplate
+      === Symbols
 
-       Boilerplate text
-
-       [.nonterm]
-       === Introduction
-
-       ==== Intro 1
-
-       === Intro 2
-
-       [.nonterm]
-       ==== Intro 3
-
-       === Intro 4
-
-       ==== Intro 5
-
-       ===== Term2
-
-       === Normal Terms
-
-       ==== Term3
-
-       === Symbols and Abbreviated Terms
-
-       [.nonterm]
-       ==== General
-
-       ==== Symbols
-     INPUT
+    INPUT
     output = <<~OUTPUT
-        #{BLANK_HDR}
-                 <sections>
-             <terms id="_" obligation="normative">
-               <title id="_">Terms and definitions</title>
-               <p id="_">For the purposes of this document,
-             the following terms and definitions apply.</p>
-               <term id="_" anchor="term-Term1">
-                 <preferred>
-                   <expression>
-                     <name>Term1</name>
-                   </expression>
-                 </preferred>
+                   #{BLANK_HDR}
+                   <sections>
+        <terms id="_" obligation='normative'>
+          <title id="_">Terms, definitions, symbols and abbreviated terms</title>
+          <p id='_'>No terms and definitions are listed in this document.</p>
+          <clause id="_" inline-header='false' obligation='normative'>
+            <title id="_">Terms and definitions</title>
+          </clause>
+          <definitions id="_" obligation="normative" type="symbols">
+            <title id="_">Symbols</title>
+          </definitions>
+        </terms>
+      </sections>
+             </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
+                                                           *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
+  it "treats terminal terms subclause named as terms clause as a normal clause" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [[tda]]
+      == Terms, definitions, symbols and abbreviations
+
+      [[terms]]
+      === Terms and definitions
+
+      === Symbols
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <terms id="_" anchor="tda" obligation='normative'>
+            <title id="_">Terms, definitions, symbols and abbreviations</title>
+            <p id='_'>No terms and definitions are listed in this document.</p>
+            <clause id="_" anchor="terms" inline-header='false' obligation='normative'>
+              <title id="_">Terms and definitions</title>
+            </clause>
+            <definitions id="_" obligation="normative" type="symbols">
+              <title id="_">Symbols</title>
+            </definitions>
+          </terms>
+        </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
+  it "treats non-terminal terms subclause named as terms clause as a terms clause" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Scope
+
+      [[tda]]
+      == Terms, definitions, symbols and abbreviations
+
+      [[terms]]
+      === Terms and definitions
+
+      [[terms-concepts]]
+      ==== Basic concepts
+
+      [[term-date]]
+      ===== date
+
+      _time_ (<<term-time>>) on the _calendar_ (<<term-calendar>>) _time scale_ (<<term-time-scale>>)
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+       <sections>
+         <clause id="_" inline-header='false' obligation='normative' type="scope">
+           <title id="_">Scope</title>
+         </clause>
+         <clause id="_" anchor="tda" obligation='normative' type="terms">
+           <title id="_">Terms and definitions</title>
+           <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
+           <clause id="_" anchor="terms" obligation='normative' type="terms">
+             <title id="_">Terms and definitions</title>
+             <terms id="_" anchor="terms-concepts" obligation='normative'>
+               <title id="_">Basic concepts</title>
+               <term id="_" anchor="term-date">
+                 <preferred><expression><name>date</name></expression></preferred>
+                 <definition id="_"><verbal-definition id="_">
+                   <p id='_'>
+                     <em>time</em>
+                      (
+                     <xref target='term-time'/>
+                     ) on the
+                     <em>calendar</em>
+                      (
+                     <xref target='term-calendar'/>
+                     )
+                     <em>time scale</em>
+                      (
+                     <xref target='term-time-scale'/>
+                     )
+                   </p>
+                 </verbal-definition></definition>
                </term>
              </terms>
-             <clause id="_" obligation="normative" type="terms">
-               <title id="_">Terms, definitions, symbols and abbreviated terms</title>
-               <p id="_">Boilerplate text</p>
-               <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Introduction</title>
-                 <clause id="_" inline-header="false" obligation="normative">
-                   <title id="_">Intro 1</title>
-                 </clause>
-               </clause>
-               <terms id="_" obligation="normative">
-                 <title id="_">Intro 2</title>
-                 <clause id="_" inline-header="false" obligation="normative">
-                   <title id="_">Intro 3</title>
-                 </clause>
-               </terms>
-               <clause id="_" obligation="normative" type="terms">
-                 <title id="_">Intro 4</title>
-                 <terms id="_" obligation="normative">
-                   <title id="_">Intro 5</title>
-                   <term id="_" anchor="term-Term2">
-                     <preferred>
-                       <expression>
-                         <name>Term2</name>
-                       </expression>
-                     </preferred>
-                   </term>
-                 </terms>
-               </clause>
-               <terms id="_" obligation="normative">
-                 <title id="_">Normal Terms</title>
-                 <term id="_" anchor="term-Term3">
-                   <preferred>
-                     <expression>
-                       <name>Term3</name>
-                     </expression>
-                   </preferred>
-                 </term>
-               </terms>
-               <definitions id="_" obligation="normative">
-                 <title id="_">Symbols and abbreviated terms</title>
-                 <clause id="_" inline-header="false" obligation="normative">
-                   <title id="_">General</title>
-                 </clause>
-                 <definitions id="_" type="symbols" obligation="normative">
-                   <title id="_">Symbols</title>
-                 </definitions>
-               </definitions>
-             </clause>
-           </sections>
-       </metanorma>
-     OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
-   end
-
-               it "processes terminal nodes in terms with term subsection names" do
-     input = <<~INPUT
-       #{ASCIIDOC_BLANK_HDR}
-
-       == Terms, definitions, symbols and abbreviated terms
-
-       === Terms and definitions
-
-       === Symbols
-
-     INPUT
-     output = <<~OUTPUT
-                    #{BLANK_HDR}
-                    <sections>
-         <terms id="_" obligation='normative'>
-           <title id="_">Terms, definitions, symbols and abbreviated terms</title>
-           <p id='_'>No terms and definitions are listed in this document.</p>
-           <clause id="_" inline-header='false' obligation='normative'>
-             <title id="_">Terms and definitions</title>
            </clause>
-           <definitions id="_" obligation="normative" type="symbols">
-             <title id="_">Symbols</title>
-           </definitions>
-         </terms>
+         </clause>
        </sections>
-              </metanorma>
-     OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
-   end
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
+                                                           *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
 
-   it "treats terminal terms subclause named as terms clause as a normal clause" do
-     input = <<~INPUT
-       #{ASCIIDOC_BLANK_HDR}
-       [[tda]]
-       == Terms, definitions, symbols and abbreviations
+  it "ignores second terms section" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
 
-       [[terms]]
-       === Terms and definitions
+      == Terms and definitions
 
-       === Symbols
+      === Term1
 
-     INPUT
-     output = <<~OUTPUT
-       #{BLANK_HDR}
-         <sections>
-           <terms id="_" anchor="tda" obligation='normative'>
-             <title id="_">Terms, definitions, symbols and abbreviations</title>
-             <p id='_'>No terms and definitions are listed in this document.</p>
-             <clause id="_" anchor="terms" inline-header='false' obligation='normative'>
-               <title id="_">Terms and definitions</title>
-             </clause>
-             <definitions id="_" obligation="normative" type="symbols">
-               <title id="_">Symbols</title>
-             </definitions>
-           </terms>
-         </sections>
-       </metanorma>
-     OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
-   end
+      == Terms and definitions
 
-      it "treats non-terminal terms subclause named as terms clause as a terms clause" do
-     input = <<~INPUT
-       #{ASCIIDOC_BLANK_HDR}
-       == Scope
-
-       [[tda]]
-       == Terms, definitions, symbols and abbreviations
-
-       [[terms]]
-       === Terms and definitions
-
-       [[terms-concepts]]
-       ==== Basic concepts
-
-       [[term-date]]
-       ===== date
-
-       _time_ (<<term-time>>) on the _calendar_ (<<term-calendar>>) _time scale_ (<<term-time-scale>>)
-
-     INPUT
-     output = <<~OUTPUT
-       #{BLANK_HDR}
-        <sections>
-          <clause id="_" inline-header='false' obligation='normative' type="scope">
-            <title id="_">Scope</title>
-          </clause>
-          <clause id="_" anchor="tda" obligation='normative' type="terms">
-            <title id="_">Terms and definitions</title>
-            <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-            <clause id="_" anchor="terms" obligation='normative' type="terms">
-              <title id="_">Terms and definitions</title>
-              <terms id="_" anchor="terms-concepts" obligation='normative'>
-                <title id="_">Basic concepts</title>
-                <term id="_" anchor="term-date">
-                  <preferred><expression><name>date</name></expression></preferred>
-                  <definition id="_"><verbal-definition id="_">
-                    <p id='_'>
-                      <em>time</em>
-                       (
-                      <xref target='term-time'/>
-                      ) on the
-                      <em>calendar</em>
-                       (
-                      <xref target='term-calendar'/>
-                      )
-                      <em>time scale</em>
-                       (
-                      <xref target='term-time-scale'/>
-                      )
-                    </p>
-                  </verbal-definition></definition>
+      === Term2
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+                <sections>
+             <terms id="_" obligation="normative">
+                <title id="_">Terms and definitions</title>
+                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+                <term id="_" anchor="term-Term1">
+                   <preferred>
+                      <expression>
+                         <name>Term1</name>
+                      </expression>
+                   </preferred>
                 </term>
-              </terms>
-            </clause>
-          </clause>
-        </sections>
+             </terms>
+             <clause id="_" inline-header="false" obligation="normative">
+                <title id="_">Terms and definitions</title>
+                <clause id="_" inline-header="false" obligation="normative">
+                   <title id="_">Term2</title>
+                </clause>
+             </clause>
+          </sections>
        </metanorma>
-     OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
-   end
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
+                                                           *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
 
-        it "ignores second terms section" do
-     input = <<~INPUT
-       #{ASCIIDOC_BLANK_HDR}
+  it "does not ignore second terms section if specified as heading" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
 
-       == Terms and definitions
+      == Terms and definitions
 
-       === Term1
+      === Term1
 
-       == Terms and definitions
+      [heading="Terms and definitions"]
+      == Terms and definitions
 
-       === Term2
-     INPUT
-     output = <<~OUTPUT
-       #{BLANK_HDR}
-                 <sections>
-              <terms id="_" obligation="normative">
-                 <title id="_">Terms and definitions</title>
-                 <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-                 <term id="_" anchor="term-Term1">
-                    <preferred>
-                       <expression>
-                          <name>Term1</name>
-                       </expression>
-                    </preferred>
-                 </term>
-              </terms>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Terms and definitions</title>
-                 <clause id="_" inline-header="false" obligation="normative">
-                    <title id="_">Term2</title>
-                 </clause>
-              </clause>
-           </sections>
-        </metanorma>
-     OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
-   end
-
-           it "does not ignore second terms section if specified as heading" do
-     input = <<~INPUT
-       #{ASCIIDOC_BLANK_HDR}
-
-       == Terms and definitions
-
-       === Term1
-
-       [heading="Terms and definitions"]
-       == Terms and definitions
-
-       === Term2
-     INPUT
-     output = <<~OUTPUT
-       #{BLANK_HDR}
-                 <sections>
-              <terms id="_" obligation="normative">
-                 <title id="_">Terms and definitions</title>
-                 <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-                 <term id="_" anchor="term-Term1">
-                    <preferred>
-                       <expression>
-                          <name>Term1</name>
-                       </expression>
-                    </preferred>
-                 </term>
-              </terms>
-              <terms id="_" obligation="normative">
-                 <title id="_">Terms and definitions</title>
-                 <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-                 <term id="_" anchor="term-Term2">
-                    <preferred>
-                       <expression>
-                          <name>Term2</name>
-                       </expression>
-                    </preferred>
-                 </term>
-              </terms>
-           </sections>
-        </metanorma>
-     OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
-   end
+      === Term2
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+                <sections>
+             <terms id="_" obligation="normative">
+                <title id="_">Terms and definitions</title>
+                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+                <term id="_" anchor="term-Term1">
+                   <preferred>
+                      <expression>
+                         <name>Term1</name>
+                      </expression>
+                   </preferred>
+                </term>
+             </terms>
+             <terms id="_" obligation="normative">
+                <title id="_">Terms and definitions</title>
+                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+                <term id="_" anchor="term-Term2">
+                   <preferred>
+                      <expression>
+                         <name>Term2</name>
+                      </expression>
+                   </preferred>
+                </term>
+             </terms>
+          </sections>
+       </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
+                                                           *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
 end
