@@ -1,6 +1,7 @@
 require "date"
 require "pathname"
 require_relative "./front_contributor"
+require_relative "./front_ext"
 require "isoics"
 
 module Metanorma
@@ -50,17 +51,6 @@ module Metanorma
           s.stage (node.attr("status") || node.attr("docstage") || "published")
           node.attr("docsubstage") and s.substage node.attr("docsubstage")
           node.attr("iteration") and s.iteration node.attr("iteration")
-        end
-      end
-
-      def metadata_ics(node, xml)
-        ics = node.attr("library-ics")
-        ics&.split(/,\s*/)&.each do |i|
-          xml.ics do |elem|
-            elem.code i
-            icsdata = Isoics.fetch i
-            elem.text_ icsdata.description
-          end
         end
       end
 
@@ -183,66 +173,37 @@ module Metanorma
         end
       end
 
-      def metadata_ext(node, ext)
-        metadata_doctype(node, ext)
-        metadata_subdoctype(node, ext)
-        metadata_flavor(node, ext)
-        metadata_ics(node, ext)
-        structured_id(node, ext)
-        metadata_coverpage_images(node, ext)
-      end
-
-      def structured_id(node, xml); end
-
-      def metadata_doctype(node, xml)
-        xml.doctype doctype(node)
-      end
-
-      def metadata_subdoctype(node, xml)
-        s = node.attr("docsubtype") and xml.subdoctype s
-      end
-
-      def metadata_flavor(_node, ext)
-        ext.flavor processor.new.asciidoctor_backend
-      end
-
       def metadata_note(node, xml); end
 
       def metadata_series(node, xml); end
 
       def title(node, xml)
-        title_english(node, xml)
-        title_otherlangs(node, xml)
+        title_main(node, xml)
+        title_other(node, xml)
       end
 
-      def title_english(node, xml)
-        ["en"].each do |lang|
-          at = { language: lang, format: "text/plain" }
-          xml.title **attr_code(at) do |t|
-            title = Metanorma::Utils::asciidoc_sub(
-              node.attr("title") || node.attr("title-en") || node.attr("doctitle"),
-            )
-            t << title
-          end
-        end
+      # English plain title: :title: or implicit, typed as main
+      def title_main(node, xml)
+        title = node.attr("title") || node.attr("doctitle")
+        node.attr("title-en") and return
+        add_title_xml(xml, title, "en", "main")
       end
 
-      def title_otherlangs(node, xml)
+      def title_other(node, xml)
         node.attributes.each do |k, v|
-          /^title-(?<titlelang>.+)$/ =~ k or next
-          titlelang == "en" and next
-          xml.title v, { language: titlelang, format: "text/plain" }
+          /^title-(?<remainder>.+)$/ =~ k or next
+          type, language = remainder.split("-", 2)
+          if language.nil?
+            language = type
+            type = "main"
+          end
+          add_title_xml(xml, v, language, type)
         end
       end
 
-      def metadata_coverpage_images(node, xml)
-        %w(coverpage-image innercoverpage-image tocside-image
-           backpage-image).each do |n|
-          if a = node.attr(n)
-            xml.send n do |c|
-              a.split(",").each { |x| c.image src: x }
-            end
-          end
+      def add_title_xml(xml, content, language, type)
+        xml.title **attr_code(language: language, type: type) do |t|
+          t << Metanorma::Utils::asciidoc_sub(content)
         end
       end
     end

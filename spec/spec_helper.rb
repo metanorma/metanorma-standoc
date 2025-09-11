@@ -199,7 +199,7 @@ BLANK_HDR = <<~"HDR".freeze
   <?xml version="1.0" encoding="UTF-8"?>
   <metanorma xmlns="https://www.metanorma.org/ns/standoc" version="#{Metanorma::Standoc::VERSION}" type="semantic" flavor="standoc">
   <bibdata type="standard">
-  <title language="en" format="text/plain">Document title</title>
+  <title language="en" type="main">Document title</title>
     <language>en</language>
     <script>Latn</script>
     <status><stage>published</stage></status>
@@ -239,7 +239,7 @@ BLANK_METANORMA_HDR = <<~"HDR".freeze
   <?xml version="1.0" encoding="UTF-8"?><html><body>
   <metanorma xmlns="https://www.metanorma.org/ns/standoc" version="#{Metanorma::Standoc::VERSION}" type="semantic" flavor="standoc">
   <bibdata type="standard">
-  <title language="en" format="text/plain">Document title</title>
+  <title language="en" type="main">Document title</title>
     <language>en</language>
     <script>Latn</script>
     <status><stage>published</stage></status>

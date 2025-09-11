@@ -274,7 +274,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
        <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                <bibdata type='standard'>
-                 <title language='en' format='text/plain'>Document title</title>
+                 <title language='en' type='main'>Document title</title>
                  <language>en</language>
                  <script>Latn</script>
                  <abstract>
@@ -600,7 +600,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                 <bibdata type='standard'>
-                  <title language='en' format='text/plain'>Document title</title>
+                  <title language='en' type='main'>Document title</title>
                   <language>tlh</language>
                   <script>Latn</script>
                   <abstract>
@@ -856,7 +856,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                 <bibdata type='standard'>
-                  <title language='en' format='text/plain'>Document title</title>
+                  <title language='en' type='main'>Document title</title>
                   <language>fr</language>
                   <script>Latn</script>
                   <abstract>
@@ -1112,7 +1112,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                 <bibdata type='standard'>
-                  <title language='en' format='text/plain'>Document title</title>
+                  <title language='en' type='main'>Document title</title>
                   <language>zh</language>
                   <script>Hans</script>
                   <abstract>
@@ -1368,7 +1368,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                 <bibdata type='standard'>
-                  <title language='en' format='text/plain'>Document title</title>
+                  <title language='en' type='main'>Document title</title>
                   <language>en</language>
                   <script>Latn</script>
                   <abstract>
