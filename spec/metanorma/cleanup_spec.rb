@@ -532,7 +532,7 @@ RSpec.describe Metanorma::Standoc do
                    <xref target="/%ab"/>
                    <xref target="1!"/>
                    <xref target="Löwe"/>
-                
+      #{'          '}
                 <sourcecode id="_" anchor="Löwe">
                    <name id="_">
                       See
@@ -581,27 +581,27 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-               <bibdata type='standard'>
-                 <title language='en' format='text/plain'>Document title</title>
-                 <note type='title-footnote'>
-                   <p>ABC</p>
-                 </note>
-                 <note type='title-footnote'>
-                   <p>DEF</p>
-                 </note>
-                 <language>en</language>
-                 <script>Latn</script>
-                 <status>
-                   <stage>published</stage>
-                 </status>
-                 <copyright>
-                   <from>#{Time.now.year}</from>
-                 </copyright>
-                 <ext>
-                   <doctype>standard</doctype>
-            <flavor>standoc</flavor>
-                 </ext>
-               </bibdata>
+         <bibdata type='standard'>
+           <title language='en' type='main'>Document title</title>
+           <note type='title-footnote'>
+             <p>ABC</p>
+           </note>
+           <note type='title-footnote'>
+             <p>DEF</p>
+           </note>
+           <language>en</language>
+           <script>Latn</script>
+           <status>
+             <stage>published</stage>
+           </status>
+           <copyright>
+             <from>#{Time.now.year}</from>
+           </copyright>
+           <ext>
+             <doctype>standard</doctype>
+      <flavor>standoc</flavor>
+           </ext>
+         </bibdata>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:bibdata")
@@ -1012,7 +1012,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       <bibdata type="standard">
-         <title language="en" format="text/plain">X</title>
+         <title language="en" type="main">X</title>
          <date type="corrected">
            <on>2022-10</on>
          </date>
@@ -1185,7 +1185,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       <bibdata type="standard">
-         <title language="en" format="text/plain">X</title>
+         <title language="en" type="main">X</title>
          <date type="corrected">
            <on>2022-10</on>
          </date>
@@ -1558,7 +1558,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       <bibdata type="standard">
-         <title language="en" format="text/plain">X</title>
+         <title language="en" type="main">X</title>
          <date type="corrected">
            <on>2022-10</on>
          </date>

@@ -1597,7 +1597,6 @@ RSpec.describe Metanorma::Standoc do
       .to include("Image too large for Data URI encoding")
   end
 
-
   it "warns of empty notes" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
@@ -1763,7 +1762,7 @@ RSpec.describe Metanorma::Standoc do
       ....
     INPUT
     Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))      
+    expect(File.read("test.err.html"))
       .not_to include(%(pre is empty))
   end
 
@@ -1796,7 +1795,7 @@ RSpec.describe Metanorma::Standoc do
       .not_to include(%(sourcecode is empty))
   end
 
-   it "warns of empty formula" do
+  it "warns of empty formula" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
     input = <<~INPUT
@@ -1824,7 +1823,6 @@ RSpec.describe Metanorma::Standoc do
     expect(File.read("test.err.html"))
       .not_to include(%(formula is empty))
   end
-
 
   private
 

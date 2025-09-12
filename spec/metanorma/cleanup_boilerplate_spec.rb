@@ -1177,7 +1177,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
           <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
         <bibdata type='standard'>
-          <title language='en' format='text/plain'>Document title</title>
+          <title language='en' type='main'>Document title</title>
                      <contributor>
              <role type="author"/>
              <organization>
@@ -1234,7 +1234,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
-    it "uses templates for boilerplate snippets" do
+  it "uses templates for boilerplate snippets" do
     input = <<~INPUT
       = Document title
       Author
@@ -1248,15 +1248,15 @@ RSpec.describe Metanorma::Standoc do
       == Normative references
 
     INPUT
-output = <<~OUTPUT
-          <bibliography>
-             <references id="_" normative="true" obligation="informative">
-                <title id="_">Normaj citaĵoj</title>
-                <p id="_">Neniuj normaj referencoj en ĉi tiu standard.</p>
-             </references>
-          </bibliography>
-OUTPUT
-xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    output = <<~OUTPUT
+      <bibliography>
+         <references id="_" normative="true" obligation="informative">
+            <title id="_">Normaj citaĵoj</title>
+            <p id="_">Neniuj normaj referencoj en ĉi tiu standard.</p>
+         </references>
+      </bibliography>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:bibliography")
     expect(strip_guid(Canon.format_xml(xml.to_xml)))
       .to be_equivalent_to Canon.format_xml(output)
@@ -1286,47 +1286,11 @@ xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
 
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
-         <bibdata type="standard">
-      <title language="en" format="text/plain">Document title</title>
-      <contributor>
-         <role type="author"/>
-         <organization>
-            <name>Fred</name>
-            <address>
-               <formattedAddress>
-                  10 Jack St
-                  <br/>
-                  Antarctica &amp; &lt;UK&gt;
-               </formattedAddress>
-            </address>
-                        <email>x@example.com</email>
-            <uri>http://www.example.com</uri>
-         </organization>
-      </contributor>
-      <contributor>
-         <role type="publisher"/>
-         <organization>
-            <name>Fred</name>
-            <address>
-               <formattedAddress>
-                  10 Jack St
-                  <br/>
-                  Antarctica &amp; &lt;UK&gt;
-               </formattedAddress>
-            </address>
-                        <email>x@example.com</email>
-            <uri>http://www.example.com</uri>
-         </organization>
-      </contributor>
-      <language>en</language>
-      <script>Latn</script>
-      <status>
-         <stage>10</stage>
-      </status>
-      <copyright>
-         <from>2025</from>
-         <owner>
+         <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
+            <bibdata type="standard">
+         <title language="en" type="main">Document title</title>
+         <contributor>
+            <role type="author"/>
             <organization>
                <name>Fred</name>
                <address>
@@ -1337,62 +1301,98 @@ xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
                   </formattedAddress>
                </address>
                            <email>x@example.com</email>
-            <uri>http://www.example.com</uri>
+               <uri>http://www.example.com</uri>
             </organization>
-         </owner>
-      </copyright>
-      <ext>
-         <doctype>document-type</doctype>
-         <flavor>standoc</flavor>
-      </ext>
-   </bibdata>
-                   <boilerplate>
-           <copyright-statement>
-             <clause id="_" anchor="B" inline-header="false" obligation="normative">
-               <p id="_">A</p>
-             </clause>
-           </copyright-statement>
-           <license-statement>
-             <clause id="_" inline-header="false" obligation="normative">
-               <title id="_">clause 1</title>
-               <p id="_">Doctype: Document Type Document Display:  Dokument Tipo</p>
-             </clause>
-             <clause id="_" inline-header="false" obligation="normative">
-               <title id="_">clause 2</title>
-             </clause>
-           </license-statement>
-           <feedback-statement>
-             <p id="_">10 Jack St<br/>Antarctica &amp; &lt;UK&gt; A.
-             <fn id="_" reference="__1">
-               <p id="_">I am a colliding footnote</p>
-            </fn>
-             </p>
-           <p id="_">
-            <link target="mailto:x@example.com"/>
-         </p>
-           <p id="_">
-           <link target="http://www.example.com">10 Jack St&lt;br/&gt;Antarctica &amp; &lt;UK&gt;, http://www.example.com</link>
-        </p>
-           </feedback-statement>
-           <clause id="_" inline-header="false" obligation="normative">
-             <title id="_">Random Title</title>
-             <clause id="_" inline-header="false" obligation="normative">
-               <title id="_">feedback-statement</title>
-             </clause>
-           </clause>
-         </boilerplate>
-         <sections>
-           <clause id="_" inline-header="false" obligation="normative">
-             <title id="_">Clause 1</title>
-         <p id="_">
-            A.
-            <fn id="_" reference="1">
-               <p id="_">do not collide with me, boilerplate footnote!</p>
-            </fn>
-         </p>
-           </clause>
-         </sections>
-       </metanorma>
+         </contributor>
+         <contributor>
+            <role type="publisher"/>
+            <organization>
+               <name>Fred</name>
+               <address>
+                  <formattedAddress>
+                     10 Jack St
+                     <br/>
+                     Antarctica &amp; &lt;UK&gt;
+                  </formattedAddress>
+               </address>
+                           <email>x@example.com</email>
+               <uri>http://www.example.com</uri>
+            </organization>
+         </contributor>
+         <language>en</language>
+         <script>Latn</script>
+         <status>
+            <stage>10</stage>
+         </status>
+         <copyright>
+            <from>2025</from>
+            <owner>
+               <organization>
+                  <name>Fred</name>
+                  <address>
+                     <formattedAddress>
+                        10 Jack St
+                        <br/>
+                        Antarctica &amp; &lt;UK&gt;
+                     </formattedAddress>
+                  </address>
+                              <email>x@example.com</email>
+               <uri>http://www.example.com</uri>
+               </organization>
+            </owner>
+         </copyright>
+         <ext>
+            <doctype>document-type</doctype>
+            <flavor>standoc</flavor>
+         </ext>
+      </bibdata>
+                      <boilerplate>
+              <copyright-statement>
+                <clause id="_" anchor="B" inline-header="false" obligation="normative">
+                  <p id="_">A</p>
+                </clause>
+              </copyright-statement>
+              <license-statement>
+                <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">clause 1</title>
+                  <p id="_">Doctype: Document Type Document Display:  Dokument Tipo</p>
+                </clause>
+                <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">clause 2</title>
+                </clause>
+              </license-statement>
+              <feedback-statement>
+                <p id="_">10 Jack St<br/>Antarctica &amp; &lt;UK&gt; A.
+                <fn id="_" reference="__1">
+                  <p id="_">I am a colliding footnote</p>
+               </fn>
+                </p>
+              <p id="_">
+               <link target="mailto:x@example.com"/>
+            </p>
+              <p id="_">
+              <link target="http://www.example.com">10 Jack St&lt;br/&gt;Antarctica &amp; &lt;UK&gt;, http://www.example.com</link>
+           </p>
+              </feedback-statement>
+              <clause id="_" inline-header="false" obligation="normative">
+                <title id="_">Random Title</title>
+                <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">feedback-statement</title>
+                </clause>
+              </clause>
+            </boilerplate>
+            <sections>
+              <clause id="_" inline-header="false" obligation="normative">
+                <title id="_">Clause 1</title>
+            <p id="_">
+               A.
+               <fn id="_" reference="1">
+                  <p id="_">do not collide with me, boilerplate footnote!</p>
+               </fn>
+            </p>
+              </clause>
+            </sections>
+          </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
