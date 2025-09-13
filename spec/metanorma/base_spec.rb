@@ -617,6 +617,7 @@ RSpec.describe Metanorma::Standoc do
       :presentation-metadata-hello: "Hello? {{ labels['draft_label'] }}, {{ stage }}"
       :presentation-metadata-Manifold: "hello, world","yes"
       :presentation-metadata-ul-label-list: "&#x2022;", &#x2d;, &#x6f;
+      :presentation-metadata-xml: <a href="a"/>
       :toclevels: 2
       :doctoclevels: 3
       :htmltoclevels: 4
@@ -797,6 +798,11 @@ RSpec.describe Metanorma::Standoc do
       </presentation-metadata>
       <presentation-metadata>
          <ul-label-list>o</ul-label-list>
+      </presentation-metadata>
+            <presentation-metadata>
+         <xml>
+            <a href="a"/>
+         </xml>
       </presentation-metadata>
         <presentation-metadata>
           <name>TOC Heading Levels</name>

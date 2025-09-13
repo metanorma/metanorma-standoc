@@ -218,7 +218,7 @@ module Metanorma
         xmldoc.xpath("//presentation-metadata/* | //semantic-metadata/*")
           .each do |x|
           /\{\{|\{%/.match?(x) or next
-          x.children = @isodoc.populate_template(x.text, nil)
+          x.children = @isodoc.populate_template(to_xml(x.children), nil)
         end
       end
     end
