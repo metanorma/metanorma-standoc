@@ -83,7 +83,9 @@ module Metanorma
         ext_contributor_cleanup(xmldoc) # feeds: bibdata_cleanup
         ext_dochistory_cleanup(xmldoc) # feeds: bibdata_cleanup
         bibdata_cleanup(xmldoc) # feeds: boilerplate_cleanup
-        boilerplate_cleanup(xmldoc) # feeds: xref_cleanup for new <<>> introduced
+        boilerplate_cleanup(xmldoc) # feeds: xref_cleanup for new <<>> 
+        # introduced, pres_metadata_cleanup
+        pres_metadata_cleanup(xmldoc)
         xref_cleanup(xmldoc)
         svgmap_cleanup(xmldoc) # feeds: img_cleanup
         review_cleanup(xmldoc)
@@ -208,6 +210,16 @@ module Metanorma
         (@metadata_attrs.nil? || @metadata_attrs.empty?) and return
         ins = add_misc_container(xmldoc)
         ins << @metadata_attrs
+      end
+
+      def pres_metadata_cleanup(xmldoc)
+        @isodoc ||= isodoc(@lang, @script, @locale)
+        isodoc_bibdata_parse(xmldoc)
+        xmldoc.xpath("//presentation-metadata/* | //semantic-metadata/*")
+          .each do |x|
+          /\{\{|\{%/.match?(x) or next
+          x.children = @isodoc.populate_template(x.text, nil)
+        end
       end
     end
   end

@@ -43,9 +43,11 @@ module Metanorma
         %(id = "_#{UUIDTools::UUID.random_create}")
       end
 
-      def csv_split(text, delim = ";")
-        Metanorma::Utils::csv_split(@c.decode(text), delim)
-          .map { |x| @c.encode(x, :basic, :hexadecimal) }
+      def csv_split(text, delim = ";", encode: true)
+        ret = Metanorma::Utils::csv_split(@c.decode(text), delim)
+        encode and
+          ret.map! { |x| @c.encode(x, :basic, :hexadecimal) }
+        ret
       end
 
       # quoted strings: key="va,lue",

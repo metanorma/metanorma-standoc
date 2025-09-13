@@ -51,12 +51,16 @@ module Metanorma
         # in termdef_boilerplate_insert and initial_boilerplate
         xmldoc.at("//metanorma-extension/semantic-metadata/" \
                   "headless[text() = 'true']") and return nil
+        @isodoc ||= isodoc(@lang, @script, @locale)
+        isodoc_bibdata_parse(xmldoc)
+        @isodoc
+      end
+
+      def isodoc_bibdata_parse(xmldoc)
+        # initialise @isodoc.xrefs, for @isodoc.xrefs.info
         x = dup_with_namespace(xmldoc.root)
         xml = Nokogiri::XML(x.to_xml)
-        @isodoc ||= isodoc(@lang, @script, @locale)
-        # initialise @isodoc.xrefs, for @isodoc.xrefs.info
         @isodoc.bibdata(xml) # do i18n
-        @isodoc
       end
 
       def unwrap_boilerplate_clauses(xmldoc, xpath)

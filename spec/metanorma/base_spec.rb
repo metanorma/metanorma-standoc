@@ -614,7 +614,7 @@ RSpec.describe Metanorma::Standoc do
       :postcode_2: F-92312
       :semantic-metadata-hello-world: A, B, "C, D"
       :semantic-metadata-hello: what-not
-      :presentation-metadata-hello: Hello?
+      :presentation-metadata-hello: "Hello? {{ labels['draft_label'] }}, {{ stage }}"
       :presentation-metadata-Manifold: "hello, world","yes"
       :presentation-metadata-ul-label-list: "&#x2022;", &#x2d;, &#x6f;
       :toclevels: 2
@@ -781,7 +781,7 @@ RSpec.describe Metanorma::Standoc do
           <hello>what-not</hello>
         </semantic-metadata>
         <presentation-metadata>
-          <hello>Hello?</hello>
+          <hello>Hello? draft, Published</hello>
         </presentation-metadata>
         <presentation-metadata>
           <manifold>hello, world</manifold>

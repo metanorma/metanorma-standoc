@@ -139,7 +139,7 @@ module Metanorma
           %w(presentation semantic).each do |t|
             /^#{t}-metadata-/.match?(k) or next
             k = k.sub(/^#{t}-metadata-/, "")
-            quoted_csv_split(v.gsub("&amp;#", "&#"))&.each do |c|
+            csv_split(v.gsub("&amp;#", "&#"), ",", encode: false)&.each do |c|
               ret << "<#{t}-metadata><#{k}>#{c}</#{k}></#{t}-metadata>"
             end
           end
