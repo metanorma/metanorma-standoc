@@ -7,7 +7,9 @@ module Metanorma
       def metadata_author(node, xml)
         org_author(node, xml)
         personal_author(node, xml)
-        committee_contributors(node, xml, default_publisher, {})
+        corporate_author = node.attr("corporate-author") ||
+          node.attr("publisher") || default_publisher
+        committee_contributors(node, xml, corporate_author, {})
       end
 
       def org_author(node, xml)
