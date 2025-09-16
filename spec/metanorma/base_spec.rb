@@ -416,6 +416,7 @@ RSpec.describe Metanorma::Standoc do
                    <description>committee</description>
                 </role>
                 <organization>
+                   <name>"Cartoon Network"; "Ribose, Inc."</name>
                    <subdivision type="Technical committee" subtype="A">
                       <name>TC</name>
                       <identifier>A 1</identifier>
