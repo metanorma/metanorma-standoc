@@ -229,6 +229,16 @@ module Metanorma
         end
       end
 
+      def empty_identifiers(xmldoc)
+        xmldoc.xpath("//bibitem[not(@suppress_identifier)]").each do |b|
+          b.xpath("./docidentifier").each do |d|
+            d.text.strip.empty? and d.remove
+          end
+          b.at("./docidentifier") and next
+          b["suppress_identifier"] = true
+        end
+      end
+
       def bibitem_cleanup(xmldoc)
         bibitem_nested_id(xmldoc) # feeds remove_dup_bibtem_id
         remove_dup_bibtem_id(xmldoc)
@@ -236,6 +246,7 @@ module Metanorma
         formattedref_spans(xmldoc)
         fetch_local_bibitem(xmldoc)
         attachment_cleanup(xmldoc)
+        empty_identifiers(xmldoc)
       end
     end
   end
