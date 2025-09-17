@@ -198,12 +198,12 @@ RSpec.describe Metanorma::Standoc do
             </owner>
           </copyright>
           <relation type="obsoletes">
-            <bibitem type="standard">
+            <bibitem type="standard" suppress_identifier="true">
               <formattedref format="text/plain">ISO 123:1985</formattedref>
             </bibitem>
           </relation>
           <relation type="updates">
-            <bibitem type="standard">
+            <bibitem type="standard" suppress_identifier="true">
               <formattedref format="text/plain">ISO 123:2001</formattedref>
             </bibitem>
           </relation>
@@ -242,12 +242,12 @@ RSpec.describe Metanorma::Standoc do
             </owner>
           </copyright>
           <relation type="obsoletes">
-            <bibitem type="standard">
+            <bibitem type="standard" suppress_identifier="true">
               <formattedref format="text/plain">ISO 123:1985</formattedref>
             </bibitem>
           </relation>
           <relation type="updates">
-            <bibitem type="standard">
+            <bibitem type="standard" suppress_identifier="true">
               <formattedref format="text/plain">ISO 123:2001</formattedref>
             </bibitem>
           </relation>
@@ -287,12 +287,12 @@ RSpec.describe Metanorma::Standoc do
                  </owner>
                </copyright>
                <relation type="obsoletes">
-                 <bibitem type="standard">
+                 <bibitem type="standard" suppress_identifier="true">
                    <formattedref format="text/plain">ISO 123:1985</formattedref>
                  </bibitem>
                </relation>
                <relation type="updates">
-                 <bibitem type="standard">
+                 <bibitem type="standard" suppress_identifier="true">
                    <formattedref format="text/plain">ISO 123:2001</formattedref>
                  </bibitem>
                </relation>
@@ -332,12 +332,12 @@ RSpec.describe Metanorma::Standoc do
                       </owner>
                    </copyright>
                    <relation type="obsoletes">
-                      <bibitem type="standard">
+                      <bibitem type="standard" suppress_identifier="true">
                          <formattedref format="text/plain">ISO 123:1985</formattedref>
                       </bibitem>
                    </relation>
                    <relation type="updates">
-                      <bibitem type="standard">
+                      <bibitem type="standard" suppress_identifier="true">
                          <formattedref format="text/plain">ISO 123:2001</formattedref>
                       </bibitem>
                    </relation>
@@ -1018,7 +1018,7 @@ RSpec.describe Metanorma::Standoc do
           </owner>
         </copyright>
         <relation type='obsoletes'>
-          <bibitem type='standard'>
+          <bibitem type='standard'  suppress_identifier="true">
             <formattedref format='text/plain'>ISO 123:1985</formattedref>
           </bibitem>
         </relation>
@@ -1064,7 +1064,7 @@ RSpec.describe Metanorma::Standoc do
               </owner>
             </copyright>
             <relation type='obsoletes'>
-              <bibitem type='standard'>
+              <bibitem type='standard'  suppress_identifier="true">
                 <formattedref format='text/plain'>ISO 123:1985</formattedref>
               </bibitem>
             </relation>
@@ -1072,12 +1072,12 @@ RSpec.describe Metanorma::Standoc do
           </bibitem>
         </relation>
         <relation type='instanceOf'>
-          <bibitem type='standard'>
+          <bibitem type='standard'  suppress_identifier="true">
             <formattedref format='text/plain'>ISO 123:1985</formattedref>
           </bibitem>
         </relation>
         <relation type='instanceOf'>
-          <bibitem type='standard'>
+          <bibitem type='standard'  suppress_identifier="true">
             <formattedref format='text/plain'>ISO 123:1974</formattedref>
           </bibitem>
         </relation>

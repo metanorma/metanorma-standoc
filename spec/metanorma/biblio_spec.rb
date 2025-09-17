@@ -419,13 +419,13 @@ RSpec.describe Metanorma::Standoc do
           </owner>
         </copyright>
         <relation type="updates">
-          <bibitem>
+          <bibitem suppress_identifier="true">
             <title type='title-main' format='text/plain'>Geographic information</title>
             <title type='main' format='text/plain'>Geographic information</title>
             </bibitem>
         </relation>
         <relation type="updates">
-          <bibitem type="standard">
+          <bibitem type="standard" suppress_identifier="true">
           <title type='title-main' format='text/plain'>Geographic information</title>
           <title type='main' format='text/plain'>Geographic information</title>
           </bibitem>
@@ -748,13 +748,13 @@ RSpec.describe Metanorma::Standoc do
           </owner>
         </copyright>
         <relation type="updates">
-          <bibitem>
+          <bibitem suppress_identifier="true">
             <title type='title-main' format='text/plain'>Geographic information</title>
             <title type='main' format='text/plain'>Geographic information</title>
           </bibitem>
         </relation>
         <relation type="updates">
-          <bibitem type="standard">
+          <bibitem type="standard" suppress_identifier="true">
           <title type='title-main' format='text/plain'>Geographic information</title>
           <title type='main' format='text/plain'>Geographic information</title>
           </bibitem>
@@ -960,7 +960,7 @@ RSpec.describe Metanorma::Standoc do
                <abstract>This is a <em>journey</em> into sound</abstract>
                <place>Geneva</place>
                <relation type="includedIn">
-                 <bibitem type="book">
+                 <bibitem type="book" suppress_identifier="true">
                    <title>Collected Essays</title>
                    <contributor>
                      <role type="editor"/>
@@ -1086,7 +1086,7 @@ RSpec.describe Metanorma::Standoc do
                  </person>
                </contributor>
                <relation type="includedIn">
-                 <bibitem type="misc">
+                 <bibitem type="misc" suppress_identifier="true">
                    <title>Collected Essays</title>
                    <contributor>
                      <role type="editor"/>
