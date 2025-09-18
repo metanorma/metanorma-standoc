@@ -233,11 +233,15 @@ module Metanorma
       def empty_docid_to_title(xmldoc)
         xmldoc.xpath("//docidentifier[normalize-space(.)='']").each(&:remove)
         xmldoc.xpath("//references[@normative = 'true']/bibitem").each do |b|
-          b.at("./docidentifier") and next
+          empty_docid_to_title?(b) or next
           t = b.at("./title") || b.at("./formattedref") or next
           ins = b.at("./title[last()]") || b.at("./formattedref")
           ins.next = "<docidentifier type='title'>#{t.text}</docidentifier>"
         end
+      end
+
+      def empty_docid_to_title?(bibitem)
+        bibitem.parent["normative"] == "true"
       end
 
       def bibitem_cleanup(xmldoc)
