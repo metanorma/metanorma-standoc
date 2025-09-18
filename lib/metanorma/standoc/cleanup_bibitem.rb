@@ -229,8 +229,20 @@ module Metanorma
         end
       end
 
+      # normative references only, biblio uses ordinal code instead
+      def empty_docid_to_title(xmldoc)
+        xmldoc.xpath("//docidentifier[normalize-space(.)='']").each(&:remove)
+        xmldoc.xpath("//references[@normative = 'true']/bibitem").each do |b|
+          b.at("./docidentifier") and next
+          t = b.at("./title") || b.at("./formattedref") or next
+          ins = b.at("./title[last()]") || b.at("./formattedref")
+          ins.next = "<docidentifier type='title'>#{t.text}</docidentifier>"
+        end
+      end
+
       def bibitem_cleanup(xmldoc)
         bibitem_nested_id(xmldoc) # feeds remove_dup_bibtem_id
+        empty_docid_to_title(xmldoc)
         remove_dup_bibtem_id(xmldoc)
         ref_dl_cleanup(xmldoc)
         formattedref_spans(xmldoc)

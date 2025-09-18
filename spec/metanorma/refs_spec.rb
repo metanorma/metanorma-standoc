@@ -131,6 +131,45 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
+    it "processes references with no identifier" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [bibliography]
+      == Normative References
+
+      * [[[iso123, ]]] _Standard_
+
+      [bibliography]
+      == Bibliography
+      * [[[iso124, ]]] _Standard_
+    INPUT
+    output = <<~OUTPUT
+       <bibliography>
+          <references id="_" normative="true" obligation="informative">
+             <title id="_">Normative references</title>
+             <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+             <bibitem anchor="iso123" id="_">
+                <formattedref format="application/x-isodoc+xml">
+                   <em>Standard</em>
+                </formattedref>
+                <docidentifier type="title">Standard</docidentifier>
+             </bibitem>
+          </references>
+          <references id="_" normative="false" obligation="informative">
+             <title id="_">Bibliography</title>
+             <bibitem anchor="iso124" id="_">
+                <formattedref format="application/x-isodoc+xml">
+                   <em>Standard</em>
+                </formattedref>
+             </bibitem>
+          </references>
+       </bibliography>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(strip_guid(Canon.format_xml(xml.at("//xmlns:bibliography").to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
   it "repairs simple fetched reference" do
     mock_isobib_get_123_no_docid(2)
     mock_isobib_get_123_no_docid_lbl(2)
