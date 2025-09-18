@@ -242,12 +242,12 @@ module Metanorma
 
       def bibitem_cleanup(xmldoc)
         bibitem_nested_id(xmldoc) # feeds remove_dup_bibtem_id
-        empty_docid_to_title(xmldoc)
-        remove_dup_bibtem_id(xmldoc)
         ref_dl_cleanup(xmldoc)
         formattedref_spans(xmldoc)
         fetch_local_bibitem(xmldoc)
         attachment_cleanup(xmldoc)
+        empty_docid_to_title(xmldoc)
+        remove_dup_bibtem_id(xmldoc)
       end
     end
   end
