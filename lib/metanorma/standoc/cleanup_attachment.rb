@@ -4,6 +4,7 @@ module Metanorma
       def attachment_cleanup(xmldoc)
         xmldoc.xpath("//bibitem[uri/@type = 'attachment']").each do |b|
           b["hidden"] = "true"
+          b.at("./docidentifier[@type = 'title']")&.remove
           u = b.at("./uri[@type = 'attachment']")
           c = b.at("./uri[@type = 'citation']") ||
             u.after("<uri type='citation'/>")
