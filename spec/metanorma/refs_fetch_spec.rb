@@ -812,7 +812,7 @@ RSpec.describe Metanorma::Standoc do
                      </organization>
                   </contributor>
                   <relation type="includedIn">
-                     <bibitem suppress_identifier="true">
+                     <bibitem>
                         <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
                         <contributor>
                            <role type="editor"/>
@@ -903,7 +903,7 @@ RSpec.describe Metanorma::Standoc do
                   </contributor>
                   <place>Vienna</place>
                   <relation type="includedIn">
-                     <bibitem type="misc" suppress_identifier="true">
+                     <bibitem type="misc">
                         <title>Nested Title</title>
                         <contributor>
                            <role type="editor"/>
@@ -998,7 +998,7 @@ RSpec.describe Metanorma::Standoc do
                      </person>
                   </contributor>
                   <relation type="includedIn">
-                     <bibitem type="misc" suppress_identifier="true">
+                     <bibitem type="misc">
                         <title format="text/plain">Nested Title</title>
                         <contributor>
                            <role type="editor"/>
@@ -1204,8 +1204,6 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso124,dropid(ISO 124:2014)]]] _Standard_
       * [[[iso125,dropid=true,ABC]]] _Standard_
       * [[[iso126,dropid=true,ISO 124:2014]]] _Standard_
-      * [[[iso127, ]]] _Standard_
-      * [[[iso128,]]] _Standard_
     INPUT
     doc = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     expect(doc.at("//xmlns:bibitem[@anchor = 'iso123']/@suppress_identifier")&.text)
@@ -1215,10 +1213,6 @@ RSpec.describe Metanorma::Standoc do
     expect(doc.at("//xmlns:bibitem[@anchor = 'iso125']/@suppress_identifier")&.text)
       .to eq("true")
     expect(doc.at("//xmlns:bibitem[@anchor = 'iso126']/@suppress_identifier")&.text)
-      .to eq("true")
-    expect(doc.at("//xmlns:bibitem[@anchor = 'iso127']/@suppress_identifier")&.text)
-      .to eq("true")
-    expect(doc.at("//xmlns:bibitem[@anchor = 'iso128']/@suppress_identifier")&.text)
       .to eq("true")
   end
 
