@@ -16,11 +16,19 @@ module Metanorma
           @spans[:docid] = override_docids(ids[:docid], @spans[:docid])
         end
 
+        # override old values with new values if type is the same
+        # comparison is case-insensitive
+        # if types differ in case, use the old value's type, not the new
         def override_docids(old, new)
           ret = new
-          keys = new.map { |a| a[:type] }
+          keys = new.map { |a| a[:type]&.upcase }
           old.each do |e|
-            keys.include?(e[:type]) or ret << e
+            if keys.include?(e[:type]&.upcase)
+              ret.each do |a|
+                a[:type]&.upcase == e[:type]&.upcase and a[:type] = e[:type]
+              end
+            else ret << e
+            end
           end
           ret
         end
