@@ -71,11 +71,11 @@ module Metanorma
 
       # These regexes allow () inside usrlbl but not inside code
       NON_ISO_REF = %r{^<ref\sid="(?<anchor>[^"]+)">
-      \[(?<usrlbl>\(.+\))?(?<code>.+?)\]</ref>,?\s*
+      \[(?<usrlbl>\(.+\))?(?<code>.+)\]</ref>,?\s*
       (?:<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>)?(?<text>.*)$}xm
 
       NON_ISO_REF1 = %r{^<ref\sid="(?<anchor>[^"]+)">
-      (?<usrlbl>\(.+\))?(?<code>.+?)</ref>,?\s*
+      (?<usrlbl>\(.+\))?(?<code>.+)</ref>,?\s*
       (?:<fn[^>]*>\s*<p>(?<fn>[^\]]+)</p>\s*</fn>\s*)?(?<text>.*)$}xm
     end
   end

@@ -134,7 +134,7 @@ module Metanorma
            verbal-definition non-verbal-representation}.freeze
 
       # it seems Nokogiri::XML is treating the content of <script> as cdata,
-      # because of its use in HTML. Bad nokogiri. Undoing that, since we use
+      # because of its use in HTML. Bad Nokogiri. Undoing that, since we use
       # script as a normal tag
       def script_cleanup(xmldoc)
         xmldoc.xpath("//script").each { |x| x.content = x.to_str }

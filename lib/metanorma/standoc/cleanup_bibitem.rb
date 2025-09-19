@@ -1,3 +1,5 @@
+require_relative "cleanup_attachment"
+
 module Metanorma
   module Standoc
     module Cleanup
@@ -145,71 +147,6 @@ module Metanorma
         end
       end
 
-      def attachment_cleanup(xmldoc)
-        xmldoc.xpath("//bibitem[uri/@type = 'attachment']").each do |b|
-          b["hidden"] = "true"
-          u = b.at("./uri[@type = 'attachment']")
-          c = b.at("./uri[@type = 'citation']") ||
-            u.after("<uri type='citation'/>")
-          uri = attachment_uri(u.text, b)
-          u.children = uri
-          c.children = uri
-        end
-      end
-
-      def attachment_uri(path, bib)
-        init_attachments
-        path = File.join(@localdir, path)
-        valid_attachment?(path, bib) or return ""
-        @datauriattachment or return attachment_location(path)
-        save_attachment(path, bib)
-      end
-
-      def save_attachment(path, bib)
-        init_attachments
-        f = File.basename(path)
-        File.exist?(File.join(@attachmentsdir, f)) and
-          f += "_#{UUIDTools::UUID.random_create}"
-        out_fld = File.join(@attachmentsdir, f)
-        FileUtils.cp(path, out_fld)
-        datauri_attachment(out_fld, bib.document)
-      end
-
-      def attachment_location(path)
-        f = path
-        @datauriattachment and
-          f = File.join(@attachmentsdir, File.basename(path))
-        Pathname.new(File.expand_path(f))
-          .relative_path_from(Pathname.new(File.expand_path(@output_dir))).to_s
-      end
-
-      def datauri_attachment(path, doc)
-        @datauriattachment or return
-        m = add_misc_container(doc)
-        f = attachment_location(path)
-        e = (m << "<attachment name='#{f}'/>").last_element_child
-        Vectory::Utils::datauri(path, @output_dir).scan(/.{1,60}/)
-          .each { |dd| e << "#{dd}\n" }
-        f
-      end
-
-      def valid_attachment?(path, bib)
-        File.exist?(path) and return true
-        p = Pathname.new(path).cleanpath
-        @log.add("Bibliography", bib, "Attachment #{p} does not exist",
-                 severity: 0)
-        false
-      end
-
-      def init_attachments
-        @datauriattachment or return
-        @attachmentsdir and return
-        @attachmentsfld = "_#{@filename}_attachments"
-        @attachmentsdir = File.join(@output_dir, @attachmentsfld)
-        FileUtils.rm_rf(@attachmentsdir)
-        FileUtils.mkdir_p(@attachmentsdir)
-      end
-
       # remove dupes if both same ID and same docid, in case dupes introduced
       # through termbases
       def remove_dup_bibtem_id(xmldoc)
@@ -229,24 +166,43 @@ module Metanorma
         end
       end
 
-      def empty_identifiers(xmldoc)
-        xmldoc.xpath("//bibitem[not(@suppress_identifier)]").each do |b|
-          b.xpath("./docidentifier").each do |d|
-            d.text.strip.empty? and d.remove
-          end
-          b.at("./docidentifier") and next
-          b["suppress_identifier"] = true
+      def remove_empty_docid(xmldoc)
+        xmldoc.xpath("//bibitem/docidentifier[normalize-space(.)='']")
+          .each(&:remove)
+      end
+
+      def empty_docid_to_title(xmldoc)
+        xmldoc.xpath("//references[@normative = 'true']/bibitem").each do |b|
+          b.at("./docidentifier[not(@type = 'metanorma' or @type = 'DOI' or " \
+           "@type = 'metanorma-ordinal')]") and next
+          empty_docid_to_title?(b) or next
+          ins = b.at("./title[last()]") || b.at("./formattedref")
+          id = bibitem_title_to_id(b) or return
+          ins.next = <<~XML
+            <docidentifier type='title' primary='true'>#{id}</docidentifier>
+          XML
         end
+      end
+
+      def bibitem_title_to_id(bibitem)
+        t = bibitem.at("./title") || bibitem.at("./formattedref") or return
+        t.text
+      end
+
+      # normative references only, biblio uses ordinal code instead
+      def empty_docid_to_title?(bibitem)
+        bibitem.parent["normative"] == "true"
       end
 
       def bibitem_cleanup(xmldoc)
         bibitem_nested_id(xmldoc) # feeds remove_dup_bibtem_id
-        remove_dup_bibtem_id(xmldoc)
         ref_dl_cleanup(xmldoc)
         formattedref_spans(xmldoc)
         fetch_local_bibitem(xmldoc)
+        remove_empty_docid(xmldoc)
+        empty_docid_to_title(xmldoc)
+        remove_dup_bibtem_id(xmldoc)
         attachment_cleanup(xmldoc)
-        empty_identifiers(xmldoc)
       end
     end
   end

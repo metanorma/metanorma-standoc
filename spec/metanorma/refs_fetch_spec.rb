@@ -812,7 +812,7 @@ RSpec.describe Metanorma::Standoc do
                      </organization>
                   </contributor>
                   <relation type="includedIn">
-                     <bibitem suppress_identifier="true">
+                     <bibitem>
                         <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
                         <contributor>
                            <role type="editor"/>
@@ -903,7 +903,7 @@ RSpec.describe Metanorma::Standoc do
                   </contributor>
                   <place>Vienna</place>
                   <relation type="includedIn">
-                     <bibitem type="misc" suppress_identifier="true">
+                     <bibitem type="misc">
                         <title>Nested Title</title>
                         <contributor>
                            <role type="editor"/>
@@ -998,7 +998,7 @@ RSpec.describe Metanorma::Standoc do
                      </person>
                   </contributor>
                   <relation type="includedIn">
-                     <bibitem type="misc" suppress_identifier="true">
+                     <bibitem type="misc">
                         <title format="text/plain">Nested Title</title>
                         <contributor>
                            <role type="editor"/>
