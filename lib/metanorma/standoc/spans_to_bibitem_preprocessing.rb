@@ -119,7 +119,7 @@ module Metanorma
         end
 
         def spans_preprocess_new_contrib?(span, contrib)
-          contrib.empty? || contrib[-1][:organization] ||
+          contrib.empty? || contrib[-1][:entity] == "organization" ||
             (span[:key] == "surname" && contrib[-1][:surname]) ||
             contrib[-1][:role] != (span[:type] || "author")
         end

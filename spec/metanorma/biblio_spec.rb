@@ -1159,6 +1159,15 @@ RSpec.describe Metanorma::Standoc do
                   </organization>
                </contributor>
                <contributor>
+                   <role type="author"/>
+                   <person>
+                      <name>
+                         <formatted-initials>S.</formatted-initials>
+                         <surname>Wozniak</surname>
+                      </name>
+                   </person>
+                </contributor>
+               <contributor>
                   <role type="author"/>
                   <person>
                      <name>
