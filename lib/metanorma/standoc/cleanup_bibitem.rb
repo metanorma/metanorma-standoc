@@ -172,7 +172,7 @@ module Metanorma
       end
 
       def empty_docid_to_title(xmldoc)
-        xmldoc.xpath("//references[@normative = 'true']/bibitem").each do |b|
+        xmldoc.xpath("//references/bibitem").each do |b|
           b.at("./docidentifier[not(@type = 'metanorma' or @type = 'DOI' or " \
            "@type = 'metanorma-ordinal')]") and next
           empty_docid_to_title?(b) or next
