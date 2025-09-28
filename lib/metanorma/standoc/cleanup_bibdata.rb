@@ -119,9 +119,9 @@ module Metanorma
       end
 
       def hdr2bibitem(hdr)
-        xml = Asciidoctor
-          .convert(hdr[:text], backend: hdr2bibitem_type(hdr),
-                               header_footer: true)
+        xml = isolated_asciidoctor_convert(hdr[:text], 
+                                         backend: hdr2bibitem_type(hdr),
+                                         header_footer: true)
         b = Nokogiri::XML(xml).at("//xmlns:bibdata")
         b.name = "bibitem"
         b.delete("type")

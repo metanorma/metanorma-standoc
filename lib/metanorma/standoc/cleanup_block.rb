@@ -163,7 +163,7 @@ module Metanorma
           .each_slice(4).map.with_object([]) do |a, acc|
           acc << safe_noko(a[0], node.document)
           a.size == 4 or next
-          acc << Asciidoctor.convert(
+          acc << isolated_asciidoctor_convert(
             a[2], doctype: :inline, backend: backend&.to_sym || :standoc
           )
         end.join

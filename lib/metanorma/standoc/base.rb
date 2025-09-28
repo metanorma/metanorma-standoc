@@ -9,6 +9,7 @@ require "metanorma-utils"
 require_relative "render"
 require_relative "localbib"
 require_relative "init"
+require_relative "isolated_converter"
 require "mn-requirements"
 
 module Asciidoctor
@@ -20,6 +21,8 @@ end
 module Metanorma
   module Standoc
     module Base
+      include IsolatedConverter
+      
       # XML_ROOT_TAG = "standard-document".freeze
       # XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
       FONTS_MANIFEST = "fonts-manifest".freeze
