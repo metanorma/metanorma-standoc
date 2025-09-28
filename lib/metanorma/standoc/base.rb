@@ -110,8 +110,12 @@ module Metanorma
         result = makexml1(node)
         ret1 = cleanup(Nokogiri::XML(insert_xml_cr(result)))
         ret1.root.add_namespace(nil, xml_namespace)
-        validate(ret1) unless @novalid
+        validate(ret1) unless @novalid || in_isolated_conversion?
         ret1
+      end
+
+      def in_isolated_conversion?
+        !@isolated_conversion_stack.empty?
       end
 
       def draft?

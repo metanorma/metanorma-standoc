@@ -4,18 +4,30 @@ module Metanorma
       # Create an isolated Asciidoctor conversion that doesn't interfere with 
       # the current converter's instance variables
       def isolated_asciidoctor_convert(content, options = {})
-        # Ensure we get a completely fresh Document and conversion context
-        # Each call to Asciidoctor.convert creates a new Document with its own converter
-        # This naturally isolates the conversion from the current instance variables
+        # Track that we're in an isolated conversion (for nested calls)
+        @isolated_conversion_stack << true
         
-        # Save critical options that should be preserved from the current context
-        preserved_options = extract_preserved_options(options)
-        
-        # Merge with isolated options to ensure clean state
-        isolated_options = preserved_options.merge(options)
-        
-        # Perform the isolated conversion
-        Asciidoctor.convert(content, isolated_options)
+        begin
+          # Ensure we get a completely fresh Document and conversion context
+          # Each call to Asciidoctor.convert creates a new Document with its own converter
+          # This naturally isolates the conversion from the current instance variables
+          
+          # Save critical options that should be preserved from the current context
+          preserved_options = extract_preserved_options(options)
+          
+          # Merge with isolated options to ensure clean state and skip validation
+          isolated_options = preserved_options.merge(options).merge(
+            attributes: (preserved_options[:attributes] || {}).merge(
+              'novalid' => ''  # Force no validation for isolated documents
+            )
+          )
+          
+          # Perform the isolated conversion
+          Asciidoctor.convert(content, isolated_options)
+        ensure
+          # Always pop from stack, even if conversion fails
+          @isolated_conversion_stack.pop
+        end
       end
 
       private

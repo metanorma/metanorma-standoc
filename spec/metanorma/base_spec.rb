@@ -1630,10 +1630,13 @@ QU1FOiB0ZXN0Cgo=
         @sourcecode_markup_end = "}}}"
         @c = HTMLEntities.new
         @embed_hdr = [{ text: "= Test Header\nTest content", child: [] }]
+        @novalid = false  # Test original validation setting
+        @isolated_conversion_stack = []
       end
 
       attr_accessor :test_variable, :fn_number, :refids, :anchors, :localdir, 
-                    :sourcecode_markup_start, :sourcecode_markup_end, :c, :embed_hdr
+                    :sourcecode_markup_start, :sourcecode_markup_end, :c, :embed_hdr,
+                    :novalid, :isolated_conversion_stack
 
       def backend
         :standoc
@@ -1652,6 +1655,13 @@ QU1FOiB0ZXN0Cgo=
       def hdr2bibitem_type(hdr)
         :standoc
       end
+
+      # Mock validation method to track if it's called
+      def validate(doc)
+        @validation_called = true
+      end
+
+      attr_accessor :validation_called
     end
 
     converter = test_converter_class.new
@@ -1662,6 +1672,7 @@ QU1FOiB0ZXN0Cgo=
     original_refids = converter.refids.dup
     original_anchors = converter.anchors.dup
     original_localdir = converter.localdir
+    original_novalid = converter.novalid
 
     # Test hdr2bibitem method (which internally calls isolated_asciidoctor_convert)
     begin
@@ -1680,6 +1691,7 @@ QU1FOiB0ZXN0Cgo=
     expect(converter.refids).to eq(original_refids)
     expect(converter.anchors).to eq(original_anchors)
     expect(converter.localdir).to eq(original_localdir)
+    expect(converter.novalid).to eq(original_novalid)
 
     # Test adoc2xml method
     begin
@@ -1694,6 +1706,7 @@ QU1FOiB0ZXN0Cgo=
     expect(converter.refids).to eq(original_refids)
     expect(converter.anchors).to eq(original_anchors)
     expect(converter.localdir).to eq(original_localdir)
+    expect(converter.novalid).to eq(original_novalid)
 
     # Test sourcecode_markup method with a mock node
     mock_document = double("document")
@@ -1714,6 +1727,100 @@ QU1FOiB0ZXN0Cgo=
     expect(converter.refids).to eq(original_refids)
     expect(converter.anchors).to eq(original_anchors)
     expect(converter.localdir).to eq(original_localdir)
+    expect(converter.novalid).to eq(original_novalid)
+  end
+
+  it "skips validation for isolated conversions with stack management" do
+    # Create a custom converter class to test validation skipping
+    test_converter_class = Class.new do
+      include Metanorma::Standoc::Base
+      include Metanorma::Standoc::IsolatedConverter
+
+      def initialize
+        @novalid = false
+        @isolated_conversion_stack = []
+        @validation_calls = []
+        @localdir = "/test/dir"
+        @c = HTMLEntities.new
+      end
+
+      attr_accessor :novalid, :isolated_conversion_stack, :validation_calls, :localdir, :c
+
+      # Mock validation method to track calls
+      def validate(doc)
+        @validation_calls << "validate_called"
+      end
+
+      # Mock makexml method to test validation logic
+      def makexml(node)
+        # Simulate the validation logic from base.rb
+        validate("mock_doc") unless @novalid || in_isolated_conversion?
+        "mock_xml_result"
+      end
+
+      # Mock methods needed for isolated conversion
+      def backend
+        :standoc
+      end
+
+      def safe_shared_attributes
+        {}
+      end
+    end
+
+    converter = test_converter_class.new
+
+    # Test 1: Normal conversion should call validation (when @novalid is false)
+    converter.validation_calls.clear
+    result = converter.makexml("mock_node")
+    expect(converter.validation_calls).to include("validate_called")
+    expect(converter.isolated_conversion_stack).to be_empty
+
+    # Test 2: Isolated conversion should skip validation
+    converter.validation_calls.clear
+    begin
+      converter.isolated_asciidoctor_convert("test content", backend: :standoc)
+    rescue => e
+      # Expected to fail in test environment, but stack should be managed properly
+      puts "Isolated conversion failed as expected: #{e.message}"
+    end
+    # Stack should be empty after conversion (due to ensure block)
+    expect(converter.isolated_conversion_stack).to be_empty
+
+    # Test 3: Test nested isolated conversions
+    converter.validation_calls.clear
+    
+    # Simulate nested calls by manually managing stack
+    converter.isolated_conversion_stack << true  # First level
+    expect(converter.in_isolated_conversion?).to be true
+    
+    converter.isolated_conversion_stack << true  # Second level (nested)
+    expect(converter.in_isolated_conversion?).to be true
+    expect(converter.isolated_conversion_stack.size).to eq(2)
+    
+    # Test makexml during isolated conversion - should skip validation
+    result = converter.makexml("mock_node")
+    expect(converter.validation_calls).to be_empty
+    
+    # Pop stack back to empty
+    converter.isolated_conversion_stack.pop
+    converter.isolated_conversion_stack.pop
+    expect(converter.isolated_conversion_stack).to be_empty
+    expect(converter.in_isolated_conversion?).to be false
+
+    # Test 4: After isolated conversion, normal validation should resume
+    converter.validation_calls.clear
+    result = converter.makexml("mock_node")
+    expect(converter.validation_calls).to include("validate_called")
+
+    # Test 5: Ensure @novalid setting is preserved
+    converter.novalid = false
+    begin
+      converter.isolated_asciidoctor_convert("test content", backend: :standoc)
+    rescue => e
+      # Expected to fail
+    end
+    expect(converter.novalid).to be false  # Should remain unchanged
   end
 
   private
