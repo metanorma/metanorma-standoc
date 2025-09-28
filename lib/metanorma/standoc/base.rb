@@ -9,6 +9,7 @@ require "metanorma-utils"
 require_relative "render"
 require_relative "localbib"
 require_relative "init"
+require_relative "isolated_converter"
 require "mn-requirements"
 
 module Asciidoctor
@@ -20,6 +21,8 @@ end
 module Metanorma
   module Standoc
     module Base
+      include IsolatedConverter
+      
       # XML_ROOT_TAG = "standard-document".freeze
       # XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
       FONTS_MANIFEST = "fonts-manifest".freeze
@@ -107,8 +110,12 @@ module Metanorma
         result = makexml1(node)
         ret1 = cleanup(Nokogiri::XML(insert_xml_cr(result)))
         ret1.root.add_namespace(nil, xml_namespace)
-        validate(ret1) unless @novalid
+        validate(ret1) unless @novalid || in_isolated_conversion?
         ret1
+      end
+
+      def in_isolated_conversion?
+        !@isolated_conversion_stack.empty?
       end
 
       def draft?

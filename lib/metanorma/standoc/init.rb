@@ -49,6 +49,7 @@ module Metanorma
         @localdir = Metanorma::Utils::localdir(node)
         @xrefstyle = node.attr("xrefstyle")
         @novalid = node.attr("novalid")
+        @isolated_conversion_stack = []
         @smartquotes = node.attr("smartquotes") != "false"
         @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
         @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"

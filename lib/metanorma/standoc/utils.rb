@@ -155,7 +155,7 @@ module Metanorma
 
           #{text}
         ADOC
-        c = Asciidoctor.convert(doc, backend: flavour, header_footer: true)
+        c = isolated_asciidoctor_convert(doc, backend: flavour, header_footer: true)
         ret = Nokogiri::XML(c).at("//xmlns:sections")
         separate_numbering_footnotes(ret)
       end
