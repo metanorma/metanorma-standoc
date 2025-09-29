@@ -90,6 +90,7 @@ module Metanorma
           t["plain"] = true
           t.xpath(".//td | .//th").each do |d|
             d["align"] = "center"
+            d["valign"] = "bottom"
           end
           t.xpath("./note | ./footnote | ./dl | ./source")
             .each { |n| f << n }
