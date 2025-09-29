@@ -84,7 +84,17 @@ module Metanorma
         end
       end
 
+      def figure_table_cleanup(xmldoc)
+        xmldoc.xpath("//figure").each do |f|
+          t = f.at("./table") or next
+          t.xpath("./note | ./footnote | ./dl | ./source").each do |n|
+            f << n
+          end
+        end
+      end
+
       def figure_cleanup(xmldoc)
+        figure_table_cleanup(xmldoc)
         figure_footnote_cleanup(xmldoc)
         subfigure_cleanup(xmldoc)
         figure_dl_cleanup1(xmldoc)

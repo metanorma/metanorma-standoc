@@ -1104,6 +1104,92 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
+  it "processes tabular subfigures" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [figure]
+      .Stages of gelatinization
+      ====
+      [cols="1,3"]
+      |===
+      a|.Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)
+      image::spec/examples/rice_images/rice_image3_1.png[]
+
+      a|.Intermediate stages: Some fully gelatinized kernels are visible
+      image::spec/examples/rice_images/rice_image3_2.png[]
+
+      2+a|.Final stages: All kernels are fully gelatinized
+      image::spec/examples/rice_images/rice_image3_3.png[]
+      |===
+
+      [%key]
+      A:: B
+
+      [.source,status=generalisation]
+      <<ISO2191,section=1>>, with adjustments
+      ====
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+          <sections>
+             <figure id="_">
+                <name id="_">Stages of gelatinization</name>
+                <table id="_">
+                   <colgroup>
+                      <col width="25%"/>
+                      <col width="75%"/>
+                   </colgroup>
+                   <tbody>
+                      <tr id="_">
+                         <td id="_" valign="top" align="left">
+                            <figure id="_">
+                               <name id="_">Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
+                               <image id="_" src="spec/examples/rice_images/rice_image3_1.png" mimetype="image/png" height="auto" width="auto" filename="spec/examples/rice_images/rice_image3_1.png"/>
+                            </figure>
+                         </td>
+                         <td id="_" valign="top" align="left">
+                            <figure id="_">
+                               <name id="_">Intermediate stages: Some fully gelatinized kernels are visible</name>
+                               <image id="_" src="spec/examples/rice_images/rice_image3_2.png" mimetype="image/png" height="auto" width="auto" filename="spec/examples/rice_images/rice_image3_2.png"/>
+                            </figure>
+                         </td>
+                      </tr>
+                      <tr id="_">
+                         <td id="_" colspan="2" valign="top" align="left">
+                            <figure id="_">
+                               <name id="_">Final stages: All kernels are fully gelatinized</name>
+                               <image id="_" src="spec/examples/rice_images/rice_image3_3.png" mimetype="image/png" height="auto" width="auto" filename="spec/examples/rice_images/rice_image3_3.png"/>
+                            </figure>
+                         </td>
+                      </tr>
+                   </tbody>
+                </table>
+                <dl id="_" key="true">
+                   <dt>A</dt>
+                   <dd id="_">
+                      <p id="_">B</p>
+                   </dd>
+                </dl>
+                <source status="generalisation">
+                   <origin bibitemid="ISO2191" type="inline" citeas="">
+                      <localityStack>
+                         <locality type="section">
+                            <referenceFrom>1</referenceFrom>
+                         </locality>
+                      </localityStack>
+                   </origin>
+                   <modification>
+                      <p id="_">with adjustments</p>
+                   </modification>
+                </source>
+             </figure>
+          </sections>
+       </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
   it "ignores index terms when processing figures marked up as examples" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
