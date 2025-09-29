@@ -1131,23 +1131,23 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-          <sections>
+         <sections>
              <figure id="_">
                 <name id="_">Stages of gelatinization</name>
-                <table id="_">
+                <table id="_" plain="true">
                    <colgroup>
                       <col width="25%"/>
                       <col width="75%"/>
                    </colgroup>
                    <tbody>
                       <tr id="_">
-                         <td id="_" valign="top" align="left">
+                         <td id="_" valign="top" align="center">
                             <figure id="_">
                                <name id="_">Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
                                <image id="_" src="spec/examples/rice_images/rice_image3_1.png" mimetype="image/png" height="auto" width="auto" filename="spec/examples/rice_images/rice_image3_1.png"/>
                             </figure>
                          </td>
-                         <td id="_" valign="top" align="left">
+                         <td id="_" valign="top" align="center">
                             <figure id="_">
                                <name id="_">Intermediate stages: Some fully gelatinized kernels are visible</name>
                                <image id="_" src="spec/examples/rice_images/rice_image3_2.png" mimetype="image/png" height="auto" width="auto" filename="spec/examples/rice_images/rice_image3_2.png"/>
@@ -1155,7 +1155,7 @@ RSpec.describe Metanorma::Standoc do
                          </td>
                       </tr>
                       <tr id="_">
-                         <td id="_" colspan="2" valign="top" align="left">
+                         <td id="_" colspan="2" valign="top" align="center">
                             <figure id="_">
                                <name id="_">Final stages: All kernels are fully gelatinized</name>
                                <image id="_" src="spec/examples/rice_images/rice_image3_3.png" mimetype="image/png" height="auto" width="auto" filename="spec/examples/rice_images/rice_image3_3.png"/>
