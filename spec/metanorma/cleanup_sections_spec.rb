@@ -600,7 +600,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                 <bibdata type='standard'>
-                  <title language='en' type='main'>Document title</title>
+                  <title language='tlh' type='main'>Document title</title>
                   <language>tlh</language>
                   <script>Latn</script>
                   <abstract>
@@ -856,7 +856,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                 <bibdata type='standard'>
-                  <title language='en' type='main'>Document title</title>
+                  <title language='fr' type='main'>Document title</title>
                   <language>fr</language>
                   <script>Latn</script>
                   <abstract>
@@ -1012,7 +1012,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "processes section names, Simplified Chinese" do
     input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR.sub(/:nodoc:/, ":language: zh\n:script: Hans\n:nodoc:")}
+      #{ASCIIDOC_BLANK_HDR.sub(/:nodoc:/, ":language: zh\n:script: Hans\n:nodoc:").sub('<title language="en"', '<title language="zh"')}
       .Foreword
 
       Text
@@ -1112,7 +1112,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                 <bibdata type='standard'>
-                  <title language='en' type='main'>Document title</title>
+                  <title language='zh' type='main'>Document title</title>
                   <language>zh</language>
                   <script>Hans</script>
                   <abstract>

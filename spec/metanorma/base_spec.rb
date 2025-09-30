@@ -67,7 +67,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Standoc::VERSION}' flavor='standoc'>
            <bibdata type='standard'>
-             <title language='en' type='main'>Document title</title>
+             <title language='ar' type='main'>Document title</title>
              <language>ar</language>
              <script>Arab</script>
              <status>
@@ -637,7 +637,6 @@ RSpec.describe Metanorma::Standoc do
                     <?xml version="1.0" encoding="UTF-8"?>
                 <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                 <bibdata type="standard">
-                  <title language="en" type="main">Document title</title>
                   <title language="eo" type="main">Dokumenttitolo</title>
                   <title language="eo" type="intro">Enkonduko</title>
                   <uri>A</uri>
@@ -1227,7 +1226,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
             <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
             <bibdata type="standard">
-          <title language="en" type="main">Document title</title>
+          <title language="el" type="main">Document title</title>
           <docidentifier primary="true">OVERRIDE-DOCIDENTIFIER</docidentifier>
           <docnumber>1000</docnumber>
           <date type="published">

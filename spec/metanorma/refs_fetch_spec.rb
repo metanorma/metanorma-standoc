@@ -227,7 +227,7 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso124,(1)ISO 123]]] _Standard_
     INPUT
     output = <<~OUTPUT
-             #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>fr</language>')}
+             #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>fr</language>').sub('<title language="en"', '<title language="fr"')}
                       <sections> </sections>
         <bibliography>
           <references id="_" normative='true' obligation='informative'>

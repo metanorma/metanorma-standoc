@@ -180,11 +180,12 @@ module Metanorma
       def title(node, xml)
         title_main(node, xml)
         title_other(node, xml)
+        title_fallback(node, xml)
       end
 
       # English plain title: :title: or implicit, typed as main
       def title_main(node, xml)
-        title = node.attr("title") || node.attr("doctitle")
+        title = node.attr("title")
         node.attr("title-en") and return
         add_title_xml(xml, title, "en", "main")
       end
@@ -205,6 +206,11 @@ module Metanorma
         xml.title **attr_code(language: language, type: type) do |t|
           t << Metanorma::Utils::asciidoc_sub(content)
         end
+      end
+
+      def title_fallback(node, xml)
+        xml.parent.at("./title[not(normalize-space(.)='')]") and return
+        add_title_xml(xml, node.attr("doctitle"), @lang, "main")
       end
     end
   end
