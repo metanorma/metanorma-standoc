@@ -9,8 +9,7 @@ module Metanorma
         anchor = node&.id
         { id: "_#{UUIDTools::UUID.random_create}",
           anchor: anchor && !anchor.empty? ? anchor : nil,
-          tag: node&.attr("tag"),
-          columns: node&.attr("columns"),
+          tag: node&.attr("tag"), columns: node&.attr("columns"),
           "multilingual-rendering": node&.attr("multilingual-rendering") }
           .compact
       end
@@ -95,9 +94,7 @@ module Metanorma
       def term_example(node)
         noko do |xml|
           xml.termexample **attr_code(id_attr(node)
-            .merge(
-              keepasterm: node.option?("termexample") || nil,
-            )) do |ex|
+            .merge(keepasterm: node.option?("termexample") || nil)) do |ex|
             wrap_in_para(node, ex)
           end
         end
@@ -235,7 +232,7 @@ module Metanorma
         end
       end
 
-      PASSTHROUGH_ERR = <<~ERRMSG.freeze
+      PASSTHRU_ERR = <<~ERRMSG.freeze
         This is not valid Metanorma XML. If you intended a different format, such as HTML, you need to specify `format=` on the pass markup;
         refer to https://www.metanorma.org/author/topics/blocks/passthroughs/
       ERRMSG
@@ -247,8 +244,7 @@ module Metanorma
       # as it may be fragment, e.g. unterminated start of element markup
       def passthrough_validate(node, content, encoded_content)
         valid, = validate_document_fragment(content.dup)
-        err =
-          "Invalid passthrough content: #{encoded_content}\n#{PASSTHROUGH_ERR}"
+        err = "Invalid passthrough content: #{encoded_content}\n#{PASSTHRU_ERR}"
         !valid and
           @log.add("Metanorma XML Syntax", node, err, severity: 0)
       end
