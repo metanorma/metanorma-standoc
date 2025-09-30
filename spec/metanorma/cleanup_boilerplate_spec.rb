@@ -741,7 +741,7 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-          #{BLANK_HDR.sub(/<language>en/, '<language>fr')}
+          #{BLANK_HDR.sub(/<language>en/, '<language>fr').sub('<title language="en"', '<title language="fr"')}
           <sections>
       </sections><bibliography><references id="_" obligation="informative" normative="true">
         <title id="_">Références normatives</title><p id="_">Le présent document ne contient aucune référence normative.</p>
@@ -1051,7 +1051,7 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso5678,B]]]
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>fr</language>')}
+      #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>fr</language>').sub('<title language="en"', '<title language="fr"')}
               <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
          <preface><foreword id='_' obligation="informative">
           <title id="_">Avant-propos</title>
@@ -1110,7 +1110,7 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso5678,B]]]
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>zh</language>').sub(%r{<script>Latn</script>}, '<script>Hans</script>')}
+      #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>zh</language>').sub(%r{<script>Latn</script>}, '<script>Hans</script>').sub('<title language="en"', '<title language="zh"')}
         <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/><preface><foreword id='_' obligation="informative">
           <title id="_">前言</title>
           <p id="_">Foreword</p>
