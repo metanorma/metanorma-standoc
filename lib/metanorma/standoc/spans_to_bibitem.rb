@@ -54,6 +54,9 @@ module Metanorma
           spans[:classification]&.each do |s|
             ret += span_to_docid(s, "classification")
           end
+          spans[:keyword]&.each do |s|
+            ret += span_to_docid(s, "keyword")
+          end
           spans[:image]&.each do |s|
             ret += "<depiction>#{s[:val]}</depiction>"
           end

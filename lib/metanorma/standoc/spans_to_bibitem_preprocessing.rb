@@ -31,7 +31,7 @@ module Metanorma
 
         def empty_span_hash
           { contrib: [], docid: [], uri: [], date: [], classification: [],
-            image: [], extent: {}, in: {} }
+            keyword: [], image: [], extent: {}, in: {} }
         end
 
         def spans_preprocess(spans)
@@ -42,7 +42,7 @@ module Metanorma
 
         def span_preprocess1(span, ret)
           case span[:key]
-          when "uri", "docid", "classification"
+          when "uri", "docid", "classification", "keyword"
             val = link_unwrap(Nokogiri::XML.fragment(span[:val])).to_xml
             ret[span[:key].to_sym] << { type: span[:type], val: }
           when "date"
