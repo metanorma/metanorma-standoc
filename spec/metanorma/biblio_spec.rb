@@ -894,7 +894,7 @@ RSpec.describe Metanorma::Standoc do
       [bibliography]
       == Normative References
 
-      * [[[A, B]]], span:surname[Wozniak], span:initials[S.], span:surname[Jobs], span:givenname[Steve] & span:surname[Hoover], span:initials[J.] span:givenname[Edgar]. span:date.issued[1991-1992]. span:date[1996-01-02]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] & span:in_organization[UNICEF], span:in_title[Collected Essays]. _span:series[Bibliographers Anonymous]_. span:edition[4], span:version[draft]. span:note[Also available in paperback.] span:docid.ISO[ISO 1234]. span:pubplace[Geneva]: span:publisher[International Standardization Organization]. span:uri.citation[http://www.example.com]. span:volume[4] span:issue[2–3] span:pages[12-13] span:pages[19]. span:type[inbook] span:classification[A] span:classification.B[C] span:classification[D] span:abstract[This is a _journey_ into sound] image:spec/examples/rice_images/rice_image1.png[] image:spec/examples/rice_images/rice_image3_1.png[]
+      * [[[A, B]]], span:surname[Wozniak], span:initials[S.], span:surname[Jobs], span:givenname[Steve] & span:surname[Hoover], span:initials[J.] span:givenname[Edgar]. span:date.issued[1991-1992]. span:date[1996-01-02]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] & span:in_organization[UNICEF], span:in_title[Collected Essays]. _span:series[Bibliographers Anonymous]_. span:edition[4], span:version[draft]. span:note[Also available in paperback.] span:docid.ISO[ISO 1234]. span:pubplace[Geneva]: span:publisher[International Standardization Organization]. span:uri.citation[http://www.example.com]. span:volume[4] span:issue[2–3] span:pages[12-13] span:pages[19]. span:type[inbook] span:classification[A] span:classification.B[C] span:classification[D] span:abstract[This is a _journey_ into sound] image:spec/examples/rice_images/rice_image1.png[] image:spec/examples/rice_images/rice_image3_1.png[] span:keyword[key word] span:keyword[word key]
     INPUT
     output = <<~OUTPUT
       <bibliography>
@@ -902,7 +902,7 @@ RSpec.describe Metanorma::Standoc do
            <title id="_">Normative references</title>
            <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
             <bibitem id="_" anchor="A" type="inbook">
-             <formattedref format="application/x-isodoc+xml">Wozniak, S., Jobs, Steve &amp; Hoover, J. Edgar. 1991-1992. 1996-01-02. <em>Work</em>. Gates, W. H &amp; UNICEF, Collected Essays. <em>Bibliographers Anonymous</em>. 4, draft. Also available in paperback. ISO 1234. Geneva: International Standardization Organization. <link target="http://www.example.com"/>. 4 2–3 12-13 19. A C D This is a <em>journey</em> into sound</formattedref>
+             <formattedref format="application/x-isodoc+xml">Wozniak, S., Jobs, Steve &amp; Hoover, J. Edgar. 1991-1992. 1996-01-02. <em>Work</em>. Gates, W. H &amp; UNICEF, Collected Essays. <em>Bibliographers Anonymous</em>. 4, draft. Also available in paperback. ISO 1234. Geneva: International Standardization Organization. <link target="http://www.example.com"/>. 4 2–3 12-13 19. A C D This is a <em>journey</em> into sound key word word key</formattedref>
              <title>
                <em>Work</em>
              </title>
@@ -997,6 +997,8 @@ RSpec.describe Metanorma::Standoc do
              <classification>A</classification>
          <classification type="B">C</classification>
          <classification>D</classification>
+         <keyword>key word</keyword>
+         <keyword>word key</keyword>
          <depiction>
             <image src="spec/examples/rice_images/rice_image1.png" filename="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="auto"/>
          </depiction>
