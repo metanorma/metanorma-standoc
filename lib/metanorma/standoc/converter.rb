@@ -42,6 +42,7 @@ module Metanorma
         preprocessor Metanorma::Plugin::Lutaml::Json2TextPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::Yaml2TextPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::Data2TextPreprocessor
+        preprocessor Metanorma::Plugin::Lutaml::LutamlXmiUmlPreprocessor
         preprocessor Metanorma::Plugin::Glossarist::DatasetPreprocessor
         preprocessor Metanorma::Standoc::NamedEscapePreprocessor
         inline_macro Metanorma::Standoc::PreferredTermInlineMacro
