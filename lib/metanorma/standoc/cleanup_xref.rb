@@ -52,6 +52,7 @@ module Metanorma
       end
 
       def add_locality(stack, match)
+        require "debug"; binding.b
         stack.children.empty? && match[:conn] and
           stack["connective"] = match[:conn]
         ref =
@@ -149,17 +150,20 @@ module Metanorma
 
       def xref_compound_cleanup1(xref, locations)
         xref.children.empty? and xref.children = "<sentinel/>"
-        xref_parse_compound_locations(locations).reverse_each do |y|
+        xref_parse_compound_locations(locations, xref).reverse_each do |y|
           xref.add_first_child "<xref target='#{y[1]}' connective='#{y[0]}'/>"
         end
         xref&.at("./sentinel")&.remove
       end
 
-      def xref_parse_compound_locations(locations)
+      def xref_parse_compound_locations(locations, xref)
         l = locations.map { |y| y.split("!", 2) }
         l.map.with_index do |y, i|
           y.size == 1 and
             y.unshift(l.dig(i + 1, 0) == "to" ? "from" : "and")
+          %w(and from to or).include?(y[0]) or
+            @log.add("Crossreferences", xref,
+                     "Illegal cross-reference connective: #{y[0]}", severity: 0)
           y
         end
       end

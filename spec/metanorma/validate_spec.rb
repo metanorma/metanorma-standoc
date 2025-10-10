@@ -1144,6 +1144,37 @@ RSpec.describe Metanorma::Standoc do
       .to include("Could not resolve footnoteblock:[id1]")
   end
 
+  it "aborts if illegal connective is used between cross-references" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      [[id1]]
+      == Clause
+
+      A
+
+      [[id2]]
+      == Clause
+
+      <<id1;through!id2>>
+
+    INPUT
+    begin
+      expect do
+        a = [OPTIONS[0].merge(safe: :unsafe)]
+        Asciidoctor.convert(input, *a)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    expect(File.read("test.err.html"))
+      .to include("Illegal cross-reference connective: through")
+  end
+
   it "Warning if xref/@target, xref/location/@target, index/@to does not point to a real anchor" do
     FileUtils.rm_f "test.err.html"
     Asciidoctor.convert(<<~INPUT, *OPTIONS)
