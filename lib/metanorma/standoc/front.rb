@@ -186,6 +186,7 @@ module Metanorma
       # English plain title: :title: or implicit, typed as main
       def title_main(node, xml)
         title = node.attr("title")
+        title.nil? || title.empty? and return
         node.attr("title-en") and return
         add_title_xml(xml, title, "en", "main")
       end
