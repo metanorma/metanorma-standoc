@@ -25,6 +25,7 @@ module Metanorma
       end
 
       def iev_validate1(term, loc, xmldoc)
+        require "debug"; binding.b
         iev = @iev.fetch(loc,
                          xmldoc.at("//language")&.text || "en") or return
         pref = term.xpath("./preferred//name").inject([]) do |m, x|

@@ -52,7 +52,6 @@ module Metanorma
       end
 
       def add_locality(stack, match)
-        require "debug"; binding.b
         stack.children.empty? && match[:conn] and
           stack["connective"] = match[:conn]
         ref =
