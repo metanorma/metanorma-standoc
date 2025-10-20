@@ -17,7 +17,7 @@ module Metanorma
         ret = SpansToBibitem.new(bib).convert
         ret.err.each do |e|
           @log.add(e[:fatal] ? "STANDOC_52" : "STANDOC_53",
-            bib, params: [e[:msg]])
+                   bib, params: [e[:msg]])
         end
         ret.out
       end

@@ -106,20 +106,21 @@ module Metanorma
       def relaton_iev_cleanup(xmldoc)
         _, err = RelatonIev::iev_cleanup(xmldoc, @bibdb)
         err.each do |e|
-          @log.add("STANDOC_52", nil, params: e)
+          @log.add("RELATON_5", nil, params: e)
         end
       end
 
       RELATON_SEVERITIES =
-        { "INFO":  "STANDOC_57", "WARN":  "STANDOC_56", "ERROR":  "STANDOC_55", "FATAL": "STANDOC_54",
-          "UNKNOWN":  "STANDOC_57" }.freeze
+        { "INFO": "RELATON_4", "WARN":  "RELATON_3", "ERROR":  "RELATON_2",
+          "FATAL": "RELATON_1", "UNKNOWN":  "RELATON_4" }.freeze
 
       def relaton_log_cleanup(_xmldoc)
         @relaton_log or return
         @relaton_log.rewind
         @relaton_log.string.split(/(?<=})\n(?={)/).each do |l|
           e = JSON.parse(l)
-          @log.add(RELATON_SEVERITIES[e["severity"].to_sym], e["key"], params: [e["message"]])
+          @log.add(RELATON_SEVERITIES[e["severity"].to_sym], e["key"],
+                   params: [e["message"]])
         end
       end
 

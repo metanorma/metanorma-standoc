@@ -48,7 +48,7 @@ module Metanorma
       end
 
       def file_error(config)
-        @parent.log.add("STANDOC_58", nil,
+        @parent.log.add("STANDOC_54", nil,
                         params: [config["file"], config["key"]])
         ""
       end
