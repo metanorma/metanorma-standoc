@@ -26,9 +26,7 @@ module Metanorma
         id = bib["id"]
         id ||= clause["anchor"] unless /^_/.match?(clause["anchor"])
         unless id
-          @log.add("Anchors", clause,
-                   "The following reference is missing an anchor:\n" \
-                   "#{clause.to_xml}", severity: 1)
+          @log.add("STANDOC_10", clause, params: [clause.to_xml])
           return
         end
         @refids << id
@@ -36,13 +34,12 @@ module Metanorma
       end
 
       def validate_ref_dl1(bib, id, clause)
-        bib["title"] or
-          @log.add("Bibliography", clause, "Reference #{id} is missing a title",
-                   severity: 1)
-        bib["docid"] or
-          @log.add("Bibliography", clause,
-                   "Reference #{id} is missing a document identifier (docid)",
-                   severity: 1)
+        if !bib["title"]
+          @log.add("STANDOC_11", clause, params: [id])
+        end
+        if !bib["docid"]
+          @log.add("STANDOC_12", clause, params: [id])
+        end
       end
 
       def extract_from_p(tag, bib, key)

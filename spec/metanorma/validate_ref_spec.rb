@@ -29,7 +29,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include("Cannot process format pizza for local relaton data source default")
+      .to include("Cannot process format pizza for local Relaton data source default")
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -51,7 +51,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include("Cannot process file spec/​assets/fred.​bib for local relaton data source default")
+      .to include("Cannot process file spec/​assets/fred.​bib for local Relaton data source default")
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -76,7 +76,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include("Cannot find reference xyz for local relaton data source default")
+      .to include("Cannot find reference xyz for local Relaton data source default")
     expect(File.exist?("test.xml")).to be false
   end
 
@@ -322,7 +322,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include("Anchor abc has already been used at line")
+      .to include("ID abc has already been used at line")
     expect(File.exist?("test.xml")).to be false
 
     begin
@@ -344,7 +344,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .not_to include("Anchor abc has already been used at line")
+      .not_to include("ID abc has already been used at line")
   end
 
   it "warns if numeric normative reference" do

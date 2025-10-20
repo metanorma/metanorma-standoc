@@ -116,8 +116,7 @@ module Metanorma
       def dl_to_designation(dlist)
         prev = dlist.previous_element
         unless %w(preferred admitted deprecates related).include? prev&.name
-          @log.add("AsciiDoc Input", dlist, "Metadata definition list does " \
-                                            "not follow a term designation")
+          @log.add("STANDOC_20", dlist)
           return nil
         end
         prev
@@ -182,7 +181,7 @@ module Metanorma
           DESIGNATOR.each do |n|
             t.xpath("./#{n}/expression/name").each_with_object([]) do |d, m|
               if m.include?(d.text)
-                @log.add("Terms", t, "Removed duplicate designation #{d.text}")
+                @log.add("STANDOC_21", t, params: [d.text])
                 d.parent.parent.remove
               end
               m << d.text

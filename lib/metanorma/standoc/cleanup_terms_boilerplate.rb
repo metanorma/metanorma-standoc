@@ -30,9 +30,7 @@ module Metanorma
       def verify_term_defs_source(source)
         source.each do |s|
           @anchors[s["bibitemid"]] or
-            @log.add("Crossreferences", nil,
-                     "term source #{s['bibitemid']} not referenced",
-                     severity: 1)
+            @log.add("STANDOC_28", nil, params: [s["bibitemid"]])
         end
       end
 

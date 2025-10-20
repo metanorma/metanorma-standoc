@@ -80,7 +80,8 @@ module Metanorma
                  if type == :attachment then "(#{ret[type]})"
                  else ret[type].sub(%r{^[^/]+/}, "")
                  end
-               else ret[:id] end
+               else ret[:id]
+               end
           ret.merge!(id: id, type: type.to_s, key: ret[type], nofetch: true)
         end
         ret
@@ -200,12 +201,6 @@ module Metanorma
           type: "standard",
           suppress_identifier: code[:dropid] || nil }
       end
-
-      MALFORMED_REF = <<~REF.freeze
-        no anchor on reference, markup may be malformed: see
-        https://www.metanorma.org/author/topics/sections/bibliography/ ,
-        https://www.metanorma.org/author/iso/topics/markup/#bibliographies
-      REF
 
       def ref_normalise(ref)
         ref.gsub("&amp;amp;", "&amp;").gsub(%r{^<em>(.*)</em>}, "\\1")

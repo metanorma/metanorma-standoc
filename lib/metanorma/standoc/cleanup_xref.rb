@@ -91,9 +91,7 @@ module Metanorma
       def xref_to_eref1(elem)
         elem["citeas"] = ""
         @internal_eref_namespaces.include?(elem["type"]) or
-          @log.add("Crossreferences", elem,
-                   "#{elem['target']} does not have a corresponding " \
-                   "anchor ID in the bibliography!")
+          @log.add("STANDOC_30", elem, params: [elem["target"]])
       end
 
       def xref_cleanup(xmldoc)
@@ -161,8 +159,7 @@ module Metanorma
           y.size == 1 and
             y.unshift(l.dig(i + 1, 0) == "to" ? "from" : "and")
           %w(and from to or).include?(y[0]) or
-            @log.add("Crossreferences", xref,
-                     "Illegal cross-reference connective: #{y[0]}", severity: 0)
+            @log.add("STANDOC_31", xref, params: [y[0]])
           y
         end
       end
@@ -220,9 +217,7 @@ module Metanorma
         end
         xmldoc.xpath("//origin").each do |x|
           x["citeas"] = @anchors&.dig(x["bibitemid"], :xref) or
-            @log.add("Crossreferences", x,
-                     "#{x['bibitemid']} does not have a corresponding anchor " \
-                     "ID in the bibliography!")
+            @log.add("STANDOC_32", x, params: [x["bibitemid"]])
           extract_localities(x)
         end
       end

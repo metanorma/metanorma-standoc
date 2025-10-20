@@ -17,7 +17,7 @@ module Metanorma
       def empty_table_validate(doc)
         doc.xpath("//table[not(.//tr)]").reject(&reject_metanorma_extension)
           .each do |t|
-          @log.add("Table", t, "Empty table", severity: 0)
+          @log.add("STANDOC_2", t)
         end
       end
 
@@ -79,17 +79,15 @@ module Metanorma
       def maxrows_validate(table, cells2d, tablechild, mode)
         err = "are inconsistent"
         mode == "thead_row" and err = "cannot go outside #{tablechild}"
-        err = "Table rows in table #{err}: check rowspan"
         if cells2d.any? { |x| x.size != cells2d.first.size }
-          @log.add("Table", table, err, severity: 0)
+          @log.add("STANDOC_4", table, params: [err])
         end
       end
 
       # if maxcols or maxrows negative, do not check them
       def maxcols_check(col, maxcols, tcell)
         if maxcols.positive? && col > maxcols
-          @log.add("Table", tcell, "Table exceeds maximum number of columns "\
-                                   "defined (#{maxcols})", severity: 0)
+          @log.add("STANDOC_5", tcell, params: [maxcols])
         end
       end
     end

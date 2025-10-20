@@ -110,33 +110,22 @@ module Metanorma
 
       def remove_missing_ref(node, target)
         if node.at("./parent::concept[@type = 'symbol']")
-          log.add("AsciiDoc Input", node,
-                  remove_missing_ref_msg(node, target, :symbol), severity: 1)
+          log.add("STANDOC_26", node, params: [target, target])
           remove_missing_ref_term(node, target, "symbol")
         else
-          log.add("AsciiDoc Input", node,
-                  remove_missing_ref_msg(node, target, :term), severity: 1)
+          log.add("STANDOC_27", node,
+                  params: [target, target, remove_missing_ref_msg1(node, target)])
           remove_missing_ref_term(node, target, "term")
         end
       end
 
-      def remove_missing_ref_msg(node, target, type)
-        type == :symbol and return <<~LOG
-          Error: Symbol reference in `symbol[#{target}]` missing: "#{target}" is not defined in document
-        LOG
-        ret = <<~LOG
-          Error: Term reference to `#{target}` missing: "#{target}" is not defined in document
-        LOG
-        remove_missing_ref_msg1(node, target, ret)
-      end
-
-      def remove_missing_ref_msg1(_node, target, ret)
+      def remove_missing_ref_msg1(_node, target)
         target2 = "_#{target.downcase.tr('-', '_')}"
         if @terms_tags[target] || @terms_tags[target2]
-          ret.strip!
-          ret += ". Did you mean to point to a subterm?"
+          ". Did you mean to point to a subterm?"
+        else
+          ""
         end
-        ret
       end
 
       def remove_missing_ref_term(node, target, type)

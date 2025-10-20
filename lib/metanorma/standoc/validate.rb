@@ -57,8 +57,7 @@ module Metanorma
         orig = ""
         a and orig += "\n\tAsciimath original: #{@c.decode(a.children.to_xml)}"
         l and orig += "\n\tLatexmath original: #{@c.decode(l.children.to_xml)}"
-        @log.add("Maths", elem,
-                 "Invalid MathML: #{math}\n #{error}#{orig}", severity: 0)
+        @log.add("STANDOC_33", elem, params: [math, error, orig])
       end
 
       def nested_asset_validate(doc)
@@ -85,17 +84,13 @@ module Metanorma
 
       def nested_asset_report(outer, inner, doc)
         outer.name == "figure" && inner.name == "figure" and return
-        err =
-          "There is an instance of #{inner.name} nested within #{outer.name}"
-        @log.add("Style", inner, err)
+        @log.add("STANDOC_34", inner, params: [inner.name, outer.name])
         nested_asset_xref_report(outer, inner, doc)
       end
 
       def nested_asset_xref_report(outer, inner, _doc)
         i = @doc_xrefs[inner["anchor"]] or return
-        err2 = "There is a crossreference to an instance of #{inner.name} " \
-               "nested within #{outer.name}: #{i.to_xml}"
-        @log.add("Style", i, err2)
+        @log.add("STANDOC_35", i, params: [inner.name, outer.name, i.to_xml])
       end
 
       def validate(doc)
@@ -107,9 +102,7 @@ module Metanorma
       # since consequences are so catastrophic
       def repeat_id_validate1(elem)
         if @doc_ids[elem["id"]]
-          @log.add("Anchors", elem,
-                   "ID #{elem['id']} has already been " \
-                   "used at line #{@doc_ids[elem['id']][:line]}", severity: 0)
+          @log.add("STANDOC_36", elem, params: [elem['id'], @doc_ids[elem['id']][:line]])
         else
           @doc_ids[elem["id"]] =
             { line: elem.line, anchor: elem["anchor"] }.compact
@@ -118,9 +111,7 @@ module Metanorma
 
       def repeat_anchor_validate1(elem)
         if @doc_anchors[elem["anchor"]]
-          @log.add("Anchors", elem,
-                   "Anchor #{elem['anchor']} has already been used at line " \
-                   "#{@doc_anchors[elem['anchor']][:line]}", severity: 0)
+          @log.add("STANDOC_36", elem, params: [elem['anchor'], @doc_anchors[elem['anchor']][:line]])
         else
           @doc_anchors[elem["anchor"]] = { line: elem.line, id: elem["id"] }
           @doc_anchor_seq << elem["anchor"]
@@ -174,8 +165,7 @@ module Metanorma
           doc.xpath("//#{a[0]}/@#{a[1]}").each do |x|
             @doc_xrefs[x.text] = x.parent
             @doc_anchors[x.text] and next
-            @log.add("Anchors", x.parent,
-                     "Crossreference target #{x} is undefined", severity: 1)
+            @log.add("STANDOC_38", x.parent, params: [x.text])
           end
         end
       end
@@ -217,7 +207,7 @@ module Metanorma
         doc.xpath(tag).each do |t|
           body and t = t.at("./#{body}")
           empty_block?(t) or next
-          @log.add("Blocks", t, "#{tag.sub(/^\/\//, '')} is empty", severity: 1)
+          @log.add("STANDOC_39", t, params: [tag.sub(/^\/\//, '')])
         end
       end
 

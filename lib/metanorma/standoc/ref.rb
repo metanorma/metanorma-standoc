@@ -158,8 +158,7 @@ module Metanorma
       def refitemcode(item, node)
         m = NON_ISO_REF.match(item) and return refitem1code(item, m).compact
         m = NON_ISO_REF1.match(item) and return refitem1code(item, m).compact
-        @log.add("AsciiDoc Input", node, "#{MALFORMED_REF}: #{item}",
-                 severity: 1)
+        @log.add("STANDOC_43", node, params: [item])
         {}
       end
 

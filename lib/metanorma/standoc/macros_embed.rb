@@ -15,8 +15,7 @@ module Asciidoctor
         n = peek_line(true)
         /^Unresolved directive in/.match?(n) and
           @document.converter.log
-            &.add("Include", nil,
-                  HTMLEntities.new.encode(n, :basic), severity: 0)
+            &.add("STANDOC_41", nil, params: [HTMLEntities.new.encode(n, :basic)])
       end
       [inc_path, target_type, relpath]
     end

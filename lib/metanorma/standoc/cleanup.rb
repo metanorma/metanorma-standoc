@@ -83,7 +83,7 @@ module Metanorma
         ext_contributor_cleanup(xmldoc) # feeds: bibdata_cleanup
         ext_dochistory_cleanup(xmldoc) # feeds: bibdata_cleanup
         bibdata_cleanup(xmldoc) # feeds: boilerplate_cleanup
-        boilerplate_cleanup(xmldoc) # feeds: xref_cleanup for new <<>> 
+        boilerplate_cleanup(xmldoc) # feeds: xref_cleanup for new <<>>
         # introduced, pres_metadata_cleanup
         pres_metadata_cleanup(xmldoc)
         xref_cleanup(xmldoc)
@@ -106,21 +106,20 @@ module Metanorma
       def relaton_iev_cleanup(xmldoc)
         _, err = RelatonIev::iev_cleanup(xmldoc, @bibdb)
         err.each do |e|
-          @log.add("Bibliography", nil, e, severity: 0)
+          @log.add("STANDOC_52", nil, params: e)
         end
       end
 
       RELATON_SEVERITIES =
-        { "INFO": 3, "WARN": 2, "ERROR": 1, "FATAL": 0,
-          "UNKNOWN": 3 }.freeze
+        { "INFO":  "STANDOC_57", "WARN":  "STANDOC_56", "ERROR":  "STANDOC_55", "FATAL": "STANDOC_54",
+          "UNKNOWN":  "STANDOC_57" }.freeze
 
       def relaton_log_cleanup(_xmldoc)
         @relaton_log or return
         @relaton_log.rewind
         @relaton_log.string.split(/(?<=})\n(?={)/).each do |l|
           e = JSON.parse(l)
-          @log.add("Relaton", e["key"], e["message"],
-                   severity: RELATON_SEVERITIES[e["severity"].to_sym])
+          @log.add(RELATON_SEVERITIES[e["severity"].to_sym], e["key"], params: [e["message"]])
         end
       end
 

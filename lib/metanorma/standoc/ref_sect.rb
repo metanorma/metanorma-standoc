@@ -47,8 +47,7 @@ module Metanorma
           bibitem_parse(attrs, xml, node)
         else
           node.attr("style") == "bibliography" or
-            @log.add("AsciiDoc Input", node,
-                     "Section not marked up as [bibliography]!")
+            @log.add("STANDOC_16", node)
           nil
         end
       end
@@ -63,8 +62,7 @@ module Metanorma
       def emend_biblio_id(xml, code)
         unless xml.at("/bibitem/docidentifier[not(@type = 'DOI')][text()]") ||
             /^doi:/.match?(code)
-          @log.add("Bibliography", nil,
-                   "ERROR: No document identifier retrieved for #{code}")
+          @log.add("STANDOC_17", nil, params: [code])
           xml.root << "<docidentifier>#{code}</docidentifier>"
         end
       end
@@ -74,8 +72,7 @@ module Metanorma
       def emend_biblio_title(xml, code, title)
         fmt = /<span class=|<fn/.match?(title)
         unless xml.at("/bibitem/title[text()]")
-          @log.add("Bibliography", nil,
-                   "ERROR: No title retrieved for #{code}")
+          @log.add("STANDOC_18", nil, params: [code])
           !fmt and
             xml.root << "<title>#{title || '(MISSING TITLE)'}</title>"
         end

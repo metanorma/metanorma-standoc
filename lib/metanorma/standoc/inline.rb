@@ -34,9 +34,7 @@ module Metanorma
         results = Plurimath::Math.parse(lxm_input, "latex")
           .to_mathml(display_style: block)
         if results.nil?
-          @log.add("Maths", nil,
-                   "latexmlmath failed to process equation:\n#{lxm_input}",
-                   severity: 1)
+          @log.add("STANDOC_51", nil, params: [lxm_input])
           return
         end
         results.sub(%r{<math ([^>]+ )?display="block"}, "<math \\1")

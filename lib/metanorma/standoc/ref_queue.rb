@@ -42,10 +42,9 @@ module Metanorma
           ref, i, doc = results.pop
           m[i.to_i] = { ref: }
           if doc.is_a?(RelatonBib::RequestError)
-            @log.add("Bibliography", nil,
-                     "Could not retrieve #{ref[:code]}: " \
-                     "no access to online site", severity: 1)
-          else m[i.to_i][:doc] = doc end
+            @log.add("STANDOC_40", nil, params: [ref[:code]])
+          else m[i.to_i][:doc] = doc
+          end
         end
       end
 
@@ -136,8 +135,7 @@ module Metanorma
         xml.parent.add_child(smart_render_xml(hit, code, opts))
         xml
       rescue RelatonBib::RequestError
-        @log.add("Bibliography", nil, "Could not retrieve #{code}: " \
-                                      "no access to online site", severity: 1)
+        @log.add("STANDOC_40", nil, params: [code])
         nil
       end
 

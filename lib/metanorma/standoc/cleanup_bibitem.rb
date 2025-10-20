@@ -16,7 +16,8 @@ module Metanorma
       def new_bibitem_from_formattedref_spans(bib)
         ret = SpansToBibitem.new(bib).convert
         ret.err.each do |e|
-          @log.add("Bibliography", bib, e[:msg], severity: e[:fatal] ? 0 : 1)
+          @log.add(e[:fatal] ? "STANDOC_52" : "STANDOC_53",
+            bib, params: [e[:msg]])
         end
         ret.out
       end

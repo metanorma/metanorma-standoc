@@ -174,8 +174,7 @@ module Metanorma
         xmldoc.xpath("//link[@target]").each do |l|
           l["target"] = Addressable::URI.parse(l["target"]).to_s
         rescue Addressable::URI::InvalidURIError
-          err = "Malformed URI: #{l['target']}"
-          @log.add("Anchors", l, err, severity: 0)
+          @log.add("STANDOC_8", l, params: [l["target"]])
         end
       end
 
