@@ -186,10 +186,10 @@ module Metanorma
 
       }.freeze
       # rubocop:enable Naming/VariableNumber
-    end
 
-    def log_messages
-      STANDOC_LOG_MESSAGES
+      def log_messages
+        STANDOC_LOG_MESSAGES
+      end
     end
   end
 end
