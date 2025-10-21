@@ -122,7 +122,7 @@ module Metanorma
           @log = Metanorma::Utils::Log.new
           @local_log = true
         end
-        @log.add_msg(LOG_MESSAGES)
+        @log.add_msg(log_messages)
       end
 
       class << self

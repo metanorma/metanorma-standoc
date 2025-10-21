@@ -2,7 +2,7 @@ module Metanorma
   module Standoc
     class Converter
       # rubocop:disable Naming/VariableNumber
-      LOG_MESSAGES = {
+      STANDOC_LOG_MESSAGES = {
         "STANDOC_1": { category: "Include",
                        error: "Specified boilerplate file does not exist: %s",
                        severity: 0 },
@@ -184,6 +184,11 @@ module Metanorma
                        severity: 0 },
 
       }.freeze
+      # rubocop:enable Naming/VariableNumber
+    end
+
+    def log_messages
+      STANDOC_LOG_MESSAGES
     end
   end
 end
