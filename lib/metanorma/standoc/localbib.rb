@@ -48,24 +48,20 @@ module Metanorma
       end
 
       def file_error(config)
-        msg = "Cannot process file #{config['file']} for local relaton " \
-              "data source #{config['key']}"
-        @parent.log.add("Bibliography", nil, msg, severity: 0)
+        @parent.log.add("STANDOC_54", nil,
+                        params: [config["file"], config["key"]])
         ""
       end
 
       def format_error(config)
-        msg = "Cannot process format #{config['format']} for local relaton " \
-              "data source #{config['key']}"
-        @parent.log.add("Bibliography", nil, msg, severity: 0)
+        @parent.log.add("STANDOC_37", nil,
+                        params: [config["format"], config["key"]])
         {}
       end
 
       def get(id, file = default)
         ret = @file_bibdb.dig(file, id) and return ret
-        msg = "Cannot find reference #{id} for local relaton " \
-              "data source #{file}"
-        @parent.log.add("Bibliography", nil, msg, severity: 0)
+        @parent.log.add("STANDOC_19", nil, params: [id, file])
         Nokogiri::XML("<bibitem/>")
       end
     end

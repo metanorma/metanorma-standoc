@@ -22,7 +22,7 @@ module Metanorma
   module Standoc
     module Base
       include IsolatedConverter
-      
+
       # XML_ROOT_TAG = "standard-document".freeze
       # XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
       FONTS_MANIFEST = "fonts-manifest".freeze
@@ -44,7 +44,7 @@ module Metanorma
         clean_exit
         ret
       rescue StandardError => e
-        @log.add("Fatal Error", nil, e.message, severity: 0)
+        @log.add("STANDOC_50", nil, params: [e.message])
         clean_exit
         raise e
       end

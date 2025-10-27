@@ -14,6 +14,7 @@ require_relative "utils"
 require_relative "cleanup"
 require_relative "reqt"
 require_relative "macros"
+require_relative "log"
 
 module Metanorma
   module Standoc
@@ -117,9 +118,11 @@ module Metanorma
       end
 
       def local_log(doc)
-        @log = doc&.options&.dig(:log) and return
-        @log = Metanorma::Utils::Log.new
-        @local_log = true
+        unless @log = doc&.options&.dig(:log)
+          @log = Metanorma::Utils::Log.new
+          @local_log = true
+        end
+        @log.add_msg(log_messages)
       end
 
       class << self
@@ -141,8 +144,7 @@ module Metanorma
 
       def skip(node, name = nil)
         name = name || node.node_name
-        w = "converter missing for #{name} node in Metanorma backend"
-        @log.add("AsciiDoc Input", node, w, severity: 1)
+        @log.add("STANDOC_29", node, params: [name])
         nil
       end
 

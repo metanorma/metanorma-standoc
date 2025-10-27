@@ -30,8 +30,9 @@ module Metanorma
         errors = Jing.new(schema, encoding: "UTF-8").validate(file.path)
         warn "Syntax Valid!" if errors.none?
         errors.each do |e|
-          @log.add("Metanorma XML Syntax",
-                   "XML Line #{'%06d' % e[:line]}:#{e[:column]}", e[:message])
+          @log.add("STANDOC_7",
+                   "XML Line #{'%06d' % e[:line]}:#{e[:column]}",
+                   params: [e[:message]])
         end
       end
 

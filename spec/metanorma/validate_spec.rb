@@ -698,7 +698,7 @@ RSpec.describe Metanorma::Standoc do
       end
       f = File.read("test.err.html")
       expect(f)
-        .to include("Anchor abc has already been used at line")
+        .to include("ID abc has already been used at line")
       expect(f)
         .to include(%(anchor=&quot;abc&quot;))
     end
@@ -933,7 +933,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include("Anchor abc has already been used at line")
+      .to include("ID abc has already been used at line")
     expect(File.exist?("test.xml")).to be false
   end
 

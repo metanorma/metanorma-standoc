@@ -15,8 +15,9 @@ module Asciidoctor
         n = peek_line(true)
         /^Unresolved directive in/.match?(n) and
           @document.converter.log
-            &.add("Include", nil,
-                  HTMLEntities.new.encode(n, :basic), severity: 0)
+            &.add("STANDOC_41", nil, params: [HTMLEntities.new.encode(
+              n.sub(/^Unresolved directive /, ""), :basic
+            )])
       end
       [inc_path, target_type, relpath]
     end
@@ -86,7 +87,8 @@ module Metanorma
           if l.is_a?(Hash)
             acc, m = update_embeds(acc, m, emb)
             flatten_embeds(l).each { |x| m << x }
-          else acc << l end
+          else acc << l
+          end
         end
         acc, ret = update_embeds(acc, ret, emb)
         ret

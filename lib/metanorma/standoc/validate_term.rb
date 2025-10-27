@@ -31,16 +31,14 @@ module Metanorma
           m << x.text&.downcase
         end
         pref.include?(iev.downcase) or
-          @log.add("Bibliography", term, %(Term "#{pref[0]}" does not match ) +
-                   %(IEV #{loc} "#{iev}"), severity: 1)
+          @log.add("STANDOC_22", term, params: [pref[0], loc, iev])
       end
 
       def concept_validate(doc, tag, refterm)
         concept_validate_ids(doc)
         doc.xpath("//#{tag}/xref").each do |x|
           @concept_ids[x["target"]] and next
-          @log.add("Anchors", x, concept_validate_msg(doc, tag, refterm, x),
-                   severity: 0)
+          @log.add("STANDOC_23", x, params: [concept_validate_msg(doc, tag, refterm, x)])
         end
       end
 
@@ -81,8 +79,7 @@ module Metanorma
         terms.each do |k, v|
           v.size > 1 or next
           loc = v.map { |x| x["anchor"] }.join(", ")
-          err = "Term #{k} occurs twice as preferred designation: #{loc}"
-          @log.add("Terms", v.first, err, severity: 1)
+          @log.add("STANDOC_24", v.first, params: [k, loc])
         end
       end
 
@@ -105,14 +102,7 @@ module Metanorma
           desgns = v[:designations].map do |x|
             @c.encode(x.text.strip,  :basic, :hexadecimal)
           end.join(", ")
-          err = <<~ERROR
-            Clause not recognised as a term clause, but contains designation markup
-             (<code>preferred:[], admitted:[], alt:[], deprecated:[]</code>):<br/>
-            #{desgns}</br>
-            Ensure the parent clause is recognised as a terms clause by inserting <code>[heading=terms and definitions]</code> above the title,
-            in case the heading is not automatically recognised. See also <a href="https://www.metanorma.org/author/topics/sections/concepts/#clause-title">Metanorma documentation</a>.
-          ERROR
-          @log.add("Terms", v[:clause], err, severity: 0)
+          @log.add("STANDOC_25", v[:clause], params: [desgns])
         end
       end
     end

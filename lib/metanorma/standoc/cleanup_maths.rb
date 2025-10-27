@@ -39,15 +39,15 @@ module Metanorma
           expr.strip.empty? and return
           unitsml = if expr.include?("unitsml")
                       { unitsml: { xml: true, multiplier: :space } }
-                    else {} end
+                    else {}
+                    end
           Plurimath::Math.parse(expr, "asciimath")
             .to_mathml(**{ display_style: elem["block"] }.merge(unitsml))
         end
       end
 
       def asciimath2mathml_err(text, expr)
-        err = "Malformed MathML: #{expr}\n#{text}"
-        @log.add("Maths", nil, err, severity: 0)
+        @log.add("STANDOC_6", nil, params: [expr, text])
       end
 
       def asciimath2mathml_wrap(xml)

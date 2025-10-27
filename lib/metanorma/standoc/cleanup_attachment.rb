@@ -53,8 +53,7 @@ module Metanorma
       def valid_attachment?(path, bib)
         File.exist?(path) and return true
         p = Pathname.new(path).cleanpath
-        @log.add("Bibliography", bib, "Attachment #{p} does not exist",
-                 severity: 0)
+        @log.add("STANDOC_9", bib, params: [p])
         false
       end
 

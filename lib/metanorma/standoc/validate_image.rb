@@ -14,8 +14,7 @@ module Metanorma
           Vectory::Utils::url?(i["src"]) and next
           Vectory::Utils::datauri?(i["src"]) and next
           expand_path(i["src"]) and next
-          @log.add("Images", i.parent,
-                   "Image not found: #{i['src']}", severity: 0)
+          @log.add("STANDOC_44", i.parent, params: [i["src"]])
         end
       end
 
@@ -42,19 +41,14 @@ module Metanorma
       def png_validate1(img, buffer)
         PngCheck.check_buffer(buffer)
       rescue PngCheck::CorruptPngError => e
-        @log.add("Images", img.parent,
-                 "Corrupt PNG image detected: #{e.message}")
+        @log.add("STANDOC_45", img.parent, params: [e.message])
       end
-
-      TOO_BIG_IMG_ERR = <<~ERR.freeze
-        Image too large for Data URI encoding: disable Data URI encoding (`:data-uri-image: false`), or set `:data-uri-maxsize: 0`
-      ERR
 
       def image_toobig(doc)
         @dataurimaxsize.zero? and return
         doc.xpath("//image").each do |i|
           i["src"].size > @dataurimaxsize and
-            @log.add("Images", i.parent, TOO_BIG_IMG_ERR, severity: 0)
+            @log.add("STANDOC_46", i.parent)
         end
       end
     end

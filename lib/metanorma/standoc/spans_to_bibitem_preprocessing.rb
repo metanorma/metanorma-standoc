@@ -52,7 +52,7 @@ module Metanorma
             ret[:extent][span[:key].to_sym] ||= []
             ret[:extent][span[:key].to_sym] << span[:val]
           when "pubplace", "title", "type", "series", "edition", "version",
-            "abstract"
+            "abstract", "language", "script", "locale"
             ret[span[:key].to_sym] = span[:val]
           when "image"
             ret[span[:key].to_sym] << { type: span[:type], val: span[:val] }

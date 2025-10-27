@@ -142,9 +142,7 @@ module Metanorma
 
       def extract_termsource_refs(text, node)
         matched = TERM_REFERENCE_RE.match text
-        matched.nil? and @log.add("AsciiDoc Input", node,
-                                  "term reference not in expected format:" \
-                                  "#{text}", severity: 1)
+        matched.nil? and @log.add("STANDOC_13", node, params: [text])
         matched
       end
 

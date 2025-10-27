@@ -244,9 +244,8 @@ module Metanorma
       # as it may be fragment, e.g. unterminated start of element markup
       def passthrough_validate(node, content, encoded_content)
         valid, = validate_document_fragment(content.dup)
-        err = "Invalid passthrough content: #{encoded_content}\n#{PASSTHRU_ERR}"
         !valid and
-          @log.add("Metanorma XML Syntax", node, err, severity: 0)
+          @log.add("STANDOC_42", node, params: [encoded_content])
       end
     end
   end

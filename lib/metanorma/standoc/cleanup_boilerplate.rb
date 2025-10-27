@@ -116,8 +116,7 @@ module Metanorma
         filename.nil? || filename.empty? and return
         filename = filename.strip
         unless File.exist?(filename)
-          msg = "Specified boilerplate file does not exist: #{filename}"
-          @log.add("Include", nil, msg, severity: 0)
+          @log.add("STANDOC_1", nil, params: [filename])
           return
         end
 

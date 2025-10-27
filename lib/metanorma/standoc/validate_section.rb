@@ -19,16 +19,14 @@ module Metanorma
 
       def callouts_error(elem, callouts, annotations)
         if callouts.size != annotations.size && !annotations.empty?
-          err = "mismatch of callouts (#{callouts.size}) and annotations " \
-                "(#{annotations.size})"
-          @log.add("Crossreferences", elem, err, severity: 0)
+          @log.add("STANDOC_47", elem, params: [callouts.size, annotations.size])
         end
       end
 
       def style_warning(node, msg, text = nil)
         w = msg
         w += ": #{text}" if text
-        @log.add("Style", node, w)
+        @log.add("STANDOC_48", node, params: [w])
       end
 
       def reject_metanorma_extension
@@ -69,8 +67,7 @@ module Metanorma
         doc.xpath("//references[@normative = 'true']/bibitem").each do |b|
           docid = b.at("./docidentifier[@type = 'metanorma']") or next
           /^\[\d+\]$/.match?(docid.text) or next
-          @log.add("Bibliography", b,
-                   "Numeric reference in normative references", severity: 1)
+          @log.add("STANDOC_49", b)
         end
       end
     end
