@@ -36,7 +36,9 @@ module Metanorma
         def convert
           ret = spans_to_bibitem(@spans)
           @out = Nokogiri::XML("<bibitem>#{ret}</bibitem>").root
-          @spans[:type] and @out["type"] = @spans[:type]
+          %i(type language script locale).each do |k|
+            @spans[k] and @out[k.to_s] = @spans[k]
+          end
           self
         end
 

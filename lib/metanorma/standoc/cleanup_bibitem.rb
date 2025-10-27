@@ -23,7 +23,7 @@ module Metanorma
       end
 
       def merge_bibitem_from_formattedref_spans(bib, new)
-        new["type"] and bib["type"] = new["type"]
+        merge_bibitem_from_formattedref_span_attrs(bib, new)
         if bib.at("./title") && bib["amend"]
           # there already is a fetched record here: merge
           bib.children = MergeBibitems
@@ -31,6 +31,12 @@ module Metanorma
         elsif bib.at("./title") # replace record
           bib.children = new.children.to_xml
         else bib << new.children.to_xml
+        end
+      end
+
+      def merge_bibitem_from_formattedref_span_attrs(bib, new)
+        %w(type language script locale).each do |k|
+          new[k] and bib[k] = new[k]
         end
       end
 
