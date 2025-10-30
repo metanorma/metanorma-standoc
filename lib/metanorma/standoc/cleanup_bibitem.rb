@@ -201,6 +201,25 @@ module Metanorma
         bibitem.parent["normative"] == "true"
       end
 
+      def bibitem_i18n(xmldoc)
+        xmldoc.xpath("//references/bibitem").each do |b|
+          s = b.at("./script")
+          l = b.at("./language")
+          s && l and next
+          ins = bibitem_i18n_insert(b)
+          s or ins.next = "<script>#{@script}</script>"
+          l or ins.next = "<language>#{@lang}</language>"
+        end
+      end
+
+      def bibitem_i18n_insert(bib)
+        bib.at("./note[last()]") || bib.at("./version[last()]") ||
+          bib.at("./edition[last()]") || bib.at("./contributor[last()]") ||
+          bib.at("./date[last()]") || bib.at("./docnumber[last()]") ||
+          bib.at("./docidentifier[last()]") || bib.at("./source[last()]") ||
+          bib.at("./title[last()]")
+      end
+
       def bibitem_cleanup(xmldoc)
         bibitem_nested_id(xmldoc) # feeds remove_dup_bibtem_id
         ref_dl_cleanup(xmldoc)
@@ -209,6 +228,7 @@ module Metanorma
         remove_empty_docid(xmldoc)
         empty_docid_to_title(xmldoc)
         remove_dup_bibtem_id(xmldoc)
+        bibitem_i18n(xmldoc)
         attachment_cleanup(xmldoc)
       end
     end
