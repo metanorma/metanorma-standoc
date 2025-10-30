@@ -897,134 +897,134 @@ RSpec.describe Metanorma::Standoc do
       * [[[A, B]]], span:surname[Wozniak], span:initials[S.], span:surname[Jobs], span:givenname[Steve] & span:surname[Hoover], span:initials[J.] span:givenname[Edgar]. span:date.issued[1991-1992]. span:date[1996-01-02]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] & span:in_organization[UNICEF], span:in_title[Collected Essays]. _span:series[Bibliographers Anonymous]_. span:edition[4], span:version[draft]. span:note[Also available in paperback.] span:docid.ISO[ISO 1234]. span:pubplace[Geneva]: span:publisher[International Standardization Organization]. span:uri.citation[http://www.example.com]. span:volume[4] span:issue[2–3] span:pages[12-13] span:pages[19]. span:type[inbook] span:classification[A] span:classification.B[C] span:classification[D] span:abstract[This is a _journey_ into sound] image:spec/examples/rice_images/rice_image1.png[] image:spec/examples/rice_images/rice_image3_1.png[] span:keyword[key word] span:keyword[word key] span:language[ja] span:script[Latn] span:locale[CH]
     INPUT
     output = <<~OUTPUT
-       <bibliography>
-          <references id="_" normative="true" obligation="informative">
-             <title id="_">Normative references</title>
-             <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-             <bibitem anchor="A" id="_" type="inbook">
-                <formattedref format="application/x-isodoc+xml">
-                   Wozniak, S., Jobs, Steve &amp; Hoover, J. Edgar. 1991-1992. 1996-01-02.
-                   <em>Work</em>
-                   . Gates, W. H &amp; UNICEF, Collected Essays.
-                   <em>Bibliographers Anonymous</em>
-                   . 4, draft. Also available in paperback. ISO 1234. Geneva: International Standardization Organization.
-                   <link target="http://www.example.com"/>
-                   . 4 2–3 12-13 19. A C D This is a
-                   <em>journey</em>
-                   into sound key word word key ja Latn CH
-                </formattedref>
-                <title>
-                   <em>Work</em>
-                </title>
-                <uri type="citation">http://www.example.com</uri>
-                <docidentifier type="ISO">ISO 1234</docidentifier>
-                <docidentifier>B</docidentifier>
-                <date type="issued">
-                   <from>1991</from>
-                   <to>1992</to>
-                </date>
-                <date type="published">
-                   <on>1996-01-02</on>
-                </date>
-                <contributor>
-                   <role type="author"/>
-                   <person>
-                      <name>
-                         <formatted-initials>S.</formatted-initials>
-                         <surname>Wozniak</surname>
-                      </name>
-                   </person>
-                </contributor>
-                <contributor>
-                   <role type="author"/>
-                   <person>
-                      <name>
-                         <forename>Steve</forename>
-                         <surname>Jobs</surname>
-                      </name>
-                   </person>
-                </contributor>
-                <contributor>
-                   <role type="author"/>
-                   <person>
-                      <name>
-                         <forename>J.</forename>
-                         <forename>Edgar</forename>
-                         <surname>Hoover</surname>
-                      </name>
-                   </person>
-                </contributor>
-                <contributor>
-                   <role type="publisher"/>
-                   <organization>
-                      <name>International Standardization Organization</name>
-                   </organization>
-                </contributor>
-                <edition>4</edition>
-                <version>draft</version>
-                <note>Also available in paperback.</note>
-                <language>ja</language>
-                <script>Latn</script>
-                <locale>CH</locale>
-                <abstract>
-                   This is a
-                   <em>journey</em>
-                   into sound
-                </abstract>
-                <place>Geneva</place>
-                <relation type="includedIn">
-                   <bibitem type="book">
-                      <title>Collected Essays</title>
-                      <contributor>
-                         <role type="editor"/>
-                         <person>
-                            <name>
-                               <formatted-initials>W. H</formatted-initials>
-                               <surname>Gates</surname>
-                            </name>
-                         </person>
-                      </contributor>
-                      <contributor>
-                         <role type="author"/>
-                         <organization>
-                            <name>UNICEF</name>
-                         </organization>
-                      </contributor>
-                      <series>
-                         <title>Bibliographers Anonymous</title>
-                      </series>
-                   </bibitem>
-                </relation>
-                <extent>
-                   <locality type="volume">
-                      <referenceFrom>4</referenceFrom>
-                   </locality>
-                   <locality type="issue">
-                      <referenceFrom>2</referenceFrom>
-                      <referenceTo>3</referenceTo>
-                   </locality>
-                   <locality type="page">
-                      <referenceFrom>12</referenceFrom>
-                      <referenceTo>13</referenceTo>
-                   </locality>
-                   <locality type="page">
-                      <referenceFrom>19</referenceFrom>
-                   </locality>
-                </extent>
-                <classification>A</classification>
-                <classification type="B">C</classification>
-                <classification>D</classification>
-                <keyword>key word</keyword>
-                <keyword>word key</keyword>
-                <depiction>
-                   <image src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="auto" filename="spec/examples/rice_images/rice_image1.png"/>
-                </depiction>
-                <depiction>
-                   <image src="spec/examples/rice_images/rice_image3_1.png" mimetype="image/png" height="auto" width="auto" filename="spec/examples/rice_images/rice_image3_1.png"/>
-                </depiction>
-             </bibitem>
-          </references>
-       </bibliography>
+      <bibliography>
+         <references id="_" normative="true" obligation="informative">
+            <title id="_">Normative references</title>
+            <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+            <bibitem anchor="A" id="_" type="inbook">
+               <formattedref format="application/x-isodoc+xml">
+                  Wozniak, S., Jobs, Steve &amp; Hoover, J. Edgar. 1991-1992. 1996-01-02.
+                  <em>Work</em>
+                  . Gates, W. H &amp; UNICEF, Collected Essays.
+                  <em>Bibliographers Anonymous</em>
+                  . 4, draft. Also available in paperback. ISO 1234. Geneva: International Standardization Organization.
+                  <link target="http://www.example.com"/>
+                  . 4 2–3 12-13 19. A C D This is a
+                  <em>journey</em>
+                  into sound key word word key ja Latn CH
+               </formattedref>
+               <title>
+                  <em>Work</em>
+               </title>
+               <uri type="citation">http://www.example.com</uri>
+               <docidentifier type="ISO">ISO 1234</docidentifier>
+               <docidentifier>B</docidentifier>
+               <date type="issued">
+                  <from>1991</from>
+                  <to>1992</to>
+               </date>
+               <date type="published">
+                  <on>1996-01-02</on>
+               </date>
+               <contributor>
+                  <role type="author"/>
+                  <person>
+                     <name>
+                        <formatted-initials>S.</formatted-initials>
+                        <surname>Wozniak</surname>
+                     </name>
+                  </person>
+               </contributor>
+               <contributor>
+                  <role type="author"/>
+                  <person>
+                     <name>
+                        <forename>Steve</forename>
+                        <surname>Jobs</surname>
+                     </name>
+                  </person>
+               </contributor>
+               <contributor>
+                  <role type="author"/>
+                  <person>
+                     <name>
+                        <forename>J.</forename>
+                        <forename>Edgar</forename>
+                        <surname>Hoover</surname>
+                     </name>
+                  </person>
+               </contributor>
+               <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                     <name>International Standardization Organization</name>
+                  </organization>
+               </contributor>
+               <edition>4</edition>
+               <version>draft</version>
+               <note>Also available in paperback.</note>
+               <language>ja</language>
+               <script>Latn</script>
+               <locale>CH</locale>
+               <abstract>
+                  This is a
+                  <em>journey</em>
+                  into sound
+               </abstract>
+               <place>Geneva</place>
+               <relation type="includedIn">
+                  <bibitem type="book">
+                     <title>Collected Essays</title>
+                     <contributor>
+                        <role type="editor"/>
+                        <person>
+                           <name>
+                              <formatted-initials>W. H</formatted-initials>
+                              <surname>Gates</surname>
+                           </name>
+                        </person>
+                     </contributor>
+                     <contributor>
+                        <role type="author"/>
+                        <organization>
+                           <name>UNICEF</name>
+                        </organization>
+                     </contributor>
+                     <series>
+                        <title>Bibliographers Anonymous</title>
+                     </series>
+                  </bibitem>
+               </relation>
+               <extent>
+                  <locality type="volume">
+                     <referenceFrom>4</referenceFrom>
+                  </locality>
+                  <locality type="issue">
+                     <referenceFrom>2</referenceFrom>
+                     <referenceTo>3</referenceTo>
+                  </locality>
+                  <locality type="page">
+                     <referenceFrom>12</referenceFrom>
+                     <referenceTo>13</referenceTo>
+                  </locality>
+                  <locality type="page">
+                     <referenceFrom>19</referenceFrom>
+                  </locality>
+               </extent>
+               <classification>A</classification>
+               <classification type="B">C</classification>
+               <classification>D</classification>
+               <keyword>key word</keyword>
+               <keyword>word key</keyword>
+               <depiction>
+                  <image src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="auto" filename="spec/examples/rice_images/rice_image1.png"/>
+               </depiction>
+               <depiction>
+                  <image src="spec/examples/rice_images/rice_image3_1.png" mimetype="image/png" height="auto" width="auto" filename="spec/examples/rice_images/rice_image3_1.png"/>
+               </depiction>
+            </bibitem>
+         </references>
+      </bibliography>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:bibliography")
@@ -1324,6 +1324,51 @@ RSpec.describe Metanorma::Standoc do
       .to include("Missing surname: issue with bibliographic markup in " \
                   "\"The adoption of urban digital twins\"")
     expect(File.exist?("test.xml")).to be false
+  end
+
+  it "supplies missing script in span notation" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [bibliography]
+      == Normative References
+
+      * [[[A, B]]], span:surname[Wozniak], span:initials[S.] span:title[_Work_]. span:language[el]
+    INPUT
+    output = <<~OUTPUT
+          <bibliography>
+         <references id="_" normative="true" obligation="informative">
+            <title id="_">Normative references</title>
+            <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+            <bibitem anchor="A" id="_">
+               <formattedref format="application/x-isodoc+xml">
+                  Wozniak, S.
+                  <em>Work</em>
+                  . el
+               </formattedref>
+               <title>
+                  <em>Work</em>
+               </title>
+               <docidentifier>B</docidentifier>
+               <contributor>
+                  <role type="author"/>
+                  <person>
+                     <name>
+                        <formatted-initials>S.</formatted-initials>
+                        <surname>Wozniak</surname>
+                     </name>
+                  </person>
+               </contributor>
+               <language>el</language>
+               <script>Grek</script>
+            </bibitem>
+         </references>
+      </bibliography>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml = xml.at("//xmlns:bibliography")
+    expect(strip_guid(Canon.format_xml(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes single relaton data source" do

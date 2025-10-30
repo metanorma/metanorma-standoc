@@ -37,7 +37,7 @@ module Metanorma
         def spans_preprocess(spans)
           ret = empty_span_hash
           spans.each { |s| span_preprocess1(s, ret) }
-          host_rearrange(ret)
+          spans_defaults(host_rearrange(ret))
         end
 
         def span_preprocess1(span, ret)
@@ -92,17 +92,21 @@ module Metanorma
           end
         end
 
+        def spans_defaults(spans)
+          spans[:language] && !spans[:script] and
+            spans[:script] = ::Metanorma::Utils.default_script(spans[:language])
+          spans
+        end
+
         def host_rearrange(ret)
           ret[:in][:title] or return ret
-          ret[:in].merge!(empty_span_hash, { type: "misc" }) do |_, old, _|
-            old
-          end
+          ret[:in].merge!(empty_span_hash, { type: "misc" }) { |_, o, _| o }
           %i(series).each do |k|
             ret[:in][k] = ret[k]
             ret.delete(k)
           end
-          /^in/.match?(ret[:type]) and ret[:in][:type] =
-                                         ret[:type].sub(/^in/, "")
+          /^in/.match?(ret[:type]) and
+            ret[:in][:type] = ret[:type].sub(/^in/, "")
           ret
         end
 
