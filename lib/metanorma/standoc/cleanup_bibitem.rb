@@ -35,7 +35,7 @@ module Metanorma
       end
 
       def merge_bibitem_from_formattedref_span_attrs(bib, new)
-        %w(type language script locale).each do |k|
+        %w(type).each do |k|
           new[k] and bib[k] = new[k]
         end
       end

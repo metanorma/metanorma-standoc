@@ -48,6 +48,7 @@ module Metanorma
           ret += spans_to_bibitem_docid(spans)
           ret += spans_to_contribs(spans)
           ret += spans_to_bibitem_edn(spans)
+          ret += spans_to_bibitem_i18n(spans)
           spans[:abstract] and ret += "<abstract>#{spans[:abstract]}</abstract>"
           ret += spans_to_series(spans)
           spans[:pubplace] and ret += "<place>#{spans[:pubplace]}</place>"
@@ -62,6 +63,14 @@ module Metanorma
           spans[:image]&.each do |s|
             ret += "<depiction>#{s[:val]}</depiction>"
           end
+          ret
+        end
+
+        def spans_to_bibitem_i18n(spans)
+          ret = ""
+          spans[:language] and ret += "<language>#{spans[:language]}</language>"
+          spans[:script] and ret += "<script>#{spans[:script]}</script>"
+          spans[:locale] and ret += "<locale>#{spans[:locale]}</locale>"
           ret
         end
 
