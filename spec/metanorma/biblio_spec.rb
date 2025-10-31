@@ -40,7 +40,7 @@ RSpec.describe Metanorma::Standoc do
       <bibliography><references id="_" obligation="informative" normative="true">
         <title id="_">Normative references</title>
         #{NORM_REF_BOILERPLATE}
-        <bibitem id="_" anchor="iso123" type="standard">
+         <bibitem id="_" anchor="iso123" type="standard">
         <title type='title-main' format='text/plain'>Standard</title>
         <title type='main' format='text/plain'>Standard</title>
          <docidentifier type="ISO">ISO 123</docidentifier>
@@ -62,6 +62,8 @@ RSpec.describe Metanorma::Standoc do
              <name><completename>Jack</completename></name>
            </person>
          </contributor>
+         <language>en</language>
+         <script>Latn</script>
        </bibitem>
       </references>
       </bibliography>
@@ -850,6 +852,8 @@ RSpec.describe Metanorma::Standoc do
              <bibitem id="_" anchor="A">
                <formattedref format='application/x-isodoc+xml'>Title</formattedref>
                <docidentifier>B</docidentifier>
+               <language>en</language>
+               <script>Latn</script>
              </bibitem>
              <bibitem id="_" anchor="iso123" type='standard'>
                <title type='title-main' format='text/plain'>Standard</title>
@@ -877,6 +881,8 @@ RSpec.describe Metanorma::Standoc do
                    </name>
                  </person>
                </contributor>
+               <language>en</language>
+               <script>Latn</script>
              </bibitem>
            </references>
          </clause>
@@ -1099,6 +1105,8 @@ RSpec.describe Metanorma::Standoc do
                 </name>
               </person>
             </contributor>
+            <language>en</language>
+            <script>Latn</script>
             <relation type="includedIn">
               <bibitem type="misc">
                 <title>Collected Essays</title>
@@ -1224,6 +1232,8 @@ RSpec.describe Metanorma::Standoc do
                      </name>
                   </person>
                </contributor>
+               <language>en</language>
+               <script>Latn</script>
                <relation type="includedIn">
                   <bibitem type="misc">
                      <title>Collected Essays</title>
@@ -1439,6 +1449,8 @@ RSpec.describe Metanorma::Standoc do
             </contributor>
             <extent/>
             <docidentifier>ISOTC211</docidentifier>
+            <language>en</language>
+            <script>Latn</script>
           </bibitem>
         </references>
       </bibliography>
@@ -1518,6 +1530,8 @@ RSpec.describe Metanorma::Standoc do
             </contributor>
             <extent/>
             <docidentifier>ISOTC211</docidentifier>
+            <language>en</language>
+            <script>Latn</script>
           </bibitem>
           <bibitem id="_" anchor="B" type="techreport">
             <title type="main" format="text/plain">Techreport Geographic information</title>
@@ -1558,6 +1572,8 @@ RSpec.describe Metanorma::Standoc do
             <edition>Edition 1</edition>
             <extent/>
             <docidentifier>ISOTC211t</docidentifier>
+            <language>en</language>
+            <script>Latn</script>
           </bibitem>
         </references>
       </bibliography>

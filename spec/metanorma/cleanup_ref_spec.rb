@@ -435,6 +435,8 @@ RSpec.describe Metanorma::Standoc do
             <title id="_">Normative references</title>
             <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
             <bibitem id="_" anchor="A">
+         <language>en</language>
+         <script>Latn</script>
                <relation type="includes">
                   <bibitem/>
                </relation>
@@ -883,6 +885,8 @@ RSpec.describe Metanorma::Standoc do
            </organization>
          </contributor>
          <note format="text/plain" type="Unpublished-Status">The standard is in press</note>
+            <language>en</language>
+            <script>Latn</script>
        </bibitem>
       </references>
       </bibliography>

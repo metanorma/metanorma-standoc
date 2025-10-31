@@ -217,7 +217,7 @@ module Metanorma
           bib.at("./edition[last()]") || bib.at("./contributor[last()]") ||
           bib.at("./date[last()]") || bib.at("./docnumber[last()]") ||
           bib.at("./docidentifier[last()]") || bib.at("./source[last()]") ||
-          bib.at("./title[last()]")
+          bib.at("./title[last()]") || bib.children.first
       end
 
       def bibitem_cleanup(xmldoc)

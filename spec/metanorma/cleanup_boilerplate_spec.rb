@@ -1095,13 +1095,13 @@ RSpec.describe Metanorma::Standoc do
              <references id="_" normative="false" obligation="informative">
                 <title id="_">Bibliographie</title>
                 <bibitem id="_" anchor="iso1234">
-                   <formattedref format="application/x-isodoc+xml">[PAS D'INFORMATION DISPONIBLE]</formattedref>
+                   <formattedref format="application/x-isodoc+xml">[PAS D’INFORMATION DISPONIBLE]</formattedref>
                    <docidentifier>A</docidentifier>
                    <language>fr</language>
                    <script>Latn</script>
                 </bibitem>
                 <bibitem id="_" anchor="iso5678">
-                   <formattedref format="application/x-isodoc+xml">[PAS D'INFORMATION DISPONIBLE]</formattedref>
+                   <formattedref format="application/x-isodoc+xml">[PAS D’INFORMATION DISPONIBLE]</formattedref>
                    <docidentifier>B</docidentifier>
                    <language>fr</language>
                    <script>Latn</script>
