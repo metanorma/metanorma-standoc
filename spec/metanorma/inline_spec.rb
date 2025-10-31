@@ -647,11 +647,15 @@ RSpec.describe Metanorma::Standoc do
         <bibitem id="_" anchor="ISO712">
         <formattedref format="application/x-isodoc+xml">Reference</formattedref>
         <docidentifier>x</docidentifier>
+        <language>en</language>
+        <script>Latn</script>
       </bibitem>
         <bibitem id="_" anchor="ISO713">
         <formattedref format="application/x-isodoc+xml">Reference</formattedref>
         <docidentifier>ISO713</docidentifier>
         <docnumber>713</docnumber>
+        <language>en</language>
+        <script>Latn</script>
       </bibitem>
       </references>
       </bibliography>
@@ -838,6 +842,8 @@ RSpec.describe Metanorma::Standoc do
                 <em>Standard</em>
               </formattedref>
               <docidentifier>XYZ</docidentifier>
+              <language>en</language>
+              <script>Latn</script>
             </bibitem>
           </references>
         </bibliography>
@@ -887,6 +893,8 @@ RSpec.describe Metanorma::Standoc do
        <bibitem id="_" anchor="reference">
        <formattedref format="application/x-isodoc+xml">Reference</formattedref>
        <docidentifier>ABC</docidentifier>
+       <language>en</language>
+       <script>Latn</script>
        </bibitem>
        </references></bibliography>
        </metanorma>
@@ -921,9 +929,9 @@ RSpec.describe Metanorma::Standoc do
       </foreword>
     OUTPUT
     expect(strip_guid(Canon.format_xml(
-                   Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-                   .at("//xmlns:foreword").to_xml,
-                 )))
+                        Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+                        .at("//xmlns:foreword").to_xml,
+                      )))
       .to be_equivalent_to Canon.format_xml(output)
   end
 
@@ -1011,7 +1019,8 @@ RSpec.describe Metanorma::Standoc do
        <bibitem id="_" anchor="reference">
        <formattedref format="application/x-isodoc+xml">Reference</formattedref>
        <docidentifier>ABC</docidentifier>
-
+       <language>en</language>
+       <script>Latn</script>
        </bibitem>
        </references></bibliography>
        </metanorma>
@@ -1273,6 +1282,8 @@ RSpec.describe Metanorma::Standoc do
                 <em>Standard</em>
               </formattedref>
               <docidentifier>XYZ</docidentifier>
+              <language>en</language>
+              <script>Latn</script>
             </bibitem>
           </references>
         </bibliography>

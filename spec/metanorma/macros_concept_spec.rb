@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe Metanorma::Standoc do  
+RSpec.describe Metanorma::Standoc do
   it "processes the Metanorma::Standoc concept and related macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -340,49 +340,49 @@ RSpec.describe Metanorma::Standoc do
       Terms are defined here
     INPUT
     output = <<~OUTPUT
-            #{BLANK_HDR}
-          <preface>
-             <foreword id="_" obligation="informative">
-                <title id="_">Foreword</title>
-                <p id="_">
-                   <concept>
-                      <xref target="clause1"/>
-                   </concept>
-                   <concept>
-                      <refterm>w[o]rd</refterm>
-                      <renderterm>w[o]rd</renderterm>
-                      <xref target="clause1"/>
-                   </concept>
-                   <concept>
-                      <refterm>term</refterm>
-                      <renderterm>w[o]rd</renderterm>
-                      <xref target="clause1"/>
-                   </concept>
-                   <concept>
-                      <refterm>term</refterm>
-                      <renderterm>w[o]rd</renderterm>
-                      <xref target="clause1">
-                         <display-text>Clause #1</display-text>
-                      </xref>
-                   </concept>
-                </p>
-                <related type="supersedes">
-                   <preferred>
-                      <expression>
-                         <name>term</name>
-                      </expression>
-                   </preferred>
-                   <xref target="clause1"/>
-                </related>
-             </foreword>
-          </preface>
-          <sections>
-             <clause id="_" anchor="clause1" inline-header="false" obligation="normative">
-                <title id="_">Clause</title>
-                <p id="_">Terms are defined here</p>
-             </clause>
-          </sections>
-       </metanorma>
+           #{BLANK_HDR}
+         <preface>
+            <foreword id="_" obligation="informative">
+               <title id="_">Foreword</title>
+               <p id="_">
+                  <concept>
+                     <xref target="clause1"/>
+                  </concept>
+                  <concept>
+                     <refterm>w[o]rd</refterm>
+                     <renderterm>w[o]rd</renderterm>
+                     <xref target="clause1"/>
+                  </concept>
+                  <concept>
+                     <refterm>term</refterm>
+                     <renderterm>w[o]rd</renderterm>
+                     <xref target="clause1"/>
+                  </concept>
+                  <concept>
+                     <refterm>term</refterm>
+                     <renderterm>w[o]rd</renderterm>
+                     <xref target="clause1">
+                        <display-text>Clause #1</display-text>
+                     </xref>
+                  </concept>
+               </p>
+               <related type="supersedes">
+                  <preferred>
+                     <expression>
+                        <name>term</name>
+                     </expression>
+                  </preferred>
+                  <xref target="clause1"/>
+               </related>
+            </foreword>
+         </preface>
+         <sections>
+            <clause id="_" anchor="clause1" inline-header="false" obligation="normative">
+               <title id="_">Clause</title>
+               <p id="_">Terms are defined here</p>
+            </clause>
+         </sections>
+      </metanorma>
     OUTPUT
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Canon.format_xml(output)
@@ -597,7 +597,7 @@ RSpec.describe Metanorma::Standoc do
               </foreword>
            </preface>
            <sections>
-      
+
         </sections>
            <bibliography>
               <references id="_" normative="false" obligation="informative">
@@ -607,6 +607,8 @@ RSpec.describe Metanorma::Standoc do
                        <em>Blah</em>
                     </formattedref>
                     <docidentifier>blah</docidentifier>
+                    <language>en</language>
+                    <script>Latn</script>
                  </bibitem>
               </references>
            </bibliography>

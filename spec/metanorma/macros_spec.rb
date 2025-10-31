@@ -68,6 +68,8 @@ RSpec.describe Metanorma::Standoc do
             </formattedref>
             <docidentifier>XYZ 123</docidentifier>
             <docnumber>123</docnumber>
+            <language>en</language>
+            <script>Latn</script>
           </bibitem>
         </references>
       </bibliography>

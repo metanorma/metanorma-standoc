@@ -753,6 +753,8 @@ RSpec.describe Metanorma::Standoc do
             <referenceFrom>11/12</referenceFrom>
           </locality>
       </extent>
+      <language>en</language>
+      <script>Latn</script>
             </bibitem>
           </references>
         </bibliography>
@@ -858,6 +860,8 @@ RSpec.describe Metanorma::Standoc do
                         <referenceTo>282</referenceTo>
                      </locality>
                   </extent>
+                  <language>en</language>
+                  <script>Latn</script>
                </bibitem>
              </references>
          </bibliography>
@@ -892,17 +896,19 @@ RSpec.describe Metanorma::Standoc do
                   <date type="issued">
                      <on>1234</on>
                   </date>
-                  <contributor>
-                     <role type="editor"/>
-                     <person>
-                        <name>
-                           <forename>Boris</forename>
-                           <surname>Johnson</surname>
-                        </name>
-                     </person>
-                  </contributor>
-                  <place>Vienna</place>
-                  <relation type="includedIn">
+                   <contributor>
+                      <role type="editor"/>
+                      <person>
+                         <name>
+                            <forename>Boris</forename>
+                            <surname>Johnson</surname>
+                         </name>
+                      </person>
+                   </contributor>
+                   <language>en</language>
+                   <script>Latn</script>
+                   <place>Vienna</place>
+                   <relation type="includedIn">
                      <bibitem type="misc">
                         <title>Nested Title</title>
                         <contributor>
@@ -988,16 +994,18 @@ RSpec.describe Metanorma::Standoc do
                         <name>DE GRUYTER MOUTON</name>
                      </organization>
                   </contributor>
-                  <contributor>
-                     <role type="editor"/>
-                     <person>
-                        <name>
-                           <forename>Boris</forename>
-                           <surname>Johnson</surname>
-                        </name>
-                     </person>
-                  </contributor>
-                  <relation type="includedIn">
+                   <contributor>
+                      <role type="editor"/>
+                      <person>
+                         <name>
+                            <forename>Boris</forename>
+                            <surname>Johnson</surname>
+                         </name>
+                      </person>
+                   </contributor>
+                   <language>en</language>
+                   <script>Latn</script>
+                   <relation type="includedIn">
                      <bibitem type="misc">
                         <title format="text/plain">Nested Title</title>
                         <contributor>
@@ -1123,13 +1131,15 @@ RSpec.describe Metanorma::Standoc do
       </sections><bibliography><references id="_" normative="true" obligation="informative" >
         <title id="_">Normative references</title>
       #{NORM_REF_BOILERPLATE}
-      <bibitem id="_" anchor="iso123">
+           <bibitem id="_" anchor="iso123">
              <formattedref format='application/x-isodoc+xml'>
                <em>Standard</em>
              </formattedref>
              <docidentifier type='ISO'>ISO/IEC TR 12382:1992</docidentifier>
              <docnumber>12382</docnumber>
               <date type='published'><on>1992</on></date>
+              <language>en</language>
+              <script>Latn</script>
            </bibitem>
                    <bibitem id="_" anchor="iso124">
              <formattedref format='application/x-isodoc+xml'>
@@ -1138,6 +1148,8 @@ RSpec.describe Metanorma::Standoc do
              <docidentifier type='ISO'>ISO/IEC TR 12382:1992</docidentifier>
              <docnumber>12382</docnumber>
               <date type='published'><on>1992</on></date>
+              <language>en</language>
+              <script>Latn</script>
            </bibitem>
            <bibitem id="_" anchor="iso125" type='standard'>
              <fetched/>

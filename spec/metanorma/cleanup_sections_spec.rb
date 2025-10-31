@@ -44,6 +44,8 @@ RSpec.describe Metanorma::Standoc do
                    <name>ISO</name>
                  </organization>
                </contributor>
+               <language>en</language>
+               <script>Latn</script>
              </bibitem>
              <note id='_'>
                <p id='_'>ABC</p>
@@ -61,6 +63,8 @@ RSpec.describe Metanorma::Standoc do
                    <name>ISO</name>
                  </organization>
                </contributor>
+               <language>en</language>
+               <script>Latn</script>
              </bibitem>
              <note id='_'>
                <p id='_'>JKL</p>
@@ -272,225 +276,225 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-       <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
-               <bibdata type='standard'>
-                 <title language='en' type='main'>Document title</title>
-                 <language>en</language>
-                 <script>Latn</script>
-                 <abstract>
-                   <p>Text</p>
-                 </abstract>
-                 <status>
-                   <stage>published</stage>
-                 </status>
-                 <copyright>
-                   <from>#{Time.now.year}</from>
-                 </copyright>
-                 <ext>
-                   <doctype>standard</doctype>
-            <flavor>standoc</flavor>
-                 </ext>
-               </bibdata>
-                         <preface>
-             <abstract id="_" >
-                <title id="_">Abstract</title>
-                <p id="_">Text</p>
-             </abstract>
-             <foreword id="_" obligation="informative">
-                <title id="_">
-                   Foreword
-                   <fn id="_" reference="1">
-                      <p id="_">A</p>
-                   </fn>
-                </title>
-                <p id="_">Text</p>
-             </foreword>
-             <introduction id="_" obligation="informative">
-                <title id="_">Introduction</title>
-                <clause id="_" inline-header="false" obligation="informative">
-                   <title id="_">Introduction Subsection</title>
-                </clause>
-             </introduction>
-             <clause id="_" inline-header="false" obligation="informative">
-                <title id="_">Dedication</title>
-             </clause>
-             <acknowledgements id="_" obligation="informative">
-                <title id="_">
-                   Acknowledgements
-                   <fn id="_" reference="1">
-                      <p id="_">A</p>
-                   </fn>
-                </title>
-             </acknowledgements>
-          <executivesummary id="_" obligation="informative">
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
+              <bibdata type='standard'>
+                <title language='en' type='main'>Document title</title>
+                <language>en</language>
+                <script>Latn</script>
+                <abstract>
+                  <p>Text</p>
+                </abstract>
+                <status>
+                  <stage>published</stage>
+                </status>
+                <copyright>
+                  <from>#{Time.now.year}</from>
+                </copyright>
+                <ext>
+                  <doctype>standard</doctype>
+           <flavor>standoc</flavor>
+                </ext>
+              </bibdata>
+                        <preface>
+            <abstract id="_" >
+               <title id="_">Abstract</title>
+               <p id="_">Text</p>
+            </abstract>
+            <foreword id="_" obligation="informative">
+               <title id="_">
+                  Foreword
+                  <fn id="_" reference="1">
+                     <p id="_">A</p>
+                  </fn>
+               </title>
+               <p id="_">Text</p>
+            </foreword>
+            <introduction id="_" obligation="informative">
+               <title id="_">Introduction</title>
+               <clause id="_" inline-header="false" obligation="informative">
+                  <title id="_">Introduction Subsection</title>
+               </clause>
+            </introduction>
+            <clause id="_" inline-header="false" obligation="informative">
+               <title id="_">Dedication</title>
+            </clause>
+            <acknowledgements id="_" obligation="informative">
+               <title id="_">
+                  Acknowledgements
+                  <fn id="_" reference="1">
+                     <p id="_">A</p>
+                  </fn>
+               </title>
+            </acknowledgements>
+         <executivesummary id="_" obligation="informative">
+           <title id="_">
+               Executive summary
+               <fn id="_" reference="1">
+                 <p id="_">A</p>
+               </fn>
+           </title>
+         </executivesummary>
+         </preface>
+         <sections>
+            <clause id="_" type="scope" inline-header="false" obligation="normative">
+               <title id="_">
+                  Scope
+                  <fn id="_" reference="1">
+                     <p id="_">A</p>
+                  </fn>
+               </title>
+               <p id="_">Text</p>
+            </clause>
+            <terms id="_" obligation="normative">
+               <title id="_">
+                  Terms and definitions
+                  <fn id="_" reference="1">
+                     <p id="_">A</p>
+                  </fn>
+               </title>
+               <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+               <term id="_" anchor="term-Term1">
+                  <preferred>
+                     <expression>
+                        <name>Term1</name>
+                     </expression>
+                  </preferred>
+               </term>
+            </terms>
+            <clause id="_" obligation="normative" type="terms">
+               <title id="_">
+                  Terms, definitions, symbols and abbreviated terms
+                  <fn id="_" reference="1">
+                     <p id="_">A</p>
+                  </fn>
+               </title>
+               <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+               <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">Introduction</title>
+                  <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">Intro 1</title>
+                  </clause>
+               </clause>
+               <terms id="_" obligation="normative">
+                  <title id="_">Intro 2</title>
+                  <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">Intro 3</title>
+                  </clause>
+               </terms>
+               <clause id="_" obligation="normative" type="terms">
+                  <title id="_">Intro 4</title>
+                  <terms id="_" obligation="normative">
+                     <title id="_">Intro 5</title>
+                     <term id="_" anchor="term-Term1-1">
+                        <preferred>
+                           <expression>
+                              <name>Term1</name>
+                           </expression>
+                        </preferred>
+                     </term>
+                  </terms>
+               </clause>
+               <terms id="_" obligation="normative">
+                  <title id="_">Normal Terms</title>
+                  <term id="_" anchor="term-Term2">
+                     <preferred>
+                        <expression>
+                           <name>Term2</name>
+                        </expression>
+                     </preferred>
+                  </term>
+               </terms>
+               <definitions id="_" obligation="normative">
+                  <title id="_">
+                     Symbols and abbreviated terms
+                     <fn id="_" reference="1">
+                        <p id="_">A</p>
+                     </fn>
+                  </title>
+                  <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">General</title>
+                  </clause>
+                  <definitions id="_" type="symbols" obligation="normative">
+                     <title id="_">
+                        Symbols
+                        <fn id="_" reference="1">
+                           <p id="_">A</p>
+                        </fn>
+                     </title>
+                  </definitions>
+               </definitions>
+            </clause>
+            <definitions id="_" type="abbreviated_terms" obligation="normative">
+               <title id="_">
+                  Abbreviated terms
+                  <fn id="_" reference="1">
+                     <p id="_">A</p>
+                  </fn>
+               </title>
+            </definitions>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Clause 4</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">Introduction</title>
+               </clause>
+               <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">Clause 4.2</title>
+               </clause>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Terms and Definitions</title>
+            </clause>
+         </sections>
+         <annex id="_" inline-header="false" obligation="normative">
             <title id="_">
-                Executive summary
-                <fn id="_" reference="1">
+               Annex.
+               <fn id="_" reference="1">
                   <p id="_">A</p>
-                </fn>
+               </fn>
             </title>
-          </executivesummary>
-          </preface>
-          <sections>
-             <clause id="_" type="scope" inline-header="false" obligation="normative">
-                <title id="_">
-                   Scope
-                   <fn id="_" reference="1">
-                      <p id="_">A</p>
-                   </fn>
-                </title>
-                <p id="_">Text</p>
-             </clause>
-             <terms id="_" obligation="normative">
-                <title id="_">
-                   Terms and definitions
-                   <fn id="_" reference="1">
-                      <p id="_">A</p>
-                   </fn>
-                </title>
-                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-                <term id="_" anchor="term-Term1">
-                   <preferred>
-                      <expression>
-                         <name>Term1</name>
-                      </expression>
-                   </preferred>
-                </term>
-             </terms>
-             <clause id="_" obligation="normative" type="terms">
-                <title id="_">
-                   Terms, definitions, symbols and abbreviated terms
-                   <fn id="_" reference="1">
-                      <p id="_">A</p>
-                   </fn>
-                </title>
-                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-                <clause id="_" inline-header="false" obligation="normative">
-                   <title id="_">Introduction</title>
-                   <clause id="_" inline-header="false" obligation="normative">
-                      <title id="_">Intro 1</title>
-                   </clause>
-                </clause>
-                <terms id="_" obligation="normative">
-                   <title id="_">Intro 2</title>
-                   <clause id="_" inline-header="false" obligation="normative">
-                      <title id="_">Intro 3</title>
-                   </clause>
-                </terms>
-                <clause id="_" obligation="normative" type="terms">
-                   <title id="_">Intro 4</title>
-                   <terms id="_" obligation="normative">
-                      <title id="_">Intro 5</title>
-                      <term id="_" anchor="term-Term1-1">
-                         <preferred>
-                            <expression>
-                               <name>Term1</name>
-                            </expression>
-                         </preferred>
-                      </term>
-                   </terms>
-                </clause>
-                <terms id="_" obligation="normative">
-                   <title id="_">Normal Terms</title>
-                   <term id="_" anchor="term-Term2">
-                      <preferred>
-                         <expression>
-                            <name>Term2</name>
-                         </expression>
-                      </preferred>
-                   </term>
-                </terms>
-                <definitions id="_" obligation="normative">
-                   <title id="_">
-                      Symbols and abbreviated terms
-                      <fn id="_" reference="1">
-                         <p id="_">A</p>
-                      </fn>
-                   </title>
-                   <clause id="_" inline-header="false" obligation="normative">
-                      <title id="_">General</title>
-                   </clause>
-                   <definitions id="_" type="symbols" obligation="normative">
-                      <title id="_">
-                         Symbols
-                         <fn id="_" reference="1">
-                            <p id="_">A</p>
-                         </fn>
-                      </title>
-                   </definitions>
-                </definitions>
-             </clause>
-             <definitions id="_" type="abbreviated_terms" obligation="normative">
-                <title id="_">
-                   Abbreviated terms
-                   <fn id="_" reference="1">
-                      <p id="_">A</p>
-                   </fn>
-                </title>
-             </definitions>
-             <clause id="_" inline-header="false" obligation="normative">
-                <title id="_">Clause 4</title>
-                <clause id="_" inline-header="false" obligation="normative">
-                   <title id="_">Introduction</title>
-                </clause>
-                <clause id="_" inline-header="false" obligation="normative">
-                   <title id="_">Clause 4.2</title>
-                </clause>
-             </clause>
-             <clause id="_" inline-header="false" obligation="normative">
-                <title id="_">Terms and Definitions</title>
-             </clause>
-          </sections>
-          <annex id="_" inline-header="false" obligation="normative">
-             <title id="_">
-                Annex.
-                <fn id="_" reference="1">
-                   <p id="_">A</p>
-                </fn>
-             </title>
-             <clause id="_" inline-header="false" obligation="normative">
-                <title id="_">Annex A.1</title>
-             </clause>
-          </annex>
-          <bibliography>
-             <references id="_" normative="true" obligation="informative">
-                <title id="_">
-                   Normative references
-                   <fn id="_" reference="1">
-                      <p id="_">A</p>
-                   </fn>
-                </title>
-                <p id="_">There are no normative references in this document.</p>
-             </references>
-             <references id="_" normative="true" obligation="informative">
-                <title id="_">
-                   Normative References 2.
-                   <fn id="_" reference="1">
-                      <p id="_">A</p>
-                   </fn>
-                </title>
-             </references>
-             <references id="_" normative="false" obligation="informative">
-                <title id="_">
-                   Bibliography
-                   <fn id="_" reference="1">
-                      <p id="_">A</p>
-                   </fn>
-                </title>
-             </references>
-             <clause id="_" obligation="informative">
-                <title id="_">
-                   Bibliography 2.
-                   <fn id="_" reference="1">
-                      <p id="_">A</p>
-                   </fn>
-                </title>
-                <references id="_" normative="false" obligation="informative">
-                   <title id="_">Bibliography Subsection</title>
-                </references>
-             </clause>
-          </bibliography>
-       </metanorma>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Annex A.1</title>
+            </clause>
+         </annex>
+         <bibliography>
+            <references id="_" normative="true" obligation="informative">
+               <title id="_">
+                  Normative references
+                  <fn id="_" reference="1">
+                     <p id="_">A</p>
+                  </fn>
+               </title>
+               <p id="_">There are no normative references in this document.</p>
+            </references>
+            <references id="_" normative="true" obligation="informative">
+               <title id="_">
+                  Normative References 2.
+                  <fn id="_" reference="1">
+                     <p id="_">A</p>
+                  </fn>
+               </title>
+            </references>
+            <references id="_" normative="false" obligation="informative">
+               <title id="_">
+                  Bibliography
+                  <fn id="_" reference="1">
+                     <p id="_">A</p>
+                  </fn>
+               </title>
+            </references>
+            <clause id="_" obligation="informative">
+               <title id="_">
+                  Bibliography 2.
+                  <fn id="_" reference="1">
+                     <p id="_">A</p>
+                  </fn>
+               </title>
+               <references id="_" normative="false" obligation="informative">
+                  <title id="_">Bibliography Subsection</title>
+               </references>
+            </clause>
+         </bibliography>
+      </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove

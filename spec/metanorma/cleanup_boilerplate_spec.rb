@@ -30,6 +30,8 @@ RSpec.describe Metanorma::Standoc do
              <name>ISO</name>
            </organization>
          </contributor>
+         <language>en</language>
+         <script>Latn</script>
        </bibitem>
        <p id='_'>This is also extraneous information</p>
       </references>
@@ -70,6 +72,8 @@ RSpec.describe Metanorma::Standoc do
              <name>ISO</name>
            </organization>
          </contributor>
+         <language>en</language>
+         <script>Latn</script>
        </bibitem>
        <p id='_'>This is also extraneous information</p>
       </references>
@@ -129,6 +133,8 @@ RSpec.describe Metanorma::Standoc do
                    <name>ISO</name>
                  </organization>
                </contributor>
+               <language>en</language>
+               <script>Latn</script>
              </bibitem>
              <p id="_">This is also extraneous information</p>
            </references>
@@ -215,6 +221,8 @@ RSpec.describe Metanorma::Standoc do
                      <name>ISO</name>
                    </organization>
                  </contributor>
+                 <language>en</language>
+                 <script>Latn</script>
                </bibitem>
              </references>
              <clause id="_" inline-header="false" obligation="normative">
@@ -262,6 +270,8 @@ RSpec.describe Metanorma::Standoc do
                      <name>ISO</name>
                    </organization>
                  </contributor>
+                 <language>en</language>
+                 <script>Latn</script>
                </bibitem>
              </references>
              <references id="_" normative="false" obligation="informative">
@@ -309,6 +319,8 @@ RSpec.describe Metanorma::Standoc do
                      <name>ISO</name>
                    </organization>
                  </contributor>
+                 <language>en</language>
+                 <script>Latn</script>
                </bibitem>
              </references>
              <clause id="_" type="boilerplate" inline-header="false" obligation="normative">
@@ -717,6 +729,8 @@ RSpec.describe Metanorma::Standoc do
            <bibitem id="_" anchor="a">
            <formattedref format="application/x-isodoc+xml">A</formattedref>
            <docidentifier>b</docidentifier>
+           <language>en</language>
+           <script>Latn</script>
          </bibitem>
          </references></bibliography>
          </metanorma>
@@ -939,10 +953,14 @@ RSpec.describe Metanorma::Standoc do
                 <bibitem id="_" anchor="iso1234">
                    <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
                    <docidentifier>A</docidentifier>
+                   <language>en</language>
+                   <script>Latn</script>
                 </bibitem>
                 <bibitem id="_" anchor="iso5678">
                    <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
                    <docidentifier>B</docidentifier>
+                   <language>en</language>
+                   <script>Latn</script>
                 </bibitem>
              </references>
           </bibliography>
@@ -1017,10 +1035,14 @@ RSpec.describe Metanorma::Standoc do
                 <bibitem id="_" anchor="iso1234">
                    <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
                    <docidentifier>A</docidentifier>
+                   <language>en</language>
+                   <script>Latn</script>
                 </bibitem>
                 <bibitem id="_" anchor="iso5678">
                    <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
                    <docidentifier>B</docidentifier>
+                   <language>en</language>
+                   <script>Latn</script>
                 </bibitem>
              </references>
           </bibliography>
@@ -1052,7 +1074,7 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR.sub(%r{<language>en</language>}, '<language>fr</language>').sub('<title language="en"', '<title language="fr"')}
-              <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
+         <termdocsource bibitemid="iso1234"/><termdocsource bibitemid="iso5678"/>
          <preface><foreword id='_' obligation="informative">
           <title id="_">Avant-propos</title>
           <p id="_">Foreword</p>
@@ -1073,12 +1095,16 @@ RSpec.describe Metanorma::Standoc do
              <references id="_" normative="false" obligation="informative">
                 <title id="_">Bibliographie</title>
                 <bibitem id="_" anchor="iso1234">
-                   <formattedref format="application/x-isodoc+xml">[PAS D’INFORMATION DISPONIBLE]</formattedref>
+                   <formattedref format="application/x-isodoc+xml">[PAS D'INFORMATION DISPONIBLE]</formattedref>
                    <docidentifier>A</docidentifier>
+                   <language>fr</language>
+                   <script>Latn</script>
                 </bibitem>
                 <bibitem id="_" anchor="iso5678">
-                   <formattedref format="application/x-isodoc+xml">[PAS D’INFORMATION DISPONIBLE]</formattedref>
+                   <formattedref format="application/x-isodoc+xml">[PAS D'INFORMATION DISPONIBLE]</formattedref>
                    <docidentifier>B</docidentifier>
+                   <language>fr</language>
+                   <script>Latn</script>
                 </bibitem>
              </references>
           </bibliography>
@@ -1127,17 +1153,21 @@ RSpec.describe Metanorma::Standoc do
              </terms>
           </sections>
           <bibliography>
-             <references id="_" normative="false" obligation="informative">
-                <title id="_">参考文献</title>
-                <bibitem id="_" anchor="iso1234">
-                   <formattedref format="application/x-isodoc+xml">[无资料]</formattedref>
-                   <docidentifier>A</docidentifier>
-                </bibitem>
-                <bibitem id="_" anchor="iso5678">
-                   <formattedref format="application/x-isodoc+xml">[无资料]</formattedref>
-                   <docidentifier>B</docidentifier>
-                </bibitem>
-             </references>
+              <references id="_" normative="false" obligation="informative">
+                 <title id="_">参考文献</title>
+                 <bibitem id="_" anchor="iso1234">
+                    <formattedref format="application/x-isodoc+xml">[无资料]</formattedref>
+                    <docidentifier>A</docidentifier>
+                    <language>zh</language>
+                    <script>Hans</script>
+                 </bibitem>
+                 <bibitem id="_" anchor="iso5678">
+                    <formattedref format="application/x-isodoc+xml">[无资料]</formattedref>
+                    <docidentifier>B</docidentifier>
+                    <language>zh</language>
+                    <script>Hans</script>
+                 </bibitem>
+              </references>
           </bibliography>
        </metanorma>
     OUTPUT

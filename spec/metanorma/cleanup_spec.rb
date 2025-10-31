@@ -554,6 +554,8 @@ RSpec.describe Metanorma::Standoc do
                    </formattedref>
                    <docidentifier>Löwner et al. 2016</docidentifier>
                    <docnumber>2016</docnumber>
+                   <language>en</language>
+                   <script>Latn</script>
                 </bibitem>
              </references>
              <references hidden="true" normative="false">

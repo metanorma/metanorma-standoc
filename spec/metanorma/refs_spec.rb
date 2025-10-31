@@ -32,6 +32,8 @@ RSpec.describe Metanorma::Standoc do
                    <name>ISO</name>
                  </organization>
                </contributor>
+               <language>en</language>
+               <script>Latn</script>
              </bibitem>
              <bibitem id="_" anchor="iso124" type='standard'>
         <title format='text/plain'>Standard</title>
@@ -44,6 +46,8 @@ RSpec.describe Metanorma::Standoc do
             <name>ISO</name>
           </organization>
         </contributor>
+        <language>en</language>
+        <script>Latn</script>
       </bibitem>
             <bibitem id="_" anchor="iso124">
         <formattedref format="application/x-isodoc+xml">
@@ -52,6 +56,8 @@ RSpec.describe Metanorma::Standoc do
         <docidentifier type='metanorma'>[2]</docidentifier>
         <docidentifier>ISO 123</docidentifier>
         <docnumber>123</docnumber>
+        <language>en</language>
+        <script>Latn</script>
       </bibitem>
       <bibitem id="_" anchor="iso124">
         <formattedref format="application/x-isodoc+xml">
@@ -60,6 +66,8 @@ RSpec.describe Metanorma::Standoc do
         <docidentifier type='metanorma'>[3]</docidentifier>
         <docidentifier>ISO 123</docidentifier>
         <docnumber>123</docnumber>
+        <language>en</language>
+        <script>Latn</script>
       </bibitem>
             <bibitem id="_" anchor="iso124">
         <formattedref format="application/x-isodoc+xml">
@@ -68,6 +76,8 @@ RSpec.describe Metanorma::Standoc do
         <docidentifier type='metanorma'>[4]</docidentifier>
         <docidentifier>ISO 123</docidentifier>
         <docnumber>123</docnumber>
+        <language>en</language>
+        <script>Latn</script>
       </bibitem>
             </references>
             </bibliography>
@@ -92,7 +102,7 @@ RSpec.describe Metanorma::Standoc do
           </sections><bibliography><references id="_" obligation="informative" normative="true">
             <title id="_">Normative references</title>
             #{NORM_REF_BOILERPLATE}
-            <bibitem id="_" anchor="iso123" type="standard">
+              <bibitem id="_" anchor="iso123" type="standard">
               <title format="text/plain">Standard</title>
       <docidentifier>ISO 123:1066-1067</docidentifier>
              <docnumber>123</docnumber>
@@ -106,6 +116,8 @@ RSpec.describe Metanorma::Standoc do
           <name>ISO</name>
         </organization>
       </contributor>
+      <language>en</language>
+      <script>Latn</script>
            </bibitem>
            <bibitem id="_" anchor="iso124" type="standard">
               <title format="text/plain">Standard</title>
@@ -122,6 +134,8 @@ RSpec.describe Metanorma::Standoc do
           <name>ISO</name>
         </organization>
       </contributor>
+      <language>en</language>
+      <script>Latn</script>
            </bibitem>
           </references>
           </bibliography>
@@ -153,6 +167,8 @@ RSpec.describe Metanorma::Standoc do
                   <em>Standard</em>
                </formattedref>
                <docidentifier type="title" primary="true">Standard</docidentifier>
+               <language>en</language>
+               <script>Latn</script>
             </bibitem>
          </references>
          <references id="_" normative="false" obligation="informative">
@@ -161,6 +177,8 @@ RSpec.describe Metanorma::Standoc do
                <formattedref format="application/x-isodoc+xml">
                   <em>Standard</em>
                </formattedref>
+               <language>en</language>
+               <script>Latn</script>
             </bibitem>
          </references>
       </bibliography>
@@ -526,6 +544,8 @@ RSpec.describe Metanorma::Standoc do
                    <name>IEC</name>
                  </organization>
                </contributor>
+               <language>en</language>
+               <script>Latn</script>
              </bibitem>
              <bibitem id="_" anchor="iso124" type='standard'>
         <title format='text/plain'>Standard</title>
@@ -538,6 +558,8 @@ RSpec.describe Metanorma::Standoc do
             <name>IEC</name>
           </organization>
         </contributor>
+        <language>en</language>
+        <script>Latn</script>
       </bibitem>
              </references>
              </bibliography>
@@ -579,6 +601,8 @@ RSpec.describe Metanorma::Standoc do
                    <name>ISO</name>
                  </organization>
                </contributor>
+               <language>en</language>
+               <script>Latn</script>
              </bibitem>
                <bibitem id="_" anchor="iso124" type="standard">
                <title format="text/plain">Standard</title>
@@ -593,6 +617,8 @@ RSpec.describe Metanorma::Standoc do
                    <name>ISO</name>
                  </organization>
                </contributor>
+               <language>en</language>
+               <script>Latn</script>
                <note format="text/plain" type="Unpublished-Status">The standard is in press</note>
              </bibitem>
                <bibitem id="_" anchor="iso125" type="standard">
@@ -608,6 +634,8 @@ RSpec.describe Metanorma::Standoc do
                    <name>ISO</name>
                  </organization>
                </contributor>
+               <language>en</language>
+               <script>Latn</script>
                <note format="text/plain" type="Unpublished-Status">The standard is in press</note>
              </bibitem>
              <bibitem id="_" anchor="iso126" type='standard'>
@@ -624,6 +652,8 @@ RSpec.describe Metanorma::Standoc do
             <name>ISO</name>
           </organization>
         </contributor>
+        <language>en</language>
+        <script>Latn</script>
       </bibitem>
              </references>
              </bibliography>
@@ -661,6 +691,8 @@ RSpec.describe Metanorma::Standoc do
                    <name>ISO</name>
                  </organization>
                </contributor>
+               <language>en</language>
+               <script>Latn</script>
                <extent type="part">
                       <referenceFrom>all</referenceFrom>
               </extent>
@@ -679,6 +711,8 @@ RSpec.describe Metanorma::Standoc do
             <name>ISO</name>
           </organization>
         </contributor>
+        <language>en</language>
+        <script>Latn</script>
         <extent type='part'>
           <referenceFrom>all</referenceFrom>
         </extent>
@@ -712,6 +746,8 @@ RSpec.describe Metanorma::Standoc do
                </formattedref>
                <docidentifier>XYZ 123:1966 (all parts)</docidentifier>
                <docnumber>123:1966 (all parts)</docnumber>
+               <language>en</language>
+               <script>Latn</script>
              </bibitem>
              <bibitem id="_" anchor="iso124">
         <formattedref format='application/x-isodoc+xml'>
@@ -723,6 +759,8 @@ RSpec.describe Metanorma::Standoc do
                       <date type='published'>
          <on>1966</on>
        </date>
+        <language>en</language>
+        <script>Latn</script>
       </bibitem>
              </references>
              </bibliography>
@@ -754,21 +792,29 @@ RSpec.describe Metanorma::Standoc do
                  <em>Standard</em>
                </formattedref>
                <docidentifier type="metanorma">[1]</docidentifier>
+               <language>en</language>
+               <script>Latn</script>
              </bibitem><bibitem id="_" anchor="iso124">
                <formattedref format="application/x-isodoc+xml">
                  <em>Standard</em>
                </formattedref>
                <docidentifier type="metanorma">[B]</docidentifier>
+               <language>en</language>
+               <script>Latn</script>
              </bibitem><bibitem id="_" anchor="iso125">
                <formattedref format="application/x-isodoc+xml">
                  <em>Standard</em>
                </formattedref>
                <docidentifier type="metanorma">[3]</docidentifier>
+               <language>en</language>
+               <script>Latn</script>
              </bibitem><bibitem id="_" anchor="iso126">
                <formattedref format="application/x-isodoc+xml">
                  <em>Standard</em>
                </formattedref>
                <docidentifier type="metanorma">[A1]</docidentifier>
+               <language>en</language>
+               <script>Latn</script>
              </bibitem>
       <bibitem id="_" anchor="iso127">
         <formattedref format='application/x-isodoc+xml'>
@@ -777,6 +823,8 @@ RSpec.describe Metanorma::Standoc do
         <docidentifier type='metanorma'>[5]</docidentifier>
         <docidentifier>XYZ 123:1066 (all parts)</docidentifier>
         <docnumber>123:1066 (all parts)</docnumber>
+        <language>en</language>
+        <script>Latn</script>
       </bibitem>
              </references>
              </bibliography>
@@ -828,6 +876,8 @@ RSpec.describe Metanorma::Standoc do
                   <name>ISO</name>
                 </organization>
               </contributor>
+              <language>en</language>
+              <script>Latn</script>
             </bibitem>
             <bibitem id="_" anchor="iso124" type='standard'>
         <title format='text/plain'>Standard</title>
@@ -840,6 +890,8 @@ RSpec.describe Metanorma::Standoc do
             <name>ISO</name>
           </organization>
         </contributor>
+        <language>en</language>
+        <script>Latn</script>
       </bibitem>
             </references></bibliography>
             </metanorma>
@@ -912,6 +964,8 @@ RSpec.describe Metanorma::Standoc do
                      <docidentifier>ISO 123</docidentifier>
                      <docidentifier type='repository'>ab/ISO 123</docidentifier>
                      <docnumber>123</docnumber>
+                     <language>en</language>
+                     <script>Latn</script>
                    </bibitem>
                    <bibitem id="_" anchor="iso123a">
                      <formattedref format='application/x-isodoc+xml'>
@@ -920,6 +974,8 @@ RSpec.describe Metanorma::Standoc do
                      <docidentifier>ISO 123</docidentifier>
                      <docidentifier type='repository'>ab/ISO 123</docidentifier>
                      <docnumber>123</docnumber>
+                     <language>en</language>
+                     <script>Latn</script>
                    </bibitem>
                    <bibitem id="_" anchor="iso124">
                      <formattedref format='application/x-isodoc+xml'>
@@ -927,6 +983,8 @@ RSpec.describe Metanorma::Standoc do
                     </formattedref>
                     <docidentifier>id</docidentifier>
                     <docidentifier type='repository'>ab/ISO 124</docidentifier>
+                    <language>en</language>
+                    <script>Latn</script>
                   </bibitem>
                   <bibitem id="_" anchor="iso124a">
                      <formattedref format='application/x-isodoc+xml'>
@@ -934,6 +992,8 @@ RSpec.describe Metanorma::Standoc do
                     </formattedref>
                     <docidentifier>id</docidentifier>
                     <docidentifier type='repository'>ab/ISO 124</docidentifier>
+                    <language>en</language>
+                    <script>Latn</script>
                   </bibitem>
                   <bibitem id="_" anchor="iso125" suppress_identifier='true'>
                      <formattedref format='application/x-isodoc+xml'>
@@ -941,6 +1001,8 @@ RSpec.describe Metanorma::Standoc do
                      </formattedref>
                      <docidentifier>id</docidentifier>
                      <docidentifier type='repository'>ab/ISO 124</docidentifier>
+                     <language>en</language>
+                     <script>Latn</script>
                    </bibitem>
                    <bibitem id="_" anchor="iso125a" suppress_identifier='true'>
                      <formattedref format='application/x-isodoc+xml'>
@@ -948,6 +1010,8 @@ RSpec.describe Metanorma::Standoc do
                      </formattedref>
                      <docidentifier>id</docidentifier>
                      <docidentifier type='repository'>ab/ISO 124</docidentifier>
+                     <language>en</language>
+                     <script>Latn</script>
                    </bibitem>
                  </references>
                </bibliography>
@@ -1135,6 +1199,8 @@ RSpec.describe Metanorma::Standoc do
                   <uri type="citation">a/b</uri>
                   <docidentifier>ISO 124</docidentifier>
                   <docnumber>124</docnumber>
+                  <language>en</language>
+                  <script>Latn</script>
                </bibitem>
             </references>
          </bibliography>
@@ -1169,6 +1235,8 @@ RSpec.describe Metanorma::Standoc do
                 <em>Standard</em>
               </formattedref>
               <docidentifier>A</docidentifier>
+              <language>en</language>
+              <script>Latn</script>
             </bibitem>
           </references>
           <references id="_" normative="true" obligation="informative">
@@ -1179,6 +1247,8 @@ RSpec.describe Metanorma::Standoc do
                 <em>Standard</em>
               </formattedref>
               <docidentifier>B</docidentifier>
+              <language>en</language>
+              <script>Latn</script>
             </bibitem>
           </references>
         </bibliography>
@@ -1230,6 +1300,8 @@ RSpec.describe Metanorma::Standoc do
                  ]
                </docidentifier>
                <docidentifier>XYZ</docidentifier>
+               <language>en</language>
+               <script>Latn</script>
              </bibitem>
              <bibitem id="_" anchor="iso125">
                <formattedref format='application/x-isodoc+xml'>
@@ -1245,6 +1317,8 @@ RSpec.describe Metanorma::Standoc do
                  ]
                </docidentifier>
                <docidentifier>XYZ</docidentifier>
+               <language>en</language>
+               <script>Latn</script>
              </bibitem>
            </references>
          </bibliography>
@@ -1285,6 +1359,8 @@ RSpec.describe Metanorma::Standoc do
                  </formattedref>
                  <docidentifier type="metanorma">[<strong>A</strong>.<fn id="_" reference="1"><p id="_">hello</p></fn>]</docidentifier>
                  <docidentifier>XYZ</docidentifier>
+                 <language>en</language>
+                 <script>Latn</script>
                </bibitem>
                <p id="_">More text</p>
              </references>
@@ -1296,6 +1372,8 @@ RSpec.describe Metanorma::Standoc do
                  </formattedref>
                  <docidentifier type="metanorma">[<strong>A</strong>.<fn id="_" reference="1"><p id="_">hello</p></fn>]</docidentifier>
                  <docidentifier>XYZ</docidentifier>
+                 <language>en</language>
+                 <script>Latn</script>
                </bibitem>
              </references>
            </clause>
@@ -1328,6 +1406,8 @@ RSpec.describe Metanorma::Standoc do
                  <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
                  <docidentifier type="NIST">NIST 123</docidentifier>
                  <docnumber>123</docnumber>
+                 <language>en</language>
+                 <script>Latn</script>
                </bibitem>
              </references>
            </bibliography>
@@ -1413,18 +1493,24 @@ RSpec.describe Metanorma::Standoc do
                     <uri type="attachment">_attach_attachments/iso.xml</uri>
                     <uri type="citation">_attach_attachments/iso.xml</uri>
                     <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
+                    <language>en</language>
+                    <script>Latn</script>
                  </bibitem>
                  <bibitem anchor="iso124" id="_" hidden="true">
                     <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
                     <uri type="attachment">_attach_attachments/iso.xml_</uri>
                     <uri type="citation">_attach_attachments/iso.xml_</uri>
                     <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
+                    <language>en</language>
+                    <script>Latn</script>
                  </bibitem>
                  <bibitem anchor="iso125" id="_" hidden="true">
                     <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
                     <uri type="attachment">_attach_attachments/html.scss</uri>
                     <uri type="citation">_attach_attachments/html.scss</uri>
                     <docidentifier type="metanorma">[spec/assets/html.scss]</docidentifier>
+                    <language>en</language>
+                    <script>Latn</script>
                  </bibitem>
               </references>
            </bibliography>
