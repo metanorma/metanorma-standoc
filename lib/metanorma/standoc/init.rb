@@ -1,5 +1,6 @@
 require_relative "utils"
 require_relative "regex"
+require "json"
 
 module Metanorma
   module Standoc
@@ -61,8 +62,14 @@ module Metanorma
         severity = node.attr("log-filter-severity")&.to_i || 4
         category = csv_split(node.attr("log-filter-category"), ",")
         error_ids = csv_split(node.attr("log-filter-error-ids"), ",")
-        @log.suppress_log = { severity:, category:, error_ids:,
-                              locations: [] }
+        locations = extract_log_filter_error_loc(node)
+        @log.suppress_log = { severity:, category:, error_ids:, locations: }
+      end
+
+      def extract_log_filter_error_loc(node)
+        locations = JSON.parse(node.attr("log-filter-error-loc") || "[]")
+        locations = [locations] unless locations.is_a?(Array)
+        locations.map { |loc| loc.transform_keys(&:to_sym) }
       end
 
       def init_image(node)

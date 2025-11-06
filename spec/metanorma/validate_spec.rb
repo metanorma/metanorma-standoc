@@ -664,6 +664,7 @@ RSpec.describe Metanorma::Standoc do
         :no-pdf:
         :no-isobib-cache:
 
+        [[Clause1]]
         == Clause
         [align=mid-air]
         A <<X>>
@@ -790,7 +791,7 @@ RSpec.describe Metanorma::Standoc do
         .not_to include("value of attribute \"align\" is invalid")
 
       FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(
+      Asciidoctor.convert(
         input.sub(/:no-isobib-cache:/,
                   ":log-filter-error-ids: STANDOC_38, RELATON_3\n" \
                   ":no-isobib-cache:"), *OPTIONS
@@ -811,11 +812,46 @@ RSpec.describe Metanorma::Standoc do
       expect(f)
         .to include("value of attribute \"align\" is invalid")
     end
+
+    it "filters errors by location in Metanorma log" do
+      FileUtils.rm_f "test.err.html"
+      l = ":log-filter-error-loc: "
+      Asciidoctor.convert(
+        input.sub(/:no-isobib-cache:/,
+                  l + '{ "from": "Clause3" }'), *OPTIONS
+      )
+      f = File.read("test.err.html")
+      expect(f).to include("STANDOC_38")
+
+      FileUtils.rm_f "test.err.html"
+      Asciidoctor.convert(
+        input.sub(/:no-isobib-cache:/,
+                  l + '{ "from": "Clause1" }'), *OPTIONS
+      )
+      f = File.read("test.err.html")
+      expect(f).not_to include("STANDOC_38")
+
+      FileUtils.rm_f "test.err.html"
+      Asciidoctor.convert(
+        input.sub(/:no-isobib-cache:/,
+                  l + '{ "from": "Clause1", "error_ids": ["STANDOC_39"] }'), *OPTIONS
+      )
+      f = File.read("test.err.html")
+      expect(f).to include("STANDOC_38")
+
+      FileUtils.rm_f "test.err.html"
+      Asciidoctor.convert(
+        input.sub(/:no-isobib-cache:/,
+                  l + '{ "from": "Clause1", "error_ids": ["STANDOC_39", "STANDOC_38"] }'), *OPTIONS
+      )
+      f = File.read("test.err.html")
+      expect(f).not_to include ("STANDOC_38")
+    end
   end
 
   it "warns and aborts if concept attributes are malformed" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+    FileUtils.rm_f  "test.xml"
+    FileUtils.rm_f  "test.err.html"
     begin
       input = <<~INPUT
         = Document title
@@ -830,17 +866,17 @@ RSpec.describe Metanorma::Standoc do
       INPUT
       expect do
         Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(RuntimeError)
+      end.to raise_error (RuntimeError)
     rescue SystemExit, RuntimeError
     end
     expect(File.read("test.err.html"))
-      .to include('processing {{&lt;​&lt;def&gt;​&gt;,term,​option=​"noital"}}: error processing ,term,​option=​"noital" as CSV')
+      .to include ('processing {{&lt;​&lt;def&gt;​&gt;,term,​option=​"noital"}}: error processing ,term,​option=​"noital" as CSV')
     expect(File.exist?("test.xml")).to be false
   end
 
   it "warns and aborts if concept/xref does not point to term or definition" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+    FileUtils.rm_f  "test.xml"
+    FileUtils.rm_f  "test.err.html"
     begin
       input = <<~INPUT
         = Document title
@@ -876,19 +912,19 @@ RSpec.describe Metanorma::Standoc do
     expect(File.read("test.err.html"))
       .to include(%(Term reference to <code>Terms-and-Definitions</code> missing: "Terms-and-Definitions" is not defined in document))
     expect(File.read("test.err.html"))
-      .to include("Concept term1 is pointing to jkl, which is not a term or symbol. Did you mean to point to a subterm?")
+      .to include ("Concept term1 is pointing to jkl, which is not a term or symbol. Did you mean to point to a subterm?")
     expect(File.read("test.err.html"))
-      .to include("Concept term is pointing to abc, which is not a term or symbol")
+      .to include ("Concept term is pointing to abc, which is not a term or symbol")
     expect(File.read("test.err.html"))
-      .not_to include("Concept term is pointing to def, which is not a term or symbol")
+      .not_to include ("Concept term is pointing to def, which is not a term or symbol")
     expect(File.read("test.err.html"))
-      .to include("Concept term is pointing to ghi, which is not a term or symbol")
+      .to include ("Concept term is pointing to ghi, which is not a term or symbol")
     expect(File.exist?("test.xml")).to be false
   end
 
   it "warns and aborts if related/xref does not point to term or definition" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+    FileUtils.rm_f  "test.xml"
+    FileUtils.rm_f  "test.err.html"
     begin
       input = <<~INPUT
         = Document title
@@ -913,17 +949,17 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include("Related term is pointing to abc, which is not a term or symbol")
+      .to include ("Related term is pointing to abc, which is not a term or symbol")
     expect(File.read("test.err.html"))
-      .not_to include("Related term is pointing to def, which is not a term or symbol")
+      .not_to include ("Related term is pointing to def, which is not a term or symbol")
     expect(File.read("test.err.html"))
-      .to include("Related term is pointing to ghi, which is not a term or symbol")
+      .to include ("Related term is pointing to ghi, which is not a term or symbol")
     expect(File.exist?("test.xml")).to be false
   end
 
   it "warns and aborts if a designation appears in a non-term clause" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+    FileUtils.rm_f  "test.xml"
+    FileUtils.rm_f  "test.err.html"
     begin
       input = <<~INPUT
         = Document title
@@ -951,17 +987,17 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include("Clause not recognised as a term clause, but contains designation markup")
+      .to include ("Clause not recognised as a term clause, but contains designation markup")
     expect(File.read("test.err.html"))
-      .to include("ABC, DE&amp;F")
+      .to include ("ABC, DE&amp;F")
     expect(File.read("test.err.html"))
-      .to include("GHI")
+      .to include ("GHI")
     expect(File.exist?("test.xml")).to be false
   end
 
   it "warns and aborts if id used twice" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+    FileUtils.rm_f  "test.xml"
+    FileUtils.rm_f  "test.err.html"
     begin
       input = <<~INPUT
         = Document title
@@ -986,8 +1022,8 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "does not warn and abort if columns and rows not out of bounds" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+    FileUtils.rm_f  "test.xml"
+    FileUtils.rm_f  "test.err.html"
     begin
       input = <<~INPUT
         = Document title
@@ -1002,7 +1038,7 @@ RSpec.describe Metanorma::Standoc do
         3.2+| a | a
         | a
         | a | a | a | a
-        |===
+        |===#{' '}
       INPUT
       expect do
         Asciidoctor.convert(input, *OPTIONS)
@@ -1010,16 +1046,17 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .not_to include("Table exceeds maximum number of columns defined")
+      .not_to include ("Table exceeds maximum number of columns defined")
     expect(File.read("test.err.html"))
-      .not_to include("Table rows in table are inconsistent: check rowspan")
+      .not_to include ("Table rows in table are inconsistent: check rowspan")
     expect(File.read("test.err.html"))
-      .not_to include("Table rows in table cannot go outside thead: check rowspan")
+      .not_to include ("Table rows in table cannot go outside thead: check rowspan"
+                      )
   end
 
   it "warns if rowspan goes across thead" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+    FileUtils.rm_f  "test.xml"
+    FileUtils.rm_f  "test.err.html"
     begin
       input = <<~INPUT
         = Document title
@@ -1043,10 +1080,10 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include("Table rows in table cannot go outside thead: check rowspan")
+      .to include ("Table rows in table cannot go outside thead: check rowspan")
 
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+    FileUtils.rm_f  "test.xml"
+    FileUtils.rm_f  "test.err.html"
     begin
       input = <<~INPUT
         = Document title
@@ -1062,7 +1099,7 @@ RSpec.describe Metanorma::Standoc do
 
         | a
         | a | a | a | a
-        |===
+        |===#{' '}
       INPUT
       expect do
         Asciidoctor.convert(input, *OPTIONS)
@@ -1072,8 +1109,8 @@ RSpec.describe Metanorma::Standoc do
   end
 
   xit "warns and aborts if columns out of bounds against colgroup" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+    FileUtils.rm_f  "test.xml"
+    FileUtils.rm_f  "test.err.html"
     begin
       input = <<~INPUT
         = Document title
@@ -1087,7 +1124,7 @@ RSpec.describe Metanorma::Standoc do
 
         | a 4+| a
         | a | a |a |a
-        |===
+        |===#{' '}
       INPUT
       expect do
         Asciidoctor.convert(input, *OPTIONS)
@@ -1095,14 +1132,15 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include("Table exceeds maximum number of columns defined (4)")
+      .to include ("Table exceeds maximum number of columns defined (4)")
     expect(File.read("test.err.html"))
-      .not_to include("Table rows in table are inconsistent: check rowspan")
+      .not_to include ("Table rows in table are inconsistent: check rowspan"
+                      )
   end
 
   xit "warns and aborts if columns out of bounds against cell count per row" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+    FileUtils.rm_f  "test.xml"
+    FileUtils.rm_f  "test.err.html"
     begin
       input = <<~INPUT
         = Document title
@@ -1115,7 +1153,7 @@ RSpec.describe Metanorma::Standoc do
 
         | a | a | a
         | a | a | a
-        |===
+        |===#{' '}
       INPUT
       expect do
         Asciidoctor.convert(input, *OPTIONS)
@@ -1123,14 +1161,15 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .to include("Table exceeds maximum number of columns defined (3)")
+      .to include ("Table exceeds maximum number of columns defined (3)")
     expect(File.read("test.err.html"))
-      .not_to include("Table rows in table are inconsistent: check rowspan")
+      .not_to include ("Table rows in table are inconsistent: check rowspan"
+                      )
   end
 
   it "warns and aborts if rows out of bounds" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+    FileUtils.rm_f  "test.xml"
+    FileUtils.rm_f  "test.err.html"
     begin
       input = <<~INPUT
         = Document title
@@ -1143,7 +1182,7 @@ RSpec.describe Metanorma::Standoc do
 
         | a | a | a
         | a | a | a
-        |===
+        |===#{' '}
       INPUT
       expect do
         Asciidoctor.convert(input, *OPTIONS)
@@ -1151,7 +1190,7 @@ RSpec.describe Metanorma::Standoc do
     rescue SystemExit
     end
     expect(File.read("test.err.html"))
-      .not_to include("Table exceeds maximum number of columns defined")
+      .not_to include ("Table exceeds maximum number of columns defined")
     expect(File.read("test.err.html"))
       .to include("Table rows in table are inconsistent: check rowspan")
   end
