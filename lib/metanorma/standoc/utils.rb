@@ -44,9 +44,10 @@ module Metanorma
       end
 
       def csv_split(text, delim = ";", encode: true)
+        text ||= ""
         ret = Metanorma::Utils::csv_split(@c.decode(text), delim)
         encode and
-          ret.map! { |x| @c.encode(x, :basic, :hexadecimal) }
+          ret.map! { |x| @c.encode(x.strip, :basic, :hexadecimal) }
         ret
       end
 

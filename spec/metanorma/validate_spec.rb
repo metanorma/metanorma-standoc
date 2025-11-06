@@ -703,21 +703,27 @@ RSpec.describe Metanorma::Standoc do
         .to include(%(anchor=&quot;abc&quot;))
     end
 
-    it "logs Relaton errors onto Metanorma log" do
+    it "logs Relaton and Metanorma errors onto Metanorma log" do
       FileUtils.rm_f "test.err.html"
       Asciidoctor.convert(input, *OPTIONS)
       f = File.read("test.err.html")
       expect(f)
         .to include("<code>ISO 0a</code>")
       expect(f)
+        .to include("RELATON_3")
+      expect(f)
         .to include("Is not recognized as a standards identifier")
       expect(f)
+        .to include("STANDOC_38")
+      expect(f)
         .to include("Crossreference target X is undefined")
+      expect(f)
+        .to include("STANDOC_7")
       expect(f)
         .to include("value of attribute \"align\" is invalid")
     end
 
-    it "logs Relaton errors onto Metanorma log" do
+    it "filters errors in Metanorma log" do
       FileUtils.rm_f "test.err.html"
       Asciidoctor.convert(
         input.sub(/:no-isobib-cache:/,
@@ -727,12 +733,19 @@ RSpec.describe Metanorma::Standoc do
       expect(f)
         .not_to include("<code>ISO 0a</code>")
       expect(f)
+        .not_to include("RELATON_3")
+      expect(f)
         .not_to include("Is not recognized as a standards identifier")
+      expect(f)
+        .to include("STANDOC_38")
       expect(f)
         .to include("Crossreference target X is undefined")
       expect(f)
+        .not_to include("STANDOC_7")
+      expect(f)
         .not_to include("value of attribute \"align\" is invalid")
 
+      FileUtils.rm_f "test.err.html"
       Asciidoctor.convert(
         input.sub(/:no-isobib-cache:/,
                   ":log-filter-category: Relaton, Anchors \n "\
@@ -742,12 +755,19 @@ RSpec.describe Metanorma::Standoc do
       expect(f)
         .not_to include("<code>ISO 0a</code>")
       expect(f)
+        .not_to include("RELATON_3")
+      expect(f)
         .not_to include("Is not recognized as a standards identifier")
+      expect(f)
+        .not_to include("STANDOC_38")
       expect(f)
         .not_to include("Crossreference target X is undefined")
       expect(f)
+        .to include("STANDOC_7")
+      expect(f)
         .to include("value of attribute \"align\" is invalid")
 
+      FileUtils.rm_f "test.err.html"
       Asciidoctor.convert(
         input.sub(/:no-isobib-cache:/,
                   ":log-filter-category: Metanorma XML Syntax \n" \
@@ -757,11 +777,39 @@ RSpec.describe Metanorma::Standoc do
       expect(f)
         .to include("<code>ISO 0a</code>")
       expect(f)
+        .to include("RELATON_3")
+      expect(f)
         .to include("Is not recognized as a standards identifier")
+      expect(f)
+        .to include("STANDOC_38")
       expect(f)
         .to include("Crossreference target X is undefined")
       expect(f)
+        .not_to include("STANDOC_7")
+      expect(f)
         .not_to include("value of attribute \"align\" is invalid")
+
+      FileUtils.rm_f "test.err.html"
+    Asciidoctor.convert(
+        input.sub(/:no-isobib-cache:/,
+                  ":log-filter-error-ids: STANDOC_38, RELATON_3\n" \
+                  ":no-isobib-cache:"), *OPTIONS
+      )
+      f = File.read("test.err.html")
+      expect(f)
+        .not_to include("<code>ISO 0a</code>")
+      expect(f)
+        .not_to include("RELATON_3")
+      expect(f)
+        .not_to include("Is not recognized as a standards identifier")
+      expect(f)
+        .not_to include("STANDOC_38")
+      expect(f)
+        .not_to include("Crossreference target X is undefined")
+      expect(f)
+        .to include("STANDOC_7")
+      expect(f)
+        .to include("value of attribute \"align\" is invalid")
     end
   end
 

@@ -53,16 +53,16 @@ module Metanorma
         @smartquotes = node.attr("smartquotes") != "false"
         @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
         @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
-        @blockunnumbered = (node.attr("block-unnumbered") || "").split(",")
-          .map(&:strip)
+        @blockunnumbered = csv_split(node.attr("block-unnumbered"), ",")
       end
 
       def init_log(node)
         @log or return
         severity = node.attr("log-filter-severity")&.to_i || 4
-        category = node.attr("log-filter-category") || ""
-        category = category.split(",").map(&:strip)
-        @log.suppress_log = { severity:, category: }
+        category = csv_split(node.attr("log-filter-category"), ",")
+        error_ids = csv_split(node.attr("log-filter-error-ids"), ",")
+        @log.suppress_log = { severity:, category:, error_ids:,
+                              locations: [] }
       end
 
       def init_image(node)
