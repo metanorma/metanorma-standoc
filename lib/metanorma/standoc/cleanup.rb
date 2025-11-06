@@ -31,6 +31,7 @@ module Metanorma
         element_name_cleanup(xmldoc)
         source_include_cleanup(xmldoc) # feeds: misccontainer_cleanup
         passthrough_cleanup(xmldoc) # feeds: smartquotes_cleanup
+        annotation_cleanup(xmldoc)
         unnumbered_blocks_cleanup(xmldoc)
         termdocsource_cleanup(xmldoc) # feeds: metadata_cleanup
         metadata_cleanup(xmldoc) # feeds: boilerplate_cleanup, bibdata_cleanup,
@@ -142,66 +143,13 @@ module Metanorma
 
       def empty_element_cleanup(xmldoc)
         xmldoc.xpath("//#{TEXT_ELEMS.join(' | //')}").each do |x|
-          next if x.name == "name" && x.parent.name == "expression"
-
-          x.remove if x.children.empty?
+          x.name == "name" && x.parent.name == "expression" and next
+          x.children.empty? and x.remove
         end
       end
 
       def element_name_cleanup(xmldoc)
         xmldoc.traverse { |n| n.name = n.name.tr("_", "-") }
-      end
-
-      # allows us to deal with doc relation localities,
-      # temporarily stashed to "bpart"
-      def bpart_cleanup(xmldoc)
-        xmldoc.xpath("//relation/bpart").each do |x|
-          extract_localities(x)
-          x.replace(x.children)
-        end
-      end
-
-      def variant_cleanup(xmldoc)
-        variant_space_cleanup(xmldoc)
-        xmldoc.xpath("//*[lang-variant]").each do |c|
-          if only_langvariant_children?(c)
-            duplicate_langvariants(c, c.xpath("./lang-variant"))
-          else
-            c.xpath(".//lang-variant").each { |x| x.name = "span" }
-          end
-        end
-      end
-
-      def only_langvariant_children?(node)
-        node.children.none? do |n|
-          n.name != "lang-variant" && (!n.text? || !n.text.strip.empty?)
-        end
-      end
-
-      def duplicate_langvariants(container, variants)
-        lang_variant_to_node(variants.first, container)
-        variants[1..].reverse.each do |node|
-          new = container.dup
-          lang_variant_to_node(node, new)
-          container.next = new
-        end
-      end
-
-      def lang_variant_to_node(variant, node)
-        node.children = variant.children
-        node["lang"] = variant["lang"]
-        node.delete("script")
-        variant["script"] and node["script"] = variant["script"]
-      end
-
-      def variant_space_cleanup(xmldoc)
-        xmldoc.xpath("//*[lang-variant]").each do |c|
-          c.next.nil? || c.next.next.nil? and next
-          if c.next.text? && c.next.next.name == "lang-variant"
-            c.next.text.gsub(/\s/, "").empty? and
-              c.next.remove
-          end
-        end
       end
 
       def metadata_cleanup(xmldoc)
@@ -220,6 +168,18 @@ module Metanorma
           /\{\{|\{%/.match?(x) or next
           x.children = @isodoc.populate_template(to_xml(x.children), nil)
         end
+      end
+
+      def annotation_cleanup(xmldoc)
+        ret = xmldoc.xpath("//annotation[@type = 'ignore-log']")
+          .each_with_object([]) do |ann, m|
+          error_ids = Array(csv_split(ann.text || "", ","))
+          m << { from: ann["from"], to: ann["to"], error_ids: error_ids }
+          ann
+        end
+        config = @log.suppress_log
+        config[:locations] = ret
+        @log.suppress_log = config
       end
     end
   end

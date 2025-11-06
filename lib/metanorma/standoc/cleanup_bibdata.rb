@@ -196,6 +196,15 @@ module Metanorma
       def published?(stage, _xmldoc)
         stage.casecmp("published").zero?
       end
+
+      # allows us to deal with doc relation localities,
+      # temporarily stashed to "bpart"
+      def bpart_cleanup(xmldoc)
+        xmldoc.xpath("//relation/bpart").each do |x|
+          extract_localities(x)
+          x.replace(x.children)
+        end
+      end
     end
   end
 end

@@ -655,7 +655,7 @@ RSpec.describe Metanorma::Standoc do
       .to include('value of attribute "align" is invalid; must be equal to')
   end
 
-  context "logs errors" do
+  context "logging errors" do
     let(:input) do
       <<~INPUT
         = Document title
@@ -672,6 +672,7 @@ RSpec.describe Metanorma::Standoc do
         [bibliography]
         == Normative References
         * [[[iev,ISO 0a]]], _iev_
+
       INPUT
     end
 
@@ -843,6 +844,69 @@ RSpec.describe Metanorma::Standoc do
       Asciidoctor.convert(
         input.sub(/:no-isobib-cache:/,
                   l + '{ "from": "Clause1", "error_ids": ["STANDOC_39", "STANDOC_38"] }'), *OPTIONS
+      )
+      f = File.read("test.err.html")
+      expect(f).not_to include ("STANDOC_38")
+
+      FileUtils.rm_f "test.err.html"
+      Asciidoctor.convert(
+        input.sub(/:no-isobib-cache:/,
+                  l + '[{ "from": "Clause1", "error_ids": ["STANDOC_39", "STANDOC_38"] }, { "from": "Clause3" }]'), *OPTIONS
+      )
+      f = File.read("test.err.html")
+      expect(f).not_to include ("STANDOC_38")
+    end
+
+    it "filters errors by location in Metanorma log using annotations" do
+      FileUtils.rm_f "test.err.html"
+      annotation = <<~ANNOTATION
+
+        [from="Clause3",type="ignore-log"]
+        ****
+        ERRORS
+        ****
+      ANNOTATION
+      xml = Asciidoctor.convert(
+        input + annotation.sub("ignore-log", "ignore-me"), *OPTIONS
+      )
+      expect(xml).to include("</annotation>")
+
+      FileUtils.rm_f "test.err.html"
+      xml = Asciidoctor.convert(
+        input + annotation.sub("ERRORS", ""), *OPTIONS
+      )
+      expect(xml).not_to include("</annotation>")
+      f = File.read("test.err.html")
+      expect(f).to include("STANDOC_38")
+
+      FileUtils.rm_f "test.err.html"
+      Asciidoctor.convert(
+        input + annotation.sub("Clause3", "Clause1").sub("ERRORS", ""), *OPTIONS
+      )
+      f = File.read("test.err.html")
+      expect(f).not_to include("STANDOC_38")
+
+      FileUtils.rm_f "test.err.html"
+      Asciidoctor.convert(
+        input + annotation.sub("Clause3", "Clause1")
+        .sub("ERRORS", "STANDOC_39"), *OPTIONS
+      )
+      f = File.read("test.err.html")
+      expect(f).to include("STANDOC_38")
+
+      FileUtils.rm_f "test.err.html"
+      Asciidoctor.convert(
+        input + annotation.sub("Clause3", "Clause1")
+        .sub("ERRORS", "STANDOC_39, STANDOC_38"), *OPTIONS
+      )
+      f = File.read("test.err.html")
+      expect(f).not_to include ("STANDOC_38")
+
+      FileUtils.rm_f "test.err.html"
+      Asciidoctor.convert(
+        input + annotation.sub("Clause3", "Clause1")
+        .sub("ERRORS", "STANDOC_39, STANDOC_38") +
+        annotation.sub("Clause3", "Clause1").sub("ERRORS", ""), *OPTIONS
       )
       f = File.read("test.err.html")
       expect(f).not_to include ("STANDOC_38")
@@ -1715,231 +1779,233 @@ RSpec.describe Metanorma::Standoc do
       .to include("Image too large for Data URI encoding")
   end
 
-  it "warns of empty notes" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    input = <<~INPUT
-      #{VALIDATING_BLANK_HDR}
+  context "warns of empty elements: " do
+    it "notes" do
+      FileUtils.rm_f "test.xml"
+      FileUtils.rm_f "test.err.html"
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
 
-      .Caption
-      [NOTE]
-      --
+        .Caption
+        [NOTE]
+        --
 
-      --
-    INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .to include(%(note is empty))
+        --
+      INPUT
+      Asciidoctor.convert(input, *OPTIONS)
+      expect(File.read("test.err.html"))
+        .to include(%(note is empty))
 
-    input = <<~INPUT
-      #{VALIDATING_BLANK_HDR}
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
 
-      [[a]]
-      [NOTE]
-      --
-      <<a>>
-      --
-    INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .not_to include(%(note is empty))
-  end
+        [[a]]
+        [NOTE]
+        --
+        <<a>>
+        --
+      INPUT
+      Asciidoctor.convert(input, *OPTIONS)
+      expect(File.read("test.err.html"))
+        .not_to include(%(note is empty))
+    end
 
-  it "warns of empty examples" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    input = <<~INPUT
-      #{VALIDATING_BLANK_HDR}
+    it "examples" do
+      FileUtils.rm_f "test.xml"
+      FileUtils.rm_f "test.err.html"
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
 
-      .Caption
-      ====
+        .Caption
+        ====
 
-      ====
-    INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .to include(%(example is empty))
+        ====
+      INPUT
+      Asciidoctor.convert(input, *OPTIONS)
+      expect(File.read("test.err.html"))
+        .to include(%(example is empty))
 
-    input = <<~INPUT
-      #{VALIDATING_BLANK_HDR}
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
 
-      ====
-      A
-      ====
-    INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .not_to include(%(example is empty))
-  end
+        ====
+        A
+        ====
+      INPUT
+      Asciidoctor.convert(input, *OPTIONS)
+      expect(File.read("test.err.html"))
+        .not_to include(%(example is empty))
+    end
 
-  it "warns of empty admonitions" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    input = <<~INPUT
-      #{VALIDATING_BLANK_HDR}
+    it "admonitions" do
+      FileUtils.rm_f "test.xml"
+      FileUtils.rm_f "test.err.html"
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
 
-      .Caption
-      [WARNING]
-      --
+        .Caption
+        [WARNING]
+        --
 
-      --
-    INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .to include(%(admonition is empty))
+        --
+      INPUT
+      Asciidoctor.convert(input, *OPTIONS)
+      expect(File.read("test.err.html"))
+        .to include(%(admonition is empty))
 
-    input = <<~INPUT
-      #{VALIDATING_BLANK_HDR}
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
 
-      [WARNING]
-      --
-      A
-      --
-    INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .not_to include(%(admonition is empty))
-  end
+        [WARNING]
+        --
+        A
+        --
+      INPUT
+      Asciidoctor.convert(input, *OPTIONS)
+      expect(File.read("test.err.html"))
+        .not_to include(%(admonition is empty))
+    end
 
-  it "warns of empty figures" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    input = <<~INPUT
-      #{VALIDATING_BLANK_HDR}
+    it "figures" do
+      FileUtils.rm_f "test.xml"
+      FileUtils.rm_f "test.err.html"
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
 
-      .Caption
-      [figure]
-      ====
+        .Caption
+        [figure]
+        ====
 
-      ====
-    INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .to include(%(figure is empty))
+        ====
+      INPUT
+      Asciidoctor.convert(input, *OPTIONS)
+      expect(File.read("test.err.html"))
+        .to include(%(figure is empty))
 
-    input = <<~INPUT
-      #{VALIDATING_BLANK_HDR}
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
 
-      [figure]
-      ====
-      image::spec/examples/rice_images/rice_image3_1.png[]
-      ====
-    INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .not_to include(%(figure is empty))
-  end
+        [figure]
+        ====
+        image::spec/examples/rice_images/rice_image3_1.png[]
+        ====
+      INPUT
+      Asciidoctor.convert(input, *OPTIONS)
+      expect(File.read("test.err.html"))
+        .not_to include(%(figure is empty))
+    end
 
-  it "warns of empty quotes" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    input = <<~INPUT
-      #{VALIDATING_BLANK_HDR}
+    it "quotes" do
+      FileUtils.rm_f "test.xml"
+      FileUtils.rm_f "test.err.html"
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
 
-      .Caption
-      ____
+        .Caption
+        ____
 
-      ____
-    INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .to include(%(quote is empty))
+        ____
+      INPUT
+      Asciidoctor.convert(input, *OPTIONS)
+      expect(File.read("test.err.html"))
+        .to include(%(quote is empty))
 
-    input = <<~INPUT
-      #{VALIDATING_BLANK_HDR}
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
 
-      ____
-      A
-      ____
-    INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .not_to include(%(quote is empty))
-  end
+        ____
+        A
+        ____
+      INPUT
+      Asciidoctor.convert(input, *OPTIONS)
+      expect(File.read("test.err.html"))
+        .not_to include(%(quote is empty))
+    end
 
-  it "warns of empty literals" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    input = <<~INPUT
-      #{VALIDATING_BLANK_HDR}
+    it "literals" do
+      FileUtils.rm_f "test.xml"
+      FileUtils.rm_f "test.err.html"
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
 
-      .Caption
-      ....
+        .Caption
+        ....
 
-      ....
-    INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .to include(%(pre is empty))
+        ....
+      INPUT
+      Asciidoctor.convert(input, *OPTIONS)
+      expect(File.read("test.err.html"))
+        .to include(%(pre is empty))
 
-    input = <<~INPUT
-      #{VALIDATING_BLANK_HDR}
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
 
-      ....
-      A
-      ....
-    INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .not_to include(%(pre is empty))
-  end
+        ....
+        A
+        ....
+      INPUT
+      Asciidoctor.convert(input, *OPTIONS)
+      expect(File.read("test.err.html"))
+        .not_to include(%(pre is empty))
+    end
 
-  it "warns of empty sourcecode" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    input = <<~INPUT
-      #{VALIDATING_BLANK_HDR}
+    it "sourcecodes" do
+      FileUtils.rm_f "test.xml"
+      FileUtils.rm_f "test.err.html"
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
 
-      .Caption
-      [source,ruby]
-      ----
+        .Caption
+        [source,ruby]
+        ----
 
-      ----
-    INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .to include(%(sourcecode is empty))
+        ----
+      INPUT
+      Asciidoctor.convert(input, *OPTIONS)
+      expect(File.read("test.err.html"))
+        .to include(%(sourcecode is empty))
 
-    input = <<~INPUT
-      #{VALIDATING_BLANK_HDR}
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
 
-      [source]
-      ----
-      &nbsp;
-      ----
-    INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .not_to include(%(sourcecode is empty))
-  end
+        [source]
+        ----
+        &nbsp;
+        ----
+      INPUT
+      Asciidoctor.convert(input, *OPTIONS)
+      expect(File.read("test.err.html"))
+        .not_to include(%(sourcecode is empty))
+    end
 
-  it "warns of empty formula" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    input = <<~INPUT
-      #{VALIDATING_BLANK_HDR}
+    it "formulas" do
+      FileUtils.rm_f "test.xml"
+      FileUtils.rm_f "test.err.html"
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
 
-      .Caption
-      [stem]
-      ++++
+        .Caption
+        [stem]
+        ++++
 
-      ++++
-    INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .to include(%(formula is empty))
+        ++++
+      INPUT
+      Asciidoctor.convert(input, *OPTIONS)
+      expect(File.read("test.err.html"))
+        .to include(%(formula is empty))
 
-    input = <<~INPUT
-      #{VALIDATING_BLANK_HDR}
+      input = <<~INPUT
+        #{VALIDATING_BLANK_HDR}
 
-      [stem]
-      ++++
-      1
-      ++++
-    INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .not_to include(%(formula is empty))
+        [stem]
+        ++++
+        1
+        ++++
+      INPUT
+      Asciidoctor.convert(input, *OPTIONS)
+      expect(File.read("test.err.html"))
+        .not_to include(%(formula is empty))
+    end
   end
 
   private

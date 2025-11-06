@@ -18,8 +18,7 @@ module Metanorma
         a.text? or return
         if /\S/.match?(a.text)
           a.content = a.text.lstrip
-        else
-          a.remove
+        else a.remove
         end
       end
 
@@ -186,6 +185,48 @@ module Metanorma
         xmldoc.xpath("//span[normalize-space(.)=''][@source]").each do |s|
           s.parent["source"] = s["source"]
           s.remove
+        end
+      end
+
+      def variant_cleanup(xmldoc)
+        variant_space_cleanup(xmldoc)
+        xmldoc.xpath("//*[lang-variant]").each do |c|
+          if only_langvariant_children?(c)
+            duplicate_langvariants(c, c.xpath("./lang-variant"))
+          else
+            c.xpath(".//lang-variant").each { |x| x.name = "span" }
+          end
+        end
+      end
+
+      def only_langvariant_children?(node)
+        node.children.none? do |n|
+          n.name != "lang-variant" && (!n.text? || !n.text.strip.empty?)
+        end
+      end
+
+      def duplicate_langvariants(container, variants)
+        lang_variant_to_node(variants.first, container)
+        variants[1..].reverse.each do |node|
+          new = container.dup
+          lang_variant_to_node(node, new)
+          container.next = new
+        end
+      end
+
+      def lang_variant_to_node(variant, node)
+        node.children = variant.children
+        node["lang"] = variant["lang"]
+        node.delete("script")
+        variant["script"] and node["script"] = variant["script"]
+      end
+
+      def variant_space_cleanup(xmldoc)
+        xmldoc.xpath("//*[lang-variant]").each do |c|
+          c.next.nil? || c.next.next.nil? and next
+          c.next.text? && c.next.next.name == "lang-variant" &&
+            c.next.text.gsub(/\s/, "").empty? and
+            c.next.remove
         end
       end
 
