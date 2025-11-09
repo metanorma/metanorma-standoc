@@ -178,7 +178,7 @@ module Metanorma
           ann
         end
         config = @log.suppress_log
-        config[:locations] = ret
+        config[:locations] += ret
         @log.suppress_log = config
       end
     end
