@@ -94,6 +94,7 @@ module Metanorma
       end
 
       def validate(doc)
+        @log.add_error_ranges(doc)
         content_validate(doc)
         schema_validate(formattedstr_strip(doc.dup), schema_location)
       end

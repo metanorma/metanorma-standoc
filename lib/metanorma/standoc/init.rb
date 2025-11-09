@@ -1,5 +1,6 @@
 require_relative "utils"
 require_relative "regex"
+require "json"
 
 module Metanorma
   module Standoc
@@ -41,6 +42,7 @@ module Metanorma
         @embed_id = node.attr("embed_id")
         @document_scheme = document_scheme(node)
         @source_linenums = node.attr("source-linenums-option") == "true"
+        # feeds log
         @semantic_headless = node.attr("semantic-metadata-headless") == "true"
         @default_doctype = "standard"
       end
@@ -53,16 +55,33 @@ module Metanorma
         @smartquotes = node.attr("smartquotes") != "false"
         @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
         @sourcecode_markup_end = node.attr("sourcecode-markup-end") || "}}}"
-        @blockunnumbered = (node.attr("block-unnumbered") || "").split(",")
-          .map(&:strip)
+        @blockunnumbered = csv_split(node.attr("block-unnumbered"), ",")
       end
 
       def init_log(node)
         @log or return
+        @semantic_headless and return
         severity = node.attr("log-filter-severity")&.to_i || 4
-        category = node.attr("log-filter-category") || ""
-        category = category.split(",").map(&:strip)
-        @log.suppress_log = { severity:, category: }
+        category = csv_split(node.attr("log-filter-category"), ",")
+        error_ids = csv_split(node.attr("log-filter-error-ids"), ",")
+        locations = cleanup_log_filter_error_log(
+          extract_log_filter_error_loc(node),
+        )
+        @log.suppress_log = { severity:, category:, error_ids:, locations: }
+      end
+
+      def extract_log_filter_error_loc(node)
+        locations = JSON.parse(node.attr("log-filter-error-loc") || "[]")
+        locations = [locations] unless locations.is_a?(Array)
+        locations.map { |loc| loc.transform_keys(&:to_sym) }
+      end
+
+      def cleanup_log_filter_error_log(locations)
+        locations.each do |loc|
+          loc[:to] ||= loc[:from]
+          loc[:error_ids] ||= []
+          loc[:error_ids] &&= Array(loc[:error_ids])
+        end
       end
 
       def init_image(node)
