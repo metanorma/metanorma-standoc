@@ -403,5 +403,24 @@ RSpec.describe Metanorma::Standoc do
     expect(f).not_to include("Fetching from")
     expect(f).not_to include("Downloading index from")
     expect(f).to include("Not found")
+
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :no-isobib-cache:
+
+      [bibliography]
+      == Normative references
+      * [[[A,ISO 639]]]
+    INPUT
+    Asciidoctor.convert(input, *OPTIONS)
+    f = File.read("test.err.html")
+    expect(f).not_to include("Fetching from")
+    expect(f).not_to include("Downloading index from")
+    expect(f).to include("Found") # to check suffix: ISO 639:2023
   end
 end
