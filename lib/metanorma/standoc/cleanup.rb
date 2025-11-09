@@ -120,9 +120,19 @@ module Metanorma
         @relaton_log.rewind
         @relaton_log.string.split(/(?<=})\n(?={)/).each do |l|
           e = JSON.parse(l)
-          @log.add(RELATON_SEVERITIES[e["severity"].to_sym], e["key"],
-                   params: [e["message"]])
+          relaton_log_add?(e) and
+            @log.add(RELATON_SEVERITIES[e["severity"].to_sym], e["key"],
+                     params: [e["message"]])
         end
+      end
+
+      def relaton_log_add?(entry)
+        entry["message"].include?("Fetching from") and return false
+        entry["message"].include?("Downloaded index from") and return false
+        entry["message"].start_with?("Found:") or return true
+        id = /^Found: `(.+)`$/.match(entry["message"]) or return true
+        entry["key"].end_with?(id[1]) and return false
+        true
       end
 
       def docidentifier_cleanup(xmldoc); end
