@@ -4,12 +4,16 @@ require_relative "./front_contributor"
 require_relative "./front_ext"
 require "isoics"
 
+# add_noko_elem(node, name, val, attrs = {})
+
 module Metanorma
   module Standoc
     module Front
       def metadata_id(node, xml)
         id = node.attr("docidentifier") || metadata_id_build(node)
-        xml.docidentifier id, primary: "true"
+        add_noko_elem(xml, "docidentifier", id, primary: "true")
+
+        # xml.docidentifier id, primary: "true"
       end
 
       def metadata_id_build(node)
