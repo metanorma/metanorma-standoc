@@ -156,7 +156,8 @@ module Metanorma
 
           #{text}
         ADOC
-        c = isolated_asciidoctor_convert(doc, backend: flavour, header_footer: true)
+        c = isolated_asciidoctor_convert(doc, backend: flavour,
+                                              header_footer: true)
         ret = Nokogiri::XML(c).at("//xmlns:sections")
         separate_numbering_footnotes(ret)
       end
@@ -191,6 +192,13 @@ module Metanorma
 
       def refid?(ref)
         @refids.include? ref
+      end
+
+      def add_noko_elem(node, name, val, attrs = {})
+        val and val.empty? or return
+        node.send name, **attr_code(attrs) do |n|
+          n << val
+        end
       end
 
       module_function :adoc2xml
