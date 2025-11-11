@@ -177,8 +177,9 @@ module Metanorma
       def quote_attribution(node, out)
         if node.attr("citetitle")
           m = /^(?<cite>[^,]+)(?:,(?<text>.*$))?$/m.match node.attr("citetitle")
-          add_noko_elem(out, "source", m[:text], target: m[:cite],
-                                                 type: "inline")
+          out.source **attr_code(target: m[:cite], type: "inline") do |s|
+            s << m[:text]
+          end
         end
         add_noko_elem(out, "author", node.attr("attribution"))
       end
