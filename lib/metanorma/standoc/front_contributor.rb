@@ -37,19 +37,19 @@ module Metanorma
         type = node.attr("role#{suffix}")&.downcase || "author"
         desc = node.attr("role-description#{suffix}")
         contrib.role type: type do |r|
-          desc and r.description do |d|
-            d << desc
-          end
+          add_noko_elem(r, "description", desc)
         end
       end
 
       def personal_contact(node, suffix, person)
-        node.attr("phone#{suffix}") and person.phone node.attr("phone#{suffix}")
+        node.attr("phone#{suffix}") and
+          add_noko_elem(person, "phone", node.attr("phone#{suffix}"))
         node.attr("fax#{suffix}") and
-          person.phone node.attr("fax#{suffix}"), type: "fax"
-        node.attr("email#{suffix}") and person.email node.attr("email#{suffix}")
+          add_noko_elem(person, "phone", node.attr("fax#{suffix}"), type: "fax")
+        node.attr("email#{suffix}") and
+          add_noko_elem(person, "email", node.attr("email#{suffix}"))
         node.attr("contributor-uri#{suffix}") and
-          person.uri node.attr("contributor-uri#{suffix}")
+          add_noko_elem(person, "uri", node.attr("contributor-uri#{suffix}"))
       end
 
       def personal_author1(node, xml, suffix)
@@ -67,25 +67,25 @@ module Metanorma
       def person_name(node, _xml, suffix, person)
         person.name do |n|
           if node.attr("fullname#{suffix}")
-            n.completename node.attr("fullname#{suffix}")
+            add_noko_elem(n, "completename", node.attr("fullname#{suffix}"))
           else
-            n.forename node.attr("givenname#{suffix}")
-            n.initial node.attr("initials#{suffix}")
-            n.surname node.attr("surname#{suffix}")
+            add_noko_elem(n, "forename", node.attr("givenname#{suffix}"))
+            add_noko_elem(n, "initial", node.attr("initials#{suffix}"))
+            add_noko_elem(n, "surname", node.attr("surname#{suffix}"))
           end
         end
       end
 
       def person_credentials(node, _xml, suffix, person)
-        c = node.attr("contributor-credentials#{suffix}") and
-          person.credentials c
+        add_noko_elem(person, "credentials",
+                      node.attr("contributor-credentials#{suffix}"))
       end
 
       def person_affiliation(node, _xml, suffix, person)
         aff = node.attr("affiliation#{suffix}")
         pos = node.attr("contributor-position#{suffix}")
         (aff || pos) and person.affiliation do |a|
-          pos and a.name { |n| n << pos }
+          add_noko_elem(a, "name", pos)
           aff and a.organization do |o|
             person_organization(node, suffix, o)
           end

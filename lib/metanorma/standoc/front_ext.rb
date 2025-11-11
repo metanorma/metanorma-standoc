@@ -5,7 +5,7 @@ module Metanorma
         ics = node.attr("library-ics")
         ics&.split(/,\s*/)&.each do |i|
           xml.ics do |elem|
-            elem.code i
+            add_noko_elem(elem, "code", i)
             icsdata = Isoics.fetch i
             elem.text_ icsdata.description
           end
@@ -24,15 +24,15 @@ module Metanorma
       def structured_id(node, xml); end
 
       def metadata_doctype(node, xml)
-        xml.doctype doctype(node)
+        add_noko_elem(xml, "doctype", doctype(node))
       end
 
       def metadata_subdoctype(node, xml)
-        s = node.attr("docsubtype") and xml.subdoctype s
+        add_noko_elem(xml, "subdoctype", node.attr("docsubtype"))
       end
 
       def metadata_flavor(_node, ext)
-        ext.flavor processor.new.asciidoctor_backend
+        add_noko_elem(ext, "flavor", processor.new.asciidoctor_backend.to_s)
       end
 
       def metadata_coverpage_images(node, xml)
@@ -40,7 +40,9 @@ module Metanorma
            backpage-image).each do |n|
           if a = node.attr(n)
             xml.send n do |c|
-              a.split(",").each { |x| c.image src: x }
+              a.split(",").each do |x|
+                c.image src: x
+              end
             end
           end
         end

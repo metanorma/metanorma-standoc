@@ -5,6 +5,22 @@ require "json"
 require "pathname"
 require "uuidtools"
 
+module Nokogiri
+  module XML
+    class Builder
+      class NodeBuilder
+        def add_noko_elem(name, val, attrs = {})
+          val and !val.empty? or return
+          # require "debug"; binding.b
+          send name, **Metanorma::Utils::attr_code(attrs) do |n|
+            n << val
+          end
+        end
+      end
+    end
+  end
+end
+
 module Metanorma
   module Standoc
     module Utils
@@ -195,7 +211,7 @@ module Metanorma
       end
 
       def add_noko_elem(node, name, val, attrs = {})
-        val and val.empty? or return
+        val and !val.empty? or return
         node.send name, **attr_code(attrs) do |n|
           n << val
         end

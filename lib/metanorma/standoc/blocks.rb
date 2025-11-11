@@ -48,9 +48,7 @@ module Metanorma
 
       def block_title(node, out)
         node.title.nil? and return
-        out.name **attr_code(id_attr(nil)) do |name|
-          name << node.title
-        end
+        add_noko_elem(out, "name", node.title, id_attr(nil))
       end
 
       def form_attrs(node)
@@ -179,12 +177,10 @@ module Metanorma
       def quote_attribution(node, out)
         if node.attr("citetitle")
           m = /^(?<cite>[^,]+)(?:,(?<text>.*$))?$/m.match node.attr("citetitle")
-          out.source **attr_code(target: m[:cite], type: "inline") do |s|
-            s <<  m[:text]
-          end
+          add_noko_elem(out, "source", m[:text], target: m[:cite],
+                                                 type: "inline")
         end
-        node.attr("attribution") and
-          out.author { |a| a << node.attr("attribution") }
+        add_noko_elem(out, "author", node.attr("attribution"))
       end
 
       def quote(node)

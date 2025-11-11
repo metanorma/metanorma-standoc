@@ -213,6 +213,7 @@ module Metanorma
       end
 
       def empty_block?(block)
+        block.nil? and return
         content = block.children.reject { |n| n.name == "name" }
         content.map do |n|
           %w(image xref eref).include?(n.name) ? n.name : n

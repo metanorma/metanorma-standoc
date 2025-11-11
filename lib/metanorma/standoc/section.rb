@@ -87,9 +87,10 @@ module Metanorma
 
       def section_title(xml, title)
         title.nil? and return
-        xml.title **attr_code(id_attr(nil)) do |t|
-          t << title
-        end
+        add_noko_elem(xml, "title", title, id_attr(nil))
+        # xml.title **attr_code(id_attr(nil)) do |t|
+        #  t << title
+        # end
       end
 
       def preamble(node)
@@ -102,9 +103,10 @@ module Metanorma
       end
 
       def metanorma_extension_parse(_attrs, xml, node)
-        xml.send :"metanorma-extension-clause" do |xml_section|
-          xml_section << node.content
-        end
+        add_noko_elem(xml, "metanorma-extension-clause", node.content)
+        # xml.send :"metanorma-extension-clause" do |xml_section|
+        #  xml_section << node.content
+        # end
       end
 
       def indexsect_parse(attrs, xml, node)
@@ -115,9 +117,10 @@ module Metanorma
       end
 
       def abstract_parse(attrs, xml, node)
-        xml.abstract **attr_code(attrs) do |xml_section|
-          xml_section << node.content
-        end
+        add_noko_elem(xml, "abstract", node.content, **attr_code(attrs))
+        # xml.abstract **attr_code(attrs) do |xml_section|
+        #  xml_section << node.content
+        # end
       end
 
       def scope_parse(attrs, xml, node)
