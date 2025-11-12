@@ -492,21 +492,39 @@ RSpec.describe Metanorma::Standoc do
 
       Inline Reference to <<reference>>
       Inline Reference to <<reference,style=basic%>>
+      Cross Reference <<ref1>>
+
+      [bibliography]
+      == Bibliography
+      * [[[ref1,A]]] Ref
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-        <sections>
-          <clause id="_" anchor="reference" inline-header='false' obligation='normative'>
-            <title id="_">Section</title>
-            <p id='_'>
-              Inline Reference to
-              <xref target='reference' style='full'/>
-               Inline Reference to
-              <xref target='reference' style='basic'/>
-            </p>
-          </clause>
-        </sections>
-      </metanorma>
+          <sections>
+             <clause id="_" anchor="reference" inline-header="false" obligation="normative">
+                <title id="_">Section</title>
+                <p id="_">
+                   Inline Reference to
+                   <xref target="reference" style="full"/>
+                   Inline Reference to
+                   <xref target="reference" style="basic"/>
+                   Cross Reference
+                   <eref type="inline" bibitemid="ref1" citeas="A"/>
+                </p>
+             </clause>
+          </sections>
+          <bibliography>
+             <references id="_" normative="false" obligation="informative">
+                <title id="_">Bibliography</title>
+                <bibitem anchor="ref1" id="_">
+                   <formattedref format="application/x-isodoc+xml">Ref</formattedref>
+                   <docidentifier>A</docidentifier>
+                   <language>en</language>
+                   <script>Latn</script>
+                </bibitem>
+             </references>
+          </bibliography>
+       </metanorma>
     OUTPUT
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Canon.format_xml(output))
