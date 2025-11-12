@@ -50,17 +50,11 @@ module Metanorma
                       end
         code1.sub!(/^nofetch\((.+)\)$/, "\\1")
         add_noko_elem(bib, "docidentifier", code1, type: type)
-        # bib.docidentifier **attr_code(type:) do |d|
-        #  d << code1
-        # end
       end
 
       def docnumber(bib, code)
         code or return
         add_noko_elem(bib, "docnumber", @c.decode(code).sub(/^[^\d]*/, ""))
-        # bib.docnumber do |d|
-        #  d << @c.decode(code).sub(/^[^\d]*/, "")
-        # end
       end
 
       def mn_code(code)

@@ -186,11 +186,8 @@ module Metanorma
       def inline_indexterm1(xml, terms)
         xml.index do |i|
           add_noko_elem(i, "primary", terms[0])
-          # i.primary { |x| x << terms[0] }
           add_noko_elem(i, "secondary", terms[1])
           add_noko_elem(i, "tertiary", terms[2])
-          # a = terms[1] and i.secondary { |x| x << a }
-          # a = terms[2] and i.tertiary { |x| x << a }
         end
       end
     end

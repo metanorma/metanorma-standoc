@@ -4,8 +4,6 @@ require_relative "./front_contributor"
 require_relative "./front_ext"
 require "isoics"
 
-# add_noko_elem(node, name, val, attrs = {})
-
 module Metanorma
   module Standoc
     module Front

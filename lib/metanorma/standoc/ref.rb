@@ -62,9 +62,6 @@ module Metanorma
         if match.names.include?("fn") && match[:fn]
           add_noko_elem(xml, "note", match[:fn].to_s,
                         **plaintxt.merge(type: "Unpublished-Status"))
-          # xml.note(**plaintxt.merge(type: "Unpublished-Status")) do |p|
-          #  p << match[:fn].to_s
-          # end
         end
       end
 
@@ -118,7 +115,6 @@ module Metanorma
           docid(bib, /^\d+$/.match?(i) ? "[#{i}]" : i, code[:type])
         code[:type] == "repo" and
           add_noko_elem(bib, "docidentifier", code[:key], type: "repository")
-        # bib.docidentifier code[:key], type: "repository"
       end
 
       def refitem_uri(code, bib)
@@ -127,14 +123,10 @@ module Metanorma
                         type: "URI")
           add_noko_elem(bib, "uri", code[:key].sub(/\.[a-zA-Z0-9]+$/, ""),
                         type: "citation")
-          # bib.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), type: "URI"
-          # bib.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), type: "citation"
         end
         if code[:type] == "attachment"
           add_noko_elem(bib, "uri", code[:key], type: "attachment")
           add_noko_elem(bib, "uri", code[:key], type: "citation")
-          # bib.uri code[:key], type: "attachment"
-          # bib.uri code[:key], type: "citation"
         end
       end
 
@@ -160,9 +152,6 @@ module Metanorma
         (title.nil? || title.empty?) and title = @i18n.no_information_available
         add_noko_elem(bibitem, "formattedref", ref_normalise_no_format(title),
                       format: "application/x-isodoc+xml")
-        # bibitem.formattedref format: "application/x-isodoc+xml" do |i|
-        #  i << ref_normalise_no_format(title)
-        # end
       end
 
       # TODO: alternative where only title is available

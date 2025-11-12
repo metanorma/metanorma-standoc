@@ -110,7 +110,6 @@ module Metanorma
         xml.send tag do |p|
           p.expression do |e|
             add_noko_elem(e, "name", text)
-            # e.name { |name| name << text }
           end
         end
       end
