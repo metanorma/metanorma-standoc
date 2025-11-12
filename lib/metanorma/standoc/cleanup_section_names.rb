@@ -147,6 +147,7 @@ module Metanorma
           p.name = "variant-title"
           p.delete("variant_title")
           p.xpath("(#{path})[last()]").each do |sect|
+            p.remove
             (ins = sect.at("./title") and ins.next = p) or
               sect.add_first_child(p)
           end

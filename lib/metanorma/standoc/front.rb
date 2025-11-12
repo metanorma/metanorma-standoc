@@ -9,7 +9,7 @@ module Metanorma
     module Front
       def metadata_id(node, xml)
         id = node.attr("docidentifier") || metadata_id_build(node)
-        xml.docidentifier id, primary: "true"
+        add_noko_elem(xml, "docidentifier", id, primary: "true")
       end
 
       def metadata_id_build(node)
@@ -21,21 +21,23 @@ module Metanorma
       end
 
       def metadata_other_id(node, xml)
-        a = node.attr("isbn") and xml.docidentifier a, type: "ISBN"
-        a = node.attr("isbn10") and xml.docidentifier a, type: "ISBN10"
+        a = node.attr("isbn") and
+          add_noko_elem(xml, "docidentifier", a, type: "ISBN")
+        a = node.attr("isbn10") and
+          add_noko_elem(xml, "docidentifier", a, type: "ISBN10")
         csv_split(node.attr("docidentifier-additional"), ",")&.each do |n|
           t, v = n.split(":", 2)
-          xml.docidentifier v, type: t
+          add_noko_elem(xml, "docidentifier", v, type: t)
         end
-        xml.docnumber node.attr("docnumber")
+        add_noko_elem(xml, "docnumber", node.attr("docnumber"))
       end
 
       def metadata_version(node, xml)
         draft = metadata_version_value(node)
-        xml.edition node.attr("edition") if node.attr("edition")
+        add_noko_elem(xml, "edition", node.attr("edition"))
         xml.version do |v|
-          v.revision_date node.attr("revdate") if node.attr("revdate")
-          v.draft draft if draft
+          add_noko_elem(v, "revision_date", node.attr("revdate"))
+          add_noko_elem(v, "draft", draft)
         end
       end
 
@@ -48,23 +50,24 @@ module Metanorma
 
       def metadata_status(node, xml)
         xml.status do |s|
-          s.stage (node.attr("status") || node.attr("docstage") || "published")
-          node.attr("docsubstage") and s.substage node.attr("docsubstage")
-          node.attr("iteration") and s.iteration node.attr("iteration")
+          add_noko_elem(s, "stage",
+                        node.attr("status") || node.attr("docstage") || "published")
+          add_noko_elem(s, "substage", node.attr("docsubstage"))
+          add_noko_elem(s, "iteration", node.attr("iteration"))
         end
       end
 
       def metadata_source(node, xml)
-        node.attr("uri") && xml.uri(node.attr("uri"))
+        add_noko_elem(xml, "uri", node.attr("uri"))
         %w(xml html pdf doc relaton).each do |t|
-          node.attr("#{t}-uri") && xml.uri(node.attr("#{t}-uri"), type: t)
+          add_noko_elem(xml, "uri", node.attr("#{t}-uri"), type: t)
         end
       end
 
       def metadata_date1(node, xml, type)
         date = node.attr("#{type}-date")
         date and xml.date(type:) do |d|
-          d.on date
+          add_noko_elem(d, "on", date)
         end
       end
 
@@ -80,17 +83,17 @@ module Metanorma
           a == "date" || /^date_\d+$/.match(a) or next
           type, date = node.attr(a).split(/ /, 2)
           type or next
-          xml.date(type:) { |d| d.on date }
+          xml.date(type:) { |d| add_noko_elem(d, "on", date) }
         end
       end
 
       def metadata_language(node, xml)
-        xml.language (node.attr("language") || "en")
-        l = node.attr("locale") and xml.locale l
+        add_noko_elem(xml, "language", node.attr("language") || "en")
+        add_noko_elem(xml, "locale", node.attr("locale"))
       end
 
       def metadata_script(node, xml)
-        xml.script (node.attr("script") ||
+        add_noko_elem(xml, "script", node.attr("script") ||
                     Metanorma::Utils.default_script(node.attr("language")))
       end
 
@@ -128,8 +131,8 @@ module Metanorma
         xml.relation type: relation_normalise(type) do |r|
           desc.nil? or r.description desc.tr("-", " ")
           fetch_ref(r, doc, nil, **{}) or r.bibitem do |b|
-            b.title id[1] || "--"
-            b.docidentifier id[0]
+            add_noko_elem(b, "title", id[1] || "--")
+            add_noko_elem(b, "docidentifier", id[0])
           end
         end
       end
@@ -137,7 +140,7 @@ module Metanorma
       def metadata_keywords(node, xml)
         node.attr("keywords") or return
         node.attr("keywords").split(/,\s*/).each do |kw|
-          xml.keyword kw
+          add_noko_elem(xml, "keyword", kw)
         end
       end
 
@@ -145,7 +148,7 @@ module Metanorma
         csv_split(node.attr("classification"), ",")&.each do |c|
           vals = c.split(/:/, 2)
           vals.size == 1 and vals = ["default", vals[0]]
-          xml.classification vals[1], type: vals[0]
+          add_noko_elem(xml, "classification", vals[1], type: vals[0])
         end
       end
 
@@ -204,9 +207,8 @@ module Metanorma
       end
 
       def add_title_xml(xml, content, language, type)
-        xml.title **attr_code(language: language, type: type) do |t|
-          t << Metanorma::Utils::asciidoc_sub(content)
-        end
+        add_noko_elem(xml, "title", Metanorma::Utils::asciidoc_sub(content),
+                      language: language, type: type)
       end
 
       def title_fallback(node, xml)

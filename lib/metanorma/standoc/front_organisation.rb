@@ -3,11 +3,11 @@ module Metanorma
     module Front
       def organization(org, orgname, node = nil, default_org = nil, attrs = {})
         orgname, abbr = org_name_and_abbrev(attrs, orgname)
-        org.name orgname
+        add_noko_elem(org, "name", orgname)
         default_org && (a = node&.attr("subdivision")) && !attrs[:subdiv] and
           subdivision(a, node&.attr("subdivision-abbr"), org)
         a = attrs[:subdiv] and subdivision(a, nil, org)
-        abbr and org.abbreviation abbr
+        add_noko_elem(org, "abbreviation", abbr)
       end
 
       def org_name_and_abbrev(org, orgname)
@@ -45,32 +45,30 @@ module Metanorma
       def subdiv_build(list, org)
         list.empty? and return
         org.subdivision **attr_code(type: list[0][:type]) do |s|
-          s.name { |n| n << list[0][:value] }
+          add_noko_elem(s, "name", list[0][:value])
           subdiv_build(list[1..], s)
-          a = list[0][:abbr] and s.abbreviation { |n| n << a }
+          add_noko_elem(s, "abbreviation", list[0][:abbr])
         end
       end
 
       def org_address(org, xml)
         p = org[:address] and xml.address do |ad|
-          ad.formattedAddress do |f|
-            f << p.gsub(/ \+\n/, "<br/>")
-          end
+          add_noko_elem(ad, "formattedAddress", p.gsub(/ \+\n/, "<br/>"))
         end
         org_contact(org, xml)
       end
 
       def org_contact(org, xml)
-        p = org[:phone] and xml.phone p
-        p = org[:fax] and xml.phone p, type: "fax"
-        p = org[:email] and xml.email p
-        p = org[:uri] and xml.uri p
+        add_noko_elem(xml, "phone", org[:phone])
+        add_noko_elem(xml, "phone", org[:fax], type: "fax")
+        add_noko_elem(xml, "email", org[:email])
+        add_noko_elem(xml, "uri", org[:uri])
       end
 
       def person_organization(node, suffix, xml)
-        xml.name node.attr("affiliation#{suffix}")
-        abbr = node.attr("affiliation_abbrev#{suffix}") and
-          xml.abbreviation abbr
+        add_noko_elem(xml, "name", node.attr("affiliation#{suffix}"))
+        add_noko_elem(xml, "abbreviation",
+                      node.attr("affiliation_abbrev#{suffix}"))
         a = node.attr("affiliation_subdiv#{suffix}") and
           subdivision(a, nil, xml)
         person_address(node, suffix, xml)
@@ -80,9 +78,8 @@ module Metanorma
       def person_address(node, suffix, xml)
         if node.attr("address#{suffix}")
           xml.address do |ad|
-            ad.formattedAddress do |f|
-              f << node.attr("address#{suffix}").gsub(/ \+\n/, "<br/>")
-            end
+            add_noko_elem(ad, "formattedAddress",
+                          node.attr("address#{suffix}").gsub(/ \+\n/, "<br/>"))
           end
         elsif node.attr("country#{suffix}") || node.attr("city#{suffix}")
           person_address_components(node, suffix, xml)
@@ -92,7 +89,7 @@ module Metanorma
       def person_address_components(node, suffix, xml)
         xml.address do |ad|
           %w(street city state country postcode).each do |k|
-            s = node.attr("#{k}#{suffix}") and ad.send k, s
+            add_noko_elem(ad, k, node.attr("#{k}#{suffix}"))
           end
         end
       end
@@ -128,9 +125,7 @@ module Metanorma
 
       def org_contributor_role(xml, org)
         xml.role type: org[:role] do |r|
-          org[:desc] and r.description do |d|
-            d << org[:desc]
-          end
+          add_noko_elem(r, "description", org[:desc])
         end
       end
 

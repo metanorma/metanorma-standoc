@@ -7,13 +7,14 @@ module Metanorma
             xml_li.p(**attr_code(id_attr(item))) { |t| t << item.text }
             xml_li << item.content
           else
-            xml_li.p(**attr_code(id_attr(item))) { |p| p << item.text }
+            xml_li.p(**attr_code(id_attr(item))) { |t| t << item.text }
           end
         end
       end
 
       def ul_li(xml_ul, item)
         xml_ul.li **ul_li_attrs(item) do |xml_li|
+          add_noko_elem(xml_li, "p", item.text, id_attr(item))
           xml_li.p(**attr_code(id_attr(item))) { |t| t << item.text }
           if item.blocks?
             xml_li << item.content

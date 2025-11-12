@@ -60,9 +60,8 @@ module Metanorma
 
       def ref_fn(match, xml)
         if match.names.include?("fn") && match[:fn]
-          xml.note(**plaintxt.merge(type: "Unpublished-Status")) do |p|
-            p << match[:fn].to_s
-          end
+          add_noko_elem(xml, "note", match[:fn].to_s,
+                        **plaintxt.merge(type: "Unpublished-Status"))
         end
       end
 
@@ -115,17 +114,19 @@ module Metanorma
         i = code[:id] and
           docid(bib, /^\d+$/.match?(i) ? "[#{i}]" : i, code[:type])
         code[:type] == "repo" and
-          bib.docidentifier code[:key], type: "repository"
+          add_noko_elem(bib, "docidentifier", code[:key], type: "repository")
       end
 
       def refitem_uri(code, bib)
         if code[:type] == "path"
-          bib.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), type: "URI"
-          bib.uri code[:key].sub(/\.[a-zA-Z0-9]+$/, ""), type: "citation"
+          add_noko_elem(bib, "uri", code[:key].sub(/\.[a-zA-Z0-9]+$/, ""),
+                        type: "URI")
+          add_noko_elem(bib, "uri", code[:key].sub(/\.[a-zA-Z0-9]+$/, ""),
+                        type: "citation")
         end
         if code[:type] == "attachment"
-          bib.uri code[:key], type: "attachment"
-          bib.uri code[:key], type: "citation"
+          add_noko_elem(bib, "uri", code[:key], type: "attachment")
+          add_noko_elem(bib, "uri", code[:key], type: "citation")
         end
       end
 
@@ -149,9 +150,8 @@ module Metanorma
 
       def refitem_render_formattedref(bibitem, title)
         (title.nil? || title.empty?) and title = @i18n.no_information_available
-        bibitem.formattedref format: "application/x-isodoc+xml" do |i|
-          i << ref_normalise_no_format(title)
-        end
+        add_noko_elem(bibitem, "formattedref", ref_normalise_no_format(title),
+                      format: "application/x-isodoc+xml")
       end
 
       # TODO: alternative where only title is available

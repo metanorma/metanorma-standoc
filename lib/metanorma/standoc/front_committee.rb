@@ -46,13 +46,13 @@ module Metanorma
           committee[:agency_abbrev] = agency
           agency = name
         end
-        xml.name agency
+        add_noko_elem(xml, "name", agency)
         s = committee
         loop do
           contrib_committee_subdiv(xml, s)
           s = s[:subdiv] or break
         end
-        abbr = committee[:agency_abbrev] and xml.abbreviation abbr
+        add_noko_elem(xml, "abbreviation", committee[:agency_abbrev])
         full_committee_id(xml.parent)
       end
 
@@ -60,9 +60,9 @@ module Metanorma
         contributors_committees_filter_empty?(committee) and return
         xml.subdivision **attr_code(type: committee[:subdivtype],
                                     subtype: committee[:type]) do |o|
-          o.name committee[:name]
-          committee[:abbr] and o.abbreviation committee[:abbr]
-          committee[:ident] and o.identifier committee[:ident]
+          add_noko_elem(o, "name", committee[:name])
+          add_noko_elem(o, "abbreviation", committee[:abbr])
+          add_noko_elem(o, "identifier", committee[:ident])
         end
       end
 
