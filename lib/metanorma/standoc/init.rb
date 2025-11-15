@@ -88,6 +88,13 @@ module Metanorma
         @datauriimage = node.attr("data-uri-image") != "false"
         @datauriattachment = node.attr("data-uri-attachment") != "false"
         @dataurimaxsize = node.attr("data-uri-maxsize")&.to_i || 13981013
+        @svg_conform_profile =
+          node.attr("svg-conform-profile")&.sub(/^:/, "") ||
+          default_svg_conform_profile
+      end
+
+      def default_svg_conform_profile
+        :metanorma
       end
 
       def init_reqt(node)

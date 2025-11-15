@@ -1620,6 +1620,49 @@ RSpec.describe Metanorma::Standoc do
     expect(File.exist?("test.xml")).to be true
   end
 
+  it "validates SVG by profile" do
+    FileUtils.rm_rf "test.xml"
+    FileUtils.cp "spec/fixtures/IETF-test.svg",
+                 "IETF-test.svg"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      [[ref1]]
+      .SVG title
+      image::IETF-test.svg[]
+    INPUT
+    Asciidoctor.convert(input, *OPTIONS)
+    expect(File.read("test.err.html"))
+      .not_to include("Corrupt SVG image detected")
+
+    FileUtils.rm_rf "test.xml"
+    Asciidoctor.convert(
+      input.sub(":no-pdf:",
+                ":svg-conform-profile: metanorma\n:no-pdf:"), *OPTIONS
+    )
+    expect(File.read("test.err.html"))
+      .not_to include("Corrupt SVG image detected")
+
+    FileUtils.rm_rf "test.xml"
+    Asciidoctor.convert(
+      input.sub(":no-pdf:",
+                ":svg-conform-profile: svg_1_2_rfc\n:no-pdf:"), *OPTIONS
+    )
+    expect(File.read("test.err.html"))
+      .to include("Corrupt SVG image detected")
+
+    FileUtils.rm_rf "test.xml"
+    Asciidoctor.convert(
+      input.sub(":no-pdf:",
+                ":svg-conform-profile: :svg_1_2_rfc\n:no-pdf:"), *OPTIONS
+    )
+    expect(File.read("test.err.html"))
+      .to include("Corrupt SVG image detected")
+  end
+
   it "repairs SVG error" do
     FileUtils.rm_rf "test.xml"
     FileUtils.cp "spec/fixtures/missing_viewbox.svg",
@@ -1655,22 +1698,17 @@ RSpec.describe Metanorma::Standoc do
     FileUtils.rm_rf "test.xml"
     FileUtils.cp "spec/fixtures/gibberish.svg",
                  "gibberish.svg"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :no-pdf:
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
 
-        [[ref1]]
-        .SVG title
-        image::gibberish.svg[]
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit
-    end
+      [[ref1]]
+      .SVG title
+      image::gibberish.svg[]
+    INPUT
+    Asciidoctor.convert(input, *OPTIONS)
 
     expect(File.read("test.err.html"))
       .to include("Corrupt SVG image detected")
@@ -1682,7 +1720,7 @@ RSpec.describe Metanorma::Standoc do
       .to include("could not be fixed")
     expect(File.read("test.err.html"))
       .not_to include("SVG image warning")
-    expect(File.exist?("test.xml")).to be false
+    expect(File.exist?("test.xml")).to be true
   end
 
   it "warns and aborts if images does not exist" do

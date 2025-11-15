@@ -173,7 +173,7 @@ module Metanorma
                         severity: 2 },
         "STANDOC_56": { category: "Images",
                         error: "Corrupt SVG image detected, could not be fixed: %s %s%s%s",
-                        severity: 0 },
+                        severity: 1 },
         "STANDOC_57": { category: "Images",
                         error: "SVG image warning: %s %s%s%s",
                         severity: 3 },

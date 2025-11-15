@@ -54,13 +54,8 @@ module Metanorma
         end
       end
 
-      # :svg_1_2_rfc for IETF
-      def svg_conform_profile
-        :metanorma
-      end
-
       def svg_validate(doc)
-        profile = SvgConform::Profiles.get(svg_conform_profile)
+        profile = SvgConform::Profiles.get(@svg_conform_profile)
         remediatable = profile.remediation_count.positive?
         engine = SvgConform::RemediationEngine.new(profile)
         doc.xpath("//m:svg", "m" => SVG_NS).each do |s|
