@@ -8,6 +8,7 @@ module Metanorma
         bibdata_embed_id_cleanup(xmldoc)
         biblio_indirect_erefs(xmldoc, @internal_eref_namespaces&.uniq)
         coverpage_images(xmldoc)
+        bibdata_empty_contribs(xmldoc)
       end
 
       def coverpage_images(xmldoc)
@@ -119,9 +120,9 @@ module Metanorma
       end
 
       def hdr2bibitem(hdr)
-        xml = isolated_asciidoctor_convert(hdr[:text], 
-                                         backend: hdr2bibitem_type(hdr),
-                                         header_footer: true)
+        xml = isolated_asciidoctor_convert(hdr[:text],
+                                           backend: hdr2bibitem_type(hdr),
+                                           header_footer: true)
         b = Nokogiri::XML(xml).at("//xmlns:bibdata")
         b.name = "bibitem"
         b.delete("type")
@@ -152,7 +153,9 @@ module Metanorma
           ident = bibdata.at("./docidentifier[@primary = 'true']") ||
             bibdata.at("./docidentifier")
           xmldoc.xpath("//xref[@target = '#{d}'][normalize-space(.//text()) = '']")
-            .each { |x| x << ident.text }
+            .each do |x|
+            x << ident.text
+          end
         end
       end
 
@@ -203,6 +206,13 @@ module Metanorma
         xmldoc.xpath("//relation/bpart").each do |x|
           extract_localities(x)
           x.replace(x.children)
+        end
+      end
+
+      def bibdata_empty_contribs(xmldoc)
+        xmldoc.xpath("//bibdata//contributor").each do |c|
+          p = c.at("./person | ./organization")
+          p.nil? || p.text.strip.empty? and c.remove
         end
       end
     end
