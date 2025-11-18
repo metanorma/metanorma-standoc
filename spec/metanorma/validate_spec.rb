@@ -1575,7 +1575,7 @@ RSpec.describe Metanorma::Standoc do
     expect(File.exist?("test.xml")).to be true
   end
 
-  it "validates SVG in svgmap context" do
+  xit "validates SVG in svgmap context" do
     FileUtils.cp "spec/fixtures/action_schemaexpg1.svg",
                  "action_schemaexpg1.svg"
     FileUtils.cp "spec/fixtures/action_schemaexpg1.svg",
@@ -1620,7 +1620,7 @@ RSpec.describe Metanorma::Standoc do
     expect(File.exist?("test.xml")).to be true
   end
 
-  it "validates SVG by profile" do
+  xit "validates SVG by profile" do
     FileUtils.rm_rf "test.xml"
     FileUtils.cp "spec/fixtures/IETF-test.svg",
                  "IETF-test.svg"
@@ -1663,7 +1663,7 @@ RSpec.describe Metanorma::Standoc do
       .to include("Corrupt SVG image detected")
   end
 
-  it "repairs SVG error" do
+  xit "repairs SVG error" do
     FileUtils.rm_rf "test.xml"
     FileUtils.cp "spec/fixtures/missing_viewbox.svg",
                  "missing_viewbox.svg"
@@ -1694,7 +1694,7 @@ RSpec.describe Metanorma::Standoc do
     expect(File.read("test.xml")).to include("viewBox=")
   end
 
-  it "fails to repair SVG error" do
+  xit "fails to repair SVG error" do
     FileUtils.rm_rf "test.xml"
     FileUtils.cp "spec/fixtures/gibberish.svg",
                  "gibberish.svg"

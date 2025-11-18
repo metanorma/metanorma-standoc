@@ -8,7 +8,8 @@ module Metanorma
         image_exists(doc)
         image_toobig(doc)
         png_validate(doc)
-        svg_validate(doc)
+        # disabled until gem is performant
+        # svg_validate(doc)
       end
 
       def image_exists(doc)
