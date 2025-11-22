@@ -1588,8 +1588,8 @@ RSpec.describe Metanorma::Standoc do
       ====
       * <<ref1,Computer>>; http://www.example.com
       ====
-      INPUT
-         Asciidoctor.convert(input, *OPTIONS)
+    INPUT
+    Asciidoctor.convert(input, *OPTIONS)
     expect(File.read("test.err.html"))
       .not_to include("Corrupt SVG image detected")
     expect(File.read("test.err.html"))
@@ -1611,12 +1611,14 @@ RSpec.describe Metanorma::Standoc do
       * <<ref1,Computer>>; mn://action_schema
       * http://www.example.com[Phone]; http://www.example.com
       ====
-      INPUT
-              Asciidoctor.convert(input, *OPTIONS)
+    INPUT
+    Asciidoctor.convert(input, *OPTIONS)
     expect(File.read("test.err.html"))
       .not_to include("Corrupt SVG image detected")
     expect(File.read("test.err.html"))
       .not_to include("SVG image warning")
+    expect(File.read("test.err.html"))
+      .not_to include("SVG unresolved internal reference")
     expect(File.exist?("test.xml")).to be true
 
     input = <<~INPUT
@@ -1641,6 +1643,8 @@ RSpec.describe Metanorma::Standoc do
       .not_to include("Corrupt SVG image detected")
     expect(File.read("test.err.html"))
       .not_to include("SVG image warning")
+    expect(File.read("test.err.html"))
+      .to include("SVG unresolved internal reference") # ref1
     expect(File.exist?("test.xml")).to be true
   end
 

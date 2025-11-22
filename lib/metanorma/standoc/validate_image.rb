@@ -72,26 +72,31 @@ module Metanorma
         result = validator.validate(svg.to_xml, profile: profile)
         svg_error("STANDOC_55", svg, result.errors)
         svg_error("STANDOC_57", svg, result.warnings)
-        # manifest = result.reference_manifest
-        if result.has_external_references?
-          puts "External references found: #{result.external_references.size}"
-
-          result.external_references.each do |ref|
-            puts "#{ref.class.name}: #{ref.value}"
-            puts "  Element: #{ref.element_name} at line #{ref.line_number}"
-          end
-        end
-        puts "IDs defined: #{result.available_ids.map(&:id_value).join(', ')}"
-
-        # Check for unresolved internal references
-        unresolved = result.unresolved_internal_references
-        if unresolved.any?
-          puts "Unresolved references:"
-          unresolved.each do |ref|
-            puts "  #{ref.value} at line #{ref.line_number}"
-          end
-        end
+        svg_reference_violations(svg, result)
         result
+      end
+
+      # we are ignoring external references as out of our scope to resolve;
+      # example code just in case this comes up
+      #
+      #  manifest = result.reference_manifest
+      #  if result.has_external_references?
+      #    puts "External references found: #{result.external_references.size}"
+      #    result.external_references.each do |ref|
+      #      puts "#{ref.class.name}: #{ref.value}"
+      #      puts "  Element: #{ref.element_name} at line #{ref.line_number}"
+      #     end
+      #   end
+      #   puts "IDs defined: #{result.available_ids.map(&:id_value).join(', ')}"
+
+      # Check for unresolved internal references
+      def svg_reference_violations(svg, result)
+        result.unresolved_internal_references&.each do |ref|
+          val = ref.value.sub(/^#/, "")
+          @doc_ids.include?(val) and next
+          @doc_anchors.include?(val) and next
+          @log.add("STANDOC_59", svg, params: [ref.value, ref.line_number])
+        end
       end
 
       # Apply remediation if needed
@@ -121,6 +126,8 @@ module Metanorma
 
       def svg_error(id, svg, errors)
         errors.each do |err|
+          # reference violations are handled separately
+          err.violation_type == :reference_violation and next
           err.respond_to?(:element) && err.element and
             elem = " Element: #{err.element}"
           err.respond_to?(:location) && err.location and
