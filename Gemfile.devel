@@ -1,0 +1,1 @@
+gem "svg_conform", git: "https://github.com/claricle/svg_conform", branch: "rt-add-reference-manifest"
