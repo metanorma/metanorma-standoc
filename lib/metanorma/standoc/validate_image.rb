@@ -8,8 +8,6 @@ module Metanorma
         image_exists(doc)
         image_toobig(doc)
         png_validate(doc)
-        # disabled until gem is performant
-        warn "\n\n\nSVG VALIDATE\n\n\n"
         svg_validate(doc)
       end
 
@@ -56,29 +54,57 @@ module Metanorma
         end
       end
 
+      # Use SAX for fast validation
       def svg_validate(doc)
         profile = SvgConform::Profiles.get(@svg_conform_profile)
-        remediatable = profile.remediation_count.positive?
+        validator = SvgConform::Validator.new(mode: :sax)
         engine = SvgConform::RemediationEngine.new(profile)
-        doc.xpath("//m:svg", "m" => SVG_NS).each do |s|
-          d, result = svg_validate1(profile, s)
-          remediatable && !result.valid? and
-            svg_validate_fix(profile, engine, d, s, result)
+        doc.xpath("//m:svg", "m" => SVG_NS).each do |svg_element|
+          result = svg_validate1(validator, profile, svg_element)
+          if profile.remediation_count.positive? && !result.valid?
+            svg_validate_fix(validator, profile, engine, svg_element, result)
+          end
         end
       end
 
-      def svg_validate1(profile, svg)
-        d = SvgConform::Document.from_content(svg.to_xml)
-        r = profile.validate(d)
-        svg_error("STANDOC_55", svg, r.errors)
-        svg_error("STANDOC_57", svg, r.warnings)
-        [d, r]
+      def svg_validate1(validator, profile, svg)
+        # require "debug"; binding.b
+        result = validator.validate(svg.to_xml, profile: profile)
+        svg_error("STANDOC_55", svg, result.errors)
+        svg_error("STANDOC_57", svg, result.warnings)
+        # manifest = result.reference_manifest
+        if result.has_external_references?
+          puts "External references found: #{result.external_references.size}"
+
+          result.external_references.each do |ref|
+            puts "#{ref.class.name}: #{ref.value}"
+            puts "  Element: #{ref.element_name} at line #{ref.line_number}"
+          end
+        end
+        puts "IDs defined: #{result.available_ids.map(&:id_value).join(', ')}"
+
+        # Check for unresolved internal references
+        unresolved = result.unresolved_internal_references
+        if unresolved.any?
+          puts "Unresolved references:"
+          unresolved.each do |ref|
+            puts "  #{ref.value} at line #{ref.line_number}"
+          end
+        end
+        result
       end
 
-      def svg_validate_fix(profile, engine, doc, svg, result)
+      # Apply remediation if needed
+      def svg_validate_fix(validator, profile, engine, svg, result)
+        # Load DOM only for remediation
+        doc = SvgConform::Document.from_content(svg.to_xml)
         remeds = engine.apply_remediations(doc, result)
         svg_remed_log(remeds, svg)
-        result = profile.validate(doc)
+
+        # Use root element to avoid processing instructions that may break SAX parser
+        remediated_xml = doc.root.to_xml
+
+        result = validator.validate(remediated_xml, profile: profile)
         svg_error("STANDOC_56", svg, result.errors) # we still have errors
         svg.replace(doc.to_xml)
       end

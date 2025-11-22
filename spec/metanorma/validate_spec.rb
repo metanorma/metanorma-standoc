@@ -1578,8 +1578,6 @@ RSpec.describe Metanorma::Standoc do
   it "validates SVG in svgmap context" do
     FileUtils.cp "spec/fixtures/action_schemaexpg1.svg",
                  "action_schemaexpg1.svg"
-    FileUtils.cp "spec/fixtures/action_schemaexpg1.svg",
-                 "action_schemaexpg2.svg"
     input = <<~INPUT
       = Document title
       Author
@@ -1590,6 +1588,19 @@ RSpec.describe Metanorma::Standoc do
       ====
       * <<ref1,Computer>>; http://www.example.com
       ====
+      INPUT
+         Asciidoctor.convert(input, *OPTIONS)
+    expect(File.read("test.err.html"))
+      .not_to include("Corrupt SVG image detected")
+    expect(File.read("test.err.html"))
+      .not_to include("SVG image warning")
+    expect(File.exist?("test.xml")).to be true
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
 
       [[ref1]]
       .SVG title
@@ -1600,12 +1611,25 @@ RSpec.describe Metanorma::Standoc do
       * <<ref1,Computer>>; mn://action_schema
       * http://www.example.com[Phone]; http://www.example.com
       ====
+      INPUT
+              Asciidoctor.convert(input, *OPTIONS)
+    expect(File.read("test.err.html"))
+      .not_to include("Corrupt SVG image detected")
+    expect(File.read("test.err.html"))
+      .not_to include("SVG image warning")
+    expect(File.exist?("test.xml")).to be true
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
 
       [[ref2]]
       [svgmap%unnumbered,number=8,subsequence=A,keep-with-next=true,keep-lines-together=true]
       ====
       [alt=Workmap]
-      image::action_schemaexpg2.svg[]
+      image::action_schemaexpg1.svg[]
 
       * <<ref1,Computer>>; mn://action_schema
       * http://www.example.com[Phone]; mn://basic_attribute_schema

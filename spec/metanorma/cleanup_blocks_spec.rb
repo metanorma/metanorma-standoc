@@ -1005,16 +1005,16 @@ RSpec.describe Metanorma::Standoc do
               <sections>
           <figure id="_" width="100">
             <image src="spec/fixtures/action_schemaexpg1.svg" filename="spec/fixtures/action_schemaexpg1.svg" mimetype="image/svg+xml" id="_" height="100" width="100">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
+              <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
                 <style/>
                 <image/>
-                <a xlink:href="mn://action_schema">
+                <a href="mn://action_schema">
                   <rect x="123.28" y="273.93" width="88.05" height="41.84"/>
                 </a>
-                <a xlink:href="mn://basic_attribute_schema">
+                <a href="mn://basic_attribute_schema">
                   <rect x="324.69" y="450.52" width="132.62" height="40.75"/>
                 </a>
-                <a xlink:href="mn://support_resource_schema">
+                <a href="mn://support_resource_schema">
                   <rect x="324.69" y="528.36" width="148.16" height="40.75"/>
                 </a>
               </svg>
@@ -1025,16 +1025,16 @@ RSpec.describe Metanorma::Standoc do
           </figure>
           <figure id="_">
             <image src="spec/fixtures/action_schemaexpg1.svg" filename="spec/fixtures/action_schemaexpg1.svg" mimetype="image/svg+xml" id="_" height="auto" width="auto">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1_inject_1" x="0px" y="0px" viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
+              <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1_inject_1" x="0px" y="0px" viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
                 <style/>
                 <image/>
-                <a xlink:href="mn://action_schema">
+                <a href="mn://action_schema">
                   <rect x="123.28" y="273.93" width="88.05" height="41.84"/>
                 </a>
-                <a xlink:href="mn://basic_attribute_schema">
+                <a href="mn://basic_attribute_schema">
                   <rect x="324.69" y="450.52" width="132.62" height="40.75"/>
                 </a>
-                <a xlink:href="mn://support_resource_schema">
+                <a href="mn://support_resource_schema">
                   <rect x="324.69" y="528.36" width="148.16" height="40.75"/>
                 </a>
               </svg>
