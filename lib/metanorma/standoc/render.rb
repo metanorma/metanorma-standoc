@@ -3,12 +3,14 @@ module Metanorma
     module Base
       def html_extract_attributes(node)
         i18nyaml = i18nyaml_path(node)
+        relaton_render_config = relaton_render_path(node)
         {
           script: node.attr("script"),
           bodyfont: node.attr("body-font"),
           headerfont: node.attr("header-font"),
           monospacefont: node.attr("monospace-font"),
           i18nyaml: i18nyaml,
+          relaton_render_config: relaton_render_config,
           scope: node.attr("scope"),
           htmlstylesheet: node.attr("htmlstylesheet") || node.attr("html-stylesheet"),
           htmlstylesheet_override: node.attr("htmlstylesheet-override") || node.attr("html-stylesheet-override"),
@@ -50,12 +52,14 @@ module Metanorma
 
       def doc_extract_attributes(node)
         i18nyaml = i18nyaml_path(node)
+        relaton_render_config = relaton_render_path(node)
         attrs = {
           script: node.attr("script"),
           bodyfont: node.attr("body-font"),
           headerfont: node.attr("header-font"),
           monospacefont: node.attr("monospace-font"),
           i18nyaml: i18nyaml,
+          relaton_render_config: relaton_render_config,
           scope: node.attr("scope"),
           wordstylesheet: node.attr("wordstylesheet") || node.attr("word-stylesheet"),
           wordstylesheet_override: node.attr("wordstylesheet-override") || node.attr("word-stylesheet-override"),
