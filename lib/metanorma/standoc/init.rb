@@ -134,11 +134,19 @@ module Metanorma
       end
 
       def i18nyaml_path(node)
-        if i18nyaml = node.attr("i18nyaml")
-          (Pathname.new i18nyaml).absolute? or
-            i18nyaml = File.join(@localdir, i18nyaml)
+        if ret = node.attr("i18nyaml")
+          (Pathname.new ret).absolute? or
+            ret = File.join(@localdir, ret)
         end
-        i18nyaml
+        ret
+      end
+
+      def relaton_render_path(node)
+        if ret = node.attr("relaton-render-config")
+          (Pathname.new ret).absolute? or
+            ret = File.join(@localdir, ret)
+        end
+        ret
       end
 
       def init_i18n(node)
