@@ -105,13 +105,11 @@ module Metanorma
         doc = SvgConform::Document.from_content(svg.to_xml)
         remeds = engine.apply_remediations(doc, result)
         svg_remed_log(remeds, svg)
-
-        # Use root element to avoid processing instructions that may break SAX parser
+        # Use root to avoid processing instructions that may break SAX parser
         remediated_xml = doc.root.to_xml
-
         result = validator.validate(remediated_xml, profile: profile)
         svg_error("STANDOC_56", svg, result.errors) # we still have errors
-        svg.replace(doc.to_xml)
+        svg.replace(remediated_xml)
       end
 
       def svg_remed_log(remeds, svg)
