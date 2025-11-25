@@ -492,21 +492,39 @@ RSpec.describe Metanorma::Standoc do
 
       Inline Reference to <<reference>>
       Inline Reference to <<reference,style=basic%>>
+      Cross Reference <<ref1>>
+
+      [bibliography]
+      == Bibliography
+      * [[[ref1,A]]] Ref
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-        <sections>
-          <clause id="_" anchor="reference" inline-header='false' obligation='normative'>
-            <title id="_">Section</title>
-            <p id='_'>
-              Inline Reference to
-              <xref target='reference' style='full'/>
-               Inline Reference to
-              <xref target='reference' style='basic'/>
-            </p>
-          </clause>
-        </sections>
-      </metanorma>
+          <sections>
+             <clause id="_" anchor="reference" inline-header="false" obligation="normative">
+                <title id="_">Section</title>
+                <p id="_">
+                   Inline Reference to
+                   <xref target="reference" style="full"/>
+                   Inline Reference to
+                   <xref target="reference" style="basic"/>
+                   Cross Reference
+                   <eref type="inline" bibitemid="ref1" citeas="A"/>
+                </p>
+             </clause>
+          </sections>
+          <bibliography>
+             <references id="_" normative="false" obligation="informative">
+                <title id="_">Bibliography</title>
+                <bibitem anchor="ref1" id="_">
+                   <formattedref format="application/x-isodoc+xml">Ref</formattedref>
+                   <docidentifier>A</docidentifier>
+                   <language>en</language>
+                   <script>Latn</script>
+                </bibitem>
+             </references>
+          </bibliography>
+       </metanorma>
     OUTPUT
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to(Canon.format_xml(output))
@@ -1292,4 +1310,109 @@ RSpec.describe Metanorma::Standoc do
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Canon.format_xml(output)
   end
+
+  it "processes native Asciidoc index cross-references" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      indexterm:[B,see-also=C~x~]
+      indexterm:[D,_E_,see=F]
+      indexterm:[G,H,I,see-also=J]
+      indexterm:[G,H,I,see-also="K,L"]
+
+      indexterm2:[B1,see-also=C~x~]
+      indexterm2:[D1,_E_,see=F]
+      indexterm2:[G1,H,I,see-also=J]
+      indexterm2:[G1,H,I,see-also="K,L"]
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <p id='_'>
+            <index-xref also='true'>
+              <primary>B</primary>
+              <target>
+                C
+                <sub>x</sub>
+              </target>
+            </index-xref>
+            <index-xref also='false'>
+              <primary>D</primary>
+              <secondary>
+                <em>E</em>
+              </secondary>
+              <target>F</target>
+            </index-xref>
+            <index-xref also='true'>
+              <primary>G</primary>
+              <secondary>H</secondary>
+              <tertiary>I</tertiary>
+              <target>J</target>
+            </index-xref>
+            <index-xref also="true">
+            <primary>G</primary>
+            <secondary>H</secondary>
+            <tertiary>I</tertiary>
+            <target>K</target>
+         </index-xref>
+         <index-xref also="true">
+            <primary>G</primary>
+            <secondary>H</secondary>
+            <tertiary>I</tertiary>
+            <target>L</target>
+         </index-xref>
+                 </p>
+
+             <p id='_'>
+             B1
+            <index-xref also='true'>
+              <primary>B1</primary>
+              <target>
+                C
+                <sub>x</sub>
+              </target>
+            </index-xref>
+            D1
+            <index-xref also='false'>
+              <primary>D1</primary>
+              <target>F</target>
+            </index-xref>
+            G1
+            <index-xref also='true'>
+              <primary>G1</primary>
+              <target>J</target>
+            </index-xref>
+            G1
+            <index-xref also='true'>
+              <primary>G1</primary>
+              <target>K</target>
+            </index-xref>
+            <index-xref also='true'>
+              <primary>G1</primary>
+              <target>L</target>
+            </index-xref>
+                 </p>
+        </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      (((B &> C~x~)))
+      (((D,_E_ >> F)))
+      (((G,H,I &> J)))
+      (((G,H,I &> K &> L)))
+
+      ((B1 &> C~x~))
+      ((D1 >> F))
+      ((G1 &> J))
+      ((G1 &> K &> L))
+    INPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+
+  end
+
 end

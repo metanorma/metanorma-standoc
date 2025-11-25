@@ -1,3 +1,2 @@
-gem "metanorma-utils", git: "https://github.com/metanorma/metanorma-utils", branch: "features/selective-logging"
-gem "metanorma-cli"
+gem "relaton-render", git: "https://github.com/relaton/relaton-render", branch: "main"
 

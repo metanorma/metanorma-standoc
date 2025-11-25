@@ -1575,6 +1575,182 @@ RSpec.describe Metanorma::Standoc do
     expect(File.exist?("test.xml")).to be true
   end
 
+  it "validates SVG in svgmap context" do
+    FileUtils.cp "spec/fixtures/action_schemaexpg1.svg",
+                 "action_schemaexpg1.svg"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      [svgmap%unnumbered,number=8,subsequence=A,keep-with-next=true,keep-lines-together=true]
+      ====
+      * <<ref1,Computer>>; http://www.example.com
+      ====
+    INPUT
+    Asciidoctor.convert(input, *OPTIONS)
+    expect(File.read("test.err.html"))
+      .not_to include("Corrupt SVG image detected")
+    expect(File.read("test.err.html"))
+      .not_to include("SVG image warning")
+    expect(File.exist?("test.xml")).to be true
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      [[ref1]]
+      .SVG title
+      [.svgmap]
+      ====
+      image::action_schemaexpg1.svg[]
+
+      * <<ref1,Computer>>; mn://action_schema
+      * http://www.example.com[Phone]; http://www.example.com
+      ====
+    INPUT
+    Asciidoctor.convert(input, *OPTIONS)
+    expect(File.read("test.err.html"))
+      .not_to include("Corrupt SVG image detected")
+    expect(File.read("test.err.html"))
+      .not_to include("SVG image warning")
+    expect(File.read("test.err.html"))
+      .not_to include("SVG unresolved internal reference")
+    expect(File.exist?("test.xml")).to be true
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      [[ref2]]
+      [svgmap%unnumbered,number=8,subsequence=A,keep-with-next=true,keep-lines-together=true]
+      ====
+      [alt=Workmap]
+      image::action_schemaexpg1.svg[]
+
+      * <<ref1,Computer>>; mn://action_schema
+      * http://www.example.com[Phone]; mn://basic_attribute_schema
+      * <<express:action_schema:action_schema.basic,Coffee>>; mn://support_resource_schema
+      ====
+    INPUT
+    Asciidoctor.convert(input, *OPTIONS)
+    expect(File.read("test.err.html"))
+      .not_to include("Corrupt SVG image detected")
+    expect(File.read("test.err.html"))
+      .not_to include("SVG image warning")
+    expect(File.read("test.err.html"))
+      .to include("SVG unresolved internal reference") # ref1
+    expect(File.exist?("test.xml")).to be true
+  end
+
+  it "validates SVG by profile" do
+    FileUtils.rm_rf "test.xml"
+    FileUtils.cp "spec/fixtures/IETF-test.svg",
+                 "IETF-test.svg"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      [[ref1]]
+      .SVG title
+      image::IETF-test.svg[]
+    INPUT
+    Asciidoctor.convert(input, *OPTIONS)
+    expect(File.read("test.err.html"))
+      .not_to include("Corrupt SVG image detected")
+
+    FileUtils.rm_rf "test.xml"
+    Asciidoctor.convert(
+      input.sub(":no-pdf:",
+                ":svg-conform-profile: metanorma\n:no-pdf:"), *OPTIONS
+    )
+    expect(File.read("test.err.html"))
+      .not_to include("Corrupt SVG image detected")
+
+    FileUtils.rm_rf "test.xml"
+    Asciidoctor.convert(
+      input.sub(":no-pdf:",
+                ":svg-conform-profile: svg_1_2_rfc\n:no-pdf:"), *OPTIONS
+    )
+    expect(File.read("test.err.html"))
+      .to include("Corrupt SVG image detected")
+
+    FileUtils.rm_rf "test.xml"
+    Asciidoctor.convert(
+      input.sub(":no-pdf:",
+                ":svg-conform-profile: :svg_1_2_rfc\n:no-pdf:"), *OPTIONS
+    )
+    expect(File.read("test.err.html"))
+      .to include("Corrupt SVG image detected")
+  end
+
+  it "repairs SVG error" do
+    FileUtils.rm_rf "test.xml"
+    FileUtils.cp "spec/fixtures/missing_viewbox.svg",
+                 "missing_viewbox.svg"
+    expect(File.read("missing_viewbox.svg"))
+      .not_to include("viewBox=")
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      [[ref1]]
+      .SVG title
+      image::missing_viewbox.svg[]
+    INPUT
+    Asciidoctor.convert(input, *OPTIONS)
+    expect(File.read("test.err.html"))
+      .to include("Corrupt SVG image detected")
+    expect(File.read("test.err.html"))
+      .to include("error found")
+    expect(File.read("test.err.html"))
+      .to include("fix attempted")
+    expect(File.read("test.err.html"))
+      .not_to include("could not be fixed")
+    expect(File.read("test.err.html"))
+      .not_to include("SVG image warning")
+    expect(File.exist?("test.xml")).to be true
+    expect(File.read("test.xml")).to include("viewBox=")
+  end
+
+  it "fails to repair SVG error" do
+    FileUtils.rm_rf "test.xml"
+    FileUtils.cp "spec/fixtures/gibberish.svg",
+                 "gibberish.svg"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      [[ref1]]
+      .SVG title
+      image::gibberish.svg[]
+    INPUT
+    Asciidoctor.convert(input, *OPTIONS)
+
+    expect(File.read("test.err.html"))
+      .to include("Corrupt SVG image detected")
+    expect(File.read("test.err.html"))
+      .to include("error found")
+    expect(File.read("test.err.html"))
+      .to include("fix attempted")
+    expect(File.read("test.err.html"))
+      .to include("could not be fixed")
+    expect(File.read("test.err.html"))
+      .not_to include("SVG image warning")
+    expect(File.exist?("test.xml")).to be true
+  end
+
   it "warns and aborts if images does not exist" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"

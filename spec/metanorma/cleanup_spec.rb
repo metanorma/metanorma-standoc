@@ -984,6 +984,68 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to(Canon.format_xml(output))
   end
 
+  it "remove empty contributors" do
+    input = <<~INPUT
+      = X
+      A
+      :fullname: 
+      :fullname_2: Fred
+      :publisher:
+      :publisher_2: Jack
+      :novalid:
+
+    INPUT
+    output = <<~OUTPUT
+       <bibdata type="standard">
+          <title language="en" type="main">X</title>
+          <contributor>
+             <role type="author"/>
+             <organization>
+                <name>Jack</name>
+             </organization>
+          </contributor>
+          <contributor>
+             <role type="author"/>
+             <person>
+                <name>
+                   <completename>Fred</completename>
+                </name>
+             </person>
+          </contributor>
+          <contributor>
+             <role type="publisher"/>
+             <organization>
+                <name>Jack</name>
+             </organization>
+          </contributor>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+             <stage>published</stage>
+          </status>
+          <copyright>
+             <from>2025</from>
+          </copyright>
+          <copyright>
+             <from>2025</from>
+             <owner>
+                <organization>
+                   <name>Jack</name>
+                </organization>
+             </owner>
+          </copyright>
+          <ext>
+             <doctype>standard</doctype>
+             <flavor>standoc</flavor>
+          </ext>
+       </bibdata>
+    OUTPUT
+    a = [OPTIONS[0].merge(safe: :unsafe)]
+    ret = Nokogiri::XML(Asciidoctor.convert(input, *a))
+    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:bibdata").to_xml)))
+      .to be_equivalent_to(Canon.format_xml(output))
+  end
+
   it "reads contributors from YAML, simple" do
     input = <<~INPUT
       = X

@@ -57,7 +57,7 @@ module Metanorma
         cell_tag = "td"
         cell_tag = "th" if tblsec == :head || node.style == :header
         xml_tr.send cell_tag, **attr_code(cell_attributes) do |thd|
-          thd << table_cell1(node)
+          thd << table_cell1(node) # preserve empty cells
         end
       end
 

@@ -71,6 +71,7 @@ module Metanorma
       named :term
       name_positional_attributes "name", "termxref"
       using_format :short
+      match /\\?(?<!\w)term:(){0}\[(|[^\]\\]*(?:\\.[^\]\\]*)*)\]/
 
       def process(_parent, _target, attrs)
         termref = attrs["termxref"] || attrs["name"]
@@ -84,6 +85,7 @@ module Metanorma
       named :symbol
       name_positional_attributes "name", "termxref"
       using_format :short
+      match /\\?(?<!\w)symbol:(){0}\[(|[^\]\\]*(?:\\.[^\]\\]*)*)\]/
 
       def process(_parent, _target, attrs)
         termref = attrs["termxref"] || attrs["name"]

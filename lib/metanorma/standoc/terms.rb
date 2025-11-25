@@ -109,7 +109,7 @@ module Metanorma
       def term_designation(xml, _node, tag, text)
         xml.send tag do |p|
           p.expression do |e|
-            e.name { |name| name << text }
+            add_noko_elem(e, "name", text)
           end
         end
       end

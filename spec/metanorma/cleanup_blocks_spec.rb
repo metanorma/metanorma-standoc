@@ -37,65 +37,67 @@ RSpec.describe Metanorma::Standoc do
       ====
     INPUT
     output = <<~OUTPUT
-         #{BLANK_HDR}
-         <sections>
-           <svgmap id="_" unnumbered='true' number='8' subsequence='A' keep-with-next='true' keep-lines-together='true'>
-             <target href='http://www.example.com'>
-               <xref target='ref1'><display-text>Computer</display-text></xref>
-             </target>
-           </svgmap>
-           <figure id="_" anchor="ref1">
-             <name id="_">SVG title</name>
-             <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id="Layer_1_000000001" x='0px' y='0px' viewBox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve'>
-        <style/>
-        <image/>
-        <a xlink:href='#ref1'>
-        <rect x='123.28' y='273.93' width='88.05' height='41.84'/>
-        </a>
-        <a xlink:href='mn://basic_attribute_schema'>
-          <rect x='324.69' y='450.52' width='132.62' height='40.75'/>
-        </a>
-        <a xlink:href='mn://support_resource_schema'>
-          <rect x='324.69' y='528.36' width='148.16' height='40.75'/>
-        </a>
-      </svg>
-                 </figure>
-                 <svgmap id="_">
-                   <figure id="_" anchor="ref2" unnumbered='true' number='8' subsequence='A' keep-with-next='true' keep-lines-together='true'>
-        <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id="Layer_1_000000002" x='0px' y='0px' viewBox='0 0 595.28 841.89' style='enable-background:new 0 0 595.28 841.89;' xml:space='preserve'>
-          <style/>
-          <image/>
-          <a xlink:href='#ref1'>
-            <rect x='123.28' y='273.93' width='88.05' height='41.84'/>
-          </a>
-          <a xlink:href='http://www.example.com'>
-            <rect x='324.69' y='450.52' width='132.62' height='40.75'/>
-          </a>
-          <a xlink:href='mn://support_resource_schema'>
-            <rect x='324.69' y='528.36' width='148.16' height='40.75'/>
-          </a>
-        </svg>
-                   </figure>
-                   <target href='mn://support_resource_schema'>
-                     <eref bibitemid='express_action_schema' citeas=''>
-                       <localityStack>
-                         <locality type='anchor'>
-                           <referenceFrom>action_schema.basic</referenceFrom>
+      #{BLANK_HDR}
+          <sections>
+             <svgmap id="_" unnumbered="true" number="8" subsequence="A" keep-with-next="true" keep-lines-together="true">
+                <target href="http://www.example.com">
+                   <xref target="ref1">
+                      <display-text>Computer</display-text>
+                   </xref>
+                </target>
+             </svgmap>
+             <figure id="_" anchor="ref1">
+                <name id="_">SVG title</name>
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1_000000001" x="0px" y="0px" viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
+                   <style/>
+                   <image/>
+                   <a href="#ref1">
+                      <rect x="123.28" y="273.93" width="88.05" height="41.84"/>
+                   </a>
+                   <a href="mn://basic_attribute_schema">
+                      <rect x="324.69" y="450.52" width="132.62" height="40.75"/>
+                   </a>
+                   <a href="mn://support_resource_schema">
+                      <rect x="324.69" y="528.36" width="148.16" height="40.75"/>
+                   </a>
+                </svg>
+             </figure>
+             <svgmap id="_">
+                <figure id="_" anchor="ref2" unnumbered="true" number="8" subsequence="A" keep-with-next="true" keep-lines-together="true">
+                   <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1_000000002" x="0px" y="0px" viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
+                      <style/>
+                      <image/>
+                      <a href="#ref1">
+                         <rect x="123.28" y="273.93" width="88.05" height="41.84"/>
+                      </a>
+                      <a href="http://www.example.com">
+                         <rect x="324.69" y="450.52" width="132.62" height="40.75"/>
+                      </a>
+                      <a href="mn://support_resource_schema">
+                         <rect x="324.69" y="528.36" width="148.16" height="40.75"/>
+                      </a>
+                   </svg>
+                </figure>
+                <target href="mn://support_resource_schema">
+                   <eref bibitemid="express_action_schema" citeas="">
+                      <localityStack>
+                         <locality type="anchor">
+                            <referenceFrom>action_schema.basic</referenceFrom>
                          </locality>
-                       </localityStack>
-                       <display-text>Coffee</display-text>
-                     </eref>
-                   </target>
-                 </svgmap>
-      </sections>
-      <bibliography>
-        <references hidden='true' normative='false'>
-          <bibitem id="_" anchor="express_action_schema" type='internal'>
-            <docidentifier type='repository'>express/action_schema</docidentifier>
-          </bibitem>
-        </references>
-      </bibliography>
-             </metanorma>
+                      </localityStack>
+                      <display-text>Coffee</display-text>
+                   </eref>
+                </target>
+             </svgmap>
+          </sections>
+          <bibliography>
+             <references hidden="true" normative="false">
+                <bibitem anchor="express_action_schema" id="_" type="internal">
+                   <docidentifier type="repository">express/action_schema</docidentifier>
+                </bibitem>
+             </references>
+          </bibliography>
+       </metanorma>
     OUTPUT
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS)))
       .gsub(%r{<image[^>]+?/>}m, "<image/>")
@@ -1005,16 +1007,16 @@ RSpec.describe Metanorma::Standoc do
               <sections>
           <figure id="_" width="100">
             <image src="spec/fixtures/action_schemaexpg1.svg" filename="spec/fixtures/action_schemaexpg1.svg" mimetype="image/svg+xml" id="_" height="100" width="100">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
+              <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
                 <style/>
                 <image/>
-                <a xlink:href="mn://action_schema">
+                <a href="mn://action_schema">
                   <rect x="123.28" y="273.93" width="88.05" height="41.84"/>
                 </a>
-                <a xlink:href="mn://basic_attribute_schema">
+                <a href="mn://basic_attribute_schema">
                   <rect x="324.69" y="450.52" width="132.62" height="40.75"/>
                 </a>
-                <a xlink:href="mn://support_resource_schema">
+                <a href="mn://support_resource_schema">
                   <rect x="324.69" y="528.36" width="148.16" height="40.75"/>
                 </a>
               </svg>
@@ -1025,16 +1027,16 @@ RSpec.describe Metanorma::Standoc do
           </figure>
           <figure id="_">
             <image src="spec/fixtures/action_schemaexpg1.svg" filename="spec/fixtures/action_schemaexpg1.svg" mimetype="image/svg+xml" id="_" height="auto" width="auto">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1_inject_1" x="0px" y="0px" viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
+              <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1_inject_1" x="0px" y="0px" viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
                 <style/>
                 <image/>
-                <a xlink:href="mn://action_schema">
+                <a href="mn://action_schema">
                   <rect x="123.28" y="273.93" width="88.05" height="41.84"/>
                 </a>
-                <a xlink:href="mn://basic_attribute_schema">
+                <a href="mn://basic_attribute_schema">
                   <rect x="324.69" y="450.52" width="132.62" height="40.75"/>
                 </a>
-                <a xlink:href="mn://support_resource_schema">
+                <a href="mn://support_resource_schema">
                   <rect x="324.69" y="528.36" width="148.16" height="40.75"/>
                 </a>
               </svg>

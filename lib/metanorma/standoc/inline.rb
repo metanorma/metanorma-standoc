@@ -49,7 +49,8 @@ module Metanorma
           end
         elsif style == :latexmath then latex_parse(text, xml, attrs)
         else
-          xml.stem text&.gsub("&amp;#", "&#"), **attrs.merge(type: "AsciiMath")
+          xml.stem text&.gsub("&amp;#", "&#") || "",
+                   **attrs.merge(type: "AsciiMath")
         end
       end
 
@@ -79,9 +80,7 @@ module Metanorma
       end
 
       def highlight_parse(text, xml)
-        xml.span **{ class: "fmt-hi" } do |s|
-          s << text
-        end
+        add_noko_elem(xml, "span", text, class: "fmt-hi")
       end
 
       def inline_quoted(node)
@@ -179,16 +178,38 @@ module Metanorma
       def inline_indexterm(node)
         noko do |xml|
           node.type == :visible and xml << node.text
-          terms = (node.attr("terms") || [node.text]).map { |x| xml_encode(x) }
-          inline_indexterm1(xml, terms)
+          terms, see, also = inline_indexterm_extract(node)
+          (see || also) or inline_indexterm1(xml, terms)
+          also and
+            inline_indexterm_see(xml, terms, also, true)
+          see and
+            inline_indexterm_see(xml, terms, [see], false)
         end
+      end
+
+      def inline_indexterm_extract(node)
+        terms = (node.attr("terms") || [node.text]).map { |x| xml_encode(x) }
+        see = node.attr("see")
+        also = node.attr("see-also")
+        [terms, see, also]
       end
 
       def inline_indexterm1(xml, terms)
         xml.index do |i|
-          i.primary { |x| x << terms[0] }
-          a = terms[1] and i.secondary { |x| x << a }
-          a = terms[2] and i.tertiary { |x| x << a }
+          add_noko_elem(i, "primary", terms[0])
+          add_noko_elem(i, "secondary", terms[1])
+          add_noko_elem(i, "tertiary", terms[2])
+        end
+      end
+
+      def inline_indexterm_see(xml, terms, ref, also)
+        ref.each do |r|
+          xml.index_xref also: also do |i|
+            add_noko_elem(i, "primary", terms[0])
+            add_noko_elem(i, "secondary", terms[1])
+            add_noko_elem(i, "tertiary", terms[2])
+            add_noko_elem(i, "target", r)
+          end
         end
       end
     end

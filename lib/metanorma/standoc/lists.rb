@@ -7,7 +7,7 @@ module Metanorma
             xml_li.p(**attr_code(id_attr(item))) { |t| t << item.text }
             xml_li << item.content
           else
-            xml_li.p(**attr_code(id_attr(item))) { |p| p << item.text }
+            xml_li.p(**attr_code(id_attr(item))) { |t| t << item.text }
           end
         end
       end

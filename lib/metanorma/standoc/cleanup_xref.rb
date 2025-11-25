@@ -85,6 +85,7 @@ module Metanorma
         else xref_to_eref1(elem)
         end
         elem.delete("target")
+        elem.delete("defaultstyle") # xrefstyle default
         extract_localities(elem)
       end
 
@@ -179,10 +180,11 @@ module Metanorma
         xmldoc.xpath("//xref").each do |x|
           %r{:(?!//)}.match?(x["target"]) and xref_to_internal_eref(x)
           x.name == "xref" or next
-          if refid? x["target"]
-            xref_to_eref(x, "eref")
+          if refid? x["target"] then xref_to_eref(x, "eref")
           elsif @anchor_alias[x["target"]] then xref_alias(x)
-          else x.delete("type")
+          else
+            x.delete("type")
+            xref_default_style(x)
           end
         end
       end
@@ -203,6 +205,12 @@ module Metanorma
         elem["style"] == "id" && elem.text.strip.empty? and
           elem << elem["target"]
         elem["target"] = @anchor_alias[elem["target"]]
+        xref_default_style(elem)
+      end
+
+      def xref_default_style(elem)
+        elem["defaultstyle"] and elem["style"] ||= elem["defaultstyle"]
+        elem.delete("defaultstyle")
       end
 
       def quotesource_cleanup(xmldoc)
