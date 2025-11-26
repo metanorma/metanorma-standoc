@@ -27,12 +27,24 @@ module Metanorma
       def schema_validate1(file, doc, schema)
         file.write(to_xml(doc))
         file.close
-        errors = Jing.new(schema, encoding: "UTF-8").validate(file.path)
-        warn "Syntax Valid!" if errors.none?
-        errors.each do |e|
-          @log.add("STANDOC_7",
-                   "XML Line #{'%06d' % e[:line]}:#{e[:column]}",
-                   params: [e[:message]])
+
+        # Force UTF-8 encoding for Java console output to fix Japanese Windows issue
+        # See: https://github.com/metanorma/mn-samples-plateau/issues/248
+        # The -Dsun.jnu.encoding parameter controls Java's native interface encoding (console I/O)
+        old_java_opts = ENV["_JAVA_OPTIONS"]
+        ENV["_JAVA_OPTIONS"] = "-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8"
+
+        begin
+          errors = Jing.new(schema, encoding: "UTF-8").validate(file.path)
+          warn "Syntax Valid!" if errors.none?
+          errors.each do |e|
+            @log.add("STANDOC_7",
+                     "XML Line #{'%06d' % e[:line]}:#{e[:column]}",
+                     params: [e[:message]])
+          end
+        ensure
+          # Restore original _JAVA_OPTIONS
+          ENV["_JAVA_OPTIONS"] = old_java_opts
         end
       end
 
