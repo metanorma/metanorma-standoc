@@ -36,8 +36,8 @@ module Metanorma
 
       def term_defs_boilerplate_cont(src, term, isodoc)
         sources = isodoc.sentence_join(src.map do |s|
-          %{<<#{s['bibitemid']}>>}
-        end)
+          %{&lt;&lt;#{s['bibitemid']}&gt;&gt;}
+        end).gsub("&lt;", "<").gsub("&gt;", ">")
         if src.empty? then @i18n.internal_terms_boilerplate
         elsif term.nil? then external_terms_boilerplate(sources)
         else
@@ -97,6 +97,7 @@ module Metanorma
           ins2.children = " "
           ins = ins2.children.first
         end
+        require "debug"; binding.b
         term_defs_boilerplate(ins, xmldoc.xpath(".//termdocsource"),
                               sect.at(".//term"), sect.at(".//p"), isodoc)
       end

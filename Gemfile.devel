@@ -1,0 +1,2 @@
+gem "isodoc-i18n", git: "https://github.com/metanorma/isodoc-i18n", branch: "main"
+
