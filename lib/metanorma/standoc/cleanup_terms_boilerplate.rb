@@ -97,7 +97,6 @@ module Metanorma
           ins2.children = " "
           ins = ins2.children.first
         end
-        require "debug"; binding.b
         term_defs_boilerplate(ins, xmldoc.xpath(".//termdocsource"),
                               sect.at(".//term"), sect.at(".//p"), isodoc)
       end
