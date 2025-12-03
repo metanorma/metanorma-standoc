@@ -858,6 +858,7 @@ RSpec.describe Metanorma::Standoc do
       :corporate-author_2: Hanna Barbera
       :corporate-author-address_2: 1 Infinite Loop
       :publisher: Monsters, Inc.
+      :publisher_abbr: MONS
       :publisher_logo: correct.png
       :publisher_2: Ribose, Inc.
       :publisher_logo_2: corrupt.png
@@ -933,6 +934,7 @@ RSpec.describe Metanorma::Standoc do
              <role type="publisher"/>
              <organization>
                <name>Monsters, Inc.</name>
+               <abbreviation>MONS</abbreviation>
                <logo>
                  <image src="correct.png"  mimetype="image/png"/>
                </logo>
@@ -1013,6 +1015,7 @@ RSpec.describe Metanorma::Standoc do
              <owner>
                <organization>
                  <name>Monsters, Inc.</name>
+                 <abbreviation>MONS</abbreviation>
                  <logo>
                    <image src="correct.png"  mimetype="image/png"/>
                  </logo>
