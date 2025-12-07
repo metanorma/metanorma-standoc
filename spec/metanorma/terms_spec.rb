@@ -416,7 +416,7 @@ RSpec.describe Metanorma::Standoc do
       <<ISO2191,section=1>>
 
       [.source]
-      <<ISO2191,droploc%capital%section=1>>
+      <<ISO2191,droploc%capital%style=id%section=1>>
 
       === Term2
 
@@ -448,7 +448,7 @@ RSpec.describe Metanorma::Standoc do
               </origin>
              </source>
              <source status="identical" type="authoritative">
-               <origin bibitemid="ISO2191" type="inline" citeas="" case='capital' droploc='true'>
+               <origin case="capital" droploc="true" bibitemid="ISO2191" style="id" type="inline" citeas="">
                <localityStack>
               <locality type="section"><referenceFrom>1</referenceFrom></locality>
               </localityStack>
