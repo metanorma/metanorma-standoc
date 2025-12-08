@@ -33,6 +33,7 @@ RSpec.describe Metanorma::Standoc do
       expect(attrs[:pdfallowprinthq]).to eq "true"
       expect(attrs[:pdfencryptmetadata]).to eq "true"
       expect(attrs[:pdfallowaccesscontent]).to eq "true"
+      expect(attrs[:pdfportfolio]).to eq "true"
       expect(attrs[:fonts]).to eq "Zapf Chancery"
       expect(attrs[:pdfstylesheet]).to eq File.join(rootdir, "spec/assets/pdf.scss")
       expect(attrs[:pdfstylesheet_override]).to eq File.join(rootdir, "spec/assets/pdf-override.css")
@@ -67,6 +68,7 @@ RSpec.describe Metanorma::Standoc do
       :pdf-allow-print-hq: true
       :pdf-allow-access-content: true
       :pdf-encrypt-metadata: true
+      :pdf-portfolio: true
       :font-license-agreement: true
 
       == Level 1
