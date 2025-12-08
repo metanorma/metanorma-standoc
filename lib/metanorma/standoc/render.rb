@@ -98,7 +98,7 @@ module Metanorma
                          pdf-allow-assemble-document pdf-allow-edit-annotations
                          pdf-allow-print pdf-allow-print-hq
                          pdf-allow-access-content pdf-encrypt-metadata fonts
-                         pdf-stylesheet pdf-stylesheet-override
+                         pdf-stylesheet pdf-stylesheet-override pdf-portfolio
                          font-license-agreement).each_with_object({}) do |x, m|
           m[x.delete("-").sub(/override$/, "_override").to_sym] =
             node.attr(x) || node.attr(x.sub("pdf-", "pdf"))
