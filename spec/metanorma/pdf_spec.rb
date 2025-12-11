@@ -35,13 +35,17 @@ RSpec.describe Metanorma::Standoc do
       expect(attrs[:pdfallowaccesscontent]).to eq "true"
       expect(attrs[:pdfportfolio]).to eq "true"
       expect(attrs[:fonts]).to eq "Zapf Chancery"
-      expect(attrs[:pdfstylesheet]).to eq File.join(rootdir, "spec/assets/pdf.scss")
-      expect(attrs[:pdfstylesheet_override]).to eq File.join(rootdir, "spec/assets/pdf-override.css")
+      expect(attrs[:pdfstylesheet]).to eq File.join(rootdir,
+                                                    "spec/assets/pdf.scss")
+      expect(attrs[:pdfstylesheet_override]).to eq File.join(rootdir,
+                                                             "spec/assets/pdf-override.css")
       expect(attrs[:fontlicenseagreement]).to eq "true"
 
       # Return the mock converter
       pdf_converter
-    end
+    end.exactly(3).times
+
+    warn "\n\nFirst batch"
 
     Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
@@ -69,6 +73,80 @@ RSpec.describe Metanorma::Standoc do
       :pdf-allow-access-content: true
       :pdf-encrypt-metadata: true
       :pdf-portfolio: true
+      :font-license-agreement: true
+
+      == Level 1
+
+      === Level 2
+
+      ==== Level 3
+    INPUT
+
+    warn "\n\nSecond batch"
+
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :novalid:
+      :script: Hans
+      :body-font: Zapf Chancery
+      :fonts: Zapf Chancery
+      :header-font: Comic Sans
+      :monospace-font: Andale Mono
+      :pdfstylesheet: spec/assets/pdf.scss
+      :pdfstylesheet-override: spec/assets/pdf-override.css
+      :pdfencrypt: true
+      :pdfencryptionlength: 128
+      :pdfuserpassword: user-pass
+      :pdfownerpassword: owner-pass
+      :pdfallowcopycontent: true
+      :pdfalloweditcontent: true
+      :pdfallowfillinforms: true
+      :pdfallowassembledocument: true
+      :pdfalloweditannotations: true
+      :pdfallowprint: true
+      :pdfallowprinthq: true
+      :pdfallowaccesscontent: true
+      :pdfencryptmetadata: true
+      :pdfportfolio: true
+      :fontlicenseagreement: true
+
+      == Level 1
+
+      === Level 2
+
+      ==== Level 3
+    INPUT
+
+    warn "\n\nThird batch"
+
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :novalid:
+      :script: Hans
+      :body-font: Zapf Chancery
+      :fonts: Zapf Chancery
+      :header-font: Comic Sans
+      :monospace-font: Andale Mono
+      :pdfstylesheet: spec/assets/pdf.scss
+      :pdfstylesheet_override: spec/assets/pdf-override.css
+      :pdfencrypt: true
+      :pdfencryption-length: 128
+      :pdfuser-password: user-pass
+      :pdfowner-password: owner-pass
+      :pdfallow-copy-content: true
+      :pdfallow-edit-content: true
+      :pdfallow-fill-in-forms: true
+      :pdfallow-assemble-document: true
+      :pdfallow-edit-annotations: true
+      :pdfallow-print: true
+      :pdfallow-print-hq: true
+      :pdfallow-access-content: true
+      :pdfencrypt-metadata: true
+      :pdfportfolio: true
       :font-license-agreement: true
 
       == Level 1
