@@ -14,15 +14,20 @@ module Metanorma
 
       def biblio_reorder1(refs)
         fold_notes_into_biblio(refs)
-        bib = sort_biblio(refs.xpath("./bibitem"))
+        bib = refs.xpath("./bibitem")
+        @sort_biblio and bib = sort_biblio(bib)
+        insert_sorted_bibitems(refs, bib)
+        extract_notes_from_biblio(refs)
+        refs.xpath("./references").each { |r| biblio_reorder1(r) }
+      end
+
+      def insert_sorted_bibitems(refs, bib)
         insert = refs.at("./bibitem")&.previous_element
         refs.xpath("./bibitem").each(&:remove)
         bib.reverse_each do |b|
           (insert and insert.next = b.to_xml) or
             refs.children.first.add_previous_sibling b.to_xml
         end
-        extract_notes_from_biblio(refs)
-        refs.xpath("./references").each { |r| biblio_reorder1(r) }
       end
 
       def sort_biblio(bib)

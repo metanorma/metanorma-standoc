@@ -162,6 +162,7 @@ module Metanorma
         @no_isobib_cache = node.attr("no-isobib-cache")
         @no_isobib = node.attr("no-isobib")
         @flush_caches = node.attr("flush-caches")
+        @sort_biblio = !node.attr("sort-biblio") == "false"
         init_bib_log
         @bibdb = nil
         init_bib_caches(node)

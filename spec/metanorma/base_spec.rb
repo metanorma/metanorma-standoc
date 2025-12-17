@@ -1423,7 +1423,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
-   it "populates cover images" do
+  it "populates cover images" do
     input = <<~INPUT
       = Document title
       Author
@@ -1632,13 +1632,13 @@ QU1FOiB0ZXN0Cgo=
         @sourcecode_markup_end = "}}}"
         @c = HTMLEntities.new
         @embed_hdr = [{ text: "= Test Header\nTest content", child: [] }]
-        @novalid = false  # Test original validation setting
+        @novalid = false # Test original validation setting
         @isolated_conversion_stack = []
       end
 
-      attr_accessor :test_variable, :fn_number, :refids, :anchors, :localdir, 
-                    :sourcecode_markup_start, :sourcecode_markup_end, :c, :embed_hdr,
-                    :novalid, :isolated_conversion_stack
+      attr_accessor :test_variable, :fn_number, :refids, :anchors, :localdir,
+                    :sourcecode_markup_start, :sourcecode_markup_end, :c,
+                    :embed_hdr, :novalid, :isolated_conversion_stack
 
       def backend
         :standoc
@@ -1654,12 +1654,12 @@ QU1FOiB0ZXN0Cgo=
         proc_class.new
       end
 
-      def hdr2bibitem_type(hdr)
+      def hdr2bibitem_type(_hdr)
         :standoc
       end
 
       # Mock validation method to track if it's called
-      def validate(doc)
+      def validate(_doc)
         @validation_called = true
       end
 
@@ -1681,8 +1681,8 @@ QU1FOiB0ZXN0Cgo=
       result = converter.hdr2bibitem(converter.embed_hdr.first)
       expect(result).to be_a(String)
       expect(result).to include("<bibitem")
-    rescue => e
-      # Even if the conversion fails due to missing dependencies, 
+    rescue StandardError => e
+      # Even if the conversion fails due to missing dependencies,
       # we should still verify instance variables are preserved
       puts "Conversion failed as expected in test environment: #{e.message}"
     end
@@ -1697,8 +1697,8 @@ QU1FOiB0ZXN0Cgo=
 
     # Test adoc2xml method
     begin
-      result = converter.adoc2xml("Test content", :standoc)
-    rescue => e
+      converter.adoc2xml("Test content", :standoc)
+    rescue StandardError => e
       puts "adoc2xml failed as expected in test environment: #{e.message}"
     end
 
@@ -1713,14 +1713,16 @@ QU1FOiB0ZXN0Cgo=
     # Test sourcecode_markup method with a mock node
     mock_document = double("document")
     mock_node = double("node")
-    allow(mock_node).to receive(:text).and_return("before {{{test content}}} after")
+    allow(mock_node).to receive(:text)
+      .and_return("before {{{test content}}} after")
     allow(mock_node).to receive(:document).and_return(mock_document)
 
     begin
       result = converter.sourcecode_markup(mock_node)
       expect(result).to be_a(String)
-    rescue => e
-      puts "sourcecode_markup failed as expected in test environment: #{e.message}"
+    rescue StandardError => e
+      puts "sourcecode_markup failed as expected "\
+        "in test environment: #{e.message}"
     end
 
     # Final verification that all instance variables are preserved
@@ -1746,15 +1748,16 @@ QU1FOiB0ZXN0Cgo=
         @c = HTMLEntities.new
       end
 
-      attr_accessor :novalid, :isolated_conversion_stack, :validation_calls, :localdir, :c
+      attr_accessor :novalid, :isolated_conversion_stack, :validation_calls,
+                    :localdir, :c
 
       # Mock validation method to track calls
-      def validate(doc)
+      def validate(_doc)
         @validation_calls << "validate_called"
       end
 
       # Mock makexml method to test validation logic
-      def makexml(node)
+      def makexml(_node)
         # Simulate the validation logic from base.rb
         validate("mock_doc") unless @novalid || in_isolated_conversion?
         "mock_xml_result"
@@ -1774,7 +1777,7 @@ QU1FOiB0ZXN0Cgo=
 
     # Test 1: Normal conversion should call validation (when @novalid is false)
     converter.validation_calls.clear
-    result = converter.makexml("mock_node")
+    converter.makexml("mock_node")
     expect(converter.validation_calls).to include("validate_called")
     expect(converter.isolated_conversion_stack).to be_empty
 
@@ -1782,7 +1785,7 @@ QU1FOiB0ZXN0Cgo=
     converter.validation_calls.clear
     begin
       converter.isolated_asciidoctor_convert("test content", backend: :standoc)
-    rescue => e
+    rescue StandardError => e
       # Expected to fail in test environment, but stack should be managed properly
       puts "Isolated conversion failed as expected: #{e.message}"
     end
@@ -1791,19 +1794,19 @@ QU1FOiB0ZXN0Cgo=
 
     # Test 3: Test nested isolated conversions
     converter.validation_calls.clear
-    
+
     # Simulate nested calls by manually managing stack
     converter.isolated_conversion_stack << true  # First level
     expect(converter.in_isolated_conversion?).to be true
-    
+
     converter.isolated_conversion_stack << true  # Second level (nested)
     expect(converter.in_isolated_conversion?).to be true
     expect(converter.isolated_conversion_stack.size).to eq(2)
-    
+
     # Test makexml during isolated conversion - should skip validation
-    result = converter.makexml("mock_node")
+    converter.makexml("mock_node")
     expect(converter.validation_calls).to be_empty
-    
+
     # Pop stack back to empty
     converter.isolated_conversion_stack.pop
     converter.isolated_conversion_stack.pop
@@ -1812,17 +1815,17 @@ QU1FOiB0ZXN0Cgo=
 
     # Test 4: After isolated conversion, normal validation should resume
     converter.validation_calls.clear
-    result = converter.makexml("mock_node")
+    converter.makexml("mock_node")
     expect(converter.validation_calls).to include("validate_called")
 
     # Test 5: Ensure @novalid setting is preserved
     converter.novalid = false
     begin
       converter.isolated_asciidoctor_convert("test content", backend: :standoc)
-    rescue => e
+    rescue StandardError
       # Expected to fail
     end
-    expect(converter.novalid).to be false  # Should remain unchanged
+    expect(converter.novalid).to be false # Should remain unchanged
   end
 
   private
