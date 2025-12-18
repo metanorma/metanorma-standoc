@@ -220,7 +220,8 @@ module Metanorma
 
       def title_nums(node, xml, lang)
         @i18n_cache ||= {}
-        @i18n_cache[lang] ||= ::IsoDoc::I18n.new(lang, ::Metanorma::Utils::default_script(lang))
+        @i18n_cache[lang] ||= isodoc(@lang, ::Metanorma::Utils::default_script(lang),
+                                     nil, i18nyaml_path(node)).i18n
         ret = title_nums_prep(node)
         ret[:part] && ret[:subpart] and ret[:part] += "&#x2013;#{ret[:subpart]}"
         ret.delete(:subpart)
