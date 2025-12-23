@@ -168,7 +168,7 @@ RSpec.describe Metanorma::Standoc do
                     <sections>
                       <clause id="_" inline-header="false" obligation="normative"><title id="_">“Quotation” A’s</title><p id="_">“Quotation” A’s</p>
       <p id="_">
-        <tt>"quote" A’s</tt>
+        <tt>"quote" A's</tt>
       </p>
       <sourcecode id="_"><body>"quote" A's</body></sourcecode>
       <figure id='_' class='pseudocode'>
