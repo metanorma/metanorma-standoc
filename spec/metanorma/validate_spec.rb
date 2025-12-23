@@ -1362,7 +1362,8 @@ RSpec.describe Metanorma::Standoc do
       |===
       |a |b
 
-      |c |d
+      |c a|[example]
+      Example
       |===
 
       * A
@@ -1372,6 +1373,8 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     expect(File.read("test.err.html"))
       .to include("There is an instance of table nested within note")
+    expect(File.read("test.err.html"))
+      .not_to include("There is an instance of example nested within table")
   end
 
   it "Warns if illegal nesting of assets within assets with crossreferencing" do

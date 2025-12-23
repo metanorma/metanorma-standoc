@@ -84,6 +84,7 @@ module Metanorma
 
       def nested_asset_report(outer, inner, doc)
         outer.name == "figure" && inner.name == "figure" and return
+        outer.name == "table" && inner.name == "example" and return
         @log.add("STANDOC_34", inner, params: [inner.name, outer.name])
         nested_asset_xref_report(outer, inner, doc)
       end
