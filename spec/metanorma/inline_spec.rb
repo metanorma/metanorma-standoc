@@ -929,12 +929,14 @@ RSpec.describe Metanorma::Standoc do
 
       <<reference>>
       <<reference,style=IDLONG%>>
-      <<reference,style=IDPROSE%>>
+      <<reference,style=ID-PROSE%>>
+      <<reference,style=author_date%>>
+      <<reference,style=author-date%>>
 
       [bibliography]
       == Normative References
 
-      * [[[reference,B]]], span:docid.IDLONG[ISO 1234 (E)]. span:docid.IDPROSE[document 1234 of the ISO].
+      * [[[reference,B]]], span:docid.IDLONG[ISO 1234 (E)]. span:docid.ID-PROSE[document 1234 of the ISO].
     INPUT
     output = <<~OUTPUT
       <foreword id="_" obligation="informative">
@@ -942,7 +944,9 @@ RSpec.describe Metanorma::Standoc do
         <p id="_">
           <eref type="inline" bibitemid="reference" citeas="IDLONG\\u00a0ISO\\u00a01234\\u00a0(E)"/>
           <eref type="inline" style="IDLONG" bibitemid="reference" citeas="IDLONG\\u00a0ISO\\u00a01234\\u00a0(E)"/>
-          <eref type="inline" style="IDPROSE" bibitemid="reference" citeas="IDPROSE\\u00a0document\\u00a01234\\u00a0of\\u00a0the\\u00a0ISO"/>
+          <eref type="inline" style="ID-PROSE" bibitemid="reference" citeas="ID-PROSE\\u00a0document\\u00a01234\\u00a0of\\u00a0the\\u00a0ISO"/>
+          <eref type="inline" style="author_date" bibitemid="reference" citeas="IDLONG\\u00a0ISO\\u00a01234\\u00a0(E)"/>
+          <eref type="inline" style="author_date" bibitemid="reference" citeas="IDLONG\\u00a0ISO\\u00a01234\\u00a0(E)"/>
         </p>
       </foreword>
     OUTPUT

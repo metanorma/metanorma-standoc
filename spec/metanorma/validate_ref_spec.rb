@@ -423,4 +423,24 @@ RSpec.describe Metanorma::Standoc do
     expect(f).not_to include("Downloading index from")
     expect(f).to include("Found") # to check suffix: ISO 639:2023
   end
+
+  it "warns on unrecognised bibliographic style" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      <<A,style=pizza%>>
+
+      [bibliography]
+      == Normative references
+      * [[[A,1]]]
+    INPUT
+    Asciidoctor.convert(input, *OPTIONS)
+    expect(File.read("test.err.html"))
+      .to include("Unrecognised bibliographic style: pizza")
+  end
 end

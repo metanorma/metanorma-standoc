@@ -79,20 +79,34 @@ module Metanorma
       def xref_to_eref(elem, name)
         elem.name = name
         elem["bibitemid"] = elem["target"]
-        if ref = @anchors&.dig(elem["target"], :xref)
-          t = @anchors.dig(elem["target"], :id, elem["style"]) and ref = t
-          elem["citeas"] = @c.decode(ref)
-        else xref_to_eref1(elem)
-        end
+        xref_to_eref1(elem)
+        eref_style_normalise(elem)
         elem.delete("target")
         elem.delete("defaultstyle") # xrefstyle default
         extract_localities(elem)
       end
 
       def xref_to_eref1(elem)
-        elem["citeas"] = ""
-        @internal_eref_namespaces.include?(elem["type"]) or
-          @log.add("STANDOC_30", elem, params: [elem["target"]])
+        if ref = @anchors&.dig(elem["target"], :xref)
+          t = @anchors.dig(elem["target"], :id, elem["style"]) and ref = t
+          elem["citeas"] = @c.decode(ref)
+        else
+          elem["citeas"] = ""
+          @internal_eref_namespaces.include?(elem["type"]) or
+            @log.add("STANDOC_30", elem, params: [elem["target"]])
+        end
+      end
+
+      def eref_style_normalise(elem)
+        elem["style"] or return
+        @anchors.dig(elem["target"], :id, elem["style"]) and return
+        # style is not docidentifier, so it's relaton-render style
+        s = elem["style"].gsub("-", "_")
+        if @isodoc.bibrenderer.citetemplate.template_raw.key?(s.to_sym)
+          elem["style"] = s
+        elsif s != "short"
+          @log.add("STANDOC_60", elem, params: [elem["style"]])
+        end
       end
 
       def xref_cleanup(xmldoc)
