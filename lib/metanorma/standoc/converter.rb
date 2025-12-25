@@ -23,6 +23,7 @@ module Metanorma
     class Converter
       Asciidoctor::Extensions.register do
         preprocessor Metanorma::Standoc::ResolveIncludePreprocessor
+        preprocessor Metanorma::Plugin::Lutaml::LutamlXsdPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlUmlDatamodelDescriptionPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlEaXmiPreprocessor
