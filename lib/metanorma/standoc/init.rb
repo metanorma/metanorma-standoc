@@ -41,8 +41,7 @@ module Metanorma
         @embed_hdr = node.attr("embed_hdr")
         @embed_id = node.attr("embed_id")
         @document_scheme = document_scheme(node)
-        @source_linenums = node.attr("source-linenums-option") == "true"
-        # feeds log
+        @source_linenums = node.attr("source-linenums-option") == "true" # feeds log
         @semantic_headless = node.attr("semantic-metadata-headless") == "true"
         @default_doctype = "standard"
       end
@@ -50,6 +49,8 @@ module Metanorma
       def init_processing(node)
         @localdir = Metanorma::Utils::localdir(node)
         @xrefstyle = node.attr("xrefstyle")
+        @erefstyle = node.attr("erefstyle")
+        @originstyle = node.attr("originstyle")
         @novalid = node.attr("novalid")
         @isolated_conversion_stack = []
         @smartquotes = node.attr("smartquotes") != "false"
