@@ -90,10 +90,10 @@ module Metanorma
             { ref: y[1], conn: conn[0], custom: conn[1] }.compact
           end
         end
-        xref_parse_compound_locations_fill_in(l)
+        xref_parse_compound_locations_fill_in(l, xref)
       end
 
-      def xref_parse_compound_locations_fill_in(locations)
+      def xref_parse_compound_locations_fill_in(locations, xref)
         locations.map.with_index do |y, i|
           y[:conn] or
             y[:conn] = (locations.dig(i + 1, :conn) == "to" ? "from" : "and")
