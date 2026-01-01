@@ -5,7 +5,7 @@ module Metanorma
       NUMERIC_REGEX = %r{\A((\+|-)?\d*\.?\d+)([eE](\+|-){1}\d+)?\Z}
 
       # extending localities to cover ISO referencing
-      CONN_REGEX_STR = "(?<conn>and|or|from|to)!".freeze
+      CONN_REGEX_STR = "(?<conn>and|or|from|to)(?<custom>:[^!]+)?!".freeze
 
       LOCALITIES = "section|clause|part|paragraph|chapter|page|line|" \
         "table|annex|figure|example|note|formula|list|time|anchor|" \

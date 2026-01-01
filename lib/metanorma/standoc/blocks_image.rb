@@ -35,7 +35,7 @@ module Metanorma
         noko do |xml|
           xml.figure **figure_attrs(node) do |f|
             block_title(node, f)
-            f.image **(image_attributes(node).tap { |h| h.delete(:anchor) })
+            f.image **image_attributes(node).tap { |h| h.delete(:anchor) }
           end
         end
       end
