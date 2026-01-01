@@ -1355,7 +1355,7 @@ RSpec.describe Metanorma::Standoc do
             <stage>10</stage>
          </status>
          <copyright>
-            <from>2025</from>
+            <from>#{Date.today.year}</from>
             <owner>
                <organization>
                   <name>Fred</name>

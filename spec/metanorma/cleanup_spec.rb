@@ -1024,10 +1024,10 @@ RSpec.describe Metanorma::Standoc do
              <stage>published</stage>
           </status>
           <copyright>
-             <from>2025</from>
+             <from>#{Date.today.year}</from>
           </copyright>
           <copyright>
-             <from>2025</from>
+             <from>#{Date.today.year}</from>
              <owner>
                 <organization>
                    <name>Jack</name>
