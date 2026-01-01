@@ -83,21 +83,20 @@ module Metanorma
       end
 
       def xref_parse_compound_locations(locations, xref)
-        l = locations.map { |y| y.split("!", 2) }
-          .map do |y|
-            if y.size == 1 then { ref: y[0] }
-            else
-              conn = y[0].split(":", 2)
-              if conn.size == 1 then { ref: y[1], conn: conn[0] }
-              else { ref: y[1], conn: conn[0], custom: conn[1] }
-              end
-            end
+        l = locations.map { |y| y.split("!", 2) }.map do |y|
+          if y.size == 1 then { ref: y[0] }
+          else
+            conn = y[0].split(":", 2)
+            { ref: y[1], conn: conn[0], custom: conn[1] }.compact
           end
-        #require "debug"; binding.b
-        l.map.with_index do |y, i|
-          y[:conn] or y[:conn] = (l.dig(i + 1, :conn)  == "to" ? "from" : "and")
-          #y.size == 1 and
-            #y.unshift(l.dig(i + 1, 0) == "to" ? "from" : "and")
+        end
+        xref_parse_compound_locations_fill_in(l)
+      end
+
+      def xref_parse_compound_locations_fill_in(locations)
+        locations.map.with_index do |y, i|
+          y[:conn] or
+            y[:conn] = (locations.dig(i + 1, :conn) == "to" ? "from" : "and")
           %w(and from to or).include?(y[:conn]) or
             @log.add("STANDOC_31", xref, params: [y[:conn]])
           y
