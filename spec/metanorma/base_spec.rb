@@ -548,22 +548,12 @@ RSpec.describe Metanorma::Standoc do
                 <semantic-metadata>
             <stage-published>false</stage-published>
           </semantic-metadata>
-             <presentation-metadata>
-               <name>TOC Heading Levels</name>
-               <value>2</value>
+                      <presentation-metadata>
+                <toc-heading-levels>2</toc-heading-levels>
+                <html-toc-heading-levels>4</html-toc-heading-levels>
+                <doc-toc-heading-levels>3</doc-toc-heading-levels>
+                <pdf-toc-heading-levels>5</pdf-toc-heading-levels>
              </presentation-metadata>
-             <presentation-metadata>
-               <name>HTML TOC Heading Levels</name>
-               <value>4</value>
-             </presentation-metadata>
-             <presentation-metadata>
-               <name>DOC TOC Heading Levels</name>
-               <value>3</value>
-             </presentation-metadata>
-             <presentation-metadata>
-                <name>PDF TOC Heading Levels</name>
-                <value>5</value>
-            </presentation-metadata>
            </metanorma-extension>
                 <sections/>
                 </metanorma>
@@ -770,61 +760,26 @@ RSpec.describe Metanorma::Standoc do
                   <metanorma-extension>
                         <semantic-metadata>
          <stage-published>true</stage-published>
-      </semantic-metadata>
-        <semantic-metadata>
           <hello-world>A</hello-world>
-        </semantic-metadata>
-        <semantic-metadata>
           <hello-world>B</hello-world>
-        </semantic-metadata>
-        <semantic-metadata>
           <hello-world>C, D</hello-world>
-        </semantic-metadata>
-        <semantic-metadata>
           <hello>what-not</hello>
         </semantic-metadata>
         <presentation-metadata>
           <hello>Hello? draft, Published</hello>
-        </presentation-metadata>
-        <presentation-metadata>
           <manifold>hello, world</manifold>
-        </presentation-metadata>
-        <presentation-metadata>
           <manifold>yes</manifold>
-        </presentation-metadata>
-        <presentation-metadata>
          <ul-label-list>•</ul-label-list>
-      </presentation-metadata>
-      <presentation-metadata>
          <ul-label-list>-</ul-label-list>
-      </presentation-metadata>
-      <presentation-metadata>
          <ul-label-list>o</ul-label-list>
-      </presentation-metadata>
-            <presentation-metadata>
          <xml>
             <a href="a"/>
          </xml>
-      </presentation-metadata>
-        <presentation-metadata>
-          <name>TOC Heading Levels</name>
-          <value>2</value>
-        </presentation-metadata>
-        <presentation-metadata>
-          <name>HTML TOC Heading Levels</name>
-          <value>4</value>
-        </presentation-metadata>
-        <presentation-metadata>
-          <name>DOC TOC Heading Levels</name>
-          <value>3</value>
-        </presentation-metadata>
-        <presentation-metadata>
-          <name>PDF TOC Heading Levels</name>
-          <value>2</value>
-        </presentation-metadata>
-        <presentation-metadata>
-          <name>document-scheme</name>
-          <value>SCHEME</value>
+                <toc-heading-levels>2</toc-heading-levels>
+                <html-toc-heading-levels>4</html-toc-heading-levels>
+                <doc-toc-heading-levels>3</doc-toc-heading-levels>
+                <pdf-toc-heading-levels>2</pdf-toc-heading-levels>
+          <document-scheme>SCHEME</document-scheme>
         </presentation-metadata>
       </metanorma-extension>
                   <preface>
@@ -1052,22 +1007,12 @@ RSpec.describe Metanorma::Standoc do
                <semantic-metadata>
          <stage-published>true</stage-published>
       </semantic-metadata>
-           <presentation-metadata>
-             <name>TOC Heading Levels</name>
-             <value>2</value>
-           </presentation-metadata>
-           <presentation-metadata>
-             <name>HTML TOC Heading Levels</name>
-             <value>2</value>
-           </presentation-metadata>
-           <presentation-metadata>
-             <name>DOC TOC Heading Levels</name>
-             <value>2</value>
-           </presentation-metadata>
-           <presentation-metadata>
-             <name>PDF TOC Heading Levels</name>
-             <value>2</value>
-           </presentation-metadata>
+                  <presentation-metadata>
+                <toc-heading-levels>2</toc-heading-levels>
+                <html-toc-heading-levels>2</html-toc-heading-levels>
+                <doc-toc-heading-levels>2</doc-toc-heading-levels>
+                <pdf-toc-heading-levels>2</pdf-toc-heading-levels>
+             </presentation-metadata>
          </metanorma-extension>
          <sections/>
        </metanorma>
@@ -1445,50 +1390,28 @@ RSpec.describe Metanorma::Standoc do
             <semantic-metadata>
          <stage-published>true</stage-published>
       </semantic-metadata>
-        <presentation-metadata>
-          <name>coverpage-image</name>
-          <value>
-            <image src="images/image1.gif"/>
-            <image src="images/image2.gif"/>
-          </value>
-        </presentation-metadata>
-        <presentation-metadata>
-          <name>innercoverpage-image</name>
-          <value>
-            <image src="images/image1.gif"/>
-            <image src="images/image2.gif"/>
-          </value>
-        </presentation-metadata>
-        <presentation-metadata>
-          <name>tocside-image</name>
-          <value>
-            <image src="images/image1.gif"/>
-            <image src="images/image2.gif"/>
-          </value>
-        </presentation-metadata>
-        <presentation-metadata>
-          <name>backpage-image</name>
-          <value>
-            <image src="images/image1.gif"/>
-            <image src="images/image2.gif"/>
-          </value>
-        </presentation-metadata>
-                  <presentation-metadata>
-             <name>TOC Heading Levels</name>
-             <value>2</value>
-          </presentation-metadata>
           <presentation-metadata>
-             <name>HTML TOC Heading Levels</name>
-             <value>2</value>
-          </presentation-metadata>
-          <presentation-metadata>
-             <name>DOC TOC Heading Levels</name>
-             <value>2</value>
-          </presentation-metadata>
-          <presentation-metadata>
-             <name>PDF TOC Heading Levels</name>
-             <value>2</value>
-          </presentation-metadata>
+             <coverpage-image>
+                <image src="images/image1.gif"/>
+                <image src="images/image2.gif"/>
+             </coverpage-image>
+             <innercoverpage-image>
+                <image src="images/image1.gif"/>
+                <image src="images/image2.gif"/>
+             </innercoverpage-image>
+             <tocside-image>
+                <image src="images/image1.gif"/>
+                <image src="images/image2.gif"/>
+             </tocside-image>
+             <backpage-image>
+                <image src="images/image1.gif"/>
+                <image src="images/image2.gif"/>
+             </backpage-image>
+                <toc-heading-levels>2</toc-heading-levels>
+                <html-toc-heading-levels>2</html-toc-heading-levels>
+                <doc-toc-heading-levels>2</doc-toc-heading-levels>
+                <pdf-toc-heading-levels>2</pdf-toc-heading-levels>
+             </presentation-metadata>
       </metanorma-extension>
     OUTPUT
     expect(strip_guid(Canon.format_xml(Nokogiri::XML(Asciidoctor

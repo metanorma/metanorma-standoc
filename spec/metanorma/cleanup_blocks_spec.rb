@@ -1327,7 +1327,13 @@ RSpec.describe Metanorma::Standoc do
              <semantic-metadata>
          <stage-published>true</stage-published>
       </semantic-metadata>
-        <presentation-metadata><name>TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>HTML TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>DOC TOC Heading Levels</name><value>2</value></presentation-metadata><presentation-metadata><name>PDF TOC Heading Levels</name><value>2</value></presentation-metadata></metanorma-extension>
+                  <presentation-metadata>
+                <toc-heading-levels>2</toc-heading-levels>
+                <html-toc-heading-levels>2</html-toc-heading-levels>
+                <doc-toc-heading-levels>2</doc-toc-heading-levels>
+                <pdf-toc-heading-levels>2</pdf-toc-heading-levels>
+             </presentation-metadata>
+        </metanorma-extension>
        <sections><clause id="_" type="scope" inline-header="false" obligation="normative">
        <title id="_">Scope</title>
        <example id="_">

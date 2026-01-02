@@ -102,6 +102,7 @@ module Metanorma
         anchor_cleanup(xmldoc)
         link_cleanup(xmldoc)
         passthrough_metanorma_cleanup(xmldoc)
+        metadata_cleanup_final(xmldoc)
         xmldoc
       end
 
@@ -178,6 +179,18 @@ module Metanorma
           .each do |x|
           /\{\{|\{%/.match?(x) or next
           x.children = @isodoc.populate_template(to_xml(x.children), nil)
+        end
+      end
+
+      def metadata_cleanup_final(xmldoc)
+        root = nil
+        %w(semantic presentation).each do |k|
+          xmldoc.xpath("//#{k}-metadata").each_with_index do |x, i|
+            if i.zero? then root = x
+            else
+              root << x.remove.elements
+            end
+          end
         end
       end
 
