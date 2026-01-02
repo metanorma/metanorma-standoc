@@ -16,8 +16,8 @@ module Metanorma
            backpage-image).each do |n|
              xmldoc.xpath("//bibdata/ext/#{n}").each do |x|
                ins = add_misc_container(xmldoc)
-               ins << "<presentation-metadata><name>#{n}</name>" \
-                      "<value>#{x.remove.children.to_xml}</value>" \
+               ins << "<presentation-metadata><#{n}>" \
+                      "#{x.remove.children.to_xml}</#{n}>" \
                       "</presentation-metadata>"
              end
            end
