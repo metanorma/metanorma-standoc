@@ -52,13 +52,19 @@ module Metanorma
       end
 
       def add_locality(stack, match)
-        stack.children.empty? && match[:conn] and
-          stack["connective"] = match[:conn]
+        add_locality_attributes(stack, match)
         ref =
           match[:ref] ? "<referenceFrom>#{tq match[:ref]}</referenceFrom>" : ""
         refto = match[:to] ? "<referenceTo>#{tq match[:to]}</referenceTo>" : ""
         stack.add_child("<locality type='#{locality_label(match)}'>#{ref}" \
                         "#{refto}</locality>")
+      end
+
+      def add_locality_attributes(stack, match)
+        stack.children.empty? && match[:conn] or return
+        stack["connective"] = match[:conn]
+        match[:custom] and stack["custom-connective"] =
+                             match[:custom].sub(/^:/, "")
       end
 
       def fill_in_eref_connectives(elem)
@@ -77,12 +83,22 @@ module Metanorma
       end
 
       def xref_parse_compound_locations(locations, xref)
-        l = locations.map { |y| y.split("!", 2) }
-        l.map.with_index do |y, i|
-          y.size == 1 and
-            y.unshift(l.dig(i + 1, 0) == "to" ? "from" : "and")
-          %w(and from to or).include?(y[0]) or
-            @log.add("STANDOC_31", xref, params: [y[0]])
+        l = locations.map { |y| y.split("!", 2) }.map do |y|
+          if y.size == 1 then { ref: y[0] }
+          else
+            conn = y[0].split(":", 2)
+            { ref: y[1], conn: conn[0], custom: conn[1] }.compact
+          end
+        end
+        xref_parse_compound_locations_fill_in(l, xref)
+      end
+
+      def xref_parse_compound_locations_fill_in(locations, xref)
+        locations.map.with_index do |y, i|
+          y[:conn] or
+            y[:conn] = (locations.dig(i + 1, :conn) == "to" ? "from" : "and")
+          %w(and from to or).include?(y[:conn]) or
+            @log.add("STANDOC_31", xref, params: [y[:conn]])
           y
         end
       end

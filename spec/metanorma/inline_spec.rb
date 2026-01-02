@@ -614,6 +614,7 @@ RSpec.describe Metanorma::Standoc do
       <<ref1;and!ref2>>
       <<ref1;or!ref2,text>>
       <<from!ref1;to!ref2;and!ref3;to!ref4>>
+      <<from:ekde!ref1;to:ĝis!ref2;and:kaj!ref3;to:ĝis al!ref4>>
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -625,7 +626,8 @@ RSpec.describe Metanorma::Standoc do
        <xref target="ref1"><location target="ref1" connective="and"/><location target="ref2" connective="and"/></xref>
        <xref target="ref1"><location target="ref1" connective="and"/><location target="ref2" connective="and"/></xref>
        <xref target="ref1"><location target="ref1" connective="and"/><location target="ref2" connective="or"/><display-text>text</display-text></xref>
-       <xref target="ref1"><location target="ref1" connective="from"/><location target="ref2" connective="to"/><location target="ref3" connective="and"/><location target="ref4" connective="to"/></xref></p>
+       <xref target="ref1"><location target="ref1" connective="from"/><location target="ref2" connective="to"/><location target="ref3" connective="and"/><location target="ref4" connective="to"/></xref>
+       <xref target="ref1"><location target="ref1" connective="from" custom-connective="ekde"/><location target="ref2" connective="to" custom-connective="ĝis"/><location target="ref3" connective="and" custom-connective="kaj"/><location target="ref4" connective="to" custom-connective="ĝis al"/></xref></p>
        </clause>
        </sections>
        </metanorma>
@@ -1177,7 +1179,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
-  it "processes combinations of crossreferences" do
+  it "processes combinations of crossreferences with localities" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Section
@@ -1189,6 +1191,7 @@ RSpec.describe Metanorma::Standoc do
       <<ref1,clause=3;and!clause=5>>
       <<ref1,clause=3;or!clause=5,text>>
       <<ref1,from!clause=3;to!clause=5;and!clause=8;to!clause=10>>
+      <<ref1,from:ekde!clause=3;to:ĝis!clause=5;and:kaj!clause=8;to:ĝis al!clause=10>>
 
       [bibliography]
       == Bibliography
@@ -1293,6 +1296,28 @@ RSpec.describe Metanorma::Standoc do
                   </locality>
                 </localityStack>
               </eref>
+            <eref type="inline" bibitemid="ref1" citeas="XYZ">
+               <localityStack connective="from" custom-connective="ekde">
+                  <locality type="clause">
+                     <referenceFrom>3</referenceFrom>
+                  </locality>
+               </localityStack>
+               <localityStack connective="to" custom-connective="ĝis">
+                  <locality type="clause">
+                     <referenceFrom>5</referenceFrom>
+                  </locality>
+               </localityStack>
+               <localityStack connective="and" custom-connective="kaj">
+                  <locality type="clause">
+                     <referenceFrom>8</referenceFrom>
+                  </locality>
+               </localityStack>
+               <localityStack connective="to" custom-connective="ĝis al">
+                  <locality type="clause">
+                     <referenceFrom>10</referenceFrom>
+                  </locality>
+               </localityStack>
+            </eref>
             </p>
           </clause>
         </sections>
