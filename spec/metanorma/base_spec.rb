@@ -760,17 +760,9 @@ RSpec.describe Metanorma::Standoc do
                   <metanorma-extension>
                         <semantic-metadata>
          <stage-published>true</stage-published>
-      </semantic-metadata>
-        <semantic-metadata>
           <hello-world>A</hello-world>
-        </semantic-metadata>
-        <semantic-metadata>
           <hello-world>B</hello-world>
-        </semantic-metadata>
-        <semantic-metadata>
           <hello-world>C, D</hello-world>
-        </semantic-metadata>
-        <semantic-metadata>
           <hello>what-not</hello>
         </semantic-metadata>
         <presentation-metadata>
