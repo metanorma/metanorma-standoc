@@ -550,14 +550,8 @@ RSpec.describe Metanorma::Standoc do
           </semantic-metadata>
                       <presentation-metadata>
                 <toc-heading-levels>2</toc-heading-levels>
-             </presentation-metadata>
-             <presentation-metadata>
                 <html-toc-heading-levels>4</html-toc-heading-levels>
-             </presentation-metadata>
-             <presentation-metadata>
                 <doc-toc-heading-levels>3</doc-toc-heading-levels>
-             </presentation-metadata>
-             <presentation-metadata>
                 <pdf-toc-heading-levels>5</pdf-toc-heading-levels>
              </presentation-metadata>
            </metanorma-extension>
@@ -781,40 +775,18 @@ RSpec.describe Metanorma::Standoc do
         </semantic-metadata>
         <presentation-metadata>
           <hello>Hello? draft, Published</hello>
-        </presentation-metadata>
-        <presentation-metadata>
           <manifold>hello, world</manifold>
-        </presentation-metadata>
-        <presentation-metadata>
           <manifold>yes</manifold>
-        </presentation-metadata>
-        <presentation-metadata>
          <ul-label-list>•</ul-label-list>
-      </presentation-metadata>
-      <presentation-metadata>
          <ul-label-list>-</ul-label-list>
-      </presentation-metadata>
-      <presentation-metadata>
          <ul-label-list>o</ul-label-list>
-      </presentation-metadata>
-            <presentation-metadata>
          <xml>
             <a href="a"/>
          </xml>
-      </presentation-metadata>
-                  <presentation-metadata>
                 <toc-heading-levels>2</toc-heading-levels>
-             </presentation-metadata>
-             <presentation-metadata>
                 <html-toc-heading-levels>4</html-toc-heading-levels>
-             </presentation-metadata>
-             <presentation-metadata>
                 <doc-toc-heading-levels>3</doc-toc-heading-levels>
-             </presentation-metadata>
-             <presentation-metadata>
                 <pdf-toc-heading-levels>2</pdf-toc-heading-levels>
-             </presentation-metadata>
-        <presentation-metadata>
           <document-scheme>SCHEME</document-scheme>
         </presentation-metadata>
       </metanorma-extension>
@@ -1045,14 +1017,8 @@ RSpec.describe Metanorma::Standoc do
       </semantic-metadata>
                   <presentation-metadata>
                 <toc-heading-levels>2</toc-heading-levels>
-             </presentation-metadata>
-             <presentation-metadata>
                 <html-toc-heading-levels>2</html-toc-heading-levels>
-             </presentation-metadata>
-             <presentation-metadata>
                 <doc-toc-heading-levels>2</doc-toc-heading-levels>
-             </presentation-metadata>
-             <presentation-metadata>
                 <pdf-toc-heading-levels>2</pdf-toc-heading-levels>
              </presentation-metadata>
          </metanorma-extension>
@@ -1437,35 +1403,21 @@ RSpec.describe Metanorma::Standoc do
                 <image src="images/image1.gif"/>
                 <image src="images/image2.gif"/>
              </coverpage-image>
-          </presentation-metadata>
-          <presentation-metadata>
              <innercoverpage-image>
                 <image src="images/image1.gif"/>
                 <image src="images/image2.gif"/>
              </innercoverpage-image>
-          </presentation-metadata>
-          <presentation-metadata>
              <tocside-image>
                 <image src="images/image1.gif"/>
                 <image src="images/image2.gif"/>
              </tocside-image>
-          </presentation-metadata>
-          <presentation-metadata>
              <backpage-image>
                 <image src="images/image1.gif"/>
                 <image src="images/image2.gif"/>
              </backpage-image>
-          </presentation-metadata>
-                    <presentation-metadata>
                 <toc-heading-levels>2</toc-heading-levels>
-             </presentation-metadata>
-             <presentation-metadata>
                 <html-toc-heading-levels>2</html-toc-heading-levels>
-             </presentation-metadata>
-             <presentation-metadata>
                 <doc-toc-heading-levels>2</doc-toc-heading-levels>
-             </presentation-metadata>
-             <presentation-metadata>
                 <pdf-toc-heading-levels>2</pdf-toc-heading-levels>
              </presentation-metadata>
       </metanorma-extension>

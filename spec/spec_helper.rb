@@ -217,14 +217,8 @@ BLANK_HDR = <<~"HDR".freeze
      </semantic-metadata>
     <presentation-metadata>
       <toc-heading-levels>2</toc-heading-levels>
-    </presentation-metadata>
-    <presentation-metadata>
       <html-toc-heading-levels>2</html-toc-heading-levels>
-    </presentation-metadata>
-    <presentation-metadata>
       <doc-toc-heading-levels>2</doc-toc-heading-levels>
-    </presentation-metadata>
-    <presentation-metadata>
       <pdf-toc-heading-levels>2</pdf-toc-heading-levels>
     </presentation-metadata>
   </metanorma-extension>
