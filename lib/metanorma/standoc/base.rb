@@ -156,8 +156,8 @@ module Metanorma
 
       def document_scheme_metadata(node)
         a = document_scheme(node) or return ""
-        "<presentation-metadata><name>document-scheme</name>" \
-          "<value>#{a}</value></presentation-metadata>"
+        "<presentation-metadata><document-scheme>" \
+          "#{a}</document-scheme></presentation-metadata>"
       end
 
       def document_scheme(node)
