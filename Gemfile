@@ -8,3 +8,4 @@ gemspec
 
 eval_gemfile("Gemfile.devel") rescue nil
 
+gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", branch: "feature/unitsml_liquid_filters"
