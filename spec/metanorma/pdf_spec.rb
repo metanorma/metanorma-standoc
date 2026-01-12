@@ -34,6 +34,8 @@ RSpec.describe Metanorma::Standoc do
       expect(attrs[:pdfencryptmetadata]).to eq "true"
       expect(attrs[:pdfallowaccesscontent]).to eq "true"
       expect(attrs[:pdfportfolio]).to eq "true"
+      expect(attrs[:pdfkeystore]).to eq "a"
+      expect(attrs[:pdfkeystorepassword]).to eq "b"
       expect(attrs[:fonts]).to eq "Zapf Chancery"
       expect(attrs[:pdfstylesheet]).to eq File.join(rootdir,
                                                     "spec/assets/pdf.scss")
@@ -73,6 +75,9 @@ RSpec.describe Metanorma::Standoc do
       :pdf-allow-access-content: true
       :pdf-encrypt-metadata: true
       :pdf-portfolio: true
+      :pdfkeystore: a
+      :pdfkeystorepassword: b
+      :pdf-portfolio: true
       :font-license-agreement: true
 
       == Level 1
@@ -110,6 +115,8 @@ RSpec.describe Metanorma::Standoc do
       :pdfallowaccesscontent: true
       :pdfencryptmetadata: true
       :pdfportfolio: true
+      :pdfkeystore: a
+      :pdfkeystorepassword: b
       :fontlicenseagreement: true
 
       == Level 1
@@ -147,6 +154,8 @@ RSpec.describe Metanorma::Standoc do
       :pdfallow-access-content: true
       :pdfencrypt-metadata: true
       :pdfportfolio: true
+      :pdfkeystore: a
+      :pdfkeystorepassword: b
       :font-license-agreement: true
 
       == Level 1
