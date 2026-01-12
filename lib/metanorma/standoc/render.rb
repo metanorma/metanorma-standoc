@@ -107,7 +107,8 @@ module Metanorma
                          pdf-owner-password pdf-allow-copy-content
                          pdf-allow-edit-content pdf-allow-fill-in-forms
                          pdf-allow-assemble-document pdf-allow-edit-annotations
-                         pdf-allow-print pdf-allow-print-hq
+                         pdf-allow-print pdf-allow-print-hq pdfkeystore
+                         pdfkeystorepassword
                          pdf-allow-access-content pdf-encrypt-metadata fonts
                          pdf-stylesheet pdf-stylesheet-override pdf-portfolio
                          font-license-agreement).each_with_object({}) do |x, m|

@@ -1,5 +1,5 @@
 gem "isodoc-i18n", git: "https://github.com/metanorma/isodoc-i18n", branch: "main"
 gem "relaton-render", git: "https://github.com/relaton/relaton-render", branch: "main"
-gem "isodoc", git: "https://github.com/metanorma/isodoc", branch: "fix/metadata-name-tag"
+gem "isodoc", git: "https://github.com/metanorma/isodoc", branch: "main"
 
 
