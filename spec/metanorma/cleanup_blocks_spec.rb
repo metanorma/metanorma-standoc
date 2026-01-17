@@ -443,12 +443,14 @@ RSpec.describe Metanorma::Standoc do
                 <td id="_" valign='top' align='left'>c</td>
               </tr>
             </tbody>
-            <dl id='_' key='true'>
+            <key>
+            <dl id='_'>
               <dt>a</dt>
               <dd id="_">
                 <p id='_'>b</p>
               </dd>
             </dl>
+            </key>
           </table>
           <table id='_'>
             <tbody>
@@ -458,12 +460,14 @@ RSpec.describe Metanorma::Standoc do
                 <td id="_" valign='top' align='left'>c</td>
               </tr>
             </tbody>
-            <dl id='_' key='true'>
+            <key>
+            <dl id='_'>
               <dt>a</dt>
               <dd id="_">
                 <p id='_'>b</p>
               </dd>
             </dl>
+            </key>
           </table>
           <table id='_'>
             <tbody>
@@ -657,12 +661,14 @@ RSpec.describe Metanorma::Standoc do
                </math>
                <asciimath>Formula</asciimath>
              </stem>
-             <dl id="_" key="true">
+             <key>
+             <dl id="_">
                <dt>a</dt>
                <dd id="_">
                  <p id="_">b</p>
                </dd>
              </dl>
+             </key>
            </formula>
            <formula id="_">
              <stem type="MathML" block="true">
@@ -680,12 +686,14 @@ RSpec.describe Metanorma::Standoc do
                </math>
                <asciimath>Formula</asciimath>
              </stem>
-             <dl id="_" key="true">
+             <key>
+             <dl id="_">
                <dt>a</dt>
                <dd id="_">
                  <p id="_">b</p>
                </dd>
              </dl>
+             </key>
            </formula>
            <formula id="_">
              <stem type="MathML" block="true">
@@ -780,21 +788,25 @@ RSpec.describe Metanorma::Standoc do
       <sections>
           <figure id='_'>
             <image src='spec/examples/rice_images/rice_image1.png' filename='spec/examples/rice_images/rice_image1.png' id='_' mimetype='image/png' height='auto' width='auto'/>
-            <dl id='_' key='true'>
+            <key>
+            <dl id='_'>
               <dt>a</dt>
               <dd id="_">
                 <p id='_'>b</p>
               </dd>
             </dl>
+            </key>
           </figure>
           <figure id='_'>
             <image src='spec/examples/rice_images/rice_image1.png' filename='spec/examples/rice_images/rice_image1.png' id='_' mimetype='image/png' height='auto' width='auto'/>
-            <dl id='_' key='true'>
+            <key>
+            <dl id='_'>
               <dt>a</dt>
               <dd id="_">
                 <p id='_'>b</p>
               </dd>
             </dl>
+            </key>
           </figure>
           <figure id='_'>
             <image src='spec/examples/rice_images/rice_image1.png' filename='spec/examples/rice_images/rice_image1.png' id='_' mimetype='image/png' height='auto' width='auto'/>
@@ -914,7 +926,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "deduplicates identifiers in inline SVGs" do
     input = <<~INPUT
-      #{BLANK_HDR.sub(/ xmlns="[^"]+"/, "")}
+      #{BLANK_HDR.sub(/ xmlns="[^"]+"/, '')}
         <sections>
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256">
          <defs>
@@ -950,7 +962,7 @@ RSpec.describe Metanorma::Standoc do
       </metanorma>
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR.sub(/ xmlns="[^"]+"/, "")}
+      #{BLANK_HDR.sub(/ xmlns="[^"]+"/, '')}
                  <sections>
                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 256 256">
          <defs>
@@ -1058,7 +1070,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "deduplicates SVG classes" do
     input = <<~INPUT
-      #{BLANK_HDR.sub(/ xmlns="[^"]+"/, "")}
+      #{BLANK_HDR.sub(/ xmlns="[^"]+"/, '')}
         <sections>
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256">
         <style>.B{fill:none}.C{stroke:#000}.D{stroke-linejoin:round}.E{stroke-miterlimit:10}.F{stroke-width:5}.G{stroke-linecap:round}.H{stroke-width:3.9}.I{fill:#fff}.J{stroke-dasharray:30.0001, 30.0001}.K{stroke-width:15}</style>
@@ -1076,7 +1088,7 @@ RSpec.describe Metanorma::Standoc do
       </metanorma>
     INPUT
     output = <<~OUTPUT
-      #{BLANK_HDR.sub(/ xmlns="[^"]+"/, "")}
+      #{BLANK_HDR.sub(/ xmlns="[^"]+"/, '')}
                <sections>
            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 256 256">
              <style>.B_inject_0 {fill:none}.C_inject_0 {stroke:#000}.D_inject_0 {stroke-linejoin:round}.E_inject_0 {stroke-miterlimit:10}.F_inject_0 {stroke-width:5}.G_inject_0 {stroke-linecap:round}.H_inject_0 {stroke-width:3.9}.I_inject_0 {fill:#fff}.J_inject_0 {stroke-dasharray:30.0001, 30.0001}.K_inject_0 {stroke-width:15}</style>
@@ -1426,23 +1438,23 @@ RSpec.describe Metanorma::Standoc do
       <sections><clause id="_" type="scope" inline-header="false" obligation="normative">
       <title id="_">Scope</title>
        <p id="_">日本規格協会（<strong>JSA</strong>）から，</p>
-     
+
        <p id="_">日本規格協会（<strong>JSA</strong>）から，</p>
-     
+
        <p id="_">日本規格協会 <strong>JSA</strong> から，</p>
-     
+
        <p id="_">日本規格協会（<strong>JSA</strong>）から，</p>
-     
+
        <p id="_">日本規格協会 <strong>JSA</strong>）から，</p>
-     
+
        <p id="_">日本規格協会<strong>日</strong>）から，</p>
-     
+
        <p id="_">ABC (<strong>JSA</strong>)</p>
-     
+
        <p id="_">ABC <strong>JSA</strong></p>
-     
+
        <p id="_">ABC (<strong>JSA</strong>)</p>
-     
+
        <p id="_">ABC <strong>JSA</strong>)</p>
       </clause>
       </sections>
@@ -1451,5 +1463,109 @@ RSpec.describe Metanorma::Standoc do
     xml = xml.at("//xmlns:sections")
     expect(strip_guid(xml.to_xml))
       .to be_equivalent_to (output)
+  end
+
+  it "processes keys" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [%key]
+      A:: B
+      C:: D
+
+      Test
+
+      [%key]
+      This is some discursive nonsense
+
+      Test
+
+      [%key]
+      --
+      A:: B
+      C:: D
+
+      This is some discursive nonsense
+      --
+
+      Test
+
+      [%key]
+      A:: B
+      C:: D
+
+      [%key]
+      This is some discursive nonsense
+
+      [%key]
+      --
+      A:: B
+      C:: D
+
+      This is some discursive nonsense
+      --
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections>
+             <key>
+                <dl id="_">
+                   <dt>A</dt>
+                   <dd id="_">
+                      <p id="_">B</p>
+                   </dd>
+                   <dt>C</dt>
+                   <dd id="_">
+                      <p id="_">D</p>
+                   </dd>
+                </dl>
+             </key>
+             <p id="_">Test</p>
+             <key>
+                <p id="_">This is some discursive nonsense</p>
+             </key>
+             <p id="_">Test</p>
+             <key>
+                <dl id="_">
+                   <dt>A</dt>
+                   <dd id="_">
+                      <p id="_">B</p>
+                   </dd>
+                   <dt>C</dt>
+                   <dd id="_">
+                      <p id="_">D</p>
+                   </dd>
+                </dl>
+                <p id="_">This is some discursive nonsense</p>
+             </key>
+             <p id="_">Test</p>
+             <key>
+                <dl id="_">
+                   <dt>A</dt>
+                   <dd id="_">
+                      <p id="_">B</p>
+                   </dd>
+                   <dt>C</dt>
+                   <dd id="_">
+                      <p id="_">D</p>
+                   </dd>
+                </dl>
+                <p id="_">This is some discursive nonsense</p>
+                <dl id="_">
+                   <dt>A</dt>
+                   <dd id="_">
+                      <p id="_">B</p>
+                   </dd>
+                   <dt>C</dt>
+                   <dd id="_">
+                      <p id="_">D</p>
+                   </dd>
+                </dl>
+                <p id="_">This is some discursive nonsense</p>
+             </key>
+      </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 end

@@ -564,7 +564,8 @@ RSpec.describe Metanorma::Standoc do
                        </math>
                        <asciimath>w = (m_D) / (m_s)</asciimath>
                     </stem>
-                    <dl id="_33" key="true">
+                    <key>
+                    <dl id="_33">
                        <dt>
                           <stem block="false" type="MathML">
                              <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -579,6 +580,7 @@ RSpec.describe Metanorma::Standoc do
                           <p id="_80">is the mass fraction of grains with a particular defect in the test</p>
                        </dd>
                     </dl>
+                    </key>
                  </formula>
               </clause>
               <clause id="_37" inline-header="false" obligation="normative">
@@ -607,7 +609,8 @@ RSpec.describe Metanorma::Standoc do
                        </math>
                        <asciimath>w = (m_D) / (m_s)</asciimath>
                     </stem>
-                    <dl id="_42" key="true">
+                    <key>
+                    <dl id="_42">
                        <dt>
                           <bookmark id="_75" anchor="_75"/>
                           w
@@ -616,6 +619,7 @@ RSpec.describe Metanorma::Standoc do
                           <p id="_81">is the mass fraction of grains with a particular defect in the test</p>
                        </dd>
                     </dl>
+                    </key>
                  </formula>
               </clause>
               <clause id="_46" inline-header="false" obligation="normative">
@@ -953,12 +957,14 @@ RSpec.describe Metanorma::Standoc do
         <name id="_">Final stages: All kernels are fully gelatinized</name>
         <image id="_" src="spec/examples/rice_images/rice_image3_3.png" filename="spec/examples/rice_images/rice_image3_3.png" mimetype="image/png" height="auto" width="auto"/>
       </figure>
-      <dl id='_' key='true'>
+      <key>
+      <dl id='_'>
         <dt>A</dt>
         <dd id="_">
           <p id='_'>B</p>
         </dd>
       </dl>
+      </key>
       </figure>
       </sections>
       </metanorma>
@@ -1163,13 +1169,15 @@ RSpec.describe Metanorma::Standoc do
                          </td>
                       </tr>
                    </tbody>
-                </table>
-                <dl id="_" key="true">
+                   <key>
+                   <dl id="_">
                    <dt>A</dt>
                    <dd id="_">
                       <p id="_">B</p>
                    </dd>
                 </dl>
+                </key>
+                </table>
                 <source status="generalisation">
                    <origin bibitemid="ISO2191" type="inline" citeas="">
                       <localityStack>

@@ -43,6 +43,8 @@ module Metanorma
         obligations_cleanup(xmldoc)
         para_index_cleanup(xmldoc)
         block_index_cleanup(xmldoc)
+        key_cleanup(xmldoc) # feeds: table_cleanup, figure_cleanup,
+        # formula_cleanup
         table_cleanup(xmldoc) # feeds: blocksource_cleanup
         formula_cleanup(xmldoc)
         form_cleanup(xmldoc)
