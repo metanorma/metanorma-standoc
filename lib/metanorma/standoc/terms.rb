@@ -118,6 +118,7 @@ module Metanorma
         { case: seen_xref.children[0]["case"],
           droploc: seen_xref.children[0]["droploc"],
           bibitemid: seen_xref.children[0]["target"],
+          style: seen_xref.children[0]["style"],
           format: seen_xref.children[0]["format"], type: "inline" }
       end
 

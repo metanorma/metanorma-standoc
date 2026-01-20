@@ -137,25 +137,6 @@ module Metanorma
           u.delete("id")
         end
       end
-
-      def term_index_cleanup(xmldoc)
-        @index_terms or return
-        xmldoc.xpath("//preferred").each do |p|
-          index_cleanup1(p.at("./expression/name | ./letter-symbol/name"),
-                         p.xpath("./field-of-application | ./usage-info")
-            &.map(&:text)&.join(", "))
-        end
-        xmldoc.xpath("//definitions/dl/dt").each do |p|
-          index_cleanup1(p, "")
-        end
-      end
-
-      def index_cleanup1(term, fieldofappl)
-        term or return
-        idx = term.children.dup
-        fieldofappl.empty? or idx << ", &#x3c;#{fieldofappl}&#x3e;"
-        term << "<index><primary>#{idx.to_xml}</primary></index>"
-      end
     end
   end
 end

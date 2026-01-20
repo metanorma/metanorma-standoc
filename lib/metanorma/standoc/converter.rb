@@ -39,6 +39,7 @@ module Metanorma
         block Metanorma::Plugin::Plantuml::BlockProcessor
         block_macro Metanorma::Plugin::Plantuml::ImageBlockMacroProcessor
         preprocessor Metanorma::Standoc::EmbedIncludeProcessor
+        preprocessor Metanorma::Standoc::MonospaceProtectPreprocessor
         preprocessor Metanorma::Standoc::LinkProtectPreprocessor
         preprocessor Metanorma::Standoc::PassProtectPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::Json2TextPreprocessor

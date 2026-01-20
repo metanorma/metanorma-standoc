@@ -31,6 +31,51 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
+  it "add default eref and origin style" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR.sub(":nodoc:", ":nodoc:\n:erefstyle: short\n:originstyle: full\n:xrefstyle: basic")}
+      <<iso216>>
+      <<A>>
+
+      [.source]
+      <<iso216,section=1>>
+
+      [[A]]
+      [bibliography]
+      == Normative References
+      * [[[iso216,ISO 216:2001]]], _Reference_
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <preface>
+             <foreword id="_" obligation="informative">
+                <title id="_">Foreword</title>
+                <p id="_">
+                   <eref type="inline" bibitemid="iso216" citeas="ISO\\u00a0216:2001" style="short"/>
+                   <xref target="A" style="basic"/>
+                </p>
+                <source status="identical" type="authoritative">
+                   <origin bibitemid="iso216" type="inline" style="full" citeas="ISO\\u00a0216:2001">
+                      <localityStack>
+                         <locality type="section">
+                            <referenceFrom>1</referenceFrom>
+                         </locality>
+                      </localityStack>
+                   </origin>
+                </source>
+             </foreword>
+          </preface>
+          <sections>
+     
+       </sections>
+       </metanorma>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:bibliography")&.remove
+    expect(strip_guid(Canon.format_xml(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
   it "extracts localities from erefs" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}

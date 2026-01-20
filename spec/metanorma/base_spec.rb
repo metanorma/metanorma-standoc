@@ -297,6 +297,7 @@ RSpec.describe Metanorma::Standoc do
                 <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                 <bibdata type="standard">
                 <title language="en" type="main">Main Title\\u2009—\\u2009Title</title>
+                <title language="en" type="title-part-prefix">Part\\u00a01</title>
                   <docidentifier primary="true">1000-1</docidentifier>
                   <docidentifier type='ISBN'>ISBN-13</docidentifier>
                 <docidentifier type='ISBN10'>ISBN-10</docidentifier>
@@ -547,22 +548,12 @@ RSpec.describe Metanorma::Standoc do
                 <semantic-metadata>
             <stage-published>false</stage-published>
           </semantic-metadata>
-             <presentation-metadata>
-               <name>TOC Heading Levels</name>
-               <value>2</value>
+                      <presentation-metadata>
+                <toc-heading-levels>2</toc-heading-levels>
+                <html-toc-heading-levels>4</html-toc-heading-levels>
+                <doc-toc-heading-levels>3</doc-toc-heading-levels>
+                <pdf-toc-heading-levels>5</pdf-toc-heading-levels>
              </presentation-metadata>
-             <presentation-metadata>
-               <name>HTML TOC Heading Levels</name>
-               <value>4</value>
-             </presentation-metadata>
-             <presentation-metadata>
-               <name>DOC TOC Heading Levels</name>
-               <value>3</value>
-             </presentation-metadata>
-             <presentation-metadata>
-                <name>PDF TOC Heading Levels</name>
-                <value>5</value>
-            </presentation-metadata>
            </metanorma-extension>
                 <sections/>
                 </metanorma>
@@ -639,6 +630,7 @@ RSpec.describe Metanorma::Standoc do
                 <bibdata type="standard">
                   <title language="eo" type="main">Dokumenttitolo</title>
                   <title language="eo" type="intro">Enkonduko</title>
+                  <title language="el" type="title-part-prefix">Part\\u00a01–1</title>
                   <uri>A</uri>
                   <uri type="xml">B</uri>
                   <uri type="html">C</uri>
@@ -768,61 +760,26 @@ RSpec.describe Metanorma::Standoc do
                   <metanorma-extension>
                         <semantic-metadata>
          <stage-published>true</stage-published>
-      </semantic-metadata>
-        <semantic-metadata>
           <hello-world>A</hello-world>
-        </semantic-metadata>
-        <semantic-metadata>
           <hello-world>B</hello-world>
-        </semantic-metadata>
-        <semantic-metadata>
           <hello-world>C, D</hello-world>
-        </semantic-metadata>
-        <semantic-metadata>
           <hello>what-not</hello>
         </semantic-metadata>
         <presentation-metadata>
           <hello>Hello? draft, Published</hello>
-        </presentation-metadata>
-        <presentation-metadata>
           <manifold>hello, world</manifold>
-        </presentation-metadata>
-        <presentation-metadata>
           <manifold>yes</manifold>
-        </presentation-metadata>
-        <presentation-metadata>
          <ul-label-list>•</ul-label-list>
-      </presentation-metadata>
-      <presentation-metadata>
          <ul-label-list>-</ul-label-list>
-      </presentation-metadata>
-      <presentation-metadata>
          <ul-label-list>o</ul-label-list>
-      </presentation-metadata>
-            <presentation-metadata>
          <xml>
             <a href="a"/>
          </xml>
-      </presentation-metadata>
-        <presentation-metadata>
-          <name>TOC Heading Levels</name>
-          <value>2</value>
-        </presentation-metadata>
-        <presentation-metadata>
-          <name>HTML TOC Heading Levels</name>
-          <value>4</value>
-        </presentation-metadata>
-        <presentation-metadata>
-          <name>DOC TOC Heading Levels</name>
-          <value>3</value>
-        </presentation-metadata>
-        <presentation-metadata>
-          <name>PDF TOC Heading Levels</name>
-          <value>2</value>
-        </presentation-metadata>
-        <presentation-metadata>
-          <name>document-scheme</name>
-          <value>SCHEME</value>
+                <toc-heading-levels>2</toc-heading-levels>
+                <html-toc-heading-levels>4</html-toc-heading-levels>
+                <doc-toc-heading-levels>3</doc-toc-heading-levels>
+                <pdf-toc-heading-levels>2</pdf-toc-heading-levels>
+          <document-scheme>SCHEME</document-scheme>
         </presentation-metadata>
       </metanorma-extension>
                   <preface>
@@ -858,6 +815,7 @@ RSpec.describe Metanorma::Standoc do
       :corporate-author_2: Hanna Barbera
       :corporate-author-address_2: 1 Infinite Loop
       :publisher: Monsters, Inc.
+      :publisher_abbr: MONS
       :publisher_logo: correct.png
       :publisher_2: Ribose, Inc.
       :publisher_logo_2: corrupt.png
@@ -933,6 +891,7 @@ RSpec.describe Metanorma::Standoc do
              <role type="publisher"/>
              <organization>
                <name>Monsters, Inc.</name>
+               <abbreviation>MONS</abbreviation>
                <logo>
                  <image src="correct.png"  mimetype="image/png"/>
                </logo>
@@ -1013,6 +972,7 @@ RSpec.describe Metanorma::Standoc do
              <owner>
                <organization>
                  <name>Monsters, Inc.</name>
+                 <abbreviation>MONS</abbreviation>
                  <logo>
                    <image src="correct.png"  mimetype="image/png"/>
                  </logo>
@@ -1047,22 +1007,12 @@ RSpec.describe Metanorma::Standoc do
                <semantic-metadata>
          <stage-published>true</stage-published>
       </semantic-metadata>
-           <presentation-metadata>
-             <name>TOC Heading Levels</name>
-             <value>2</value>
-           </presentation-metadata>
-           <presentation-metadata>
-             <name>HTML TOC Heading Levels</name>
-             <value>2</value>
-           </presentation-metadata>
-           <presentation-metadata>
-             <name>DOC TOC Heading Levels</name>
-             <value>2</value>
-           </presentation-metadata>
-           <presentation-metadata>
-             <name>PDF TOC Heading Levels</name>
-             <value>2</value>
-           </presentation-metadata>
+                  <presentation-metadata>
+                <toc-heading-levels>2</toc-heading-levels>
+                <html-toc-heading-levels>2</html-toc-heading-levels>
+                <doc-toc-heading-levels>2</doc-toc-heading-levels>
+                <pdf-toc-heading-levels>2</pdf-toc-heading-levels>
+             </presentation-metadata>
          </metanorma-extension>
          <sections/>
        </metanorma>
@@ -1227,6 +1177,7 @@ RSpec.describe Metanorma::Standoc do
             <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
             <bibdata type="standard">
           <title language="el" type="main">Document title</title>
+          <title language="el" type="title-part-prefix">Part\\u00a01–1</title>
           <docidentifier primary="true">OVERRIDE-DOCIDENTIFIER</docidentifier>
           <docnumber>1000</docnumber>
           <date type="published">
@@ -1420,7 +1371,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
-   it "populates cover images" do
+  it "populates cover images" do
     input = <<~INPUT
       = Document title
       Author
@@ -1439,50 +1390,28 @@ RSpec.describe Metanorma::Standoc do
             <semantic-metadata>
          <stage-published>true</stage-published>
       </semantic-metadata>
-        <presentation-metadata>
-          <name>coverpage-image</name>
-          <value>
-            <image src="images/image1.gif"/>
-            <image src="images/image2.gif"/>
-          </value>
-        </presentation-metadata>
-        <presentation-metadata>
-          <name>innercoverpage-image</name>
-          <value>
-            <image src="images/image1.gif"/>
-            <image src="images/image2.gif"/>
-          </value>
-        </presentation-metadata>
-        <presentation-metadata>
-          <name>tocside-image</name>
-          <value>
-            <image src="images/image1.gif"/>
-            <image src="images/image2.gif"/>
-          </value>
-        </presentation-metadata>
-        <presentation-metadata>
-          <name>backpage-image</name>
-          <value>
-            <image src="images/image1.gif"/>
-            <image src="images/image2.gif"/>
-          </value>
-        </presentation-metadata>
-                  <presentation-metadata>
-             <name>TOC Heading Levels</name>
-             <value>2</value>
-          </presentation-metadata>
           <presentation-metadata>
-             <name>HTML TOC Heading Levels</name>
-             <value>2</value>
-          </presentation-metadata>
-          <presentation-metadata>
-             <name>DOC TOC Heading Levels</name>
-             <value>2</value>
-          </presentation-metadata>
-          <presentation-metadata>
-             <name>PDF TOC Heading Levels</name>
-             <value>2</value>
-          </presentation-metadata>
+             <coverpage-image>
+                <image src="images/image1.gif"/>
+                <image src="images/image2.gif"/>
+             </coverpage-image>
+             <innercoverpage-image>
+                <image src="images/image1.gif"/>
+                <image src="images/image2.gif"/>
+             </innercoverpage-image>
+             <tocside-image>
+                <image src="images/image1.gif"/>
+                <image src="images/image2.gif"/>
+             </tocside-image>
+             <backpage-image>
+                <image src="images/image1.gif"/>
+                <image src="images/image2.gif"/>
+             </backpage-image>
+                <toc-heading-levels>2</toc-heading-levels>
+                <html-toc-heading-levels>2</html-toc-heading-levels>
+                <doc-toc-heading-levels>2</doc-toc-heading-levels>
+                <pdf-toc-heading-levels>2</pdf-toc-heading-levels>
+             </presentation-metadata>
       </metanorma-extension>
     OUTPUT
     expect(strip_guid(Canon.format_xml(Nokogiri::XML(Asciidoctor
@@ -1629,13 +1558,13 @@ QU1FOiB0ZXN0Cgo=
         @sourcecode_markup_end = "}}}"
         @c = HTMLEntities.new
         @embed_hdr = [{ text: "= Test Header\nTest content", child: [] }]
-        @novalid = false  # Test original validation setting
+        @novalid = false # Test original validation setting
         @isolated_conversion_stack = []
       end
 
-      attr_accessor :test_variable, :fn_number, :refids, :anchors, :localdir, 
-                    :sourcecode_markup_start, :sourcecode_markup_end, :c, :embed_hdr,
-                    :novalid, :isolated_conversion_stack
+      attr_accessor :test_variable, :fn_number, :refids, :anchors, :localdir,
+                    :sourcecode_markup_start, :sourcecode_markup_end, :c,
+                    :embed_hdr, :novalid, :isolated_conversion_stack
 
       def backend
         :standoc
@@ -1651,12 +1580,12 @@ QU1FOiB0ZXN0Cgo=
         proc_class.new
       end
 
-      def hdr2bibitem_type(hdr)
+      def hdr2bibitem_type(_hdr)
         :standoc
       end
 
       # Mock validation method to track if it's called
-      def validate(doc)
+      def validate(_doc)
         @validation_called = true
       end
 
@@ -1678,8 +1607,8 @@ QU1FOiB0ZXN0Cgo=
       result = converter.hdr2bibitem(converter.embed_hdr.first)
       expect(result).to be_a(String)
       expect(result).to include("<bibitem")
-    rescue => e
-      # Even if the conversion fails due to missing dependencies, 
+    rescue StandardError => e
+      # Even if the conversion fails due to missing dependencies,
       # we should still verify instance variables are preserved
       puts "Conversion failed as expected in test environment: #{e.message}"
     end
@@ -1694,8 +1623,8 @@ QU1FOiB0ZXN0Cgo=
 
     # Test adoc2xml method
     begin
-      result = converter.adoc2xml("Test content", :standoc)
-    rescue => e
+      converter.adoc2xml("Test content", :standoc)
+    rescue StandardError => e
       puts "adoc2xml failed as expected in test environment: #{e.message}"
     end
 
@@ -1710,14 +1639,16 @@ QU1FOiB0ZXN0Cgo=
     # Test sourcecode_markup method with a mock node
     mock_document = double("document")
     mock_node = double("node")
-    allow(mock_node).to receive(:text).and_return("before {{{test content}}} after")
+    allow(mock_node).to receive(:text)
+      .and_return("before {{{test content}}} after")
     allow(mock_node).to receive(:document).and_return(mock_document)
 
     begin
       result = converter.sourcecode_markup(mock_node)
       expect(result).to be_a(String)
-    rescue => e
-      puts "sourcecode_markup failed as expected in test environment: #{e.message}"
+    rescue StandardError => e
+      puts "sourcecode_markup failed as expected "\
+        "in test environment: #{e.message}"
     end
 
     # Final verification that all instance variables are preserved
@@ -1743,15 +1674,16 @@ QU1FOiB0ZXN0Cgo=
         @c = HTMLEntities.new
       end
 
-      attr_accessor :novalid, :isolated_conversion_stack, :validation_calls, :localdir, :c
+      attr_accessor :novalid, :isolated_conversion_stack, :validation_calls,
+                    :localdir, :c
 
       # Mock validation method to track calls
-      def validate(doc)
+      def validate(_doc)
         @validation_calls << "validate_called"
       end
 
       # Mock makexml method to test validation logic
-      def makexml(node)
+      def makexml(_node)
         # Simulate the validation logic from base.rb
         validate("mock_doc") unless @novalid || in_isolated_conversion?
         "mock_xml_result"
@@ -1771,7 +1703,7 @@ QU1FOiB0ZXN0Cgo=
 
     # Test 1: Normal conversion should call validation (when @novalid is false)
     converter.validation_calls.clear
-    result = converter.makexml("mock_node")
+    converter.makexml("mock_node")
     expect(converter.validation_calls).to include("validate_called")
     expect(converter.isolated_conversion_stack).to be_empty
 
@@ -1779,7 +1711,7 @@ QU1FOiB0ZXN0Cgo=
     converter.validation_calls.clear
     begin
       converter.isolated_asciidoctor_convert("test content", backend: :standoc)
-    rescue => e
+    rescue StandardError => e
       # Expected to fail in test environment, but stack should be managed properly
       puts "Isolated conversion failed as expected: #{e.message}"
     end
@@ -1788,19 +1720,19 @@ QU1FOiB0ZXN0Cgo=
 
     # Test 3: Test nested isolated conversions
     converter.validation_calls.clear
-    
+
     # Simulate nested calls by manually managing stack
     converter.isolated_conversion_stack << true  # First level
     expect(converter.in_isolated_conversion?).to be true
-    
+
     converter.isolated_conversion_stack << true  # Second level (nested)
     expect(converter.in_isolated_conversion?).to be true
     expect(converter.isolated_conversion_stack.size).to eq(2)
-    
+
     # Test makexml during isolated conversion - should skip validation
-    result = converter.makexml("mock_node")
+    converter.makexml("mock_node")
     expect(converter.validation_calls).to be_empty
-    
+
     # Pop stack back to empty
     converter.isolated_conversion_stack.pop
     converter.isolated_conversion_stack.pop
@@ -1809,17 +1741,17 @@ QU1FOiB0ZXN0Cgo=
 
     # Test 4: After isolated conversion, normal validation should resume
     converter.validation_calls.clear
-    result = converter.makexml("mock_node")
+    converter.makexml("mock_node")
     expect(converter.validation_calls).to include("validate_called")
 
     # Test 5: Ensure @novalid setting is preserved
     converter.novalid = false
     begin
       converter.isolated_asciidoctor_convert("test content", backend: :standoc)
-    rescue => e
+    rescue StandardError
       # Expected to fail
     end
-    expect(converter.novalid).to be false  # Should remain unchanged
+    expect(converter.novalid).to be false # Should remain unchanged
   end
 
   private

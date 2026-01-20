@@ -44,12 +44,17 @@ module Metanorma
       def docid(bib, code, codetype = nil)
         type, code1 = if /^\[\d+\]$|^\(.+\).*$/.match?(code)
                         ["metanorma", mn_code(code)]
-                      elsif %w(attachment repo path).include?(codetype)
+                      elsif docid_untyped?(code, codetype)
                         [nil, code]
                       else @bibdb&.docid_type(code) || [nil, code]
                       end
         code1.sub!(/^nofetch\((.+)\)$/, "\\1")
         add_noko_elem(bib, "docidentifier", code1, type: type)
+      end
+
+      def docid_untyped?(code, codetype)
+        %w(attachment repo path).include?(codetype) ||
+          code.strip.empty? || /^\d+$/.match?(code)
       end
 
       def docnumber(bib, code)

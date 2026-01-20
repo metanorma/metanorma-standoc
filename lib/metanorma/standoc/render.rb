@@ -1,42 +1,52 @@
 module Metanorma
   module Standoc
     module Base
+      def flex_attr_name(node, attr)
+        node.attr(attr) || node.attr(attr.sub("pdf-", "pdf")) ||
+          node.attr(attr.delete("-").sub(/override$/, "-override")) ||
+          node.attr(attr.delete("-").sub(/override$/, "_override"))
+      end
+
       def html_extract_attributes(node)
         i18nyaml = i18nyaml_path(node)
         relaton_render_config = relaton_render_path(node)
         {
-          script: node.attr("script"),
-          bodyfont: node.attr("body-font"),
-          headerfont: node.attr("header-font"),
-          monospacefont: node.attr("monospace-font"),
+          script: flex_attr_name(node, "script"),
+          bodyfont: flex_attr_name(node, "body-font"),
+          headerfont: flex_attr_name(node, "header-font"),
+          monospacefont: flex_attr_name(node, "monospace-font"),
           i18nyaml: i18nyaml,
           relatonrenderconfig: relaton_render_config,
-          scope: node.attr("scope"),
-          htmlstylesheet: node.attr("htmlstylesheet") || node.attr("html-stylesheet"),
-          htmlstylesheet_override: node.attr("htmlstylesheet-override") || node.attr("html-stylesheet-override"),
-          htmlcoverpage: node.attr("htmlcoverpage") || node.attr("html-coverpage"),
-          htmlintropage: node.attr("htmlintropage") || node.attr("html-intropage"),
-          scripts: node.attr("scripts"),
-          scripts_override: node.attr("scripts-override"),
-          scripts_pdf: node.attr("scripts-pdf"),
-          datauriimage: node.attr("data-uri-image") != "false",
+          scope: flex_attr_name(node, "scope"),
+          htmlstylesheet: flex_attr_name(node, "html-stylesheet"),
+          htmlstylesheet_override: flex_attr_name(node,
+                                                  "html-stylesheet-override"),
+          htmlcoverpage: flex_attr_name(node, "html-coverpage"),
+          htmlintropage: flex_attr_name(node, "html-intropage"),
+          scripts: flex_attr_name(node, "scripts"),
+          scripts_override: flex_attr_name(node, "scripts-override"),
+          scripts_pdf: flex_attr_name(node, "scripts-pdf"),
+          datauriimage: flex_attr_name(node, "data-uri-image") != "false",
           htmltoclevels: @htmltoclevels,
           doctoclevels: @doctoclevels,
           pdftoclevels: @pdftoclevels,
-          breakupurlsintables: node.attr("break-up-urls-in-tables"),
-          suppressasciimathdup: node.attr("suppress-asciimath-dup") == "true",
-          bare: node.attr("bare"),
-          sectionsplit: node.attr("sectionsplit"),
-          baseassetpath: node.attr("base-asset-path"),
-          aligncrosselements: node.attr("align-cross-elements"),
+          breakupurlsintables: flex_attr_name(node, "break-up-urls-in-tables"),
+          suppressasciimathdup: flex_attr_name(node,
+                                               "suppress-asciimath-dup") == "true",
+          bare: flex_attr_name(node, "bare"),
+          sectionsplit: flex_attr_name(node, "sectionsplit"),
+          baseassetpath: flex_attr_name(node, "base-asset-path"),
+          aligncrosselements: flex_attr_name(node, "align-cross-elements"),
           tocfigures: @tocfigures,
           toctables: @toctables,
           tocrecommendations: @tocrecommendations,
-          fonts: node.attr("fonts"),
-          fontlicenseagreement: node.attr("font-license-agreement"),
-          localizenumber: node.attr("localize-number"),
-          modspecidentifierbase: node.attr("modspec-identifier-base"),
-          sourcehighlighter: node.attr("source-highlighter") != "false",
+          fonts: flex_attr_name(node, "fonts"),
+          fontlicenseagreement: flex_attr_name(node, "font-license-agreement"),
+          localizenumber: flex_attr_name(node, "localize-number"),
+          modspecidentifierbase: flex_attr_name(node,
+                                                "modspec-identifier-base"),
+          sourcehighlighter: flex_attr_name(node,
+                                            "source-highlighter") != "false",
         }
       end
 
@@ -45,7 +55,7 @@ module Metanorma
       end
 
       def pdf_converter(node)
-        return nil if node.attr("no-pdf")
+        return nil if flex_attr_name(node, "no-pdf")
 
         IsoDoc::Standoc::PdfConvert.new(pdf_extract_attributes(node))
       end
@@ -54,34 +64,35 @@ module Metanorma
         i18nyaml = i18nyaml_path(node)
         relaton_render_config = relaton_render_path(node)
         attrs = {
-          script: node.attr("script"),
-          bodyfont: node.attr("body-font"),
-          headerfont: node.attr("header-font"),
-          monospacefont: node.attr("monospace-font"),
+          script: flex_attr_name(node, "script"),
+          bodyfont: flex_attr_name(node, "body-font"),
+          headerfont: flex_attr_name(node, "header-font"),
+          monospacefont: flex_attr_name(node, "monospace-font"),
           i18nyaml: i18nyaml,
           relatonrenderconfig: relaton_render_config,
-          scope: node.attr("scope"),
-          wordstylesheet: node.attr("wordstylesheet") || node.attr("word-stylesheet"),
-          wordstylesheet_override: node.attr("wordstylesheet-override") || node.attr("word-stylesheet-override"),
-          standardstylesheet: node.attr("standardstylesheet") || node.attr("standard-stylesheet"),
-          header: node.attr("header"),
-          wordcoverpage: node.attr("wordcoverpage"),
-          wordintropage: node.attr("wordintropage"),
-          ulstyle: node.attr("ulstyle"),
-          olstyle: node.attr("olstyle"),
+          scope: flex_attr_name(node, "scope"),
+          wordstylesheet: flex_attr_name(node, "word-stylesheet"),
+          wordstylesheet_override: flex_attr_name(node,
+                                                  "word-stylesheet-override"),
+          standardstylesheet: flex_attr_name(node, "standard-stylesheet"),
+          header: flex_attr_name(node, "header"),
+          wordcoverpage: flex_attr_name(node, "wordcoverpage"),
+          wordintropage: flex_attr_name(node, "wordintropage"),
+          ulstyle: flex_attr_name(node, "ulstyle"),
+          olstyle: flex_attr_name(node, "olstyle"),
           htmltoclevels: @htmltoclevels,
           doctoclevels: @doctoclevels,
           pdftoclevels: @pdftoclevels,
-          breakupurlsintables: node.attr("break-up-urls-in-tables"),
-          suppressasciimathdup: node.attr("suppress-asciimath-dup"),
-          bare: node.attr("bare"),
-          baseassetpath: node.attr("base-asset-path"),
-          aligncrosselements: node.attr("align-cross-elements"),
+          breakupurlsintables: flex_attr_name(node, "break-up-urls-in-tables"),
+          suppressasciimathdup: flex_attr_name(node, "suppress-asciimath-dup"),
+          bare: flex_attr_name(node, "bare"),
+          baseassetpath: flex_attr_name(node, "base-asset-path"),
+          aligncrosselements: flex_attr_name(node, "align-cross-elements"),
           tocfigures: @tocfigures,
           toctables: @toctables,
           tocrecommendations: @tocrecommendations,
-          fonts: node.attr("fonts"),
-          fontlicenseagreement: node.attr("font-license-agreement"),
+          fonts: flex_attr_name(node, "fonts"),
+          fontlicenseagreement: flex_attr_name(node, "font-license-agreement"),
         }
 
         if fonts_manifest = node.attr(FONTS_MANIFEST)
@@ -96,12 +107,13 @@ module Metanorma
                          pdf-owner-password pdf-allow-copy-content
                          pdf-allow-edit-content pdf-allow-fill-in-forms
                          pdf-allow-assemble-document pdf-allow-edit-annotations
-                         pdf-allow-print pdf-allow-print-hq
+                         pdf-allow-print pdf-allow-print-hq pdfkeystore
+                         pdfkeystorepassword
                          pdf-allow-access-content pdf-encrypt-metadata fonts
-                         pdf-stylesheet pdf-stylesheet-override
+                         pdf-stylesheet pdf-stylesheet-override pdf-portfolio
                          font-license-agreement).each_with_object({}) do |x, m|
           m[x.delete("-").sub(/override$/, "_override").to_sym] =
-            node.attr(x) || node.attr(x.sub("pdf-", "pdf"))
+            flex_attr_name(node, x)
         end
         absolute_path_pdf_attributes(pdf_options)
         pdf_options.merge(fonts_manifest_option(node) || {})

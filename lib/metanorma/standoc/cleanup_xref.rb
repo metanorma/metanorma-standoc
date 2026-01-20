@@ -1,98 +1,46 @@
+require_relative "cleanup_xref_localities"
+
 module Metanorma
   module Standoc
     module Cleanup
-      def tq(text)
-        text.sub(/^"/, "").sub(/"$/, "")
-      end
-
-      def extract_localities(elem)
-        elem.children.empty? and return
-        f = elem.children.first
-        f.text? or return xref_display_text(elem, elem.children.remove)
-        head = f.remove.text
-        tail = elem.children.remove
-        d = extract_localities1(elem, head)
-        tail and d << tail
-        d.children.empty? and d.remove
-      end
-
-      # treat n-n-n locality as "n-n-n", do not parse as a range
-      def locality_normalise(text)
-        re = to_regex(LOCALITY_REGEX_STR_TRIPLEDASH)
-        m = re.match(text) and
-          text = %(#{m[:locality]}"#{m[:ref]}"#{m[:text]})
-        text
-      end
-
-      def extract_localities1(elem, text)
-        re = to_regex(LOCALITY_REGEX_STR)
-        b = elem.add_child("<localityStack/>").first if re.match text
-        while (m = re.match locality_normalise(text))
-          add_locality(b, m)
-          text = extract_localities_update_text(m)
-          b = elem.add_child("<localityStack/>").first if m[:punct] == ";"
-        end
-        fill_in_eref_connectives(elem)
-        xref_display_text(elem, text)
-      end
-
-      def xref_display_text(elem, text)
-        d = elem.add_child("<display-text></display-text>").first
-        d.add_child(text) if text
-        d
-      end
-
-      # clause=3;and!5 => clause=3;and!clause=5
-      def extract_localities_update_text(match)
-        ret = match[:text]
-        re = to_regex(LOCALITY_REGEX_VALUE_ONLY_STR)
-        re.match?(ret) && match[:punct] == ";" and
-          ret.sub!(%r{^(#{CONN_REGEX_STR})}o, "\\1#{match[:locality]}=")
-        ret
-      end
-
-      def add_locality(stack, match)
-        stack.children.empty? && match[:conn] and
-          stack["connective"] = match[:conn]
-        ref =
-          match[:ref] ? "<referenceFrom>#{tq match[:ref]}</referenceFrom>" : ""
-        refto = match[:to] ? "<referenceTo>#{tq match[:to]}</referenceTo>" : ""
-        stack.add_child("<locality type='#{locality_label(match)}'>#{ref}" \
-                        "#{refto}</locality>")
-      end
-
-      def fill_in_eref_connectives(elem)
-        elem.xpath("./localityStack").size < 2 and return
-        elem.xpath("./localityStack[not(@connective)]").each do |l|
-          n = l.next_element
-          l["connective"] = "and"
-          n && n.name == "localityStack" && n["connective"] == "to" and
-            l["connective"] = "from"
-        end
-      end
-
-      def locality_label(match)
-        loc = match[:locality] || match[:locality2]
-        /^locality:/.match?(loc) ? loc : loc&.downcase
-      end
-
       def xref_to_eref(elem, name)
         elem.name = name
         elem["bibitemid"] = elem["target"]
-        if ref = @anchors&.dig(elem["target"], :xref)
-          t = @anchors.dig(elem["target"], :id, elem["style"]) and ref = t
-          elem["citeas"] = @c.decode(ref)
-        else xref_to_eref1(elem)
-        end
+        xref_to_eref1(elem)
+        eref_style_normalise(elem)
         elem.delete("target")
         elem.delete("defaultstyle") # xrefstyle default
         extract_localities(elem)
       end
 
       def xref_to_eref1(elem)
-        elem["citeas"] = ""
-        @internal_eref_namespaces.include?(elem["type"]) or
-          @log.add("STANDOC_30", elem, params: [elem["target"]])
+        if ref = @anchors&.dig(elem["target"], :xref)
+          t = @anchors.dig(elem["target"], :id, elem["style"]) and ref = t
+          elem["citeas"] = @c.decode(ref)
+        else
+          elem["citeas"] = ""
+          @internal_eref_namespaces.include?(elem["type"]) or
+            @log.add("STANDOC_30", elem, params: [elem["target"]])
+        end
+      end
+
+      def eref_style_normalise(elem)
+        eref_style_normalise_prep(elem) or return
+        s = elem["style"].gsub("-", "_")
+        if @isodoc.bibrenderer.citetemplate.template_raw.key?(s.to_sym)
+          elem["style"] = s
+        elsif s != "short"
+          @log.add("STANDOC_60", elem, params: [elem["style"]])
+        end
+      end
+
+      def eref_style_normalise_prep(elem)
+        !elem["style"] && @erefstyle and
+          elem["style"] = @erefstyle
+        elem["style"] or return
+        @anchors.dig(elem["target"], :id, elem["style"]) and return
+        # else style is not docidentifier, so it's relaton-render style
+        true
       end
 
       def xref_cleanup(xmldoc)
@@ -149,20 +97,10 @@ module Metanorma
       def xref_compound_cleanup1(xref, locations)
         xref.children.empty? and xref.children = "<sentinel/>"
         xref_parse_compound_locations(locations, xref).reverse_each do |y|
-          xref.add_first_child "<xref target='#{y[1]}' connective='#{y[0]}'/>"
+          y[:custom] and c = " custom-connective='#{y[:custom]}'"
+          xref.add_first_child "<xref target='#{y[:ref]}' connective='#{y[:conn]}'#{c}/>"
         end
         xref&.at("./sentinel")&.remove
-      end
-
-      def xref_parse_compound_locations(locations, xref)
-        l = locations.map { |y| y.split("!", 2) }
-        l.map.with_index do |y, i|
-          y.size == 1 and
-            y.unshift(l.dig(i + 1, 0) == "to" ? "from" : "and")
-          %w(and from to or).include?(y[0]) or
-            @log.add("STANDOC_31", xref, params: [y[0]])
-          y
-        end
       end
 
       def xref_compound_wrapup(xmldoc)
@@ -220,6 +158,7 @@ module Metanorma
       end
 
       def origin_cleanup(xmldoc)
+        origin_default_style(xmldoc)
         xmldoc.xpath("//origin/concept[termref]").each do |x|
           x.replace(x.at("./termref"))
         end
@@ -228,6 +167,18 @@ module Metanorma
             @log.add("STANDOC_32", x, params: [x["bibitemid"]])
           extract_localities(x)
         end
+      end
+
+      def origin_default_style(xmldoc)
+        @originstyle or return
+        xmldoc.xpath("//origin[not(@style)]")
+          .each { |e| e["style"] = @originstyle }
+      end
+
+      def eref_default_style(xmldoc)
+        @erefstyle or return
+        xmldoc.xpath("//eref[not(@style)]")
+          .each { |e| e["style"] = @erefstyle }
       end
 
       include ::Metanorma::Standoc::Regex

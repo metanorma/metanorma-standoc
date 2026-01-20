@@ -834,6 +834,128 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
+  it "sorts bibliography" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [bibliography]
+      == Bibliography
+
+      * [[[iso123,2]]] _Standard2_
+      * [[[iso124,(B)]]] _Standard3_
+      * [[[iso125,1]]] _Standard1_
+      * [[[iso126,usrlabel=A1]]] _Standard_
+      * [[[iso127,(4)XYZ 123:1066 (all parts)]]] _Standard0_
+    INPUT
+    output0 = <<~OUTPUT
+             #{BLANK_HDR}
+                    <sections>
+             </sections>
+             <bibliography><references id="_" obligation="informative" normative="false">
+               <title id="_">Bibliography</title><bibitem id="_" anchor="iso123">
+               <formattedref format="application/x-isodoc+xml">
+                 <em>Standard2</em>
+               </formattedref>
+               <docidentifier type="metanorma">[1]</docidentifier>
+               <language>en</language>
+               <script>Latn</script>
+             </bibitem><bibitem id="_" anchor="iso124">
+               <formattedref format="application/x-isodoc+xml">
+                 <em>Standard3</em>
+               </formattedref>
+               <docidentifier type="metanorma">[B]</docidentifier>
+               <language>en</language>
+               <script>Latn</script>
+             </bibitem><bibitem id="_" anchor="iso125">
+               <formattedref format="application/x-isodoc+xml">
+                 <em>Standard1</em>
+               </formattedref>
+               <docidentifier type="metanorma">[3]</docidentifier>
+               <language>en</language>
+               <script>Latn</script>
+             </bibitem><bibitem id="_" anchor="iso126">
+               <formattedref format="application/x-isodoc+xml">
+                 <em>Standard</em>
+               </formattedref>
+               <docidentifier type="metanorma">[A1]</docidentifier>
+               <language>en</language>
+               <script>Latn</script>
+             </bibitem>
+      <bibitem id="_" anchor="iso127">
+        <formattedref format='application/x-isodoc+xml'>
+          <em>Standard0</em>
+        </formattedref>
+        <docidentifier type='metanorma'>[5]</docidentifier>
+        <docidentifier>XYZ 123:1066 (all parts)</docidentifier>
+        <docnumber>123:1066 (all parts)</docnumber>
+        <language>en</language>
+        <script>Latn</script>
+      </bibitem>
+             </references>
+             </bibliography>
+             </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output0)
+
+    mock_sort_biblio
+    output1 = <<~OUTPUT
+             #{BLANK_HDR}
+                    <sections>
+             </sections>
+             <bibliography><references id="_" obligation="informative" normative="false">
+               <title id="_">Bibliography</title><bibitem anchor="iso126" id="_">
+               <formattedref format="application/x-isodoc+xml">
+                 <em>Standard</em>
+               </formattedref>
+               <docidentifier type="metanorma">[A1]</docidentifier>
+               <language>en</language>
+               <script>Latn</script>
+             </bibitem>
+      <bibitem anchor="iso127" id="_">
+        <formattedref format='application/x-isodoc+xml'>
+          <em>Standard0</em>
+        </formattedref>
+        <docidentifier type='metanorma'>[2]</docidentifier>
+        <docidentifier>XYZ 123:1066 (all parts)</docidentifier>
+        <docnumber>123:1066 (all parts)</docnumber>
+        <language>en</language>
+        <script>Latn</script>
+      </bibitem>
+      <bibitem anchor="iso125" id="_">
+               <formattedref format="application/x-isodoc+xml">
+                 <em>Standard1</em>
+               </formattedref>
+               <docidentifier type="metanorma">[3]</docidentifier>
+               <language>en</language>
+               <script>Latn</script>
+             </bibitem><bibitem anchor="iso123" id="_">
+               <formattedref format="application/x-isodoc+xml">
+                 <em>Standard2</em>
+               </formattedref>
+               <docidentifier type="metanorma">[4]</docidentifier>
+               <language>en</language>
+               <script>Latn</script>
+             </bibitem><bibitem anchor="iso124" id="_">
+               <formattedref format="application/x-isodoc+xml">
+                 <em>Standard3</em>
+               </formattedref>
+               <docidentifier type="metanorma">[B]</docidentifier>
+               <language>en</language>
+               <script>Latn</script>
+             </bibitem>
+             </references>
+             </bibliography>
+             </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output1)
+
+    expect(strip_guid(Canon.format_xml(Asciidoctor
+      .convert(input.sub(":nodoc:",
+                         ":nodoc:\n:sort-biblio: false"), *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output0)
+  end
+
   it "process ISO reference without an Internet connection" do
     expect(RelatonIso::IsoBibliography).to receive(:search) do
       raise RelatonBib::RequestError.new "getaddrinfo"
@@ -1460,20 +1582,10 @@ RSpec.describe Metanorma::Standoc do
          <stage-published>true</stage-published>
       </semantic-metadata>
              <presentation-metadata>
-                <name>TOC Heading Levels</name>
-                <value>2</value>
-             </presentation-metadata>
-             <presentation-metadata>
-                <name>HTML TOC Heading Levels</name>
-                <value>2</value>
-             </presentation-metadata>
-             <presentation-metadata>
-                <name>DOC TOC Heading Levels</name>
-                <value>2</value>
-             </presentation-metadata>
-             <presentation-metadata>
-                <name>PDF TOC Heading Levels</name>
-                <value>2</value>
+                <toc-heading-levels>2</toc-heading-levels>
+                <html-toc-heading-levels>2</html-toc-heading-levels>
+                <doc-toc-heading-levels>2</doc-toc-heading-levels>
+                <pdf-toc-heading-levels>2</pdf-toc-heading-levels>
              </presentation-metadata>
           </metanorma-extension>
            <sections>
@@ -1552,6 +1664,16 @@ RSpec.describe Metanorma::Standoc do
   end
 
   private
+
+  def mock_sort_biblio
+    expect_any_instance_of(Metanorma::Standoc::Converter).to receive(:sort_biblio) do |_instance, bib|
+      bib.sort do |a, b|
+        a_title = a.at("./title")&.text || a.at("./formattedref")&.text || ""
+        b_title = b.at("./title")&.text || b.at("./formattedref")&.text || ""
+        a_title <=> b_title
+      end
+    end
+  end
 
   def mock_absolute_localdir(times)
     expect(Metanorma::Utils).to receive(:localdir)

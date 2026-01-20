@@ -11,7 +11,6 @@ module Nokogiri
       class NodeBuilder
         def add_noko_elem(name, val, attrs = {})
           val and !val.empty? or return
-          # require "debug"; binding.b
           send name, **Metanorma::Utils::attr_code(attrs) do |n|
             n << val
           end
@@ -104,6 +103,7 @@ module Metanorma
 
       def isodoc(lang, script, locale, i18nyaml = nil)
         conv = presentation_xml_converter(EmptyAttr.new)
+        conv.init_i18n({ i18nyaml:, language: lang, script:, locale: })
         i18n = conv.i18n_init(lang, script, locale, i18nyaml)
         conv.metadata_init(lang, script, locale, i18n)
         conv.meta.localdir = @localdir
