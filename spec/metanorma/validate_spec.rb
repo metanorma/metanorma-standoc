@@ -1958,6 +1958,67 @@ RSpec.describe Metanorma::Standoc do
       .to include("Image too large for Data URI encoding")
   end
 
+  it "aborts if improperly nested sourcecode markup" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :no-pdf:
+
+        == Clause
+        [source]
+        ----
+        {{{_... Any other entries, such as {{{*Info*}}} and {{{*Encrypt*}}} ... %(part 9)_}}}
+        ----
+
+      INPUT
+
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+
+    expect(File.read("test.err.html"))
+      .to include("Improperly nested sourcecode markup")
+    expect(File.exist?("test.xml")).to be false
+  end
+
+  it "aborts if blocks inside sourcecode markup" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :no-pdf:
+
+        == Clause
+        [source]
+        ----
+        {{{. A
+        . B }}}
+        ----
+
+      INPUT
+
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+
+    expect(File.read("test.err.html"))
+      .to include("Blocks included in inline sourcecode markup")
+    expect(File.exist?("test.xml")).to be false
+  end
+
   context "warns of empty elements: " do
     it "notes" do
       FileUtils.rm_f "test.xml"
