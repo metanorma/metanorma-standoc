@@ -282,6 +282,95 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
+  it "processes hex, octal, and binary number formats" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      number:0xFF[]
+      number:0xff[]
+      number:0X1A[]
+      number:0x1A.8[]
+      number:0b1010[]
+      number:0B1010[]
+      number:0b101.1[]
+      number:0o77[]
+      number:0O77[]
+      number:0o7.4[]
+      number:0xFF[decimal=",",notation=exponential]
+      number:0b1010[decimal=".",notation=exponential]
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections>
+        <p id="_">
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.255e3</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.255e3</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.26e2</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.265e2</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.1e2</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.1e2</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.55e1</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.63e2</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.63e2</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.75e1</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.255e3</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="decimal='.',notation='exponential'">0.1e2</mn>
+            </math>
+          </stem>
+        </p>
+      </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
   it "processed nested macros" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
