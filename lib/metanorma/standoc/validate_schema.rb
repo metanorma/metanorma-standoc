@@ -35,7 +35,7 @@ module Metanorma
         ENV["_JAVA_OPTIONS"] = "-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8"
 
         begin
-          errors = Jing.new(schema, encoding: "UTF-8").validate(file.path)
+          errors = schema_validate_with_retry(schema, file.path)
           warn "Syntax Valid!" if errors.none?
           errors.each do |e|
             @log.add("STANDOC_7",
@@ -45,6 +45,31 @@ module Metanorma
         ensure
           # Restore original _JAVA_OPTIONS
           ENV["_JAVA_OPTIONS"] = old_java_opts
+        end
+      end
+
+      # Retry Jing validation with exponential backoff to handle "Too many open files" errors.
+      # This can occur when validating large documents or when multiple validations happen
+      # in quick succession, exhausting the system's file descriptor limit.
+      # Java's Jing validator opens multiple file handles for the JAR, schema, and XML files,
+      # and the OS may not clean them up fast enough.
+      def schema_validate_with_retry(schema, file_path, max_retries: 3)
+        retries = 0
+        begin
+          Jing.new(schema, encoding: "UTF-8").validate(file_path)
+        rescue Jing::ExecutionError => e
+          # Check if this is a "Too many open files" error
+          if e.message.include?("Too many open files") && retries < max_retries
+            retries += 1
+            delay = 0.1 * (2**(retries - 1)) # Exponential backoff: 0.1s, 0.2s, 0.4s
+            warn "Jing validation encountered 'Too many open files' error. " \
+                 "Retrying (attempt #{retries}/#{max_retries}) after #{delay}s delay..."
+            sleep(delay)
+            retry
+          else
+            # Re-raise if not a file descriptor issue or max retries exceeded
+            raise
+          end
         end
       end
 
