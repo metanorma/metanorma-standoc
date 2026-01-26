@@ -185,11 +185,11 @@ module Metanorma
       def source_markup_prep(node)
         ret = node.text.split(/(#{Regexp.escape(@sourcecode_markup_start)}|
                           #{Regexp.escape(@sourcecode_markup_end)})/x)
-        source_markup_validate(ret)
+        source_markup_validate(node, ret)
         ret
       end
 
-      def source_markup_validate(ret)
+      def source_markup_validate(node, ret)
         ret.each_slice(4) do |a|
           a.size == 4 or next
           a[1] == @sourcecode_markup_start && a[3] == @sourcecode_markup_end or
