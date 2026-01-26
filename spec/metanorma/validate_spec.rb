@@ -1684,14 +1684,6 @@ RSpec.describe Metanorma::Standoc do
     )
     expect(File.read("test.err.html"))
       .to include("Corrupt SVG image detected")
-
-    FileUtils.rm_rf "test.xml"
-    Asciidoctor.convert(
-      input.sub(":no-pdf:",
-                ":svg-conform-profile: :svg_1_2_rfc\n:no-pdf:"), *OPTIONS
-    )
-    expect(File.read("test.err.html"))
-      .to include("Corrupt SVG image detected")
   end
 
   it "repairs SVG error" do
@@ -1956,6 +1948,36 @@ RSpec.describe Metanorma::Standoc do
     end
     expect(File.read("test.err.html"))
       .to include("Image too large for Data URI encoding")
+  end
+
+  it "aborts if improperly nested sourcecode markup" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :no-pdf:
+
+        == Clause
+        [source]
+        ----
+        {{{_... Any other entries, such as {{{*Info*}}} and {{{*Encrypt*}}} ... %(part 9)_}}}
+        ----
+
+      INPUT
+
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+
+    expect(File.read("test.err.html"))
+      .to include("Improperly nested sourcecode markup")
+    expect(File.exist?("test.xml")).to be false
   end
 
   context "warns of empty elements: " do

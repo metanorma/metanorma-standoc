@@ -120,6 +120,7 @@ RSpec.describe Metanorma::Standoc do
       [source]
       ----
       var {{{*x*}}} : {{{<<A,recursive>>}}} <tag/>
+      {{{... list}}}
       ----
 
 
@@ -134,6 +135,7 @@ RSpec.describe Metanorma::Standoc do
            :
           <xref target='A'><display-text>recursive</display-text></xref>
            &lt;tag/&gt;
+           …​ list
         </body></sourcecode>
       </sections>
              </metanorma>
