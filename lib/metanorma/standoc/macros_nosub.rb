@@ -163,10 +163,10 @@ module Metanorma
           if content.start_with?("++") && content.end_with?("++")
             "#{backticks}#{content}#{backticks}"
           else
-            # Protect content from substitutions by wrapping with ++...++
-            # Unescape any \] in the content
-            protected_content = content.gsub(/\\\]/, "]")
-            "#{backticks}++#{protected_content}++#{backticks}"
+            # Protect content from character replacements but allow quotes substitution
+            # Escape unescaped ] to prevent premature closing of pass:[...]
+            protected_content = content.gsub(/(?<!\\)\]/, "\\]")
+            "pass:c,q,a,m,p[#{backticks}#{protected_content}#{backticks}]"
           end
         end
       end
