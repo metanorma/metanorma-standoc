@@ -21,6 +21,23 @@ module Metanorma
         end
       end
 
+      def key_cleanup(xmldoc)
+        xmldoc.xpath("//*[@key = 'true']").each do |x|
+          x.delete("key")
+          x.replace("<key>#{to_xml(x)}</key>")
+        end
+        key_concatenate(xmldoc)
+        xmldoc.xpath("//key//key").each { |x| x.replace(x.children) }
+      end
+
+      def key_concatenate(xmldoc)
+        xmldoc.xpath("//key").each do |x|
+          while x.next_element&.name == "key"
+            x << x.next_element.remove.children
+          end
+        end
+      end
+
       # include where definition list inside stem block
       def formula_cleanup(formula)
         formula_cleanup_where1(formula)
@@ -28,49 +45,44 @@ module Metanorma
       end
 
       def formula_cleanup_where1(formula)
-        q = "//formula/following-sibling::*[1][self::dl]"
+        q = "//formula/following-sibling::*[1][self::key]"
         formula.xpath(q).each do |s|
-          s["key"] == "true" and s.previous_element << s.remove
+          s.previous_element << s.remove
         end
       end
 
       def formula_cleanup_where2(formula)
-        q = "//formula/following-sibling::*[1][self::p]"
-        formula.xpath(q).each do |s|
-          if s.text =~ /^\s*where[^a-z]*$/i && s&.next_element&.name == "dl"
-            s.next_element["key"] = "true"
-            s.previous_element << s.next_element.remove
+        text_key_extract(formula, "formula", "where")
+      end
+
+      def text_key_extract(elem, tag, keywd)
+        q = "//#{tag}/following-sibling::*[1][self::p]"
+        elem.xpath(q).each do |s|
+          if s.text =~ /^\s*#{keywd}[^a-z]*$/i && s&.next_element&.name == "dl"
+            s.previous_element << "<key>#{to_xml(s.next_element.remove)}</key>"
             s.remove
           end
         end
       end
 
       def figure_dl_cleanup1(xmldoc)
-        q = "//figure/following-sibling::*[self::dl]"
-        q1 = "//figure/figure/following-sibling::*[self::dl]"
+        q = "//figure/following-sibling::*[self::key]"
+        q1 = "//figure/figure/following-sibling::*[self::key]"
         (xmldoc.xpath(q) - xmldoc.xpath(q1)).each do |s|
-          s["key"] == "true" and s.previous_element << s.remove
+          s.previous_element << s.remove
         end
       end
 
       # include key definition list inside figure
       def figure_dl_cleanup2(xmldoc)
-        q = "//figure/following-sibling::*[self::p]"
-        xmldoc.xpath(q).each do |s|
-          if s.text =~ /^\s*key[^a-z]*$/i && s&.next_element&.name == "dl"
-            s.next_element["key"] = "true"
-            s.previous_element << s.next_element.remove
-            s.remove
-          end
-        end
+        text_key_extract(xmldoc, "figure", "key")
       end
 
       # examples containing only figures become subfigures of figures
       def subfigure_cleanup(xmldoc)
         xmldoc.xpath("//example[figure]").each do |e|
           e.elements.reject do |m|
-            %w(name figure index note).include?(m.name) ||
-              (m.name == "dl" && m["key"] == "true")
+            %w(name figure index note key).include?(m.name)
           end.empty? or next
           e.name = "figure"
         end

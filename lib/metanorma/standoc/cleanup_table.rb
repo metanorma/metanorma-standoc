@@ -2,22 +2,15 @@ module Metanorma
   module Standoc
     module Cleanup
       def dl1_table_cleanup(xmldoc)
-        q = "//table/following-sibling::*[1][self::dl]"
+        q = "//table/following-sibling::*[1][self::key]"
         xmldoc.xpath(q).each do |s|
-          s["key"] == "true" and s.previous_element << s.remove
+          s.previous_element << s.remove
         end
       end
 
       # move Key dl after table footer
       def dl2_table_cleanup(xmldoc)
-        q = "//table/following-sibling::*[1][self::p]"
-        xmldoc.xpath(q).each do |s|
-          if s.text =~ /^\s*key[^a-z]*$/i && s&.next_element&.name == "dl"
-            s.next_element["key"] = "true"
-            s.previous_element << s.next_element.remove
-            s.remove
-          end
-        end
+        text_key_extract(xmldoc, "table", "key")
       end
 
       def insert_thead(table)

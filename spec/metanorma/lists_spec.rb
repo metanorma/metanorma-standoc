@@ -211,12 +211,14 @@ RSpec.describe Metanorma::Standoc do
                   </ol>
                </li>
             </ol>
-            <dl id="_" key="true">
+            <key>
+            <dl id="_">
                <dt>a</dt>
                <dd id="_">
                   <p id="_">b</p>
                </dd>
             </dl>
+            </key>
          </sections>
       </metanorma>
     OUTPUT
