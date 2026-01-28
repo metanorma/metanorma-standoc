@@ -36,4 +36,41 @@ RSpec.describe Metanorma::Standoc do
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Canon.format_xml(output)
   end
+
+  it "allows quotes substitution in monospaced text" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      `A__B__C` should have italic B
+    INPUT
+
+    result = Asciidoctor.convert(input, *OPTIONS)
+    # Verify __B__ becomes <em>B</em> inside <tt>
+    expect(result).to include("<tt>A<em>B</em>C</tt>")
+  end
+
+  it "does not double-process existing pass macros in monospace" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      `text with pass:[content] macro`
+    INPUT
+
+    result = Asciidoctor.convert(input, *OPTIONS)
+    # Should handle gracefully without errors
+    expect(result).to be_a(String)
+    expect(result).to include("<tt>")
+  end
+
+  it "handles brackets in monospace for inline macros" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      `code with [bracketed content]`
+    INPUT
+
+    result = Asciidoctor.convert(input, *OPTIONS)
+    # Brackets should be preserved in monospace text
+    expect(result).to include("[bracketed content]")
+  end
 end
