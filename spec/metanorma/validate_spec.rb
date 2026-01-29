@@ -1555,6 +1555,26 @@ RSpec.describe Metanorma::Standoc do
     expect(File.read("test.err.html"))
       .to include("Corrupt PNG image")
     expect(File.exist?("test.xml")).to be true
+
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      == Clause
+      image::spec/assets/warning_test.png[]
+
+    INPUT
+    Asciidoctor.convert(input, *OPTIONS)
+    expect(File.read("test.err.html"))
+      .not_to include("Corrupt PNG image")
+    expect(File.read("test.err.html"))
+      .to include("Warning on PNG image")
+    expect(File.exist?("test.xml")).to be true
   end
 
   it "does not warn if not corrupt PNG" do
