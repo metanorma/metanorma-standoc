@@ -32,6 +32,7 @@ module Metanorma
           Vectory::Utils::url?(i["src"]) and next
           uri = Vectory::Utils::datauri?(i["src"])
           path = uri ? save_dataimage(i["src"]) : expand_path(i["src"])
+          path or next
           PngConform::Readers::StreamingReader.open(path) do |reader|
             v = PngConform::Services::ValidationService.new(reader)
             png_validate1(i, path, v)
