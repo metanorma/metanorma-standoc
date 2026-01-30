@@ -1,5 +1,5 @@
-require "pngcheck"
 require "svg_conform"
+require "png_conform"
 
 module Metanorma
   module Standoc
@@ -30,20 +30,24 @@ module Metanorma
       def png_validate(doc)
         doc.xpath("//image[@mimetype = 'image/png']").each do |i|
           Vectory::Utils::url?(i["src"]) and next
-          decoded = if Vectory::Utils::datauri?(i["src"])
-                      Vectory::Utils::decode_datauri(i["src"])[:data]
-                    else
-                      path = expand_path(i["src"]) or next
-                      File.binread(path)
-                    end
-          png_validate1(i, decoded)
+          uri = Vectory::Utils::datauri?(i["src"])
+          path = uri ? save_dataimage(i["src"]) : expand_path(i["src"])
+          path or next
+          PngConform::Readers::StreamingReader.open(path) do |reader|
+            v = PngConform::Services::ValidationService.new(reader)
+            png_validate1(i, path, v)
+          end
         end
       end
 
-      def png_validate1(img, buffer)
-        PngCheck.check_buffer(buffer)
-      rescue PngCheck::CorruptPngError => e
-        @log.add("STANDOC_45", img.parent, params: [e.message])
+      def png_validate1(img, _path, validator)
+        ret = validator.validate
+        ret.error_messages.each do |e|
+          @log.add("STANDOC_45", img.parent, params: [e])
+        end
+        ret.validation_result.warning_messages.each do |e|
+          @log.add("STANDOC_63", img.parent, params: [e])
+        end
       end
 
       def image_toobig(doc)
@@ -130,6 +134,21 @@ module Metanorma
           err.respond_to?(:location) && err.location and
             loc = " Location: #{err.location}"
           @log.add(id, svg, params: [err.rule&.id, err.message, elem, loc])
+        end
+      end
+
+      def save_dataimage(uri, _relative_dir = true)
+        %r{^data:(?:image|application)/(?<imgtype>[^;]+);(?:charset=[^;]+;)?base64,(?<imgdata>.+)$} =~ uri
+        # imgtype = "emf" if emf?("#{imgclass}/#{imgtype}")
+        imgtype = imgtype.sub(/\+[a-z0-9]+$/, "") # svg+xml
+        imgtype = "png" unless /^[a-z0-9]+$/.match? imgtype
+        imgtype == "postscript" and imgtype = "eps"
+        Tempfile.open(["image", ".#{imgtype}"],
+                      mode: File::BINARY | File::SHARE_DELETE) do |f|
+          f.binmode
+          f.write(Base64.strict_decode64(imgdata))
+          @files_to_delete << f # persist to the end
+          f.path
         end
       end
     end
