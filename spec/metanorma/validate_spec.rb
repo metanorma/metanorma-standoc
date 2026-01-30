@@ -617,6 +617,8 @@ RSpec.describe Metanorma::Standoc do
     end
     expect(File.read("test.err.html"))
       .not_to include("mismatch of callouts")
+    expect(File.read("test.err.html"))
+      .to include("Sourcecode with callout markup but no annotations")
   end
 
   it "warns that Table should have title" do
