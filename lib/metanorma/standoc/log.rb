@@ -192,7 +192,7 @@ module Metanorma
         "STANDOC_62": { category: "Crossreferences",
                         error: "Sourcecode with callout markup but no annotations",
                         severity: 1 },
-        "STANDOC_62": { category: "Images",
+        "STANDOC_63": { category: "Images",
                         error: "Warning on PNG image: %s",
                         severity: 3 },
         "RELATON_1": { category: "Relaton",
