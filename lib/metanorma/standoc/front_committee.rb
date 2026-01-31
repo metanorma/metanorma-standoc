@@ -5,12 +5,12 @@ module Metanorma
         node.attr("#{type}-number#{suffix}") || node.attr("#{type}#{suffix}")
       end
 
-      def committee_contributors(node, xml, agency, _opts)
+      def committee_contributors(node, xml, agency, opts)
         t = metadata_committee_types(node)
         v = t.first
         if committee_number_or_name?(node, v, "")
           node.attr(v) or node.set_attr(v, "")
-          o = committee_contrib_org_prep(node, v, agency, _opts)
+          o = committee_contrib_org_prep(node, v, agency, opts)
           o[:groups] = t
           org_contributor(node, xml, o)
         end
@@ -20,13 +20,13 @@ module Metanorma
         %w(technical-committee)
       end
 
-      def committee_contrib_org_prep(node, type, agency, _opts)
+      def committee_contrib_org_prep(node, type, agency, opts)
         agency_arr, agency_abbrev =
           committee_org_prep_agency(node, type, agency, [], [])
         { source: [type], role: "author", desc: "committee",
-          default_org: false, committee: true,
-          agency: agency_arr, agency_abbrev:,
-          subdivtype: type.sub(/^approval-/, "").tr("-", " ").capitalize }.compact
+          default_org: false, committee: true, logo: opts[:logo],
+          subdivtype: type.sub(/^approval-/, "").tr("-", " ").capitalize,
+          agency: agency_arr, agency_abbrev: }.compact
       end
 
       def committee_org_prep_agency(node, type, agency, agency_arr, agency_abbr)
@@ -63,6 +63,7 @@ module Metanorma
           add_noko_elem(o, "name", committee[:name])
           add_noko_elem(o, "abbreviation", committee[:abbr])
           add_noko_elem(o, "identifier", committee[:ident])
+          org_logo(o, committee[:logo])
         end
       end
 

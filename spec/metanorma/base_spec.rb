@@ -228,12 +228,14 @@ RSpec.describe Metanorma::Standoc do
       :technical-committee-number_2: 11
       :technical-committee-type_2: A1
       :technical-committee-agency_2: TC1
+      :technical-committee_logo_2: correct.png
       :subcommittee_2: SC1
       :subcommittee-number_2: 21
       :subcommittee-type_2: B1
       :workgroup_2: WG1
       :workgroup-number_2: 31
       :workgroup-type_2: C1
+      :workgroup_logo_2: correct.png
       :secretariat: SECRETARIAT
       :copyright-year: 2001
       :docstage: 10
@@ -435,6 +437,9 @@ RSpec.describe Metanorma::Standoc do
                       <name>TC1</name>
                       <identifier>A1 11</identifier>
                       <identifier type="full">A1 11</identifier>
+                      <logo>
+                  <image src="correct.png" mimetype="image/png"/>
+               </logo>
                    </subdivision>
                 </organization>
              </contributor>
