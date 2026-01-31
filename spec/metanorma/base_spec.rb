@@ -228,14 +228,14 @@ RSpec.describe Metanorma::Standoc do
       :technical-committee-number_2: 11
       :technical-committee-type_2: A1
       :technical-committee-agency_2: TC1
-      :technical-committee_logo_2: correct.png
+      :technical-committee_logo_2: spec/assets/correct.png
       :subcommittee_2: SC1
       :subcommittee-number_2: 21
       :subcommittee-type_2: B1
       :workgroup_2: WG1
       :workgroup-number_2: 31
       :workgroup-type_2: C1
-      :workgroup_logo_2: correct.png
+      :workgroup_logo_2: spec/assets/correct.png
       :secretariat: SECRETARIAT
       :copyright-year: 2001
       :docstage: 10
@@ -292,6 +292,7 @@ RSpec.describe Metanorma::Standoc do
       :toclevels-html: 4
       :toclevels-pdf: 5
       :docidentifier-additional: ABC:x 1, DEF:y 2
+      :data-uri-image: false
 
     INPUT
     output = <<~OUTPUT
@@ -438,7 +439,7 @@ RSpec.describe Metanorma::Standoc do
                       <identifier>A1 11</identifier>
                       <identifier type="full">A1 11</identifier>
                       <logo>
-                  <image src="correct.png" mimetype="image/png"/>
+                  <image src="spec/assets/correct.png" mimetype="image/png"/>
                </logo>
                    </subdivision>
                 </organization>
@@ -564,6 +565,68 @@ RSpec.describe Metanorma::Standoc do
                 </metanorma>
     OUTPUT
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to strip_guid(Canon.format_xml(output))
+
+    # :committee-types:
+    output = <<~OUTPUT
+          <bibdata>
+         <contributor>
+            <role type="author"/>
+            <organization>
+               <name>Cartoon Network</name>
+            </organization>
+         </contributor>
+         <contributor>
+            <role type="author"/>
+            <organization>
+               <name>Ribose, Inc.</name>
+            </organization>
+         </contributor>
+         <contributor>
+            <role type="author">
+               <description>committee</description>
+            </role>
+            <organization>
+               <name>"Cartoon Network"; "Ribose, Inc."</name>
+               <subdivision type="Subcommittee" subtype="B">
+                  <name>SC</name>
+                  <identifier>B 2</identifier>
+                  <identifier type="full">B 2/C 3</identifier>
+               </subdivision>
+               <subdivision type="Workgroup" subtype="C">
+                  <name>WG</name>
+                  <identifier>C 3</identifier>
+               </subdivision>
+            </organization>
+         </contributor>
+         <contributor>
+            <role type="author">
+               <description>committee</description>
+            </role>
+            <organization>
+               <name>"Cartoon Network"; "Ribose, Inc."</name>
+               <subdivision type="Subcommittee" subtype="B1">
+                  <name>SC1</name>
+                  <identifier>B1 21</identifier>
+                  <identifier type="full">B1 21/C1 31</identifier>
+               </subdivision>
+               <subdivision type="Workgroup" subtype="C1">
+                  <name>WG1</name>
+                  <identifier>C1 31</identifier>
+                  <logo>
+                     <image src="spec/assets/correct.png" mimetype="image/png"/>
+                  </logo>
+               </subdivision>
+            </organization>
+         </contributor>
+      </bibdata>
+    OUTPUT
+    input.sub!(":novalid:",
+               "novalid:\n:committee-types: subcommittee, workgroup")
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml = xml.xpath("//xmlns:contributor[xmlns:role/@type = 'author'][./xmlns:organization]")
+    xml = "<bibdata>#{xml.to_xml}</bibdata>"
+    expect(strip_guid(Canon.format_xml(xml)))
       .to be_equivalent_to strip_guid(Canon.format_xml(output))
   end
 
