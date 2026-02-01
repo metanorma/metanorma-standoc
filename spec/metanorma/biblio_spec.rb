@@ -900,7 +900,7 @@ RSpec.describe Metanorma::Standoc do
       [bibliography]
       == Normative References
 
-      * [[[A, B]]], span:surname[Wozniak], span:initials[S.], span:surname[Jobs], span:givenname[Steve] & span:surname[Hoover], span:initials[J.] span:givenname[Edgar]. span:date.issued[1991-1992]. span:date[1996-01-02]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] & span:in_organization[UNICEF], span:in_title[Collected Essays]. _span:series[Bibliographers Anonymous]_. span:edition[4], span:version[draft]. span:note[Also available in paperback.] span:docid.ISO[ISO 1234]. span:pubplace[Geneva]: span:publisher[International Standardization Organization]. span:uri.citation[http://www.example.com]. span:volume[4] span:issue[2–3] span:pages[12-13] span:pages[19]. span:type[inbook] span:classification[A] span:classification.B[C] span:classification[D] span:abstract[This is a _journey_ into sound] image:spec/examples/rice_images/rice_image1.png[] image:spec/examples/rice_images/rice_image3_1.png[] span:keyword[key word] span:keyword[word key] span:language[ja] span:script[Latn] span:locale[CH]
+      * [[[A, B]]], span:surname[Wozniak], span:initials[S.], span:surname[Jobs], span:givenname[Steve] & span:surname[Hoover], span:initials[J.] span:givenname[Edgar]. span:date.issued[1991-1992]. span:date[1996-01-02]. span:title[_Work_]. span:in_surname.editor[Gates], span:in_initials.editor[W. H] & span:in_organization[UNICEF], span:in_title[Collected Essays]. _span:series[Bibliographers Anonymous]_. span:edition[4], span:version[draft]. span:note[Also available in paperback.] span:note.display[Disclaimer: no notes harmed in the production of this reference.] span:docid.ISO[ISO 1234]. span:pubplace[Geneva]: span:publisher[International Standardization Organization]. span:uri.citation[http://www.example.com]. span:volume[4] span:issue[2–3] span:pages[12-13] span:pages[19]. span:type[inbook] span:classification[A] span:classification.B[C] span:classification[D] span:abstract[This is a _journey_ into sound] image:spec/examples/rice_images/rice_image1.png[] image:spec/examples/rice_images/rice_image3_1.png[] span:keyword[key word] span:keyword[word key] span:language[ja] span:script[Latn] span:locale[CH]
     INPUT
     output = <<~OUTPUT
       <bibliography>
@@ -913,7 +913,7 @@ RSpec.describe Metanorma::Standoc do
                   <em>Work</em>
                   . Gates, W. H &amp; UNICEF, Collected Essays.
                   <em>Bibliographers Anonymous</em>
-                  . 4, draft. Also available in paperback. ISO 1234. Geneva: International Standardization Organization.
+                  . 4, draft. Also available in paperback. Disclaimer: no notes harmed in the production of this reference. ISO 1234. Geneva: International Standardization Organization.
                   <link target="http://www.example.com"/>
                   . 4 2–3 12-13 19. A C D This is a
                   <em>journey</em>
@@ -969,6 +969,7 @@ RSpec.describe Metanorma::Standoc do
                <edition>4</edition>
                <version>draft</version>
                <note>Also available in paperback.</note>
+               <note type="display">Disclaimer: no notes harmed in the production of this reference.</note>
                <language>ja</language>
                <script>Latn</script>
                <locale>CH</locale>

@@ -5,28 +5,30 @@ module Metanorma
         node.attr("#{type}-number#{suffix}") || node.attr("#{type}#{suffix}")
       end
 
-      def committee_contributors(node, xml, agency, _opts)
-        t = metadata_committee_types(node)
+      def committee_contributors(node, xml, agency, opts)
+        t = if c = node.attr("committee-types")
+              c.split(",")&.map(&:strip)
+            else metadata_committee_types(node)
+            end
         v = t.first
-        if committee_number_or_name?(node, v, "")
-          node.attr(v) or node.set_attr(v, "")
-          o = committee_contrib_org_prep(node, v, agency, _opts)
-          o[:groups] = t
-          org_contributor(node, xml, o)
-        end
+        committee_number_or_name?(node, v, "") or return
+        node.attr(v) or node.set_attr(v, "")
+        o = committee_contrib_org_prep(node, v, agency, opts)
+        o[:groups] = t
+        org_contributor(node, xml, o)
       end
 
       def metadata_committee_types(_node)
         %w(technical-committee)
       end
 
-      def committee_contrib_org_prep(node, type, agency, _opts)
+      def committee_contrib_org_prep(node, type, agency, opts)
         agency_arr, agency_abbrev =
           committee_org_prep_agency(node, type, agency, [], [])
         { source: [type], role: "author", desc: "committee",
-          default_org: false, committee: true,
-          agency: agency_arr, agency_abbrev:,
-          subdivtype: type.sub(/^approval-/, "").tr("-", " ").capitalize }.compact
+          default_org: false, committee: true, logo: opts[:logo],
+          subdivtype: type.sub(/^approval-/, "").tr("-", " ").capitalize,
+          agency: agency_arr, agency_abbrev: }.compact
       end
 
       def committee_org_prep_agency(node, type, agency, agency_arr, agency_abbr)
@@ -42,11 +44,7 @@ module Metanorma
       end
 
       def contrib_committee_build(xml, agency, committee)
-        if name = org_abbrev.invert[agency]
-          committee[:agency_abbrev] = agency
-          agency = name
-        end
-        add_noko_elem(xml, "name", agency)
+        contrib_committee_build_agency(xml, agency, committee)
         s = committee
         loop do
           contrib_committee_subdiv(xml, s)
@@ -56,6 +54,14 @@ module Metanorma
         full_committee_id(xml.parent)
       end
 
+      def contrib_committee_build_agency(xml, agency, committee)
+        if name = org_abbrev.invert[agency]
+          committee[:agency_abbrev] = agency
+          agency = name
+        end
+        add_noko_elem(xml, "name", agency)
+      end
+
       def contrib_committee_subdiv(xml, committee)
         contributors_committees_filter_empty?(committee) and return
         xml.subdivision **attr_code(type: committee[:subdivtype],
@@ -63,6 +69,7 @@ module Metanorma
           add_noko_elem(o, "name", committee[:name])
           add_noko_elem(o, "abbreviation", committee[:abbr])
           add_noko_elem(o, "identifier", committee[:ident])
+          org_logo(o, committee[:logo])
         end
       end
 

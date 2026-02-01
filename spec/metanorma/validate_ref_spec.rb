@@ -421,7 +421,26 @@ RSpec.describe Metanorma::Standoc do
     f = File.read("test.err.html")
     expect(f).not_to include("Fetching from")
     expect(f).not_to include("Downloading index from")
-    expect(f).to include("Found") # to check suffix: ISO 639:2023
+    expect(f).not_to include("Found") # to check suffix: ISO 639:2023
+
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :no-isobib-cache:
+
+      [bibliography]
+      == Normative references
+      * [[[A,FIPS 197]]]
+    INPUT
+    Asciidoctor.convert(input, *OPTIONS)
+    f = File.read("test.err.html")
+    expect(f).not_to include("Fetching from")
+    expect(f).not_to include("Downloading index from")
+    expect(f).to include("Found") # to check suffix: NIST FIPS 197 fpd
   end
 
   it "warns on unrecognised bibliographic style" do

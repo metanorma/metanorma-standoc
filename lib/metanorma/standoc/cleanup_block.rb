@@ -127,7 +127,7 @@ module Metanorma
       def note_cleanup(xmldoc)
         xmldoc.xpath("//note").each do |n|
           n["keep-separate"] == "true" || !n.ancestors("table").empty? and next
-          prev = n.previous_element || next
+          prev = n.previous_element or next
           n.parent = prev if ELEMS_ALLOW_NOTES.include? prev.name
         end
         xmldoc.xpath("//note[@keep-separate] | " \
@@ -184,15 +184,29 @@ module Metanorma
       end
 
       def sourcecode_markup(node)
-        node.text.split(/(#{Regexp.escape(@sourcecode_markup_start)}|
-                          #{Regexp.escape(@sourcecode_markup_end)})/x)
-          .each_slice(4).map.with_object([]) do |a, acc|
+        source_markup_prep(node).each_slice(4).map.with_object([]) do |a, acc|
           acc << safe_noko(a[0], node.document)
           a.size == 4 or next
           acc << isolated_asciidoctor_convert(
-            a[2], doctype: :inline, backend: backend&.to_sym || :standoc
-          )
+            "{blank} #{a[2]}", doctype: :inline,
+                               backend: backend&.to_sym || :standoc
+          ).strip
         end.join
+      end
+
+      def source_markup_prep(node)
+        ret = node.text.split(/(#{Regexp.escape(@sourcecode_markup_start)}|
+                          #{Regexp.escape(@sourcecode_markup_end)})/x)
+        source_markup_validate(node, ret)
+        ret
+      end
+
+      def source_markup_validate(node, ret)
+        ret.each_slice(4) do |a|
+          a.size == 4 or next
+          a[1] == @sourcecode_markup_start && a[3] == @sourcecode_markup_end or
+            @log.add("STANDOC_61", node, params: [a.join])
+        end
       end
 
       def form_cleanup(xmldoc)

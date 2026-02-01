@@ -617,6 +617,8 @@ RSpec.describe Metanorma::Standoc do
     end
     expect(File.read("test.err.html"))
       .not_to include("mismatch of callouts")
+    expect(File.read("test.err.html"))
+      .to include("Sourcecode with callout markup but no annotations")
   end
 
   it "warns that Table should have title" do
@@ -1555,6 +1557,26 @@ RSpec.describe Metanorma::Standoc do
     expect(File.read("test.err.html"))
       .to include("Corrupt PNG image")
     expect(File.exist?("test.xml")).to be true
+
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      == Clause
+      image::spec/assets/warning_test.png[]
+
+    INPUT
+    Asciidoctor.convert(input, *OPTIONS)
+    expect(File.read("test.err.html"))
+      .not_to include("Corrupt PNG image")
+    expect(File.read("test.err.html"))
+      .to include("Warning on PNG image")
+    expect(File.exist?("test.xml")).to be true
   end
 
   it "does not warn if not corrupt PNG" do
@@ -1681,14 +1703,6 @@ RSpec.describe Metanorma::Standoc do
     Asciidoctor.convert(
       input.sub(":no-pdf:",
                 ":svg-conform-profile: svg_1_2_rfc\n:no-pdf:"), *OPTIONS
-    )
-    expect(File.read("test.err.html"))
-      .to include("Corrupt SVG image detected")
-
-    FileUtils.rm_rf "test.xml"
-    Asciidoctor.convert(
-      input.sub(":no-pdf:",
-                ":svg-conform-profile: :svg_1_2_rfc\n:no-pdf:"), *OPTIONS
     )
     expect(File.read("test.err.html"))
       .to include("Corrupt SVG image detected")
@@ -1956,6 +1970,36 @@ RSpec.describe Metanorma::Standoc do
     end
     expect(File.read("test.err.html"))
       .to include("Image too large for Data URI encoding")
+  end
+
+  it "aborts if improperly nested sourcecode markup" do
+    FileUtils.rm_f "test.xml"
+    FileUtils.rm_f "test.err.html"
+
+    begin
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :no-pdf:
+
+        == Clause
+        [source]
+        ----
+        {{{_... Any other entries, such as {{{*Info*}}} and {{{*Encrypt*}}} ... %(part 9)_}}}
+        ----
+
+      INPUT
+
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit
+    end
+
+    expect(File.read("test.err.html"))
+      .to include("Improperly nested sourcecode markup")
+    expect(File.exist?("test.xml")).to be false
   end
 
   context "warns of empty elements: " do

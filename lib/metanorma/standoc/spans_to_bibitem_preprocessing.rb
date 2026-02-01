@@ -31,7 +31,7 @@ module Metanorma
 
         def empty_span_hash
           { contrib: [], docid: [], uri: [], date: [], classification: [],
-            keyword: [], image: [], extent: {}, in: {} }
+            keyword: [], image: [], note: [], extent: {}, in: {} }
         end
 
         def spans_preprocess(spans)
@@ -54,10 +54,8 @@ module Metanorma
           when "pubplace", "title", "type", "series", "edition", "version",
             "abstract", "language", "script", "locale"
             ret[span[:key].to_sym] = span[:val]
-          when "image"
+          when "image", "note"
             ret[span[:key].to_sym] << { type: span[:type], val: span[:val] }
-          when "note"
-            ret[span[:key].to_sym] = { type: span[:type], val: span[:val] }
           when "in_title"
             ret[:in][:title] = span[:val]
           when "publisher"

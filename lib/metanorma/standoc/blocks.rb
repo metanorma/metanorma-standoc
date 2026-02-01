@@ -1,6 +1,5 @@
 require "uri"
-require_relative "./blocks_notes"
-require_relative "./blocks_examples"
+require_relative "./blocks_notes_examples"
 require_relative "./blocks_image"
 
 module Metanorma

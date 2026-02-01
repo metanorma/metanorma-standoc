@@ -9,24 +9,15 @@ module Metanorma
         @isolated_conversion_stack << true
 
         begin
-          # Ensure we get a completely fresh Document and conversion context
-          # Each call to Asciidoctor.convert creates a new Document with its own converter
-          # This naturally isolates the conversion from the current instance variables
-
-          # Save critical options that should be preserved from the current context
           preserved_options = extract_preserved_options(options)
-
           # Merge with isolated options to ensure clean state and skip validation
           isolated_options = preserved_options.merge(options).merge(
             attributes: (preserved_options[:attributes] || {}).merge(
               "novalid" => "", # Force no validation for isolated documents
             ),
           )
-
-          # Perform the isolated conversion
           Asciidoctor.convert(content, isolated_options)
         ensure
-          # Always pop from stack, even if conversion fails
           @isolated_conversion_stack.pop
         end
       end

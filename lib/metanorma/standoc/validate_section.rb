@@ -18,8 +18,12 @@ module Metanorma
       end
 
       def callouts_error(elem, callouts, annotations)
-        if callouts.size != annotations.size && !annotations.empty?
-          @log.add("STANDOC_47", elem, params: [callouts.size, annotations.size])
+        callouts.size != annotations.size or return
+        if annotations.empty?
+          @log.add("STANDOC_62", elem)
+        else
+          @log.add("STANDOC_47", elem,
+                   params: [callouts.size, annotations.size])
         end
       end
 

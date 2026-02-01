@@ -135,8 +135,15 @@ module Metanorma
         entry["message"].include?("Downloaded index from") and return false
         entry["message"].start_with?("Found:") or return true
         id = /^Found: `(.+)`$/.match(entry["message"]) or return true
-        entry["key"].end_with?(id[1]) and return false
-        true
+        #entry["key"].end_with?(id[1]) and return false
+        #true
+        !relaton_key_eqv?(entry["key"], id[1])
+      end
+
+      def relaton_key_eqv?(sought, found)
+        sought = sought.sub(" (all parts)", "").sub(/:(19|20)\d\d$/, "")
+        found = found.sub(" (all parts)", "").sub(/:(19|20)\d\d$/, "")
+        sought.end_with?(found)
       end
 
       def docidentifier_cleanup(xmldoc); end
