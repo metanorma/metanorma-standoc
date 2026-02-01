@@ -1,4 +1,4 @@
-require "uri" if /^2\./.match?(RUBY_VERSION)
+require "uri"
 require_relative "./blocks_notes_examples"
 require_relative "./blocks_image"
 
@@ -36,14 +36,34 @@ module Metanorma
 
       # We append each contained block to its parent
       def open(node)
-        role = node.role || node.attr("style")
+        role = open_role(node)
         reqt_subpart?(role) and return requirement_subpart(node)
         role == "form" and return form(node)
         role == "definition" and return termdefinition(node)
         role == "boilerplate" and return boilerplate_note(node)
+        role == "key" and return key_block(node)
+        open1(node)
+      end
+
+      def open_role(node)
+        node.option?("key") and return "key"
+        node.role || node.attr("style")
+      end
+
+      def open1(node)
         result = []
         node.blocks.each { |b| result << send(b.context, b) }
         result
+      end
+
+      def key_block(node)
+        ret = open1(node)
+        ret = ret.map do |b|
+          ret = Nokogiri::XML(b)
+          ret.root["key"] = true
+          to_xml(ret.root)
+        end
+        "<key>#{ret.join("\n")}</key>"
       end
 
       def block_title(node, out)
@@ -93,6 +113,7 @@ module Metanorma
         attr_code(id_attr(node).merge(keep_attrs(node)
           .merge(align: node.attr("align"),
                  variant_title: node.role == "variant-title" ? true : nil,
+                 key: node.option?("key") ? "true" : nil,
                  type: node.attr("type"))))
       end
 
