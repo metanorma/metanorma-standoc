@@ -35,6 +35,7 @@ module Metanorma
                                                "suppress-asciimath-dup") == "true",
           bare: flex_attr_name(node, "bare"),
           sectionsplit: flex_attr_name(node, "sectionsplit"),
+          sectionsplit_filename: flex_attr_name(node, "sectionsplit-filename"),
           baseassetpath: flex_attr_name(node, "base-asset-path"),
           aligncrosselements: flex_attr_name(node, "align-cross-elements"),
           tocfigures: @tocfigures,
