@@ -11,7 +11,9 @@ module Metanorma
     module Front
       def metadata_id(node, xml)
         id = node.attr("docidentifier") || metadata_id_build(node)
-        add_noko_elem(xml, "docidentifier", id, primary: "true")
+        add_noko_elem(xml, "docidentifier",
+                      id, primary: "true",
+                          boilerplate: !node.attr("docidentifier").nil?)
       end
 
       def metadata_id_build(node)

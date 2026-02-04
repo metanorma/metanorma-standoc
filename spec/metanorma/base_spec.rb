@@ -1395,6 +1395,66 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
+    it "populates docidentifier template" do
+    mock_default_publisher
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :docidentifier: {{ publisheddate }} {{ stageabbr }}
+      :published-date: 1264-03-05
+      :docstage: draft-document
+
+    INPUT
+    output = <<~OUTPUT
+     <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
+          <bibdata type="standard">
+             <title language="en" type="main">Document title</title>
+             <docidentifier primary="true">1264-03-05 DD</docidentifier>
+             <date type="published">
+                <on>1264-03-05</on>
+             </date>
+             <contributor>
+                <role type="author"/>
+                <organization>
+                   <name>International Standards Organization</name>
+                </organization>
+             </contributor>
+             <contributor>
+                <role type="publisher"/>
+                <organization>
+                   <name>International Standards Organization</name>
+                </organization>
+             </contributor>
+             <language>en</language>
+             <script>Latn</script>
+             <status>
+                <stage>draft-document</stage>
+             </status>
+             <copyright>
+                <from>2026</from>
+                <owner>
+                   <organization>
+                      <name>International Standards Organization</name>
+                   </organization>
+                </owner>
+             </copyright>
+             <ext>
+                <doctype>standard</doctype>
+                <flavor>standoc</flavor>
+             </ext>
+          </bibdata>
+          <sections> </sections>
+       </metanorma>
+OUTPUT
+ xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.at("//xmlns:metanorma-extension")&.remove
+    expect(strip_guid(Canon.format_xml(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
   it "processes document relations by description" do
     mock_relaton_relation_descriptions
     input = <<~INPUT
