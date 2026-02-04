@@ -9,11 +9,23 @@ require "isodoc"
 module Metanorma
   module Standoc
     module Front
+      # specifically the primary identifier
       def metadata_id(node, xml)
-        id = node.attr("docidentifier") || metadata_id_build(node)
-        add_noko_elem(xml, "docidentifier",
-                      id, primary: "true",
-                          boilerplate: !node.attr("docidentifier").nil?)
+        if id = node.attr("docidentifier")
+          add_noko_elem(xml, "docidentifier",
+                        id, primary: "true", boilerplate: true,
+                            type: metadata_id_primary_type)
+        else
+          metadata_id_dynamic(node, xml)
+        end
+      end
+
+      def metadata_id_primary_type; end
+
+      def metadata_id_primary(node, xml)
+        id = metadata_id_build(node)
+        add_noko_elem(xml, "docidentifier", id, primary: "true",
+                                                type: metadata_id_primary_type)
       end
 
       def metadata_id_build(node)
@@ -24,7 +36,10 @@ module Metanorma
         id
       end
 
+      def metadata_id_nonprimary(node, xml); end
+
       def metadata_other_id(node, xml)
+        metadata_id_nonprimary(node, xml)
         a = node.attr("isbn") and
           add_noko_elem(xml, "docidentifier", a, type: "ISBN")
         a = node.attr("isbn10") and
