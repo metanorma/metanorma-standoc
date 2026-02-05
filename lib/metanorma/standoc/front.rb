@@ -16,7 +16,7 @@ module Metanorma
                         id, primary: "true", boilerplate: true,
                             type: metadata_id_primary_type)
         else
-          metadata_id_dynamic(node, xml)
+          metadata_id_primary(node, xml)
         end
       end
 
