@@ -93,7 +93,8 @@ module Metanorma
           d.delete("boilerplate")
           b or next
           id = boilerplate_snippet_convert(to_xml(d.children), isodoc)
-          d.children = to_xml(Nokogiri::XML(id).at("//p")&.children) || id
+          p = Nokogiri::XML(id).at("//p")
+          d.children = p ? to_xml(p&.children) : id
         end
       end
 
@@ -198,7 +199,7 @@ module Metanorma
       def boilerplate_snippet_convert(adoc, isodoc)
         b = isodoc.populate_template(adoc, nil)
         ret = boilerplate_xml_cleanup(adoc2xml(b, backend.to_sym))
-        @i18n.l10n(ret.children.to_xml, @lang, @script)
+        @i18n.l10n(ret.children.to_xml, @lang, @script).strip
       end
 
       private
