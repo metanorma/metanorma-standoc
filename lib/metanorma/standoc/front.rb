@@ -25,7 +25,7 @@ module Metanorma
       def metadata_id_primary(node, xml)
         id = metadata_id_build(node)
         add_noko_elem(xml, "docidentifier", id, primary: "true",
-                                                type: metadata_id_primary_type)
+                                                type: metadata_id_primary_type(node))
       end
 
       def metadata_id_build(node)
@@ -70,7 +70,8 @@ module Metanorma
       def metadata_status(node, xml)
         xml.status do |s|
           add_noko_elem(s, "stage",
-                        node.attr("status") || node.attr("docstage") || "published")
+                        node.attr("status") || node.attr("docstage") ||
+                        "published")
           add_noko_elem(s, "substage", node.attr("docsubstage"))
           add_noko_elem(s, "iteration", node.attr("iteration"))
         end
