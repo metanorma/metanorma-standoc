@@ -28,15 +28,15 @@ module Metanorma
           docid and
             y["docid"] ||= [{ "type" => "#{docid['type']}___inherited",
                               "id" => docid.text }]
-          r = dochistory_yaml2relaton(y, docid,
-                                      "#{docid['type']}___inherited")
+          r = dochistory_yaml2relaton(y, docid)
           ins.next = "<relation type='#{type}'>#{r}</relation>"
         end
       end
 
-      def dochistory_yaml2relaton(yaml, docid, type)
+      def dochistory_yaml2relaton(yaml, docid)
         r = yaml2relaton(yaml, amend_hash2mn(yaml["amend"]))
         docid or return r
+        type = "#{docid['type']}___inherited"
         xml = Nokogiri::XML(r)
         xml.xpath("//docidentifier[@type = '#{type}']").each do |d|
           d["type"] = docid["type"]
