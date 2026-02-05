@@ -39,22 +39,6 @@ module Metanorma
         end
       end
 
-=begin
-      def docidentifier_cleanup(xmldoc)
-        docid = xmldoc.at("//bibdata/docidentifier") or return
-        docid.text.empty? or return
-        id = docidentifier_from_template(xmldoc) or return
-        (id.empty? and docid.remove) or docid.children = id
-      end
-
-      def docidentifier_from_template(xmldoc)
-        b = boilerplate_isodoc(xmldoc) or return
-        template = configuration.docid_template ||
-          "{{ agency }} {{ docnumeric }}"
-        b.populate_template(template, nil)
-      end
-=end
-
       def gather_indirect_erefs(xmldoc, prefix)
         xmldoc.xpath("//eref[@type = '#{prefix}']")
           .each_with_object({}) do |e, m|

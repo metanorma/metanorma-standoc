@@ -14,13 +14,13 @@ module Metanorma
         if id = node.attr("docidentifier")
           add_noko_elem(xml, "docidentifier",
                         id, primary: "true", boilerplate: true,
-                            type: metadata_id_primary_type)
+                            type: metadata_id_primary_type(node))
         else
           metadata_id_primary(node, xml)
         end
       end
 
-      def metadata_id_primary_type; end
+      def metadata_id_primary_type(node); end
 
       def metadata_id_primary(node, xml)
         id = metadata_id_build(node)
