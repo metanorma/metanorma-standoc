@@ -36,6 +36,7 @@ module Metanorma
 
       def dochistory_yaml2relaton(yaml, docid, type)
         r = yaml2relaton(yaml, amend_hash2mn(yaml["amend"]))
+        docid or return r
         xml = Nokogiri::XML(r)
         xml.xpath("//docidentifier[@type = '#{type}']").each do |d|
           d["type"] = docid["type"]
