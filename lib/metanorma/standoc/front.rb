@@ -11,13 +11,18 @@ module Metanorma
     module Front
       # specifically the primary identifier
       def metadata_id(node, xml)
-        if id = node.attr("docidentifier")
-          add_noko_elem(xml, "docidentifier",
-                        id, primary: "true", boilerplate: true,
-                            type: metadata_id_primary_type(node))
+        if node.attr("docidentifier")
+          metadata_id_docidentifier(node, xml)
         else
           metadata_id_primary(node, xml)
         end
+      end
+
+      def metadata_id_docidentifier(node, xml)
+        add_noko_elem(xml, "docidentifier", node.attr("docidentifier"),
+                      primary: "true",
+                      boilerplate: true,
+                      type: metadata_id_primary_type(node))
       end
 
       def metadata_id_primary_type(node); end

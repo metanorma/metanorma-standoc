@@ -26,10 +26,22 @@ module Metanorma
         yaml.reverse.each do |y|
           type = y["relation.type"] || "updatedBy"
           docid and
-            y["docid"] ||= [{ "type" => docid["type"], "id" => docid.text }]
-          r = yaml2relaton(y, amend_hash2mn(y["amend"]))
+            y["docid"] ||= [{ "type" => "#{docid['type']}___inherited",
+                              "id" => docid.text }]
+          r = dochistory_yaml2relaton(y, docid,
+                                      "#{docid['type']}___inherited")
           ins.next = "<relation type='#{type}'>#{r}</relation>"
         end
+      end
+
+      def dochistory_yaml2relaton(yaml, docid, type)
+        r = yaml2relaton(yaml, amend_hash2mn(yaml["amend"]))
+        xml = Nokogiri::XML(r)
+        xml.xpath("//docidentifier[@type = '#{type}']").each do |d|
+          d["type"] = docid["type"]
+          docid["boilerplate"] and d["boilerplate"] = docid["boilerplate"]
+        end
+        to_xml(xml)
       end
 
       def amend_hash2mn(yaml)
