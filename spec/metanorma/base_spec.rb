@@ -657,6 +657,8 @@ RSpec.describe Metanorma::Standoc do
       :title-intro-eo: Enkonduko
       :doctype: This is a DocType
       :doctype-abbrev: TiiD
+      :docstage: 10
+      :docstage-abbrev: XT
       :docsubtype: This is a DocSubType
       :subdivision: Subdivision
       :subdivision-abbr: SD
@@ -683,6 +685,7 @@ RSpec.describe Metanorma::Standoc do
       :doctoclevels: 3
       :htmltoclevels: 4
       :document-scheme: SCHEME
+      :docstage-published: true
 
       [abstract]
       == Abstract
@@ -795,7 +798,7 @@ RSpec.describe Metanorma::Standoc do
                   <script>Grek</script>
                   <abstract><p>This is the abstract of the document</p>
                   <p>This is the second paragraph of the abstract of the document.</p></abstract>
-                  <status><stage>published</stage></status>
+                  <status><stage abbreviation="XT">10</stage></status>
                   <copyright>
                     <from>#{Date.today.year}</from>
                     <owner>
@@ -835,7 +838,7 @@ RSpec.describe Metanorma::Standoc do
           <hello>what-not</hello>
         </semantic-metadata>
         <presentation-metadata>
-          <hello>Hello? draft, Published</hello>
+          <hello>Hello? draft, 10</hello>
           <manifold>hello, world</manifold>
           <manifold>yes</manifold>
          <ul-label-list>•</ul-label-list>

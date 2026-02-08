@@ -42,8 +42,8 @@ module Metanorma
       def gather_indirect_erefs(xmldoc, prefix)
         xmldoc.xpath("//eref[@type = '#{prefix}']")
           .each_with_object({}) do |e, m|
-          e.delete("type")
-          m[e["bibitemid"]] = true
+            e.delete("type")
+            m[e["bibitemid"]] = true
         end.keys
       end
 
@@ -96,7 +96,7 @@ module Metanorma
         # (which is what bibitemid currently points to)
         id_map = xmldoc.xpath("//*[@anchor]")
           .each_with_object({}) do |node, map|
-          map[node["anchor"]] = node
+            map[node["anchor"]] = node
         end
         # Pre-index all <eref> elements by bibitemid
         eref_map = xmldoc.xpath("//eref[@bibitemid]")
@@ -154,7 +154,7 @@ module Metanorma
             bibdata.at("./docidentifier")
           xmldoc.xpath("//xref[@target = '#{d}'][normalize-space(.//text()) = '']")
             .each do |x|
-            x << ident.text
+              x << ident.text
           end
         end
       end
@@ -190,10 +190,17 @@ module Metanorma
         ins = add_misc_container(xmldoc)
         ins ||= add_misc_container(xmldoc)
         ins.at("./semantic-metadata/stage-published") and return
-        p = published?(xmldoc.at("bibdata/status/stage")&.text, xmldoc)
+        p = published_base?(xmldoc.at("bibdata/status/stage")&.text, xmldoc)
         ins << <<~XML
           <semantic-metadata><stage-published>#{p}</stage-published></semantic-metadata>
         XML
+      end
+
+      def published_base?(stage, _xmldoc)
+        if @stage_published
+          @stage_published == "true"
+        else published?(stage, _xmldoc)
+        end
       end
 
       def published?(stage, _xmldoc)

@@ -44,6 +44,7 @@ module Metanorma
         @source_linenums = node.attr("source-linenums-option") == "true" # feeds log
         @semantic_headless = node.attr("semantic-metadata-headless") == "true"
         @default_doctype = "standard"
+        @stage_published = node.attr("docstage-published")
       end
 
       def init_processing(node)
