@@ -24,7 +24,8 @@ module Metanorma
       def structured_id(node, xml); end
 
       def metadata_doctype(node, xml)
-        add_noko_elem(xml, "doctype", doctype(node))
+        add_noko_elem(xml, "doctype", doctype(node),
+                      abbreviation: node.attr("doctype-abbrev"))
       end
 
       def metadata_subdoctype(node, xml)

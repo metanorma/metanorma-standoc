@@ -656,6 +656,7 @@ RSpec.describe Metanorma::Standoc do
       :title-eo: Dokumenttitolo
       :title-intro-eo: Enkonduko
       :doctype: This is a DocType
+      :doctype-abbrev: TiiD
       :docsubtype: This is a DocSubType
       :subdivision: Subdivision
       :subdivision-abbr: SD
@@ -820,7 +821,7 @@ RSpec.describe Metanorma::Standoc do
                     </owner>
                   </copyright>
                   <ext>
-                  <doctype>this-is-a-doctype</doctype>
+                  <doctype abbreviation="TiiD">this-is-a-doctype</doctype>
                   <subdoctype>This is a DocSubType</subdoctype>
             <flavor>standoc</flavor>
                   </ext>
