@@ -14,7 +14,11 @@ module Metanorma
       end
 
       def iev_validate(xmldoc)
-        @iev = init_iev or return
+        @iev = init_iev
+        unless @iev
+          warn "IEV validation unavailable!"
+         return
+        end
         xmldoc.xpath("//term").each do |t|
           t.xpath("./source | ./preferred/source | ./admitted/source | " \
             "./deprecates/source | ./related/source").each do |src|
@@ -27,7 +31,11 @@ module Metanorma
 
       def iev_validate1(term, loc, xmldoc)
         iev = @iev.fetch(loc,
-                         xmldoc.at("//language")&.text || "en") or return
+                         xmldoc.at("//language")&.text || "en")
+        unless iev
+          warn "IEV retrieval of #{loc} failed!"
+        return
+        end
         pref = term.xpath("./preferred//name").inject([]) do |m, x|
           m << x.text&.downcase
         end
