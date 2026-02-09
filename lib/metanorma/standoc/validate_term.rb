@@ -69,11 +69,34 @@ module Metanorma
           warn "IEV retrieval of #{loc} failed!"
           warn "DEBUG: Attempting direct Iev.get(#{loc.inspect}, #{lang.inspect}) to test connectivity"
           begin
+            # Test the HTTP fetch directly
+            url = "https://www.electropedia.org/iev/iev.nsf/display?openform&ievref=#{loc}"
+            warn "DEBUG: Testing direct HTTP fetch to #{url}"
+
+            doc = ::Iev.get_doc(loc)
+            warn "DEBUG: get_doc returned doc: #{doc.class}"
+            warn "DEBUG: doc.nil? = #{doc.nil?}"
+
+            if doc
+              warn "DEBUG: Document title: #{doc.at('//title')&.text&.strip}"
+              warn "DEBUG: Document has tables: #{doc.xpath('//table').size}"
+
+              xpath = "//table/tr/td/div/font[.=\"#{lang}\"]/../../following-sibling::td[2]"
+              warn "DEBUG: XPath query: #{xpath}"
+              result_node = doc.at(xpath)
+              warn "DEBUG: XPath result node: #{result_node.inspect}"
+
+              if result_node
+                children_xml = result_node.children.to_xml
+                warn "DEBUG: Node children XML: #{children_xml[0..200]}"
+              end
+            end
+
             direct_result = ::Iev.get(loc, lang)
             warn "DEBUG: Direct Iev.get returned: #{direct_result.inspect}"
           rescue StandardError => e
-            warn "DEBUG: Direct Iev.get raised exception: #{e.class}: #{e.message}"
-            warn "DEBUG: Backtrace: #{e.backtrace[0..2].join("\n")}" if e.backtrace
+            warn "DEBUG: Exception during testing: #{e.class}: #{e.message}"
+            warn "DEBUG: Backtrace: #{e.backtrace[0..4].join("\n")}" if e.backtrace
           end
           return
         end
