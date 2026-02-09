@@ -81,6 +81,11 @@ module Metanorma
               warn "DEBUG: Document title: #{doc.at('//title')&.text&.strip}"
               warn "DEBUG: Document has tables: #{doc.xpath('//table').size}"
 
+              # Show first 500 chars of body to see what Electropedia returned
+              body_text = doc.at("//body")&.text&.strip
+              warn "DEBUG: Body text (first 500 chars): #{body_text&.[](0..500)}"
+              warn "DEBUG: Body HTML (first 500 chars): #{doc.at('//body')&.to_html&.[](0..500)}"
+
               xpath = "//table/tr/td/div/font[.=\"#{lang}\"]/../../following-sibling::td[2]"
               warn "DEBUG: XPath query: #{xpath}"
               result_node = doc.at(xpath)
