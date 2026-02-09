@@ -77,7 +77,7 @@ module Metanorma
           add_noko_elem(s, "stage",
                         node.attr("status") || node.attr("docstage") ||
                         "published", abbreviation: node.attr("docstage-abbrev"))
-          add_noko_elem(s, "substage", node.attr("docsubstage"),
+          add_noko_elem(s, "substage", node.attr("docsubstage") ||
                         node.attr("substage"))
           add_noko_elem(s, "iteration", node.attr("iteration"))
         end
