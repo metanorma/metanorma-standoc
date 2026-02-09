@@ -61,10 +61,20 @@ module Metanorma
       end
 
       def iev_validate1(term, loc, xmldoc)
-        iev = @iev.fetch(loc,
-                         xmldoc.at("//language")&.text || "en")
+        lang = xmldoc.at("//language")&.text || "en"
+        warn "DEBUG iev_validate1: Calling @iev.fetch(#{loc.inspect}, #{lang.inspect})"
+        iev = @iev.fetch(loc, lang)
+        warn "DEBUG iev_validate1: @iev.fetch returned: #{iev.inspect}"
         unless iev
           warn "IEV retrieval of #{loc} failed!"
+          warn "DEBUG: Attempting direct Iev.get(#{loc.inspect}, #{lang.inspect}) to test connectivity"
+          begin
+            direct_result = ::Iev.get(loc, lang)
+            warn "DEBUG: Direct Iev.get returned: #{direct_result.inspect}"
+          rescue StandardError => e
+            warn "DEBUG: Direct Iev.get raised exception: #{e.class}: #{e.message}"
+            warn "DEBUG: Backtrace: #{e.backtrace[0..2].join("\n")}" if e.backtrace
+          end
           return
         end
         pref = term.xpath("./preferred//name").inject([]) do |m, x|
