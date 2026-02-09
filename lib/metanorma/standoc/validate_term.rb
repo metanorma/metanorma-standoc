@@ -9,7 +9,18 @@ module Metanorma
       def init_iev
         @no_isobib and return nil
         @iev and return @iev
-        @iev = ::Iev::Db.new(@iev_globalname, @iev_localname) unless @no_isobib
+        begin
+          unless @no_isobib
+            @iev = ::Iev::Db.new(@iev_globalname,
+                                 @iev_localname)
+          end
+        rescue StandardError => e
+          warn "IEV initialization failed: #{e.class}: #{e.message}"
+          warn "  Global cache: #{@iev_globalname.inspect}"
+          warn "  Local cache: #{@iev_localname.inspect}"
+          warn "  Backtrace: #{e.backtrace[0..2].join("\n  ")}" if e.backtrace
+          @iev = nil
+        end
         @iev
       end
 
@@ -17,7 +28,7 @@ module Metanorma
         @iev = init_iev
         unless @iev
           warn "IEV validation unavailable!"
-         return
+          return
         end
         xmldoc.xpath("//term").each do |t|
           t.xpath("./source | ./preferred/source | ./admitted/source | " \
@@ -34,7 +45,7 @@ module Metanorma
                          xmldoc.at("//language")&.text || "en")
         unless iev
           warn "IEV retrieval of #{loc} failed!"
-        return
+          return
         end
         pref = term.xpath("./preferred//name").inject([]) do |m, x|
           m << x.text&.downcase
@@ -47,7 +58,8 @@ module Metanorma
         concept_validate_ids(doc)
         doc.xpath("//#{tag}/xref").each do |x|
           @concept_ids[x["target"]] and next
-          @log.add("STANDOC_23", x, params: [concept_validate_msg(doc, tag, refterm, x)])
+          @log.add("STANDOC_23", x,
+                   params: [concept_validate_msg(doc, tag, refterm, x)])
         end
       end
 
@@ -95,13 +107,13 @@ module Metanorma
       def find_illegal_designations(xmldoc)
         xmldoc.xpath("//preferred | //admitted | //deprecates")
           .each_with_object({}) do |d, m|
-          d.ancestors.detect { |x| x.name == "terms" } and next
-          c = d.ancestors.detect do |x|
-            section_containers.include?(x.name)
-          end
-          c["id"] or add_id(c["id"])
-          m[c["id"]] ||= { clause: c, designations: [] }
-          m[c["id"]][:designations] << d
+            d.ancestors.detect { |x| x.name == "terms" } and next
+            c = d.ancestors.detect do |x|
+              section_containers.include?(x.name)
+            end
+            c["id"] or add_id(c["id"])
+            m[c["id"]] ||= { clause: c, designations: [] }
+            m[c["id"]][:designations] << d
         end
       end
 
@@ -109,7 +121,7 @@ module Metanorma
         errors = find_illegal_designations(xmldoc)
         errors.each_value do |v|
           desgns = v[:designations].map do |x|
-            @c.encode(x.text.strip,  :basic, :hexadecimal)
+            @c.encode(x.text.strip, :basic, :hexadecimal)
           end.join(", ")
           @log.add("STANDOC_25", v[:clause], params: [desgns])
         end
