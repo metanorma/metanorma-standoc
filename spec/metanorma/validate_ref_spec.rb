@@ -4,11 +4,26 @@ require "relaton_iso"
 
 RSpec.describe Metanorma::Standoc do
   before do
-    # Force to download Relaton index file
-    allow_any_instance_of(::Relaton::Index::Type).to receive(:actual?)
-      .and_return(false)
-    allow_any_instance_of(::Relaton::Index::FileIO).to receive(:check_file)
-      .and_return(nil)
+    # Force to download Relaton index file, but exclude IEV cache operations
+    # to avoid network failures in CI when fetching IEV terms
+    allow_any_instance_of(::Relaton::Index::Type).to receive(:actual?).and_wrap_original do |method, *args|
+      instance = method.receiver
+      # Allow IEV cache to work normally by checking if path contains 'iev'
+      if instance.instance_variable_get(:@filename)&.to_s&.include?("iev")
+        method.call(*args)
+      else
+        false
+      end
+    end
+    allow_any_instance_of(::Relaton::Index::FileIO).to receive(:check_file).and_wrap_original do |method, *args|
+      instance = method.receiver
+      # Allow IEV cache files to be recognized
+      if instance.instance_variable_get(:@filename)&.to_s&.include?("iev")
+        method.call(*args)
+      else
+        nil
+      end
+    end
   end
 
   it "aborts on unsupported format in localbib" do
