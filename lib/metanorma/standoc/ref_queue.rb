@@ -222,8 +222,11 @@ module Metanorma
         )
       end
 
+      # Treat empty strings as falsy (they're set by Asciidoctor for some attributes)
       def init_iev_caches(node)
-        unless @no_isobib_cache || @no_isobib
+        no_cache = @no_isobib_cache && !@no_isobib_cache.empty?
+        no_bib = @no_isobib && !@no_isobib.empty?
+        unless no_cache || no_bib
           node.attr("local-cache-only") or
             @iev_globalname = global_ievcache_name
           @iev_localname = local_ievcache_name(node.attr("local-cache") ||
