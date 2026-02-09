@@ -7,10 +7,13 @@ module Metanorma
                        "referenceFrom".freeze
 
       def init_iev
-        @no_isobib and return nil
+        # Treat empty string as falsy (set by Asciidoctor for some attributes)
+        return nil if @no_isobib && !@no_isobib.empty?
+
         @iev and return @iev
         begin
-          unless @no_isobib
+          # Same check: only initialize if not explicitly disabled
+          unless @no_isobib && !@no_isobib.empty?
             @iev = ::Iev::Db.new(@iev_globalname,
                                  @iev_localname)
           end
