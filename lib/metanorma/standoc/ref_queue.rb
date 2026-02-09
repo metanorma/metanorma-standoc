@@ -224,13 +224,20 @@ module Metanorma
 
       # Treat empty strings as falsy (they're set by Asciidoctor for some attributes)
       def init_iev_caches(node)
+        warn "DEBUG init_iev_caches: @no_isobib_cache=#{@no_isobib_cache.inspect}"
+        warn "DEBUG init_iev_caches: @no_isobib=#{@no_isobib.inspect}"
         no_cache = @no_isobib_cache && !@no_isobib_cache.empty?
         no_bib = @no_isobib && !@no_isobib.empty?
-        unless no_cache || no_bib
+        warn "DEBUG init_iev_caches: no_cache=#{no_cache.inspect}, no_bib=#{no_bib.inspect}"
+        if no_cache || no_bib
+          warn "DEBUG init_iev_caches: SKIPPED cache initialization (no_cache || no_bib)"
+        else
           node.attr("local-cache-only") or
             @iev_globalname = global_ievcache_name
           @iev_localname = local_ievcache_name(node.attr("local-cache") ||
                                                node.attr("local-cache-only"))
+          warn "DEBUG init_iev_caches: SET @iev_globalname=#{@iev_globalname.inspect}"
+          warn "DEBUG init_iev_caches: SET @iev_localname=#{@iev_localname.inspect}"
           if @flush_caches
             FileUtils.rm_f @iev_globalname unless @iev_globalname.nil?
             FileUtils.rm_f @iev_localname unless @iev_localname.nil?

@@ -8,14 +8,30 @@ module Metanorma
 
       def init_iev
         # Treat empty string as falsy (set by Asciidoctor for some attributes)
-        return nil if @no_isobib && !@no_isobib.empty?
+        warn "DEBUG init_iev: @no_isobib=#{@no_isobib.inspect}"
+        warn "DEBUG init_iev: @iev=#{@iev.inspect}"
+        warn "DEBUG init_iev: @iev_globalname=#{@iev_globalname.inspect}"
+        warn "DEBUG init_iev: @iev_localname=#{@iev_localname.inspect}"
 
-        @iev and return @iev
+        if @no_isobib && !@no_isobib.empty?
+          warn "DEBUG init_iev: RETURNING NIL because @no_isobib is non-empty"
+          return nil
+        end
+
+        if @iev
+          warn "DEBUG init_iev: RETURNING existing @iev"
+          return @iev
+        end
+
         begin
           # Same check: only initialize if not explicitly disabled
-          unless @no_isobib && !@no_isobib.empty?
+          if @no_isobib && !@no_isobib.empty?
+            warn "DEBUG init_iev: SKIPPED Iev::Db.new because @no_isobib check"
+          else
+            warn "DEBUG init_iev: ATTEMPTING to create Iev::Db"
             @iev = ::Iev::Db.new(@iev_globalname,
                                  @iev_localname)
+            warn "DEBUG init_iev: SUCCESS created @iev=#{@iev.inspect}"
           end
         rescue StandardError => e
           warn "IEV initialization failed: #{e.class}: #{e.message}"
@@ -24,6 +40,7 @@ module Metanorma
           warn "  Backtrace: #{e.backtrace[0..2].join("\n  ")}" if e.backtrace
           @iev = nil
         end
+        warn "DEBUG init_iev: FINAL @iev=#{@iev.inspect}"
         @iev
       end
 
