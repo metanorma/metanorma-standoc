@@ -73,8 +73,8 @@ module Metanorma
 
       def svg_validate1(validator, profile, svg)
         result = validator.validate(svg, profile: profile)
-        svg_error("STANDOC_55", svg, result.errors)
-        svg_error("STANDOC_57", svg, result.warnings)
+        svg_error("STANDOC_55", svg, result.errors, display: false)
+        svg_error("STANDOC_57", svg, result.warnings, display: false)
         svg_reference_violations(svg, result)
         result
       end
