@@ -125,7 +125,7 @@ module Metanorma
         end
       end
 
-      def svg_error(id, svg, errors)
+      def svg_error(id, svg, errors, options = {})
         errors.each do |err|
           # reference violations are handled separately
           err.violation_type == :reference_violation and next
@@ -133,7 +133,8 @@ module Metanorma
             elem = " Element: #{err.element}"
           err.respond_to?(:location) && err.location and
             loc = " Location: #{err.location}"
-          @log.add(id, svg, params: [err.rule&.id, err.message, elem, loc])
+          @log.add(id, svg, params: [err.rule&.id, err.message, elem, loc],
+                            **options)
         end
       end
 
