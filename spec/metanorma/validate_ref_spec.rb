@@ -210,7 +210,8 @@ RSpec.describe Metanorma::Standoc do
     expect(File.read("test.err.html")).to include("no anchor on reference")
   end
 
-  it "Warning if terms mismatches IEV" do
+  # functionality disabled, Electropedia blocking Github Actions
+  xit "Warning if terms mismatches IEV" do
     FileUtils.rm_f "test.err.html"
     Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title

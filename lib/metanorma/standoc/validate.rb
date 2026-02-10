@@ -16,7 +16,7 @@ module Metanorma
         xref_validate(doc) # feeds nested_asset_validate
         section_validate(doc)
         norm_ref_validate(doc)
-        iev_validate(doc.root)
+        # iev_validate(doc.root) # disabled, access restrictions
         concept_validate(doc, "concept", "refterm")
         concept_validate(doc, "related", "preferred//name")
         preferred_validate(doc)

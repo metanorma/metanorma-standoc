@@ -27,6 +27,7 @@ module Metanorma
         @iev
       end
 
+      # Functionality currently disabled, Electropedia blocking Github Actions
       def iev_validate(xmldoc)
         @iev = init_iev
         unless @iev
