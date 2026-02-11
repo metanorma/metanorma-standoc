@@ -129,13 +129,20 @@ module Metanorma
         errors.each do |err|
           # reference violations are handled separately
           err.violation_type == :reference_violation and next
-          err.respond_to?(:element) && err.element and
-            elem = " Element: #{err.element}"
-          err.respond_to?(:location) && err.location and
-            loc = " Location: #{err.location}"
+          elem, loc = svg_error_locations(err)
           @log.add(id, svg, params: [err.rule&.id, err.message, elem, loc],
                             **options)
         end
+      end
+
+      def svg_error_locations(err)
+        err.respond_to?(:element) && err.element and
+          elem = " Element: #{err.element}"
+        err.respond_to?(:location) && err.location and
+          loc = " Location: #{err.location}"
+        err.respond_to?(:node) && err.node.respond_to?(:path_id) and
+          loc2 = " Location: #{err.node.path_id}"
+        [elem, loc || loc2]
       end
 
       def save_dataimage(uri, _relative_dir = true)
