@@ -63,10 +63,11 @@ module Metanorma
         profile = SvgConform::Profiles.get(@svg_conform_profile)
         validator = SvgConform::Validator.new(mode: :sax)
         engine = SvgConform::RemediationEngine.new(profile)
+        @svg_remediation_cache = {}
         doc.xpath("//m:svg", "m" => SVG_NS).each do |svg_element|
           result = svg_validate1(validator, profile, svg_element)
           if profile.remediation_count.positive? && !result.valid?
-            svg_validate_fix(validator, profile, engine, svg_element, result)
+            svg_remediate(validator, profile, engine, svg_element, result)
           end
         end
       end
@@ -103,16 +104,28 @@ module Metanorma
       end
 
       # Apply remediation if needed
+      def svg_remediate(validator, profile, engine, svg, result)
+        id = svg["id"]
+        svg.delete("id") # cache will be tripped up by unique @id
+        key = Digest::MD5.hexdigest(svg.to_xml)
+        unless ret = @svg_remediation_cache[key]
+          ret = svg_validate_fix(validator, profile, engine, svg, result)
+          @svg_remediation_cache[key] = ret
+        end
+        svg.replace(ret.to_xml)
+        svg["id"] = id
+      end
+
       def svg_validate_fix(validator, profile, engine, svg, result)
         # Load DOM only for remediation
         doc = SvgConform::Document.from_content(svg.to_xml)
         remeds = engine.apply_remediations(doc, result)
         svg_remed_log(remeds, svg)
         # Use root to avoid processing instructions that may break SAX parser
-        remediated_xml = doc.root.to_xml
-        result = validator.validate(remediated_xml, profile: profile)
+        remediated_xml = doc.root
+        result = validator.validate(remediated_xml.to_xml, profile: profile)
         svg_error("STANDOC_56", svg, result.errors) # we still have errors
-        svg.replace(remediated_xml)
+        remediated_xml
       end
 
       def svg_remed_log(remeds, svg)
@@ -146,11 +159,7 @@ module Metanorma
       end
 
       def save_dataimage(uri, _relative_dir = true)
-        %r{^data:(?:image|application)/(?<imgtype>[^;]+);(?:charset=[^;]+;)?base64,(?<imgdata>.+)$} =~ uri
-        # imgtype = "emf" if emf?("#{imgclass}/#{imgtype}")
-        imgtype = imgtype.sub(/\+[a-z0-9]+$/, "") # svg+xml
-        imgtype = "png" unless /^[a-z0-9]+$/.match? imgtype
-        imgtype == "postscript" and imgtype = "eps"
+        imgtype, imgdata = save_dataimage_prep(uri)
         Tempfile.open(["image", ".#{imgtype}"],
                       mode: File::BINARY | File::SHARE_DELETE) do |f|
           f.binmode
@@ -158,6 +167,15 @@ module Metanorma
           @files_to_delete << f # persist to the end
           f.path
         end
+      end
+
+      def save_dataimage_prep(uri)
+        %r{^data:(?:image|application)/(?<imgtype>[^;]+);(?:charset=[^;]+;)?base64,(?<imgdata>.+)$} =~ uri
+        # imgtype = "emf" if emf?("#{imgclass}/#{imgtype}")
+        imgtype = imgtype.sub(/\+[a-z0-9]+$/, "") # svg+xml
+        imgtype = "png" unless /^[a-z0-9]+$/.match? imgtype
+        imgtype == "postscript" and imgtype = "eps"
+        [imgtype, imgdata]
       end
     end
   end

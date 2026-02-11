@@ -1723,6 +1723,8 @@ RSpec.describe Metanorma::Standoc do
       [[ref1]]
       .SVG title
       image::missing_viewbox.svg[]
+
+      image::missing_viewbox.svg[]
     INPUT
     Asciidoctor.convert(input, *OPTIONS)
     expect(File.read("test.err.html"))
@@ -1736,7 +1738,7 @@ RSpec.describe Metanorma::Standoc do
     expect(File.read("test.err.html"))
       .not_to include("SVG image warning")
     expect(File.exist?("test.xml")).to be true
-    expect(File.read("test.xml")).to include("viewBox=")
+    expect(File.read("test.xml").scan("viewBox=").count).to be >= 2
   end
 
   it "fails to repair SVG error" do
@@ -1763,6 +1765,8 @@ RSpec.describe Metanorma::Standoc do
       .to include("fix attempted")
     expect(File.read("test.err.html"))
       .to include("could not be fixed")
+    # report only once, the second instance is retrieved from cache
+    expect(File.read("test.err.html").scan("could not be fixed").count).to eq(1)
     expect(File.read("test.err.html"))
       .not_to include("SVG image warning")
     expect(File.exist?("test.xml")).to be true
