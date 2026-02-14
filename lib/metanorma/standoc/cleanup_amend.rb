@@ -27,7 +27,8 @@ module Metanorma
         autonum = (amend.xpath(".//autonumber") -
                    amend.xpath(".//clause//autonumber")).map(&:remove)
         amend.xpath(".//p[normalize-space(.)='']").each(&:remove)
-        autonum.each { |a| amend << a }
+        ins = amend.children.first
+        autonum.each { |a| ins.previous = a }
         (amend.xpath(".//clause") - amend.xpath(".//clause/clause")).each do |c|
           create_amend_autonum(c)
         end
@@ -47,11 +48,12 @@ module Metanorma
       end
 
       def create_amend2_prep(_clause, amend)
-        ret = amend.at("./quote")&.children || []
+        ret = amend.xpath("./quote[1]")
         ret += amend.xpath("./clause")
-        ret.empty? and return [ret, nil, nil]
+        ret.empty? and return [[], nil, nil]
         pre = ret[0].xpath("./preceding-sibling::*").each(&:remove)
         post = ret[-1].xpath("./following-sibling::*").each(&:remove)
+        ret[0].name == "quote" and ret = ret[0].remove.children + ret[1..]
         [ret, pre, post]
       end
 
