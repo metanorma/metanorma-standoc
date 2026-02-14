@@ -1749,7 +1749,7 @@ RSpec.describe Metanorma::Standoc do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
       [change="modify",locality="page=27",path="//table[2]",path_end="//table[2]/following-sibling:example[1]",title="Change"]
-      ==== Change Clause
+      == Change Clause
 
       autonumber:example[2]
 
@@ -1761,7 +1761,7 @@ RSpec.describe Metanorma::Standoc do
       ====
       ____
 
-      ===== A subclause
+      === A subclause
 
       autonumber:example[5]
 
@@ -1770,6 +1770,10 @@ RSpec.describe Metanorma::Standoc do
       ====
       This is an independently numbered example
       ====
+
+      ==== A subsubclause
+
+      This is a subclause of a subclause
     INPUT
 
     output = <<~"OUTPUT"
@@ -1795,6 +1799,10 @@ RSpec.describe Metanorma::Standoc do
                           <example id="_">
                              <p id="_">This is an independently numbered example</p>
                           </example>
+                       <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">A subsubclause</title>
+                     <p id="_">This is a subclause of a subclause</p>
+                  </clause>
                        </clause>
                     </newcontent>
                  </amend>
