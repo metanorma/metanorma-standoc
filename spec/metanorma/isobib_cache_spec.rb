@@ -374,7 +374,8 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso123,ISO 123:2001]]] _Standard_
     INPUT
     expect(File.exist?("#{Dir.home}/.relaton/cache")).to be true
-    expect(File.exist?("#{Dir.home}/.iev/cache")).to be false
+    # We have disabled iev fetching, so will not test this
+    # expect(File.exist?("#{Dir.home}/.iev/cache")).to be false
 
     Asciidoctor.convert(<<~INPUT, *OPTIONS)
       [bibliography]
@@ -387,7 +388,7 @@ RSpec.describe Metanorma::Standoc do
       [.source]
       <<iev,clause="103-01-02">>
     INPUT
-    expect(File.exist?("#{Dir.home}/.iev/cache")).to be true
+    #expect(File.exist?("#{Dir.home}/.iev/cache")).to be true
 
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
     entry = db.load_entry("ISO(ISO 123:2001)")
@@ -396,11 +397,11 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to(strip_guid(Canon.format_xml(ISO_123_DATED)))
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
-    FileUtils.rm_rf File.expand_path("~/.iev/cache")
+    #FileUtils.rm_rf File.expand_path("~/.iev/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"),
                  File.expand_path("~/.relaton/cache"), force: true
-    FileUtils.mv File.expand_path("~/.iev.pstore1"),
-                 File.expand_path("~/.iev/cache"), force: true
+    #FileUtils.mv File.expand_path("~/.iev.pstore1"),
+                 #File.expand_path("~/.iev/cache"), force: true
   end
 
   it "does not fetch references for ISO references in preparation" do

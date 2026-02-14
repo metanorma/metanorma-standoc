@@ -1667,7 +1667,6 @@ RSpec.describe Metanorma::Standoc do
       ====
       This is not generalised further.
       ====
-
       ____
 
       Any further exceptions can be ignored.
@@ -1690,7 +1689,7 @@ RSpec.describe Metanorma::Standoc do
                          </em>
                        </p>
                      </description>
-            <newcontent id='_'>
+            <newcontent>
               <table id='_'>
                 <name id="_">Edges of triangle and quadrilateral cells</name>
                 <tbody>
@@ -1741,6 +1740,75 @@ RSpec.describe Metanorma::Standoc do
         </clause>
       </sections>
            </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
+  it "processes modify change subclauses" do
+    input = <<~"INPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      [change="modify",locality="page=27",path="//table[2]",path_end="//table[2]/following-sibling:example[1]",title="Change"]
+      == Change Clause
+
+      autonumber:example[2]
+
+      _This table contains information on polygon cells which are not included in ISO 10303-52. Remove table 2 completely and replace with:_
+
+      ____
+      ====
+      This is not generalised further.
+      ====
+      ____
+
+      === A subclause
+
+      autonumber:example[5]
+
+      This content as a subclause is also to be added
+
+      ====
+      This is an independently numbered example
+      ====
+
+      ==== A subsubclause
+
+      This is a subclause of a subclause
+    INPUT
+
+    output = <<~"OUTPUT"
+      #{BLANK_HDR}
+           <sections>
+              <clause id="_" inline-header="false" obligation="normative">
+                 <title id="_">Change Clause</title>
+                 <amend id="_" change="modify" path="//table[2]" path_end="//table[2]/following-sibling:example[1]" title="Change">
+                    <autonumber type="example">2</autonumber>
+                    <description>
+                       <p id="_">
+                          <em>This table contains information on polygon cells which are not included in ISO 10303-52. Remove table 2 completely and replace with:</em>
+                       </p>
+                    </description>
+                    <newcontent>
+                       <example id="_">
+                          <p id="_">This is not generalised further.</p>
+                       </example>
+                       <clause id="_" inline-header="false" obligation="normative">
+                          <autonumber type="example">5</autonumber>
+                          <title id="_">A subclause</title>
+                          <p id="_">This content as a subclause is also to be added</p>
+                          <example id="_">
+                             <p id="_">This is an independently numbered example</p>
+                          </example>
+                       <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">A subsubclause</title>
+                     <p id="_">This is a subclause of a subclause</p>
+                  </clause>
+                       </clause>
+                    </newcontent>
+                 </amend>
+              </clause>
+           </sections>
+      </metanorma>
     OUTPUT
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Canon.format_xml(output)
