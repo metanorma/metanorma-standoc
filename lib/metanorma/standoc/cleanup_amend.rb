@@ -18,12 +18,19 @@ module Metanorma
 
       def create_amend1(clause, amend)
         create_amend2(clause, amend)
-        d = amend.at("./description")
-        autonum = d.xpath(".//autonumber").map(&:remove)
-        d.xpath(".//p[normalize-space(.)='']").each(&:remove)
         move_attrs_to_amend(clause, amend)
-        autonum.each { |a| amend << a }
+        create_amend_autonum(amend)
         amend
+      end
+
+      def create_amend_autonum(amend)
+        autonum = (amend.xpath(".//autonumber") -
+                   amend.xpath("./clause//autonumber")).map(&:remove)
+        amend.xpath(".//p[normalize-space(.)='']").each(&:remove)
+        autonum.each { |a| amend << a }
+        amend.xpath("./clause").each do |c|
+          create_amend_autonum(c)
+        end
       end
 
       # possible formats: DESC? BLOCKQUOTE DESC?; DESC? BLOCKQUOTE? SUBCLAUSES+
