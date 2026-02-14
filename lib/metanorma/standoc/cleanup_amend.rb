@@ -25,10 +25,10 @@ module Metanorma
 
       def create_amend_autonum(amend)
         autonum = (amend.xpath(".//autonumber") -
-                   amend.xpath("./clause//autonumber")).map(&:remove)
+                   amend.xpath(".//clause//autonumber")).map(&:remove)
         amend.xpath(".//p[normalize-space(.)='']").each(&:remove)
         autonum.each { |a| amend << a }
-        amend.xpath("./clause").each do |c|
+        (amend.xpath(".//clause") - amend.xpath(".//clause/clause")).each do |c|
           create_amend_autonum(c)
         end
       end
