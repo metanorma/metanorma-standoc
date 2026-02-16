@@ -1,7 +1,7 @@
 require "spec_helper"
 require "fileutils"
 
-RSpec.describe Metanorma::Standoc do
+RSpec.describe Metanorma::Standoc, type: :validation do
   it "generates error file" do
     FileUtils.rm_f "spec/assets/xref_error.err.html"
     Asciidoctor.convert_file "spec/assets/xref_error.adoc",
@@ -468,8 +468,7 @@ RSpec.describe Metanorma::Standoc do
   #   end
 
   it "warns about hanging paragraphs" do
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       == Clause 1
@@ -480,27 +479,25 @@ RSpec.describe Metanorma::Standoc do
 
       Subclause
     INPUT
-    expect(File.read("test.err.html")).to include("Hanging paragraph in clause")
+    expect(errors).to include("Hanging paragraph in clause")
   end
 
   it "warns that video is a skipped node" do
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       video::video_file.mp4[]
     INPUT
-    expect(File.read("test.err.html")).to include("converter missing for video node")
+    expect(errors).to include("converter missing for video node")
   end
 
   it "warns that figure does not have title" do
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       image::spec/examples/rice_images/rice_image1.png[]
     INPUT
-    expect(File.read("test.err.html")).to include("Figure should have title")
+    expect(errors).to include("Figure should have title")
   end
 
   it "aborts if callouts do not match annotations" do
@@ -622,18 +619,16 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "warns that Table should have title" do
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       |===
       |a |b |c
       |===
     INPUT
-    expect(File.read("test.err.html")).to include("Table should have title")
+    expect(errors).to include("Table should have title")
 
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       == metanorma-extension
@@ -642,19 +637,17 @@ RSpec.describe Metanorma::Standoc do
       |a |b |c
       |===
     INPUT
-    expect(File.read("test.err.html")).not_to include("Table should have title")
+    expect(errors).not_to include("Table should have title")
   end
 
   it "validates document against ISO XML schema" do
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       [align=mid-air]
       Para
     INPUT
-    expect(File.read("test.err.html"))
-      .to include('value of attribute "align" is invalid; must be equal to')
+    expect(errors).to include('value of attribute "align" is invalid; must be equal to')
   end
 
   context "logging errors" do
@@ -708,155 +701,100 @@ RSpec.describe Metanorma::Standoc do
     end
 
     it "logs Relaton and Metanorma errors onto Metanorma log" do
-      FileUtils.rm_f "test.err.html"
-      Asciidoctor.convert(input, *OPTIONS)
-      f = File.read("test.err.html")
-      expect(f)
-        .to include("<code>ISO 0a</code>")
-      expect(f)
-        .to include("RELATON_3")
-      expect(f)
-        .to include("Is not recognized as a standards identifier")
-      expect(f)
-        .to include("STANDOC_38")
-      expect(f)
-        .to include("Crossreference target X is undefined")
-      expect(f)
-        .to include("STANDOC_7")
-      expect(f)
-        .to include("value of attribute \"align\" is invalid")
+      errors = convert_and_capture_errors(input)
+      expect(errors).to include("<code>ISO 0a</code>")
+      expect(errors).to include("RELATON_3")
+      expect(errors).to include("Is not recognized as a standards identifier")
+      expect(errors).to include("STANDOC_38")
+      expect(errors).to include("Crossreference target X is undefined")
+      expect(errors).to include("STANDOC_7")
+      expect(errors).to include("value of attribute \"align\" is invalid")
     end
 
     it "filters errors in Metanorma log" do
-      FileUtils.rm_f "test.err.html"
-      Asciidoctor.convert(
+      errors = convert_and_capture_errors(
         input.sub(/:no-isobib-cache:/,
-                  ":log-filter-severity: 2\n:no-isobib-cache:"), *OPTIONS
+                  ":log-filter-severity: 2\n:no-isobib-cache:"),
       )
-      f = File.read("test.err.html")
-      expect(f)
-        .not_to include("<code>ISO 0a</code>")
-      expect(f)
-        .not_to include("RELATON_3")
-      expect(f)
-        .not_to include("Is not recognized as a standards identifier")
-      expect(f)
-        .to include("STANDOC_38")
-      expect(f)
-        .to include("Crossreference target X is undefined")
-      expect(f)
-        .not_to include("STANDOC_7")
-      expect(f)
-        .not_to include("value of attribute \"align\" is invalid")
+      expect(errors).not_to include("<code>ISO 0a</code>")
+      expect(errors).not_to include("RELATON_3")
+      expect(errors).not_to include("Is not recognized as a standards identifier")
+      expect(errors).to include("STANDOC_38")
+      expect(errors).to include("Crossreference target X is undefined")
+      expect(errors).not_to include("STANDOC_7")
+      expect(errors).not_to include("value of attribute \"align\" is invalid")
 
-      FileUtils.rm_f "test.err.html"
-      Asciidoctor.convert(
+      errors = convert_and_capture_errors(
         input.sub(/:no-isobib-cache:/,
                   ":log-filter-category: Relaton, Anchors \n "\
-                  ":no-isobib-cache:"), *OPTIONS
+                  ":no-isobib-cache:"),
       )
-      f = File.read("test.err.html")
-      expect(f)
-        .not_to include("<code>ISO 0a</code>")
-      expect(f)
-        .not_to include("RELATON_3")
-      expect(f)
-        .not_to include("Is not recognized as a standards identifier")
-      expect(f)
-        .not_to include("STANDOC_38")
-      expect(f)
-        .not_to include("Crossreference target X is undefined")
-      expect(f)
-        .to include("STANDOC_7")
-      expect(f)
-        .to include("value of attribute \"align\" is invalid")
+      expect(errors).not_to include("<code>ISO 0a</code>")
+      expect(errors).not_to include("RELATON_3")
+      expect(errors).not_to include("Is not recognized as a standards identifier")
+      expect(errors).not_to include("STANDOC_38")
+      expect(errors).not_to include("Crossreference target X is undefined")
+      expect(errors).to include("STANDOC_7")
+      expect(errors).to include("value of attribute \"align\" is invalid")
 
-      FileUtils.rm_f "test.err.html"
-      Asciidoctor.convert(
+      errors = convert_and_capture_errors(
         input.sub(/:no-isobib-cache:/,
                   ":log-filter-category: Metanorma XML Syntax \n" \
-                  ":no-isobib-cache:"), *OPTIONS
+                  ":no-isobib-cache:"),
       )
-      f = File.read("test.err.html")
-      expect(f)
-        .to include("<code>ISO 0a</code>")
-      expect(f)
-        .to include("RELATON_3")
-      expect(f)
-        .to include("Is not recognized as a standards identifier")
-      expect(f)
-        .to include("STANDOC_38")
-      expect(f)
-        .to include("Crossreference target X is undefined")
-      expect(f)
-        .not_to include("STANDOC_7")
-      expect(f)
-        .not_to include("value of attribute \"align\" is invalid")
+      expect(errors).to include("<code>ISO 0a</code>")
+      expect(errors).to include("RELATON_3")
+      expect(errors).to include("Is not recognized as a standards identifier")
+      expect(errors).to include("STANDOC_38")
+      expect(errors).to include("Crossreference target X is undefined")
+      expect(errors).not_to include("STANDOC_7")
+      expect(errors).not_to include("value of attribute \"align\" is invalid")
 
-      FileUtils.rm_f "test.err.html"
-      Asciidoctor.convert(
+      errors = convert_and_capture_errors(
         input.sub(/:no-isobib-cache:/,
                   ":log-filter-error-ids: STANDOC_38, RELATON_3\n" \
-                  ":no-isobib-cache:"), *OPTIONS
+                  ":no-isobib-cache:"),
       )
-      f = File.read("test.err.html")
-      expect(f)
-        .not_to include("<code>ISO 0a</code>")
-      expect(f)
-        .not_to include("RELATON_3")
-      expect(f)
-        .not_to include("Is not recognized as a standards identifier")
-      expect(f)
-        .not_to include("STANDOC_38")
-      expect(f)
-        .not_to include("Crossreference target X is undefined")
-      expect(f)
-        .to include("STANDOC_7")
-      expect(f)
-        .to include("value of attribute \"align\" is invalid")
+      expect(errors).not_to include("<code>ISO 0a</code>")
+      expect(errors).not_to include("RELATON_3")
+      expect(errors).not_to include("Is not recognized as a standards identifier")
+      expect(errors).not_to include("STANDOC_38")
+      expect(errors).not_to include("Crossreference target X is undefined")
+      expect(errors).to include("STANDOC_7")
+      expect(errors).to include("value of attribute \"align\" is invalid")
     end
 
     it "filters errors by location in Metanorma log" do
-      FileUtils.rm_f "test.err.html"
       l = ":log-filter-error-loc: "
-      Asciidoctor.convert(
+      errors = convert_and_capture_errors(
         input.sub(/:no-isobib-cache:/,
-                  l + '{ "from": "Clause3" }'), *OPTIONS
+                  l + '{ "from": "Clause3" }'),
       )
-      f = File.read("test.err.html")
-      expect(f).to include("STANDOC_38")
+      expect(errors).to include("STANDOC_38")
 
-      FileUtils.rm_f "test.err.html"
-      Asciidoctor.convert(
+      errors = convert_and_capture_errors(
         input.sub(/:no-isobib-cache:/,
-                  l + '{ "from": "Clause1" }'), *OPTIONS
+                  l + '{ "from": "Clause1" }'),
       )
-      f = File.read("test.err.html")
-      expect(f).not_to include("STANDOC_38")
+      expect(errors).not_to include("STANDOC_38")
 
-      FileUtils.rm_f "test.err.html"
-      Asciidoctor.convert(
+      errors = convert_and_capture_errors(
         input.sub(/:no-isobib-cache:/,
-                  l + '{ "from": "Clause1", "error_ids": ["STANDOC_39"] }'), *OPTIONS
+                  l + '{ "from": "Clause1", "error_ids": ["STANDOC_39"] }'),
       )
-      f = File.read("test.err.html")
-      expect(f).to include("STANDOC_38")
+      expect(errors).to include("STANDOC_38")
 
-      FileUtils.rm_f "test.err.html"
-      Asciidoctor.convert(
+      errors = convert_and_capture_errors(
         input.sub(/:no-isobib-cache:/,
-                  l + '{ "from": "Clause1", "error_ids": ["STANDOC_39", "STANDOC_38"] }'), *OPTIONS
+                  l + '{ "from": "Clause1", "error_ids": ["STANDOC_39", "STANDOC_38"] }'),
       )
-      f = File.read("test.err.html")
-      expect(f).not_to include ("STANDOC_38")
+      expect(errors).not_to include ("STANDOC_38")
 
-      FileUtils.rm_f "test.err.html"
-      Asciidoctor.convert(
+      errors = convert_and_capture_errors(
         input.sub(/:no-isobib-cache:/,
-                  l + '[{ "from": "Clause1", "error_ids": ["STANDOC_39", "STANDOC_38"] }, { "from": "Clause3" }]'), *OPTIONS
+                  l + '[{ "from": "Clause1", "error_ids": ["STANDOC_39", "STANDOC_38"] }, { "from": "Clause3" }]'),
       )
-      f = File.read("test.err.html")
-      expect(f).not_to include ("STANDOC_38")
+      expect(errors).not_to include ("STANDOC_38")
     end
 
     it "filters errors by location in Metanorma log using annotations" do
@@ -1284,8 +1222,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "Warning if no block for footnoteblock" do
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+    errors = convert_and_capture_errors(<<~INPUT)
       = Document title
       Author
       :docfile: test.adoc
@@ -1293,8 +1230,7 @@ RSpec.describe Metanorma::Standoc do
 
       footnoteblock:[id1]
     INPUT
-    expect(File.read("test.err.html"))
-      .to include("Could not resolve footnoteblock:[id1]")
+    expect(errors).to include("Could not resolve footnoteblock:[id1]")
   end
 
   it "aborts if illegal connective is used between cross-references" do
@@ -1329,8 +1265,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "Warning if xref/@target, xref/location/@target, index/@to does not point to a real anchor" do
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+    errors = convert_and_capture_errors(<<~INPUT)
       = Document title
       Author
       :docfile: test.adoc
@@ -1340,17 +1275,13 @@ RSpec.describe Metanorma::Standoc do
       <<id1;to!id2>>
       index-range:id3[(((A)))]
     INPUT
-    expect(File.read("test.err.html"))
-      .to include("Crossreference target id1 is undefined")
-    expect(File.read("test.err.html"))
-      .to include("Crossreference target id2 is undefined")
-    expect(File.read("test.err.html"))
-      .to include("Crossreference target id3 is undefined")
+    expect(errors).to include("Crossreference target id1 is undefined")
+    expect(errors).to include("Crossreference target id2 is undefined")
+    expect(errors).to include("Crossreference target id3 is undefined")
   end
 
   it "Warns if illegal nesting of assets within assets" do
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+    errors = convert_and_capture_errors(<<~INPUT)
       = Document title
       Author
       :docfile: test.adoc
@@ -1373,16 +1304,12 @@ RSpec.describe Metanorma::Standoc do
       * C
       --
     INPUT
-    expect(File.read("test.err.html"))
-      .to include("There is an instance of table nested within note")
-    expect(File.read("test.err.html"))
-      .not_to include("There is an instance of example nested within table")
+    expect(errors).to include("There is an instance of table nested within note")
+    expect(errors).not_to include("There is an instance of example nested within table")
   end
 
   it "Warns if illegal nesting of assets within assets with crossreferencing" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+    errors = convert_and_capture_errors(<<~INPUT)
       = Document title
       Author
       :docfile: test.adoc
@@ -1404,15 +1331,12 @@ RSpec.describe Metanorma::Standoc do
       * C
       --
     INPUT
-    expect(File.read("test.err.html"))
-      .to include("There is a crossreference to an instance of table " \
+    expect(errors).to include("There is a crossreference to an instance of table " \
                   "nested within note")
   end
 
   it "Warns if illegal nesting of assets within assets with crossreferencing across a range" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+    errors = convert_and_capture_errors(<<~INPUT)
       = Document title
       Author
       :docfile: test.adoc
@@ -1436,14 +1360,12 @@ RSpec.describe Metanorma::Standoc do
       * C
       --
     INPUT
-    expect(File.read("test.err.html"))
-      .to include("There is a crossreference to an instance of table " \
+    expect(errors).to include("There is a crossreference to an instance of table " \
                   "nested within note")
   end
 
   it "Warning if metadata deflist not after a designation" do
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+    errors = convert_and_capture_errors(<<~INPUT)
       = Document title
       Author
       :docfile: test.adoc
@@ -1458,13 +1380,11 @@ RSpec.describe Metanorma::Standoc do
       [%metadata]
       language:: fr
     INPUT
-    expect(File.read("test.err.html"))
-      .to include("Metadata definition list does not follow a term designation")
+    expect(errors).to include("Metadata definition list does not follow a term designation")
   end
 
   it "Warning if related term missing" do
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       == Terms and definitions
@@ -1476,12 +1396,10 @@ RSpec.describe Metanorma::Standoc do
       Definition
 
     INPUT
-    expect(File.read("test.err.html"))
-      .to include("Error: Term reference to <code>xyz</code> missing:")
-    expect(File.read("test.err.html"))
-      .not_to include("Did you mean to point to a subterm?")
+    expect(errors).to include("Error: Term reference to <code>xyz</code> missing:")
+    expect(errors).not_to include("Did you mean to point to a subterm?")
 
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       [[xyz]]
@@ -1494,12 +1412,10 @@ RSpec.describe Metanorma::Standoc do
       Definition
 
     INPUT
-    expect(File.read("test.err.html"))
-      .to include("Error: Term reference to <code>xyz</code> missing:")
-    expect(File.read("test.err.html"))
-      .to include("Did you mean to point to a subterm?")
+    expect(errors).to include("Error: Term reference to <code>xyz</code> missing:")
+    expect(errors).to include("Did you mean to point to a subterm?")
 
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       == Terms and definitions
@@ -1511,10 +1427,9 @@ RSpec.describe Metanorma::Standoc do
       Definition
 
     INPUT
-    expect(File.read("test.err.html"))
-      .to include("Symbol reference in <code>symbol​[xyz]</code> missing:")
+    expect(errors).to include("Symbol reference in <code>symbol​[xyz]</code> missing:")
 
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       == Terms and definitions
@@ -1533,15 +1448,12 @@ RSpec.describe Metanorma::Standoc do
       xyz1:: B
 
     INPUT
-    expect(File.read("test.err.html"))
-      .not_to include("Error: Term reference to <code>xyz</code> missing:")
-    expect(File.read("test.err.html"))
-      .not_to include("Symbol reference in <code>symbol[xyz]</code> missing:")
+    expect(errors).not_to include("Error: Term reference to <code>xyz</code> missing:")
+    expect(errors).not_to include("Symbol reference in <code>symbol[xyz]</code> missing:")
   end
 
   it "warns if corrupt PNG" do
     FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
 
     input = <<~INPUT
       = Document title
@@ -1553,13 +1465,11 @@ RSpec.describe Metanorma::Standoc do
       image::spec/assets/corrupt.png[]
 
     INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .to include("Corrupt PNG image")
+    errors = convert_and_capture_errors(input)
+    expect(errors).to include("Corrupt PNG image")
     expect(File.exist?("test.xml")).to be true
 
     FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
 
     input = <<~INPUT
       = Document title
@@ -1571,17 +1481,14 @@ RSpec.describe Metanorma::Standoc do
       image::spec/assets/warning_test.png[]
 
     INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .not_to include("Corrupt PNG image")
-    expect(File.read("test.err.html"))
-      .to include("Warning on PNG image")
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("Corrupt PNG image")
+    expect(errors).to include("Warning on PNG image")
     expect(File.exist?("test.xml")).to be true
   end
 
   it "does not warn if not corrupt PNG" do
     FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
 
     input = <<~INPUT
       = Document title
@@ -1594,9 +1501,8 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
 
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .not_to include("Corrupt PNG image")
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("Corrupt PNG image")
     expect(File.exist?("test.xml")).to be true
   end
 
@@ -1800,29 +1706,27 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "warns of explicit style set on ordered list" do
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       == Clause
       [arabic]
       . A
     INPUT
-    expect(File.read("test.err.html"))
-      .to include("Style override set for ordered list")
+    expect(errors).to include("Style override set for ordered list")
 
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       == Clause
       . A
     INPUT
-    expect(File.read("test.err.html"))
-      .not_to include("Style override set for ordered list")
+    expect(errors).not_to include("Style override set for ordered list")
   end
 
   it "warns if two identical term designations in the same term" do
     FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+
     input = <<~INPUT
       #{VALIDATING_BLANK_HDR}
 
@@ -1832,14 +1736,13 @@ RSpec.describe Metanorma::Standoc do
 
       preferred:[Term1]
     INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .to include("Removed duplicate designation Term1")
+    errors = convert_and_capture_errors(input)
+    expect(errors).to include("Removed duplicate designation Term1")
   end
 
   it "warns if two identical preferred term designations" do
     FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+
     begin
       input = <<~INPUT
         = Document title
@@ -1855,16 +1758,16 @@ RSpec.describe Metanorma::Standoc do
         [[b]]
         === Term1
       INPUT
+      errors = nil
       expect do
-        Asciidoctor.convert(input, *OPTIONS)
+        errors = convert_and_capture_errors(input)
       end.not_to raise_error(SystemExit)
     rescue SystemExit
     end
-    expect(File.read("test.err.html"))
-      .to include("Term Term1 occurs twice as preferred designation: a, b")
+    expect(errors).to include("Term Term1 occurs twice as preferred designation: a, b")
 
     FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+
     begin
       input = <<~INPUT
         = Document title
@@ -1882,13 +1785,13 @@ RSpec.describe Metanorma::Standoc do
 
         preferred:[Term1]
       INPUT
+      errors = nil
       expect do
-        Asciidoctor.convert(input, *OPTIONS)
+        errors = convert_and_capture_errors(input)
       end.not_to raise_error(SystemExit)
     rescue SystemExit
     end
-    expect(File.read("test.err.html"))
-      .to include("Term Term1 occurs twice as preferred designation: a, b")
+    expect(errors).to include("Term Term1 occurs twice as preferred designation: a, b")
   end
 
   it "warns if image is too big for Data URI encoding" do
@@ -2009,7 +1912,7 @@ RSpec.describe Metanorma::Standoc do
   context "warns of empty elements: " do
     it "notes" do
       FileUtils.rm_f "test.xml"
-      FileUtils.rm_f "test.err.html"
+
       input = <<~INPUT
         #{VALIDATING_BLANK_HDR}
 
@@ -2019,9 +1922,8 @@ RSpec.describe Metanorma::Standoc do
 
         --
       INPUT
-      Asciidoctor.convert(input, *OPTIONS)
-      expect(File.read("test.err.html"))
-        .to include(%(note is empty))
+      errors = convert_and_capture_errors(input)
+      expect(errors).to include(%(note is empty))
 
       input = <<~INPUT
         #{VALIDATING_BLANK_HDR}
@@ -2032,14 +1934,13 @@ RSpec.describe Metanorma::Standoc do
         <<a>>
         --
       INPUT
-      Asciidoctor.convert(input, *OPTIONS)
-      expect(File.read("test.err.html"))
-        .not_to include(%(note is empty))
+      errors = convert_and_capture_errors(input)
+      expect(errors).not_to include(%(note is empty))
     end
 
     it "examples" do
       FileUtils.rm_f "test.xml"
-      FileUtils.rm_f "test.err.html"
+
       input = <<~INPUT
         #{VALIDATING_BLANK_HDR}
 
@@ -2048,9 +1949,8 @@ RSpec.describe Metanorma::Standoc do
 
         ====
       INPUT
-      Asciidoctor.convert(input, *OPTIONS)
-      expect(File.read("test.err.html"))
-        .to include(%(example is empty))
+      errors = convert_and_capture_errors(input)
+      expect(errors).to include(%(example is empty))
 
       input = <<~INPUT
         #{VALIDATING_BLANK_HDR}
@@ -2059,14 +1959,13 @@ RSpec.describe Metanorma::Standoc do
         A
         ====
       INPUT
-      Asciidoctor.convert(input, *OPTIONS)
-      expect(File.read("test.err.html"))
-        .not_to include(%(example is empty))
+      errors = convert_and_capture_errors(input)
+      expect(errors).not_to include(%(example is empty))
     end
 
     it "admonitions" do
       FileUtils.rm_f "test.xml"
-      FileUtils.rm_f "test.err.html"
+
       input = <<~INPUT
         #{VALIDATING_BLANK_HDR}
 
@@ -2076,9 +1975,8 @@ RSpec.describe Metanorma::Standoc do
 
         --
       INPUT
-      Asciidoctor.convert(input, *OPTIONS)
-      expect(File.read("test.err.html"))
-        .to include(%(admonition is empty))
+      errors = convert_and_capture_errors(input)
+      expect(errors).to include(%(admonition is empty))
 
       input = <<~INPUT
         #{VALIDATING_BLANK_HDR}
@@ -2088,14 +1986,13 @@ RSpec.describe Metanorma::Standoc do
         A
         --
       INPUT
-      Asciidoctor.convert(input, *OPTIONS)
-      expect(File.read("test.err.html"))
-        .not_to include(%(admonition is empty))
+      errors = convert_and_capture_errors(input)
+      expect(errors).not_to include(%(admonition is empty))
     end
 
     it "figures" do
       FileUtils.rm_f "test.xml"
-      FileUtils.rm_f "test.err.html"
+
       input = <<~INPUT
         #{VALIDATING_BLANK_HDR}
 
@@ -2105,9 +2002,8 @@ RSpec.describe Metanorma::Standoc do
 
         ====
       INPUT
-      Asciidoctor.convert(input, *OPTIONS)
-      expect(File.read("test.err.html"))
-        .to include(%(figure is empty))
+      errors = convert_and_capture_errors(input)
+      expect(errors).to include(%(figure is empty))
 
       input = <<~INPUT
         #{VALIDATING_BLANK_HDR}
@@ -2117,14 +2013,13 @@ RSpec.describe Metanorma::Standoc do
         image::spec/examples/rice_images/rice_image3_1.png[]
         ====
       INPUT
-      Asciidoctor.convert(input, *OPTIONS)
-      expect(File.read("test.err.html"))
-        .not_to include(%(figure is empty))
+      errors = convert_and_capture_errors(input)
+      expect(errors).not_to include(%(figure is empty))
     end
 
     it "quotes" do
       FileUtils.rm_f "test.xml"
-      FileUtils.rm_f "test.err.html"
+
       input = <<~INPUT
         #{VALIDATING_BLANK_HDR}
 
@@ -2133,9 +2028,8 @@ RSpec.describe Metanorma::Standoc do
 
         ____
       INPUT
-      Asciidoctor.convert(input, *OPTIONS)
-      expect(File.read("test.err.html"))
-        .to include(%(quote is empty))
+      errors = convert_and_capture_errors(input)
+      expect(errors).to include(%(quote is empty))
 
       input = <<~INPUT
         #{VALIDATING_BLANK_HDR}
@@ -2144,14 +2038,13 @@ RSpec.describe Metanorma::Standoc do
         A
         ____
       INPUT
-      Asciidoctor.convert(input, *OPTIONS)
-      expect(File.read("test.err.html"))
-        .not_to include(%(quote is empty))
+      errors = convert_and_capture_errors(input)
+      expect(errors).not_to include(%(quote is empty))
     end
 
     it "literals" do
       FileUtils.rm_f "test.xml"
-      FileUtils.rm_f "test.err.html"
+
       input = <<~INPUT
         #{VALIDATING_BLANK_HDR}
 
@@ -2160,9 +2053,8 @@ RSpec.describe Metanorma::Standoc do
 
         ....
       INPUT
-      Asciidoctor.convert(input, *OPTIONS)
-      expect(File.read("test.err.html"))
-        .to include(%(pre is empty))
+      errors = convert_and_capture_errors(input)
+      expect(errors).to include(%(pre is empty))
 
       input = <<~INPUT
         #{VALIDATING_BLANK_HDR}
@@ -2171,14 +2063,13 @@ RSpec.describe Metanorma::Standoc do
         A
         ....
       INPUT
-      Asciidoctor.convert(input, *OPTIONS)
-      expect(File.read("test.err.html"))
-        .not_to include(%(pre is empty))
+      errors = convert_and_capture_errors(input)
+      expect(errors).not_to include(%(pre is empty))
     end
 
     it "sourcecodes" do
       FileUtils.rm_f "test.xml"
-      FileUtils.rm_f "test.err.html"
+
       input = <<~INPUT
         #{VALIDATING_BLANK_HDR}
 
@@ -2188,9 +2079,8 @@ RSpec.describe Metanorma::Standoc do
 
         ----
       INPUT
-      Asciidoctor.convert(input, *OPTIONS)
-      expect(File.read("test.err.html"))
-        .to include(%(sourcecode is empty))
+      errors = convert_and_capture_errors(input)
+      expect(errors).to include(%(sourcecode is empty))
 
       input = <<~INPUT
         #{VALIDATING_BLANK_HDR}
@@ -2200,14 +2090,13 @@ RSpec.describe Metanorma::Standoc do
         &nbsp;
         ----
       INPUT
-      Asciidoctor.convert(input, *OPTIONS)
-      expect(File.read("test.err.html"))
-        .not_to include(%(sourcecode is empty))
+      errors = convert_and_capture_errors(input)
+      expect(errors).not_to include(%(sourcecode is empty))
     end
 
     it "formulas" do
       FileUtils.rm_f "test.xml"
-      FileUtils.rm_f "test.err.html"
+
       input = <<~INPUT
         #{VALIDATING_BLANK_HDR}
 
@@ -2217,9 +2106,8 @@ RSpec.describe Metanorma::Standoc do
 
         ++++
       INPUT
-      Asciidoctor.convert(input, *OPTIONS)
-      expect(File.read("test.err.html"))
-        .to include(%(formula is empty))
+      errors = convert_and_capture_errors(input)
+      expect(errors).to include(%(formula is empty))
 
       input = <<~INPUT
         #{VALIDATING_BLANK_HDR}
@@ -2229,9 +2117,8 @@ RSpec.describe Metanorma::Standoc do
         1
         ++++
       INPUT
-      Asciidoctor.convert(input, *OPTIONS)
-      expect(File.read("test.err.html"))
-        .not_to include(%(formula is empty))
+      errors = convert_and_capture_errors(input)
+      expect(errors).not_to include(%(formula is empty))
     end
   end
 

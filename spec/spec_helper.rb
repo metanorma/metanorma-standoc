@@ -45,7 +45,8 @@ RSpec.configure do |config|
   end
 end
 
-OPTIONS = [backend: :standoc, header_footer: true, agree_to_terms: true].freeze
+OPTIONS = [{ backend: :standoc, header_footer: true,
+             agree_to_terms: true }].freeze
 
 GUID = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}".freeze
 
@@ -57,8 +58,8 @@ def strip_guid(xml)
     .gsub(%r{<fetched>[^<]+</fetched>}, "<fetched/>")
     .gsub(%r{ schema-version="[^"]+"}, "")
     .gsub(%r{ reference="_#{GUID}_}o, ' reference="__')
-    # .gsub(%r{ target="_[^"]+"}, ' target="_"')
-    escape_zs_chars(xml)
+  # .gsub(%r{ target="_[^"]+"}, ' target="_"')
+  escape_zs_chars(xml)
 end
 
 def strip_src(xml)
@@ -354,5 +355,37 @@ def escape_zs_chars(str)
   # Match all characters in \p{Zs} except space (U+0020)
   str.gsub(/[\p{Zs}&&[^\u0020]]/) do |char|
     "\\u#{char.ord.to_s(16).rjust(4, '0')}"
+  end
+end
+
+# Helper module for in-memory error capture in validation tests
+module ValidationTestHelpers
+  # Convert document and return errors without excessive file I/O
+  def convert_and_capture_errors(input, options = OPTIONS)
+    error_file = "test.err.html"
+    FileUtils.rm_rf(error_file)
+
+    # Perform conversion
+    Asciidoctor.convert(input, *options)
+
+    # Read and return errors if file exists
+    File.exist?(error_file) ? File.read(error_file) : ""
+  end
+
+  # Memoized conversion helper - converts once and caches result
+  def make_shared_convert(input)
+    @_shared_conversion_cache ||= {}
+    cache_key = input.hash
+
+    @_shared_conversion_cache[cache_key] ||= convert_and_capture_errors(input)
+  end
+end
+
+RSpec.configure do |config|
+  config.include ValidationTestHelpers, type: :validation
+
+  # Clean up conversion cache between test files
+  config.before(:suite) do
+    @_shared_conversion_cache = {}
   end
 end

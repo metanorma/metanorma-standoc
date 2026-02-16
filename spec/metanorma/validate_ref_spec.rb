@@ -2,7 +2,7 @@ require "spec_helper"
 require "fileutils"
 require "relaton_iso"
 
-RSpec.describe Metanorma::Standoc do
+RSpec.describe Metanorma::Standoc, type: :validation do
   before do
     # Force to download Relaton index file
     allow_any_instance_of(::Relaton::Index::Type).to receive(:actual?)
@@ -81,8 +81,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "warns about missing fields in asciibib" do
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       [bibliography]
@@ -112,14 +111,11 @@ RSpec.describe Metanorma::Standoc do
         name::::
           completename::::: Jack
     INPUT
-    errf = File.read("test.err.html")
-    expect(errf)
-      .to include("Reference iso123 is missing a document identifier (docid)")
+    expect(errors).to include("Reference iso123 is missing a document identifier (docid)")
   end
 
   it "warns about missing fields in asciibib" do
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       [bibliography]
@@ -133,9 +129,9 @@ RSpec.describe Metanorma::Standoc do
         organization:::
           name:::: ISO
     INPUT
-    errf = File.read("test.err.html")
-    expect(errf).to include("The following reference is missing an anchor")
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    expect(errors).to include("The following reference is missing an anchor")
+
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       [bibliography]
@@ -150,13 +146,11 @@ RSpec.describe Metanorma::Standoc do
         organization:::
           name:::: ISO
     INPUT
-    errf = File.read("test.err.html")
-    expect(errf).not_to include("The following reference is missing an anchor")
+    expect(errors).not_to include("The following reference is missing an anchor")
   end
 
   it "warns about malformed biblio span" do
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       [bibliography]
@@ -164,22 +158,19 @@ RSpec.describe Metanorma::Standoc do
 
       * [[[A, B]]], span:surname1[Wozniak]
     INPUT
-    errf = File.read("test.err.html")
-    expect(errf).to include("unrecognised key 'surname1' in <code>span:​surname1[Wozn­iak]")
+    expect(errors).to include("unrecognised key 'surname1' in <code>span:​surname1[Wozn­iak]")
   end
 
   it "warns that cross-reference to bibliography is not a real reference" do
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       [.source]
       <<iso123>>
     INPUT
-    expect(File.read("test.err.html"))
-      .to include("iso123 does not have a corresponding anchor ID in the bibliography")
+    expect(errors).to include("iso123 does not have a corresponding anchor ID in the bibliography")
 
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       <<iso123>>
@@ -195,19 +186,17 @@ RSpec.describe Metanorma::Standoc do
         organization:::
           name:::: ISO
     INPUT
-    expect(File.read("test.err.html"))
-      .not_to include("iso123 does not have a corresponding anchor ID in the bibliography")
+    expect(errors).not_to include("iso123 does not have a corresponding anchor ID in the bibliography")
   end
 
   it "warns of Non-reference in bibliography" do
-    FileUtils.rm_f "test.err.html"
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
 
       == Normative References
       * I am not a reference
     INPUT
-    expect(File.read("test.err.html")).to include("no anchor on reference")
+    expect(errors).to include("no anchor on reference")
   end
 
   # functionality disabled, Electropedia blocking Github Actions
@@ -350,7 +339,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "warns if numeric normative reference" do
     FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+
     input = <<~INPUT
       = Document title
       Author
@@ -361,14 +350,13 @@ RSpec.describe Metanorma::Standoc do
       == Normative references
       * [[[A,1]]]
     INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .to include("Numeric reference in normative references")
+    errors = convert_and_capture_errors(input)
+    expect(errors).to include("Numeric reference in normative references")
   end
 
   it "does not log Relaton lookups and successes" do
     FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+
     input = <<~INPUT
       = Document title
       Author
@@ -380,14 +368,13 @@ RSpec.describe Metanorma::Standoc do
       == Normative references
       * [[[A,IHO S-49]]]
     INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    f = File.read("test.err.html")
-    expect(f).not_to include("Fetching from")
-    expect(f).not_to include("Downloading index from")
-    expect(f).not_to include("Found")
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("Fetching from")
+    expect(errors).not_to include("Downloading index from")
+    expect(errors).not_to include("Found")
 
     FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+
     input = <<~INPUT
       = Document title
       Author
@@ -399,14 +386,13 @@ RSpec.describe Metanorma::Standoc do
       == Normative references
       * [[[A,IHO S-49673482688234687]]]
     INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    f = File.read("test.err.html")
-    expect(f).not_to include("Fetching from")
-    expect(f).not_to include("Downloading index from")
-    expect(f).to include("Not found")
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("Fetching from")
+    expect(errors).not_to include("Downloading index from")
+    expect(errors).to include("Not found")
 
     FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+
     input = <<~INPUT
       = Document title
       Author
@@ -418,14 +404,13 @@ RSpec.describe Metanorma::Standoc do
       == Normative references
       * [[[A,ISO 639]]]
     INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    f = File.read("test.err.html")
-    expect(f).not_to include("Fetching from")
-    expect(f).not_to include("Downloading index from")
-    expect(f).not_to include("Found") # to check suffix: ISO 639:2023
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("Fetching from")
+    expect(errors).not_to include("Downloading index from")
+    expect(errors).not_to include("Found") # to check suffix: ISO 639:2023
 
     FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+
     input = <<~INPUT
       = Document title
       Author
@@ -437,16 +422,15 @@ RSpec.describe Metanorma::Standoc do
       == Normative references
       * [[[A,FIPS 197]]]
     INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    f = File.read("test.err.html")
-    expect(f).not_to include("Fetching from")
-    expect(f).not_to include("Downloading index from")
-    expect(f).to include("Found") # to check suffix: NIST FIPS 197 fpd
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("Fetching from")
+    expect(errors).not_to include("Downloading index from")
+    expect(errors).to include("Found") # to check suffix: NIST FIPS 197 fpd
   end
 
   it "warns on unrecognised bibliographic style" do
     FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+
     input = <<~INPUT
       = Document title
       Author
@@ -459,8 +443,7 @@ RSpec.describe Metanorma::Standoc do
       == Normative references
       * [[[A,1]]]
     INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .to include("Unrecognised bibliographic style: pizza")
+    errors = convert_and_capture_errors(input)
+    expect(errors).to include("Unrecognised bibliographic style: pizza")
   end
 end
