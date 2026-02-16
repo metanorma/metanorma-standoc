@@ -1637,7 +1637,7 @@ OUTPUT
     expect(html).to include(%[Content-ID: <header.html>
 Content-Disposition: inline; filename="header.html"
 Content-Transfer-Encoding: base64
-Content-Type: text/html charset="utf-8"
+Content-Type: text/html; charset="utf-8"
 
 Ci8qIGFuIGVtcHR5IGhlYWRlciAqLwoKU1RBUlQgRE9DIElEOiA6IEVORCBET0MgSUQKCkZJTEVO
 QU1FOiB0ZXN0Cgo=
