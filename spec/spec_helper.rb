@@ -372,6 +372,27 @@ module ValidationTestHelpers
     File.exist?(error_file) ? File.read(error_file) : ""
   end
 
+  # Convert document expecting SystemExit/abort and capture state
+  # Returns hash with :errors and :xml_exists keys
+  def convert_and_expect_abort(input, options = OPTIONS)
+    error_file = "test.err.html"
+    xml_file = "test.xml"
+    FileUtils.rm_rf([error_file, xml_file])
+
+    begin
+      expect do
+        Asciidoctor.convert(input, *options)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+      # Expected - continue to check files
+    end
+
+    {
+      errors: File.exist?(error_file) ? File.read(error_file) : "",
+      xml_exists: File.exist?(xml_file),
+    }
+  end
+
   # Memoized conversion helper - converts once and caches result
   def make_shared_convert(input)
     @_shared_conversion_cache ||= {}

@@ -12,72 +12,51 @@ RSpec.describe Metanorma::Standoc, type: :validation do
   end
 
   it "aborts on unsupported format in localbib" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
-        :relaton-data-source: file=spec/assets/manual.bib,format=pizza
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :relaton-data-source: file=spec/assets/manual.bib,format=pizza
 
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
-    expect(File.read("test.err.html"))
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
       .to include("Cannot process format pizza for local Relaton data source default")
-    expect(File.exist?("test.xml")).to be false
+    expect(result[:xml_exists]).to be false
   end
 
   it "aborts on missing file in localbib" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
-        :relaton-data-source: file=spec/assets/fred.bib
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :relaton-data-source: file=spec/assets/fred.bib
 
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
-    expect(File.read("test.err.html"))
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
       .to include("Cannot process file spec/​assets/fred.​bib for local Relaton data source default")
-    expect(File.exist?("test.xml")).to be false
+    expect(result[:xml_exists]).to be false
   end
 
   it "aborts on missing reference in localbib" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
-        :relaton-data-source: spec/assets/manual.bib
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :relaton-data-source: spec/assets/manual.bib
 
-        [bibliography]
-        == Bibliography
-        * [[[A, local-file(xyz)]]]
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
-    expect(File.read("test.err.html"))
+      [bibliography]
+      == Bibliography
+      * [[[A, local-file(xyz)]]]
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
       .to include("Cannot find reference xyz for local Relaton data source default")
-    expect(File.exist?("test.xml")).to be false
+    expect(result[:xml_exists]).to be false
   end
 
   it "warns about missing fields in asciibib" do
@@ -263,78 +242,60 @@ RSpec.describe Metanorma::Standoc, type: :validation do
   end
 
   it "Abort if non-existent IEV document cited" do
-    FileUtils.rm_f "test.err.html"
-    begin
-      Asciidoctor.convert(<<~INPUT, *OPTIONS)
-        = Document title
-        Author
-        :docfile: test.adoc
-        :no-pdf:
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
 
-        [bibliography]
-        == Normative References
-        * [[[iev,IEV]]], _iev_
+      [bibliography]
+      == Normative References
+      * [[[iev,IEV]]], _iev_
 
-        == Terms and definitions
-        === Automation
+      == Terms and definitions
+      === Automation
 
-        [.source]
-        <<iev,clause="03-01-02">>
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(RuntimeError)
-    rescue SystemExit, RuntimeError
-      expect(File.read("test.err.html"))
-        .to include("The IEV document 60050-03 that has been cited does not exist")
-    end
+      [.source]
+      <<iev,clause="03-01-02">>
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
+      .to include("The IEV document 60050-03 that has been cited does not exist")
   end
 
   it "warns and aborts if id used twice in bibliography for distinct docids" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
 
-        [bibliography]
-        == Bibliography
+      [bibliography]
+      == Bibliography
 
-        * [[[abc,B]]]
-        * [[[abc,C]]]
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit
-    end
-    expect(File.read("test.err.html"))
+      * [[[abc,B]]]
+      * [[[abc,C]]]
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
       .to include("ID abc has already been used at line")
-    expect(File.exist?("test.xml")).to be false
+    expect(result[:xml_exists]).to be false
 
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
+    # Same docid is allowed (not an error)
+    input2 = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
 
-        [bibliography]
-        == Bibliography
+      [bibliography]
+      == Bibliography
 
-        * [[[abc,B]]]
-        * [[[abc,B]]]
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.not_to raise_error(SystemExit)
-    rescue SystemExit
-    end
-    expect(File.read("test.err.html"))
-      .not_to include("ID abc has already been used at line")
+      * [[[abc,B]]]
+      * [[[abc,B]]]
+    INPUT
+    errors = convert_and_capture_errors(input2)
+    expect(errors).not_to include("ID abc has already been used at line")
   end
 
   it "warns if numeric normative reference" do

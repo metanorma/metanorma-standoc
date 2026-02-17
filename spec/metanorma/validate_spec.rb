@@ -13,8 +13,6 @@ RSpec.describe Metanorma::Standoc, type: :validation do
   end
 
   it "aborts on a missing include file" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
     input = <<~INPUT
       = Document title
       Author
@@ -24,14 +22,8 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       include::spec/subdir/a4.adoc[]
 
     INPUT
-    begin
-      expect do
-        a = [OPTIONS[0].merge(safe: :unsafe)]
-        Asciidoctor.convert(input, *a)
-      end.to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
-    expect(File.read("test.err.html"))
+    result = convert_and_expect_abort(input, [OPTIONS[0].merge(safe: :unsafe)])
+    expect(result[:errors])
       .to include("Unresolved directive in &lt;​stdin&gt; - include::​spec/​subdir/a4.​adoc[]")
   end
 
@@ -92,8 +84,6 @@ RSpec.describe Metanorma::Standoc, type: :validation do
   end
 
   it "aborts on attaching a non-existent file" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
     input = <<~INPUT
       = Document title
       Author
@@ -105,19 +95,12 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       * [[[ievterms,attachment:(./hien/spec_helper.rb)]]]
 
     INPUT
-    begin
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
-    expect(File.read("test.err.html"))
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
       .to include(%(Attachment hien/​spec_helper.​rb does not exist))
   end
 
   it "aborts on an index cross-reference with too few terms" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
     input = <<~INPUT
       = Document title
       Author
@@ -128,20 +111,13 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       index:see[term]
 
     INPUT
-    begin
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
-    expect(File.read("test.err.html"))
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
       .to include("invalid index \"see\" cross-reference: wrong number of attributes in <code>index:​see[term]</code>")
-    expect(File.exist?("test.xml")).to be false
+    expect(result[:xml_exists]).to be false
   end
 
   it "aborts on an index cross-reference with too many terms" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
     input = <<~INPUT
       = Document title
       Author
@@ -152,15 +128,10 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       index:see[term,a,b,c,d,e]
 
     INPUT
-    begin
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
-    expect(File.read("test.err.html"))
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
       .to include("invalid index \"see\" cross-reference: wrong number of attributes in <code>index:​see[term,a,​b,c,d,e]</code>")
-    expect(File.exist?("test.xml")).to be false
+    expect(result[:xml_exists]).to be false
   end
 
   it "aborts on passing through invalid Metanorma XML with no format specification" do
@@ -305,80 +276,56 @@ RSpec.describe Metanorma::Standoc, type: :validation do
   end
 
   it "aborts on empty table" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
 
-        .Malformed table
-        |===
+      .Malformed table
+      |===
 
-        |===
+      |===
 
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
-    expect(File.read("test.err.html"))
-      .to include("Empty table")
-    expect(File.exist?("test.xml")).to be false
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors]).to include("Empty table")
+    expect(result[:xml_exists]).to be false
 
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
+    # metanorma-extension section allows empty tables without aborting
+    input2 = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
 
-        == metanorma-extension
-        .Malformed table
-        |===
+      == metanorma-extension
+      .Malformed table
+      |===
 
-        |===
+      |===
 
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.not_to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
-    expect(File.read("test.err.html"))
-      .not_to include("Empty table")
+    INPUT
+    errors = convert_and_capture_errors(input2)
+    expect(errors).not_to include("Empty table")
   end
 
   it "aborts on malformed URI" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
-
-        http://a@x@x@[x]
-
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
-    expect(File.read("test.err.html"))
-      .to include("Malformed URI: http://​a@x@x@")
-    expect(File.exist?("test.xml")).to be false
-
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
     input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      http://a@x@x@[x]
+
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors]).to include("Malformed URI: http://​a@x@x@")
+    expect(result[:xml_exists]).to be false
+
+    # Valid internationalized domain should not abort
+    input2 = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -387,11 +334,8 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       http://www.詹姆斯.com/[x]
 
     INPUT
-    expect do
-      Asciidoctor.convert(input, *OPTIONS)
-    end.not_to raise_error
-    expect(File.read("test.err.html"))
-      .not_to include("Malformed URI: http:")
+    errors = convert_and_capture_errors(input2)
+    expect(errors).not_to include("Malformed URI: http:")
   end
 
   it "warns and aborts if malformed MathML" do
@@ -501,121 +445,84 @@ RSpec.describe Metanorma::Standoc, type: :validation do
   end
 
   it "aborts if callouts do not match annotations" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    begin
-      input = <<~INPUT
-        #{VALIDATING_BLANK_HDR}
-        [source,ruby]
-        --
-        puts "Hello, world." <1>
-        %w{a b c}.each do |x|
-          puts x
-        end
-        --
-        <1> This is one callout
-        <2> This is another callout
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
-    expect(File.read("test.err.html"))
-      .to include("mismatch of callouts (1) and annotations (2)")
-    expect(File.exist?("test.xml")).to be false
+    # Scenario 1: 1 callout in code, 2 annotations - should abort
+    input = <<~INPUT
+      #{VALIDATING_BLANK_HDR}
+      [source,ruby]
+      --
+      puts "Hello, world." <1>
+      %w{a b c}.each do |x|
+        puts x
+      end
+      --
+      <1> This is one callout
+      <2> This is another callout
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors]).to include("mismatch of callouts (1) and annotations (2)")
+    expect(result[:xml_exists]).to be false
 
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    begin
-      input = <<~INPUT
-        #{VALIDATING_BLANK_HDR}
-        [source,ruby]
-        --
-        puts "Hello, world." <1>
-        %w{a b c}.each do |x|
-          puts x
-        end <2>
-        --
-        <1> This is one callout
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
-    expect(File.read("test.err.html"))
-      .to include("mismatch of callouts (2) and annotations (1)")
-    expect(File.exist?("test.xml")).to be false
+    # Scenario 2: 2 callouts in code, 1 annotation - should abort
+    input2 = <<~INPUT
+      #{VALIDATING_BLANK_HDR}
+      [source,ruby]
+      --
+      puts "Hello, world." <1>
+      %w{a b c}.each do |x|
+        puts x
+      end <2>
+      --
+      <1> This is one callout
+    INPUT
+    result2 = convert_and_expect_abort(input2)
+    expect(result2[:errors]).to include("mismatch of callouts (2) and annotations (1)")
+    expect(result2[:xml_exists]).to be false
 
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    begin
-      input = <<~INPUT
-        #{VALIDATING_BLANK_HDR}
-        [source,ruby]
-        --
-        puts "Hello, world." <1>
-        %w{a b c}.each do |x|
-          puts x
-        end <2>
-        --
-        <1> This is one callout
-        <3> This is another callout
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.not_to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
-    expect(File.read("test.err.html"))
-      .not_to include("mismatch of callouts")
-    # expect(File.exist?("test.xml")).to be true
+    # Scenario 3: Mismatched annotation numbers (<1> and <3>) - should not abort
+    input3 = <<~INPUT
+      #{VALIDATING_BLANK_HDR}
+      [source,ruby]
+      --
+      puts "Hello, world." <1>
+      %w{a b c}.each do |x|
+        puts x
+      end <2>
+      --
+      <1> This is one callout
+      <3> This is another callout
+    INPUT
+    errors3 = convert_and_capture_errors(input3)
+    expect(errors3).not_to include("mismatch of callouts")
 
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    begin
-      input = <<~INPUT
-        #{VALIDATING_BLANK_HDR}
-        [source,ruby]
-        --
-        puts "Hello, world." <1>
-        %w{a b c}.each do |x|
-          puts x
-        end <2>
-        --
-        <1> This is one callout
-        <2> This is another callout
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.not_to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
-    expect(File.read("test.err.html"))
-      .not_to include("mismatch of callouts")
+    # Scenario 4: Matching callouts and annotations - should not abort
+    input4 = <<~INPUT
+      #{VALIDATING_BLANK_HDR}
+      [source,ruby]
+      --
+      puts "Hello, world." <1>
+      %w{a b c}.each do |x|
+        puts x
+      end <2>
+      --
+      <1> This is one callout
+      <2> This is another callout
+    INPUT
+    errors4 = convert_and_capture_errors(input4)
+    expect(errors4).not_to include("mismatch of callouts")
 
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
-    begin
-      input = <<~INPUT
-        #{VALIDATING_BLANK_HDR}
-        [source,ruby]
-        --
-        puts "Hello, world." <1>
-        %w{a b c}.each do |x|
-          puts x
-        end <2>
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.not_to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
-    expect(File.read("test.err.html"))
-      .not_to include("mismatch of callouts")
-    expect(File.read("test.err.html"))
-      .to include("Sourcecode with callout markup but no annotations")
+    # Scenario 5: Callouts without annotations block - should warn but not abort
+    input5 = <<~INPUT
+      #{VALIDATING_BLANK_HDR}
+      [source,ruby]
+      --
+      puts "Hello, world." <1>
+      %w{a b c}.each do |x|
+        puts x
+      end <2>
+    INPUT
+    errors5 = convert_and_capture_errors(input5)
+    expect(errors5).not_to include("mismatch of callouts")
+    expect(errors5).to include("Sourcecode with callout markup but no annotations")
   end
 
   it "warns that Table should have title" do
@@ -798,7 +705,6 @@ RSpec.describe Metanorma::Standoc, type: :validation do
     end
 
     it "filters errors by location in Metanorma log using annotations" do
-      FileUtils.rm_f "test.err.html"
       annotation = <<~ANNOTATION
 
         [from="Clause3",type="ignore-log"]
@@ -806,50 +712,48 @@ RSpec.describe Metanorma::Standoc, type: :validation do
         ERRORS
         ****
       ANNOTATION
+
+      # Wrong type - annotation not recognized
       xml = Asciidoctor.convert(
         input + annotation.sub("ignore-log", "ignore-me"), *OPTIONS
       )
       expect(xml).to include("</annotation>")
 
-      FileUtils.rm_f "test.err.html"
+      # Clause3 with no errors specified - should include STANDOC_38
       xml = Asciidoctor.convert(
         input + annotation.sub("ERRORS", ""), *OPTIONS
       )
       expect(xml).not_to include("</annotation>")
-      f = File.read("test.err.html")
-      expect(f).to include("STANDOC_38")
+      errors = convert_and_capture_errors(input + annotation.sub("ERRORS", ""))
+      expect(errors).to include("STANDOC_38")
 
-      FileUtils.rm_f "test.err.html"
-      Asciidoctor.convert(
-        input + annotation.sub("Clause3", "Clause1").sub("ERRORS", ""), *OPTIONS
+      # Clause1 with no errors specified - should filter STANDOC_38
+      errors = convert_and_capture_errors(
+        input + annotation.sub("Clause3", "Clause1").sub("ERRORS", ""),
       )
-      f = File.read("test.err.html")
-      expect(f).not_to include("STANDOC_38")
+      expect(errors).not_to include("STANDOC_38")
 
-      FileUtils.rm_f "test.err.html"
-      Asciidoctor.convert(
-        input + annotation.sub("Clause3", "Clause1")
-        .sub("ERRORS", "STANDOC_39"), *OPTIONS
+      # Clause1 with STANDOC_39 only - should not filter STANDOC_38
+      errors = convert_and_capture_errors(
+        input + annotation.sub("Clause3", "Clause1").sub("ERRORS",
+                                                         "STANDOC_39"),
       )
-      f = File.read("test.err.html")
-      expect(f).to include("STANDOC_38")
+      expect(errors).to include("STANDOC_38")
 
-      FileUtils.rm_f "test.err.html"
-      Asciidoctor.convert(
-        input + annotation.sub("Clause3", "Clause1")
-        .sub("ERRORS", "STANDOC_39, STANDOC_38"), *OPTIONS
+      # Clause1 with both STANDOC_39 and STANDOC_38 - should filter STANDOC_38
+      errors = convert_and_capture_errors(
+        input + annotation.sub("Clause3", "Clause1").sub("ERRORS",
+                                                         "STANDOC_39, STANDOC_38"),
       )
-      f = File.read("test.err.html")
-      expect(f).not_to include ("STANDOC_38")
+      expect(errors).not_to include ("STANDOC_38")
 
-      FileUtils.rm_f "test.err.html"
-      Asciidoctor.convert(
-        input + annotation.sub("Clause3", "Clause1")
-        .sub("ERRORS", "STANDOC_39, STANDOC_38") +
-        annotation.sub("Clause3", "Clause1").sub("ERRORS", ""), *OPTIONS
+      # Multiple annotations - should filter STANDOC_38
+      errors = convert_and_capture_errors(
+        input + annotation.sub("Clause3", "Clause1").sub("ERRORS",
+                                                         "STANDOC_39, STANDOC_38") +
+        annotation.sub("Clause3", "Clause1").sub("ERRORS", ""),
       )
-      f = File.read("test.err.html")
-      expect(f).not_to include ("STANDOC_38")
+      expect(errors).not_to include ("STANDOC_38")
     end
   end
 
@@ -879,237 +783,186 @@ RSpec.describe Metanorma::Standoc, type: :validation do
   end
 
   it "warns and aborts if concept/xref does not point to term or definition" do
-    FileUtils.rm_f  "test.xml"
-    FileUtils.rm_f  "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
 
-        [[abc]]
-        == Clause 1
-        [[ghi]]A:: B
+      [[abc]]
+      == Clause 1
+      [[ghi]]A:: B
 
-        == Terms and Definitions
+      == Terms and Definitions
 
-        [[jkl]]
-        === Term1
+      [[jkl]]
+      === Term1
 
-        ==== Term2
+      ==== Term2
 
-        == Symbols and Abbreviated Terms
-        [[def]]DEF:: def
+      == Symbols and Abbreviated Terms
+      [[def]]DEF:: def
 
-        {{<<jkl>>,term1}}
-        {{<<abc>>,term}}
-        {{<<def>>,term}}
-        {{<<ghi>>,term}}
-        {{Terms and Definitions}}
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit
-    end
-    expect(File.read("test.err.html"))
+      {{<<jkl>>,term1}}
+      {{<<abc>>,term}}
+      {{<<def>>,term}}
+      {{<<ghi>>,term}}
+      {{Terms and Definitions}}
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
       .to include(%(Term reference to <code>Terms-and-Definitions</code> missing: "Terms-and-Definitions" is not defined in document))
-    expect(File.read("test.err.html"))
+    expect(result[:errors])
       .to include ("Concept term1 is pointing to jkl, which is not a term or symbol. Did you mean to point to a subterm?")
-    expect(File.read("test.err.html"))
+    expect(result[:errors])
       .to include ("Concept term is pointing to abc, which is not a term or symbol")
-    expect(File.read("test.err.html"))
+    expect(result[:errors])
       .not_to include ("Concept term is pointing to def, which is not a term or symbol")
-    expect(File.read("test.err.html"))
+    expect(result[:errors])
       .to include ("Concept term is pointing to ghi, which is not a term or symbol")
-    expect(File.exist?("test.xml")).to be false
+    expect(result[:xml_exists]).to be false
   end
 
   it "warns and aborts if related/xref does not point to term or definition" do
-    FileUtils.rm_f  "test.xml"
-    FileUtils.rm_f  "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
 
-        [[abc]]
-        == Clause 1
-        [[ghi]]A:: B
+      [[abc]]
+      == Clause 1
+      [[ghi]]A:: B
 
-        == Symbols and Abbreviated Terms
-        [[def]]DEF:: def
+      == Symbols and Abbreviated Terms
+      [[def]]DEF:: def
 
-        related:see[<<abc>>,term]
-        related:see[<<def>>,term]
-        related:see[<<ghi>>,term]
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit
-    end
-    expect(File.read("test.err.html"))
+      related:see[<<abc>>,term]
+      related:see[<<def>>,term]
+      related:see[<<ghi>>,term]
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
       .to include ("Related term is pointing to abc, which is not a term or symbol")
-    expect(File.read("test.err.html"))
+    expect(result[:errors])
       .not_to include ("Related term is pointing to def, which is not a term or symbol")
-    expect(File.read("test.err.html"))
+    expect(result[:errors])
       .to include ("Related term is pointing to ghi, which is not a term or symbol")
-    expect(File.exist?("test.xml")).to be false
+    expect(result[:xml_exists]).to be false
   end
 
   it "warns and aborts if a designation appears in a non-term clause" do
-    FileUtils.rm_f  "test.xml"
-    FileUtils.rm_f  "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
 
-        [[abc]]
-        == Clause 1
+      [[abc]]
+      == Clause 1
 
-        preferred:[ABC]
+      preferred:[ABC]
 
-        alt:[DE&F]
+      alt:[DE&F]
 
-        == Clause 2
+      == Clause 2
 
-        [[ghi]]
-        === Clause 3
+      [[ghi]]
+      === Clause 3
 
-        deprecated:[GHI]
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit
-    end
-    expect(File.read("test.err.html"))
+      deprecated:[GHI]
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
       .to include ("Clause not recognised as a term clause, but contains designation markup")
-    expect(File.read("test.err.html"))
+    expect(result[:errors])
       .to include ("ABC, DE&amp;F")
-    expect(File.read("test.err.html"))
+    expect(result[:errors])
       .to include ("GHI")
-    expect(File.exist?("test.xml")).to be false
+    expect(result[:xml_exists]).to be false
   end
 
   it "warns and aborts if id used twice" do
-    FileUtils.rm_f  "test.xml"
-    FileUtils.rm_f  "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
 
-        [[abc]]
-        == Clause 1
+      [[abc]]
+      == Clause 1
 
-        [[abc]]
-        == Clause 2
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit
-    end
-    expect(File.read("test.err.html"))
+      [[abc]]
+      == Clause 2
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
       .to include("ID abc has already been used at line")
-    expect(File.exist?("test.xml")).to be false
+    expect(result[:xml_exists]).to be false
   end
 
   it "does not warn and abort if columns and rows not out of bounds" do
-    FileUtils.rm_f  "test.xml"
-    FileUtils.rm_f  "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
 
-        == Clause
+      == Clause
 
-        [cols="1,1,1,1"]
-        |===
-        3.2+| a | a
-        | a
-        | a | a | a | a
-        |===#{' '}
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.not_to raise_error(SystemExit)
-    rescue SystemExit
-    end
-    expect(File.read("test.err.html"))
-      .not_to include ("Table exceeds maximum number of columns defined")
-    expect(File.read("test.err.html"))
-      .not_to include ("Table rows in table are inconsistent: check rowspan")
-    expect(File.read("test.err.html"))
-      .not_to include ("Table rows in table cannot go outside thead: check rowspan"
-                      )
+      [cols="1,1,1,1"]
+      |===
+      3.2+| a | a
+      | a
+      | a | a | a | a
+      |===#{' '}
+    INPUT
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include ("Table exceeds maximum number of columns defined")
+    expect(errors).not_to include ("Table rows in table are inconsistent: check rowspan")
+    expect(errors).not_to include ("Table rows in table cannot go outside thead: check rowspan")
   end
 
   it "warns if rowspan goes across thead" do
-    FileUtils.rm_f  "test.xml"
-    FileUtils.rm_f  "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
 
-        == Clause
+      == Clause
 
-        [cols="1,1,1,1",headerrows=2]
-        |===
-        3.3+| a | a
+      [cols="1,1,1,1",headerrows=2]
+      |===
+      3.3+| a | a
 
-        | a
-        | a | a | a | a
-        |===
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit
-    end
-    expect(File.read("test.err.html"))
+      | a
+      | a | a | a | a
+      |===
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
       .to include ("Table rows in table cannot go outside thead: check rowspan")
 
-    FileUtils.rm_f  "test.xml"
-    FileUtils.rm_f  "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
+    # metanorma-extension section allows the same construct without error
+    input2 = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
 
-        == metanorma-extension
+      == metanorma-extension
 
-        [cols="1,1,1,1",headerrows=2]
-        |===
-        3.3+| a | a
+      [cols="1,1,1,1",headerrows=2]
+      |===
+      3.3+| a | a
 
-        | a
-        | a | a | a | a
-        |===#{' '}
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.not_to raise_error(SystemExit)
-    rescue SystemExit
-    end
+      | a
+      | a | a | a | a
+      |===#{' '}
+    INPUT
+    errors = convert_and_capture_errors(input2)
+    expect(errors).not_to include("Table rows in table cannot go outside thead")
   end
 
   xit "warns and aborts if columns out of bounds against colgroup" do
@@ -1172,31 +1025,22 @@ RSpec.describe Metanorma::Standoc, type: :validation do
   end
 
   it "warns and aborts if rows out of bounds" do
-    FileUtils.rm_f  "test.xml"
-    FileUtils.rm_f  "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
 
-        |===
-        .4+| a | a | a | a
+      |===
+      .4+| a | a | a | a
 
-        | a | a | a
-        | a | a | a
-        |===#{' '}
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit
-    end
-    expect(File.read("test.err.html"))
-      .not_to include ("Table exceeds maximum number of columns defined")
-    expect(File.read("test.err.html"))
-      .to include("Table rows in table are inconsistent: check rowspan")
+      | a | a | a
+      | a | a | a
+      |===#{' '}
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors]).not_to include ("Table exceeds maximum number of columns defined")
+    expect(result[:errors]).to include("Table rows in table are inconsistent: check rowspan")
   end
 
   it "err file succesfully created for docfile path" do
@@ -1234,8 +1078,6 @@ RSpec.describe Metanorma::Standoc, type: :validation do
   end
 
   it "aborts if illegal connective is used between cross-references" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
     input = <<~INPUT
       = Document title
       Author
@@ -1253,15 +1095,8 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       <<id1;through!id2>>
 
     INPUT
-    begin
-      expect do
-        a = [OPTIONS[0].merge(safe: :unsafe)]
-        Asciidoctor.convert(input, *a)
-      end.to raise_error(SystemExit)
-    rescue SystemExit, RuntimeError
-    end
-    expect(File.read("test.err.html"))
-      .to include("Illegal cross-reference connective: through")
+    result = convert_and_expect_abort(input, [OPTIONS[0].merge(safe: :unsafe)])
+    expect(result[:errors]).to include("Illegal cross-reference connective: through")
   end
 
   it "Warning if xref/@target, xref/location/@target, index/@to does not point to a real anchor" do
@@ -1520,11 +1355,9 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       * <<ref1,Computer>>; http://www.example.com
       ====
     INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .not_to include("Corrupt SVG image detected")
-    expect(File.read("test.err.html"))
-      .not_to include("SVG image warning")
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("Corrupt SVG image detected")
+    expect(errors).not_to include("SVG image warning")
     expect(File.exist?("test.xml")).to be true
 
     input = <<~INPUT
@@ -1543,13 +1376,10 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       * http://www.example.com[Phone]; http://www.example.com
       ====
     INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .not_to include("Corrupt SVG image detected")
-    expect(File.read("test.err.html"))
-      .not_to include("SVG image warning")
-    expect(File.read("test.err.html"))
-      .not_to include("SVG unresolved internal reference")
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("Corrupt SVG image detected")
+    expect(errors).not_to include("SVG image warning")
+    expect(errors).not_to include("SVG unresolved internal reference")
     expect(File.exist?("test.xml")).to be true
 
     input = <<~INPUT
@@ -1569,13 +1399,10 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       * <<express:action_schema:action_schema.basic,Coffee>>; mn://support_resource_schema
       ====
     INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .not_to include("Corrupt SVG image detected")
-    expect(File.read("test.err.html"))
-      .not_to include("SVG image warning")
-    expect(File.read("test.err.html"))
-      .to include("SVG unresolved internal reference") # ref1
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("Corrupt SVG image detected")
+    expect(errors).not_to include("SVG image warning")
+    expect(errors).to include("SVG unresolved internal reference") # ref1
     expect(File.exist?("test.xml")).to be true
   end
 
@@ -1593,25 +1420,23 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       .SVG title
       image::IETF-test.svg[]
     INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .not_to include("Corrupt SVG image detected")
+
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("Corrupt SVG image detected")
 
     FileUtils.rm_rf "test.xml"
-    Asciidoctor.convert(
+    errors = convert_and_capture_errors(
       input.sub(":no-pdf:",
-                ":svg-conform-profile: metanorma\n:no-pdf:"), *OPTIONS
+                ":svg-conform-profile: metanorma\n:no-pdf:"),
     )
-    expect(File.read("test.err.html"))
-      .not_to include("Corrupt SVG image detected")
+    expect(errors).not_to include("Corrupt SVG image detected")
 
     FileUtils.rm_rf "test.xml"
-    Asciidoctor.convert(
+    errors = convert_and_capture_errors(
       input.sub(":no-pdf:",
-                ":svg-conform-profile: svg_1_2_rfc\n:no-pdf:"), *OPTIONS
+                ":svg-conform-profile: svg_1_2_rfc\n:no-pdf:"),
     )
-    expect(File.read("test.err.html"))
-      .to include("Corrupt SVG image detected")
+    expect(errors).to include("Corrupt SVG image detected")
   end
 
   it "repairs SVG error" do
@@ -1632,17 +1457,12 @@ RSpec.describe Metanorma::Standoc, type: :validation do
 
       image::missing_viewbox.svg[]
     INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-    expect(File.read("test.err.html"))
-      .to include("Corrupt SVG image detected")
-    expect(File.read("test.err.html"))
-      .to include("error found")
-    expect(File.read("test.err.html"))
-      .to include("fix attempted")
-    expect(File.read("test.err.html"))
-      .not_to include("could not be fixed")
-    expect(File.read("test.err.html"))
-      .not_to include("SVG image warning")
+    errors = convert_and_capture_errors(input)
+    expect(errors).to include("Corrupt SVG image detected")
+    expect(errors).to include("error found")
+    expect(errors).to include("fix attempted")
+    expect(errors).not_to include("could not be fixed")
+    expect(errors).not_to include("SVG image warning")
     expect(File.exist?("test.xml")).to be true
     expect(File.read("test.xml").scan("viewBox=").count).to be >= 2
   end
@@ -1661,48 +1481,31 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       .SVG title
       image::gibberish.svg[]
     INPUT
-    Asciidoctor.convert(input, *OPTIONS)
-
-    expect(File.read("test.err.html"))
-      .to include("Corrupt SVG image detected")
-    expect(File.read("test.err.html"))
-      .to include("error found")
-    expect(File.read("test.err.html"))
-      .to include("fix attempted")
-    expect(File.read("test.err.html"))
-      .to include("could not be fixed")
+    errors = convert_and_capture_errors(input)
+    expect(errors).to include("Corrupt SVG image detected")
+    expect(errors).to include("error found")
+    expect(errors).to include("fix attempted")
+    expect(errors).to include("could not be fixed")
     # report only once, the second instance is retrieved from cache
-    expect(File.read("test.err.html").scan("could not be fixed").count).to eq(1)
-    expect(File.read("test.err.html"))
-      .not_to include("SVG image warning")
+    expect(errors.scan("could not be fixed").count).to eq(1)
+    expect(errors).not_to include("SVG image warning")
     expect(File.exist?("test.xml")).to be true
   end
 
   it "warns and aborts if images does not exist" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
 
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :no-pdf:
+      == Clause
+      image::spec/assets/nonexistent.png[]
 
-        == Clause
-        image::spec/assets/nonexistent.png[]
-
-      INPUT
-
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit
-    end
-
-    expect(File.read("test.err.html"))
-      .to include("Image not found")
-    expect(File.exist?("test.xml")).to be false
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors]).to include("Image not found")
+    expect(result[:xml_exists]).to be false
   end
 
   it "warns of explicit style set on ordered list" do
@@ -1880,33 +1683,22 @@ RSpec.describe Metanorma::Standoc, type: :validation do
   end
 
   it "aborts if improperly nested sourcecode markup" do
-    FileUtils.rm_f "test.xml"
-    FileUtils.rm_f "test.err.html"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
 
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :no-pdf:
+      == Clause
+      [source]
+      ----
+      {{{_... Any other entries, such as {{{*Info*}}} and {{{*Encrypt*}}} ... %(part 9)_}}}
+      ----
 
-        == Clause
-        [source]
-        ----
-        {{{_... Any other entries, such as {{{*Info*}}} and {{{*Encrypt*}}} ... %(part 9)_}}}
-        ----
-
-      INPUT
-
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit
-    end
-
-    expect(File.read("test.err.html"))
-      .to include("Improperly nested sourcecode markup")
-    expect(File.exist?("test.xml")).to be false
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors]).to include("Improperly nested sourcecode markup")
+    expect(result[:xml_exists]).to be false
   end
 
   context "warns of empty elements: " do
