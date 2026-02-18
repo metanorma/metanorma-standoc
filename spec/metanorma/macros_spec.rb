@@ -1402,6 +1402,7 @@ RSpec.describe Metanorma::Standoc do
 
       std-link:[ISO 131]
       std-link:[iso:std:iso:13485:en,droploc%clause=4,text]
+      std-link:[ISO 131,clause=5]
     INPUT
     output = <<~OUTPUT
        #{BLANK_HDR}
@@ -1418,6 +1419,13 @@ RSpec.describe Metanorma::Standoc do
                 </localityStack>
                 <display-text>text</display-text>
               </eref>
+              <eref type="inline" bibitemid="ISO 131" citeas="ISO\\u00a0131">
+               <localityStack>
+                  <locality type="clause">
+                     <referenceFrom>5</referenceFrom>
+                  </locality>
+               </localityStack>
+            </eref>
             </p>
           </clause>
         </sections>

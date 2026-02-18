@@ -31,8 +31,11 @@ module Metanorma
 
       def references_fetch(refs)
         i = 0
+        seen = {}
         ret = refs.each_with_object(Queue.new) do |ref, res|
+          seen[ref[:code]] and next
           i = fetch_ref_async(ref.merge(ord: i), i, res)
+          seen[ref[:code]] = true
         end
         [ret, i]
       end
