@@ -33,9 +33,10 @@ module Metanorma
         i = 0
         seen = {}
         ret = refs.each_with_object(Queue.new) do |ref, res|
-          seen[ref[:code]] and next
+          idx = ref[:code] + ref[:match][:anchor]
+          seen[idx] and next
           i = fetch_ref_async(ref.merge(ord: i), i, res)
-          seen[ref[:code]] = true
+          /[A-Za-z]/.match?(idx) and seen[idx] = true
         end
         [ret, i]
       end

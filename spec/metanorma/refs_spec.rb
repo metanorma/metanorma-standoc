@@ -12,9 +12,9 @@ RSpec.describe Metanorma::Standoc do
 
       * [[[iso123,ISO 123]]] _Standard_
       * [[[iso124,(1)ISO 123]]] _Standard_
-      * [[[iso124,number=2,code=ISO 123]]] _Standard_
-      * [[[iso124,number=3,ISO 123]]] _Standard_
-      * [[[iso124,usrlabel=4,ISO 123]]] _Standard_
+      * [[[iso125,number=2,code=ISO 123]]] _Standard_
+      * [[[iso126,number=3,ISO 123]]] _Standard_
+      * [[[iso127,usrlabel=4,ISO 123]]] _Standard_
     INPUT
     output = <<~OUTPUT
             #{BLANK_HDR}
@@ -49,7 +49,7 @@ RSpec.describe Metanorma::Standoc do
         <language>en</language>
         <script>Latn</script>
       </bibitem>
-            <bibitem id="_" anchor="iso124">
+            <bibitem id="_" anchor="iso125">
         <formattedref format="application/x-isodoc+xml">
           <em>Standard</em>
         </formattedref>
@@ -59,7 +59,7 @@ RSpec.describe Metanorma::Standoc do
         <language>en</language>
         <script>Latn</script>
       </bibitem>
-      <bibitem id="_" anchor="iso124">
+      <bibitem id="_" anchor="iso126">
         <formattedref format="application/x-isodoc+xml">
           <em>Standard</em>
         </formattedref>
@@ -69,7 +69,7 @@ RSpec.describe Metanorma::Standoc do
         <language>en</language>
         <script>Latn</script>
       </bibitem>
-            <bibitem id="_" anchor="iso124">
+            <bibitem id="_" anchor="iso127">
         <formattedref format="application/x-isodoc+xml">
           <em>Standard</em>
         </formattedref>
