@@ -16,6 +16,8 @@ module Metanorma
       end
 
       def reference_populate(refs)
+        @biblio_cutoff and
+          refs.each { |r| r[:publication_date_before] = @biblio_cutoff }
         ret = reference_queue(*references_fetch(refs))
         joint_prep = joint_entries_prep(ret)
         out = references2xml(ret)
