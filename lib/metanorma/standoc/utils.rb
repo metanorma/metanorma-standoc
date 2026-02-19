@@ -4,21 +4,8 @@ require "htmlentities"
 require "json"
 require "pathname"
 require "uuidtools"
-
-module Nokogiri
-  module XML
-    class Builder
-      class NodeBuilder
-        def add_noko_elem(name, val, attrs = {})
-          val and !val.empty? or return
-          send name, **Metanorma::Utils::attr_code(attrs) do |n|
-            n << val
-          end
-        end
-      end
-    end
-  end
-end
+require_relative "../../nokogiri/xml/builder"
+require_relative "date_utils"
 
 module Metanorma
   module Standoc

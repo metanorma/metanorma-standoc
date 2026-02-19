@@ -169,6 +169,7 @@ module Metanorma
         @bibdb = nil
         init_bib_caches(node)
         init_iev_caches(node)
+        @biblio_cutoff = biblio_cutoff(node)
         @local_bibdb =
           ::Metanorma::Standoc::LocalBiblio.new(node, @localdir, self)
       end
@@ -179,6 +180,17 @@ module Metanorma
           .new(@relaton_log, levels: %i(info warn error fatal unknown),
                              formatter: Relaton::Logger::FormatterJSON)
         Relaton.logger_pool[:my_logger] = relaton_logger
+      end
+
+      def biblio_cutoff(node)
+        dates = %w(revdate published-date accessed-date created-date
+                   implemented-date confirmed-date updated-date issued-date
+                   circulated-date unchanged-date).each_with_object([]) do |k, m|
+          date = node.attr(k) or next
+          m << date
+        end
+        dates.empty? and return nil
+        complete_and_compare_dates(dates)
       end
 
       def init_math(node)

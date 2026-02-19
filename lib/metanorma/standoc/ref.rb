@@ -131,7 +131,7 @@ module Metanorma
       end
 
       def refitem_render(xml, match, code)
-        xml.bibitem **refitem_render_attrs(match, code) do |t|
+        xml.bibitem(**refitem_render_attrs(match, code)) do |t|
           refitem_render_formattedref(t, match[:text])
           yr_match = refitem1yr(code[:id])
           refitem_render1(match, code, t)
