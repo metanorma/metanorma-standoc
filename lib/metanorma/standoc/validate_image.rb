@@ -1,5 +1,6 @@
 require "svg_conform"
 require "png_conform"
+require "metanorma-utils"
 
 module Metanorma
   module Standoc
@@ -160,12 +161,13 @@ module Metanorma
 
       def save_dataimage(uri, _relative_dir = true)
         imgtype, imgdata = save_dataimage_prep(uri)
-        Tempfile.open(["image", ".#{imgtype}"],
-                      mode: File::BINARY | File::SHARE_DELETE) do |f|
-          f.binmode
-          f.write(Base64.strict_decode64(imgdata))
-          @files_to_delete << f # persist to the end
-          f.path
+        Metanorma::Utils::Tempfile
+          .open(["image", ".#{imgtype}"],
+                mode: File::BINARY | File::SHARE_DELETE) do |f|
+            f.binmode
+            f.write(Base64.strict_decode64(imgdata))
+            @files_to_delete << f # persist to the end
+            f.path
         end
       end
 

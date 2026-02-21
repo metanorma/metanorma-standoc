@@ -1,4 +1,5 @@
 require "jing"
+require "metanorma-utils"
 
 module Metanorma
   module Standoc
@@ -15,7 +16,7 @@ module Metanorma
       end
 
       def schema_validate(doc, schema)
-        Tempfile.open(["tmp", ".xml"], encoding: "UTF-8") do |f|
+        Metanorma::Utils::Tempfile.open(["tmp", ".xml"], encoding: "UTF-8") do |f|
           schema_validate1(f, doc, schema)
         rescue Jing::Error => e
           clean_abort("Jing failed with error: #{e}", doc)
@@ -103,7 +104,7 @@ module Metanorma
       end
 
       def fragment_schema(root_element)
-        temp_schema = Tempfile.new(["dynamic_schema", ".rng"])
+        temp_schema = Metanorma::Utils::Tempfile.new(["dynamic_schema", ".rng"])
         temp_schema.write(<<~SCHEMA)
                   <grammar xmlns="http://relaxng.org/ns/structure/1.0">
             <include href="#{schema_location}">

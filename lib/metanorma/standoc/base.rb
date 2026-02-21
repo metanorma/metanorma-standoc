@@ -83,7 +83,8 @@ module Metanorma
       def clean_exit
         !@novalid && @local_log and
           @log.write("#{@output_dir}#{@filename}.err.html")
-        @files_to_delete.each { |f| FileUtils.rm f }
+        Metanorma::Utils::TempfileConfig.debug? or
+          @files_to_delete.each { |f| FileUtils.rm f }
       end
 
       def clean_abort(msg, file = nil)
