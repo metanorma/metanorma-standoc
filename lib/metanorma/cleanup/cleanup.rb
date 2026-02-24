@@ -21,6 +21,7 @@ require_relative "xref"
 require_relative "inline"
 require_relative "amend"
 require_relative "maths"
+require_relative "metadata"
 require_relative "image"
 require_relative "reqt"
 require_relative "text"
@@ -31,13 +32,14 @@ require_relative "terms_designations"
 require_relative "merge_bibitems"
 require_relative "spans_to_bibitem"
 require_relative "spans_to_bibitem_preprocessing"
+require_relative "log"
 
 module Metanorma
   module Standoc
     class Cleanup
       extend Forwardable
 
-      attr_reader :log
+      attr_reader :log, :files_to_delete
 
       # XPath expressions for boilerplate insertion
       NORM_REF =
@@ -121,6 +123,7 @@ module Metanorma
       include Review
       include Dochistory
       include TermsDesignations
+      include Metadata
 
       def cleanup(xmldoc)
         @doctype = xmldoc.at("//bibdata/ext/doctype")&.text
@@ -203,42 +206,6 @@ module Metanorma
         xmldoc
       end
 
-      def relaton_iev_cleanup(xmldoc)
-        _, err = RelatonIev::iev_cleanup(xmldoc, @bibdb)
-        err.each do |e|
-          @log.add("RELATON_5", nil, params: e)
-        end
-      end
-
-      RELATON_SEVERITIES =
-        { "INFO": "RELATON_4", "WARN":  "RELATON_3", "ERROR":  "RELATON_2",
-          "FATAL": "RELATON_1", "UNKNOWN":  "RELATON_4" }.freeze
-
-      def relaton_log_cleanup(_xmldoc)
-        @relaton_log or return
-        @relaton_log.rewind
-        @relaton_log.string.split(/(?<=})\n(?={)/).each do |l|
-          e = JSON.parse(l)
-          relaton_log_add?(e) and
-            @log.add(RELATON_SEVERITIES[e["severity"].to_sym], e["key"],
-                     params: [e["message"]])
-        end
-      end
-
-      def relaton_log_add?(entry)
-        entry["message"].include?("Fetching from") and return false
-        entry["message"].include?("Downloaded index from") and return false
-        entry["message"].start_with?("Found:") or return true
-        id = /^Found: `(.+)`$/.match(entry["message"]) or return true
-        !relaton_key_eqv?(entry["key"], id[1])
-      end
-
-      def relaton_key_eqv?(sought, found)
-        sought = sought.sub(" (all parts)", "").sub(/:(19|20)\d\d$/, "")
-        found = found.sub(" (all parts)", "").sub(/:(19|20)\d\d$/, "")
-        sought.end_with?(found)
-      end
-
       def docidentifier_cleanup(xmldoc); end
 
       TEXT_ELEMS =
@@ -264,54 +231,6 @@ module Metanorma
 
       def element_name_cleanup(xmldoc)
         xmldoc.traverse { |n| n.name = n.name.tr("_", "-") }
-      end
-
-      def metadata_cleanup(xmldoc)
-        bibdata_published(xmldoc) # feeds: bibdata_cleanup,
-        # docidentifier_cleanup (in generic: template)
-        metadata_attrs = @converter.instance_variable_get(:@metadata_attrs)
-        (metadata_attrs.nil? || metadata_attrs.empty?) and return
-        ins = add_misc_container(xmldoc)
-        ins << metadata_attrs
-      end
-
-      def pres_metadata_cleanup(xmldoc)
-        unless @isodoc
-          @isodoc = isodoc(@lang, @script, @locale)
-          @converter.instance_variable_set(:@isodoc, @isodoc)
-        end
-        isodoc_bibdata_parse(xmldoc)
-        xmldoc.xpath("//presentation-metadata/* | //semantic-metadata/*")
-          .each do |x|
-            /\{\{|\{%/.match?(x) or next
-            x.children = @isodoc.populate_template(
-              to_xml(x.children), nil
-            )
-        end
-      end
-
-      def metadata_cleanup_final(xmldoc)
-        root = nil
-        %w(semantic presentation).each do |k|
-          xmldoc.xpath("//#{k}-metadata").each_with_index do |x, i|
-            if i.zero? then root = x
-            else
-              root << x.remove.elements
-            end
-          end
-        end
-      end
-
-      def annotation_cleanup(xmldoc)
-        ret = xmldoc.xpath("//annotation[@type = 'ignore-log']")
-          .each_with_object([]) do |ann, m|
-            error_ids = Array(csv_split(ann.text || "", ","))
-            m << { from: ann["from"], to: ann["to"], error_ids: error_ids }
-            ann
-        end
-        config = @log.suppress_log
-        config[:locations] += ret
-        @log.suppress_log = config
       end
     end
   end

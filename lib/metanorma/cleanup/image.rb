@@ -86,7 +86,7 @@ module Metanorma
       def svg_classupdate(xmldoc)
         xmldoc.xpath("//m:svg[m:style]", "m" => SVG_NS)
           .each_with_index do |s, i|
-          svg_classupdate1(s, s.at("./m:style", "m" => SVG_NS), i)
+            svg_classupdate1(s, s.at("./m:style", "m" => SVG_NS), i)
         end
       end
 

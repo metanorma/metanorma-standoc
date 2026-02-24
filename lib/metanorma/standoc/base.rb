@@ -75,7 +75,8 @@ module Metanorma
       end
 
       def schema_version
-        f = File.read(File.join(File.dirname(__FILE__), "isodoc.rng"))
+        f = File.read(File.join(File.dirname(__FILE__), "..", "validate",
+                                "isodoc.rng"))
         m = / VERSION (v\S+)/.match(f)
         m[1]
       end
@@ -108,14 +109,21 @@ module Metanorma
 
       def makexml(node)
         result = makexml1(node)
-        cleanup_processor = Metanorma::Standoc::Cleanup.new(self)
-        ret1 = cleanup_processor.cleanup(Nokogiri::XML(insert_xml_cr(result)))
-        @log = cleanup_processor.log # Sync log back from cleanup
+        ret1 = cleanup(result)
         ret1.root.add_namespace(nil, xml_namespace)
         unless @novalid || in_isolated_conversion?
           validate_processor = Metanorma::Standoc::Validate.new(self)
           validate_processor.validate(ret1)
+          @files_to_delete = validate_processor.files_to_delete
         end
+        ret1
+      end
+
+      def cleanup(result)
+        cleanup_processor = Metanorma::Standoc::Cleanup.new(self)
+        ret1 = cleanup_processor.cleanup(Nokogiri::XML(insert_xml_cr(result)))
+        @log = cleanup_processor.log # Sync log back from cleanup
+        @files_to_delete = cleanup_processor.files_to_delete
         ret1
       end
 

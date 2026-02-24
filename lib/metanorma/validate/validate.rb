@@ -17,22 +17,34 @@ module Metanorma
       include Schema
 
       attr_reader :doc_ids, :doc_anchors, :doc_xrefs, :doc_id_seq,
-                  :doc_anchor_seq, :doc_id_seq_hash, :doc_anchor_seq_hash
+                  :doc_anchor_seq, :doc_id_seq_hash, :doc_anchor_seq_hash,
+                  :files_to_delete
+
+      # Instance variables to copy from converter
+      COPIED_INSTANCE_VARS = %i[
+        localdir dataurimaxsize svg_conform_profile no_isobib iev_globalname
+        iev_localname c
+      ].freeze
 
       def initialize(converter)
         @converter = converter
         @log = converter.log
-        @localdir = converter.localdir
-        @dataurimaxsize = converter.dataurimaxsize
-        @svg_conform_profile = converter.svg_conform_profile
-        @no_isobib = converter.no_isobib
-        @iev_globalname = converter.iev_globalname
-        @iev_localname = converter.iev_localname
         @files_to_delete = converter.files_to_delete
-        @c = converter.c
+        COPIED_INSTANCE_VARS.each do |var|
+          instance_variable_set("@#{var}",
+                                converter.instance_variable_get("@#{var}"))
+        end
         @doc_ids = {}
         @doc_anchors = {}
         @doc_xrefs = {}
+      end
+
+      class << self
+        attr_accessor :_file
+      end
+
+      def self.inherited(konv) # rubocop:disable Lint/MissingSuper
+        konv._file = caller_locations(1..1).first.absolute_path
       end
 
       # Delegate methods that are needed from converter

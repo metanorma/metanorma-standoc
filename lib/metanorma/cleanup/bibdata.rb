@@ -222,6 +222,8 @@ module Metanorma
           p.nil? || p.text.strip.empty? and c.remove
         end
       end
+
+      def docidentifier_cleanup(xmldoc); end
     end
   end
 end
