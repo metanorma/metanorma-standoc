@@ -9,9 +9,9 @@ require_relative "anchor"
 require_relative "blocks"
 require_relative "section"
 require_relative "table"
-require_relative "validate"
 require_relative "utils"
 require_relative "../cleanup/cleanup"
+require_relative "../validate/validate"
 require_relative "reqt"
 require_relative "macros"
 require_relative "log"
@@ -100,7 +100,6 @@ module Metanorma
       include ::Metanorma::Standoc::Section
       include ::Metanorma::Standoc::Table
       include ::Metanorma::Standoc::Utils
-      include ::Metanorma::Standoc::Validate
 
       register_for "standoc"
 
@@ -158,6 +157,12 @@ module Metanorma
       alias_method :inline_button, :skip
       alias_method :inline_kbd, :skip
       alias_method :inline_menu, :skip
+
+      # Wrapper method to access validation functionality
+      def validate_document_fragment(xml_fragment)
+        validate_processor = Metanorma::Standoc::Validate.new(self)
+        validate_processor.validate_document_fragment(xml_fragment)
+      end
     end
   end
 end
