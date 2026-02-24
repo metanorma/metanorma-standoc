@@ -21,16 +21,18 @@ module Metanorma
                   :files_to_delete
 
       # Instance variables to copy from converter
-      COPIED_INSTANCE_VARS = %i[
-        localdir dataurimaxsize svg_conform_profile no_isobib iev_globalname
-        iev_localname c
-      ].freeze
+      def copied_instance_vars
+        %i[
+          localdir dataurimaxsize svg_conform_profile no_isobib iev_globalname
+          iev_localname c
+        ]
+      end
 
       def initialize(converter)
         @converter = converter
         @log = converter.log
         @files_to_delete = converter.files_to_delete
-        COPIED_INSTANCE_VARS.each do |var|
+        copied_instance_vars.each do |var|
           instance_variable_set("@#{var}",
                                 converter.instance_variable_get("@#{var}"))
         end

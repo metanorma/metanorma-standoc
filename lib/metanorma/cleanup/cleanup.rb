@@ -51,21 +51,30 @@ module Metanorma
         "//sections/clause[descendant::terms][@type = 'terms'] | " \
         "//sections/clause[not(@type = 'terms')]//terms".freeze
 
-      # Instance variables to copy from converter
-      COPIED_INSTANCE_VARS = %i[
-        datauriattachment datauriimage local_log isodoc anchors localdir c
-        refids sourcecode_markup_start sourcecode_markup_end smartquotes
-        toclevels htmltoclevels doctoclevels pdftoclevels stage_published
-        numberfmt_default svg_conform_profile dataurimaxsize index_terms
-        boilerplateauthority embed_hdr embed_id erefstyle originstyle xrefstyle
-        blockunnumbered keepasciimath numberfmt_formula numberfmt_prof
-        sort_biblio reqt_models default_requirement_model
-      ].freeze
+      # Use metaprogramming to copy instance variables from converter
+      def copied_instance_variables
+        %i[
+          datauriattachment datauriimage local_log isodoc anchors localdir c
+          refids sourcecode_markup_start sourcecode_markup_end smartquotes
+          toclevels htmltoclevels doctoclevels pdftoclevels stage_published
+          numberfmt_default svg_conform_profile dataurimaxsize index_terms
+          boilerplateauthority embed_hdr embed_id erefstyle originstyle
+          xrefstyle blockunnumbered keepasciimath numberfmt_formula
+          numberfmt_prof sort_biblio reqt_models default_requirement_model
+        ]
+      end
 
-      # Delegate method calls to converter
-      def_delegators :@converter,
-                     :isodoc, :to_xml, :csv_split, :isolated_asciidoctor_convert,
-                     :xml_namespace, :backend, :reference1code, :reference_populate
+      # Define delegator methods - can be overridden in subclasses
+      def self.delegator_methods
+        %i[
+          isodoc to_xml csv_split
+          isolated_asciidoctor_convert xml_namespace backend
+          reference1code reference_populate
+        ]
+      end
+
+      # Set up delegators using the class method
+      def_delegators :@converter, *delegator_methods
 
       def initialize(converter)
         @converter = converter
@@ -84,8 +93,7 @@ module Metanorma
         @filename = converter.filename
         @files_to_delete = converter.files_to_delete
 
-        # Use metaprogramming to copy instance variables from converter
-        COPIED_INSTANCE_VARS.each do |var|
+        copied_instance_variables.each do |var|
           instance_variable_set("@#{var}",
                                 converter.instance_variable_get("@#{var}"))
         end
