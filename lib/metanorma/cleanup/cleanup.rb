@@ -97,6 +97,14 @@ module Metanorma
         @relaton_log = converter.relaton_log
       end
 
+      class << self
+        attr_accessor :_file
+      end
+
+      def self.inherited(konv) # rubocop:disable Lint/MissingSuper
+        konv._file = caller_locations(1..1).first.absolute_path
+      end
+
       # Include all cleanup modules
       include Attachment
       include Block
@@ -205,8 +213,6 @@ module Metanorma
         metadata_cleanup_final(xmldoc)
         xmldoc
       end
-
-      def docidentifier_cleanup(xmldoc); end
 
       TEXT_ELEMS =
         %w{status language script version author name callout phone email

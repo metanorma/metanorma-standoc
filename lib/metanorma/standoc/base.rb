@@ -112,19 +112,31 @@ module Metanorma
         ret1 = cleanup(result)
         ret1.root.add_namespace(nil, xml_namespace)
         unless @novalid || in_isolated_conversion?
-          validate_processor = Metanorma::Standoc::Validate.new(self)
+          validate_processor = validate_class.new(self)
           validate_processor.validate(ret1)
           @files_to_delete = validate_processor.files_to_delete
         end
         ret1
       end
 
+      def validate_class
+        Object.const_get(
+          self.class.name.sub(/::Converter$/, "::Validate"),
+        )
+      end
+
       def cleanup(result)
-        cleanup_processor = Metanorma::Standoc::Cleanup.new(self)
+        cleanup_processor = cleanup_class.new(self)
         ret1 = cleanup_processor.cleanup(Nokogiri::XML(insert_xml_cr(result)))
         @log = cleanup_processor.log # Sync log back from cleanup
         @files_to_delete = cleanup_processor.files_to_delete
         ret1
+      end
+
+      def cleanup_class
+        Object.const_get(
+          self.class.name.sub(/::Converter$/, "::Cleanup"),
+        )
       end
 
       def in_isolated_conversion?

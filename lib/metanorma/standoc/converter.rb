@@ -160,7 +160,7 @@ module Metanorma
 
       # Wrapper method to access validation functionality
       def validate_document_fragment(xml_fragment)
-        validate_processor = Metanorma::Standoc::Validate.new(self)
+        validate_processor = validate_class.new(self)
         validate_processor.validate_document_fragment(xml_fragment)
       end
     end
