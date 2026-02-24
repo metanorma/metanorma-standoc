@@ -108,7 +108,9 @@ module Metanorma
 
       def makexml(node)
         result = makexml1(node)
-        ret1 = cleanup(Nokogiri::XML(insert_xml_cr(result)))
+        cleanup_processor = Metanorma::Standoc::Cleanup.new(self)
+        ret1 = cleanup_processor.cleanup(Nokogiri::XML(insert_xml_cr(result)))
+        @log = cleanup_processor.log # Sync log back from cleanup
         ret1.root.add_namespace(nil, xml_namespace)
         validate(ret1) unless @novalid || in_isolated_conversion?
         ret1

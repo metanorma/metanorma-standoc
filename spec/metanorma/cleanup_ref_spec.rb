@@ -33,7 +33,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "add default eref and origin style" do
     input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR.sub(":nodoc:", ":nodoc:\n:erefstyle: short\n:originstyle: full\n:xrefstyle: basic")}
+      #{ASCIIDOC_BLANK_HDR.sub(':nodoc:', ":nodoc:\n:erefstyle: short\n:originstyle: full\n:xrefstyle: basic")}
       <<iso216>>
       <<A>>
 
@@ -66,7 +66,7 @@ RSpec.describe Metanorma::Standoc do
              </foreword>
           </preface>
           <sections>
-     
+
        </sections>
        </metanorma>
     OUTPUT
@@ -491,7 +491,7 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     c = Metanorma::Standoc::Converter.new("standoc", *OPTIONS)
     c.init(Metanorma::Standoc::Utils::EmptyAttr.new)
-    xml = c.cleanup(Nokogiri::XML(input)).to_xml
+    xml = Metanorma::Standoc::Cleanup.new(c).cleanup(Nokogiri::XML(input)).to_xml
     xml = Nokogiri::XML(xml).at("//bibliography")
     expect(strip_guid(Canon.format_xml(xml.to_xml)))
       .to be_equivalent_to Canon.format_xml(output)

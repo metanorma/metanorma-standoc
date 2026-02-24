@@ -11,7 +11,7 @@ require_relative "section"
 require_relative "table"
 require_relative "validate"
 require_relative "utils"
-require_relative "cleanup"
+require_relative "../cleanup/cleanup"
 require_relative "reqt"
 require_relative "macros"
 require_relative "log"
@@ -100,12 +100,14 @@ module Metanorma
       include ::Metanorma::Standoc::Section
       include ::Metanorma::Standoc::Table
       include ::Metanorma::Standoc::Utils
-      include ::Metanorma::Standoc::Cleanup
       include ::Metanorma::Standoc::Validate
 
       register_for "standoc"
 
       $xreftext = {}
+
+      attr_reader :bibdb, :lang, :script, :locale, :relaton_log, :libdir, :backend,
+                  :novalid, :local_log, :output_dir, :filename, :files_to_delete
 
       def initialize(backend, opts)
         doc = opts&.dig(:document)

@@ -999,7 +999,9 @@ RSpec.describe Metanorma::Standoc do
              </sections>
       </metanorma>
     OUTPUT
-    expect(Canon.format_xml(Metanorma::Standoc::Converter.new(nil, *OPTIONS)
+    c = Metanorma::Standoc::Converter.new(nil, *OPTIONS)
+    c.init(Metanorma::Standoc::Utils::EmptyAttr.new)
+    expect(Canon.format_xml(Metanorma::Standoc::Cleanup.new(c)
       .cleanup(Nokogiri::XML(input)).root.to_xml))
       .to be_equivalent_to Canon.format_xml(output)
   end

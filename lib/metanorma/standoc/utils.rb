@@ -206,6 +206,11 @@ module Metanorma
 
       module_function :adoc2xml
 
+      def textcleanup(result)
+        text = result.flatten.map(&:rstrip) * "\n"
+        text.gsub(/(?<!\s)\s+<fn /, "<fn ")
+      end
+
       class EmptyAttr
         def attr(_any_attribute)
           nil

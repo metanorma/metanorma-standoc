@@ -23,9 +23,7 @@ module Metanorma
       def init_vars
         @fn_number ||= 0
         @refids = Set.new
-        @anchor_alias = {}
         @anchors = {}
-        @internal_eref_namespaces = []
         @seen_headers = []
         @seen_headers_canonical = []
         @embed_hdr = []
@@ -165,10 +163,10 @@ module Metanorma
         @no_isobib = node.attr("no-isobib")
         @flush_caches = node.attr("flush-caches")
         @sort_biblio = node.attr("sort-biblio") != "false"
-        init_bib_log
         @bibdb = nil
         init_bib_caches(node)
         init_iev_caches(node)
+        init_bib_log
         @biblio_cutoff = biblio_cutoff(node)
         @local_bibdb =
           ::Metanorma::Standoc::LocalBiblio.new(node, @localdir, self)
