@@ -1571,18 +1571,18 @@ RSpec.describe Metanorma::Standoc do
   private
 
   def mock_norm_ref_boilerplate_insert_iso
-    stub_const("Metanorma::Standoc::Converter::NORM_REF",
+    stub_const("Metanorma::Standoc::Cleanup::NORM_REF",
                "//sections//references | //bibliography//references")
   end
 
   def mock_termdef_boilerplate_insert_iso(m)
-    stub_const("Metanorma::Standoc::Converter::TERM_CLAUSE",
+    stub_const("Metanorma::Standoc::Cleanup::TERM_CLAUSE",
                "//sections//terms")
 
-    expect_any_instance_of(Metanorma::Standoc::Converter)
+    expect_any_instance_of(Metanorma::Standoc::Cleanup)
       .to receive(:termdef_boilerplate_insert).exactly(m).times
       .and_wrap_original do |method, a, b|
-      method.call(a, b, true)
+        method.call(a, b, true)
     end
   end
 

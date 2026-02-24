@@ -1,6 +1,6 @@
 module Metanorma
   module Standoc
-    module BoilerplateLiquid
+    module Boilerplate
       # The boilerplate file is in Liquid AsciiDoc format
       # (technically, `boilerplate.adoc.liquid`).
       #

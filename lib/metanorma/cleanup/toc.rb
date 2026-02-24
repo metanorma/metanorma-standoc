@@ -79,18 +79,20 @@ module Metanorma
 
       def toc_metadata(xmldoc)
         @htmltoclevels || @doctoclevels || @pdftoclevels || @toclevels or return
+        # Check if TOC metadata already exists to avoid duplication
+        xmldoc.at("//presentation-metadata/toc-heading-levels") and return
         ins = add_misc_container(xmldoc)
         toc_metadata1(ins)
       end
 
       def toc_metadata1(ins)
-        [[@toclevels, "toc-heading-levels"],
-         [@htmltoclevels, "html-toc-heading-levels"],
-         [@doctoclevels, "doc-toc-heading-levels"],
-         [@pdftoclevels, "pdf-toc-heading-levels"]].each do |n|
-          n[0] and ins << "<presentation-metadata><#{n[1]}>" \
-                          "#{n[0]}</#{n[1]}></presentation-metadata>"
-        end
+        content = [[@toclevels, "toc-heading-levels"],
+                   [@htmltoclevels, "html-toc-heading-levels"],
+                   [@doctoclevels, "doc-toc-heading-levels"],
+                   [@pdftoclevels, "pdf-toc-heading-levels"]].map do |n|
+          n[0] ? "<#{n[1]}>#{n[0]}</#{n[1]}>" : nil
+        end.compact.join
+        content.empty? or ins << "<presentation-metadata>#{content}</presentation-metadata>"
       end
     end
   end

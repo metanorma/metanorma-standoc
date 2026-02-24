@@ -37,10 +37,6 @@ module Metanorma
         ref.at("./title")
       end
 
-      NORM_REF =
-        "//bibliography/references[@normative = 'true'][not(@hidden)] | " \
-        "//bibliography/clause[.//references[@normative = 'true']]".freeze
-
       def dup_with_namespace(elem)
         ret = elem.dup
         ret.add_namespace(nil, xml_namespace)
@@ -53,6 +49,7 @@ module Metanorma
         xmldoc.at("//metanorma-extension/semantic-metadata/" \
                   "headless[text() = 'true']") and return nil
         @isodoc ||= isodoc(@lang, @script, @locale)
+        @i18n = @isodoc.i18n
         isodoc_bibdata_parse(xmldoc)
         @isodoc
       end

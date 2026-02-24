@@ -39,11 +39,6 @@ module Metanorma
         end
       end
 
-      TERM_CLAUSE =
-        "//sections//terms[not(.//ancestor::clause[@type = 'terms'])] | " \
-        "//sections/clause[descendant::terms][@type = 'terms'] | " \
-        "//sections/clause[not(@type = 'terms')]//terms".freeze
-
       def termdef_boilerplate_cleanup(xmldoc)
         # termdef_remove_initial_paras(xmldoc)
       end

@@ -1666,7 +1666,7 @@ RSpec.describe Metanorma::Standoc do
   private
 
   def mock_sort_biblio
-    expect_any_instance_of(Metanorma::Standoc::Converter).to receive(:sort_biblio) do |_instance, bib|
+    expect_any_instance_of(Metanorma::Standoc::Cleanup).to receive(:sort_biblio) do |_instance, bib|
       bib.sort do |a, b|
         a_title = a.at("./title")&.text || a.at("./formattedref")&.text || ""
         b_title = b.at("./title")&.text || b.at("./formattedref")&.text || ""

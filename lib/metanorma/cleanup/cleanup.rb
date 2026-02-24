@@ -39,6 +39,27 @@ module Metanorma
 
       attr_reader :log
 
+      # XPath expressions for boilerplate insertion
+      NORM_REF =
+        "//bibliography/references[@normative = 'true'][not(@hidden)] | " \
+        "//bibliography/clause[.//references[@normative = 'true']]".freeze
+
+      TERM_CLAUSE =
+        "//sections//terms[not(.//ancestor::clause[@type = 'terms'])] | " \
+        "//sections/clause[descendant::terms][@type = 'terms'] | " \
+        "//sections/clause[not(@type = 'terms')]//terms".freeze
+
+      # Instance variables to copy from converter
+      COPIED_INSTANCE_VARS = %i[
+        datauriattachment datauriimage local_log isodoc anchors localdir c
+        refids sourcecode_markup_start sourcecode_markup_end smartquotes
+        toclevels htmltoclevels doctoclevels pdftoclevels stage_published
+        numberfmt_default svg_conform_profile dataurimaxsize index_terms
+        boilerplateauthority embed_hdr embed_id erefstyle originstyle xrefstyle
+        blockunnumbered keepasciimath numberfmt_formula numberfmt_prof
+        sort_biblio reqt_models default_requirement_model
+      ].freeze
+
       # Delegate method calls to converter
       def_delegators :@converter,
                      :isodoc, :to_xml, :csv_split, :isolated_asciidoctor_convert,
@@ -48,6 +69,7 @@ module Metanorma
         @converter = converter
         @anchor_alias = {}
         @internal_eref_namespaces = []
+
         # Shadow instance variables from converter (attributes/accessors)
         @log = converter.log
         @bibdb = converter.bibdb
@@ -59,27 +81,16 @@ module Metanorma
         @output_dir = converter.output_dir
         @filename = converter.filename
         @files_to_delete = converter.files_to_delete
-        @datauriattachment = converter.instance_variable_get(:@datauriattachment)
-        # Use instance_variable_get for variables that conflict with methods
-        # or don't have clean accessors
-        @local_log = converter.instance_variable_get(:@local_log)
-        @isodoc = converter.instance_variable_get(:@isodoc)
-        @anchors = converter.instance_variable_get(:@anchors)
-        @localdir = converter.instance_variable_get(:@localdir)
-        @c = converter.instance_variable_get(:@c)
-        @refids = converter.instance_variable_get(:@refids)
-        @sourcecode_markup_start =
-          converter.instance_variable_get(:@sourcecode_markup_start)
-        @sourcecode_markup_end =
-          converter.instance_variable_get(:@sourcecode_markup_end)
-        @smartquotes = converter.instance_variable_get(:@smartquotes)
+
+        # Use metaprogramming to copy instance variables from converter
+        COPIED_INSTANCE_VARS.each do |var|
+          instance_variable_set("@#{var}",
+                                converter.instance_variable_get("@#{var}"))
+        end
+
+        # Special handling for derived values
         @i18n = @isodoc&.i18n
-        @toclevels = converter.instance_variable_get(:@toclevels)
-        @htmltoclevels = converter.instance_variable_get(:@htmltoclevels)
-        @doctoclevels = converter.instance_variable_get(:@doctoclevels)
-        @pdftoclevels = converter.instance_variable_get(:@pdftoclevels)
-        @stage_published = converter.instance_variable_get(:@stage_published)
-        @numberfmt_default = converter.instance_variable_get(:@numberfmt_default)
+
         # Reuse converter's relaton_log instead of creating a new one
         @relaton_log = converter.relaton_log
       end

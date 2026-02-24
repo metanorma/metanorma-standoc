@@ -3,6 +3,8 @@ require_relative "attachment"
 module Metanorma
   module Standoc
     module Bibitem
+      include Attachment
+
       def formattedref_spans(xmldoc)
         xmldoc.xpath("//bibitem[formattedref//span]").each do |b|
           ret = new_bibitem_from_formattedref_spans(b)
