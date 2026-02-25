@@ -67,7 +67,7 @@ module Metanorma
       # Define delegator methods - can be overridden in subclasses
       def self.delegator_methods
         %i[
-          isodoc to_xml csv_split
+          isodoc to_xml csv_split skip_docid
           isolated_asciidoctor_convert xml_namespace backend
           reference1code reference_populate
         ]
