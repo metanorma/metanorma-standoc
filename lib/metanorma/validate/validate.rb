@@ -10,6 +10,8 @@ require "iev"
 module Metanorma
   module Standoc
     class Validate
+      extend Forwardable
+
       include Image
       include Section
       include Table
@@ -22,11 +24,17 @@ module Metanorma
 
       # Instance variables to copy from converter
       def copied_instance_variables
-        %i[
-          localdir dataurimaxsize svg_conform_profile no_isobib iev_globalname
-          iev_localname c lang script locale i18n
-        ]
+        %i[localdir dataurimaxsize svg_conform_profile no_isobib iev_globalname
+           iev_localname c lang script locale i18n]
       end
+
+      # Define delegator methods - can be overridden in subclasses
+      def self.delegator_methods
+        %i[requirement_validate clean_abort xml_namespace]
+      end
+
+      # Set up delegators using the class method
+      def_delegators :@converter, *delegator_methods
 
       def initialize(converter)
         @converter = converter
@@ -49,19 +57,6 @@ module Metanorma
         konv._file = caller_locations(1..1).first.absolute_path
       end
 
-      # Delegate methods that are needed from converter
-      def method_missing(method, *, &)
-        if respond_to_missing?(method)
-          @converter.send(method, *, &)
-        else
-          super
-        end
-      end
-
-      def respond_to_missing?(method, include_private = false)
-        @converter.respond_to?(method, include_private) || super
-      end
-
       def content_validate(doc)
         @doctype = doc.at("//bibdata/ext/doctype")&.text
         repeat_id_validate(doc.root) # feeds xref_validate, termsect_validate
@@ -80,7 +75,8 @@ module Metanorma
         math_validate(doc)
         fatalerrors = @log.abort_messages
         fatalerrors.empty? or
-          clean_abort("\n\nFATAL ERRORS:\n\n#{fatalerrors.join("\n\n")}", doc)
+          clean_abort("\n\nFATAL ERRORS:\n\n#{fatalerrors.join("\n\n")}",
+                      doc)
       end
 
       MATHML_NS = "http://www.w3.org/1998/Math/MathML".freeze
@@ -143,7 +139,8 @@ module Metanorma
 
       def nested_asset_xref_report(outer, inner, _doc)
         i = @doc_xrefs[inner["anchor"]] or return
-        @log.add("STANDOC_35", i, params: [inner.name, outer.name, i.to_xml])
+        @log.add("STANDOC_35", i,
+                 params: [inner.name, outer.name, i.to_xml])
       end
 
       def validate(doc)
@@ -169,7 +166,8 @@ module Metanorma
           @log.add("STANDOC_36", elem,
                    params: [elem["anchor"], @doc_anchors[elem["anchor"]][:line]])
         else
-          @doc_anchors[elem["anchor"]] = { line: elem.line, id: elem["id"] }
+          @doc_anchors[elem["anchor"]] =
+            { line: elem.line, id: elem["id"] }
           @doc_anchor_seq << elem["anchor"]
         end
       end
