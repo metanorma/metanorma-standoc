@@ -61,6 +61,7 @@ module Metanorma
           boilerplateauthority embed_hdr embed_id erefstyle originstyle
           xrefstyle blockunnumbered keepasciimath numberfmt_formula
           numberfmt_prof sort_biblio reqt_models default_requirement_model
+          document_scheme
         ]
       end
 
