@@ -24,7 +24,7 @@ module Metanorma
       def copied_instance_vars
         %i[
           localdir dataurimaxsize svg_conform_profile no_isobib iev_globalname
-          iev_localname c
+          iev_localname c lang script locale
         ]
       end
 
