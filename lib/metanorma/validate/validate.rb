@@ -25,7 +25,7 @@ module Metanorma
       # Instance variables to copy from converter
       def copied_instance_variables
         %i[localdir dataurimaxsize svg_conform_profile no_isobib iev_globalname
-           iev_localname c lang script locale i18n]
+           iev_localname c lang script locale i18n doctype]
       end
 
       # Define delegator methods - can be overridden in subclasses
