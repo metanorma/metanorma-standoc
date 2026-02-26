@@ -1,6 +1,6 @@
 module Metanorma
   module Standoc
-    module IsolatedConverter
+    module Utils
       # Create an isolated Asciidoctor conversion that doesn't interfere with
       # the current converter's instance variables
       def isolated_asciidoctor_convert(content, options = {})

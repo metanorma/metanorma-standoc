@@ -1795,7 +1795,7 @@ QU1FOiB0ZXN0Cgo=
     # Create a custom converter class to test validation skipping
     test_converter_class = Class.new do
       include Metanorma::Standoc::Base
-      include Metanorma::Standoc::IsolatedConverter
+      include Metanorma::Standoc::Utils
 
       def initialize
         @novalid = false

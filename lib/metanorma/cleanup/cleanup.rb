@@ -74,6 +74,10 @@ module Metanorma
         ]
       end
 
+      def self.delegator_methods
+        []
+      end
+
       # Set up delegators using the class method
       def_delegators :@converter, *delegator_methods
 
@@ -104,6 +108,10 @@ module Metanorma
 
         # Reuse converter's relaton_log instead of creating a new one
         @relaton_log = converter.relaton_log
+      end
+
+      def to_xml(xml)
+        @converter.to_xml(xml)
       end
 
       class << self

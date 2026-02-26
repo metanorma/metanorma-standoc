@@ -81,7 +81,7 @@ module Metanorma
 
       def amend_description(yaml)
         a = yaml["description"] or return ""
-        out = adoc2xml(a, backend.to_sym)
+        out = adoc2xml(a, @converter.backend.to_sym)
         "<description>#{out.children.to_xml}</description>"
       end
 

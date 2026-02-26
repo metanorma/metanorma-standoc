@@ -6,6 +6,7 @@ require "pathname"
 require "uuidtools"
 require_relative "../../nokogiri/xml/builder"
 require_relative "date_utils"
+require_relative "isolated_converter"
 
 module Metanorma
   module Standoc

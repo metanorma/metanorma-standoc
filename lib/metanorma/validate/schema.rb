@@ -19,23 +19,23 @@ module Metanorma
           Tempfile.open(["tmp", ".xml"], encoding: "UTF-8") do |f|
             schema_validate1(f, doc, schema)
           rescue Jing::Error => e
-            clean_abort("Jing failed with error: #{e}", doc)
+            @converter.clean_abort("Jing failed with error: #{e}", doc)
           ensure
             f.close!
           end
         end
 
+        # Force UTF-8 encoding for Java console output to fix
+        # Japanese Windows issue
+        # See: https://github.com/metanorma/mn-samples-plateau/issues/248
+        # The -Dsun.jnu.encoding parameter controls Java's native interface
+        # encoding (console I/O)
         def schema_validate1(file, doc, schema)
           file.write(to_xml(doc))
           file.close
-
-          # Force UTF-8 encoding for Java console output to fix Japanese Windows issue
-          # See: https://github.com/metanorma/mn-samples-plateau/issues/248
-          # The -Dsun.jnu.encoding parameter controls Java's native interface encoding (console I/O)
           old_java_opts = ENV["_JAVA_OPTIONS"]
           ENV["_JAVA_OPTIONS"] =
             "-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8"
-
           begin
             errors = schema_validate_with_retry(schema, file.path)
             warn "Syntax Valid!" if errors.none?
@@ -50,11 +50,13 @@ module Metanorma
           end
         end
 
-        # Retry Jing validation with exponential backoff to handle "Too many open files" errors.
-        # This can occur when validating large documents or when multiple validations happen
-        # in quick succession, exhausting the system's file descriptor limit.
-        # Java's Jing validator opens multiple file handles for the JAR, schema, and XML files,
-        # and the OS may not clean them up fast enough.
+        # Retry Jing validation with exponential backoff to handle
+        # "Too many open files" errors.
+        # This can occur when validating large documents or when multiple
+        # validations happen in quick succession, exhausting the system's
+        # file descriptor limit.
+        # Java's Jing validator opens multiple file handles for the JAR, schema,
+        # and XML files, # and the OS may not clean them up fast enough.
         def schema_validate_with_retry(schema, file_path, max_retries: 3)
           retries = 0
           begin
@@ -98,7 +100,7 @@ module Metanorma
           f.root.namespace or
             f = Nokogiri::XML(xml_fragment
             .sub(/<#{root_tag}([^>]*)>/,
-                 "<#{root_tag}\\1 xmlns='#{xml_namespace}'>"))
+                 "<#{root_tag}\\1 xmlns='#{@converter.xml_namespace}'>"))
           f
         rescue StandardError
           nil

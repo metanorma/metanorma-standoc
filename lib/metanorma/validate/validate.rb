@@ -33,6 +33,10 @@ module Metanorma
         %i[requirement_validate clean_abort xml_namespace]
       end
 
+      def self.delegator_methods
+        []
+      end
+
       # Set up delegators using the class method
       def_delegators :@converter, *delegator_methods
 
@@ -69,13 +73,13 @@ module Metanorma
         preferred_validate(doc)
         termsect_validate(doc)
         table_validate(doc)
-        requirement_validate(doc)
+        @converter.requirement_validate(doc)
         image_validate(doc)
         block_validate(doc)
         math_validate(doc)
         fatalerrors = @log.abort_messages
         fatalerrors.empty? or
-          clean_abort("\n\nFATAL ERRORS:\n\n#{fatalerrors.join("\n\n")}",
+          @converter.clean_abort("\n\nFATAL ERRORS:\n\n#{fatalerrors.join("\n\n")}",
                       doc)
       end
 

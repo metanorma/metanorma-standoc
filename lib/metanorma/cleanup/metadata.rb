@@ -12,16 +12,16 @@ module Metanorma
 
       def pres_metadata_cleanup(xmldoc)
         unless @isodoc
-          @isodoc = isodoc(@lang, @script, @locale)
+          @isodoc = @converter.isodoc(@lang, @script, @locale)
           @converter.instance_variable_set(:@isodoc, @isodoc)
         end
         isodoc_bibdata_parse(xmldoc)
         xmldoc.xpath("//presentation-metadata/* | //semantic-metadata/*")
           .each do |x|
-            /\{\{|\{%/.match?(x) or next
-            x.children = @isodoc.populate_template(
-              to_xml(x.children), nil
-            )
+          /\{\{|\{%/.match?(x) or next
+          x.children = @isodoc.populate_template(
+            to_xml(x.children), nil
+          )
         end
       end
 
@@ -40,10 +40,10 @@ module Metanorma
       def annotation_cleanup(xmldoc)
         ret = xmldoc.xpath("//annotation[@type = 'ignore-log']")
           .each_with_object([]) do |ann, m|
-            error_ids = Array(csv_split(ann.text || "", ","))
-            m << { from: ann["from"], to: ann["to"],
-                   error_ids: error_ids }
-            ann
+          error_ids = Array(@converter.csv_split(ann.text || "", ","))
+          m << { from: ann["from"], to: ann["to"],
+                 error_ids: error_ids }
+          ann
         end
         config = @log.suppress_log
         config[:locations] += ret
