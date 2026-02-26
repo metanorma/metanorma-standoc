@@ -1,4 +1,4 @@
-require "metanorma/standoc/utils"
+require "metanorma/converter/utils"
 require_relative "image"
 require_relative "section"
 require_relative "table"

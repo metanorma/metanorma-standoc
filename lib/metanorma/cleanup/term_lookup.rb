@@ -1,4 +1,4 @@
-require "metanorma/standoc/utils"
+require "metanorma/converter/utils"
 
 module Metanorma
   module Standoc
