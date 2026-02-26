@@ -28,18 +28,6 @@ module Metanorma
            iev_localname c lang script locale i18n doctype]
       end
 
-      # Define delegator methods - can be overridden in subclasses
-      def self.delegator_methods
-        %i[requirement_validate clean_abort xml_namespace]
-      end
-
-      def self.delegator_methods
-        []
-      end
-
-      # Set up delegators using the class method
-      def_delegators :@converter, *delegator_methods
-
       def initialize(converter)
         @converter = converter
         @log = converter.log
