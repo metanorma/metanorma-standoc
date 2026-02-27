@@ -90,10 +90,10 @@ module Metanorma
 
       def insert_hidden_bibitems(bib)
         refs = bib.each_with_object([]) do |b, m|
-          m << @converter
+          m << @conv
             .reference1code(%(<ref id="#{b[:id]}">[#{b[:ref]}]</ref>), nil)
         end
-        @converter.reference_populate(refs)
+        @conv.reference_populate(refs)
       end
 
       def biblio_annex(xmldoc)

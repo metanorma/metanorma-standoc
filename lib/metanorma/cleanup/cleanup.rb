@@ -66,7 +66,7 @@ module Metanorma
       end
 
       def initialize(converter)
-        @converter = converter
+        @conv= converter
         @anchor_alias = {}
         @internal_eref_namespaces = []
 
@@ -95,7 +95,7 @@ module Metanorma
       end
 
       def to_xml(xml)
-        @converter.to_xml(xml)
+        @conv.to_xml(xml)
       end
 
       class << self

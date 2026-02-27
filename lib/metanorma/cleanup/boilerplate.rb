@@ -39,7 +39,7 @@ module Metanorma
 
       def dup_with_namespace(elem)
         ret = elem.dup
-        ret.add_namespace(nil, @converter.xml_namespace)
+        ret.add_namespace(nil, @conv.xml_namespace)
         ret
       end
 

@@ -29,7 +29,7 @@ module Metanorma
       end
 
       def initialize(converter)
-        @converter = converter
+        @conv= converter
         @log = converter.log
         @files_to_delete = converter.files_to_delete
         copied_instance_variables.each do |var|
@@ -61,14 +61,14 @@ module Metanorma
         preferred_validate(doc)
         termsect_validate(doc)
         table_validate(doc)
-        @converter.requirement_validate(doc)
+        @conv.requirement_validate(doc)
         image_validate(doc)
         block_validate(doc)
         math_validate(doc)
         fatalerrors = @log.abort_messages
         fatalerrors.empty? or
-          @converter.clean_abort("\n\nFATAL ERRORS:\n\n#{fatalerrors.join("\n\n")}",
-                      doc)
+          @conv.clean_abort("\n\nFATAL ERRORS:\n\n#{fatalerrors.join("\n\n")}",
+                            doc)
       end
 
       MATHML_NS = "http://www.w3.org/1998/Math/MathML".freeze

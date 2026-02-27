@@ -19,7 +19,7 @@ module Metanorma
           Tempfile.open(["tmp", ".xml"], encoding: "UTF-8") do |f|
             schema_validate1(f, doc, schema)
           rescue Jing::Error => e
-            @converter.clean_abort("Jing failed with error: #{e}", doc)
+            @conv.clean_abort("Jing failed with error: #{e}", doc)
           ensure
             f.close!
           end
@@ -100,7 +100,7 @@ module Metanorma
           f.root.namespace or
             f = Nokogiri::XML(xml_fragment
             .sub(/<#{root_tag}([^>]*)>/,
-                 "<#{root_tag}\\1 xmlns='#{@converter.xml_namespace}'>"))
+                 "<#{root_tag}\\1 xmlns='#{@conv.xml_namespace}'>"))
           f
         rescue StandardError
           nil

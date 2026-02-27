@@ -4,7 +4,7 @@ module Metanorma
       def metadata_cleanup(xmldoc)
         bibdata_published(xmldoc) # feeds: bibdata_cleanup,
         # docidentifier_cleanup (in generic: template)
-        metadata_attrs = @converter.instance_variable_get(:@metadata_attrs)
+        metadata_attrs = @conv.instance_variable_get(:@metadata_attrs)
         (metadata_attrs.nil? || metadata_attrs.empty?) and return
         ins = add_misc_container(xmldoc)
         ins << metadata_attrs
@@ -12,8 +12,8 @@ module Metanorma
 
       def pres_metadata_cleanup(xmldoc)
         unless @isodoc
-          @isodoc = @converter.isodoc(@lang, @script, @locale)
-          @converter.instance_variable_set(:@isodoc, @isodoc)
+          @isodoc = @conv.isodoc(@lang, @script, @locale)
+          @conv.instance_variable_set(:@isodoc, @isodoc)
         end
         isodoc_bibdata_parse(xmldoc)
         xmldoc.xpath("//presentation-metadata/* | //semantic-metadata/*")
@@ -40,7 +40,7 @@ module Metanorma
       def annotation_cleanup(xmldoc)
         ret = xmldoc.xpath("//annotation[@type = 'ignore-log']")
           .each_with_object([]) do |ann, m|
-          error_ids = Array(@converter.csv_split(ann.text || "", ","))
+          error_ids = Array(@conv.csv_split(ann.text || "", ","))
           m << { from: ann["from"], to: ann["to"],
                  error_ids: error_ids }
           ann
