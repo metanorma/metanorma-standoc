@@ -1567,7 +1567,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
-    it "populates docidentifier template" do
+  it "populates docidentifier template" do
     mock_default_publisher
     input = <<~INPUT
       = Document title
@@ -1627,7 +1627,6 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
-
   private
 
   def mock_norm_ref_boilerplate_insert_iso
@@ -1642,7 +1641,7 @@ RSpec.describe Metanorma::Standoc do
     expect_any_instance_of(Metanorma::Standoc::Cleanup)
       .to receive(:termdef_boilerplate_insert).exactly(m).times
       .and_wrap_original do |method, a, b|
-        method.call(a, b, true)
+      method.call(a, b, true)
     end
   end
 
@@ -1664,6 +1663,13 @@ RSpec.describe Metanorma::Standoc do
     allow_any_instance_of(Metanorma::Standoc::Cleanup)
       .to receive(:boilerplate_file).and_return(
         "spec/assets/boilerplate.adoc",
+      )
+  end
+
+  def mock_default_publisher
+    allow_any_instance_of(Metanorma::Standoc::Front)
+      .to receive(:default_publisher).and_return(
+        "International Standards Organization",
       )
   end
 end
