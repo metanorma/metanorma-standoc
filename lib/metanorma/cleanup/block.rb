@@ -187,9 +187,9 @@ module Metanorma
         source_markup_prep(node).each_slice(4).map.with_object([]) do |a, acc|
           acc << safe_noko(a[0], node.document)
           a.size == 4 or next
-          acc << @converter.isolated_asciidoctor_convert(
+          acc << @conv.isolated_asciidoctor_convert(
             "{blank} #{a[2]}", doctype: :inline,
-                               backend: @converter.backend&.to_sym || :standoc
+                               backend: @conv.backend&.to_sym || :standoc
           ).strip
         end.join
       end

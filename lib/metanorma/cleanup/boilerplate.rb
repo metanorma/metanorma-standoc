@@ -48,7 +48,7 @@ module Metanorma
         # in termdef_boilerplate_insert and initial_boilerplate
         xmldoc.at("//metanorma-extension/semantic-metadata/" \
                   "headless[text() = 'true']") and return nil
-        @isodoc ||= @converter.isodoc(@lang, @script, @locale)
+        @isodoc ||= @conv.isodoc(@lang, @script, @locale)
         @i18n = @isodoc.i18n
         isodoc_bibdata_parse(xmldoc)
         @isodoc
@@ -186,7 +186,7 @@ module Metanorma
       end
 
       def boilerplate_file_restructure(file)
-        ret = adoc2xml(file, @converter.backend.to_sym)
+        ret = adoc2xml(file, @conv.backend.to_sym)
         boilerplate_xml_cleanup(ret)
         ret.name = "boilerplate"
         boilerplate_top_elements(ret)
@@ -195,7 +195,7 @@ module Metanorma
 
       def boilerplate_snippet_convert(adoc, isodoc)
         b = isodoc.populate_template(adoc, nil)
-        ret = boilerplate_xml_cleanup(adoc2xml(b, @converter.backend.to_sym))
+        ret = boilerplate_xml_cleanup(adoc2xml(b, @conv.backend.to_sym))
         @i18n.l10n(ret.children.to_xml, @lang, @script).strip
       end
 
