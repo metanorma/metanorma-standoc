@@ -1189,6 +1189,86 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output0)
   end
 
+      it "sorts references with their notes in Bibliography" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [bibliography]
+      == Bibliography
+
+      This is extraneous information
+
+      * [[[iso216,ISO 216]]], _Reference_
+
+      NOTE: ABC
+
+      NOTE: DEF
+
+      This is further extraneous information
+
+      NOTE: GHI
+
+      * [[[iso216,ISO 215]]], _Reference_
+
+      NOTE: JKL
+
+      This is also extraneous information
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections> </sections>
+         <bibliography>
+           <references id="_" obligation='informative' normative="false">
+             <title id="_">Bibliography</title>
+             <p id='_'>This is extraneous information</p>
+             <bibitem id="_" anchor="iso216" type='standard'>
+               <title format='text/plain'>Reference</title>
+               <docidentifier>ISO 216</docidentifier>
+               <docnumber>216</docnumber>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>ISO</name>
+                 </organization>
+               </contributor>
+               <language>en</language>
+               <script>Latn</script>
+             </bibitem>
+             <note id='_'>
+               <p id='_'>ABC</p>
+             </note>
+             <note id='_'>
+               <p id='_'>DEF</p>
+             </note>
+             <bibitem id="_" anchor="iso216" type='standard'>
+               <title format='text/plain'>Reference</title>
+               <docidentifier>ISO 215</docidentifier>
+               <docnumber>215</docnumber>
+               <contributor>
+                 <role type='publisher'/>
+                 <organization>
+                   <name>ISO</name>
+                 </organization>
+               </contributor>
+               <language>en</language>
+               <script>Latn</script>
+             </bibitem>
+             <note id='_'>
+               <p id='_'>JKL</p>
+             </note>
+             <p id='_'>
+               This is further extraneous information
+               <note id='_'>
+                 <p id='_'>GHI</p>
+               </note>
+             </p>
+             <p id='_'>This is also extraneous information</p>
+           </references>
+         </bibliography>
+       </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
 
   private
 

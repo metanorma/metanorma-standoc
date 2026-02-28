@@ -2,6 +2,19 @@ require "spec_helper"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
+  it "process mn2pdf attributes" do
+    node = Nokogiri::XML("<fake/>").at("fake")
+    node[Metanorma::Standoc::Base::FONTS_MANIFEST] =
+      "passed/as/font/manifest/to/mn2pdf.jar"
+
+    options = Metanorma::Standoc::Converter
+      .new(:standoc, header_footer: true)
+      .doc_extract_attributes(node)
+
+    expect(options[:font_manifest])
+      .to eq(node[Metanorma::Standoc::Base::FONTS_MANIFEST])
+  end
+
   it "uses specified attributes in PDF" do
     FileUtils.rm_f "test.pdf"
 

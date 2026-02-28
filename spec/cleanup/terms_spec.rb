@@ -303,504 +303,6 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
-  it "permits multiple preferred terms and admitted terms, " \
-     "and treats them as synonyms in concepts" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      == Terms and Definitions
-
-      === First Designation
-
-      preferred:[Second Designation]
-
-      alt:[Third Designation]
-
-      alt:[Fourth Designation]
-
-      deprecated:[Fourth Designation]
-
-      deprecated:[Fifth Designation]
-
-      related:see[Sixth Designation]
-
-      related:contrast[Seventh Designation]
-
-      Definition
-
-      === Sixth Designation
-
-      === Seventh Designation
-
-      == Clause
-
-      {{First Designation}}
-
-      {{Second Designation}}
-
-      {{Third Designation}}
-
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR}
-         <sections>
-           <terms id="_" obligation="normative">
-             <title id="_">Terms and definitions</title>
-             <p id="_">For the purposes of this document,
-           the following terms and definitions apply.</p>
-             <term id="_" anchor="term-First-Designation">
-               <preferred>
-                 <expression>
-                   <name>First Designation</name>
-                 </expression>
-               </preferred>
-               <preferred>
-                 <expression>
-                   <name>Second Designation</name>
-                 </expression>
-               </preferred>
-               <admitted>
-                 <expression>
-                   <name>Third Designation</name>
-                 </expression>
-               </admitted>
-               <admitted>
-                 <expression>
-                   <name>Fourth Designation</name>
-                 </expression>
-               </admitted>
-               <deprecates>
-                 <expression>
-                   <name>Fourth Designation</name>
-                 </expression>
-               </deprecates>
-               <deprecates>
-                 <expression>
-                   <name>Fifth Designation</name>
-                 </expression>
-               </deprecates>
-               <related type="see">
-                 <preferred>
-                   <expression>
-                     <name>Sixth Designation</name>
-                   </expression>
-                 </preferred>
-                 <xref target="term-Sixth-Designation"><display-text>Sixth Designation</display-text></xref>
-               </related>
-               <related type="contrast">
-                 <preferred>
-                   <expression>
-                     <name>Seventh Designation</name>
-                   </expression>
-                 </preferred>
-                 <xref target="term-Seventh-Designation"><display-text>Seventh Designation</display-text></xref>
-               </related>
-               <definition id="_">
-                 <verbal-definition id="_">
-                   <p id="_">Definition</p>
-                 </verbal-definition>
-               </definition>
-             </term>
-             <term id="_" anchor="term-Sixth-Designation">
-               <preferred>
-                 <expression>
-                   <name>Sixth Designation</name>
-                 </expression>
-               </preferred>
-             </term>
-             <term id="_" anchor="term-Seventh-Designation">
-               <preferred>
-                 <expression>
-                   <name>Seventh Designation</name>
-                 </expression>
-               </preferred>
-             </term>
-           </terms>
-           <clause id="_" inline-header="false" obligation="normative">
-             <title id="_">Clause</title>
-             <p id="_">
-               <concept>
-                 <refterm>First Designation</refterm>
-                 <renderterm>First Designation</renderterm>
-                 <xref target="term-First-Designation"/>
-               </concept>
-             </p>
-             <p id="_">
-               <concept>
-                 <refterm>First Designation</refterm>
-                 <renderterm>Second Designation</renderterm>
-                 <xref target="term-First-Designation"/>
-               </concept>
-             </p>
-             <p id="_">
-               <concept>
-                 <refterm>First Designation</refterm>
-                 <renderterm>Third Designation</renderterm>
-                 <xref target="term-First-Designation"/>
-               </concept>
-             </p>
-           </clause>
-         </sections>
-       </metanorma>
-    OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
-  end
-
-  it "respects case in tagging of concepts" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      == Terms and Definitions
-
-      === First Designation
-
-      Definition
-
-      === First designation
-
-      Definition
-
-      == Clause
-
-      {{First Designation}}
-
-      {{First designation}}
-
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR}
-        <sections>
-          <terms id="_" obligation='normative'>
-            <title id="_">Terms and definitions</title>
-            <p id='_'>For the purposes of this document, the following terms and definitions apply.</p>
-            <term id="_" anchor="term-First-Designation">
-              <preferred>
-                <expression>
-                  <name>First Designation</name>
-                </expression>
-              </preferred>
-              <definition id="_">
-                <verbal-definition id="_">
-                  <p id='_'>Definition</p>
-                </verbal-definition>
-              </definition>
-            </term>
-            <term id="_" anchor="term-First-designation">
-              <preferred>
-                <expression>
-                  <name>First designation</name>
-                </expression>
-              </preferred>
-              <definition id="_">
-                <verbal-definition id="_">
-                  <p id='_'>Definition</p>
-                </verbal-definition>
-              </definition>
-            </term>
-          </terms>
-          <clause id="_" inline-header='false' obligation='normative'>
-            <title id="_">Clause</title>
-            <p id='_'>
-              <concept>
-                <refterm>First Designation</refterm>
-                <renderterm>First Designation</renderterm>
-                <xref target='term-First-Designation'/>
-              </concept>
-            </p>
-            <p id='_'>
-              <concept>
-                <refterm>First designation</refterm>
-                <renderterm>First designation</renderterm>
-                <xref target='term-First-designation'/>
-              </concept>
-            </p>
-          </clause>
-        </sections>
-      </metanorma>
-    OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
-  end
-
-  it "uses domains in disambiguation of concept mentions" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      == Terms and Definitions
-
-      === First Designation
-
-      preferred:[Second Designation]
-
-      alt:[Third Designation]
-
-      domain:[Rice]
-
-      === First Designation
-
-      preferred:[Second Designation]
-
-      alt:[Third Designation]
-
-      domain:[Wheat]
-
-      === First Designation
-
-      preferred:[Second Designation]
-
-      alt:[Third Designation]
-
-      Definition
-
-      == Clause
-
-      {{First Designation}}
-
-      {{Second Designation}}
-
-      {{Third Designation}}
-
-
-      {{<Rice> First Designation}}
-
-      {{<Rice> Second Designation}}
-
-      {{<Rice> Third Designation}}
-
-
-      {{<Wheat> First Designation}}
-
-      {{<Wheat> Second Designation}}
-
-      {{<Wheat> Third Designation}}
-
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR}
-         <sections>
-           <terms id="_" obligation="normative">
-             <title id="_">Terms and definitions</title>
-             <p id="_">For the purposes of this document,
-           the following terms and definitions apply.</p>
-             <term id="_" anchor="term-_Rice_-First-Designation">
-               <preferred>
-                 <expression>
-                   <name>First Designation</name>
-                 </expression>
-               </preferred>
-               <preferred>
-                 <expression>
-                   <name>Second Designation</name>
-                 </expression>
-               </preferred>
-               <admitted>
-                 <expression>
-                   <name>Third Designation</name>
-                 </expression>
-               </admitted>
-               <domain>Rice</domain>
-             </term>
-             <term id="_" anchor="term-_Wheat_-First-Designation">
-               <preferred>
-                 <expression>
-                   <name>First Designation</name>
-                 </expression>
-               </preferred>
-               <preferred>
-                 <expression>
-                   <name>Second Designation</name>
-                 </expression>
-               </preferred>
-               <admitted>
-                 <expression>
-                   <name>Third Designation</name>
-                 </expression>
-               </admitted>
-               <domain>Wheat</domain>
-             </term>
-             <term id="_" anchor="term-First-Designation">
-               <preferred>
-                 <expression>
-                   <name>First Designation</name>
-                 </expression>
-               </preferred>
-               <preferred>
-                 <expression>
-                   <name>Second Designation</name>
-                 </expression>
-               </preferred>
-               <admitted>
-                 <expression>
-                   <name>Third Designation</name>
-                 </expression>
-               </admitted>
-               <definition id="_">
-                 <verbal-definition id="_">
-                   <p id="_">Definition</p>
-                 </verbal-definition>
-               </definition>
-             </term>
-           </terms>
-                      <clause id="_" inline-header="false" obligation="normative">
-             <title id="_">Clause</title>
-             <p id="_">
-               <concept>
-                 <refterm>First Designation</refterm>
-                 <renderterm>First Designation</renderterm>
-                 <xref target="term-First-Designation"/>
-               </concept>
-             </p>
-             <p id="_">
-               <concept>
-                 <refterm>First Designation</refterm>
-                 <renderterm>Second Designation</renderterm>
-                 <xref target="term-First-Designation"/>
-               </concept>
-             </p>
-             <p id="_">
-               <concept>
-                 <refterm>First Designation</refterm>
-                 <renderterm>Third Designation</renderterm>
-                 <xref target="term-First-Designation"/>
-               </concept>
-             </p>
-             <p id="_">
-               <concept>
-                 <refterm>&lt;Rice&gt; First Designation</refterm>
-                 <renderterm>&lt;Rice&gt; First Designation</renderterm>
-                 <xref target="term-_Rice_-First-Designation"/>
-               </concept>
-             </p>
-             <p id="_">
-               <concept>
-                 <refterm>&lt;Rice&gt; First Designation</refterm>
-                 <renderterm>&lt;Rice&gt; Second Designation</renderterm>
-                 <xref target="term-_Rice_-First-Designation"/>
-               </concept>
-             </p>
-             <p id="_">
-               <concept>
-                 <refterm>&lt;Rice&gt; First Designation</refterm>
-                 <renderterm>&lt;Rice&gt; Third Designation</renderterm>
-                 <xref target="term-_Rice_-First-Designation"/>
-               </concept>
-             </p>
-             <p id="_">
-               <concept>
-                 <refterm>&lt;Wheat&gt; First Designation</refterm>
-                 <renderterm>&lt;Wheat&gt; First Designation</renderterm>
-                 <xref target="term-_Wheat_-First-Designation"/>
-               </concept>
-             </p>
-             <p id="_">
-               <concept>
-                 <refterm>&lt;Wheat&gt; First Designation</refterm>
-                 <renderterm>&lt;Wheat&gt; Second Designation</renderterm>
-                 <xref target="term-_Wheat_-First-Designation"/>
-               </concept>
-             </p>
-             <p id="_">
-               <concept>
-                 <refterm>&lt;Wheat&gt; First Designation</refterm>
-                 <renderterm>&lt;Wheat&gt; Third Designation</renderterm>
-                 <xref target="term-_Wheat_-First-Designation"/>
-               </concept>
-             </p>
-           </clause>
-         </sections>
-       </metanorma>
-    OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
-  end
-
-  it "drop domains for unambiguous concept mentions" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      == Terms and Definitions
-
-      === First Designation
-
-      preferred:[Second Designation]
-
-      alt:[Third Designation]
-
-      domain:[Rice]
-
-      === First Designation
-
-      domain:[Wheat]
-
-      == Clause
-
-      {{First Designation}}
-
-      {{Second Designation}}
-
-      {{Third Designation}}
-
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR}
-         <sections>
-           <terms id="_" obligation="normative">
-             <title id="_">Terms and definitions</title>
-             <p id="_">For the purposes of this document,#{' '}
-           the following terms and definitions apply.</p>
-             <term id="_" anchor="term-_Rice_-First-Designation">
-               <preferred>
-                 <expression>
-                   <name>First Designation</name>
-                 </expression>
-               </preferred>
-               <preferred>
-                 <expression>
-                   <name>Second Designation</name>
-                 </expression>
-               </preferred>
-               <admitted>
-                 <expression>
-                   <name>Third Designation</name>
-                 </expression>
-               </admitted>
-               <domain>Rice</domain>
-             </term>
-             <term id="_" anchor="term-_Wheat_-First-Designation">
-               <preferred>
-                 <expression>
-                   <name>First Designation</name>
-                 </expression>
-               </preferred>
-               <domain>Wheat</domain>
-             </term>
-           </terms>
-           <clause id="_" inline-header="false" obligation="normative">
-             <title id="_">Clause</title>
-             <p id="_">
-               <concept>
-                 <strong>term <tt>First Designation</tt> not resolved via ID <tt>First-Designation</tt></strong>
-               </concept>
-             </p>
-             <p id="_">
-               <concept>
-                 <refterm>&lt;Rice&gt; First Designation</refterm>
-                 <renderterm>Second Designation</renderterm>
-                 <xref target="term-_Rice_-First-Designation"/>
-               </concept>
-             </p>
-             <p id="_">
-               <concept>
-                 <refterm>&lt;Rice&gt; First Designation</refterm>
-                 <renderterm>Third Designation</renderterm>
-                 <xref target="term-_Rice_-First-Designation"/>
-               </concept>
-             </p>
-           </clause>
-         </sections>
-       </metanorma>
-    OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
-  end
-
   it "processes letter-symbol designations" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1777,7 +1279,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
-  it "automatically indexes term indexes" do
+  it "automatically indexes terms" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR.sub(":nodoc:\n", ":nodoc:\n:index-terms:\n")}
 
@@ -1947,6 +1449,189 @@ RSpec.describe Metanorma::Standoc do
       </metanorma>
     OUTPUT
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
+  it "automates terms & definitions titles if there are no extraneous sections" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms, Definitions, Symbols and Abbreviated Terms
+
+      [.boilerplate]
+      === Boilerplate
+
+      Boilerplate text
+
+      === Intro 4
+
+      ==== Term2
+
+      === Symbols and Abbreviated Terms
+
+      [.nonterm]
+      ==== General
+
+      ==== Symbols
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+         <sections>
+           <clause id="_" obligation="normative" type="terms">
+             <title id="_">Terms, definitions, symbols and abbreviated terms</title>
+             <p id="_">Boilerplate text</p>
+             <terms id="_" obligation="normative">
+               <title id="_">Terms and definitions</title>
+               <term id="_" anchor="term-Term2">
+                 <preferred>
+                   <expression>
+                     <name>Term2</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <definitions id="_" obligation="normative">
+               <title id="_">Symbols and abbreviated terms</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                 <title id="_">General</title>
+               </clause>
+               <definitions id="_" type="symbols" obligation="normative">
+                 <title id="_">Symbols</title>
+               </definitions>
+             </definitions>
+           </clause>
+         </sections>
+       </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
+  it "does not do automated terms & definitions titles if there are extraneous sections" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms, Definitions, Symbols and Abbreviated Terms
+
+      [.boilerplate]
+      === Boilerplate
+
+      Boilerplate text
+
+      [.nonterm]
+      === Intro 3
+
+      === Intro 4
+
+      ==== Term2
+
+      === Symbols and Abbreviated Terms
+
+      [.nonterm]
+      ==== General
+
+      ==== Symbols
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+              <sections>
+           <clause id="_" obligation="normative" type="terms">
+             <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
+             <p id="_">Boilerplate text</p>
+             <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Intro 3</title>
+             </clause>
+             <terms id="_" obligation="normative">
+               <title id="_">Intro 4</title>
+               <term id="_" anchor="term-Term2">
+                 <preferred>
+                   <expression>
+                     <name>Term2</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <definitions id="_" obligation="normative">
+               <title id="_">Symbols and abbreviated terms</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                 <title id="_">General</title>
+               </clause>
+               <definitions id="_" type="symbols" obligation="normative">
+                 <title id="_">Symbols</title>
+               </definitions>
+             </definitions>
+           </clause>
+         </sections>
+       </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
+                                                           *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms, Definitions, Symbols and Abbreviated Terms
+
+      [.boilerplate]
+      === Boilerplate
+
+      Boilerplate text
+
+      === Intro 3
+
+      ==== Term2
+
+      === Intro 4
+
+      ==== Term3
+
+      === Symbols and Abbreviated Terms
+
+      [.nonterm]
+      ==== General
+
+      ==== Symbols
+
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+               <sections>
+           <clause id="_" obligation="normative" type="terms">
+             <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
+             <p id="_">Boilerplate text</p>
+             <terms id="_" obligation="normative">
+               <title id="_">Intro 3</title>
+               <term id="_" anchor="term-Term2">
+                 <preferred>
+                   <expression>
+                     <name>Term2</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <terms id="_" obligation="normative">
+               <title id="_">Intro 4</title>
+               <term id="_" anchor="term-Term3">
+                 <preferred>
+                   <expression>
+                     <name>Term3</name>
+                   </expression>
+                 </preferred>
+               </term>
+             </terms>
+             <definitions id="_" obligation="normative">
+               <title id="_">Symbols and abbreviated terms</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                 <title id="_">General</title>
+               </clause>
+               <definitions id="_" type="symbols" obligation="normative">
+                 <title id="_">Symbols</title>
+               </definitions>
+             </definitions>
+           </clause>
+         </sections>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
+                                                           *OPTIONS))))
       .to be_equivalent_to Canon.format_xml(output)
   end
 end
