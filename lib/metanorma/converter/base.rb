@@ -21,19 +21,15 @@ end
 module Metanorma
   module Standoc
     module Base
-      # XML_ROOT_TAG = "standard-document".freeze
-      # XML_NAMESPACE = "https://www.metanorma.org/ns/standoc".freeze
       FONTS_MANIFEST = "fonts-manifest".freeze
 
       attr_accessor :log
 
       def xml_root_tag
-        # self.class::XML_ROOT_TAG
         "metanorma"
       end
 
       def xml_namespace
-        # self.class::XML_NAMESPACE
         "https://www.metanorma.org/ns/standoc"
       end
 
@@ -95,20 +91,19 @@ module Metanorma
       end
 
       def makexml1(node)
-        result = ["<?xml version='1.0' encoding='UTF-8'?>",
-                  "<#{xml_root_tag} type='semantic' version='#{version}' " \
-                  "schema-version='#{schema_version}' " \
-                  "flavor='#{processor.new.asciidoctor_backend}'>"]
-        result << noko { |ixml| front node, ixml }
-        result << noko { |ixml| middle node, ixml }
-        result << "</#{xml_root_tag}>"
-        textcleanup(result)
+        result = [<<~XML,
+          <?xml version='1.0' encoding='UTF-8'?>
+          <#{xml_root_tag} type='semantic' version='#{version}' schema-version='#{schema_version}' flavor='#{processor.new.asciidoctor_backend}'>
+        XML
+                  noko { |ixml| front node, ixml },
+                  noko { |ixml| middle node, ixml },
+                  "</#{xml_root_tag}>"]
+        insert_xml_cr(textcleanup(result))
       end
 
       def makexml(node)
         result = makexml1(node)
         ret1 = cleanup(result)
-        ret1.root.add_namespace(nil, xml_namespace)
         unless @novalid || in_isolated_conversion?
           validate_processor = validate_class.new(self)
           validate_processor.validate(ret1)
@@ -124,10 +119,13 @@ module Metanorma
       end
 
       def cleanup(result)
+        ret1 = Nokogiri::XML(result)
+        @nocleanup and return ret1
         cleanup_processor = cleanup_class.new(self)
-        ret1 = cleanup_processor.cleanup(Nokogiri::XML(insert_xml_cr(result)))
+        ret1 = cleanup_processor.cleanup(ret1)
         @log = cleanup_processor.log # Sync log back from cleanup
         @files_to_delete = cleanup_processor.files_to_delete
+        ret1.root.add_namespace(nil, xml_namespace)
         ret1
       end
 

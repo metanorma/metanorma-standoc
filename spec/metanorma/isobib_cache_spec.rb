@@ -727,6 +727,209 @@ RSpec.describe Metanorma::Standoc do
                  File.expand_path("~/.relaton/cache"), force: true
   end
 
+  it "processes single relaton data source" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :data-uri-image: false
+      :relaton-data-source: spec/assets/manual.bib
+
+
+      [bibliography]
+      == Normative References
+
+      * [[[A, local-file(ISOTC211)]]]
+    INPUT
+    output = <<~OUTPUT
+      <bibliography>
+        <references id="_" normative="true" obligation="informative">
+          <title id="_">Normative references</title>
+          <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+          <bibitem id="_" anchor="A" type="manual">
+            <title type="main" format="text/plain">Geographic information</title>
+            <contributor>
+              <role type="author"/>
+              <person>
+                <name>
+                  <forename>A.</forename>
+                  <surname>Bierman</surname>
+                </name>
+              </person>
+            </contributor>
+            <contributor>
+              <role type="author"/>
+              <person>
+                <name>
+                  <forename>Arnold</forename>
+                  <surname>Bierman</surname>
+                </name>
+              </person>
+            </contributor>
+            <contributor>
+              <role type="author"/>
+              <person>
+                <name>
+                  <forename>Arnold</forename>
+                  <forename>B</forename>
+                  <surname>Bierman</surname>
+                </name>
+              </person>
+            </contributor>
+            <contributor>
+              <role type="publisher"/>
+              <organization>
+                <name>Institute of Electrical and Electronics Engineers</name>
+              </organization>
+            </contributor>
+            <contributor>
+              <role type="distributor">
+                <description>sponsor</description>
+              </role>
+              <organization>
+                <name>World Wide Web Consortium</name>
+              </organization>
+            </contributor>
+            <extent/>
+            <docidentifier>ISOTC211</docidentifier>
+            <language>en</language>
+            <script>Latn</script>
+          </bibitem>
+        </references>
+      </bibliography>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml = xml.at("//xmlns:bibliography")
+    expect(strip_guid(Canon.format_xml(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
+  it "processes multiple relaton data sources" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :data-uri-image: false
+      :relaton-data-source-bib1: spec/assets/manual.bib
+      :relaton-data-source-bib2: file=spec/assets/techreport.bib
+
+      [bibliography]
+      == Normative References
+
+      * [[[A, local-file(bib1, ISOTC211)]]]
+      * [[[B, local-file(bib2, ISOTC211t)]]]
+    INPUT
+    output = <<~OUTPUT
+      <bibliography>
+        <references id="_" normative="true" obligation="informative">
+          <title id="_">Normative references</title>
+          <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+          <bibitem id="_" anchor="A" type="manual">
+            <title type="main" format="text/plain">Geographic information</title>
+            <contributor>
+              <role type="author"/>
+              <person>
+                <name>
+                  <forename>A.</forename>
+                  <surname>Bierman</surname>
+                </name>
+              </person>
+            </contributor>
+            <contributor>
+              <role type="author"/>
+              <person>
+                <name>
+                  <forename>Arnold</forename>
+                  <surname>Bierman</surname>
+                </name>
+              </person>
+            </contributor>
+            <contributor>
+              <role type="author"/>
+              <person>
+                <name>
+                  <forename>Arnold</forename>
+                  <forename>B</forename>
+                  <surname>Bierman</surname>
+                </name>
+              </person>
+            </contributor>
+            <contributor>
+              <role type="publisher"/>
+              <organization>
+                <name>Institute of Electrical and Electronics Engineers</name>
+              </organization>
+            </contributor>
+            <contributor>
+              <role type="distributor">
+                <description>sponsor</description>
+              </role>
+              <organization>
+                <name>World Wide Web Consortium</name>
+              </organization>
+            </contributor>
+            <extent/>
+            <docidentifier>ISOTC211</docidentifier>
+            <language>en</language>
+            <script>Latn</script>
+          </bibitem>
+          <bibitem id="_" anchor="B" type="techreport">
+            <title type="main" format="text/plain">Techreport Geographic information</title>
+            <contributor>
+              <role type="author"/>
+              <person>
+                <name>
+                  <forename>A.</forename>
+                  <surname>Bierman</surname>
+                </name>
+              </person>
+            </contributor>
+            <contributor>
+              <role type="author"/>
+              <person>
+                <name>
+                  <forename>Arnold</forename>
+                  <surname>Bierman</surname>
+                </name>
+              </person>
+            </contributor>
+            <contributor>
+              <role type="author"/>
+              <person>
+                <name>
+                  <forename>Arnold</forename>
+                  <forename>B</forename>
+                  <surname>Bierman</surname>
+                </name>
+              </person>
+            </contributor>
+            <contributor>
+              <role type="publisher"/>
+              <organization>
+                <name>Institute of Electrical and Electronics Engineers</name>
+              </organization>
+            </contributor>
+            <edition>Edition 1</edition>
+            <extent/>
+            <docidentifier>ISOTC211t</docidentifier>
+            <language>en</language>
+            <script>Latn</script>
+          </bibitem>
+        </references>
+      </bibliography>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml = xml.at("//xmlns:bibliography")
+    expect(strip_guid(Canon.format_xml(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
   private
 
   def mock_isobib_get_123

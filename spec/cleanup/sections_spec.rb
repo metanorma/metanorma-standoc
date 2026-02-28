@@ -1847,4 +1847,207 @@ RSpec.describe Metanorma::Standoc do
     expect(strip_guid(Canon.format_xml(ret.to_xml)))
       .to be_equivalent_to(Canon.format_xml(output))
   end
+
+  it "processes delete change clauses" do
+    input = <<~"INPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      [change="modify",locality="page=27",path="//table[2]",path_end="//table[2]/following-sibling:example[1]",title="Change"]
+      ==== Change Clause
+      _This table contains information on polygon cells which are not included in ISO 10303-52. Remove table 2 completely and replace with:_
+    INPUT
+    output = <<~"OUTPUT"
+                  #{BLANK_HDR}
+                  <sections>
+        <clause id="_" inline-header='false' obligation='normative'>
+          <title id="_">Change Clause</title>
+          <amend id='_' change='modify' path='//table[2]' path_end='//table[2]/following-sibling:example[1]' title='Change'>
+            <description>
+              <p id='_'>
+                <em>
+                  This table contains information on polygon cells which are not
+                  included in ISO 10303-52. Remove table 2 completely and replace
+                  with:
+                </em>
+              </p>
+            </description>
+          </amend>
+        </clause>
+      </sections>
+                  </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
+    it "processes modify change clauses" do
+    input = <<~"INPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      [change="modify",locality="page=27",path="//table[2]",path_end="//table[2]/following-sibling:example[1]",title="Change"]
+      ==== Change Clause
+
+      autonumber:table[2]
+      autonumber:note[7]
+
+      _This table contains information on polygon cells which are not included in ISO 10303-52. Remove table 2 completely and replace with:_
+
+      ____
+      .Edges of triangle and quadrilateral cells
+      |===
+      2+^.^h| triangle 2+^.^h| quadrilateral
+      ^.^| edge ^.^| vertices ^.^| edge ^.^| vertices
+      ^.^| 1 ^.^| 1, 2 ^.^| 1 ^.^| 1, 2
+      ^.^| 2 ^.^| 2, 3 ^.^| 2 ^.^| 2, 3
+      ^.^| 3 ^.^| 3, 1 ^.^| 3 ^.^| 3, 4
+      | | ^.^| 4 ^.^| 4, 1
+      |===
+
+      ====
+      This is not generalised further.
+      ====
+      ____
+
+      Any further exceptions can be ignored.
+    INPUT
+
+    output = <<~"OUTPUT"
+                  #{BLANK_HDR}
+           <sections>
+        <clause id="_" inline-header='false' obligation='normative'>
+          <title id="_">Change Clause</title>
+          <amend id='_' change='modify' path='//table[2]' path_end='//table[2]/following-sibling:example[1]' title='Change'>
+          <autonumber type='table'>2</autonumber>
+                     <autonumber type='note'>7</autonumber>
+                     <description>
+                       <p id='_'>
+                         <em>
+                           This table contains information on polygon cells which are not
+                           included in ISO 10303-52. Remove table 2 completely and replace
+                           with:
+                         </em>
+                       </p>
+                     </description>
+            <newcontent>
+              <table id='_'>
+                <name id="_">Edges of triangle and quadrilateral cells</name>
+                <tbody>
+                  <tr id="_">
+                    <th id="_" colspan='2' valign='middle' align='center'>triangle</th>
+                    <th id="_" colspan='2' valign='middle' align='center'>quadrilateral</th>
+                  </tr>
+                  <tr id="_">
+                    <td id="_" valign='middle' align='center'>edge</td>
+                    <td id="_" valign='middle' align='center'>vertices</td>
+                    <td id="_" valign='middle' align='center'>edge</td>
+                    <td id="_" valign='middle' align='center'>vertices</td>
+                  </tr>
+                  <tr id="_">
+                    <td id="_" valign='middle' align='center'>1</td>
+                    <td id="_" valign='middle' align='center'>1, 2</td>
+                    <td id="_" valign='middle' align='center'>1</td>
+                    <td id="_" valign='middle' align='center'>1, 2</td>
+                  </tr>
+                  <tr id="_">
+                    <td id="_" valign='middle' align='center'>2</td>
+                    <td id="_" valign='middle' align='center'>2, 3</td>
+                    <td id="_" valign='middle' align='center'>2</td>
+                    <td id="_" valign='middle' align='center'>2, 3</td>
+                  </tr>
+                  <tr id="_">
+                    <td id="_" valign='middle' align='center'>3</td>
+                    <td id="_" valign='middle' align='center'>3, 1</td>
+                    <td id="_" valign='middle' align='center'>3</td>
+                    <td id="_" valign='middle' align='center'>3, 4</td>
+                  </tr>
+                  <tr id="_">
+                    <td id="_" valign='top' align='left'/>
+                    <td id="_" valign='top' align='left'/>
+                    <td id="_" valign='middle' align='center'>4</td>
+                    <td id="_" valign='middle' align='center'>4, 1</td>
+                  </tr>
+                </tbody>
+              </table>
+              <example id='_'>
+                <p id='_'>This is not generalised further.</p>
+              </example>
+            </newcontent>
+            <description>
+        <p id='_'>Any further exceptions can be ignored.</p>
+      </description>
+          </amend>
+        </clause>
+      </sections>
+           </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
+  it "processes modify change subclauses" do
+    input = <<~"INPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      [change="modify",locality="page=27",path="//table[2]",path_end="//table[2]/following-sibling:example[1]",title="Change"]
+      == Change Clause
+
+      autonumber:example[2]
+
+      _This table contains information on polygon cells which are not included in ISO 10303-52. Remove table 2 completely and replace with:_
+
+      ____
+      ====
+      This is not generalised further.
+      ====
+      ____
+
+      === A subclause
+
+      autonumber:example[5]
+
+      This content as a subclause is also to be added
+
+      ====
+      This is an independently numbered example
+      ====
+
+      ==== A subsubclause
+
+      This is a subclause of a subclause
+    INPUT
+
+    output = <<~"OUTPUT"
+      #{BLANK_HDR}
+           <sections>
+              <clause id="_" inline-header="false" obligation="normative">
+                 <title id="_">Change Clause</title>
+                 <amend id="_" change="modify" path="//table[2]" path_end="//table[2]/following-sibling:example[1]" title="Change">
+                    <autonumber type="example">2</autonumber>
+                    <description>
+                       <p id="_">
+                          <em>This table contains information on polygon cells which are not included in ISO 10303-52. Remove table 2 completely and replace with:</em>
+                       </p>
+                    </description>
+                    <newcontent>
+                       <example id="_">
+                          <p id="_">This is not generalised further.</p>
+                       </example>
+                       <clause id="_" inline-header="false" obligation="normative">
+                          <autonumber type="example">5</autonumber>
+                          <title id="_">A subclause</title>
+                          <p id="_">This content as a subclause is also to be added</p>
+                          <example id="_">
+                             <p id="_">This is an independently numbered example</p>
+                          </example>
+                       <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">A subsubclause</title>
+                     <p id="_">This is a subclause of a subclause</p>
+                  </clause>
+                       </clause>
+                    </newcontent>
+                 </amend>
+              </clause>
+           </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
 end

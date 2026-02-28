@@ -17,6 +17,16 @@ module Metanorma
         init_i18n(node)
         init_biblio(node)
         init_math(node)
+        init_xref(node)
+        init_metadata(node)
+      end
+
+      def init_metadata(node)
+        @doctype = doctype(node)
+        @draft = node.attributes.has_key?("draft")
+        @document_scheme = document_scheme(node)
+        @default_doctype = "standard"
+        @stage_published = node.attr("docstage-published")
         @metadata_attrs = metadata_attrs(node)
       end
 
@@ -32,25 +42,24 @@ module Metanorma
       end
 
       def init_misc(node)
-        @doctype = doctype(node)
-        @draft = node.attributes.has_key?("draft")
         @index_terms = node.attr("index-terms")
         @boilerplateauthority = node.attr("boilerplate-authority")
         @embed_hdr = node.attr("embed_hdr")
         @embed_id = node.attr("embed_id")
-        @document_scheme = document_scheme(node)
         @source_linenums = node.attr("source-linenums-option") == "true" # feeds log
         @semantic_headless = node.attr("semantic-metadata-headless") == "true"
-        @default_doctype = "standard"
-        @stage_published = node.attr("docstage-published")
+      end
+
+      def init_xref(node)
+        @xrefstyle = node.attr("xrefstyle")
+        @erefstyle = node.attr("erefstyle")
+        @originstyle = node.attr("originstyle")
       end
 
       def init_processing(node)
         @localdir = Metanorma::Utils::localdir(node)
-        @xrefstyle = node.attr("xrefstyle")
-        @erefstyle = node.attr("erefstyle")
-        @originstyle = node.attr("originstyle")
         @novalid = node.attr("novalid")
+        @nocleanup = node.attr("nocleanup")
         @isolated_conversion_stack = []
         @smartquotes = node.attr("smartquotes") != "false"
         @sourcecode_markup_start = node.attr("sourcecode-markup-start") || "{{{"
@@ -163,11 +172,15 @@ module Metanorma
         @no_isobib = node.attr("no-isobib")
         @flush_caches = node.attr("flush-caches")
         @sort_biblio = node.attr("sort-biblio") != "false"
-        @bibdb = nil
+        init_bib_db(node)
         init_bib_caches(node)
         init_iev_caches(node)
         init_bib_log
         @biblio_cutoff = biblio_cutoff(node)
+      end
+
+      def init_bib_db(node)
+        @bibdb = nil
         @local_bibdb =
           ::Metanorma::Standoc::LocalBiblio.new(node, @localdir, self)
       end

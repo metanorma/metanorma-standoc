@@ -3,6 +3,62 @@ require "relaton_iec"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
+  it "integrates Asciidoc processing with Cleanup processing" do
+    FileUtils.rm_f "test.doc"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :novalid:
+      :no-pdf:
+      :htmltoclevels: 4
+
+      Text
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR_NO_METANORMA_EXT.sub(' xmlns="https://www.metanorma.org/ns/standoc"', '')}
+        <sections>
+        <p id='_'>Text</p>
+        </sections>
+      </metanorma>
+    OUTPUT
+    cleanup = <<~OUTPUT
+      #{BLANK_HDR.sub('<html-toc-heading-levels>2', '<html-toc-heading-levels>4')}
+        <sections>
+        <p id='_'>Text</p>
+        </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(cleanup)
+
+    input1 = input.sub(":novalid:", ":novalid:\n:nocleanup:")
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input1, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+    # output from Converter has no namespace, no metanorma extensions
+
+    conv = Metanorma::Standoc::Converter.new(:standoc, *OPTIONS)
+    conv.init(Asciidoctor.load(input, *OPTIONS))
+    cl = Metanorma::Standoc::Cleanup.new(conv)
+    # output from Cleanup, when inheriting state from Converter,
+    # has metanorma extensions with document attribute values from Converter,
+    # but still no namespace
+    expect(strip_guid(Canon.format_xml(conv.to_xml(cl.cleanup(Nokogiri::XML(output))))))
+      .to be_equivalent_to Canon.format_xml(cleanup
+      .sub(' xmlns="https://www.metanorma.org/ns/standoc"', ""))
+
+    conv = Metanorma::Standoc::Converter.new(:standoc, *OPTIONS)
+    conv.init(Asciidoctor::Document.new(input, *OPTIONS))
+    cl = Metanorma::Standoc::Cleanup.new(conv)
+    # output from Cleanup, when not inheriting state from current doc
+    # in Converter, has metanorma extensions
+    # but with no document attribute values from Converter
+    expect(strip_guid(Canon.format_xml(conv.to_xml(cl.cleanup(Nokogiri::XML(output))))))
+      .to be_equivalent_to Canon.format_xml(cleanup
+      .sub(' xmlns="https://www.metanorma.org/ns/standoc"', "")
+      .sub("<html-toc-heading-levels>4", "<html-toc-heading-levels>2"))
+  end
+
   it "applies smartquotes by default" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -988,7 +1044,7 @@ RSpec.describe Metanorma::Standoc do
     input = <<~INPUT
       = X
       A
-      :fullname: 
+      :fullname:#{' '}
       :fullname_2: Fred
       :publisher:
       :publisher_2: Jack
@@ -996,49 +1052,49 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-       <bibdata type="standard">
-          <title language="en" type="main">X</title>
-          <contributor>
-             <role type="author"/>
-             <organization>
-                <name>Jack</name>
-             </organization>
-          </contributor>
-          <contributor>
-             <role type="author"/>
-             <person>
-                <name>
-                   <completename>Fred</completename>
-                </name>
-             </person>
-          </contributor>
-          <contributor>
-             <role type="publisher"/>
-             <organization>
-                <name>Jack</name>
-             </organization>
-          </contributor>
-          <language>en</language>
-          <script>Latn</script>
-          <status>
-             <stage>published</stage>
-          </status>
-          <copyright>
-             <from>#{Date.today.year}</from>
-          </copyright>
-          <copyright>
-             <from>#{Date.today.year}</from>
-             <owner>
-                <organization>
-                   <name>Jack</name>
-                </organization>
-             </owner>
-          </copyright>
-          <ext>
-             <doctype>standard</doctype>
-             <flavor>standoc</flavor>
-          </ext>
-       </bibdata>
+      <bibdata type="standard">
+         <title language="en" type="main">X</title>
+         <contributor>
+            <role type="author"/>
+            <organization>
+               <name>Jack</name>
+            </organization>
+         </contributor>
+         <contributor>
+            <role type="author"/>
+            <person>
+               <name>
+                  <completename>Fred</completename>
+               </name>
+            </person>
+         </contributor>
+         <contributor>
+            <role type="publisher"/>
+            <organization>
+               <name>Jack</name>
+            </organization>
+         </contributor>
+         <language>en</language>
+         <script>Latn</script>
+         <status>
+            <stage>published</stage>
+         </status>
+         <copyright>
+            <from>#{Date.today.year}</from>
+         </copyright>
+         <copyright>
+            <from>#{Date.today.year}</from>
+            <owner>
+               <organization>
+                  <name>Jack</name>
+               </organization>
+            </owner>
+         </copyright>
+         <ext>
+            <doctype>standard</doctype>
+            <flavor>standoc</flavor>
+         </ext>
+      </bibdata>
     OUTPUT
     a = [OPTIONS[0].merge(safe: :unsafe)]
     ret = Nokogiri::XML(Asciidoctor.convert(input, *a))
@@ -1620,342 +1676,342 @@ RSpec.describe Metanorma::Standoc do
       ----
     INPUT
     output = <<~OUTPUT
-       <bibdata type="standard">
-          <title language="en" type="main">X</title>
-          <docidentifier primary="true">BSI C1 300</docidentifier>
-          <docnumber>300</docnumber>
-          <date type="corrected">
-             <on>2022-10</on>
-          </date>
-          <contributor>
-             <role type="author"/>
-             <person>
-                <name>
-                   <completename>Author One</completename>
-                </name>
-             </person>
-          </contributor>
-          <language>en</language>
-          <script>Latn</script>
-          <status>
-             <stage>published</stage>
-          </status>
-          <copyright>
-             <from>#{Date.today.year}</from>
-          </copyright>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">A1</docidentifier>
-                <date type="published">
-                   <on>2016-05</on>
-                </date>
-                <amend change="modify">
-                   <description>
-                      <p id="_">see Foreword</p>
-                   </description>
-                </amend>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="">BSI C1 300</docidentifier>
-                <date type="published">
-                   <on>2016-08</on>
-                </date>
-                <amend change="modify">
-                   <description>
-                      <p id="_">see Foreword</p>
-                   </description>
-                </amend>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">A2</docidentifier>
-                <date type="published">
-                   <on>2019-01</on>
-                </date>
-                <amend change="modify">
-                   <description>
-                      <p id="_">see Foreword</p>
-                   </description>
-                   <classification>
-                      <tag>default</tag>
-                      <value>editorial</value>
-                   </classification>
-                </amend>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">C2</docidentifier>
-                <date type="published">
-                   <on>2020-06</on>
-                </date>
-                <amend change="modify">
-                   <location>
-                      <localityStack connective="and">
-                         <locality type="table">
-                            <referenceFrom>A.4</referenceFrom>
-                         </locality>
-                      </localityStack>
-                      <localityStack connective="and">
-                         <locality type="table">
-                            <referenceFrom>A.5</referenceFrom>
-                         </locality>
-                      </localityStack>
-                   </location>
-                   <classification>
-                      <tag>type</tag>
-                      <value>editorial</value>
-                   </classification>
-                </amend>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="">BSI C1 300</docidentifier>
-                <date type="published">
-                   <on>2016-03-31</on>
-                </date>
-                <amend change="replace">
-                   <description>
-                      <p id="_">Implementation of CEN/CENELEC correction notice March 2016: Annexes ZA, ZB and ZC updated</p>
-                   </description>
-                   <location>
-                      <localityStack>
-                         <locality type="annex">
-                            <referenceFrom>ZA</referenceFrom>
-                         </locality>
-                      </localityStack>
-                      <localityStack>
-                         <locality type="annex">
-                            <referenceFrom>ZB</referenceFrom>
-                         </locality>
-                      </localityStack>
-                      <localityStack>
-                         <locality type="annex">
-                            <referenceFrom>ZC</referenceFrom>
-                         </locality>
-                      </localityStack>
-                   </location>
-                   <classification>
-                      <tag>type</tag>
-                      <value>editorial</value>
-                   </classification>
-                   <classification>
-                      <tag>impact</tag>
-                      <value>major</value>
-                   </classification>
-                </amend>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="">BSI C1 300</docidentifier>
-                <date type="published">
-                   <on>2017-01-31</on>
-                </date>
-                <amend change="modify">
-                   <description>
-                      <p id="_">Implementation of CEN/CENELEC corrigendum December 2016: European foreword and Annexes ZA, ZB and ZC corrected</p>
-                   </description>
-                </amend>
-             </bibitem>
-          </relation>
-          <relation type="merges">
-             <bibitem>
-                <docidentifier type="">BSI C1 300</docidentifier>
-                <date type="published">
-                   <on>2021-09-30</on>
-                </date>
-                <amend change="modify">
-                   <description>
-                      <p id="_">The following:</p>
-                      <ul id="_">
-                         <li>
-                            <p id="_">Implementation of CEN/CENELEC amendment A11:2021: European foreword and Annexes ZA and ZB revised, and Annex ZC removed.</p>
-                         </li>
-                         <li>
-                            <p id="_">National Annex NZ added, and Amendments/corrigenda issued since publication table corrected</p>
-                         </li>
-                      </ul>
-                   </description>
-                </amend>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">BS 5500</docidentifier>
-                <date type="published">
-                   <on>1976-03</on>
-                </date>
-                <edition>1</edition>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">BS 5500</docidentifier>
-                <date type="published">
-                   <on>1982-01</on>
-                </date>
-                <edition>2</edition>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">BS 5500</docidentifier>
-                <date type="published">
-                   <on>1985-01</on>
-                </date>
-                <edition>3</edition>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">BS 5500</docidentifier>
-                <date type="published">
-                   <on>1988-01</on>
-                </date>
-                <edition>4</edition>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">BS 5500</docidentifier>
-                <date type="published">
-                   <on>1991-01</on>
-                </date>
-                <edition>5</edition>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">BS 5500</docidentifier>
-                <date type="published">
-                   <on>1994-01</on>
-                </date>
-                <edition>6</edition>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">BS 5500</docidentifier>
-                <date type="published">
-                   <on>1997-01</on>
-                </date>
-                <edition>7</edition>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">PD 5500</docidentifier>
-                <date type="published">
-                   <on>2000-01</on>
-                </date>
-                <edition>1</edition>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">PD 5500</docidentifier>
-                <date type="published">
-                   <on>2003-01</on>
-                </date>
-                <edition>2</edition>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">PD 5500</docidentifier>
-                <date type="published">
-                   <on>2006-01</on>
-                </date>
-                <edition>3</edition>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">PD 5500</docidentifier>
-                <date type="published">
-                   <on>2009-01</on>
-                </date>
-                <edition>4</edition>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">PD 5500</docidentifier>
-                <date type="published">
-                   <on>2012-01</on>
-                </date>
-                <edition>5</edition>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">PD 5500</docidentifier>
-                <date type="published">
-                   <on>2015-01</on>
-                </date>
-                <edition>6</edition>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">PD 5500</docidentifier>
-                <date type="published">
-                   <on>2018-01</on>
-                </date>
-                <edition>7</edition>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">PD 5500</docidentifier>
-                <date type="published">
-                   <on>2021-01</on>
-                </date>
-                <edition>8</edition>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">Amendment 1, tagged</docidentifier>
-                <date type="updated">
-                   <on>2021-09</on>
-                </date>
-                <date type="implemented">
-                   <on>2022-01</on>
-                </date>
-                <amend change="modify">
-                   <description>
-                      <p id="_">SEE FOREWORD</p>
-                   </description>
-                </amend>
-             </bibitem>
-          </relation>
-          <relation type="updatedBy">
-             <bibitem>
-                <docidentifier type="BSI">Amendment 2, tagged</docidentifier>
-                <date type="updated">
-                   <on>2022-09</on>
-                </date>
-                <date type="implemented">
-                   <on>2023-01</on>
-                </date>
-                <amend change="modify">
-                   <description>
-                      <p id="_">SEE FOREWORD</p>
-                   </description>
-                </amend>
-             </bibitem>
-          </relation>
-          <ext>
-             <doctype>standard</doctype>
-             <flavor>standoc</flavor>
-          </ext>
-       </bibdata>
+      <bibdata type="standard">
+         <title language="en" type="main">X</title>
+         <docidentifier primary="true">BSI C1 300</docidentifier>
+         <docnumber>300</docnumber>
+         <date type="corrected">
+            <on>2022-10</on>
+         </date>
+         <contributor>
+            <role type="author"/>
+            <person>
+               <name>
+                  <completename>Author One</completename>
+               </name>
+            </person>
+         </contributor>
+         <language>en</language>
+         <script>Latn</script>
+         <status>
+            <stage>published</stage>
+         </status>
+         <copyright>
+            <from>#{Date.today.year}</from>
+         </copyright>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">A1</docidentifier>
+               <date type="published">
+                  <on>2016-05</on>
+               </date>
+               <amend change="modify">
+                  <description>
+                     <p id="_">see Foreword</p>
+                  </description>
+               </amend>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="">BSI C1 300</docidentifier>
+               <date type="published">
+                  <on>2016-08</on>
+               </date>
+               <amend change="modify">
+                  <description>
+                     <p id="_">see Foreword</p>
+                  </description>
+               </amend>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">A2</docidentifier>
+               <date type="published">
+                  <on>2019-01</on>
+               </date>
+               <amend change="modify">
+                  <description>
+                     <p id="_">see Foreword</p>
+                  </description>
+                  <classification>
+                     <tag>default</tag>
+                     <value>editorial</value>
+                  </classification>
+               </amend>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">C2</docidentifier>
+               <date type="published">
+                  <on>2020-06</on>
+               </date>
+               <amend change="modify">
+                  <location>
+                     <localityStack connective="and">
+                        <locality type="table">
+                           <referenceFrom>A.4</referenceFrom>
+                        </locality>
+                     </localityStack>
+                     <localityStack connective="and">
+                        <locality type="table">
+                           <referenceFrom>A.5</referenceFrom>
+                        </locality>
+                     </localityStack>
+                  </location>
+                  <classification>
+                     <tag>type</tag>
+                     <value>editorial</value>
+                  </classification>
+               </amend>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="">BSI C1 300</docidentifier>
+               <date type="published">
+                  <on>2016-03-31</on>
+               </date>
+               <amend change="replace">
+                  <description>
+                     <p id="_">Implementation of CEN/CENELEC correction notice March 2016: Annexes ZA, ZB and ZC updated</p>
+                  </description>
+                  <location>
+                     <localityStack>
+                        <locality type="annex">
+                           <referenceFrom>ZA</referenceFrom>
+                        </locality>
+                     </localityStack>
+                     <localityStack>
+                        <locality type="annex">
+                           <referenceFrom>ZB</referenceFrom>
+                        </locality>
+                     </localityStack>
+                     <localityStack>
+                        <locality type="annex">
+                           <referenceFrom>ZC</referenceFrom>
+                        </locality>
+                     </localityStack>
+                  </location>
+                  <classification>
+                     <tag>type</tag>
+                     <value>editorial</value>
+                  </classification>
+                  <classification>
+                     <tag>impact</tag>
+                     <value>major</value>
+                  </classification>
+               </amend>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="">BSI C1 300</docidentifier>
+               <date type="published">
+                  <on>2017-01-31</on>
+               </date>
+               <amend change="modify">
+                  <description>
+                     <p id="_">Implementation of CEN/CENELEC corrigendum December 2016: European foreword and Annexes ZA, ZB and ZC corrected</p>
+                  </description>
+               </amend>
+            </bibitem>
+         </relation>
+         <relation type="merges">
+            <bibitem>
+               <docidentifier type="">BSI C1 300</docidentifier>
+               <date type="published">
+                  <on>2021-09-30</on>
+               </date>
+               <amend change="modify">
+                  <description>
+                     <p id="_">The following:</p>
+                     <ul id="_">
+                        <li>
+                           <p id="_">Implementation of CEN/CENELEC amendment A11:2021: European foreword and Annexes ZA and ZB revised, and Annex ZC removed.</p>
+                        </li>
+                        <li>
+                           <p id="_">National Annex NZ added, and Amendments/corrigenda issued since publication table corrected</p>
+                        </li>
+                     </ul>
+                  </description>
+               </amend>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">BS 5500</docidentifier>
+               <date type="published">
+                  <on>1976-03</on>
+               </date>
+               <edition>1</edition>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">BS 5500</docidentifier>
+               <date type="published">
+                  <on>1982-01</on>
+               </date>
+               <edition>2</edition>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">BS 5500</docidentifier>
+               <date type="published">
+                  <on>1985-01</on>
+               </date>
+               <edition>3</edition>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">BS 5500</docidentifier>
+               <date type="published">
+                  <on>1988-01</on>
+               </date>
+               <edition>4</edition>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">BS 5500</docidentifier>
+               <date type="published">
+                  <on>1991-01</on>
+               </date>
+               <edition>5</edition>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">BS 5500</docidentifier>
+               <date type="published">
+                  <on>1994-01</on>
+               </date>
+               <edition>6</edition>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">BS 5500</docidentifier>
+               <date type="published">
+                  <on>1997-01</on>
+               </date>
+               <edition>7</edition>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">PD 5500</docidentifier>
+               <date type="published">
+                  <on>2000-01</on>
+               </date>
+               <edition>1</edition>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">PD 5500</docidentifier>
+               <date type="published">
+                  <on>2003-01</on>
+               </date>
+               <edition>2</edition>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">PD 5500</docidentifier>
+               <date type="published">
+                  <on>2006-01</on>
+               </date>
+               <edition>3</edition>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">PD 5500</docidentifier>
+               <date type="published">
+                  <on>2009-01</on>
+               </date>
+               <edition>4</edition>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">PD 5500</docidentifier>
+               <date type="published">
+                  <on>2012-01</on>
+               </date>
+               <edition>5</edition>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">PD 5500</docidentifier>
+               <date type="published">
+                  <on>2015-01</on>
+               </date>
+               <edition>6</edition>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">PD 5500</docidentifier>
+               <date type="published">
+                  <on>2018-01</on>
+               </date>
+               <edition>7</edition>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">PD 5500</docidentifier>
+               <date type="published">
+                  <on>2021-01</on>
+               </date>
+               <edition>8</edition>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">Amendment 1, tagged</docidentifier>
+               <date type="updated">
+                  <on>2021-09</on>
+               </date>
+               <date type="implemented">
+                  <on>2022-01</on>
+               </date>
+               <amend change="modify">
+                  <description>
+                     <p id="_">SEE FOREWORD</p>
+                  </description>
+               </amend>
+            </bibitem>
+         </relation>
+         <relation type="updatedBy">
+            <bibitem>
+               <docidentifier type="BSI">Amendment 2, tagged</docidentifier>
+               <date type="updated">
+                  <on>2022-09</on>
+               </date>
+               <date type="implemented">
+                  <on>2023-01</on>
+               </date>
+               <amend change="modify">
+                  <description>
+                     <p id="_">SEE FOREWORD</p>
+                  </description>
+               </amend>
+            </bibitem>
+         </relation>
+         <ext>
+            <doctype>standard</doctype>
+            <flavor>standoc</flavor>
+         </ext>
+      </bibdata>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     expect(strip_guid(Canon.format_xml(ret.at("//xmlns:bibdata").to_xml)))
