@@ -12,7 +12,7 @@ RSpec.describe "TestRender" do
       )
     end
 
-    it "does not inlcude the mn2pdf node when not present" do
+    it "does not include the mn2pdf node when not present" do
       pdf_option_node = PdfOptionNode.new
       pdf_option_node.options["fonts-manifest"] = nil
 
