@@ -196,7 +196,7 @@ NORM_REF_BOILERPLATE = <<~HDR.freeze
   <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
 HDR
 
-BLANK_HDR = <<~"HDR".freeze
+BLANK_HDR_NO_METANORMA_EXT = <<~"HDR".freeze
   <?xml version="1.0" encoding="UTF-8"?>
   <metanorma xmlns="https://www.metanorma.org/ns/standoc" version="#{Metanorma::Standoc::VERSION}" type="semantic" flavor="standoc">
   <bibdata type="standard">
@@ -212,6 +212,9 @@ BLANK_HDR = <<~"HDR".freeze
     <flavor>standoc</flavor>
     </ext>
   </bibdata>
+HDR
+
+METANORMA_EXT = <<~HDR.freeze
     <metanorma-extension>
        <semantic-metadata>
       <stage-published>true</stage-published>
@@ -224,6 +227,8 @@ BLANK_HDR = <<~"HDR".freeze
     </presentation-metadata>
   </metanorma-extension>
 HDR
+
+BLANK_HDR = BLANK_HDR_NO_METANORMA_EXT + METANORMA_EXT
 
 BLANK_METANORMA_HDR = <<~"HDR".freeze
   <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
