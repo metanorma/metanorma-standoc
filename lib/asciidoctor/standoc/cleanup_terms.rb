@@ -1,2 +1,2 @@
-require "asciidoctor/standoc/deprecated"
-require "metanorma/standoc/cleanup_terms"
+require_relative "deprecated"
+require_relative "../../metanorma/standoc/cleanup_terms"
