@@ -1658,7 +1658,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
           <sections>
              <figure id="_">
-                <name>Caption</name>
+                <name id="_">Caption</name>
                 <image id="_" height="auto" width="auto" alt="" src="spec/assets/warning_test.png" mimetype="image/png" filename="spec/assets/warning_test.png">
                    <altsource tag="html" src="spec/assets/correct.png" mimetype="image/png" height="auto" width="auto" filename="spec/assets/correct.png"/>
                    <altsource tag="doc" src="spec/assets/corrupt.png" mimetype="image/png" height="auto" width="auto" filename="spec/assets/corrupt.png"/>
@@ -1675,7 +1675,7 @@ RSpec.describe Metanorma::Standoc do
 
       [altmedia]
       --
-      html:: image:spec/assets/correct.png[]
+      html:: image:spec/assets/correct.png[alttext,300,600]
       doc:: image:spec/assets/corrupt.png[]
       --
     INPUT
@@ -1683,8 +1683,8 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
           <sections>
              <figure id="_">
-                <image id="_" height="auto" width="auto" alt="" src="spec/assets/correct.png" mimetype="image/png" filename="spec/assets/correct.png">
-                   <altsource tag="html" src="spec/assets/correct.png" mimetype="image/png" height="auto" width="auto" filename="spec/assets/correct.png"/>
+                <image id="_" height="600" width="300" alt="alttext" src="spec/assets/correct.png" mimetype="image/png" filename="spec/assets/correct.png">
+                   <altsource tag="html" src="spec/assets/correct.png" alt="alttext" mimetype="image/png" height="600" width="300" filename="spec/assets/correct.png"/>
                    <altsource tag="doc" src="spec/assets/corrupt.png" mimetype="image/png" height="auto" width="auto" filename="spec/assets/corrupt.png"/>
                 </image>
              </figure>
