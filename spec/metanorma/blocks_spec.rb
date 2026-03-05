@@ -1647,6 +1647,7 @@ RSpec.describe Metanorma::Standoc do
       #{ASCIIDOC_BLANK_HDR}
 
       [altmedia]
+      .Caption
       --
       html:: image:spec/assets/correct.png[]
       doc:: image:spec/assets/corrupt.png[]
@@ -1657,6 +1658,7 @@ RSpec.describe Metanorma::Standoc do
       #{BLANK_HDR}
           <sections>
              <figure id="_">
+                <name>Caption</name>
                 <image id="_" height="auto" width="auto" alt="" src="spec/assets/warning_test.png" mimetype="image/png" filename="spec/assets/warning_test.png">
                    <altsource tag="html" src="spec/assets/correct.png" mimetype="image/png" height="auto" width="auto" filename="spec/assets/correct.png"/>
                    <altsource tag="doc" src="spec/assets/corrupt.png" mimetype="image/png" height="auto" width="auto" filename="spec/assets/corrupt.png"/>
