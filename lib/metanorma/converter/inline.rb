@@ -138,11 +138,13 @@ module Metanorma
         types.first.to_s
       end
 
-      def image_attributes(node)
+      def image_attributes(node, src: true)
+        if src
         sourceuri = image_src_uri(node)
         uri = sourceuri
         type = image_mimetype(uri)
         uri = uri.sub(%r{^data:image/\*;}, "data:#{type};")
+        end
         image_attributes1(node, uri, sourceuri, type)
       end
 

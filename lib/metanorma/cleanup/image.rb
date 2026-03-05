@@ -55,16 +55,48 @@ module Metanorma
       end
 
       def img_cleanup(xmldoc)
-        if @datauriimage
-          xmldoc.xpath("//image").each do |i|
+        altmedia_cleanup(xmldoc)
+        @datauriimage and datauri_image(xmldoc)
+        svg_cleanup(xmldoc)
+        xmldoc
+      end
+
+      def datauri_image(xmldoc)
+          xmldoc.xpath("//image | //altsource").each do |i|
             # do not datauri encode SVG, we need to deduplicate its IDs
             unless read_in_if_svg(i, @localdir)
               i["src"] = Vectory::Utils::datauri(i["src"], @localdir)
             end
           end
+      end
+
+      def altmedia_cleanup(xmldoc)
+        xmldoc.xpath("//image[@altmedia]").each do |i|
+          d, default = altmedia_prep(i)
+          d or next
+          image_attr_copy(default[:dd], i)
+          d.each do |e|
+            e[:dt] == "default" || e[:dd].nil? and next
+            i << "<altsource tag='#{e[:dt]}'/>"
+            image_attr_copy(e[:dd], i.elements.last)
+          end
         end
-        svg_cleanup(xmldoc)
-        xmldoc
+      end
+
+      def image_attr_copy(src, dest)
+        %w(src mimetype height width filename alt).each do |k|
+          src[k] and dest[k] = src[k]
+        end
+        end
+
+      def altmedia_prep(img)
+          img.delete("altmedia")
+          dl = img.at("./dl") or return [nil, nil]
+          d = extract_symbols_list(dl.remove).map do |e|
+            { dt: e[:dt].text, dd: e[:dd].at(".//image") }
+          end
+          default = d.detect { |e| e[:dt] == "default" } || d.first
+          [d, default]
       end
 
       def svg_cleanup(xmldoc)

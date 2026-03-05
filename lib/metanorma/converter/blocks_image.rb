@@ -39,6 +39,17 @@ module Metanorma
           end
         end
       end
+
+      def altmedia_block(node)
+        noko do |xml|
+          xml.figure **figure_attrs(node) do |f|
+            block_title(node, f)
+            f.image  **image_attributes(node, src: false).merge(altmedia: true) do |i|
+             i << node.content
+            end
+          end
+        end
+      end
     end
   end
 end
