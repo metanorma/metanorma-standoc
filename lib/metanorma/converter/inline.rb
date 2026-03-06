@@ -44,13 +44,13 @@ module Metanorma
         attrs, text = stem_attrs(node, text)
         if /&lt;([^:>&]+:)?math(\s+[^>&]+)?&gt; |
           <([^:>&]+:)?math(\s+[^>&]+)?>/x.match? text
-          xml.stem **attrs.merge(type: "MathML") do |s|
+          xml.stem **attrs, type: "MathML" do |s|
             s << xml_encode(text)
           end
         elsif style == :latexmath then latex_parse(text, xml, attrs)
         else
           xml.stem text&.gsub("&amp;#", "&#") || "",
-                   **attrs.merge(type: "AsciiMath")
+                   **attrs, type: "AsciiMath"
         end
       end
 
@@ -69,8 +69,8 @@ module Metanorma
 
       def latex_parse(text, xml, attr)
         latex = latex_parse1(text, attr[:block]) or
-          return xml.stem **attr.merge(type: "MathML")
-        xml.stem **attr.merge(type: "MathML") do |s|
+          return xml.stem **attr, type: "MathML"
+        xml.stem **attr, type: "MathML" do |s|
           math = Nokogiri::XML.fragment(latex.sub(/<\?[^>]+>/, ""))
             .elements[0]
           math.delete("alttext")
@@ -140,10 +140,10 @@ module Metanorma
 
       def image_attributes(node, src: true)
         if src
-        sourceuri = image_src_uri(node)
-        uri = sourceuri
-        type = image_mimetype(uri)
-        uri = uri.sub(%r{^data:image/\*;}, "data:#{type};")
+          sourceuri = image_src_uri(node)
+          uri = sourceuri
+          type = image_mimetype(uri)
+          uri = uri.sub(%r{^data:image/\*;}, "data:#{type};")
         end
         image_attributes1(node, uri, sourceuri, type)
       end
@@ -168,6 +168,7 @@ module Metanorma
                  width: node.attr("width") || "auto",
                  filename: node.attr("filename") || sourceuri,
                  title: node.attr("titleattr"),
+                 media: node.attr("media"),
                  alt: node.alt == node.attr("default-alt") ? nil : node.alt))
       end
 
