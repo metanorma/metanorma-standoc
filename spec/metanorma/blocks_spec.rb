@@ -1256,6 +1256,7 @@ RSpec.describe Metanorma::Standoc do
       [%unnumbered,number=3,class=plate]
       .Split-it-right sample divider
       image::spec/examples/rice_images/rice_image1.png[alttext]
+      image::spec/examples/odf.svg[]
 
     INPUT
     output = <<~OUTPUT
@@ -1265,6 +1266,9 @@ RSpec.describe Metanorma::Standoc do
          <name id="_">Split-it-right sample divider</name>
                   <image src="spec/examples/rice_images/rice_image1.png" filename="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto" alt="alttext"/>
        </figure>
+       <figure id="_">
+         <image id="_" src="spec/examples/odf.svg" mimetype="image/svg+xml" height="auto" width="auto" filename="spec/examples/odf.svg"/>
+      </figure>
        </sections>
        </metanorma>
     OUTPUT

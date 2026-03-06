@@ -122,7 +122,7 @@ module Metanorma
         types = MIME::Types.type_for(path) or return false
         types.first == "image/svg+xml" or return false
         svg = File.read(path, encoding: "utf-8") or return false
-        img.children = (Nokogiri::XML(svg).root)
+        img.add_first_child Nokogiri::XML(svg).root
         true
       end
 

@@ -2,6 +2,56 @@ require "spec_helper"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
+  it "expands svg" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR.sub(':data-uri-image: false', ':data-uri-image: true')}
+
+      [altmedia]
+      --
+      doc:: image:spec/assets/odf.svg[]
+      html:: image:spec/assets/odf.svg[]
+      --
+
+      image::spec/assets/odf.svg[]
+    INPUT
+    output = <<~OUTPUT
+           #{BLANK_HDR}
+             <sections>
+          <figure id="_">
+             <image id="_" height="auto" width="auto" alt="" src="spec/assets/odf.svg" mimetype="image/svg+xml" filename="spec/assets/odf.svg">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                   <circle fill="#009" r="45" cx="50" cy="50"/>
+                   <path d="M33,26H78A37,37,0,0,1,33,83V57H59V43H33Z" fill="#FFF"/>
+                </svg>
+                <altsource tag="doc" src="spec/assets/odf.svg" mimetype="image/svg+xml" height="auto" width="auto" filename="spec/assets/odf.svg">
+                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                      <circle fill="#009" r="45" cx="50" cy="50"/>
+                      <path d="M33,26H78A37,37,0,0,1,33,83V57H59V43H33Z" fill="#FFF"/>
+                   </svg>
+                </altsource>
+                <altsource tag="html" src="spec/assets/odf.svg" mimetype="image/svg+xml" height="auto" width="auto" filename="spec/assets/odf.svg">
+                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                      <circle fill="#009" r="45" cx="50" cy="50"/>
+                      <path d="M33,26H78A37,37,0,0,1,33,83V57H59V43H33Z" fill="#FFF"/>
+                   </svg>
+                </altsource>
+             </image>
+          </figure>
+          <figure id="_">
+             <image id="_" src="spec/assets/odf.svg" mimetype="image/svg+xml" height="auto" width="auto" filename="spec/assets/odf.svg">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                   <circle fill="#009" r="45" cx="50" cy="50"/>
+                   <path d="M33,26H78A37,37,0,0,1,33,83V57H59V43H33Z" fill="#FFF"/>
+                </svg>
+             </image>
+          </figure>
+       </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
   it "processes svgmap" do
     FileUtils.cp "spec/fixtures/action_schemaexpg1.svg",
                  "action_schemaexpg1.svg"
@@ -1008,7 +1058,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "deduplicates identifiers in embedded SVGs" do
     input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR.sub(/:data-uri-image: false/, ':data-uri-image: true')}
+      #{ASCIIDOC_BLANK_HDR.sub(':data-uri-image: false', ':data-uri-image: true')}
 
       [height=100,width=100]
       image::spec/fixtures/action_schemaexpg1.svg[]
@@ -1654,5 +1704,4 @@ RSpec.describe Metanorma::Standoc do
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Canon.format_xml(output)
   end
-
 end
