@@ -1309,7 +1309,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-         <figure id="_" tag='X' columns='1' multilingual-rendering='common' width="3">
+          <figure id="_" tag="X" columns="1" multilingual-rendering="common" height="4" width="3">
          <name id="_">Caption</name>
          <image id="_" tag="X" columns="1" multilingual-rendering="common" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="4" width="3" filename="riceimg1.png" title="TITLE" alt="IMAGE"/>
        </figure>
@@ -1338,20 +1338,20 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-       <sections>
-         <figure id="_" width="auto">
-            <image id="_" src="spec/examples/rice_images/rice_image1.png" filename="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="4.3" width="auto"/>
-          </figure>
-         <figure id="_" width="9.3%">
-            <image id="_" src="spec/examples/rice_images/rice_image1.png" filename="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="9.3%"/>
-          </figure>
-         <figure id="_" width="9%">
-            <image id="_" src="spec/examples/rice_images/rice_image1.png" filename="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="9.3%" width="9%"/>
-          </figure>
-          <figure id="_" width="text-width">
-              <image id="_" src="spec/examples/rice_images/rice_image1.png" filename="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="text-width"/>
-          </figure>
-       </sections>
+          <sections>
+             <figure id="_" height="4.3" width="auto">
+                <image id="_" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="4.3" width="auto" filename="spec/examples/rice_images/rice_image1.png"/>
+             </figure>
+             <figure id="_" height="auto" width="9.3%">
+                <image id="_" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="9.3%" filename="spec/examples/rice_images/rice_image1.png"/>
+             </figure>
+             <figure id="_" height="9.3%" width="9%">
+                <image id="_" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="9.3%" width="9%" filename="spec/examples/rice_images/rice_image1.png"/>
+             </figure>
+             <figure id="_" width="text-width">
+                <image id="_" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="text-width" filename="spec/examples/rice_images/rice_image1.png"/>
+             </figure>
+          </sections>
        </metanorma>
     OUTPUT
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))

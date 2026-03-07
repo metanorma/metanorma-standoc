@@ -1073,7 +1073,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
         #{BLANK_HDR}
               <sections>
-          <figure id="_" width="100">
+          <figure id="_" height="100" width="100">
             <image src="spec/fixtures/action_schemaexpg1.svg" filename="spec/fixtures/action_schemaexpg1.svg" mimetype="image/svg+xml" id="_" height="100" width="100">
               <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
                 <style/>
