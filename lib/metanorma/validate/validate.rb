@@ -1,4 +1,4 @@
-require "metanorma/converter/utils"
+require_relative "../converter/utils"
 require_relative "image"
 require_relative "section"
 require_relative "table"

@@ -1,2 +1,2 @@
-require "asciidoctor/standoc/deprecated"
-require "metanorma/standoc/validate_section"
+require_relative "deprecated"
+require_relative "../../metanorma/standoc/validate_section"

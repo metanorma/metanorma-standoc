@@ -17,10 +17,9 @@ end
 
 require "bundler/setup"
 require "asciidoctor"
-require "metanorma-standoc"
 require "rspec/matchers"
 require "equivalent-xml"
-require "metanorma/standoc"
+require_relative "../lib/metanorma-standoc"
 require "canon"
 require_relative "support/uuid_mock"
 

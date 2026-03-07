@@ -1,2 +1,2 @@
-require "asciidoctor/standoc/deprecated"
-require "metanorma/standoc/base"
+require_relative "deprecated"
+require_relative "../../metanorma/standoc/base"
