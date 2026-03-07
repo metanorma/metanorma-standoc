@@ -1678,7 +1678,7 @@ RSpec.describe Metanorma::Standoc do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
-      [altmedia]
+      [altmedia,height=400,width=200,alt="Alt Title"]
       --
       html:: image:spec/assets/correct.png[alttext,300,600,media="(width >= 800px)"]
       doc:: image:spec/assets/corrupt.png[]
@@ -1687,11 +1687,11 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
           <sections>
-             <figure id="_">
-                <image id="_" height="auto" width="auto" alt="">
-                   <altsource tag="html" src="spec/assets/correct.png" mimetype="image/png" height="600" width="300" filename="spec/assets/correct.png" alt="alttext" media="(width &gt;= 800px)"/>
-                   <altsource tag="doc" src="spec/assets/corrupt.png" mimetype="image/png" height="auto" width="auto" filename="spec/assets/corrupt.png"/>
-                   <altsource tag="default" src="spec/assets/correct.png" mimetype="image/png" height="600" width="300" filename="spec/assets/correct.png" alt="alttext" media="(width &gt;= 800px)"/>
+             <figure id="_" height="400" width="200">
+                <image id="_" height="400" width="200" alt="Alt Title">
+                   <altsource tag="html" src="spec/assets/correct.png" mimetype="image/png" filename="spec/assets/correct.png" alt="alttext" media="(width &gt;= 800px)" height="600" width="300"/>
+                   <altsource tag="doc" src="spec/assets/corrupt.png" mimetype="image/png" filename="spec/assets/corrupt.png" height="400" width="200"/>
+                   <altsource tag="default" src="spec/assets/correct.png" mimetype="image/png" filename="spec/assets/correct.png" alt="alttext" media="(width &gt;= 800px)" height="600" width="300"/>
                 </image>
              </figure>
           </sections>

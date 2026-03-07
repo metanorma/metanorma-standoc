@@ -138,14 +138,14 @@ module Metanorma
         types.first.to_s
       end
 
-      def image_attributes(node, src: true)
+      def image_attributes(node, src: true, altmedia: nil)
         if src
           sourceuri = image_src_uri(node)
           uri = sourceuri
           type = image_mimetype(uri)
           uri = uri.sub(%r{^data:image/\*;}, "data:#{type};")
         end
-        image_attributes1(node, uri, sourceuri, type)
+        image_attributes1(node, uri, sourceuri, type, altmedia)
       end
 
       def image_src_uri(node)
@@ -160,7 +160,7 @@ module Metanorma
         uri
       end
 
-      def image_attributes1(node, uri, sourceuri, type)
+      def image_attributes1(node, uri, sourceuri, type, altmedia)
         /^data:/.match?(sourceuri) and sourceuri = nil
         attr_code(id_attr(node)
           .merge(src: uri, mimetype: type,
@@ -169,6 +169,7 @@ module Metanorma
                  filename: node.attr("filename") || sourceuri,
                  title: node.attr("titleattr"),
                  media: node.attr("media"),
+                 altmedia: altmedia,
                  alt: node.alt == node.attr("default-alt") ? nil : node.alt))
       end
 

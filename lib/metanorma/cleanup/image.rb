@@ -84,19 +84,25 @@ module Metanorma
           e[:dd].nil? and next
           img << "<altsource tag='#{e[:dt]}'/>"
           image_attr_copy(e[:dd], img.elements.last)
-          altsource_attr_copy(e[:dd], img.elements.last)
+          altsource_attr_copy(e[:dd], img.elements.last, img)
         end
       end
 
       def image_attr_copy(src, dest)
-        %w(src mimetype height width filename alt).each do |k|
+        %w(src mimetype filename alt).each do |k|
           src[k] and dest[k] = src[k]
         end
       end
 
-      def altsource_attr_copy(src, dest)
+      def altsource_attr_copy(src, dest, img)
         %w(media).each do |k|
           src[k] and dest[k] = src[k]
+        end
+        %w(height width).each do |k|
+          dest[k] = img[k]
+          src[k] or next
+          src[k] == "auto" and next
+          dest[k] = src[k]
         end
       end
 
