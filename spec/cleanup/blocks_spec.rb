@@ -15,38 +15,40 @@ RSpec.describe Metanorma::Standoc do
       image::spec/assets/odf.svg[]
     INPUT
     output = <<~OUTPUT
-           #{BLANK_HDR}
-             <sections>
-          <figure id="_">
-             <image id="_" height="auto" width="auto" alt="" src="spec/assets/odf.svg" mimetype="image/svg+xml" filename="spec/assets/odf.svg">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                   <circle fill="#009" r="45" cx="50" cy="50"/>
-                   <path d="M33,26H78A37,37,0,0,1,33,83V57H59V43H33Z" fill="#FFF"/>
-                </svg>
-                <altsource tag="doc" src="spec/assets/odf.svg" mimetype="image/svg+xml" height="auto" width="auto" filename="spec/assets/odf.svg">
+      #{BLANK_HDR}
+          <sections>
+             <figure id="_">
+                <image id="_" height="auto" width="auto" alt="">
+                   <altsource tag="doc" src="spec/assets/odf.svg" mimetype="image/svg+xml" height="auto" width="auto" filename="spec/assets/odf.svg">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                         <circle fill="#009" r="45" cx="50" cy="50"/>
+                         <path d="M33,26H78A37,37,0,0,1,33,83V57H59V43H33Z" fill="#FFF"/>
+                      </svg>
+                   </altsource>
+                   <altsource tag="html" src="spec/assets/odf.svg" mimetype="image/svg+xml" height="auto" width="auto" filename="spec/assets/odf.svg">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                         <circle fill="#009" r="45" cx="50" cy="50"/>
+                         <path d="M33,26H78A37,37,0,0,1,33,83V57H59V43H33Z" fill="#FFF"/>
+                      </svg>
+                   </altsource>
+                   <altsource tag="default" src="spec/assets/odf.svg" mimetype="image/svg+xml" height="auto" width="auto" filename="spec/assets/odf.svg">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                         <circle fill="#009" r="45" cx="50" cy="50"/>
+                         <path d="M33,26H78A37,37,0,0,1,33,83V57H59V43H33Z" fill="#FFF"/>
+                      </svg>
+                   </altsource>
+                </image>
+             </figure>
+             <figure id="_">
+                <image id="_" src="spec/assets/odf.svg" mimetype="image/svg+xml" height="auto" width="auto" filename="spec/assets/odf.svg">
                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
                       <circle fill="#009" r="45" cx="50" cy="50"/>
                       <path d="M33,26H78A37,37,0,0,1,33,83V57H59V43H33Z" fill="#FFF"/>
                    </svg>
-                </altsource>
-                <altsource tag="html" src="spec/assets/odf.svg" mimetype="image/svg+xml" height="auto" width="auto" filename="spec/assets/odf.svg">
-                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                      <circle fill="#009" r="45" cx="50" cy="50"/>
-                      <path d="M33,26H78A37,37,0,0,1,33,83V57H59V43H33Z" fill="#FFF"/>
-                   </svg>
-                </altsource>
-             </image>
-          </figure>
-          <figure id="_">
-             <image id="_" src="spec/assets/odf.svg" mimetype="image/svg+xml" height="auto" width="auto" filename="spec/assets/odf.svg">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                   <circle fill="#009" r="45" cx="50" cy="50"/>
-                   <path d="M33,26H78A37,37,0,0,1,33,83V57H59V43H33Z" fill="#FFF"/>
-                </svg>
-             </image>
-          </figure>
-       </sections>
-      </metanorma>
+                </image>
+             </figure>
+          </sections>
+       </metanorma>
     OUTPUT
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Canon.format_xml(output)

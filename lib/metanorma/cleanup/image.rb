@@ -65,23 +65,23 @@ module Metanorma
         xmldoc.xpath("//image | //altsource").each do |i|
           # do not datauri encode SVG, we need to deduplicate its IDs
           unless read_in_if_svg?(i, @localdir)
-            i["src"] = Vectory::Utils::datauri(i["src"], @localdir)
+            i["src"] &&= Vectory::Utils::datauri(i["src"], @localdir)
           end
         end
       end
 
       def altmedia_cleanup(xmldoc)
         xmldoc.xpath("//image[@altmedia]").each do |i|
-          d, default = altmedia_prep(i)
+          altmedia_root_cleanup(i)
+          d = altmedia_prep(i)
           d or next
-          image_attr_copy(default[:dd], i)
           altsource_populate(i, d)
         end
       end
 
       def altsource_populate(img, dlist)
         dlist.each do |e|
-          e[:dt] == "default" || e[:dd].nil? and next
+          e[:dd].nil? and next
           img << "<altsource tag='#{e[:dt]}'/>"
           image_attr_copy(e[:dd], img.elements.last)
           altsource_attr_copy(e[:dd], img.elements.last)
@@ -100,14 +100,22 @@ module Metanorma
         end
       end
 
+      def altmedia_root_cleanup(img)
+        %w(altmedia src filename mimetype).each do |k|
+          img.delete(k)
+        end
+      end
+
       def altmedia_prep(img)
-        img.delete("altmedia")
-        dl = img.at("./dl") or return [nil, nil]
+        dl = img.at("./dl") or return
         d = extract_symbols_list(dl.remove).map do |e|
           { dt: e[:dt].text, dd: e[:dd].at(".//image") }
         end
-        default = d.detect { |e| e[:dt] == "default" } || d.first
-        [d, default]
+        unless d.detect { |e| e[:dt] == "default" }
+          d << d.first.dup
+          d[-1][:dt] = "default"
+        end
+        d
       end
 
       def svg_cleanup(xmldoc)
@@ -192,7 +200,7 @@ module Metanorma
         svg_uniqueids2(svg, iri_properties, idx, ids)
         new_ids = id_elems.map { |x| x["id"] }
           .map { |x| x + (ids[x] ? "_inject_#{idx}" : "") }
-        ids.merge(new_ids.each.map { |value| [value, true] }.to_h)
+        ids.merge(new_ids.each.to_h { |value| [value, true] })
       end
 
       def svg_uniqueids2(svg, iri_properties, idx, ids)
