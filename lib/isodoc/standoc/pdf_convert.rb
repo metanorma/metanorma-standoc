@@ -7,7 +7,7 @@ module IsoDoc
     #
     class PdfConvert < IsoDoc::XslfoPdfConvert
       def initialize(options)
-        @libdir = File.dirname(__FILE__)
+        @libdir = File.dirname(__FILE__, 2)
         super
       end
 
