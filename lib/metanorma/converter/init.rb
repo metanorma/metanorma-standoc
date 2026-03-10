@@ -196,7 +196,8 @@ module Metanorma
       def biblio_cutoff(node)
         dates = %w(revdate published-date accessed-date created-date
                    implemented-date confirmed-date updated-date issued-date
-                   circulated-date unchanged-date).each_with_object([]) do |k, m|
+                   circulated-date unchanged-date copyright-year)
+          .each_with_object([]) do |k, m|
           date = node.attr(k) or next
           m << date
         end
