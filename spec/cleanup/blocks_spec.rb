@@ -1438,6 +1438,9 @@ RSpec.describe Metanorma::Standoc do
       ABC
       *JSA*)
 
+      ABC
+      link:example.com[]
+
     INPUT
     output = <<~OUTPUT
       <sections><clause id="_" type="scope" inline-header="false" obligation="normative">
@@ -1461,6 +1464,8 @@ RSpec.describe Metanorma::Standoc do
        <p id="_">ABC (<strong>JSA</strong>)</p>
 
        <p id="_">ABC <strong>JSA</strong>)</p>
+
+       <p id="_">ABC <link target="example.com"/></p>
       </clause>
       </sections>
     OUTPUT
