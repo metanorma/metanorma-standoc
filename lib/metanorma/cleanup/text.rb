@@ -3,7 +3,7 @@ module Metanorma
     module Text
       def ancestor_include?(elem, ancestors)
         path = elem.path.gsub(/\[\d+\]/, "").split(%r{/})[1..-2]
-        !path.intersection(ancestors).empty?
+        path.intersect?(ancestors)
       end
 
       # process example/p, example/sourcecode, not example on its own:
@@ -30,27 +30,39 @@ module Metanorma
       end
 
       def lines_strip_textspan(span, nextspan)
-        lines = span[:text].lines[0..-2].map(&:rstrip) <<
-          span[:text].lines[-1]&.sub(/\n$/, "")
+        #AAA
+        lines = []
+        span[:text] and
+          lines = span[:text].lines[0..-2].map(&:rstrip) <<
+            span[:text].lines[-1]&.sub(/\n$/, "")
+        #lines = span[:text].lines[0..-2].map(&:rstrip) <<
+  #span[:text].lines[-1]&.sub(/\n$/, "")
         # no final line rstrip: can be space linking to next line
         span[:last] or lines << nextspan[:text].lines.first # next token context
         lines
       end
 
-      # TODO: we are not counting empty xref, eref here
       def gather_text_for_linebreak_cleanup(block)
-        x = block.xpath(".//text()").map do |e|
-          { elem: e, text: e.text, stem: ancestor_include?(e, %w(stem)),
-            skip: ancestor_include?(e, PRESERVE_LINEBREAK_ELEMENTS) }
-        end
+        x = gather_text_for_linebreak_cleanup1(block)
         x.empty? and return x
-        x.each { |e| e[:skip] ||= !e[:text].include?("\n") }
         x.each_with_index do |e, i|
+          e[:skip] ||= !e[:text].include?("\n")
           # do not treat stem linebreaks as meaningful
           e[:skip] ||= x[i + 1]&.dig(:stem)
+          e[:skip] ||= !e[:elem].text?
         end
         x[-1][:last] = true
         x
+      end
+
+      def gather_text_for_linebreak_cleanup1(block)
+        block.xpath(".//text() | .//eref[not(text())] |  " \
+                        ".//xref[not(text())] | .//termref[not(text())] | " \
+                        ".//link[not(text())] ").map do |e|
+                          #x = block.xpath(".//text()").map do |e|
+          { elem: e, text: e.text, stem: ancestor_include?(e, %w(stem)),
+            skip: ancestor_include?(e, PRESERVE_LINEBREAK_ELEMENTS) }
+        end
       end
 
       def smartquotes_cleanup(xmldoc)
@@ -79,14 +91,16 @@ module Metanorma
         end
       end
 
-      # "abc<tag/>", def => "abc",<tag/> def
-      # TODO?
-      def uninterrupt_quotes_around_xml1(xmldoc)
-        xmldoc.xpath("//text()[preceding-sibling::*[1]]").each do |n|
-          uninterrupt_quotes_around_xml_skip(n) and next
-          uninterrupt_quotes_around_xml1(n.previous)
-        end
-      end
+#AAA
+# "abc<tag/>", def => "abc",<tag/> def
+# TODO?
+#def uninterrupt_quotes_around_xml1(xmldoc)
+  #xmldoc.xpath("//text()[preceding-sibling::*[1]]").each do |n|
+    #uninterrupt_quotes_around_xml_skip(n) and next
+    #uninterrupt_quotes_around_xml1(n.previous)
+  #end
+#end
+
 
       IGNORE_QUOTES_ELEMENTS =
         %w(pre tt sourcecode stem asciimath figure bibdata passthrough
@@ -111,6 +125,7 @@ module Metanorma
            ignoretext?(elem.previous)))
       end
 
+      # "abc<tag/>", def => "abc",<tag/> def
       def uninterrupt_quotes_around_xml1(elem)
         prev = elem.at(".//preceding::text()[1]") or return
         /\S\Z/.match?(prev.text) or return
