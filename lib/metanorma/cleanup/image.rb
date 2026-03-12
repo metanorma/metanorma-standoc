@@ -55,16 +55,73 @@ module Metanorma
       end
 
       def img_cleanup(xmldoc)
-        if @datauriimage
-          xmldoc.xpath("//image").each do |i|
-            # do not datauri encode SVG, we need to deduplicate its IDs
-            unless read_in_if_svg(i, @localdir)
-              i["src"] = Vectory::Utils::datauri(i["src"], @localdir)
-            end
-          end
-        end
+        altmedia_cleanup(xmldoc)
+        @datauriimage and datauri_image(xmldoc)
         svg_cleanup(xmldoc)
         xmldoc
+      end
+
+      def datauri_image(xmldoc)
+        xmldoc.xpath("//image | //altsource").each do |i|
+          # do not datauri encode SVG, we need to deduplicate its IDs
+          unless read_in_if_svg?(i, @localdir)
+            i["src"] &&= Vectory::Utils::datauri(i["src"], @localdir)
+          end
+        end
+      end
+
+      def altmedia_cleanup(xmldoc)
+        xmldoc.xpath("//image[@altmedia]").each do |i|
+          altmedia_root_cleanup(i)
+          d = altmedia_prep(i)
+          d or next
+          altsource_populate(i, d)
+        end
+      end
+
+      def altsource_populate(img, dlist)
+        dlist.each do |e|
+          e[:dd].nil? and next
+          img << "<altsource tag='#{e[:dt]}'/>"
+          image_attr_copy(e[:dd], img.elements.last)
+          altsource_attr_copy(e[:dd], img.elements.last, img)
+        end
+      end
+
+      def image_attr_copy(src, dest)
+        %w(src mimetype filename alt).each do |k|
+          src[k] and dest[k] = src[k]
+        end
+      end
+
+      def altsource_attr_copy(src, dest, img)
+        %w(media).each do |k|
+          src[k] and dest[k] = src[k]
+        end
+        %w(height width).each do |k|
+          dest[k] = img[k]
+          src[k] or next
+          src[k] == "auto" and next
+          dest[k] = src[k]
+        end
+      end
+
+      def altmedia_root_cleanup(img)
+        %w(altmedia src filename mimetype).each do |k|
+          img.delete(k)
+        end
+      end
+
+      def altmedia_prep(img)
+        dl = img.at("./dl") or return
+        d = extract_symbols_list(dl.remove).map do |e|
+          { dt: e[:dt].text, dd: e[:dd].at(".//image") }
+        end
+        unless d.detect { |e| e[:dt] == "default" }
+          d << d.first.dup
+          d[-1][:dt] = "default"
+        end
+        d
       end
 
       def svg_cleanup(xmldoc)
@@ -72,21 +129,21 @@ module Metanorma
         svg_classupdate(xmldoc)
       end
 
-      def read_in_if_svg(img, localdir)
+      def read_in_if_svg?(img, localdir)
         img["src"] or return false
         path = Vectory::Utils.svgmap_rewrite0_path(img["src"], localdir)
         File.file?(path) or return false
         types = MIME::Types.type_for(path) or return false
         types.first == "image/svg+xml" or return false
         svg = File.read(path, encoding: "utf-8") or return false
-        img.children = (Nokogiri::XML(svg).root)
+        img.add_first_child Nokogiri::XML(svg).root
         true
       end
 
       def svg_classupdate(xmldoc)
         xmldoc.xpath("//m:svg[m:style]", "m" => SVG_NS)
           .each_with_index do |s, i|
-            svg_classupdate1(s, s.at("./m:style", "m" => SVG_NS), i)
+          svg_classupdate1(s, s.at("./m:style", "m" => SVG_NS), i)
         end
       end
 
@@ -101,7 +158,7 @@ module Metanorma
       end
 
       def svg_suffix_css_style(node, idx)
-        node[:node] == :style_rule && /\./.match?(node[:selector][:value]) or
+        (node[:node] == :style_rule && /\./.match?(node[:selector][:value])) or
           return
         v = node[:selector][:value]
           .gsub(/([^.\s]*\.\S+)/, "\\1_inject_#{idx}")
@@ -149,7 +206,7 @@ module Metanorma
         svg_uniqueids2(svg, iri_properties, idx, ids)
         new_ids = id_elems.map { |x| x["id"] }
           .map { |x| x + (ids[x] ? "_inject_#{idx}" : "") }
-        ids.merge(new_ids.each.map { |value| [value, true] }.to_h)
+        ids.merge(new_ids.each.to_h { |value| [value, true] })
       end
 
       def svg_uniqueids2(svg, iri_properties, idx, ids)

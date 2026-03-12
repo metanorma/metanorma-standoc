@@ -1256,6 +1256,7 @@ RSpec.describe Metanorma::Standoc do
       [%unnumbered,number=3,class=plate]
       .Split-it-right sample divider
       image::spec/examples/rice_images/rice_image1.png[alttext]
+      image::spec/examples/odf.svg[]
 
     INPUT
     output = <<~OUTPUT
@@ -1265,6 +1266,9 @@ RSpec.describe Metanorma::Standoc do
          <name id="_">Split-it-right sample divider</name>
                   <image src="spec/examples/rice_images/rice_image1.png" filename="spec/examples/rice_images/rice_image1.png" id="_" mimetype="image/png" height="auto" width="auto" alt="alttext"/>
        </figure>
+       <figure id="_">
+         <image id="_" src="spec/examples/odf.svg" mimetype="image/svg+xml" height="auto" width="auto" filename="spec/examples/odf.svg"/>
+      </figure>
        </sections>
        </metanorma>
     OUTPUT
@@ -1305,7 +1309,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
        <sections>
-         <figure id="_" tag='X' columns='1' multilingual-rendering='common' width="3">
+          <figure id="_" tag="X" columns="1" multilingual-rendering="common" height="4" width="3">
          <name id="_">Caption</name>
          <image id="_" tag="X" columns="1" multilingual-rendering="common" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="4" width="3" filename="riceimg1.png" title="TITLE" alt="IMAGE"/>
        </figure>
@@ -1334,20 +1338,20 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-       <sections>
-         <figure id="_" width="auto">
-            <image id="_" src="spec/examples/rice_images/rice_image1.png" filename="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="4.3" width="auto"/>
-          </figure>
-         <figure id="_" width="9.3%">
-            <image id="_" src="spec/examples/rice_images/rice_image1.png" filename="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="9.3%"/>
-          </figure>
-         <figure id="_" width="9%">
-            <image id="_" src="spec/examples/rice_images/rice_image1.png" filename="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="9.3%" width="9%"/>
-          </figure>
-          <figure id="_" width="text-width">
-              <image id="_" src="spec/examples/rice_images/rice_image1.png" filename="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="text-width"/>
-          </figure>
-       </sections>
+          <sections>
+             <figure id="_" height="4.3" width="auto">
+                <image id="_" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="4.3" width="auto" filename="spec/examples/rice_images/rice_image1.png"/>
+             </figure>
+             <figure id="_" height="auto" width="9.3%">
+                <image id="_" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="9.3%" filename="spec/examples/rice_images/rice_image1.png"/>
+             </figure>
+             <figure id="_" height="9.3%" width="9%">
+                <image id="_" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="9.3%" width="9%" filename="spec/examples/rice_images/rice_image1.png"/>
+             </figure>
+             <figure id="_" width="text-width">
+                <image id="_" src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="text-width" filename="spec/examples/rice_images/rice_image1.png"/>
+             </figure>
+          </sections>
        </metanorma>
     OUTPUT
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
@@ -1637,6 +1641,86 @@ RSpec.describe Metanorma::Standoc do
       </p>
       </sections>
       </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
+  it "processes altmedia blocks" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [altmedia]
+      .Caption
+      --
+      html:: image:spec/assets/correct.png[]
+      doc:: image:spec/assets/corrupt.png[]
+      default:: image:spec/assets/warning_test.png[]
+      --
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+          <sections>
+             <figure id="_">
+                <name id="_">Caption</name>
+                <image id="_" height="auto" width="auto" alt="">
+                   <altsource tag="html" src="spec/assets/correct.png" mimetype="image/png" height="auto" width="auto" filename="spec/assets/correct.png"/>
+                   <altsource tag="doc" src="spec/assets/corrupt.png" mimetype="image/png" height="auto" width="auto" filename="spec/assets/corrupt.png"/>
+                   <altsource tag="default" src="spec/assets/warning_test.png" mimetype="image/png" height="auto" width="auto" filename="spec/assets/warning_test.png"/>
+                </image>
+             </figure>
+          </sections>
+       </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [altmedia,height=400,width=200,alt="Alt Title"]
+      --
+      html:: image:spec/assets/correct.png[alttext,300,600,media="(width >= 800px)"]
+      doc:: image:spec/assets/corrupt.png[]
+      --
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+          <sections>
+             <figure id="_" height="400" width="200">
+                <image id="_" height="400" width="200" alt="Alt Title">
+                   <altsource tag="html" src="spec/assets/correct.png" mimetype="image/png" filename="spec/assets/correct.png" alt="alttext" media="(width &gt;= 800px)" height="600" width="300"/>
+                   <altsource tag="doc" src="spec/assets/corrupt.png" mimetype="image/png" filename="spec/assets/corrupt.png" height="400" width="200"/>
+                   <altsource tag="default" src="spec/assets/correct.png" mimetype="image/png" filename="spec/assets/correct.png" alt="alttext" media="(width &gt;= 800px)" height="600" width="300"/>
+                </image>
+             </figure>
+          </sections>
+       </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR.sub(":data-uri-image: false", ":data-uri-image: true")}
+
+      [altmedia]
+      --
+      html:: image:spec/assets/correct.png[]
+      doc:: image:spec/assets/corrupt.png[]
+      --
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+          <sections>
+             <figure id="_">
+                <image id="_" height="auto" width="auto" alt="">
+                   <altsource tag="html" src="data:image/png;base64,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" mimetype="image/png" height="auto" width="auto" filename="spec/assets/correct.png"/>
+                   <altsource tag="doc" src="data:image/png;base64,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" mimetype="image/png" height="auto" width="auto" filename="spec/assets/corrupt.png"/>
+                   <altsource tag="default" src="data:image/png;base64,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" mimetype="image/png" height="auto" width="auto" filename="spec/assets/correct.png"/>
+                </image>
+             </figure>
+          </sections>
+       </metanorma>
     OUTPUT
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Canon.format_xml(output)

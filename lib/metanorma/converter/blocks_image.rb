@@ -28,6 +28,7 @@ module Metanorma
       def figure_attrs(node)
         attr_code(id_unnum_attrs(node).merge(keep_attrs(node))
           .merge(class: node.attr("class"),
+                 height: node.attr("height"),
                  width: node.attr("width")))
       end
 
@@ -36,6 +37,17 @@ module Metanorma
           xml.figure **figure_attrs(node) do |f|
             block_title(node, f)
             f.image **image_attributes(node).tap { |h| h.delete(:anchor) }
+          end
+        end
+      end
+
+      def altmedia_block(node)
+        noko do |xml|
+          xml.figure **figure_attrs(node) do |f|
+            block_title(node, f)
+            f.image **image_attributes(node, src: false, altmedia: true) do |i|
+              i << node.content
+            end
           end
         end
       end
