@@ -1,6 +1,7 @@
 require "uri"
-require_relative "./blocks_notes_examples"
-require_relative "./blocks_image"
+require_relative "blocks_notes"
+require_relative "blocks_examples"
+require_relative "blocks_image"
 
 module Metanorma
   module Standoc
@@ -42,6 +43,7 @@ module Metanorma
         role == "definition" and return termdefinition(node)
         role == "boilerplate" and return boilerplate_note(node)
         role == "key" and return key_block(node)
+        role == "altmedia" and return altmedia_block(node)
         open1(node)
       end
 
