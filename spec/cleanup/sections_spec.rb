@@ -401,7 +401,7 @@ RSpec.describe Metanorma::Standoc do
     it "processes modify change clauses" do
     input = <<~"INPUT"
       #{ASCIIDOC_BLANK_HDR}
-      [change="modify",locality="page=27",path="//table[2]",path_end="//table[2]/following-sibling:example[1]",title="Change"]
+      [change="modify",locality="page=27",path="//table[2]",path_end="//table[2]/following-sibling:example[1]",title="Change",position="before"]
       ==== Change Clause
 
       autonumber:table[2]
@@ -433,7 +433,7 @@ RSpec.describe Metanorma::Standoc do
            <sections>
         <clause id="_" inline-header='false' obligation='normative'>
           <title id="_">Change Clause</title>
-          <amend id='_' change='modify' path='//table[2]' path_end='//table[2]/following-sibling:example[1]' title='Change'>
+          <amend id='_' change='modify' path='//table[2]' path_end='//table[2]/following-sibling:example[1]' title='Change' position="before">
           <autonumber type='table'>2</autonumber>
                      <autonumber type='note'>7</autonumber>
                      <description>
