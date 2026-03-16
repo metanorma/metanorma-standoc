@@ -58,7 +58,7 @@ module Metanorma
       end
 
       def move_attrs_to_amend(clause, amend)
-        %w(change path path_end title).each do |e|
+        %w(change path path_end title position).each do |e|
           clause[e] or next
           amend[e] = clause[e]
           clause.delete(e)

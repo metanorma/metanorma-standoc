@@ -28,6 +28,7 @@ module Metanorma
         ret.merge(change: node.attributes["change"],
                   path: node.attributes["path"],
                   path_end: node.attributes["path_end"],
+                  position: node.attributes["position"],
                   title: node.attributes["title"])
       end
 
