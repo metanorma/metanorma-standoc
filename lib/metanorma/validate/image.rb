@@ -15,7 +15,7 @@ module Metanorma
         end
 
         def image_exists(doc)
-          doc.xpath("//image").each do |i|
+          doc.xpath("//image[@src] | //altmedia[@src]").each do |i|
             Vectory::Utils::url?(i["src"]) and next
             Vectory::Utils::datauri?(i["src"]) and next
             expand_path(i["src"]) and next
@@ -31,7 +31,7 @@ module Metanorma
         end
 
         def png_validate(doc)
-          doc.xpath("//image[@mimetype = 'image/png']").each do |i|
+          doc.xpath("//image[@mimetype = 'image/png'][@src]").each do |i|
             Vectory::Utils::url?(i["src"]) and next
             uri = Vectory::Utils::datauri?(i["src"])
             path = uri ? save_dataimage(i["src"]) : expand_path(i["src"])
@@ -55,7 +55,7 @@ module Metanorma
 
         def image_toobig(doc)
           @dataurimaxsize.zero? and return
-          doc.xpath("//image").each do |i|
+          doc.xpath("//image[@src]").each do |i|
             i["src"].size > @dataurimaxsize and
               @log.add("STANDOC_46", i.parent)
           end
