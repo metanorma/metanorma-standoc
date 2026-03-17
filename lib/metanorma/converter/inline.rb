@@ -162,15 +162,23 @@ module Metanorma
 
       def image_attributes1(node, uri, sourceuri, type, altmedia)
         /^data:/.match?(sourceuri) and sourceuri = nil
-        attr_code(id_attr(node)
+        attr_code(altmedia_id_attr(node, altmedia)
           .merge(src: uri, mimetype: type,
                  height: node.attr("height") || "auto",
                  width: node.attr("width") || "auto",
                  filename: node.attr("filename") || sourceuri,
                  title: node.attr("titleattr"),
-                 media: node.attr("media"),
-                 altmedia: altmedia,
+                 media: node.attr("media"), altmedia: altmedia,
                  alt: node.alt == node.attr("default-alt") ? nil : node.alt))
+      end
+
+      def altmedia_id_attr(node, altmedia)
+        ret = id_attr(node)
+        if altmedia
+          add_id(ret)
+          ret.delete(:anchor)
+        end
+        ret
       end
 
       def inline_image(node)
