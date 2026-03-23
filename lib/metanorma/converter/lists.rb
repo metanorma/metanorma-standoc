@@ -22,7 +22,9 @@ module Metanorma
       end
 
       def ul_attrs(node)
-        attr_code(id_attr(node).merge(keep_attrs(node)))
+        attr_code(id_attr(node).merge(keep_attrs(node)
+          .merge(display: node.attr("display"),
+                 "display-directives": node.attr("display-directives"))))
       end
 
       def ul_li_attrs(node)
@@ -60,6 +62,8 @@ module Metanorma
         attr_code(id_attr(node).merge(keep_attrs(node)
           .merge(type: olist_style(node.style),
                  start: node.attr("start"),
+                 display: node.attr("display"),
+                 "display-directives": node.attr("display-directives"),
                  "explicit-type": olist_style(node.attributes[1]))))
       end
 

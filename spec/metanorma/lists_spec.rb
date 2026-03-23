@@ -79,7 +79,7 @@ RSpec.describe Metanorma::Standoc do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [[id]]
-      [keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
+      [keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common,display='table',display-directives="colgroup='20,10,20'"]
       * First
       * Second
       +
@@ -90,7 +90,7 @@ RSpec.describe Metanorma::Standoc do
       --
 
       [[id1]]
-      [keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common]
+      [keep-with-next=true,keep-lines-together=true,tag=X,multilingual-rendering=common,display='table',display-directives="colgroup='20,10,20'"]
       [loweralpha]
       . First
       . Second
@@ -128,99 +128,99 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
                  #{BLANK_HDR}
-         <sections>
-            <ul id="_" anchor="id" tag="X" multilingual-rendering="common" keep-with-next="true" keep-lines-together="true">
-               <li>
-                  <p id="_">First</p>
-               </li>
-               <li>
-                  <p id="_">Second</p>
-                  <p id="_">entry1</p>
-                  <p id="_">entry2</p>
-               </li>
-            </ul>
-            <ol id="_" anchor="id1" tag="X" multilingual-rendering="common" keep-with-next="true" keep-lines-together="true" type="alphabet">
-               <li>
-                  <p id="_">First</p>
-               </li>
-               <li>
-                  <p id="_">Second</p>
-                  <ol id="_" type="alphabet_upper"  start="3">
-                     <li>
-                        <p id="_">Third</p>
-                     </li>
-                     <li>
-                        <p id="_">Fourth</p>
-                     </li>
-                  </ol>
-               </li>
-               <li>
-                  <p id="_">Fifth</p>
-               </li>
-               <li>
-                  <p id="_">Sixth</p>
-                  <ul id="_">
-                     <li>
-                        <p id="_">A</p>
-                     </li>
-                     <li>
-                        <p id="_">B</p>
-                        <ol id="_" type="alphabet">
-                           <li>
-                              <p id="_">C</p>
-                           </li>
-                           <li>
-                              <p id="_">D</p>
-                           </li>
-                        </ol>
-                     </li>
-                  </ul>
-               </li>
-            </ol>
-            <ol id="_" type="roman">
-               <li>
-                  <p id="_">A</p>
-               </li>
-               <li>
-                  <p id="_">B</p>
-                  <ol id="_" type="roman_upper">
-                     <li>
-                        <p id="_">C</p>
-                     </li>
-                     <li>
-                        <p id="_">D</p>
-                        <ol id="_" type="arabic">
-                           <li>
-                              <p id="_">E</p>
-                           </li>
-                           <li>
-                              <p id="_">F</p>
-                              <dl id="_" tag="X" multilingual-rendering="common" keep-with-next="true" keep-lines-together="true">
-                                 <dt>Notes1</dt>
-                                 <dd/>
-                                 <dt>Notes</dt>
-                                 <dd id="_">
-                                    <p id="_">Note 1.</p>
-                                    <p id="_">Note 2.</p>
-                                    <p id="_">Note 3.</p>
-                                 </dd>
-                              </dl>
-                           </li>
-                        </ol>
-                     </li>
-                  </ol>
-               </li>
-            </ol>
-            <key>
-            <dl id="_">
-               <dt>a</dt>
-               <dd id="_">
-                  <p id="_">b</p>
-               </dd>
-            </dl>
-            </key>
-         </sections>
-      </metanorma>
+          <sections>
+             <ul id="_" anchor="id" tag="X" multilingual-rendering="common" keep-with-next="true" keep-lines-together="true" display="table" display-directives="colgroup='20,10,20'">
+                <li>
+                   <p id="_">First</p>
+                </li>
+                <li>
+                   <p id="_">Second</p>
+                   <p id="_">entry1</p>
+                   <p id="_">entry2</p>
+                </li>
+             </ul>
+             <ol id="_" anchor="id1" tag="X" multilingual-rendering="common" keep-with-next="true" keep-lines-together="true" type="alphabet" display="table" display-directives="colgroup='20,10,20'">
+                <li>
+                   <p id="_">First</p>
+                </li>
+                <li>
+                   <p id="_">Second</p>
+                   <ol id="_" type="alphabet_upper" start="3">
+                      <li>
+                         <p id="_">Third</p>
+                      </li>
+                      <li>
+                         <p id="_">Fourth</p>
+                      </li>
+                   </ol>
+                </li>
+                <li>
+                   <p id="_">Fifth</p>
+                </li>
+                <li>
+                   <p id="_">Sixth</p>
+                   <ul id="_">
+                      <li>
+                         <p id="_">A</p>
+                      </li>
+                      <li>
+                         <p id="_">B</p>
+                         <ol id="_" type="alphabet">
+                            <li>
+                               <p id="_">C</p>
+                            </li>
+                            <li>
+                               <p id="_">D</p>
+                            </li>
+                         </ol>
+                      </li>
+                   </ul>
+                </li>
+             </ol>
+             <ol id="_" type="roman">
+                <li>
+                   <p id="_">A</p>
+                </li>
+                <li>
+                   <p id="_">B</p>
+                   <ol id="_" type="roman_upper">
+                      <li>
+                         <p id="_">C</p>
+                      </li>
+                      <li>
+                         <p id="_">D</p>
+                         <ol id="_" type="arabic">
+                            <li>
+                               <p id="_">E</p>
+                            </li>
+                            <li>
+                               <p id="_">F</p>
+                               <dl id="_" tag="X" multilingual-rendering="common" keep-with-next="true" keep-lines-together="true">
+                                  <dt>Notes1</dt>
+                                  <dd/>
+                                  <dt>Notes</dt>
+                                  <dd id="_">
+                                     <p id="_">Note 1.</p>
+                                     <p id="_">Note 2.</p>
+                                     <p id="_">Note 3.</p>
+                                  </dd>
+                               </dl>
+                            </li>
+                         </ol>
+                      </li>
+                   </ol>
+                </li>
+             </ol>
+             <key>
+                <dl id="_">
+                   <dt>a</dt>
+                   <dd id="_">
+                      <p id="_">b</p>
+                   </dd>
+                </dl>
+             </key>
+          </sections>
+       </metanorma>
     OUTPUT
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Canon.format_xml(output)
