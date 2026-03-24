@@ -836,7 +836,7 @@ RSpec.describe Metanorma::Standoc do
 
   it "process ISO reference without an Internet connection" do
     expect(RelatonIso::IsoBibliography).to receive(:search) do
-      raise RelatonBib::RequestError.new "getaddrinfo"
+      raise Relaton::RequestError.new "getaddrinfo"
     end.at_least :once
     input = <<~INPUT
       #{ISOBIB_BLANK_HDR}
@@ -1440,7 +1440,7 @@ RSpec.describe Metanorma::Standoc do
                               title: "<em>Standard</em>",
                               usrlbl: nil,
                               year: nil }) do
-      RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
+      Relaton::Bib::Bibitem.from_xml(<<~"OUTPUT")
         <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
     end.exactly(times).times
@@ -1458,7 +1458,7 @@ RSpec.describe Metanorma::Standoc do
                               title: "<em>Standard</em>",
                               usrlbl: "(1)",
                               year: nil }) do
-      RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
+      Relaton::Bib::Bibitem.from_xml(<<~"OUTPUT")
         <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
     end.exactly(times).times
@@ -1476,7 +1476,7 @@ RSpec.describe Metanorma::Standoc do
                               title: anything,
                               usrlbl: "(2)",
                               year: nil }) do
-      RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
+      Relaton::Bib::Bibitem.from_xml(<<~"OUTPUT")
         <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
     end.exactly(times).times
@@ -1494,7 +1494,7 @@ RSpec.describe Metanorma::Standoc do
                               title: anything,
                               usrlbl: "(3)",
                               year: nil }) do
-      RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
+      Relaton::Bib::Bibitem.from_xml(<<~"OUTPUT")
         <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
     end.exactly(times).times
@@ -1503,7 +1503,7 @@ RSpec.describe Metanorma::Standoc do
   def mock_rfcbib_get_rfc8342(times)
     expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 8342", nil,
                                                               anything) do
-      RelatonBib::XMLParser.from_xml(<<~OUTPUT)
+      Relaton::Bib::Bibitem.from_xml(<<~OUTPUT)
               <bibitem id="_" anchor="RFC8342">
           <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>
           <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
@@ -1523,7 +1523,7 @@ RSpec.describe Metanorma::Standoc do
   def mock_rfcbib_get_rfc8343(times)
     expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 8343", nil,
                                                               anything) do
-      RelatonBib::XMLParser.from_xml(<<~OUTPUT)
+      Relaton::Bib::Bibitem.from_xml(<<~OUTPUT)
               <bibitem id="_" anchor="RFC8343">
           <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>
           <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
