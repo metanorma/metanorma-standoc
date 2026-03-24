@@ -592,6 +592,316 @@ end
 
 ---
 
+### 16. `Docidentifier#id` → `#content`
+
+In Relaton 1.x, `RelatonBib::DocumentIdentifier` had an `id` accessor for the
+identifier string:
+
+```ruby
+# 1.x
+docid.id       # e.g. "ISO 8601:2019"
+```
+
+In Relaton 2.x, `Relaton::Bib::Docidentifier` inherits from
+`LocalizedMarkedUpString`, which uses `content` as the text accessor:
+
+```ruby
+# 2.x
+docid.content  # e.g. "ISO 8601:2019"
+```
+
+The `type`, `scope`, and `primary` attributes remain unchanged. Anywhere that
+called `id.id` or `out.map(&:id)` must be updated to `id.content` /
+`out.map(&:content)`.
+
+---
+
+### 17. `Place` model restructured
+
+In Relaton 1.x, `RelatonBib::Place` had a `name` accessor for a plain string
+place name, and `region`/`country` sub-objects had a `name` accessor:
+
+```ruby
+# 1.x
+place.name                          # e.g. "Geneva"
+place.region.map(&:name)            # region names
+place.country.map(&:name)           # country names
+```
+
+In Relaton 2.x, `Relaton::Bib::Place` has been restructured:
+
+```ruby
+# 2.x
+place.formatted_place               # replaces place.name
+place.city                          # city string
+place.region.map(&:content)         # RegionType uses :content for text
+place.country.map(&:content)        # RegionType uses :content for text
+place.uri                           # optional Uri object
+```
+
+The fallback when no city/region/country is given should use
+`place.formatted_place` instead of `place.name`. The `region` and `country`
+collections are always initialised to `[]` (via `initialize_empty: true`).
+
+---
+
+### 18. `Date#on` → `Date#at`; date values are `StringDate::Value`, not `String`
+
+In Relaton 1.x, `RelatonBib::BibItemDate` had `.on`, `.from`, `.to` accessors
+returning plain Ruby Strings:
+
+```ruby
+# 1.x
+date.on       # => "2024-01-01" (String or nil)
+date.from     # => "2020" (String or nil)
+date.to       # => "2025" (String or nil)
+```
+
+In Relaton 2.x, `Relaton::Bib::Date` has:
+
+- `at` instead of `on` (XML `<on>` maps to `at` because `on` is a reserved word
+  in YAML key-value serialisation)
+- `from` and `to` remain, but all three return `StringDate::Value` objects, **not**
+  plain Ruby Strings
+
+```ruby
+# 2.x
+date.at     # => StringDate::Value (or nil) — replaces .on
+date.from   # => StringDate::Value (or nil)
+date.to     # => StringDate::Value (or nil)
+```
+
+`StringDate::Value` is a normalized ISO 8601 date string wrapper. It is **not**
+a Ruby `Date` object but can be converted to one. Its internal `@value` is a
+canonical date string produced by `Core::DateParser#parse_date(str: true)` —
+one of `"YYYY"`, `"YYYY-MM"`, or `"YYYY-MM-DD"` depending on the input
+precision. Key capabilities:
+
+| Method / Operator | Behaviour |
+|---|---|
+| `.to_s` | Returns the normalized ISO 8601 string (delegated) |
+| `.split` | Delegates `String#split` to the string value |
+| `<=>` (Comparable) | Lexicographic comparison of strings — correct for ISO 8601 |
+| `.to_date` | Parses `@value` → Ruby `Date` object (or `nil` on failure) |
+| Any other `String` method | **Raises `NoMethodError`** — must call `.to_s` first |
+
+So `StringDate::Value` **does** support date arithmetic, but only after conversion:
+```ruby
+date.at.to_date + 30   # add 30 days — requires .to_date
+date.at.to_s           # get ISO string — for display/comparison
+date.at > date.from    # works via Comparable (<=>)
+```
+
+Any code that calls `.sub(…)` on date values must first call `.to_s`:
+
+```ruby
+# 1.x
+def datepick(date)
+  date.nil? and return nil
+  on = date.on
+  from = date.from
+  to = date.to
+  on and return { on: on }
+  from and return { from: from, to: to }
+  nil
+end
+
+# 2.x — convert to String at the boundary
+def datepick(date)
+  date.nil? and return nil
+  at = date.at
+  from = date.from
+  to = date.to
+  at and return { on: at.to_s }
+  from and return { from: from.to_s, to: to&.to_s }
+  nil
+end
+```
+
+By converting to String in `datepick`, all callers that use `.sub` or other
+String methods continue to work without further changes.
+
+---
+
+### 19. `Status::Stage#value` → `#content`
+
+In Relaton 1.x, `RelatonBib::DocumentStatus::Stage` had a `value` accessor for
+the stage text:
+
+```ruby
+# 1.x
+doc.status.stage.value   # => "draft", "published", etc.
+```
+
+In Relaton 2.x, `Relaton::Bib::Status::Stage` uses `content` (mapped with
+`map_content to: :content` in lutaml-model):
+
+```ruby
+# 2.x
+doc.status.stage.content   # => "draft", "published", etc.
+```
+
+The `abbreviation` attribute on `Stage` remains unchanged.
+
+---
+
+### 20. `Series#title` is now a collection
+
+In Relaton 1.x, `RelatonBib::Series#title` returned a single
+`RelatonBib::LocalizedString`:
+
+```ruby
+# 1.x
+series.title        # => LocalizedString — call content() on it directly
+content(series.title)
+```
+
+In Relaton 2.x, `Relaton::Bib::Series#title` is declared as
+`attribute :title, Title, collection: (1..)` — a required collection of one or
+more `Title` objects, identical in structure to `Item#title`.
+
+```ruby
+# 2.x — series.title returns an Array of Title objects
+content(series.title)   # NoMethodError: undefined method 'content' for Array
+```
+
+The fix is to use the same language-selection pattern as `title(doc)`:
+
+```ruby
+# 2.x — correct
+def series_title(series, _doc)
+  series.nil? and return nil
+  t = Array(series.title).select { |x| x.language == @lang }
+  t.empty? and t = Array(series.title)
+  t1 = t.select { |x| x.type == "main" }
+  t1.empty? and t1 = t
+  t1.first.nil? and return nil
+  esc(content(t1.first))
+end
+```
+
+Note: `series.formattedref` remains `attribute :formattedref, :string, raw: true`
+(a plain String), and `series.abbreviation` remains a single `LocalizedString` —
+neither is a collection.
+
+---
+
+### 21. `Series#from`/`Series#to` use Ruby `:date` — year/year-month values silently return `nil`
+
+> ⚠️ **Maintainer issue** — this is a bug in `relaton-bib 2.x` that requires a
+> fix upstream. The text below can be pasted verbatim as a GitHub issue on
+> `relaton/relaton-bib`.
+
+---
+
+**Title:** `Series#from`/`Series#to` should use `StringDate` not `:date` — year/year-month values silently return `nil`
+
+**Body:**
+
+When migrating downstream gems to `relaton-bib 2.x`, we found that `Series#from`
+and `Series#to` are declared as `attribute :from, :date` / `attribute :to, :date`
+(plain Ruby `Date` type), while publication date values (`Date#at`, `Date#from`,
+`Date#to`) use the custom `StringDate` type.
+
+This causes silent data loss: bibliographic series date values that use partial
+ISO 8601 precision (year-only `"2020"` or year-month `"2020-06"`) fail to parse
+as Ruby `Date` objects and return `nil`, instead of preserving the original
+string.
+
+**Reproduction:**
+
+```ruby
+require 'relaton/bib'
+xml = '<bibitem><series><from>2020</from><to>2022-06</to></series></bibitem>'
+item = Relaton::Bib::Bibitem.from_xml(xml)
+s = item.series.first
+puts s.from.inspect  # => nil  (expected: "2020")
+puts s.to.inspect    # => nil  (expected: "2022-06")
+```
+
+**Expected:** `series.from` and `series.to` should preserve the original
+granularity of the date string, as `StringDate::Value` does for publication
+dates. Year-only `"2020"` should not be coerced to a full `Date` and should not
+return `nil`.
+
+**Suggested fix:** Change the `Series` model to use `StringDate` for `from` and
+`to`:
+
+```ruby
+# lib/relaton/bib/model/series.rb
+attribute :from, StringDate   # instead of :date
+attribute :to,   StringDate   # instead of :date
+```
+
+This is consistent with how `Date#from`, `Date#to`, `Date#at` are declared, and
+preserves the string granularity needed for bibliographic rendering.
+
+---
+
+**Impact on downstream gems while awaiting fix:** In `relaton-render`, the
+`series_dates` method returns `nil` for any series with year-only or year-month
+dates, so series date ranges are silently omitted from rendered output.
+
+---
+
+### 22. `<place>` flat text no longer supported — must use `<formattedPlace>` or structured child elements
+
+In Relaton 1.x, the publication place was a simple text element:
+
+```xml
+<!-- 1.x relaton XML -->
+<place>New York, NY</place>
+<place>Cambridge, UK</place>
+```
+
+`RelatonBib::Place#name` returned this flat text string directly.
+
+In Relaton 2.x, `Relaton::Bib::Place` has no `map_content` — the plain text
+body of `<place>` is **silently ignored**. Instead, place must be expressed using
+child elements:
+
+```xml
+<!-- 2.x — formatted place (single string, replaces the 1.x flat format) -->
+<place><formattedPlace>New York, NY</formattedPlace></place>
+
+<!-- 2.x — structured place (broken out by city, region, country) -->
+<place>
+  <city>New York</city>
+  <region>NY</region>
+</place>
+<place>
+  <city>Cambridge</city>
+  <country>UK</country>
+</place>
+```
+
+The `Place` model attributes:
+- `formatted_place` — replaces the old `name` accessor
+- `city` — city string
+- `region` — `RegionType` collection (`initialize_empty: true`, always `[]`)
+- `country` — `RegionType` collection (`initialize_empty: true`, always `[]`)
+- `uri` — optional `Uri`
+
+Both formats must be supported by `place1`:
+
+```ruby
+# 2.x — handles both formattedPlace and city/region/country
+def place1(place)
+  c = place.city
+  r = place.region
+  n = place.country
+  c.nil? && r.empty? && n.empty? and return place.formatted_place
+  [c, *r.map(&:content), *n.map(&:content)].compact.join(", ")
+end
+```
+
+> ⚠️ **TODO for `metanorma-standoc`:** The `pubplace` / place XML generation in
+> `metanorma-standoc` currently emits the old flat-text `<place>` format. This
+> needs to be updated to emit `<place><formattedPlace>...</formattedPlace></place>`
+> for the new format. Deferred until the standoc migration resumes.
+
+---
+
 ## Testing and Verification
 
 After migrating a gem:
