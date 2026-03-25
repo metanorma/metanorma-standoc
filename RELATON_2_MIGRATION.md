@@ -402,6 +402,34 @@ The `Array()` coercion pattern is preferred when an empty array is needed as the
 fallback (e.g., in loops or `each_with_object`); `&.` is preferred when `nil` is
 an acceptable return value.
 
+#### ⚠️ Additional: scalar return when only one element is present
+
+In some lutaml-model versions, a collection attribute declared as
+`collection: true` (or `collection: (0..)`) can return the **element itself**
+(not wrapped in an array) when exactly **one** element is present in the XML.
+This means the attribute value can be:
+
+- `nil` — no elements
+- A single model object — exactly one element (not always; depends on version/declaration)
+- An `Array` — more than one element
+
+This was observed for `ItemData#title` in production: with one `<title>` element,
+`bibdata.title` returned a single `Relaton::Bib::Title` object, causing
+`bibdata.title.first` to raise `NoMethodError: undefined method 'first' for an
+instance of Relaton::Bib::Title`.
+
+**Always use `Array()` coercion** for collection attributes where this risk
+exists — it handles nil, scalar, and array equally:
+
+```ruby
+# Safe against nil, scalar, and array
+Array(doc.title).first&.content
+Array(doc.docidentifier).first&.content
+Array(doc.relation).detect { |r| r.type == "includedIn" }
+```
+
+This is preferable to `&.first` for attributes that can return a scalar.
+
 ---
 
 ### 10. `Contributor#entity` removed
@@ -1311,9 +1339,193 @@ end
 > **TODO:** Verify whether `Relaton::Bib::ItemData#to_xml` accepts the
 > `date_format:` keyword argument in 2.x. If not, request it be added back.
 
+**`bibdata_from_yaml` — hybrid 1.x/2.x format detection ✅ Fixed:**
+
+The `bibdata:` section of a collection YAML can be in either the **1.x Relaton
+YAML format** (using `docid:`, `link:`, `biblionote:` etc.) or the **2.x
+lutaml-model YAML format** (using `docidentifier:`, `uri:`, `note:` etc.).
+Backward compatibility with existing collection YAML files is a hard requirement,
+so the format must be auto-detected at parse time.
+
+**Format detection strategy** — presence of any 1.x-only key (`docid:`, `link:`,
+`biblionote:`) at any nesting level is diagnostic:
+
+```ruby
+# Keys present only in 1.x YAML format — unambiguously absent in 2.x
+V1_BIBDATA_KEYS = %w[docid link biblionote].freeze
+
+def bibdata_yaml_v1_format?(obj)
+  case obj
+  when Hash
+    return true if (obj.keys.map(&:to_s) & V1_BIBDATA_KEYS).any?
+    obj.values.any? { |v| bibdata_yaml_v1_format?(v) }
+  when Array
+    obj.any? { |v| bibdata_yaml_v1_format?(v) }
+  else
+    false
+  end
+end
+```
+
+The check is recursive so that 1.x-format entries nested inside `relation:` or
+`contributor:` values are also detected. `.map(&:to_s)` on keys handles both
+string-keyed and symbol-keyed hashes.
+
+**Full `bibdata_from_yaml` implementation:**
+
+```ruby
+# 1.x
+require "relaton-cli"
+
+def bibdata_from_yaml(model, value)
+  (value and !value.empty?) or return
+  force_primary_docidentifier_yaml(value)
+  model.bibdata = Relaton::Cli::YAMLConvertor.convert_single_file(value)
+end
+
+# 2.x — hybrid detection; HashParserV1 bridge for legacy 1.x format
+require "relaton/bib"
+# Note: HashParserV1 is NOT auto-loaded by require "relaton/bib" in alpha.6
+require "relaton/bib/hash_parser_v1"
+
+# Keys present only in 1.x YAML format — unambiguously absent in 2.x
+V1_BIBDATA_KEYS = %w[docid link biblionote].freeze
+
+def bibdata_from_yaml(model, value)
+  (value and !value.empty?) or return
+  if value.is_a?(String)
+    # value is a file path — read and parse the YAML file (may be 1.x or 2.x format)
+    value = YAML.safe_load_file(value, permitted_classes: [Date, Symbol])
+  end
+  force_primary_docidentifier_yaml(value)
+  model.bibdata = if bibdata_yaml_v1_format?(value)
+                   # 1.x YAML format (docid:/link:/biblionote: present) —
+                   # bridge via HashParserV1 for backward compatibility
+                   h = Relaton::Bib::HashParserV1.hash_to_bib(value)
+                   Relaton::Bib::ItemData.new(**h)
+                 else
+                   # 2.x YAML format (docidentifier:/uri:/note: keys) —
+                   # parse directly with lutaml-model
+                   Relaton::Bib::Item.from_yaml(value.to_yaml)
+                 end
+end
+```
+
+**Why `HashParserV1` for the 1.x path, not `Item.from_yaml`:**
+
+`Relaton::Bib::Item.from_yaml` is the 2.x lutaml-model YAML parser — it only
+understands 2.x field names (`docidentifier:`, `at:` for dates, etc.) and
+performs no key-name translation. Passing a 1.x-format hash (with `docid:`,
+integer `edition: 12`, etc.) results in:
+- `TypeError: no implicit conversion of Integer into String` when lutaml-model
+  encounters bare integer values in fields declared as `String`
+- Silent data loss where 1.x key names are not recognised (e.g., `docid:` ignored,
+  so docidentifier is nil)
+
+`Relaton::Bib::HashParserV1` is the explicitly-provided "V1 compatibility" bridge
+in relaton-bib 2.x. It accepts the full 1.x hash key vocabulary and integer
+values, translating them to the 2.x `ItemData` constructor arguments.
+
+**Strategy note:** `HashParserV1` is only on the **read path** — a migration shim
+at the input boundary. The **write path** (`bibdata_to_yaml`) already uses
+`ItemData#to_yaml` which emits the 2.x format. So collections that are
+round-tripped (read and written back) will have their `bibdata:` block upgraded
+to 2.x format going forward. This is the intended long-term migration path.
+
+> **Note:** `force_primary_docidentifier_yaml` uses the 1.x key `"docid"` and
+> is a no-op for 2.x-format hashes (where `value["docid"]` is nil). For 2.x
+> format, the `primary:` flag should already be set correctly in the input.
+
 ---
 
-### 30. `metanorma` gem — `collection.rb` `fetch_flavor` nil guard and `.id` → `.content` ✅ Fixed
+### 30. `metanorma` gem — `renderer/utils.rb` `isodoc_populate` YAML round-trip and accessor changes ✅ Fixed
+
+> **Status:** **Resolved** on `fix/relaton-2.0` branch.
+
+**Location:** `lib/metanorma/collection/renderer/utils.rb`
+
+`isodoc_populate` populates the isodoc `@meta` object for Liquid template
+rendering. It had three 1.x dependencies that break in 2.x:
+
+1. **`@bibdata.to_hash`** — `to_hash` is gone in 2.x (see YAML round-trip
+   pattern above). Replace with `YAML.safe_load(@bibdata.to_yaml, ...)`.
+
+2. **`@bibdata.title.first.title.content`** — In 2.x the nested `.title`
+   sub-object is gone (§11); `Title` directly carries `.content`. Also,
+   `@bibdata.title` may be `nil` (§9). Use safe navigation.
+
+3. **`@bibdata.docidentifier.first.id`** — In 2.x `Docidentifier#id` →
+   `#content` (§16) and `docidentifier` may be `nil` (§9). Use safe navigation.
+
+```ruby
+# 1.x
+def isodoc_populate
+  @isodoc.info(@xml, nil)
+  { navigation: indexfile(@manifest), nav_object: index_object(@manifest),
+    bibdata: @bibdata.to_hash, docrefs: liquid_docrefs(@manifest),
+    "prefatory-content": isodoc_builder(@xml.at("//prefatory-content")),
+    "final-content": isodoc_builder(@xml.at("//final-content")),
+    doctitle: @bibdata.title.first.title.content,
+    docnumber: @bibdata.docidentifier.first.id }.each do |k, v|
+    v and @isodoc.meta.set(k, v)
+  end
+end
+
+# 2.x — YAML round-trip for bibdata hash; Array() coercion + .content for title/docid
+def isodoc_populate
+  @isodoc.info(@xml, nil)
+  { navigation: indexfile(@manifest), nav_object: index_object(@manifest),
+    bibdata: YAML.safe_load(@bibdata.to_yaml,
+                            permitted_classes: [Date, Symbol]),
+    docrefs: liquid_docrefs(@manifest),
+    "prefatory-content": isodoc_builder(@xml.at("//prefatory-content")),
+    "final-content": isodoc_builder(@xml.at("//final-content")),
+    doctitle: Array(@bibdata.title).first&.content,
+    docnumber: Array(@bibdata.docidentifier).first&.content }.each do |k, v|
+    v and @isodoc.meta.set(k, v)
+  end
+end
+```
+
+**Summary of changes:**
+- `@bibdata.to_hash` → `YAML.safe_load(@bibdata.to_yaml, permitted_classes: [Date, Symbol])`
+- `@bibdata.title.first.title.content` → `Array(@bibdata.title).first&.content`
+  (`.title` sub-object removed in 2.x §11; `Array()` handles nil/scalar/array from §9 scalar warning)
+- `@bibdata.docidentifier.first.id` → `Array(@bibdata.docidentifier).first&.content`
+  (`.id` → `.content` per §16; `Array()` handles nil/scalar/array per §9)
+
+**`navigation.rb` `indexfile_title` — same pattern ✅ Fixed:**
+
+`indexfile_title` in `renderer/navigation.rb` has the identical nested `.title`
+sub-object pattern, applied to `entry.bibdata.title`:
+
+```ruby
+# 1.x
+def indexfile_title(entry)
+  if entry.bibdata &&
+      x = entry.bibdata.title.detect { |t| t.type == "main" } ||
+          entry.bibdata.title.first
+    x.title.content   # nested .title sub-object — gone in 2.x
+  else
+    entry.title
+  end
+end
+
+# 2.x — Array() coercion (§9 scalar warning); .content directly on Title (§11)
+def indexfile_title(entry)
+  titles = entry.bibdata && Array(entry.bibdata.title)
+  if titles && !titles.empty? &&
+      (x = titles.detect { |t| t.type == "main" } || titles.first)
+    x.content
+  else
+    entry.title
+  end
+end
+```
+
+---
+
+### 31. `metanorma` gem — `collection.rb` `fetch_flavor` nil guard and `.id` → `.content` ✅ Fixed
 
 > **Status:** **Resolved** on `fix/relaton-2.0` branch.
 
