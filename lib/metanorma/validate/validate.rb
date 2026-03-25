@@ -5,7 +5,7 @@ require_relative "table"
 require_relative "term"
 require_relative "schema"
 require "nokogiri"
-require "iev"
+# require "iev"
 
 module Metanorma
   module Standoc

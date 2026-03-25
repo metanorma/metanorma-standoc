@@ -4,7 +4,7 @@ This document captures the breaking API changes between Relaton 1.x and Relaton 
 and the required code changes for all Metanorma gems that depend on Relaton. It is
 written incrementally as gems are migrated and new issues are discovered.
 
-**Status:** Work in progress. Verified against `relaton-bib 2.0.0.pre.alpha.4` and
+**Status:** Work in progress. Verified against `relaton-bib 2.0.0.pre.alpha.6` and
 `relaton 2.0.0.pre.alpha.1`.
 
 ---
@@ -283,15 +283,13 @@ The following files have been migrated:
 | `lib/metanorma/converter/localbib.rb` | ✅ Done | `require`, `BibtexParser` → `Converter::Bibtex` |
 | `lib/metanorma/converter/ref_queue.rb` | ✅ Done | `RequestError` (×2) |
 | `spec/metanorma/refs_spec.rb` | ✅ Done | `RequestError`, `XMLParser.from_xml` (×6) |
-| `lib/metanorma/cleanup/merge_bibitems.rb` | ⚠️ Pending | Needs `to_hash` → YAML round-trip + key name audit |
+| `lib/metanorma/cleanup/merge_bibitems.rb` | ⚠️ Migrated — key names provisional | YAML round-trip done; hash key name audit pending (see §27) |
 
-### `merge_bibitems.rb` — Pending
+### `merge_bibitems.rb` — Migrated (pending key name verification)
 
-This file contains the entire hash-manipulation pattern. It needs:
-1. `load_bibitem`: `RelatonBib::XMLParser.from_xml` + `to_hash` → YAML round-trip
-2. `to_noko`: `HashConverter` + `BibliographicItem.new` → `Item.from_yaml` + `to_xml`
-3. All hash key names in `merge1`, `merge_extent`, `merge_contributor`,
-   `merge_relations`, `merge_by_type` updated from 1.x to 2.x YAML keys
+The API calls have been migrated to the YAML round-trip pattern (§27).
+The hash key names in `merge1` are provisional and must be verified against
+live `bib.to_yaml` output once the `metanorma` gem (§26) is unblocked.
 
 ---
 
@@ -721,6 +719,16 @@ end
 By converting to String in `datepick`, all callers that use `.sub` or other
 String methods continue to work without further changes.
 
+> **Note (`alpha.6` change):** In `relaton-bib 2.0.0.pre.alpha.6`, the `StringDate`
+> class was refactored from `Lutaml::Model::Serializable` (with a nested
+> `attribute :value, StringDate::Value`) to `Lutaml::Model::Type::Value` (a plain
+> type converter). Its `cast(str)` method returns `StringDate::Value` directly.
+> As a result, `date.at`, `date.from`, and `date.to` now return `StringDate::Value`
+> **directly** (rather than a `StringDate` Serializable wrapper). The public
+> interface — `.to_s`, `.split`, `<=>`, `.to_date` — is unchanged. Code that was
+> previously calling `.value.to_s` on a `StringDate` Serializable must be updated
+> to call `.to_s` directly on the `StringDate::Value`.
+
 ---
 
 ### 19. `Status::Stage#value` → `#content`
@@ -786,61 +794,37 @@ neither is a collection.
 
 ---
 
-### 21. `Series#from`/`Series#to` use Ruby `:date` — year/year-month values silently return `nil`
+### 21. `Series#from`/`Series#to` — granularity-preserving `StringDate`
 
-> ⚠️ **Maintainer issue** — this is a bug in `relaton-bib 2.x` that requires a
-> fix upstream. The text below can be pasted verbatim as a GitHub issue on
-> `relaton/relaton-bib`.
+> ✅ **Fixed in `relaton-bib 2.0.0.pre.alpha.6`** — `Series#from` and
+> `Series#to` are now declared as `attribute :from, StringDate` /
+> `attribute :to, StringDate`, consistent with how `Date#at`, `Date#from`,
+> and `Date#to` are declared.
 
----
+In `relaton-bib 2.0.0.pre.alpha.4` and earlier, `Series#from` and `Series#to`
+were declared as `attribute :from, :date` / `attribute :to, :date` (plain Ruby
+`Date` type). This caused **silent data loss**: year-only `"2020"` or
+year-month `"2020-06"` values could not be parsed as Ruby `Date` objects and
+returned `nil`.
 
-**Title:** `Series#from`/`Series#to` should use `StringDate` not `:date` — year/year-month values silently return `nil`
-
-**Body:**
-
-When migrating downstream gems to `relaton-bib 2.x`, we found that `Series#from`
-and `Series#to` are declared as `attribute :from, :date` / `attribute :to, :date`
-(plain Ruby `Date` type), while publication date values (`Date#at`, `Date#from`,
-`Date#to`) use the custom `StringDate` type.
-
-This causes silent data loss: bibliographic series date values that use partial
-ISO 8601 precision (year-only `"2020"` or year-month `"2020-06"`) fail to parse
-as Ruby `Date` objects and return `nil`, instead of preserving the original
-string.
-
-**Reproduction:**
+From `2.0.0.pre.alpha.6`, `series.from` and `series.to` return
+`StringDate::Value` objects (see §18 for details), preserving the original
+ISO 8601 granularity. The `series_dates` rendering method uses string
+interpolation (`"#{f}–#{t}"`) which calls `StringDate::Value#to_s`, delegating
+to `@value.to_s` — the granularity-preserving canonical string:
 
 ```ruby
-require 'relaton/bib'
-xml = '<bibitem><series><from>2020</from><to>2022-06</to></series></bibitem>'
-item = Relaton::Bib::Bibitem.from_xml(xml)
-s = item.series.first
-puts s.from.inspect  # => nil  (expected: "2020")
-puts s.to.inspect    # => nil  (expected: "2022-06")
+# 2.0.0.pre.alpha.6+
+def series_dates(series, _doc)
+  f = series.from
+  t = series.to
+  f || t or return nil
+  "#{f}–#{t}"   # => "2020–2022", "2020-06–2022-03", etc.
+end
 ```
 
-**Expected:** `series.from` and `series.to` should preserve the original
-granularity of the date string, as `StringDate::Value` does for publication
-dates. Year-only `"2020"` should not be coerced to a full `Date` and should not
-return `nil`.
-
-**Suggested fix:** Change the `Series` model to use `StringDate` for `from` and
-`to`:
-
-```ruby
-# lib/relaton/bib/model/series.rb
-attribute :from, StringDate   # instead of :date
-attribute :to,   StringDate   # instead of :date
-```
-
-This is consistent with how `Date#from`, `Date#to`, `Date#at` are declared, and
-preserves the string granularity needed for bibliographic rendering.
-
----
-
-**Impact on downstream gems while awaiting fix:** In `relaton-render`, the
-`series_dates` method returns `nil` for any series with year-only or year-month
-dates, so series date ranges are silently omitted from rendered output.
+**Minimum version required:** downstream gems depending on correct series date
+rendering must declare `>= 2.0.0.pre.alpha.6`.
 
 ---
 
@@ -899,6 +883,465 @@ end
 > `metanorma-standoc` currently emits the old flat-text `<place>` format. This
 > needs to be updated to emit `<place><formattedPlace>...</formattedPlace></place>`
 > for the new format. Deferred until the standoc migration resumes.
+
+---
+
+### 23. `<status>` XML format: flat text → `<stage>` child element
+
+In Relaton 1.x, the document status was serialised as a flat text element:
+
+```xml
+<!-- 1.x -->
+<status>valid</status>
+```
+
+`RelatonBib::BibItemDate#status` returned the text content as a plain String.
+
+In Relaton 2.x, `Status` maps only child elements (`<stage>`, `<substage>`,
+`<iteration>`). There is no `map_content` on `Status` — the flat text body is
+**silently ignored**. The correct format is:
+
+```xml
+<!-- 2.x -->
+<status>
+  <stage>valid</stage>
+</status>
+<status>
+  <stage abbreviation="FDIS">40.00</stage>
+  <substage>20</substage>
+  <iteration>2</iteration>
+</status>
+```
+
+Accessing the stage value:
+
+```ruby
+# 1.x
+doc.status   # => "valid" (String)
+
+# 2.x
+doc.status.stage.content          # => "valid"
+doc.status.stage.abbreviation     # => "FDIS" (or nil)
+doc.status.substage&.content      # => "20" (or nil)
+doc.status.iteration              # => "2" (or nil)
+```
+
+**Impact on downstream gems:** Any XML fixtures (test or production) that use
+the flat `<status>text</status>` format must be updated to
+`<status><stage>text</stage></status>`. Otherwise `doc.status.stage` returns
+nil and all status-dependent rendering (draft label, status label) silently
+produces empty output.
+
+---
+
+### 24. `Series#place` returns `Place` object, not `String`
+
+In Relaton 1.x, `RelatonBib::Series#place` returned a plain `String`:
+
+```ruby
+# 1.x
+series.place   # => "Paris"
+```
+
+In Relaton 2.x, `Relaton::Bib::Series#place` is declared as
+`attribute :place, Place` and returns a `Place` object (or nil):
+
+```ruby
+# 2.x
+series.place                          # => Relaton::Bib::Place object (or nil)
+series.place.formatted_place          # => "Paris"
+```
+
+Any rendering code that calls `esc(series.place)` or uses `series.place`
+directly as a string will fail (either via `NoMethodError` from the `esc`
+helper's `.empty?` check, or via garbled object-to-string conversion).
+
+**Fix:** Extract the string from the `Place` object using the same `place1`
+helper used for publication places:
+
+```ruby
+# 2.x — correct
+def series_place(series, _doc)
+  p = series.place or return nil
+  place1(p)   # returns formatted_place, or city/region/country joined string
+end
+```
+
+---
+
+### 25. `Extent` with `choice` — `locality_stack` vs `locality`
+
+In Relaton 1.x, `<extent>` could contain a mix of `<locality>` and
+`<localityStack>` elements, all accessible via a single `localities` accessor.
+
+In Relaton 2.x, `Relaton::Bib::Extent` uses a **`choice` constraint**: each
+`Extent` instance has EITHER direct `<locality>` children OR `<localityStack>`
+children — not both. The two branches are separate attributes:
+
+```ruby
+# 2.x
+e.locality         # Array of Locality — populated when <locality> children present
+e.locality_stack   # Array of LocalityStack — populated when <localityStack> children present
+```
+
+Both are initialised to `[]` (`initialize_empty: true`). When
+`<localityStack>` children are present, `e.locality` is an **empty array**
+and `e.locality_stack` is populated. Code that iterates only over `e.locality`
+will silently skip the extent data when `<localityStack>` is used.
+
+**Fix:** Add a `locality_stack` fallback branch:
+
+```ruby
+# 2.x — handles both locality and localityStack forms
+def extent(doc)
+  Array(doc.extent).each_with_object([]) do |e, acc|
+    case e
+    when Relaton::Bib::Extent, Relaton::Bib::LocalityStack
+      if e.locality.any?
+        # Direct <locality> children — group into a single hash
+        a = e.locality.each_with_object([]) do |e1, m|
+          m.empty? and m << {}
+          m[-1].merge!(extent1(Array(e1)))
+        end
+        acc << a
+      else
+        # <localityStack> children — each stack becomes a separate entry
+        Array(e.locality_stack).each do |stack|
+          a = stack.locality.each_with_object([{}]) do |e1, m|
+            m[-1].merge!(extent1(Array(e1)))
+          end
+          acc << a
+        end
+      end
+    when Relaton::Bib::Locality
+      acc << extent1(Array(e))
+    end
+  end
+end
+```
+
+Both input forms produce the same grouping: all localities within a stack (or
+within the `<extent>`) are merged into a single hash of
+`{volume: ..., issue: ..., page: ...}`.
+
+---
+
+### 26. `metanorma` gem — `bibdata.rb` lutaml-model `model` directive ✅ Fixed
+
+> **Status:** **Resolved** on `fix/relaton-2.0` branch. The `metanorma` gem had
+> a **hard load-time dependency on `RelatonBib`** via the lutaml-model `model`
+> directive in `collection/config/bibdata.rb`. Changed to `Relaton::Bib::ItemData`.
+
+**Location:** `lib/metanorma/collection/config/bibdata.rb`
+
+**The load-time error:**
+
+```
+NameError: uninitialized constant RelatonBib
+# ./lib/metanorma/collection/config/bibdata.rb:8:in '<class:Bibdata>'
+```
+
+The load chain was:
+
+```
+metanorma.rb:16
+  → collection/collection.rb:5
+    → collection/config/config.rb:5
+      → collection/config/bibdata.rb:7
+          model ::RelatonBib::BibliographicItem   ← NameError at class load time
+```
+
+**`Bibdata`** is a lutaml-model serializer class (`< Lutaml::Model::Serializable`)
+with **no XML/YAML mapping defined** — all serialization is handled by custom
+converters in `converters.rb`. The `model` directive is solely a type declaration
+used by lutaml-model's type system.
+
+**Before:**
+
+```ruby
+class Bibdata < ::Lutaml::Model::Serializable
+  model ::RelatonBib::BibliographicItem
+end
+```
+
+**After:**
+
+```ruby
+class Bibdata < ::Lutaml::Model::Serializable
+  model ::Relaton::Bib::ItemData
+end
+```
+
+**Downstream gem impact:** Any gem that calls `require "metanorma"` (including
+`metanorma-standoc`) fails to load until this change is in place. A
+`Gemfile.devel` entry is required for local development:
+
+```ruby
+# Gemfile.devel
+gem "metanorma", git: "https://github.com/metanorma/metanorma",
+                 branch: "fix/relaton-2.0"
+```
+
+---
+
+### 27. `merge_bibitems.rb` — YAML round-trip migration *(tentative: key names unverified)*
+
+> **Status:** The `load_bibitem` / `to_noko` methods have been migrated to the
+> YAML round-trip pattern. The hash key name mapping in `merge1` is provisional —
+> the actual 2.x YAML key names must be verified against live output once the
+> `metanorma` gem dependency is resolved and tests can run.
+
+**Before (1.x `to_hash` pattern):**
+
+```ruby
+require "metanorma-utils"
+
+def load_bibitem(item)
+  ret = RelatonBib::XMLParser.from_xml(item)
+  ret.to_hash.symbolize_all_keys   # produces symbolized 1.x hash
+end
+
+def to_noko
+  out = RelatonBib::HashConverter.hash_to_bib(@old)
+  Nokogiri::XML(RelatonBib::BibliographicItem.new(**out).to_xml).root
+end
+
+def merge1(old, new)
+  %i(link docid date title series biblionote).each do |k|
+    merge_by_type(old, new, k, :type)
+  end
+  # ...
+end
+```
+
+**After (2.x YAML round-trip pattern):**
+
+```ruby
+require "metanorma-utils"
+require "relaton/bib"
+require "yaml"
+
+def load_bibitem(item)
+  bib = Relaton::Bib::Bibitem.from_xml(item)
+  YAML.safe_load(bib.to_yaml,
+                 permitted_classes: [Date, Symbol],
+                 symbolize_names: true)
+end
+
+def to_noko
+  yaml_str = deep_stringify_keys(@old).to_yaml
+  Nokogiri::XML(Relaton::Bib::Item.from_yaml(yaml_str).to_xml).root
+end
+
+def merge1(old, new)
+  # 2.x YAML key changes: :link → :uri, :docid → :docidentifier, :biblionote → :note
+  %i(uri docidentifier date title series note).each do |k|
+    merge_by_type(old, new, k, :type)
+  end
+  # ...
+end
+
+private
+
+def deep_stringify_keys(obj)
+  case obj
+  when Hash
+    obj.each_with_object({}) { |(k, v), h| h[k.to_s] = deep_stringify_keys(v) }
+  when Array
+    obj.map { |v| deep_stringify_keys(v) }
+  else
+    obj
+  end
+end
+```
+
+**Key name changes confirmed/provisional (verify with live YAML output):**
+
+| 1.x `to_hash` symbol key | 2.x YAML symbol key | Status |
+|---|---|---|
+| `:docid` | `:docidentifier` | ✅ Confirmed (maps to XML element `<docidentifier>`) |
+| `:link` | `:uri` | ✅ Confirmed (maps to XML element `<uri>`) |
+| `:biblionote` | `:note` | ⚠️ Provisional — verify |
+| `:date` | `:date` | Same |
+| `:title` | `:title` | Same |
+| `:contributor` | `:contributor` | Same |
+| `:extent` | `:extent` | Same |
+| `:series` | `:series` | Same |
+| `:relation` | `:relation` | Same |
+| `:place` | `:place` | Same — but value structure changed (see §22) |
+| `:version` | `:version` | Provisional |
+| `:edition` | `:edition` | Same |
+
+> **TODO:** Once the `metanorma` dep is unblocked, run the `MergeBibitems`
+> specs, print `bib.to_yaml` from `load_bibitem`, and verify every key in
+> `merge1`, `merge_extent`, `merge_contributor`, and `array_to_hash`.
+
+---
+
+### 28. `metanorma` gem — `document.rb` flavor-specific XML parsers ✅ Fixed
+
+> **Status:** **Resolved** on `fix/relaton-2.0` branch. All nine flavor-specific
+> XML parser class references (`RelatonXxx::XMLParser`) and their `require` paths
+> have been updated to 2.x equivalents.
+
+**Location:** `lib/metanorma/collection/document/document.rb`
+
+In 2.x, the relaton flavor gems:
+1. Changed their `require` path from `require "relaton_xxx"` to `require "relaton/xxx"`
+2. Dropped `XMLParser` — replaced by the `Bibitem` serializer class in the
+   `Relaton::Xxx::` namespace (which provides `.from_xml`)
+3. Dropped the `RelatonXxx` namespace entirely — all use `Relaton::Xxx`
+
+**Full mapping (all 9 flavors + generic fallback):**
+
+| 1.x require | 2.x require |
+|---|---|
+| `require "relaton_bipm"` | `require "relaton/bipm"` |
+| `require "relaton_bsi"` | `require "relaton/bsi"` |
+| `require "relaton_ietf"` | `require "relaton/ietf"` |
+| `require "relaton_iho"` | `require "relaton/iho"` |
+| `require "relaton_itu"` | `require "relaton/itu"` |
+| `require "relaton_iec"` | `require "relaton/iec"` |
+| `require "relaton_iso"` | `require "relaton/iso"` |
+| `require "relaton_nist"` | `require "relaton/nist"` |
+| `require "relaton_ogc"` | `require "relaton/ogc"` |
+
+| 1.x class | 2.x class |
+|---|---|
+| `::RelatonBipm::XMLParser` | `::Relaton::Bipm::Bibitem` |
+| `::RelatonBsi::XMLParser` | `::Relaton::Bsi::Bibitem` |
+| `::RelatonIetf::XMLParser` | `::Relaton::Ietf::Bibitem` |
+| `::RelatonIho::XMLParser` | `::Relaton::Iho::Bibitem` |
+| `::RelatonItu::XMLParser` | `::Relaton::Itu::Bibitem` |
+| `::RelatonIec::XMLParser` | `::Relaton::Iec::Bibitem` |
+| `::RelatonIsoBib::XMLParser` | `::Relaton::Iso::Bibitem` |
+| `::RelatonNist::XMLParser` | `::Relaton::Nist::Bibitem` |
+| `::RelatonOgc::XMLParser` | `::Relaton::Ogc::Bibitem` |
+| `::RelatonBib::XMLParser` (fallback) | `::Relaton::Bib::Bibitem` |
+
+Note that for ISO the old class was in the `RelatonIsoBib` namespace but the
+new class is `Relaton::Iso::Bibitem` (the namespace mirrors the require path).
+
+The `defined?` guard in each `when` branch must also be updated:
+
+```ruby
+# 1.x
+when "iso"
+  require "relaton_iso" unless defined?(::RelatonIsoBib::XMLParser)
+  ::RelatonIsoBib::XMLParser
+
+# 2.x
+when "iso"
+  require "relaton/iso" unless defined?(::Relaton::Iso::Bibitem)
+  ::Relaton::Iso::Bibitem
+```
+
+The `rescue LoadError` fallback warn message is also updated:
+
+```ruby
+# 1.x
+warn "... Falling back to RelatonBib::XMLParser"
+::RelatonBib::XMLParser
+
+# 2.x
+warn "... Falling back to Relaton::Bib::Bibitem"
+::Relaton::Bib::Bibitem
+```
+
+**`type` method — `Docidentifier#id` → `#content` (§16):**
+
+```ruby
+# 1.x
+def type
+  first = @bibitem.docidentifier.first
+  @type ||= (first&.type&.downcase ||
+             first&.id&.match(/^[^\s]+/)&.to_s)&.downcase ||
+    "standoc"
+end
+
+# 2.x — guard nil collection (§9), use .content (§16)
+def type
+  first = @bibitem.docidentifier&.first
+  @type ||= (first&.type&.downcase ||
+             first&.content&.match(/^[^\s]+/)&.to_s)&.downcase ||
+    "standoc"
+end
+```
+
+---
+
+### 29. `metanorma` gem — `converters.rb` `to_hash` → YAML round-trip ✅ Fixed
+
+> **Status:** **Resolved** on `fix/relaton-2.0` branch.
+
+**Location:** `lib/metanorma/collection/config/converters.rb`
+
+**`bibdata_to_yaml` — `to_hash` is gone in 2.x:**
+
+```ruby
+# 1.x
+def bibdata_to_yaml(model, doc)
+  doc["bibdata"] = model.bibdata&.to_hash
+end
+
+# 2.x — YAML round-trip (ItemData#to_yaml is provided by lutaml-model)
+def bibdata_to_yaml(model, doc)
+  return unless model.bibdata
+  doc["bibdata"] = YAML.safe_load(model.bibdata.to_yaml,
+                                  permitted_classes: [Date, Symbol])
+end
+```
+
+`model.bibdata` is a `Relaton::Bib::ItemData` instance (set by the custom
+`bibdata_from_yaml` / `bibdata_from_xml` converters). `ItemData#to_yaml` is
+provided by lutaml-model and returns a YAML string; `YAML.safe_load` converts
+it back to a Ruby hash for embedding in the collection YAML document.
+
+**`bibdata_to_xml` — `date_format:` kwarg retained:**
+
+```ruby
+# retained from 1.x — kwarg left in place pending 2.x support confirmation
+def bibdata_to_xml(model, parent, doc)
+  b = model.bibdata or return
+  elem = b.to_xml(bibdata: true, date_format: :full)
+  doc.add_element(parent, elem)
+end
+```
+
+> **TODO:** Verify whether `Relaton::Bib::ItemData#to_xml` accepts the
+> `date_format:` keyword argument in 2.x. If not, request it be added back.
+
+---
+
+### 30. `metanorma` gem — `collection.rb` `fetch_flavor` nil guard and `.id` → `.content` ✅ Fixed
+
+> **Status:** **Resolved** on `fix/relaton-2.0` branch.
+
+**Location:** `lib/metanorma/collection/collection.rb`
+
+Two issues in `fetch_flavor`:
+
+1. `@bibdata.docidentifier` can return `nil` in 2.x when no `<docidentifier>`
+   elements are present (§9). Calling `.first` on `nil` raises `NoMethodError`.
+
+2. `docid.id` is the 1.x accessor for the identifier string. In 2.x it is
+   `docid.content` (§16).
+
+```ruby
+# 1.x
+def fetch_flavor
+  docid = @bibdata.docidentifier.first or return
+  f = docid.type.downcase || docid.id.sub(/\s.*$/, "").downcase or return
+  # ...
+end
+
+# 2.x — safe navigation for nil collection (§9), .content for identifier (§16)
+def fetch_flavor
+  docid = @bibdata&.docidentifier&.first or return
+  f = docid.type&.downcase || docid.content&.sub(/\s.*$/, "")&.downcase or return
+  # ...
+end
+```
 
 ---
 
