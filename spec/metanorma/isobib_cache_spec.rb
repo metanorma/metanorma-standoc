@@ -1,7 +1,8 @@
 require "spec_helper"
-require "relaton_iso"
+require "relaton/iso"
+require "relaton/bib"
 require "fileutils"
-require "relaton_ietf"
+require "relaton/ietf"
 
 IETF_123_SHORT = <<~XML.freeze
   <bibitem type="standard" id="IETF123">
@@ -568,13 +569,13 @@ RSpec.describe Metanorma::Standoc do
     FileUtils.mv File.expand_path("~/.relaton/cache"),
                  File.expand_path("~/.relaton-bib.pstore1"), force: true
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
-    bibitem = RelatonIsoBib::XMLParser.from_xml ISO_123_DATED
+    bibitem = Relaton::Bib::Bibitem.from_xml ISO_123_DATED
     bibitem.instance_variable_set :@fetched, (Date.today - 2)
 
     db.save_entry("ISO(ISO 123:2001)", bibitem.to_xml)
     # {
     # "fetched" => (Date.today - 2).to_s,
-    # "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED)
+    # "bib" => Relaton::Bib::Bibitem.from_xml(ISO_123_DATED)
     # }
     # )
 
@@ -609,12 +610,12 @@ RSpec.describe Metanorma::Standoc do
                  File.expand_path("~/.relaton-bib.pstore1"), force: true
 
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
-    bibitem = RelatonIsoBib::XMLParser.from_xml ISO_123_SHORT
+    bibitem = Relaton::Bib::Bibitem.from_xml ISO_123_SHORT
     bibitem.instance_variable_set :@fetched, (Date.today - 90)
     db.save_entry("ISO 123", bibitem.to_xml)
     # {
     # "fetched" => (Date.today - 90),
-    # "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_123_SHORT)
+    # "bib" => Relaton::Bib::Bibitem.from_xml(ISO_123_SHORT)
     # }
     # )
 
@@ -642,14 +643,14 @@ RSpec.describe Metanorma::Standoc do
     FileUtils.mv File.expand_path("~/.relaton/cache"),
                  File.expand_path("~/.relaton-bib.pstore1"), force: true
 
-    bibitem = RelatonIsoBib::XMLParser.from_xml ISO_123_DATED
+    bibitem = Relaton::Bib::Bibitem.from_xml ISO_123_DATED
     bibitem.instance_variable_set :@fetched, (Date.today - 90)
 
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
     db.save_entry("ISO(ISO 123:2001)", bibitem.to_xml)
     #   {
     #     "fetched" => (Date.today - 90),
-    #     "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED)
+    #     "bib" => Relaton::Bib::Bibitem.from_xml(ISO_123_DATED)
     #   }
     # )
 
@@ -680,27 +681,27 @@ RSpec.describe Metanorma::Standoc do
 
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
     db.save_entry("ISO(ISO 123:2001)",
-                  RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED).to_xml)
+                  Relaton::Bib::Bibitem.from_xml(ISO_123_DATED).to_xml)
     #   {
     #     "fetched" => Date.today,
-    #     "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED)
+    #     "bib" => Relaton::Bib::Bibitem.from_xml(ISO_123_DATED)
     #   }
     # )
     db.save_entry("ISO(ISO 124)",
-                  RelatonIsoBib::XMLParser.from_xml(ISO_124_SHORT).to_xml)
+                  Relaton::Bib::Bibitem.from_xml(ISO_124_SHORT).to_xml)
     #   {
     #     "fetched" => Date.today,
-    #     "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_124_SHORT)
+    #     "bib" => Relaton::Bib::Bibitem.from_xml(ISO_124_SHORT)
     #   }
     # )
 
     localdb = Relaton::Db.new "relaton/cache", nil
     localdb.save_entry("ISO(ISO 124)",
-                       RelatonIsoBib::XMLParser
+                       Relaton::Bib::Bibitem
       .from_xml(ISO_124_SHORT_ALT).to_xml)
     #   {
     #     "fetched" => Date.today,
-    #     "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_124_SHORT_ALT)
+    #     "bib" => Relaton::Bib::Bibitem.from_xml(ISO_124_SHORT_ALT)
     #   }
     # )
 
@@ -933,26 +934,26 @@ RSpec.describe Metanorma::Standoc do
   private
 
   def mock_isobib_get_123
-    expect(RelatonIso::IsoBibliography).to receive(:get)
+    expect(Relaton::Iso::IsoBibliography).to receive(:get)
       .with("ISO 123", "2001", anything)
-      .and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED))
+      .and_return(Relaton::Bib::Bibitem.from_xml(ISO_123_DATED))
   end
 
   def mock_isobib_get_123_undated
-    expect(RelatonIso::IsoBibliography).to receive(:get)
+    expect(Relaton::Iso::IsoBibliography).to receive(:get)
       .with("ISO 123", nil, anything)
-      .and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_UNDATED))
+      .and_return(Relaton::Bib::Bibitem.from_xml(ISO_123_UNDATED))
   end
 
   def mock_isobib_get_124
-    expect(RelatonIso::IsoBibliography).to receive(:get)
+    expect(Relaton::Iso::IsoBibliography).to receive(:get)
       .with("ISO 124", "2014", anything)
-      .and_return(RelatonIsoBib::XMLParser.from_xml(ISO_124_DATED))
+      .and_return(Relaton::Bib::Bibitem.from_xml(ISO_124_DATED))
   end
 
   def mock_ietfbib_get_123
-    expect(RelatonIetf::IetfBibliography).to receive(:get)
+    expect(Relaton::Ietf::IetfBibliography).to receive(:get)
       .with("RFC 123", nil, anything)
-      .and_return(RelatonIsoBib::XMLParser.from_xml(IETF_123_SHORT))
+      .and_return(Relaton::Bib::Bibitem.from_xml(IETF_123_SHORT))
   end
 end

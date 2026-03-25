@@ -1,7 +1,7 @@
 require "spec_helper"
-require "relaton_iso"
-require "relaton_ietf"
-require "relaton_nist"
+require "relaton/iso"
+require "relaton/ietf"
+require "relaton/nist"
 
 RSpec.describe Metanorma::Standoc do
   it "processes simple ISO reference" do
@@ -835,7 +835,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "process ISO reference without an Internet connection" do
-    expect(RelatonIso::IsoBibliography).to receive(:search) do
+    expect(Relaton::Iso::Bibliography).to receive(:search) do
       raise Relaton::RequestError.new "getaddrinfo"
     end.at_least :once
     input = <<~INPUT
@@ -1418,7 +1418,7 @@ RSpec.describe Metanorma::Standoc do
   private
 
   def mock_isobib_get_123_nil
-    expect(RelatonNist::NistBibliography).to receive(:get)
+    expect(Relaton::Nist::Bibliography).to receive(:get)
       .with("NIST 123", nil, { code: "NIST 123",
                                lang: "en",
                                match: anything,
@@ -1429,7 +1429,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   def mock_isobib_get_123_no_docid(times)
-    expect(RelatonIso::IsoBibliography).to receive(:get)
+    expect(Relaton::Iso::Bibliography).to receive(:get)
       .with("ISO 123", nil, { code: "ISO 123",
                               lang: "en",
                               fn: nil,
@@ -1447,7 +1447,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   def mock_isobib_get_123_no_docid_lbl(times)
-    expect(RelatonIso::IsoBibliography).to receive(:get)
+    expect(Relaton::Iso::Bibliography).to receive(:get)
       .with("ISO 123", nil, { code: "ISO 123",
                               analyse_code: anything,
                               lang: "en",
@@ -1465,7 +1465,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   def mock_isobib_get_123_no_docid_fn(times)
-    expect(RelatonIso::IsoBibliography).to receive(:get)
+    expect(Relaton::Iso::Bibliography).to receive(:get)
       .with("ISO 123", nil, { code: "ISO 123",
                               analyse_code: anything,
                               lang: "en",
@@ -1483,7 +1483,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   def mock_isobib_get_123_no_docid_fn_no_title(times)
-    expect(RelatonIso::IsoBibliography).to receive(:get)
+    expect(Relaton::Iso::Bibliography).to receive(:get)
       .with("ISO 123", nil, { code: "ISO 123",
                               analyse_code: anything,
                               lang: "en",
@@ -1501,7 +1501,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   def mock_rfcbib_get_rfc8342(times)
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 8342", nil,
+    expect(Relaton::Iso::Bibliography).to receive(:get).with("ISO 8342", nil,
                                                               anything) do
       Relaton::Bib::Bibitem.from_xml(<<~OUTPUT)
               <bibitem id="_" anchor="RFC8342">
@@ -1521,7 +1521,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   def mock_rfcbib_get_rfc8343(times)
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 8343", nil,
+    expect(Relaton::Iso::Bibliography).to receive(:get).with("ISO 8343", nil,
                                                               anything) do
       Relaton::Bib::Bibitem.from_xml(<<~OUTPUT)
               <bibitem id="_" anchor="RFC8343">

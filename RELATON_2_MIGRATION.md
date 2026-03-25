@@ -31,6 +31,62 @@ In Relaton 2.x:
 
 ## Required File Changes
 
+### 0. Flavor gem names: underscore → hyphen
+
+In Relaton 1.x, the flavor-specific relaton gems used **underscores** in their
+gem names (e.g. `relaton_iso`, `relaton_ietf`). In Relaton 2.x, all flavor gem
+names use **hyphens** (e.g. `relaton-iso`, `relaton-ietf`).
+
+This affects:
+
+- **`Gemfile` / `Gemfile.lock`** — any `gem "relaton_xxx"` entry
+- **`.gemspec` files** — any `spec.add_dependency "relaton_xxx"` declaration
+- **`require` statements** — the load path also changed (see §1 below)
+
+**Full mapping — gem name change:**
+
+| 1.x gem name (underscore) | 2.x gem name (hyphen) |
+|---|---|
+| `relaton_bib` | `relaton-bib` |
+| `relaton_bipm` | `relaton-bipm` |
+| `relaton_bsi` | `relaton-bsi` |
+| `relaton_ietf` | `relaton-ietf` |
+| `relaton_iho` | `relaton-iho` |
+| `relaton_itu` | `relaton-itu` |
+| `relaton_iec` | `relaton-iec` |
+| `relaton_iso` | `relaton-iso` |
+| `relaton_nist` | `relaton-nist` |
+| `relaton_ogc` | `relaton-ogc` |
+
+**Example — `Gemfile` / gemspec update:**
+
+```ruby
+# 1.x — underscore
+gem "relaton_iso", "~> 1.0"
+spec.add_dependency "relaton_bib", "~> 1.0"
+
+# 2.x — hyphen
+gem "relaton-iso", "~> 2.0"
+spec.add_dependency "relaton-bib", "~> 2.0"
+```
+
+> ⚠️ **Common mistake — do NOT use the gem name as the `require` path:**
+> ```ruby
+> require "relaton-iso"   # ← WRONG — LoadError: cannot load such file -- relaton-iso
+> require "relaton/iso"   # ← CORRECT
+> ```
+> The gem name uses **hyphens** (`relaton-iso`); the Ruby `require` path uses
+> **forward slashes** (`relaton/iso`). These are two completely independent naming
+> conventions. Using the hyphenated gem name in a `require` statement will always
+> raise `LoadError` because no file named `relaton-iso.rb` exists on the load path.
+
+> **Note:** This is entirely separate from the `require` path change (§1).
+> The gem name (used in `Gemfile` / gemspec) changed from underscore to hyphen;
+> the `require` path changed from `relaton_xxx` to `relaton/xxx` (a slash-separated
+> namespace). Both changes must be applied together when upgrading.
+
+---
+
 ### 1. `require` statement
 
 ```ruby
@@ -747,6 +803,33 @@ end
 By converting to String in `datepick`, all callers that use `.sub` or other
 String methods continue to work without further changes.
 
+#### Year extraction — `date.on(:year)` pattern
+
+Some 1.x code called `date.on(:year)` to obtain the 4-digit year as a string.
+In Relaton 2.x `Date#on` is gone entirely, so this must be replaced by calling
+`Date#at` (which returns a `StringDate::Value`) and then slicing the year prefix:
+
+```ruby
+# 1.x
+date.on(:year)          # => "2024" (String)
+
+# 2.x
+date.at&.to_s&.[](0, 4) # => "2024" (String)
+# or equivalently:
+date.at&.to_s&.split("-")&.first
+```
+
+When the date collection itself may be `nil` (§9), guard with `Array()`:
+
+```ruby
+# safe year extraction from an ItemData date collection
+def date_year(date_obj)
+  date_obj&.at&.to_s&.[](0, 4)
+end
+
+year = date_year(Array(item.date).first)
+```
+
 > **Note (`alpha.6` change):** In `relaton-bib 2.0.0.pre.alpha.6`, the `StringDate`
 > class was refactored from `Lutaml::Model::Serializable` (with a nested
 > `attribute :value, StringDate::Value`) to `Lutaml::Model::Type::Value` (a plain
@@ -1210,7 +1293,8 @@ end
 
 > **Status:** **Resolved** on `fix/relaton-2.0` branch. All nine flavor-specific
 > XML parser class references (`RelatonXxx::XMLParser`) and their `require` paths
-> have been updated to 2.x equivalents.
+> have been updated to 2.x equivalents. Subsequently refined (§34) to always use
+> `Relaton::Bib::Bibitem` for `<bibitem>` elements regardless of flavor.
 
 **Location:** `lib/metanorma/collection/document/document.rb`
 
@@ -1246,6 +1330,23 @@ In 2.x, the relaton flavor gems:
 | `::RelatonNist::XMLParser` | `::Relaton::Nist::Bibitem` |
 | `::RelatonOgc::XMLParser` | `::Relaton::Ogc::Bibitem` |
 | `::RelatonBib::XMLParser` (fallback) | `::Relaton::Bib::Bibitem` |
+
+**Bibliography entry-point class namespace change:**
+
+The bibliography fetch classes (used in RSpec mocks and production code that calls
+the Relaton fetch API directly) also changed namespace from `RelatonXxx::` to
+`Relaton::Xxx::`:
+
+| 1.x class | 2.x class |
+|---|---|
+| `RelatonIsoBib::XMLParser` | `Relaton::Bib::Bibitem` (generic) or `Relaton::Iso::Bibitem` (flavor) |
+| `RelatonIso::IsoBibliography` | `Relaton::Iso::IsoBibliography` |
+| `RelatonNist::NistBibliography` | `Relaton::Nist::NistBibliography` |
+| `RelatonIetf::IetfBibliography` | `Relaton::Ietf::IetfBibliography` |
+| `RelatonIec::IecBibliography` | `Relaton::Iec::IecBibliography` |
+
+These appear in RSpec `expect(...).to receive(:get)` / `receive(:search)` mocks.
+Update all mock targets when migrating spec files.
 
 Note that for ISO the old class was in the `RelatonIsoBib` namespace but the
 new class is `Relaton::Iso::Bibitem` (the namespace mirrors the require path).
@@ -1554,6 +1655,312 @@ def fetch_flavor
   # ...
 end
 ```
+
+---
+
+### 32. `edition` — plain string → structured `Edition` object
+
+In Relaton 1.x, `BibliographicItem#edition` returned a plain Ruby String:
+
+```yaml
+# 1.x YAML (from to_hash / collection YAML)
+edition: '1'
+edition: 12          # integer also accepted by HashConverter
+```
+
+```ruby
+# 1.x
+bib.edition   # => "1" (String)
+```
+
+In Relaton 2.x, `ItemData#edition` is declared as `attribute :edition, Edition`
+where `Edition` is a structured object with `content` and `number` attributes:
+
+```yaml
+# 2.x YAML (from to_yaml / collection YAML)
+edition:
+  content: '1'
+```
+
+```ruby
+# 2.x
+bib.edition         # => Relaton::Bib::Edition instance (or nil)
+bib.edition.content # => "1" (String)
+bib.edition.number  # => nil (or String if set)
+```
+
+**Impact on collection YAML fixtures:** Any collection YAML file that includes
+inline `bibdata:` with a flat `edition: "N"` must be updated to the structured
+form `edition:\n  content: "N"`.
+
+**Impact on code:** Any code that compares `bib.edition == "1"` or uses it as a
+string directly must use `bib.edition&.content` instead.
+
+**`HashParserV1` handles the 1.x integer form:** The `HashParserV1.hash_to_bib`
+bridge correctly translates `edition: 12` (Integer from 1.x YAML) into an
+`Edition` object. So existing 1.x collection YAML files with integer `edition:`
+values will still parse correctly through the 1.x path. The integer-to-string
+conversion is handled inside `HashParserV1`.
+
+---
+
+### 33. `fetch_flavor` + flavor gem circular dependency — `metanorma-iho` / `metanorma-standoc` ⚠️ TODO
+
+> **Status:** **Blocked** — circular dependency between `metanorma`, `metanorma-standoc`,
+> and `metanorma-iho`. Cannot be resolved until `metanorma-standoc` migration is
+> complete.
+
+**The problem:**
+
+When `fetch_flavor` runs for a collection with IHO bibdata, it calls:
+```ruby
+require ::Metanorma::Compile.new.stdtype2flavor_gem("iho")
+# => require "metanorma-iho"
+```
+
+Loading `metanorma-iho` triggers `NameError: uninitialized constant RelatonBib`
+because `metanorma-iho` depends on `metanorma-standoc`, which has not yet been
+fully migrated to Relaton 2.x and still references `RelatonBib` at load time.
+
+The circular dependency chain:
+```
+metanorma (this gem, migrating)
+  → fetch_flavor → require "metanorma-iho"
+    → metanorma-iho depends on metanorma-standoc (not yet migrated)
+      → metanorma-standoc references RelatonBib → NameError
+        → but metanorma-standoc depends on metanorma... (circular)
+```
+
+**Current workaround (in `collection.rb`):**
+```ruby
+rescue LoadError, NameError
+  nil
+end
+```
+`fetch_flavor` now catches `NameError` and returns `nil`, falling back to
+`"standoc"` flavor. This prevents a hard crash but means:
+- IHO-specific processor (`metanorma-iho`) is not used
+- `Metanorma::Standoc::Processor` is used instead (no `fonts_manifest` method)
+- The "extract custom fonts from collection XML for PDF" test **fails** with
+  `NoMethodError: undefined method 'fonts_manifest'` from `location_manifest`
+
+**Also fixed:** `FontistHelper.location_manifest` now guards against processors
+that don't implement `fonts_manifest` (defensive fix independent of the
+circular dependency):
+
+```ruby
+def self.location_manifest(processor, source_attributes)
+  return nil unless processor.respond_to?(:fonts_manifest) &&
+                    !processor.fonts_manifest.nil?
+  # ...
+end
+```
+
+**Resolution plan:**
+1. Migrate `metanorma-standoc` to Relaton 2.x (in progress on its `fix/relaton-2.0` branch)
+2. Once `metanorma-standoc` is migrated, re-run `metanorma-iho` tests
+3. Migrate `metanorma-iho` to Relaton 2.x
+4. The "extract custom fonts" test should then pass with `metanorma-iho` loading correctly
+
+**Affected test:**
+`spec/collection/collection_spec.rb` — "extract custom fonts from collection XML for PDF"
+(test uses `collection-iho.yml` fixture; expects IHO fonts Mitimasu/Monoisome).
+
+---
+
+### 34. `metanorma` gem — `document.rb` `from_xml`: `<bibitem>` always uses `Relaton::Bib::Bibitem` ✅ Fixed
+
+> **Status:** **Resolved** on `fix/relaton-2.0` branch. Refinement of §28.
+
+**Location:** `lib/metanorma/collection/document/document.rb`
+
+**Design rule:**
+
+| XML element | Parser class | Reason |
+|---|---|---|
+| `<bibitem>` | Always `Relaton::Bib::Bibitem` | `<bibitem>` is flavor-independent by design — it appears as a cross-reference target and in `<relation>` blocks, and the `BibitemShared` module explicitly removes the `<ext>` mapping |
+| `<bibdata>` | Flavor-specific `Bibdata` (e.g. `Relaton::Iso::Bibdata` for an ISO collection) | `<bibdata>` carries flavor-specific metadata in `<ext>` — the flavor must be respected |
+
+An ISO collection contains ISO `<bibdata>` elements (with ISO-specific `<ext>` content).
+It also contains `<bibitem>` elements (in `<relation>` blocks etc.) that should be
+parsed as plain relaton items regardless of the surrounding collection's flavor.
+
+**Before (§28 first implementation):**
+
+```ruby
+def from_xml(xml)
+  b = xml.at("//xmlns:bibitem|//xmlns:bibdata")
+  # Passed bibdata: b.name == "bibdata" to mn2relaton_parser
+  # → for a <bibitem> in an ISO collection this returned Relaton::Iso::Bibitem
+  r = mn2relaton_parser(xml.root["flavor"],
+                        bibdata: b.name == "bibdata")
+  b.xpath("//xmlns:fmt-identifier").each(&:remove)
+  r.from_xml(b.to_xml)
+end
+```
+
+**After:**
+
+```ruby
+def from_xml(xml)
+  b = xml.at("//xmlns:bibitem|//xmlns:bibdata")
+  # <bibitem> elements are always flavor-independent: use the base
+  # Relaton::Bib::Bibitem regardless of collection flavor.
+  # <bibdata> elements carry flavor-specific metadata (<ext> etc.) and
+  # must be parsed with the appropriate flavor Bibdata class.
+  r = if b.name == "bibitem"
+        ::Relaton::Bib::Bibitem
+      else
+        mn2relaton_parser(xml.root["flavor"], bibdata: true)
+      end
+  b.xpath("//xmlns:fmt-identifier").each(&:remove)
+  r.from_xml(b.to_xml)
+end
+```
+
+The `mn2relaton_parser` method is unchanged — the `bibdata:` keyword parameter is
+retained for future use. The `bibdata: false` / Bibitem-returning branches in
+`mn2relaton_parser` are now unreachable from `from_xml` but remain in place.
+
+**Impact on round-trip fidelity:**
+
+`Relaton::Iso::Bibitem` (and `Relaton::Iso::Bibdata`) currently strip the language
+suffix from `iso-with-lang` and `iso-reference` docidentifiers (e.g., `(E)`) and
+auto-populate the ICS `<text>` element from the `isoics` gem lookup. See §35 and
+§36 for the upstream bug reports filed against `relaton-iso`.
+
+By using `Relaton::Bib::Bibitem` for all `<bibitem>` elements, these round-trip
+fidelity bugs are avoided for the `<bibitem>` path. They remain present (and are
+tracked upstream) for the `<bibdata>` path.
+
+---
+
+### 35. ⚠️ Known upstream bug — `relaton-iso`: `(E)` suffix stripped from `iso-with-lang`/`iso-reference` docidentifiers
+
+> **Status:** Bug filed upstream against `relaton-iso` / `pubid-iso`. Not yet fixed.
+> Do **not** remove `(E)` from test fixtures as a workaround.
+
+**Gem:** `relaton-iso` (affects `Relaton::Iso::Bibdata` and `Relaton::Iso::Bibitem`)
+
+**Observed behaviour:**
+
+When an ISO bibdata element is round-tripped through `Relaton::Iso::Bibdata.from_xml`
+→ `to_xml`, the language suffix `(E)` is stripped from `iso-with-lang` and
+`iso-reference` type docidentifiers:
+
+```xml
+<!-- Input -->
+<docidentifier type="iso-with-lang">ISO 17301-1:2016(E)</docidentifier>
+<docidentifier type="iso-reference">ISO 17301-1:2016(E)</docidentifier>
+
+<!-- Output after Relaton::Iso::Bibdata.from_xml → .to_xml -->
+<docidentifier type="iso-with-lang">ISO 17301-1:2016</docidentifier>
+<docidentifier type="iso-reference">ISO 17301-1:2016</docidentifier>
+```
+
+**Not affected:** `Relaton::Bib::Bibdata.from_xml` correctly preserves `(E)`.
+
+**Root cause (suspected):** `Relaton::Iso::Docidentifier` parses the identifier
+content via the `pubid-iso` gem, which normalizes the identifier string and
+discards the language qualifier.
+
+**Impact:** Any test fixture with `iso-with-lang` or `iso-reference` docidentifiers
+that include `(E)` will fail round-trip equality checks when the round-trip path
+goes through `Relaton::Iso::Bibdata`.
+
+**Workaround in `metanorma` gem:** Since `<bibitem>` elements now always use
+`Relaton::Bib::Bibitem` (§34), the `(E)` bug is avoided on the `<bibitem>` path.
+The `<bibdata>` path is still affected when flavor is ISO.
+
+---
+
+### 36. ICS `<text>` auto-populated from `isoics` lookup — accepted behaviour, update fixtures
+
+> **Status:** Accepted behaviour. No bug report. Update XML test fixtures to include
+> the `isoics`-resolved `<text>` element.
+
+**Gem:** `relaton-iso`
+
+**Observed behaviour:**
+
+When an ISO bibdata element containing `<ics><code>N</code></ics>` is round-tripped
+through `Relaton::Iso::Bibdata.from_xml` → `to_xml`, the optional `<text>` child
+element is **auto-populated** from an `isoics` gem lookup:
+
+```xml
+<!-- Input -->
+<ics><code>67.060</code></ics>
+
+<!-- Output after Relaton::Iso::Bibdata.from_xml → .to_xml -->
+<ics>
+  <code>67.060</code>
+  <text>Cereals, pulses and derived products</text>
+</ics>
+```
+
+**The grammar** (from the ICS RelaxNG schema and the `isoics` gem) defines
+`<text>` as optional:
+
+```rnc
+ics = element ics {
+  element code { text },
+  element text { text }?
+}
+```
+
+**Rationale for acceptance:** Enriching ICS entries with human-readable description
+text via `isoics` is a deliberate feature of `relaton-iso`. The `<text>` element
+is valid per the grammar, and the auto-population provides useful data. There are
+no code implications in the `metanorma` gem.
+
+**Required action:** Any XML test fixture that contains bare `<ics><code>N</code></ics>`
+elements (without `<text>`) must be updated to include the `<text>` description
+string that `isoics` will inject. This is a fixture-only update — no code changes
+are required.
+
+**Note:** This only affects the `<bibdata>` parse path (§34). `<bibitem>` elements
+always use `Relaton::Bib::Bibitem` which does not perform the `isoics` enrichment.
+
+---
+
+### 37. Date granularity preserved in XML bibdata round-trip ✅ Correct behaviour
+
+> **Status:** Confirmed correct behaviour in 2.x. No code changes required.
+
+**Context:** When an XML document (e.g. an ISO standard XML file) is included in
+an XML collection and the collection is round-tripped — parsed and re-serialized —
+the `<date>` elements in the included document's `<bibdata>` are processed through
+the Relaton 2.x `StringDate` type.
+
+**What changed from 1.x:**
+
+In Relaton 1.x, date values were parsed as Ruby `Date` objects. A year-month date
+such as `2017-02` would be interpreted as `Date.parse("2017-02")` → `2017-02-01`
+(defaulting the day to 01). The round-tripped XML would therefore contain
+`2017-02-01` instead of the original `2017-02`, silently losing the input
+granularity.
+
+In Relaton 2.x, `StringDate::Value` preserves the original ISO 8601 granularity:
+
+```xml
+<!-- Input (in the XML document's <bibdata>) -->
+<date type="published"><on>2017-02</on></date>
+
+<!-- Output after round-trip through Relaton::Iso::Bibdata (or Relaton::Bib::Bibdata) -->
+<date type="published"><on>2017-02</on></date>
+```
+
+`Core::DateParser#parse_date(str: true)` normalizes the date string to one of
+`"YYYY"`, `"YYYY-MM"`, or `"YYYY-MM-DD"` depending on the precision of the input —
+it does **not** default missing components. The value `2017-02` stays `2017-02`.
+
+**Implication for test fixtures:** XML fixtures that previously had year-month
+dates expanded to `YYYY-MM-DD` (due to the 1.x Ruby `Date` parsing) should be
+updated to the more precise `YYYY-MM` form. Conversely, fixtures that rely on the
+old day-defaulting behaviour must be reviewed.
+
+See also §18 (`Date#on` → `#at`) and §21 (`Series#from`/`Series#to`) for the full
+`StringDate` API reference.
 
 ---
 

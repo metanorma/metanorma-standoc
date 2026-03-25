@@ -1,6 +1,6 @@
 require "spec_helper"
-require "relaton_iso"
-require "relaton_ietf"
+require "relaton/iso"
+require "relaton/ietf"
 
 RSpec.describe Metanorma::Standoc do
   it "fetches simple ISO reference" do
