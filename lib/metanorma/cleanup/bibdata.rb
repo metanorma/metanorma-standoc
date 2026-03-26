@@ -165,7 +165,7 @@ module Metanorma
         end or return
         a = t.at("../sourcecode") or return
         ins = xmldoc.at("//bibdata/contributor[last()]")
-        yaml = YAML.safe_load(a.text, permitted_classes: [Date])
+        yaml = yaml_deep_stringify_dates(YAML.safe_load(a.text, permitted_classes: [Date]))
         ext_contributors_process(yaml, ins)
       end
 
@@ -181,6 +181,7 @@ module Metanorma
       def ext_contributors_process(yaml, ins)
         yaml.is_a?(Hash) && !yaml["contributor"] and yaml = [yaml]
         yaml.is_a?(Array) and yaml = { "contributor" => yaml }
+        yaml["contributor"].each { |c| c["role"] ||= { "type" => "author" } }
         r = yaml2relaton(yaml)
         Nokogiri::XML(r).xpath("//contributor").reverse_each do |c|
           ins.next = c

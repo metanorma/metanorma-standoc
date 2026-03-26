@@ -99,7 +99,8 @@ module Metanorma
         bib["title"] = [bib["title"]] if bib["title"].is_a?(Hash) ||
           bib["title"].is_a?(String)
         bib["title"] ||= []
-        title.empty? or bib["title"] << title
+        title.empty? or bib["title"] << { "content" => title, "type" => "main",
+                                          "language" => @lang }
         bib
       end
     end

@@ -1969,6 +1969,115 @@ See also §18 (`Date#on` → `#at`) and §21 (`Series#from`/`Series#to`) for the
 
 ---
 
+### 38. Ruby `Date` objects in YAML must be stringified before passing to Relaton 2.x
+
+In Relaton 1.x, the hash-based API (`HashConverter.hash_to_bib`,
+`BibliographicItem.from_hash`) accepted Ruby `Date` objects as date field values.
+The date was converted to a string internally.
+
+In Relaton 2.x, lutaml-model's YAML parser (`Item.from_yaml`) expects date values
+to be **plain strings** (ISO 8601 format). Passing a native Ruby `Date` object —
+e.g. one produced by `YAML.safe_load(..., permitted_classes: [Date])` — causes a
+type error or silent data loss because lutaml-model cannot coerce a `Date` object
+into its `StringDate` type.
+
+#### Affected pattern
+
+Any code that:
+1. Parses a YAML document with `YAML.safe_load(..., permitted_classes: [Date])`, and
+2. Passes the resulting hash (which may contain Ruby `Date` values) to any Relaton
+   2.x YAML constructor (`Item.from_yaml`, `HashParserV1.hash_to_bib`, etc.)
+
+must first recursively stringify all `Date` values in the parsed hash.
+
+#### Example — `ext_dochistory_cleanup` in `metanorma-standoc`
+
+Document history YAML embedded in AsciiDoc sourcecode blocks contains bare date
+scalars (e.g. `date: 2024-01-15`). Psych converts these to `Date` objects when
+`permitted_classes: [Date]` is specified.
+
+```ruby
+# 1.x — safe_load output went to HashConverter which handled Date objects
+yaml = YAML.safe_load(a.text, permitted_classes: [Date])
+
+# 2.x — must stringify Date objects before passing hash to Relaton
+yaml = yaml_deep_stringify_dates(
+         YAML.safe_load(a.text, permitted_classes: [Date]))
+```
+
+```ruby
+# Helper — recursively convert Ruby Date objects to ISO 8601 strings
+def yaml_deep_stringify_dates(obj)
+  case obj
+  when Hash  then obj.transform_values { |v| yaml_deep_stringify_dates(v) }
+  when Array then obj.map { |v| yaml_deep_stringify_dates(v) }
+  when Date  then obj.to_s   # => "2024-01-15"
+  else            obj
+  end
+end
+```
+
+> **Note:** `YAML.safe_load` must still include `permitted_classes: [Date]` to avoid
+> `Psych::DisallowedClass` errors when the YAML contains bare date scalars. The
+> `yaml_deep_stringify_dates` helper is applied **after** parsing to convert all
+> `Date` values to strings before the hash is handed to Relaton.
+
+---
+
+### 39. `HashParserV1` — no default `role` for contributors; must be supplied explicitly
+
+In Relaton 1.x, `HashConverter.hash_to_bib` applied a default `role` value of
+`"author"` to any contributor hash that did not explicitly specify a role.
+
+In Relaton 2.x, `Relaton::Bib::HashParserV1.hash_to_bib` does **not** inject a
+default role. A contributor hash without an explicit `role` key produces a
+`Relaton::Bib::Contributor` with no `<role>` child element — so `<role type="author"/>`
+(or any other role element) is silently absent from the serialized XML.
+
+#### Symptom
+
+Test or production code that passes contributor hashes without a `"role"` key
+and then compares the resulting XML will find `<role type="author"/>` missing:
+
+```xml
+<!-- 1.x output (default role injected by HashConverter) -->
+<contributor>
+  <role type="author"/>
+  <person>...</person>
+</contributor>
+
+<!-- 2.x output (no default role — <role> element absent) -->
+<contributor>
+  <person>...</person>
+</contributor>
+```
+
+#### Fix
+
+Wherever contributor hashes are assembled before being passed to
+`HashParserV1.hash_to_bib` (or `Item.from_yaml`), ensure every contributor
+entry carries an explicit `role` key. In `metanorma-standoc`, the fix was applied
+in `ext_contributors_process(yaml, ins)` in `dochistory.rb`:
+
+```ruby
+# Before — role was omitted, relying on 1.x HashConverter default
+y["contributor"].each do |c|
+  ins.next = contributor_hash2xml(c)
+end
+
+# After — inject "author" as the default role when none is present
+y["contributor"].each do |c|
+  c["role"] ||= "author"
+  ins.next = contributor_hash2xml(c)
+end
+```
+
+The general principle: **do not rely on Relaton to supply a default contributor
+role.** If your business logic implies a default (e.g., `"author"` for document
+history entries), set it explicitly in the hash before passing to Relaton 2.x.
+
+---
+
 ## Testing and Verification
 
 After migrating a gem:
