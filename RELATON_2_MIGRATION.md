@@ -1335,15 +1335,20 @@ In 2.x, the relaton flavor gems:
 
 The bibliography fetch classes (used in RSpec mocks and production code that calls
 the Relaton fetch API directly) also changed namespace from `RelatonXxx::` to
-`Relaton::Xxx::`:
+`Relaton::Xxx::`, **and the redundant flavor prefix was dropped from the class name**:
 
 | 1.x class | 2.x class |
 |---|---|
 | `RelatonIsoBib::XMLParser` | `Relaton::Bib::Bibitem` (generic) or `Relaton::Iso::Bibitem` (flavor) |
-| `RelatonIso::IsoBibliography` | `Relaton::Iso::IsoBibliography` |
-| `RelatonNist::NistBibliography` | `Relaton::Nist::NistBibliography` |
-| `RelatonIetf::IetfBibliography` | `Relaton::Ietf::IetfBibliography` |
-| `RelatonIec::IecBibliography` | `Relaton::Iec::IecBibliography` |
+| `RelatonIso::IsoBibliography` | `Relaton::Iso::Bibliography` |
+| `RelatonNist::NistBibliography` | `Relaton::Nist::Bibliography` |
+| `RelatonIetf::IetfBibliography` | `Relaton::Ietf::Bibliography` |
+| `RelatonIec::IecBibliography` | `Relaton::Iec::Bibliography` |
+
+> ⚠️ **The flavor-specific prefix is dropped:** `IsoBibliography` → `Bibliography`,
+> `IetfBibliography` → `Bibliography`, etc. The class is always named `Bibliography`
+> within its namespace. Using the old names (e.g. `Relaton::Iso::IsoBibliography`)
+> raises `NameError: uninitialized constant`.
 
 These appear in RSpec `expect(...).to receive(:get)` / `receive(:search)` mocks.
 Update all mock targets when migrating spec files.
