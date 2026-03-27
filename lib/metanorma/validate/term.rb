@@ -1,4 +1,4 @@
-require "iev"
+#require "iev"
 
 module Metanorma
   module Standoc
@@ -6,7 +6,7 @@ module Metanorma
       module Term
         SOURCELOCALITY = "./origin//locality[@type = 'clause']/" \
                          "referenceFrom".freeze
-
+=begin
         def init_iev
           # Treat empty string as falsy (set by Asciidoctor for some attributes)
           return nil if @no_isobib && !@no_isobib.empty?
@@ -58,7 +58,7 @@ module Metanorma
           pref.include?(iev.downcase) or
             @log.add("STANDOC_22", term, params: [pref[0], loc, iev])
         end
-
+=end
         def concept_validate(doc, tag, refterm)
           concept_validate_ids(doc)
           doc.xpath("//#{tag}/xref").each do |x|
