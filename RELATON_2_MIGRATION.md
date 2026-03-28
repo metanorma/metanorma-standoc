@@ -422,10 +422,12 @@ Collections **known to return `nil`** when absent (confirmed from
 - `doc.relation`
 - `doc.date`
 - `doc.docidentifier`
-- `doc.link` (URI links)
+- `doc.link` (URI links — renamed `doc.source` in 2.x, see §14)
 - `doc.place`
 - `doc.series`
 - `doc.extent`
+- `doc.abstract`
+- `doc.keyword`
 
 Collections **always initialised to `[]`** (declared with `initialize_empty:
 true`, safe to iterate without guard):
