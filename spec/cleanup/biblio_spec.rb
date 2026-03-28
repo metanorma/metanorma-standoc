@@ -176,8 +176,8 @@ RSpec.describe Metanorma::Standoc do
       type::: type
       value::: value
       validity::
-      begins::: 2010-10-10 12:21
-      ends::: 2011-02-03 18:30
+      begins::: 2010-10-10T12:21
+      ends::: 2011-02-03T18:30
 
 
       ==== Contributor
@@ -460,8 +460,8 @@ RSpec.describe Metanorma::Standoc do
         <accesslocation>accesslocation2</accesslocation>
         <classification type="type">value</classification>
         <validity>
-          <validityBegins>2010-10-10 12:21</validityBegins>
-          <validityEnds>2011-02-03 18:30</validityEnds>
+          <validityBegins>2010-10-10T12:21</validityBegins>
+          <validityEnds>2011-02-03T18:30</validityEnds>
         </validity>
       </bibitem></references></bibliography>
       </metanorma>
@@ -556,8 +556,8 @@ RSpec.describe Metanorma::Standoc do
       accesslocation:: accesslocation2
       classification.type:: type
       classification.value:: value
-      validity.begins:: 2010-10-10 12:21
-      validity.ends:: 2011-02-03 18:30
+      validity.begins:: 2010-10-10T12:21
+      validity.ends:: 2011-02-03T18:30
       contributor::
       contributor.organization.name:: International Organization for Standardization
       contributor.organization.url:: www.iso.org
