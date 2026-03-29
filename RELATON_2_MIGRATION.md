@@ -2080,6 +2080,217 @@ history entries), set it explicitly in the hash before passing to Relaton 2.x.
 
 ---
 
+### 40. `Keyword` restructured — `vocab`/`taxon`/`vocabid` child elements
+
+In Relaton 1.x, `doc.keyword` returned an array of plain strings (or simple
+`LocalizedString` objects with a direct `.content` accessor):
+
+```ruby
+# 1.x
+doc.keyword.map { |u| content(u) }   # content() called directly on keyword
+```
+
+In Relaton 2.x, `Relaton::Bib::Keyword` is a structured `Lutaml::Model::Serializable`
+object with three optional sub-elements:
+
+```ruby
+# 2.x Keyword attributes
+kw.vocab    # Array of LocalizedString — plain vocabulary term (default/primary)
+kw.taxon    # Array of LocalizedString — taxonomic term
+kw.vocabid  # Vocabid object — structured vocabulary reference
+#   kw.vocabid.type   # String
+#   kw.vocabid.uri    # String
+#   kw.vocabid.code   # String
+#   kw.vocabid.term   # String
+```
+
+The **default** child element (for plain text keywords) is `vocab`. `taxon` is
+used for taxonomy-specific classification. `vocabid` is used for structured
+vocabulary IDs.
+
+The Relaton XML format for `<keyword>` has changed:
+
+```xml
+<!-- 1.x — plain text content of <keyword> (via map_content) -->
+<keyword>security</keyword>
+
+<!-- 2.x — structured child elements (no map_content) -->
+<keyword><vocab>security</vocab></keyword>
+<keyword><taxon>authentication</taxon></keyword>
+<keyword><vocabid type="ISO"><code>67.060</code><term>Cereals</term></vocabid></keyword>
+```
+
+**Required code change:** `content(u)` on a `Keyword` object raises
+`NoMethodError: undefined method 'content'`. Replace with a helper that
+tries `vocab` first, then `taxon`, then `vocabid.term`:
+
+```ruby
+# 2.x
+def keywords(doc)
+  Array(doc.keyword).map { |u| keyword1(u) }.compact
+end
+
+def keyword1(kw)
+  v = Array(kw.vocab).first
+  v and return content(v)
+  t = Array(kw.taxon).first
+  t and return content(t)
+  kw.vocabid&.term
+end
+```
+
+Note that `doc.keyword` is declared with `initialize_empty: true` so it always
+returns an array (never nil) — the `Array()` coercion is defensive but not
+strictly required.
+
+---
+
+---
+
+### 41. `relaton-render` — `<esc>` tags in values returned by parent `Parse` methods
+
+The `relaton-render` parent class `Relaton::Render::Parse` wraps many string
+values in `<esc>...</esc>` markup via its `esc()` helper before returning them.
+This markup is used by the Liquid template engine to prevent localization transforms
+from altering content inside the tags.
+
+Specifically, `authoritative_identifier` and `series_xml2hash1` both receive
+values that have been passed through `esc()` by the parent implementation.
+The `<esc>` wrapper is present in:
+
+- `authoritative_identifier(doc)` — the `super` result contains entries like
+  `"<esc>RFC 2119</esc>"` rather than plain `"RFC 2119"`
+- `series_xml2hash1` — the `:series_title` key in the hash returned by `super`
+  contains `"<esc>BCP</esc>"` rather than plain `"BCP"`
+
+**Required code change in any `Parse` subclass that calls `super`:**
+
+Any comparison of these values against plain strings will silently fail:
+
+```ruby
+# 1.x relaton-render — NO <esc> wrapping: comparison works directly
+def series_xml2hash1(series, doc)
+  ret = super
+  %w(BCP RFC I-D. Internet-Draft).include?(ret[:series_title]) and return {}
+  ret
+end
+
+# 2.x relaton-render — <esc> wrapping: comparison silently fails
+# ret[:series_title] is "<esc>BCP</esc>", NOT "BCP"
+def series_xml2hash1(series, doc)
+  ret = super
+  plain_title = ret[:series_title]&.gsub(/<\/?esc>/, "")   # strip <esc> first
+  %w(BCP RFC I-D. Internet-Draft).include?(plain_title) and return {}
+  ret
+end
+```
+
+Similarly for `authoritative_identifier`, entries from `super` must have
+`<esc>` stripped before use, comparison, or re-injection into a hash:
+
+```ruby
+# 2.x — strip <esc> from super result before filtering/comparing
+def authoritative_identifier(doc)
+  ret = super    # => ["<esc>RFC 2119</esc>"]
+  # ... add custom entries ...
+  ret.reject { |x| /some_pattern/.match?(x) }
+    .map { |x| x.gsub(/<\/?esc>/, "") }
+end
+```
+
+---
+
+### 42. `relaton-render` — Liquid template `split:` requires NBSP, not regular spaces
+
+The `relaton-render` template engine calls `liquid_hash` on the parse data hash
+before rendering. `liquid_hash` converts **all regular ASCII spaces (U+0020) to
+underscores** via `tr(" ", "_")`:
+
+```ruby
+# From relaton-render/lib/relaton/render/template/template.rb
+def liquid_hash(hash)
+  case hash
+  when String
+    hash.empty? ? nil : hash.gsub("_", "\\_").tr(" ", "_")
+  # ...
+  end
+end
+```
+
+The Liquid templates in `relaton-render` then use `replace: '\u00A0', ' '`
+(NBSP → regular space) before calling `split: ' '` to decompose multi-word
+identifiers (e.g. splitting `"RFC 2119"` into `["RFC", "2119"]`).
+
+This means any string containing a regular space that needs to be split by
+the template **will be broken** — the space is gone by the time Liquid runs.
+Only **NBSP (U+00A0)** survives `liquid_hash` intact, and the template's
+`replace: '\u00A0', ' '` filter converts it back to a regular space before
+`split: ' '`.
+
+**Required code change:** Any string returned by a `Parse` subclass method that
+will be split by the Liquid template (e.g. entries in `authoritative_identifier`,
+which are split on whitespace to extract the name and number components of
+`<seriesInfo name="..." value="..."/>`) must use **NBSP instead of regular space**:
+
+```ruby
+# Wrong — regular space is eaten by liquid_hash; template split: ' ' gets
+# a single unsplit token and produces wrong seriesInfo
+ret.unshift("BCP #{bcp.number}")
+
+# Correct — NBSP survives liquid_hash; template's replace: '\u00A0', ' ' | split: ' '
+# correctly splits "BCP 14" into ["BCP", "14"]
+ret.unshift("BCP\u00A0#{bcp.number}")
+```
+
+Similarly, when stripping `<esc>` tags from a value like `"<esc>RFC 2119</esc>"`,
+the revealed space must also be converted to NBSP:
+
+```ruby
+# Wrong — revealed space gets eaten by liquid_hash
+.map { |x| x.gsub(/<\/?esc>/, "") }
+
+# Correct — convert all spaces to NBSP after stripping <esc> tags
+.map { |x| x.gsub(/<\/?esc>/, "").tr(" ", "\u00A0") }
+```
+
+**Summary:** inside `Parse` subclass methods, treat NBSP as the standard
+whitespace character for all multi-word tokens that a Liquid template will
+later split. Use regular spaces only for punctuation/connective text that the
+template will never split.
+
+---
+
+### 43. `Relaton::Bib::Bibitem.from_xml` — strip namespaces from XML before parsing
+
+`Relaton::Bib::Bibitem.from_xml` (and other `from_xml` entry points in Relaton 2.x)
+does not handle XML documents that carry a default namespace declaration
+(e.g. `xmlns="http://riboseinc.com/isoxml"`). When a Nokogiri node sourced from a
+namespaced metanorma XML document is serialised with `.to_xml` and passed directly
+to `from_xml`, the element names are qualified and `lutaml-model`'s XML mapper
+fails to match them — returning an empty/nil object rather than raising an error.
+
+**Required code change:**
+
+Strip namespaces from the XML string before calling `from_xml`:
+
+```ruby
+# 1.x — namespace in input silently handled by RelatonBib::XMLParser
+xml_str = bib.to_xml
+item = RelatonBib::XMLParser.from_xml(xml_str)
+
+# 2.x — must strip namespaces first
+xml_str = Nokogiri::XML(bib.to_xml).tap(&:remove_namespaces!).to_xml
+item = Relaton::Bib::Bibitem.from_xml(xml_str)
+```
+
+`Nokogiri::XML#remove_namespaces!` removes all namespace declarations and prefixes
+in-place before `.to_xml` re-serialises to a clean namespace-free string. This
+applies to any context where a Nokogiri node extracted from a metanorma XML document
+(which always carries `xmlns="http://riboseinc.com/isoxml"`) is passed to a Relaton
+2.x `from_xml` method.
+
+---
+
 ## Testing and Verification
 
 After migrating a gem:
