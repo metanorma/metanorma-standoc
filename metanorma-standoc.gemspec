@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "addressable", "~> 2.8.0"
   spec.add_dependency "asciidoctor", "~> 2.0.0"
   spec.add_dependency "crass", "~> 1.0.0"
-  spec.add_dependency "iev", "~> 0.3.5"
+  # spec.add_dependency "iev", "~> 0.3.5"
   spec.add_dependency "isodoc", "~> 3.4.0"
   spec.add_dependency "metanorma", ">= 1.6.0"
   spec.add_dependency "metanorma-plugin-glossarist", "~> 0.2.3"
@@ -41,7 +41,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "ruby-jing"
   # relaton-cli not just relaton, to avoid circular reference in metanorma
   spec.add_dependency "concurrent-ruby"
-  spec.add_dependency "relaton-cli", "~> 1.20.0"
+  spec.add_dependency "relaton-cli" #, "~> 1.20.0"
   spec.add_dependency "relaton-iev", "~> 1.2.0"
   spec.add_dependency "svg_conform", "~> 0.1.0"
   spec.add_dependency "png_conform", "~> 0.1.0"

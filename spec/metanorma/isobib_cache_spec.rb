@@ -1,7 +1,8 @@
 require "spec_helper"
-require "relaton_iso"
+require "relaton/iso"
+require "relaton/bib"
 require "fileutils"
-require "relaton_ietf"
+require "relaton/ietf"
 
 IETF_123_SHORT = <<~XML.freeze
   <bibitem type="standard" id="IETF123">
@@ -44,69 +45,82 @@ XML
 ISO_124_DATED = <<~XML.freeze
   <bibdata type="standard">
          <fetched>#{Date.today}</fetched>
-         <title type="title-intro" format="text/plain" language="en" script="Latn">Latex, rubber</title>
-         <title type="title-main" format="text/plain" language="en" script="Latn">Determination of total solids content</title>
-         <title type='main' format='text/plain' language='en' script='Latn'>Latex, rubber - Determination of total solids content</title>
-         <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
-         <title type="title-main" format="text/plain" language="fr" script="Latn">Détermination des matières solides totales</title>
-         <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc - Détermination des matières solides totales</title>
-         <uri type="src">https://www.iso.org/standard/61884.html</uri>
-         <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:61884:en</uri>
-         <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
-         <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
-         <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
-         <docidentifier type="URN">urn:iso:std:iso:124:stage-90.20</docidentifier>
-         <docnumber>124</docnumber>
-         <date type="published">
-           <on>2014-03</on>
-         </date>
-         <contributor>
-           <role type="publisher"/>
-           <organization>
-             <name>International Organization for Standardization</name>
-             <abbreviation>ISO</abbreviation>
-             <uri>www.iso.org</uri>
-           </organization>
-         </contributor>
-         <edition>7</edition>
-         <language>en</language>
-         <language>fr</language>
-         <script>Latn</script>
-         <abstract format="text/plain" language="en" script="Latn">ISO 124:2014 specifies methods for the determination of the total solids content of natural rubber field and concentrated latices and synthetic rubber latex. These methods are not necessarily suitable for latex from natural sources other than the Hevea brasiliensis, for vulcanized latex, for compounded latex, or for artificial dispersions of rubber.</abstract>
-         <abstract format="text/plain" language="fr" script="Latn">L'ISO 124:2014 spécifie des méthodes pour la détermination des matières solides totales dans le latex de plantation, le latex de concentré de caoutchouc naturel et le latex de caoutchouc synthétique. Ces méthodes ne conviennent pas nécessairement au latex d'origine naturelle autre que celui de l'Hevea brasiliensis, au latex vulcanisé, aux mélanges de latex, ou aux dispersions artificielles de caoutchouc.</abstract>
-         <status>
-           <stage>90</stage>
-           <substage>20</substage>
-         </status>
-         <copyright>
-           <from>2014</from>
-           <owner>
-             <organization>
-               <name>ISO</name>
-             </organization>
-           </owner>
-         </copyright>
-         <relation type="obsoletes">
-           <bibitem type="standard">
-             <formattedref format="text/plain">ISO 124:2011</formattedref>
-             <docidentifier type='ISO' primary='true'>ISO 124:2011</docidentifier>
-           </bibitem>
-         </relation>
-         <place>Geneva</place>
-         <ext>
-           <doctype>international-standard</doctype>
-           <editorialgroup>
-           <technical-committee number='45' type='TC' identifier='ISO/TC 45/SC 3'>Raw materials (including latex) for use in the rubber industry</technical-committee>
-           </editorialgroup>
-           <ics>
-             <code>83.040.10</code>
-             <text>Latex and raw rubber</text>
-           </ics>
-           <structuredidentifier type="ISO">
-             <project-number>ISO 124</project-number>
-           </structuredidentifier>
-         </ext>
-       </bibdata>
+           <title language="en" script="Latn" type="title-intro" format="text/plain">Latex, rubber</title>
+           <title language="en" script="Latn" type="title-main" format="text/plain">Determination of total solids content</title>
+           <title language="en" script="Latn" type="main" format="text/plain">Latex, rubber - Determination of total solids content</title>
+           <title language="fr" script="Latn" type="title-intro" format="text/plain">Latex de caoutchouc</title>
+           <title language="fr" script="Latn" type="title-main" format="text/plain">Détermination des matières solides totales</title>
+           <title language="fr" script="Latn" type="main" format="text/plain">Latex de caoutchouc - Détermination des matières solides totales</title>
+           <uri type="src">https://www.iso.org/standard/61884.html</uri>
+           <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:61884:en</uri>
+           <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
+           <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
+           <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
+           <docidentifier type="URN">urn:iso:std:iso:124:stage-90.20</docidentifier>
+           <docnumber>124</docnumber>
+           <date type="published">
+              <on>2014-03</on>
+           </date>
+           <contributor>
+              <role type="publisher"/>
+              <organization>
+                 <name>International Organization for Standardization</name>
+                 <abbreviation>ISO</abbreviation>
+                 <uri>www.iso.org</uri>
+              </organization>
+           </contributor>
+           <contributor>
+              <role type="author">
+                 <description>committee</description>
+              </role>
+              <organization>
+                 <name>International Organization for Standardization</name>
+                 <subdivision type="technical-committee" subtype="TC">
+                    <name>Raw materials (including latex) for use in the rubber industry</name>
+                    <identifier>ISO/TC 45/SC 3</identifier>
+                 </subdivision>
+                 <abbreviation>ISO</abbreviation>
+              </organization>
+           </contributor>
+           <edition>7</edition>
+           <language>en</language>
+           <language>fr</language>
+           <script>Latn</script>
+           <abstract language="en" script="Latn">ISO 124:2014 specifies methods for the determination of the total solids content of natural rubber field and concentrated latices and synthetic rubber latex. These methods are not necessarily suitable for latex from natural sources other than the Hevea brasiliensis, for vulcanized latex, for compounded latex, or for artificial dispersions of rubber.</abstract>
+           <abstract language="fr" script="Latn">L'ISO 124:2014 spécifie des méthodes pour la détermination des matières solides totales dans le latex de plantation, le latex de concentré de caoutchouc naturel et le latex de caoutchouc synthétique. Ces méthodes ne conviennent pas nécessairement au latex d'origine naturelle autre que celui de l'Hevea brasiliensis, au latex vulcanisé, aux mélanges de latex, ou aux dispersions artificielles de caoutchouc.</abstract>
+           <status>
+              <stage>90</stage>
+              <substage>20</substage>
+           </status>
+           <copyright>
+              <from>2014</from>
+              <owner>
+                 <organization>
+                    <name>ISO</name>
+                 </organization>
+              </owner>
+           </copyright>
+           <relation type="obsoletes">
+              <bibitem type="standard">
+                 <formattedref>ISO 124:2011</formattedref>
+                 <docidentifier type="ISO" primary="true">ISO 124:2011</docidentifier>
+              </bibitem>
+           </relation>
+           <place>
+              <formattedPlace>Geneva</formattedPlace>
+           </place>
+           <ext>
+              <doctype>international-standard</doctype>
+              <flavor>iso</flavor>
+              <ics>
+                 <code>83.040.10</code>
+                 <text>Latex and raw rubber</text>
+              </ics>
+              <structuredidentifier type="ISO">
+                 <project-number>ISO 124</project-number>
+              </structuredidentifier>
+           </ext>
+        </bibdata>
 XML
 
 ISO_123_UNDATED = <<~XML.freeze
@@ -210,12 +224,12 @@ XML
 ISO_123_DATED = <<~XML.freeze
     <bibdata type="standard">
            <fetched>#{Date.today}</fetched>
-           <title type="title-intro" format="text/plain" language="en" script="Latn">Rubber latex</title>
-           <title type="title-main" format="text/plain" language="en" script="Latn">Sampling</title>
-           <title type='main' format='text/plain' language='en' script='Latn'>Rubber latex - Sampling</title>
-           <title type="title-intro" format="text/plain" language="fr" script="Latn">Latex de caoutchouc</title>
-         <title type="title-main" format="text/plain" language="fr" script="Latn">Échantillonnage</title>
-         <title type="main" format="text/plain" language="fr" script="Latn">Latex de caoutchouc - Échantillonnage</title>
+          <title language="en" script="Latn" type="title-intro" format="text/plain">Rubber latex</title>
+           <title language="en" script="Latn" type="title-main" format="text/plain">Sampling</title>
+           <title language="en" script="Latn" type="main" format="text/plain">Rubber latex - Sampling</title>
+           <title language="fr" script="Latn" type="title-intro" format="text/plain">Latex de caoutchouc</title>
+           <title language="fr" script="Latn" type="title-main" format="text/plain">Échantillonnage</title>
+           <title language="fr" script="Latn" type="main" format="text/plain">Latex de caoutchouc - Échantillonnage</title>
            <uri type="src">https://www.iso.org/standard/23281.html</uri>
            <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
            <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
@@ -224,64 +238,73 @@ ISO_123_DATED = <<~XML.freeze
            <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
            <docnumber>123</docnumber>
            <date type="published">
-             <on>2001-05</on>
+              <on>2001-05</on>
            </date>
            <contributor>
-             <role type="publisher"/>
-             <organization>
-               <name>International Organization for Standardization</name>
-               <abbreviation>ISO</abbreviation>
-               <uri>www.iso.org</uri>
-             </organization>
+              <role type="publisher"/>
+              <organization>
+                 <name>International Organization for Standardization</name>
+                 <abbreviation>ISO</abbreviation>
+                 <uri>www.iso.org</uri>
+              </organization>
+           </contributor>
+           <contributor>
+              <role type="author">
+                 <description>committee</description>
+              </role>
+              <organization>
+                 <name>International Organization for Standardization</name>
+                 <subdivision type="technical-committee" subtype="TC">
+                    <name>Raw materials (including latex) for use in the rubber industry</name>
+                    <identifier>ISO/TC 45/SC 3</identifier>
+                 </subdivision>
+                 <abbreviation>ISO</abbreviation>
+              </organization>
            </contributor>
            <edition>3</edition>
            <language>en</language>
            <language>fr</language>
            <script>Latn</script>
-           <abstract format='text/plain' language='en' script='Latn'>
-    This International Standard specifies procedures for sampling natural rubber
-    latex concentrate and for sampling synthetic rubber latices and artificial
-    latices. It is also suitable for sampling rubber latex contained in drums,
-    tank cars or tanks. The procedures may also be used for sampling plastics
-    dispersions.
-  </abstract>
-           <abstract format="text/plain" language="fr" script="Latn">La présente Norme internationale spécifie des méthodes d'échantillonnage pour des concentrés de latex de caoutchouc
-       naturel et pour échantillonner des latex de caoutchouc synthétique et des latex artificiels. Elle s'applique également
-       à l'échantillonnage de latex de caoutchouc contenus dans des fûts, citernes routières ou de stockage. Le
-       mode opératoire peut aussi être utilisé pour l'échantillonnage de dispersions de plastiques.</abstract>
+           <abstract language="en" script="Latn">This International Standard specifies procedures for sampling natural rubber latex concentrate and for sampling synthetic
+        rubber latices and artificial latices. It is also suitable for sampling rubber latex contained in drums, tank cars or
+        tanks. The procedures may also be used for sampling plastics dispersions.</abstract>
+           <abstract language="fr" script="Latn">La présente Norme internationale spécifie des méthodes d'échantillonnage pour des concentrés de latex de caoutchouc
+        naturel et pour échantillonner des latex de caoutchouc synthétique et des latex artificiels. Elle s'applique également
+        à l'échantillonnage de latex de caoutchouc contenus dans des fûts, citernes routières ou de stockage. Le
+        mode opératoire peut aussi être utilisé pour l'échantillonnage de dispersions de plastiques.</abstract>
            <status>
-             <stage>90</stage>
-             <substage>93</substage>
+              <stage>90</stage>
+              <substage>93</substage>
            </status>
            <copyright>
-             <from>2001</from>
-             <owner>
-               <organization>
-                 <name>ISO</name>
-               </organization>
-             </owner>
+              <from>2001</from>
+              <owner>
+                 <organization>
+                    <name>ISO</name>
+                 </organization>
+              </owner>
            </copyright>
            <relation type="obsoletes">
-             <bibitem type="standard">
-               <formattedref format="text/plain">ISO 123:1985</formattedref>
-               <docidentifier type='ISO' primary='true'>ISO 123:1985</docidentifier>
-             </bibitem>
+              <bibitem type="standard">
+                 <formattedref>ISO 123:1985</formattedref>
+                 <docidentifier type="ISO" primary="true">ISO 123:1985</docidentifier>
+              </bibitem>
            </relation>
-           <place>Geneva</place>
+           <place>
+              <formattedPlace>Geneva</formattedPlace>
+           </place>
            <ext>
-             <doctype>international-standard</doctype>
-             <editorialgroup>
-             <technical-committee number='45' type='TC' identifier='ISO/TC 45/SC 3'>Raw materials (including latex) for use in the rubber industry</technical-committee>
-             </editorialgroup>
-             <ics>
-               <code>83.040.10</code>
-               <text>Latex and raw rubber</text>
-             </ics>
-             <structuredidentifier type="ISO">
-               <project-number>ISO 123</project-number>
-             </structuredidentifier>
+              <doctype>international-standard</doctype>
+              <flavor>iso</flavor>
+              <ics>
+                 <code>83.040.10</code>
+                 <text>Latex and raw rubber</text>
+              </ics>
+              <structuredidentifier type="ISO">
+                 <project-number>ISO 123</project-number>
+              </structuredidentifier>
            </ext>
-         </bibdata>
+        </bibdata>
 XML
 
 RSpec.describe Metanorma::Standoc do
@@ -388,7 +411,7 @@ RSpec.describe Metanorma::Standoc do
       [.source]
       <<iev,clause="103-01-02">>
     INPUT
-    #expect(File.exist?("#{Dir.home}/.iev/cache")).to be true
+    # expect(File.exist?("#{Dir.home}/.iev/cache")).to be true
 
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
     entry = db.load_entry("ISO(ISO 123:2001)")
@@ -397,11 +420,11 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to(strip_guid(Canon.format_xml(ISO_123_DATED)))
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
-    #FileUtils.rm_rf File.expand_path("~/.iev/cache")
+    # FileUtils.rm_rf File.expand_path("~/.iev/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"),
                  File.expand_path("~/.relaton/cache"), force: true
-    #FileUtils.mv File.expand_path("~/.iev.pstore1"),
-                 #File.expand_path("~/.iev/cache"), force: true
+    # FileUtils.mv File.expand_path("~/.iev.pstore1"),
+    # File.expand_path("~/.iev/cache"), force: true
   end
 
   it "does not fetch references for ISO references in preparation" do
@@ -568,13 +591,13 @@ RSpec.describe Metanorma::Standoc do
     FileUtils.mv File.expand_path("~/.relaton/cache"),
                  File.expand_path("~/.relaton-bib.pstore1"), force: true
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
-    bibitem = RelatonIsoBib::XMLParser.from_xml ISO_123_DATED
+    bibitem = Relaton::Bib::Bibitem.from_xml ISO_123_DATED
     bibitem.instance_variable_set :@fetched, (Date.today - 2)
 
     db.save_entry("ISO(ISO 123:2001)", bibitem.to_xml)
     # {
     # "fetched" => (Date.today - 2).to_s,
-    # "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED)
+    # "bib" => Relaton::Bib::Bibitem.from_xml(ISO_123_DATED)
     # }
     # )
 
@@ -609,12 +632,12 @@ RSpec.describe Metanorma::Standoc do
                  File.expand_path("~/.relaton-bib.pstore1"), force: true
 
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
-    bibitem = RelatonIsoBib::XMLParser.from_xml ISO_123_SHORT
+    bibitem = Relaton::Bib::Bibitem.from_xml ISO_123_SHORT
     bibitem.instance_variable_set :@fetched, (Date.today - 90)
     db.save_entry("ISO 123", bibitem.to_xml)
     # {
     # "fetched" => (Date.today - 90),
-    # "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_123_SHORT)
+    # "bib" => Relaton::Bib::Bibitem.from_xml(ISO_123_SHORT)
     # }
     # )
 
@@ -642,14 +665,14 @@ RSpec.describe Metanorma::Standoc do
     FileUtils.mv File.expand_path("~/.relaton/cache"),
                  File.expand_path("~/.relaton-bib.pstore1"), force: true
 
-    bibitem = RelatonIsoBib::XMLParser.from_xml ISO_123_DATED
+    bibitem = Relaton::Bib::Bibitem.from_xml ISO_123_DATED
     bibitem.instance_variable_set :@fetched, (Date.today - 90)
 
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
     db.save_entry("ISO(ISO 123:2001)", bibitem.to_xml)
     #   {
     #     "fetched" => (Date.today - 90),
-    #     "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED)
+    #     "bib" => Relaton::Bib::Bibitem.from_xml(ISO_123_DATED)
     #   }
     # )
 
@@ -680,27 +703,27 @@ RSpec.describe Metanorma::Standoc do
 
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
     db.save_entry("ISO(ISO 123:2001)",
-                  RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED).to_xml)
+                  Relaton::Bib::Bibitem.from_xml(ISO_123_DATED).to_xml)
     #   {
     #     "fetched" => Date.today,
-    #     "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED)
+    #     "bib" => Relaton::Bib::Bibitem.from_xml(ISO_123_DATED)
     #   }
     # )
     db.save_entry("ISO(ISO 124)",
-                  RelatonIsoBib::XMLParser.from_xml(ISO_124_SHORT).to_xml)
+                  Relaton::Bib::Bibitem.from_xml(ISO_124_SHORT).to_xml)
     #   {
     #     "fetched" => Date.today,
-    #     "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_124_SHORT)
+    #     "bib" => Relaton::Bib::Bibitem.from_xml(ISO_124_SHORT)
     #   }
     # )
 
     localdb = Relaton::Db.new "relaton/cache", nil
     localdb.save_entry("ISO(ISO 124)",
-                       RelatonIsoBib::XMLParser
+                       Relaton::Bib::Bibitem
       .from_xml(ISO_124_SHORT_ALT).to_xml)
     #   {
     #     "fetched" => Date.today,
-    #     "bib" => RelatonIsoBib::XMLParser.from_xml(ISO_124_SHORT_ALT)
+    #     "bib" => Relaton::Bib::Bibitem.from_xml(ISO_124_SHORT_ALT)
     #   }
     # )
 
@@ -746,59 +769,59 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       <bibliography>
-        <references id="_" normative="true" obligation="informative">
-          <title id="_">Normative references</title>
-          <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-          <bibitem id="_" anchor="A" type="manual">
-            <title type="main" format="text/plain">Geographic information</title>
-            <contributor>
-              <role type="author"/>
-              <person>
-                <name>
-                  <forename>A.</forename>
-                  <surname>Bierman</surname>
-                </name>
-              </person>
-            </contributor>
-            <contributor>
-              <role type="author"/>
-              <person>
-                <name>
-                  <forename>Arnold</forename>
-                  <surname>Bierman</surname>
-                </name>
-              </person>
-            </contributor>
-            <contributor>
-              <role type="author"/>
-              <person>
-                <name>
-                  <forename>Arnold</forename>
-                  <forename>B</forename>
-                  <surname>Bierman</surname>
-                </name>
-              </person>
-            </contributor>
-            <contributor>
-              <role type="publisher"/>
-              <organization>
-                <name>Institute of Electrical and Electronics Engineers</name>
-              </organization>
-            </contributor>
-            <contributor>
-              <role type="distributor">
-                <description>sponsor</description>
-              </role>
-              <organization>
-                <name>World Wide Web Consortium</name>
-              </organization>
-            </contributor>
-            <extent/>
-            <docidentifier>ISOTC211</docidentifier>
-            <language>en</language>
-            <script>Latn</script>
-          </bibitem>
-        </references>
+         <references id="_" normative="true" obligation="informative">
+            <title id="_">Normative references</title>
+            <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+            <bibitem id="_" type="manual" anchor="A">
+               <title type="main">Geographic information</title>
+               <docidentifier primary="true">ISOTC211</docidentifier>
+               <contributor>
+                  <role type="author"/>
+                  <person>
+                     <name>
+                        <forename>A.</forename>
+                        <surname>Bierman</surname>
+                     </name>
+                  </person>
+               </contributor>
+               <contributor>
+                  <role type="author"/>
+                  <person>
+                     <name>
+                        <forename>Arnold</forename>
+                        <surname>Bierman</surname>
+                     </name>
+                  </person>
+               </contributor>
+               <contributor>
+                  <role type="author"/>
+                  <person>
+                     <name>
+                        <forename>Arnold</forename>
+                        <forename>B</forename>
+                        <surname>Bierman</surname>
+                     </name>
+                  </person>
+               </contributor>
+               <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                     <name>Institute of Electrical and Electronics Engineers</name>
+                  </organization>
+               </contributor>
+               <contributor>
+                  <role type="distributor">
+                     <description>sponsor</description>
+                  </role>
+                  <organization>
+                     <name>World Wide Web Consortium</name>
+                  </organization>
+               </contributor>
+               <language>en</language>
+               <script>Latn</script>
+               <extent/>
+            </bibitem>
+         </references>
       </bibliography>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
@@ -827,101 +850,101 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       <bibliography>
-        <references id="_" normative="true" obligation="informative">
-          <title id="_">Normative references</title>
-          <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-          <bibitem id="_" anchor="A" type="manual">
-            <title type="main" format="text/plain">Geographic information</title>
-            <contributor>
-              <role type="author"/>
-              <person>
-                <name>
-                  <forename>A.</forename>
-                  <surname>Bierman</surname>
-                </name>
-              </person>
-            </contributor>
-            <contributor>
-              <role type="author"/>
-              <person>
-                <name>
-                  <forename>Arnold</forename>
-                  <surname>Bierman</surname>
-                </name>
-              </person>
-            </contributor>
-            <contributor>
-              <role type="author"/>
-              <person>
-                <name>
-                  <forename>Arnold</forename>
-                  <forename>B</forename>
-                  <surname>Bierman</surname>
-                </name>
-              </person>
-            </contributor>
-            <contributor>
-              <role type="publisher"/>
-              <organization>
-                <name>Institute of Electrical and Electronics Engineers</name>
-              </organization>
-            </contributor>
-            <contributor>
-              <role type="distributor">
-                <description>sponsor</description>
-              </role>
-              <organization>
-                <name>World Wide Web Consortium</name>
-              </organization>
-            </contributor>
-            <extent/>
-            <docidentifier>ISOTC211</docidentifier>
-            <language>en</language>
-            <script>Latn</script>
-          </bibitem>
-          <bibitem id="_" anchor="B" type="techreport">
-            <title type="main" format="text/plain">Techreport Geographic information</title>
-            <contributor>
-              <role type="author"/>
-              <person>
-                <name>
-                  <forename>A.</forename>
-                  <surname>Bierman</surname>
-                </name>
-              </person>
-            </contributor>
-            <contributor>
-              <role type="author"/>
-              <person>
-                <name>
-                  <forename>Arnold</forename>
-                  <surname>Bierman</surname>
-                </name>
-              </person>
-            </contributor>
-            <contributor>
-              <role type="author"/>
-              <person>
-                <name>
-                  <forename>Arnold</forename>
-                  <forename>B</forename>
-                  <surname>Bierman</surname>
-                </name>
-              </person>
-            </contributor>
-            <contributor>
-              <role type="publisher"/>
-              <organization>
-                <name>Institute of Electrical and Electronics Engineers</name>
-              </organization>
-            </contributor>
-            <edition>Edition 1</edition>
-            <extent/>
-            <docidentifier>ISOTC211t</docidentifier>
-            <language>en</language>
-            <script>Latn</script>
-          </bibitem>
-        </references>
+         <references id="_" normative="true" obligation="informative">
+            <title id="_">Normative references</title>
+            <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+            <bibitem id="_" type="manual" anchor="A">
+               <title type="main">Geographic information</title>
+               <docidentifier primary="true">ISOTC211</docidentifier>
+               <contributor>
+                  <role type="author"/>
+                  <person>
+                     <name>
+                        <forename>A.</forename>
+                        <surname>Bierman</surname>
+                     </name>
+                  </person>
+               </contributor>
+               <contributor>
+                  <role type="author"/>
+                  <person>
+                     <name>
+                        <forename>Arnold</forename>
+                        <surname>Bierman</surname>
+                     </name>
+                  </person>
+               </contributor>
+               <contributor>
+                  <role type="author"/>
+                  <person>
+                     <name>
+                        <forename>Arnold</forename>
+                        <forename>B</forename>
+                        <surname>Bierman</surname>
+                     </name>
+                  </person>
+               </contributor>
+               <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                     <name>Institute of Electrical and Electronics Engineers</name>
+                  </organization>
+               </contributor>
+               <contributor>
+                  <role type="distributor">
+                     <description>sponsor</description>
+                  </role>
+                  <organization>
+                     <name>World Wide Web Consortium</name>
+                  </organization>
+               </contributor>
+               <language>en</language>
+               <script>Latn</script>
+               <extent/>
+            </bibitem>
+            <bibitem id="_" type="techreport" anchor="B">
+               <title type="main">Techreport Geographic information</title>
+               <docidentifier primary="true">ISOTC211t</docidentifier>
+               <contributor>
+                  <role type="author"/>
+                  <person>
+                     <name>
+                        <forename>A.</forename>
+                        <surname>Bierman</surname>
+                     </name>
+                  </person>
+               </contributor>
+               <contributor>
+                  <role type="author"/>
+                  <person>
+                     <name>
+                        <forename>Arnold</forename>
+                        <surname>Bierman</surname>
+                     </name>
+                  </person>
+               </contributor>
+               <contributor>
+                  <role type="author"/>
+                  <person>
+                     <name>
+                        <forename>Arnold</forename>
+                        <forename>B</forename>
+                        <surname>Bierman</surname>
+                     </name>
+                  </person>
+               </contributor>
+               <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                     <name>Institute of Electrical and Electronics Engineers</name>
+                  </organization>
+               </contributor>
+               <edition>Edition 1</edition>
+               <language>en</language>
+               <script>Latn</script>
+               <extent/>
+            </bibitem>
+         </references>
       </bibliography>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
@@ -933,26 +956,26 @@ RSpec.describe Metanorma::Standoc do
   private
 
   def mock_isobib_get_123
-    expect(RelatonIso::IsoBibliography).to receive(:get)
+    expect(Relaton::Iso::Bibliography).to receive(:get)
       .with("ISO 123", "2001", anything)
-      .and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_DATED))
+      .and_return(Relaton::Bib::Bibitem.from_xml(ISO_123_DATED))
   end
 
   def mock_isobib_get_123_undated
-    expect(RelatonIso::IsoBibliography).to receive(:get)
+    expect(Relaton::Iso::Bibliography).to receive(:get)
       .with("ISO 123", nil, anything)
-      .and_return(RelatonIsoBib::XMLParser.from_xml(ISO_123_UNDATED))
+      .and_return(Relaton::Bib::Bibitem.from_xml(ISO_123_UNDATED))
   end
 
   def mock_isobib_get_124
-    expect(RelatonIso::IsoBibliography).to receive(:get)
+    expect(Relaton::Iso::Bibliography).to receive(:get)
       .with("ISO 124", "2014", anything)
-      .and_return(RelatonIsoBib::XMLParser.from_xml(ISO_124_DATED))
+      .and_return(Relaton::Bib::Bibitem.from_xml(ISO_124_DATED))
   end
 
   def mock_ietfbib_get_123
-    expect(RelatonIetf::IetfBibliography).to receive(:get)
+    expect(Relaton::Ietf::Bibliography).to receive(:get)
       .with("RFC 123", nil, anything)
-      .and_return(RelatonIsoBib::XMLParser.from_xml(IETF_123_SHORT))
+      .and_return(Relaton::Bib::Bibitem.from_xml(IETF_123_SHORT))
   end
 end

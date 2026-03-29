@@ -1,5 +1,5 @@
 require "spec_helper"
-require "relaton_iso"
+require "relaton/iso"
 
 RSpec.describe Metanorma::Standoc do
   it "processes simple dl reference" do
@@ -41,8 +41,7 @@ RSpec.describe Metanorma::Standoc do
         <title id="_">Normative references</title>
         #{NORM_REF_BOILERPLATE}
          <bibitem id="_" anchor="iso123" type="standard">
-        <title type='title-main' format='text/plain'>Standard</title>
-        <title type='main' format='text/plain'>Standard</title>
+        <title language="en" type="main">Standard</title>
          <docidentifier type="ISO">ISO 123</docidentifier>
          <contributor>
            <role type="publisher"/>
@@ -177,8 +176,8 @@ RSpec.describe Metanorma::Standoc do
       type::: type
       value::: value
       validity::
-      begins::: 2010-10-10 12:21
-      ends::: 2011-02-03 18:30
+      begins::: 2010-10-10T12:21
+      ends::: 2011-02-03T18:30
 
 
       ==== Contributor
@@ -212,15 +211,14 @@ RSpec.describe Metanorma::Standoc do
       --
       description:::: Affiliation description
       contact:::
-      street::::
-      . 8 Street St
-      city:::: City
-      postcode:::: 123456
-      country:::: Country
-      state:::: State
+      address::::
+      street::::: 8 Street St
+      city::::: City
+      postcode::::: 123456
+      country::::: Country
+      state::::: State
       contact:::
-      type:::: phone
-      value:::: 223322
+      phone:::: 223322
       role:: author
 
       ==== Contributor
@@ -235,8 +233,8 @@ RSpec.describe Metanorma::Standoc do
       ==== Contributor
       person::
       name:::
-      language:::: en
-      formatted_initials:::: A.
+      given::::
+      formatted_initials::::: A.
       surname:::: Bierman
       affiliation:::
       +
@@ -433,7 +431,7 @@ RSpec.describe Metanorma::Standoc do
         </relation>
         <series type="main">
           <title type="original" format="text/plain" language="en" script="Latn">ISO/IEC FDIS 10118-3</title>
-          <place>Serie’s place</place>
+          <place><formattedPlace>Serie’s place</formattedPlace></place>
           <organization>Serie’s organization</organization>
           <abbreviation language="en" script="Latn">ABVR</abbreviation>
           <from>2009-02-01</from>
@@ -442,15 +440,17 @@ RSpec.describe Metanorma::Standoc do
           <partnumber>part5678</partnumber>
         </series>
         <series type="alt">
-          <formattedref format="text/plain" language="en" script="Latn">serieref</formattedref>
-          <title format='text/plain'>seriestitle</title>
+                       <formattedref>serieref</formattedref>
+               <title>seriestitle</title>
         </series>
         <medium>
           <form>medium form</form>
           <size>medium size</size>
           <scale>medium scale</scale>
         </medium>
-        <place>bib place</place>
+        <place>
+               <formattedPlace>bib place</formattedPlace>
+            </place>
         <extent>
           <locality type="section">
           <referenceFrom>7</referenceFrom>
@@ -460,8 +460,8 @@ RSpec.describe Metanorma::Standoc do
         <accesslocation>accesslocation2</accesslocation>
         <classification type="type">value</classification>
         <validity>
-          <validityBegins>2010-10-10 12:21</validityBegins>
-          <validityEnds>2011-02-03 18:30</validityEnds>
+          <validityBegins>2010-10-10T12:21</validityBegins>
+          <validityEnds>2011-02-03T18:30</validityEnds>
         </validity>
       </bibitem></references></bibliography>
       </metanorma>
@@ -556,8 +556,8 @@ RSpec.describe Metanorma::Standoc do
       accesslocation:: accesslocation2
       classification.type:: type
       classification.value:: value
-      validity.begins:: 2010-10-10 12:21
-      validity.ends:: 2011-02-03 18:30
+      validity.begins:: 2010-10-10T12:21
+      validity.ends:: 2011-02-03T18:30
       contributor::
       contributor.organization.name:: International Organization for Standardization
       contributor.organization.url:: www.iso.org
@@ -574,14 +574,13 @@ RSpec.describe Metanorma::Standoc do
       contributor.person.affiliation.organization.identifier.id:: www.ietf.org
       contributor.person.affiliation.description:: Affiliation description
       contributor.person.contact::
-      contributor.person.contact.street:: 8 Street St
-      contributor.person.contact.city:: City
-      contributor.person.contact.postcode:: 123456
-      contributor.person.contact.country:: Country
-      contributor.person.contact.state:: State
+      contributor.person.contact.address.street:: 8 Street St
+      contributor.person.contact.address.city:: City
+      contributor.person.contact.address.postcode:: 123456
+      contributor.person.contact.address.country:: Country
+      contributor.person.contact.address.state:: State
       contributor.person.contact::
-      contributor.person.contact.type:: phone
-      contributor.person.contact.value:: 223322
+      contributor.person.contact.phone:: 223322
       contributor.role:: author
       contributor::
       contributor.organization.name:: IETF
@@ -590,8 +589,7 @@ RSpec.describe Metanorma::Standoc do
       contributor.organization.identifier.id:: www.ietf.org
       contributor.role:: publisher
       contributor::
-      contributor.person.name.language:: en
-      contributor.person.name.formatted_initials:: A.
+      contributor.person.name.given.formatted_initials:: A.
       contributor.person.name.surname:: Bierman
       contributor.person.affiliation.organization.name:: IETF
       contributor.person.affiliation.organization.abbreviation:: IETF
@@ -643,8 +641,8 @@ RSpec.describe Metanorma::Standoc do
               #{NORM_REF_BOILERPLATE}
               <bibitem id="_" anchor="ISOTC211" type="standard">
         <fetched/>
-        <title type="main" format="text/plain">Geographic information</title>
-        <title type="subtitle" format="text/plain" language="en" script="Latn">Geographic information subtitle</title>
+        <title type="main">Geographic information</title>
+        <title type="subtitle" language="en" script="Latn">Geographic information subtitle</title>
         <uri type="src">https://www.iso.org/standard/53798.html</uri>
         <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:53798:en</uri>
         <uri type="rss">https://www.iso.org/contents/data/standard/05/37/53798.detail.rss</uri>
@@ -664,7 +662,7 @@ RSpec.describe Metanorma::Standoc do
           <role type="publisher"><description>Publisher role</description></role>
           <organization>
             <name>International Organization for Standardization</name>
-            <subdivision>division</subdivision>
+            <subdivision><name>division</name></subdivision>
             <abbreviation>ISO</abbreviation>
             <uri>www.iso.org</uri>
           </organization>
@@ -676,7 +674,7 @@ RSpec.describe Metanorma::Standoc do
               <completename language="en">A. Bierman</completename>
             </name>
             <affiliation>
-              <description format="text/plain">Affiliation description</description>
+              <description>Affiliation description</description>
               <organization>
                 <name>IETF</name>
                 <abbreviation>IETF</abbreviation>
@@ -728,8 +726,8 @@ RSpec.describe Metanorma::Standoc do
         <language>en</language>
         <language>fr</language>
         <script>Latn</script>
-        <abstract format="text/plain">ISO 19115-1:2014 defines the schema required for …​</abstract>
-        <abstract format="text/plain" language="fr" script="Latn">L’ISO 19115-1:2014 définit le schéma requis pour …​</abstract>
+        <abstract>ISO 19115-1:2014 defines the schema required for …​</abstract>
+        <abstract language="fr" script="Latn">L’ISO 19115-1:2014 définit le schéma requis pour …​</abstract>
         <status>
           <stage>stage</stage>
           <substage>substage</substage>
@@ -748,19 +746,21 @@ RSpec.describe Metanorma::Standoc do
         </copyright>
         <relation type="updates">
           <bibitem>
-            <title type='title-main' format='text/plain'>Geographic information</title>
-            <title type='main' format='text/plain'>Geographic information</title>
+            <formattedref>ISO 19115:2003</formattedref>
+            <title>Geographic information</title>
           </bibitem>
         </relation>
         <relation type="updates">
           <bibitem type="standard">
-          <title type='title-main' format='text/plain'>Geographic information</title>
-          <title type='main' format='text/plain'>Geographic information</title>
+            <formattedref>ISO 19115:2003/Cor 1:2006</formattedref>
+            <title>Geographic information</title>
           </bibitem>
         </relation>
         <series type="main">
           <title type="original" format="text/plain" language="en" script="Latn">ISO/IEC FDIS 10118-3</title>
-          <place>Serie’s place</place>
+          <place>
+               <formattedPlace>Serie’s place</formattedPlace>
+            </place>
           <organization>Serie’s organization</organization>
           <abbreviation language="en" script="Latn">ABVR</abbreviation>
           <from>2009-02-01</from>
@@ -769,15 +769,17 @@ RSpec.describe Metanorma::Standoc do
           <partnumber>part5678</partnumber>
         </series>
         <series type="alt">
-          <formattedref format="text/plain" language="en" script="Latn">serieref</formattedref>
-          <title format='text/plain'>seriestitle</title>
+          <formattedref>serieref</formattedref>
+          <title>seriestitle</title>
         </series>
         <medium>
           <form>medium form</form>
           <size>medium size</size>
           <scale>medium scale</scale>
         </medium>
-        <place>bib place</place>
+        <place>
+            <formattedPlace>bib place</formattedPlace>
+         </place>
         <extent>
         <locality type="section">
           <referenceFrom>7</referenceFrom>
@@ -856,8 +858,7 @@ RSpec.describe Metanorma::Standoc do
                <script>Latn</script>
              </bibitem>
              <bibitem id="_" anchor="iso123" type='standard'>
-               <title type='title-main' format='text/plain'>Standard</title>
-               <title type='main' format='text/plain'>Standard</title>
+               <title language="en" type="main">Standard</title>
                <docidentifier type='ISO'>ISO 123</docidentifier>
                <contributor>
                  <role type='publisher'/>
@@ -978,7 +979,7 @@ RSpec.describe Metanorma::Standoc do
                   <em>journey</em>
                   into sound
                </abstract>
-               <place>Geneva</place>
+               <place><formattedPlace>Geneva</formattedPlace></place>
                <relation type="includedIn">
                   <bibitem type="book">
                      <title>Collected Essays</title>
@@ -1382,7 +1383,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
-    it "emends citations through span notation" do
+  it "emends citations through span notation" do
     input = <<~INPUT
       #{LOCAL_ONLY_CACHED_ISOBIB_BLANK_HDR}
       == Section
@@ -1393,23 +1394,23 @@ RSpec.describe Metanorma::Standoc do
       * [[[ref1,doi:10.1515/9783110889406.257]]] _Standard_
     INPUT
     output = <<~OUTPUT
-         #{BLANK_HDR}
-          <sections>
-            <clause id="_" inline-header="false" obligation="normative">
-              <title id="_">Section</title>
-            </clause>
-          </sections>
-         <bibliography>
-            <references id="_" normative="false" obligation="informative">
-               <title id="_">Bibliography</title>
-               <bibitem id="_" type="inbook" anchor="ref1">
-                  <fetched/>
-                  <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
+        #{BLANK_HDR}
+         <sections>
+           <clause id="_" inline-header="false" obligation="normative">
+             <title id="_">Section</title>
+           </clause>
+         </sections>
+        <bibliography>
+           <references id="_" normative="false" obligation="informative">
+              <title id="_">Bibliography</title>
+              <bibitem id="_" type="inbook" anchor="ref1">
+                 <fetched/>
+                  <title script="Latn" type="main">Gender and public space in a bilingual school</title>
                   <uri type="DOI">https://doi.org/10.1515/9783110889406.257</uri>
                   <uri type="src">https://www.degruyterbrill.com/document/doi/10.1515/9783110889406.257/html</uri>
                   <docidentifier type="DOI" primary="true">10.1515/9783110889406.257</docidentifier>
-                  <docidentifier type="ISBN">9783110170269</docidentifier>
-                  <docidentifier type="ISBN">9783110889406</docidentifier>
+                  <docidentifier type="ISBN" primary="false">9783110170269</docidentifier>
+                  <docidentifier type="ISBN" primary="false">9783110889406</docidentifier>
                   <date type="issued">
                      <on>2001-12-31</on>
                   </date>
@@ -1431,9 +1432,11 @@ RSpec.describe Metanorma::Standoc do
                         <name>DE GRUYTER MOUTON</name>
                      </organization>
                   </contributor>
+                  <language>en</language>
+                  <script>Latn</script>
                   <relation type="includedIn">
                      <bibitem>
-                        <title format="text/plain">Multilingualism, Second Language Learning, and Gender</title>
+                        <title>Multilingualism, Second Language Learning, and Gender</title>
                         <contributor>
                            <role type="editor"/>
                            <person>
@@ -1478,12 +1481,11 @@ RSpec.describe Metanorma::Standoc do
                         <referenceTo>282</referenceTo>
                      </locality>
                   </extent>
-                  <language>en</language>
-                  <script>Latn</script>
                </bibitem>
-             </references>
+            </references>
          </bibliography>
       </metanorma>
+
     OUTPUT
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Canon.format_xml(output)
@@ -1525,7 +1527,7 @@ RSpec.describe Metanorma::Standoc do
                    </contributor>
                    <language>en</language>
                    <script>Latn</script>
-                   <place>Vienna</place>
+                   <place><formattedPlace>Vienna</formattedPlace></place>
                    <relation type="includedIn">
                      <bibitem type="misc">
                         <title>Nested Title</title>
@@ -1585,7 +1587,7 @@ RSpec.describe Metanorma::Standoc do
                <title id="_">Bibliography</title>
                <bibitem id="_" type="book" anchor="ref2">
                   <fetched/>
-                  <title type="main" format="text/plain" script="Latn">Gender and public space in a bilingual school</title>
+                  <title type="main" script="Latn">Gender and public space in a bilingual school</title>
                   <uri type="DOI">https://doi.org/10.1515/9783110889406.257</uri>
                   <uri type="src">https://www.degruyterbrill.com/document/doi/10.1515/9783110889406.257/html</uri>
                   <docidentifier type="DOI">DOI-ANON</docidentifier>
@@ -1625,7 +1627,7 @@ RSpec.describe Metanorma::Standoc do
                    <script>Latn</script>
                    <relation type="includedIn">
                      <bibitem type="misc">
-                        <title format="text/plain">Nested Title</title>
+                        <title>Nested Title</title>
                         <contributor>
                            <role type="editor"/>
                            <person>
@@ -1646,7 +1648,7 @@ RSpec.describe Metanorma::Standoc do
                         </contributor>
                      </bibitem>
                   </relation>
-                  <place>Vienna</place>
+                  <place><formattedPlace>Vienna</formattedPlace></place>
                   <extent>
                      <localityStack>
                         <locality type="page">
