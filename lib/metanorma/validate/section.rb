@@ -47,7 +47,7 @@ module Metanorma
             .reject(&reject_metanorma_extension).each do |node|
             style_warning(node, "Figure should have title", nil)
           end
-          root.xpath("//table[not(name)]")
+          (root.xpath("//table[not(name)]") - root.xpath("//sourcecode//table"))
             .reject(&reject_metanorma_extension).each do |node|
             style_warning(node, "Table should have title", nil)
           end
