@@ -29,12 +29,12 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(cleanup)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to cleanup
 
     input1 = input.sub(":novalid:", ":novalid:\n:nocleanup:")
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input1, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input1, *OPTIONS)))
+      .to be_xml_equivalent_to output
     # output from Converter has no namespace, no metanorma extensions
 
     conv = Metanorma::Standoc::Converter.new(:standoc, *OPTIONS)
@@ -43,9 +43,9 @@ RSpec.describe Metanorma::Standoc do
     # output from Cleanup, when inheriting state from Converter,
     # has metanorma extensions with document attribute values from Converter,
     # but still no namespace
-    expect(strip_guid(Canon.format_xml(conv.to_xml(cl.cleanup(Nokogiri::XML(output))))))
-      .to be_equivalent_to Canon.format_xml(cleanup
-      .sub(' xmlns="https://www.metanorma.org/ns/standoc"', ""))
+    expect(strip_guid(conv.to_xml(cl.cleanup(Nokogiri::XML(output)))))
+      .to be_xml_equivalent_to cleanup
+      .sub(' xmlns="https://www.metanorma.org/ns/standoc"', "")
 
     conv = Metanorma::Standoc::Converter.new(:standoc, *OPTIONS)
     conv.init(Asciidoctor::Document.new(input, *OPTIONS))
@@ -53,10 +53,10 @@ RSpec.describe Metanorma::Standoc do
     # output from Cleanup, when not inheriting state from current doc
     # in Converter, has metanorma extensions
     # but with no document attribute values from Converter
-    expect(strip_guid(Canon.format_xml(conv.to_xml(cl.cleanup(Nokogiri::XML(output))))))
-      .to be_equivalent_to Canon.format_xml(cleanup
+    expect(strip_guid(conv.to_xml(cl.cleanup(Nokogiri::XML(output)))))
+      .to be_xml_equivalent_to cleanup
       .sub(' xmlns="https://www.metanorma.org/ns/standoc"', "")
-      .sub("<html-toc-heading-levels>4", "<html-toc-heading-levels>2"))
+      .sub("<html-toc-heading-levels>4", "<html-toc-heading-levels>2")
   end
 
   it "removes empty text elements" do
@@ -73,8 +73,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "counts footnotes with link-only content as separate footnotes" do
@@ -109,8 +109,8 @@ RSpec.describe Metanorma::Standoc do
       </p></sections>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "sorts symbols lists #1" do
@@ -182,8 +182,8 @@ RSpec.describe Metanorma::Standoc do
       </metanorma>
     OUTPUT
     doc = Asciidoctor.convert(input, *OPTIONS)
-    expect(strip_guid(Canon.format_xml(doc)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(doc))
+      .to be_xml_equivalent_to output
   end
 
   it "sorts symbols lists #2" do
@@ -264,8 +264,8 @@ RSpec.describe Metanorma::Standoc do
         </metanorma>
     OUTPUT
     doc = Asciidoctor.convert(input, *OPTIONS)
-    expect(strip_guid(Canon.format_xml(doc)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(doc))
+      .to be_xml_equivalent_to output
     sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
     expect(strip_guid(sym)).to be_equivalent_to <<~OUTPUT
           <dt id="_" anchor="symbol-x">x</dt><dt id="_" anchor="symbol-x_m">
@@ -340,8 +340,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:bibdata")
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
 
     input = <<~INPUT
       = XXXX
@@ -355,8 +355,8 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:bibdata")
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "cleans up links" do
@@ -379,8 +379,8 @@ RSpec.describe Metanorma::Standoc do
       </clause>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:clause").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:clause").to_xml))
+      .to be_xml_equivalent_to(output)
   end
 
   it "do not apply substitutions to links" do
@@ -545,8 +545,8 @@ RSpec.describe Metanorma::Standoc do
        </clause>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:clause").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:clause").to_xml))
+      .to be_xml_equivalent_to(output)
   end
 
   it "do not apply substitutions to links in included docs" do
@@ -568,8 +568,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     a = [OPTIONS[0].merge(safe: :unsafe)]
     ret = Nokogiri::XML(Asciidoctor.convert(input, *a))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:clause").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:clause").to_xml))
+      .to be_xml_equivalent_to(output)
   end
 
   it "remove empty contributors" do
@@ -630,8 +630,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     a = [OPTIONS[0].merge(safe: :unsafe)]
     ret = Nokogiri::XML(Asciidoctor.convert(input, *a))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:bibdata").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:bibdata").to_xml))
+      .to be_xml_equivalent_to(output)
   end
 
   it "reads contributors from YAML, simple" do
@@ -717,8 +717,8 @@ RSpec.describe Metanorma::Standoc do
        </bibdata>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:bibdata").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:bibdata").to_xml))
+      .to be_xml_equivalent_to(output)
   end
 
   it "reads contributors from YAML, complex" do
@@ -994,8 +994,8 @@ RSpec.describe Metanorma::Standoc do
        </bibdata>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:bibdata").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:bibdata").to_xml))
+      .to be_xml_equivalent_to(output)
   end
 
   it "reads document history from YAML" do
@@ -1546,7 +1546,7 @@ RSpec.describe Metanorma::Standoc do
       </bibdata>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:bibdata").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:bibdata").to_xml))
+      .to be_xml_equivalent_to(output)
   end
 end

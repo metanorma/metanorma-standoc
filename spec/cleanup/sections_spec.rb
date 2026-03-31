@@ -27,8 +27,8 @@ RSpec.describe Metanorma::Standoc do
       </annex>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "extends clause levels past 5" do
@@ -91,8 +91,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes TOC clause" do
@@ -200,8 +200,8 @@ RSpec.describe Metanorma::Standoc do
          </annex>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes bibliography annex" do
@@ -223,8 +223,8 @@ RSpec.describe Metanorma::Standoc do
       </annex>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:annex").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:annex").to_xml))
+      .to be_xml_equivalent_to(output)
   end
 
   it "processes terms annex" do
@@ -251,8 +251,8 @@ RSpec.describe Metanorma::Standoc do
       </annex>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:annex").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:annex").to_xml))
+      .to be_xml_equivalent_to(output)
   end
 
   it "puts floating title before scope into sections container" do
@@ -282,8 +282,8 @@ RSpec.describe Metanorma::Standoc do
        </metanorma>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(ret.to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.to_xml))
+      .to be_xml_equivalent_to(output)
   end
 
   it "puts floating title + clausebefore note before scope into sections container" do
@@ -322,8 +322,8 @@ RSpec.describe Metanorma::Standoc do
        </metanorma>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(ret.to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.to_xml))
+      .to be_xml_equivalent_to(output)
 
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -363,8 +363,8 @@ RSpec.describe Metanorma::Standoc do
        </metanorma>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(ret.to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.to_xml))
+      .to be_xml_equivalent_to(output)
   end
 
   it "processes delete change clauses" do
@@ -394,8 +394,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
                   </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
     it "processes modify change clauses" do
@@ -497,8 +497,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
            </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes modify change subclauses" do
@@ -566,7 +566,7 @@ RSpec.describe Metanorma::Standoc do
            </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 end
