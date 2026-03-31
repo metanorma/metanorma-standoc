@@ -24,8 +24,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "converts AsciiMath to MathML by default" do
@@ -67,8 +67,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "profiles number formatting in macros" do
@@ -135,8 +135,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "applies number formatting in formulas" do
@@ -220,8 +220,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "profiles number formatting in formulas" do
@@ -345,8 +345,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
 
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -426,11 +426,11 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input
+    expect(strip_guid(Asciidoctor.convert(input
       .sub(":number-presentation:",
            ":number-presentation-formula: precision=6,decimal=:\n" \
-              ":number-presentation:"), *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+              ":number-presentation:"), *OPTIONS)))
+      .to be_xml_equivalent_to output
 
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -510,11 +510,11 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input
+    expect(strip_guid(Asciidoctor.convert(input
       .sub(":number-presentation:",
            ":number-presentation-formula: number-presentation\n" \
-              ":number-presentation:"), *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+              ":number-presentation:"), *OPTIONS)))
+      .to be_xml_equivalent_to output
 
     output = <<~OUTPUT
       #{BLANK_HDR}
@@ -594,11 +594,11 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input
+    expect(strip_guid(Asciidoctor.convert(input
       .sub(":number-presentation:",
            ":number-presentation-formula: nil\n" \
-              ":number-presentation:"), *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+              ":number-presentation:"), *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "cleans up text MathML" do
@@ -618,9 +618,9 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     c = Metanorma::Standoc::Converter.new(nil, *OPTIONS)
     c.init(Metanorma::Standoc::Utils::EmptyAttr.new)
-    expect(Canon.format_xml(Metanorma::Standoc::Cleanup.new(c)
-      .cleanup(Nokogiri::XML(input)).to_xml))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(Metanorma::Standoc::Cleanup.new(c)
+      .cleanup(Nokogiri::XML(input)).to_xml)
+      .to be_xml_equivalent_to output
   end
 
   it "cleans up nested mathvariant instances" do
@@ -650,10 +650,10 @@ RSpec.describe Metanorma::Standoc do
         </p>
       </sections>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Nokogiri::XML(
+    expect(strip_guid(Nokogiri::XML(
       Asciidoctor.convert(input, *OPTIONS),
-    ).at("//xmlns:sections").to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    ).at("//xmlns:sections").to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "converts UnitsML to MathML" do
@@ -850,8 +850,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "customises italicisation of MathML" do
@@ -881,8 +881,8 @@ RSpec.describe Metanorma::Standoc do
       ++++
     INPUT
 
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(<<~"OUTPUT")
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to <<~"OUTPUT"
         #{BLANK_HDR}
                  <sections>
             <formula id="_">
@@ -894,8 +894,8 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
     mock_mathml_italicise({ uppergreek: false, upperroman: true,
                             lowergreek: true, lowerroman: true })
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(<<~"OUTPUT")
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to <<~"OUTPUT"
         #{BLANK_HDR}
           <sections>
             <formula id='_'>
@@ -923,8 +923,8 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
     mock_mathml_italicise({ uppergreek: true, upperroman: false,
                             lowergreek: true, lowerroman: true })
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(<<~"OUTPUT")
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to <<~"OUTPUT"
         #{BLANK_HDR}
           <sections>
             <formula id='_'>
@@ -952,8 +952,8 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
     mock_mathml_italicise({ uppergreek: true, upperroman: true,
                             lowergreek: false, lowerroman: true })
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(<<~"OUTPUT")
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to <<~"OUTPUT"
         #{BLANK_HDR}
           <sections>
             <formula id='_'>
@@ -981,8 +981,8 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
     mock_mathml_italicise({ uppergreek: true, upperroman: true,
                             lowergreek: true, lowerroman: false })
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(<<~"OUTPUT")
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to <<~"OUTPUT"
         #{BLANK_HDR}
           <sections>
             <formula id='_'>

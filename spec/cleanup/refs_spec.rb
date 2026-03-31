@@ -27,8 +27,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:bibliography")&.remove
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "add default eref and origin style" do
@@ -72,8 +72,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:bibliography")&.remove
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "extracts localities from erefs" do
@@ -173,8 +173,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:bibliography")&.remove
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "strips type from xrefs" do
@@ -200,8 +200,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:bibliography")&.remove
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "processes erefstack" do
@@ -232,8 +232,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:bibliography")&.remove
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "processes localities in term sources" do
@@ -269,8 +269,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "separates IEV citations by top-level clause" do
@@ -451,8 +451,8 @@ RSpec.describe Metanorma::Standoc do
         </bibliography>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
     FileUtils.rm_rf File.expand_path("~/.iev.pstore")
     FileUtils.mv File.expand_path("~/.iev.pstore1"),
                  File.expand_path("~/.iev.pstore"), force: true
@@ -493,8 +493,8 @@ RSpec.describe Metanorma::Standoc do
     c.init(Metanorma::Standoc::Utils::EmptyAttr.new)
     xml = Metanorma::Standoc::Cleanup.new(c).cleanup(Nokogiri::XML(input)).to_xml
     xml = Nokogiri::XML(xml).at("//bibliography")
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "renumbers numeric references in Bibliography sequentially" do
@@ -544,8 +544,8 @@ RSpec.describe Metanorma::Standoc do
       </references></bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "renumbers numeric references in Bibliography subclauses sequentially" do
@@ -666,8 +666,8 @@ RSpec.describe Metanorma::Standoc do
            </references></clause></bibliography>
            </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "removes bibdata bibitem IDs" do
@@ -719,8 +719,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "process express_ref macro with existing bibliography" do
@@ -786,8 +786,8 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "process express_ref macro with no existing bibliography" do
@@ -837,8 +837,8 @@ RSpec.describe Metanorma::Standoc do
                </bibliography>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "numbers bibliographic notes and footnotes sequentially" do
@@ -894,8 +894,8 @@ RSpec.describe Metanorma::Standoc do
       </bibliography>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "remove duplicate bibitems" do
@@ -937,8 +937,8 @@ RSpec.describe Metanorma::Standoc do
       </bibliography>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
     it "processes attachments" do
@@ -1034,37 +1034,37 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
 
     # Windows/Unix differences in XML encoding: remove body of Data URI
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
-      .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
-      .to be_equivalent_to Canon.format_xml(output)
+      .gsub(/ICAgIC[^<]+/, "ICAgIC...")))
+      .to be_xml_equivalent_to output
 
     input.sub!(":docfile:", ":data-uri-attachment: false\n:docfile:")
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
-      .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
-      .to be_equivalent_to Canon.format_xml(output
+      .gsub(/ICAgIC[^<]+/, "ICAgIC...")))
+      .to be_xml_equivalent_to output
       .gsub(%r{<attachment .+?</attachment>}m, "")
       .gsub("_attach_attachments", "spec/assets")
-      .gsub("iso.xml_", "iso.xml"))
+      .gsub("iso.xml_", "iso.xml")
 
     FileUtils.rm_rf "spec/assets/attach.xml"
     system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/assets/attach.adoc"
-    expect(strip_guid(Canon.format_xml(File.read("spec/assets/attach.xml")
+    expect(strip_guid(File.read("spec/assets/attach.xml")
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
-      .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
-      .to be_equivalent_to Canon.format_xml(output
+      .gsub(/ICAgIC[^<]+/, "ICAgIC...")))
+      .to be_xml_equivalent_to output
       .gsub("spec/assets/iso.xml", "iso.xml")
-      .gsub("spec/assets/html.scss", "html.scss"))
+      .gsub("spec/assets/html.scss", "html.scss")
 
     mock_absolute_localdir(4)
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)
       .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
-      .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
-      .to be_equivalent_to Canon.format_xml(output
+      .gsub(/ICAgIC[^<]+/, "ICAgIC...")))
+      .to be_xml_equivalent_to output
       .gsub(%r{<attachment .+?</attachment>}m, "")
       .gsub("_attach_attachments", "spec/assets")
-      .gsub("iso.xml_", "iso.xml"))
+      .gsub("iso.xml_", "iso.xml")
   end
 
       it "sorts bibliography" do
@@ -1127,8 +1127,8 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output0)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output0
 
    mock_sort_biblio
     output1 = <<~OUTPUT
@@ -1180,13 +1180,13 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output1)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output1
 
-    expect(strip_guid(Canon.format_xml(Asciidoctor
+    expect(strip_guid(Asciidoctor
       .convert(input.sub(":nodoc:",
-                         ":nodoc:\n:sort-biblio: false"), *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output0)
+                         ":nodoc:\n:sort-biblio: false"), *OPTIONS)))
+      .to be_xml_equivalent_to output0
   end
 
       it "sorts references with their notes in Bibliography" do
@@ -1266,8 +1266,8 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   private
