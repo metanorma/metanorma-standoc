@@ -640,38 +640,62 @@ Each `Uri` object has `.type`, `.content` (the URL string), and `.language`
 
 ---
 
-### 15. `formattedref` is a plain `String` in 2.x
+### 15. `formattedref` returns `Relaton::Bib::Formattedref` object — `.content` still required
 
 In Relaton 1.x, `BibliographicItem#formattedref` returned a
-`RelatonBib::FormattedString` object with a `.content` accessor:
+`RelatonBib::FormattedString` object with a `.content` accessor for the text:
 
 ```ruby
 # 1.x
-f = bib.formattedref
-return f.content   # gets text from FormattedString object
+f = bib.formattedref   # => RelatonBib::FormattedString (or nil)
+return f.content       # gets markup-preserving text from FormattedString
 ```
 
-In Relaton 2.x, `Item#formattedref` is declared as `attribute :formattedref, :string, raw: true`
-— it returns a plain `String` (or `nil` when absent):
+In Relaton 2.x, `Bibitem#formattedref` returns a `Relaton::Bib::Formattedref`
+object (which inherits from `LocalizedMarkedUpString` → `LocalizedStringAttrs`),
+or `nil` when absent. **`.content` is still required** to extract the string
+value — the object does **not** stringify itself via `to_s`:
 
 ```ruby
 # 2.x
-f = bib.formattedref
-return f   # already the string content
+f = bib.formattedref   # => Relaton::Bib::Formattedref (or nil)
+return f.content       # => String, with inline markup preserved (e.g. "Hello <em>World</em>")
 ```
 
-Any call to `.content` on a `formattedref` value must be removed. The `content`
-helper used throughout relaton-render (which calls `node.content`) must also guard
-against being passed a plain `String`:
+> **Common mistake:** Using `f` directly in string interpolation calls `to_s`,
+> which produces `#<Relaton::Bib::Formattedref:0x...>` instead of the text.
+>
+> ```ruby
+> # WRONG — produces object inspect string
+> "<formattedref>#{f}</formattedref>"
+>
+> # CORRECT
+> "<formattedref>#{f.content}</formattedref>"
+> ```
+
+The calling pattern in code that early-returns a pre-formatted reference must
+call `.content` explicitly:
 
 ```ruby
-# Defensive content() helper for 2.x
-def content(node)
-  node.nil? and return node
-  node.is_a?(String) and return node.strip   # handle plain strings
-  node.content.is_a?(Array) and return node.content.map { |x| content(x) }
-  node.content.strip
+# 2.x — correct early-return pattern
+def render(bib, embedded: false, terminator: true)
+  bib = xml2relaton(bib)
+  f = bib.formattedref and
+    return embedded ? f.content : "<formattedref>#{f.content}</formattedref>"
+  # ... normal rendering path
 end
+```
+
+**Confirmed behaviour** (relaton-bib 2.0.0):
+
+```ruby
+require 'relaton/bib'
+xml = '<bibitem type="book"><formattedref>Hello <em>World</em></formattedref></bibitem>'
+bib = Relaton::Bib::Bibitem.from_xml(xml)
+f = bib.formattedref
+f.class          # => Relaton::Bib::Formattedref
+f.content.class  # => String
+f.content        # => "Hello <em>World</em>"
 ```
 
 ---
