@@ -42,6 +42,7 @@ Gem::Specification.new do |spec|
   # relaton-cli not just relaton, to avoid circular reference in metanorma
   spec.add_dependency "concurrent-ruby"
   spec.add_dependency "relaton-cli" #, "~> 1.20.0"
+  spec.add_dependency "relaton-cli", "~> 1.20.0"
   spec.add_dependency "relaton-iev", "~> 1.2.0"
   spec.add_dependency "svg_conform", "~> 0.1.0"
   spec.add_dependency "png_conform", "~> 0.1.0"
@@ -52,7 +53,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "guard", "~> 2.14"
   spec.add_development_dependency "guard-rspec", "~> 4.7"
   spec.add_development_dependency "openssl"
-  spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.6"
   spec.add_development_dependency "rubocop", "~> 1"
   spec.add_development_dependency "rubocop-performance"
