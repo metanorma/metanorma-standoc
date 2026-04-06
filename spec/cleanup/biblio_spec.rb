@@ -212,11 +212,14 @@ RSpec.describe Metanorma::Standoc do
       description:::: Affiliation description
       contact:::
       address::::
-      street::::: 8 Street St
-      city::::: City
-      postcode::::: 123456
-      country::::: Country
-      state::::: State
+      +
+      --
+      street:: 8 Street St
+      city:: City
+      postcode:: 123456
+      country:: Country
+      state:: State
+      --
       contact:::
       phone:::: 223322
       role:: author
@@ -310,161 +313,167 @@ RSpec.describe Metanorma::Standoc do
       <bibliography><references id="_" obligation="informative" normative="true">
               <title id="_">Normative references</title>
               #{NORM_REF_BOILERPLATE}
-              <bibitem id="_" anchor="ISOTC211" type="standard">
-        <fetched/>
-        <title type="main" format="text/plain">Geographic information</title>
-        <title type="subtitle" format="text/plain" language="en" script="Latn">Geographic information subtitle</title>
-        <title type='title-main' format='text/plain'>Other Title</title>
-      <title type='main' format='text/plain'>Other Title</title>
-        <uri type="src">https://www.iso.org/standard/53798.html</uri>
-        <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:53798:en</uri>
-        <uri type="rss">https://www.iso.org/contents/data/standard/05/37/53798.detail.rss</uri>
-        <docidentifier type='ISO' primary='true'>TC211</docidentifier>
-        <docnumber>211</docnumber>
-        <date type="issued">
-          <on>2014</on>
-        </date>
-        <date type="published">
-          <from>2014-04</from>
-          <to>2014-05</to>
-        </date>
-        <date type="accessed">
-          <on>2015-05-20</on>
-        </date>
-        <contributor>
-          <role type="publisher"><description>Publisher role</description></role>
-          <organization>
-            <name>International Organization for Standardization</name>
-            <subdivision>division</subdivision>
-            <abbreviation>ISO</abbreviation>
-            <uri>www.iso.org</uri>
-          </organization>
-        </contributor>
-        <contributor>
-          <role type="author"/>
-          <person>
-            <name>
-              <completename language="en">A. Bierman</completename>
-            </name>
-            <affiliation>
-              <description format="text/plain">Affiliation description</description>
-              <organization>
-                <name>IETF</name>
-                <abbreviation>IETF</abbreviation>
-                <identifier type="uri">www.ietf.org</identifier>
-              </organization>
-            </affiliation>
-             <address>
-         <street>8 Street St</street>
-         <city>City</city>
-         <state>State</state>
-         <country>Country</country>
-         <postcode>123456</postcode>
-       </address>
-       <phone>223322</phone>
-          </person>
-        </contributor>
-        <contributor>
-         <role type="publisher"/>
-          <organization>
-            <name>IETF</name>
-            <abbreviation>IETF</abbreviation>
-            <identifier type="uri">www.ietf.org</identifier>
-          </organization>
-        </contributor>
-        <contributor>
-          <role type="author"/>
-          <person>
-            <name>
-              <formatted-initials>A.</formatted-initials>
-              <surname>Bierman</surname>
-            </name>
-            <affiliation>
-              <description language="en" script="Latn">Affiliation description</description>
-              <organization>
-                <name>IETF</name>
-                <abbreviation>IETF</abbreviation>
-              </organization>
-            </affiliation>
-            <identifier type="uri">www.person.com</identifier>
-          </person>
-        </contributor>
-        <edition>1</edition>
-        <version>
-          <revision-date>2019-04-01</revision-date>
-          <draft>draft</draft>
-        </version>
-        <note type="bibnote">Mark set a major league
-      home run record in 1998.</note>
-        <language>en</language>
-        <language>fr</language>
-        <script>Latn</script>
-        <abstract format="text/plain">ISO 19115-1:2014 defines the schema required for …​</abstract>
-        <abstract format="text/plain" language="fr" script="Latn">L’ISO 19115-1:2014 définit le schéma requis pour …​</abstract>
-        <status>
-          <stage>stage</stage>
-          <substage>substage</substage>
-          <iteration>iteration</iteration>
-        </status>
-        <copyright>
-          <from>2014</from>
-          <to>#{Time.now.year}</to>
-          <owner>
-            <organization>
-              <name>International Organization for Standardization</name>
-              <abbreviation>ISO</abbreviation>
-              <uri>www.iso.org</uri>
-            </organization>
-          </owner>
-        </copyright>
-        <relation type="updates">
-          <bibitem>
-            <title type='title-main' format='text/plain'>Geographic information</title>
-            <title type='main' format='text/plain'>Geographic information</title>
-            </bibitem>
-        </relation>
-        <relation type="updates">
-          <bibitem type="standard">
-          <title type='title-main' format='text/plain'>Geographic information</title>
-          <title type='main' format='text/plain'>Geographic information</title>
-          </bibitem>
-        </relation>
-        <series type="main">
-          <title type="original" format="text/plain" language="en" script="Latn">ISO/IEC FDIS 10118-3</title>
-          <place><formattedPlace>Serie’s place</formattedPlace></place>
-          <organization>Serie’s organization</organization>
-          <abbreviation language="en" script="Latn">ABVR</abbreviation>
-          <from>2009-02-01</from>
-          <to>2010-12-20</to>
-          <number>serie1234</number>
-          <partnumber>part5678</partnumber>
-        </series>
-        <series type="alt">
-                       <formattedref>serieref</formattedref>
-               <title>seriestitle</title>
-        </series>
-        <medium>
-          <form>medium form</form>
-          <size>medium size</size>
-          <scale>medium scale</scale>
-        </medium>
-        <place>
-               <formattedPlace>bib place</formattedPlace>
-            </place>
-        <extent>
-          <locality type="section">
-          <referenceFrom>7</referenceFrom>
-          </locality>
-        </extent>
-        <accesslocation>accesslocation1</accesslocation>
-        <accesslocation>accesslocation2</accesslocation>
-        <classification type="type">value</classification>
-        <validity>
-          <validityBegins>2010-10-10T12:21</validityBegins>
-          <validityEnds>2011-02-03T18:30</validityEnds>
-        </validity>
-      </bibitem></references></bibliography>
-      </metanorma>
+                <bibitem id="_" type="standard" anchor="ISOTC211">
+                   <fetched/>
+                   <title type="main">Geographic information</title>
+                   <title language="en" script="Latn" type="subtitle" format="text/plain">Geographic information subtitle</title>
+                   <title language="en" type="main">Other Title</title>
+                   <uri type="src">https://www.iso.org/standard/53798.html</uri>
+                   <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:53798:en</uri>
+                   <uri type="rss">https://www.iso.org/contents/data/standard/05/37/53798.detail.rss</uri>
+                   <docidentifier type="ISO" primary="true">TC211</docidentifier>
+                   <docnumber>211</docnumber>
+                   <date type="issued">
+                      <on>2014</on>
+                   </date>
+                   <date type="published">
+                      <from>2014-04</from>
+                      <to>2014-05</to>
+                   </date>
+                   <date type="accessed">
+                      <on>2015-05-20</on>
+                   </date>
+                   <contributor>
+                      <role type="publisher">
+                         <description>Publisher role</description>
+                      </role>
+                      <organization>
+                         <name>International Organization for Standardization</name>
+                         <subdivision>
+                            <name>division</name>
+                         </subdivision>
+                         <abbreviation>ISO</abbreviation>
+                         <uri>www.iso.org</uri>
+                      </organization>
+                   </contributor>
+                   <contributor>
+                      <role type="author"/>
+                      <person>
+                         <name>
+                            <completename language="en">A. Bierman</completename>
+                         </name>
+                         <affiliation>
+                            <description>Affiliation description</description>
+                            <organization>
+                               <name>IETF</name>
+                               <abbreviation>IETF</abbreviation>
+                               <identifier type="uri">www.ietf.org</identifier>
+                            </organization>
+                         </affiliation>
+                         <address>
+                            <street>8 Street St</street>
+                            <city>City</city>
+                            <state>State</state>
+                            <country>Country</country>
+                            <postcode>123456</postcode>
+                         </address>
+                         <phone type="work">223322</phone>
+                      </person>
+                   </contributor>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>IETF</name>
+                         <abbreviation>IETF</abbreviation>
+                         <identifier type="uri">www.ietf.org</identifier>
+                      </organization>
+                   </contributor>
+                   <contributor>
+                      <role type="author"/>
+                      <person>
+                         <name>
+                            <formatted-initials>A.</formatted-initials>
+                            <surname>Bierman</surname>
+                         </name>
+                         <affiliation>
+                            <description language="en" script="Latn">Affiliation description</description>
+                            <organization>
+                               <name>IETF</name>
+                               <abbreviation>IETF</abbreviation>
+                            </organization>
+                         </affiliation>
+                         <identifier type="uri">www.person.com</identifier>
+                      </person>
+                   </contributor>
+                   <edition>1</edition>
+                   <version>
+                      <revision-date>2019-04-01</revision-date>
+                      <draft>draft</draft>
+                   </version>
+                   <note type="bibnote">Mark set a major league home run record in 1998.</note>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <abstract>ISO 19115-1:2014 defines the schema required for …​</abstract>
+                   <abstract language="fr" script="Latn" format="text/plain">L’ISO 19115-1:2014 définit le schéma requis pour …​</abstract>
+                   <status>
+                      <stage>stage</stage>
+                      <substage>substage</substage>
+                      <iteration>iteration</iteration>
+                   </status>
+                   <copyright>
+                      <from>2014</from>
+                      <to>#{Time.now.year}</to>
+                      <owner>
+                         <organization>
+                            <name>International Organization for Standardization</name>
+                            <abbreviation>ISO</abbreviation>
+                            <uri>www.iso.org</uri>
+                         </organization>
+                      </owner>
+                   </copyright>
+                   <relation type="updates">
+                      <bibitem>
+                         <formattedref>ISO 19115:2003</formattedref>
+                         <title>Geographic information</title>
+                      </bibitem>
+                   </relation>
+                   <relation type="updates">
+                      <bibitem type="standard">
+                         <formattedref>ISO 19115:2003/Cor 1:2006</formattedref>
+                         <title>Geographic information</title>
+                      </bibitem>
+                   </relation>
+                   <series type="main">
+                      <title language="en" script="Latn" type="original" format="text/plain">ISO/IEC FDIS 10118-3</title>
+                      <place>
+                         <formattedPlace>Serie’s place</formattedPlace>
+                      </place>
+                      <organization>Serie’s organization</organization>
+                      <abbreviation language="en" script="Latn">ABVR</abbreviation>
+                      <from>2009-02-01</from>
+                      <to>2010-12-20</to>
+                      <number>serie1234</number>
+                      <partnumber>part5678</partnumber>
+                   </series>
+                   <series type="alt">
+                      <formattedref language="en" script="Latn">serieref</formattedref>
+                      <title>seriestitle</title>
+                   </series>
+                   <medium>
+                      <form>medium form</form>
+                      <size>medium size</size>
+                      <scale>medium scale</scale>
+                   </medium>
+                   <place>
+                      <formattedPlace>bib place</formattedPlace>
+                   </place>
+                   <extent>
+                      <locality type="section">
+                         <referenceFrom>7</referenceFrom>
+                      </locality>
+                   </extent>
+                   <accesslocation>accesslocation1</accesslocation>
+                   <accesslocation>accesslocation2</accesslocation>
+                   <classification type="type">value</classification>
+                   <validity>
+                      <validityBegins>2010-10-10T12:21:00+00:00</validityBegins>
+                      <validityEnds>2011-02-03T18:30:00+00:00</validityEnds>
+                   </validity>
+                </bibitem>
+             </references>
+          </bibliography>
+       </metanorma>
     OUTPUT
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Canon.format_xml(output)
@@ -642,7 +651,7 @@ RSpec.describe Metanorma::Standoc do
               <bibitem id="_" anchor="ISOTC211" type="standard">
         <fetched/>
         <title type="main">Geographic information</title>
-        <title type="subtitle" language="en" script="Latn">Geographic information subtitle</title>
+        <title language="en" script="Latn" type="subtitle" format="text/plain">Geographic information subtitle</title>
         <uri type="src">https://www.iso.org/standard/53798.html</uri>
         <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:53798:en</uri>
         <uri type="rss">https://www.iso.org/contents/data/standard/05/37/53798.detail.rss</uri>
@@ -688,7 +697,7 @@ RSpec.describe Metanorma::Standoc do
          <country>Country</country>
          <postcode>123456</postcode>
        </address>
-       <phone>223322</phone>
+       <phone type="work">223322</phone>
           </person>
         </contributor>
         <contributor>
@@ -727,7 +736,7 @@ RSpec.describe Metanorma::Standoc do
         <language>fr</language>
         <script>Latn</script>
         <abstract>ISO 19115-1:2014 defines the schema required for …​</abstract>
-        <abstract language="fr" script="Latn">L’ISO 19115-1:2014 définit le schéma requis pour …​</abstract>
+        <abstract language="fr" script="Latn" format="text/plain">L’ISO 19115-1:2014 définit le schéma requis pour …​</abstract>
         <status>
           <stage>stage</stage>
           <substage>substage</substage>
@@ -769,7 +778,7 @@ RSpec.describe Metanorma::Standoc do
           <partnumber>part5678</partnumber>
         </series>
         <series type="alt">
-          <formattedref>serieref</formattedref>
+          <formattedref language="en" script="Latn">serieref</formattedref>
           <title>seriestitle</title>
         </series>
         <medium>
@@ -789,8 +798,8 @@ RSpec.describe Metanorma::Standoc do
         <accesslocation>accesslocation2</accesslocation>
         <classification type="type">value</classification>
         <validity>
-          <validityBegins>2010-10-10 12:21</validityBegins>
-          <validityEnds>2011-02-03 18:30</validityEnds>
+          <validityBegins>2010-10-10T12:21:00+00:00</validityBegins>
+          <validityEnds>2011-02-03T18:30:00+00:00</validityEnds>
         </validity>
       </bibitem></references></bibliography>
     OUTPUT
