@@ -38,7 +38,9 @@ module Metanorma
         end
 
         def load_bibitem(item)
-          bib = Relaton::Bib::Bibitem.from_xml(item)
+          xml = Nokogiri::XML(item)
+          klass = xml.root&.name == "bibdata" ? Relaton::Bib::Bibdata : Relaton::Bib::Bibitem
+          bib = klass.from_xml(item)
           YAML.safe_load(bib.to_yaml,
                          permitted_classes: [Date, Symbol],
                          symbolize_names: true)
@@ -46,7 +48,7 @@ module Metanorma
 
         def to_noko
           yaml_str = deep_stringify_keys(@old).to_yaml
-          Nokogiri::XML(Relaton::Bib::Item.from_yaml(yaml_str).to_xml).root
+          Nokogiri::XML(Relaton::Bib::Item.from_yaml(yaml_str).to_xml(bibdata: true)).root
         end
 
         def merge
