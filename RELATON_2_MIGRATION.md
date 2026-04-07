@@ -1457,19 +1457,21 @@ end
 provided by lutaml-model and returns a YAML string; `YAML.safe_load` converts
 it back to a Ruby hash for embedding in the collection YAML document.
 
-**`bibdata_to_xml` — `date_format:` kwarg retained:**
+**`bibdata_to_xml` — `date_format:` kwarg removed:**
 
 ```ruby
-# retained from 1.x — kwarg left in place pending 2.x support confirmation
+# 2.x — date_format: :full is not supported; remove the option entirely (see §44)
 def bibdata_to_xml(model, parent, doc)
   b = model.bibdata or return
-  elem = b.to_xml(bibdata: true, date_format: :full)
+  elem = b.to_xml(bibdata: true)
   doc.add_element(parent, elem)
 end
 ```
 
-> **TODO:** Verify whether `Relaton::Bib::ItemData#to_xml` accepts the
-> `date_format:` keyword argument in 2.x. If not, request it be added back.
+> ⚠️ **Confirmed in 2.x:** `date_format: :full` is **completely removed** in
+> Relaton 2.x — the keyword argument is silently ignored by
+> `Relaton::Bib::ItemData#to_xml`. Remove it from all call sites. See §44 for
+> details, required action, and fixture update guidance.
 
 **`bibdata_from_yaml` — hybrid 1.x/2.x format detection ✅ Fixed:**
 
@@ -2312,6 +2314,114 @@ in-place before `.to_xml` re-serialises to a clean namespace-free string. This
 applies to any context where a Nokogiri node extracted from a metanorma XML document
 (which always carries `xmlns="http://riboseinc.com/isoxml"`) is passed to a Relaton
 2.x `from_xml` method.
+
+---
+
+### 44. `date_format: :full` removed — partial dates are no longer expanded to `YYYY-MM-DD`
+
+> **Status:** Confirmed in `relaton-bib 2.0.0.pre.alpha.7`. The `date_format:`
+> keyword argument is **completely removed** from Relaton 2.x and is silently
+> ignored by `Relaton::Bib::ItemData#to_xml`.
+
+In Relaton 1.x, passing `date_format: :full` to `to_xml` caused all partial date
+values (`YYYY` or `YYYY-MM`) to be expanded to a full `YYYY-MM-DD` string by
+defaulting the missing month/day components to `01`:
+
+```ruby
+# 1.x — date_format: :full expands partial dates to full YYYY-MM-DD
+item.to_xml(bibdata: true, date_format: :full)
+```
+
+```xml
+<!-- 1.x: year-only input → expanded in output -->
+<!-- Input:  --><date type="created"><on>2020</on></date>
+<!-- Output: --><date type="created"><on>2020-01-01</on></date>
+
+<!-- 1.x: year-month input → expanded in output -->
+<!-- Input:  --><date type="updated"><on>2017-02</on></date>
+<!-- Output: --><date type="updated"><on>2017-02-01</on></date>
+```
+
+In Relaton 2.x, `to_xml` uses lutaml-model's serialization pipeline. The
+`date_format:` option is not implemented and is **silently ignored** — no error
+is raised, but the option has no effect:
+
+```ruby
+# 2.x — date_format: :full is silently ignored; granularity is preserved
+item.to_xml(bibdata: true, date_format: :full)
+```
+
+```xml
+<!-- 2.x: year-only input → preserved as-is -->
+<!-- Input:  --><date type="created"><on>2020</on></date>
+<!-- Output: --><date type="created"><on>2020</on></date>
+
+<!-- 2.x: year-month input → preserved as-is -->
+<!-- Input:  --><date type="updated"><on>2017-02</on></date>
+<!-- Output: --><date type="updated"><on>2017-02</on></date>
+```
+
+This is consistent with §37: Relaton 2.x intentionally preserves input date
+granularity via `StringDate`. The old `date_format: :full` expansion behaviour
+was a side effect of Relaton 1.x parsing all dates as Ruby `Date` objects
+(which defaulted missing month/day to `01`).
+
+#### Required code change — remove `date_format:` from all `to_xml` calls
+
+The option is a no-op and should be removed from every call site to avoid
+misleading future readers into thinking it has an effect:
+
+```ruby
+# 1.x
+b.to_xml(bibdata: true, date_format: :full)
+
+# 2.x — remove date_format: entirely; granularity is preserved automatically
+b.to_xml(bibdata: true)
+```
+
+**In `metanorma` gem** — `bibdata_to_xml` in
+`lib/metanorma/collection/config/converters.rb` (already updated per §29):
+
+```ruby
+# Before (1.x option retained with TODO comment)
+def bibdata_to_xml(model, parent, doc)
+  b = model.bibdata or return
+  elem = b.to_xml(bibdata: true, date_format: :full)
+  doc.add_element(parent, elem)
+end
+
+# After — date_format: :full removed
+def bibdata_to_xml(model, parent, doc)
+  b = model.bibdata or return
+  elem = b.to_xml(bibdata: true)
+  doc.add_element(parent, elem)
+end
+```
+
+#### Impact on test fixtures
+
+Any XML test fixture that previously contained dates that had been expanded
+to `YYYY-MM-DD` by the 1.x `date_format: :full` option must be updated to
+the granularity-preserving form that Relaton 2.x produces:
+
+```xml
+<!-- Old fixture (1.x expansion via date_format: :full) -->
+<date type="created"><on>2020-01-01</on></date>
+<date type="updated"><on>2017-02-01</on></date>
+
+<!-- New fixture (2.x — granularity of input preserved) -->
+<date type="created"><on>2020</on></date>
+<date type="updated"><on>2017-02</on></date>
+```
+
+The source of truth is the original input (XML source file or YAML collection):
+if the source specifies `2020` (year only), the fixture should contain `2020`.
+If the source specifies `2020-01-01` (full date), the fixture should contain
+`2020-01-01`. The 1.x expansion to `YYYY-MM-DD` was a lossy normalisation —
+Relaton 2.x correctly preserves input precision.
+
+See also §37 for a detailed explanation of `StringDate` granularity preservation,
+and §18 for the `Date#on` → `Date#at` accessor rename.
 
 ---
 
