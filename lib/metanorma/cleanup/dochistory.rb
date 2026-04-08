@@ -37,7 +37,7 @@ module Metanorma
         r = yaml2relaton(yaml, amend_hash2mn(yaml["amend"]))
         docid or return r
         type = "#{docid['type']}___inherited"
-        xml = Nokogiri::XML(r)
+        xml = Nokogiri::XML(r).root
         xml.xpath("//docidentifier[@type = '#{type}']").each do |d|
           d["type"] = docid["type"]
           docid["boilerplate"] and d["boilerplate"] = docid["boilerplate"]
