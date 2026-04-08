@@ -223,296 +223,296 @@ RSpec.describe Metanorma::Standoc do
                 <sections>
                 </sections><bibliography><references id="_" obligation="informative" normative="true"><title id="_">Normative references</title>
                  #{NORM_REF_BOILERPLATE}
-                 <bibitem type="standard" anchor="iso123" id="_">
-                    <uri type="src">https://www.iso.org/standard/23281.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                    <date type="published">
-                       <on>2001</on>
-                    </date>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
-                    </contributor>
-                    <edition>3</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>Published</stage>
-                    </status>
-                    <copyright>
-                       <from>2001</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                             <abbreviation/>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref>ISO 123:1985</formattedref>
-                       </bibitem>
-                    </relation>
-                    <relation type="updates">
-                       <bibitem type="standard">
-                          <formattedref>ISO 123:2001</formattedref>
-                       </bibitem>
-                    </relation>
-                    <docidentifier>ISO 123</docidentifier>
-                    <title>
-                       <em>Standard</em>
-                    </title>
-                 </bibitem>
-                 <bibitem type="standard" anchor="iso124" id="_">
-                    <uri type="src">https://www.iso.org/standard/23281.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                    <date type="published">
-                       <on>2001</on>
-                    </date>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
-                    </contributor>
-                    <edition>3</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>Published</stage>
-                    </status>
-                    <copyright>
-                       <from>2001</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                             <abbreviation/>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref>ISO 123:1985</formattedref>
-                       </bibitem>
-                    </relation>
-                    <relation type="updates">
-                       <bibitem type="standard">
-                          <formattedref>ISO 123:2001</formattedref>
-                       </bibitem>
-                    </relation>
-                    <docidentifier>ISO 123</docidentifier>
-                    <docidentifier type="metanorma">[1]</docidentifier>
-                    <title>
-                       <em>Standard</em>
-                    </title>
-                 </bibitem>
-                 <bibitem type="standard" anchor="iso125" id="_">
-                    <uri type="src">https://www.iso.org/standard/23281.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                    <date type="published">
-                       <on>2001</on>
-                    </date>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
-                    </contributor>
-                    <edition>3</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>Published</stage>
-                    </status>
-                    <copyright>
-                       <from>2001</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                             <abbreviation/>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref>ISO 123:1985</formattedref>
-                       </bibitem>
-                    </relation>
-                    <relation type="updates">
-                       <bibitem type="standard">
-                          <formattedref>ISO 123:2001</formattedref>
-                       </bibitem>
-                    </relation>
-                    <docidentifier>ISO 123</docidentifier>
-                    <docidentifier type="metanorma">[2]</docidentifier>
-                    <formattedref>
-                       <em>Standard</em>
-                       .
-                       <fn id="_" reference="1">
-                          <p id="_">footnote</p>
-                       </fn>
-                    </formattedref>
-                 </bibitem>
-                 <bibitem type="standard" anchor="iso126" id="_">
-                    <uri type="src">https://www.iso.org/standard/23281.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                    <date type="published">
-                       <on>2001</on>
-                    </date>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
-                    </contributor>
-                    <edition>3</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>Published</stage>
-                    </status>
-                    <copyright>
-                       <from>2001</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                             <abbreviation/>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref>ISO 123:1985</formattedref>
-                       </bibitem>
-                    </relation>
-                    <relation type="updates">
-                       <bibitem type="standard">
-                          <formattedref>ISO 123:2001</formattedref>
-                       </bibitem>
-                    </relation>
-                    <docidentifier>ISO 123</docidentifier>
-                    <docidentifier type="metanorma">[3]</docidentifier>
-                    <note type="Unpublished-Status">
-                       <p id="_">footnote2</p>
-                    </note>
-                 </bibitem>
-                 <bibitem id="_" type="standard" anchor="iso127">
-                    <fetched/>
-                    <title type="main">A Session Initiation Protocol (SIP) Load-Control Event Package</title>
-                    <uri type="src">https://www.rfc-editor.org/info/rfc7200</uri>
-                    <docidentifier type="IETF" primary="true">RFC 7200</docidentifier>
-                    <docidentifier type="DOI">10.17487/RFC7200</docidentifier>
-                    <docnumber>RFC7200</docnumber>
-                    <date type="published">
-                       <on>2014-04</on>
-                    </date>
-                    <contributor>
-                       <role type="author"/>
-                       <person>
-                          <name>
-                             <formatted-initials language="en" script="Latn">C.</formatted-initials>
-                             <surname language="en" script="Latn">Shen</surname>
-                             <completename language="en" script="Latn">C. Shen</completename>
-                          </name>
-                       </person>
-                    </contributor>
-                    <contributor>
-                       <role type="author"/>
-                       <person>
-                          <name>
-                             <formatted-initials language="en" script="Latn">H.</formatted-initials>
-                             <surname language="en" script="Latn">Schulzrinne</surname>
-                             <completename language="en" script="Latn">H. Schulzrinne</completename>
-                          </name>
-                       </person>
-                    </contributor>
-                    <contributor>
-                       <role type="author"/>
-                       <person>
-                          <name>
-                             <formatted-initials language="en" script="Latn">A.</formatted-initials>
-                             <surname language="en" script="Latn">Koike</surname>
-                             <completename language="en" script="Latn">A. Koike</completename>
-                          </name>
-                       </person>
-                    </contributor>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name language="en">RFC Publisher</name>
-                       </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="authorizer"/>
-                       <organization>
-                          <name language="en">RFC Series</name>
-                       </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="author">
-                          <description>committee</description>
-                       </role>
-                       <organization>
-                          <name language="en">Internet Engineering Task Force</name>
-                          <subdivision type="workgroup">
-                             <name>SIP Overload Control</name>
-                             <identifier>soc</identifier>
-                          </subdivision>
-                          <abbreviation language="en">IETF</abbreviation>
-                       </organization>
-                    </contributor>
-                    <language>en</language>
-                    <script>Latn</script>
-                    <abstract language="en" script="Latn">
-                       <p id="_">This specification defines a load-control event package for the Session Initiation Protocol (SIP).  It allows SIP entities to distribute load-filtering policies to other SIP entities in the network.  The load-filtering policies contain rules to throttle calls from a specific user or based on their source or destination domain, telephone number prefix.  The mechanism helps to prevent signaling overload and complements feedback-based SIP overload control efforts.</p>
-                    </abstract>
-                    <status>
-                       <stage>PROPOSED STANDARD</stage>
-                    </status>
-                    <series>
-                       <title>RFC</title>
-                       <number>7200</number>
-                    </series>
-                    <series type="stream">
-                       <title>IETF</title>
-                    </series>
-                    <keyword>
-                       <vocab>SIP</vocab>
-                    </keyword>
-                    <keyword>
-                       <vocab>Overload Control</vocab>
-                    </keyword>
-                    <keyword>
-                       <vocab>Server</vocab>
-                    </keyword>
-                    <keyword>
-                       <vocab>Performance</vocab>
-                    </keyword>
-                    <note type="Unpublished-Status">
-                       <p id="_">footnote3</p>
-                    </note>
-                 </bibitem>
-              </references>
-           </bibliography>
-        </metanorma>
+                <bibitem type="standard" anchor="iso123" id="_">
+                   <uri type="src">https://www.iso.org/standard/23281.html</uri>
+                   <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+                   <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <date type="published">
+                      <on>2001</on>
+                   </date>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>International Organization for Standardization</name>
+                         <abbreviation>ISO</abbreviation>
+                         <uri>www.iso.org</uri>
+                      </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <status>
+                      <stage>Published</stage>
+                   </status>
+                   <copyright>
+                      <from>2001</from>
+                      <owner>
+                         <organization>
+                            <name>ISO</name>
+                            <abbreviation/>
+                         </organization>
+                      </owner>
+                   </copyright>
+                   <relation type="obsoletes">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:1985</formattedref>
+                      </bibitem>
+                   </relation>
+                   <relation type="updates">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:2001</formattedref>
+                      </bibitem>
+                   </relation>
+                   <docidentifier>ISO 123</docidentifier>
+                   <title>
+                      <em>Standard</em>
+                   </title>
+                </bibitem>
+                <bibitem type="standard" anchor="iso124" id="_">
+                   <uri type="src">https://www.iso.org/standard/23281.html</uri>
+                   <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+                   <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <date type="published">
+                      <on>2001</on>
+                   </date>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>International Organization for Standardization</name>
+                         <abbreviation>ISO</abbreviation>
+                         <uri>www.iso.org</uri>
+                      </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <status>
+                      <stage>Published</stage>
+                   </status>
+                   <copyright>
+                      <from>2001</from>
+                      <owner>
+                         <organization>
+                            <name>ISO</name>
+                            <abbreviation/>
+                         </organization>
+                      </owner>
+                   </copyright>
+                   <relation type="obsoletes">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:1985</formattedref>
+                      </bibitem>
+                   </relation>
+                   <relation type="updates">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:2001</formattedref>
+                      </bibitem>
+                   </relation>
+                   <docidentifier>ISO 123</docidentifier>
+                   <docidentifier type="metanorma">[1]</docidentifier>
+                   <title>
+                      <em>Standard</em>
+                   </title>
+                </bibitem>
+                <bibitem type="standard" anchor="iso125" id="_">
+                   <uri type="src">https://www.iso.org/standard/23281.html</uri>
+                   <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+                   <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <date type="published">
+                      <on>2001</on>
+                   </date>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>International Organization for Standardization</name>
+                         <abbreviation>ISO</abbreviation>
+                         <uri>www.iso.org</uri>
+                      </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <status>
+                      <stage>Published</stage>
+                   </status>
+                   <copyright>
+                      <from>2001</from>
+                      <owner>
+                         <organization>
+                            <name>ISO</name>
+                            <abbreviation/>
+                         </organization>
+                      </owner>
+                   </copyright>
+                   <relation type="obsoletes">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:1985</formattedref>
+                      </bibitem>
+                   </relation>
+                   <relation type="updates">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:2001</formattedref>
+                      </bibitem>
+                   </relation>
+                   <docidentifier>ISO 123</docidentifier>
+                   <docidentifier type="metanorma">[2]</docidentifier>
+                   <formattedref>
+                      <em>Standard</em>
+                      .
+                      <fn id="_" reference="1">
+                         <p id="_">footnote</p>
+                      </fn>
+                   </formattedref>
+                </bibitem>
+                <bibitem type="standard" anchor="iso126" id="_">
+                   <uri type="src">https://www.iso.org/standard/23281.html</uri>
+                   <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+                   <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <date type="published">
+                      <on>2001</on>
+                   </date>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>International Organization for Standardization</name>
+                         <abbreviation>ISO</abbreviation>
+                         <uri>www.iso.org</uri>
+                      </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <status>
+                      <stage>Published</stage>
+                   </status>
+                   <copyright>
+                      <from>2001</from>
+                      <owner>
+                         <organization>
+                            <name>ISO</name>
+                            <abbreviation/>
+                         </organization>
+                      </owner>
+                   </copyright>
+                   <relation type="obsoletes">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:1985</formattedref>
+                      </bibitem>
+                   </relation>
+                   <relation type="updates">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:2001</formattedref>
+                      </bibitem>
+                   </relation>
+                   <docidentifier>ISO 123</docidentifier>
+                   <docidentifier type="metanorma">[3]</docidentifier>
+                   <note type="Unpublished-Status">
+                      <p id="_">footnote2</p>
+                   </note>
+                </bibitem>
+                <bibitem id="_" type="standard" anchor="iso127">
+                   <fetched/>
+                   <title type="main">A Session Initiation Protocol (SIP) Load-Control Event Package</title>
+                   <uri type="src">https://www.rfc-editor.org/info/rfc7200</uri>
+                   <docidentifier type="IETF" primary="true">RFC 7200</docidentifier>
+                   <docidentifier type="DOI">10.17487/RFC7200</docidentifier>
+                   <docnumber>RFC7200</docnumber>
+                   <date type="published">
+                      <on>2014-04</on>
+                   </date>
+                   <contributor>
+                      <role type="author"/>
+                      <person>
+                         <name>
+                            <formatted-initials language="en" script="Latn">C.</formatted-initials>
+                            <surname language="en" script="Latn">Shen</surname>
+                            <completename language="en" script="Latn">C. Shen</completename>
+                         </name>
+                      </person>
+                   </contributor>
+                   <contributor>
+                      <role type="author"/>
+                      <person>
+                         <name>
+                            <formatted-initials language="en" script="Latn">H.</formatted-initials>
+                            <surname language="en" script="Latn">Schulzrinne</surname>
+                            <completename language="en" script="Latn">H. Schulzrinne</completename>
+                         </name>
+                      </person>
+                   </contributor>
+                   <contributor>
+                      <role type="author"/>
+                      <person>
+                         <name>
+                            <formatted-initials language="en" script="Latn">A.</formatted-initials>
+                            <surname language="en" script="Latn">Koike</surname>
+                            <completename language="en" script="Latn">A. Koike</completename>
+                         </name>
+                      </person>
+                   </contributor>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name language="en">RFC Publisher</name>
+                      </organization>
+                   </contributor>
+                   <contributor>
+                      <role type="authorizer"/>
+                      <organization>
+                         <name language="en">RFC Series</name>
+                      </organization>
+                   </contributor>
+                   <contributor>
+                      <role type="author">
+                         <description>committee</description>
+                      </role>
+                      <organization>
+                         <name language="en">Internet Engineering Task Force</name>
+                         <subdivision type="workgroup">
+                            <name>SIP Overload Control</name>
+                            <identifier>soc</identifier>
+                         </subdivision>
+                         <abbreviation language="en">IETF</abbreviation>
+                      </organization>
+                   </contributor>
+                   <language>en</language>
+                   <script>Latn</script>
+                   <abstract language="en" script="Latn">
+                      <p id="_">This specification defines a load-control event package for the Session Initiation Protocol (SIP).  It allows SIP entities to distribute load-filtering policies to other SIP entities in the network.  The load-filtering policies contain rules to throttle calls from a specific user or based on their source or destination domain, telephone number prefix.  The mechanism helps to prevent signaling overload and complements feedback-based SIP overload control efforts.</p>
+                   </abstract>
+                   <status>
+                      <stage>PROPOSED STANDARD</stage>
+                   </status>
+                   <series>
+                      <title>RFC</title>
+                      <number>7200</number>
+                   </series>
+                   <series type="stream">
+                      <title>IETF</title>
+                   </series>
+                   <keyword>
+                      <vocab>SIP</vocab>
+                   </keyword>
+                   <keyword>
+                      <vocab>Overload Control</vocab>
+                   </keyword>
+                   <keyword>
+                      <vocab>Server</vocab>
+                   </keyword>
+                   <keyword>
+                      <vocab>Performance</vocab>
+                   </keyword>
+                   <note type="Unpublished-Status">
+                      <p id="_">footnote3</p>
+                   </note>
+                </bibitem>
+             </references>
+          </bibliography>
+       </metanorma>
       OUTPUT
     expect do
       Asciidoctor.convert(input, *OPTIONS)

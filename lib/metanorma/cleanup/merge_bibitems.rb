@@ -58,8 +58,6 @@ module Metanorma
         end
 
         def merge1(old, new)
-          # NOTE: 2.x YAML uses :docidentifier (not :docid) and :uri (not :link)
-          # :note replaces :biblionote — TODO verify against actual 2.x YAML output
           %i(uri docidentifier date title series note).each do |k|
             merge_by_type(old, new, k, :type)
           end

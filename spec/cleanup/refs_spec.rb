@@ -366,7 +366,7 @@ RSpec.describe Metanorma::Standoc do
                    <uri type="src">https://webstore.iec.ch/publication/160</uri>
                    <uri type="obp">https://webstore.iec.ch/preview/info_iec60050-102{ed1.0}b.pdf</uri>
                    <docidentifier type="IEC" primary="true">IEC 60050-102:2007</docidentifier>
-                   <docidentifier type="URN">urn:iec:std:iec:60050-102:2007-08:::</docidentifier>
+                   <docidentifier type="URN">urn:iec:std:iec:60050-102:2007:::</docidentifier>
                    <date type="published">
                       <on>2007-08-27</on>
                    </date>
@@ -436,7 +436,7 @@ RSpec.describe Metanorma::Standoc do
                    <uri type="src">https://webstore.iec.ch/publication/161</uri>
                    <uri type="obp">https://webstore.iec.ch/preview/info_iec60050-103{ed1.0}b.pdf</uri>
                    <docidentifier type="IEC" primary="true">IEC 60050-103:2009</docidentifier>
-                   <docidentifier type="URN">urn:iec:std:iec:60050-103:2009-12:::</docidentifier>
+                   <docidentifier type="URN">urn:iec:std:iec:60050-103:2009:::</docidentifier>
                    <date type="published">
                       <on>2009-12-14</on>
                    </date>
