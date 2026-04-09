@@ -42,8 +42,8 @@ module Metanorma
       def gather_indirect_erefs(xmldoc, prefix)
         xmldoc.xpath("//eref[@type = '#{prefix}']")
           .each_with_object({}) do |e, m|
-            e.delete("type")
-            m[e["bibitemid"]] = true
+          e.delete("type")
+          m[e["bibitemid"]] = true
         end.keys
       end
 
@@ -96,7 +96,7 @@ module Metanorma
         # (which is what bibitemid currently points to)
         id_map = xmldoc.xpath("//*[@anchor]")
           .each_with_object({}) do |node, map|
-            map[node["anchor"]] = node
+          map[node["anchor"]] = node
         end
         # Pre-index all <eref> elements by bibitemid
         eref_map = xmldoc.xpath("//eref[@bibitemid]")
@@ -121,8 +121,8 @@ module Metanorma
 
       def hdr2bibitem(hdr)
         xml = @conv.isolated_asciidoctor_convert(hdr[:text],
-                                           backend: hdr2bibitem_type(hdr),
-                                           header_footer: true)
+                                                 backend: hdr2bibitem_type(hdr),
+                                                 header_footer: true)
         b = Nokogiri::XML(xml).at("//xmlns:bibdata")
         b.name = "bibitem"
         b.delete("type")
@@ -154,7 +154,7 @@ module Metanorma
             bibdata.at("./docidentifier")
           xmldoc.xpath("//xref[@target = '#{d}'][normalize-space(.//text()) = '']")
             .each do |x|
-              x << ident.text
+            x << ident.text
           end
         end
       end
@@ -165,14 +165,15 @@ module Metanorma
         end or return
         a = t.at("../sourcecode") or return
         ins = xmldoc.at("//bibdata/contributor[last()]")
-        yaml = YAML.safe_load(a.text, permitted_classes: [Date])
+        yaml = yaml_deep_stringify_dates(YAML.safe_load(a.text, permitted_classes: [Date]))
         ext_contributors_process(yaml, ins)
       end
 
       def yaml2relaton(yaml, amend = nil)
-        r = RelatonBib.parse_yaml(yaml.to_yaml, [Date], symbolize_names: true)
-        h = RelatonBib::HashConverter.hash_to_bib(r)
-        b = RelatonBib::BibliographicItem.new(**h).to_xml
+        r = YAML.safe_load(yaml.to_yaml, permitted_classes: [Date],
+                                         symbolize_names: true)
+        h = Relaton::Bib::HashParserV1.hash_to_bib(r)
+        b = Relaton::Bib::ItemData.new(**h).to_xml
         amend and b.sub!("</bibitem>", "#{amend}</bibitem>")
         b
       end
@@ -180,6 +181,7 @@ module Metanorma
       def ext_contributors_process(yaml, ins)
         yaml.is_a?(Hash) && !yaml["contributor"] and yaml = [yaml]
         yaml.is_a?(Array) and yaml = { "contributor" => yaml }
+        yaml["contributor"].each { |c| c["role"] ||= { "type" => "author" } }
         r = yaml2relaton(yaml)
         Nokogiri::XML(r).xpath("//contributor").reverse_each do |c|
           ins.next = c

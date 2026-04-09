@@ -1,4 +1,4 @@
-require "iev"
+#require "iev"
 
 module Metanorma
   module Standoc

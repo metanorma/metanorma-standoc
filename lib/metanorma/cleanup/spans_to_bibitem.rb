@@ -51,7 +51,7 @@ module Metanorma
           ret += spans_to_bibitem_i18n(spans)
           spans[:abstract] and ret += "<abstract>#{spans[:abstract]}</abstract>"
           ret += spans_to_series(spans)
-          spans[:pubplace] and ret += "<place>#{spans[:pubplace]}</place>"
+          ret += spans_to_pubplace(spans)
           ret += spans_to_bibitem_host(spans)
           ret += spans_to_bibitem_extent(spans[:extent])
           spans[:classification]&.each do |s|
@@ -63,6 +63,14 @@ module Metanorma
           spans[:image]&.each do |s|
             ret += "<depiction>#{s[:val]}</depiction>"
           end
+          ret
+        end
+
+        def spans_to_pubplace(spans)
+          ret = ""
+          spans[:pubplace] and ret += <<~XML
+            <place><formattedPlace>#{spans[:pubplace]}</formattedPlace></place>
+          XML
           ret
         end
 
@@ -101,7 +109,7 @@ module Metanorma
           spans[:version] and ret += "<version>#{spans[:version]}</version>"
           spans[:note]&.each do |n|
             ret += "<note type='#{n[:type]}'>#{n[:val]}</note>"
-              .sub(/<note type=''>/, "<note>")
+              .sub("<note type=''>", "<note>")
           end
           ret
         end
