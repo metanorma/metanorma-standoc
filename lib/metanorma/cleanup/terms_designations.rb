@@ -189,6 +189,16 @@ module Metanorma
           end
         end
       end
+
+      def term_designation_unnest_cleanup(xmldoc)
+        xmldoc.xpath("//preferred | //admitted | //deprecates | //related")
+          .each do |d|
+          d.xpath(".//preferred | .//admitted | .//deprecates | .//related")
+            .reverse_each do |d1|
+              d.next = d1
+            end
+        end
+      end
     end
   end
 end

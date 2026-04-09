@@ -1452,6 +1452,59 @@ RSpec.describe Metanorma::Standoc do
       .to be_equivalent_to Canon.format_xml(output)
   end
 
+   it "unnests designations in a term" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Terms and definitions
+
+      === ISO Online browsing platform: available at https://www.iso.org/obp
+      admitted:[IEC Electropedia: available at https://www.electropedia.org/[\] ]
+      admitted:[access point]
+      admitted:[AP]
+    INPUT
+    output = <<~OUTPUT
+       #{BLANK_HDR}
+          <sections>
+             <terms id="_" obligation="normative">
+                <title id="_">Terms and definitions</title>
+                <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+                <term id="_" anchor="term-ISO-Online-browsing-platform_-available-at">
+                   <preferred>
+                      <expression>
+                         <name>
+                            ISO Online browsing platform: available at
+                            <link target="https://www.iso.org/obp"/>
+                         </name>
+                      </expression>
+                   </preferred>
+                   <admitted>
+                      <expression>
+                         <name>
+                            IEC Electropedia: available at
+                            <link target="https://www.electropedia.org/"/>
+                         </name>
+                      </expression>
+                   </admitted>
+                   <admitted>
+                      <expression>
+                         <name>access point</name>
+                      </expression>
+                   </admitted>
+                   <admitted>
+                      <expression>
+                         <name>AP</name>
+                      </expression>
+                   </admitted>
+                </term>
+             </terms>
+          </sections>
+       </metanorma>
+    OUTPUT
+    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(output)
+  end
+
   it "automates terms & definitions titles if there are no extraneous sections" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
