@@ -1,4 +1,4 @@
-require "relaton_bib"
+require "relaton/bib"
 
 module Metanorma
   module Standoc
@@ -7,7 +7,9 @@ module Metanorma
         xmldoc.xpath("//clause[@bibitem = 'true']").each do |c|
           bib = dl_bib_extract(c) or next
           validate_ref_dl(bib, c)
-          xml = RelatonBib::BibliographicItem.from_hash(bib).to_xml or next
+          xml = Relaton::Bib::ItemData.new(
+            **Relaton::Bib::HashParserV1.hash_to_bib(bib),
+          ).to_xml or next
           bibitem = Nokogiri::XML(xml)
           ref_dl_cleanup_id(bibitem.root, c)
           c.replace(bibitem.root)
@@ -97,7 +99,8 @@ module Metanorma
         bib["title"] = [bib["title"]] if bib["title"].is_a?(Hash) ||
           bib["title"].is_a?(String)
         bib["title"] ||= []
-        title.empty? or bib["title"] << title
+        title.empty? or bib["title"] << { "content" => title, "type" => "main",
+                                          "language" => @lang }
         bib
       end
     end

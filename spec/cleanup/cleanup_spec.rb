@@ -1,5 +1,5 @@
 require "spec_helper"
-require "relaton_iec"
+require "relaton/iec"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
@@ -764,9 +764,8 @@ RSpec.describe Metanorma::Standoc do
                     country: U.S.A
                 - uri: http://slate.example.com
                 - phone: 123
-                - phone:
-                    type: fax
-                    value: fax456
+                - phone: fax456
+                  type: fax
       - role:
           type: editor
           description: consulting editor
@@ -792,9 +791,8 @@ RSpec.describe Metanorma::Standoc do
                     country: U.S.A
                 - email: barney@rockhead.example.com
                 - phone: 789
-                - phone:
+                - phone: "012"
                   type: fax
-                  value: 012
       -  person:
            name:
              completename: Barry Fussell
@@ -837,160 +835,172 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       <bibdata type="standard">
-         <title language="en" type="main">X</title>
-         <date type="corrected">
-           <on>2022-10</on>
-         </date>
-         <contributor>
-           <role type="author"/>
-           <person>
-             <name>
-               <completename>Author One</completename>
-             </name>
-             <affiliation>
-               <organization>
-                 <name>Computer Security Division, Information Technology Laboratory</name>
-               </organization>
-             </affiliation>
-           </person>
-         </contributor>
-         <contributor>
-           <role type="enabler"/>
-           <person>
-             <name>
-               <completename>Sponsor Person One</completename>
-             </name>
-             <affiliation>
-               <organization>
-                 <name>Department of Homeland Security</name>
-               </organization>
-             </affiliation>
-           </person>
-         </contributor>
-         <contributor>
-           <role type="author"/>
-           <person>
-             <name>
-               <completename>Fred Flintstone</completename>
-             </name>
-             <credential>PhD, F.R.Pharm.S.</credential>
-             <affiliation>
-               <name>Vice President, Medical Devices Quality &amp; Compliance -- Strategic programmes</name>
-               <organization>
-                 <name>Slate Rock and Gravel Company</name>
-                 <subdivision>Hermeneutics Unit; Exegetical Subunit</subdivision>
-                 <abbreviation>SRG</abbreviation>
-                 <address>
-                   <street>6 Rubble Way</street>
-                   <city>Bedrock</city>
+          <title language="en" type="main">X</title>
+          <date type="corrected">
+             <on>2022-10</on>
+          </date>
+          <contributor>
+             <role type="author"/>
+             <person>
+                <name>
+                   <completename>Author One</completename>
+                </name>
+                <affiliation>
+                   <organization>
+                      <name>Computer Security Division, Information Technology Laboratory</name>
+                   </organization>
+                </affiliation>
+             </person>
+          </contributor>
+          <contributor>
+             <role type="enabler"/>
+             <person>
+                <name>
+                   <completename>Sponsor Person One</completename>
+                </name>
+                <affiliation>
+                   <organization>
+                      <name>Department of Homeland Security</name>
+                   </organization>
+                </affiliation>
+             </person>
+          </contributor>
+          <contributor>
+             <role type="author"/>
+             <person>
+                <name>
+                   <completename>Fred Flintstone</completename>
+                </name>
+                <credential>PhD, F.R.Pharm.S.</credential>
+                <affiliation>
+                   <name>Vice President, Medical Devices Quality &amp; Compliance -- Strategic programmes</name>
+                   <organization>
+                      <name>Slate Rock and Gravel Company</name>
+                      <subdivision>
+                         <name>Hermeneutics Unit; Exegetical Subunit</name>
+                      </subdivision>
+                      <abbreviation>SRG</abbreviation>
+                      <address>
+                         <street>6 Rubble Way</street>
+                         <city>Bedrock</city>
+                         <country>U.S.A</country>
+                      </address>
+                      <phone type="work">123</phone>
+                      <phone type="fax">fax456</phone>
+                      <uri>http://slate.example.com</uri>
+                   </organization>
+                </affiliation>
+             </person>
+          </contributor>
+          <contributor>
+             <role type="editor">
+                <description>consulting editor</description>
+             </role>
+             <person>
+                <name>
+                   <forename>Barney</forename>
+                   <formatted-initials>B. X.</formatted-initials>
+                   <surname>Rubble</surname>
+                </name>
+                <credential>PhD, F.R.Pharm.S.</credential>
+                <affiliation>
+                   <name>Former Chair ISO TC 210</name>
+                   <organization>
+                      <name>Rockhead and Quarry Cave Construction Company</name>
+                      <subdivision>
+                         <name>Hermeneutics Unit; Exegetical Subunit</name>
+                      </subdivision>
+                      <abbreviation>RQCCC</abbreviation>
+                      <address>
+                         <street>6A Rubble Way</street>
+                         <city>Bedrock</city>
+                         <country>U.S.A</country>
+                      </address>
+                      <phone type="work">789</phone>
+                      <phone type="fax">012</phone>
+                      <email>barney@rockhead.example.com</email>
+                   </organization>
+                </affiliation>
+             </person>
+          </contributor>
+          <contributor>
+             <role type="author"/>
+             <person>
+                <name>
+                   <completename>Barry Fussell</completename>
+                </name>
+                <affiliation>
+                   <organization>
+                      <name>Cisco Systems, Inc.</name>
+                   </organization>
+                </affiliation>
+                <address>
+                   <street>170 West Tasman Drive</street>
+                   <city>San Jose</city>
                    <country>U.S.A</country>
-                 </address>
-                 <uri>http://slate.example.com</uri>
-                 <phone>123</phone>
-               </organization>
-             </affiliation>
-           </person>
-         </contributor>
-         <contributor>
-           <role type="editor">
-             <description>consulting editor</description>
-           </role>
-           <person>
-             <name>
-               <forename>Barney</forename>
-               <formatted-initials>B. X.</formatted-initials>
-               <surname>Rubble</surname>
-             </name>
-             <credential>PhD, F.R.Pharm.S.</credential>
-             <affiliation>
-               <name>Former Chair ISO TC 210</name>
-               <organization>
-                 <name>Rockhead and Quarry Cave Construction Company</name>
-                 <subdivision>Hermeneutics Unit; Exegetical Subunit</subdivision>
-                 <abbreviation>RQCCC</abbreviation>
-                 <address>
-                   <street>6A Rubble Way</street>
-                   <city>Bedrock</city>
-                   <country>U.S.A</country>
-                 </address>
-                 <email>barney@rockhead.example.com</email>
-                 <phone>789</phone>
-               </organization>
-             </affiliation>
-           </person>
-         </contributor>
-         <contributor>
-           <role type="author"/>
-           <person>
-             <name>
-               <completename>Barry Fussell</completename>
-             </name>
-             <affiliation>
-               <organization>
-                 <name>Cisco Systems, Inc.</name>
-               </organization>
-             </affiliation>
-             <address>
-               <street>170 West Tasman Drive</street>
-               <city>San Jose</city>
-               <country>U.S.A</country>
-             </address>
-           </person>
-         </contributor>
-         <contributor>
-           <role type="author"/>
-           <person>
-             <name>
-               <completename>Apostol Vassilev</completename>
-             </name>
-             <affiliation>
-               <organization>
-                 <name>Information Technology Laboratory</name>
-                 <subdivision>Computer Security Division</subdivision>
-               </organization>
-             </affiliation>
-           </person>
-         </contributor>
-         <contributor>
-           <role type="author"/>
-           <person>
-             <name>
-               <completename>Ronny Jopp</completename>
-             </name>
-             <affiliation>
-               <organization>
-                 <name>National Institute of Standards and Technology</name>
-                 <subdivision>Biochemical Science Division</subdivision>
-                 <address>
-                   <city>Gaithersburg</city>
-                   <country>U.S.A.</country>
-                 </address>
-               </organization>
-             </affiliation>
-             <affiliation>
-               <organization>
-                 <name>University of Applied Sciences</name>
-                 <subdivision>Computer Science Department</subdivision>
-                 <address>
-                   <city>Wiesbaden</city>
-                   <country>Germany</country>
-                 </address>
-               </organization>
-             </affiliation>
-           </person>
-         </contributor>
-         <language>en</language>
-         <script>Latn</script>
-         <status>
-           <stage>published</stage>
-         </status>
-         <copyright>
-           <from>#{Date.today.year}</from>
-         </copyright>
-         <ext>
-           <doctype>standard</doctype>
-            <flavor>standoc</flavor>
-         </ext>
+                </address>
+             </person>
+          </contributor>
+          <contributor>
+             <role type="author"/>
+             <person>
+                <name>
+                   <completename>Apostol Vassilev</completename>
+                </name>
+                <affiliation>
+                   <organization>
+                      <name>Information Technology Laboratory</name>
+                      <subdivision>
+                         <name>Computer Security Division</name>
+                      </subdivision>
+                   </organization>
+                </affiliation>
+             </person>
+          </contributor>
+          <contributor>
+             <role type="author"/>
+             <person>
+                <name>
+                   <completename>Ronny Jopp</completename>
+                </name>
+                <affiliation>
+                   <organization>
+                      <name>National Institute of Standards and Technology</name>
+                      <subdivision>
+                         <name>Biochemical Science Division</name>
+                      </subdivision>
+                      <address>
+                         <city>Gaithersburg</city>
+                         <country>U.S.A.</country>
+                      </address>
+                   </organization>
+                </affiliation>
+                <affiliation>
+                   <organization>
+                      <name>University of Applied Sciences</name>
+                      <subdivision>
+                         <name>Computer Science Department</name>
+                      </subdivision>
+                      <address>
+                         <city>Wiesbaden</city>
+                         <country>Germany</country>
+                      </address>
+                   </organization>
+                </affiliation>
+             </person>
+          </contributor>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+             <stage>published</stage>
+          </status>
+          <copyright>
+             <from>#{Date.today.year}</from>
+          </copyright>
+          <ext>
+             <doctype>standard</doctype>
+             <flavor>standoc</flavor>
+          </ext>
        </bibdata>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
