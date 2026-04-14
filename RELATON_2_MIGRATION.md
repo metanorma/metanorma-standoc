@@ -1840,20 +1840,33 @@ def from_xml(xml)
   # <bibitem> elements are always flavor-independent: use the base
   # Relaton::Bib::Bibitem regardless of collection flavor.
   # <bibdata> elements carry flavor-specific metadata (<ext> etc.) and
-  # must be parsed with the appropriate flavor Bibdata class.
+  # must be parsed with the appropriate flavor Item class.
   r = if b.name == "bibitem"
         ::Relaton::Bib::Bibitem
       else
-        mn2relaton_parser(xml.root["flavor"], bibdata: true)
+        mn2relaton_parser(xml.root["flavor"])
       end
   b.xpath("//xmlns:fmt-identifier").each(&:remove)
   r.from_xml(b.to_xml)
 end
 ```
 
-The `mn2relaton_parser` method is unchanged — the `bibdata:` keyword parameter is
-retained for future use. The `bibdata: false` / Bibitem-returning branches in
-`mn2relaton_parser` are now unreachable from `from_xml` but remain in place.
+The `mn2relaton_parser` method now returns the flavor's `Item` class (e.g.
+`Relaton::Iso::Item`) instead of `Bibdata`/`Bibitem`. The `bibdata:` keyword
+parameter has been removed.
+
+This is necessary because in Relaton 2.x, `BibdataShared` (defined in
+`Relaton::Bib`) sets `model ItemData` inside `class_eval`, and Ruby constant
+lookup resolves `ItemData` in the **definer's** scope (`Relaton::Bib`), not the
+includer's scope. So `Relaton::Iso::Bibdata.from_xml` produces a generic
+`Relaton::Bib::ItemData` instance. When `to_xml(bibdata: true)` is called, the
+generic instance delegates to `Relaton::Bib::Bibdata.to_xml`, which does not know
+about flavor-specific `ext` attributes, causing a crash.
+
+By contrast, `Relaton::Iso::Item` explicitly declares `model ItemData` in its own
+class body within `Relaton::Iso`, correctly resolving to `Relaton::Iso::ItemData`.
+The resulting `ItemData` instance's `to_xml(bibdata: true)` correctly delegates to
+`Relaton::Iso::Bibdata.to_xml(self)` via the `namespace` helper.
 
 **Impact on round-trip fidelity:**
 
