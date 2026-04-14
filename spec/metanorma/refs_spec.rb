@@ -83,8 +83,8 @@ RSpec.describe Metanorma::Standoc do
             </bibliography>
             </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes simple ISO reference with date range" do
@@ -141,8 +141,8 @@ RSpec.describe Metanorma::Standoc do
           </bibliography>
           </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes references with no identifier" do
@@ -184,8 +184,8 @@ RSpec.describe Metanorma::Standoc do
       </bibliography>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(xml.at("//xmlns:bibliography").to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.at("//xmlns:bibliography").to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "repairs simple fetched reference" do
@@ -208,8 +208,8 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso126,(3)ISO 123]]] footnote:[footnote2]
       * [[[iso127,IETF RFC 7200]]] footnote:[footnote3]
     INPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(<<~"OUTPUT")
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to <<~"OUTPUT"
                 #{BLANK_HDR}
                 <preface>
            <foreword id='_' obligation='informative'>
@@ -595,8 +595,8 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes draft ISO reference" do
@@ -689,8 +689,8 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes all-parts ISO reference" do
@@ -751,8 +751,8 @@ RSpec.describe Metanorma::Standoc do
             </bibliography>
             </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes non-ISO reference in Normative References" do
@@ -796,8 +796,8 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes non-ISO reference in Bibliography" do
@@ -860,8 +860,8 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "process ISO reference without an Internet connection" do
@@ -877,7 +877,6 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso124,(1)ISO 123]]] _Standard_
     INPUT
     output = <<~OUTPUT
-            <?xml version="1.0" encoding="UTF-8"?>
             <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
             <bibdata type="standard">
             <title language="en" type="main">Document title</title>
@@ -928,8 +927,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "processes repository reference" do
@@ -1047,8 +1046,8 @@ RSpec.describe Metanorma::Standoc do
                </bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes hyperlink reference, ingest RXL or XML if available" do
@@ -1236,8 +1235,8 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "overrides normative status of bibliographies" do
@@ -1284,8 +1283,8 @@ RSpec.describe Metanorma::Standoc do
         </bibliography>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "have formatted reference tag" do
@@ -1354,8 +1353,8 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "mixes bibitems and bibliographic subclauses" do
@@ -1410,8 +1409,8 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "renders not found reference with no fall-back title" do
@@ -1424,8 +1423,8 @@ RSpec.describe Metanorma::Standoc do
 
       * [[[iso123,NIST 123]]]
     INPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(<<~"OUTPUT")
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to <<~"OUTPUT"
         #{BLANK_HDR}
            <sections/>
            <bibliography>

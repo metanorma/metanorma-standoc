@@ -11,8 +11,8 @@ RSpec.describe Metanorma::Standoc do
       <sections/>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to strip_guid(Canon.format_xml(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "converts a blank document" do
@@ -28,8 +28,8 @@ RSpec.describe Metanorma::Standoc do
       <sections/>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to strip_guid(Canon.format_xml(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to strip_guid(output)
     expect(File.exist?("test.doc")).to be true
     expect(File.exist?("test.pdf")).to be true
     expect(File.exist?("htmlstyle.css")).to be false

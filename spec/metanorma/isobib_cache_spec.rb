@@ -416,8 +416,8 @@ RSpec.describe Metanorma::Standoc do
     db = Relaton::Db.new "#{Dir.home}/.relaton/cache", nil
     entry = db.load_entry("ISO(ISO 123:2001)")
     expect(entry).to include("<fetched>#{Date.today}</fetched>")
-    expect(strip_guid(Canon.format_xml(entry)))
-      .to be_equivalent_to(strip_guid(Canon.format_xml(ISO_123_DATED)))
+    expect(strip_guid(entry))
+      .to be_xml_equivalent_to(strip_guid(ISO_123_DATED))
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     # FileUtils.rm_rf File.expand_path("~/.iev/cache")
@@ -618,8 +618,8 @@ RSpec.describe Metanorma::Standoc do
     entry = db.load_entry("ISO(ISO 124:2014)")
     # expect(db.fetched("ISO(ISO 124:2014)")).to eq(Date.today.to_s)
     expect(entry).to include("<fetched>#{Date.today}</fetched>")
-    expect(strip_guid(Canon.format_xml(entry)))
-      .to be_equivalent_to(strip_guid(Canon.format_xml(ISO_124_DATED)))
+    expect(strip_guid(entry))
+      .to be_xml_equivalent_to(strip_guid(ISO_124_DATED))
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"),
@@ -826,8 +826,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:bibliography")
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "processes multiple relaton data sources" do
@@ -949,8 +949,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:bibliography")
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   private

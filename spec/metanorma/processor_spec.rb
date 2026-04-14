@@ -12,9 +12,10 @@ RSpec.describe Metanorma::Standoc::Processor do
   end
 
   it "registers output formats against metanorma" do
-    expect(processor.output_formats.sort.to_s).to be_equivalent_to <<~OUTPUT
+    output = <<~OUTPUT
       [[:doc, "doc"], [:html, "html"], [:pdf, "pdf"], [:presentation, "presentation.xml"], [:rxl, "rxl"], [:xml, "xml"]]
     OUTPUT
+    expect(processor.output_formats.sort.to_s).to be_equivalent_to output.strip
   end
 
   it "registers version against metanorma" do
@@ -31,8 +32,8 @@ RSpec.describe Metanorma::Standoc::Processor do
       <sections/>
       </iso-standard>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(processor.input_to_isodoc(input, "test"))))
-      .to be_equivalent_to strip_guid(Canon.format_xml(output))
+    expect(strip_guid(processor.input_to_isodoc(input, "test")))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "generates HTML from IsoDoc XML" do

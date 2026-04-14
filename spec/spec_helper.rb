@@ -26,6 +26,8 @@ require_relative "support/uuid_mock"
 Dir[File.expand_path("./support/**/**/*.rb", __dir__)]
   .sort.each { |f| require f }
 
+Canon::Config.instance.profile = :metanorma
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
@@ -196,7 +198,6 @@ NORM_REF_BOILERPLATE = <<~HDR.freeze
 HDR
 
 BLANK_HDR_NO_METANORMA_EXT = <<~"HDR".freeze
-  <?xml version="1.0" encoding="UTF-8"?>
   <metanorma xmlns="https://www.metanorma.org/ns/standoc" version="#{Metanorma::Standoc::VERSION}" type="semantic" flavor="standoc">
   <bibdata type="standard">
   <title language="en" type="main">Document title</title>
@@ -228,25 +229,6 @@ METANORMA_EXT = <<~HDR.freeze
 HDR
 
 BLANK_HDR = BLANK_HDR_NO_METANORMA_EXT + METANORMA_EXT
-
-BLANK_METANORMA_HDR = <<~"HDR".freeze
-  <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-  <?xml version="1.0" encoding="UTF-8"?><html><body>
-  <metanorma xmlns="https://www.metanorma.org/ns/standoc" version="#{Metanorma::Standoc::VERSION}" type="semantic" flavor="standoc">
-  <bibdata type="standard">
-  <title language="en" type="main">Document title</title>
-    <language>en</language>
-    <script>Latn</script>
-    <status><stage>published</stage></status>
-    <copyright>
-      <from>#{Time.new.year}</from>
-    </copyright>
-    <ext>
-    <doctype>article</doctype>
-    <flavor>standoc</flavor>
-    </ext>
-  </bibdata>
-HDR
 
 HTML_HDR = <<~HDR.freeze
   <html xmlns:epub="http://www.idpf.org/2007/ops">
@@ -349,7 +331,7 @@ def metanorma_process(input)
 end
 
 def xml_string_content(xml)
-  strip_guid(Canon.format_xml(xml))
+  strip_guid(xml)
 end
 
 # Converts all characters in a string matching Unicode regex character class \p{Zs},

@@ -79,9 +79,9 @@ RSpec.describe Metanorma::Standoc do
        </metanorma>
     OUTPUT
     FileUtils.rm_rf("test.err.html")
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))
-      .gsub(/<p id="_" anchor="_[^"]+">/, "").gsub("</p>", "")))
-      .to be_equivalent_to(strip_guid(Canon.format_xml(output)))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS))
+      .gsub(/<p id="_" anchor="_[^"]+">/, "").gsub("</p>", ""))
+      .to be_xml_equivalent_to(strip_guid(output))
   end
 
   it "creates content-based GUIDs" do
@@ -136,9 +136,9 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))
+    expect(Asciidoctor.convert(input, *OPTIONS)
       .sub(/ schema-version="v[^"]+"/, ""))
-      .to be_equivalent_to Canon.format_xml(output)
+      .to be_xml_equivalent_to output
   end
 
   it "aliases anchors" do
@@ -190,8 +190,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "removes redundant bookmarks" do
@@ -208,8 +208,8 @@ RSpec.describe Metanorma::Standoc do
       </annex>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:annex").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:annex").to_xml))
+      .to be_xml_equivalent_to(output)
 
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -225,7 +225,7 @@ RSpec.describe Metanorma::Standoc do
       </annex>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:annex").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:annex").to_xml))
+      .to be_xml_equivalent_to(output)
   end
 end

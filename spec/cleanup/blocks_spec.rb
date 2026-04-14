@@ -50,8 +50,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes svgmap" do
@@ -151,12 +151,12 @@ RSpec.describe Metanorma::Standoc do
           </bibliography>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS)))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS))
       .gsub(%r{<image[^>]+?/>}m, "<image/>")
       .gsub(%r{<image.*?</image>}m, "<image/>")
       .gsub(%r{<style.*?</style>}m, "<style/>")
       .gsub(%r{ class="st0[^"]*"}m, ""))
-      .to be_equivalent_to Canon.format_xml(output)
+      .to be_xml_equivalent_to output
   end
 
   it "processes markup in sourcecode" do
@@ -181,19 +181,13 @@ RSpec.describe Metanorma::Standoc do
              #{BLANK_HDR}
              <sections>
         <sourcecode id='_'><body>&lt;tag/&gt;</body></sourcecode>
-        <sourcecode id="_" anchor="A"><body>
-          var
-          <strong>x</strong>
-           :
-          <xref target='A'><display-text>recursive</display-text></xref>
-           &lt;tag/&gt;
-           …​ list
-        </body></sourcecode>
+        <sourcecode id="_" anchor="A"><body>var <strong>x</strong> : <xref target='A'><display-text>recursive</display-text></xref> &lt;tag/&gt;
+      …​ list</body></sourcecode>
       </sections>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes markup in sourcecode with custom delimiters" do
@@ -218,17 +212,13 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
              <sections>
-        <sourcecode id="_" anchor="A"><body>
-          var
-          <strong>x</strong>
-           :
-          <xref target='A'><display-text>recursive</display-text></xref>
+        <sourcecode id="_" anchor="A"><body>var <strong>x</strong> : <xref target='A'><display-text>recursive</display-text></xref>
         </body></sourcecode>
       </sections>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "moves notes inside preceding blocks, if the blocks are not delimited" do
@@ -273,8 +263,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "does not move notes inside preceding blocks, if they are marked as keep-separate" do
@@ -322,8 +312,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "does not move notes inside preceding tables, if they are marked as keep-separate" do
@@ -395,8 +385,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "does not move notes inside preceding blocks, if they are at clause end" do
@@ -419,8 +409,8 @@ RSpec.describe Metanorma::Standoc do
       </note></sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "inserts IDs into paragraphs" do
@@ -435,8 +425,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "inserts IDs into notes" do
@@ -458,8 +448,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "moves table key inside table" do
@@ -541,8 +531,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes headerrows attribute for table without header rows" do
@@ -583,8 +573,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes headerrows attribute for table with header rows" do
@@ -631,8 +621,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "moves table notes inside table" do
@@ -665,8 +655,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "moves formula key inside formula" do
@@ -775,8 +765,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "moves footnotes inside figures" do
@@ -815,8 +805,8 @@ RSpec.describe Metanorma::Standoc do
              </sections>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "moves figure key inside figure" do
@@ -874,8 +864,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes subfigures" do
@@ -912,8 +902,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "moves %beforeclause admonitions to right position" do
@@ -974,8 +964,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "deduplicates identifiers in inline SVGs" do
@@ -1053,9 +1043,9 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     c = Metanorma::Standoc::Converter.new(nil, *OPTIONS)
     c.init(Metanorma::Standoc::Utils::EmptyAttr.new)
-    expect(Canon.format_xml(Metanorma::Standoc::Cleanup.new(c)
-      .cleanup(Nokogiri::XML(input)).root.to_xml))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(Metanorma::Standoc::Cleanup.new(c)
+      .cleanup(Nokogiri::XML(input)).root.to_xml)
+      .to be_xml_equivalent_to output
   end
 
   it "deduplicates identifiers in embedded SVGs" do
@@ -1117,11 +1107,11 @@ RSpec.describe Metanorma::Standoc do
     xml.xpath("//*[local-name() = 'svg']/*[local-name() = 'image']").each do |x|
       x.replace("<image/>")
     end
-    expect(strip_guid(Canon.format_xml(xml.to_xml)
+    expect(strip_guid(xml.to_xml)
       .gsub(%r{<style.*?</style>}m, "<style/>")
       .gsub(%r{data:image/png[^"']*}m, "data:image/png")
-      .gsub(%r{ class="st0[^"]*"}m, "")))
-      .to be_equivalent_to Canon.format_xml(output)
+      .gsub(%r{ class="st0[^"]*"}m, ""))
+      .to be_xml_equivalent_to output
   end
 
   it "deduplicates SVG classes" do
@@ -1162,9 +1152,9 @@ RSpec.describe Metanorma::Standoc do
        </metanorma>
     OUTPUT
     c = Metanorma::Standoc::Converter.new(nil, *OPTIONS)
-    expect(Canon.format_xml(Metanorma::Standoc::Cleanup.new(c)
-      .cleanup(Nokogiri::XML(input)).to_xml))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(Metanorma::Standoc::Cleanup.new(c)
+      .cleanup(Nokogiri::XML(input)).to_xml)
+      .to be_xml_equivalent_to output
   end
 
   it "removes paras with indexterms" do
@@ -1244,9 +1234,9 @@ RSpec.describe Metanorma::Standoc do
     xml.xpath("//*[local-name() = 'image']").each do |x|
       x.replace("<image/>")
     end
-    expect(strip_guid(Canon.format_xml(xml.to_xml)
-      .gsub(%r{<style.*?</style>}m, "<style/>")))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml)
+      .gsub(%r{<style.*?</style>}m, "<style/>"))
+      .to be_xml_equivalent_to output
   end
 
   it "makes blocks unnumbered" do
@@ -1324,8 +1314,8 @@ RSpec.describe Metanorma::Standoc do
            </annex>
          </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "removes empty paragraphs" do
@@ -1351,8 +1341,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "preserves linebreaks in non-preformatted blocks" do
@@ -1412,15 +1402,15 @@ RSpec.describe Metanorma::Standoc do
        <p id="_">读写汉字<em>学</em>中文</p>
 
        <sourcecode id="_" lang="json"><body>{
-           "links": [
-           ...
-           {
-             "href": "https://data.example.com/collections/buildings/map/tiles",
-             "rel": "https://www.opengis.net/def/rel/ogc/1.0/tilesets-map",
-             "type": "application/json"
-           }
-         ]
-       }</body></sourcecode>
+          "links": [
+          ...
+          {
+            "href": "https://data.example.com/collections/buildings/map/tiles",
+            "rel": "https://www.opengis.net/def/rel/ogc/1.0/tilesets-map",
+            "type": "application/json"
+          }
+        ]
+      }</body></sourcecode>
 
        <p id="_">We do not preserve line breaks in Maths though (<stem block="false" type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML">
          <mstyle displaystyle="false">
@@ -1627,8 +1617,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "inserts header rows in a table with a name and no header" do
@@ -1669,8 +1659,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
          </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "inserts header rows in a table without a name and no header" do
@@ -1708,7 +1698,7 @@ RSpec.describe Metanorma::Standoc do
          </sections>
          </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 end
