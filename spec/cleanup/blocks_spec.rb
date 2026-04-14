@@ -181,14 +181,8 @@ RSpec.describe Metanorma::Standoc do
              #{BLANK_HDR}
              <sections>
         <sourcecode id='_'><body>&lt;tag/&gt;</body></sourcecode>
-        <sourcecode id="_" anchor="A"><body>
-          var
-          <strong>x</strong>
-           :
-          <xref target='A'><display-text>recursive</display-text></xref>
-           &lt;tag/&gt;
-           …​ list
-        </body></sourcecode>
+        <sourcecode id="_" anchor="A"><body>var <strong>x</strong> : <xref target='A'><display-text>recursive</display-text></xref> &lt;tag/&gt;
+      …​ list</body></sourcecode>
       </sections>
              </metanorma>
     OUTPUT
@@ -218,11 +212,7 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
              #{BLANK_HDR}
              <sections>
-        <sourcecode id="_" anchor="A"><body>
-          var
-          <strong>x</strong>
-           :
-          <xref target='A'><display-text>recursive</display-text></xref>
+        <sourcecode id="_" anchor="A"><body>var <strong>x</strong> : <xref target='A'><display-text>recursive</display-text></xref>
         </body></sourcecode>
       </sections>
              </metanorma>
@@ -1412,15 +1402,15 @@ RSpec.describe Metanorma::Standoc do
        <p id="_">读写汉字<em>学</em>中文</p>
 
        <sourcecode id="_" lang="json"><body>{
-           "links": [
-           ...
-           {
-             "href": "https://data.example.com/collections/buildings/map/tiles",
-             "rel": "https://www.opengis.net/def/rel/ogc/1.0/tilesets-map",
-             "type": "application/json"
-           }
-         ]
-       }</body></sourcecode>
+          "links": [
+          ...
+          {
+            "href": "https://data.example.com/collections/buildings/map/tiles",
+            "rel": "https://www.opengis.net/def/rel/ogc/1.0/tilesets-map",
+            "type": "application/json"
+          }
+        ]
+      }</body></sourcecode>
 
        <p id="_">We do not preserve line breaks in Maths though (<stem block="false" type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML">
          <mstyle displaystyle="false">

@@ -1515,17 +1515,17 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-       <sections>
-         <sourcecode id="_" anchor="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' linenums='true'>
-        <name id="_">Caption</name><body>puts "Hello, world."
-       %w{a b c}.each do |x|
-         puts x
-       end</body></sourcecode>
-         <sourcecode id="_"><body>
-        puts "Hello, world."
-       %w{a b c}.each do |x|
-         puts x
-       end</body></sourcecode>
+       <sections><sourcecode id="_" anchor="ABC" tag="X" columns="1" multilingual-rendering="common" keep-with-next="true" keep-lines-together="true" lang="ruby" linenums="true" unnumbered="true" number="3" filename="sourcecode1.rb"><name id="_">Caption</name><body>puts "Hello, world."
+      %w{a b c}.each do |x|
+        puts x
+      end</body></sourcecode>
+     
+     
+       <sourcecode id="_"><body>puts "Hello, world."
+      %w{a b c}.each do |x|
+        puts x
+      end</body></sourcecode>
+     
        </sections>
        </metanorma>
     OUTPUT
@@ -1558,17 +1558,17 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-       <sections>
-         <sourcecode id="_" anchor="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' linenums='true'>
-        <name id="_">Caption</name><body>puts "Hello, world."
-       %w{a b c}.each do |x|
-         puts x
-       end</body></sourcecode>
-         <sourcecode id="_" linenums='true'><body>
-        puts "Hello, world."
-       %w{a b c}.each do |x|
-         puts x
-       end</body></sourcecode>
+       <sections><sourcecode id="_" anchor="ABC" tag="X" columns="1" multilingual-rendering="common" keep-with-next="true" keep-lines-together="true" lang="ruby" linenums="true" unnumbered="true" number="3" filename="sourcecode1.rb"><name id="_">Caption</name><body>puts "Hello, world."
+      %w{a b c}.each do |x|
+        puts x
+      end</body></sourcecode>
+     
+     
+       <sourcecode id="_" linenums="true"><body>puts "Hello, world."
+      %w{a b c}.each do |x|
+        puts x
+      end</body></sourcecode>
+     
        </sections>
        </metanorma>
     OUTPUT
@@ -1592,23 +1592,15 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-          <sections>
-             <sourcecode id="_1" lang="ruby">
-                <body>
-                   puts "Hello, world."
-                   <callout target="_2">1</callout>
-                   %w{a b c}.each do |x| puts x
-                   <callout target="_3">2</callout>
-                   end
-                </body>
-                <callout-annotation id="_2" anchor="_2">
-                   <p id="_4">This is one callout</p>
-                </callout-annotation>
-                <callout-annotation id="_3" anchor="_3">
-                   <p id="_5">This is another callout</p>
-                </callout-annotation>
-             </sourcecode>
-          </sections>
+       <sections><sourcecode id="_1" lang="ruby"><body>puts "Hello, world." <callout target="_2">1</callout>
+      %w{a b c}.each do |x|
+        puts x <callout target="_3">2</callout>
+      end</body><callout-annotation id="_2" anchor="_2"><p id="_4">This is one callout</p>
+       </callout-annotation><callout-annotation id="_3" anchor="_3"><p id="_5">This is another callout</p>
+       </callout-annotation></sourcecode>
+     
+     
+       </sections>
        </metanorma>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))

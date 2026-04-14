@@ -26,19 +26,7 @@ require_relative "support/uuid_mock"
 Dir[File.expand_path("./support/**/**/*.rb", __dir__)]
   .sort.each { |f| require f }
 
-Canon::Config.instance.tap do |cfg|
-  # Configure Canon to use spec-friendly match profiles
-  cfg.xml.match.profile = :spec_friendly
-  cfg.html.match.profile = :spec_friendly
-
-  # Configure Canon to show all diffs (including inactive diffs)
-  cfg.html.diff.show_diffs = :normative
-  cfg.xml.diff.show_diffs = :normative
-
-  # Enable verbose diff output for debugging
-  cfg.html.diff.verbose_diff = true
-  cfg.xml.diff.verbose_diff = true
-end
+Canon::Config.instance.profile = :metanorma
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -210,7 +198,6 @@ NORM_REF_BOILERPLATE = <<~HDR.freeze
 HDR
 
 BLANK_HDR_NO_METANORMA_EXT = <<~"HDR".freeze
-  <?xml version="1.0" encoding="UTF-8"?>
   <metanorma xmlns="https://www.metanorma.org/ns/standoc" version="#{Metanorma::Standoc::VERSION}" type="semantic" flavor="standoc">
   <bibdata type="standard">
   <title language="en" type="main">Document title</title>
@@ -242,25 +229,6 @@ METANORMA_EXT = <<~HDR.freeze
 HDR
 
 BLANK_HDR = BLANK_HDR_NO_METANORMA_EXT + METANORMA_EXT
-
-BLANK_METANORMA_HDR = <<~"HDR".freeze
-  <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-  <?xml version="1.0" encoding="UTF-8"?><html><body>
-  <metanorma xmlns="https://www.metanorma.org/ns/standoc" version="#{Metanorma::Standoc::VERSION}" type="semantic" flavor="standoc">
-  <bibdata type="standard">
-  <title language="en" type="main">Document title</title>
-    <language>en</language>
-    <script>Latn</script>
-    <status><stage>published</stage></status>
-    <copyright>
-      <from>#{Time.new.year}</from>
-    </copyright>
-    <ext>
-    <doctype>article</doctype>
-    <flavor>standoc</flavor>
-    </ext>
-  </bibdata>
-HDR
 
 HTML_HDR = <<~HDR.freeze
   <html xmlns:epub="http://www.idpf.org/2007/ops">

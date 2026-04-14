@@ -731,7 +731,6 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-          <?xml version='1.0' encoding='UTF-8'?>
       <metanorma xmlns='https://www.metanorma.org/ns/standoc'  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
         <bibdata type='standard'>
           <title language='en' type='main'>Document title</title>

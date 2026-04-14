@@ -525,7 +525,7 @@ RSpec.describe Metanorma::Standoc do
          <p id="_">http://www.example.com
          And http://www.example.com and http://www.example.com</p>
          <sourcecode id="_" filename="http://www.example.com"><body>A
-       http://www.example.com/...abc2[]</body></sourcecode>
+      http://www.example.com/...abc2[]</body></sourcecode>
          <sourcecode id="_"><body>http://www.example.com/...def[]</body></sourcecode>
          <p id="_">
            <link target="http://www.example.com/...ghi"/>
