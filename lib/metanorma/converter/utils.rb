@@ -199,7 +199,7 @@ module Metanorma
       end
 
       def add_noko_elem(node, name, val, attrs = {})
-        val and !val.empty? or return
+        (val and !val.empty?) or return
         node.send name, **attr_code(attrs) do |n|
           n << val
         end

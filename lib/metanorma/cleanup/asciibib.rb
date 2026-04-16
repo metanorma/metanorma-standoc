@@ -1,4 +1,5 @@
 require "relaton/bib"
+require "relaton/bib/hash_parser_v1"
 
 module Metanorma
   module Standoc
