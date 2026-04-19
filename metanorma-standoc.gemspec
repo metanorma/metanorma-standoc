@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "crass", "~> 1.0.0"
   # spec.add_dependency "iev", "~> 0.3.5"
   spec.add_dependency "isodoc", "~> 3.5.0"
-  spec.add_dependency "metanorma", ">= 1.6.0"
+  spec.add_dependency "metanorma-core", "~> 0.1.0"
   spec.add_dependency "metanorma-plugin-glossarist", "~> 0.3.0"
   spec.add_dependency "metanorma-plugin-lutaml", "~> 0.7.31"
   spec.add_dependency "metanorma-plugin-plantuml", "~> 1.0.0"

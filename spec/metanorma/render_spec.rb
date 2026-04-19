@@ -1,4 +1,4 @@
-require "metanorma"
+require "metanorma-core"
 require "spec_helper"
 
 RSpec.describe "TestRender" do
