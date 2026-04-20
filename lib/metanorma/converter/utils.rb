@@ -207,8 +207,8 @@ module Metanorma
         text = result.flatten.map(&:rstrip) * "\n"
         text.gsub(/(?<!\s)\s+<fn /, "<fn ")
       end
-
-      EmptyAttr = Metanorma::Core::Isodoc::EmptyNode
     end
+
+    EmptyAttr = Metanorma::Core::Isodoc::EmptyNode
   end
 end

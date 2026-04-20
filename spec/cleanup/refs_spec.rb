@@ -536,7 +536,7 @@ RSpec.describe Metanorma::Standoc do
       </bibliography>
     OUTPUT
     c = Metanorma::Standoc::Converter.new("standoc", *OPTIONS)
-    c.init(Metanorma::Standoc::Utils::EmptyAttr.new)
+    c.init(Metanorma::Standoc::EmptyAttr.new)
     xml = Metanorma::Standoc::Cleanup.new(c).cleanup(Nokogiri::XML(input)).to_xml
     xml = Nokogiri::XML(xml).at("//bibliography")
     expect(strip_guid(xml.to_xml))

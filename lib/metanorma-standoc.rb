@@ -1,4 +1,5 @@
 require "asciidoctor" unless defined? Asciidoctor::Converter
+require_relative "isodoc/standoc/presentation_xml_convert"
 require_relative "isodoc/standoc/pdf_convert"
 require_relative "metanorma/converter/converter"
 require_relative "metanorma/converter/version"
