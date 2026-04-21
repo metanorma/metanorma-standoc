@@ -25,11 +25,16 @@ module Metanorma
         !node.attr("type") &&
           !%w(requirement recommendation permission).include?(type) and
           node.set_attr("type", type)
-        attrs = keep_attrs(node).merge(id_unnum_attrs(node))
-          .merge(model: @reqt_model_name)
-        ret = @reqt_model.requirement(node, obligation, attrs)
+        ret = @reqt_model.requirement(node, obligation, requirement_attrs(node))
         @reqt_model = nil unless nested
         ret
+      end
+
+      def requirement_attrs(node)
+        keep_attrs(node).merge(id_unnum_attrs(node))
+          .merge({ model: @reqt_model_name,
+                   render: node["render"] || @default_requirement_render }
+          .compact)
       end
 
       def requirement_validate(docxml)

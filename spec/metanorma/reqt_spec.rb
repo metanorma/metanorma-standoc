@@ -57,6 +57,9 @@ RSpec.describe Metanorma::Standoc do
     expect(xml.at("//xmlns:permission[@anchor = 'A']/@model").text).to eq("ogc")
     expect(xml.at("//xmlns:permission/xmlns:permission/@model").text)
       .to eq("ogc")
+    expect(xml.at("//xmlns:permission[@anchor = 'A']/@render").text).to be nil
+    expect(xml.at("//xmlns:permission/xmlns:permission/@render").text)
+      .to be nil
   end
 
   it "overrides default requirement model" do
@@ -91,6 +94,43 @@ RSpec.describe Metanorma::Standoc do
     expect(xml.at("//xmlns:permission[@anchor = 'A']/@model").text).to eq("default")
     expect(xml.at("//xmlns:permission/xmlns:permission/@model").text)
       .to eq("default")
+    expect(xml.at("//xmlns:permission[@anchor = 'A']/@render").text).to be nil
+    expect(xml.at("//xmlns:permission/xmlns:permission/@render").text)
+      .to be nil
+  end
+
+    it "overrides default requirement model rendering" do
+    input = <<~"INPUT"
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :data-uri-image: false
+      :requirements-model: default
+      :requirements-render: inline
+
+      [[A]]
+      [.permission]
+      ====
+      I permit this
+
+      [[B]]
+      [.permission]
+      =====
+      I also permit this
+
+      . List
+      . List
+      =====
+      ====
+    INPUT
+
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xml.at("//xmlns:permission[@anchor = 'A']/@render").text).to eq("inline")
+    expect(xml.at("//xmlns:permission/xmlns:permission/@render").text)
+      .to eq("inline")
   end
 
   it "inherits requirement model from parent" do

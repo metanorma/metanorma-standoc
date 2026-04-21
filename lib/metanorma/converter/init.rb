@@ -112,8 +112,7 @@ module Metanorma
         @default_requirement_render = node.attr("requirements-render")
         conv = presentation_xml_converter(EmptyAttr.new)
         @reqt_models = requirements_processor
-          .new({ default: @default_requirement_model, conv: conv,
-                 render: @default_requirement_render })
+          .new({ default: @default_requirement_model, conv: conv })
       end
 
       def init_toc(node)
