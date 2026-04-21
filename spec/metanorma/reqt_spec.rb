@@ -57,9 +57,8 @@ RSpec.describe Metanorma::Standoc do
     expect(xml.at("//xmlns:permission[@anchor = 'A']/@model").text).to eq("ogc")
     expect(xml.at("//xmlns:permission/xmlns:permission/@model").text)
       .to eq("ogc")
-    expect(xml.at("//xmlns:permission[@anchor = 'A']/@render").text).to be nil
-    expect(xml.at("//xmlns:permission/xmlns:permission/@render").text)
-      .to be nil
+    expect(xml.at("//xmlns:permission[@anchor = 'A']/@render")).to be nil
+    expect(xml.at("//xmlns:permission/xmlns:permission/@render")).to be nil
   end
 
   it "overrides default requirement model" do
@@ -94,9 +93,8 @@ RSpec.describe Metanorma::Standoc do
     expect(xml.at("//xmlns:permission[@anchor = 'A']/@model").text).to eq("default")
     expect(xml.at("//xmlns:permission/xmlns:permission/@model").text)
       .to eq("default")
-    expect(xml.at("//xmlns:permission[@anchor = 'A']/@render").text).to be nil
-    expect(xml.at("//xmlns:permission/xmlns:permission/@render").text)
-      .to be nil
+    expect(xml.at("//xmlns:permission[@anchor = 'A']/@render")).to be nil
+    expect(xml.at("//xmlns:permission/xmlns:permission/@render")).to be nil
   end
 
     it "overrides default requirement model rendering" do
