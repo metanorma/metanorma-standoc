@@ -617,7 +617,7 @@ RSpec.describe Metanorma::Standoc do
       </metanorma>
     OUTPUT
     c = Metanorma::Standoc::Converter.new(nil, *OPTIONS)
-    c.init(Metanorma::Standoc::Utils::EmptyAttr.new)
+    c.init(Metanorma::Standoc::EmptyAttr.new)
     expect(Metanorma::Standoc::Cleanup.new(c)
       .cleanup(Nokogiri::XML(input)).to_xml)
       .to be_xml_equivalent_to output

@@ -4,6 +4,7 @@ require "htmlentities"
 require "json"
 require "pathname"
 require "uuidtools"
+require "metanorma-core"
 require_relative "../../nokogiri/xml/builder"
 require_relative "date_utils"
 require_relative "isolated_converter"
@@ -91,14 +92,9 @@ module Metanorma
 
       def isodoc(lang, script, locale, i18nyaml = nil)
         conv = presentation_xml_converter(EmptyAttr.new)
-        conv.init_i18n({ i18nyaml:, language: lang, script:, locale: })
-        i18n = conv.i18n_init(lang, script, locale, i18nyaml)
-        conv.metadata_init(lang, script, locale, i18n)
-        conv.meta.localdir = @localdir
-        conv.xref_init(lang, script, nil, i18n, {})
-        conv.xrefs.klass.meta = conv.meta
-        conv.xrefs.klass.localdir = @localdir
-        conv
+        Metanorma::Core::Isodoc.init(conv, lang: lang, script: script,
+                                           locale: locale, i18nyaml: i18nyaml,
+                                           localdir: @localdir)
       end
 
       def dl_to_attrs(elem, dlist, name)
@@ -211,16 +207,8 @@ module Metanorma
         text = result.flatten.map(&:rstrip) * "\n"
         text.gsub(/(?<!\s)\s+<fn /, "<fn ")
       end
-
-      class EmptyAttr
-        def attr(_any_attribute)
-          nil
-        end
-
-        def attributes
-          {}
-        end
-      end
     end
+
+    EmptyAttr = Metanorma::Core::Isodoc::EmptyNode
   end
 end
