@@ -1,9 +1,10 @@
 require "asciidoctor" unless defined? Asciidoctor::Converter
-require_relative "isodoc/pdf_convert"
-require_relative "metanorma/standoc/converter"
-require_relative "metanorma/standoc/version"
+require_relative "isodoc/standoc/presentation_xml_convert"
+require_relative "isodoc/standoc/pdf_convert"
+require_relative "metanorma/converter/converter"
+require_relative "metanorma/converter/version"
 require "asciidoctor/extensions"
-require "metanorma"
+require "metanorma-core"
 require "vectory"
 
 if defined? Metanorma::Registry

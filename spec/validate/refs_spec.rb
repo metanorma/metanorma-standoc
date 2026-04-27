@@ -1,0 +1,410 @@
+require "spec_helper"
+require "fileutils"
+require "relaton/iso"
+
+RSpec.describe Metanorma::Standoc, type: :validation do
+  before do
+    # Force to download Relaton index file
+    allow_any_instance_of(::Relaton::Index::Type).to receive(:actual?)
+      .and_return(false)
+    allow_any_instance_of(::Relaton::Index::FileIO).to receive(:check_file)
+      .and_return(nil)
+  end
+
+  it "aborts on unsupported format in localbib" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :relaton-data-source: file=spec/assets/manual.bib,format=pizza
+
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
+      .to include("Cannot process format pizza for local Relaton data source default")
+    expect(result[:xml_exists]).to be false
+  end
+
+  it "aborts on missing file in localbib" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :relaton-data-source: file=spec/assets/fred.bib
+
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
+      .to include("Cannot process file spec/​assets/fred.​bib for local Relaton data source default")
+    expect(result[:xml_exists]).to be false
+  end
+
+  it "aborts on missing reference in localbib" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :relaton-data-source: spec/assets/manual.bib
+
+      [bibliography]
+      == Bibliography
+      * [[[A, local-file(xyz)]]]
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
+      .to include("Cannot find reference xyz for local Relaton data source default")
+    expect(result[:xml_exists]).to be false
+  end
+
+  it "warns about missing fields in asciibib" do
+    errors = convert_and_capture_errors(<<~"INPUT")
+      #{VALIDATING_BLANK_HDR}
+
+      [bibliography]
+      == Normative References
+
+      [%bibitem]
+      === Standard
+      id:: iso123
+      type:: standard
+      contributor::
+        role::: publisher
+        organization:::
+          name:::: ISO
+      contributor::
+        role::: author
+        person:::
+          name::::
+      +
+      --
+      completename::
+        language::: en
+        content::: Fred
+      --
+      contributor::
+        role::: author
+        person:::
+        name::::
+          completename::::: Jack
+    INPUT
+    expect(errors).to include("Reference iso123 is missing a document identifier (docid)")
+  end
+
+  it "warns about missing fields in asciibib" do
+    errors = convert_and_capture_errors(<<~"INPUT")
+      #{VALIDATING_BLANK_HDR}
+
+      [bibliography]
+      == Normative References
+
+      [%bibitem]
+      === Standard
+      type:: standard
+      contributor::
+        role::: publisher
+        organization:::
+          name:::: ISO
+    INPUT
+    expect(errors).to include("The following reference is missing an anchor")
+
+    errors = convert_and_capture_errors(<<~"INPUT")
+      #{VALIDATING_BLANK_HDR}
+
+      [bibliography]
+      == Normative References
+
+      [[x]]
+      [%bibitem]
+      === Standard
+      type:: standard
+      contributor::
+        role::: publisher
+        organization:::
+          name:::: ISO
+    INPUT
+    expect(errors).not_to include("The following reference is missing an anchor")
+  end
+
+  it "warns about malformed biblio span" do
+    errors = convert_and_capture_errors(<<~"INPUT")
+      #{VALIDATING_BLANK_HDR}
+
+      [bibliography]
+      == Normative References
+
+      * [[[A, B]]], span:surname1[Wozniak]
+    INPUT
+    expect(errors).to include("unrecognised key 'surname1' in <code>span:​surname1[Wozn­iak]")
+  end
+
+  it "warns that cross-reference to bibliography is not a real reference" do
+    errors = convert_and_capture_errors(<<~"INPUT")
+      #{VALIDATING_BLANK_HDR}
+
+      [.source]
+      <<iso123>>
+    INPUT
+    expect(errors).to include("iso123 does not have a corresponding anchor ID in the bibliography")
+
+    errors = convert_and_capture_errors(<<~"INPUT")
+      #{VALIDATING_BLANK_HDR}
+
+      <<iso123>>
+
+      [bibliography]
+      == Bibliography
+
+      [%bibitem]
+      === RNP: A C library approach to OpenPGP
+      id:: RNP
+      contributor::
+        role::: publisher
+        organization:::
+          name:::: ISO
+    INPUT
+    expect(errors).not_to include("iso123 does not have a corresponding anchor ID in the bibliography")
+  end
+
+  it "warns of Non-reference in bibliography" do
+    errors = convert_and_capture_errors(<<~"INPUT")
+      #{VALIDATING_BLANK_HDR}
+
+      == Normative References
+      * I am not a reference
+    INPUT
+    expect(errors).to include("no anchor on reference")
+  end
+
+  # functionality disabled, Electropedia blocking Github Actions
+  xit "Warning if terms mismatches IEV" do
+    FileUtils.rm_f "test.err.html"
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      [bibliography]
+      == Normative References
+      * [[[iev,IEV]]], _iev_
+
+      == Terms and definitions
+      === Automation
+
+      [.source]
+      <<iev,clause="103-01-02">>
+    INPUT
+    expect(File.read("test.err.html"))
+      .to include('Term "automation" does not match IEV 103-01-02 "functional"')
+
+    FileUtils.rm_f "test.err.html"
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      [bibliography]
+      == Normative References
+      * [[[iev,IEV]]], _iev_
+
+      == Terms and definitions
+      === Functional
+
+      [.source]
+      <<iev,clause="103-01-02">>
+    INPUT
+    expect(File.read("test.err.html")).not_to include("does not match IEV 103-01-02")
+
+    FileUtils.rm_f "test.err.html"
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :language: fr
+
+      [bibliography]
+      == Normative References
+      * [[[iev,IEV]]], _iev_
+
+      == Terms and definitions
+      === Fonctionnelle, f
+
+      [.source]
+      <<iev,clause="103-01-02">>
+    INPUT
+    expect(File.read("test.err.html"))
+      .not_to include("does not match IEV 103-01-02")
+  end
+
+  it "Abort if non-existent IEV document cited" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      [bibliography]
+      == Normative References
+      * [[[iev,IEV]]], _iev_
+
+      == Terms and definitions
+      === Automation
+
+      [.source]
+      <<iev,clause="03-01-02">>
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
+      .to include("The IEV document 60050-03 that has been cited does not exist")
+  end
+
+  it "warns and aborts if id used twice in bibliography for distinct docids" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      [bibliography]
+      == Bibliography
+
+      * [[[abc,B]]]
+      * [[[abc,C]]]
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors])
+      .to include("ID abc has already been used at line")
+    expect(result[:xml_exists]).to be false
+
+    # Same docid is allowed (not an error)
+    input2 = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      [bibliography]
+      == Bibliography
+
+      * [[[abc,B]]]
+      * [[[abc,B]]]
+    INPUT
+    errors = convert_and_capture_errors(input2)
+    expect(errors).not_to include("ID abc has already been used at line")
+  end
+
+  it "warns if numeric normative reference" do
+    FileUtils.rm_f "test.xml"
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      [bibliography]
+      == Normative references
+      * [[[A,1]]]
+    INPUT
+    errors = convert_and_capture_errors(input)
+    expect(errors).to include("Numeric reference in normative references")
+  end
+
+  it "does not log Relaton lookups and successes" do
+    FileUtils.rm_f "test.xml"
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :no-isobib-cache:
+
+      [bibliography]
+      == Normative references
+      * [[[A,IHO S-49]]]
+    INPUT
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("Fetching from")
+    expect(errors).not_to include("Downloading index from")
+    expect(errors).not_to include("Found")
+
+    FileUtils.rm_f "test.xml"
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :no-isobib-cache:
+
+      [bibliography]
+      == Normative references
+      * [[[A,IHO S-49673482688234687]]]
+    INPUT
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("Fetching from")
+    expect(errors).not_to include("Downloading index from")
+    expect(errors).to include("Not found")
+
+    FileUtils.rm_f "test.xml"
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :no-isobib-cache:
+
+      [bibliography]
+      == Normative references
+      * [[[A,ISO 639]]]
+    INPUT
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("Fetching from")
+    expect(errors).not_to include("Downloading index from")
+    expect(errors).not_to include("Found") # to check suffix: ISO 639:2023
+
+    FileUtils.rm_f "test.xml"
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :no-isobib-cache:
+
+      [bibliography]
+      == Normative references
+      * [[[A,FIPS 197]]]
+    INPUT
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("Fetching from")
+    expect(errors).not_to include("Downloading index from")
+    expect(errors).to include("Found") # to check suffix: NIST FIPS 197 fpd
+  end
+
+  it "warns on unrecognised bibliographic style" do
+    FileUtils.rm_f "test.xml"
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      <<A,style=pizza%>>
+
+      [bibliography]
+      == Normative references
+      * [[[A,1]]]
+    INPUT
+    errors = convert_and_capture_errors(input)
+    expect(errors).to include("Unrecognised bibliographic style: pizza")
+  end
+end

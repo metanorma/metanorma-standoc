@@ -85,8 +85,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes term notes" do
@@ -127,8 +127,8 @@ RSpec.describe Metanorma::Standoc do
             </sections>
             </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes term notes outside of terms sections" do
@@ -153,8 +153,8 @@ RSpec.describe Metanorma::Standoc do
               </sections>
               </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes term notes as plain notes in nonterm clauses" do
@@ -195,8 +195,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes term notes as plain notes in definitions subclauses of terms & definitions" do
@@ -227,8 +227,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes nested terms" do
@@ -280,8 +280,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes term examples" do
@@ -310,8 +310,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes term examples outside of terms sections" do
@@ -336,8 +336,8 @@ RSpec.describe Metanorma::Standoc do
               </sections>
               </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes term examples as plain examples in nonterm clauses" do
@@ -367,8 +367,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes term examples as plain examples in definitions subclauses of terms & definitions" do
@@ -399,8 +399,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes unmodified term sources" do
@@ -488,8 +488,8 @@ RSpec.describe Metanorma::Standoc do
              </sections>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes modified term sources" do
@@ -552,8 +552,8 @@ RSpec.describe Metanorma::Standoc do
              </sections>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes term source attributes" do
@@ -625,8 +625,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
                 </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "tag and multilingual processing attributes on term" do
@@ -655,8 +655,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "varies terms & symbols title" do
@@ -686,8 +686,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "varies terms & abbreviated terms title" do
@@ -718,9 +718,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
-                                                           *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_equivalent_to output
   end
 
   it "varies terms symbols & abbreviated terms title" do
@@ -755,191 +754,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
-  end
-
-  it "automates terms & definitions titles if there are no extraneous sections" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      == Terms, Definitions, Symbols and Abbreviated Terms
-
-      [.boilerplate]
-      === Boilerplate
-
-      Boilerplate text
-
-      === Intro 4
-
-      ==== Term2
-
-      === Symbols and Abbreviated Terms
-
-      [.nonterm]
-      ==== General
-
-      ==== Symbols
-
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR}
-         <sections>
-           <clause id="_" obligation="normative" type="terms">
-             <title id="_">Terms, definitions, symbols and abbreviated terms</title>
-             <p id="_">Boilerplate text</p>
-             <terms id="_" obligation="normative">
-               <title id="_">Terms and definitions</title>
-               <term id="_" anchor="term-Term2">
-                 <preferred>
-                   <expression>
-                     <name>Term2</name>
-                   </expression>
-                 </preferred>
-               </term>
-             </terms>
-             <definitions id="_" obligation="normative">
-               <title id="_">Symbols and abbreviated terms</title>
-               <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">General</title>
-               </clause>
-               <definitions id="_" type="symbols" obligation="normative">
-                 <title id="_">Symbols</title>
-               </definitions>
-             </definitions>
-           </clause>
-         </sections>
-       </metanorma>
-    OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
-  end
-
-  it "does not do automated terms & definitions titles if there are extraneous sections" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      == Terms, Definitions, Symbols and Abbreviated Terms
-
-      [.boilerplate]
-      === Boilerplate
-
-      Boilerplate text
-
-      [.nonterm]
-      === Intro 3
-
-      === Intro 4
-
-      ==== Term2
-
-      === Symbols and Abbreviated Terms
-
-      [.nonterm]
-      ==== General
-
-      ==== Symbols
-
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR}
-              <sections>
-           <clause id="_" obligation="normative" type="terms">
-             <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
-             <p id="_">Boilerplate text</p>
-             <clause id="_" inline-header="false" obligation="normative">
-               <title id="_">Intro 3</title>
-             </clause>
-             <terms id="_" obligation="normative">
-               <title id="_">Intro 4</title>
-               <term id="_" anchor="term-Term2">
-                 <preferred>
-                   <expression>
-                     <name>Term2</name>
-                   </expression>
-                 </preferred>
-               </term>
-             </terms>
-             <definitions id="_" obligation="normative">
-               <title id="_">Symbols and abbreviated terms</title>
-               <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">General</title>
-               </clause>
-               <definitions id="_" type="symbols" obligation="normative">
-                 <title id="_">Symbols</title>
-               </definitions>
-             </definitions>
-           </clause>
-         </sections>
-       </metanorma>
-    OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
-                                                           *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      == Terms, Definitions, Symbols and Abbreviated Terms
-
-      [.boilerplate]
-      === Boilerplate
-
-      Boilerplate text
-
-      === Intro 3
-
-      ==== Term2
-
-      === Intro 4
-
-      ==== Term3
-
-      === Symbols and Abbreviated Terms
-
-      [.nonterm]
-      ==== General
-
-      ==== Symbols
-
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR}
-               <sections>
-           <clause id="_" obligation="normative" type="terms">
-             <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
-             <p id="_">Boilerplate text</p>
-             <terms id="_" obligation="normative">
-               <title id="_">Intro 3</title>
-               <term id="_" anchor="term-Term2">
-                 <preferred>
-                   <expression>
-                     <name>Term2</name>
-                   </expression>
-                 </preferred>
-               </term>
-             </terms>
-             <terms id="_" obligation="normative">
-               <title id="_">Intro 4</title>
-               <term id="_" anchor="term-Term3">
-                 <preferred>
-                   <expression>
-                     <name>Term3</name>
-                   </expression>
-                 </preferred>
-               </term>
-             </terms>
-             <definitions id="_" obligation="normative">
-               <title id="_">Symbols and abbreviated terms</title>
-               <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">General</title>
-               </clause>
-               <definitions id="_" type="symbols" obligation="normative">
-                 <title id="_">Symbols</title>
-               </definitions>
-             </definitions>
-           </clause>
-         </sections>
-    OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
-                                                           *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes non-term clauses" do
@@ -1049,9 +865,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
-                                                           *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_equivalent_to output
   end
 
   it "processes terminal nodes in terms with term subsection names" do
@@ -1081,9 +896,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
-                                                           *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "treats terminal terms subclause named as terms clause as a normal clause" do
@@ -1114,8 +928,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "treats non-terminal terms subclause named as terms clause as a terms clause" do
@@ -1176,9 +990,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
-                                                           *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_equivalent_to output
   end
 
   it "ignores second terms section" do
@@ -1216,9 +1029,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
-                                                           *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_equivalent_to output
   end
 
   it "does not ignore second terms section if specified as heading" do
@@ -1262,8 +1074,7 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input,
-                                                           *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_equivalent_to output
   end
 end

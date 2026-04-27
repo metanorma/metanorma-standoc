@@ -1,0 +1,19 @@
+require "isodoc"
+
+module IsoDoc
+  module Standoc
+    # A {Converter} implementation that generates HTML output, and a document
+    # schema encapsulation of the document for validation
+    #
+    class PdfConvert < IsoDoc::XslfoPdfConvert
+      def initialize(options)
+        @libdir = File.dirname(__FILE__, 2)
+        super
+      end
+
+      def pdf_stylesheet(_docxml)
+        "base.standard.xsl"
+      end
+    end
+  end
+end

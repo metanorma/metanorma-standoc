@@ -34,8 +34,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes table widths" do
@@ -97,8 +97,8 @@ RSpec.describe Metanorma::Standoc do
       </metanorma>
 
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes column widths in tables" do
@@ -185,89 +185,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
-  end
-
-  it "inserts header rows in a table with a name and no header" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      [headerrows=2]
-      .Table Name
-      |===
-      |A |B |C
-      h|1 |2 |3
-      h|1 |2 |3
-      |===
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR}
-             <sections>
-           <table id="_">
-           <name id="_">Table Name</name>
-           <thead><tr id="_" id="_">
-               <th id="_" valign="top" align="left">A</th>
-               <th id="_" valign="top" align="left">B</th>
-               <th id="_" valign="top" align="left">C</th>
-             </tr><tr id="_" id="_">
-               <th id="_" valign="top" align="left">1</th>
-               <th id="_" valign="top" align="left">2</th>
-               <th id="_" valign="top" align="left">3</th>
-             </tr></thead>
-           <tbody>
-
-
-             <tr id="_" id="_">
-               <th id="_" valign="top" align="left">1</th>
-               <td id="_" valign="top" align="left">2</td>
-               <td id="_" valign="top" align="left">3</td>
-             </tr>
-           </tbody>
-         </table>
-         </sections>
-         </metanorma>
-    OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
-  end
-
-  it "inserts header rows in a table without a name and no header" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      [headerrows=2]
-      |===
-      |A |B |C
-      h|1 |2 |3
-      h|1 |2 |3
-      |===
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR}
-             <sections>
-           <table id="_"><thead><tr id="_" id="_">
-               <th id="_" valign="top" align="left">A</th>
-               <th id="_" valign="top" align="left">B</th>
-               <th id="_" valign="top" align="left">C</th>
-             </tr><tr id="_" id="_">
-               <th id="_" valign="top" align="left">1</th>
-               <th id="_" valign="top" align="left">2</th>
-               <th id="_" valign="top" align="left">3</th>
-             </tr></thead>
-           <tbody>
-
-
-             <tr id="_" id="_">
-               <th id="_" valign="top" align="left">1</th>
-               <td id="_" valign="top" align="left">2</td>
-               <td id="_" valign="top" align="left">3</td>
-             </tr>
-           </tbody>
-         </table>
-         </sections>
-         </metanorma>
-    OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes complex tables" do
@@ -509,8 +428,8 @@ RSpec.describe Metanorma::Standoc do
               </sections>
               </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes table styles" do
@@ -545,7 +464,7 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 end

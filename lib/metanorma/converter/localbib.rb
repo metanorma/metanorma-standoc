@@ -1,0 +1,69 @@
+require "relaton/bib"
+
+module Metanorma
+  module Standoc
+    class LocalBiblio
+      def initialize(node, localdir, parent)
+        @file_bibdb = {}
+        @localdir = localdir
+        @parent = parent
+        read_files(node)
+      end
+
+      def read_files(node)
+        if node.attr("relaton-data-source")
+          init_file_bibdb1(node.attr("relaton-data-source"), "default")
+        else
+          node.attributes.each do |k, v|
+            /^relaton-data-source-.+/.match?(k) or next
+            init_file_bibdb1(v, k.sub(/^relaton-data-source-/, ""))
+          end
+        end
+      end
+
+      def init_file_bibdb_config(defn, key)
+        defn.include?("=") or defn = "file=#{defn}"
+        values = defn.split(",").map { |item| item.split /(?<!\s)\s*=\s*/ }.to_h
+        values["key"] = key
+        values["format"] ||= "bibtex" # all we currently suppoort
+        values
+      end
+
+      def init_file_bibdb1(defn, key)
+        v = init_file_bibdb_config(defn, key)
+        r = read_file(v)
+        @file_bibdb[v["key"]] =
+          case v["format"]
+          when "bibtex"
+            Relaton::Bib::Converter::Bibtex.to_item(r)
+          else
+            format_error(v)
+          end
+      end
+
+      def read_file(config)
+        f = File.join(@localdir, config["file"])
+        File.exist?(f) or return file_error(config)
+        File.read(f)
+      end
+
+      def file_error(config)
+        @parent.log.add("STANDOC_54", nil,
+                        params: [config["file"], config["key"]])
+        ""
+      end
+
+      def format_error(config)
+        @parent.log.add("STANDOC_37", nil,
+                        params: [config["format"], config["key"]])
+        {}
+      end
+
+      def get(id, file = default)
+        ret = @file_bibdb.dig(file, id) and return ret
+        @parent.log.add("STANDOC_19", nil, params: [id, file])
+        Nokogiri::XML("<bibitem/>")
+      end
+    end
+  end
+end

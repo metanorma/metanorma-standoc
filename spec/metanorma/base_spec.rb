@@ -9,11 +9,10 @@ RSpec.describe Metanorma::Standoc do
   it "applies Asciidoctor substitutions" do
     expect(Metanorma::Utils.asciidoc_sub("A -- B"))
       .to eq "A&#8201;&#8212;&#8201;B"
-    expect(Canon.format_xml(Metanorma::Utils.asciidoc_sub("*A* stem:[x]")))
-      .to be_equivalent_to Canon.format_xml(<<~XML,
+    expect(Metanorma::Utils.asciidoc_sub("*A* stem:[x]"))
+      .to be_xml_equivalent_to <<~XML
         <strong>A</strong> <stem type="AsciiMath" block="false">x</stem>
       XML
-                                           )
   end
 
   it "processes root attributes" do
@@ -50,8 +49,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "assigns default scripts to major languages" do
@@ -86,8 +85,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "processes publisher abbreviations in CSV :publisher: attribute" do
@@ -185,8 +184,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "processes default metadata" do
@@ -228,12 +227,14 @@ RSpec.describe Metanorma::Standoc do
       :technical-committee-number_2: 11
       :technical-committee-type_2: A1
       :technical-committee-agency_2: TC1
+      :technical-committee_logo_2: spec/assets/correct.png
       :subcommittee_2: SC1
       :subcommittee-number_2: 21
       :subcommittee-type_2: B1
       :workgroup_2: WG1
       :workgroup-number_2: 31
       :workgroup-type_2: C1
+      :workgroup_logo_2: spec/assets/correct.png
       :secretariat: SECRETARIAT
       :copyright-year: 2001
       :docstage: 10
@@ -290,10 +291,10 @@ RSpec.describe Metanorma::Standoc do
       :toclevels-html: 4
       :toclevels-pdf: 5
       :docidentifier-additional: ABC:x 1, DEF:y 2
+      :data-uri-image: false
 
     INPUT
     output = <<~OUTPUT
-                    <?xml version="1.0" encoding="UTF-8"?>
                 <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                 <bibdata type="standard">
                 <title language="en" type="main">Main Title\\u2009—\\u2009Title</title>
@@ -435,6 +436,9 @@ RSpec.describe Metanorma::Standoc do
                       <name>TC1</name>
                       <identifier>A1 11</identifier>
                       <identifier type="full">A1 11</identifier>
+                      <logo>
+                  <image src="spec/assets/correct.png" mimetype="image/png"/>
+               </logo>
                    </subdivision>
                 </organization>
              </contributor>
@@ -558,8 +562,70 @@ RSpec.describe Metanorma::Standoc do
                 <sections/>
                 </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to strip_guid(Canon.format_xml(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to strip_guid(output)
+
+    # :committee-types:
+    output = <<~OUTPUT
+          <bibdata>
+         <contributor>
+            <role type="author"/>
+            <organization>
+               <name>Cartoon Network</name>
+            </organization>
+         </contributor>
+         <contributor>
+            <role type="author"/>
+            <organization>
+               <name>Ribose, Inc.</name>
+            </organization>
+         </contributor>
+         <contributor>
+            <role type="author">
+               <description>committee</description>
+            </role>
+            <organization>
+               <name>"Cartoon Network"; "Ribose, Inc."</name>
+               <subdivision type="Subcommittee" subtype="B">
+                  <name>SC</name>
+                  <identifier>B 2</identifier>
+                  <identifier type="full">B 2/C 3</identifier>
+               </subdivision>
+               <subdivision type="Workgroup" subtype="C">
+                  <name>WG</name>
+                  <identifier>C 3</identifier>
+               </subdivision>
+            </organization>
+         </contributor>
+         <contributor>
+            <role type="author">
+               <description>committee</description>
+            </role>
+            <organization>
+               <name>"Cartoon Network"; "Ribose, Inc."</name>
+               <subdivision type="Subcommittee" subtype="B1">
+                  <name>SC1</name>
+                  <identifier>B1 21</identifier>
+                  <identifier type="full">B1 21/C1 31</identifier>
+               </subdivision>
+               <subdivision type="Workgroup" subtype="C1">
+                  <name>WG1</name>
+                  <identifier>C1 31</identifier>
+                  <logo>
+                     <image src="spec/assets/correct.png" mimetype="image/png"/>
+                  </logo>
+               </subdivision>
+            </organization>
+         </contributor>
+      </bibdata>
+    OUTPUT
+    input.sub!(":novalid:",
+               "novalid:\n:committee-types: subcommittee, workgroup")
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml = xml.xpath("//xmlns:contributor[xmlns:role/@type = 'author'][./xmlns:organization]")
+    xml = "<bibdata>#{xml.to_xml}</bibdata>"
+    expect(strip_guid(xml))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "processes complex metadata" do
@@ -588,6 +654,9 @@ RSpec.describe Metanorma::Standoc do
       :title-eo: Dokumenttitolo
       :title-intro-eo: Enkonduko
       :doctype: This is a DocType
+      :doctype-abbrev: TiiD
+      :docstage: 10
+      :docstage-abbrev: XT
       :docsubtype: This is a DocSubType
       :subdivision: Subdivision
       :subdivision-abbr: SD
@@ -614,6 +683,7 @@ RSpec.describe Metanorma::Standoc do
       :doctoclevels: 3
       :htmltoclevels: 4
       :document-scheme: SCHEME
+      :docstage-published: true
 
       [abstract]
       == Abstract
@@ -625,7 +695,6 @@ RSpec.describe Metanorma::Standoc do
       == Clause 1
     INPUT
     output = <<~OUTPUT
-                    <?xml version="1.0" encoding="UTF-8"?>
                 <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
                 <bibdata type="standard">
                   <title language="eo" type="main">Dokumenttitolo</title>
@@ -726,7 +795,7 @@ RSpec.describe Metanorma::Standoc do
                   <script>Grek</script>
                   <abstract><p>This is the abstract of the document</p>
                   <p>This is the second paragraph of the abstract of the document.</p></abstract>
-                  <status><stage>published</stage></status>
+                  <status><stage abbreviation="XT">10</stage></status>
                   <copyright>
                     <from>#{Date.today.year}</from>
                     <owner>
@@ -752,7 +821,7 @@ RSpec.describe Metanorma::Standoc do
                     </owner>
                   </copyright>
                   <ext>
-                  <doctype>this-is-a-doctype</doctype>
+                  <doctype abbreviation="TiiD">this-is-a-doctype</doctype>
                   <subdoctype>This is a DocSubType</subdoctype>
             <flavor>standoc</flavor>
                   </ext>
@@ -766,7 +835,7 @@ RSpec.describe Metanorma::Standoc do
           <hello>what-not</hello>
         </semantic-metadata>
         <presentation-metadata>
-          <hello>Hello? draft, Published</hello>
+          <hello>Hello? draft, 10</hello>
           <manifold>hello, world</manifold>
           <manifold>yes</manifold>
          <ul-label-list>•</ul-label-list>
@@ -796,8 +865,8 @@ RSpec.describe Metanorma::Standoc do
            </sections>
          </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes broken up organisational contributors and their attributes" do
@@ -1017,8 +1086,8 @@ RSpec.describe Metanorma::Standoc do
          <sections/>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes formatted address overridding address components; publisher attributes" do
@@ -1136,8 +1205,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "processes subdivisions; override docnumber with docidentifier" do
@@ -1323,8 +1392,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "processes document relations by description" do
@@ -1367,8 +1436,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "populates cover images" do
@@ -1414,102 +1483,10 @@ RSpec.describe Metanorma::Standoc do
              </presentation-metadata>
       </metanorma-extension>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Nokogiri::XML(Asciidoctor
+    expect(strip_guid(Nokogiri::XML(Asciidoctor
       .convert(input, *OPTIONS))
-      .at("//xmlns:metanorma-extension").to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
-  end
-
-  it "reads scripts into blank HTML document" do
-    FileUtils.rm_f "test.html"
-    Asciidoctor.convert(<<~INPUT, *OPTIONS)
-      = Document title
-      Author
-      :docfile: test.adoc
-      :novalid:
-      :no-pdf:
-      :scripts: spec/assets/scripts.html
-    INPUT
-    html = File.read("test.html", encoding: "utf-8")
-    expect(html).to match(%r{<script>}i)
-  end
-
-  it "uses specified fonts and assets in HTML" do
-    FileUtils.rm_f "test.html"
-    Asciidoctor.convert(<<~INPUT, *OPTIONS)
-      = Document title
-      Author
-      :docfile: test.adoc
-      :no-pdf:
-      :novalid:
-      :script: Hans
-      :body-font: Zapf Chancery
-      :header-font: Comic Sans
-      :monospace-font: Andale Mono
-      :htmlstylesheet: spec/assets/html.scss
-      :htmlstylesheet-override: spec/assets/html-override.css
-      :htmlcoverpage: spec/assets/htmlcover.html
-      :htmlintropage: spec/assets/htmlintro.html
-      :scripts: spec/assets/scripts.html
-      :htmltoclevels: 3
-
-      == Level 1
-
-      === Level 2
-
-      ==== Level 3
-    INPUT
-    html = File.read("test.html", encoding: "utf-8")
-    expect(html).to match(%r[pre[^{]+\{[^{]+font-family: Andale Mono;]m)
-    expect(html).to match(%r[p[^{]+\{[^{]+font-family: Zapf Chancery;]m)
-    expect(html).to match(%r[h1[^{]+\{[^{]+font-family: Comic Sans;]m)
-    expect(html).to match(%r[an empty html cover page])
-    expect(html).to match(%r[an empty html intro page])
-    expect(html).to match(%r[This is > a script])
-    expect(html).to match(%r[html-override])
-  end
-
-  it "uses specified fonts and assets in Word" do
-    FileUtils.rm_f "test.doc"
-    Asciidoctor.convert(<<~INPUT, *OPTIONS)
-      = Document title
-      Author
-      :docfile: test.adoc
-      :novalid:
-      :no-pdf:
-      :script: Hans
-      :body-font: Zapf Chancery
-      :header-font: Comic Sans
-      :monospace-font: Andale Mono
-      :wordstylesheet: spec/assets/word.scss
-      :wordstylesheet-override: spec/assets/word-override.css
-      :wordcoverpage: spec/assets/wordcover.html
-      :wordintropage: spec/assets/wordintro.html
-      :header: spec/assets/header.html
-      :doctoclevels: 3
-
-      == Level 1
-
-      === Level 2
-
-      ==== Level 3
-    INPUT
-    html = File.read("test.doc", encoding: "utf-8")
-    expect(html).to match(%r[pre[^{]+\{[^{]+font-family: Andale Mono;]m)
-    expect(html).to match(%r[p[^{]+\{[^{]+font-family: Zapf Chancery;]m)
-    expect(html).to match(%r[h1[^{]+\{[^{]+font-family: Comic Sans;]m)
-    expect(html).to match(%r[an empty word cover page])
-    expect(html).to match(%r[an empty word intro page])
-    expect(html).to match(%r[word-override])
-    expect(html).to include('\o "1-3"')
-    expect(html).to include(%[Content-ID: <header.html>
-Content-Disposition: inline; filename="header.html"
-Content-Transfer-Encoding: base64
-Content-Type: text/html charset="utf-8"
-
-Ci8qIGFuIGVtcHR5IGhlYWRlciAqLwoKU1RBUlQgRE9DIElEOiA6IEVORCBET0MgSUQKCkZJTEVO
-QU1FOiB0ZXN0Cgo=
-])
+      .at("//xmlns:metanorma-extension").to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "test submitting-organizations with delimiter in end" do
@@ -1528,232 +1505,58 @@ QU1FOiB0ZXN0Cgo=
     expect(File.exist?("test.doc")).to be true
   end
 
-  it "process mn2pdf attributes" do
-    node = Nokogiri::XML("<fake/>").at("fake")
-    node[Metanorma::Standoc::Base::FONTS_MANIFEST] =
-      "passed/as/font/manifest/to/mn2pdf.jar"
+    it "processes asciidoc.log file which reflects all preprocessing, including embeds and includes" do
+    FileUtils.rm_rf("spec/examples/test.asciidoc.log.txt")
+    system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/examples/test.adoc"
+    expect(File.exist?("spec/examples/test.asciidoc.log.txt")).to be true
+    log = File.read("spec/examples/test.asciidoc.log.txt")
+    source = File.read("spec/examples/test.adoc")
+    expect(log).to be_equivalent_to(source.strip)
+    FileUtils.rm_rf("spec/examples/test.asciidoc.log.txt")
 
-    options = Metanorma::Standoc::Converter
-      .new(:standoc, header_footer: true)
-      .doc_extract_attributes(node)
+    FileUtils.rm_rf("spec/assets/a1.asciidoc.log.txt")
+    system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/assets/a1.adoc"
+    expect(File.exist?("spec/assets/a1.asciidoc.log.txt")).to be true
+    log = File.read("spec/assets/a1.asciidoc.log.txt")
+    adoc = <<~ADOC
+      = X
+      A
+      :docidentifier: DOCIDENTIFIER-1
 
-    expect(options[:font_manifest])
-      .to eq(node[Metanorma::Standoc::Base::FONTS_MANIFEST])
+      == Clause 1
+
+      <<B>>
+
+      [[B]]
+      == Clause 2 [[B]]
+
+      X
+
+      == Clause 3
+
+      X
+
+      == Clause 4
+
+      X
+
+      image::rice_image2.png[]
+
+
+      image::../rice_image1.png[]
+
+      == Clause 3a
+
+      X
+
+      image::rice_image1.png[]
+
+      image::subdir/rice_image2.png[]
+
+    ADOC
+    expect(log).to be_equivalent_to(adoc.strip)
+    FileUtils.rm_rf("spec/assets/a1.asciidoc.log.txt")
   end
-
-  it "preserves instance variables during isolated asciidoctor conversions" do
-    # Create a custom converter class to test instance variable preservation
-    test_converter_class = Class.new do
-      include Metanorma::Standoc::Base
-      include Metanorma::Standoc::Cleanup
-      include Metanorma::Standoc::Utils
-
-      def initialize
-        @test_variable = "original_value"
-        @fn_number = 100
-        @refids = Set.new(["original_ref"])
-        @anchors = { "original" => "anchor" }
-        @localdir = "/original/dir"
-        @sourcecode_markup_start = "{{{"
-        @sourcecode_markup_end = "}}}"
-        @c = HTMLEntities.new
-        @embed_hdr = [{ text: "= Test Header\nTest content", child: [] }]
-        @novalid = false # Test original validation setting
-        @isolated_conversion_stack = []
-      end
-
-      attr_accessor :test_variable, :fn_number, :refids, :anchors, :localdir,
-                    :sourcecode_markup_start, :sourcecode_markup_end, :c,
-                    :embed_hdr, :novalid, :isolated_conversion_stack
-
-      def backend
-        :standoc
-      end
-
-      def processor
-        # Mock processor
-        proc_class = Class.new do
-          def asciidoctor_backend
-            :standoc
-          end
-        end
-        proc_class.new
-      end
-
-      def hdr2bibitem_type(_hdr)
-        :standoc
-      end
-
-      # Mock validation method to track if it's called
-      def validate(_doc)
-        @validation_called = true
-      end
-
-      attr_accessor :validation_called
-    end
-
-    converter = test_converter_class.new
-
-    # Store original values
-    original_test_variable = converter.test_variable
-    original_fn_number = converter.fn_number
-    original_refids = converter.refids.dup
-    original_anchors = converter.anchors.dup
-    original_localdir = converter.localdir
-    original_novalid = converter.novalid
-
-    # Test hdr2bibitem method (which internally calls isolated_asciidoctor_convert)
-    begin
-      result = converter.hdr2bibitem(converter.embed_hdr.first)
-      expect(result).to be_a(String)
-      expect(result).to include("<bibitem")
-    rescue StandardError => e
-      # Even if the conversion fails due to missing dependencies,
-      # we should still verify instance variables are preserved
-      puts "Conversion failed as expected in test environment: #{e.message}"
-    end
-
-    # Verify that all instance variables are preserved
-    expect(converter.test_variable).to eq(original_test_variable)
-    expect(converter.fn_number).to eq(original_fn_number)
-    expect(converter.refids).to eq(original_refids)
-    expect(converter.anchors).to eq(original_anchors)
-    expect(converter.localdir).to eq(original_localdir)
-    expect(converter.novalid).to eq(original_novalid)
-
-    # Test adoc2xml method
-    begin
-      converter.adoc2xml("Test content", :standoc)
-    rescue StandardError => e
-      puts "adoc2xml failed as expected in test environment: #{e.message}"
-    end
-
-    # Verify instance variables are still preserved after adoc2xml
-    expect(converter.test_variable).to eq(original_test_variable)
-    expect(converter.fn_number).to eq(original_fn_number)
-    expect(converter.refids).to eq(original_refids)
-    expect(converter.anchors).to eq(original_anchors)
-    expect(converter.localdir).to eq(original_localdir)
-    expect(converter.novalid).to eq(original_novalid)
-
-    # Test sourcecode_markup method with a mock node
-    mock_document = double("document")
-    mock_node = double("node")
-    allow(mock_node).to receive(:text)
-      .and_return("before {{{test content}}} after")
-    allow(mock_node).to receive(:document).and_return(mock_document)
-
-    begin
-      result = converter.sourcecode_markup(mock_node)
-      expect(result).to be_a(String)
-    rescue StandardError => e
-      puts "sourcecode_markup failed as expected "\
-        "in test environment: #{e.message}"
-    end
-
-    # Final verification that all instance variables are preserved
-    expect(converter.test_variable).to eq(original_test_variable)
-    expect(converter.fn_number).to eq(original_fn_number)
-    expect(converter.refids).to eq(original_refids)
-    expect(converter.anchors).to eq(original_anchors)
-    expect(converter.localdir).to eq(original_localdir)
-    expect(converter.novalid).to eq(original_novalid)
-  end
-
-  it "skips validation for isolated conversions with stack management" do
-    # Create a custom converter class to test validation skipping
-    test_converter_class = Class.new do
-      include Metanorma::Standoc::Base
-      include Metanorma::Standoc::IsolatedConverter
-
-      def initialize
-        @novalid = false
-        @isolated_conversion_stack = []
-        @validation_calls = []
-        @localdir = "/test/dir"
-        @c = HTMLEntities.new
-      end
-
-      attr_accessor :novalid, :isolated_conversion_stack, :validation_calls,
-                    :localdir, :c
-
-      # Mock validation method to track calls
-      def validate(_doc)
-        @validation_calls << "validate_called"
-      end
-
-      # Mock makexml method to test validation logic
-      def makexml(_node)
-        # Simulate the validation logic from base.rb
-        validate("mock_doc") unless @novalid || in_isolated_conversion?
-        "mock_xml_result"
-      end
-
-      # Mock methods needed for isolated conversion
-      def backend
-        :standoc
-      end
-
-      def safe_shared_attributes
-        {}
-      end
-    end
-
-    converter = test_converter_class.new
-
-    # Test 1: Normal conversion should call validation (when @novalid is false)
-    converter.validation_calls.clear
-    converter.makexml("mock_node")
-    expect(converter.validation_calls).to include("validate_called")
-    expect(converter.isolated_conversion_stack).to be_empty
-
-    # Test 2: Isolated conversion should skip validation
-    converter.validation_calls.clear
-    begin
-      converter.isolated_asciidoctor_convert("test content", backend: :standoc)
-    rescue StandardError => e
-      # Expected to fail in test environment, but stack should be managed properly
-      puts "Isolated conversion failed as expected: #{e.message}"
-    end
-    # Stack should be empty after conversion (due to ensure block)
-    expect(converter.isolated_conversion_stack).to be_empty
-
-    # Test 3: Test nested isolated conversions
-    converter.validation_calls.clear
-
-    # Simulate nested calls by manually managing stack
-    converter.isolated_conversion_stack << true  # First level
-    expect(converter.in_isolated_conversion?).to be true
-
-    converter.isolated_conversion_stack << true  # Second level (nested)
-    expect(converter.in_isolated_conversion?).to be true
-    expect(converter.isolated_conversion_stack.size).to eq(2)
-
-    # Test makexml during isolated conversion - should skip validation
-    converter.makexml("mock_node")
-    expect(converter.validation_calls).to be_empty
-
-    # Pop stack back to empty
-    converter.isolated_conversion_stack.pop
-    converter.isolated_conversion_stack.pop
-    expect(converter.isolated_conversion_stack).to be_empty
-    expect(converter.in_isolated_conversion?).to be false
-
-    # Test 4: After isolated conversion, normal validation should resume
-    converter.validation_calls.clear
-    converter.makexml("mock_node")
-    expect(converter.validation_calls).to include("validate_called")
-
-    # Test 5: Ensure @novalid setting is preserved
-    converter.novalid = false
-    begin
-      converter.isolated_asciidoctor_convert("test content", backend: :standoc)
-    rescue StandardError
-      # Expected to fail
-    end
-    expect(converter.novalid).to be false # Should remain unchanged
-  end
-
   private
 
   def mock_org_abbrevs

@@ -1,5 +1,5 @@
 require "spec_helper"
-require "relaton_iso"
+require "relaton/iso"
 
 RSpec.describe Metanorma::Standoc do
   it "processes the Metanorma::Standoc inline macros" do
@@ -75,8 +75,8 @@ RSpec.describe Metanorma::Standoc do
       </bibliography>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes the Metanorma::Standoc language variant macros" do
@@ -165,8 +165,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes the number format macros" do
@@ -278,8 +278,97 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
+  end
+
+  it "processes hex, octal, and binary number formats" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      number:0xFF[]
+      number:0xff[]
+      number:0X1A[]
+      number:0x1A.8[]
+      number:0b1010[]
+      number:0B1010[]
+      number:0b101.1[]
+      number:0o77[]
+      number:0O77[]
+      number:0o7.4[]
+      number:0xFF[decimal=",",notation=exponential]
+      number:0b1010[decimal=".",notation=exponential]
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections>
+        <p id="_">
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.255e3</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.255e3</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.26e2</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.265e2</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.1e2</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.1e2</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.55e1</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.63e2</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.63e2</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="notation='basic'">0.75e1</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.255e3</mn>
+            </math>
+          </stem>
+          <stem type="MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mn data-metanorma-numberformat="decimal='.',notation='exponential'">0.1e2</mn>
+            </math>
+          </stem>
+        </p>
+      </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processed nested macros" do
@@ -299,8 +388,8 @@ RSpec.describe Metanorma::Standoc do
            </admitted>
          </sections>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes the Metanorma::Standoc index macros" do
@@ -371,8 +460,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes the macro for editorial notes" do
@@ -403,8 +492,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes the TODO custom admonition" do
@@ -473,8 +562,8 @@ RSpec.describe Metanorma::Standoc do
           </annotation-container>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "generates pseudocode examples, with formatting and initial indentation" do
@@ -500,8 +589,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "supplies line breaks in pseudocode" do
@@ -535,8 +624,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "skips embedded blocks when supplying line breaks in pseudocode" do
@@ -593,8 +682,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes simple Ruby markup" do
@@ -622,8 +711,8 @@ RSpec.describe Metanorma::Standoc do
            </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes complex Ruby markup" do
@@ -647,8 +736,8 @@ RSpec.describe Metanorma::Standoc do
            </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes the footnoteblock macro" do
@@ -702,8 +791,8 @@ RSpec.describe Metanorma::Standoc do
                   </sections>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes the footnoteblock macro with failed reference" do
@@ -762,8 +851,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes input form macros" do
@@ -862,8 +951,8 @@ RSpec.describe Metanorma::Standoc do
               </sections>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes ToC form macros" do
@@ -980,8 +1069,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes embed macro" do
@@ -1042,8 +1131,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "processes embed macro with overwriting" do
@@ -1098,8 +1187,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "processes recursive embed macro with includes, xrefs to embedded documents" do
@@ -1248,60 +1337,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
-  end
-
-  it "processes asciidoc.log file which reflects all preprocessing, including embeds and includes" do
-    FileUtils.rm_rf("spec/examples/test.asciidoc.log.txt")
-    system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/examples/test.adoc"
-    expect(File.exist?("spec/examples/test.asciidoc.log.txt")).to be true
-    log = File.read("spec/examples/test.asciidoc.log.txt")
-    source = File.read("spec/examples/test.adoc")
-    expect(log).to be_equivalent_to(source)
-    FileUtils.rm_rf("spec/examples/test.asciidoc.log.txt")
-
-    FileUtils.rm_rf("spec/assets/a1.asciidoc.log.txt")
-    system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/assets/a1.adoc"
-    expect(File.exist?("spec/assets/a1.asciidoc.log.txt")).to be true
-    log = File.read("spec/assets/a1.asciidoc.log.txt")
-    expect(log).to be_equivalent_to <<~ADOC
-      = X
-      A
-      :docidentifier: DOCIDENTIFIER-1
-
-      == Clause 1
-
-      <<B>>
-
-      [[B]]
-      == Clause 2 [[B]]
-
-      X
-
-      == Clause 3
-
-      X
-
-      == Clause 4
-
-      X
-
-      image::rice_image2.png[]
-
-
-      image::../rice_image1.png[]
-
-      == Clause 3a
-
-      X
-
-      image::rice_image1.png[]
-
-      image::subdir/rice_image2.png[]
-
-    ADOC
-    FileUtils.rm_rf("spec/assets/a1.asciidoc.log.txt")
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "processes std-link macro" do
@@ -1313,6 +1350,7 @@ RSpec.describe Metanorma::Standoc do
 
       std-link:[ISO 131]
       std-link:[iso:std:iso:13485:en,droploc%clause=4,text]
+      std-link:[ISO 131,clause=5]
     INPUT
     output = <<~OUTPUT
        #{BLANK_HDR}
@@ -1329,120 +1367,156 @@ RSpec.describe Metanorma::Standoc do
                 </localityStack>
                 <display-text>text</display-text>
               </eref>
+              <eref type="inline" bibitemid="ISO 131" citeas="ISO\\u00a0131">
+               <localityStack>
+                  <locality type="clause">
+                     <referenceFrom>5</referenceFrom>
+                  </locality>
+               </localityStack>
+            </eref>
             </p>
           </clause>
         </sections>
         <bibliography>
           <references hidden='true' normative='true'>
-            <bibitem id="_" type="standard" anchor="ISO 131" hidden="true">
-              <fetched/>
-              <title type='title-intro' format='text/plain' language='en' script='Latn'>Acoustics</title>
-              <title type='title-main' format='text/plain' language='en' script='Latn'>Expression of physical and subjective magnitudes of sound or noise in air</title>
-              <title type='main' format='text/plain' language='en' script='Latn'>
-                Acoustics\\u2009—\\u2009Expression of physical and subjective magnitudes of sound
-                or noise in air
-              </title>
-              <uri type='src'>https://www.iso.org/standard/3944.html</uri>
-              <uri type='rss'>https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
-              <docidentifier type='ISO' primary='true'>ISO 131</docidentifier>
-              <docidentifier type="iso-reference">ISO 131(E)</docidentifier>
-              <docidentifier type="URN">urn:iso:std:iso:131:stage-95.99</docidentifier>
-              <docnumber>131</docnumber>
-              <contributor>
-                <role type='publisher'/>
-                <organization>
-                  <name>International Organization for Standardization</name>
-                  <abbreviation>ISO</abbreviation>
-                  <uri>www.iso.org</uri>
-                </organization>
-              </contributor>
-              <edition>1</edition>
-              <language>en</language>
-              <language>fr</language>
-              <script>Latn</script>
-              <status>
-                <stage>95</stage>
-                <substage>99</substage>
-              </status>
-              <copyright>
-                <from>1979</from>
-                <owner>
-                  <organization>
-                    <name>ISO</name>
-                  </organization>
-                </owner>
-              </copyright>
-              <relation type='obsoletes'>
-                <bibitem type='standard'>
-                  <formattedref format='text/plain'>ISO/R 357:1963</formattedref>
-                  <docidentifier type='ISO' primary='true'>ISO/R 357:1963</docidentifier>
-                </bibitem>
-              </relation>
-              <relation type='instanceOf'>
-                <bibitem type='standard'>
-                  <fetched/>
-                  <title type='title-intro' format='text/plain' language='en' script='Latn'>Acoustics</title>
-                  <title type='title-main' format='text/plain' language='en' script='Latn'>Expression of physical and subjective magnitudes of sound or noise in air</title>
-                  <title type='main' format='text/plain' language='en' script='Latn'>
-                    Acoustics\\u2009—\\u2009Expression of physical and subjective magnitudes of
-                    sound or noise in air
-                  </title>
-                  <uri type='src'>https://www.iso.org/standard/3944.html</uri>
-                  <uri type='rss'>https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
-                  <docidentifier type='ISO' primary='true'>ISO 131:1979</docidentifier>
-                  <docidentifier type="iso-reference">ISO 131:1979(E)</docidentifier>
-                  <docidentifier type="URN">urn:iso:std:iso:131:stage-95.99</docidentifier>
-                  <docnumber>131</docnumber>
-                  <date type='published'>
-                    <on>1979-11</on>
-                  </date>
-                  <contributor>
-                    <role type='publisher'/>
-                    <organization>
-                      <name>International Organization for Standardization</name>
-                      <abbreviation>ISO</abbreviation>
-                      <uri>www.iso.org</uri>
-                    </organization>
-                  </contributor>
-                  <edition>1</edition>
-                  <language>en</language>
-                  <language>fr</language>
-                  <script>Latn</script>
-                  <status>
-                    <stage>95</stage>
-                    <substage>99</substage>
-                  </status>
-                  <copyright>
-                    <from>1979</from>
-                    <owner>
-                      <organization>
-                        <name>ISO</name>
-                      </organization>
-                    </owner>
-                  </copyright>
-                  <relation type='obsoletes'>
-                    <bibitem type='standard'>
-                      <formattedref format='text/plain'>ISO/R 357:1963</formattedref>
-                      <docidentifier type='ISO' primary='true'>ISO/R 357:1963</docidentifier>
-                    </bibitem>
-                  </relation>
-                  <place>Geneva</place>
-                </bibitem>
-              </relation>
-              <place>Geneva</place>
-            </bibitem>
-            <bibitem anchor="iso_std_iso_13485_en" id="_" hidden="true">
-              <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
-              <docidentifier type='ISO'>iso:std:iso:13485:en</docidentifier>
-              <docnumber>13485:en</docnumber>
-            </bibitem>
-          </references>
-        </bibliography>
-      </metanorma>
+                 <bibitem id="_" type="standard" anchor="ISO 131" hidden="true">
+                    <fetched/>
+                    <title language="en" script="Latn" type="title-intro" format="text/plain">Acoustics</title>
+                    <title language="en" script="Latn" type="title-main" format="text/plain">Expression of physical and subjective magnitudes of sound or noise in air</title>
+                    <title language="en" script="Latn" type="main" format="text/plain">Acoustics\\u2009—\\u2009Expression of physical and subjective magnitudes of sound or noise in air</title>
+                    <title language="fr" script="Latn" type="title-intro" format="text/plain">Acoustique</title>
+                    <title language="fr" script="Latn" type="title-main" format="text/plain">Expression des intensités physique et subjective d’un son ou d’un bruit aérien</title>
+                    <title language="fr" script="Latn" type="main" format="text/plain">Acoustique\\u2009—\\u2009Expression des intensités physique et subjective d’un son ou d’un bruit aérien</title>
+                    <uri type="src">https://www.iso.org/standard/3944.html</uri>
+                    <uri type="rss">https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
+                    <docidentifier type="ISO" primary="true">ISO 131</docidentifier>
+                    <docidentifier type="iso-reference">ISO 131(E)</docidentifier>
+                    <docidentifier type="URN">urn:iso:std:iso:131:stage-95.99</docidentifier>
+                    <docnumber>131</docnumber>
+                    <contributor>
+                       <role type="publisher"/>
+                       <organization>
+                          <name>International Organization for Standardization</name>
+                          <abbreviation>ISO</abbreviation>
+                          <uri>www.iso.org</uri>
+                       </organization>
+                    </contributor>
+                    <contributor>
+                       <role type="author">
+                          <description>committee</description>
+                       </role>
+                       <organization>
+                          <name>International Organization for Standardization</name>
+                          <subdivision type="technical-committee" subtype="TC">
+                             <name>Acoustics</name>
+                             <identifier>ISO/TC 43</identifier>
+                          </subdivision>
+                          <abbreviation>ISO</abbreviation>
+                       </organization>
+                    </contributor>
+                    <edition>1</edition>
+                    <language>en</language>
+                    <language>fr</language>
+                    <script>Latn</script>
+                    <status>
+                       <stage>95</stage>
+                       <substage>99</substage>
+                    </status>
+                    <copyright>
+                       <from>1979</from>
+                       <owner>
+                          <organization>
+                             <name>ISO</name>
+                          </organization>
+                       </owner>
+                    </copyright>
+                    <relation type="obsoletes">
+                       <bibitem type="standard">
+                          <formattedref>ISO/R 357:1963</formattedref>
+                          <docidentifier type="ISO" primary="true">ISO/R 357:1963</docidentifier>
+                       </bibitem>
+                    </relation>
+                    <relation type="instanceOf">
+                       <bibitem type="standard">
+                          <title language="en" script="Latn" type="title-intro" format="text/plain">Acoustics</title>
+                          <title language="en" script="Latn" type="title-main" format="text/plain">Expression of physical and subjective magnitudes of sound or noise in air</title>
+                          <title language="en" script="Latn" type="main" format="text/plain">Acoustics\\u2009—\\u2009Expression of physical and subjective magnitudes of sound or noise in air</title>
+                          <title language="fr" script="Latn" type="title-intro" format="text/plain">Acoustique</title>
+                          <title language="fr" script="Latn" type="title-main" format="text/plain">Expression des intensités physique et subjective d’un son ou d’un bruit aérien</title>
+                          <title language="fr" script="Latn" type="main" format="text/plain">Acoustique\\u2009—\\u2009Expression des intensités physique et subjective d’un son ou d’un bruit aérien</title>
+                          <uri type="src">https://www.iso.org/standard/3944.html</uri>
+                          <uri type="rss">https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
+                          <docidentifier type="ISO" primary="true">ISO 131:1979</docidentifier>
+                          <docidentifier type="iso-reference">ISO 131:1979(E)</docidentifier>
+                          <docidentifier type="URN">urn:iso:std:iso:131:stage-95.99</docidentifier>
+                          <docnumber>131</docnumber>
+                          <date type="published">
+                             <on>1979-11</on>
+                          </date>
+                          <contributor>
+                             <role type="publisher"/>
+                             <organization>
+                                <name>International Organization for Standardization</name>
+                                <abbreviation>ISO</abbreviation>
+                                <uri>www.iso.org</uri>
+                             </organization>
+                          </contributor>
+                          <contributor>
+                             <role type="author">
+                                <description>committee</description>
+                             </role>
+                             <organization>
+                                <name>International Organization for Standardization</name>
+                                <subdivision type="technical-committee" subtype="TC">
+                                   <name>Acoustics</name>
+                                   <identifier>ISO/TC 43</identifier>
+                                </subdivision>
+                                <abbreviation>ISO</abbreviation>
+                             </organization>
+                          </contributor>
+                          <edition>1</edition>
+                          <language>en</language>
+                          <language>fr</language>
+                          <script>Latn</script>
+                          <status>
+                             <stage>95</stage>
+                             <substage>99</substage>
+                          </status>
+                          <copyright>
+                             <from>1979</from>
+                             <owner>
+                                <organization>
+                                   <name>ISO</name>
+                                </organization>
+                             </owner>
+                          </copyright>
+                          <relation type="obsoletes">
+                             <bibitem type="standard">
+                                <formattedref>ISO/R 357:1963</formattedref>
+                                <docidentifier type="ISO" primary="true">ISO/R 357:1963</docidentifier>
+                             </bibitem>
+                          </relation>
+                          <place>
+                             <formattedPlace>Geneva</formattedPlace>
+                          </place>
+                       </bibitem>
+                    </relation>
+                    <place>
+                       <formattedPlace>Geneva</formattedPlace>
+                    </place>
+                 </bibitem>
+                 <bibitem anchor="iso_std_iso_13485_en" id="_" hidden="true">
+                    <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+                    <docidentifier type="ISO">iso:std:iso:13485:en</docidentifier>
+                    <docnumber>13485:en</docnumber>
+                 </bibitem>
+              </references>
+           </bibliography>
+        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))
-                .gsub(%r{ bibitemid="_[^"]+"}, ' bibitemid="_"')))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS))
+                .gsub(%r{ bibitemid="_[^"]+"}, ' bibitemid="_"'))
+      .to be_xml_equivalent_to output
   end
 
   it "preserves ifdefs after preprocessing" do
@@ -1466,8 +1540,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:sections")
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "processes source_include" do
@@ -1537,8 +1611,8 @@ RSpec.describe Metanorma::Standoc do
       </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   describe "lutaml_figure macro" do
@@ -1572,13 +1646,7 @@ RSpec.describe Metanorma::Standoc do
 
   describe "lutaml_uml_datamodel_description macro" do
     subject(:convert) do
-      Canon.format_xml(
-        strip_guid(
-          Asciidoctor.convert(
-            input, *OPTIONS
-          ),
-        ),
-      )
+      strip_guid(Asciidoctor.convert(input, *OPTIONS))
     end
 
     let(:example_file) { fixtures_path("test.xmi") }

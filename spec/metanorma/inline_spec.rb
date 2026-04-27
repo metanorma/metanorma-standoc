@@ -19,8 +19,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes inline_quoted formatting" do
@@ -74,8 +74,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "process mtext spaces" do
@@ -103,8 +103,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "properly handles inline substitution" do
@@ -159,126 +159,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(Canon.format_xml(output))
-  end
-
-  it "normalises inline stem, straight quotes" do
-    input = <<~INPUT
-      #{DUMBQUOTE_BLANK_HDR}
-
-      stem:[n < 1]
-      latexmath:[n < 1]
-      stem:["&#x200c;"^199 "Hg"^+]
-    INPUT
-    output = <<~OUTPUT
-      #{BLANK_HDR}
-                 <sections>
-            <p id="_">
-              <stem type="MathML" block="false">
-                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                  <mstyle displaystyle="false">
-                    <mi>n</mi>
-                    <mo>&lt;</mo>
-                    <mn>1</mn>
-                  </mstyle>
-                </math>
-                <asciimath>n &lt; 1</asciimath>
-              </stem>
-              <stem type="MathML" block="false">
-                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                  <mstyle displaystyle="false">
-                    <mi>n</mi>
-                    <mo>&lt;</mo>
-                    <mn>1</mn>
-                  </mstyle>
-                </math>
-                <latexmath>n &lt; 1</latexmath>
-              </stem>
-              <stem type="MathML" block="false">
-                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                  <mstyle displaystyle="false">
-                    <msup>
-                      <mtext>‌</mtext>
-                      <mn>199</mn>
-                    </msup>
-                    <msup>
-                      <mtext>Hg</mtext>
-                      <mo>+</mo>
-                    </msup>
-                  </mstyle>
-                </math>
-                <asciimath>"‌"^199 "Hg"^+</asciimath>
-              </stem>
-            </p>
-          </sections>
-        </metanorma>
-    OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(Canon.format_xml(output))
-  end
-
-  it "normalises inline stem, smart quotes" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-
-      stem:[n < 1]
-      latexmath:[n < 1]
-      stem:["&#x200c;"^199 "Hg"^+]
-    INPUT
-    output = <<~OUTPUT
-                #{BLANK_HDR}
-          <sections>
-          <p id="_">
-              <stem type="MathML" block="false">
-                     <math xmlns="http://www.w3.org/1998/Math/MathML">
-         <mstyle displaystyle="false">
-           <mi>n</mi>
-           <mo>&lt;</mo>
-           <mn>1</mn>
-         </mstyle>
-         </math>
-              <asciimath>n &lt; 1</asciimath></stem>
-              <stem type="MathML" block="false"> <math xmlns="http://www.w3.org/1998/Math/MathML">   <mstyle displaystyle="false">     <mi>n</mi>     <mo>&lt;</mo>     <mn>1</mn>   </mstyle> </math>
-              <latexmath>n &lt; 1</latexmath>
-              </stem>
-              <stem type='MathML' block="false">
-              <math xmlns="http://www.w3.org/1998/Math/MathML">
-                               <mstyle displaystyle="false">
-                    <msup>
-                      <mtext>‌</mtext>
-                      <mn>199</mn>
-                    </msup>
-                    <msup>
-                      <mtext>Hg</mtext>
-                      <mo>+</mo>
-                    </msup>
-                  </mstyle>
-      </math>
-      <asciimath>"&#x200c;"^199 "Hg"^+</asciimath>
-      </stem>
-            </p>
-          </sections>
-           </metanorma>
-    OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(Canon.format_xml(output))
-  end
-
-  it "generates desired smart quotes for 'dd'" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      '99'.
-
-    INPUT
-    output = <<~OUTPUT
-           #{BLANK_HDR}
-      <sections><p id="_">‘99’.</p>
-      </sections>
-      </metanorma>
-    OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to(output)
   end
 
   it "processes breaks" do
@@ -308,8 +190,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes links" do
@@ -368,8 +250,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes bookmarks" do
@@ -384,8 +266,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes crossreferences" do
@@ -440,8 +322,8 @@ RSpec.describe Metanorma::Standoc do
              </sections>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to(output)
   end
 
   it "processes crossreferences style and labels" do
@@ -480,8 +362,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to(output)
   end
 
   it "processes crossreferences style as document attribute" do
@@ -526,8 +408,8 @@ RSpec.describe Metanorma::Standoc do
           </bibliography>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to(output)
   end
 
   it "processes formatting within crossreferences" do
@@ -563,8 +445,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to(output)
   end
 
   it "processes formatting within crossreferences to non-existent anchor" do
@@ -599,8 +481,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to(output)
   end
 
   it "processes combinations of crossreferences" do
@@ -632,8 +514,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to(output)
   end
 
   it "processes bibliographic anchors" do
@@ -681,8 +563,8 @@ RSpec.describe Metanorma::Standoc do
       </bibliography>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "treats triple-hyphen in bibliographic location as a single reference" do
@@ -708,8 +590,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:preface")
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "processes combinations of bibliographic crossreferences" do
@@ -869,8 +751,8 @@ RSpec.describe Metanorma::Standoc do
         </bibliography>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes formatting within bibliographic references" do
@@ -919,8 +801,8 @@ RSpec.describe Metanorma::Standoc do
        </references></bibliography>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes citation styles" do
@@ -952,11 +834,11 @@ RSpec.describe Metanorma::Standoc do
         </p>
       </foreword>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(
+    expect(strip_guid(
                         Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
                         .at("//xmlns:foreword").to_xml,
-                      )))
-      .to be_equivalent_to Canon.format_xml(output)
+                      ))
+      .to be_xml_equivalent_to output
   end
 
   it "processes formatting within term sources" do
@@ -1049,8 +931,8 @@ RSpec.describe Metanorma::Standoc do
        </references></bibliography>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes footnotes" do
@@ -1109,8 +991,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes index terms" do
@@ -1125,8 +1007,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes format-specific inline pass" do
@@ -1144,8 +1026,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes Metanorma XML inline pass" do
@@ -1175,8 +1057,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes combinations of crossreferences with localities" do
@@ -1336,8 +1218,8 @@ RSpec.describe Metanorma::Standoc do
         </bibliography>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes native Asciidoc index cross-references" do
@@ -1424,8 +1306,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
 
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1439,9 +1321,8 @@ RSpec.describe Metanorma::Standoc do
       ((G1 &> J))
       ((G1 &> K &> L))
     INPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
 
   end
-
 end

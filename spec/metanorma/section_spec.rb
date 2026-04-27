@@ -240,8 +240,8 @@
           </colophon>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes sections: explicit foreword section, and preface section at start" do
@@ -275,8 +275,8 @@
             </sections>
           </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes sections with number attributes" do
@@ -416,8 +416,8 @@
             </bibliography>
           </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes sections with number attributes" do
@@ -557,8 +557,8 @@
             </bibliography>
           </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes sections with language and script attributes" do
@@ -796,8 +796,8 @@
            </bibliography>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes sections with title, type, and unnumbered attributes" do
@@ -955,8 +955,8 @@
            </bibliography>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes nested sections with title attributes" do
@@ -1030,142 +1030,8 @@
            </sections>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
-   end
-
-   it "does not replace titles with keeptitle attribute" do
-     input = <<~INPUT
-       #{ASCIIDOC_BLANK_HDR}
-       .Foreword
-
-       Text
-
-       [abstract,keeptitle=true]
-       == Περίληψη
-
-       Text
-
-       [heading=introduction,keeptitle=true]
-       == Εισαγωγή
-
-       === Introduction Subsection
-
-       [heading=acknowledgements,keeptitle=true]
-       == Ευχαριστίες
-
-       [heading=executivesummary,keeptitle=true]
-       == Εκτελιστική Περίληψη
-
-       [heading=normative references,keeptitle=true]
-       == Κανονιστικές Παραπομπές
-
-       [heading=terms and definitions,keeptitle=true]
-       == Όροι και Ορισμοί
-
-       === Term1
-
-       [heading="terms, definitions, symbols and abbreviated terms",keeptitle=true]
-       == Όροι, Ορισμοί, Σύμβολα και Συντομογραφίες
-
-       === Normal Terms
-
-       ==== Term2
-
-       [heading=symbols,keeptitle=true]
-       === Σύμβολα και Συντομογραφίες
-
-       [heading=abbreviated terms,keeptitle=true]
-       == Σύμβολα και Συντομογραφίες
-
-       [appendix]
-       == Annex
-
-       === Annex A.1
-
-       [heading=bibliography,keeptitle=true]
-       == Βιβλιογραφία
-
-       === Bibliography Subsection
-     INPUT
-     output = <<~OUTPUT
-       #{BLANK_HDR.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')}
-          <preface>
-              <abstract id="_">
-                 <p id="_">Text</p>
-              </abstract>
-              <foreword id="_" obligation="informative">
-                 <title id="_">Foreword</title>
-                 <p id="_">Text</p>
-              </foreword>
-              <introduction id="_" obligation="informative">
-                 <title id="_">Introduction</title>
-                 <clause id="_" inline-header="false" obligation="informative">
-                    <title id="_">Introduction Subsection</title>
-                 </clause>
-              </introduction>
-              <acknowledgements id="_" obligation="informative">
-                 <title id="_">Ευχαριστίες</title>
-              </acknowledgements>
-              <executivesummary id="_" obligation="informative">
-                 <title id="_">Εκτελιστική Περίληψη</title>
-              </executivesummary>
-           </preface>
-           <sections>
-              <terms id="_" obligation="normative">
-                 <title id="_">Όροι και Ορισμοί</title>
-                 <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-                 <term id="_" anchor="term-Term1">
-                    <preferred>
-                       <expression>
-                          <name>Term1</name>
-                       </expression>
-                    </preferred>
-                 </term>
-              </terms>
-              <clause id="_" obligation="normative" type="terms">
-                 <title id="_">Όροι, Ορισμοί, Σύμβολα και Συντομογραφίες</title>
-                 <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
-                 <terms id="_" obligation="normative">
-                    <title id="_">Normal Terms</title>
-                    <term id="_" anchor="term-Term2">
-                       <preferred>
-                          <expression>
-                             <name>Term2</name>
-                          </expression>
-                       </preferred>
-                    </term>
-                 </terms>
-                 <definitions id="_" type="symbols" obligation="normative">
-                    <title id="_">Σύμβολα και Συντομογραφίες</title>
-                 </definitions>
-              </clause>
-              <definitions id="_" type="abbreviated_terms" obligation="normative">
-                 <title id="_">Σύμβολα και Συντομογραφίες</title>
-              </definitions>
-           </sections>
-           <annex id="_" inline-header="false" obligation="normative">
-              <title id="_">Annex</title>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Annex A.1</title>
-              </clause>
-           </annex>
-           <bibliography>
-              <references id="_" normative="true" obligation="informative">
-                 <title id="_">Κανονιστικές Παραπομπές</title>
-                 <p id="_">There are no normative references in this document.</p>
-              </references>
-              <clause id="_" obligation="informative">
-                 <title id="_">Βιβλιογραφία</title>
-                 <references id="_" normative="false" obligation="informative">
-                    <title id="_">Bibliography Subsection</title>
-                 </references>
-              </clause>
-           </bibliography>
-        </metanorma>
-     OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes section obligations" do
@@ -1198,8 +1064,8 @@
        </annex>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes inline headers" do
@@ -1232,8 +1098,8 @@
        </annex>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes blank headers" do
@@ -1255,8 +1121,8 @@
        </sections>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "ignore special titles in preface but not appendix" do
@@ -1302,8 +1168,8 @@
          </annex>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "recognises special titles despite following indexterms" do
@@ -1321,8 +1187,8 @@
        </sections>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "handles floating titles" do
@@ -1379,8 +1245,8 @@
           </sections>
           </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "conditionally supports annex appendixes" do
@@ -1406,8 +1272,8 @@
            </annex>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
      mock_support_appendix
      output = <<~OUTPUT
        #{BLANK_HDR}
@@ -1421,8 +1287,8 @@
            </annex>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    private

@@ -1,0 +1,212 @@
+module Metanorma
+  module Standoc
+    module TermsDesignations
+      def termdef_stem_cleanup(xmldoc)
+        xmldoc.xpath("//term//expression/name[stem]").each do |n|
+          test = n.dup
+          test.at("./stem").remove
+          test.text.strip.empty? or next
+          n.parent.name = "letter-symbol"
+        end
+      end
+
+      # release termdef tags from surrounding paras
+      def termdef_unnest_cleanup(xmldoc)
+        desgn = "//p/admitted | //p/deprecates | //p/preferred | //p//related"
+        nodes = xmldoc.xpath(desgn)
+        while !nodes.empty?
+          nodes[0].parent.replace(nodes[0].parent.children)
+          nodes = xmldoc.xpath(desgn)
+        end
+      end
+
+      def term_dl_to_metadata(xmldoc)
+        xmldoc.xpath("//term[dl[@metadata = 'true']]").each do |t|
+          t.xpath("./dl[@metadata = 'true']").each do |dl|
+            prev = related2pref(dl_to_designation(dl)) or next
+            term_dl_to_designation_metadata(prev, dl)
+            term_dl_to_term_metadata(prev, dl)
+            term_dl_to_expression_metadata(prev, dl)
+            dl.remove
+          end
+        end
+      end
+
+      def term_dl_to_term_metadata(prev, dlist)
+        return unless prev.name == "preferred" &&
+          prev.at("./preceding-sibling::preferred").nil?
+
+        ins = term_element_insert_point(prev)
+        %w(domain subject).each do |a|
+          ins = dl_to_elems(ins, prev.parent, dlist, a)
+        end
+      end
+
+      def term_dl_to_designation_metadata(prev, dlist)
+        %w(absent geographic-area).each do |a|
+          dl_to_attrs(prev, dlist, a)
+        end
+        %w(field-of-application usage-info).reverse_each do |a|
+          dl_to_elems(prev.at("./expression"), prev, dlist, a)
+        end
+      end
+
+      def term_element_insert_point(prev)
+        ins = prev
+        while %w(preferred admitted deprecates related domain dl)
+            .include? ins&.next_element&.name
+          ins = ins.next_element
+        end
+        ins
+      end
+
+      def term_dl_to_expression_metadata(prev, dlist)
+        term_dl_to_expression_root_metadata(prev, dlist)
+        term_dl_to_expression_name_metadata(prev, dlist)
+        term_to_letter_symbol(prev, dlist)
+      end
+
+      def term_dl_to_expression_root_metadata(prev, dlist)
+        %w(isInternational).each do |a|
+          p = prev.at("./expression | ./letter-symbol | ./graphical-symbol")
+          dl_to_attrs(p, dlist, a)
+        end
+        %w(language script type).each do |a|
+          p = prev.at("./expression") or next
+          dl_to_attrs(p, dlist, a)
+        end
+      end
+
+      def term_dl_to_expression_name_metadata(prev, dlist)
+        %w(abbreviation-type pronunciation).reverse_each do |a|
+          dl_to_elems(prev.at("./expression/name"), prev, dlist, a)
+        end
+        g = dlist.at("./dt[text()='grammar']/following::dd//dl") and
+          term_dl_to_expression_grammar(prev, g)
+      end
+
+      def term_dl_to_expression_grammar(prev, dlist)
+        prev.at(".//expression") or return
+        prev.at(".//expression") << "<grammar><sentinel/></grammar>"
+        %w(gender number isPreposition isParticiple isAdjective isAdverb isNoun
+           grammar-value).reverse_each do |a|
+          dl_to_elems(prev.at(".//expression/grammar/*"), prev.elements.last,
+                      dlist, a)
+        end
+        term_dl_to_designation_category(prev, "gender")
+        term_dl_to_designation_category(prev, "number")
+        prev.at(".//expression/grammar/sentinel").remove
+      end
+
+      def term_dl_to_designation_category(prev, category)
+        cat = prev.at(".//expression/grammar/#{category}")
+        cat&.text&.include?(",") and
+          cat.replace(cat.text.split(/,\s*/)
+            .map { |x| "<#{category}>#{x}</#{category}>" }.join)
+      end
+
+      def term_to_letter_symbol(prev, dlist)
+        ls = dlist.at("./dt[text()='letter-symbol']/following::dd/p")&.text
+        !ls || ls == "false" and return
+        e = prev.at(".//expression")
+        e.name = "letter-symbol"
+        ls != "true" and e["type"] = ls
+      end
+
+      def dl_to_designation(dlist)
+        prev = dlist.previous_element
+        unless %w(preferred admitted deprecates related).include? prev&.name
+          @log.add("STANDOC_20", dlist)
+          return nil
+        end
+        prev
+      end
+
+      def term_nonverbal_designations(xmldoc)
+        xmldoc.xpath("//term/preferred | //term/admitted | //term/deprecates")
+          .each do |d|
+          d.text.strip.empty? or next
+          n = d.next_element
+          if %w(formula figure).include?(n&.name)
+            term_nonverbal_designations1(d, n)
+          else d.at("./expression/name") or
+            d.children = term_expr("")
+          end
+        end
+      end
+
+      def term_nonverbal_designations1(desgn, elem)
+        desgn = related2pref(desgn)
+        if elem.name == "figure"
+          elem.at("./name").remove
+          desgn.children =
+            "<graphical-symbol>#{elem.remove.to_xml}</graphical-symbol>"
+        else
+          desgn.children = term_expr(elem.at("./stem").to_xml)
+          elem.remove
+        end
+      end
+
+      DESIGNATOR = %w(preferred admitted deprecates related).freeze
+
+      def term_termsource_to_designation(xmldoc)
+        xmldoc.xpath("//term/source").each do |t|
+          p = t.previous_element
+          while %w(domain subject).include? p&.name
+            p = p.previous_element
+          end
+          DESIGNATOR.include?(p&.name) or next
+          related2pref(p) << t.remove
+        end
+      end
+
+      def term_designation_reorder(xmldoc)
+        xmldoc.xpath("//term").each do |t|
+          des = DESIGNATOR.each_with_object([]) do |tag, m|
+            t.xpath("./#{tag}").each { |x| m << x.remove }
+          end.reverse
+          t << " "
+          des.each do |x|
+            t.add_first_child(x)
+          end
+        end
+      end
+
+      def related2pref(elem)
+        elem&.name == "related" ? elem.at("./preferred") : elem
+      end
+
+      def term_designation_redundant(xmldoc)
+        xmldoc.xpath("//term").each do |t|
+          DESIGNATOR.each do |n|
+            t.xpath("./#{n}/expression/name").each_with_object([]) do |d, m|
+              if m.include?(d.text)
+                @log.add("STANDOC_21", t, params: [d.text])
+                d.parent.parent.remove
+              end
+              m << d.text
+            end
+          end
+        end
+      end
+
+      def term_designation_unnest_cleanup(xmldoc)
+        term_designation_unnest_cleanup1(xmldoc,
+                                         %w(preferred admitted deprecates),
+                                         %w(preferred admitted deprecates
+                                            related))
+        term_designation_unnest_cleanup1(xmldoc, %w(related), %w(related))
+      end
+
+      def term_designation_unnest_cleanup1(xmldoc, path1, path2)
+        xmldoc.xpath(path1.map { |x| "//#{x}" }.join(" | "))
+          .each do |d|
+          d.xpath(path2.map { |x| ".//#{x}" }.join(" | "))
+            .reverse_each do |d1|
+              d.next = d1
+            end
+        end
+      end
+    end
+  end
+end

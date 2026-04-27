@@ -17,15 +17,16 @@ end
 
 require "bundler/setup"
 require "asciidoctor"
-require "metanorma-standoc"
 require "rspec/matchers"
 require "equivalent-xml"
-require "metanorma/standoc"
+require_relative "../lib/metanorma-standoc"
 require "canon"
 require_relative "support/uuid_mock"
 
 Dir[File.expand_path("./support/**/**/*.rb", __dir__)]
   .sort.each { |f| require f }
+
+Canon::Config.instance.profile = :metanorma
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -45,7 +46,8 @@ RSpec.configure do |config|
   end
 end
 
-OPTIONS = [backend: :standoc, header_footer: true, agree_to_terms: true].freeze
+OPTIONS = [{ backend: :standoc, header_footer: true,
+             agree_to_terms: true }].freeze
 
 GUID = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}".freeze
 
@@ -57,8 +59,8 @@ def strip_guid(xml)
     .gsub(%r{<fetched>[^<]+</fetched>}, "<fetched/>")
     .gsub(%r{ schema-version="[^"]+"}, "")
     .gsub(%r{ reference="_#{GUID}_}o, ' reference="__')
-    # .gsub(%r{ target="_[^"]+"}, ' target="_"')
-    escape_zs_chars(xml)
+  # .gsub(%r{ target="_[^"]+"}, ' target="_"')
+  escape_zs_chars(xml)
 end
 
 def strip_src(xml)
@@ -195,8 +197,7 @@ NORM_REF_BOILERPLATE = <<~HDR.freeze
   <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
 HDR
 
-BLANK_HDR = <<~"HDR".freeze
-  <?xml version="1.0" encoding="UTF-8"?>
+BLANK_HDR_NO_METANORMA_EXT = <<~"HDR".freeze
   <metanorma xmlns="https://www.metanorma.org/ns/standoc" version="#{Metanorma::Standoc::VERSION}" type="semantic" flavor="standoc">
   <bibdata type="standard">
   <title language="en" type="main">Document title</title>
@@ -211,6 +212,9 @@ BLANK_HDR = <<~"HDR".freeze
     <flavor>standoc</flavor>
     </ext>
   </bibdata>
+HDR
+
+METANORMA_EXT = <<~HDR.freeze
     <metanorma-extension>
        <semantic-metadata>
       <stage-published>true</stage-published>
@@ -224,24 +228,7 @@ BLANK_HDR = <<~"HDR".freeze
   </metanorma-extension>
 HDR
 
-BLANK_METANORMA_HDR = <<~"HDR".freeze
-  <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-  <?xml version="1.0" encoding="UTF-8"?><html><body>
-  <metanorma xmlns="https://www.metanorma.org/ns/standoc" version="#{Metanorma::Standoc::VERSION}" type="semantic" flavor="standoc">
-  <bibdata type="standard">
-  <title language="en" type="main">Document title</title>
-    <language>en</language>
-    <script>Latn</script>
-    <status><stage>published</stage></status>
-    <copyright>
-      <from>#{Time.new.year}</from>
-    </copyright>
-    <ext>
-    <doctype>article</doctype>
-    <flavor>standoc</flavor>
-    </ext>
-  </bibdata>
-HDR
+BLANK_HDR = BLANK_HDR_NO_METANORMA_EXT + METANORMA_EXT
 
 HTML_HDR = <<~HDR.freeze
   <html xmlns:epub="http://www.idpf.org/2007/ops">
@@ -307,7 +294,7 @@ def stub_fetch_ref(**opts)
   hit_pages = double("hit_pages")
   expect(hit_pages).to receive(:first).and_return(hit_page).at_least :once
 
-  expect(RelatonIso::IsoBibliography).to receive(:search)
+  expect(Relaton::Iso::Bibliography).to receive(:search)
     .and_wrap_original do |search, *args|
     code = args[0]
     expect(code).to be_instance_of String
@@ -344,7 +331,7 @@ def metanorma_process(input)
 end
 
 def xml_string_content(xml)
-  strip_guid(Canon.format_xml(xml))
+  strip_guid(xml)
 end
 
 # Converts all characters in a string matching Unicode regex character class \p{Zs},
@@ -354,5 +341,58 @@ def escape_zs_chars(str)
   # Match all characters in \p{Zs} except space (U+0020)
   str.gsub(/[\p{Zs}&&[^\u0020]]/) do |char|
     "\\u#{char.ord.to_s(16).rjust(4, '0')}"
+  end
+end
+
+# Helper module for in-memory error capture in validation tests
+module ValidationTestHelpers
+  # Convert document and return errors without excessive file I/O
+  def convert_and_capture_errors(input, options = OPTIONS)
+    error_file = "test.err.html"
+    FileUtils.rm_rf(error_file)
+
+    # Perform conversion
+    Asciidoctor.convert(input, *options)
+
+    # Read and return errors if file exists
+    File.exist?(error_file) ? File.read(error_file) : ""
+  end
+
+  # Convert document expecting SystemExit/abort and capture state
+  # Returns hash with :errors and :xml_exists keys
+  def convert_and_expect_abort(input, options = OPTIONS)
+    error_file = "test.err.html"
+    xml_file = "test.xml"
+    FileUtils.rm_rf([error_file, xml_file])
+
+    begin
+      expect do
+        Asciidoctor.convert(input, *options)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+      # Expected - continue to check files
+    end
+
+    {
+      errors: File.exist?(error_file) ? File.read(error_file) : "",
+      xml_exists: File.exist?(xml_file),
+    }
+  end
+
+  # Memoized conversion helper - converts once and caches result
+  def make_shared_convert(input)
+    @_shared_conversion_cache ||= {}
+    cache_key = input.hash
+
+    @_shared_conversion_cache[cache_key] ||= convert_and_capture_errors(input)
+  end
+end
+
+RSpec.configure do |config|
+  config.include ValidationTestHelpers, type: :validation
+
+  # Clean up conversion cache between test files
+  config.before(:suite) do
+    @_shared_conversion_cache = {}
   end
 end

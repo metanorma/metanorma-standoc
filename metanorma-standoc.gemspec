@@ -2,7 +2,7 @@
 
 lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "metanorma/standoc/version"
+require "metanorma/converter/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "metanorma-standoc"
@@ -28,31 +28,30 @@ Gem::Specification.new do |spec|
   end
   spec.required_ruby_version = Gem::Requirement.new(">= 3.1.0")
 
-  spec.add_dependency "addressable", "~> 2.8.0"
+  spec.add_dependency "addressable", "~> 2.8"
   spec.add_dependency "asciidoctor", "~> 2.0.0"
   spec.add_dependency "crass", "~> 1.0.0"
-  spec.add_dependency "iev", "~> 0.3.5"
-  spec.add_dependency "isodoc", "~> 3.4.0"
-  spec.add_dependency "metanorma", ">= 1.6.0"
-  spec.add_dependency "metanorma-plugin-glossarist", "~> 0.2.3"
+  # spec.add_dependency "iev", "~> 0.3.5"
+  spec.add_dependency "isodoc", "~> 3.5.0"
+  spec.add_dependency "metanorma-core", "~> 0.1.0"
+  spec.add_dependency "metanorma-plugin-glossarist", "~> 0.3.0"
   spec.add_dependency "metanorma-plugin-lutaml", "~> 0.7.31"
   spec.add_dependency "metanorma-plugin-plantuml", "~> 1.0.0"
   spec.add_dependency "metanorma-utils", "~> 2.0.1"
   spec.add_dependency "ruby-jing"
   # relaton-cli not just relaton, to avoid circular reference in metanorma
   spec.add_dependency "concurrent-ruby"
-  spec.add_dependency "pngcheck"
-  spec.add_dependency "relaton-cli", "~> 1.20.0"
-  spec.add_dependency "relaton-iev", "~> 1.2.0"
+  spec.add_dependency "relaton-cli", "~> 2.0.0"
+  spec.add_dependency "relaton-iev", "~> 2.0.0"
   spec.add_dependency "svg_conform", "~> 0.1.0"
+  spec.add_dependency "png_conform", "~> 0.1.0"
 
-  spec.add_development_dependency "canon", "= 0.1.3"
+  spec.add_development_dependency "canon"
   spec.add_development_dependency "debug"
   spec.add_development_dependency "equivalent-xml", "~> 0.6"
   spec.add_development_dependency "guard", "~> 2.14"
   spec.add_development_dependency "guard-rspec", "~> 4.7"
   spec.add_development_dependency "openssl"
-  spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.6"
   spec.add_development_dependency "rubocop", "~> 1"
   spec.add_development_dependency "rubocop-performance"

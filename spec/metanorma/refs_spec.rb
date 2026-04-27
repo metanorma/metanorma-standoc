@@ -1,7 +1,7 @@
 require "spec_helper"
-require "relaton_iso"
-require "relaton_ietf"
-require "relaton_nist"
+require "relaton/iso"
+require "relaton/ietf"
+require "relaton/nist"
 
 RSpec.describe Metanorma::Standoc do
   it "processes simple ISO reference" do
@@ -12,9 +12,9 @@ RSpec.describe Metanorma::Standoc do
 
       * [[[iso123,ISO 123]]] _Standard_
       * [[[iso124,(1)ISO 123]]] _Standard_
-      * [[[iso124,number=2,code=ISO 123]]] _Standard_
-      * [[[iso124,number=3,ISO 123]]] _Standard_
-      * [[[iso124,usrlabel=4,ISO 123]]] _Standard_
+      * [[[iso125,number=2,code=ISO 123]]] _Standard_
+      * [[[iso126,number=3,ISO 123]]] _Standard_
+      * [[[iso127,usrlabel=4,ISO 123]]] _Standard_
     INPUT
     output = <<~OUTPUT
             #{BLANK_HDR}
@@ -49,7 +49,7 @@ RSpec.describe Metanorma::Standoc do
         <language>en</language>
         <script>Latn</script>
       </bibitem>
-            <bibitem id="_" anchor="iso124">
+            <bibitem id="_" anchor="iso125">
         <formattedref format="application/x-isodoc+xml">
           <em>Standard</em>
         </formattedref>
@@ -59,7 +59,7 @@ RSpec.describe Metanorma::Standoc do
         <language>en</language>
         <script>Latn</script>
       </bibitem>
-      <bibitem id="_" anchor="iso124">
+      <bibitem id="_" anchor="iso126">
         <formattedref format="application/x-isodoc+xml">
           <em>Standard</em>
         </formattedref>
@@ -69,7 +69,7 @@ RSpec.describe Metanorma::Standoc do
         <language>en</language>
         <script>Latn</script>
       </bibitem>
-            <bibitem id="_" anchor="iso124">
+            <bibitem id="_" anchor="iso127">
         <formattedref format="application/x-isodoc+xml">
           <em>Standard</em>
         </formattedref>
@@ -83,8 +83,8 @@ RSpec.describe Metanorma::Standoc do
             </bibliography>
             </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes simple ISO reference with date range" do
@@ -141,8 +141,8 @@ RSpec.describe Metanorma::Standoc do
           </bibliography>
           </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes references with no identifier" do
@@ -184,8 +184,8 @@ RSpec.describe Metanorma::Standoc do
       </bibliography>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(xml.at("//xmlns:bibliography").to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.at("//xmlns:bibliography").to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "repairs simple fetched reference" do
@@ -208,8 +208,8 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso126,(3)ISO 123]]] footnote:[footnote2]
       * [[[iso127,IETF RFC 7200]]] footnote:[footnote3]
     INPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(<<~"OUTPUT")
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to <<~"OUTPUT"
                 #{BLANK_HDR}
                 <preface>
            <foreword id='_' obligation='informative'>
@@ -223,266 +223,296 @@ RSpec.describe Metanorma::Standoc do
                 <sections>
                 </sections><bibliography><references id="_" obligation="informative" normative="true"><title id="_">Normative references</title>
                  #{NORM_REF_BOILERPLATE}
-                 <bibitem type="standard" anchor="iso123" id="_">
-                    <uri type="src">https://www.iso.org/standard/23281.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                    <date type="published">
-                       <on>2001</on>
-                    </date>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
-                    </contributor>
-                    <edition>3</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>Published</stage>
-                    </status>
-                    <copyright>
-                       <from>2001</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                             <abbreviation/>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref format="text/plain">ISO 123:1985</formattedref>
-                       </bibitem>
-                    </relation>
-                    <relation type="updates">
-                       <bibitem type="standard">
-                          <formattedref format="text/plain">ISO 123:2001</formattedref>
-                       </bibitem>
-                    </relation>
-                    <docidentifier>ISO 123</docidentifier>
-                    <title>
-                       <em>Standard</em>
-                    </title>
-                 </bibitem>
-                 <bibitem type="standard" anchor="iso124" id="_">
-                    <uri type="src">https://www.iso.org/standard/23281.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                    <date type="published">
-                       <on>2001</on>
-                    </date>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
-                    </contributor>
-                    <edition>3</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>Published</stage>
-                    </status>
-                    <copyright>
-                       <from>2001</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                             <abbreviation/>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref format="text/plain">ISO 123:1985</formattedref>
-                       </bibitem>
-                    </relation>
-                    <relation type="updates">
-                       <bibitem type="standard">
-                          <formattedref format="text/plain">ISO 123:2001</formattedref>
-                       </bibitem>
-                    </relation>
-                    <docidentifier>ISO 123</docidentifier>
-                    <docidentifier type="metanorma">[1]</docidentifier>
-                    <title>
-                       <em>Standard</em>
-                    </title>
-                 </bibitem>
-                 <bibitem type="standard" anchor="iso125" id="_">
-                    <uri type="src">https://www.iso.org/standard/23281.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                    <date type="published">
-                       <on>2001</on>
-                    </date>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
-                    </contributor>
-                    <edition>3</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>Published</stage>
-                    </status>
-                    <copyright>
-                       <from>2001</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                             <abbreviation/>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref format="text/plain">ISO 123:1985</formattedref>
-                       </bibitem>
-                    </relation>
-                    <relation type="updates">
-                       <bibitem type="standard">
-                          <formattedref format="text/plain">ISO 123:2001</formattedref>
-                       </bibitem>
-                    </relation>
-                    <docidentifier>ISO 123</docidentifier>
-                    <docidentifier type="metanorma">[2]</docidentifier>
-                    <formattedref>
-                       <em>Standard</em>
-                       .
-                       <fn id="_" reference="1">
-                          <p id="_">footnote</p>
-                       </fn>
-                    </formattedref>
-                 </bibitem>
-                 <bibitem type="standard" anchor="iso126" id="_">
-                    <uri type="src">https://www.iso.org/standard/23281.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                    <date type="published">
-                       <on>2001</on>
-                    </date>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
-                    </contributor>
-                    <edition>3</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>Published</stage>
-                    </status>
-                    <copyright>
-                       <from>2001</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                             <abbreviation/>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref format="text/plain">ISO 123:1985</formattedref>
-                       </bibitem>
-                    </relation>
-                    <relation type="updates">
-                       <bibitem type="standard">
-                          <formattedref format="text/plain">ISO 123:2001</formattedref>
-                       </bibitem>
-                    </relation>
-                    <docidentifier>ISO 123</docidentifier>
-                    <docidentifier type="metanorma">[3]</docidentifier>
-                    <note type="Unpublished-Status">
-                       <p id="_">footnote2</p>
-                    </note>
-                 </bibitem>
-                 <bibitem id="_" type="standard" anchor="iso127">
-                    <fetched/>
-                    <title type="main" format="text/plain">A Session Initiation Protocol (SIP) Load-Control Event Package</title>
-                    <uri type="src">https://www.rfc-editor.org/info/rfc7200</uri>
-                    <docidentifier type="IETF" primary="true">RFC 7200</docidentifier>
-                    <docidentifier type="DOI">10.17487/RFC7200</docidentifier>
-                    <docnumber>RFC7200</docnumber>
-                    <date type="published">
-                       <on>2014-04</on>
-                    </date>
-                    <contributor>
-                       <role type="author"/>
-                       <person>
-                          <name>
-                             <completename language="en" script="Latn">C. Shen</completename>
-                          </name>
-                       </person>
-                    </contributor>
-                    <contributor>
-                       <role type="author"/>
-                       <person>
-                          <name>
-                             <completename language="en" script="Latn">H. Schulzrinne</completename>
-                          </name>
-                       </person>
-                    </contributor>
-                    <contributor>
-                       <role type="author"/>
-                       <person>
-                          <name>
-                             <completename language="en" script="Latn">A. Koike</completename>
-                          </name>
-                       </person>
-                    </contributor>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>RFC Publisher</name>
-                       </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="authorizer"/>
-                       <organization>
-                          <name>RFC Series</name>
-                       </organization>
-                    </contributor>
-                    <language>en</language>
-                    <script>Latn</script>
-                    <abstract format="text/html" language="en" script="Latn">
-                       <p id="_">This specification defines a load-control event package for the Session Initiation Protocol (SIP). It allows SIP entities to distribute load-filtering policies to other SIP entities in the network. The load-filtering policies contain rules to throttle calls from a specific user or based on their source or destination domain, telephone number prefix. The mechanism helps to prevent signaling overload and complements feedback-based SIP overload control efforts.</p>
-                    </abstract>
-                    <series>
-                       <title format="text/plain">RFC</title>
-                       <number>7200</number>
-                    </series>
-                    <series type="stream">
-                       <title format="text/plain">IETF</title>
-                    </series>
-                    <keyword>SIP</keyword>
-                    <keyword>Overload Control</keyword>
-                    <keyword>Server</keyword>
-                    <keyword>Performance</keyword>
-                    <note type="Unpublished-Status">
-                       <p id="_">footnote3</p>
-                    </note>
-                 </bibitem>
-              </references>
-           </bibliography>
-        </metanorma>
+                <bibitem type="standard" anchor="iso123" id="_">
+                   <uri type="src">https://www.iso.org/standard/23281.html</uri>
+                   <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+                   <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <date type="published">
+                      <on>2001</on>
+                   </date>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>International Organization for Standardization</name>
+                         <abbreviation>ISO</abbreviation>
+                         <uri>www.iso.org</uri>
+                      </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <status>
+                      <stage>Published</stage>
+                   </status>
+                   <copyright>
+                      <from>2001</from>
+                      <owner>
+                         <organization>
+                            <name>ISO</name>
+                            <abbreviation/>
+                         </organization>
+                      </owner>
+                   </copyright>
+                   <relation type="obsoletes">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:1985</formattedref>
+                      </bibitem>
+                   </relation>
+                   <relation type="updates">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:2001</formattedref>
+                      </bibitem>
+                   </relation>
+                   <docidentifier>ISO 123</docidentifier>
+                   <title>
+                      <em>Standard</em>
+                   </title>
+                </bibitem>
+                <bibitem type="standard" anchor="iso124" id="_">
+                   <uri type="src">https://www.iso.org/standard/23281.html</uri>
+                   <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+                   <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <date type="published">
+                      <on>2001</on>
+                   </date>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>International Organization for Standardization</name>
+                         <abbreviation>ISO</abbreviation>
+                         <uri>www.iso.org</uri>
+                      </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <status>
+                      <stage>Published</stage>
+                   </status>
+                   <copyright>
+                      <from>2001</from>
+                      <owner>
+                         <organization>
+                            <name>ISO</name>
+                            <abbreviation/>
+                         </organization>
+                      </owner>
+                   </copyright>
+                   <relation type="obsoletes">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:1985</formattedref>
+                      </bibitem>
+                   </relation>
+                   <relation type="updates">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:2001</formattedref>
+                      </bibitem>
+                   </relation>
+                   <docidentifier>ISO 123</docidentifier>
+                   <docidentifier type="metanorma">[1]</docidentifier>
+                   <title>
+                      <em>Standard</em>
+                   </title>
+                </bibitem>
+                <bibitem type="standard" anchor="iso125" id="_">
+                   <uri type="src">https://www.iso.org/standard/23281.html</uri>
+                   <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+                   <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <date type="published">
+                      <on>2001</on>
+                   </date>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>International Organization for Standardization</name>
+                         <abbreviation>ISO</abbreviation>
+                         <uri>www.iso.org</uri>
+                      </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <status>
+                      <stage>Published</stage>
+                   </status>
+                   <copyright>
+                      <from>2001</from>
+                      <owner>
+                         <organization>
+                            <name>ISO</name>
+                            <abbreviation/>
+                         </organization>
+                      </owner>
+                   </copyright>
+                   <relation type="obsoletes">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:1985</formattedref>
+                      </bibitem>
+                   </relation>
+                   <relation type="updates">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:2001</formattedref>
+                      </bibitem>
+                   </relation>
+                   <docidentifier>ISO 123</docidentifier>
+                   <docidentifier type="metanorma">[2]</docidentifier>
+                   <formattedref>
+                      <em>Standard</em>
+                      .
+                      <fn id="_" reference="1">
+                         <p id="_">footnote</p>
+                      </fn>
+                   </formattedref>
+                </bibitem>
+                <bibitem type="standard" anchor="iso126" id="_">
+                   <uri type="src">https://www.iso.org/standard/23281.html</uri>
+                   <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+                   <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <date type="published">
+                      <on>2001</on>
+                   </date>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>International Organization for Standardization</name>
+                         <abbreviation>ISO</abbreviation>
+                         <uri>www.iso.org</uri>
+                      </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <status>
+                      <stage>Published</stage>
+                   </status>
+                   <copyright>
+                      <from>2001</from>
+                      <owner>
+                         <organization>
+                            <name>ISO</name>
+                            <abbreviation/>
+                         </organization>
+                      </owner>
+                   </copyright>
+                   <relation type="obsoletes">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:1985</formattedref>
+                      </bibitem>
+                   </relation>
+                   <relation type="updates">
+                      <bibitem type="standard">
+                         <formattedref format="text/plain">ISO 123:2001</formattedref>
+                      </bibitem>
+                   </relation>
+                   <docidentifier>ISO 123</docidentifier>
+                   <docidentifier type="metanorma">[3]</docidentifier>
+                   <note type="Unpublished-Status">
+                      <p id="_">footnote2</p>
+                   </note>
+                </bibitem>
+                <bibitem id="_" type="standard" anchor="iso127">
+                   <fetched/>
+                   <title type="main">A Session Initiation Protocol (SIP) Load-Control Event Package</title>
+                   <uri type="src">https://www.rfc-editor.org/info/rfc7200</uri>
+                   <docidentifier type="IETF" primary="true">RFC 7200</docidentifier>
+                   <docidentifier type="DOI">10.17487/RFC7200</docidentifier>
+                   <docnumber>RFC7200</docnumber>
+                   <date type="published">
+                      <on>2014-04</on>
+                   </date>
+                   <contributor>
+                      <role type="author"/>
+                      <person>
+                         <name>
+                            <formatted-initials language="en" script="Latn">C.</formatted-initials>
+                            <surname language="en" script="Latn">Shen</surname>
+                            <completename language="en" script="Latn">C. Shen</completename>
+                         </name>
+                      </person>
+                   </contributor>
+                   <contributor>
+                      <role type="author"/>
+                      <person>
+                         <name>
+                            <formatted-initials language="en" script="Latn">H.</formatted-initials>
+                            <surname language="en" script="Latn">Schulzrinne</surname>
+                            <completename language="en" script="Latn">H. Schulzrinne</completename>
+                         </name>
+                      </person>
+                   </contributor>
+                   <contributor>
+                      <role type="author"/>
+                      <person>
+                         <name>
+                            <formatted-initials language="en" script="Latn">A.</formatted-initials>
+                            <surname language="en" script="Latn">Koike</surname>
+                            <completename language="en" script="Latn">A. Koike</completename>
+                         </name>
+                      </person>
+                   </contributor>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name language="en">RFC Publisher</name>
+                      </organization>
+                   </contributor>
+                   <contributor>
+                      <role type="authorizer"/>
+                      <organization>
+                         <name language="en">RFC Series</name>
+                      </organization>
+                   </contributor>
+                   <contributor>
+                      <role type="author">
+                         <description>committee</description>
+                      </role>
+                      <organization>
+                         <name language="en">Internet Engineering Task Force</name>
+                         <subdivision type="workgroup">
+                            <name>SIP Overload Control</name>
+                            <identifier>soc</identifier>
+                         </subdivision>
+                         <abbreviation language="en">IETF</abbreviation>
+                      </organization>
+                   </contributor>
+                   <language>en</language>
+                   <script>Latn</script>
+                   <abstract language="en" script="Latn">
+                      <p id="_">This specification defines a load-control event package for the Session Initiation Protocol (SIP).  It allows SIP entities to distribute load-filtering policies to other SIP entities in the network.  The load-filtering policies contain rules to throttle calls from a specific user or based on their source or destination domain, telephone number prefix.  The mechanism helps to prevent signaling overload and complements feedback-based SIP overload control efforts.</p>
+                   </abstract>
+                   <status>
+                      <stage>PROPOSED STANDARD</stage>
+                   </status>
+                   <series>
+                      <title>RFC</title>
+                      <number>7200</number>
+                   </series>
+                   <series type="stream">
+                      <title>IETF</title>
+                   </series>
+                   <keyword>
+                      <vocab>SIP</vocab>
+                   </keyword>
+                   <keyword>
+                      <vocab>Overload Control</vocab>
+                   </keyword>
+                   <keyword>
+                      <vocab>Server</vocab>
+                   </keyword>
+                   <keyword>
+                      <vocab>Performance</vocab>
+                   </keyword>
+                   <note type="Unpublished-Status">
+                      <p id="_">footnote3</p>
+                   </note>
+                </bibitem>
+             </references>
+          </bibliography>
+       </metanorma>
       OUTPUT
     expect do
       Asciidoctor.convert(input, *OPTIONS)
@@ -565,8 +595,8 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes draft ISO reference" do
@@ -659,8 +689,8 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes all-parts ISO reference" do
@@ -721,8 +751,8 @@ RSpec.describe Metanorma::Standoc do
             </bibliography>
             </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes non-ISO reference in Normative References" do
@@ -766,8 +796,8 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes non-ISO reference in Bibliography" do
@@ -830,135 +860,13 @@ RSpec.describe Metanorma::Standoc do
              </bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
-  end
-
-  it "sorts bibliography" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      [bibliography]
-      == Bibliography
-
-      * [[[iso123,2]]] _Standard2_
-      * [[[iso124,(B)]]] _Standard3_
-      * [[[iso125,1]]] _Standard1_
-      * [[[iso126,usrlabel=A1]]] _Standard_
-      * [[[iso127,(4)XYZ 123:1066 (all parts)]]] _Standard0_
-    INPUT
-    output0 = <<~OUTPUT
-             #{BLANK_HDR}
-                    <sections>
-             </sections>
-             <bibliography><references id="_" obligation="informative" normative="false">
-               <title id="_">Bibliography</title><bibitem id="_" anchor="iso123">
-               <formattedref format="application/x-isodoc+xml">
-                 <em>Standard2</em>
-               </formattedref>
-               <docidentifier type="metanorma">[1]</docidentifier>
-               <language>en</language>
-               <script>Latn</script>
-             </bibitem><bibitem id="_" anchor="iso124">
-               <formattedref format="application/x-isodoc+xml">
-                 <em>Standard3</em>
-               </formattedref>
-               <docidentifier type="metanorma">[B]</docidentifier>
-               <language>en</language>
-               <script>Latn</script>
-             </bibitem><bibitem id="_" anchor="iso125">
-               <formattedref format="application/x-isodoc+xml">
-                 <em>Standard1</em>
-               </formattedref>
-               <docidentifier type="metanorma">[3]</docidentifier>
-               <language>en</language>
-               <script>Latn</script>
-             </bibitem><bibitem id="_" anchor="iso126">
-               <formattedref format="application/x-isodoc+xml">
-                 <em>Standard</em>
-               </formattedref>
-               <docidentifier type="metanorma">[A1]</docidentifier>
-               <language>en</language>
-               <script>Latn</script>
-             </bibitem>
-      <bibitem id="_" anchor="iso127">
-        <formattedref format='application/x-isodoc+xml'>
-          <em>Standard0</em>
-        </formattedref>
-        <docidentifier type='metanorma'>[5]</docidentifier>
-        <docidentifier>XYZ 123:1066 (all parts)</docidentifier>
-        <docnumber>123:1066 (all parts)</docnumber>
-        <language>en</language>
-        <script>Latn</script>
-      </bibitem>
-             </references>
-             </bibliography>
-             </metanorma>
-    OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output0)
-
-    mock_sort_biblio
-    output1 = <<~OUTPUT
-             #{BLANK_HDR}
-                    <sections>
-             </sections>
-             <bibliography><references id="_" obligation="informative" normative="false">
-               <title id="_">Bibliography</title><bibitem anchor="iso126" id="_">
-               <formattedref format="application/x-isodoc+xml">
-                 <em>Standard</em>
-               </formattedref>
-               <docidentifier type="metanorma">[A1]</docidentifier>
-               <language>en</language>
-               <script>Latn</script>
-             </bibitem>
-      <bibitem anchor="iso127" id="_">
-        <formattedref format='application/x-isodoc+xml'>
-          <em>Standard0</em>
-        </formattedref>
-        <docidentifier type='metanorma'>[2]</docidentifier>
-        <docidentifier>XYZ 123:1066 (all parts)</docidentifier>
-        <docnumber>123:1066 (all parts)</docnumber>
-        <language>en</language>
-        <script>Latn</script>
-      </bibitem>
-      <bibitem anchor="iso125" id="_">
-               <formattedref format="application/x-isodoc+xml">
-                 <em>Standard1</em>
-               </formattedref>
-               <docidentifier type="metanorma">[3]</docidentifier>
-               <language>en</language>
-               <script>Latn</script>
-             </bibitem><bibitem anchor="iso123" id="_">
-               <formattedref format="application/x-isodoc+xml">
-                 <em>Standard2</em>
-               </formattedref>
-               <docidentifier type="metanorma">[4]</docidentifier>
-               <language>en</language>
-               <script>Latn</script>
-             </bibitem><bibitem anchor="iso124" id="_">
-               <formattedref format="application/x-isodoc+xml">
-                 <em>Standard3</em>
-               </formattedref>
-               <docidentifier type="metanorma">[B]</docidentifier>
-               <language>en</language>
-               <script>Latn</script>
-             </bibitem>
-             </references>
-             </bibliography>
-             </metanorma>
-    OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output1)
-
-    expect(strip_guid(Canon.format_xml(Asciidoctor
-      .convert(input.sub(":nodoc:",
-                         ":nodoc:\n:sort-biblio: false"), *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output0)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "process ISO reference without an Internet connection" do
-    expect(RelatonIso::IsoBibliography).to receive(:search) do
-      raise RelatonBib::RequestError.new "getaddrinfo"
+    expect(Relaton::Iso::Bibliography).to receive(:search) do
+      raise Relaton::RequestError.new "getaddrinfo"
     end.at_least :once
     input = <<~INPUT
       #{ISOBIB_BLANK_HDR}
@@ -969,7 +877,6 @@ RSpec.describe Metanorma::Standoc do
       * [[[iso124,(1)ISO 123]]] _Standard_
     INPUT
     output = <<~OUTPUT
-            <?xml version="1.0" encoding="UTF-8"?>
             <metanorma xmlns="https://www.metanorma.org/ns/standoc"  type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
             <bibdata type="standard">
             <title language="en" type="main">Document title</title>
@@ -1020,8 +927,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "processes repository reference" do
@@ -1139,8 +1046,8 @@ RSpec.describe Metanorma::Standoc do
                </bibliography>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes hyperlink reference, ingest RXL or XML if available" do
@@ -1328,8 +1235,8 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "overrides normative status of bibliographies" do
@@ -1376,8 +1283,8 @@ RSpec.describe Metanorma::Standoc do
         </bibliography>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "have formatted reference tag" do
@@ -1446,8 +1353,8 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "mixes bibitems and bibliographic subclauses" do
@@ -1502,8 +1409,8 @@ RSpec.describe Metanorma::Standoc do
          </bibliography>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "renders not found reference with no fall-back title" do
@@ -1516,8 +1423,8 @@ RSpec.describe Metanorma::Standoc do
 
       * [[[iso123,NIST 123]]]
     INPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(<<~"OUTPUT")
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to <<~"OUTPUT"
         #{BLANK_HDR}
            <sections/>
            <bibliography>
@@ -1537,152 +1444,10 @@ RSpec.describe Metanorma::Standoc do
       OUTPUT
   end
 
-  it "processes attachments" do
-    attachment =
-      if RUBY_PLATFORM.include?("mingw") || RUBY_PLATFORM.include?("mswin")
-        <<~OUTPUT
-          DQpwIHsNCiAgZm9udC1mYW1
-          pbHk6ICRib2R5Zm9udDsNCn0NCg0KaDEgew0KICBmb250LWZhbWlseTogJGh
-          lYWRlcmZvbnQ7DQp9DQoNCnByZSB7DQogIGZvbnQtZmFtaWx5OiAkbW9ub3N
-          wYWNlZm9udDsNCn0NCg0K
-        OUTPUT
-      else
-        <<~OUTPUT
-          CnAgewogIGZvbnQtZmFtaWx
-          5OiAkYm9keWZvbnQ7Cn0KCmgxIHsKICBmb250LWZhbWlseTogJGhlYWRlcmZ
-          vbnQ7Cn0KCnByZSB7CiAgZm9udC1mYW1pbHk6ICRtb25vc3BhY2Vmb250Owp
-          9Cgo=
-        OUTPUT
-      end
-    input = File.read("spec/assets/attach.adoc")
-      .gsub("iso.xml", "spec/assets/iso.xml")
-      .gsub("html.scss", "spec/assets/html.scss")
-    output = <<~OUTPUT
-      <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
-         <bibdata type="standard">
-           <title language="en" type="main">Document title</title>
-           <language>en</language>
-           <script>Latn</script>
-           <status>
-             <stage>published</stage>
-           </status>
-           <copyright>
-             <from>#{Date.today.year}</from>
-           </copyright>
-           <ext>
-             <doctype>standard</doctype>
-            <flavor>standoc</flavor>
-           </ext>
-         </bibdata>
-                  <metanorma-extension>
-             <attachment name="_attach_attachments/iso.xml">data:application/octet-stream;base64,ICAgIC...</attachment>
-             <attachment name="_attach_attachments/iso.xml_">data:application/octet-stream;base64,ICAgIC...</attachment>
-             <attachment name="_attach_attachments/html.scss">data:application/octet-stream;base64,#{attachment}</attachment>
-      <semantic-metadata>
-         <stage-published>true</stage-published>
-      </semantic-metadata>
-             <presentation-metadata>
-                <toc-heading-levels>2</toc-heading-levels>
-                <html-toc-heading-levels>2</html-toc-heading-levels>
-                <doc-toc-heading-levels>2</doc-toc-heading-levels>
-                <pdf-toc-heading-levels>2</pdf-toc-heading-levels>
-             </presentation-metadata>
-          </metanorma-extension>
-           <sections>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Clause</title>
-                 <p id="_">
-                    <eref type="inline" bibitemid="iso123" citeas="[spec/assets/iso.xml]"/>
-                 </p>
-              </clause>
-           </sections>
-           <bibliography>
-              <references id="_" normative="true" obligation="informative">
-                 <title id="_">Normative references</title>
-                 <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-                 <bibitem anchor="iso123" id="_" hidden="true">
-                    <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
-                    <uri type="attachment">_attach_attachments/iso.xml</uri>
-                    <uri type="citation">_attach_attachments/iso.xml</uri>
-                    <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
-                    <language>en</language>
-                    <script>Latn</script>
-                 </bibitem>
-                 <bibitem anchor="iso124" id="_" hidden="true">
-                    <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
-                    <uri type="attachment">_attach_attachments/iso.xml_</uri>
-                    <uri type="citation">_attach_attachments/iso.xml_</uri>
-                    <docidentifier type="metanorma">[spec/assets/iso.xml]</docidentifier>
-                    <language>en</language>
-                    <script>Latn</script>
-                 </bibitem>
-                 <bibitem anchor="iso125" id="_" hidden="true">
-                    <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
-                    <uri type="attachment">_attach_attachments/html.scss</uri>
-                    <uri type="citation">_attach_attachments/html.scss</uri>
-                    <docidentifier type="metanorma">[spec/assets/html.scss]</docidentifier>
-                    <language>en</language>
-                    <script>Latn</script>
-                 </bibitem>
-              </references>
-           </bibliography>
-        </metanorma>
-    OUTPUT
-
-    # Windows/Unix differences in XML encoding: remove body of Data URI
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS)
-      .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
-      .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
-      .to be_equivalent_to Canon.format_xml(output)
-
-    input.sub!(":docfile:", ":data-uri-attachment: false\n:docfile:")
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS)
-      .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
-      .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
-      .to be_equivalent_to Canon.format_xml(output
-      .gsub(%r{<attachment .+?</attachment>}m, "")
-      .gsub("_attach_attachments", "spec/assets")
-      .gsub("iso.xml_", "iso.xml"))
-
-    FileUtils.rm_rf "spec/assets/attach.xml"
-    system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/assets/attach.adoc"
-    expect(strip_guid(Canon.format_xml(File.read("spec/assets/attach.xml")
-      .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
-      .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
-      .to be_equivalent_to Canon.format_xml(output
-      .gsub("spec/assets/iso.xml", "iso.xml")
-      .gsub("spec/assets/html.scss", "html.scss"))
-
-    mock_absolute_localdir(4)
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS)
-      .gsub(/iso.xml_[a-f0-9-]+/, "iso.xml_")
-      .gsub(/ICAgIC[^<]+/, "ICAgIC..."))))
-      .to be_equivalent_to Canon.format_xml(output
-      .gsub(%r{<attachment .+?</attachment>}m, "")
-      .gsub("_attach_attachments", "spec/assets")
-      .gsub("iso.xml_", "iso.xml"))
-  end
-
   private
 
-  def mock_sort_biblio
-    expect_any_instance_of(Metanorma::Standoc::Converter).to receive(:sort_biblio) do |_instance, bib|
-      bib.sort do |a, b|
-        a_title = a.at("./title")&.text || a.at("./formattedref")&.text || ""
-        b_title = b.at("./title")&.text || b.at("./formattedref")&.text || ""
-        a_title <=> b_title
-      end
-    end
-  end
-
-  def mock_absolute_localdir(times)
-    expect(Metanorma::Utils).to receive(:localdir)
-      .exactly(times).times.with(anything)
-      .and_return(File.expand_path(FileUtils.pwd))
-  end
-
   def mock_isobib_get_123_nil
-    expect(RelatonNist::NistBibliography).to receive(:get)
+    expect(Relaton::Nist::Bibliography).to receive(:get)
       .with("NIST 123", nil, { code: "NIST 123",
                                lang: "en",
                                match: anything,
@@ -1693,7 +1458,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   def mock_isobib_get_123_no_docid(times)
-    expect(RelatonIso::IsoBibliography).to receive(:get)
+    expect(Relaton::Iso::Bibliography).to receive(:get)
       .with("ISO 123", nil, { code: "ISO 123",
                               lang: "en",
                               fn: nil,
@@ -1704,14 +1469,14 @@ RSpec.describe Metanorma::Standoc do
                               title: "<em>Standard</em>",
                               usrlbl: nil,
                               year: nil }) do
-      RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
+      Relaton::Bib::Bibitem.from_xml(<<~"OUTPUT")
         <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
     end.exactly(times).times
   end
 
   def mock_isobib_get_123_no_docid_lbl(times)
-    expect(RelatonIso::IsoBibliography).to receive(:get)
+    expect(Relaton::Iso::Bibliography).to receive(:get)
       .with("ISO 123", nil, { code: "ISO 123",
                               analyse_code: anything,
                               lang: "en",
@@ -1722,14 +1487,14 @@ RSpec.describe Metanorma::Standoc do
                               title: "<em>Standard</em>",
                               usrlbl: "(1)",
                               year: nil }) do
-      RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
+      Relaton::Bib::Bibitem.from_xml(<<~"OUTPUT")
         <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
     end.exactly(times).times
   end
 
   def mock_isobib_get_123_no_docid_fn(times)
-    expect(RelatonIso::IsoBibliography).to receive(:get)
+    expect(Relaton::Iso::Bibliography).to receive(:get)
       .with("ISO 123", nil, { code: "ISO 123",
                               analyse_code: anything,
                               lang: "en",
@@ -1740,14 +1505,14 @@ RSpec.describe Metanorma::Standoc do
                               title: anything,
                               usrlbl: "(2)",
                               year: nil }) do
-      RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
+      Relaton::Bib::Bibitem.from_xml(<<~"OUTPUT")
         <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
     end.exactly(times).times
   end
 
   def mock_isobib_get_123_no_docid_fn_no_title(times)
-    expect(RelatonIso::IsoBibliography).to receive(:get)
+    expect(Relaton::Iso::Bibliography).to receive(:get)
       .with("ISO 123", nil, { code: "ISO 123",
                               analyse_code: anything,
                               lang: "en",
@@ -1758,16 +1523,16 @@ RSpec.describe Metanorma::Standoc do
                               title: anything,
                               usrlbl: "(3)",
                               year: nil }) do
-      RelatonBib::XMLParser.from_xml(<<~"OUTPUT")
+      Relaton::Bib::Bibitem.from_xml(<<~"OUTPUT")
         <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
     end.exactly(times).times
   end
 
   def mock_rfcbib_get_rfc8342(times)
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 8342", nil,
+    expect(Relaton::Iso::Bibliography).to receive(:get).with("ISO 8342", nil,
                                                               anything) do
-      RelatonBib::XMLParser.from_xml(<<~OUTPUT)
+      Relaton::Bib::Bibitem.from_xml(<<~OUTPUT)
               <bibitem id="_" anchor="RFC8342">
           <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>
           <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
@@ -1785,9 +1550,9 @@ RSpec.describe Metanorma::Standoc do
   end
 
   def mock_rfcbib_get_rfc8343(times)
-    expect(RelatonIso::IsoBibliography).to receive(:get).with("ISO 8343", nil,
+    expect(Relaton::Iso::Bibliography).to receive(:get).with("ISO 8343", nil,
                                                               anything) do
-      RelatonBib::XMLParser.from_xml(<<~OUTPUT)
+      Relaton::Bib::Bibitem.from_xml(<<~OUTPUT)
               <bibitem id="_" anchor="RFC8343">
           <title format="text/plain" language="en" script="Latn">Network Configuration Access Control Model</title>
           <docidentifier type="DOI">10.17487/RFC8341</docidentifier>

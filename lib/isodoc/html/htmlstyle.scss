@@ -368,7 +368,7 @@ table {
   @include table(1px solid black);
 }
 
-p.TableTitle {
+table > caption {
   text-align: center;
   margin-top: 2.5em;
   font-weight: 400;

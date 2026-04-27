@@ -1,4 +1,4 @@
-require_relative "./standoc/processor"
+require_relative "./converter/processor"
 
 module Metanorma
   module Standoc

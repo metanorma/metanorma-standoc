@@ -1,5 +1,5 @@
 require "spec_helper"
-require "metanorma"
+require "metanorma-core"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc::Processor do
@@ -12,9 +12,10 @@ RSpec.describe Metanorma::Standoc::Processor do
   end
 
   it "registers output formats against metanorma" do
-    expect(processor.output_formats.sort.to_s).to be_equivalent_to <<~OUTPUT
+    output = <<~OUTPUT
       [[:doc, "doc"], [:html, "html"], [:pdf, "pdf"], [:presentation, "presentation.xml"], [:rxl, "rxl"], [:xml, "xml"]]
     OUTPUT
+    expect(processor.output_formats.sort.to_s).to be_equivalent_to output.strip
   end
 
   it "registers version against metanorma" do
@@ -31,8 +32,8 @@ RSpec.describe Metanorma::Standoc::Processor do
       <sections/>
       </iso-standard>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(processor.input_to_isodoc(input, "test"))))
-      .to be_equivalent_to strip_guid(Canon.format_xml(output))
+    expect(strip_guid(processor.input_to_isodoc(input, "test")))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "generates HTML from IsoDoc XML" do
@@ -90,5 +91,97 @@ RSpec.describe Metanorma::Standoc::Processor do
        </iso-standard>
     INPUT
     expect(File.exist?("test.xml")).to be true
+  end
+
+  it "reads scripts into blank HTML document" do
+    FileUtils.rm_f "test.html"
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :novalid:
+      :no-pdf:
+      :scripts: spec/assets/scripts.html
+    INPUT
+    html = File.read("test.html", encoding: "utf-8")
+    expect(html).to match(%r{<script>}i)
+  end
+
+  it "uses specified fonts and assets in HTML" do
+    FileUtils.rm_f "test.html"
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+      :novalid:
+      :script: Hans
+      :body-font: Zapf Chancery
+      :header-font: Comic Sans
+      :monospace-font: Andale Mono
+      :htmlstylesheet: spec/assets/html.scss
+      :htmlstylesheet-override: spec/assets/html-override.css
+      :htmlcoverpage: spec/assets/htmlcover.html
+      :htmlintropage: spec/assets/htmlintro.html
+      :scripts: spec/assets/scripts.html
+      :htmltoclevels: 3
+
+      == Level 1
+
+      === Level 2
+
+      ==== Level 3
+    INPUT
+    html = File.read("test.html", encoding: "utf-8")
+    expect(html).to match(%r[pre[^{]+\{[^{]+font-family: Andale Mono;]m)
+    expect(html).to match(%r[p[^{]+\{[^{]+font-family: Zapf Chancery;]m)
+    expect(html).to match(%r[h1[^{]+\{[^{]+font-family: Comic Sans;]m)
+    expect(html).to match(%r[an empty html cover page])
+    expect(html).to match(%r[an empty html intro page])
+    expect(html).to match(%r[This is > a script])
+    expect(html).to match(%r[html-override])
+  end
+
+    it "uses specified fonts and assets in Word" do
+    FileUtils.rm_f "test.doc"
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :novalid:
+      :no-pdf:
+      :script: Hans
+      :body-font: Zapf Chancery
+      :header-font: Comic Sans
+      :monospace-font: Andale Mono
+      :wordstylesheet: spec/assets/word.scss
+      :wordstylesheet-override: spec/assets/word-override.css
+      :wordcoverpage: spec/assets/wordcover.html
+      :wordintropage: spec/assets/wordintro.html
+      :header: spec/assets/header.html
+      :doctoclevels: 3
+
+      == Level 1
+
+      === Level 2
+
+      ==== Level 3
+    INPUT
+    html = File.read("test.doc", encoding: "utf-8")
+    expect(html).to match(%r[pre[^{]+\{[^{]+font-family: Andale Mono;]m)
+    expect(html).to match(%r[p[^{]+\{[^{]+font-family: Zapf Chancery;]m)
+    expect(html).to match(%r[h1[^{]+\{[^{]+font-family: Comic Sans;]m)
+    expect(html).to match(%r[an empty word cover page])
+    expect(html).to match(%r[an empty word intro page])
+    expect(html).to match(%r[word-override])
+    expect(html).to include('\o "1-3"')
+    expect(html).to include(%[Content-ID: <header.html>
+Content-Disposition: inline; filename="header.html"
+Content-Transfer-Encoding: base64
+Content-Type: text/html; charset="utf-8"
+
+Ci8qIGFuIGVtcHR5IGhlYWRlciAqLwoKU1RBUlQgRE9DIElEOiA6IEVORCBET0MgSUQKCkZJTEVO
+QU1FOiB0ZXN0Cgo=
+])
   end
 end
