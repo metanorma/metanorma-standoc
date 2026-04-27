@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "crass", "~> 1.0.0"
   # spec.add_dependency "iev", "~> 0.3.5"
   spec.add_dependency "isodoc", "~> 3.5.0"
-  spec.add_dependency "metanorma-core", "~> 0.1.0"
+  spec.add_dependency "metanorma-core", "~> 0.1.2"
   spec.add_dependency "metanorma-plugin-glossarist", "~> 0.3.0"
   spec.add_dependency "metanorma-plugin-lutaml", "~> 0.7.31"
   spec.add_dependency "metanorma-plugin-plantuml", "~> 1.0.0"
@@ -46,7 +46,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "svg_conform", "~> 0.1.0"
   spec.add_dependency "png_conform", "~> 0.1.0"
 
-  spec.add_development_dependency "canon"
+  spec.add_development_dependency "canon", "= 0.2.3"
   spec.add_development_dependency "debug"
   spec.add_development_dependency "equivalent-xml", "~> 0.6"
   spec.add_development_dependency "guard", "~> 2.14"
