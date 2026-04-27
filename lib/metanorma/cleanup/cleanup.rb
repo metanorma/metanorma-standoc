@@ -143,7 +143,7 @@ module Metanorma
         unnumbered_blocks_cleanup(xmldoc)
         termdocsource_cleanup(xmldoc) # feeds: metadata_cleanup
         metadata_cleanup(xmldoc) # feeds: boilerplate_cleanup, bibdata_cleanup,
-        # docidentifier_cleanup (in generic: template)
+        # docidentifier_cleanup
         misccontainer_cleanup(xmldoc)
         sections_cleanup(xmldoc) # feeds: obligations_cleanup, toc_cleanup,
         # floatingtitle_cleanup

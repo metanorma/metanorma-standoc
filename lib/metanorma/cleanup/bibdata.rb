@@ -225,6 +225,7 @@ module Metanorma
         end
       end
 
+      # (e.g. in ISO, reformatting identifier)
       def docidentifier_cleanup(xmldoc); end
     end
   end
