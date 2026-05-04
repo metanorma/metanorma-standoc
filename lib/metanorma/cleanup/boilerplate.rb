@@ -75,7 +75,10 @@ module Metanorma
 
       def boilerplate_cleanup(xmldoc)
         isodoc = boilerplate_isodoc(xmldoc) or return
+        had_templates = ::Metanorma::Core::Boilerplate
+          .docidentifier_templates?(xmldoc)
         docidentifier_boilerplate_isodoc(xmldoc, isodoc)
+        had_templates and refresh_isodoc_bibdata(xmldoc, isodoc)
         termdef_boilerplate_cleanup(xmldoc)
         termdef_boilerplate_insert(xmldoc, isodoc)
         unwrap_boilerplate_clauses(xmldoc, self.class::TERM_CLAUSE)
@@ -84,6 +87,18 @@ module Metanorma
           unwrap_boilerplate_clauses(f, ".")
         end
         initial_boilerplate(xmldoc, isodoc)
+      end
+
+      # Re-seed isodoc state from the now-resolved xmldoc bibdata after
+      # docidentifier_boilerplate_isodoc has substituted any
+      # +@boilerplate="true"+ Liquid templates. Standoc default just
+      # re-runs isodoc_bibdata_parse so any cached i18n / meta state
+      # picks up the resolved docidentifier values; flavors that
+      # populate richer derived state (e.g. metanorma-generic's
+      # bibdata_hash) override to refresh that too.
+      # See https://github.com/metanorma/metanorma/issues/558.
+      def refresh_isodoc_bibdata(xmldoc, _isodoc)
+        isodoc_bibdata_parse(xmldoc)
       end
 
       # Standoc-side wrapper around Core::Boilerplate's iterator. The
