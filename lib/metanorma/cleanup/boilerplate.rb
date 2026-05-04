@@ -4,6 +4,8 @@ require_relative "boilerplate_liquid"
 module Metanorma
   module Standoc
     module Boilerplate
+      include ::Metanorma::Core::Boilerplate
+
       def norm_ref_preface(ref, isodoc)
         ins = norm_ref_boilerplate_insert_location(ref)
         ins2 = norm_ref_process_boilerplate_note(ref)
@@ -73,7 +75,10 @@ module Metanorma
 
       def boilerplate_cleanup(xmldoc)
         isodoc = boilerplate_isodoc(xmldoc) or return
+        had_templates = ::Metanorma::Core::Boilerplate
+          .docidentifier_templates?(xmldoc)
         docidentifier_boilerplate_isodoc(xmldoc, isodoc)
+        had_templates and refresh_isodoc_bibdata(xmldoc, isodoc)
         termdef_boilerplate_cleanup(xmldoc)
         termdef_boilerplate_insert(xmldoc, isodoc)
         unwrap_boilerplate_clauses(xmldoc, self.class::TERM_CLAUSE)
@@ -84,15 +89,28 @@ module Metanorma
         initial_boilerplate(xmldoc, isodoc)
       end
 
+      # Re-seed isodoc state from the now-resolved xmldoc bibdata after
+      # docidentifier_boilerplate_isodoc has substituted any
+      # +@boilerplate="true"+ Liquid templates. Standoc default just
+      # re-runs isodoc_bibdata_parse so any cached i18n / meta state
+      # picks up the resolved docidentifier values; flavors that
+      # populate richer derived state (e.g. metanorma-generic's
+      # bibdata_hash) override to refresh that too.
+      # See https://github.com/metanorma/metanorma/issues/558.
+      def refresh_isodoc_bibdata(xmldoc, _isodoc)
+        isodoc_bibdata_parse(xmldoc)
+      end
+
+      # Standoc-side wrapper around Core::Boilerplate's iterator. The
+      # core helper owns the loop body (substitute Liquid + Asciidoc,
+      # then splice the inner <p> children back); this wrapper supplies
+      # standoc-level kwargs from instance state so existing 2-arg
+      # callers do not need to thread them through.
       def docidentifier_boilerplate_isodoc(xmldoc, isodoc)
-        xmldoc.xpath("//docidentifier[@boilerplate]").each do |d|
-          b = d["boilerplate"] == "true"
-          d.delete("boilerplate")
-          b or next
-          id = boilerplate_snippet_convert(to_xml(d.children), isodoc)
-          p = Nokogiri::XML(id).at("//p")
-          d.children = p ? to_xml(p&.children) : id
-        end
+        super(xmldoc, isodoc,
+              lang: @lang, script: @script,
+              backend: @conv.backend&.to_sym,
+              flush_caches: @flush_caches, localdir: @localdir)
       end
 
       def initial_boilerplate(xml, isodoc)
@@ -186,17 +204,32 @@ module Metanorma
       end
 
       def boilerplate_file_restructure(file)
-        ret = adoc2xml(file, @conv.backend.to_sym)
+        ret = adoc2xml(file, @conv.backend&.to_sym)
         boilerplate_xml_cleanup(ret)
         ret.name = "boilerplate"
         boilerplate_top_elements(ret)
         ret
       end
 
-      def boilerplate_snippet_convert(adoc, isodoc)
-        b = isodoc.populate_template(adoc, nil)
-        ret = boilerplate_xml_cleanup(adoc2xml(b, @conv.backend.to_sym))
-        @i18n.l10n(ret.children.to_xml, @lang, @script).strip
+      # Standoc-side wrapper around the metanorma-core helper. Existing
+      # 2-arg call sites supply no kwargs and inherit them all from
+      # instance state; core's docidentifier_boilerplate_isodoc passes
+      # kwargs through and they take precedence.
+      def boilerplate_snippet_convert(adoc, isodoc, **kwargs)
+        defaults = {
+          lang: @lang, script: @script,
+          backend: @conv.backend&.to_sym,
+          flush_caches: @flush_caches, localdir: @localdir,
+        }
+        super(adoc, isodoc, **defaults.merge(kwargs))
+      end
+
+      # Standoc override of the metanorma-core extension hook.
+      # Applies namespace cleanup and externally-sourced footnote separation
+      # to a Nokogiri node before the snippet is serialised back into the
+      # surrounding document.
+      def boilerplate_snippet_cleanup(node)
+        boilerplate_xml_cleanup(@conv.separate_numbering_footnotes(node))
       end
 
       private
