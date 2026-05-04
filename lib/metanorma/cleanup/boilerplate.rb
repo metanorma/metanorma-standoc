@@ -4,6 +4,8 @@ require_relative "boilerplate_liquid"
 module Metanorma
   module Standoc
     module Boilerplate
+      include ::Metanorma::Core::Boilerplate
+
       def norm_ref_preface(ref, isodoc)
         ins = norm_ref_boilerplate_insert_location(ref)
         ins2 = norm_ref_process_boilerplate_note(ref)
@@ -193,10 +195,22 @@ module Metanorma
         ret
       end
 
+      # Standoc-side wrapper around the metanorma-core helper, filling in
+      # kwargs from instance state so the existing 2-arg call sites stay
+      # unchanged.
       def boilerplate_snippet_convert(adoc, isodoc)
-        b = isodoc.populate_template(adoc, nil)
-        ret = boilerplate_xml_cleanup(adoc2xml(b, @conv.backend.to_sym))
-        @i18n.l10n(ret.children.to_xml, @lang, @script).strip
+        super(adoc, isodoc,
+              lang: @lang, script: @script,
+              backend: @conv.backend.to_sym,
+              flush_caches: @flush_caches, localdir: @localdir)
+      end
+
+      # Standoc override of the metanorma-core extension hook.
+      # Applies namespace cleanup and externally-sourced footnote separation
+      # to a Nokogiri node before the snippet is serialised back into the
+      # surrounding document.
+      def boilerplate_snippet_cleanup(node)
+        boilerplate_xml_cleanup(@conv.separate_numbering_footnotes(node))
       end
 
       private
