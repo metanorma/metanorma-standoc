@@ -9,7 +9,6 @@ require "metanorma-utils"
 require_relative "render"
 require_relative "localbib"
 require_relative "init"
-require_relative "isolated_converter"
 require "mn-requirements"
 
 module Asciidoctor

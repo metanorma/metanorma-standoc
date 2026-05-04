@@ -1659,6 +1659,39 @@ RSpec.describe Metanorma::Standoc do
       end
   end
 
+  describe "refresh_isodoc_bibdata conditional firing in boilerplate_cleanup " \
+           "(issue #558)" do
+    # Standoc base flavor's metadata_id_docidentifier emits
+    # <docidentifier @boilerplate="true"> when the asciidoc has
+    # :docidentifier:, so we use that to drive the positive case;
+    # ASCIIDOC_BLANK_HDR has no :docidentifier:, driving the negative.
+    let(:input_with_docid) do
+      <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+        :novalid:
+        :no-isobib:
+        :docidentifier: TEST-1
+
+      INPUT
+    end
+
+    it "fires refresh_isodoc_bibdata when @boilerplate=true is present" do
+      expect_any_instance_of(Metanorma::Standoc::Cleanup)
+        .to receive(:refresh_isodoc_bibdata).and_call_original
+      Asciidoctor.convert(input_with_docid, *OPTIONS)
+    end
+
+    it "does not fire refresh_isodoc_bibdata for input without " \
+       "@boilerplate=true docidentifiers" do
+      expect_any_instance_of(Metanorma::Standoc::Cleanup)
+        .not_to receive(:refresh_isodoc_bibdata)
+      Asciidoctor.convert(ASCIIDOC_BLANK_HDR, *OPTIONS)
+    end
+  end
+
   def mock_boilerplate_file
     allow_any_instance_of(Metanorma::Standoc::Cleanup)
       .to receive(:boilerplate_file).and_return(
