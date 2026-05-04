@@ -86,15 +86,16 @@ module Metanorma
         initial_boilerplate(xmldoc, isodoc)
       end
 
+      # Standoc-side wrapper around Core::Boilerplate's iterator. The
+      # core helper owns the loop body (substitute Liquid + Asciidoc,
+      # then splice the inner <p> children back); this wrapper supplies
+      # standoc-level kwargs from instance state so existing 2-arg
+      # callers do not need to thread them through.
       def docidentifier_boilerplate_isodoc(xmldoc, isodoc)
-        xmldoc.xpath("//docidentifier[@boilerplate]").each do |d|
-          b = d["boilerplate"] == "true"
-          d.delete("boilerplate")
-          b or next
-          id = boilerplate_snippet_convert(to_xml(d.children), isodoc)
-          p = Nokogiri::XML(id).at("//p")
-          d.children = p ? to_xml(p&.children) : id
-        end
+        super(xmldoc, isodoc,
+              lang: @lang, script: @script,
+              backend: @conv.backend&.to_sym,
+              flush_caches: @flush_caches, localdir: @localdir)
       end
 
       def initial_boilerplate(xml, isodoc)
@@ -188,21 +189,24 @@ module Metanorma
       end
 
       def boilerplate_file_restructure(file)
-        ret = adoc2xml(file, @conv.backend.to_sym)
+        ret = adoc2xml(file, @conv.backend&.to_sym)
         boilerplate_xml_cleanup(ret)
         ret.name = "boilerplate"
         boilerplate_top_elements(ret)
         ret
       end
 
-      # Standoc-side wrapper around the metanorma-core helper, filling in
-      # kwargs from instance state so the existing 2-arg call sites stay
-      # unchanged.
-      def boilerplate_snippet_convert(adoc, isodoc)
-        super(adoc, isodoc,
-              lang: @lang, script: @script,
-              backend: @conv.backend.to_sym,
-              flush_caches: @flush_caches, localdir: @localdir)
+      # Standoc-side wrapper around the metanorma-core helper. Existing
+      # 2-arg call sites supply no kwargs and inherit them all from
+      # instance state; core's docidentifier_boilerplate_isodoc passes
+      # kwargs through and they take precedence.
+      def boilerplate_snippet_convert(adoc, isodoc, **kwargs)
+        defaults = {
+          lang: @lang, script: @script,
+          backend: @conv.backend&.to_sym,
+          flush_caches: @flush_caches, localdir: @localdir,
+        }
+        super(adoc, isodoc, **defaults.merge(kwargs))
       end
 
       # Standoc override of the metanorma-core extension hook.
