@@ -1,2 +1,4 @@
-gem "metanorma-core", git: "https://github.com/metanorma/metanorma-core", branch: "fix/issue-558"
+gem "canon", git: "https://github.com/lutaml/canon", branch: "main"
+gem "isodoc", git: "https://github.com/metanorma/isodoc", branch: "fix/canon-0.2.4"
 gem "html2doc", git: "https://github.com/metanorma/html2doc", branch: "main"
+gem "metanorma-core", git: "https://github.com/metanorma/metanorma-core", branch: "main"
