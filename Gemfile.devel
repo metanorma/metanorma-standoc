@@ -9,42 +9,7 @@ gem "loc_mods",    git: "https://github.com/relaton/loc_mods", branch: "main"  #
 gem "metanorma-plugin-lutaml", git: "https://github.com/metanorma/metanorma-plugin-lutaml", branch: "fix/ruby-4.0"
 gem "ogc-gml", git: "https://github.com/lutaml/ogc-gml", branch: "main"
 
-# Core relaton (lutaml-integration is the only migration branch)
-gem "relaton",        git: "https://github.com/relaton/relaton",        branch: "lutaml-integration"
-gem "relaton-cli",    git: "https://github.com/relaton/relaton-cli",    branch: "lutaml-integration"
-gem "relaton-doi",    git: "https://github.com/relaton/relaton-doi",    branch: "lutaml-integration"
-gem "relaton-xsf",    git: "https://github.com/relaton/relaton-xsf",    branch: "lutaml-integration"
-
-# relaton-bib: fix/lutaml-model-0.8 (NOT lutaml-integration — that's bumped to 2.1.0 and breaks resolution)
-gem "relaton-bib",    git: "https://github.com/relaton/relaton-bib",    branch: "fix/lutaml-model-0.8"
-
-# Flavours where fix/lutaml-model-0.8 exists — prefer it (newer than lutaml-integration)
-gem "relaton-3gpp",   git: "https://github.com/relaton/relaton-3gpp",   branch: "fix/lutaml-model-0.8"
-gem "relaton-bipm",   git: "https://github.com/relaton/relaton-bipm",   branch: "fix/lutaml-model-0.8"
-gem "relaton-bsi",    git: "https://github.com/relaton/relaton-bsi",    branch: "fix/lutaml-model-0.8"
-gem "relaton-iso",    git: "https://github.com/relaton/relaton-iso",    branch: "fix/lutaml-model-0.8"
-
-# Flavours with only lutaml-integration
-gem "relaton-calconnect", git: "https://github.com/relaton/relaton-calconnect", branch: "lutaml-integration"
-gem "relaton-ccsds",  git: "https://github.com/relaton/relaton-ccsds",  branch: "lutaml-integration"
-gem "relaton-cen",    git: "https://github.com/relaton/relaton-cen",    branch: "lutaml-integration"
-gem "relaton-cie",    git: "https://github.com/relaton/relaton-cie",    branch: "lutaml-integration"
-gem "relaton-ecma",   git: "https://github.com/relaton/relaton-ecma",   branch: "lutaml-integration"
-gem "relaton-etsi",   git: "https://github.com/relaton/relaton-etsi",   branch: "lutaml-integration"
-gem "relaton-gb",     git: "https://github.com/relaton/relaton-gb",     branch: "lutaml-integration"
-gem "relaton-iana",   git: "https://github.com/relaton/relaton-iana",   branch: "lutaml-integration"
-gem "relaton-iec",    git: "https://github.com/relaton/relaton-iec",    branch: "lutaml-integration"
-gem "relaton-ieee",   git: "https://github.com/relaton/relaton-ieee",   branch: "lutaml-integration"
-gem "relaton-ietf",   git: "https://github.com/relaton/relaton-ietf",   branch: "lutaml-integration"
-gem "relaton-iho",    git: "https://github.com/relaton/relaton-iho",    branch: "lutaml-integration"
-gem "relaton-isbn",   git: "https://github.com/relaton/relaton-isbn",   branch: "lutaml-integration"
-gem "relaton-itu",    git: "https://github.com/relaton/relaton-itu",    branch: "lutaml-integration"
-gem "relaton-jis",    git: "https://github.com/relaton/relaton-jis",    branch: "lutaml-integration"
-gem "relaton-nist",   git: "https://github.com/relaton/relaton-nist",   branch: "lutaml-integration"
-gem "relaton-oasis",  git: "https://github.com/relaton/relaton-oasis",  branch: "lutaml-integration"
-gem "relaton-ogc",    git: "https://github.com/relaton/relaton-ogc",    branch: "lutaml-integration"
-gem "relaton-omg",    git: "https://github.com/relaton/relaton-omg",    branch: "lutaml-integration"
-gem "relaton-plateau", git: "https://github.com/relaton/relaton-plateau", branch: "lutaml-integration"
-gem "relaton-un",     git: "https://github.com/relaton/relaton-un",     branch: "lutaml-integration"
-gem "relaton-w3c",    git: "https://github.com/relaton/relaton-w3c",    branch: "lutaml-integration"
-
+gem "canon", git: "https://github.com/lutaml/canon", branch: "main"
+gem "isodoc", git: "https://github.com/metanorma/isodoc", branch: "fix/canon-0.2.4"
+gem "html2doc", git: "https://github.com/metanorma/html2doc", branch: "main"
+gem "metanorma-core", git: "https://github.com/metanorma/metanorma-core", branch: "main"

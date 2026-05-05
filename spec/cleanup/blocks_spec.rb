@@ -1637,11 +1637,11 @@ RSpec.describe Metanorma::Standoc do
              <sections>
            <table id="_">
            <name id="_">Table Name</name>
-           <thead><tr id="_" id="_">
+           <thead><tr id="_">
                <th id="_" valign="top" align="left">A</th>
                <th id="_" valign="top" align="left">B</th>
                <th id="_" valign="top" align="left">C</th>
-             </tr><tr id="_" id="_">
+             </tr><tr id="_">
                <th id="_" valign="top" align="left">1</th>
                <th id="_" valign="top" align="left">2</th>
                <th id="_" valign="top" align="left">3</th>
@@ -1649,7 +1649,7 @@ RSpec.describe Metanorma::Standoc do
            <tbody>
 
 
-             <tr id="_" id="_">
+             <tr id="_">
                <th id="_" valign="top" align="left">1</th>
                <td id="_" valign="top" align="left">2</td>
                <td id="_" valign="top" align="left">3</td>
@@ -1676,11 +1676,11 @@ RSpec.describe Metanorma::Standoc do
     output = <<~OUTPUT
       #{BLANK_HDR}
              <sections>
-           <table id="_"><thead><tr id="_" id="_">
+           <table id="_"><thead><tr id="_">
                <th id="_" valign="top" align="left">A</th>
                <th id="_" valign="top" align="left">B</th>
                <th id="_" valign="top" align="left">C</th>
-             </tr><tr id="_" id="_">
+             </tr><tr id="_">
                <th id="_" valign="top" align="left">1</th>
                <th id="_" valign="top" align="left">2</th>
                <th id="_" valign="top" align="left">3</th>
@@ -1688,7 +1688,7 @@ RSpec.describe Metanorma::Standoc do
            <tbody>
 
 
-             <tr id="_" id="_">
+             <tr id="_">
                <th id="_" valign="top" align="left">1</th>
                <td id="_" valign="top" align="left">2</td>
                <td id="_" valign="top" align="left">3</td>

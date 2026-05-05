@@ -41,12 +41,12 @@ Gem::Specification.new do |spec|
   spec.add_dependency "ruby-jing"
   # relaton-cli not just relaton, to avoid circular reference in metanorma
   spec.add_dependency "concurrent-ruby"
-  spec.add_dependency "relaton-cli", "~> 2.0.0"
+  spec.add_dependency "relaton-cli", "~> 2.1.0"
   spec.add_dependency "relaton-iev", "~> 2.0.0"
   spec.add_dependency "svg_conform", "~> 0.1.0"
   spec.add_dependency "png_conform", "~> 0.1.0"
 
-  spec.add_development_dependency "canon", "= 0.2.3"
+  spec.add_development_dependency "canon" #, "= 0.2.3"
   spec.add_development_dependency "debug"
   spec.add_development_dependency "equivalent-xml", "~> 0.6"
   spec.add_development_dependency "guard", "~> 2.14"
