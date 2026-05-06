@@ -1,14 +1,5 @@
-gem "ukiryu", git: "https://github.com/ukiryu/ukiryu", branch: "fix/lutaml-model-0.8.0"
 gem "relaton-render", git: "https://github.com/relaton/relaton-render", branch: "fix/lutaml-model-0.8.0"
 gem "html2doc", git: "https://github.com/metanorma/html2doc", branch: "fix/lutaml-model-0.8.0"
-gem "plurimath", git: "https://github.com/plurimath/plurimath", branch: "main"
-gem "moxml", git: "https://github.com/opoudjis/moxml", branch: "fix/customized-ox-text-to-xml"
 gem "isodoc", git: "https://github.com/metanorma/isodoc", branch: "fix/lutaml-model-0.8.0"
-gem "lutaml-xsd",  "~> 1.1"                                                    # released, ported
-gem "loc_mods",    git: "https://github.com/relaton/loc_mods", branch: "main"  # main is ported but unreleased
 gem "metanorma-plugin-lutaml", git: "https://github.com/metanorma/metanorma-plugin-lutaml", branch: "fix/ruby-4.0"
-gem "ogc-gml", git: "https://github.com/lutaml/ogc-gml", branch: "main"
-
-gem "canon", git: "https://github.com/lutaml/canon", branch: "main"
-gem "isodoc", git: "https://github.com/metanorma/isodoc", branch: "fix/canon-0.2.4"
 gem "metanorma-core", git: "https://github.com/metanorma/metanorma-core", branch: "main"
