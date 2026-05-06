@@ -675,7 +675,7 @@ RSpec.describe Metanorma::Standoc do
            <UnitsML xmlns="https://schema.unitsml.org/unitsml/1.0">
               <UnitSet>
                  <Unit dimensionURL="#NISTd7" id="U_NISTu7">
-                    <UnitSystem name="SI" type="SI_base" lang="en-US"/>
+                    <UnitSystem name="SI" type="SI_base" lang="en"/>
                     <UnitName lang="en">candela</UnitName>
                     <UnitSymbol type="HTML">cd</UnitSymbol>
                     <UnitSymbol type="MathMl">
@@ -685,7 +685,7 @@ RSpec.describe Metanorma::Standoc do
                     </UnitSymbol>
                  </Unit>
                  <Unit dimensionURL="#D_LM-2" id="U_m.kg-2">
-                    <UnitSystem name="SI" type="SI_derived" lang="en-US"/>
+                    <UnitSystem name="SI" type="SI_derived" lang="en"/>
                     <UnitName lang="en">m*kg^-2</UnitName>
                     <UnitSymbol type="HTML">
                        m\\u00a0kg
@@ -696,9 +696,7 @@ RSpec.describe Metanorma::Standoc do
                           <mi mathvariant="normal">m</mi>
                           <mo rspace="thickmathspace">⁢</mo>
                           <msup>
-                             <mrow>
-                                <mi mathvariant="normal">kg</mi>
-                             </mrow>
+                             <mi mathvariant="normal">kg</mi>
                              <mrow>
                                 <mo>−</mo>
                                 <mn>2</mn>
@@ -712,7 +710,7 @@ RSpec.describe Metanorma::Standoc do
                     </RootUnits>
                  </Unit>
                  <Unit dimensionURL="#D_LM-3" id="U_m.kg-3">
-                    <UnitSystem name="SI" type="SI_derived" lang="en-US"/>
+                    <UnitSystem name="SI" type="SI_derived" lang="en"/>
                     <UnitName lang="en">m*kg^-3</UnitName>
                     <UnitSymbol type="HTML">
                        m\\u00a0kg
@@ -723,9 +721,7 @@ RSpec.describe Metanorma::Standoc do
                           <mi mathvariant="normal">m</mi>
                           <mo rspace="thickmathspace">⁢</mo>
                           <msup>
-                             <mrow>
-                                <mi mathvariant="normal">kg</mi>
-                             </mrow>
+                             <mi mathvariant="normal">kg</mi>
                              <mrow>
                                 <mo>−</mo>
                                 <mn>3</mn>
@@ -741,7 +737,7 @@ RSpec.describe Metanorma::Standoc do
               </UnitSet>
               <QuantitySet>
                  <Quantity id="NISTq7" quantityType="base" dimensionURL="#NISTd7">
-                    <QuantityName lang="en-US">luminous intensity</QuantityName>
+                    <QuantityName lang="en">luminous intensity</QuantityName>
                  </Quantity>
               </QuantitySet>
               <DimensionSet>
