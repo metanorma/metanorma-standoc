@@ -56,9 +56,13 @@ module Metanorma
         add_noko_elem(xml, "docnumber", node.attr("docnumber"))
       end
 
-      def metadata_version(node, xml)
-        draft = metadata_version_value(node)
+      def metadata_edition(node, xml)
         add_noko_elem(xml, "edition", node.attr("edition"))
+      end
+
+      def metadata_version(node, xml)
+        metadata_edition(node, xml)
+        draft = metadata_version_value(node)
         draft || node.attr("revdate") or return
         xml.version draft || node.attr("revdate")
       end
