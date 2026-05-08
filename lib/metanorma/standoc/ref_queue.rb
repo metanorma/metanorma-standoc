@@ -41,7 +41,7 @@ module Metanorma
         (1..size).each.with_object([]) do |_, m|
           ref, i, doc = results.pop
           m[i.to_i] = { ref: }
-          if doc.is_a?(RelatonBib::RequestError)
+          if doc.is_a?(Relaton::RequestError)
             @log.add("STANDOC_40", nil, params: [ref[:code]])
           else m[i.to_i][:doc] = doc
           end
@@ -134,7 +134,7 @@ module Metanorma
         hit = fetch_ref1(code, year, opts) or return nil
         xml.parent.add_child(smart_render_xml(hit, code, opts))
         xml
-      rescue RelatonBib::RequestError
+      rescue Relaton::RequestError
         @log.add("STANDOC_40", nil, params: [code])
         nil
       end

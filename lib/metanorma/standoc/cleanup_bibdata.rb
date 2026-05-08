@@ -1,3 +1,5 @@
+require "relaton/bib"
+
 module Metanorma
   module Standoc
     module Cleanup
@@ -170,9 +172,8 @@ module Metanorma
       end
 
       def yaml2relaton(yaml, amend = nil)
-        r = RelatonBib.parse_yaml(yaml.to_yaml, [Date], symbolize_names: true)
-        h = RelatonBib::HashConverter.hash_to_bib(r)
-        b = RelatonBib::BibliographicItem.new(**h).to_xml
+        r = YAML.safe_load(yaml.to_yaml, permitted_classes: [Date], symbolize_names: true)
+        b = Relaton::Bib::Bibitem.from_hash(r).to_xml
         amend and b.sub!("</bibitem>", "#{amend}</bibitem>")
         b
       end

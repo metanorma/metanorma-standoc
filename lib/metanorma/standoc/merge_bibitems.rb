@@ -1,3 +1,4 @@
+require "relaton/bib"
 require "metanorma-utils"
 
 module Metanorma
@@ -36,13 +37,12 @@ module Metanorma
         end
 
         def load_bibitem(item)
-          ret = RelatonBib::XMLParser.from_xml(item)
-          ret.to_hash.symbolize_all_keys
+          ret = Relaton::Bib::Bibitem.from_xml(item)
+          ret.to_h.symbolize_all_keys
         end
 
         def to_noko
-          out = RelatonBib::HashConverter.hash_to_bib(@old)
-          Nokogiri::XML(RelatonBib::BibliographicItem.new(**out).to_xml).root
+          Nokogiri::XML(Relaton::Bib::Bibitem.from_hash(@old).to_xml).root
         end
 
         def merge

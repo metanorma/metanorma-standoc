@@ -9,8 +9,9 @@ module Metanorma
       def init_iev
         @no_isobib and return nil
         @iev and return @iev
-        @iev = ::Iev::Db.new(@iev_globalname, @iev_localname) unless @no_isobib
-        @iev
+        defined?(::Iev::Db) and
+          return @iev = ::Iev::Db.new(@iev_globalname, @iev_localname)
+        @iev = ::Iev
       end
 
       def iev_validate(xmldoc)
@@ -25,8 +26,9 @@ module Metanorma
       end
 
       def iev_validate1(term, loc, xmldoc)
-        iev = @iev.fetch(loc,
-                         xmldoc.at("//language")&.text || "en") or return
+        lang = xmldoc.at("//language")&.text || "en"
+        method = @iev.respond_to?(:fetch) ? :fetch : :get
+        iev = @iev.public_send(method, loc, lang) or return
         pref = term.xpath("./preferred//name").inject([]) do |m, x|
           m << x.text&.downcase
         end

@@ -102,7 +102,7 @@ module Metanorma
         @default_requirement_model = node.attr("requirements-model") ||
           default_requirement_model
         @reqt_models = requirements_processor
-          .new({ default: @default_requirement_model })
+          .new(requirements_options(node))
       end
 
       def init_toc(node)
@@ -205,6 +205,20 @@ module Metanorma
 
       def requirements_processor
         Metanorma::Requirements
+      end
+
+      def requirements_options(node = nil)
+        lang = @lang || node&.attr("language") || "en"
+        script = @script || node&.attr("script") ||
+          Metanorma::Utils.default_script(lang)
+        locale = @locale || node&.attr("locale")
+        {
+          default: @default_requirement_model || default_requirement_model,
+          conv: presentation_xml_converter(Metanorma::Standoc::Utils::EmptyAttr.new),
+          lang:,
+          script:,
+          locale:,
+        }
       end
     end
   end
