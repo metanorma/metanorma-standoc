@@ -485,10 +485,7 @@ RSpec.describe Metanorma::Standoc do
         </organization>
       </contributor>
                 <edition>2</edition>
-                <version>
-                  <revision-date>2000-01-01</revision-date>
-                  <draft>3.4</draft>
-                </version>
+                <version>3.4</version>
                   <language>en</language>
                   <script>Latn</script>
                   <status>
@@ -638,7 +635,6 @@ RSpec.describe Metanorma::Standoc do
       :revdate: 2000-01
       :published-date: 1000-01
       :docnumber: 1000
-      :draft: 3.4
       :partnumber: 1-1
       :tc-docnumber: 2000
       :language: el
@@ -786,10 +782,7 @@ RSpec.describe Metanorma::Standoc do
                       <name>ISO</name>
                     </organization>
                   </contributor>
-                  <version>
-                    <revision-date>2000-01</revision-date>
-                     <draft>3.4</draft>
-                  </version>
+                  <version>2000-01</version>
                   <language>el</language>
                   <locale>CY</locale>
                   <script>Grek</script>
@@ -1347,9 +1340,7 @@ RSpec.describe Metanorma::Standoc do
                </subdivision>
              </organization>
            </contributor>
-          <version>
-            <revision-date>2000-01</revision-date>
-          </version>
+          <version>2000-01</version>
           <language>el</language>
           <script>Grek</script>
           <status>

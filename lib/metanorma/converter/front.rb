@@ -1,8 +1,8 @@
 require "date"
 require "pathname"
-require_relative "./front_contributor"
-require_relative "./front_ext"
-require_relative "./front_title"
+require_relative "front_contributor"
+require_relative "front_ext"
+require_relative "front_title"
 require "isoics"
 require "isodoc"
 
@@ -60,10 +60,7 @@ module Metanorma
         draft = metadata_version_value(node)
         add_noko_elem(xml, "edition", node.attr("edition"))
         draft || node.attr("revdate") or return
-        xml.version do |v|
-          add_noko_elem(v, "revision_date", node.attr("revdate"))
-          add_noko_elem(v, "draft", draft)
-        end
+        xml.version draft || node.attr("revdate")
       end
 
       def metadata_version_value(node)
@@ -173,7 +170,7 @@ module Metanorma
 
       def metadata_classifications(node, xml)
         csv_split(node.attr("classification"), ",")&.each do |c|
-          vals = c.split(/:/, 2)
+          vals = c.split(":", 2)
           vals.size == 1 and vals = ["default", vals[0]]
           add_noko_elem(xml, "classification", vals[1], type: vals[0])
         end
