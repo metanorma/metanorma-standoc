@@ -113,6 +113,12 @@ module Metanorma
           type or next
           xml.date(type:) { |d| add_noko_elem(d, "on", date) }
         end
+        metadata_revdate(node, xml)
+      end
+
+      def metadata_revdate(node, xml)
+        date = node.attr("revdate") or return
+        xml.date(type: "updated") { |d| add_noko_elem(d, "on", date) }
       end
 
       def metadata_language(node, xml)
