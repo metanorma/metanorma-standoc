@@ -396,10 +396,7 @@ RSpec.describe Metanorma::Standoc do
                       </person>
                    </contributor>
                    <edition>1</edition>
-                   <version>
-                      <revision-date>2019-04-01</revision-date>
-                      <draft>draft</draft>
-                   </version>
+                   <version>draft (2019-04-01)</version>
                    <note type="bibnote">Mark set a major league home run record in 1998.</note>
                    <language>en</language>
                    <language>fr</language>
@@ -467,8 +464,8 @@ RSpec.describe Metanorma::Standoc do
                    <accesslocation>accesslocation2</accesslocation>
                    <classification type="type">value</classification>
                    <validity>
-                      <validityBegins>2010-10-10T12:21:00+00:00</validityBegins>
-                      <validityEnds>2011-02-03T18:30:00+00:00</validityEnds>
+                      <validityBegins>2010-10-10T12:21:00Z</validityBegins>
+                      <validityEnds>2011-02-03T18:30:00Z</validityEnds>
                    </validity>
                 </bibitem>
              </references>
@@ -726,10 +723,7 @@ RSpec.describe Metanorma::Standoc do
           </person>
         </contributor>
         <edition>1</edition>
-        <version>
-          <revision-date>2019-04-01</revision-date>
-          <draft>draft</draft>
-        </version>
+        <version>draft (2019-04-01)</version>
         <note type="bibnote">Mark set a major league
       home run record in 1998.</note>
         <language>en</language>
@@ -798,8 +792,8 @@ RSpec.describe Metanorma::Standoc do
         <accesslocation>accesslocation2</accesslocation>
         <classification type="type">value</classification>
         <validity>
-          <validityBegins>2010-10-10T12:21:00+00:00</validityBegins>
-          <validityEnds>2011-02-03T18:30:00+00:00</validityEnds>
+          <validityBegins>2010-10-10T12:21:00Z</validityBegins>
+          <validityEnds>2011-02-03T18:30:00Z</validityEnds>
         </validity>
       </bibitem></references></bibliography>
     OUTPUT

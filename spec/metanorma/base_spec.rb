@@ -296,271 +296,277 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
                 <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Standoc::VERSION}" flavor='standoc'>
-                <bibdata type="standard">
-                <title language="en" type="main">Main Title\\u2009—\\u2009Title</title>
-                <title language="en" type="title-part-prefix">Part\\u00a01</title>
-                  <docidentifier primary="true">1000-1</docidentifier>
-                  <docidentifier type='ISBN'>ISBN-13</docidentifier>
-                <docidentifier type='ISBN10'>ISBN-10</docidentifier>
-                 <docidentifier type="ABC">x 1</docidentifier>
-                  <docidentifier type="DEF">y 2</docidentifier>
-                  <docnumber>1000</docnumber>
-                  <date type="published">
-                  <on>1000-01-01</on>
-                </date>
-                <date type="accessed">
-                  <on>1001-01-01</on>
-                </date>
-                <date type="created">
-                  <on>1002-01-01</on>
-                </date>
-                <date type="implemented">
-                  <on>1003-01-01</on>
-                </date>
-                <date type="obsoleted">
-                  <on>1004-01-01</on>
-                </date>
-                <date type="confirmed">
-                  <on>1005-01-01</on>
-                </date>
-                <date type="updated">
-                  <on>1006-01-01</on>
-                </date>
-                <date type="issued">
-                  <on>1007-01-01</on>
-                </date>
-                <date type="circulated">
-                  <on>1008-01-01</on>
-                </date>
-                <date type="unchanged">
-                  <on>1009-01-01</on>
-                </date>
-                 <date type='vote-started'>
-                   <on>1011-01-01</on>
-                 </date>
-                 <date type='vote-ended'>
-                   <on>1012-01-01</on>
-                 </date>
-                <date type="Fred">
-                  <on>1010-01-01</on>
-                </date>
-                <date type="Jack">
-                  <on>1010-01-01</on>
-                </date>
-                <contributor>
-                  <role type="author"/>
-                  <organization>
-                    <name>Cartoon Network</name>
-                  </organization>
-                </contributor>
-                <contributor>
-                  <role type="author"/>
-                  <organization>
-                    <name>Ribose, Inc.</name>
-                  </organization>
-                </contributor>
-                <contributor>
-                  <role type="author"/>
-                  <person>
-                    <name>
-                      <completename>Fred Flintstone</completename>
-                    </name>
-                    <credentials>PhD, F.R.Pharm.S.</credentials>
-                     <affiliation>
-                     <name>Vice President, Medical Devices Quality &amp; Compliance -- Strategic programmes</name>
-                   <organization>
-                     <name>Slate Rock and Gravel Company</name>
-                     <abbreviation>SRG</abbreviation>
-                     <subdivision><name>Hermeneutics Unit</name></subdivision>
-                    <subdivision><name>Exegetical Subunit</name></subdivision>
-                  <address>
-                  <formattedAddress>
-                  6 Rubble Way, Bedrock
-                </formattedAddress>
-                  </address>
-                   </organization>
-                   </affiliation>
-                   <phone>123</phone>
-                <phone type='fax'>456</phone>
-                   <uri>http://slate.example.com</uri>
-                  </person>
-                </contributor>
-                <contributor>
-                  <role type="editor">
-                    <description>consulting editor</description>
-                  </role>
-                  <person>
-                    <name>
-                      <forename>Barney</forename>
-                      <initial>B. X.</initial>
-                      <surname>Rubble</surname>
-                    </name>
-                    <credentials>PhD, F.R.Pharm.S.</credentials>
-                <affiliation>
-                  <name>Former Chair ISO TC 210</name>
-                  <organization>
-                    <name>Rockhead and Quarry Cave Construction Company</name>
-                    <abbreviation>RQCCC</abbreviation>
-                    <subdivision><name>Hermeneutics Unit</name></subdivision>
-                <subdivision><name>Exegetical Subunit</name></subdivision>
-                  <address>
-                    <formattedAddress>6A Rubble Way, <br/>Bedrock</formattedAddress>
-                  </address>
-                  </organization>
-                </affiliation>
-                <phone>789</phone>
-                <phone type='fax'>012</phone>
-                   <email>barney@rockhead.example.com</email>
-                  </person>
-                </contributor>
-             <contributor>
-                <role type="author">
-                   <description>committee</description>
-                </role>
-                <organization>
-                   <name>"Cartoon Network"; "Ribose, Inc."</name>
-                   <subdivision type="Technical committee" subtype="A">
-                      <name>TC</name>
-                      <identifier>A 1</identifier>
-                      <identifier type="full">A 1</identifier>
+        <bibdata type="standard">
+           <title language="en" type="main">Main Title\u2009—\u2009Title</title>
+           <title language="en" type="title-part-prefix">Part\u00a01</title>
+           <docidentifier primary="true">1000-1</docidentifier>
+           <docidentifier type="ISBN">ISBN-13</docidentifier>
+           <docidentifier type="ISBN10">ISBN-10</docidentifier>
+           <docidentifier type="ABC">x 1</docidentifier>
+           <docidentifier type="DEF">y 2</docidentifier>
+           <docnumber>1000</docnumber>
+           <date type="published">
+             <on>1000-01-01</on>
+           </date>
+           <date type="accessed">
+             <on>1001-01-01</on>
+           </date>
+           <date type="created">
+             <on>1002-01-01</on>
+           </date>
+           <date type="implemented">
+             <on>1003-01-01</on>
+           </date>
+           <date type="obsoleted">
+             <on>1004-01-01</on>
+           </date>
+           <date type="confirmed">
+             <on>1005-01-01</on>
+           </date>
+           <date type="updated">
+             <on>1006-01-01</on>
+           </date>
+           <date type="issued">
+             <on>1007-01-01</on>
+           </date>
+           <date type="circulated">
+             <on>1008-01-01</on>
+           </date>
+           <date type="unchanged">
+             <on>1009-01-01</on>
+           </date>
+           <date type="vote-started">
+             <on>1011-01-01</on>
+           </date>
+           <date type="vote-ended">
+             <on>1012-01-01</on>
+           </date>
+           <date type="Fred">
+             <on>1010-01-01</on>
+           </date>
+           <date type="Jack">
+             <on>1010-01-01</on>
+           </date>
+           <date type="updated">
+             <on>2000-01-01</on>
+           </date>
+           <contributor>
+             <role type="author"/>
+             <organization>
+               <name>Cartoon Network</name>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="author"/>
+             <organization>
+               <name>Ribose, Inc.</name>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="author"/>
+             <person>
+               <name>
+                 <completename>Fred Flintstone</completename>
+               </name>
+               <credentials>PhD, F.R.Pharm.S.</credentials>
+               <affiliation>
+                 <name>Vice President, Medical Devices Quality &amp; Compliance -- Strategic programmes</name>
+                 <organization>
+                   <name>Slate Rock and Gravel Company</name>
+                   <abbreviation>SRG</abbreviation>
+                   <subdivision>
+                     <name>Hermeneutics Unit</name>
                    </subdivision>
-                </organization>
-             </contributor>
-             <contributor>
-                <role type="author">
-                   <description>committee</description>
-                </role>
-                <organization>
-                   <name>TC1</name>
-                   <subdivision type="Technical committee" subtype="A1">
-                      <name>TC1</name>
-                      <identifier>A1 11</identifier>
-                      <identifier type="full">A1 11</identifier>
-                      <logo>
-                  <image src="spec/assets/correct.png" mimetype="image/png"/>
-               </logo>
+                   <subdivision>
+                     <name>Exegetical Subunit</name>
                    </subdivision>
-                </organization>
-             </contributor>
-                <contributor>
-                  <role type="publisher"/>
-                  <organization>
-                    <name>Hanna Barbera</name>
-                  </organization>
-                </contributor>
-                <contributor>
-                  <role type="publisher"/>
-                  <organization>
-                    <name>Cartoon Network</name>
-                  </organization>
-                </contributor>
-                <contributor>
-                  <role type="publisher"/>
-                  <organization>
-                    <name>Ribose, Inc.</name>
-                  </organization>
-                </contributor>
-                <contributor>
-          <role type="enabler"/>
-          <organization>
-            <name>Cartoon Network</name>
-          </organization>
-        </contributor>
-        <contributor>
-          <role type="enabler"/>
-          <organization>
-            <name>Ribose, Inc.</name>
-          </organization>
-        </contributor>
-            <contributor>
-        <role type="authorizer"/>
-        <organization>
-          <name>CBS</name>
-        </organization>
-      </contributor>
-      <contributor>
-        <role type="authorizer"/>
-        <organization>
-          <name>TXE</name>
-        </organization>
-      </contributor>
-                <edition>2</edition>
-                <version>
-                  <revision-date>2000-01-01</revision-date>
-                  <draft>3.4</draft>
-                </version>
-                  <language>en</language>
-                  <script>Latn</script>
-                  <status>
-                    <stage>10</stage>
-                    <substage>20</substage>
-                    <iteration>3</iteration>
-                  </status>
-                  <copyright>
-                    <from>2001</from>
-                       <owner>
-                     <organization>
-                       <name>Ribose, Inc.</name>
-                     </organization>
-                   </owner>
-                 </copyright>
-                 <copyright>
-                   <from>2001</from>
-                   <owner>
-                     <organization>
-                       <name>Hanna Barbera</name>
-                     </organization>
-                   </owner>
-                  </copyright>
-                  <relation type="partOf">
-                  <bibitem>
-                  <title>--</title>
-                  <docidentifier>ABC</docidentifier>
-                  </bibitem>
-                </relation>
-                <relation type="translatedFrom">
-                           <bibitem>
-                             <title>GHI</title>
-                             <docidentifier>DEF</docidentifier>
-                           </bibitem>
-                         </relation>
-                         <relation type="translatedFrom">
-                           <bibitem>
-                             <title>PQR</title>
-                             <docidentifier>JKL MNO</docidentifier>
-                           </bibitem>
-                         </relation>
-                         <classification type='a'>b</classification>
-                         <classification type='default'>c</classification>
-                <keyword>a</keyword>
-                <keyword>b</keyword>
-                <keyword>c</keyword>
-                <ext>
-                <doctype>standard</doctype>
-            <flavor>standoc</flavor>
-                                  <ics>
-                    <code>01.040.11</code>
-                    <text>Health care technology (Vocabularies)</text>
-                  </ics>
-                  <ics>
-                    <code>11.060.01</code>
-                    <text>Dentistry in general</text>
-                  </ics>
-                  </ext>
-                </bibdata>
-                 <metanorma-extension>
-                <semantic-metadata>
-            <stage-published>false</stage-published>
-          </semantic-metadata>
-                      <presentation-metadata>
-                <toc-heading-levels>2</toc-heading-levels>
-                <html-toc-heading-levels>4</html-toc-heading-levels>
-                <doc-toc-heading-levels>3</doc-toc-heading-levels>
-                <pdf-toc-heading-levels>5</pdf-toc-heading-levels>
-             </presentation-metadata>
-           </metanorma-extension>
-                <sections/>
-                </metanorma>
+                   <address>
+                     <formattedAddress>6 Rubble Way, Bedrock</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>123</phone>
+               <phone type="fax">456</phone>
+               <uri>http://slate.example.com</uri>
+             </person>
+           </contributor>
+           <contributor>
+             <role type="editor">
+               <description>consulting editor</description>
+             </role>
+             <person>
+               <name>
+                 <forename>Barney</forename>
+                 <initial>B. X.</initial>
+                 <surname>Rubble</surname>
+               </name>
+               <credentials>PhD, F.R.Pharm.S.</credentials>
+               <affiliation>
+                 <name>Former Chair ISO TC 210</name>
+                 <organization>
+                   <name>Rockhead and Quarry Cave Construction Company</name>
+                   <abbreviation>RQCCC</abbreviation>
+                   <subdivision>
+                     <name>Hermeneutics Unit</name>
+                   </subdivision>
+                   <subdivision>
+                     <name>Exegetical Subunit</name>
+                   </subdivision>
+                   <address>
+                     <formattedAddress>6A Rubble Way,<br/>Bedrock</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>789</phone>
+               <phone type="fax">012</phone>
+               <email>barney@rockhead.example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type="author">
+               <description>committee</description>
+             </role>
+             <organization>
+               <name>"Cartoon Network"; "Ribose, Inc."</name>
+               <subdivision type="Technical committee" subtype="A">
+                 <name>TC</name>
+                 <identifier>A 1</identifier>
+                 <identifier type="full">A 1</identifier>
+               </subdivision>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="author">
+               <description>committee</description>
+             </role>
+             <organization>
+               <name>TC1</name>
+               <subdivision type="Technical committee" subtype="A1">
+                 <name>TC1</name>
+                 <identifier>A1 11</identifier>
+                 <identifier type="full">A1 11</identifier>
+                 <logo>
+                   <image src="spec/assets/correct.png" mimetype="image/png"/>
+                 </logo>
+               </subdivision>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="publisher"/>
+             <organization>
+               <name>Hanna Barbera</name>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="publisher"/>
+             <organization>
+               <name>Cartoon Network</name>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="publisher"/>
+             <organization>
+               <name>Ribose, Inc.</name>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="enabler"/>
+             <organization>
+               <name>Cartoon Network</name>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="enabler"/>
+             <organization>
+               <name>Ribose, Inc.</name>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="authorizer"/>
+             <organization>
+               <name>CBS</name>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="authorizer"/>
+             <organization>
+               <name>TXE</name>
+             </organization>
+           </contributor>
+           <edition>2</edition>
+           <version>3.4</version>
+           <language>en</language>
+           <script>Latn</script>
+           <status>
+             <stage>10</stage>
+             <substage>20</substage>
+             <iteration>3</iteration>
+           </status>
+           <copyright>
+             <from>2001</from>
+             <owner>
+               <organization>
+                 <name>Ribose, Inc.</name>
+               </organization>
+             </owner>
+           </copyright>
+           <copyright>
+             <from>2001</from>
+             <owner>
+               <organization>
+                 <name>Hanna Barbera</name>
+               </organization>
+             </owner>
+           </copyright>
+           <relation type="partOf">
+             <bibitem>
+               <title>--</title>
+               <docidentifier>ABC</docidentifier>
+             </bibitem>
+           </relation>
+           <relation type="translatedFrom">
+             <bibitem>
+               <title>GHI</title>
+               <docidentifier>DEF</docidentifier>
+             </bibitem>
+           </relation>
+           <relation type="translatedFrom">
+             <bibitem>
+               <title>PQR</title>
+               <docidentifier>JKL MNO</docidentifier>
+             </bibitem>
+           </relation>
+           <classification type="a">b</classification>
+           <classification type="default">c</classification>
+           <keyword>a</keyword>
+           <keyword>b</keyword>
+           <keyword>c</keyword>
+           <ext>
+             <doctype>standard</doctype>
+             <flavor>standoc</flavor>
+             <ics>
+               <code>01.040.11</code>
+               <text>Health care technology (Vocabularies)</text>
+             </ics>
+             <ics>
+               <code>11.060.01</code>
+               <text>Dentistry in general</text>
+             </ics>
+           </ext>
+         </bibdata>
+         <metanorma-extension>
+           <semantic-metadata>
+             <stage-published>false</stage-published>
+           </semantic-metadata>
+           <presentation-metadata>
+             <toc-heading-levels>2</toc-heading-levels>
+             <html-toc-heading-levels>4</html-toc-heading-levels>
+             <doc-toc-heading-levels>3</doc-toc-heading-levels>
+             <pdf-toc-heading-levels>5</pdf-toc-heading-levels>
+           </presentation-metadata>
+         </metanorma-extension>
+         <sections> </sections>
+       </metanorma>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
       .to be_xml_equivalent_to strip_guid(output)
@@ -638,7 +644,6 @@ RSpec.describe Metanorma::Standoc do
       :revdate: 2000-01
       :published-date: 1000-01
       :docnumber: 1000
-      :draft: 3.4
       :partnumber: 1-1
       :tc-docnumber: 2000
       :language: el
@@ -709,8 +714,11 @@ RSpec.describe Metanorma::Standoc do
                   <docidentifier primary="true">1000-1-1</docidentifier>
                   <docnumber>1000</docnumber>
                   <date type='published'>
-           <on>1000-01</on>
-         </date>
+                        <on>1000-01</on>
+                      </date>
+                  <date type="updated">
+                    <on>2000-01</on>
+                  </date>
                   <contributor>
                     <role type="author"/>
                     <organization>
@@ -786,10 +794,7 @@ RSpec.describe Metanorma::Standoc do
                       <name>ISO</name>
                     </organization>
                   </contributor>
-                  <version>
-                    <revision-date>2000-01</revision-date>
-                     <draft>3.4</draft>
-                  </version>
+                  <version>2000-01</version>
                   <language>el</language>
                   <locale>CY</locale>
                   <script>Grek</script>
@@ -1252,6 +1257,9 @@ RSpec.describe Metanorma::Standoc do
           <date type="published">
             <on>1000-01</on>
           </date>
+                <date type="updated">
+                  <on>2000-01</on>
+                </date>
           <contributor>
             <role type="author"/>
             <organization>
@@ -1347,9 +1355,7 @@ RSpec.describe Metanorma::Standoc do
                </subdivision>
              </organization>
            </contributor>
-          <version>
-            <revision-date>2000-01</revision-date>
-          </version>
+          <version>2000-01</version>
           <language>el</language>
           <script>Grek</script>
           <status>

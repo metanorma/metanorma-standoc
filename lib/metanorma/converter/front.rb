@@ -1,8 +1,8 @@
 require "date"
 require "pathname"
-require_relative "./front_contributor"
-require_relative "./front_ext"
-require_relative "./front_title"
+require_relative "front_contributor"
+require_relative "front_ext"
+require_relative "front_title"
 require "isoics"
 require "isodoc"
 
@@ -56,14 +56,15 @@ module Metanorma
         add_noko_elem(xml, "docnumber", node.attr("docnumber"))
       end
 
-      def metadata_version(node, xml)
-        draft = metadata_version_value(node)
+      def metadata_edition(node, xml)
         add_noko_elem(xml, "edition", node.attr("edition"))
+      end
+
+      def metadata_version(node, xml)
+        metadata_edition(node, xml)
+        draft = metadata_version_value(node)
         draft || node.attr("revdate") or return
-        xml.version do |v|
-          add_noko_elem(v, "revision_date", node.attr("revdate"))
-          add_noko_elem(v, "draft", draft)
-        end
+        xml.version draft || node.attr("revdate")
       end
 
       def metadata_version_value(node)
@@ -112,6 +113,12 @@ module Metanorma
           type or next
           xml.date(type:) { |d| add_noko_elem(d, "on", date) }
         end
+        metadata_revdate(node, xml)
+      end
+
+      def metadata_revdate(node, xml)
+        date = node.attr("revdate") or return
+        xml.date(type: "updated") { |d| add_noko_elem(d, "on", date) }
       end
 
       def metadata_language(node, xml)
@@ -173,7 +180,7 @@ module Metanorma
 
       def metadata_classifications(node, xml)
         csv_split(node.attr("classification"), ",")&.each do |c|
-          vals = c.split(/:/, 2)
+          vals = c.split(":", 2)
           vals.size == 1 and vals = ["default", vals[0]]
           add_noko_elem(xml, "classification", vals[1], type: vals[0])
         end

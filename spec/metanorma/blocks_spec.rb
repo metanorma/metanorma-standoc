@@ -485,9 +485,7 @@ RSpec.describe Metanorma::Standoc do
          <title language="en" type="main">Document title</title>
 
 
-         <version>
-           <draft>1.2</draft>
-         </version>
+         <version>1.2</version>
          <language>en</language>
          <script>Latn</script>
          <status><stage>published</stage></status>

@@ -1,4 +1,5 @@
-gem "canon", git: "https://github.com/lutaml/canon", branch: "main"
-gem "isodoc", git: "https://github.com/metanorma/isodoc", branch: "fix/canon-0.2.4"
-gem "html2doc", git: "https://github.com/metanorma/html2doc", branch: "main"
+gem "relaton-render", git: "https://github.com/relaton/relaton-render", branch: "fix/lutaml-model-0.8.0"
+gem "html2doc", git: "https://github.com/metanorma/html2doc", branch: "fix/lutaml-model-0.8.0"
+gem "isodoc", git: "https://github.com/metanorma/isodoc", branch: "fix/lutaml-model-0.8.0"
+gem "metanorma-plugin-lutaml", git: "https://github.com/metanorma/metanorma-plugin-lutaml", branch: "fix/ruby-4.0"
 gem "metanorma-core", git: "https://github.com/metanorma/metanorma-core", branch: "main"
