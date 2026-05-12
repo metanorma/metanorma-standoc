@@ -105,7 +105,7 @@ module Metanorma
     class ConceptInlineMacro < Asciidoctor::Extensions::InlineMacroProcessor
       use_dsl
       named :concept
-      match /\{\{(?<content>|.*?[^\\])\}\}/m
+      match /(?<!\{)\{\{(?!\{)(?<content>|.*?[^\\])\}\}(?!\})/m
       using_format :short
 
       def preprocess_attrs(target)

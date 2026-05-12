@@ -720,6 +720,24 @@ RSpec.describe Metanorma::Standoc do
       .to be_xml_equivalent_to output
   end
 
+  it "does not swallow {{{ ... }}} sourcecode-markup as a concept reference" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [source,xml,subs="verbatim,macros"]
+      ----
+      <P>
+          <image data="using inline `image:`">
+              Text before. {{{ image:spec/assets/rice_image1.png[Some alt text] }}}ext after.
+          </image>
+      </P>
+      ----
+    INPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xml.xpath("//xmlns:sourcecode//xmlns:concept")).to be_empty
+    expect(xml.xpath("//xmlns:sourcecode//xmlns:image").length).to eq(1)
+  end
+
   describe "term inline macros" do
     subject(:convert) do
       strip_guid(Asciidoctor.convert(input, *OPTIONS))
