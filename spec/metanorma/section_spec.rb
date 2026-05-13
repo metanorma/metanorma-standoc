@@ -240,8 +240,8 @@
           </colophon>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes sections: explicit foreword section, and preface section at start" do
@@ -275,8 +275,8 @@
             </sections>
           </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes sections with number attributes" do
@@ -416,8 +416,8 @@
             </bibliography>
           </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes sections with number attributes" do
@@ -557,8 +557,8 @@
             </bibliography>
           </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes sections with language and script attributes" do
@@ -796,8 +796,8 @@
            </bibliography>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes sections with title, type, and unnumbered attributes" do
@@ -955,8 +955,8 @@
            </bibliography>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes nested sections with title attributes" do
@@ -1030,8 +1030,8 @@
            </sections>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes section obligations" do
@@ -1064,8 +1064,8 @@
        </annex>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes inline headers" do
@@ -1098,8 +1098,8 @@
        </annex>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "processes blank headers" do
@@ -1121,8 +1121,8 @@
        </sections>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "ignore special titles in preface but not appendix" do
@@ -1168,8 +1168,8 @@
          </annex>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "recognises special titles despite following indexterms" do
@@ -1187,8 +1187,8 @@
        </sections>
        </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "handles floating titles" do
@@ -1245,8 +1245,8 @@
           </sections>
           </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    it "conditionally supports annex appendixes" do
@@ -1272,8 +1272,8 @@
            </annex>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
      mock_support_appendix
      output = <<~OUTPUT
        #{BLANK_HDR}
@@ -1287,8 +1287,8 @@
            </annex>
         </metanorma>
      OUTPUT
-     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-       .to be_equivalent_to Canon.format_xml(output)
+     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+       .to be_xml_equivalent_to output
    end
 
    private

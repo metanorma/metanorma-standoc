@@ -189,6 +189,24 @@ module Metanorma
           end
         end
       end
+
+      def term_designation_unnest_cleanup(xmldoc)
+        term_designation_unnest_cleanup1(xmldoc,
+                                         %w(preferred admitted deprecates),
+                                         %w(preferred admitted deprecates
+                                            related))
+        term_designation_unnest_cleanup1(xmldoc, %w(related), %w(related))
+      end
+
+      def term_designation_unnest_cleanup1(xmldoc, path1, path2)
+        xmldoc.xpath(path1.map { |x| "//#{x}" }.join(" | "))
+          .each do |d|
+          d.xpath(path2.map { |x| ".//#{x}" }.join(" | "))
+            .reverse_each do |d1|
+              d.next = d1
+            end
+        end
+      end
     end
   end
 end

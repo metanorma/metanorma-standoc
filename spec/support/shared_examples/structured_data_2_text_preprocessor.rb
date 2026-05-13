@@ -54,15 +54,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
       end
 
       it "correctly renders input" do
-        expect(
-          Canon.format_xml(
-            strip_guid(
-              Asciidoctor.convert(input,
-                                  backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
-        ).to(be_equivalent_to(Canon.format_xml(output)))
+        expect(strip_guid(Asciidoctor
+          .convert(input, backend: :standoc, header_footer: true)))
+          .to be_xml_equivalent_to output
       end
     end
 
@@ -113,15 +107,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
       end
 
       it "correctly renders input" do
-        expect(
-          Canon.format_xml(
-            strip_guid(
-              Asciidoctor.convert(input,
-                                  backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
-        ).to(be_equivalent_to(Canon.format_xml(output)))
+        expect(strip_guid(Asciidoctor
+          .convert(input, backend: :standoc, header_footer: true)))
+          .to be_xml_equivalent_to output
       end
     end
 
@@ -161,15 +149,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
       end
 
       it "correctly renders input" do
-        expect(
-          Canon.format_xml(
-            strip_guid(
-              Asciidoctor.convert(input,
-                                  backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
-        ).to(be_equivalent_to(Canon.format_xml(output)))
+        expect(strip_guid(Asciidoctor
+          .convert(input, backend: :standoc, header_footer: true)))
+          .to be_xml_equivalent_to output
       end
     end
 
@@ -216,15 +198,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
       end
 
       it "correctly renders input" do
-        expect(
-          Canon.format_xml(
-            strip_guid(
-              Asciidoctor.convert(input,
-                                  backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
-        ).to(be_equivalent_to(Canon.format_xml(output)))
+        expect(strip_guid(Asciidoctor
+          .convert(input, backend: :standoc, header_footer: true)))
+          .to be_xml_equivalent_to output
       end
     end
 
@@ -298,15 +274,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
       end
 
       it "correctly renders input" do
-        expect(
-          Canon.format_xml(
-            strip_guid(
-              Asciidoctor.convert(input,
-                                  backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
-        ).to(be_equivalent_to(Canon.format_xml(output)))
+        expect(strip_guid(Asciidoctor
+          .convert(input, backend: :standoc, header_footer: true)))
+          .to be_xml_equivalent_to output
       end
     end
 
@@ -370,15 +340,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
       end
 
       it "correctly renders input" do
-        expect(
-          Canon.format_xml(
-            strip_guid(
-              Asciidoctor.convert(input,
-                                  backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
-        ).to(be_equivalent_to(Canon.format_xml(output)))
+        expect(strip_guid(Asciidoctor
+          .convert(input, backend: :standoc, header_footer: true)))
+          .to be_xml_equivalent_to output
       end
     end
 
@@ -424,15 +388,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
       end
 
       it "correctly renders input" do
-        expect(
-          Canon.format_xml(
-            strip_guid(
-              Asciidoctor.convert(input,
-                                  backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
-        ).to(be_equivalent_to(Canon.format_xml(output)))
+        expect(strip_guid(Asciidoctor
+          .convert(input, backend: :standoc, header_footer: true)))
+          .to be_xml_equivalent_to output
       end
     end
 
@@ -520,15 +478,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
       end
 
       it "correctly renders input" do
-        expect(
-          Canon.format_xml(
-            strip_guid(
-              Asciidoctor.convert(input,
-                                  backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
-        ).to(be_equivalent_to(Canon.format_xml(output)))
+        expect(strip_guid(Asciidoctor
+          .convert(input, backend: :standoc, header_footer: true)))
+          .to be_xml_equivalent_to output
       end
     end
 
@@ -571,15 +523,9 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
       end
 
       it "renders liquid markup" do
-        expect(
-          Canon.format_xml(
-            strip_guid(
-              Asciidoctor.convert(input,
-                                  backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
-        ).to(be_equivalent_to(Canon.format_xml(output)))
+        expect(strip_guid(Asciidoctor
+          .convert(input, backend: :standoc, header_footer: true)))
+          .to be_xml_equivalent_to output
       end
     end
 
@@ -612,23 +558,17 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
         <<~TEXT
           #{BLANK_HDR}
           <sections>
-            <p id='_'>1889-09-28</p>
             <p id='_'>2020-10-15 05:34:00 UTC</p>
+            <p id='_'>1889-09-28</p>
           </sections>
           </metanorma>
         TEXT
       end
 
       it "renders liquid markup" do
-        expect(
-          Canon.format_xml(
-            strip_guid(
-              Asciidoctor.convert(input,
-                                  backend: :standoc,
-                                  header_footer: true),
-            ),
-          ),
-        ).to(be_equivalent_to(Canon.format_xml(output)))
+        expect(strip_guid(Asciidoctor
+          .convert(input, backend: :standoc, header_footer: true)))
+          .to be_xml_equivalent_to output
       end
     end
 

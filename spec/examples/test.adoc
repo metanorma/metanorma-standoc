@@ -4,7 +4,7 @@ Author
 :nodoc:
 :novalid:
 :no-isobib:
-:data-uri-image: 
+:data-uri-image:
 
 .Split-it-right sample divider
 image::rice_images/rice_image1.png[]

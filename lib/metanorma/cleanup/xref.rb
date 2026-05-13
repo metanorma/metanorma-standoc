@@ -87,7 +87,8 @@ module Metanorma
 
       def xref_compound_cleanup(xmldoc)
         xmldoc.xpath("//xref").each do |x|
-          x["target"].include?(";") or next
+          next unless x["target"]&.include?(";")
+          
           locations = x["target"].split(";")
           x["target"] = locations.first.sub(/^[^!]*!/, "")
           xref_compound_cleanup1(x, locations)

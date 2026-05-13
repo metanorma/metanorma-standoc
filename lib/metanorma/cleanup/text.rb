@@ -30,13 +30,10 @@ module Metanorma
       end
 
       def lines_strip_textspan(span, nextspan)
-        #AAA
         lines = []
         span[:text] and
           lines = span[:text].lines[0..-2].map(&:rstrip) <<
             span[:text].lines[-1]&.sub(/\n$/, "")
-        #lines = span[:text].lines[0..-2].map(&:rstrip) <<
-  #span[:text].lines[-1]&.sub(/\n$/, "")
         # no final line rstrip: can be space linking to next line
         span[:last] or lines << nextspan[:text].lines.first # next token context
         lines
@@ -57,9 +54,9 @@ module Metanorma
 
       def gather_text_for_linebreak_cleanup1(block)
         block.xpath(".//text() | .//eref[not(text())] |  " \
-                        ".//xref[not(text())] | .//termref[not(text())] | " \
-                        ".//link[not(text())] ").map do |e|
-                          #x = block.xpath(".//text()").map do |e|
+                    ".//xref[not(text())] | .//termref[not(text())] | " \
+                    ".//link[not(text())] ").map do |e|
+          # x = block.xpath(".//text()").map do |e|
           { elem: e, text: e.text, stem: ancestor_include?(e, %w(stem)),
             skip: ancestor_include?(e, PRESERVE_LINEBREAK_ELEMENTS) }
         end
@@ -90,17 +87,6 @@ module Metanorma
           uninterrupt_quotes_around_xml1(n.previous)
         end
       end
-
-#AAA
-# "abc<tag/>", def => "abc",<tag/> def
-# TODO?
-#def uninterrupt_quotes_around_xml1(xmldoc)
-  #xmldoc.xpath("//text()[preceding-sibling::*[1]]").each do |n|
-    #uninterrupt_quotes_around_xml_skip(n) and next
-    #uninterrupt_quotes_around_xml1(n.previous)
-  #end
-#end
-
 
       IGNORE_QUOTES_ELEMENTS =
         %w(pre tt sourcecode stem asciimath figure bibdata passthrough

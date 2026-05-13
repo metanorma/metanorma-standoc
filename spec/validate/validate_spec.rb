@@ -459,7 +459,8 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       <2> This is another callout
     INPUT
     result = convert_and_expect_abort(input)
-    expect(result[:errors]).to include("mismatch of callouts (1) and annotations (2)")
+    expect(result[:errors])
+      .to include("mismatch of callouts (1) and annotations (2)")
     expect(result[:xml_exists]).to be false
 
     # Scenario 2: 2 callouts in code, 1 annotation - should abort
@@ -475,7 +476,8 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       <1> This is one callout
     INPUT
     result2 = convert_and_expect_abort(input2)
-    expect(result2[:errors]).to include("mismatch of callouts (2) and annotations (1)")
+    expect(result2[:errors])
+      .to include("mismatch of callouts (2) and annotations (1)")
     expect(result2[:xml_exists]).to be false
 
     # Scenario 3: Mismatched annotation numbers (<1> and <3>) - should not abort
@@ -522,7 +524,8 @@ RSpec.describe Metanorma::Standoc, type: :validation do
     INPUT
     errors5 = convert_and_capture_errors(input5)
     expect(errors5).not_to include("mismatch of callouts")
-    expect(errors5).to include("Sourcecode with callout markup but no annotations")
+    expect(errors5)
+      .to include("Sourcecode with callout markup but no annotations")
   end
 
   it "warns that Table should have title" do
@@ -554,7 +557,8 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       [align=mid-air]
       Para
     INPUT
-    expect(errors).to include('value of attribute "align" is invalid; must be equal to')
+    expect(errors)
+      .to include('value of attribute "align" is invalid; must be equal to')
   end
 
   context "logging errors" do
@@ -620,32 +624,34 @@ RSpec.describe Metanorma::Standoc, type: :validation do
 
     it "filters errors in Metanorma log" do
       errors = convert_and_capture_errors(
-        input.sub(/:no-isobib-cache:/,
+        input.sub(":no-isobib-cache:",
                   ":log-filter-severity: 2\n:no-isobib-cache:"),
       )
       expect(errors).not_to include("<code>ISO 0a</code>")
       expect(errors).not_to include("RELATON_3")
-      expect(errors).not_to include("Is not recognized as a standards identifier")
+      expect(errors)
+        .not_to include("Is not recognized as a standards identifier")
       expect(errors).to include("STANDOC_38")
       expect(errors).to include("Crossreference target X is undefined")
       expect(errors).not_to include("STANDOC_7")
       expect(errors).not_to include("value of attribute \"align\" is invalid")
 
       errors = convert_and_capture_errors(
-        input.sub(/:no-isobib-cache:/,
-                  ":log-filter-category: Relaton, Anchors \n "\
+        input.sub(":no-isobib-cache:",
+                  ":log-filter-category: Relaton, Anchors \n " \
                   ":no-isobib-cache:"),
       )
       expect(errors).not_to include("<code>ISO 0a</code>")
       expect(errors).not_to include("RELATON_3")
-      expect(errors).not_to include("Is not recognized as a standards identifier")
+      expect(errors)
+        .not_to include("Is not recognized as a standards identifier")
       expect(errors).not_to include("STANDOC_38")
       expect(errors).not_to include("Crossreference target X is undefined")
       expect(errors).to include("STANDOC_7")
       expect(errors).to include("value of attribute \"align\" is invalid")
 
       errors = convert_and_capture_errors(
-        input.sub(/:no-isobib-cache:/,
+        input.sub(":no-isobib-cache:",
                   ":log-filter-category: Metanorma XML Syntax \n" \
                   ":no-isobib-cache:"),
       )
@@ -658,13 +664,14 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       expect(errors).not_to include("value of attribute \"align\" is invalid")
 
       errors = convert_and_capture_errors(
-        input.sub(/:no-isobib-cache:/,
+        input.sub(":no-isobib-cache:",
                   ":log-filter-error-ids: STANDOC_38, RELATON_3\n" \
                   ":no-isobib-cache:"),
       )
       expect(errors).not_to include("<code>ISO 0a</code>")
       expect(errors).not_to include("RELATON_3")
-      expect(errors).not_to include("Is not recognized as a standards identifier")
+      expect(errors)
+        .not_to include("Is not recognized as a standards identifier")
       expect(errors).not_to include("STANDOC_38")
       expect(errors).not_to include("Crossreference target X is undefined")
       expect(errors).to include("STANDOC_7")
@@ -674,31 +681,31 @@ RSpec.describe Metanorma::Standoc, type: :validation do
     it "filters errors by location in Metanorma log" do
       l = ":log-filter-error-loc: "
       errors = convert_and_capture_errors(
-        input.sub(/:no-isobib-cache:/,
+        input.sub(":no-isobib-cache:",
                   l + '{ "from": "Clause3" }'),
       )
       expect(errors).to include("STANDOC_38")
 
       errors = convert_and_capture_errors(
-        input.sub(/:no-isobib-cache:/,
+        input.sub(":no-isobib-cache:",
                   l + '{ "from": "Clause1" }'),
       )
       expect(errors).not_to include("STANDOC_38")
 
       errors = convert_and_capture_errors(
-        input.sub(/:no-isobib-cache:/,
+        input.sub(":no-isobib-cache:",
                   l + '{ "from": "Clause1", "error_ids": ["STANDOC_39"] }'),
       )
       expect(errors).to include("STANDOC_38")
 
       errors = convert_and_capture_errors(
-        input.sub(/:no-isobib-cache:/,
+        input.sub(":no-isobib-cache:",
                   l + '{ "from": "Clause1", "error_ids": ["STANDOC_39", "STANDOC_38"] }'),
       )
       expect(errors).not_to include ("STANDOC_38")
 
       errors = convert_and_capture_errors(
-        input.sub(/:no-isobib-cache:/,
+        input.sub(":no-isobib-cache:",
                   l + '[{ "from": "Clause1", "error_ids": ["STANDOC_39", "STANDOC_38"] }, { "from": "Clause3" }]'),
       )
       expect(errors).not_to include ("STANDOC_38")
@@ -742,15 +749,15 @@ RSpec.describe Metanorma::Standoc, type: :validation do
 
       # Clause1 with both STANDOC_39 and STANDOC_38 - should filter STANDOC_38
       errors = convert_and_capture_errors(
-        input + annotation.sub("Clause3", "Clause1").sub("ERRORS",
-                                                         "STANDOC_39, STANDOC_38"),
+        input + annotation.sub("Clause3", "Clause1")
+        .sub("ERRORS", "STANDOC_39, STANDOC_38"),
       )
       expect(errors).not_to include ("STANDOC_38")
 
       # Multiple annotations - should filter STANDOC_38
       errors = convert_and_capture_errors(
-        input + annotation.sub("Clause3", "Clause1").sub("ERRORS",
-                                                         "STANDOC_39, STANDOC_38") +
+        input + annotation.sub("Clause3", "Clause1")
+        .sub("ERRORS", "STANDOC_39, STANDOC_38") +
         annotation.sub("Clause3", "Clause1").sub("ERRORS", ""),
       )
       expect(errors).not_to include ("STANDOC_38")
@@ -918,9 +925,12 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       |===#{' '}
     INPUT
     errors = convert_and_capture_errors(input)
-    expect(errors).not_to include ("Table exceeds maximum number of columns defined")
-    expect(errors).not_to include ("Table rows in table are inconsistent: check rowspan")
-    expect(errors).not_to include ("Table rows in table cannot go outside thead: check rowspan")
+    expect(errors)
+      .not_to include ("Table exceeds maximum number of columns defined")
+    expect(errors)
+      .not_to include ("Table rows in table are inconsistent: check rowspan")
+    expect(errors)
+      .not_to include ("Table rows in table cannot go outside thead: check rowspan")
   end
 
   it "warns if rowspan goes across thead" do
@@ -965,65 +975,6 @@ RSpec.describe Metanorma::Standoc, type: :validation do
     expect(errors).not_to include("Table rows in table cannot go outside thead")
   end
 
-  xit "warns and aborts if columns out of bounds against colgroup" do
-    FileUtils.rm_f  "test.xml"
-    FileUtils.rm_f  "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
-
-        [cols="1,1,1,1"]
-        |===
-        5+| a
-
-        | a 4+| a
-        | a | a |a |a
-        |===#{' '}
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit
-    end
-    expect(File.read("test.err.html"))
-      .to include ("Table exceeds maximum number of columns defined (4)")
-    expect(File.read("test.err.html"))
-      .not_to include ("Table rows in table are inconsistent: check rowspan"
-                      )
-  end
-
-  xit "warns and aborts if columns out of bounds against cell count per row" do
-    FileUtils.rm_f  "test.xml"
-    FileUtils.rm_f  "test.err.html"
-    begin
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
-
-        |===
-        2.3+| a | a
-
-        | a | a | a
-        | a | a | a
-        |===#{' '}
-      INPUT
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to raise_error(SystemExit)
-    rescue SystemExit
-    end
-    expect(File.read("test.err.html"))
-      .to include ("Table exceeds maximum number of columns defined (3)")
-    expect(File.read("test.err.html"))
-      .not_to include ("Table rows in table are inconsistent: check rowspan"
-                      )
-  end
-
   it "warns and aborts if rows out of bounds" do
     input = <<~INPUT
       = Document title
@@ -1039,8 +990,10 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       |===#{' '}
     INPUT
     result = convert_and_expect_abort(input)
-    expect(result[:errors]).not_to include ("Table exceeds maximum number of columns defined")
-    expect(result[:errors]).to include("Table rows in table are inconsistent: check rowspan")
+    expect(result[:errors])
+      .not_to include ("Table exceeds maximum number of columns defined")
+    expect(result[:errors])
+      .to include("Table rows in table are inconsistent: check rowspan")
   end
 
   it "err file succesfully created for docfile path" do
@@ -1096,7 +1049,8 @@ RSpec.describe Metanorma::Standoc, type: :validation do
 
     INPUT
     result = convert_and_expect_abort(input, [OPTIONS[0].merge(safe: :unsafe)])
-    expect(result[:errors]).to include("Illegal cross-reference connective: through")
+    expect(result[:errors])
+      .to include("Illegal cross-reference connective: through")
   end
 
   it "Warning if xref/@target, xref/location/@target, index/@to does not point to a real anchor" do
@@ -1139,8 +1093,10 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       * C
       --
     INPUT
-    expect(errors).to include("There is an instance of table nested within note")
-    expect(errors).not_to include("There is an instance of example nested within table")
+    expect(errors)
+      .to include("There is an instance of table nested within note")
+    expect(errors)
+      .not_to include("There is an instance of example nested within table")
   end
 
   it "Warns if illegal nesting of assets within assets with crossreferencing" do
@@ -1166,7 +1122,8 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       * C
       --
     INPUT
-    expect(errors).to include("There is a crossreference to an instance of table " \
+    expect(errors)
+      .to include("There is a crossreference to an instance of table " \
                   "nested within note")
   end
 
@@ -1195,7 +1152,8 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       * C
       --
     INPUT
-    expect(errors).to include("There is a crossreference to an instance of table " \
+    expect(errors)
+      .to include("There is a crossreference to an instance of table " \
                   "nested within note")
   end
 
@@ -1215,7 +1173,8 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       [%metadata]
       language:: fr
     INPUT
-    expect(errors).to include("Metadata definition list does not follow a term designation")
+    expect(errors)
+      .to include("Metadata definition list does not follow a term designation")
   end
 
   it "Warning if related term missing" do
@@ -1231,8 +1190,10 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       Definition
 
     INPUT
-    expect(errors).to include("Error: Term reference to <code>xyz</code> missing:")
-    expect(errors).not_to include("Did you mean to point to a subterm?")
+    expect(errors)
+      .to include("Error: Term reference to <code>xyz</code> missing:")
+    expect(errors)
+      .not_to include("Did you mean to point to a subterm?")
 
     errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
@@ -1247,8 +1208,10 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       Definition
 
     INPUT
-    expect(errors).to include("Error: Term reference to <code>xyz</code> missing:")
-    expect(errors).to include("Did you mean to point to a subterm?")
+    expect(errors)
+      .to include("Error: Term reference to <code>xyz</code> missing:")
+    expect(errors)
+      .to include("Did you mean to point to a subterm?")
 
     errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
@@ -1262,7 +1225,8 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       Definition
 
     INPUT
-    expect(errors).to include("Symbol reference in <code>symbol​[xyz]</code> missing:")
+    expect(errors)
+      .to include("Symbol reference in <code>symbol​[xyz]</code> missing:")
 
     errors = convert_and_capture_errors(<<~"INPUT")
       #{VALIDATING_BLANK_HDR}
@@ -1283,8 +1247,10 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       xyz1:: B
 
     INPUT
-    expect(errors).not_to include("Error: Term reference to <code>xyz</code> missing:")
-    expect(errors).not_to include("Symbol reference in <code>symbol[xyz]</code> missing:")
+    expect(errors)
+      .not_to include("Error: Term reference to <code>xyz</code> missing:")
+    expect(errors)
+      .not_to include("Symbol reference in <code>symbol[xyz]</code> missing:")
   end
 
   it "warns if corrupt PNG" do
@@ -1567,7 +1533,8 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       end.not_to raise_error(SystemExit)
     rescue SystemExit
     end
-    expect(errors).to include("Term Term1 occurs twice as preferred designation: a, b")
+    expect(errors)
+      .to include("Term Term1 occurs twice as preferred designation: a, b")
 
     FileUtils.rm_f "test.xml"
 
@@ -1594,7 +1561,8 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       end.not_to raise_error(SystemExit)
     rescue SystemExit
     end
-    expect(errors).to include("Term Term1 occurs twice as preferred designation: a, b")
+    expect(errors)
+      .to include("Term Term1 occurs twice as preferred designation: a, b")
   end
 
   it "warns if image is too big for Data URI encoding" do

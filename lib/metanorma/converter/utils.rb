@@ -4,13 +4,15 @@ require "htmlentities"
 require "json"
 require "pathname"
 require "uuidtools"
+require "metanorma-core"
 require_relative "../../nokogiri/xml/builder"
 require_relative "date_utils"
-require_relative "isolated_converter"
 
 module Metanorma
   module Standoc
     module Utils
+      include ::Metanorma::Core::Boilerplate
+
       def convert(node, transform = nil, opts = {})
         transform ||= node.node_name
         opts.empty? ? (send transform, node) : (send transform, node, opts)
@@ -91,14 +93,9 @@ module Metanorma
 
       def isodoc(lang, script, locale, i18nyaml = nil)
         conv = presentation_xml_converter(EmptyAttr.new)
-        conv.init_i18n({ i18nyaml:, language: lang, script:, locale: })
-        i18n = conv.i18n_init(lang, script, locale, i18nyaml)
-        conv.metadata_init(lang, script, locale, i18n)
-        conv.meta.localdir = @localdir
-        conv.xref_init(lang, script, nil, i18n, {})
-        conv.xrefs.klass.meta = conv.meta
-        conv.xrefs.klass.localdir = @localdir
-        conv
+        Metanorma::Core::Isodoc.init(conv, lang: lang, script: script,
+                                           locale: locale, i18nyaml: i18nyaml,
+                                           localdir: @localdir)
       end
 
       def dl_to_attrs(elem, dlist, name)
@@ -146,24 +143,13 @@ module Metanorma
         SECTION_CONTAINERS
       end
 
-      # wrapped in <sections>
-      def adoc2xml(text, flavour)
-        Nokogiri::XML(text).root and return text
-        f = @flush_caches ? ":flush-caches:\n" : ""
-        doc = <<~ADOC
-          = X
-          A
-          :semantic-metadata-headless: true
-          :no-isobib:
-          #{f}:novalid:
-          :!sectids:
-
-          #{text}
-        ADOC
-        c = isolated_asciidoctor_convert(doc, backend: flavour,
-                                              header_footer: true)
-        ret = Nokogiri::XML(c).at("//xmlns:sections")
-        separate_numbering_footnotes(ret)
+      # Shadow metanorma-core's adoc2xml so the standoc converter context
+      # gets externally-sourced footnotes renumbered automatically
+      # (preserving the existing direct-caller behaviour: process_boilerplate_file
+      # in cleanup, header conversion in dochistory).
+      def adoc2xml(text, flavour, flush_caches: false, localdir: nil)
+        ret = super
+        ret.is_a?(Nokogiri::XML::Node) ? separate_numbering_footnotes(ret) : ret
       end
 
       # separate numbering of externally sourced footnotes
@@ -199,28 +185,18 @@ module Metanorma
       end
 
       def add_noko_elem(node, name, val, attrs = {})
-        val and !val.empty? or return
+        (val and !val.empty?) or return
         node.send name, **attr_code(attrs) do |n|
           n << val
         end
       end
 
-      module_function :adoc2xml
-
       def textcleanup(result)
         text = result.flatten.map(&:rstrip) * "\n"
         text.gsub(/(?<!\s)\s+<fn /, "<fn ")
       end
-
-      class EmptyAttr
-        def attr(_any_attribute)
-          nil
-        end
-
-        def attributes
-          {}
-        end
-      end
     end
+
+    EmptyAttr = Metanorma::Core::Isodoc::EmptyNode
   end
 end

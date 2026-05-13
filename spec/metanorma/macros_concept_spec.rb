@@ -185,8 +185,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes the Metanorma::Standoc concept macros for acronyms" do
@@ -321,8 +321,8 @@ RSpec.describe Metanorma::Standoc do
                </sections>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes the concept and related macros with xrefs" do
@@ -384,8 +384,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes concept xrefs to terms with and without domains" do
@@ -456,8 +456,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes the concept and related macros with erefs" do
@@ -614,8 +614,8 @@ RSpec.describe Metanorma::Standoc do
            </bibliography>
         </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes the concept and related macros with termbase" do
@@ -662,8 +662,8 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes the concept macros with disambiguation for math symbols" do
@@ -716,19 +716,31 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
+  end
+
+  it "does not swallow {{{ ... }}} sourcecode-markup as a concept reference" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [source,xml,subs="verbatim,macros"]
+      ----
+      <P>
+          <image data="using inline `image:`">
+              Text before. {{{ image:spec/assets/rice_image1.png[Some alt text] }}}ext after.
+          </image>
+      </P>
+      ----
+    INPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xml.xpath("//xmlns:sourcecode//xmlns:concept")).to be_empty
+    expect(xml.xpath("//xmlns:sourcecode//xmlns:image").length).to eq(1)
   end
 
   describe "term inline macros" do
     subject(:convert) do
-      Canon.format_xml(
-        strip_guid(
-          Asciidoctor.convert(
-            input, *OPTIONS
-          ),
-        ),
-      )
+      strip_guid(Asciidoctor.convert(input, *OPTIONS))
     end
     let(:input) do
       <<~XML
@@ -790,7 +802,7 @@ RSpec.describe Metanorma::Standoc do
     end
 
     it "converts macro into the correct xml" do
-      expect(convert).to(be_equivalent_to(Canon.format_xml(output)))
+      expect(convert).to be_equivalent_to output
     end
 
     context "default params" do
@@ -845,7 +857,7 @@ RSpec.describe Metanorma::Standoc do
       end
 
       it "uses `name` as termref name" do
-        expect(convert).to(be_equivalent_to(Canon.format_xml(output)))
+        expect(convert).to be_xml_equivalent_to output
       end
     end
 
@@ -906,7 +918,7 @@ RSpec.describe Metanorma::Standoc do
       end
 
       it "strips index terms in terms anchors" do
-        expect(convert).to(be_equivalent_to(Canon.format_xml(output)))
+        expect(convert).to be_xml_equivalent_to output
       end
     end
 
@@ -987,7 +999,7 @@ RSpec.describe Metanorma::Standoc do
       end
 
       it "generates unique ids which do not match existing ids" do
-        expect(convert).to(be_equivalent_to(Canon.format_xml(output)))
+        expect(convert).to be_xml_equivalent_to output
       end
     end
 
@@ -1108,7 +1120,7 @@ RSpec.describe Metanorma::Standoc do
       end
 
       it "generates unique ids which do not match existing ids" do
-        expect(convert).to(be_equivalent_to(Canon.format_xml(output)))
+        expect(convert).to be_xml_equivalent_to output
       end
     end
   end

@@ -115,6 +115,7 @@ module Metanorma
       end
 
       def termdef_cleanup(xmldoc)
+        term_designation_unnest_cleanup(xmldoc)
         termdef_unnest_cleanup(xmldoc)
         termlookup_cleanup(xmldoc)
         term_nonverbal_designations(xmldoc)

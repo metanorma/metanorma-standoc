@@ -1,4 +1,4 @@
-require "relaton_bib"
+require "relaton/bib"
 
 module Metanorma
   module Standoc
@@ -35,7 +35,7 @@ module Metanorma
         @file_bibdb[v["key"]] =
           case v["format"]
           when "bibtex"
-            RelatonBib::BibtexParser.from_bibtex(r)
+            Relaton::Bib::Converter::Bibtex.to_item(r)
           else
             format_error(v)
           end

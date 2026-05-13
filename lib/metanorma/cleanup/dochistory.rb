@@ -17,7 +17,9 @@ module Metanorma
         a = t.at("../sourcecode") or return
         ins = bib_relation_insert_pt(xmldoc) or return
         docid = xmldoc.at("//bibdata/docidentifier")
-        yaml = YAML.safe_load(a.text, permitted_classes: [Date])
+        yaml = yaml_deep_stringify_dates(
+          YAML.safe_load(a.text, permitted_classes: [Date]),
+        )
         ext_dochistory_process(yaml, ins, docid)
       end
 
@@ -89,6 +91,17 @@ module Metanorma
         a = yaml["classification"] or return ""
         a.is_a?(Array) or a = [a]
         a.map { |x| amend_classification1(x) }.join("\n")
+      end
+
+      def yaml_deep_stringify_dates(obj)
+        case obj
+        when Hash then obj.transform_values do |v|
+          yaml_deep_stringify_dates(v)
+        end
+        when Array then obj.map { |v| yaml_deep_stringify_dates(v) }
+        when Date  then obj.to_s
+        else            obj
+        end
       end
 
       def amend_classification1(yaml)

@@ -1,5 +1,5 @@
-require_relative "./front_organisation"
-require_relative "./front_committee"
+require_relative "front_organisation"
+require_relative "front_committee"
 
 module Metanorma
   module Standoc

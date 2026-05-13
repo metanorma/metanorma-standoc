@@ -1,4 +1,6 @@
 require "metanorma-utils"
+require "relaton/bib"
+require "yaml"
 
 module Metanorma
   module Standoc
@@ -36,13 +38,17 @@ module Metanorma
         end
 
         def load_bibitem(item)
-          ret = RelatonBib::XMLParser.from_xml(item)
-          ret.to_hash.symbolize_all_keys
+          xml = Nokogiri::XML(item)
+          klass = xml.root&.name == "bibdata" ? Relaton::Bib::Bibdata : Relaton::Bib::Bibitem
+          bib = klass.from_xml(item)
+          YAML.safe_load(bib.to_yaml,
+                         permitted_classes: [Date, Symbol],
+                         symbolize_names: true)
         end
 
         def to_noko
-          out = RelatonBib::HashConverter.hash_to_bib(@old)
-          Nokogiri::XML(RelatonBib::BibliographicItem.new(**out).to_xml).root
+          yaml_str = deep_stringify_keys(@old).to_yaml
+          Nokogiri::XML(Relaton::Bib::Item.from_yaml(yaml_str).to_xml(bibdata: true)).root
         end
 
         def merge
@@ -52,7 +58,7 @@ module Metanorma
         end
 
         def merge1(old, new)
-          %i(link docid date title series biblionote).each do |k|
+          %i(uri docidentifier date title series note).each do |k|
             merge_by_type(old, new, k, :type)
           end
           merge_extent(old, new)
@@ -116,6 +122,23 @@ module Metanorma
           array.each_with_object({}) do |k, m|
             m[k.dig(*Array(attributes))] ||= []
             m[k.dig(*Array(attributes))] << k
+          end
+        end
+
+        private
+
+        # Recursively stringify all symbol keys for YAML round-trip into
+        # Relaton::Bib::Item.from_yaml. lutaml-model YAML expects string keys.
+        def deep_stringify_keys(obj)
+          case obj
+          when Hash
+            obj.each_with_object({}) do |(k, v), h|
+              h[k.to_s] = deep_stringify_keys(v)
+            end
+          when Array
+            obj.map { |v| deep_stringify_keys(v) }
+          else
+            obj
           end
         end
       end

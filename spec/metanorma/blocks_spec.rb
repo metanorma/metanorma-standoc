@@ -18,8 +18,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes Metanorma XML pass blocks" do
@@ -41,8 +41,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes open blocks" do
@@ -63,8 +63,8 @@ RSpec.describe Metanorma::Standoc do
       <p id="_">z</p></sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes form blocks" do
@@ -104,8 +104,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes stem blocks" do
@@ -158,16 +158,16 @@ RSpec.describe Metanorma::Standoc do
              </formula>
              <formula id="_" unnumbered="true">
                 <stem block="true" type="MathML">
-                   <mml:math xmlns="">
+                   <mml:math>
                       <mml:msub xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math">
                          <mml:mrow>
                             <mml:mrow>
-                               <mml:mi xmlns="https://www.metanorma.org/ns/standoc" mathvariant="bold-italic">F</mml:mi>
+                               <mml:mi mathvariant="bold-italic">F</mml:mi>
                             </mml:mrow>
                          </mml:mrow>
                          <mml:mrow>
                             <mml:mrow>
-                               <mml:mi xmlns="https://www.metanorma.org/ns/standoc" mathvariant="bold-italic">Α</mml:mi>
+                               <mml:mi mathvariant="bold-italic">Α</mml:mi>
                             </mml:mrow>
                          </mml:mrow>
                       </mml:msub>
@@ -353,8 +353,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes annotation blocks" do
@@ -485,9 +485,7 @@ RSpec.describe Metanorma::Standoc do
          <title language="en" type="main">Document title</title>
 
 
-         <version>
-           <draft>1.2</draft>
-         </version>
+         <version>1.2</version>
          <language>en</language>
          <script>Latn</script>
          <status><stage>published</stage></status>
@@ -702,8 +700,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
-    expect(Canon.format_xml(xml.to_xml.gsub(%r{ schema-version="[^"]+"}, "")))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(xml.to_xml.gsub(%r{ schema-version="[^"]+"}, ""))
+      .to be_xml_equivalent_to output
   end
 
   it "processes notes" do
@@ -742,8 +740,8 @@ RSpec.describe Metanorma::Standoc do
            </metanorma>
 
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes literals" do
@@ -769,8 +767,8 @@ RSpec.describe Metanorma::Standoc do
        </metanorma>
 
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes simple admonitions with Asciidoc names" do
@@ -788,8 +786,8 @@ RSpec.describe Metanorma::Standoc do
        </metanorma>
 
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes complex admonitions with non-Asciidoc names" do
@@ -835,8 +833,8 @@ RSpec.describe Metanorma::Standoc do
        </metanorma>
 
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes examples" do
@@ -874,8 +872,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes preambles" do
@@ -896,8 +894,8 @@ RSpec.describe Metanorma::Standoc do
        </clause></sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes preambles with titles" do
@@ -919,8 +917,8 @@ RSpec.describe Metanorma::Standoc do
        </clause></sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes subfigures" do
@@ -969,8 +967,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "does not create subfigures if there is only one nested figure" do
@@ -992,8 +990,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes figures within examples" do
@@ -1033,8 +1031,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes figures marked up as examples" do
@@ -1106,8 +1104,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes tabular subfigures" do
@@ -1194,8 +1192,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "ignores index terms when processing figures marked up as examples" do
@@ -1244,8 +1242,8 @@ RSpec.describe Metanorma::Standoc do
          </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes images" do
@@ -1272,8 +1270,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes data URI images" do
@@ -1294,8 +1292,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "accepts attributes on images" do
@@ -1316,8 +1314,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "accepts auto, float and percent values for width and height attributes on images" do
@@ -1354,8 +1352,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes inline images with width and height attributes on images" do
@@ -1374,8 +1372,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes images as datauri" do
@@ -1457,8 +1455,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes blockquotes" do
@@ -1486,8 +1484,8 @@ RSpec.describe Metanorma::Standoc do
        </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes source code" do
@@ -1515,22 +1513,22 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-       <sections>
-         <sourcecode id="_" anchor="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' linenums='true'>
-        <name id="_">Caption</name><body>puts "Hello, world."
-       %w{a b c}.each do |x|
-         puts x
-       end</body></sourcecode>
-         <sourcecode id="_"><body>
-        puts "Hello, world."
-       %w{a b c}.each do |x|
-         puts x
-       end</body></sourcecode>
+       <sections><sourcecode id="_" anchor="ABC" tag="X" columns="1" multilingual-rendering="common" keep-with-next="true" keep-lines-together="true" lang="ruby" linenums="true" unnumbered="true" number="3" filename="sourcecode1.rb"><name id="_">Caption</name><body>puts "Hello, world."
+      %w{a b c}.each do |x|
+        puts x
+      end</body></sourcecode>
+     
+     
+       <sourcecode id="_"><body>puts "Hello, world."
+      %w{a b c}.each do |x|
+        puts x
+      end</body></sourcecode>
+     
        </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes source code with :source-linenums-option:" do
@@ -1558,22 +1556,22 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-       <sections>
-         <sourcecode id="_" anchor="ABC" lang="ruby" filename="sourcecode1.rb" unnumbered="true" number="3" keep-with-next="true" keep-lines-together="true" tag='X' columns='1' multilingual-rendering='common' linenums='true'>
-        <name id="_">Caption</name><body>puts "Hello, world."
-       %w{a b c}.each do |x|
-         puts x
-       end</body></sourcecode>
-         <sourcecode id="_" linenums='true'><body>
-        puts "Hello, world."
-       %w{a b c}.each do |x|
-         puts x
-       end</body></sourcecode>
+       <sections><sourcecode id="_" anchor="ABC" tag="X" columns="1" multilingual-rendering="common" keep-with-next="true" keep-lines-together="true" lang="ruby" linenums="true" unnumbered="true" number="3" filename="sourcecode1.rb"><name id="_">Caption</name><body>puts "Hello, world."
+      %w{a b c}.each do |x|
+        puts x
+      end</body></sourcecode>
+     
+     
+       <sourcecode id="_" linenums="true"><body>puts "Hello, world."
+      %w{a b c}.each do |x|
+        puts x
+      end</body></sourcecode>
+     
        </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes callouts" do
@@ -1592,27 +1590,19 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       #{BLANK_HDR}
-          <sections>
-             <sourcecode id="_1" lang="ruby">
-                <body>
-                   puts "Hello, world."
-                   <callout target="_2">1</callout>
-                   %w{a b c}.each do |x| puts x
-                   <callout target="_3">2</callout>
-                   end
-                </body>
-                <callout-annotation id="_2" anchor="_2">
-                   <p id="_4">This is one callout</p>
-                </callout-annotation>
-                <callout-annotation id="_3" anchor="_3">
-                   <p id="_5">This is another callout</p>
-                </callout-annotation>
-             </sourcecode>
-          </sections>
+       <sections><sourcecode id="_1" lang="ruby"><body>puts "Hello, world." <callout target="_2">1</callout>
+      %w{a b c}.each do |x|
+        puts x <callout target="_3">2</callout>
+      end</body><callout-annotation id="_2" anchor="_2"><p id="_4">This is one callout</p>
+       </callout-annotation><callout-annotation id="_3" anchor="_3"><p id="_5">This is another callout</p>
+       </callout-annotation></sourcecode>
+     
+     
+       </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes hard breaks" do
@@ -1642,8 +1632,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "processes altmedia blocks" do
@@ -1672,8 +1662,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
 
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
@@ -1697,8 +1687,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
 
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR.sub(":data-uri-image: false", ":data-uri-image: true")}
@@ -1722,7 +1712,7 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 end

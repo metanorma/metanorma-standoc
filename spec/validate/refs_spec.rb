@@ -1,6 +1,6 @@
 require "spec_helper"
 require "fileutils"
-require "relaton_iso"
+require "relaton/iso"
 
 RSpec.describe Metanorma::Standoc, type: :validation do
   before do

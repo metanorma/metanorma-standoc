@@ -23,7 +23,7 @@ RSpec.describe Metanorma::Standoc do
       List F:: List G
 
     INPUT
-    expect(strip_guid(Canon.format_xml(output))).to be_equivalent_to Canon.format_xml(<<~"OUTPUT")
+    expect(strip_guid(output)).to be_xml_equivalent_to <<~"OUTPUT"
         #{BLANK_HDR}
         <sections>
           <ul id='_'>
@@ -222,8 +222,8 @@ RSpec.describe Metanorma::Standoc do
           </sections>
        </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "anchors lists and list items" do
@@ -259,7 +259,7 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 end

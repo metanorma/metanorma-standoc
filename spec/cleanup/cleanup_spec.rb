@@ -1,5 +1,5 @@
 require "spec_helper"
-require "relaton_iec"
+require "relaton/iec"
 require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
@@ -29,12 +29,12 @@ RSpec.describe Metanorma::Standoc do
         </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(cleanup)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to cleanup
 
     input1 = input.sub(":novalid:", ":novalid:\n:nocleanup:")
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input1, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input1, *OPTIONS)))
+      .to be_xml_equivalent_to output
     # output from Converter has no namespace, no metanorma extensions
 
     conv = Metanorma::Standoc::Converter.new(:standoc, *OPTIONS)
@@ -43,9 +43,9 @@ RSpec.describe Metanorma::Standoc do
     # output from Cleanup, when inheriting state from Converter,
     # has metanorma extensions with document attribute values from Converter,
     # but still no namespace
-    expect(strip_guid(Canon.format_xml(conv.to_xml(cl.cleanup(Nokogiri::XML(output))))))
-      .to be_equivalent_to Canon.format_xml(cleanup
-      .sub(' xmlns="https://www.metanorma.org/ns/standoc"', ""))
+    expect(strip_guid(conv.to_xml(cl.cleanup(Nokogiri::XML(output)))))
+      .to be_xml_equivalent_to cleanup
+      .sub(' xmlns="https://www.metanorma.org/ns/standoc"', "")
 
     conv = Metanorma::Standoc::Converter.new(:standoc, *OPTIONS)
     conv.init(Asciidoctor::Document.new(input, *OPTIONS))
@@ -53,10 +53,10 @@ RSpec.describe Metanorma::Standoc do
     # output from Cleanup, when not inheriting state from current doc
     # in Converter, has metanorma extensions
     # but with no document attribute values from Converter
-    expect(strip_guid(Canon.format_xml(conv.to_xml(cl.cleanup(Nokogiri::XML(output))))))
-      .to be_equivalent_to Canon.format_xml(cleanup
+    expect(strip_guid(conv.to_xml(cl.cleanup(Nokogiri::XML(output)))))
+      .to be_xml_equivalent_to cleanup
       .sub(' xmlns="https://www.metanorma.org/ns/standoc"', "")
-      .sub("<html-toc-heading-levels>4", "<html-toc-heading-levels>2"))
+      .sub("<html-toc-heading-levels>4", "<html-toc-heading-levels>2")
   end
 
   it "removes empty text elements" do
@@ -73,8 +73,8 @@ RSpec.describe Metanorma::Standoc do
       </sections>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "counts footnotes with link-only content as separate footnotes" do
@@ -109,8 +109,8 @@ RSpec.describe Metanorma::Standoc do
       </p></sections>
              </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
   end
 
   it "sorts symbols lists #1" do
@@ -182,8 +182,8 @@ RSpec.describe Metanorma::Standoc do
       </metanorma>
     OUTPUT
     doc = Asciidoctor.convert(input, *OPTIONS)
-    expect(strip_guid(Canon.format_xml(doc)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(doc))
+      .to be_xml_equivalent_to output
   end
 
   it "sorts symbols lists #2" do
@@ -264,8 +264,8 @@ RSpec.describe Metanorma::Standoc do
         </metanorma>
     OUTPUT
     doc = Asciidoctor.convert(input, *OPTIONS)
-    expect(strip_guid(Canon.format_xml(doc)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(doc))
+      .to be_xml_equivalent_to output
     sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
     expect(strip_guid(sym)).to be_equivalent_to <<~OUTPUT
           <dt id="_" anchor="symbol-x">x</dt><dt id="_" anchor="symbol-x_m">
@@ -340,8 +340,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:bibdata")
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
 
     input = <<~INPUT
       = XXXX
@@ -355,8 +355,8 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:bibdata")
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "cleans up links" do
@@ -379,8 +379,8 @@ RSpec.describe Metanorma::Standoc do
       </clause>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:clause").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:clause").to_xml))
+      .to be_xml_equivalent_to(output)
   end
 
   it "do not apply substitutions to links" do
@@ -525,7 +525,7 @@ RSpec.describe Metanorma::Standoc do
          <p id="_">http://www.example.com
          And http://www.example.com and http://www.example.com</p>
          <sourcecode id="_" filename="http://www.example.com"><body>A
-       http://www.example.com/...abc2[]</body></sourcecode>
+      http://www.example.com/...abc2[]</body></sourcecode>
          <sourcecode id="_"><body>http://www.example.com/...def[]</body></sourcecode>
          <p id="_">
            <link target="http://www.example.com/...ghi"/>
@@ -545,8 +545,8 @@ RSpec.describe Metanorma::Standoc do
        </clause>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:clause").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:clause").to_xml))
+      .to be_xml_equivalent_to(output)
   end
 
   it "do not apply substitutions to links in included docs" do
@@ -568,8 +568,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     a = [OPTIONS[0].merge(safe: :unsafe)]
     ret = Nokogiri::XML(Asciidoctor.convert(input, *a))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:clause").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:clause").to_xml))
+      .to be_xml_equivalent_to(output)
   end
 
   it "remove empty contributors" do
@@ -630,8 +630,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     a = [OPTIONS[0].merge(safe: :unsafe)]
     ret = Nokogiri::XML(Asciidoctor.convert(input, *a))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:bibdata").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:bibdata").to_xml))
+      .to be_xml_equivalent_to(output)
   end
 
   it "reads contributors from YAML, simple" do
@@ -717,8 +717,8 @@ RSpec.describe Metanorma::Standoc do
        </bibdata>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:bibdata").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:bibdata").to_xml))
+      .to be_xml_equivalent_to(output)
   end
 
   it "reads contributors from YAML, complex" do
@@ -764,9 +764,8 @@ RSpec.describe Metanorma::Standoc do
                     country: U.S.A
                 - uri: http://slate.example.com
                 - phone: 123
-                - phone:
-                    type: fax
-                    value: fax456
+                - phone: fax456
+                  type: fax
       - role:
           type: editor
           description: consulting editor
@@ -792,9 +791,8 @@ RSpec.describe Metanorma::Standoc do
                     country: U.S.A
                 - email: barney@rockhead.example.com
                 - phone: 789
-                - phone:
+                - phone: "012"
                   type: fax
-                  value: 012
       -  person:
            name:
              completename: Barry Fussell
@@ -837,165 +835,177 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = <<~OUTPUT
       <bibdata type="standard">
-         <title language="en" type="main">X</title>
-         <date type="corrected">
-           <on>2022-10</on>
-         </date>
-         <contributor>
-           <role type="author"/>
-           <person>
-             <name>
-               <completename>Author One</completename>
-             </name>
-             <affiliation>
-               <organization>
-                 <name>Computer Security Division, Information Technology Laboratory</name>
-               </organization>
-             </affiliation>
-           </person>
-         </contributor>
-         <contributor>
-           <role type="enabler"/>
-           <person>
-             <name>
-               <completename>Sponsor Person One</completename>
-             </name>
-             <affiliation>
-               <organization>
-                 <name>Department of Homeland Security</name>
-               </organization>
-             </affiliation>
-           </person>
-         </contributor>
-         <contributor>
-           <role type="author"/>
-           <person>
-             <name>
-               <completename>Fred Flintstone</completename>
-             </name>
-             <credential>PhD, F.R.Pharm.S.</credential>
-             <affiliation>
-               <name>Vice President, Medical Devices Quality &amp; Compliance -- Strategic programmes</name>
-               <organization>
-                 <name>Slate Rock and Gravel Company</name>
-                 <subdivision>Hermeneutics Unit; Exegetical Subunit</subdivision>
-                 <abbreviation>SRG</abbreviation>
-                 <address>
-                   <street>6 Rubble Way</street>
-                   <city>Bedrock</city>
+          <title language="en" type="main">X</title>
+          <date type="corrected">
+             <on>2022-10</on>
+          </date>
+          <contributor>
+             <role type="author"/>
+             <person>
+                <name>
+                   <completename>Author One</completename>
+                </name>
+                <affiliation>
+                   <organization>
+                      <name>Computer Security Division, Information Technology Laboratory</name>
+                   </organization>
+                </affiliation>
+             </person>
+          </contributor>
+          <contributor>
+             <role type="enabler"/>
+             <person>
+                <name>
+                   <completename>Sponsor Person One</completename>
+                </name>
+                <affiliation>
+                   <organization>
+                      <name>Department of Homeland Security</name>
+                   </organization>
+                </affiliation>
+             </person>
+          </contributor>
+          <contributor>
+             <role type="author"/>
+             <person>
+                <name>
+                   <completename>Fred Flintstone</completename>
+                </name>
+                <credential>PhD, F.R.Pharm.S.</credential>
+                <affiliation>
+                   <name>Vice President, Medical Devices Quality &amp; Compliance -- Strategic programmes</name>
+                   <organization>
+                      <name>Slate Rock and Gravel Company</name>
+                      <subdivision>
+                         <name>Hermeneutics Unit; Exegetical Subunit</name>
+                      </subdivision>
+                      <abbreviation>SRG</abbreviation>
+                      <address>
+                         <street>6 Rubble Way</street>
+                         <city>Bedrock</city>
+                         <country>U.S.A</country>
+                      </address>
+                      <phone type="work">123</phone>
+                      <phone type="fax">fax456</phone>
+                      <uri>http://slate.example.com</uri>
+                   </organization>
+                </affiliation>
+             </person>
+          </contributor>
+          <contributor>
+             <role type="editor">
+                <description>consulting editor</description>
+             </role>
+             <person>
+                <name>
+                   <forename>Barney</forename>
+                   <formatted-initials>B. X.</formatted-initials>
+                   <surname>Rubble</surname>
+                </name>
+                <credential>PhD, F.R.Pharm.S.</credential>
+                <affiliation>
+                   <name>Former Chair ISO TC 210</name>
+                   <organization>
+                      <name>Rockhead and Quarry Cave Construction Company</name>
+                      <subdivision>
+                         <name>Hermeneutics Unit; Exegetical Subunit</name>
+                      </subdivision>
+                      <abbreviation>RQCCC</abbreviation>
+                      <address>
+                         <street>6A Rubble Way</street>
+                         <city>Bedrock</city>
+                         <country>U.S.A</country>
+                      </address>
+                      <phone type="work">789</phone>
+                      <phone type="fax">012</phone>
+                      <email>barney@rockhead.example.com</email>
+                   </organization>
+                </affiliation>
+             </person>
+          </contributor>
+          <contributor>
+             <role type="author"/>
+             <person>
+                <name>
+                   <completename>Barry Fussell</completename>
+                </name>
+                <affiliation>
+                   <organization>
+                      <name>Cisco Systems, Inc.</name>
+                   </organization>
+                </affiliation>
+                <address>
+                   <street>170 West Tasman Drive</street>
+                   <city>San Jose</city>
                    <country>U.S.A</country>
-                 </address>
-                 <uri>http://slate.example.com</uri>
-                 <phone>123</phone>
-               </organization>
-             </affiliation>
-           </person>
-         </contributor>
-         <contributor>
-           <role type="editor">
-             <description>consulting editor</description>
-           </role>
-           <person>
-             <name>
-               <forename>Barney</forename>
-               <formatted-initials>B. X.</formatted-initials>
-               <surname>Rubble</surname>
-             </name>
-             <credential>PhD, F.R.Pharm.S.</credential>
-             <affiliation>
-               <name>Former Chair ISO TC 210</name>
-               <organization>
-                 <name>Rockhead and Quarry Cave Construction Company</name>
-                 <subdivision>Hermeneutics Unit; Exegetical Subunit</subdivision>
-                 <abbreviation>RQCCC</abbreviation>
-                 <address>
-                   <street>6A Rubble Way</street>
-                   <city>Bedrock</city>
-                   <country>U.S.A</country>
-                 </address>
-                 <email>barney@rockhead.example.com</email>
-                 <phone>789</phone>
-               </organization>
-             </affiliation>
-           </person>
-         </contributor>
-         <contributor>
-           <role type="author"/>
-           <person>
-             <name>
-               <completename>Barry Fussell</completename>
-             </name>
-             <affiliation>
-               <organization>
-                 <name>Cisco Systems, Inc.</name>
-               </organization>
-             </affiliation>
-             <address>
-               <street>170 West Tasman Drive</street>
-               <city>San Jose</city>
-               <country>U.S.A</country>
-             </address>
-           </person>
-         </contributor>
-         <contributor>
-           <role type="author"/>
-           <person>
-             <name>
-               <completename>Apostol Vassilev</completename>
-             </name>
-             <affiliation>
-               <organization>
-                 <name>Information Technology Laboratory</name>
-                 <subdivision>Computer Security Division</subdivision>
-               </organization>
-             </affiliation>
-           </person>
-         </contributor>
-         <contributor>
-           <role type="author"/>
-           <person>
-             <name>
-               <completename>Ronny Jopp</completename>
-             </name>
-             <affiliation>
-               <organization>
-                 <name>National Institute of Standards and Technology</name>
-                 <subdivision>Biochemical Science Division</subdivision>
-                 <address>
-                   <city>Gaithersburg</city>
-                   <country>U.S.A.</country>
-                 </address>
-               </organization>
-             </affiliation>
-             <affiliation>
-               <organization>
-                 <name>University of Applied Sciences</name>
-                 <subdivision>Computer Science Department</subdivision>
-                 <address>
-                   <city>Wiesbaden</city>
-                   <country>Germany</country>
-                 </address>
-               </organization>
-             </affiliation>
-           </person>
-         </contributor>
-         <language>en</language>
-         <script>Latn</script>
-         <status>
-           <stage>published</stage>
-         </status>
-         <copyright>
-           <from>#{Date.today.year}</from>
-         </copyright>
-         <ext>
-           <doctype>standard</doctype>
-            <flavor>standoc</flavor>
-         </ext>
+                </address>
+             </person>
+          </contributor>
+          <contributor>
+             <role type="author"/>
+             <person>
+                <name>
+                   <completename>Apostol Vassilev</completename>
+                </name>
+                <affiliation>
+                   <organization>
+                      <name>Information Technology Laboratory</name>
+                      <subdivision>
+                         <name>Computer Security Division</name>
+                      </subdivision>
+                   </organization>
+                </affiliation>
+             </person>
+          </contributor>
+          <contributor>
+             <role type="author"/>
+             <person>
+                <name>
+                   <completename>Ronny Jopp</completename>
+                </name>
+                <affiliation>
+                   <organization>
+                      <name>National Institute of Standards and Technology</name>
+                      <subdivision>
+                         <name>Biochemical Science Division</name>
+                      </subdivision>
+                      <address>
+                         <city>Gaithersburg</city>
+                         <country>U.S.A.</country>
+                      </address>
+                   </organization>
+                </affiliation>
+                <affiliation>
+                   <organization>
+                      <name>University of Applied Sciences</name>
+                      <subdivision>
+                         <name>Computer Science Department</name>
+                      </subdivision>
+                      <address>
+                         <city>Wiesbaden</city>
+                         <country>Germany</country>
+                      </address>
+                   </organization>
+                </affiliation>
+             </person>
+          </contributor>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+             <stage>published</stage>
+          </status>
+          <copyright>
+             <from>#{Date.today.year}</from>
+          </copyright>
+          <ext>
+             <doctype>standard</doctype>
+             <flavor>standoc</flavor>
+          </ext>
        </bibdata>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:bibdata").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:bibdata").to_xml))
+      .to be_xml_equivalent_to(output)
   end
 
   it "reads document history from YAML" do
@@ -1546,7 +1556,7 @@ RSpec.describe Metanorma::Standoc do
       </bibdata>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(strip_guid(Canon.format_xml(ret.at("//xmlns:bibdata").to_xml)))
-      .to be_equivalent_to(Canon.format_xml(output))
+    expect(strip_guid(ret.at("//xmlns:bibdata").to_xml))
+      .to be_xml_equivalent_to(output)
   end
 end

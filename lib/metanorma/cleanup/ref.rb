@@ -1,4 +1,4 @@
-require "relaton_bib"
+require "relaton/bib"
 require_relative "merge_bibitems"
 require_relative "spans_to_bibitem"
 require_relative "bibitem"
