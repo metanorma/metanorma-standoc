@@ -1635,10 +1635,10 @@ RSpec.describe Metanorma::Standoc do
       TEXT
     end
     let(:output) do
-      '<xref target="figure-EAID_0E029ABF_C35A_49e3_9EEA_FFD4F32780A8">'
+      '<xref target="figure-EAID_0E029ABF_C35A_49e3_9EEA_FFD4F32780A8"/>'
     end
 
-    xit "correctly renders input" do
+    it "correctly renders input" do
       expect(strip_src(xml_string_content(metanorma_process(input))))
         .to(include(output))
     end
@@ -1706,7 +1706,7 @@ RSpec.describe Metanorma::Standoc do
     end
 
     # full testing is done in metanorma-plugin-lutaml
-    xit "correctly renders input" do
+    it "correctly renders input" do
       expect(convert)
         .to(include("shall be represented as a set of instances of RE_Locale"))
     end
