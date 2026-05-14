@@ -7,7 +7,7 @@ module Metanorma
     end
 
     def all_modules(mod)
-      [mod] + mod.constants.map { |c| mod.const_get(c) }
+      [mod] + mod.constants(false).map { |c| mod.const_get(c) }
         .select { |c| c.is_a?(Module) && parent_of(c) == mod }
         .flat_map { |m| all_modules(m) }
     end
