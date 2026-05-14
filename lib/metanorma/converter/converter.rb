@@ -1,5 +1,5 @@
 require "asciidoctor"
-require_relative "version"
+require_relative "../standoc/version"
 require_relative "base"
 require_relative "front"
 require_relative "lists"
