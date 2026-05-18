@@ -999,11 +999,14 @@ RSpec.describe Metanorma::Standoc do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       ((See)) Index ((_term_)) and(((A~B~, stem:[alpha], &#x2c80;))).
+
+      Raw brackets: (((energy <thermodynamics>))) and(((alpha, beta <foo>, gamma~x~))).
     INPUT
     output = <<~OUTPUT
          #{BLANK_HDR}
         <sections>
         <p id="_">See<index><primary>See</primary></index> Index <em>term</em><index><primary><em>term</em></primary></index> and<index><primary>A<sub>B</sub></primary><secondary><stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="false"><mi>α</mi></mstyle></math><asciimath>alpha</asciimath></stem></secondary><tertiary>Ⲁ</tertiary></index>.</p>
+        <p id="_">Raw brackets: <index><primary>energy &lt;thermodynamics&gt;</primary></index> and<index><primary>alpha</primary><secondary>beta &lt;foo&gt;</secondary><tertiary>gamma<sub>x</sub></tertiary></index>.</p>
         </sections>
       </metanorma>
     OUTPUT
