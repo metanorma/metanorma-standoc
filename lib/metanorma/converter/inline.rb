@@ -200,7 +200,7 @@ module Metanorma
       end
 
       def inline_indexterm_extract(node)
-        terms = (node.attr("terms") || [node.text]).map { |x| xml_encode(x) }
+        terms = node.attr("terms") || [node.text]
         see = node.attr("see")
         also = node.attr("see-also")
         [terms, see, also]
