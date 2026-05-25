@@ -1379,140 +1379,148 @@ RSpec.describe Metanorma::Standoc do
         </sections>
         <bibliography>
           <references hidden='true' normative='true'>
-                 <bibitem id="_" type="standard" anchor="ISO 131" hidden="true">
-                    <fetched/>
-                    <title language="en" script="Latn" type="title-intro" format="text/plain">Acoustics</title>
-                    <title language="en" script="Latn" type="title-main" format="text/plain">Expression of physical and subjective magnitudes of sound or noise in air</title>
-                    <title language="en" script="Latn" type="main" format="text/plain">Acoustics\\u2009—\\u2009Expression of physical and subjective magnitudes of sound or noise in air</title>
-                    <title language="fr" script="Latn" type="title-intro" format="text/plain">Acoustique</title>
-                    <title language="fr" script="Latn" type="title-main" format="text/plain">Expression des intensités physique et subjective d’un son ou d’un bruit aérien</title>
-                    <title language="fr" script="Latn" type="main" format="text/plain">Acoustique\\u2009—\\u2009Expression des intensités physique et subjective d’un son ou d’un bruit aérien</title>
-                    <uri type="src">https://www.iso.org/standard/3944.html</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
-                    <docidentifier type="ISO" primary="true">ISO 131</docidentifier>
-                    <docidentifier type="iso-reference">ISO 131(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso:131:stage-95.99</docidentifier>
-                    <docnumber>131</docnumber>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="author">
-                          <description>committee</description>
-                       </role>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <subdivision type="technical-committee" subtype="TC">
-                             <name>Acoustics</name>
-                             <identifier>ISO/TC 43</identifier>
-                          </subdivision>
-                          <abbreviation>ISO</abbreviation>
-                       </organization>
-                    </contributor>
-                    <edition>1</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>95</stage>
-                       <substage>99</substage>
-                    </status>
-                    <copyright>
-                       <from>1979</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref>ISO/R 357:1963</formattedref>
-                          <docidentifier type="ISO" primary="true">ISO/R 357:1963</docidentifier>
-                       </bibitem>
-                    </relation>
-                    <relation type="instanceOf">
-                       <bibitem type="standard">
-                          <title language="en" script="Latn" type="title-intro" format="text/plain">Acoustics</title>
-                          <title language="en" script="Latn" type="title-main" format="text/plain">Expression of physical and subjective magnitudes of sound or noise in air</title>
-                          <title language="en" script="Latn" type="main" format="text/plain">Acoustics\\u2009—\\u2009Expression of physical and subjective magnitudes of sound or noise in air</title>
-                          <title language="fr" script="Latn" type="title-intro" format="text/plain">Acoustique</title>
-                          <title language="fr" script="Latn" type="title-main" format="text/plain">Expression des intensités physique et subjective d’un son ou d’un bruit aérien</title>
-                          <title language="fr" script="Latn" type="main" format="text/plain">Acoustique\\u2009—\\u2009Expression des intensités physique et subjective d’un son ou d’un bruit aérien</title>
-                          <uri type="src">https://www.iso.org/standard/3944.html</uri>
-                          <uri type="rss">https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
-                          <docidentifier type="ISO" primary="true">ISO 131:1979</docidentifier>
-                          <docidentifier type="iso-reference">ISO 131:1979(E)</docidentifier>
-                          <docidentifier type="URN">urn:iso:std:iso:131:stage-95.99</docidentifier>
-                          <docnumber>131</docnumber>
-                          <date type="published">
-                             <on>1979-11</on>
-                          </date>
-                          <contributor>
-                             <role type="publisher"/>
-                             <organization>
-                                <name>International Organization for Standardization</name>
-                                <abbreviation>ISO</abbreviation>
-                                <uri>www.iso.org</uri>
-                             </organization>
-                          </contributor>
-                          <contributor>
-                             <role type="author">
-                                <description>committee</description>
-                             </role>
-                             <organization>
-                                <name>International Organization for Standardization</name>
-                                <subdivision type="technical-committee" subtype="TC">
-                                   <name>Acoustics</name>
-                                   <identifier>ISO/TC 43</identifier>
-                                </subdivision>
-                                <abbreviation>ISO</abbreviation>
-                             </organization>
-                          </contributor>
-                          <edition>1</edition>
-                          <language>en</language>
-                          <language>fr</language>
-                          <script>Latn</script>
-                          <status>
-                             <stage>95</stage>
-                             <substage>99</substage>
-                          </status>
-                          <copyright>
-                             <from>1979</from>
-                             <owner>
-                                <organization>
-                                   <name>ISO</name>
-                                </organization>
-                             </owner>
-                          </copyright>
-                          <relation type="obsoletes">
-                             <bibitem type="standard">
-                                <formattedref>ISO/R 357:1963</formattedref>
-                                <docidentifier type="ISO" primary="true">ISO/R 357:1963</docidentifier>
-                             </bibitem>
-                          </relation>
-                          <place>
-                             <formattedPlace>Geneva</formattedPlace>
-                          </place>
-                       </bibitem>
-                    </relation>
-                    <place>
-                       <formattedPlace>Geneva</formattedPlace>
-                    </place>
+            <bibitem id="_" type="standard" anchor="ISO 131" hidden="true">
+               <fetched/>
+               <title language="en" script="Latn" type="title-intro">Acoustics</title>
+               <title language="en" script="Latn" type="title-main">Expression of physical and subjective magnitudes of sound or noise in air</title>
+               <title language="en" script="Latn" type="main">Acoustics\\u2009—\\u2009Expression of physical and subjective magnitudes of sound or noise in air</title>
+               <title language="fr" script="Latn" type="title-intro">Acoustique</title>
+               <title language="fr" script="Latn" type="title-main">Expression des intensités physique et subjective d’un son ou d’un bruit aérien</title>
+               <title language="fr" script="Latn" type="main">Acoustique\\u2009—\\u2009Expression des intensités physique et subjective d’un son ou d’un bruit aérien</title>
+               <uri type="src">https://www.iso.org/standard/3944.html</uri>
+               <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:3944:en</uri>
+               <uri type="rss">https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
+               <docidentifier type="ISO" primary="true">ISO 131</docidentifier>
+               <docidentifier type="iso-reference">ISO 131(E)</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso:131:stage-95.99</docidentifier>
+               <docnumber>131</docnumber>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="author">
+                   <description>committee</description>
+                 </role>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <subdivision type="technical-committee" subtype="TC">
+                     <name>Acoustics</name>
+                     <identifier>ISO/TC 43</identifier>
+                   </subdivision>
+                   <abbreviation>ISO</abbreviation>
+                 </organization>
+               </contributor>
+               <edition>1</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <status>
+                 <stage>95</stage>
+                 <substage>99</substage>
+               </status>
+               <copyright>
+                 <from>1979</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type="obsoletes">
+                 <bibitem>
+                   <formattedref>ISO/R 357:1963</formattedref>
+                   <docidentifier type="ISO" primary="true">ISO/R 357:1963</docidentifier>
+                   <date type="published">
+                     <on>1963-12-01</on>
+                   </date>
                  </bibitem>
-                 <bibitem anchor="iso_std_iso_13485_en" id="_" hidden="true">
-                    <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
-                    <docidentifier type="ISO">iso:std:iso:13485:en</docidentifier>
-                    <docnumber>13485:en</docnumber>
+               </relation>
+               <relation type="instanceOf">
+                 <bibitem type="standard">
+                   <title language="en" script="Latn" type="title-intro">Acoustics</title>
+                   <title language="en" script="Latn" type="title-main">Expression of physical and subjective magnitudes of sound or noise in air</title>
+                   <title language="en" script="Latn" type="main">Acoustics\\u2009—\\u2009Expression of physical and subjective magnitudes of sound or noise in air</title>
+                   <title language="fr" script="Latn" type="title-intro">Acoustique</title>
+                   <title language="fr" script="Latn" type="title-main">Expression des intensités physique et subjective d’un son ou d’un bruit aérien</title>
+                   <title language="fr" script="Latn" type="main">Acoustique\\u2009—\\u2009Expression des intensités physique et subjective d’un son ou d’un bruit aérien</title>
+                   <uri type="src">https://www.iso.org/standard/3944.html</uri>
+                   <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:3944:en</uri>
+                   <uri type="rss">https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
+                   <docidentifier type="ISO" primary="true">ISO 131:1979</docidentifier>
+                   <docidentifier type="iso-reference">ISO 131:1979(E)</docidentifier>
+                   <docidentifier type="URN">urn:iso:std:iso:131:stage-95.99</docidentifier>
+                   <docnumber>131</docnumber>
+                   <date type="published">
+                     <on>1979-11-01</on>
+                   </date>
+                   <contributor>
+                     <role type="publisher"/>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <abbreviation>ISO</abbreviation>
+                       <uri>www.iso.org</uri>
+                     </organization>
+                   </contributor>
+                   <contributor>
+                     <role type="author">
+                       <description>committee</description>
+                     </role>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <subdivision type="technical-committee" subtype="TC">
+                         <name>Acoustics</name>
+                         <identifier>ISO/TC 43</identifier>
+                       </subdivision>
+                       <abbreviation>ISO</abbreviation>
+                     </organization>
+                   </contributor>
+                   <edition>1</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <status>
+                     <stage>95</stage>
+                     <substage>99</substage>
+                   </status>
+                   <copyright>
+                     <from>1979</from>
+                     <owner>
+                       <organization>
+                         <name>ISO</name>
+                       </organization>
+                     </owner>
+                   </copyright>
+                   <relation type="obsoletes">
+                     <bibitem>
+                       <formattedref>ISO/R 357:1963</formattedref>
+                       <docidentifier type="ISO" primary="true">ISO/R 357:1963</docidentifier>
+                       <date type="published">
+                         <on>1963-12-01</on>
+                       </date>
+                     </bibitem>
+                   </relation>
+                   <place>
+                     <city>Geneva</city>
+                   </place>
                  </bibitem>
-              </references>
-           </bibliography>
-        </metanorma>
+               </relation>
+               <place>
+                 <city>Geneva</city>
+               </place>
+             </bibitem>
+             <bibitem anchor="iso_std_iso_13485_en" id="_" hidden="true">
+               <formattedref format="application/x-isodoc+xml">[NO INFORMATION AVAILABLE]</formattedref>
+               <docidentifier type="ISO">iso:std:iso:13485:en</docidentifier>
+               <docnumber>13485:en</docnumber>
+             </bibitem>
+           </references>
+         </bibliography>
+       </metanorma>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS))
                 .gsub(%r{ bibitemid="_[^"]+"}, ' bibitemid="_"'))

@@ -19,266 +19,278 @@ RSpec.describe Metanorma::Standoc do
 
              </sections><bibliography><references id="_" obligation="informative" normative="true"><title id="_">Normative references</title>
               #{NORM_REF_BOILERPLATE}
-                 <bibitem id="_" type="standard" anchor="iso123">
-                    <fetched/>
-                    <title language="en" script="Latn" type="title-intro" format="text/plain">Rubber latex</title>
-                    <title language="en" script="Latn" type="title-main" format="text/plain">Sampling</title>
-                    <title language="en" script="Latn" type="main" format="text/plain">Rubber latex\\u2009—\\u2009Sampling</title>
-                    <title language="fr" script="Latn" type="title-intro" format="text/plain">Latex de caoutchouc</title>
-                    <title language="fr" script="Latn" type="title-main" format="text/plain">Échantillonnage</title>
-                    <title language="fr" script="Latn" type="main" format="text/plain">Latex de caoutchouc\\u2009—\\u2009Échantillonnage</title>
-                    <uri type="src">https://www.iso.org/standard/23281.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                    <docidentifier type="ISO" primary="true">ISO 123</docidentifier>
-                    <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
-                    <docnumber>123</docnumber>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="author">
-                          <description>committee</description>
-                       </role>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <subdivision type="technical-committee" subtype="TC">
-                             <name>Raw materials (including latex) for use in the rubber industry</name>
-                             <identifier>ISO/TC 45/SC 3</identifier>
-                          </subdivision>
-                          <abbreviation>ISO</abbreviation>
-                       </organization>
-                    </contributor>
-                    <edition>3</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>90</stage>
-                       <substage>93</substage>
-                    </status>
-                    <copyright>
-                       <from>2001</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref>ISO 123:1985</formattedref>
-                          <docidentifier type="ISO" primary="true">ISO 123:1985</docidentifier>
-                       </bibitem>
-                    </relation>
-                    <relation type="instanceOf">
-                       <bibitem type="standard">
-                          <title language="en" script="Latn" type="title-intro" format="text/plain">Rubber latex</title>
-                          <title language="en" script="Latn" type="title-main" format="text/plain">Sampling</title>
-                          <title language="en" script="Latn" type="main" format="text/plain">Rubber latex\\u2009—\\u2009Sampling</title>
-                          <title language="fr" script="Latn" type="title-intro" format="text/plain">Latex de caoutchouc</title>
-                          <title language="fr" script="Latn" type="title-main" format="text/plain">Échantillonnage</title>
-                          <title language="fr" script="Latn" type="main" format="text/plain">Latex de caoutchouc\\u2009—\\u2009Échantillonnage</title>
-                          <uri type="src">https://www.iso.org/standard/23281.html</uri>
-                          <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
-                          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                          <docidentifier type="ISO" primary="true">ISO 123:2001</docidentifier>
-                          <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
-                          <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
-                          <docnumber>123</docnumber>
-                          <date type="published">
-                             <on>2001-05</on>
-                          </date>
-                          <contributor>
-                             <role type="publisher"/>
-                             <organization>
-                                <name>International Organization for Standardization</name>
-                                <abbreviation>ISO</abbreviation>
-                                <uri>www.iso.org</uri>
-                             </organization>
-                          </contributor>
-                          <contributor>
-                             <role type="author">
-                                <description>committee</description>
-                             </role>
-                             <organization>
-                                <name>International Organization for Standardization</name>
-                                <subdivision type="technical-committee" subtype="TC">
-                                   <name>Raw materials (including latex) for use in the rubber industry</name>
-                                   <identifier>ISO/TC 45/SC 3</identifier>
-                                </subdivision>
-                                <abbreviation>ISO</abbreviation>
-                             </organization>
-                          </contributor>
-                          <edition>3</edition>
-                          <language>en</language>
-                          <language>fr</language>
-                          <script>Latn</script>
-                          <status>
-                             <stage>90</stage>
-                             <substage>93</substage>
-                          </status>
-                          <copyright>
-                             <from>2001</from>
-                             <owner>
-                                <organization>
-                                   <name>ISO</name>
-                                </organization>
-                             </owner>
-                          </copyright>
-                          <relation type="obsoletes">
-                             <bibitem type="standard">
-                                <formattedref>ISO 123:1985</formattedref>
-                                <docidentifier type="ISO" primary="true">ISO 123:1985</docidentifier>
-                             </bibitem>
-                          </relation>
-                          <place>
-                             <formattedPlace>Geneva</formattedPlace>
-                          </place>
-                       </bibitem>
-                    </relation>
-                    <place>
-                       <formattedPlace>Geneva</formattedPlace>
-                    </place>
+           <bibitem id="_" type="standard" anchor="iso123">
+               <fetched/>
+               <title language="en" script="Latn" type="title-intro">Rubber latex</title>
+               <title language="en" script="Latn" type="title-main">Sampling</title>
+               <title language="en" script="Latn" type="main">Rubber latex\\u2009—\\u2009Sampling</title>
+               <title language="fr" script="Latn" type="title-intro">Latex de caoutchouc</title>
+               <title language="fr" script="Latn" type="title-main">Échantillonnage</title>
+               <title language="fr" script="Latn" type="main">Latex de caoutchouc\\u2009—\\u2009Échantillonnage</title>
+               <uri type="src">https://www.iso.org/standard/23281.html</uri>
+               <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+               <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+               <docidentifier type="ISO" primary="true">ISO 123</docidentifier>
+               <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso:123:stage-90.20</docidentifier>
+               <docnumber>123</docnumber>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="author">
+                   <description>committee</description>
+                 </role>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <subdivision type="technical-committee" subtype="TC">
+                     <name>Raw materials (including latex) for use in the rubber industry</name>
+                     <identifier>ISO/TC 45/SC 3</identifier>
+                   </subdivision>
+                   <abbreviation>ISO</abbreviation>
+                 </organization>
+               </contributor>
+               <edition>3</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <status>
+                 <stage>90</stage>
+                 <substage>20</substage>
+               </status>
+               <copyright>
+                 <from>2001</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type="obsoletes">
+                 <bibitem>
+                   <formattedref>ISO 123:1985</formattedref>
+                   <docidentifier type="ISO" primary="true">ISO 123:1985</docidentifier>
+                   <date type="published">
+                     <on>1985-08-01</on>
+                   </date>
                  </bibitem>
-                 <bibitem id="_" type="standard" anchor="iso124">
-                    <fetched/>
-                    <title language="en" script="Latn" type="title-intro" format="text/plain">Rubber latex</title>
-                    <title language="en" script="Latn" type="title-main" format="text/plain">Sampling</title>
-                    <title language="en" script="Latn" type="main" format="text/plain">Rubber latex\\u2009—\\u2009Sampling</title>
-                    <title language="fr" script="Latn" type="title-intro" format="text/plain">Latex de caoutchouc</title>
-                    <title language="fr" script="Latn" type="title-main" format="text/plain">Échantillonnage</title>
-                    <title language="fr" script="Latn" type="main" format="text/plain">Latex de caoutchouc\\u2009—\\u2009Échantillonnage</title>
-                    <uri type="src">https://www.iso.org/standard/23281.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                    <docidentifier type="ISO" primary="true">ISO 123</docidentifier>
-                    <docidentifier type="metanorma">[1]</docidentifier>
-                    <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
-                    <docnumber>123</docnumber>
-                    <contributor>
-                       <role type="publisher"/>
+               </relation>
+               <relation type="instanceOf">
+                 <bibitem type="standard">
+                   <title language="en" script="Latn" type="title-intro">Rubber latex</title>
+                   <title language="en" script="Latn" type="title-main">Sampling</title>
+                   <title language="en" script="Latn" type="main">Rubber latex\\u2009—\\u2009Sampling</title>
+                   <title language="fr" script="Latn" type="title-intro">Latex de caoutchouc</title>
+                   <title language="fr" script="Latn" type="title-main">Échantillonnage</title>
+                   <title language="fr" script="Latn" type="main">Latex de caoutchouc\\u2009—\\u2009Échantillonnage</title>
+                   <uri type="src">https://www.iso.org/standard/23281.html</uri>
+                   <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+                   <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <docidentifier type="ISO" primary="true">ISO 123:2001</docidentifier>
+                   <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
+                   <docidentifier type="URN">urn:iso:std:iso:123:stage-90.20</docidentifier>
+                   <docnumber>123</docnumber>
+                   <date type="published">
+                     <on>2001-05-31</on>
+                   </date>
+                   <contributor>
+                     <role type="publisher"/>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <abbreviation>ISO</abbreviation>
+                       <uri>www.iso.org</uri>
+                     </organization>
+                   </contributor>
+                   <contributor>
+                     <role type="author">
+                       <description>committee</description>
+                     </role>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <subdivision type="technical-committee" subtype="TC">
+                         <name>Raw materials (including latex) for use in the rubber industry</name>
+                         <identifier>ISO/TC 45/SC 3</identifier>
+                       </subdivision>
+                       <abbreviation>ISO</abbreviation>
+                     </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <status>
+                     <stage>90</stage>
+                     <substage>20</substage>
+                   </status>
+                   <copyright>
+                     <from>2001</from>
+                     <owner>
                        <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
+                         <name>ISO</name>
                        </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="author">
-                          <description>committee</description>
-                       </role>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <subdivision type="technical-committee" subtype="TC">
-                             <name>Raw materials (including latex) for use in the rubber industry</name>
-                             <identifier>ISO/TC 45/SC 3</identifier>
-                          </subdivision>
-                          <abbreviation>ISO</abbreviation>
-                       </organization>
-                    </contributor>
-                    <edition>3</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>90</stage>
-                       <substage>93</substage>
-                    </status>
-                    <copyright>
-                       <from>2001</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref>ISO 123:1985</formattedref>
-                          <docidentifier type="ISO" primary="true">ISO 123:1985</docidentifier>
-                       </bibitem>
-                    </relation>
-                    <relation type="instanceOf">
-                       <bibitem type="standard">
-                          <title language="en" script="Latn" type="title-intro" format="text/plain">Rubber latex</title>
-                          <title language="en" script="Latn" type="title-main" format="text/plain">Sampling</title>
-                          <title language="en" script="Latn" type="main" format="text/plain">Rubber latex\\u2009—\\u2009Sampling</title>
-                          <title language="fr" script="Latn" type="title-intro" format="text/plain">Latex de caoutchouc</title>
-                          <title language="fr" script="Latn" type="title-main" format="text/plain">Échantillonnage</title>
-                          <title language="fr" script="Latn" type="main" format="text/plain">Latex de caoutchouc\\u2009—\\u2009Échantillonnage</title>
-                          <uri type="src">https://www.iso.org/standard/23281.html</uri>
-                          <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
-                          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                          <docidentifier type="ISO" primary="true">ISO 123:2001</docidentifier>
-                          <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
-                          <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
-                          <docnumber>123</docnumber>
-                          <date type="published">
-                             <on>2001-05</on>
-                          </date>
-                          <contributor>
-                             <role type="publisher"/>
-                             <organization>
-                                <name>International Organization for Standardization</name>
-                                <abbreviation>ISO</abbreviation>
-                                <uri>www.iso.org</uri>
-                             </organization>
-                          </contributor>
-                          <contributor>
-                             <role type="author">
-                                <description>committee</description>
-                             </role>
-                             <organization>
-                                <name>International Organization for Standardization</name>
-                                <subdivision type="technical-committee" subtype="TC">
-                                   <name>Raw materials (including latex) for use in the rubber industry</name>
-                                   <identifier>ISO/TC 45/SC 3</identifier>
-                                </subdivision>
-                                <abbreviation>ISO</abbreviation>
-                             </organization>
-                          </contributor>
-                          <edition>3</edition>
-                          <language>en</language>
-                          <language>fr</language>
-                          <script>Latn</script>
-                          <status>
-                             <stage>90</stage>
-                             <substage>93</substage>
-                          </status>
-                          <copyright>
-                             <from>2001</from>
-                             <owner>
-                                <organization>
-                                   <name>ISO</name>
-                                </organization>
-                             </owner>
-                          </copyright>
-                          <relation type="obsoletes">
-                             <bibitem type="standard">
-                                <formattedref>ISO 123:1985</formattedref>
-                                <docidentifier type="ISO" primary="true">ISO 123:1985</docidentifier>
-                             </bibitem>
-                          </relation>
-                          <place>
-                             <formattedPlace>Geneva</formattedPlace>
-                          </place>
-                       </bibitem>
-                    </relation>
-                    <place>
-                       <formattedPlace>Geneva</formattedPlace>
-                    </place>
+                     </owner>
+                   </copyright>
+                   <relation type="obsoletes">
+                     <bibitem>
+                       <formattedref>ISO 123:1985</formattedref>
+                       <docidentifier type="ISO" primary="true">ISO 123:1985</docidentifier>
+                       <date type="published">
+                         <on>1985-08-01</on>
+                       </date>
+                     </bibitem>
+                   </relation>
+                   <place>
+                     <city>Geneva</city>
+                   </place>
                  </bibitem>
-              </references>
-           </bibliography>
-        </metanorma>
+               </relation>
+               <place>
+                 <city>Geneva</city>
+               </place>
+             </bibitem>
+             <bibitem id="_" type="standard" anchor="iso124">
+               <fetched/>
+               <title language="en" script="Latn" type="title-intro">Rubber latex</title>
+               <title language="en" script="Latn" type="title-main">Sampling</title>
+               <title language="en" script="Latn" type="main">Rubber latex\\u2009—\\u2009Sampling</title>
+               <title language="fr" script="Latn" type="title-intro">Latex de caoutchouc</title>
+               <title language="fr" script="Latn" type="title-main">Échantillonnage</title>
+               <title language="fr" script="Latn" type="main">Latex de caoutchouc\\u2009—\\u2009Échantillonnage</title>
+               <uri type="src">https://www.iso.org/standard/23281.html</uri>
+               <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+               <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+               <docidentifier type="ISO" primary="true">ISO 123</docidentifier>
+               <docidentifier type="metanorma">[1]</docidentifier>
+               <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso:123:stage-90.20</docidentifier>
+               <docnumber>123</docnumber>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="author">
+                   <description>committee</description>
+                 </role>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <subdivision type="technical-committee" subtype="TC">
+                     <name>Raw materials (including latex) for use in the rubber industry</name>
+                     <identifier>ISO/TC 45/SC 3</identifier>
+                   </subdivision>
+                   <abbreviation>ISO</abbreviation>
+                 </organization>
+               </contributor>
+               <edition>3</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <status>
+                 <stage>90</stage>
+                 <substage>20</substage>
+               </status>
+               <copyright>
+                 <from>2001</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type="obsoletes">
+                 <bibitem>
+                   <formattedref>ISO 123:1985</formattedref>
+                   <docidentifier type="ISO" primary="true">ISO 123:1985</docidentifier>
+                   <date type="published">
+                     <on>1985-08-01</on>
+                   </date>
+                 </bibitem>
+               </relation>
+               <relation type="instanceOf">
+                 <bibitem type="standard">
+                   <title language="en" script="Latn" type="title-intro">Rubber latex</title>
+                   <title language="en" script="Latn" type="title-main">Sampling</title>
+                   <title language="en" script="Latn" type="main">Rubber latex\\u2009—\\u2009Sampling</title>
+                   <title language="fr" script="Latn" type="title-intro">Latex de caoutchouc</title>
+                   <title language="fr" script="Latn" type="title-main">Échantillonnage</title>
+                   <title language="fr" script="Latn" type="main">Latex de caoutchouc\\u2009—\\u2009Échantillonnage</title>
+                   <uri type="src">https://www.iso.org/standard/23281.html</uri>
+                   <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+                   <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <docidentifier type="ISO" primary="true">ISO 123:2001</docidentifier>
+                   <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
+                   <docidentifier type="URN">urn:iso:std:iso:123:stage-90.20</docidentifier>
+                   <docnumber>123</docnumber>
+                   <date type="published">
+                     <on>2001-05-31</on>
+                   </date>
+                   <contributor>
+                     <role type="publisher"/>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <abbreviation>ISO</abbreviation>
+                       <uri>www.iso.org</uri>
+                     </organization>
+                   </contributor>
+                   <contributor>
+                     <role type="author">
+                       <description>committee</description>
+                     </role>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <subdivision type="technical-committee" subtype="TC">
+                         <name>Raw materials (including latex) for use in the rubber industry</name>
+                         <identifier>ISO/TC 45/SC 3</identifier>
+                       </subdivision>
+                       <abbreviation>ISO</abbreviation>
+                     </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <status>
+                     <stage>90</stage>
+                     <substage>20</substage>
+                   </status>
+                   <copyright>
+                     <from>2001</from>
+                     <owner>
+                       <organization>
+                         <name>ISO</name>
+                       </organization>
+                     </owner>
+                   </copyright>
+                   <relation type="obsoletes">
+                     <bibitem>
+                       <formattedref>ISO 123:1985</formattedref>
+                       <docidentifier type="ISO" primary="true">ISO 123:1985</docidentifier>
+                       <date type="published">
+                         <on>1985-08-01</on>
+                       </date>
+                     </bibitem>
+                   </relation>
+                   <place>
+                     <city>Geneva</city>
+                   </place>
+                 </bibitem>
+               </relation>
+               <place>
+                 <city>Geneva</city>
+               </place>
+             </bibitem>
+           </references>
+         </bibliography>
+       </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.xpath("//xmlns:abstract").each(&:remove)
@@ -311,266 +323,279 @@ RSpec.describe Metanorma::Standoc do
               r&#233;f&#233;rence s&#8217;applique (y compris les &#233;ventuels
               amendements).
             </p>
-                 <bibitem id="_" type="standard" anchor="iso123">
-                    <fetched/>
-                    <title language="en" script="Latn" type="title-intro" format="text/plain">Rubber latex</title>
-                    <title language="en" script="Latn" type="title-main" format="text/plain">Sampling</title>
-                    <title language="en" script="Latn" type="main" format="text/plain">Rubber latex\\u2009—\\u2009Sampling</title>
-                    <title language="fr" script="Latn" type="title-intro" format="text/plain">Latex de caoutchouc</title>
-                    <title language="fr" script="Latn" type="title-main" format="text/plain">Échantillonnage</title>
-                    <title language="fr" script="Latn" type="main" format="text/plain">Latex de caoutchouc\\u2009—\\u2009Échantillonnage</title>
-                    <uri type="src">https://www.iso.org/standard/23281.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                    <docidentifier type="ISO" primary="true">ISO 123</docidentifier>
-                    <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
-                    <docnumber>123</docnumber>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="author">
-                          <description>committee</description>
-                       </role>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <subdivision type="technical-committee" subtype="TC">
-                             <name>Raw materials (including latex) for use in the rubber industry</name>
-                             <identifier>ISO/TC 45/SC 3</identifier>
-                          </subdivision>
-                          <abbreviation>ISO</abbreviation>
-                       </organization>
-                    </contributor>
-                    <edition>3</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>90</stage>
-                       <substage>93</substage>
-                    </status>
-                    <copyright>
-                       <from>2001</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref>ISO 123:1985</formattedref>
-                          <docidentifier type="ISO" primary="true">ISO 123:1985</docidentifier>
-                       </bibitem>
-                    </relation>
-                    <relation type="instanceOf">
-                       <bibitem type="standard">
-                          <title language="en" script="Latn" type="title-intro" format="text/plain">Rubber latex</title>
-                          <title language="en" script="Latn" type="title-main" format="text/plain">Sampling</title>
-                          <title language="en" script="Latn" type="main" format="text/plain">Rubber latex\\u2009—\\u2009Sampling</title>
-                          <title language="fr" script="Latn" type="title-intro" format="text/plain">Latex de caoutchouc</title>
-                          <title language="fr" script="Latn" type="title-main" format="text/plain">Échantillonnage</title>
-                          <title language="fr" script="Latn" type="main" format="text/plain">Latex de caoutchouc\\u2009—\\u2009Échantillonnage</title>
-                          <uri type="src">https://www.iso.org/standard/23281.html</uri>
-                          <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
-                          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                          <docidentifier type="ISO" primary="true">ISO 123:2001</docidentifier>
-                          <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
-                          <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
-                          <docnumber>123</docnumber>
-                          <date type="published">
-                             <on>2001-05</on>
-                          </date>
-                          <contributor>
-                             <role type="publisher"/>
-                             <organization>
-                                <name>International Organization for Standardization</name>
-                                <abbreviation>ISO</abbreviation>
-                                <uri>www.iso.org</uri>
-                             </organization>
-                          </contributor>
-                          <contributor>
-                             <role type="author">
-                                <description>committee</description>
-                             </role>
-                             <organization>
-                                <name>International Organization for Standardization</name>
-                                <subdivision type="technical-committee" subtype="TC">
-                                   <name>Raw materials (including latex) for use in the rubber industry</name>
-                                   <identifier>ISO/TC 45/SC 3</identifier>
-                                </subdivision>
-                                <abbreviation>ISO</abbreviation>
-                             </organization>
-                          </contributor>
-                          <edition>3</edition>
-                          <language>en</language>
-                          <language>fr</language>
-                          <script>Latn</script>
-                          <status>
-                             <stage>90</stage>
-                             <substage>93</substage>
-                          </status>
-                          <copyright>
-                             <from>2001</from>
-                             <owner>
-                                <organization>
-                                   <name>ISO</name>
-                                </organization>
-                             </owner>
-                          </copyright>
-                          <relation type="obsoletes">
-                             <bibitem type="standard">
-                                <formattedref>ISO 123:1985</formattedref>
-                                <docidentifier type="ISO" primary="true">ISO 123:1985</docidentifier>
-                             </bibitem>
-                          </relation>
-                          <place>
-                             <formattedPlace>Geneva</formattedPlace>
-                          </place>
-                       </bibitem>
-                    </relation>
-                    <place>
-                       <formattedPlace>Geneva</formattedPlace>
-                    </place>
+             <bibitem id="_" type="standard" anchor="iso123">
+               <fetched/>
+               <title language="en" script="Latn" type="title-intro">Rubber latex</title>
+               <title language="en" script="Latn" type="title-main">Sampling</title>
+               <title language="en" script="Latn" type="main">Rubber latex\\u2009—\\u2009Sampling</title>
+               <title language="fr" script="Latn" type="title-intro">Latex de caoutchouc</title>
+               <title language="fr" script="Latn" type="title-main">Échantillonnage</title>
+               <title language="fr" script="Latn" type="main">Latex de caoutchouc\\u2009—\\u2009Échantillonnage</title>
+               <uri type="src">https://www.iso.org/standard/23281.html</uri>
+               <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+               <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+               <docidentifier type="ISO" primary="true">ISO 123</docidentifier>
+               <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso:123:stage-90.20</docidentifier>
+               <docnumber>123</docnumber>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="author">
+                   <description>committee</description>
+                 </role>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <subdivision type="technical-committee" subtype="TC">
+                     <name>Raw materials (including latex) for use in the rubber industry</name>
+                     <identifier>ISO/TC 45/SC 3</identifier>
+                   </subdivision>
+                   <abbreviation>ISO</abbreviation>
+                 </organization>
+               </contributor>
+               <edition>3</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <status>
+                 <stage>90</stage>
+                 <substage>20</substage>
+               </status>
+               <copyright>
+                 <from>2001</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type="obsoletes">
+                 <bibitem>
+                   <formattedref>ISO 123:1985</formattedref>
+                   <docidentifier type="ISO" primary="true">ISO 123:1985</docidentifier>
+                   <date type="published">
+                     <on>1985-08-01</on>
+                   </date>
                  </bibitem>
-                 <bibitem id="_" type="standard" anchor="iso124">
-                    <fetched/>
-                    <title language="en" script="Latn" type="title-intro" format="text/plain">Rubber latex</title>
-                    <title language="en" script="Latn" type="title-main" format="text/plain">Sampling</title>
-                    <title language="en" script="Latn" type="main" format="text/plain">Rubber latex\\u2009—\\u2009Sampling</title>
-                    <title language="fr" script="Latn" type="title-intro" format="text/plain">Latex de caoutchouc</title>
-                    <title language="fr" script="Latn" type="title-main" format="text/plain">Échantillonnage</title>
-                    <title language="fr" script="Latn" type="main" format="text/plain">Latex de caoutchouc\\u2009—\\u2009Échantillonnage</title>
-                    <uri type="src">https://www.iso.org/standard/23281.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                    <docidentifier type="ISO" primary="true">ISO 123</docidentifier>
-                    <docidentifier type="metanorma">[1]</docidentifier>
-                    <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
-                    <docnumber>123</docnumber>
-                    <contributor>
-                       <role type="publisher"/>
+               </relation>
+               <relation type="instanceOf">
+                 <bibitem type="standard">
+                   <title language="en" script="Latn" type="title-intro">Rubber latex</title>
+                   <title language="en" script="Latn" type="title-main">Sampling</title>
+                   <title language="en" script="Latn" type="main">Rubber latex\\u2009—\\u2009Sampling</title>
+                   <title language="fr" script="Latn" type="title-intro">Latex de caoutchouc</title>
+                   <title language="fr" script="Latn" type="title-main">Échantillonnage</title>
+                   <title language="fr" script="Latn" type="main">Latex de caoutchouc\\u2009—\\u2009Échantillonnage</title>
+                   <uri type="src">https://www.iso.org/standard/23281.html</uri>
+                   <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+                   <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <docidentifier type="ISO" primary="true">ISO 123:2001</docidentifier>
+                   <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
+                   <docidentifier type="URN">urn:iso:std:iso:123:stage-90.20</docidentifier>
+                   <docnumber>123</docnumber>
+                   <date type="published">
+                     <on>2001-05-31</on>
+                   </date>
+                   <contributor>
+                     <role type="publisher"/>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <abbreviation>ISO</abbreviation>
+                       <uri>www.iso.org</uri>
+                     </organization>
+                   </contributor>
+                   <contributor>
+                     <role type="author">
+                       <description>committee</description>
+                     </role>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <subdivision type="technical-committee" subtype="TC">
+                         <name>Raw materials (including latex) for use in the rubber industry</name>
+                         <identifier>ISO/TC 45/SC 3</identifier>
+                       </subdivision>
+                       <abbreviation>ISO</abbreviation>
+                     </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <status>
+                     <stage>90</stage>
+                     <substage>20</substage>
+                   </status>
+                   <copyright>
+                     <from>2001</from>
+                     <owner>
                        <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
+                         <name>ISO</name>
                        </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="author">
-                          <description>committee</description>
-                       </role>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <subdivision type="technical-committee" subtype="TC">
-                             <name>Raw materials (including latex) for use in the rubber industry</name>
-                             <identifier>ISO/TC 45/SC 3</identifier>
-                          </subdivision>
-                          <abbreviation>ISO</abbreviation>
-                       </organization>
-                    </contributor>
-                    <edition>3</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>90</stage>
-                       <substage>93</substage>
-                    </status>
-                    <copyright>
-                       <from>2001</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref>ISO 123:1985</formattedref>
-                          <docidentifier type="ISO" primary="true">ISO 123:1985</docidentifier>
-                       </bibitem>
-                    </relation>
-                    <relation type="instanceOf">
-                       <bibitem type="standard">
-                          <title language="en" script="Latn" type="title-intro" format="text/plain">Rubber latex</title>
-                          <title language="en" script="Latn" type="title-main" format="text/plain">Sampling</title>
-                          <title language="en" script="Latn" type="main" format="text/plain">Rubber latex\\u2009—\\u2009Sampling</title>
-                          <title language="fr" script="Latn" type="title-intro" format="text/plain">Latex de caoutchouc</title>
-                          <title language="fr" script="Latn" type="title-main" format="text/plain">Échantillonnage</title>
-                          <title language="fr" script="Latn" type="main" format="text/plain">Latex de caoutchouc\\u2009—\\u2009Échantillonnage</title>
-                          <uri type="src">https://www.iso.org/standard/23281.html</uri>
-                          <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
-                          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
-                          <docidentifier type="ISO" primary="true">ISO 123:2001</docidentifier>
-                          <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
-                          <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
-                          <docnumber>123</docnumber>
-                          <date type="published">
-                             <on>2001-05</on>
-                          </date>
-                          <contributor>
-                             <role type="publisher"/>
-                             <organization>
-                                <name>International Organization for Standardization</name>
-                                <abbreviation>ISO</abbreviation>
-                                <uri>www.iso.org</uri>
-                             </organization>
-                          </contributor>
-                          <contributor>
-                             <role type="author">
-                                <description>committee</description>
-                             </role>
-                             <organization>
-                                <name>International Organization for Standardization</name>
-                                <subdivision type="technical-committee" subtype="TC">
-                                   <name>Raw materials (including latex) for use in the rubber industry</name>
-                                   <identifier>ISO/TC 45/SC 3</identifier>
-                                </subdivision>
-                                <abbreviation>ISO</abbreviation>
-                             </organization>
-                          </contributor>
-                          <edition>3</edition>
-                          <language>en</language>
-                          <language>fr</language>
-                          <script>Latn</script>
-                          <status>
-                             <stage>90</stage>
-                             <substage>93</substage>
-                          </status>
-                          <copyright>
-                             <from>2001</from>
-                             <owner>
-                                <organization>
-                                   <name>ISO</name>
-                                </organization>
-                             </owner>
-                          </copyright>
-                          <relation type="obsoletes">
-                             <bibitem type="standard">
-                                <formattedref>ISO 123:1985</formattedref>
-                                <docidentifier type="ISO" primary="true">ISO 123:1985</docidentifier>
-                             </bibitem>
-                          </relation>
-                          <place>
-                             <formattedPlace>Geneva</formattedPlace>
-                          </place>
-                       </bibitem>
-                    </relation>
-                    <place>
-                       <formattedPlace>Geneva</formattedPlace>
-                    </place>
+                     </owner>
+                   </copyright>
+                   <relation type="obsoletes">
+                     <bibitem>
+                       <formattedref>ISO 123:1985</formattedref>
+                       <docidentifier type="ISO" primary="true">ISO 123:1985</docidentifier>
+                       <date type="published">
+                         <on>1985-08-01</on>
+                       </date>
+                     </bibitem>
+                   </relation>
+                   <place>
+                     <city>Geneva</city>
+                   </place>
                  </bibitem>
-              </references>
-           </bibliography>
-        </metanorma>
+               </relation>
+               <place>
+                 <city>Geneva</city>
+               </place>
+             </bibitem>
+             <bibitem id="_" type="standard" anchor="iso124">
+               <fetched/>
+               <title language="en" script="Latn" type="title-intro">Rubber latex</title>
+               <title language="en" script="Latn" type="title-main">Sampling</title>
+               <title language="en" script="Latn" type="main">Rubber latex\\u2009—\\u2009Sampling</title>
+               <title language="fr" script="Latn" type="title-intro">Latex de caoutchouc</title>
+               <title language="fr" script="Latn" type="title-main">Échantillonnage</title>
+               <title language="fr" script="Latn" type="main">Latex de caoutchouc\\u2009—\\u2009Échantillonnage</title>
+               <uri type="src">https://www.iso.org/standard/23281.html</uri>
+               <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+               <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+               <docidentifier type="ISO" primary="true">ISO 123</docidentifier>
+               <docidentifier type="metanorma">[1]</docidentifier>
+               <docidentifier type="iso-reference">ISO 123(E)</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso:123:stage-90.20</docidentifier>
+               <docnumber>123</docnumber>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="author">
+                   <description>committee</description>
+                 </role>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <subdivision type="technical-committee" subtype="TC">
+                     <name>Raw materials (including latex) for use in the rubber industry</name>
+                     <identifier>ISO/TC 45/SC 3</identifier>
+                   </subdivision>
+                   <abbreviation>ISO</abbreviation>
+                 </organization>
+               </contributor>
+               <edition>3</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <status>
+                 <stage>90</stage>
+                 <substage>20</substage>
+               </status>
+               <copyright>
+                 <from>2001</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type="obsoletes">
+                 <bibitem>
+                   <formattedref>ISO 123:1985</formattedref>
+                   <docidentifier type="ISO" primary="true">ISO 123:1985</docidentifier>
+                   <date type="published">
+                     <on>1985-08-01</on>
+                   </date>
+                 </bibitem>
+               </relation>
+               <relation type="instanceOf">
+                 <bibitem type="standard">
+                   <title language="en" script="Latn" type="title-intro">Rubber latex</title>
+                   <title language="en" script="Latn" type="title-main">Sampling</title>
+                   <title language="en" script="Latn" type="main">Rubber latex\\u2009—\\u2009Sampling</title>
+                   <title language="fr" script="Latn" type="title-intro">Latex de caoutchouc</title>
+                   <title language="fr" script="Latn" type="title-main">Échantillonnage</title>
+                   <title language="fr" script="Latn" type="main">Latex de caoutchouc\\u2009—\\u2009Échantillonnage</title>
+                   <uri type="src">https://www.iso.org/standard/23281.html</uri>
+                   <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
+                   <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
+                   <docidentifier type="ISO" primary="true">ISO 123:2001</docidentifier>
+                   <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
+                   <docidentifier type="URN">urn:iso:std:iso:123:stage-90.20</docidentifier>
+                   <docnumber>123</docnumber>
+                   <date type="published">
+                     <on>2001-05-31</on>
+                   </date>
+                   <contributor>
+                     <role type="publisher"/>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <abbreviation>ISO</abbreviation>
+                       <uri>www.iso.org</uri>
+                     </organization>
+                   </contributor>
+                   <contributor>
+                     <role type="author">
+                       <description>committee</description>
+                     </role>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <subdivision type="technical-committee" subtype="TC">
+                         <name>Raw materials (including latex) for use in the rubber industry</name>
+                         <identifier>ISO/TC 45/SC 3</identifier>
+                       </subdivision>
+                       <abbreviation>ISO</abbreviation>
+                     </organization>
+                   </contributor>
+                   <edition>3</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <status>
+                     <stage>90</stage>
+                     <substage>20</substage>
+                   </status>
+                   <copyright>
+                     <from>2001</from>
+                     <owner>
+                       <organization>
+                         <name>ISO</name>
+                       </organization>
+                     </owner>
+                   </copyright>
+                   <relation type="obsoletes">
+                     <bibitem>
+                       <formattedref>ISO 123:1985</formattedref>
+                       <docidentifier type="ISO" primary="true">ISO 123:1985</docidentifier>
+                       <date type="published">
+                         <on>1985-08-01</on>
+                       </date>
+                     </bibitem>
+                   </relation>
+                   <place>
+                     <city>Geneva</city>
+                   </place>
+                 </bibitem>
+               </relation>
+               <place>
+                 <city>Geneva</city>
+               </place>
+             </bibitem>
+           </references>
+         </bibliography>
+       </metanorma>
+
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.xpath("//xmlns:abstract").each(&:remove)
@@ -596,271 +621,277 @@ RSpec.describe Metanorma::Standoc do
        </sections><bibliography><references id="_" obligation="informative" normative="true">
          <title id="_">Normative references</title>
        #{NORM_REF_BOILERPLATE}
-                 <bibitem id="_" type="standard" anchor="iso123">
-                    <fetched/>
-                    <title language="en" script="Latn" type="title-main" format="text/plain">Permuted index of the vocabulary of information technology</title>
-                    <title language="en" script="Latn" type="main" format="text/plain">Permuted index of the vocabulary of information technology</title>
-                    <title language="fr" script="Latn" type="title-main" format="text/plain">Index permuté du vocabulaire des technologies de l’information</title>
-                    <title language="fr" script="Latn" type="main" format="text/plain">Index permuté du vocabulaire des technologies de l’information</title>
-                    <uri type="src">https://www.iso.org/standard/21071.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:21071:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
-                    <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
-                    <docidentifier type="iso-reference">ISO/IEC TR 12382:1992(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso-iec:tr:12382:stage-90.93</docidentifier>
-                    <docnumber>12382</docnumber>
-                    <date type="published">
-                       <on>1992-12</on>
-                    </date>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Electrotechnical Commission</name>
-                          <abbreviation>IEC</abbreviation>
-                          <uri>www.iec.ch</uri>
-                       </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="author">
-                          <description>committee</description>
-                       </role>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <subdivision type="technical-committee" subtype="IEC">
-                             <name>Information technology</name>
-                             <identifier>ISO/IEC JTC 1</identifier>
-                          </subdivision>
-                          <abbreviation>ISO</abbreviation>
-                       </organization>
-                    </contributor>
-                    <edition>2</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>90</stage>
-                       <substage>93</substage>
-                    </status>
-                    <copyright>
-                       <from>1992</from>
-                       <owner>
-                          <organization>
-                             <name>ISO/IEC</name>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <place>
-                       <formattedPlace>Geneva</formattedPlace>
-                    </place>
+             <bibitem id="_" type="standard" anchor="iso123">
+               <fetched/>
+               <title language="en" script="Latn" type="title-main">Permuted index of the vocabulary of information technology</title>
+               <title language="en" script="Latn" type="main">Permuted index of the vocabulary of information technology</title>
+               <title language="fr" script="Latn" type="title-main">Index permuté du vocabulaire des technologies de l’information</title>
+               <title language="fr" script="Latn" type="main">Index permuté du vocabulaire des technologies de l’information</title>
+               <uri type="src">https://www.iso.org/standard/21071.html</uri>
+               <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:21071:en</uri>
+               <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
+               <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
+               <docidentifier type="iso-reference">ISO/IEC TR 12382:1992(E)</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso-iec:tr:12382:stage-90.93</docidentifier>
+               <docnumber>12382</docnumber>
+               <date type="published">
+                 <on>1992-12-30</on>
+               </date>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Electrotechnical Commission</name>
+                   <abbreviation>IEC</abbreviation>
+                   <uri>www.iec.ch</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="author">
+                   <description>committee</description>
+                 </role>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <subdivision type="technical-committee" subtype="IEC">
+                     <name>Information technology</name>
+                     <identifier>ISO/IEC JTC 1</identifier>
+                   </subdivision>
+                   <abbreviation>ISO</abbreviation>
+                 </organization>
+               </contributor>
+               <edition>2</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <status>
+                 <stage>90</stage>
+                 <substage>93</substage>
+               </status>
+               <copyright>
+                 <from>1992</from>
+                 <owner>
+                   <organization>
+                     <name>ISO/IEC</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <place>
+                 <city>Geneva</city>
+               </place>
+             </bibitem>
+             <bibitem id="_" type="standard" anchor="iso124">
+               <fetched/>
+               <title language="en" script="Latn" type="title-intro">Latex, rubber</title>
+               <title language="en" script="Latn" type="title-main">Determination of total solids content</title>
+               <title language="en" script="Latn" type="main">Latex, rubber\\u2009—\\u2009Determination of total solids content</title>
+               <title language="fr" script="Latn" type="title-intro">Latex de caoutchouc</title>
+               <title language="fr" script="Latn" type="title-main">Détermination des matières solides totales</title>
+               <title language="fr" script="Latn" type="main">Latex de caoutchouc\\u2009—\\u2009Détermination des matières solides totales</title>
+               <uri type="src">https://www.iso.org/standard/61884.html</uri>
+               <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:61884:en</uri>
+               <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
+               <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
+               <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso:124:stage-90.93</docidentifier>
+               <docnumber>124</docnumber>
+               <date type="published">
+                 <on>2014-03-12</on>
+               </date>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="author">
+                   <description>committee</description>
+                 </role>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <subdivision type="technical-committee" subtype="TC">
+                     <name>Raw materials (including latex) for use in the rubber industry</name>
+                     <identifier>ISO/TC 45/SC 3</identifier>
+                   </subdivision>
+                   <abbreviation>ISO</abbreviation>
+                 </organization>
+               </contributor>
+               <edition>7</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <status>
+                 <stage>90</stage>
+                 <substage>93</substage>
+               </status>
+               <copyright>
+                 <from>2014</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type="obsoletes">
+                 <bibitem>
+                   <formattedref>ISO 124:2011</formattedref>
+                   <docidentifier type="ISO" primary="true">ISO 124:2011</docidentifier>
+                   <date type="published">
+                     <on>2011-11-10</on>
+                   </date>
                  </bibitem>
-                 <bibitem id="_" type="standard" anchor="iso124">
-                    <fetched/>
-                    <title language="en" script="Latn" type="title-intro" format="text/plain">Latex, rubber</title>
-                    <title language="en" script="Latn" type="title-main" format="text/plain">Determination of total solids content</title>
-                    <title language="en" script="Latn" type="main" format="text/plain">Latex, rubber\\u2009—\\u2009Determination of total solids content</title>
-                    <title language="fr" script="Latn" type="title-intro" format="text/plain">Latex de caoutchouc</title>
-                    <title language="fr" script="Latn" type="title-main" format="text/plain">Détermination des matières solides totales</title>
-                    <title language="fr" script="Latn" type="main" format="text/plain">Latex de caoutchouc\\u2009—\\u2009Détermination des matières solides totales</title>
-                    <uri type="src">https://www.iso.org/standard/61884.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:61884:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
-                    <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
-                    <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso:124:stage-90.20</docidentifier>
-                    <docnumber>124</docnumber>
-                    <date type="published">
-                       <on>2014-03</on>
-                    </date>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="author">
-                          <description>committee</description>
-                       </role>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <subdivision type="technical-committee" subtype="TC">
-                             <name>Raw materials (including latex) for use in the rubber industry</name>
-                             <identifier>ISO/TC 45/SC 3</identifier>
-                          </subdivision>
-                          <abbreviation>ISO</abbreviation>
-                       </organization>
-                    </contributor>
-                    <edition>7</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>90</stage>
-                       <substage>20</substage>
-                    </status>
-                    <copyright>
-                       <from>2014</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref>ISO 124:2011</formattedref>
-                          <docidentifier type="ISO" primary="true">ISO 124:2011</docidentifier>
-                       </bibitem>
-                    </relation>
-                    <place>
-                       <formattedPlace>Geneva</formattedPlace>
-                    </place>
+               </relation>
+               <place>
+                 <city>Geneva</city>
+               </place>
+             </bibitem>
+             <bibitem id="_" type="standard" anchor="iso125">
+               <fetched/>
+               <title language="en" script="Latn" type="title-main">Permuted index of the vocabulary of information technology</title>
+               <title language="en" script="Latn" type="main">Permuted index of the vocabulary of information technology</title>
+               <title language="fr" script="Latn" type="title-main">Index permuté du vocabulaire des technologies de l’information</title>
+               <title language="fr" script="Latn" type="main">Index permuté du vocabulaire des technologies de l’information</title>
+               <uri type="src">https://www.iso.org/standard/21071.html</uri>
+               <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:21071:en</uri>
+               <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
+               <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
+               <docidentifier type="metanorma">[1]</docidentifier>
+               <docidentifier type="iso-reference">ISO/IEC TR 12382:1992(E)</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso-iec:tr:12382:stage-90.93</docidentifier>
+               <docnumber>12382</docnumber>
+               <date type="published">
+                 <on>1992-12-30</on>
+               </date>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Electrotechnical Commission</name>
+                   <abbreviation>IEC</abbreviation>
+                   <uri>www.iec.ch</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="author">
+                   <description>committee</description>
+                 </role>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <subdivision type="technical-committee" subtype="IEC">
+                     <name>Information technology</name>
+                     <identifier>ISO/IEC JTC 1</identifier>
+                   </subdivision>
+                   <abbreviation>ISO</abbreviation>
+                 </organization>
+               </contributor>
+               <edition>2</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <status>
+                 <stage>90</stage>
+                 <substage>93</substage>
+               </status>
+               <copyright>
+                 <from>1992</from>
+                 <owner>
+                   <organization>
+                     <name>ISO/IEC</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <place>
+                 <city>Geneva</city>
+               </place>
+             </bibitem>
+             <bibitem id="_" type="standard" anchor="iso126">
+               <fetched/>
+               <title language="en" script="Latn" type="title-intro">Latex, rubber</title>
+               <title language="en" script="Latn" type="title-main">Determination of total solids content</title>
+               <title language="en" script="Latn" type="main">Latex, rubber\\u2009—\\u2009Determination of total solids content</title>
+               <title language="fr" script="Latn" type="title-intro">Latex de caoutchouc</title>
+               <title language="fr" script="Latn" type="title-main">Détermination des matières solides totales</title>
+               <title language="fr" script="Latn" type="main">Latex de caoutchouc\\u2009—\\u2009Détermination des matières solides totales</title>
+               <uri type="src">https://www.iso.org/standard/61884.html</uri>
+               <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:61884:en</uri>
+               <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
+               <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
+               <docidentifier type="metanorma">[1]</docidentifier>
+               <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso:124:stage-90.93</docidentifier>
+               <docnumber>124</docnumber>
+               <date type="published">
+                 <on>2014-03-12</on>
+               </date>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="author">
+                   <description>committee</description>
+                 </role>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <subdivision type="technical-committee" subtype="TC">
+                     <name>Raw materials (including latex) for use in the rubber industry</name>
+                     <identifier>ISO/TC 45/SC 3</identifier>
+                   </subdivision>
+                   <abbreviation>ISO</abbreviation>
+                 </organization>
+               </contributor>
+               <edition>7</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <status>
+                 <stage>90</stage>
+                 <substage>93</substage>
+               </status>
+               <copyright>
+                 <from>2014</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type="obsoletes">
+                 <bibitem>
+                   <formattedref>ISO 124:2011</formattedref>
+                   <docidentifier type="ISO" primary="true">ISO 124:2011</docidentifier>
+                   <date type="published">
+                     <on>2011-11-10</on>
+                   </date>
                  </bibitem>
-                 <bibitem id="_" type="standard" anchor="iso125">
-                    <fetched/>
-                    <title language="en" script="Latn" type="title-main" format="text/plain">Permuted index of the vocabulary of information technology</title>
-                    <title language="en" script="Latn" type="main" format="text/plain">Permuted index of the vocabulary of information technology</title>
-                    <title language="fr" script="Latn" type="title-main" format="text/plain">Index permuté du vocabulaire des technologies de l’information</title>
-                    <title language="fr" script="Latn" type="main" format="text/plain">Index permuté du vocabulaire des technologies de l’information</title>
-                    <uri type="src">https://www.iso.org/standard/21071.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:21071:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
-                    <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
-                    <docidentifier type="metanorma">[1]</docidentifier>
-                    <docidentifier type="iso-reference">ISO/IEC TR 12382:1992(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso-iec:tr:12382:stage-90.93</docidentifier>
-                    <docnumber>12382</docnumber>
-                    <date type="published">
-                       <on>1992-12</on>
-                    </date>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Electrotechnical Commission</name>
-                          <abbreviation>IEC</abbreviation>
-                          <uri>www.iec.ch</uri>
-                       </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="author">
-                          <description>committee</description>
-                       </role>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <subdivision type="technical-committee" subtype="IEC">
-                             <name>Information technology</name>
-                             <identifier>ISO/IEC JTC 1</identifier>
-                          </subdivision>
-                          <abbreviation>ISO</abbreviation>
-                       </organization>
-                    </contributor>
-                    <edition>2</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>90</stage>
-                       <substage>93</substage>
-                    </status>
-                    <copyright>
-                       <from>1992</from>
-                       <owner>
-                          <organization>
-                             <name>ISO/IEC</name>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <place>
-                       <formattedPlace>Geneva</formattedPlace>
-                    </place>
-                 </bibitem>
-                 <bibitem id="_" type="standard" anchor="iso126">
-                    <fetched/>
-                    <title language="en" script="Latn" type="title-intro" format="text/plain">Latex, rubber</title>
-                    <title language="en" script="Latn" type="title-main" format="text/plain">Determination of total solids content</title>
-                    <title language="en" script="Latn" type="main" format="text/plain">Latex, rubber\\u2009—\\u2009Determination of total solids content</title>
-                    <title language="fr" script="Latn" type="title-intro" format="text/plain">Latex de caoutchouc</title>
-                    <title language="fr" script="Latn" type="title-main" format="text/plain">Détermination des matières solides totales</title>
-                    <title language="fr" script="Latn" type="main" format="text/plain">Latex de caoutchouc\\u2009—\\u2009Détermination des matières solides totales</title>
-                    <uri type="src">https://www.iso.org/standard/61884.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:61884:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
-                    <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
-                    <docidentifier type="metanorma">[1]</docidentifier>
-                    <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso:124:stage-90.20</docidentifier>
-                    <docnumber>124</docnumber>
-                    <date type="published">
-                       <on>2014-03</on>
-                    </date>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="author">
-                          <description>committee</description>
-                       </role>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <subdivision type="technical-committee" subtype="TC">
-                             <name>Raw materials (including latex) for use in the rubber industry</name>
-                             <identifier>ISO/TC 45/SC 3</identifier>
-                          </subdivision>
-                          <abbreviation>ISO</abbreviation>
-                       </organization>
-                    </contributor>
-                    <edition>7</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>90</stage>
-                       <substage>20</substage>
-                    </status>
-                    <copyright>
-                       <from>2014</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref>ISO 124:2011</formattedref>
-                          <docidentifier type="ISO" primary="true">ISO 124:2011</docidentifier>
-                       </bibitem>
-                    </relation>
-                    <place>
-                       <formattedPlace>Geneva</formattedPlace>
-                    </place>
-                 </bibitem>
-              </references>
-           </bibliography>
-        </metanorma>
+               </relation>
+               <place>
+                 <city>Geneva</city>
+               </place>
+             </bibitem>
+           </references>
+         </bibliography>
+       </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.xpath("//xmlns:abstract").each(&:remove)
@@ -991,52 +1022,57 @@ RSpec.describe Metanorma::Standoc do
            <references id="_" normative="true" obligation="informative">
              <title id="_">Normative references</title>
              <p id="_">The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-                 <bibitem id="_" type="proceedings" anchor="iso123">
-                    <fetched/>
-                    <title language="en" script="Latn">Signes abréviatifs pour les poids et mesures métriques</title>
-                    <title language="fr" script="Latn">Signes abréviatifs pour les poids et mesures métriques</title>
-                    <uri language="en" script="Latn" type="citation">https://www.bipm.org/en/committees/ci/cipm/4-1879/resolution-</uri>
-                    <uri language="fr" script="Latn" type="citation">https://www.bipm.org/fr/committees/ci/cipm/4-1879/resolution-</uri>
-                    <uri language="en" script="Latn" type="src">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-4.yml</uri>
-                    <uri language="fr" script="Latn" type="src">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-4.yml</uri>
-                    <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM4.pdf/47e647d4-26c2-d3d6-b367-e749fb22b261</uri>
-                    <docidentifier type="BIPM" primary="true">CIPM RES (1879)</docidentifier>
-                    <docidentifier language="en" script="Latn" type="BIPM" primary="true">CIPM RES (1879, E)</docidentifier>
-                    <docidentifier language="fr" script="Latn" type="BIPM" primary="true">CIPM RES (1879, F)</docidentifier>
-                    <docidentifier language="en" script="Latn" type="BIPM-long">CIPM Resolution (1879)</docidentifier>
-                    <docidentifier language="fr" script="Latn" type="BIPM-long">Résolution du CIPM (1879)</docidentifier>
-                    <docidentifier type="BIPM-long">CIPM Resolution (1879) / Résolution du CIPM (1879)</docidentifier>
-                    <docnumber>CIPM RES (1879)</docnumber>
-                    <date type="published">
-                       <on>1879-10-13</on>
-                    </date>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name language="en" script="Latn">International Bureau of Weights and Measures</name>
-                          <name language="fr" script="Latn">Bureau international des poids et mesures</name>
-                          <abbreviation language="fr" script="Latn">BIPM</abbreviation>
-                          <uri>www.bipm.org</uri>
-                       </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="author"/>
-                       <organization>
-                          <name language="en" script="Latn">International Committee for Weights and Measures</name>
-                          <name language="fr" script="Latn">Comité international des poids et mesures</name>
-                          <abbreviation language="fr" script="Latn">CIPM</abbreviation>
-                       </organization>
-                    </contributor>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <place>
-                       <city>Paris</city>
-                    </place>
-                 </bibitem>
-              </references>
-           </bibliography>
-        </metanorma>
+             <bibitem id="_" type="proceedings" anchor="iso123">
+               <fetched/>
+               <title language="en" script="Latn">Signes abréviatifs pour les poids et mesures métriques</title>
+               <title language="fr" script="Latn">Signes abréviatifs pour les poids et mesures métriques</title>
+               <uri language="en" script="Latn" type="citation">https://www.bipm.org/en/committees/ci/cipm/4-1879/resolution-</uri>
+               <uri language="fr" script="Latn" type="citation">https://www.bipm.org/fr/committees/ci/cipm/4-1879/resolution-</uri>
+               <uri language="en" script="Latn" type="src">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-en/meeting-4.yml</uri>
+               <uri language="fr" script="Latn" type="src">https://raw.githubusercontent.com/metanorma/bipm-data-outcomes/main/cipm/meetings-fr/meeting-4.yml</uri>
+               <uri type="pdf">https://www.bipm.org/documents/20126/17315032/CIPM4.pdf/47e647d4-26c2-d3d6-b367-e749fb22b261</uri>
+               <docidentifier type="BIPM" primary="true">CIPM RES (1879)</docidentifier>
+               <docidentifier language="en" script="Latn" type="BIPM" primary="true">CIPM RES (1879, E)</docidentifier>
+               <docidentifier language="fr" script="Latn" type="BIPM" primary="true">CIPM RES (1879, F)</docidentifier>
+               <docidentifier language="en" script="Latn" type="BIPM-long">CIPM Resolution (1879)</docidentifier>
+               <docidentifier language="fr" script="Latn" type="BIPM-long">Résolution du CIPM (1879)</docidentifier>
+               <docidentifier type="BIPM-long">CIPM Resolution (1879) / Résolution du CIPM (1879)</docidentifier>
+               <docnumber>CIPM RES (1879)</docnumber>
+               <date type="published">
+                 <on>1879-10-13</on>
+               </date>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name language="en" script="Latn">International Bureau of Weights and Measures</name>
+                   <name language="fr" script="Latn">Bureau international des poids et mesures</name>
+                   <abbreviation language="fr" script="Latn">BIPM</abbreviation>
+                   <uri>www.bipm.org</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="author">
+                   <description>committee</description>
+                 </role>
+                 <organization>
+                   <name script="Latn">BIPM</name>
+                   <subdivision type="committee">
+                     <name language="en" script="Latn">International Committee for Weights and Measures</name>
+                     <name language="fr" script="Latn">Comité international des poids et mesures</name>
+                     <abbreviation language="fr" script="Latn">CIPM</abbreviation>
+                   </subdivision>
+                 </organization>
+               </contributor>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <place>
+                 <city>Paris</city>
+               </place>
+             </bibitem>
+           </references>
+         </bibliography>
+       </metanorma>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
       .to be_xml_equivalent_to output
@@ -1059,98 +1095,101 @@ RSpec.describe Metanorma::Standoc do
       </sections><bibliography><references id="_" normative="true" obligation="informative" >
         <title id="_">Normative references</title>
       #{NORM_REF_BOILERPLATE}
-                 <bibitem anchor="iso123" id="_">
-                    <formattedref format="application/x-isodoc+xml">
-                       <em>Standard</em>
-                    </formattedref>
-                    <docidentifier type="ISO">ISO/IEC TR 12382:1992</docidentifier>
-                    <docnumber>12382</docnumber>
-                    <date type="published">
-                       <on>1992</on>
-                    </date>
-                    <language>en</language>
-                    <script>Latn</script>
+             <bibitem anchor="iso123" id="_">
+               <formattedref format="application/x-isodoc+xml">
+                 <em>Standard</em>
+               </formattedref>
+               <docidentifier type="ISO">ISO/IEC TR 12382:1992</docidentifier>
+               <docnumber>12382</docnumber>
+               <date type="published">
+                 <on>1992</on>
+               </date>
+               <language>en</language>
+               <script>Latn</script>
+             </bibitem>
+             <bibitem anchor="iso124" id="_">
+               <formattedref format="application/x-isodoc+xml">
+                 <em>Standard</em>
+               </formattedref>
+               <docidentifier type="ISO">ISO/IEC TR 12382:1992</docidentifier>
+               <docnumber>12382</docnumber>
+               <date type="published">
+                 <on>1992</on>
+               </date>
+               <language>en</language>
+               <script>Latn</script>
+             </bibitem>
+             <bibitem id="_" type="standard" anchor="iso125">
+               <fetched/>
+               <title language="en" script="Latn" type="title-intro">Latex, rubber</title>
+               <title language="en" script="Latn" type="title-main">Determination of total solids content</title>
+               <title language="en" script="Latn" type="main">Latex, rubber\\u2009—\\u2009Determination of total solids content</title>
+               <title language="fr" script="Latn" type="title-intro">Latex de caoutchouc</title>
+               <title language="fr" script="Latn" type="title-main">Détermination des matières solides totales</title>
+               <title language="fr" script="Latn" type="main">Latex de caoutchouc\\u2009—\\u2009Détermination des matières solides totales</title>
+               <uri type="src">https://www.iso.org/standard/61884.html</uri>
+               <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:61884:en</uri>
+               <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
+               <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
+               <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso:124:stage-90.93</docidentifier>
+               <docnumber>124</docnumber>
+               <date type="published">
+                 <on>2014-03-12</on>
+               </date>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="author">
+                   <description>committee</description>
+                 </role>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <subdivision type="technical-committee" subtype="TC">
+                     <name>Raw materials (including latex) for use in the rubber industry</name>
+                     <identifier>ISO/TC 45/SC 3</identifier>
+                   </subdivision>
+                   <abbreviation>ISO</abbreviation>
+                 </organization>
+               </contributor>
+               <edition>7</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <status>
+                 <stage>90</stage>
+                 <substage>93</substage>
+               </status>
+               <copyright>
+                 <from>2014</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type="obsoletes">
+                 <bibitem>
+                   <formattedref>ISO 124:2011</formattedref>
+                   <docidentifier type="ISO" primary="true">ISO 124:2011</docidentifier>
+                   <date type="published">
+                     <on>2011-11-10</on>
+                   </date>
                  </bibitem>
-                 <bibitem anchor="iso124" id="_">
-                    <formattedref format="application/x-isodoc+xml">
-                       <em>Standard</em>
-                    </formattedref>
-                    <docidentifier type="ISO">ISO/IEC TR 12382:1992</docidentifier>
-                    <docnumber>12382</docnumber>
-                    <date type="published">
-                       <on>1992</on>
-                    </date>
-                    <language>en</language>
-                    <script>Latn</script>
-                 </bibitem>
-                 <bibitem id="_" type="standard" anchor="iso125">
-                    <fetched/>
-                    <title language="en" script="Latn" type="title-intro" format="text/plain">Latex, rubber</title>
-                    <title language="en" script="Latn" type="title-main" format="text/plain">Determination of total solids content</title>
-                    <title language="en" script="Latn" type="main" format="text/plain">Latex, rubber\\u2009—\\u2009Determination of total solids content</title>
-                    <title language="fr" script="Latn" type="title-intro" format="text/plain">Latex de caoutchouc</title>
-                    <title language="fr" script="Latn" type="title-main" format="text/plain">Détermination des matières solides totales</title>
-                    <title language="fr" script="Latn" type="main" format="text/plain">Latex de caoutchouc\\u2009—\\u2009Détermination des matières solides totales</title>
-                    <uri type="src">https://www.iso.org/standard/61884.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:61884:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
-                    <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
-                    <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso:124:stage-90.20</docidentifier>
-                    <docnumber>124</docnumber>
-                    <date type="published">
-                       <on>2014-03</on>
-                    </date>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="author">
-                          <description>committee</description>
-                       </role>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <subdivision type="technical-committee" subtype="TC">
-                             <name>Raw materials (including latex) for use in the rubber industry</name>
-                             <identifier>ISO/TC 45/SC 3</identifier>
-                          </subdivision>
-                          <abbreviation>ISO</abbreviation>
-                       </organization>
-                    </contributor>
-                    <edition>7</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>90</stage>
-                       <substage>20</substage>
-                    </status>
-                    <copyright>
-                       <from>2014</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref>ISO 124:2011</formattedref>
-                          <docidentifier type="ISO" primary="true">ISO 124:2011</docidentifier>
-                       </bibitem>
-                    </relation>
-                    <place>
-                       <formattedPlace>Geneva</formattedPlace>
-                    </place>
-                 </bibitem>
-              </references>
-           </bibliography>
-        </metanorma>
+               </relation>
+               <place>
+                 <city>Geneva</city>
+               </place>
+             </bibitem>
+           </references>
+         </bibliography>
+       </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.xpath("//xmlns:abstract").each(&:remove)
@@ -1439,146 +1478,164 @@ RSpec.describe Metanorma::Standoc do
              </sections><bibliography><references id="_" obligation="informative" normative="true">
                <title id="_">Normative references</title>
               #{NORM_REF_BOILERPLATE}
-                 <bibitem id="_" type="standard" anchor="iso123">
-                    <fetched/>
-                    <title language="en" script="Latn" type="title-intro" format="text/plain">Natural rubber latex concentrate</title>
-                    <title language="en" script="Latn" type="title-main" format="text/plain">Determination of alkalinity</title>
-                    <title language="en" script="Latn" type="main" format="text/plain">Natural rubber latex concentrate\\u2009—\\u2009Determination of alkalinity</title>
-                    <title language="fr" script="Latn" type="title-intro" format="text/plain">Latex concentré de caoutchouc naturel</title>
-                    <title language="fr" script="Latn" type="title-main" format="text/plain">Détermination de l’alcalinité</title>
-                    <title language="fr" script="Latn" type="main" format="text/plain">Latex concentré de caoutchouc naturel\\u2009—\\u2009Détermination de l’alcalinité</title>
-                    <uri type="src">https://www.iso.org/standard/72849.html</uri>
-                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
-                    <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
-                    <uri type="src">https://www.rfc-editor.org/info/rfc8341</uri>
-                    <docidentifier type="ISO" primary="true">ISO 125</docidentifier>
-                    <docidentifier type="iso-reference">ISO 125(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso:125:stage-60.60</docidentifier>
-                    <docidentifier type="IETF" primary="true">RFC 8341</docidentifier>
-                    <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
-                    <docnumber>125</docnumber>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="author">
-                          <description>committee</description>
-                       </role>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <subdivision type="technical-committee" subtype="TC">
-                             <name>Raw materials (including latex) for use in the rubber industry</name>
-                             <identifier>ISO/TC 45/SC 3</identifier>
-                          </subdivision>
-                          <abbreviation>ISO</abbreviation>
-                       </organization>
-                    </contributor>
-                    <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name language="en">RFC Publisher</name>
-                       </organization>
-                    </contributor>
-                    <edition>7</edition>
-                    <language>en</language>
-                    <language>fr</language>
-                    <script>Latn</script>
-                    <status>
-                       <stage>60</stage>
-                       <substage>60</substage>
-                    </status>
-                    <copyright>
-                       <from>2020</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                          </organization>
-                       </owner>
-                    </copyright>
-                    <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref>ISO 125:2011</formattedref>
-                          <docidentifier type="ISO" primary="true">ISO 125:2011</docidentifier>
-                       </bibitem>
-                    </relation>
-                    <relation type="instanceOf">
-                       <bibitem type="standard">
-                          <title language="en" script="Latn" type="title-intro" format="text/plain">Natural rubber latex concentrate</title>
-                          <title language="en" script="Latn" type="title-main" format="text/plain">Determination of alkalinity</title>
-                          <title language="en" script="Latn" type="main" format="text/plain">Natural rubber latex concentrate\\u2009—\\u2009Determination of alkalinity</title>
-                          <title language="fr" script="Latn" type="title-intro" format="text/plain">Latex concentré de caoutchouc naturel</title>
-                          <title language="fr" script="Latn" type="title-main" format="text/plain">Détermination de l’alcalinité</title>
-                          <title language="fr" script="Latn" type="main" format="text/plain">Latex concentré de caoutchouc naturel\\u2009—\\u2009Détermination de l’alcalinité</title>
-                          <uri type="src">https://www.iso.org/standard/72849.html</uri>
-                          <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
-                          <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
-                          <docidentifier type="ISO" primary="true">ISO 125:2020</docidentifier>
-                          <docidentifier type="iso-reference">ISO 125:2020(E)</docidentifier>
-                          <docidentifier type="URN">urn:iso:std:iso:125:stage-60.60</docidentifier>
-                          <docnumber>125</docnumber>
-                          <date type="published">
-                             <on>2020-02</on>
-                          </date>
-                          <contributor>
-                             <role type="publisher"/>
-                             <organization>
-                                <name>International Organization for Standardization</name>
-                                <abbreviation>ISO</abbreviation>
-                                <uri>www.iso.org</uri>
-                             </organization>
-                          </contributor>
-                          <contributor>
-                             <role type="author">
-                                <description>committee</description>
-                             </role>
-                             <organization>
-                                <name>International Organization for Standardization</name>
-                                <subdivision type="technical-committee" subtype="TC">
-                                   <name>Raw materials (including latex) for use in the rubber industry</name>
-                                   <identifier>ISO/TC 45/SC 3</identifier>
-                                </subdivision>
-                                <abbreviation>ISO</abbreviation>
-                             </organization>
-                          </contributor>
-                          <edition>7</edition>
-                          <language>en</language>
-                          <language>fr</language>
-                          <script>Latn</script>
-                          <status>
-                             <stage>60</stage>
-                             <substage>60</substage>
-                          </status>
-                          <copyright>
-                             <from>2020</from>
-                             <owner>
-                                <organization>
-                                   <name>ISO</name>
-                                </organization>
-                             </owner>
-                          </copyright>
-                          <relation type="obsoletes">
-                             <bibitem type="standard">
-                                <formattedref>ISO 125:2011</formattedref>
-                                <docidentifier type="ISO" primary="true">ISO 125:2011</docidentifier>
-                             </bibitem>
-                          </relation>
-                          <place>
-                             <formattedPlace>Geneva</formattedPlace>
-                          </place>
-                       </bibitem>
-                    </relation>
-                    <place>
-                       <formattedPlace>Geneva</formattedPlace>
-                    </place>
+            <bibitem id="_" type="standard" anchor="iso123">
+               <fetched/>
+               <title language="en" script="Latn" type="title-intro">Natural rubber latex concentrate</title>
+               <title language="en" script="Latn" type="title-main">Determination of alkalinity</title>
+               <title language="en" script="Latn" type="main">Natural rubber latex concentrate\\u2009—\\u2009Determination of alkalinity</title>
+               <title language="fr" script="Latn" type="title-intro">Latex concentré de caoutchouc naturel</title>
+               <title language="fr" script="Latn" type="title-main">Détermination de l’alcalinité</title>
+               <title language="fr" script="Latn" type="main">Latex concentré de caoutchouc naturel\\u2009—\\u2009Détermination de l’alcalinité</title>
+               <uri type="src">https://www.iso.org/standard/72849.html</uri>
+               <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
+               <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
+               <uri type="src">https://www.rfc-editor.org/info/rfc8341</uri>
+               <docidentifier type="ISO" primary="true">ISO 125</docidentifier>
+               <docidentifier type="iso-reference">ISO 125(E)</docidentifier>
+               <docidentifier type="URN">urn:iso:std:iso:125:stage-90.92</docidentifier>
+               <docidentifier type="IETF" primary="true">RFC 8341</docidentifier>
+               <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
+               <docnumber>125</docnumber>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <abbreviation>ISO</abbreviation>
+                   <uri>www.iso.org</uri>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="author">
+                   <description>committee</description>
+                 </role>
+                 <organization>
+                   <name>International Organization for Standardization</name>
+                   <subdivision type="technical-committee" subtype="TC">
+                     <name>Raw materials (including latex) for use in the rubber industry</name>
+                     <identifier>ISO/TC 45/SC 3</identifier>
+                   </subdivision>
+                   <abbreviation>ISO</abbreviation>
+                 </organization>
+               </contributor>
+               <contributor>
+                 <role type="publisher"/>
+                 <organization>
+                   <name language="en">RFC Publisher</name>
+                 </organization>
+               </contributor>
+               <edition>7</edition>
+               <language>en</language>
+               <language>fr</language>
+               <script>Latn</script>
+               <status>
+                 <stage>90</stage>
+                 <substage>92</substage>
+               </status>
+               <copyright>
+                 <from>2020</from>
+                 <owner>
+                   <organization>
+                     <name>ISO</name>
+                   </organization>
+                 </owner>
+               </copyright>
+               <relation type="obsoletes">
+                 <bibitem>
+                   <formattedref>ISO 125:2011</formattedref>
+                   <docidentifier type="ISO" primary="true">ISO 125:2011</docidentifier>
+                   <date type="published">
+                     <on>2011-11-10</on>
+                   </date>
                  </bibitem>
-              </references>
-           </bibliography>
-        </metanorma>
+               </relation>
+               <relation type="obsoletedBy">
+                 <bibitem>
+                   <formattedref>ISO/DIS 125</formattedref>
+                   <docidentifier type="ISO" primary="true">ISO/DIS 125</docidentifier>
+                 </bibitem>
+               </relation>
+               <relation type="instanceOf">
+                 <bibitem type="standard">
+                   <title language="en" script="Latn" type="title-intro">Natural rubber latex concentrate</title>
+                   <title language="en" script="Latn" type="title-main">Determination of alkalinity</title>
+                   <title language="en" script="Latn" type="main">Natural rubber latex concentrate\\u2009—\\u2009Determination of alkalinity</title>
+                   <title language="fr" script="Latn" type="title-intro">Latex concentré de caoutchouc naturel</title>
+                   <title language="fr" script="Latn" type="title-main">Détermination de l’alcalinité</title>
+                   <title language="fr" script="Latn" type="main">Latex concentré de caoutchouc naturel\\u2009—\\u2009Détermination de l’alcalinité</title>
+                   <uri type="src">https://www.iso.org/standard/72849.html</uri>
+                   <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
+                   <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
+                   <docidentifier type="ISO" primary="true">ISO 125:2020</docidentifier>
+                   <docidentifier type="iso-reference">ISO 125:2020(E)</docidentifier>
+                   <docidentifier type="URN">urn:iso:std:iso:125:stage-90.92</docidentifier>
+                   <docnumber>125</docnumber>
+                   <date type="published">
+                     <on>2020-02-19</on>
+                   </date>
+                   <contributor>
+                     <role type="publisher"/>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <abbreviation>ISO</abbreviation>
+                       <uri>www.iso.org</uri>
+                     </organization>
+                   </contributor>
+                   <contributor>
+                     <role type="author">
+                       <description>committee</description>
+                     </role>
+                     <organization>
+                       <name>International Organization for Standardization</name>
+                       <subdivision type="technical-committee" subtype="TC">
+                         <name>Raw materials (including latex) for use in the rubber industry</name>
+                         <identifier>ISO/TC 45/SC 3</identifier>
+                       </subdivision>
+                       <abbreviation>ISO</abbreviation>
+                     </organization>
+                   </contributor>
+                   <edition>7</edition>
+                   <language>en</language>
+                   <language>fr</language>
+                   <script>Latn</script>
+                   <status>
+                     <stage>90</stage>
+                     <substage>92</substage>
+                   </status>
+                   <copyright>
+                     <from>2020</from>
+                     <owner>
+                       <organization>
+                         <name>ISO</name>
+                       </organization>
+                     </owner>
+                   </copyright>
+                   <relation type="obsoletes">
+                     <bibitem>
+                       <formattedref>ISO 125:2011</formattedref>
+                       <docidentifier type="ISO" primary="true">ISO 125:2011</docidentifier>
+                       <date type="published">
+                         <on>2011-11-10</on>
+                       </date>
+                     </bibitem>
+                   </relation>
+                   <relation type="obsoletedBy">
+                     <bibitem>
+                       <formattedref>ISO/DIS 125</formattedref>
+                       <docidentifier type="ISO" primary="true">ISO/DIS 125</docidentifier>
+                     </bibitem>
+                   </relation>
+                   <place>
+                     <city>Geneva</city>
+                   </place>
+                 </bibitem>
+               </relation>
+               <place>
+                 <city>Geneva</city>
+               </place>
+             </bibitem>
+           </references>
+         </bibliography>
+       </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.xpath("//xmlns:abstract").each(&:remove)
@@ -1600,219 +1657,237 @@ RSpec.describe Metanorma::Standoc do
             </sections><bibliography><references id="_" obligation="informative" normative="true">
               <title id="_">Normative references</title>
              #{NORM_REF_BOILERPLATE}
-                 <bibitem id="_" type="standard" anchor="iso123">
-                    <fetched/>
-                    <title language="en" script="Latn" type="title-intro" format="text/plain">Natural rubber latex concentrate</title>
-                    <title language="en" script="Latn" type="title-main" format="text/plain">Determination of alkalinity</title>
-                    <title language="en" script="Latn" type="main" format="text/plain">Natural rubber latex concentrate\\u2009—\\u2009Determination of alkalinity</title>
-                    <title language="fr" script="Latn" type="title-intro" format="text/plain">Latex concentré de caoutchouc naturel</title>
-                    <title language="fr" script="Latn" type="title-main" format="text/plain">Détermination de l’alcalinité</title>
-                    <title language="fr" script="Latn" type="main" format="text/plain">Latex concentré de caoutchouc naturel\\u2009—\\u2009Détermination de l’alcalinité</title>
+             <bibitem id="_" type="standard" anchor="iso123">
+                <fetched/>
+                <title language="en" script="Latn" type="title-intro">Natural rubber latex concentrate</title>
+                <title language="en" script="Latn" type="title-main">Determination of alkalinity</title>
+                <title language="en" script="Latn" type="main">Natural rubber latex concentrate\\u2009—\\u2009Determination of alkalinity</title>
+                <title language="fr" script="Latn" type="title-intro">Latex concentré de caoutchouc naturel</title>
+                <title language="fr" script="Latn" type="title-main">Détermination de l’alcalinité</title>
+                <title language="fr" script="Latn" type="main">Latex concentré de caoutchouc naturel\\u2009—\\u2009Détermination de l’alcalinité</title>
+                <uri type="src">https://www.iso.org/standard/72849.html</uri>
+                <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
+                <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
+                <docidentifier type="ISO" primary="true">ISO 125</docidentifier>
+                <docidentifier type="iso-reference">ISO 125(E)</docidentifier>
+                <docidentifier type="URN">urn:iso:std:iso:125:stage-90.92</docidentifier>
+                <docnumber>125</docnumber>
+                <contributor>
+                  <role type="publisher"/>
+                  <organization>
+                    <name>International Organization for Standardization</name>
+                    <abbreviation>ISO</abbreviation>
+                    <uri>www.iso.org</uri>
+                  </organization>
+                </contributor>
+                <contributor>
+                  <role type="author">
+                    <description>committee</description>
+                  </role>
+                  <organization>
+                    <name>International Organization for Standardization</name>
+                    <subdivision type="technical-committee" subtype="TC">
+                      <name>Raw materials (including latex) for use in the rubber industry</name>
+                      <identifier>ISO/TC 45/SC 3</identifier>
+                    </subdivision>
+                    <abbreviation>ISO</abbreviation>
+                  </organization>
+                </contributor>
+                <edition>7</edition>
+                <language>en</language>
+                <language>fr</language>
+                <script>Latn</script>
+                <status>
+                  <stage>90</stage>
+                  <substage>92</substage>
+                </status>
+                <copyright>
+                  <from>2020</from>
+                  <owner>
+                    <organization>
+                      <name>ISO</name>
+                    </organization>
+                  </owner>
+                </copyright>
+                <relation type="obsoletes">
+                  <bibitem>
+                    <formattedref>ISO 125:2011</formattedref>
+                    <docidentifier type="ISO" primary="true">ISO 125:2011</docidentifier>
+                    <date type="published">
+                      <on>2011-11-10</on>
+                    </date>
+                  </bibitem>
+                </relation>
+                <relation type="obsoletedBy">
+                  <bibitem>
+                    <formattedref>ISO/DIS 125</formattedref>
+                    <docidentifier type="ISO" primary="true">ISO/DIS 125</docidentifier>
+                  </bibitem>
+                </relation>
+                <relation type="instanceOf">
+                  <bibitem type="standard">
+                    <title language="en" script="Latn" type="title-intro">Natural rubber latex concentrate</title>
+                    <title language="en" script="Latn" type="title-main">Determination of alkalinity</title>
+                    <title language="en" script="Latn" type="main">Natural rubber latex concentrate\\u2009—\\u2009Determination of alkalinity</title>
+                    <title language="fr" script="Latn" type="title-intro">Latex concentré de caoutchouc naturel</title>
+                    <title language="fr" script="Latn" type="title-main">Détermination de l’alcalinité</title>
+                    <title language="fr" script="Latn" type="main">Latex concentré de caoutchouc naturel\\u2009—\\u2009Détermination de l’alcalinité</title>
                     <uri type="src">https://www.iso.org/standard/72849.html</uri>
                     <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
                     <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
-                    <docidentifier type="ISO" primary="true">ISO 125</docidentifier>
-                    <docidentifier type="iso-reference">ISO 125(E)</docidentifier>
-                    <docidentifier type="URN">urn:iso:std:iso:125:stage-60.60</docidentifier>
+                    <docidentifier type="ISO" primary="true">ISO 125:2020</docidentifier>
+                    <docidentifier type="iso-reference">ISO 125:2020(E)</docidentifier>
+                    <docidentifier type="URN">urn:iso:std:iso:125:stage-90.92</docidentifier>
                     <docnumber>125</docnumber>
+                    <date type="published">
+                      <on>2020-02-19</on>
+                    </date>
                     <contributor>
-                       <role type="publisher"/>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <abbreviation>ISO</abbreviation>
-                          <uri>www.iso.org</uri>
-                       </organization>
+                      <role type="publisher"/>
+                      <organization>
+                        <name>International Organization for Standardization</name>
+                        <abbreviation>ISO</abbreviation>
+                        <uri>www.iso.org</uri>
+                      </organization>
                     </contributor>
                     <contributor>
-                       <role type="author">
-                          <description>committee</description>
-                       </role>
-                       <organization>
-                          <name>International Organization for Standardization</name>
-                          <subdivision type="technical-committee" subtype="TC">
-                             <name>Raw materials (including latex) for use in the rubber industry</name>
-                             <identifier>ISO/TC 45/SC 3</identifier>
-                          </subdivision>
-                          <abbreviation>ISO</abbreviation>
-                       </organization>
+                      <role type="author">
+                        <description>committee</description>
+                      </role>
+                      <organization>
+                        <name>International Organization for Standardization</name>
+                        <subdivision type="technical-committee" subtype="TC">
+                          <name>Raw materials (including latex) for use in the rubber industry</name>
+                          <identifier>ISO/TC 45/SC 3</identifier>
+                        </subdivision>
+                        <abbreviation>ISO</abbreviation>
+                      </organization>
                     </contributor>
                     <edition>7</edition>
                     <language>en</language>
                     <language>fr</language>
                     <script>Latn</script>
                     <status>
-                       <stage>60</stage>
-                       <substage>60</substage>
+                      <stage>90</stage>
+                      <substage>92</substage>
                     </status>
                     <copyright>
-                       <from>2020</from>
-                       <owner>
-                          <organization>
-                             <name>ISO</name>
-                          </organization>
-                       </owner>
+                      <from>2020</from>
+                      <owner>
+                        <organization>
+                          <name>ISO</name>
+                        </organization>
+                      </owner>
                     </copyright>
                     <relation type="obsoletes">
-                       <bibitem type="standard">
-                          <formattedref>ISO 125:2011</formattedref>
-                          <docidentifier type="ISO" primary="true">ISO 125:2011</docidentifier>
-                       </bibitem>
+                      <bibitem>
+                        <formattedref>ISO 125:2011</formattedref>
+                        <docidentifier type="ISO" primary="true">ISO 125:2011</docidentifier>
+                        <date type="published">
+                          <on>2011-11-10</on>
+                        </date>
+                      </bibitem>
                     </relation>
-                    <relation type="instanceOf">
-                       <bibitem type="standard">
-                          <title language="en" script="Latn" type="title-intro" format="text/plain">Natural rubber latex concentrate</title>
-                          <title language="en" script="Latn" type="title-main" format="text/plain">Determination of alkalinity</title>
-                          <title language="en" script="Latn" type="main" format="text/plain">Natural rubber latex concentrate\\u2009—\\u2009Determination of alkalinity</title>
-                          <title language="fr" script="Latn" type="title-intro" format="text/plain">Latex concentré de caoutchouc naturel</title>
-                          <title language="fr" script="Latn" type="title-main" format="text/plain">Détermination de l’alcalinité</title>
-                          <title language="fr" script="Latn" type="main" format="text/plain">Latex concentré de caoutchouc naturel\\u2009—\\u2009Détermination de l’alcalinité</title>
-                          <uri type="src">https://www.iso.org/standard/72849.html</uri>
-                          <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
-                          <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
-                          <docidentifier type="ISO" primary="true">ISO 125:2020</docidentifier>
-                          <docidentifier type="iso-reference">ISO 125:2020(E)</docidentifier>
-                          <docidentifier type="URN">urn:iso:std:iso:125:stage-60.60</docidentifier>
-                          <docnumber>125</docnumber>
-                          <date type="published">
-                             <on>2020-02</on>
-                          </date>
-                          <contributor>
-                             <role type="publisher"/>
-                             <organization>
-                                <name>International Organization for Standardization</name>
-                                <abbreviation>ISO</abbreviation>
-                                <uri>www.iso.org</uri>
-                             </organization>
-                          </contributor>
-                          <contributor>
-                             <role type="author">
-                                <description>committee</description>
-                             </role>
-                             <organization>
-                                <name>International Organization for Standardization</name>
-                                <subdivision type="technical-committee" subtype="TC">
-                                   <name>Raw materials (including latex) for use in the rubber industry</name>
-                                   <identifier>ISO/TC 45/SC 3</identifier>
-                                </subdivision>
-                                <abbreviation>ISO</abbreviation>
-                             </organization>
-                          </contributor>
-                          <edition>7</edition>
-                          <language>en</language>
-                          <language>fr</language>
-                          <script>Latn</script>
-                          <status>
-                             <stage>60</stage>
-                             <substage>60</substage>
-                          </status>
-                          <copyright>
-                             <from>2020</from>
-                             <owner>
-                                <organization>
-                                   <name>ISO</name>
-                                </organization>
-                             </owner>
-                          </copyright>
-                          <relation type="obsoletes">
-                             <bibitem type="standard">
-                                <formattedref>ISO 125:2011</formattedref>
-                                <docidentifier type="ISO" primary="true">ISO 125:2011</docidentifier>
-                             </bibitem>
-                          </relation>
-                          <place>
-                             <formattedPlace>Geneva</formattedPlace>
-                          </place>
-                       </bibitem>
-                    </relation>
-                    <relation type="hasReproduction">
-                       <bibitem type="standard">
-                          <fetched/>
-                          <title type="main">Network Configuration Access Control Model</title>
-                          <uri type="src">https://www.rfc-editor.org/info/rfc8341</uri>
-                          <docidentifier type="IETF" primary="true">RFC 8341</docidentifier>
-                          <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
-                          <docnumber>RFC8341</docnumber>
-                          <date type="published">
-                             <on>2018-03</on>
-                          </date>
-                          <contributor>
-                             <role type="author"/>
-                             <person>
-                                <name>
-                                   <formatted-initials language="en" script="Latn">A.</formatted-initials>
-                                   <surname language="en" script="Latn">Bierman</surname>
-                                   <completename language="en" script="Latn">A. Bierman</completename>
-                                </name>
-                             </person>
-                          </contributor>
-                          <contributor>
-                             <role type="author"/>
-                             <person>
-                                <name>
-                                   <formatted-initials language="en" script="Latn">M.</formatted-initials>
-                                   <surname language="en" script="Latn">Bjorklund</surname>
-                                   <completename language="en" script="Latn">M. Bjorklund</completename>
-                                </name>
-                             </person>
-                          </contributor>
-                          <contributor>
-                             <role type="publisher"/>
-                             <organization>
-                                <name language="en">RFC Publisher</name>
-                             </organization>
-                          </contributor>
-                          <contributor>
-                             <role type="authorizer"/>
-                             <organization>
-                                <name language="en">RFC Series</name>
-                             </organization>
-                          </contributor>
-                          <contributor>
-                             <role type="author">
-                                <description>committee</description>
-                             </role>
-                             <organization>
-                                <name language="en">Internet Engineering Task Force</name>
-                                <subdivision type="workgroup">
-                                   <name>Network Configuration</name>
-                                   <identifier>netconf</identifier>
-                                </subdivision>
-                                <abbreviation language="en">IETF</abbreviation>
-                             </organization>
-                          </contributor>
-                          <language>en</language>
-                          <script>Latn</script>
-                          <status>
-                             <stage>INTERNET STANDARD</stage>
-                          </status>
-                          <series>
-                             <title>STD</title>
-                             <number>91</number>
-                          </series>
-                          <series>
-                             <title>RFC</title>
-                             <number>8341</number>
-                          </series>
-                          <series type="stream">
-                             <title>IETF</title>
-                          </series>
-                          <keyword>
-                             <vocab>NETCONF RESTCONF</vocab>
-                          </keyword>
-                          <keyword>
-                             <vocab>YANG</vocab>
-                          </keyword>
-                          <keyword>
-                             <vocab>XML</vocab>
-                          </keyword>
-                       </bibitem>
+                    <relation type="obsoletedBy">
+                      <bibitem>
+                        <formattedref>ISO/DIS 125</formattedref>
+                        <docidentifier type="ISO" primary="true">ISO/DIS 125</docidentifier>
+                      </bibitem>
                     </relation>
                     <place>
-                       <formattedPlace>Geneva</formattedPlace>
+                      <city>Geneva</city>
                     </place>
-                 </bibitem>
-              </references>
-           </bibliography>
+                  </bibitem>
+                </relation>
+                <relation type="hasReproduction">
+                  <bibitem type="standard">
+                    <fetched/>
+                    <title type="main">Network Configuration Access Control Model</title>
+                    <uri type="src">https://www.rfc-editor.org/info/rfc8341</uri>
+                    <docidentifier type="IETF" primary="true">RFC 8341</docidentifier>
+                    <docidentifier type="DOI">10.17487/RFC8341</docidentifier>
+                    <docnumber>RFC8341</docnumber>
+                    <date type="published">
+                      <on>2018-03</on>
+                    </date>
+                    <contributor>
+                      <role type="author"/>
+                      <person>
+                        <name>
+                          <formatted-initials language="en" script="Latn">A.</formatted-initials>
+                          <surname language="en" script="Latn">Bierman</surname>
+                          <completename language="en" script="Latn">A. Bierman</completename>
+                        </name>
+                      </person>
+                    </contributor>
+                    <contributor>
+                      <role type="author"/>
+                      <person>
+                        <name>
+                          <formatted-initials language="en" script="Latn">M.</formatted-initials>
+                          <surname language="en" script="Latn">Bjorklund</surname>
+                          <completename language="en" script="Latn">M. Bjorklund</completename>
+                        </name>
+                      </person>
+                    </contributor>
+                    <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                        <name language="en">RFC Publisher</name>
+                      </organization>
+                    </contributor>
+                    <contributor>
+                      <role type="authorizer"/>
+                      <organization>
+                        <name language="en">RFC Series</name>
+                      </organization>
+                    </contributor>
+                    <contributor>
+                      <role type="author">
+                        <description>committee</description>
+                      </role>
+                      <organization>
+                        <name language="en">Internet Engineering Task Force</name>
+                        <subdivision type="workgroup">
+                          <name>Network Configuration</name>
+                          <identifier>netconf</identifier>
+                        </subdivision>
+                        <abbreviation language="en">IETF</abbreviation>
+                      </organization>
+                    </contributor>
+                    <language>en</language>
+                    <script>Latn</script>
+                    <status>
+                      <stage>INTERNET STANDARD</stage>
+                    </status>
+                    <series>
+                      <title>STD</title>
+                      <number>91</number>
+                    </series>
+                    <series>
+                      <title>RFC</title>
+                      <number>8341</number>
+                    </series>
+                    <series type="stream">
+                      <title>IETF</title>
+                    </series>
+                    <keyword>
+                      <vocab>NETCONF RESTCONF</vocab>
+                    </keyword>
+                    <keyword>
+                      <vocab>YANG</vocab>
+                    </keyword>
+                    <keyword>
+                      <vocab>XML</vocab>
+                    </keyword>
+                  </bibitem>
+                </relation>
+                <place>
+                  <city>Geneva</city>
+                </place>
+              </bibitem>
+            </references>
+          </bibliography>
         </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
