@@ -89,8 +89,8 @@ module Metanorma
           when :emphasis then xml.em { |s| s << node.text }
           when :strong then xml.strong { |s| s << node.text }
           when :monospaced then xml.tt { |s| s << node.text }
-          when :double then xml << "\"#{node.text}\""
-          when :single then xml << "'#{node.text}'"
+          when :double then xml << "“#{node.text}”"
+          when :single then xml << "‘#{node.text}’"
           when :superscript then xml.sup { |s| s << node.text }
           when :subscript then xml.sub { |s| s << node.text }
           when :asciimath then stem_parse(node.text, xml, :asciimath, node)
