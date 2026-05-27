@@ -116,7 +116,7 @@ module Metanorma
         p = Metanorma::Utils::LineStatus.new
         lines = reader.lines.map do |t|
           p.process(t)
-          !p.pass && t.include?("`") ? inlinemonospace(t) : t
+          !p.pass && /(?<!")`(?!")/.match?(t) ? inlinemonospace(t) : t
         end
         ::Asciidoctor::PreprocessorReader.new document, lines
       end
@@ -145,10 +145,10 @@ module Metanorma
       # Regex to match single or double backticks with content
       # Matches: `text` or ``text``
       # Avoids: escaped backticks \`
-      MonospaceRx = /(?<!\\)(`{1,2})(.+?)(?<!\\)\1/
+      MonospaceRx = /(?<![\\"])(`{1,2})(?!")(.+?)(?<!\\)\1/
 
       def inlinemonospace(text)
-        text.include?("`") or return text
+        /(?<!")`(?!")/.match?(text) or return text
         /^\[.*\]\s*$/.match?(text) and return text
         pass_inline_split(text) do |x|
           monospace_escape(x)
