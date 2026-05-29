@@ -1882,6 +1882,40 @@ RSpec.describe Metanorma::Standoc, type: :validation do
     end
   end
 
+  it "logs a fatal error on empty index term" do
+    FileUtils.rm_f "test.err.html"
+    input = <<~INPUT
+      #{VALIDATING_BLANK_HDR}
+
+      == Clause
+
+      Text with (( )) empty index markup.
+    INPUT
+    begin
+      expect do
+        Asciidoctor.convert(input, *OPTIONS)
+      end.to raise_error(SystemExit)
+    rescue SystemExit, RuntimeError
+    end
+    f = File.read("test.err.html")
+    expect(f).to include("STANDOC_64")
+    expect(f).to include("Empty index term")
+  end
+
+  it "does not trigger empty-index error when (( )) is escaped" do
+    FileUtils.rm_f "test.err.html"
+    input = <<~INPUT
+      #{VALIDATING_BLANK_HDR}
+
+      == Clause
+
+      Text with \\(( )) literal parens, not an index macro.
+    INPUT
+    out = Asciidoctor.convert(input, *OPTIONS)
+    expect(out).not_to include("<index")
+    expect(out).to include("(( ))")
+  end
+
   private
 
   def mock_plurimath_error(times)
