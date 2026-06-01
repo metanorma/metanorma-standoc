@@ -1,6 +1,28 @@
 module Metanorma
   module Standoc
     module Index
+      EMPTY_INDEX_XPATH =
+        "//index[not(.//primary[normalize-space(text())]) " \
+        "or .//secondary[. and not(normalize-space(text()))] " \
+        "or .//tertiary[. and not(normalize-space(text()))]]".freeze
+
+      def index_cleanup(xmldoc)
+        para_index_cleanup(xmldoc)
+        block_index_cleanup(xmldoc)
+        index_empty_check(xmldoc)
+      end
+
+      def index_empty_check(xmldoc)
+        xmldoc.xpath(EMPTY_INDEX_XPATH).each do |i|
+          @log.add("STANDOC_64", i, params: [empty_index_context(i)])
+        end
+      end
+
+      def empty_index_context(node)
+        ctx = node.ancestors.find { |a| a["id"] || a["anchor"] }
+        ctx ? (ctx["id"] || ctx["anchor"]) : "(unknown location)"
+      end
+
       def block_index_cleanup(xmldoc)
         xmldoc.xpath("//quote | //td | //th | //formula | //li | //dt | " \
                      "//dd | //example | //note | //figure | //sourcecode | " \
