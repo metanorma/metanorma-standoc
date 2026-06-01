@@ -199,6 +199,66 @@ RSpec.describe Metanorma::Standoc do
       .to be_xml_equivalent_to output
   end
 
+  it "processes a leaf [.terms] clause as an empty terms subcollection" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      [.terms]
+      === Empty Subcollection
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections>
+        <clause id="_" obligation="normative" type="terms">
+          <title id="_">Terms and definitions</title>
+          <p id="_">No terms and definitions are listed in this document.</p>
+          <terms id="_" obligation="normative">
+            <title id="_">Empty Subcollection</title>
+          </terms>
+        </clause>
+      </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
+  end
+
+  it "processes a [.terms] clause containing a term as a terms subcollection" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Terms and Definitions
+
+      [.terms]
+      === Outer Collection
+
+      ==== Inner Term
+
+      Definition of inner term
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections>
+        <clause id="_" obligation="normative" type="terms">
+          <title id="_">Terms and definitions</title>
+          <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+          <terms id="_" obligation="normative">
+            <title id="_">Outer Collection</title>
+            <term id="_" anchor="term-Inner-Term">
+              <preferred><expression><name>Inner Term</name></expression></preferred>
+              <definition id="_"><verbal-definition id="_">
+                <p id="_">Definition of inner term</p>
+              </verbal-definition></definition>
+            </term>
+          </terms>
+        </clause>
+      </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
+  end
+
   it "processes term notes as plain notes in definitions subclauses of terms & definitions" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
