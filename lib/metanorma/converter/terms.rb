@@ -66,12 +66,21 @@ module Metanorma
         @definitions = @stashed_definitions.pop
       end
 
+      # dispatch on an explicit role override ([.nonterm], [.terms],
+      # [.boilerplate]); returns true if the role was handled
+      def term_def_subclause_role_parse(attrs, xml, node)
+        case node.role
+        when "nonterm" then nonterm_term_def_subclause_parse(attrs, xml, node)
+        when "terms" then term_def_parse(attrs, xml, node, false)
+        when "boilerplate" then terms_boilerplate_parse(attrs, xml, node)
+        else return false
+        end
+        true
+      end
+
       # subclause contains subclauses
       def term_def_subclause_parse(attrs, xml, node)
-        node.role == "nonterm" and
-          return nonterm_term_def_subclause_parse(attrs, xml, node)
-        node.role == "boilerplate" and
-          return terms_boilerplate_parse(attrs, xml, node)
+        term_def_subclause_role_parse(attrs, xml, node) and return
         @definitions and return symbols_parse(attrs, xml, node)
         term_contains_subclauses(node) and
           return term_def_parse(attrs, xml, node, false)
