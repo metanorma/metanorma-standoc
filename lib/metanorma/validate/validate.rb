@@ -89,6 +89,7 @@ module Metanorma
       def mathml_sanitise(math)
         math.to_xml(encoding: "US-ASCII").gsub(/ xmlns=["'][^"']+["']/, "")
           .gsub(%r{<[^:/>]+:}, "<").gsub(%r{</[^:/>]+:}, "</")
+          .gsub(/>\s*\n\s*</, "><") # strip pretty-print whitespace; see STANDOC_33
       end
 
       def math_validate_error(math, elem, error)

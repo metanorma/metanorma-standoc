@@ -376,6 +376,35 @@ RSpec.describe Metanorma::Standoc, type: :validation do
     expect(File.exist?("test.xml")).to be false
   end
 
+  # Regression: plurimath pretty-prints to_mathml output, and under the full
+  # metanorma stack its mathml parser rejected that inter-element whitespace
+  # for compound expressions containing a script construct (msup/msub/
+  # msubsup) — e.g. y^2 = x^3 + ax + b. math_validate round-trips the
+  # generated MathML back through Plurimath::Math.parse, so valid display
+  # math fatal-aborted the build (STANDOC_33, severity 0). Lone scripts, flat
+  # expressions, fractions and roots were unaffected, which is why it went
+  # unnoticed. The parse failure only reproduces under the larger loaded
+  # dependency set (metanorma-cli / a flavour), not standoc's own spec
+  # bundle, so we guard the fix directly: mathml_sanitise must strip the
+  # pretty-print whitespace before validation.
+  it "mathml_sanitise strips inter-element pretty-print whitespace" do
+    node = Nokogiri::XML(<<~MML).root
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <mstyle displaystyle="true">
+          <msup>
+            <mi>y</mi>
+            <mn>2</mn>
+          </msup>
+          <mo>=</mo>
+          <mi>x</mi>
+        </mstyle>
+      </math>
+    MML
+    out = Metanorma::Standoc::Validate.allocate.send(:mathml_sanitise, node)
+    expect(out).not_to match(/>\s*\n\s*</)
+    expect(out).to include("<msup><mi>y</mi><mn>2</mn></msup>")
+  end
+
   #   it "warns about malformed LaTeX" do
   #   FileUtils.rm_f "test.err.html"
   #   Asciidoctor.convert(<<~"INPUT", *OPTIONS)
