@@ -145,7 +145,17 @@ module Metanorma
       # Regex to match single or double backticks with content
       # Matches: `text` or ``text``
       # Avoids: escaped backticks \`
-      MonospaceRx = /(?<![\\"])(`{1,2})(?!")(.+?)(?<!\\)\1/
+      # Avoids: the backticks of Asciidoc smart-quote markup "`...`", where a
+      #   backtick abuts an enclosing " (the leading (?<![\\"]) and the (?!")
+      #   guard). The (?!") guard is suppressed when the backtick run sits at a
+      #   genuine monospace boundary (start, whitespace, or opening bracket), so
+      #   monospace whose content itself begins with " — e.g. `"quote" A's` — is
+      #   still protected from character replacements.
+      MonospaceRx = /
+        (?<![\\"]) (`{1,2})
+        (?: (?!") | (?<=[\s(\[{<]`) | (?<=[\s(\[{<]``) | (?<=\A`) | (?<=\A``) )
+        (.+?) (?<!\\) \1
+      /x
 
       def inlinemonospace(text)
         /(?<!")`(?!")/.match?(text) or return text
