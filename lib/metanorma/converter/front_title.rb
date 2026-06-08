@@ -58,9 +58,10 @@ module Metanorma
       end
 
       def title_num_prefix(key, value, xml, lang)
-        prefix = @i18n_cache[lang].get.dig("title_prefixes", key.to_s) or return
-        value && !value.empty? or return
-        title = "#{prefix}&#xa0;#{value}"
+        @i18n_cache[lang].get.dig("title_prefixes", key.to_s) or return
+        (value && !value.empty?) or return
+        title = @i18n_cache[lang].populate(["title_prefixes", key.to_s],
+                                           { "var1" => value })
         add_title_xml(xml, title, lang, "title-#{key}-prefix")
       end
     end
