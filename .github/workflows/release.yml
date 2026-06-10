@@ -9,8 +9,6 @@ on:
           Also, you can pass 'skip' to skip 'git tag' and do 'gem push' for the current version
         required: true
         default: 'skip'
-  push:
-    tags: [ v* ]
   repository_dispatch:
     types: [ do-release ]
 
