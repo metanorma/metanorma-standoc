@@ -221,11 +221,30 @@ module Metanorma
         global = !@no_isobib_cache && !node.attr("local-cache-only")
         local = node.attr("local-cache") || node.attr("local-cache-only")
         local = nil if @no_isobib_cache
+        flush_bib_caches_force(node) if node.attr("flush-caches") &&
+          @no_isobib_cache
         @bibdb = Relaton::Db.init_bib_caches(
           local_cache: local,
           flush_caches: node.attr("flush-caches"),
           global_cache: global,
         )
+      end
+
+      # `:flush-caches:` must clear stale cache state regardless of whether
+      # `:no-isobib-cache:` disables caching for *this* compile. When both
+      # are set, the `Relaton::Db.init_bib_caches` path no-ops on the flush
+      # (because it has no cache paths to flush), leaving any previously
+      # cached entries on disk for the next compile that DOES have caching
+      # enabled to pick up. Force-flush the conventional cache locations
+      # here so the flag does what its name says.
+      # Source issue: https://github.com/relaton/relaton-iso/issues/181
+      def flush_bib_caches_force(node)
+        FileUtils.rm_rf "#{Dir.home}/.relaton/cache"
+        lcache_name = node.attr("local-cache") || node.attr("local-cache-only")
+        if lcache_name
+          base = lcache_name.to_s.empty? ? "relaton" : lcache_name
+          FileUtils.rm_rf "#{base}/cache"
+        end
       end
 
       # Treat empty strings as falsy (they're set by Asciidoctor for some attributes)
