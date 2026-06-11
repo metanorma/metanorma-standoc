@@ -426,6 +426,48 @@ RSpec.describe Metanorma::Standoc do
     # File.expand_path("~/.iev/cache"), force: true
   end
 
+  it "flushes biblio caches even when :no-isobib-cache: is also set" do
+    # https://github.com/relaton/relaton-iso/issues/181 — `:flush-caches:`
+    # was a silent no-op when `:no-isobib-cache:` was also set, because
+    # both global and local cache paths became nil and Relaton::Db's
+    # flush_caches(nil, nil) did nothing. Stale cache state from prior
+    # compiles persisted on disk regardless.
+    relaton_bib_file  = File.expand_path("~/.relaton/cache")
+    relaton_bib_file1 = File.expand_path("~/.relaton-bib.pstore1")
+    FileUtils.rm_rf relaton_bib_file1
+    File.exist?(relaton_bib_file) and
+      FileUtils.mv relaton_bib_file, relaton_bib_file1
+
+    # Plant stale content at the global cache location.
+    FileUtils.mkdir_p File.dirname(relaton_bib_file)
+    File.write(relaton_bib_file, "XXX")
+
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib-cache:
+      :flush-caches:
+
+      [bibliography]
+      == Normative References
+
+      * [[[iso123,ISO 123:2001]]] _Standard_
+    INPUT
+
+    # The stale "XXX" must be gone. `:no-isobib-cache:` means no fresh
+    # cache is written during the compile either, so the path should not
+    # exist at all afterwards.
+    expect(File.exist?(relaton_bib_file)).to be false
+
+    FileUtils.rm_rf relaton_bib_file
+    if File.exist?(relaton_bib_file1)
+      FileUtils.mv relaton_bib_file1, relaton_bib_file, force: true
+    end
+  end
+
   it "does not fetch references for ISO references in preparation" do
     FileUtils.mv File.expand_path("~/.relaton/cache"),
                  File.expand_path("~/.relaton-bib.pstore1"), force: true
