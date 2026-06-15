@@ -1698,6 +1698,25 @@ RSpec.describe Metanorma::Standoc, type: :validation do
     expect(result[:xml_exists]).to be false
   end
 
+  it "aborts if unclosed sourcecode markup" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      == Clause
+      [source]
+      ----
+      foo {{{ bar
+      ----
+
+    INPUT
+    result = convert_and_expect_abort(input)
+    expect(result[:errors]).to include("Unbalanced sourcecode markup")
+    expect(result[:xml_exists]).to be false
+  end
+
   context "warns of empty elements: " do
     it "notes" do
       FileUtils.rm_f "test.xml"
