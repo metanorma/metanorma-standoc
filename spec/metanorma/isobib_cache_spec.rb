@@ -237,7 +237,7 @@ ISO_123_DATED = <<~XML.freeze
          <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
          <docidentifier type="ISO" primary="true">ISO 123:2001</docidentifier>
          <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
-         <docidentifier type="URN">urn:iso:std:iso:123:stage-90.20</docidentifier>
+         <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
          <docnumber>123</docnumber>
          <date type="published">
            <on>2001-05-31</on>
@@ -270,7 +270,7 @@ ISO_123_DATED = <<~XML.freeze
          <abstract language="en" script="Latn">This International Standard specifies procedures for sampling natural rubber latex concentrate and for sampling synthetic rubber latices and artificial latices. It is also suitable for sampling rubber latex contained in drums, tank cars or tanks. The procedures may also be used for sampling plastics dispersions.</abstract>
          <status>
            <stage>90</stage>
-           <substage>20</substage>
+           <substage>93</substage>
          </status>
          <copyright>
            <from>2001</from>
