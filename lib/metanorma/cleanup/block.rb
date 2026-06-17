@@ -166,13 +166,22 @@ module Metanorma
         align_callouts_to_annotations(xmldoc)
       end
 
+      # State threaded through {{{ ... }}} sourcecode-markup processing.
+      # open: inside a span; inline: that span opened in the current text node
+      # (so its content is convertible, not merely delimiter-stripped);
+      # buf: the open span's content so far; out: the rebuilt node content.
+      SourcecodeMarkup = Struct.new(:open, :inline, :buf, :out, :node)
+
+      # {{{ ... }}} injects Asciidoc markup into otherwise-verbatim sourcecode.
+      # A span's delimiters can be split across separate text nodes by an
+      # element that subs="macros" injected between them (e.g. an inline
+      # image), so we walk the sourcecode's text nodes in order and carry the
+      # open state across them, rather than processing each node in isolation.
       def sourcecode_cleanup(xmldoc)
         xmldoc.xpath("//sourcecode").each do |x|
-          x.traverse do |n|
-            n.text? or next
-            /#{Regexp.escape(@sourcecode_markup_start)}/.match?(n.text) or next
-            n.replace(sourcecode_markup(n))
-          end
+          open = x.xpath(".//text()")
+            .inject(false) { |acc, node| sourcecode_markup(node, acc) }
+          open and @log.add("STANDOC_65", x, params: [@sourcecode_markup_start])
         end
       end
 
@@ -183,30 +192,76 @@ module Metanorma
         )
       end
 
-      def sourcecode_markup(node)
-        source_markup_prep(node).each_slice(4).map.with_object([]) do |a, acc|
-          acc << safe_noko(a[0], node.document)
-          a.size == 4 or next
-          acc << @conv.isolated_asciidoctor_convert(
-            "{blank} #{a[2]}", doctype: :inline,
-                               backend: @conv.backend&.to_sym || :standoc
-          ).strip
-        end.join
+      # @return [Boolean] whether a {{{ span is still open after this node
+      def sourcecode_markup(node, open)
+        open || sourcecode_markup?(node.text) or return open
+        state = SourcecodeMarkup.new(open, false, [], [], node)
+        sourcecode_markup_split(node.text)
+          .each { |tok| sourcecode_markup_token(tok, state) }
+        sourcecode_markup_flush(state)
+        state.open
       end
 
-      def source_markup_prep(node)
-        ret = node.text.split(/(#{Regexp.escape(@sourcecode_markup_start)}|
-                          #{Regexp.escape(@sourcecode_markup_end)})/x)
-        source_markup_validate(node, ret)
-        ret
+      def sourcecode_markup_flush(state)
+        state.open and
+          state.out << safe_noko(state.buf.join, state.node.document)
+        state.node.replace(state.out.join)
       end
 
-      def source_markup_validate(node, ret)
-        ret.each_slice(4) do |a|
-          a.size == 4 or next
-          a[1] == @sourcecode_markup_start && a[3] == @sourcecode_markup_end or
-            @log.add("STANDOC_61", node, params: [a.join])
+      def sourcecode_markup?(text)
+        text.include?(@sourcecode_markup_start) ||
+          text.include?(@sourcecode_markup_end)
+      end
+
+      def sourcecode_markup_split(text)
+        text.split(/(#{Regexp.escape(@sourcecode_markup_start)}|
+                     #{Regexp.escape(@sourcecode_markup_end)})/x)
+      end
+
+      def sourcecode_markup_token(tok, state)
+        case tok
+        when @sourcecode_markup_start then sourcecode_markup_open(state)
+        when @sourcecode_markup_end then sourcecode_markup_close(state)
+        else sourcecode_markup_content(tok, state)
         end
+      end
+
+      # a nested {{{ is improper nesting: STANDOC_61 is fatal
+      def sourcecode_markup_open(state)
+        state.open and
+          return @log.add("STANDOC_61", state.node, params: [state.node.text])
+        state.open = state.inline = true
+      end
+
+      def sourcecode_markup_close(state)
+        state.open or return sourcecode_markup_stray(state)
+        state.out << sourcecode_markup_closed(state)
+        state.open = state.inline = false
+        state.buf = []
+      end
+
+      # a stray }}} with no opener is left as literal text
+      def sourcecode_markup_stray(state)
+        state.out << safe_noko(@sourcecode_markup_end, state.node.document)
+      end
+
+      # a span closed within one node is converted; one split across nodes
+      # (already holding a processed element) is delimiter-stripped only
+      def sourcecode_markup_closed(state)
+        state.inline and return sourcecode_markup_convert(state.buf.join)
+        safe_noko(state.buf.join, state.node.document)
+      end
+
+      def sourcecode_markup_content(tok, state)
+        state.open and return state.buf << tok
+        state.out << safe_noko(tok, state.node.document)
+      end
+
+      def sourcecode_markup_convert(span)
+        @conv.isolated_asciidoctor_convert(
+          "{blank} #{span}", doctype: :inline,
+                             backend: @conv.backend&.to_sym || :standoc
+        ).strip
       end
 
       def form_cleanup(xmldoc)
