@@ -876,6 +876,26 @@ RSpec.describe Metanorma::Standoc do
       .to be_xml_equivalent_to output
   end
 
+  it "processes collapsible examples" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [example%collapsible]
+      ====
+      This is a collapsible example
+      ====
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections>
+        <example id="_" collapsible="true"><p id="_">This is a collapsible example</p></example>
+      </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
+  end
+
   it "processes preambles" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}

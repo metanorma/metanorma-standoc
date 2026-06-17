@@ -221,6 +221,50 @@ RSpec.describe Metanorma::Standoc do
       .to be_xml_equivalent_to output
   end
 
+  it "processes {{{ }}} markup split across an element injected by subs=macros" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [source,xml,subs="verbatim,macros"]
+      ----
+      <P>before {{{image:abc.png[alt]}}}after</P>
+      ----
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections>
+        <sourcecode id="_" lang="xml"><body>&lt;P&gt;before <image/>after&lt;/P&gt;</body></sourcecode>
+      </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)
+      .gsub(%r{<image[^>]+?/>}m, "<image/>")))
+      .to be_xml_equivalent_to output
+  end
+
+  # Known limitation: in a {{{ }}} span split across nodes by a subs=macros
+  # element, non-macro markup (here *bold*) is left literal, not re-converted.
+  it "leaves non-macro markup literal in a {{{ }}} span split by an element" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [source,xml,subs="verbatim,macros"]
+      ----
+      <P>{{{image:abc.png[alt] and *bold*}}}after</P>
+      ----
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections>
+        <sourcecode id="_" lang="xml"><body>&lt;P&gt;<image/> and *bold*after&lt;/P&gt;</body></sourcecode>
+      </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)
+      .gsub(%r{<image[^>]+?/>}m, "<image/>")))
+      .to be_xml_equivalent_to output
+  end
+
   it "moves notes inside preceding blocks, if the blocks are not delimited" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
