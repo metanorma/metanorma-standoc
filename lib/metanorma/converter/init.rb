@@ -128,6 +128,7 @@ module Metanorma
         @tocfigures = node.attr("toc-figures")
         @toctables = node.attr("toc-tables")
         @tocrecommendations = node.attr("toc-recommendations")
+        @tocexamples = node.attr("toc-examples")
       end
 
       def toc_default

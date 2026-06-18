@@ -41,6 +41,7 @@ module Metanorma
           tocfigures: @tocfigures,
           toctables: @toctables,
           tocrecommendations: @tocrecommendations,
+          tocexamples: @tocexamples,
           fonts: flex_attr_name(node, "fonts"),
           fontlicenseagreement: flex_attr_name(node, "font-license-agreement"),
           localizenumber: flex_attr_name(node, "localize-number"),
@@ -92,6 +93,7 @@ module Metanorma
           tocfigures: @tocfigures,
           toctables: @toctables,
           tocrecommendations: @tocrecommendations,
+          tocexamples: @tocexamples,
           fonts: flex_attr_name(node, "fonts"),
           fontlicenseagreement: flex_attr_name(node, "font-license-agreement"),
         }
