@@ -55,7 +55,8 @@ module Metanorma
         { part:, subpart:, amendment: node.attr("amendment-number"),
           corrigendum: node.attr("corrigendum-number"),
           addendum: node.attr("addendum-number"),
-          supplement: node.attr("supplement-number") }
+          supplement: node.attr("supplement-number"),
+          extract: node.attr("extract-number") }
       end
 
       def title_num_prefix(key, value, xml, lang)
