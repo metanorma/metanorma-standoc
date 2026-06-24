@@ -60,7 +60,16 @@ module Metanorma
         def schema_validate_with_retry(schema, file_path, max_retries: 3)
           retries = 0
           begin
-            Jing.new(schema, encoding: "UTF-8").validate(file_path)
+            # id_check: false disables jing's DTD-compatibility ID/IDREF check
+            # (emits -i). That check is namespace-blind and falsely reports
+            # "conflicting ID-types for id" once the embedded W3C MathML grammar
+            # (CommonAtt types id as xsd:ID) coexists with standoc's own xsd:ID
+            # id (basicdoc-models#35). Safe to disable: id/anchor uniqueness is
+            # enforced by content_validate (repeat_id_validate1 /
+            # repeat_anchor_validate1 -> STANDOC_36) and IDREF is text in
+            # Semantic XML (isodoc.rng). NB ruby-jing 0.0.3 polarity is inverted:
+            # id_check: false is what emits -i (verified against validate_spec).
+            Jing.new(schema, encoding: "UTF-8", id_check: false).validate(file_path)
           rescue Jing::ExecutionError => e
             # Check if this is a "Too many open files" error
             if e.message.include?("Too many open files") && retries < max_retries
@@ -125,7 +134,11 @@ module Metanorma
 
         SVG_NS = "http://www.w3.org/2000/svg".freeze
 
-        WILDCARD_ATTRS = "//stem | //metanorma-extension".freeze
+        # <stem> is no longer stripped: MathML is now explicitly defined in the
+        # grammar (basicdoc-models#35), so its attributes (incl.
+        # data-metanorma-numberformat) validate directly. metanorma-extension
+        # (UnitsML etc.) and <svg> remain any-element and are still stripped.
+        WILDCARD_ATTRS = "//metanorma-extension".freeze
 
         # RelaxNG cannot cope well with wildcard attributes. So we strip
         # any attributes from FormattedString instances (which can contain
