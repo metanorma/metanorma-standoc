@@ -1964,6 +1964,25 @@ RSpec.describe Metanorma::Standoc, type: :validation do
     expect(out).to include("(( ))")
   end
 
+  it "validates MathML in <stem> against the embedded MathML grammar (basicdoc-models#35)" do
+    FileUtils.rm_f "test.err.html"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      stem:[sqrt(2)]
+    INPUT
+    xml = Asciidoctor.convert(input, *OPTIONS)
+    expect(xml).to include("<math")
+    err = File.exist?("test.err.html") ? File.read("test.err.html") : ""
+    # Regression guard for basicdoc-models#35: the embedded W3C MathML grammar
+    # must not reintroduce jing's namespace-blind "conflicting ID-types" schema
+    # error (suppressed via id_check: false in the Schema validator).
+    expect(err).not_to include("conflicting ID-types")
+  end
+
   private
 
   def mock_plurimath_error(times)
