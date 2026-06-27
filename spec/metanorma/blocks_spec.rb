@@ -1508,6 +1508,26 @@ RSpec.describe Metanorma::Standoc do
       .to be_xml_equivalent_to output
   end
 
+  it "passes a custom class through on source code (metanorma-standoc#1197)" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [source,ruby,class=special]
+      --
+      puts "Hello, world."
+      --
+
+      [source,ruby,role=notaclass]
+      --
+      puts "Hello, world."
+      --
+    INPUT
+    out = Asciidoctor.convert(input, *OPTIONS)
+    expect(out).to match(/<sourcecode[^>]*class="special"/)
+    # role must NOT be turned into a class (reserved dispatch vocabulary)
+    expect(out).not_to match(/<sourcecode[^>]*class="notaclass"/)
+  end
+
   it "processes source code" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}

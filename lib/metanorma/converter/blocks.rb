@@ -164,6 +164,7 @@ module Metanorma
                          linenums: linenums ? "true" : nil,
                          unnumbered: node.option?("unnumbered") ? "true" : nil,
                          number: node.attr("number"),
+                         class: node.attr("class"),
                          filename: node.attr("filename"))))
       end
 
