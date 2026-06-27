@@ -1,6 +1,47 @@
 require "spec_helper"
 
 RSpec.describe Metanorma::Standoc do
+  # metanorma/metanorma-pdfa#33: a table's `[class="..."]` named attribute is
+  # passed through to Semantic XML `@class` (and thence to the HTML class). The
+  # `role` attribute is deliberately NOT used for this -- role is a reserved
+  # block-dispatch vocabulary, so honouring it as a CSS class would not be
+  # backward compatible.
+  it "passes a table's custom class through to Semantic XML" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [class="sortable"]
+      |===
+      |A |B
+      |===
+    INPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xml.at("//xmlns:table")["class"]).to eq "sortable"
+  end
+
+  it "passes multiple space-separated table classes through verbatim" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [class="sortable fixed"]
+      |===
+      |A |B
+      |===
+    INPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xml.at("//xmlns:table")["class"]).to eq "sortable fixed"
+  end
+
+  it "does NOT turn a table's role into a class (backward compatibility)" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [role="sortable"]
+      |===
+      |A |B
+      |===
+    INPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(xml.at("//xmlns:table")["class"]).to be_nil
+  end
+
   it "processes basic tables" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
