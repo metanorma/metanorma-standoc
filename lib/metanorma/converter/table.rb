@@ -9,7 +9,11 @@ module Metanorma
                  plain: node.option?("plain") ? "true" : nil,
                  style: node.attr("css-style"),
                  summary: node.attr("summary"),
-                 width: node.attr("width"))
+                 width: node.attr("width"),
+                 # Custom CSS class(es) passed through to HTML output, via the
+                 # `[class="..."]` named attribute (NOT role, which is reserved
+                 # for block dispatch). metanorma/metanorma-pdfa#33
+                 class: node.attr("class"))
       end
 
       def table(node)
