@@ -44,6 +44,21 @@ module Metanorma
                        "XML Line #{'%06d' % e[:line]}:#{e[:column]}",
                        params: [e[:message]])
             end
+            # TEMP DIAGNOSTIC (refs basicdoc-models#35 / standoc#1197): when a
+            # duplicate-attribute error fires, dump the validated document so we
+            # can see what is being validated on CI. Remove before merge.
+            dupe = errors.find { |e| e[:message].to_s.include?("duplicate attribute") }
+            if dupe
+              content = File.read(file.path)
+              lines = content.split("\n")
+              ln = dupe[:line].to_i
+              warn "===DUPCLASS_DIAG schema=#{schema_file} line=#{ln} total_lines=#{lines.size}==="
+              warn "---window---"
+              warn lines[[ln - 8, 0].max...(ln + 3)].join("\n")
+              warn "---full validated document---"
+              warn content
+              warn "===END DUPCLASS_DIAG==="
+            end
           ensure
             # Restore original _JAVA_OPTIONS
             ENV["_JAVA_OPTIONS"] = old_java_opts
