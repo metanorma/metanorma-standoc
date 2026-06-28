@@ -50,7 +50,8 @@ module Metanorma
 
       def example_attrs(node)
         attr_code(id_unnum_attrs(node).merge(keep_attrs(node))
-          .merge(collapsible: node.option?("collapsible") ? "true" : nil))
+          .merge(collapsible: node.option?("collapsible") ? "true" : nil,
+                 class: node.attr("class")))
       end
 
       def example_proper(node)

@@ -1508,6 +1508,41 @@ RSpec.describe Metanorma::Standoc do
       .to be_xml_equivalent_to output
   end
 
+  it "passes a custom class through on assorted blocks (metanorma-standoc#1197)" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [class=cc-par]
+      A paragraph.
+
+      [quote,class=cc-quo]
+      ____
+      A quote.
+      ____
+
+      [example,class=cc-ex]
+      ====
+      An example.
+      ====
+
+      [class=cc-ul]
+      * item
+
+      [class=cc-ol]
+      . item
+
+      [NOTE,class=cc-note]
+      ====
+      A note.
+      ====
+    INPUT
+    out = Asciidoctor.convert(input, *OPTIONS)
+    { "p" => "cc-par", "quote" => "cc-quo", "example" => "cc-ex",
+      "ul" => "cc-ul", "ol" => "cc-ol", "note" => "cc-note" }.each do |el, tok|
+      expect(out).to match(/<#{el}\b[^>]*class="#{tok}"/)
+    end
+  end
+
   it "passes a custom class through on source code (metanorma-standoc#1197)" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
