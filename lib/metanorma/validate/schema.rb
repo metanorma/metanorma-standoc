@@ -50,11 +50,9 @@ module Metanorma
             dupe = errors.find { |e| e[:message].to_s.include?("duplicate attribute") }
             if dupe
               content = File.read(file.path)
-              lines = content.split("\n")
-              ln = dupe[:line].to_i
-              warn "===DUPCLASS_DIAG schema=#{schema_file} line=#{ln} total_lines=#{lines.size}==="
-              warn "---window---"
-              warn lines[[ln - 8, 0].max...(ln + 3)].join("\n")
+              warn "===DUPCLASS_DIAG schema=#{schema_location} doc_lines=#{content.lines.size}==="
+              warn "---raw jing errors---"
+              errors.each { |e| warn e.inspect }
               warn "---full validated document---"
               warn content
               warn "===END DUPCLASS_DIAG==="
