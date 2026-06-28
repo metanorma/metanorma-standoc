@@ -1508,6 +1508,26 @@ RSpec.describe Metanorma::Standoc do
       .to be_xml_equivalent_to output
   end
 
+  it "passes custom classes through on pseudocode and admonition (metanorma-standoc#1197)" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      [pseudocode,class=cc-ps]
+      ====
+      A step
+      ====
+
+      [WARNING,class=cc-adm]
+      ====
+      Be careful.
+      ====
+    INPUT
+    out = Asciidoctor.convert(input, *OPTIONS)
+    # pseudocode dispatch class is preserved alongside the custom class
+    expect(out).to match(/<figure\b[^>]*class="pseudocode cc-ps"/)
+    expect(out).to match(/<admonition\b[^>]*class="cc-adm"/)
+  end
+
   it "passes a custom class through on assorted blocks (metanorma-standoc#1197)" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}

@@ -86,7 +86,7 @@ module Metanorma
       def admonition_attrs(node)
         attr_code(keep_attrs(node).merge(id_attr(node)
           .merge(admonition_core_attrs(node)
-          .merge(type: admonition_name(node)))))
+          .merge(type: admonition_name(node), class: node.attr("class")))))
       end
 
       def admonition_core_attrs(node)
