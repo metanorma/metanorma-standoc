@@ -44,32 +44,6 @@ module Metanorma
                        "XML Line #{'%06d' % e[:line]}:#{e[:column]}",
                        params: [e[:message]])
             end
-            # TEMP DIAGNOSTIC (refs basicdoc-models#35 / standoc#1197): when a
-            # duplicate-attribute error fires, dump the validated document so we
-            # can see what is being validated on CI. Remove before merge.
-            dupe = errors.find { |e| e[:message].to_s.include?("duplicate attribute") }
-            if dupe
-              require "digest"
-              dir = File.dirname(schema_location)
-              warn "===DUPCLASS_DIAG3==="
-              warn "ruby=#{RUBY_VERSION} ruby-jing=#{Gem.loaded_specs['ruby-jing']&.version}"
-              warn "jar=#{Jing::DEFAULT_JAR}"
-              warn "jar_md5=#{Digest::MD5.file(Jing::DEFAULT_JAR).hexdigest}"
-              warn "java=#{`java -version 2>&1`.lines.first&.strip}"
-              warn "isodoc.rng_md5=#{Digest::MD5.file(File.join(dir, 'isodoc.rng')).hexdigest}"
-              warn "HEAD=#{`git rev-parse HEAD 2>&1`.strip}"
-              warn "---git status validate/---"
-              warn(`git status --short lib/metanorma/validate/ 2>&1`)
-              warn "---isodoc.rng first 3 lines (VERSION)---"
-              warn File.read(File.join(dir, "isodoc.rng")).lines.first(3).join
-              warn "---isodoc.rng last-commit---"
-              warn(`git log -1 --format='%H %ci' -- lib/metanorma/validate/isodoc.rng 2>&1`.strip)
-              warn "---table define region of CI's isodoc.rng---"
-              ilines = File.read(File.join(dir, "isodoc.rng")).lines
-              ti = ilines.index { |l| l.include?('<define name="table"') }
-              warn ilines[ti...(ti + 8)].join if ti
-              warn "===END DUPCLASS_DIAG3==="
-            end
           ensure
             # Restore original _JAVA_OPTIONS
             ENV["_JAVA_OPTIONS"] = old_java_opts
