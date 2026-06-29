@@ -56,12 +56,18 @@ module Metanorma
               warn "jar=#{Jing::DEFAULT_JAR}"
               warn "jar_md5=#{Digest::MD5.file(Jing::DEFAULT_JAR).hexdigest}"
               warn "java=#{`java -version 2>&1`.lines.first&.strip}"
-              warn "---grammar md5---"
-              Dir["#{dir}/*.rng"].sort.each do |f|
-                warn "#{Digest::MD5.file(f).hexdigest}  #{File.basename(f)}"
-              end
-              warn "---raw jing output---"
-              warn(`java -jar #{Jing::DEFAULT_JAR} #{schema_location} #{file.path} 2>&1`[0, 2000])
+              warn "isodoc.rng_md5=#{Digest::MD5.file(File.join(dir, 'isodoc.rng')).hexdigest}"
+              warn "HEAD=#{`git rev-parse HEAD 2>&1`.strip}"
+              warn "---git status validate/---"
+              warn(`git status --short lib/metanorma/validate/ 2>&1`)
+              warn "---isodoc.rng first 3 lines (VERSION)---"
+              warn File.read(File.join(dir, "isodoc.rng")).lines.first(3).join
+              warn "---isodoc.rng last-commit---"
+              warn(`git log -1 --format='%H %ci' -- lib/metanorma/validate/isodoc.rng 2>&1`.strip)
+              warn "---table define region of CI's isodoc.rng---"
+              ilines = File.read(File.join(dir, "isodoc.rng")).lines
+              ti = ilines.index { |l| l.include?('<define name="table"') }
+              warn ilines[ti...(ti + 8)].join if ti
               warn "===END DUPCLASS_DIAG3==="
             end
           ensure
