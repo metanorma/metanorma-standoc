@@ -49,13 +49,20 @@ module Metanorma
             # can see what is being validated on CI. Remove before merge.
             dupe = errors.find { |e| e[:message].to_s.include?("duplicate attribute") }
             if dupe
-              content = File.read(file.path)
-              warn "===DUPCLASS_DIAG schema=#{schema_location} doc_lines=#{content.lines.size}==="
-              warn "---raw jing errors---"
-              errors.each { |e| warn e.inspect }
-              warn "---full validated document---"
-              warn content
-              warn "===END DUPCLASS_DIAG==="
+              require "digest"
+              dir = File.dirname(schema_location)
+              warn "===DUPCLASS_DIAG3==="
+              warn "ruby=#{RUBY_VERSION} ruby-jing=#{Gem.loaded_specs['ruby-jing']&.version}"
+              warn "jar=#{Jing::DEFAULT_JAR}"
+              warn "jar_md5=#{Digest::MD5.file(Jing::DEFAULT_JAR).hexdigest}"
+              warn "java=#{`java -version 2>&1`.lines.first&.strip}"
+              warn "---grammar md5---"
+              Dir["#{dir}/*.rng"].sort.each do |f|
+                warn "#{Digest::MD5.file(f).hexdigest}  #{File.basename(f)}"
+              end
+              warn "---raw jing output---"
+              warn(`java -jar #{Jing::DEFAULT_JAR} #{schema_location} #{file.path} 2>&1`[0, 2000])
+              warn "===END DUPCLASS_DIAG3==="
             end
           ensure
             # Restore original _JAVA_OPTIONS
