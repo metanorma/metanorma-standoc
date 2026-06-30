@@ -12,7 +12,7 @@ module Metanorma
 
       def note_attrs(node)
         attr_code(termnote_attrs(node).merge(admonition_core_attrs(node)
-          .merge(type: node.attr("type"))))
+          .merge(type: node.attr("type"), class: node.attr("class"))))
       end
 
       def sidebar(node)
@@ -86,7 +86,7 @@ module Metanorma
       def admonition_attrs(node)
         attr_code(keep_attrs(node).merge(id_attr(node)
           .merge(admonition_core_attrs(node)
-          .merge(type: admonition_name(node)))))
+          .merge(type: admonition_name(node), class: node.attr("class")))))
       end
 
       def admonition_core_attrs(node)

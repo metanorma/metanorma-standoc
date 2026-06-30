@@ -116,6 +116,7 @@ module Metanorma
           .merge(align: node.attr("align"),
                  variant_title: node.role == "variant-title" ? true : nil,
                  key: node.option?("key") ? "true" : nil,
+                 class: node.attr("class"),
                  type: node.attr("type"))))
       end
 
@@ -134,7 +135,7 @@ module Metanorma
 
       def quote_attrs(node)
         attr_code(id_attr(node).merge(keep_attrs(node))
-          .merge(align: node.attr("align")))
+          .merge(align: node.attr("align"), class: node.attr("class")))
       end
 
       def quote_attribution(node, out)
@@ -164,6 +165,7 @@ module Metanorma
                          linenums: linenums ? "true" : nil,
                          unnumbered: node.option?("unnumbered") ? "true" : nil,
                          number: node.attr("number"),
+                         class: node.attr("class"),
                          filename: node.attr("filename"))))
       end
 
