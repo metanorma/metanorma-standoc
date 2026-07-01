@@ -40,11 +40,16 @@ module Metanorma
         preprocessor Metanorma::Standoc::EmbedIncludeProcessor
         preprocessor Metanorma::Standoc::LinkProtectPreprocessor
         preprocessor Metanorma::Standoc::PassProtectPreprocessor
-        preprocessor Metanorma::Standoc::MonospaceProtectPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::Json2TextPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::Yaml2TextPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::Data2TextPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlXmiUmlPreprocessor
+        # MonospaceProtect must run AFTER the content-injecting preprocessors
+        # (json2text/yaml2text/data2text, XMI) so that monospace in their
+        # injected content is protected from Asciidoctor character
+        # substitution too, consistently with hand-authored adoc.
+        # metanorma/iso-10303#208
+        preprocessor Metanorma::Standoc::MonospaceProtectPreprocessor
         preprocessor Metanorma::Plugin::Glossarist::DatasetPreprocessor
         preprocessor Metanorma::Standoc::NamedEscapePreprocessor
         inline_macro Metanorma::Standoc::PreferredTermInlineMacro
