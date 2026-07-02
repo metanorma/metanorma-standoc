@@ -1,0 +1,5 @@
+# Temporary pin: exercise the relaton-iso undated-reference-under-cutoff fix
+# (relaton/relaton-iso#190) so the regression spec below is green in CI.
+# REVERT this file once the fixed relaton-iso is released.
+gem "relaton-iso", git: "https://github.com/relaton/relaton-iso",
+                   branch: "fix/undated-ref-year-stripped-under-cutoff"

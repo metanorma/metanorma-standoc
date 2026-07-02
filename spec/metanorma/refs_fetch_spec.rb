@@ -1967,4 +1967,22 @@ RSpec.describe Metanorma::Standoc do
     ident = xml.at("//xmlns:bibitem[@anchor='iso123']/xmlns:docidentifier[@type='IEC']")
     expect(ident.text).to eq("IEC 80000-6:2008")
   end
+
+  # metanorma/iso-10303#705: an undated reference in a *dated* document must
+  # stay undated. The document date makes biblio_cutoff non-nil, so a
+  # publication_date_before is passed to relaton for every reference; that
+  # cutoff must only bound the edition, not add a year to an undated citation.
+  it "undated reference in a dated document stays undated" do
+    input = <<~"INPUT"
+      #{ISOBIB_BLANK_HDR.sub(':nodoc:', ":nodoc:\n:published-date: 2023")}
+
+      [bibliography]
+      == Normative References
+
+      * [[[iso123,ISO 10303-41]]]
+    INPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    ident = xml.at("//xmlns:bibitem[@anchor='iso123']/xmlns:docidentifier[@type='ISO']")
+    expect(ident.text).to eq("ISO 10303-41")
+  end
 end
