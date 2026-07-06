@@ -197,6 +197,15 @@ module Metanorma
       end
 
       def biblio_cutoff(node)
+        # An explicit :bibliography-cutoff-date: overrides the date derived from
+        # the document's own dates, and a sentinel (none/false/no/off) disables
+        # the cutoff entirely. metanorma/metanorma-standoc#941.
+        if (override = node.attr("bibliography-cutoff-date"))
+          override = override.strip
+          return nil if %w(none false no off).include?(override.downcase)
+
+          return complete_and_compare_dates([override])
+        end
         dates = %w(revdate published-date accessed-date created-date
                    implemented-date confirmed-date updated-date issued-date
                    circulated-date unchanged-date copyright-year)

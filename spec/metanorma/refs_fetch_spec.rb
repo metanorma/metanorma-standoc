@@ -1967,4 +1967,34 @@ RSpec.describe Metanorma::Standoc do
     ident = xml.at("//xmlns:bibitem[@anchor='iso123']/xmlns:docidentifier[@type='IEC']")
     expect(ident.text).to eq("IEC 80000-6:2008")
   end
+
+  # metanorma/metanorma-standoc#941: :bibliography-cutoff-date: overrides the
+  # cutoff derived from the document's own dates.
+  it "bibliography-cutoff-date attribute sets the cutoff without a document date" do
+    input = <<~"INPUT"
+      #{ISOBIB_BLANK_HDR.sub(':nodoc:', ":nodoc:\n:bibliography-cutoff-date: 2019")}
+
+      [bibliography]
+      == Normative References
+
+      * [[[iso123,IEC 80000-6]]]
+    INPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    ident = xml.at("//xmlns:bibitem[@anchor='iso123']/xmlns:docidentifier[@type='IEC']")
+    expect(ident.text).to eq("IEC 80000-6:2008")
+  end
+
+  it "bibliography-cutoff-date: none disables the cutoff derived from document dates" do
+    input = <<~"INPUT"
+      #{ISOBIB_BLANK_HDR.sub(':nodoc:', ":nodoc:\n:published-date: 2019\n:bibliography-cutoff-date: none")}
+
+      [bibliography]
+      == Normative References
+
+      * [[[iso123,IEC 80000-6]]]
+    INPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    ident = xml.at("//xmlns:bibitem[@anchor='iso123']/xmlns:relation[@type = 'instanceOf']/xmlns:bibitem/xmlns:docidentifier[@type='IEC']")
+    expect(ident.text).to eq("IEC 80000-6:2022")
+  end
 end
