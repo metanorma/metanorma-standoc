@@ -41,7 +41,8 @@ module Metanorma
       def pseudocode_example(node)
         node.blocks.each { |b| b.remove_sub(:replacements) }
         noko do |xml|
-          xml.figure **example_attrs(node).merge(class: "pseudocode") do |ex|
+          klass = (["pseudocode"] + (node.attr("class")&.split || [])).uniq
+          xml.figure **example_attrs(node).merge(class: klass.join(" ")) do |ex|
             block_title(node, ex)
             wrap_in_para(node, ex)
           end
@@ -50,7 +51,8 @@ module Metanorma
 
       def example_attrs(node)
         attr_code(id_unnum_attrs(node).merge(keep_attrs(node))
-          .merge(collapsible: node.option?("collapsible") ? "true" : nil))
+          .merge(collapsible: node.option?("collapsible") ? "true" : nil,
+                 class: node.attr("class")))
       end
 
       def example_proper(node)
