@@ -292,6 +292,10 @@ RSpec.describe Metanorma::Standoc do
       :toclevels-pdf: 5
       :docidentifier-additional: ABC:x 1, DEF:y 2
       :data-uri-image: false
+      :toc-recommendations: true
+      :toc-examples: true
+      :toc-tables: true
+      :toc-figures: true
 
     INPUT
     output = <<~OUTPUT
@@ -689,6 +693,10 @@ RSpec.describe Metanorma::Standoc do
       :htmltoclevels: 4
       :document-scheme: SCHEME
       :docstage-published: true
+      :toc-recommendations: false
+      :toc-examples: false
+      :toc-tables: false
+      :toc-figures: false
 
       [abstract]
       == Abstract
