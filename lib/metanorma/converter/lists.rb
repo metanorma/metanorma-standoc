@@ -103,6 +103,7 @@ module Metanorma
           .merge(
             metadata: node.option?("metadata") ? "true" : nil,
             key: node.option?("key") ? "true" : nil,
+            class: node.attr("class"),
           )))
       end
 

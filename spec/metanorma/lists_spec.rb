@@ -75,6 +75,43 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
   end
 
+  it "passes the custom class attribute through on lists (ul, ol, dl)" do
+    output = Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      #{ASCIIDOC_BLANK_HDR}
+      [class="ul-class"]
+      * List 1
+      * List 2
+
+      [class="ol-class"]
+      . List A
+      . List B
+
+      [class="dl-class"]
+      List D:: List E
+      List F:: List G
+    INPUT
+    expect(strip_guid(output)).to be_xml_equivalent_to <<~"OUTPUT"
+        #{BLANK_HDR}
+        <sections>
+          <ul id="_" class="ul-class">
+            <li><p id="_">List 1</p></li>
+            <li><p id="_">List 2</p></li>
+          </ul>
+          <ol id="_" type="arabic" class="ol-class">
+            <li><p id="_">List A</p></li>
+            <li><p id="_">List B</p></li>
+          </ol>
+          <dl id="_" class="dl-class">
+            <dt>List D</dt>
+            <dd id="_"><p id="_">List E</p></dd>
+            <dt>List F</dt>
+            <dd id="_"><p id="_">List G</p></dd>
+          </dl>
+        </sections>
+      </metanorma>
+    OUTPUT
+  end
+
   it "processes complex lists" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
