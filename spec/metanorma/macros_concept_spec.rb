@@ -875,6 +875,8 @@ RSpec.describe Metanorma::Standoc do
           term:[name] is a term
 
           {{name}} is a term
+
+          {{((name))}} is a term
         XML
       end
       let(:output) do
@@ -911,6 +913,21 @@ RSpec.describe Metanorma::Standoc do
               </concept>
               is a term
               </p>
+              <p id="_">
+        <concept>
+          <refterm>
+            name
+          </refterm>
+          <renderterm>
+            name
+            <index>
+              <primary>name</primary>
+            </index>
+          </renderterm>
+          <xref target="term-name"/>
+        </concept>
+        is a term
+      </p>
             </clause>
           </sections>
           </metanorma>
