@@ -183,11 +183,27 @@ module Metanorma
         @no_isobib = node.attr("no-isobib")
         @flush_caches = node.attr("flush-caches")
         @sort_biblio = node.attr("sort-biblio") != "false"
+        @publisher_sort_config = init_publisher_sort_config(node)
         init_bib_db(node)
         init_bib_caches(node)
         init_iev_caches(node)
         init_bib_log
         @biblio_cutoff = biblio_cutoff(node)
+      end
+
+      # Per-publisher bibliography sort ranks, from
+      # :sort-biblio-<abbrev>: <rank>: <name> document attributes (set directly
+      # in a document or injected by a metanorma-taste config). AsciiDoc
+      # lowercases attribute names, so <abbrev> is matched case-insensitively
+      # downstream. Returns [] when none are set (flavours keep their default
+      # publisher ordering).
+      def init_publisher_sort_config(node)
+        node.attributes.each_with_object([]) do |(k, v), acc|
+          m = /\Asort-biblio-(?<abbrev>.+)\z/.match(k.to_s) or next
+          rank_s, name = v.to_s.split(":", 2)
+          rank = Integer(rank_s.to_s.strip, exception: false) or next
+          acc << { abbrev: m[:abbrev].strip, name: name&.strip, rank: rank }
+        end
       end
 
       def init_bib_db(node)
