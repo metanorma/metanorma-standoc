@@ -1983,6 +1983,27 @@ RSpec.describe Metanorma::Standoc, type: :validation do
     expect(err).not_to include("conflicting ID-types")
   end
 
+  it "parses docstage-valid into the converter and copies it to validators" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :novalid:
+      :no-isobib:
+      :docstage-valid: draft, published
+    INPUT
+    conv = Metanorma::Standoc::Converter.new(:standoc, *OPTIONS)
+    conv.init(Asciidoctor.load(input, *OPTIONS))
+    expect(conv.docstage_valid).to eq %w(draft published)
+    v = Metanorma::Standoc::Validate.new(conv)
+    expect(v.instance_variable_get(:@docstage_valid))
+      .to eq %w(draft published)
+
+    conv = Metanorma::Standoc::Converter.new(:standoc, *OPTIONS)
+    conv.init(Asciidoctor.load(input.sub(/:docstage-valid:.*\n/, ""),
+                               *OPTIONS))
+    expect(conv.docstage_valid).to be_nil
+  end
+
   private
 
   def mock_plurimath_error(times)
