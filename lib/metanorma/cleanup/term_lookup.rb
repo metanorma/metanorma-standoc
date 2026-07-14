@@ -48,6 +48,7 @@ module Metanorma
       def concept_cleanup
         xmldoc.xpath("//concept").each do |n|
           refterm = n.at("./refterm") or next
+          refterm.xpath(".//index").each(&:remove)
           lookup = norm_ref_id_text(refterm.text.strip)
           p = @lookup[:sec2prim][lookup] and refterm.children = @c.encode(p)
         end
