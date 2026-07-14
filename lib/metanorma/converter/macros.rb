@@ -67,16 +67,23 @@ module Metanorma
         end.join
       end
 
-      # debugging output of results of all preprocessing,
-      # including include files concatenation and Lutaml/Liquid processing
+      # debugging output of results of all preprocessing, including include
+      # files concatenation and Lutaml/Liquid processing.
+      #
+      # Skipped for docfile-less (string/stdin) input: the target would
+      # degenerate to a single CWD-relative "./metanorma.asciidoc.log.txt" that
+      # the thousands of collection sub-compiles all truncate-rewrite (so it
+      # carries no useful diagnostics anyway). And a diagnostic write must never
+      # abort the build, so a write failure degrades to a warning rather than
+      # propagating out of the preprocessor. metanorma/metanorma-standoc#1209
       def log(doc, text)
-        source = doc.attr("docfile") || "metanorma"
+        source = doc.attr("docfile") or return
         dirname  = File.dirname(source)
         basename = File.basename(source, ".*")
         fname = File.join(dirname, "#{basename}.asciidoc.log.txt")
-        File.open(fname, "w:UTF-8") do |f|
-          f.write(text.join("\n"))
-        end
+        File.open(fname, "w:UTF-8") { |f| f.write(text.join("\n")) }
+      rescue SystemCallError => e
+        warn "metanorma: could not write preprocessing log #{fname}: #{e.message}"
       end
     end
 
