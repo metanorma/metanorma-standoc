@@ -1571,6 +1571,21 @@ RSpec.describe Metanorma::Standoc do
     expect(log).to be_equivalent_to(adoc.strip)
     FileUtils.rm_rf("spec/assets/a1.asciidoc.log.txt")
   end
+
+  # metanorma/metanorma-standoc#1209: a docfile-less (string/stdin) compile must
+  # not write a CWD-relative preprocessing log, and a diagnostic write must never
+  # raise out of the preprocessor. Thousands of collection sub-compiles would
+  # otherwise truncate-rewrite the same "./metanorma.asciidoc.log.txt", and a
+  # single failed write there aborted whole builds.
+  it "skips the preprocessing log for docfile-less input" do
+    FileUtils.rm_f("metanorma.asciidoc.log.txt")
+    preprocessor = Metanorma::Standoc::NamedEscapePreprocessor.new
+    doc = Asciidoctor::Document.new([])
+    expect { preprocessor.log(doc, %w(one two)) }.not_to raise_error
+    expect(File.exist?("metanorma.asciidoc.log.txt")).to be false
+  ensure
+    FileUtils.rm_f("metanorma.asciidoc.log.txt")
+  end
   private
 
   def mock_org_abbrevs
