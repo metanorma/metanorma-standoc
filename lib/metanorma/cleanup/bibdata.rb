@@ -198,15 +198,23 @@ module Metanorma
         XML
       end
 
-      def published_base?(stage, _xmldoc)
+      def published_base?(stage, xmldoc)
         if @stage_published
           @stage_published == "true"
-        else published?(stage, _xmldoc)
+        else !draft_stage?(stage, xmldoc)
         end
       end
 
+      # Is the stage a draft (unpublished) stage? Overridable seam for
+      # flavours whose stage repertoires are not the binary
+      # published/unpublished; the :docstage-published: document
+      # attribute (@stage_published, above) trumps it either way.
+      def draft_stage?(stage, xmldoc)
+        !published?(stage, xmldoc)
+      end
+
       def published?(stage, _xmldoc)
-        stage.casecmp("published").zero?
+        stage.to_s.casecmp("published").zero?
       end
 
       # allows us to deal with doc relation localities,

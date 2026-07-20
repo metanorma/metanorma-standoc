@@ -111,7 +111,8 @@ module Metanorma
       $xreftext = {}
 
       attr_reader :bibdb, :lang, :script, :locale, :relaton_log, :libdir, :backend,
-                  :novalid, :local_log, :output_dir, :filename, :files_to_delete
+                  :novalid, :local_log, :output_dir, :filename, :files_to_delete,
+                  :docstage_valid
 
       def initialize(backend, opts)
         doc = opts&.dig(:document)

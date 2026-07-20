@@ -27,6 +27,7 @@ module Metanorma
         @document_scheme = document_scheme(node)
         @default_doctype = "standard"
         @stage_published = node.attr("docstage-published")
+        @docstage_valid = node.attr("docstage-valid")&.split(/,\s*/)
         @metadata_attrs = metadata_attrs(node)
       end
 
