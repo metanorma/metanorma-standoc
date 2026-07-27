@@ -159,6 +159,23 @@ RSpec.describe Metanorma::Standoc do
       .to be_xml_equivalent_to output
   end
 
+  it "does not emit stray whitespace around a sourcecode name with inline "\
+     "markup (metanorma-pdfa#67)" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      .Title with `A`
+      [source,xml]
+      ----
+      <P>
+      ----
+    INPUT
+    out = Asciidoctor.convert(input, *OPTIONS)
+    expect(out).to match(%r{<name[^>]*>Title with <tt>A</tt></name><body>})
+    expect(out).not_to match(%r{<sourcecode[^>]*>\s+<name})
+    expect(out).not_to match(%r{</name>\s+<body>})
+  end
+
   it "processes markup in sourcecode" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
