@@ -174,7 +174,12 @@ module Metanorma
       def metadata_keywords(node, xml)
         node.attr("keywords") or return
         node.attr("keywords").split(/,\s*/).each do |kw|
-          add_noko_elem(xml, "keyword", kw)
+          kw.empty? and next
+          # keyword content is structured per the grammar: an uncontrolled
+          # keyword is a vocab entry, not bare text
+          xml.keyword do |k|
+            add_noko_elem(k, "vocab", kw)
+          end
         end
       end
 

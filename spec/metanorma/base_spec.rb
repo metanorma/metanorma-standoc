@@ -542,9 +542,9 @@ RSpec.describe Metanorma::Standoc do
            </relation>
            <classification type="a">b</classification>
            <classification type="default">c</classification>
-           <keyword>a</keyword>
-           <keyword>b</keyword>
-           <keyword>c</keyword>
+           <keyword><vocab>a</vocab></keyword>
+           <keyword><vocab>b</vocab></keyword>
+           <keyword><vocab>c</vocab></keyword>
            <ext>
              <doctype>standard</doctype>
              <flavor>standoc</flavor>

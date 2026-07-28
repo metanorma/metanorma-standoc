@@ -58,7 +58,9 @@ module Metanorma
             ret += span_to_docid(s, "classification")
           end
           spans[:keyword]&.each do |s|
-            ret += span_to_docid(s, "keyword")
+            # keyword content is structured per the grammar: an uncontrolled
+            # keyword is a vocab entry, not bare text
+            ret += "<keyword><vocab>#{s[:val]}</vocab></keyword>"
           end
           spans[:image]&.each do |s|
             ret += "<depiction>#{s[:val]}</depiction>"

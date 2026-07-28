@@ -1025,8 +1025,8 @@ RSpec.describe Metanorma::Standoc do
                <classification>A</classification>
                <classification type="B">C</classification>
                <classification>D</classification>
-               <keyword>key word</keyword>
-               <keyword>word key</keyword>
+               <keyword><vocab>key word</vocab></keyword>
+               <keyword><vocab>word key</vocab></keyword>
                <depiction>
                   <image src="spec/examples/rice_images/rice_image1.png" mimetype="image/png" height="auto" width="auto" filename="spec/examples/rice_images/rice_image1.png"/>
                </depiction>
