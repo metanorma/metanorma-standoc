@@ -34,6 +34,26 @@ module Metanorma
           bib.children = new.children.to_xml
         else bib << new.children.to_xml
         end
+        bibitem_reorder_elems(bib)
+      end
+
+      # canonical element order of BibliographicItem per biblio.rnc
+      BIBITEM_ELEM_ORDER =
+        %w(fetched formattedref title uri docidentifier docnumber date
+           contributor edition version note language locale script abstract
+           status copyright relation series medium place price extent size
+           accesslocation license classification keyword validity depiction)
+          .freeze
+
+      # the spans-derived fragment is appended after any elements already on
+      # the bibitem (e.g. formattedref, docnumber, date), which violates the
+      # ordered relaton content model; restore grammar order, stably
+      def bibitem_reorder_elems(bib)
+        bib.element_children
+          .sort_by
+          .with_index do |e, i|
+            [BIBITEM_ELEM_ORDER.index(e.name) || BIBITEM_ELEM_ORDER.size, i]
+          end.each { |e| bib << e }
       end
 
       def merge_bibitem_from_formattedref_span_attrs(bib, new)
