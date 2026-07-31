@@ -58,7 +58,7 @@ module Metanorma
             pronunciation|grammar|term|terms|termnote|termexample|source|
             origin|termref|modification)>)}x, "\\1\n")
           .gsub(%r{(<(title|name))}, "\n\\1")
-          .gsub(%r{(<sourcecode[^<>]*>)\s+(<name[^<>]*>[^<]+</name>)\s+},
+          .gsub(%r{(<sourcecode[^<>]*>)\s+(<name[^<>]*>.*?</name>)\s+}m,
                 "\\1\\2")
       end
 
