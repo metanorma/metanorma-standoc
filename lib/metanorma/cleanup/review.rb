@@ -35,6 +35,11 @@ module Metanorma
               when "ol", "ul" then node.at(".//p | .//name") || node.at("./li")
               when "dl" then node.at(".//p | .//name") || node.at("./dt | ./dd")
               when "table" then node.at(".//td[text()] | .//th[text()]")
+              # terms and their children have no legal place for a loose
+              # paragraph, so the bookmark must land inside existing content
+              when "term", "definition", "verbal-definition", "preferred",
+                "admitted", "deprecates", "related", "termnote", "termexample"
+                node.at(".//p | .//name")
               end or return nil
         first_non_stem_text(ret)
       end

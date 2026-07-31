@@ -704,6 +704,33 @@ RSpec.describe Metanorma::Standoc do
       .to be_xml_equivalent_to output
   end
 
+  it "anchors annotations within terms without fabricating paragraphs" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Terms and Definitions
+
+      === paddy
+
+      rice retaining its husk after threshing
+
+      [.source]
+      <<ISO7301,clause=3.1>>
+
+      [reviewer=ISO]
+      ****
+      Note to the term
+      ****
+    INPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    term = xml.at("//xmlns:term")
+    expect(term.xpath("./xmlns:p")).to be_empty
+    bookmark = term.at(".//xmlns:definition//xmlns:p//xmlns:bookmark")
+    expect(bookmark).not_to be_nil
+    annotation = xml.at("//xmlns:annotation")
+    expect(annotation["from"]).to eq bookmark["anchor"]
+  end
+
   it "processes notes" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
