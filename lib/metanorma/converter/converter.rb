@@ -54,6 +54,12 @@ module Metanorma
         preprocessor Metanorma::Standoc::NamedEscapePreprocessor
         inline_macro Metanorma::Standoc::PreferredTermInlineMacro
         inline_macro Metanorma::Standoc::DateInlineMacro
+        # PassFormat must run before Span (and the other bracketed inline macros
+        # below) so that a nested pass/pass-format passthrough is resolved to a
+        # bracket-free placeholder before Span delimits its own [...]; otherwise
+        # Span stops at the inner passthrough's ] and over-captures. See
+        # metanorma-standoc#1221.
+        inline_macro Metanorma::Standoc::PassFormatInlineMacro
         inline_macro Metanorma::Standoc::SpanInlineMacro
         inline_macro Metanorma::Standoc::AltTermInlineMacro
         inline_macro Metanorma::Standoc::AdmittedTermInlineMacro
@@ -79,7 +85,6 @@ module Metanorma
         inline_macro Metanorma::Standoc::FormSelectMacro
         inline_macro Metanorma::Standoc::FormOptionMacro
         inline_macro Metanorma::Standoc::ToCInlineMacro
-        inline_macro Metanorma::Standoc::PassFormatInlineMacro
         inline_macro Metanorma::Standoc::StdLinkInlineMacro
         inline_macro Metanorma::Standoc::NumberInlineMacro
         inline_macro Metanorma::Standoc::TrStyleInlineMacro

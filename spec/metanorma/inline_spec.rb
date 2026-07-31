@@ -1033,6 +1033,25 @@ RSpec.describe Metanorma::Standoc do
       .to be_xml_equivalent_to output
   end
 
+  it "resolves a passthrough nested inside a span without over-capturing" do
+    # metanorma-standoc#1221: PassFormat runs before Span, so the span
+    # delimits its own brackets correctly and keeps straight quotes.
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      A span:pdf-operator[pass-format:straightquotes["hi"]] tail.
+    INPUT
+    output = <<~OUTPUT
+       #{BLANK_HDR}
+      <sections>
+      <p id='_'>A <span class="pdf-operator">"hi"</span> tail.</p>
+      </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
+  end
+
   it "processes Metanorma XML inline pass" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
