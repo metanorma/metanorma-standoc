@@ -160,12 +160,19 @@ module Metanorma
         uri
       end
 
+      # empty-string dimensions (image::x.png["","",""]) must fall back to
+      # "auto": ImageSize admits only numbers, percentages, or "auto"
+      def image_dim_attr(node, key)
+        ret = node.attr(key)
+        ret.nil? || ret.empty? ? "auto" : ret
+      end
+
       def image_attributes1(node, uri, sourceuri, type, altmedia)
         /^data:/.match?(sourceuri) and sourceuri = nil
         attr_code(altmedia_id_attr(node, altmedia)
           .merge(src: uri, mimetype: type,
-                 height: node.attr("height") || "auto",
-                 width: node.attr("width") || "auto",
+                 height: image_dim_attr(node, "height"),
+                 width: image_dim_attr(node, "width"),
                  filename: node.attr("filename") || sourceuri,
                  title: node.attr("titleattr"),
                  media: node.attr("media"), altmedia: altmedia,
