@@ -1018,6 +1018,18 @@ RSpec.describe Metanorma::Standoc do
       .to be_xml_equivalent_to output
   end
 
+  it "defaults empty image dimensions to auto" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      image::spec/examples/rice_images/rice_image1.png["","",""]
+    INPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    image = xml.at("//xmlns:image")
+    expect(image["height"]).to eq "auto"
+    expect(image["width"]).to eq "auto"
+  end
+
   it "does not create subfigures if there is only one nested figure" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
