@@ -1,10 +1,13 @@
 module Metanorma
   module Standoc
     module Index
+      # normalize-space(.) rather than normalize-space(text()): index terms
+      # wrapped entirely in formatting (<em>a priori</em>, stem) have no
+      # direct text nodes but are not empty
       EMPTY_INDEX_XPATH =
-        "//index[not(.//primary[normalize-space(text())]) " \
-        "or .//secondary[. and not(normalize-space(text()))] " \
-        "or .//tertiary[. and not(normalize-space(text()))]]".freeze
+        "//index[not(.//primary[normalize-space(.)]) " \
+        "or .//secondary[. and not(normalize-space(.))] " \
+        "or .//tertiary[. and not(normalize-space(.))]]".freeze
 
       def index_cleanup(xmldoc)
         para_index_cleanup(xmldoc)

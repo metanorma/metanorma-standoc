@@ -1964,6 +1964,22 @@ RSpec.describe Metanorma::Standoc, type: :validation do
     expect(out).to include("(( ))")
   end
 
+  it "does not trigger empty-index error on index terms wrapped in formatting" do
+    FileUtils.rm_f "test.err.html"
+    input = <<~INPUT
+      #{VALIDATING_BLANK_HDR}
+
+      == Clause
+
+      distribution(((distribution,_a priori_))) in running text,
+      and an italics-only term a priori(((_a priori_))).
+    INPUT
+    out = Asciidoctor.convert(input, *OPTIONS)
+    expect(out).to include("<index")
+    f = File.exist?("test.err.html") ? File.read("test.err.html") : ""
+    expect(f).not_to include("Empty index term")
+  end
+
   it "validates MathML in <stem> against the embedded MathML grammar (basicdoc-models#35)" do
     FileUtils.rm_f "test.err.html"
     input = <<~INPUT
