@@ -476,7 +476,7 @@ RSpec.describe Metanorma::Standoc do
              <title id="_">Clause</title>
              <p id="_">
                <concept>
-                 <strong>term <tt>First Designation</tt> not resolved via ID <tt>First-Designation</tt></strong>
+                 <errormsg>term <tt>First Designation</tt> not resolved via ID <tt>First-Designation</tt></errormsg>
                </concept>
              </p>
              <p id="_">

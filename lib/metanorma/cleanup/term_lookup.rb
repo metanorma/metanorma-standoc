@@ -130,7 +130,9 @@ module Metanorma
       end
 
       def remove_missing_ref_term(node, target, type)
-        node.name = "strong"
+        # errormsg is the grammar's generator-only error carrier within
+        # concept (metanorma-model-iso#144); rendered in boldface downstream
+        node.name = "errormsg"
         node.xpath("../xrefrender | ../xref").each(&:remove)
         display = node.at("../renderterm")&.remove&.children
         display = [] if display.nil? || display.to_xml == node.text

@@ -35,145 +35,145 @@ RSpec.describe Metanorma::Standoc do
           <title id="_">Foreword</title>
           <p id='_'>
           <concept>
-          <strong>
+          <errormsg>
           term
           <tt>clause1</tt>
           not resolved via ID
           <tt>clause1</tt>
-        </strong>
+        </errormsg>
           </concept>
           <concept>
-          <strong>
+          <errormsg>
             term
             <tt>clause two</tt>
              not resolved via ID
             <tt>clause-two</tt>
-          </strong>
+          </errormsg>
         </concept>
         <concept>
-          <strong>
+          <errormsg>
             term
             <tt>clause two</tt>
              not resolved via ID
             <tt>clause-two</tt>
-          </strong>
+          </errormsg>
         </concept>
           <concept>
-          <strong>
+          <errormsg>
           term
           <tt>clause1</tt>
           not resolved via ID
           <tt>clause1</tt>
-        </strong>
+        </errormsg>
           </concept>
           <concept>
-          <strong>
+          <errormsg>
           term
           <tt>clause1</tt>, display <tt>w[o]rd</tt>
           not resolved via ID
           <tt>clause1</tt>
-          </strong>
+          </errormsg>
           </concept>
           <concept>
-          <strong>
+          <errormsg>
           term
           <tt>clause1</tt>, display <tt>w[o]rd</tt>
           not resolved via ID
           <tt>clause1</tt>
-          </strong>
+          </errormsg>
           </concept>
           <concept>
-          <strong>
+          <errormsg>
           term
           <tt>clause1</tt>, display <tt>w[o]rd</tt>
           not resolved via ID
           <tt>clause1</tt>
-        </strong>
+        </errormsg>
           </concept>
              <concept>
-                <strong>
+                <errormsg>
                   term
                   <tt>blah</tt>
                    not resolved via ID
                   <tt>blah</tt>
-                </strong>
+                </errormsg>
               </concept>
               <concept>
-                <strong>
+                <errormsg>
                   term
                   <tt>blah</tt>
                    not resolved via ID
                   <tt>blah</tt>
-                </strong>
+                </errormsg>
               </concept>
               <concept>
-                <strong>
-                  term
-                  <tt>blah</tt>
-                  , display
-                  <tt>word</tt>
-                   not resolved via ID
-                  <tt>blah</tt>
-                </strong>
-              </concept>
-              <concept>
-                <strong>
+                <errormsg>
                   term
                   <tt>blah</tt>
                   , display
                   <tt>word</tt>
                    not resolved via ID
                   <tt>blah</tt>
-                </strong>
+                </errormsg>
               </concept>
               <concept>
-                <strong>
+                <errormsg>
+                  term
+                  <tt>blah</tt>
+                  , display
+                  <tt>word</tt>
+                   not resolved via ID
+                  <tt>blah</tt>
+                </errormsg>
+              </concept>
+              <concept>
+                <errormsg>
                   term
                   <tt>blah</tt>
                   , display
                   <tt>term</tt>
                    not resolved via ID
                   <tt>blah</tt>
-                </strong>
+                </errormsg>
               </concept>
               <concept>
-                 <strong>
+                 <errormsg>
                    term
                    <tt>blah</tt>
                    , display
                    <tt>term</tt>
                     not resolved via ID
                    <tt>blah</tt>
-                 </strong>
+                 </errormsg>
                </concept>
                <concept ital='false' bold='false' ref='false' linkmention='false' linkref='false'>
-                 <strong>
+                 <errormsg>
                    term
                    <tt>blah</tt>
                    , display
                    <tt>term</tt>
                     not resolved via ID
                    <tt>blah</tt>
-                 </strong>
+                 </errormsg>
                </concept>
                <concept ital='true' bold='true' ref='true' linkmention='true' linkref='true'>
-                 <strong>
+                 <errormsg>
                    term
                    <tt>blah</tt>
                    , display
                    <tt>term</tt>
                     not resolved via ID
                    <tt>blah</tt>
-                 </strong>
+                 </errormsg>
                </concept>
                </p>
       <related type='contrast'>
-        <strong>
+        <errormsg>
           term
           <tt>blah</tt>
            not resolved via ID
           <tt>blah</tt>
-        </strong>
+        </errormsg>
       </related>
         </foreword>
       </preface>
@@ -1063,12 +1063,12 @@ RSpec.describe Metanorma::Standoc do
                   <term id="_" anchor="name-check">
                     <preferred><expression><name>name check</name></expression></preferred>
           <related type='equivalent'>
-            <strong>
+            <errormsg>
               term
               <tt>missing</tt>
                not resolved via ID
               <tt>missing</tt>
-            </strong>
+            </errormsg>
           </related>
                     <definition id="_"><verbal-definition id="_">
                       <p id='_'>paragraph</p>
@@ -1091,12 +1091,12 @@ RSpec.describe Metanorma::Standoc do
                       <p id='_'>
                         Moreover,
                         <concept>
-                          <strong>
+                          <errormsg>
                             term
                             <tt>missing</tt>
                              not resolved via ID
                             <tt>missing</tt>
-                          </strong>
+                          </errormsg>
                         </concept>
                          is a term
                       </p>
@@ -1119,12 +1119,12 @@ RSpec.describe Metanorma::Standoc do
                       <p id='_'>
                         Moreover,
                         <concept>
-                          <strong>
+                          <errormsg>
                             term
                             <tt>missing</tt>
                              not resolved via ID
                             <tt>missing</tt>
-                          </strong>
+                          </errormsg>
                         </concept>
                          is a term
                       </p>
