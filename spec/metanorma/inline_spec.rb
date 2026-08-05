@@ -1052,6 +1052,29 @@ RSpec.describe Metanorma::Standoc do
       .to be_xml_equivalent_to output
   end
 
+  it "links bare URLs inside a span macro without truncating its content" do
+    # relaton-bib#122 / metanorma-pdfa#53: LinkProtect rewrote every bare URL to
+    # link:++URL++[], and that injected empty [] closed a span:note.display[...]
+    # macro at its first occurrence, dropping the rest of the span's content and
+    # leaking a stray "]". span: content is now exempt from that rewriting (as
+    # span:uri already was), so Asciidoctor's own autolink handles the URLs and
+    # the span keeps its full text.
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      A span:note.display[note with https://pdfa.org/ and https://example.org/ end.] B
+    INPUT
+    output = <<~OUTPUT
+       #{BLANK_HDR}
+      <sections>
+      <p id='_'>A <span class="note.display">note with <link target="https://pdfa.org/"/> and <link target="https://example.org/"/> end.</span> B</p>
+      </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
+  end
+
   it "processes Metanorma XML inline pass" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
