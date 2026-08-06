@@ -22,7 +22,11 @@ module Metanorma
           \\b(?<![-\\\\])                        # word-separator, no hyphen or backslash
           (?:                                    # don't capture these!
             (?:#{PASS_INLINE_MACROS}):[^\\s\\[]* | # macro name, :, second key. OR:
-            span:uri \\b [^\\s\\[]*              # span:uri, third key
+            span: [^\\s\\[]*                     # any span: macro (e.g. span:uri,
+                                                # span:note.display): protect its
+                                                # bracketed content from URL/link
+                                                # rewriting so an injected link:[]
+                                                # can't close the span early
           )
           \\[.*?(?<!\\\\)\\]                     # [ ... ] not preceded by \\
         )
@@ -129,7 +133,11 @@ module Metanorma
           \\b(?<![-\\\\])                        # word-separator, no hyphen or backslash
           (?:                                    # don't capture these!
             (?:#{PASS_INLINE_MACROS}):[^\\s\\[]* | # macro name, :, second key. OR:
-            span:uri \\b [^\\s\\[]*              # span:uri, third key
+            span: [^\\s\\[]*                     # any span: macro (e.g. span:uri,
+                                                # span:note.display): protect its
+                                                # bracketed content from URL/link
+                                                # rewriting so an injected link:[]
+                                                # can't close the span early
           )
           \\[.*?(?<!\\\\)\\]                     # [ ... ] not preceded by \\
         )
