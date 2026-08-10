@@ -216,7 +216,9 @@ module Metanorma
 
       def lang_variant_to_node(variant, node)
         node.children = variant.children
-        node["lang"] = variant["lang"]
+        # LocalizedStringAttributes convention: language, not lang
+        # (metanorma-model-iso#155)
+        node["language"] = variant["lang"]
         node.delete("script")
         variant["script"] and node["script"] = variant["script"]
       end

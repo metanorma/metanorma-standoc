@@ -120,28 +120,28 @@ RSpec.describe Metanorma::Standoc do
                       <em>What</em>
                    </span>
                 </p>
-                <p id="_" lang="en">Hello</p>
-                <p id="_" lang="en">Hello</p>
-                <p id="_" lang="fr">Bonjour</p>
+                <p id="_" language="en">Hello</p>
+                <p id="_" language="en">Hello</p>
+                <p id="_" language="fr">Bonjour</p>
                 <p id="_">
                    <span lang="en">Hello</span>
                    <span lang="fr">Bonjour</span>
                    A
                 </p>
-                <p id="_" lang="en">Hello</p>
-                <p id="_" lang="fr" script="Latn">Bonjour</p>
-                <p id="_" lang="de">Guten Tag</p>
-                <p id="_" lang="eo">Bonan tagon</p>
-                <p id="_" lang="el">Καλημέρα</p>
+                <p id="_" language="en">Hello</p>
+                <p id="_" language="fr" script="Latn">Bonjour</p>
+                <p id="_" language="de">Guten Tag</p>
+                <p id="_" language="eo">Bonan tagon</p>
+                <p id="_" language="el">Καλημέρα</p>
              </foreword>
           </preface>
           <sections>
              <clause id="_" inline-header="false" obligation="normative">
-                <title id="_" lang="en">Hello</title>
+                <title id="_" language="en">Hello</title>
              </clause>
              <clause id="_" inline-header="false" obligation="normative">
-                <title id="_" lang="en">Hello</title>
-                <title id="_" lang="fr">Bonjour</title>
+                <title id="_" language="en">Hello</title>
+                <title id="_" language="fr">Bonjour</title>
              </clause>
              <clause id="_" inline-header="false" obligation="normative">
                 <title id="_">
@@ -151,8 +151,8 @@ RSpec.describe Metanorma::Standoc do
                 </title>
              </clause>
              <clause id="_" inline-header="false" obligation="normative">
-                <title id="_" lang="en">English</title>
-                <title id="_" lang="fr" script="Latn">Français</title>
+                <title id="_" language="en">English</title>
+                <title id="_" language="fr" script="Latn">Français</title>
                 <p id="_">
                    this
                    <span lang="en">English</span>
@@ -167,6 +167,27 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
       .to be_xml_equivalent_to output
+  end
+
+  it "processes lang macros in term designations" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      == Terms and definitions
+
+      === lang:en[paddy] lang:fr[riz]
+
+      Definition
+    INPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.remove_namespaces!
+    names = xml.xpath("//term/preferred/expression/name")
+    expect(names.size).to eq 2
+    expect(names[0]["language"]).to eq "en"
+    expect(names[0].text).to eq "paddy"
+    expect(names[1]["language"]).to eq "fr"
+    expect(names[1].text).to eq "riz"
+    expect(names[0]["lang"]).to be_nil
   end
 
   it "processes the number format macros" do
