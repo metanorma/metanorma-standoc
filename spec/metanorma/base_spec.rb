@@ -1586,6 +1586,31 @@ RSpec.describe Metanorma::Standoc do
   ensure
     FileUtils.rm_f("metanorma.asciidoc.log.txt")
   end
+
+  # metanorma/metanorma#298
+  it "emits presentation metadata for index-case-sensitive" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :index-case-sensitive:
+
+      == Clause
+    INPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+      .remove_namespaces!
+    expect(xml.at("//metanorma-extension/presentation-metadata/" \
+                  "index-case-sensitive")&.text).to eq "true"
+    xml = Nokogiri::XML(Asciidoctor
+      .convert(ASCIIDOC_BLANK_HDR + "\n== Clause", *OPTIONS))
+      .remove_namespaces!
+    expect(xml.at("//metanorma-extension/presentation-metadata/" \
+                  "index-case-sensitive")).to be_nil
+  end
+
   private
 
   def mock_org_abbrevs

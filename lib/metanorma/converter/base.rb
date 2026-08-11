@@ -171,13 +171,23 @@ module Metanorma
             end
           end
         end.join
-        out + document_scheme_metadata(node)
+        out + document_scheme_metadata(node) + index_metadata(node)
       end
 
       def document_scheme_metadata(node)
         a = document_scheme(node) or return ""
         "<presentation-metadata><document-scheme>" \
           "#{a}</document-scheme></presentation-metadata>"
+      end
+
+      # opt out of index case folding: identifier-heavy documents, where
+      # Activity and activity are distinct case-bearing names
+      # (metanorma/metanorma#298)
+      def index_metadata(node)
+        a = node.attr("index-case-sensitive")
+        a.nil? || a == "false" and return ""
+        "<presentation-metadata><index-case-sensitive>" \
+          "true</index-case-sensitive></presentation-metadata>"
       end
 
       def document_scheme(node)
