@@ -1,5 +1,13 @@
 # frozen_string_literal: true
 
+# Forward-declare parent namespace so this file is safe to require
+# directly (without first requiring metanorma/standoc.rb). Re-opening
+# an existing module is idempotent.
+module Metanorma
+  module Standoc
+  end
+end
+
 module Metanorma
   module Standoc::Document
     autoload :AnnotationContainer,
