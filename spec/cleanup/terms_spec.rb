@@ -1395,6 +1395,64 @@ RSpec.describe Metanorma::Standoc do
       .to be_xml_equivalent_to output
   end
 
+  # metanorma/metanorma-standoc#1237: term-adjacent index paragraphs must fold
+  # into the preceding designation's name (which admits index), not attach as
+  # bare index children of the designation or term.
+  it "folds term-adjacent index entries into designation names" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR.sub(":nodoc:\n", ":nodoc:\n:index-terms:\n")}
+
+      == Terms and definitions
+
+      === grandeur, f
+      (((grandeur)))
+      (((quantity)))
+
+      property of a phenomenon.
+
+      === mesurande, m
+      (((measurand)))
+
+      quantity intended to be measured.
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+        <sections>
+          <terms id="_" obligation="normative">
+            <title id="_">Terms and definitions</title>
+            <p id="_">For the purposes of this document, the following terms and definitions apply.</p>
+            <term id="_" anchor="term-grandeur_-f">
+              <preferred>
+                <expression>
+                  <name>grandeur, f<index><primary>grandeur</primary></index><index><primary>quantity</primary></index><index><primary>grandeur, f</primary></index></name>
+                </expression>
+              </preferred>
+              <definition id="_">
+                <verbal-definition id="_">
+                  <p id="_">property of a phenomenon.</p>
+                </verbal-definition>
+              </definition>
+            </term>
+            <term id="_" anchor="term-mesurande_-m">
+              <preferred>
+                <expression>
+                  <name>mesurande, m<index><primary>measurand</primary></index><index><primary>mesurande, m</primary></index></name>
+                </expression>
+              </preferred>
+              <definition id="_">
+                <verbal-definition id="_">
+                  <p id="_">quantity intended to be measured.</p>
+                </verbal-definition>
+              </definition>
+            </term>
+          </terms>
+        </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
+  end
+
   it "removes identical preferred or admitted designation in a term" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR.sub(":nodoc:\n", ":nodoc:\n:index-terms:\n")}

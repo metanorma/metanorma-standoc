@@ -65,6 +65,48 @@ module Metanorma
         end
       end
 
+      # Inside a term, index elements must live within a designation's name,
+      # which admits (PureTextElement | index | index-xref)*; the term model
+      # does not admit them as bare children of a designation or the term.
+      # term_index_relocate moves any such misplaced index there afterwards.
+      # metanorma/metanorma-standoc#1237
+      def term_designation_name(elem)
+        elem&.at("./expression/name | ./letter-symbol/name")
+      end
+
+      DESIGNATIONS = %w(preferred admitted deprecates).freeze
+
+      def designation?(elem)
+        DESIGNATIONS.include?(elem&.name)
+      end
+
+      # Relocate index / index-xref elements that ended up as bare children of a
+      # designation or a term -- positions the term model does not admit -- into
+      # a designation's name, which admits index / index-xref. This catches
+      # designation-adjacent index paragraphs whose designation was still
+      # macro-wrapped (e.g. after alt:[]) when para_index_cleanup ran, so it did
+      # not recognise the designation. metanorma/metanorma-standoc#1237
+      def term_index_relocate(xmldoc)
+        xmldoc.xpath("//#{DESIGNATIONS.join(' | //')}").each do |d|
+          name = term_designation_name(d) or next
+          d.xpath("./index | ./index-xref").each { |i| name << i.remove }
+        end
+        xmldoc.xpath("//term").each do |term|
+          term.xpath("./index | ./index-xref").each do |i|
+            d = preceding_designation(i) ||
+              term.at("./#{DESIGNATIONS.join(' | ./')}")
+            name = term_designation_name(d) or next
+            name << i.remove
+          end
+        end
+      end
+
+      def preceding_designation(node)
+        el = node.previous_element
+        el = el.previous_element until el.nil? || designation?(el)
+        el
+      end
+
       def term_index_cleanup(xmldoc)
         @index_terms or return
         xmldoc.xpath("//preferred").each do |p|
@@ -79,9 +121,15 @@ module Metanorma
 
       def index_cleanup1(term, fieldofappl)
         term or return
-        idx = term.children.dup
-        fieldofappl.empty? or idx << ", &#x3c;#{fieldofappl}&#x3e;"
-        term << "<index><primary>#{idx.to_xml}</primary></index>"
+        # The auto-index primary is the designation text; existing index /
+        # index-xref children (e.g. folded in from term-adjacent index
+        # paragraphs, metanorma/metanorma-standoc#1237) are themselves index
+        # entries and must not be nested inside this new primary.
+        idx = term.children
+          .reject { |c| %w(index index-xref).include?(c.name) }
+          .map(&:to_xml).join
+        fieldofappl.empty? or idx += ", &#x3c;#{fieldofappl}&#x3e;"
+        term << "<index><primary>#{idx}</primary></index>"
       end
     end
   end
