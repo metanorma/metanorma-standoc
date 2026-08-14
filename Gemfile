@@ -12,4 +12,12 @@ gemspec
 # https://github.com/metanorma/metanorma-plugin-lutaml/issues/292
 gem "lutaml", "< 0.11"
 
+# TEMPORARY: cross-PR branch pins so CI can resolve the in-flight pubid-2 /
+# relaton-bib 2.2 / metanorma-document 0.5 chain. Revert each to its
+# released line once the corresponding PR merges.
+gem "metanorma-document", github: "metanorma/metanorma-document", branch: "feat/model-validation-l1-declarations"
+gem "isodoc", github: "metanorma/isodoc", branch: "rt-pubid-2-migration"
+gem "relaton-bib", "~> 2.2.0.pre.alpha.1"
+gem "pubid", github: "pubid/pubid", branch: "main"
+
 eval_gemfile("Gemfile.devel") rescue nil
