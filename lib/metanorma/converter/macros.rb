@@ -61,8 +61,14 @@ module Metanorma
         ::Asciidoctor::PreprocessorReader.new document, lines
       end
 
+      # Only recognise HTML named entity references, whose name is
+      # `[A-Za-z][A-Za-z0-9]*`. The character class must exclude whitespace and
+      # `<`, otherwise a stray unspaced `&X` swallows text up to the next `;` on
+      # the line -- e.g. the `;` connective separator inside an `and!`/`to!`
+      # crossreference range -- corrupting the `<<...>>` and dropping the xref.
+      # metanorma/isodoc#839
       def convert(line, esc)
-        line.split(/(&[A-Za-z][^&;]*;)/).map do |s|
+        line.split(/(&[A-Za-z][A-Za-z0-9]*;)/).map do |s|
           /^&[A-Za-z]/.match?(s) ? esc.encode(esc.decode(s), :hexadecimal) : s
         end.join
       end

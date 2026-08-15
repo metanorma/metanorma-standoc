@@ -518,6 +518,30 @@ RSpec.describe Metanorma::Standoc do
       .to be_xml_equivalent_to(output)
   end
 
+  # metanorma/isodoc#839: an unspaced `&` upstream of a range crossreference
+  # must not be mistaken for a named entity that swallows the `;` connective
+  # separator and corrupts the `<<...>>`.
+  it "processes a range crossreference preceded by an unspaced ampersand" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      == Section
+
+      OH&S in <<ref1;and!ref2;and!ref3>> is fine.
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+       <sections>
+       <clause id="_" inline-header="false" obligation="normative">
+       <title id="_">Section</title>
+       <p id="_">OH&#x26;S in <xref target="ref1"><location target="ref1" connective="and"/><location target="ref2" connective="and"/><location target="ref3" connective="and"/></xref> is fine.</p>
+       </clause>
+       </sections>
+       </metanorma>
+    OUTPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to(output)
+  end
+
   it "processes bibliographic anchors" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
