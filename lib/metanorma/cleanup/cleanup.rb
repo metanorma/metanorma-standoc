@@ -181,6 +181,7 @@ module Metanorma
         relaton_iev_cleanup(xmldoc)
         relaton_log_cleanup(xmldoc)
         element_name_cleanup(xmldoc)
+        term_index_relocate(xmldoc) # feeds: term_index_cleanup
         term_index_cleanup(xmldoc)
         bpart_cleanup(xmldoc)
         quotesource_cleanup(xmldoc)
