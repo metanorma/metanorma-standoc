@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <grammar ns="https://www.metanorma.org/ns/standoc" xmlns="http://relaxng.org/ns/structure/1.0">
   <include href="biblio-standoc.rng"/>
-  <include href="isodoc.rng"/>
+  <include href="standoc.rng"/>
 </grammar>
 <!-- end overrides -->

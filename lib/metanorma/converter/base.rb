@@ -69,7 +69,7 @@ module Metanorma
 
       def schema_version
         f = File.read(File.join(File.dirname(__FILE__), "..", "validate",
-                                "isodoc.rng"))
+                                "standoc.rng"))
         m = / VERSION (v\S+)/.match(f)
         m[1]
       end

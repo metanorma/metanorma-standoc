@@ -13,7 +13,7 @@ module Metanorma
         end
 
         def schema_file
-          "isodoc-compile.rng"
+          "standoc-compile.rng"
         end
 
         def schema_validate(doc, schema)
