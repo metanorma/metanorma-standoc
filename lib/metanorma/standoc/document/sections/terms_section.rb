@@ -38,6 +38,9 @@ module Metanorma
         attribute :terms,
                   Metanorma::Standoc::Document::Terms::Term,
                   collection: true
+        attribute :term_sections,
+                  "Metanorma::Standoc::Document::Sections::TermsSection",
+                  collection: true
 
         xml do
           element "terms"
@@ -52,6 +55,7 @@ module Metanorma
           map_element "p",                to: :paragraphs
           map_element "ul",               to: :unordered_lists
           map_element "term",             to: :terms
+          map_element "terms",            to: :term_sections
           map_element "fmt-annotation-start", to: :fmt_annotation_start
           map_element "fmt-annotation-end",   to: :fmt_annotation_end
         end

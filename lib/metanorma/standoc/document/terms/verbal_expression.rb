@@ -13,6 +13,9 @@ module Metanorma
                   collection: true
         attribute :dl, Metanorma::Document::Components::Lists::DefinitionList,
                   collection: true
+        attribute :formula,
+                  Metanorma::Document::Components::AncillaryBlocks::FormulaBlock,
+                  collection: true
 
         # Presentation-specific attributes
 
@@ -25,6 +28,7 @@ module Metanorma
           map_element "ol", to: :ol
           map_element "ul", to: :ul
           map_element "dl", to: :dl
+          map_element "formula", to: :formula
 
           map_attribute "semx-id", to: :semx_id
           map_attribute "original-id", to: :original_id
