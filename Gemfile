@@ -16,7 +16,8 @@ gem "lutaml", "< 0.11"
 # relaton-bib 2.2 / metanorma-document 0.5 chain. Revert each to its
 # released line once the corresponding PR merges.
 gem "metanorma-document", github: "metanorma/metanorma-document", branch: "feat/model-validation-l1-declarations"
-gem "isodoc", github: "metanorma/isodoc", branch: "rt-pubid-2-migration"
+# isodoc: relaton-cli 3.0.0.pre allowance (#824) merged after the 3.7.2 release — main until the next release
+gem "isodoc", github: "metanorma/isodoc", branch: "main"
 gem "relaton-bib", "~> 2.2.0.pre.alpha.1"
 gem "pubid", github: "pubid/pubid", branch: "main"
 

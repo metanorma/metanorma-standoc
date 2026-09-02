@@ -2,7 +2,7 @@
 
 require "spec_helper"
 require "metanorma/document"
-require "metanorma/standard_document"
+require "metanorma/standoc/document"
 
 RSpec.describe "BUGS.sts 02: TermNameElement preserves <stem> children" do
   def child_classes(element)
