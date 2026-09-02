@@ -9,6 +9,7 @@ module Metanorma
       autoload :Designation, "#{__dir__}/terms/designation"
       autoload :ExpressionDesignation, "#{__dir__}/terms/expression_designation"
       autoload :ExpressionType, "#{__dir__}/terms/expression_type"
+      autoload :FmtDeprecates, "#{__dir__}/terms/fmt_deprecates"
       autoload :GrammarGender, "#{__dir__}/terms/grammar_gender"
       autoload :GrammarInfo, "#{__dir__}/terms/grammar_info"
       autoload :GraphicalSymbolDesignation,
@@ -23,7 +24,9 @@ module Metanorma
       autoload :TermCollection, "#{__dir__}/terms/term_collection"
       autoload :TermDefinition, "#{__dir__}/terms/term_definition"
       autoload :TermExpression, "#{__dir__}/terms/term_expression"
+      autoload :TermExample, "#{__dir__}/terms/term_example"
       autoload :TermNameElement, "#{__dir__}/terms/term_name_element"
+      autoload :TermNote, "#{__dir__}/terms/term_note"
       autoload :TermSource, "#{__dir__}/terms/term_source"
       autoload :TermSourceStatus, "#{__dir__}/terms/term_source_status"
       autoload :TermSourceType, "#{__dir__}/terms/term_source_type"

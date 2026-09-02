@@ -5,6 +5,7 @@ module Metanorma
     class AnnotationContainer < Lutaml::Model::Serializable
       class Annotation < Lutaml::Model::Serializable
         attribute :id, :string
+        attribute :anchor, :string
         attribute :reviewer, :string
         attribute :from, :string
         attribute :to, :string
@@ -18,6 +19,7 @@ module Metanorma
         xml do
           element "annotation"
           map_attribute "id", to: :id
+          map_attribute "anchor", to: :anchor
           map_attribute "reviewer", to: :reviewer
           map_attribute "from", to: :from
           map_attribute "to", to: :to

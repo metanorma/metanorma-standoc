@@ -7,6 +7,7 @@ module Metanorma
       # That concept may be defined as a term within the current document, or it may
       # be defined externally.
       class Concept < Lutaml::Model::Serializable
+        attribute :bold, :boolean
         attribute :ital, :boolean
         attribute :ref, :boolean
         attribute :linkmention, :boolean
@@ -15,7 +16,9 @@ module Metanorma
         attribute :renderterm, :string
         attribute :xref, Metanorma::Document::Components::ReferenceElements::ReferenceToIdElement
         attribute :eref, Metanorma::Document::Components::ReferenceElements::ReferenceToCitationElement
-        attribute :termref, Metanorma::Standoc::Document::Refs::ReferenceToTermbase
+        attribute :erefstack, Metanorma::Document::Components::Inline::ErefStack
+        attribute :termref, Metanorma::Document::Components::Inline::TermrefElement
+        attribute :errormsg, Metanorma::Document::Components::Inline::ErrorMessage
 
         attribute :semx_id, :string
         attribute :original_id, :string
@@ -23,6 +26,7 @@ module Metanorma
         xml do
           element "concept"
           mixed_content
+          map_attribute "bold", to: :bold
           map_attribute "ital", to: :ital
           map_attribute "ref", to: :ref
           map_attribute "linkmention", to: :linkmention
@@ -31,7 +35,9 @@ module Metanorma
           map_element "renderterm", to: :renderterm
           map_element "xref", to: :xref
           map_element "eref", to: :eref
+          map_element "erefstack", to: :erefstack
           map_element "termref", to: :termref
+          map_element "errormsg", to: :errormsg
 
           map_attribute "semx-id", to: :semx_id
           map_attribute "original-id", to: :original_id

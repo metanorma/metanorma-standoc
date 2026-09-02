@@ -9,7 +9,8 @@ module Metanorma
         attribute :preferred, Metanorma::Standoc::Document::Terms::Designation
         attribute :xref, Metanorma::Document::Components::Inline::XrefElement
         attribute :eref, Metanorma::Document::Components::Inline::ErefElement
-        attribute :termref, Metanorma::Standoc::Document::Refs::ReferenceToTermbase
+        attribute :termref, Metanorma::Document::Components::Inline::TermrefElement
+        attribute :errormsg, Metanorma::Document::Components::Inline::ErrorMessage
 
         attribute :semx_id, :string
         attribute :original_id, :string
@@ -21,6 +22,7 @@ module Metanorma
           map_element "xref", to: :xref
           map_element "eref", to: :eref
           map_element "termref", to: :termref
+          map_element "errormsg", to: :errormsg
 
           map_attribute "semx-id", to: :semx_id
           map_attribute "original-id", to: :original_id

@@ -222,7 +222,8 @@ module Metanorma
 
       # Common XML element/attribute mappings for the sections container.
       def self.apply_sections_elements(mapping)
-        mapping.map_element "clause",         to: :clause
+        mapping.map_element "clause", to: :clause
+        mapping.map_element "introduction", to: :introduction
         mapping.map_element "terms",          to: :terms
         mapping.map_element "definitions",    to: :definitions
         mapping.map_element "floating-title", to: :floating_title

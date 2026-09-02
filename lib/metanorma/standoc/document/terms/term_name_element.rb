@@ -20,6 +20,7 @@ module Metanorma
           map_attribute "semx-id", to: :semx_id
           map_attribute "lang", to: :lang
           mixed_content
+          map_content to: :text
           Metanorma::Document::Components::Inline::Vocabulary::VocabularyXmlMapping
             .apply_inline_mappings(self)
         end
