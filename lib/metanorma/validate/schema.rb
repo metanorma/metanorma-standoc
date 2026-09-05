@@ -25,28 +25,38 @@ module Metanorma
           end
         end
 
-        # Force UTF-8 encoding for Java console output to fix
-        # Japanese Windows issue
-        # See: https://github.com/metanorma/mn-samples-plateau/issues/248
-        # The -Dsun.jnu.encoding parameter controls Java's native interface
-        # encoding (console I/O)
+        # Pass JVM properties explicitly on the command line instead of
+        # mutating process environment. Env vars like _JAVA_OPTIONS and
+        # JAVA_TOOL_OPTIONS make the JVM print a "Picked up ..." banner to
+        # stderr on every launch, which ruby-jing treats as a fatal error;
+        # mutating ENV is also not thread-safe. Java 24+ caps XML entity
+        # size at 100000 by default, which large documents exceed, so the
+        # jdk.xml limits must be raised here for validation to run at all.
+        # Override with METANORMA_JING_JAVA_OPTS if needed.
+        # UTF-8 console encoding fixes the Japanese Windows issue:
+        # https://github.com/metanorma/mn-samples-plateau/issues/248
+        # (-Dsun.jnu.encoding controls Java's native interface encoding,
+        # i.e. console I/O)
+        JING_JAVA_OPTS = [
+          "-Dfile.encoding=UTF-8",
+          "-Dsun.jnu.encoding=UTF-8",
+          "-Djdk.xml.maxGeneralEntitySizeLimit=10000000",
+          "-Djdk.xml.totalEntitySizeLimit=10000000",
+        ].join(" ").freeze
+
+        def jing_java_opts
+          ENV["METANORMA_JING_JAVA_OPTS"] || JING_JAVA_OPTS
+        end
+
         def schema_validate1(file, doc, schema)
           file.write(to_xml(doc))
           file.close
-          old_java_opts = ENV["_JAVA_OPTIONS"]
-          ENV["_JAVA_OPTIONS"] =
-            "-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8"
-          begin
-            errors = schema_validate_with_retry(schema, file.path)
-            warn "Syntax Valid!" if errors.none?
-            errors.each do |e|
-              @log.add("STANDOC_7",
-                       "XML Line #{'%06d' % e[:line]}:#{e[:column]}",
-                       params: [e[:message]])
-            end
-          ensure
-            # Restore original _JAVA_OPTIONS
-            ENV["_JAVA_OPTIONS"] = old_java_opts
+          errors = schema_validate_with_retry(schema, file.path)
+          warn "Syntax Valid!" if errors.none?
+          errors.each do |e|
+            @log.add("STANDOC_7",
+                     "XML Line #{'%06d' % e[:line]}:#{e[:column]}",
+                     params: [e[:message]])
           end
         end
 
@@ -69,7 +79,8 @@ module Metanorma
             # repeat_anchor_validate1 -> STANDOC_36) and IDREF is text in
             # Semantic XML (isodoc.rng). NB ruby-jing 0.0.3 polarity is inverted:
             # id_check: false is what emits -i (verified against validate_spec).
-            Jing.new(schema, encoding: "UTF-8", id_check: false).validate(file_path)
+            Jing.new(schema, java_opts: jing_java_opts, id_check: false)
+              .validate(file_path)
           rescue Jing::ExecutionError => e
             # Check if this is a "Too many open files" error
             if e.message.include?("Too many open files") && retries < max_retries
