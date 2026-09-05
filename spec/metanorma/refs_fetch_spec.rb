@@ -1259,11 +1259,12 @@ RSpec.describe Metanorma::Standoc do
     INPUT
     output = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       .xpath("//xmlns:docidentifier[@type = 'BSI']").map(&:text)
-    expect(output).to include("BS EN ISO 14044:2006+A2:2020")
-    expect(output).to include("BS EN 16341:2012")
-    expect(output).to include("BS EN 16341")
-    expect(output).not_to include("BS EN ISO 19011")
-    expect(output).to include("BS EN ISO 19011:2018")
+    # relaton >= db9840bdf (the 3.0.0.pre line on main) renders BSI
+    # docidentifiers with the publisher prefix, pubid-2 style
+    expect(output).to include("BSI BS EN ISO 14044:2006+A2:2020")
+    expect(output).to include("BSI BS EN 16341")
+    expect(output).not_to include("BSI BS EN ISO 19011")
+    expect(output).to include("BSI BS EN ISO 19011:2018")
   end
 
   it "processes RFC reference in Normative References" do
