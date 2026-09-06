@@ -2,6 +2,7 @@ require "metanorma/document"
 
 module Metanorma
   module Standoc
+    autoload :MirrorSeed, "metanorma/standoc/mirror_seed"
   end
 end
 
@@ -22,3 +23,6 @@ module Metanorma
   StandardDocument = Metanorma::Standoc::Document
   deprecate_constant :StandardDocument
 end
+
+require "metanorma/mirror"
+Metanorma::Standoc::MirrorSeed.register
