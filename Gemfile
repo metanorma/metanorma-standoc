@@ -15,7 +15,8 @@ gem "lutaml", "< 0.11"
 # TEMPORARY: cross-PR branch pins so CI can resolve the in-flight pubid-2 /
 # relaton-bib 2.2 / metanorma-document 0.5 chain. Revert each to its
 # released line once the corresponding PR merges.
-gem "metanorma-document", github: "metanorma/metanorma-document", branch: "feat/model-validation-l1-declarations"
+gem "metanorma-document", github: "metanorma/metanorma-document", branch: "main"
+gem "metanorma-mirror", github: "metanorma/metanorma-mirror", branch: "main" # flip to version on release
 # isodoc: relaton-cli 3.0.0.pre allowance (#824) merged after the 3.7.2 release — main until the next release
 gem "isodoc", github: "metanorma/isodoc", branch: "main"
 gem "relaton-bib", "~> 2.2.0.pre.alpha.1"
