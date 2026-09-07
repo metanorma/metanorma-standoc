@@ -52,23 +52,15 @@ module Metanorma
 
         def sections(registry)
           SECTION_HANDLERS.each do |klass, name|
-            section(registry, klass, name)
+            registry.register(klass, Mirror::Handlers::Section,
+                              method_name: name)
           end
         end
 
-        def section(registry, klass, method_name)
-          registry.register(klass, Mirror::Handlers::Section,
-                            method_name: method_name)
-        end
-
-        def structural(registry, klass, method_name)
-          registry.register(klass, Mirror::Handlers::Structural,
-                            method_name: method_name)
-        end
-
-        def register_structural(registry)
+        def structural(registry)
           STRUCTURAL_HANDLERS.each do |klass, name|
-            structural(registry, klass, name)
+            registry.register(klass, Mirror::Handlers::Structural,
+                              method_name: name)
           end
         end
 
