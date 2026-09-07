@@ -1,4 +1,5 @@
 require "jing"
+require "tempfile"
 
 module Metanorma
   module Standoc
@@ -42,10 +43,21 @@ module Metanorma
           "-Dsun.jnu.encoding=UTF-8",
           "-Djdk.xml.maxGeneralEntitySizeLimit=10000000",
           "-Djdk.xml.totalEntitySizeLimit=10000000",
-        ].join(" ").freeze
+        ].freeze
 
-        def jing_java_opts
-          ENV["METANORMA_JING_JAVA_OPTS"] || JING_JAVA_OPTS
+        # ruby-jing shell-quotes java_opts into ONE argv token, so
+        # multiple -D flags must ride in a JVM @argfile (the JVM
+        # expands it) or the VM dies at initialization treating the
+        # whole string as a single option.
+        def with_jing_java_opts
+          opts = ENV["METANORMA_JING_JAVA_OPTS"]&.split ||
+            JING_JAVA_OPTS
+          file = Tempfile.new("jing-java-opts")
+          file.puts(opts.join("\n"))
+          file.close
+          yield "@#{file.path}"
+        ensure
+          file&.unlink
         end
 
         def schema_validate1(file, doc, schema)
@@ -79,8 +91,10 @@ module Metanorma
             # repeat_anchor_validate1 -> STANDOC_36) and IDREF is text in
             # Semantic XML (isodoc.rng). NB ruby-jing 0.0.3 polarity is inverted:
             # id_check: false is what emits -i (verified against validate_spec).
-            Jing.new(schema, java_opts: jing_java_opts, id_check: false)
-              .validate(file_path)
+            with_jing_java_opts do |java_opts|
+              Jing.new(schema, java_opts: java_opts, id_check: false)
+                .validate(file_path)
+            end
           rescue Jing::ExecutionError => e
             # Check if this is a "Too many open files" error
             if e.message.include?("Too many open files") && retries < max_retries

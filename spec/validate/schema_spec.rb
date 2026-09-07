@@ -15,9 +15,12 @@ RSpec.describe Metanorma::Standoc do
       INPUT
 
       captured_opts = nil
+      opts_content = :not_called
       env_at_call = :not_called
       allow(Jing).to receive(:new) do |schema, opts = nil|
         captured_opts = opts
+        # the argfile is unlinked once validation returns; read now
+        opts_content = File.read(opts[:java_opts].delete_prefix("@"))
         env_at_call = ENV["_JAVA_OPTIONS"]
         jing = Jing.allocate
         allow(jing).to receive(:validate) { [] }
@@ -27,12 +30,13 @@ RSpec.describe Metanorma::Standoc do
       Asciidoctor.convert(input, *OPTIONS)
 
       expect(env_at_call).to be_nil
-      expect(captured_opts[:java_opts]).to include("-Dfile.encoding=UTF-8")
-      expect(captured_opts[:java_opts]).to include("-Dsun.jnu.encoding=UTF-8")
-      expect(captured_opts[:java_opts])
-        .to include("-Djdk.xml.maxGeneralEntitySizeLimit=")
-      expect(captured_opts[:java_opts])
-        .to include("-Djdk.xml.totalEntitySizeLimit=")
+      # multiple -D flags ride in a JVM @argfile (ruby-jing shell-quotes
+      # java_opts into one token); assert its contents
+      expect(captured_opts[:java_opts]).to start_with("@")
+      expect(opts_content).to include("-Dfile.encoding=UTF-8")
+      expect(opts_content).to include("-Dsun.jnu.encoding=UTF-8")
+      expect(opts_content).to include("-Djdk.xml.maxGeneralEntitySizeLimit=")
+      expect(opts_content).to include("-Djdk.xml.totalEntitySizeLimit=")
     end
 
     it "honors METANORMA_JING_JAVA_OPTS override" do
@@ -47,8 +51,10 @@ RSpec.describe Metanorma::Standoc do
       INPUT
 
       captured_opts = nil
+      opts_content = nil
       allow(Jing).to receive(:new) do |schema, opts = nil|
         captured_opts = opts
+        opts_content = File.read(opts[:java_opts].delete_prefix("@"))
         jing = Jing.allocate
         allow(jing).to receive(:validate) { [] }
         jing
@@ -62,7 +68,7 @@ RSpec.describe Metanorma::Standoc do
         ENV["METANORMA_JING_JAVA_OPTS"] = old_override
       end
 
-      expect(captured_opts[:java_opts]).to eq("-Xmx2g")
+      expect(opts_content).to include("-Xmx2g")
     end
   end
 
