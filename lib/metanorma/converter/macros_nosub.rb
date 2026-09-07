@@ -17,18 +17,28 @@ module Metanorma
       PASS_INLINE_MACROS = %w(pass pass-format identifier std-link stem)
         .join("|").freeze
 
+      # NOTE: the pattern deliberately carries no /x-mode comments —
+      # TruffleRuby's TRegex parser rejects this pattern whenever any /x
+      # comment is present ("missing ), unterminated subpattern",
+      # https://github.com/truffleruby/truffleruby/issues/4435). /x strips
+      # comments and layout whitespace before parsing, so this spelling
+      # compiles to the identical regex on every engine. Anatomy, for the
+      # reader:
+      #   \b(?<![-\\])                      word separator, no hyphen/backslash
+      #   (?:(?:MACROS):[^\s\[]* | span: [^\s\[]*)
+      #       macro name + second key, OR any span: macro (e.g. span:uri,
+      #       span:note.display): protect its bracketed content from
+      #       URL/link rewriting so an injected link:[] cannot close the
+      #       span early
+      #   \[.*?(?<!\\)\]                    [...] not preceded by backslash
       PASS_INLINE_MACRO_STR = <<~REGEX.freeze
         (
-          \\b(?<![-\\\\])                        # word-separator, no hyphen or backslash
-          (?:                                    # don't capture these!
-            (?:#{PASS_INLINE_MACROS}):[^\\s\\[]* | # macro name, :, second key. OR:
-            span: [^\\s\\[]*                     # any span: macro (e.g. span:uri,
-                                                # span:note.display): protect its
-                                                # bracketed content from URL/link
-                                                # rewriting so an injected link:[]
-                                                # can't close the span early
+          \\b(?<![-\\\\])
+          (?:
+            (?:#{PASS_INLINE_MACROS}):[^\\s\\[]* |
+            span: [^\\s\\[]*
           )
-          \\[.*?(?<!\\\\)\\]                     # [ ... ] not preceded by \\
+          \\[.*?(?<!\\\\)\\]
         )
       REGEX
       PASS_INLINE_MACRO_RX = /#{PASS_INLINE_MACRO_STR}/xo
@@ -128,18 +138,28 @@ module Metanorma
       PASS_INLINE_MACROS = %w(pass pass-format identifier std-link stem)
         .join("|").freeze
 
+      # NOTE: the pattern deliberately carries no /x-mode comments —
+      # TruffleRuby's TRegex parser rejects this pattern whenever any /x
+      # comment is present ("missing ), unterminated subpattern",
+      # https://github.com/truffleruby/truffleruby/issues/4435). /x strips
+      # comments and layout whitespace before parsing, so this spelling
+      # compiles to the identical regex on every engine. Anatomy, for the
+      # reader:
+      #   \b(?<![-\\])                      word separator, no hyphen/backslash
+      #   (?:(?:MACROS):[^\s\[]* | span: [^\s\[]*)
+      #       macro name + second key, OR any span: macro (e.g. span:uri,
+      #       span:note.display): protect its bracketed content from
+      #       URL/link rewriting so an injected link:[] cannot close the
+      #       span early
+      #   \[.*?(?<!\\)\]                    [...] not preceded by backslash
       PASS_INLINE_MACRO_STR = <<~REGEX.freeze
         (
-          \\b(?<![-\\\\])                        # word-separator, no hyphen or backslash
-          (?:                                    # don't capture these!
-            (?:#{PASS_INLINE_MACROS}):[^\\s\\[]* | # macro name, :, second key. OR:
-            span: [^\\s\\[]*                     # any span: macro (e.g. span:uri,
-                                                # span:note.display): protect its
-                                                # bracketed content from URL/link
-                                                # rewriting so an injected link:[]
-                                                # can't close the span early
+          \\b(?<![-\\\\])
+          (?:
+            (?:#{PASS_INLINE_MACROS}):[^\\s\\[]* |
+            span: [^\\s\\[]*
           )
-          \\[.*?(?<!\\\\)\\]                     # [ ... ] not preceded by \\
+          \\[.*?(?<!\\\\)\\]
         )
       REGEX
       PASS_INLINE_MACRO_RX = /#{PASS_INLINE_MACRO_STR}/xo
