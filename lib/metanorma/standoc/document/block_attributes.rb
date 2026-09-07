@@ -26,6 +26,15 @@ module Metanorma
           attribute :figures,
                     Metanorma::Document::Components::AncillaryBlocks::FigureBlock,
                     collection: true
+          attribute :svgmaps,
+                    Metanorma::Document::Components::AncillaryBlocks::SvgmapElement,
+                    collection: true
+          attribute :imagemaps,
+                    Metanorma::Document::Components::AncillaryBlocks::ImagemapElement,
+                    collection: true
+          attribute :columnbreaks,
+                    Metanorma::Document::Components::Inline::ColumnbreakElement,
+                    collection: true
           attribute :formulas,
                     Metanorma::Document::Components::AncillaryBlocks::FormulaBlock,
                     collection: true
@@ -122,6 +131,9 @@ module Metanorma
         "ol" => :ordered_lists,
         "table" => :tables,
         "figure" => :figures,
+        "svgmap" => :svgmaps,
+        "imagemap" => :imagemaps,
+        "columnbreak" => :columnbreaks,
         "formula" => :formulas,
         "example" => :examples,
         "note" => :notes,
