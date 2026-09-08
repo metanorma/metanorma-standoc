@@ -25,6 +25,8 @@ module Metanorma
                   collection: true
         attribute :fmt_deprecates,
                   Metanorma::Standoc::Document::Terms::FmtDeprecates
+        attribute :fmt_related,
+                  "Metanorma::Standoc::Document::Terms::FmtRelated"
         attribute :domain, Metanorma::Document::Components::DataTypes::LocalizedString
         attribute :subject, Metanorma::Document::Components::DataTypes::LocalizedString
         attribute :usage_info,
@@ -54,6 +56,7 @@ module Metanorma
           map_element "related", to: :related
           map_element "deprecates", to: :deprecates
           map_element "fmt-deprecates", to: :fmt_deprecates
+          map_element "fmt-related", to: :fmt_related
           map_element "domain", to: :domain
           map_element "subject", to: :subject
           map_element "usage-info", to: :usage_info

@@ -3,19 +3,19 @@
 module Metanorma
   module Standoc::Document
     module Terms
-      # The grammatical gender of the designation.
-      class GrammarGender < Lutaml::Model::Serializable
+      # The grammatical number of the designation.
+      class GrammarNumber < Lutaml::Model::Serializable
         attribute :value, :string
 
         attribute :semx_id, :string
         attribute :original_id, :string
 
         def self.values
-          %w[masculine feminine neuter common]
+          %w[singular dual plural]
         end
 
         xml do
-          element "gender"
+          element "number"
           map_content to: :value
 
           map_attribute "semx-id", to: :semx_id
