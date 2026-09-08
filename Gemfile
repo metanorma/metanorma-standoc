@@ -15,8 +15,13 @@ gem "lutaml", "< 0.11"
 # TEMPORARY: cross-PR branch pins so CI can resolve the in-flight pubid-2 /
 # relaton-bib 2.2 / metanorma-document 0.5 chain. Revert each to its
 # released line once the corresponding PR merges.
-gem "metanorma-document", github: "metanorma/metanorma-document", branch: "main"
-gem "metanorma-mirror", github: "metanorma/metanorma-mirror", branch: "main" # flip to version on release
+# TEMPORARY pin: the svgmap/imagemap models (metanorma-document#62/#63
+# branch) — flip to main when they merge.
+gem "metanorma-document", github: "metanorma/metanorma-document",
+    branch: "feat/render-new-vocabulary"
+# TEMPORARY pin: the svgmap/imagemap handlers (metanorma-mirror#1) the
+# document seed registers — restore main on merge, version on release.
+gem "metanorma-mirror", github: "metanorma/metanorma-mirror", branch: "feat/svgmap-imagemap-handlers"
 # isodoc: relaton-cli 3.0.0.pre allowance (#824) merged after the 3.7.2 release — main until the next release
 gem "isodoc", github: "metanorma/isodoc", branch: "main"
 gem "relaton-bib", "~> 2.2.0.pre.alpha.1"
