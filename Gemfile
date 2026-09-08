@@ -18,7 +18,7 @@ gem "lutaml", "< 0.11"
 # TEMPORARY pin: the svgmap/imagemap models (metanorma-document#62/#63
 # branch) — flip to main when they merge.
 gem "metanorma-document", github: "metanorma/metanorma-document",
-    branch: "feat/fmt-presentation-twins"
+    branch: "feat/render-new-vocabulary"
 # TEMPORARY pin: the svgmap/imagemap handlers (metanorma-mirror#1) the
 # document seed registers — restore main on merge, version on release.
 gem "metanorma-mirror", github: "metanorma/metanorma-mirror", branch: "feat/svgmap-imagemap-handlers"

@@ -13,7 +13,7 @@ module Metanorma
                   collection: true
         attribute :is_international, :boolean
         attribute :abbreviation_type, :string
-        attribute :grammar_info, Metanorma::Standoc::Document::Terms::GrammarInfo
+        attribute :grammar, Metanorma::Standoc::Document::Terms::GrammarInfo
 
         attribute :semx_id, :string
         attribute :original_id, :string
@@ -27,7 +27,7 @@ module Metanorma
           map_element "pronunciation", to: :pronunciation
           map_attribute "is-international", to: :is_international
           map_attribute "abbreviation-type", to: :abbreviation_type
-          map_element "grammar-info", to: :grammar_info
+          map_element "grammar", to: :grammar
 
           map_attribute "semx-id", to: :semx_id
           map_attribute "original-id", to: :original_id
