@@ -63,7 +63,11 @@ module Metanorma
         def schema_validate1(file, doc, schema)
           file.write(to_xml(doc))
           file.close
-          errors = schema_validate_with_retry(schema, file.path)
+          errors = if use_leptris_rng?
+                     schema_validate_leptris(schema, file.path)
+                   else
+                     schema_validate_with_retry(schema, file.path)
+                   end
           warn "Syntax Valid!" if errors.none?
           errors.each do |e|
             @log.add("STANDOC_7",
@@ -109,6 +113,27 @@ module Metanorma
               raise
             end
           end
+        end
+
+        # RELAX NG engine selection. The leptris gem (native, no JVM)
+        # validates the same schemas with Jing-parity messages and
+        # columns; when it is available it is the default. Force the
+        # JVM engine with METANORMA_RNG_ENGINE=jing. The gem is NOT a
+        # hard dependency yet - environments without it keep Jing.
+        def use_leptris_rng?
+          return false if ENV["METANORMA_RNG_ENGINE"] == "jing"
+          require "leptris/xml"
+          true
+        rescue LoadError
+          false
+        end
+
+        def schema_validate_leptris(schema, file_path)
+          rng = Leptris::XML::RelaxNG.parse_file(schema)
+          doc = Leptris::XML::Document.parse_file(file_path)
+          rng.validate_errors(doc)
+        rescue Leptris::XML::Error => e
+          @conv.clean_abort("libleptris RNG failed: #{e}", nil)
         end
 
         def validate_document_fragment(xml_fragment)
