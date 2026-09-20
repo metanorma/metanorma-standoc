@@ -5,6 +5,7 @@ source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}" }
 
 gemspec
+gem "metanorma-mirror", "~> 1.0"
 
 # Stopgap: lutaml 0.11.x removed lib/lutaml/xmi.rb, which metanorma-plugin-lutaml
 # 0.7.x still `require`s. Hold lutaml at 0.10.x until plugin-lutaml follows the
@@ -19,9 +20,7 @@ gem "lutaml", "< 0.11"
 # branch) — flip to main when they merge.
 gem "metanorma-document", github: "metanorma/metanorma-document",
     branch: "feat/render-new-vocabulary"
-# TEMPORARY pin: the svgmap/imagemap handlers (metanorma-mirror#1) the
 # document seed registers — restore main on merge, version on release.
-gem "metanorma-mirror", github: "metanorma/metanorma-mirror", branch: "feat/svgmap-imagemap-handlers"
 # isodoc: relaton-cli 3.0.0.pre allowance (#824) merged after the 3.7.2 release — main until the next release
 gem "isodoc", github: "metanorma/isodoc", branch: "main"
 gem "relaton-bib", "~> 2.2.0.pre.alpha.1"
