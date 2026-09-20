@@ -19,7 +19,7 @@ gem "lutaml", "< 0.11"
 # TEMPORARY pin: the svgmap/imagemap models (metanorma-document#62/#63
 # branch) — flip to main when they merge.
 gem "metanorma-document", github: "metanorma/metanorma-document",
-    branch: "feat/render-new-vocabulary"
+    branch: "main"
 # document seed registers — restore main on merge, version on release.
 # isodoc: relaton-cli 3.0.0.pre allowance (#824) merged after the 3.7.2 release — main until the next release
 gem "isodoc", github: "metanorma/isodoc", branch: "main"
