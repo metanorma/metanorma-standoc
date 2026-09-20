@@ -11,6 +11,14 @@ module Metanorma
         attribute :sources, Metanorma::Standoc::Document::Terms::TermSource,
                   collection: true
         attribute :expression, Metanorma::Standoc::Document::Terms::TermExpression
+        attribute :letter_symbol,
+                  "Metanorma::Standoc::Document::Terms::LetterSymbolDesignation"
+        attribute :graphical_symbol,
+                  "Metanorma::Standoc::Document::Terms::GraphicalSymbolDesignation"
+        attribute :field_of_application,
+                  Metanorma::Document::Components::DataTypes::LocalizedString
+        attribute :usage_info,
+                  Metanorma::Document::Components::DataTypes::LocalizedString
 
         attribute :semx_id, :string
         attribute :original_id, :string
@@ -21,6 +29,10 @@ module Metanorma
           map_element "geographic-area", to: :geographic_area
           map_element "sources", to: :sources
           map_element "expression", to: :expression
+          map_element "letter-symbol", to: :letter_symbol
+          map_element "graphical-symbol", to: :graphical_symbol
+          map_element "field-of-application", to: :field_of_application
+          map_element "usage-info", to: :usage_info
 
           map_attribute "semx-id", to: :semx_id
           map_attribute "original-id", to: :original_id

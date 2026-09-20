@@ -47,6 +47,12 @@ module Metanorma
         attribute :fmt_annotation_end,
                   Metanorma::Document::Components::Inline::FmtAnnotationEndElement,
                   collection: true
+        attribute :subsections,
+                  "Metanorma::Standoc::Document::Sections::StandardReferencesSection",
+                  collection: true
+        attribute :clauses,
+                  "Metanorma::Standoc::Document::Sections::ClauseSection",
+                  collection: true
 
         xml do
           element "references"
@@ -63,6 +69,8 @@ module Metanorma
           map_element "bibitem", to: :references
           map_element "passthrough", to: :passthrough
           map_element "table", to: :table
+          map_element "references", to: :subsections
+          map_element "clause", to: :clauses
           map_element "fmt-title", to: :fmt_title
           map_element "fmt-xref-label", to: :fmt_xref_label
           map_element "fmt-annotation-start", to: :fmt_annotation_start
