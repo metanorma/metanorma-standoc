@@ -1504,7 +1504,6 @@ RSpec.describe Metanorma::Standoc do
             </terms>
           </sections>
         </metanorma>
-      </metanorma>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
       .to be_xml_equivalent_to output

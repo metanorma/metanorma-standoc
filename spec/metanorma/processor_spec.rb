@@ -30,7 +30,7 @@ RSpec.describe Metanorma::Standoc::Processor do
     output = <<~"OUTPUT"
           #{BLANK_HDR}
       <sections/>
-      </iso-standard>
+      </metanorma>
     OUTPUT
     expect(strip_guid(processor.input_to_isodoc(input, "test")))
       .to be_xml_equivalent_to strip_guid(output)

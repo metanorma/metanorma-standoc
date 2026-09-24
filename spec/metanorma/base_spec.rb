@@ -9,9 +9,9 @@ RSpec.describe Metanorma::Standoc do
   it "applies Asciidoctor substitutions" do
     expect(Metanorma::Utils.asciidoc_sub("A -- B"))
       .to eq "A&#8201;&#8212;&#8201;B"
-    expect(Metanorma::Utils.asciidoc_sub("*A* stem:[x]"))
+    expect("<root>#{Metanorma::Utils.asciidoc_sub("*A* stem:[x]")}</root>")
       .to be_xml_equivalent_to <<~XML
-        <strong>A</strong> <stem type="AsciiMath" block="false">x</stem>
+        <root><strong>A</strong> <stem type="AsciiMath" block="false">x</stem></root>
       XML
   end
 
