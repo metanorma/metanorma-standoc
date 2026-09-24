@@ -614,7 +614,7 @@ RSpec.describe Metanorma::Standoc do
       <sections>
       <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mi>r</mi></mfrac></math></stem>
       </sections>
-      </metanorma>
+      </standard-document>
     OUTPUT
     c = Metanorma::Standoc::Converter.new(nil, *OPTIONS)
     c.init(Metanorma::Standoc::EmptyAttr.new)
@@ -883,7 +883,7 @@ RSpec.describe Metanorma::Standoc do
                  <sections>
             <formula id="_">
               <stem type="MathML" block="true"><math xmlns="http://www.w3.org/1998/Math/MathML">
-          <mi>A</mi><mo>+</mo><mi>a</mi><mo>+</mo><mi>Α</mi><mo>+</mo><mi>α</mi><mo>+</mo><mi>AB</mi><mstyle mathvariant="italic"><mrow><mi>Α</mi></mrow></mstyle></stem>
+          <mi>A</mi><mo>+</mo><mi>a</mi><mo>+</mo><mi>Α</mi><mo>+</mo><mi>α</mi><mo>+</mo><mi>AB</mi><mstyle mathvariant="italic"><mrow><mi>Α</mi></mrow></mstyle></math></stem>
             </formula>
           </sections>
         </metanorma>

@@ -542,7 +542,6 @@ RSpec.describe Metanorma::Standoc do
            </p>
          </example>
        </clause>
-       </clause>
     OUTPUT
     ret = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     expect(strip_guid(ret.at("//xmlns:clause").to_xml))

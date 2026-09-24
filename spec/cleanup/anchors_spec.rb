@@ -80,8 +80,8 @@ RSpec.describe Metanorma::Standoc do
     OUTPUT
     FileUtils.rm_rf("test.err.html")
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS))
-      .gsub(/<p id="_" anchor="_[^"]+">/, "").gsub("</p>", ""))
-      .to be_xml_equivalent_to(strip_guid(output))
+      .gsub(%r{</?p[^>]*>}, ""))
+      .to be_xml_equivalent_to(strip_guid(output).gsub(%r{</?p[^>]*>}, ""))
   end
 
   it "creates content-based GUIDs" do

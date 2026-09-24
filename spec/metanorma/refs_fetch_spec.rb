@@ -92,6 +92,7 @@ RSpec.describe Metanorma::Standoc do
                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                    <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                    <docidentifier type="ISO" primary="true">ISO 123:2001</docidentifier>
+                   <docidentifier type="iso-undated">ISO 123</docidentifier>
                    <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
                    <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
                    <docnumber>123</docnumber>
@@ -227,6 +228,7 @@ RSpec.describe Metanorma::Standoc do
                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                    <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                    <docidentifier type="ISO" primary="true">ISO 123:2001</docidentifier>
+                   <docidentifier type="iso-undated">ISO 123</docidentifier>
                    <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
                    <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
                    <docnumber>123</docnumber>
@@ -396,6 +398,7 @@ RSpec.describe Metanorma::Standoc do
                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                    <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                    <docidentifier type="ISO" primary="true">ISO 123:2001</docidentifier>
+                   <docidentifier type="iso-undated">ISO 123</docidentifier>
                    <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
                    <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
                    <docnumber>123</docnumber>
@@ -531,6 +534,7 @@ RSpec.describe Metanorma::Standoc do
                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>
                    <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>
                    <docidentifier type="ISO" primary="true">ISO 123:2001</docidentifier>
+                   <docidentifier type="iso-undated">ISO 123</docidentifier>
                    <docidentifier type="iso-reference">ISO 123:2001(E)</docidentifier>
                    <docidentifier type="URN">urn:iso:std:iso:123:stage-90.93</docidentifier>
                    <docnumber>123</docnumber>
@@ -631,6 +635,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:21071:en</uri>
                <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
+               <docidentifier type="iso-undated">ISO/IEC TR 12382</docidentifier>
                <docidentifier type="iso-reference">ISO/IEC TR 12382:1992(E)</docidentifier>
                <docidentifier type="URN">urn:iso:std:iso-iec:tr:12382:stage-90.93</docidentifier>
                <docnumber>12382</docnumber>
@@ -698,6 +703,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:61884:en</uri>
                <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
+               <docidentifier type="iso-undated">ISO 124</docidentifier>
                <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
                <docidentifier type="URN">urn:iso:std:iso:124:stage-90.93</docidentifier>
                <docnumber>124</docnumber>
@@ -765,6 +771,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type="rss">https://www.iso.org/contents/data/standard/02/10/21071.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO/IEC TR 12382:1992</docidentifier>
                <docidentifier type="metanorma">[1]</docidentifier>
+               <docidentifier type="iso-undated">ISO/IEC TR 12382</docidentifier>
                <docidentifier type="iso-reference">ISO/IEC TR 12382:1992(E)</docidentifier>
                <docidentifier type="URN">urn:iso:std:iso-iec:tr:12382:stage-90.93</docidentifier>
                <docnumber>12382</docnumber>
@@ -833,6 +840,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
                <docidentifier type="metanorma">[1]</docidentifier>
+               <docidentifier type="iso-undated">ISO 124</docidentifier>
                <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
                <docidentifier type="URN">urn:iso:std:iso:124:stage-90.93</docidentifier>
                <docnumber>124</docnumber>
@@ -1131,6 +1139,7 @@ RSpec.describe Metanorma::Standoc do
                <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:61884:en</uri>
                <uri type="rss">https://www.iso.org/contents/data/standard/06/18/61884.detail.rss</uri>
                <docidentifier type="ISO" primary="true">ISO 124:2014</docidentifier>
+               <docidentifier type="iso-undated">ISO 124</docidentifier>
                <docidentifier type="iso-reference">ISO 124:2014(E)</docidentifier>
                <docidentifier type="URN">urn:iso:std:iso:124:stage-90.93</docidentifier>
                <docnumber>124</docnumber>
@@ -1567,6 +1576,7 @@ RSpec.describe Metanorma::Standoc do
                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
                    <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
                    <docidentifier type="ISO" primary="true">ISO 125:2020</docidentifier>
+                   <docidentifier type="iso-undated">ISO 125</docidentifier>
                    <docidentifier type="iso-reference">ISO 125:2020(E)</docidentifier>
                    <docidentifier type="URN">urn:iso:std:iso:125:stage-90.92</docidentifier>
                    <docnumber>125</docnumber>
@@ -1737,6 +1747,7 @@ RSpec.describe Metanorma::Standoc do
                     <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:72849:en</uri>
                     <uri type="rss">https://www.iso.org/contents/data/standard/07/28/72849.detail.rss</uri>
                     <docidentifier type="ISO" primary="true">ISO 125:2020</docidentifier>
+                    <docidentifier type="iso-undated">ISO 125</docidentifier>
                     <docidentifier type="iso-reference">ISO 125:2020(E)</docidentifier>
                     <docidentifier type="URN">urn:iso:std:iso:125:stage-90.92</docidentifier>
                     <docnumber>125</docnumber>

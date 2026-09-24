@@ -408,6 +408,7 @@ RSpec.describe Metanorma::Standoc do
              </expression>
            </admitted>
          </sections>
+      </metanorma>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
       .to be_xml_equivalent_to output
@@ -753,7 +754,6 @@ RSpec.describe Metanorma::Standoc do
              <ruby><ruby-pronunciation value="たつみ"/><ruby><ruby-pronunciation value="とう"/>東</ruby><ruby><ruby-pronunciation value="なん"/>南</ruby></ruby>
              <ruby><ruby-pronunciation value="プロテゴ"/><ruby><ruby-pronunciation value="まも"/>護</ruby>れ</ruby>!
              <ruby><ruby-pronunciation value="プロテゴ"/>れ<ruby><ruby-pronunciation value="まも"/>護</ruby></ruby>!</p>
-           </p>
            </sections>
       </metanorma>
     OUTPUT
@@ -1473,6 +1473,7 @@ RSpec.describe Metanorma::Standoc do
                    <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:3944:en</uri>
                    <uri type="rss">https://www.iso.org/contents/data/standard/00/39/3944.detail.rss</uri>
                    <docidentifier type="ISO" primary="true">ISO 131:1979</docidentifier>
+                   <docidentifier type="iso-undated">ISO 131</docidentifier>
                    <docidentifier type="iso-reference">ISO 131:1979(E)</docidentifier>
                    <docidentifier type="URN">urn:iso:std:iso:131:stage-95.99</docidentifier>
                    <docnumber>131</docnumber>
