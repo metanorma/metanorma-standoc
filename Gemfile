@@ -28,6 +28,6 @@ gem "relaton-bib", "~> 2.2.0.pre.alpha.1"
 gem "relaton", github: "relaton/relaton", branch: "main"
 gem "pubid", github: "pubid/pubid", branch: "main"
 
-gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", branch: "fix/lutaml-uml-1"
+gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", branch: "main"
 
 eval_gemfile("Gemfile.devel") rescue nil
