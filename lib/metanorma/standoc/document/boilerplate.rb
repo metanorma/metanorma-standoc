@@ -18,6 +18,12 @@ module Metanorma
       attribute :clause,
                 Metanorma::Standoc::Document::Sections::ContentSection,
                 collection: true
+      attribute :paragraphs,
+                Metanorma::Document::Components::Paragraphs::ParagraphBlock,
+                collection: true
+      attribute :quote_blocks,
+                Metanorma::Document::Components::MultiParagraph::QuoteBlock,
+                collection: true
 
       xml do
         element "boilerplate"
@@ -26,6 +32,8 @@ module Metanorma
         map_element "legal-statement", to: :legal_statement
         map_element "feedback-statement", to: :feedback_statement
         map_element "clause", to: :clause
+        map_element "p", to: :paragraphs
+        map_element "quote", to: :quote_blocks
       end
     end
   end
