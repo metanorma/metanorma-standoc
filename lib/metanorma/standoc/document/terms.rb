@@ -10,6 +10,7 @@ module Metanorma
       autoload :ExpressionDesignation, "#{__dir__}/terms/expression_designation"
       autoload :ExpressionType, "#{__dir__}/terms/expression_type"
       autoload :FmtDeprecates, "#{__dir__}/terms/fmt_deprecates"
+      autoload :FmtDefinition, "#{__dir__}/terms/fmt_definition"
       autoload :GrammarGender, "#{__dir__}/terms/grammar_gender"
       autoload :GrammarInfo, "#{__dir__}/terms/grammar_info"
       autoload :GraphicalSymbolDesignation,
