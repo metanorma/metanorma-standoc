@@ -20,9 +20,6 @@ module Metanorma
                     collection: true
           attribute :ul, Metanorma::Document::Components::Lists::UnorderedList,
                     collection: true
-          attribute :semx,
-                    Metanorma::Standoc::Document::Terms::FmtDefinitionSemx,
-                    collection: true
 
           xml do
             element "fmt-definition"
@@ -32,7 +29,6 @@ module Metanorma
             map_element "dl", to: :dl
             map_element "ol", to: :ol
             map_element "ul", to: :ul
-            map_element "semx", to: :semx
           end
         end
       end

@@ -11,7 +11,6 @@ module Metanorma
       autoload :ExpressionType, "#{__dir__}/terms/expression_type"
       autoload :FmtDeprecates, "#{__dir__}/terms/fmt_deprecates"
       autoload :FmtDefinition, "#{__dir__}/terms/fmt_definition"
-      autoload :FmtDefinitionSemx, "#{__dir__}/terms/fmt_definition_semx"
       autoload :GrammarGender, "#{__dir__}/terms/grammar_gender"
       autoload :GrammarInfo, "#{__dir__}/terms/grammar_info"
       autoload :GraphicalSymbolDesignation,
