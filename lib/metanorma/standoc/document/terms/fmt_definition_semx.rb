@@ -4,13 +4,12 @@ module Metanorma
   module Standoc
     module Document
       module Terms
-        # Presentation-layer rendering of a term definition: the
-        # formatted definition block emitted alongside the semantic
-        # `definition` verbal expression. Carries the block children
-        # (`p`, `termnote`, `dl`, `ol`, `ul`) so no front-matter term
-        # content is lost.
-        class FmtDefinition < Lutaml::Model::Serializable
-          attribute :id, :string
+        # The <semx> wrapper inside <fmt-definition>: presentation XML
+        # wraps the definition block content in it, so the block's
+        # children (p, termnote, dl, ol, ul) live one level down.
+        class FmtDefinitionSemx < Lutaml::Model::Serializable
+          attribute :element, :string
+          attribute :source, :string
           attribute :p, Metanorma::Document::Components::Paragraphs::ParagraphBlock,
                     collection: true
           attribute :termnote, Metanorma::Standoc::Document::Terms::TermNote,
@@ -20,19 +19,16 @@ module Metanorma
                     collection: true
           attribute :ul, Metanorma::Document::Components::Lists::UnorderedList,
                     collection: true
-          attribute :semx,
-                    Metanorma::Standoc::Document::Terms::FmtDefinitionSemx,
-                    collection: true
 
           xml do
-            element "fmt-definition"
-            map_attribute "id", to: :id
+            element "semx"
+            map_attribute "element", to: :element
+            map_attribute "source", to: :source
             map_element "p", to: :p
             map_element "termnote", to: :termnote
             map_element "dl", to: :dl
             map_element "ol", to: :ol
             map_element "ul", to: :ul
-            map_element "semx", to: :semx
           end
         end
       end
