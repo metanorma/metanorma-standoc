@@ -21,6 +21,12 @@ module Metanorma
         attribute :dl,
                   Metanorma::Document::Components::Lists::DefinitionList,
                   collection: true
+        attribute :figure,
+                  Metanorma::Document::Components::AncillaryBlocks::FigureBlock,
+                  collection: true
+        attribute :clause,
+                  Metanorma::Standoc::Document::Sections::ClauseSection,
+                  collection: true
 
         xml do
           map_element "p", to: :paragraphs
@@ -28,6 +34,8 @@ module Metanorma
           map_element "ol", to: :ol
           map_element "ul", to: :ul
           map_element "dl", to: :dl
+          map_element "figure", to: :figure
+          map_element "clause", to: :clause
         end
       end
     end
