@@ -10,6 +10,8 @@ module Metanorma
         xml do
           element "toc"
           map_element "list", to: :list
+          # Authored TOCs wrap the entries in a bare <ul>
+          map_element "ul", to: :list
         end
       end
     end
