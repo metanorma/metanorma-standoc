@@ -27,9 +27,27 @@ module Metanorma
     autoload :Refs, "metanorma/standoc/document/refs"
     autoload :Root, "metanorma/standoc/document/root"
     autoload :RootAttributes, "metanorma/standoc/document/root_attributes"
+    autoload :RootXmlMapping, "metanorma/standoc/document/root_attributes"
     autoload :Sections, "metanorma/standoc/document/sections"
     autoload :StandardDocumentType,
              "metanorma/standoc/document/standard_document_type"
     autoload :Terms, "metanorma/standoc/document/terms"
   end
+end
+require "metanorma-core"
+
+# The standoc flavor itself: bare standoc documents (mn-document-class:
+# standoc) parse via the concrete Root above and render via the standard
+# renderer. Lazy: skip silently on resolutions without the flavor table.
+if defined?(Metanorma::Core::Flavors)
+  Metanorma::Core::Flavors.register(Metanorma::Core::Flavor.new(
+                                      name: :standoc,
+                                      gem: "metanorma-standoc",
+                                      model_root: Metanorma::Standoc::Document::Root,
+                                      pubid_module: nil,
+                                      renderers: { html: lambda do |_document, **_options|
+                                        require "metanorma/html"
+                                        Metanorma::Html::StandardRenderer
+                                      end },
+                                    ))
 end
