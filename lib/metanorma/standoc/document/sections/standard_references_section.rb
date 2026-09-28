@@ -30,6 +30,10 @@ module Metanorma
                   Metanorma::Document::Components::Paragraphs::ParagraphBlock, collection: true
         attribute :table,
                   Metanorma::Document::Components::Tables::TableBlock, collection: true
+        attribute :ol,
+                  Metanorma::Document::Components::Lists::OrderedList, collection: true
+        attribute :ul,
+                  Metanorma::Document::Components::Lists::UnorderedList, collection: true
 
         # Presentation-specific attributes
 
@@ -63,6 +67,8 @@ module Metanorma
           map_element "bibitem", to: :references
           map_element "passthrough", to: :passthrough
           map_element "table", to: :table
+          map_element "ol", to: :ol
+          map_element "ul", to: :ul
           map_element "fmt-title", to: :fmt_title
           map_element "fmt-xref-label", to: :fmt_xref_label
           map_element "fmt-annotation-start", to: :fmt_annotation_start
