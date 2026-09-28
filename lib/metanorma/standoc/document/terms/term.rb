@@ -15,6 +15,10 @@ module Metanorma
         attribute :multilingual_rendering, :string
         attribute :id, :string
         attribute :anchor, :string
+        # Legacy presentation XML carries the term's ordinal in a direct
+        # <name> child ("4.3."); the semantic vocabulary nests <name>
+        # inside preferred/expression instead.
+        attribute :term_number, :string
         attribute :preferred, Metanorma::Standoc::Document::Terms::Designation,
                   collection: true
         attribute :admitted, Metanorma::Standoc::Document::Terms::Designation,
@@ -51,6 +55,7 @@ module Metanorma
           map_attribute "multilingual-rendering", to: :multilingual_rendering
           map_attribute "id", to: :id
           map_attribute "anchor", to: :anchor
+          map_element "name", to: :term_number
           map_element "preferred", to: :preferred
           map_element "admitted", to: :admitted
           map_element "related", to: :related
