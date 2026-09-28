@@ -47,6 +47,17 @@ module Metanorma
                   collection: true
 
         # Floating titles
+        # Requirements / recommendations / permissions (conformance
+        # classes live in annexes for requirement-heavy flavors)
+        attribute :requirement,
+                  Metanorma::Standoc::Document::Blocks::RequirementModel,
+                  collection: true
+        attribute :recommendation,
+                  Metanorma::Standoc::Document::Blocks::RecommendationModel,
+                  collection: true
+        attribute :permission,
+                  Metanorma::Standoc::Document::Blocks::PermissionModel,
+                  collection: true
         attribute :floating_title,
                   Metanorma::Standoc::Document::Sections::FloatingTitle,
                   collection: true

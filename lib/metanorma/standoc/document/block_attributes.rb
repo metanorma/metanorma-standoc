@@ -173,6 +173,9 @@ module Metanorma
         mapping.map_element "definitions",          to: :definitions
         mapping.map_element "references",           to: :references
         mapping.map_element "floating-title",       to: :floating_title
+        mapping.map_element "requirement",          to: :requirement
+        mapping.map_element "recommendation",       to: :recommendation
+        mapping.map_element "permission",           to: :permission
         mapping.map_element "form",                 to: :form
         mapping.map_element "requirement",          to: :requirement
         mapping.map_element "recommendation",       to: :recommendation
@@ -215,6 +218,9 @@ module Metanorma
         mapping.map_element "definitions",          to: :definitions
         mapping.map_element "references",           to: :references
         mapping.map_element "floating-title",       to: :floating_title
+        mapping.map_element "requirement",          to: :requirement
+        mapping.map_element "recommendation",       to: :recommendation
+        mapping.map_element "permission",           to: :permission
         mapping.map_element "pagebreak",            to: :pagebreak
         mapping.map_element "fmt-annotation-start", to: :fmt_annotation_start
         mapping.map_element "fmt-annotation-end",   to: :fmt_annotation_end
