@@ -50,6 +50,11 @@ module Metanorma
           attribute :toc_blocks,
                     Metanorma::Standoc::Document::Blocks::ToC,
                     collection: true
+          # Legacy presentation XML hangs <termsource> directly off the
+          # term clause (isodoc 1.x/2.x models terms as plain clauses).
+          attribute :term_sources,
+                    Metanorma::Standoc::Document::Terms::TermSource,
+                    collection: true
         end
       end
     end
@@ -132,6 +137,7 @@ module Metanorma
         "sourcecode" => :sourcecode_blocks,
         "quote" => :quote_blocks,
         "dl" => :definition_lists,
+        "termsource" => :term_sources,
       }.freeze
 
       def self.apply_block_mappings(mapping)
