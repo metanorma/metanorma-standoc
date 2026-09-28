@@ -69,6 +69,9 @@ module Metanorma
           map_element "termnote", to: :note
           map_element "termexample", to: :example
           map_element "source", to: :source
+          # Legacy presentation XML spells the source element
+          # <termsource>; the semantic vocabulary nests it as <source>.
+          map_element "termsource", to: :source
 
           map_attribute "semx-id", to: :semx_id
           map_attribute "original-id", to: :original_id
