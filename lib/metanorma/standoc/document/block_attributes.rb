@@ -47,6 +47,9 @@ module Metanorma
           attribute :definition_lists,
                     Metanorma::Document::Components::Lists::DefinitionList,
                     collection: true
+          attribute :toc_blocks,
+                    Metanorma::Standoc::Document::Blocks::ToC,
+                    collection: true
         end
       end
     end
@@ -177,6 +180,7 @@ module Metanorma
         mapping.map_element "recommendation",       to: :recommendation
         mapping.map_element "permission",           to: :permission
         mapping.map_element "form",                 to: :form
+        mapping.map_element "toc",                  to: :toc_blocks
         mapping.map_element "requirement",          to: :requirement
         mapping.map_element "recommendation",       to: :recommendation
         mapping.map_element "permission",           to: :permission
@@ -218,6 +222,7 @@ module Metanorma
         mapping.map_element "definitions",          to: :definitions
         mapping.map_element "references",           to: :references
         mapping.map_element "floating-title",       to: :floating_title
+        mapping.map_element "toc",                  to: :toc_blocks
         mapping.map_element "requirement",          to: :requirement
         mapping.map_element "recommendation",       to: :recommendation
         mapping.map_element "permission",           to: :permission
