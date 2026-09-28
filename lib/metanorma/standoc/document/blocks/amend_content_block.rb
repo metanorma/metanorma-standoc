@@ -22,10 +22,13 @@ module Metanorma
                   Metanorma::Document::Components::Lists::DefinitionList,
                   collection: true
         attribute :figure,
-                  Metanorma::Document::Components::AncillaryBlocks::FigureBlock,
+                  "Metanorma::Document::Components::AncillaryBlocks::FigureBlock",
                   collection: true
+        # String class names: a constant here would trigger the
+        # ClauseSection autoload while StandardReferencesSection's own
+        # autoload is still in flight, breaking const resolution.
         attribute :clause,
-                  Metanorma::Standoc::Document::Sections::ClauseSection,
+                  "Metanorma::Standoc::Document::Sections::ClauseSection",
                   collection: true
 
         xml do
