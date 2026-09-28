@@ -9,7 +9,8 @@ module Metanorma
         attribute :status, Metanorma::Standoc::Document::Terms::TermSourceStatus
         attribute :status, :string
         attribute :origin, Metanorma::Document::Components::ReferenceElements::Citation
-        attribute :modification, Metanorma::Document::Components::Paragraphs::ParagraphBlock
+        attribute :modification,
+                  Metanorma::Document::Components::ReferenceElements::SourceModification
 
         attribute :semx_id, :string
         attribute :original_id, :string
