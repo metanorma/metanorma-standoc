@@ -45,8 +45,18 @@ module Metanorma
       def document1(node)
         init(node)
         ret = to_xml(makexml(node))
+        release_lutaml_caches
         outputs(node, ret) unless node.attr("nodoc") || !node.attr("docfile")
         ret
+      end
+
+      # The lutaml plugin's macro caches hold fully parsed multi-GB XMI
+      # trees that serve only macro rendering during conversion; release
+      # them before the output phases stack their own document DOMs.
+      def release_lutaml_caches
+        return unless defined?(Metanorma::Plugin::Lutaml::CacheRegistry)
+
+        Metanorma::Plugin::Lutaml::CacheRegistry.clear_all
       end
 
       def insert_xml_cr(doc)
