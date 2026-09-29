@@ -34,6 +34,10 @@ module Metanorma
                   Metanorma::Document::Components::Lists::UnorderedList,
                   collection: true
 
+        # Clause sections nested inside terms (e.g. level definitions
+        # under a "Learning outcomes" terms clause in IHO S5 guidelines).
+        attribute :clause, ClauseSection, collection: true
+
         # Term entries
         attribute :terms,
                   Metanorma::Standoc::Document::Terms::Term,
@@ -56,6 +60,7 @@ module Metanorma
           map_element "ul",               to: :unordered_lists
           map_element "term",             to: :terms
           map_element "terms",            to: :term_sections
+          map_element "clause",           to: :clause
           map_element "fmt-annotation-start", to: :fmt_annotation_start
           map_element "fmt-annotation-end",   to: :fmt_annotation_end
         end
