@@ -43,6 +43,8 @@ module Metanorma
                   collection: true
         attribute :source, Metanorma::Standoc::Document::Terms::TermSource,
                   collection: true
+        # IEEE-style metadata definition list (figdl) attached to the term
+        attribute :dl, Metanorma::Document::Components::Lists::DefinitionList
 
         attribute :semx_id, :string
         attribute :original_id, :string
@@ -68,6 +70,7 @@ module Metanorma
           map_element "definition", to: :definition
           map_element "termnote", to: :note
           map_element "termexample", to: :example
+          map_element "dl", to: :dl
           map_element "source", to: :source
           # Legacy presentation XML spells the source element
           # <termsource>; the semantic vocabulary nests it as <source>.
