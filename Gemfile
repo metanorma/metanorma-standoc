@@ -20,12 +20,12 @@ gem "metanorma-mirror", github: "metanorma/metanorma-mirror", branch: "main" # f
 # isodoc: relaton-cli 3.0.0.pre allowance (#824) merged after the 3.7.2 release — main until the next release
 gem "isodoc", github: "metanorma/isodoc", branch: "main"
 gem "relaton-bib", "~> 2.2.0.pre.alpha.1"
-# relaton 3.0.0.pre.alpha.1 from rubygems still calls the removed
-# pubid base_identifier (fixed on relaton main as db9840bdf, unreleased);
-# same declared version, so the git pin satisfies relaton-cli's exact
-# '= 3.0.0.pre.alpha.1' — revert to the released gem at the next
-# relaton prerelease/final.
-gem "relaton", github: "relaton/relaton", branch: "main"
+# relaton 3.0.0.pre.alpha.1 from rubygems called the removed pubid
+# base_identifier; the fix (db9840bdf) shipped in the 3.0.0.pre.alpha.4
+# release. Prefer the released gem over a git pin: relaton main has since
+# moved to lutaml-store ~> 0.3, which conflicts with glossarist 2.14's
+# lutaml-store ~> 0.2.0 and makes this bundle unresolvable.
+gem "relaton", "~> 3.0.0.pre.alpha.4"
 gem "pubid", github: "pubid/pubid", branch: "main"
 
 gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", branch: "main"
