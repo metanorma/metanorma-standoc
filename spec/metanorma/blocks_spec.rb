@@ -1496,8 +1496,7 @@ RSpec.describe Metanorma::Standoc do
       .to include('<image id="_" src="data:image/png;base64')
 
     FileUtils.rm_rf "spec/examples/test.xml"
-    ok = system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/examples/test.adoc 2>&1"
-    warn "SUBPROCESS-EXIT: #{ok.inspect} pwd=#{Dir.pwd}"
+    system "bundle exec asciidoctor -b standoc -r metanorma-standoc spec/examples/test.adoc"
     expect(strip_guid(File.read("spec/examples/test.xml")))
       .to include('<image id="_" src="data:image/png;base64')
   end
