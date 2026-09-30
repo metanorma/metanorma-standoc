@@ -121,7 +121,11 @@ module Metanorma
         # JVM engine with METANORMA_RNG_ENGINE=jing. The gem is NOT a
         # hard dependency yet - environments without it keep Jing.
         def use_leptris_rng?
-          return false if ENV["METANORMA_RNG_ENGINE"] == "jing"
+          # Opt-in: METANORMA_RNG_ENGINE=leptris selects the native engine.
+          # Auto-detecting on gem presence would silently hijack the Jing
+          # path for any bundle that merely carries the leptris gem.
+          return false unless ENV["METANORMA_RNG_ENGINE"] == "leptris"
+
           require "leptris/xml"
           true
         rescue LoadError
