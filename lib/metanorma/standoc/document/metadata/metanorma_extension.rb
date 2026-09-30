@@ -14,7 +14,8 @@ module Metanorma
         attribute :source_highlighter_css, :string
         # <metanorma><source> carries the semantic vocabulary tree
         # (semantic__* elements).
-        attribute :metanorma, MetanormaSourceContainer
+        attribute :metanorma,
+                  "Metanorma::Standoc::Document::Metadata::MetanormaSourceContainer"
 
         xml do
           element "metanorma-extension"
@@ -29,7 +30,8 @@ module Metanorma
       # Wrapper for <metanorma-extension><metanorma>: the semantic
       # source container.
       class MetanormaSourceContainer < Lutaml::Model::Serializable
-        attribute :source, MetanormaSemanticSource
+        attribute :source,
+                  "Metanorma::Standoc::Document::Metadata::MetanormaSemanticSource"
 
         xml do
           element "metanorma"
