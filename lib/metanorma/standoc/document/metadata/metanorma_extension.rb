@@ -12,6 +12,9 @@ module Metanorma
         attribute :presentation_metadata, PresentationMetadata
         attribute :unitsml, Unitsml::UnitsmlRoot
         attribute :source_highlighter_css, :string
+        # <metanorma><source> carries the semantic vocabulary tree
+        # (semantic__* elements).
+        attribute :metanorma, MetanormaSourceContainer
 
         xml do
           element "metanorma-extension"
@@ -19,6 +22,33 @@ module Metanorma
           map_element "presentation-metadata", to: :presentation_metadata
           map_element "UnitsML", to: :unitsml
           map_element "source-highlighter-css", to: :source_highlighter_css
+          map_element "metanorma", to: :metanorma
+        end
+      end
+
+      # Wrapper for <metanorma-extension><metanorma>: the semantic
+      # source container.
+      class MetanormaSourceContainer < Lutaml::Model::Serializable
+        attribute :source, MetanormaSemanticSource
+
+        xml do
+          element "metanorma"
+          map_element "source", to: :source
+        end
+      end
+
+      # <metanorma><source>: the semantic vocabulary roots. One
+      # collection receives every flavor root element.
+      class MetanormaSemanticSource < Lutaml::Model::Serializable
+        attribute :semantic_roots,
+                  Metanorma::Document::Components::Semantic::Node,
+                  collection: true
+
+        xml do
+          element "source"
+          Metanorma::Document::Components::Semantic::Node::ROOT_TAGS.each do |tag|
+            map_element tag, to: :semantic_roots
+          end
         end
       end
     end
