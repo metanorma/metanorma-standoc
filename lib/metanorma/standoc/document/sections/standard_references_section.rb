@@ -35,6 +35,13 @@ module Metanorma
         attribute :ul,
                   Metanorma::Document::Components::Lists::UnorderedList, collection: true
 
+        attribute :subsections,
+                  "Metanorma::Standoc::Document::Sections::StandardReferencesSection",
+                  collection: true
+        attribute :clauses,
+                  "Metanorma::Standoc::Document::Sections::ClauseSection",
+                  collection: true
+
         # Presentation-specific attributes
 
         attribute :semx_id, :string
