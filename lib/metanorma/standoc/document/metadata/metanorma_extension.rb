@@ -48,9 +48,9 @@ module Metanorma
 
         xml do
           element "source"
-          Metanorma::Document::Components::Semantic::Node::ROOT_TAGS.each do |tag|
-            map_element tag, to: :semantic_roots
-          end
+          # Flavor roots are dynamic (semantic__*-standard); the
+          # catch-all collects every root element.
+          map_any_element to: :semantic_roots
         end
       end
     end
