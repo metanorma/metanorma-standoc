@@ -37,4 +37,4 @@ gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", bran
 eval_gemfile("Gemfile.devel") rescue nil
 
 
-gem "moxml", github: "lutaml/moxml", branch: "fix/append-sugar" # port pin until #314 merges
+gem "moxml", github: "lutaml/moxml", branch: "fix/detached-parent-link" # port pin until #317 (stale parent link crash) releases
