@@ -1410,11 +1410,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_xml_equivalent_to output
   end
 
-  # relaton/relaton#235: relaton 3.0.0.pre.alpha.5 parses the code
-  # with the flavor's pubid grammar inside processor.cache_key without
-  # a rescue; "NIST 123" (no series) raises Pubid::Errors::ParseError
-  # and the fetch dies before the flavor — and this mock — is reached.
-  xit "renders not found reference with no fall-back title" do
+  it "renders not found reference with no fall-back title" do
     mock_isobib_get_123_nil
     input = <<~"INPUT"
       #{ISOBIB_BLANK_HDR}
