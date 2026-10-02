@@ -84,8 +84,14 @@ module Metanorma
       end
 
       def to_xml(node)
-        node.to_xml(encoding: "UTF-8", indent: 2,
-                    save_with: Nokogiri::XML::Node::SaveOptions::AS_XML)
+        if defined?(Moxml::Document) && node.is_a?(Moxml::Document)
+          # expand_empty: false — self-close empty elements, matching
+          # the Nokogiri AS_XML output the classic pipeline emits
+          node.to_xml(encoding: "UTF-8", indent: 2, expand_empty: false)
+        else
+          node.to_xml(encoding: "UTF-8", indent: 2,
+                      save_with: Nokogiri::XML::Node::SaveOptions::AS_XML)
+        end
       end
 
       SUBCLAUSE_XPATH = "//clause[not(parent::sections)]" \

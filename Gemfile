@@ -35,3 +35,6 @@ gem "pubid", github: "pubid/pubid", branch: "main"
 gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", branch: "main"
 
 eval_gemfile("Gemfile.devel") rescue nil
+
+
+gem "moxml", github: "lutaml/moxml", branch: "fix/append-sugar" # port pin until #314 merges
