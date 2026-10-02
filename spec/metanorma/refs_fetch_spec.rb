@@ -1369,9 +1369,6 @@ RSpec.describe Metanorma::Standoc do
                        <title>RFC</title>
                        <number>8341</number>
                     </series>
-                    <series type="stream">
-                       <title>IETF</title>
-                    </series>
                     <keyword>
                        <vocab>NETCONF RESTCONF</vocab>
                     </keyword>
@@ -1450,9 +1447,6 @@ RSpec.describe Metanorma::Standoc do
                     <series>
                        <title>RFC</title>
                        <number>8341</number>
-                    </series>
-                    <series type="stream">
-                       <title>IETF</title>
                     </series>
                     <keyword>
                        <vocab>NETCONF RESTCONF</vocab>
@@ -1879,9 +1873,6 @@ RSpec.describe Metanorma::Standoc do
                     <series>
                       <title>RFC</title>
                       <number>8341</number>
-                    </series>
-                    <series type="stream">
-                      <title>IETF</title>
                     </series>
                     <keyword>
                       <vocab>NETCONF RESTCONF</vocab>
