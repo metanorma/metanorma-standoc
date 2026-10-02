@@ -103,6 +103,7 @@ module Metanorma
 
       def semantic_body(node)
         if sectioned_semantic?(node)
+          @sectioned_semantic = true
           middle_sectioned(node)
         else
           noko { |ixml| middle node, ixml }
@@ -126,8 +127,16 @@ module Metanorma
         )
       end
 
+      def moxml_context
+        @moxml_context ||= Moxml.new(:leptris)
+      end
+
       def cleanup(result)
-        ret1 = Nokogiri::XML(result)
+        ret1 = if @sectioned_semantic
+                 moxml_context.parse(result)
+               else
+                 Nokogiri::XML(result)
+               end
         @nocleanup and return ret1
         cleanup_processor = cleanup_class.new(self)
         ret1 = cleanup_processor.cleanup(ret1)

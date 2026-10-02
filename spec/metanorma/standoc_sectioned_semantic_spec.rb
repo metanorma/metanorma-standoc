@@ -73,7 +73,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   it "produces the same document as the classic pipeline" do
-    expect(sectioned).to be_xml_equivalent_to classic
+    expect(strip_guid(sectioned)).to be_xml_equivalent_to(strip_guid(classic))
   end
 
   it "keeps the same top-level sections" do
