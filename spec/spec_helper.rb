@@ -297,14 +297,16 @@ def stub_fetch_ref(**opts)
   expect(Relaton::Iso::Bibliography).to receive(:search)
     .and_wrap_original do |search, *args|
     code = args[0]
-    expect(code).to be_instance_of String
+    # relaton #205 part 2 passes the parsed pubid object; accept both
+    # it and the legacy raw code string.
+    expect(code).to respond_to(:to_s)
     xml = get_xml(search, code, opts)
     hit_pages
   end.at_least :once
 end
 
 def get_xml(search, code, opts)
-  c = code.gsub(%r{[/\s:-]}, "_").sub(%r{_+$}, "").downcase
+  c = code.to_s.gsub(%r{[/\s:-]}, "_").sub(%r{_+$}, "").downcase
   file = examples_path("#{[c, opts.keys.join('_')].join '_'}.xml")
   if File.exist? file
     File.read file
