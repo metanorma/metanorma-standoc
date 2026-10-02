@@ -162,7 +162,11 @@ module Metanorma
       def passthrough_metanorma_cleanup(doc)
         ret = to_xml(doc)
           .gsub(%r{<passthrough formats="metanorma">([^<]*)</passthrough>}) { @c.decode($1) }
-        doc.root = Nokogiri::XML(ret, &:huge).root
+        doc.root = if doc.is_a?(Moxml::Document)
+                     @conv.moxml_context.parse(ret).root
+                   else
+                     Nokogiri::XML(ret, &:huge).root
+                   end
       end
 
       def link_cleanup(xmldoc)
