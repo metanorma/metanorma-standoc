@@ -41,6 +41,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "metanorma-plugin-lutaml", "~> 0.7.31"
   spec.add_dependency "metanorma-plugin-plantuml", "~> 1.0.0"
   spec.add_dependency "metanorma-utils", "~> 2.0.1"
+  spec.add_dependency "moxml", "~> 0.5.84"
+  spec.add_dependency "leptris", "~> 1.9"
   spec.add_dependency "ruby-jing"
   # relaton-cli not just relaton, to avoid circular reference in metanorma
   spec.add_dependency "concurrent-ruby"

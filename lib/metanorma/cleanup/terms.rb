@@ -33,7 +33,11 @@ module Metanorma
       def generate_termdefinitions(xmldoc)
         xmldoc.xpath("//term[not(definition)]").each do |d|
           first_child = d.at(TERMDEF_BLOCKS) || next
-          t = Nokogiri::XML::Element.new("definition", xmldoc)
+          t = if xmldoc.respond_to?(:create_element)
+                xmldoc.create_element("definition")
+              else
+                Nokogiri::XML::Element.new("definition", xmldoc)
+              end
           add_id(t)
           first_child.replace(t)
           t << first_child.remove

@@ -1,5 +1,6 @@
 require "date"
 require "nokogiri"
+require "moxml"
 require "htmlentities"
 require "pathname"
 require "isodoc"
@@ -95,9 +96,18 @@ module Metanorma
           <#{xml_root_tag} type='semantic' version='#{version}' schema-version='#{schema_version}' flavor='#{processor.new.asciidoctor_backend}'>
         XML
                   noko { |ixml| front node, ixml },
-                  noko { |ixml| middle node, ixml },
+                  semantic_body(node),
                   "</#{xml_root_tag}>"]
         insert_xml_cr(textcleanup(result))
+      end
+
+      def semantic_body(node)
+        if sectioned_semantic?(node)
+          @sectioned_semantic = true
+          middle_sectioned(node)
+        else
+          noko { |ixml| middle node, ixml }
+        end
       end
 
       def makexml(node)
@@ -117,8 +127,16 @@ module Metanorma
         )
       end
 
+      def moxml_context
+        @moxml_context ||= Moxml.new(:leptris)
+      end
+
       def cleanup(result)
-        ret1 = Nokogiri::XML(result)
+        ret1 = if @sectioned_semantic
+                 moxml_context.parse(result)
+               else
+                 Nokogiri::XML(result)
+               end
         @nocleanup and return ret1
         cleanup_processor = cleanup_class.new(self)
         ret1 = cleanup_processor.cleanup(ret1)
@@ -159,6 +177,26 @@ module Metanorma
         xml.sections do |s|
           s << node.content if node.blocks?
         end
+      end
+
+      # `:sectioned-semantic:` assembles <sections> through the leptris
+      # engine (moxml) instead of the classic whole-document Nokogiri
+      # fragment; falls back when middle() is overridden by a flavor
+      def sectioned_semantic?(node)
+        !node.attr("sectioned-semantic").nil? &&
+          method(:middle).owner == Metanorma::Standoc::Base
+      end
+
+      # node.content is already fully serialized per section; a single
+      # parse into a lean leptris DOM replaces the classic
+      # parse+serialize round trip. The doc wrapper is held while
+      # serializing: it owns the native tree via a GC finalizer.
+      def middle_sectioned(node)
+        return "<sections/>" unless node.blocks?
+
+        context = Moxml.new(:leptris)
+        doc = context.parse("<sections>#{node.content}</sections>")
+        doc.root.to_xml(indent: 0)
       end
 
       def metadata_attrs(node)

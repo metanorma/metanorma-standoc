@@ -35,3 +35,6 @@ gem "pubid", github: "pubid/pubid", branch: "main"
 gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", branch: "main"
 
 eval_gemfile("Gemfile.devel") rescue nil
+
+
+gem "moxml", ">= 0.5.105" # v0.5.105 carries #317 (stale parent link) + #321 (read memos)
