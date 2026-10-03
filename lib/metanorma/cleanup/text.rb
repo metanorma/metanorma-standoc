@@ -80,7 +80,9 @@ module Metanorma
 
       # "abc<tag/>", def => "abc",<tag/> def
       def uninterrupt_quotes_around_xml(xmldoc)
+        i = 0
         xmldoc.traverse do |n|
+          Metanorma::Utils::GcBudget.gc_when_bloated! if ((i += 1) % 1000).zero?
           next unless n.text? && n&.previous&.element?
           next if uninterrupt_quotes_around_xml_skip(n)
 
@@ -145,7 +147,9 @@ module Metanorma
 
       def dumb2smart_quotes(xmldoc)
         prev = ""
+        n = 0
         xmldoc.traverse do |x|
+          Metanorma::Utils::GcBudget.gc_when_bloated! if ((n += 1) % 1000).zero?
           block?(x) and prev = ""
           empty_tag_with_text_content?(x) and prev = "dummy"
           x.text? or next
@@ -164,11 +168,13 @@ module Metanorma
       end
 
       def dumbquote_cleanup(xmldoc)
-        xmldoc.traverse do |n|
-          next unless n.text? && n.text.include?("\u2019")
+        i = 0
+        xmldoc.traverse do |node|
+          Metanorma::Utils::GcBudget.gc_when_bloated! if ((i += 1) % 1000).zero?
+          next unless node.text? && node.text.include?("\u2019")
 
-          n.replace(@c.encode(
-                      @c.decode(n.text)
+          node.replace(@c.encode(
+                         @c.decode(node.text)
             .gsub(/(?<=\p{Alnum})\u2019(?=\p{Alpha})/, "'"),
                       :basic, :hexadecimal
                     ))
