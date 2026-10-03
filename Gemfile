@@ -36,5 +36,5 @@ gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", bran
 
 eval_gemfile("Gemfile.devel") rescue nil
 
-
 gem "moxml", ">= 0.5.105" # v0.5.105 carries #317 (stale parent link) + #321 (read memos)
+gem "metanorma-utils", git: "https://github.com/metanorma/metanorma-utils", branch: "perf/asciidoctor-table-buffer" # utils#55: GcBudget (utils#54 merged) + in-place asciidoctor table cell buffer
