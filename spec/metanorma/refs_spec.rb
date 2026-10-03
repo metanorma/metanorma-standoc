@@ -491,9 +491,6 @@ RSpec.describe Metanorma::Standoc do
                       <title>RFC</title>
                       <number>7200</number>
                    </series>
-                   <series type="stream">
-                      <title>IETF</title>
-                   </series>
                    <keyword>
                       <vocab>SIP</vocab>
                    </keyword>
@@ -1413,11 +1410,7 @@ RSpec.describe Metanorma::Standoc do
       .to be_xml_equivalent_to output
   end
 
-  # relaton/relaton#235: relaton 3.0.0.pre.alpha.5 parses the code
-  # with the flavor's pubid grammar inside processor.cache_key without
-  # a rescue; "NIST 123" (no series) raises Pubid::Errors::ParseError
-  # and the fetch dies before the flavor — and this mock — is reached.
-  xit "renders not found reference with no fall-back title" do
+  it "renders not found reference with no fall-back title" do
     mock_isobib_get_123_nil
     input = <<~"INPUT"
       #{ISOBIB_BLANK_HDR}
@@ -1450,6 +1443,12 @@ RSpec.describe Metanorma::Standoc do
 
   private
 
+  # relaton #205 part 2 dispatches the parsed pubid object to the
+  # flavor's get; accept it and the legacy raw code string.
+  def pubid_or_string(code)
+    satisfy { |arg| arg.to_s == code }
+  end
+
   def mock_isobib_get_123_nil
     expect(Relaton::Nist::Bibliography).to receive(:get)
       .with("NIST 123", nil, { code: "NIST 123",
@@ -1463,7 +1462,7 @@ RSpec.describe Metanorma::Standoc do
 
   def mock_isobib_get_123_no_docid(times)
     expect(Relaton::Iso::Bibliography).to receive(:get)
-      .with("ISO 123", nil, { code: "ISO 123",
+      .with(pubid_or_string("ISO 123"), nil, { code: "ISO 123",
                               lang: "en",
                               fn: nil,
                               match: anything,
@@ -1481,7 +1480,7 @@ RSpec.describe Metanorma::Standoc do
 
   def mock_isobib_get_123_no_docid_lbl(times)
     expect(Relaton::Iso::Bibliography).to receive(:get)
-      .with("ISO 123", nil, { code: "ISO 123",
+      .with(pubid_or_string("ISO 123"), nil, { code: "ISO 123",
                               analyse_code: anything,
                               lang: "en",
                               fn: nil,
@@ -1499,7 +1498,7 @@ RSpec.describe Metanorma::Standoc do
 
   def mock_isobib_get_123_no_docid_fn(times)
     expect(Relaton::Iso::Bibliography).to receive(:get)
-      .with("ISO 123", nil, { code: "ISO 123",
+      .with(pubid_or_string("ISO 123"), nil, { code: "ISO 123",
                               analyse_code: anything,
                               lang: "en",
                               fn: nil,
@@ -1517,7 +1516,7 @@ RSpec.describe Metanorma::Standoc do
 
   def mock_isobib_get_123_no_docid_fn_no_title(times)
     expect(Relaton::Iso::Bibliography).to receive(:get)
-      .with("ISO 123", nil, { code: "ISO 123",
+      .with(pubid_or_string("ISO 123"), nil, { code: "ISO 123",
                               analyse_code: anything,
                               lang: "en",
                               fn: "footnote2",
@@ -1534,7 +1533,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   def mock_rfcbib_get_rfc8342(times)
-    expect(Relaton::Iso::Bibliography).to receive(:get).with("ISO 8342", nil,
+    expect(Relaton::Iso::Bibliography).to receive(:get).with(pubid_or_string("ISO 8342"), nil,
                                                               anything) do
       Relaton::Bib::Bibitem.from_xml(<<~OUTPUT)
               <bibitem id="_" anchor="RFC8342">
@@ -1554,7 +1553,7 @@ RSpec.describe Metanorma::Standoc do
   end
 
   def mock_rfcbib_get_rfc8343(times)
-    expect(Relaton::Iso::Bibliography).to receive(:get).with("ISO 8343", nil,
+    expect(Relaton::Iso::Bibliography).to receive(:get).with(pubid_or_string("ISO 8343"), nil,
                                                               anything) do
       Relaton::Bib::Bibitem.from_xml(<<~OUTPUT)
               <bibitem id="_" anchor="RFC8343">

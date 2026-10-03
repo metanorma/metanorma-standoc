@@ -29,9 +29,11 @@ gem "relaton-bib", "~> 2.2.0.pre.alpha.1"
 # release. Prefer the released gem over a git pin: relaton main has since
 # moved to lutaml-store ~> 0.3, which conflicts with glossarist 2.14's
 # lutaml-store ~> 0.2.0 and makes this bundle unresolvable.
-gem "relaton", "~> 3.0.0.pre.alpha.5" # alpha.5 ships the parsed-pubid flavor dispatch (relaton#205); git main deadlocks its worker pool
+gem "relaton", "~> 3.0.0.pre.alpha.6" # alpha.6 adds the cache_pubid parse fallback (relaton#235/#237) and the clone_entry own-row fix (relaton#238) on top of alpha.5's parsed-pubid dispatch (relaton#205); git main deadlocks its worker pool
 gem "pubid", github: "pubid/pubid", branch: "main"
 
 gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", branch: "main"
 
 eval_gemfile("Gemfile.devel") rescue nil
+
+gem "metanorma-utils", github: "metanorma/metanorma-utils", branch: "main" # utils#54 merged: shared GcBudget

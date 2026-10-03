@@ -49,17 +49,27 @@ module Metanorma
         ret
       end
 
-      def insert_xml_cr(doc)
-        doc.gsub(%r{(</(clause|table|figure|p|bibitem|ul|ol|dl|dt|dd|li|example|
+      # In-place bang passes: the three sequential whole-document
+      # substitutions each allocate a full copy of the document string
+      # when written with non-bang gsub; on large compiles this phase
+      # was a top transient-allocation site. Sequential semantics are
+      # preserved exactly (the sourcecode/name collapse relies on the
+      # newlines the first two passes insert).
+      CLOSE_TAG = %r{(</(clause|table|figure|p|bibitem|ul|ol|dl|dt|dd|li|example|
             sourcecode|formula|quote|references|annex|appendix|title|name|note|
             thead|tbody|tfoot|th|td|form|requirement|recommendation|permission|
             imagemap|svgmap|preferred|admitted|related|domain|deprecates|
             letter-symbol|graphical-symbol|expression|subject|abbreviation-type|
             pronunciation|grammar|term|terms|termnote|termexample|source|
-            origin|termref|modification)>)}x, "\\1\n")
-          .gsub(%r{(<(title|name))}, "\n\\1")
-          .gsub(%r{(<sourcecode[^<>]*+>)\s++(<name[^<>]*+>(?>.*?</name>))\s++}m,
-                "\\1\\2")
+            origin|termref|modification)>)}x.freeze
+      OPEN_TITLE_NAME = %r{(<(title|name))}.freeze
+      SOURCECODE_NAME = %r{(<sourcecode[^<>]*+>)\s++(<name[^<>]*+>(?>.*?</name>))\s++}m.freeze
+
+      def insert_xml_cr(doc)
+        doc.gsub!(CLOSE_TAG, "\\1\n")
+        doc.gsub!(OPEN_TITLE_NAME, "\n\\1")
+        doc.gsub!(SOURCECODE_NAME, "\\1\\2")
+        doc
       end
 
       def version
@@ -97,15 +107,23 @@ module Metanorma
                   noko { |ixml| front node, ixml },
                   noko { |ixml| middle node, ixml },
                   "</#{xml_root_tag}>"]
-        insert_xml_cr(textcleanup(result))
+        Metanorma::Utils::GcBudget.gc_when_bloated!
+        insert_xml_cr(textcleanup(result)).tap do
+          # The assembly passes build three whole-document string
+          # copies; collect before the cleanup parse so the budget
+          # reflects post-assembly, not mid-string, pressure.
+          Metanorma::Utils::GcBudget.gc_when_bloated!
+        end
       end
 
       def makexml(node)
         result = makexml1(node)
         ret1 = cleanup(result)
+        Metanorma::Utils::GcBudget.gc_when_bloated!
         unless @novalid || in_isolated_conversion?
           validate_processor = validate_class.new(self)
           validate_processor.validate(ret1)
+          Metanorma::Utils::GcBudget.gc_when_bloated!
           @files_to_delete = validate_processor.files_to_delete
         end
         ret1

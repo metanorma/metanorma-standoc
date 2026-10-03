@@ -998,27 +998,33 @@ RSpec.describe Metanorma::Standoc do
 
   private
 
+  # relaton #205 part 2 dispatches the parsed pubid object to the
+  # flavor's get; accept it and the legacy raw code string.
+  def pubid_or_string(code)
+    satisfy { |arg| arg.to_s == code }
+  end
+
   def mock_isobib_get_123
     expect(Relaton::Iso::Bibliography).to receive(:get)
-      .with("ISO 123", "2001", anything)
+      .with(pubid_or_string("ISO 123"), "2001", anything)
       .and_return(Relaton::Bib::Bibitem.from_xml(ISO_123_DATED))
   end
 
   def mock_isobib_get_123_undated
     expect(Relaton::Iso::Bibliography).to receive(:get)
-      .with("ISO 123", nil, anything)
+      .with(pubid_or_string("ISO 123"), nil, anything)
       .and_return(Relaton::Bib::Bibitem.from_xml(ISO_123_UNDATED))
   end
 
   def mock_isobib_get_124
     expect(Relaton::Iso::Bibliography).to receive(:get)
-      .with("ISO 124", "2014", anything)
+      .with(pubid_or_string("ISO 124"), "2014", anything)
       .and_return(Relaton::Bib::Bibitem.from_xml(ISO_124_DATED))
   end
 
   def mock_ietfbib_get_123
     expect(Relaton::Ietf::Bibliography).to receive(:get)
-      .with("RFC 123", nil, anything)
+      .with(pubid_or_string("RFC 123"), nil, anything)
       .and_return(Relaton::Bib::Bibitem.from_xml(IETF_123_SHORT))
   end
 end

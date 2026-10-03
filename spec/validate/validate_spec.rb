@@ -646,7 +646,7 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       # relaton >= db9840bdf parses identifiers with a different engine;
       # malformed ISO 0a surfaces as a parser expectation listing the
       # identifier kinds, not the old RELATON_3 code line
-      expect(errors).to include("Expected one of")
+      expect(errors).to include("expected one of")
       expect(errors).to include("STANDOC_38")
       expect(errors).to include("Crossreference target X is undefined")
       expect(errors).to include("STANDOC_7")
@@ -673,7 +673,7 @@ RSpec.describe Metanorma::Standoc, type: :validation do
                   ":no-isobib-cache:"),
       )
       expect(errors).not_to include("<code>ISO 0a</code>")
-      expect(errors).not_to include("Expected one of")
+      expect(errors).not_to include("expected one of")
       expect(errors).not_to include("STANDOC_38")
       expect(errors).not_to include("Crossreference target X is undefined")
       expect(errors).to include("STANDOC_7")
@@ -685,7 +685,7 @@ RSpec.describe Metanorma::Standoc, type: :validation do
                   ":no-isobib-cache:"),
       )
       expect(errors).to include("<code>ISO 0a</code>")
-      expect(errors).to include("Expected one of")
+      expect(errors).to include("expected one of")
       expect(errors).to include("STANDOC_38")
       expect(errors).to include("Crossreference target X is undefined")
       expect(errors).not_to include("STANDOC_7")

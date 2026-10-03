@@ -164,11 +164,22 @@ module Metanorma
         id = doc.split(/,\s*/)
         xml.relation type: relation_normalise(type) do |r|
           desc.nil? or r.description desc.tr("-", " ")
-          fetch_ref(r, doc, nil, **{}) or r.bibitem do |b|
+          relation_fetch_ref(r, doc) or r.bibitem do |b|
             add_noko_elem(b, "title", id[1] || "--")
             add_noko_elem(b, "docidentifier", id[0])
           end
         end
+      end
+
+      # A relation described in document attributes is free text, not a
+      # normative citation: an unrecognized identifier logs and falls back to
+      # the plain bibitem instead of aborting metadata processing
+      # (relaton#243 strict routing raises for unowned references).
+      def relation_fetch_ref(relation, doc)
+        fetch_ref(relation, doc, nil, **{})
+      rescue Relaton::UnknownReferenceError => e
+        @log.add("STANDOC_40", nil, params: [doc])
+        nil
       end
 
       def metadata_keywords(node, xml)
