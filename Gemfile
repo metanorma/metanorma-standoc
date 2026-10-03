@@ -36,4 +36,4 @@ gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", bran
 
 eval_gemfile("Gemfile.devel") rescue nil
 
-gem "metanorma-utils", github: "metanorma/metanorma-utils", branch: "perf/gc-budget-util" # utils#54: GcBudget util (un-pin at release)
+gem "metanorma-utils", github: "metanorma/metanorma-utils", branch: "main" # utils#54 merged: shared GcBudget
