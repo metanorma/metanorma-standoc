@@ -39,7 +39,14 @@ module Metanorma
           preface = sect.at("//preface") ||
             sect.add_previous_sibling("<preface/>").first
           abstract = xml.at("//abstract[not(ancestor::bibitem)]").remove
-          preface.prepend_child abstract.remove
+          # prepend_child is a Nokogiri-only API; the first-child
+          # previous-sibling insertion works on every adapter
+          first = preface.children.first
+          if first
+            first.add_previous_sibling(abstract.remove)
+          else
+            preface.add_child(abstract.remove)
+          end
           bibabstract = bibabstract_location(xml)
           bibabstract.next = clean_abstract(abstract.dup)
         end
