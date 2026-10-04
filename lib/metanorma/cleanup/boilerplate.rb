@@ -41,7 +41,11 @@ module Metanorma
 
       def dup_with_namespace(elem)
         ret = elem.dup
-        ret.add_namespace(nil, @conv.xml_namespace)
+        # adding a namespace to a deep-copied leptris tree corrupts it
+        # (segfault at serialize); flavors without an XML namespace
+        # never needed the call
+        ns = @conv.xml_namespace
+        ret.add_namespace(nil, ns) if ns
         ret
       end
 
