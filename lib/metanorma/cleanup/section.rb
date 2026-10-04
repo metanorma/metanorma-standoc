@@ -54,6 +54,8 @@ module Metanorma
 
       def clean_abstract(dupabstract)
         dupabstract.traverse do |n|
+          next unless n.element? # only elements carry attributes
+
           n.remove_attribute("id")
           n.remove_attribute("anchor")
         end
