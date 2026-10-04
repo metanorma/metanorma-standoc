@@ -29,7 +29,7 @@ module Metanorma
         if bib.at("./title") && bib["amend"]
           # there already is a fetched record here: merge
           bib.children = Metanorma::Standoc::Cleanup::MergeBibitems
-            .new(bib.to_xml, new.to_xml).merge.to_noko.children
+            .new(bib.to_xml, new.to_xml).merge.to_noko.children.to_xml
         elsif bib.at("./title") # replace record
           bib.children = new.children.to_xml
         else bib << new.children.to_xml
