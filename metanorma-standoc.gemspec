@@ -50,7 +50,7 @@ Gem::Specification.new do |spec|
   # Floor names the 3.0.0 prerelease: bundler only considers prereleases
   # when a requirement names one, and the ecosystem target is relaton 3.0+
   # (glossarist 2.14+ requires relaton ~> 3.0.0.pre.alpha).
-  , "< 3.1.0"
+  spec.add_dependency "relaton-cli", ">= 3.0.0.pre.alpha", "< 3.1.0"
   spec.add_dependency "relaton-iev", "~> 2.0"
   spec.add_dependency "svg_conform", "~> 0.1.0"
 
