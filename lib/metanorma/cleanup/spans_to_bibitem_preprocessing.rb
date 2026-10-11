@@ -19,17 +19,10 @@ module Metanorma
           acc << { key: keys[0], type: keys[1],
                    val: span.children.to_xml }
           (span["class"] == "type" and span.remove) or
-            begin
-              # Nokogiri's replace accepts a NodeSet; moxml takes a node,
-              # so move each child before the span and drop the span.
-              # to_a snapshots: add_previous_sibling detaches from the live
-              # children collection, and mutating it mid-iteration drops
-              # or duplicates nodes
-              span.children.to_a.reverse_each do |c|
-                span.add_previous_sibling(c)
-              end
-              span.remove
-            end
+            # moxml's replace accepts a fragment string and preserves text
+            # nodes; its add_previous_sibling drops text children, and node
+            # moves over a live collection lose the leading ones
+            span.replace(span.children.to_xml)
         end
 
         def extract_docid(bib)
