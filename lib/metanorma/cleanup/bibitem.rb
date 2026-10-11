@@ -28,8 +28,12 @@ module Metanorma
         merge_bibitem_from_formattedref_span_attrs(bib, new)
         if bib.at("./title") && bib["amend"]
           # there already is a fetched record here: merge
+          # to_noko children are Nokogiri natives; handing them to moxml's
+          # children= crosses adapters (type-confused natives under leptris,
+          # segfault at serialize on windows). Serialize to markup and let
+          # moxml re-parse in bib's own context.
           merged = Metanorma::Standoc::Cleanup::MergeBibitems
-            .new(bib.to_xml, new.to_xml).merge.to_noko.children
+            .new(bib.to_xml, new.to_xml).merge.to_noko.children.to_xml
           bib.children = merged
         elsif bib.at("./title") # replace record
           bib.children = new.children
