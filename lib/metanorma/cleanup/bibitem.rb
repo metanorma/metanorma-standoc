@@ -36,9 +36,9 @@ module Metanorma
             .new(bib.to_xml, new.to_xml).merge.to_noko.children.to_xml
           bib.children = merged
         elsif bib.at("./title") # replace record
-          bib.children = new.children
+          bib.children = new.children.map(&:to_xml).join
         else
-          new.children.each { |c| bib << c }
+          bib << new.children.map(&:to_xml).join
         end
         bibitem_reorder_elems(bib)
       end
