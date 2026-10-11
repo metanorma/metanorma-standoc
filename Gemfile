@@ -37,4 +37,5 @@ gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", bran
 eval_gemfile("Gemfile.devel") rescue nil
 
 gem "moxml", ">= 0.5.105" # v0.5.105 carries #317 (stale parent link) + #321 (read memos)
+gem "leptris", "1.9.331.0" # 1.9.33x windows segv: fast_element_xml CFUNC crash in serialization
 gem "metanorma-utils", git: "https://github.com/metanorma/metanorma-utils", branch: "perf/asciidoctor-table-buffer" # utils#55: GcBudget (utils#54 merged) + in-place asciidoctor table cell buffer
