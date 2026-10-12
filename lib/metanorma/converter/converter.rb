@@ -26,6 +26,7 @@ module Metanorma
         treeprocessor Metanorma::Plugin::Asciichem::Extension::ChemTreeprocessor
         inline_macro Metanorma::Plugin::Asciichem::Extension::ChemInlineMacro, :chem
         preprocessor Metanorma::Plugin::Lutaml::LutamlDataPreprocessor
+        preprocessor Metanorma::Plugin::Lutaml::LutamlXsdPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlUmlDatamodelDescriptionPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlEaXmiPreprocessor
