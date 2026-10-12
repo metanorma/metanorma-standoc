@@ -38,4 +38,4 @@ eval_gemfile("Gemfile.devel") rescue nil
 
 gem "moxml", ">= 0.5.105" # v0.5.105 carries #317 (stale parent link) + #321 (read memos)
 gem "leptris", "1.9.331.0" # 1.9.33x windows segv: fast_element_xml CFUNC crash in serialization
-gem "metanorma-utils", git: "https://github.com/metanorma/metanorma-utils", branch: "perf/asciidoctor-table-buffer" # utils#55: GcBudget (utils#54 merged) + in-place asciidoctor table cell buffer
+gem "metanorma-utils", "~> 2.0.8" # GcBudget (utils#54) + the array-join asciidoctor table cell buffer (utils#55/#56), released in 2.0.8
