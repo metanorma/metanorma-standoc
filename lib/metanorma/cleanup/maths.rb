@@ -88,7 +88,14 @@ module Metanorma
 
       def mathml_namespace(stem)
         stem.xpath("./*[local-name() = 'math']").each do |x|
-          x.default_namespace = MATHML_NS
+          if (prefix = x.name[/\A([^:]+):/, 1])
+            # a stem may arrive with a prefixed MathML root (mml:math);
+            # a default namespace does not bind that prefix, so the
+            # serialized document is not well-formed. Bind the prefix.
+            x.add_namespace_definition(prefix, MATHML_NS)
+          else
+            x.default_namespace = MATHML_NS
+          end
         end
       end
 
