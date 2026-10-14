@@ -1,4 +1,5 @@
-require "jing"
+require "leptris"
+require "leptris/xml/relaxng"
 require "tempfile"
 
 module Metanorma
@@ -19,125 +20,29 @@ module Metanorma
         def schema_validate(doc, schema)
           Tempfile.open(["tmp", ".xml"], encoding: "UTF-8") do |f|
             schema_validate1(f, doc, schema)
-          rescue Jing::Error => e
-            @conv.clean_abort("Jing failed with error: #{e}", doc)
+          rescue Leptris::XML::Error => e
+            @conv.clean_abort("Schema validation failed with error: #{e}", doc)
           ensure
             f.close!
           end
         end
 
-        # Pass JVM properties explicitly on the command line instead of
-        # mutating process environment. Env vars like _JAVA_OPTIONS and
-        # JAVA_TOOL_OPTIONS make the JVM print a "Picked up ..." banner to
-        # stderr on every launch, which ruby-jing treats as a fatal error;
-        # mutating ENV is also not thread-safe. Java 24+ caps XML entity
-        # size at 100000 by default, which large documents exceed, so the
-        # jdk.xml limits must be raised here for validation to run at all.
-        # Override with METANORMA_JING_JAVA_OPTS if needed.
-        # UTF-8 console encoding fixes the Japanese Windows issue:
-        # https://github.com/metanorma/mn-samples-plateau/issues/248
-        # (-Dsun.jnu.encoding controls Java's native interface encoding,
-        # i.e. console I/O)
-        JING_JAVA_OPTS = [
-          "-Dfile.encoding=UTF-8",
-          "-Dsun.jnu.encoding=UTF-8",
-          "-Djdk.xml.maxGeneralEntitySizeLimit=10000000",
-          "-Djdk.xml.totalEntitySizeLimit=10000000",
-        ].freeze
-
-        # ruby-jing shell-quotes java_opts into ONE argv token, so
-        # multiple -D flags must ride in a JVM @argfile (the JVM
-        # expands it) or the VM dies at initialization treating the
-        # whole string as a single option.
-        def with_jing_java_opts
-          opts = ENV["METANORMA_JING_JAVA_OPTS"]&.split ||
-            JING_JAVA_OPTS
-          file = Tempfile.new("jing-java-opts")
-          file.puts(opts.join("\n"))
-          file.close
-          yield "@#{file.path}"
-        ensure
-          file&.unlink
+        def schema_validate_errors(schema, file_path)
+          rng = Leptris::XML::RelaxNG.parse_file(schema)
+          doc = Leptris::XML.parse(File.read(file_path), readonly: true)
+          rng.validate_errors(doc)
         end
 
         def schema_validate1(file, doc, schema)
           file.write(to_xml(doc))
           file.close
-          errors = if use_leptris_rng?
-                     schema_validate_leptris(schema, file.path)
-                   else
-                     schema_validate_with_retry(schema, file.path)
-                   end
+          errors = schema_validate_errors(schema, file.path)
           warn "Syntax Valid!" if errors.none?
           errors.each do |e|
             @log.add("STANDOC_7",
                      "XML Line #{'%06d' % e[:line]}:#{e[:column]}",
                      params: [e[:message]])
           end
-        end
-
-        # Retry Jing validation with exponential backoff to handle
-        # "Too many open files" errors.
-        # This can occur when validating large documents or when multiple
-        # validations happen in quick succession, exhausting the system's
-        # file descriptor limit.
-        # Java's Jing validator opens multiple file handles for the JAR, schema,
-        # and XML files, # and the OS may not clean them up fast enough.
-        def schema_validate_with_retry(schema, file_path, max_retries: 3)
-          retries = 0
-          begin
-            # id_check: false disables jing's DTD-compatibility ID/IDREF check
-            # (emits -i). That check is namespace-blind and falsely reports
-            # "conflicting ID-types for id" once the embedded W3C MathML grammar
-            # (CommonAtt types id as xsd:ID) coexists with standoc's own xsd:ID
-            # id (basicdoc-models#35). Safe to disable: id/anchor uniqueness is
-            # enforced by content_validate (repeat_id_validate1 /
-            # repeat_anchor_validate1 -> STANDOC_36) and IDREF is text in
-            # Semantic XML (isodoc.rng). NB ruby-jing 0.0.3 polarity is inverted:
-            # id_check: false is what emits -i (verified against validate_spec).
-            with_jing_java_opts do |java_opts|
-              Jing.new(schema, java_opts: java_opts, id_check: false)
-                .validate(file_path)
-            end
-          rescue Jing::ExecutionError => e
-            # Check if this is a "Too many open files" error
-            if e.message.include?("Too many open files") && retries < max_retries
-              retries += 1
-              delay = 0.1 * (2**(retries - 1)) # Exponential backoff: 0.1s, 0.2s, 0.4s
-              warn "Jing validation encountered 'Too many open files' error. " \
-                   "Retrying (attempt #{retries}/#{max_retries}) after #{delay}s delay..."
-              sleep(delay)
-              retry
-            else
-              # Re-raise if not a file descriptor issue or max retries exceeded
-              raise
-            end
-          end
-        end
-
-        # RELAX NG engine selection. The leptris gem (native, no JVM)
-        # validates the same schemas with Jing-parity messages and
-        # columns; when it is available it is the default. Force the
-        # JVM engine with METANORMA_RNG_ENGINE=jing. The gem is NOT a
-        # hard dependency yet - environments without it keep Jing.
-        def use_leptris_rng?
-          # Opt-in: METANORMA_RNG_ENGINE=leptris selects the native engine.
-          # Auto-detecting on gem presence would silently hijack the Jing
-          # path for any bundle that merely carries the leptris gem.
-          return false unless ENV["METANORMA_RNG_ENGINE"] == "leptris"
-
-          require "leptris/xml"
-          true
-        rescue LoadError
-          false
-        end
-
-        def schema_validate_leptris(schema, file_path)
-          rng = Leptris::XML::RelaxNG.parse_file(schema)
-          doc = Leptris::XML::Document.parse_file(file_path)
-          rng.validate_errors(doc)
-        rescue Leptris::XML::Error => e
-          @conv.clean_abort("libleptris RNG failed: #{e}", nil)
         end
 
         def validate_document_fragment(xml_fragment)

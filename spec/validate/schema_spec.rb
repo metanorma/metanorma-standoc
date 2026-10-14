@@ -1,163 +1,70 @@
 require "spec_helper"
-require "fileutils"
 
 RSpec.describe Metanorma::Standoc do
-  describe "Jing invocation" do
-    it "passes JVM properties via java_opts without mutating _JAVA_OPTIONS" do
+  describe "schema validation" do
+    it "validates a metadata-complete document against the compile schema" do
       input = <<~INPUT
         = Document title
         Author
         :docfile: test.adoc
         :nodoc:
+        :docnumber: 1000
+        :copyright-year: 2026
+        :publisher: Ribose
 
         == Clause
         Para
       INPUT
 
-      captured_opts = nil
-      opts_content = :not_called
-      env_at_call = :not_called
-      allow(Jing).to receive(:new) do |schema, opts = nil|
-        captured_opts = opts
-        # the argfile is unlinked once validation returns; read now
-        opts_content = File.read(opts[:java_opts].delete_prefix("@"))
-        env_at_call = ENV["_JAVA_OPTIONS"]
-        jing = Jing.allocate
-        allow(jing).to receive(:validate) { [] }
-        jing
-      end
+      expect { Asciidoctor.convert(input, *OPTIONS) }
+        .to output(/Syntax Valid!/).to_stderr
+    end
 
+    it "reports schema violations with line and column in the error log" do
+      input = <<~INPUT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+        :docnumber: 1000
+        :copyright-year: 2026
+        :publisher: Ribose
+
+        == Clause
+
+        === Subclause
+
+        Para
+      INPUT
+      allow_any_instance_of(Metanorma::Standoc::Validate::Schema)
+        .to receive(:schema_validate_errors)
+        .and_return([{ line: 1, column: 1, message: "injected violation" }])
+
+      File.delete("test.err.html") if File.exist?("test.err.html")
       Asciidoctor.convert(input, *OPTIONS)
-
-      expect(env_at_call).to be_nil
-      # multiple -D flags ride in a JVM @argfile (ruby-jing shell-quotes
-      # java_opts into one token); assert its contents
-      expect(captured_opts[:java_opts]).to start_with("@")
-      expect(opts_content).to include("-Dfile.encoding=UTF-8")
-      expect(opts_content).to include("-Dsun.jnu.encoding=UTF-8")
-      expect(opts_content).to include("-Djdk.xml.maxGeneralEntitySizeLimit=")
-      expect(opts_content).to include("-Djdk.xml.totalEntitySizeLimit=")
+      expect(File.read("test.err.html")).to include("injected violation")
     end
 
-    it "honors METANORMA_JING_JAVA_OPTS override" do
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
-
-        == Clause
-        Para
-      INPUT
-
-      captured_opts = nil
-      opts_content = nil
-      allow(Jing).to receive(:new) do |schema, opts = nil|
-        captured_opts = opts
-        opts_content = File.read(opts[:java_opts].delete_prefix("@"))
-        jing = Jing.allocate
-        allow(jing).to receive(:validate) { [] }
-        jing
-      end
-
-      old_override = ENV["METANORMA_JING_JAVA_OPTS"]
-      ENV["METANORMA_JING_JAVA_OPTS"] = "-Xmx2g"
-      begin
-        Asciidoctor.convert(input, *OPTIONS)
-      ensure
-        ENV["METANORMA_JING_JAVA_OPTS"] = old_override
-      end
-
-      expect(opts_content).to include("-Xmx2g")
-    end
-  end
-
-  describe "schema validation with retry" do
-    it "retries on 'Too many open files' error and succeeds" do
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
-
-        == Clause
-        Para
-      INPUT
-
-      # Mock Jing to fail once then succeed
-      call_count = 0
-      allow_any_instance_of(Jing).to receive(:validate) do
-        call_count += 1
-        if call_count == 1
-          raise Jing::ExecutionError.new("jing execution failed: Too many open files - 'java'")
-        else
-          [] # Success on second attempt
+    it "aborts cleanly when the schema itself fails to parse" do
+      conv = Metanorma::Standoc::Converter.new(:standoc, {})
+      validator = Class.new do
+        include Metanorma::Standoc::Validate::Schema
+        def initialize(conv)
+          @conv = conv
         end
-      end
 
-      # Capture warnings to verify retry happened
-      expect do
-        Asciidoctor.convert(input, *OPTIONS)
-      end.to output(/Retrying.*attempt 1\/3.*after 0\.1s delay/).to_stderr
-
-      expect(call_count).to eq(2)
-    end
-
-    it "retries multiple times on 'Too many open files' error" do
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
-
-        == Clause
-        Para
-      INPUT
-
-      # Mock Jing to fail 3 times then succeed
-      call_count = 0
-      allow_any_instance_of(Jing).to receive(:validate) do
-        call_count += 1
-        if call_count <= 3
-          raise Jing::ExecutionError.new("jing execution failed: Too many open files - 'java'")
-        else
-          [] # Success on 4th attempt
+        def to_xml(_doc)
+          "<doc/>"
         end
-      end
+      end.new(conv)
+      allow(Leptris::XML::RelaxNG).to receive(:parse_file)
+        .and_raise(Leptris::XML::Error, "schema parse failed: boom")
+      allow(conv).to receive(:clean_abort)
 
-      # Verify retry with exponential backoff occurs
-      Asciidoctor.convert(input, *OPTIONS)
-
-      # Should have tried 4 times total (initial + 3 retries)
-      expect(call_count).to eq(4)
-    end
-
-    it "does not retry on non-file-descriptor errors" do
-      input = <<~INPUT
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
-
-        == Clause
-        Para
-      INPUT
-
-      # Mock Jing with a different error
-      call_count = 0
-      allow_any_instance_of(Jing).to receive(:validate) do
-        call_count += 1
-        raise Jing::ExecutionError.new("jing execution failed: Some other error")
-      end
-
-      begin
-        expect do
-          Asciidoctor.convert(input, *OPTIONS)
-        end.to raise_error(SystemExit)
-      rescue SystemExit
-      end
-
-      expect(call_count).to eq(1) # Should only try once, no retries
+      expect { validator.schema_validate({}, "stub.rng") }
+        .not_to raise_error
+      expect(conv).to have_received(:clean_abort)
+        .with(/Schema validation failed with error/, {})
     end
   end
 end
