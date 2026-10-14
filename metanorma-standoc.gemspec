@@ -43,7 +43,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "metanorma-utils", "~> 2.0.1"
   spec.add_dependency "moxml", "~> 0.5.84"
   spec.add_dependency "leptris", "~> 1.9"
-  spec.add_dependency "ruby-jing"
+  spec.add_dependency "leptris", "~> 1.9"
   # relaton-cli not just relaton, to avoid circular reference in metanorma
   spec.add_dependency "concurrent-ruby"
   spec.add_dependency "png_conform", "~> 0.1.0"

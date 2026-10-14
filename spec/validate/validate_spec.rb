@@ -586,8 +586,9 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       [align=mid-air]
       Para
     INPUT
-    expect(errors)
-      .to include('value of attribute "align" is invalid; must be equal to')
+    # leptris (unlike Jing) drops the attribute diagnostic when the element
+    # is also position-invalid: https://github.com/leptris/leptris/issues/1704
+    expect(errors).to include('element "p" not allowed')
   end
 
   context "logging errors" do
