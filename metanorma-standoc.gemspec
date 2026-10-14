@@ -50,7 +50,7 @@ Gem::Specification.new do |spec|
   # (glossarist 2.14+ requires relaton ~> 3.0.0.pre.alpha).
   spec.add_dependency "relaton-cli", ">= 3.0.0.pre.alpha", "< 3.1.0"
   spec.add_dependency "relaton-iev", "~> 2.0"
-  spec.add_dependency "svg_conform", "~> 0.1.0"
+  spec.add_dependency "svg_conform", "~> 0.2"
 
   spec.add_development_dependency "canon" # , "= 0.2.3"
   spec.add_development_dependency "debug"
