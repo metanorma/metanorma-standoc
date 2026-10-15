@@ -8,6 +8,7 @@ module Metanorma
           attribute :unit, :string
           attribute :prefix, :string
           attribute :power_numerator, :integer
+          attribute :power_denominator, :integer
 
           xml do
             element "EnumeratedRootUnit"
@@ -15,6 +16,7 @@ module Metanorma
             map_attribute "unit", to: :unit
             map_attribute "prefix", to: :prefix
             map_attribute "powerNumerator", to: :power_numerator
+            map_attribute "powerDenominator", to: :power_denominator
           end
         end
       end
