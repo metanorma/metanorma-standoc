@@ -1008,6 +1008,30 @@ RSpec.describe Metanorma::Standoc do
                             lowergreek: true, lowerroman: true })
   end
 
+  it "normalizes a stem carrying an unbound-prefixed MathML root" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+
+      stem:[<mml:math><mml:msub xmlns:mml="http://www.w3.org/1998/Math/MathML"> <mml:mi>F</mml:mi> </mml:msub> </mml:math>]
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections>
+        <p id="_">
+        <stem type="MathML" block="false"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub> <mi>F</mi> </msub> </math></stem>
+        </p>
+      </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
+  end
+
   private
 
   def mock_mathml_italicise(string)
