@@ -72,11 +72,19 @@ module Metanorma
       end
 
       def xml_unescape_mathml(xml)
-        xml.children.any?(&:element?) and return
-        math = xml.text.gsub("&lt;", "<").gsub("&gt;", ">")
-          .gsub("&quot;", '"').gsub("&apos;", "'").gsub("&amp;", "&")
-          .gsub(/<[^: \r\n\t\/]+:/, "<").gsub(/<\/[^ \r\n\t:]+:/, "</")
-        xml.children = math
+        if xml.children.any?(&:element?)
+          # The stem macro hands the builder raw markup, so a MathML
+          # fragment whose flavor prefix is unbound at the root parses
+          # into bare "mml:"-named elements; namespace-aware cleanup
+          # cannot see them. Re-normalize over the serialized tree.
+          xml.children = xml.children.to_xml
+            .gsub(/<[^: \r\n\t\/]+:/, "<").gsub(/<\/[^ \r\n\t:]+:/, "</")
+            .gsub(/\s+xmlns:[^=]+="[^"]*"/, "")
+        else
+          xml.children = xml.text.gsub("&lt;", "<").gsub("&gt;", ">")
+            .gsub("&quot;", '"').gsub("&apos;", "'").gsub("&amp;", "&")
+            .gsub(/<[^: \r\n\t\/]+:/, "<").gsub(/<\/[^ \r\n\t:]+:/, "</")
+        end
       end
 
       def mathml_preserve_space(math)
