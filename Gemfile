@@ -5,7 +5,7 @@ source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}" }
 
 gemspec
-gem "metanorma-mirror", "~> 1.0"
+gem "metanorma-mirror", "~> 1.0", github: "metanorma/metanorma-mirror", branch: "main"
 
 # Stopgap: lutaml 0.11.x removed lib/lutaml/xmi.rb, which metanorma-plugin-lutaml
 # 0.7.x still `require`s. Hold lutaml at 0.10.x until plugin-lutaml follows the
@@ -38,4 +38,4 @@ eval_gemfile("Gemfile.devel") rescue nil
 
 gem "moxml", ">= 0.5.105" # v0.5.105 carries #317 (stale parent link) + #321 (read memos)
 gem "leptris", "1.9.331.0" # 1.9.33x windows segv: fast_element_xml CFUNC crash in serialization
-gem "metanorma-utils", "~> 2.0.8" # GcBudget (utils#54) + the array-join asciidoctor table cell buffer (utils#55/#56), released in 2.0.8
+gem "metanorma-utils", "~> 2.0.8" # GcBudget (utils#54) + the array-join asciidoctor table cell buffer (utils#55/#56), released in 2.0.8, github: "metanorma/metanorma-utils", branch: "main"
