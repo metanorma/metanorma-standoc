@@ -49,30 +49,39 @@ RSpec.describe Metanorma::Standoc do
       [custom-charset: weather, random-attr: x]#xyz#
     INPUT
     output = <<~OUTPUT
-           #{BLANK_HDR}
-      <sections>
-      <em>Physical noise sources</em>
-      <strong>strong</strong>
-      <tt>monospace</tt>
-      "double quote"
-      'single quote'
-      super<sup>script</sup>
-      sub<sub>script</sub>
-      sub<sub><em>scr</em>ipt</sub>
-      <stem type="MathML" block="false"><mml:math><mml:msub xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"> <mml:mrow> <mml:mrow> <mml:mi mathvariant="bold-italic">F</mml:mi> </mml:mrow> </mml:mrow> <mml:mrow> <mml:mrow> <mml:mi mathvariant="bold-italic">Α</mml:mi> </mml:mrow> </mml:mrow> </mml:msub> </mml:math></stem>
-      <span class="fmt-hi">mark</span>
-      <admitted><expression><name>alt</name></expression></admitted>
-      <deprecates><expression><name>deprecated</name></expression></deprecates>
-      <domain>domain</domain>
-      <strike>strike</strike>
-      <underline>underline</underline>
-      <smallcap>smallcap</smallcap>
-      <keyword>keyword</keyword>
-      <span style="font-family:&quot;Noto Sans JP&quot;">text</span>
-      <span style="font-family:'Noto Sans JP'">text</span>
-      <span custom-charset="weather">xyz</span>
-      </sections>
-      </metanorma>
+  #{BLANK_HDR}
+  <sections><em>Physical noise
+  sources</em>
+  <strong>strong</strong>
+  <tt>monospace</tt>
+  "double quote"
+  'single quote'
+  super<sup>script</sup>
+  sub<sub>script</sub>
+  sub<sub><em>scr</em>ipt</sub>
+  <stem block="false" type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub> <mrow> <mrow> <mi mathvariant="bold-italic">F</mi> </mrow> </mrow> <mrow> <mrow> <mi mathvariant="bold-italic">Α</mi> </mrow> </mrow> </msub> </math></stem>
+  <span class="fmt-hi">mark</span>
+  <admitted><expression>
+  <name>alt</name>
+  </expression>
+  </admitted>
+
+  <deprecates><expression>
+  <name>deprecated</name>
+  </expression>
+  </deprecates>
+
+  <domain>domain</domain>
+
+  <strike>strike</strike>
+  <underline>underline</underline>
+  <smallcap>smallcap</smallcap>
+  <keyword>keyword</keyword>
+  <span style="font-family:&quot;Noto Sans JP&quot;">text</span>
+  <span style="font-family:'Noto Sans JP'">text</span>
+  <span custom-charset="weather">xyz</span>
+  </sections>
+  </metanorma>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
       .to be_xml_equivalent_to output
