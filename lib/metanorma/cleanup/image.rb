@@ -10,13 +10,23 @@ module Metanorma
         processed = Vectory::SvgMapping.new(xmldoc, @localdir).call.to_xml
 
         # vectory 0.13 processes on its own tree and returns the result
-        # instead of mutating the caller's document; graft the processed
-        # content back so the cleanup pipeline (which threads xmldoc by
-        # reference through every step) keeps working. With vectory 0.12
-        # the document is already mutated and the graft is a no-op.
-        new_doc = Nokogiri::XML(processed)
-        xmldoc.children.each(&:remove)
-        new_doc.children.each { |n| xmldoc << n }
+        # instead of mutating the caller's document; reparse the processed
+        # XML with the caller's own XML library and graft the content back
+        # so the cleanup pipeline (which threads xmldoc by reference
+        # through every step) keeps working. With vectory 0.12 the document
+        # is already mutated and the graft is a no-op.
+        new_doc = if defined?(Moxml) && xmldoc.is_a?(Moxml::Node)
+                    Moxml.new.parse(processed)
+                  elsif defined?(Nokogiri) && xmldoc.is_a?(Nokogiri::XML::Node)
+                    Nokogiri::XML(processed)
+                  else
+                    raise ArgumentError,
+                          "unsupported xmldoc type: #{xmldoc.class}"
+                  end
+        old_root = xmldoc.root
+        new_root = new_doc.root
+        old_root.children.each(&:remove)
+        new_root.children.each { |n| old_root << n }
         xmldoc
       end
 
