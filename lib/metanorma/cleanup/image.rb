@@ -7,7 +7,17 @@ module Metanorma
       def svgmap_cleanup(xmldoc)
         svgmap_moveattrs(xmldoc)
         svgmap_populate(xmldoc)
-        Vectory::SvgMapping.new(xmldoc, @localdir).call
+        processed = Vectory::SvgMapping.new(xmldoc, @localdir).call.to_xml
+
+        # vectory 0.13 processes on its own tree and returns the result
+        # instead of mutating the caller's document; graft the processed
+        # content back so the cleanup pipeline (which threads xmldoc by
+        # reference through every step) keeps working. With vectory 0.12
+        # the document is already mutated and the graft is a no-op.
+        new_doc = Nokogiri::XML(processed)
+        xmldoc.children.each(&:remove)
+        new_doc.children.each { |n| xmldoc << n }
+        xmldoc
       end
 
       def svgmap_moveattrs(xmldoc)
