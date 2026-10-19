@@ -28,13 +28,11 @@ gem "isodoc", github: "metanorma/isodoc", branch: "main"
 # release. Prefer the released gem over a git pin: relaton main has since
 # moved to lutaml-store ~> 0.3, which conflicts with glossarist 2.14's
 # lutaml-store ~> 0.2.0 and makes this bundle unresolvable.
-gem "relaton", "~> 3.0.0.pre.alpha.6" # alpha.6 adds the cache_pubid parse fallback (relaton#235/#237) and the clone_entry own-row fix (relaton#238) on top of alpha.5's parsed-pubid dispatch (relaton#205); git main deadlocks its worker pool
+gem "relaton", "~> 3.0.0.pre.alpha" # the 3.0.0.pre line: alpha.17 carries singular_tolerance + the worker-pool fix
 gem "pubid", "~> 2.0.0.pre.alpha"
 
 gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", branch: "main"
 
 eval_gemfile("Gemfile.devel") rescue nil
 
-gem "moxml", ">= 0.5.105", "< 0.5.138" # 0.5.138's leptris adapter needs the 1.9.359 API; see leptris#1733
-gem "leptris", "1.9.331.0" # 1.9.33x windows segv: fast_element_xml CFUNC crash in serialization
 gem "metanorma-utils", "~> 2.0.8" # GcBudget (utils#54) + the array-join asciidoctor table cell buffer (utils#55/#56), released in 2.0.8, github: "metanorma/metanorma-utils", branch: "main"
