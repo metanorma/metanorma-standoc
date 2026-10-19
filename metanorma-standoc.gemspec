@@ -45,11 +45,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency "leptris", "~> 1.9"
   spec.add_dependency "concurrent-ruby"
   spec.add_dependency "png_conform", "~> 0.1.0"
-  # svgmap_cleanup works with vectory 0.12 (in-place) and 0.13 (return-value);
-  # 0.13 requires leptris >= 1.9.361.1 which conflicts with the Gemfile's
-  # deliberate leptris 1.9.331.0 pin (windows segv guard, leptris#1733) —
-  # widen to ~> 0.13 when that lifts.
-  spec.add_dependency "vectory", ">= 0.12", "< 0.13"
+  # svgmap_cleanup reparses vectory's returned document and grafts the
+  # content back (the 0.13 SvgMapping contract: vectory processes its own
+  # tree and returns the result instead of mutating the caller's document).
+  spec.add_dependency "vectory", "~> 0.13"
   # Floor names the 3.0.0 prerelease: bundler only considers prereleases
   # when a requirement names one, and the ecosystem target is relaton 3.0+
   # (glossarist 2.14+ requires relaton ~> 3.0.0.pre.alpha).
