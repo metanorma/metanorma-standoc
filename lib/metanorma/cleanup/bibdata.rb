@@ -192,7 +192,11 @@ module Metanorma
         ins = add_misc_container(xmldoc)
         ins ||= add_misc_container(xmldoc)
         ins.at("./semantic-metadata/stage-published") and return
-        p = published_base?(xmldoc.at("bibdata/status/stage")&.text, xmldoc)
+        # Absolute path: the sectioned assembly nests bibdata one level
+        # deeper than the classic document, so a root-relative lookup
+        # misses the stage and stage-published resolves "false"
+        # (metanorma-standoc#1290). The absolute form finds both shapes.
+        p = published_base?(xmldoc.at("//bibdata/status/stage")&.text, xmldoc)
         ins << <<~XML
           <semantic-metadata><stage-published>#{p}</stage-published></semantic-metadata>
         XML
