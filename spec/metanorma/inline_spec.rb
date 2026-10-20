@@ -1139,6 +1139,23 @@ RSpec.describe Metanorma::Standoc do
       .to be_xml_equivalent_to output
   end
 
+  it "keeps escaped non-XML passthrough content as text" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+
+      An escaped placeholder: pass-format:metanorma[&#x3c;Date Approved&#x3e;].
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections>
+      <p id='_'>An escaped placeholder: &lt;Date Approved&gt;.</p>
+      </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
+  end
+
   it "processes combinations of crossreferences with localities" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
