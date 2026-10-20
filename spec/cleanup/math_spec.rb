@@ -809,7 +809,7 @@ RSpec.describe Metanorma::Standoc do
                             <mstyle mathvariant="normal">
                                <mi>m</mi>
                             </mstyle>
-                            <mi rspace="thickmathspace">⁢</mi>
+                            <mo rspace="thickmathspace">⁢</mo>
                             <msup>
                                <mstyle mathvariant="normal">
                                   <mi>kg</mi>
@@ -827,7 +827,7 @@ RSpec.describe Metanorma::Standoc do
                             <mstyle mathvariant="normal">
                                <mi>m</mi>
                             </mstyle>
-                            <mi rspace="thickmathspace">⁢</mi>
+                            <mo rspace="thickmathspace">⁢</mo>
                             <msup>
                                <mstyle mathvariant="normal">
                                   <mi>kg</mi>
