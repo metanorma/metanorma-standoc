@@ -162,8 +162,9 @@ module Metanorma
       def passthrough_metanorma_cleanup(doc)
         ret = to_xml(doc)
           .gsub(%r{<passthrough formats="metanorma">([^<]*)</passthrough>}) do
-            content = @c.decode($1)
-            passthrough_injectable?(content) ? content : $1
+            encoded = $1
+            content = @c.decode(encoded)
+            passthrough_injectable?(content) ? content : encoded
           end
         doc.root = if doc.is_a?(Moxml::Document)
                      @conv.moxml_context.parse(ret).root
@@ -173,11 +174,16 @@ module Metanorma
       end
 
       # Passthrough content is markup to splice into the document. Text
-      # that is not well-formed XML (an escaped literal such as
-      # "&lt;Date Approved&gt;") must stay escaped: decoding it would
-      # corrupt the reparse into a bogus element.
+      # that is malformed XML (an escaped literal such as
+      # "&lt;Date Approved&gt;", or a bare "&") must stay escaped:
+      # decoding it would corrupt the reparse. Tag-name mismatch alone
+      # is not disqualifying: markup legitimately split across
+      # consecutive passthroughs reports it until the pieces meet.
+      TAG_MISMATCH = 76 # XML_ERR_TAG_NAME_MISMATCH
+
       def passthrough_injectable?(content)
-        Nokogiri::XML::DocumentFragment.parse(content).errors.empty?
+        Nokogiri::XML::DocumentFragment.parse(content).errors
+          .all? { |e| e.code == TAG_MISMATCH }
       end
 
       def link_cleanup(xmldoc)
