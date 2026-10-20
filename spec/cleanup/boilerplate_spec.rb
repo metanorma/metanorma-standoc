@@ -1315,60 +1315,59 @@ RSpec.describe Metanorma::Standoc do
 
     INPUT
     output = <<~OUTPUT
-    <?xml version="1.0" encoding="UTF-8"?>
-    <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="3.5.0" flavor="standoc">
-    <bibdata type="standard">
-    <title language="en" type="main">Document title</title>
-    <contributor><role type="author"/><organization>
-    <name>Fred</name>
-    <address><formattedAddress>10 Jack St<br/>Antarctica &amp; &lt;UK&gt;</formattedAddress></address><email>x@example.com</email><uri>http://www.example.com</uri></organization></contributor><contributor><role type="publisher"/><organization>
-    <name>Fred</name>
-    <address><formattedAddress>10 Jack St<br/>Antarctica &amp; &lt;UK&gt;</formattedAddress></address><email>x@example.com</email><uri>http://www.example.com</uri></organization></contributor><language>en</language><script>Latn</script><status><stage>10</stage></status><copyright><from>2026</from><owner><organization>
-    <name>Fred</name>
-    <address><formattedAddress>10 Jack St<br/>Antarctica &amp; &lt;UK&gt;</formattedAddress></address><email>x@example.com</email><uri>http://www.example.com</uri></organization></owner></copyright><ext><doctype>document-type</doctype><flavor>standoc</flavor></ext></bibdata>
-    <boilerplate><copyright-statement>
+<?xml version="1.0" encoding="UTF-8"?>
+<metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="3.5.0" flavor="standoc">
+<bibdata type="standard">
+<title language="en" type="main">Document title</title>
+<contributor><role type="author"/><organization>
+<name>Fred</name>
+<address><formattedAddress>10 Jack St<br/>Antarctica &amp; &lt;UK&gt;</formattedAddress></address><email>x@example.com</email><uri>http://www.example.com</uri></organization></contributor><contributor><role type="publisher"/><organization>
+<name>Fred</name>
+<address><formattedAddress>10 Jack St<br/>Antarctica &amp; &lt;UK&gt;</formattedAddress></address><email>x@example.com</email><uri>http://www.example.com</uri></organization></contributor><language>en</language><script>Latn</script><status><stage>10</stage></status><copyright><from>2026</from><owner><organization>
+<name>Fred</name>
+<address><formattedAddress>10 Jack St<br/>Antarctica &amp; &lt;UK&gt;</formattedAddress></address><email>x@example.com</email><uri>http://www.example.com</uri></organization></owner></copyright><ext><doctype>document-type</doctype><flavor>standoc</flavor></ext></bibdata>
+<boilerplate><copyright-statement>
 
-    <clause id="_" anchor="B" inline-header="false" obligation="normative"><p id="_">A</p>
-    </clause>
-    </copyright-statement>
+<clause id="_" anchor="B" inline-header="false" obligation="normative"><p id="_">A</p>
+</clause>
+</copyright-statement>
 
-    <license-statement>
+<license-statement>
 
-    <clause id="_" inline-header="false" obligation="normative">
-    <title id="_">clause 1</title>
-    <p id="_">Doctype: Document Type Document Display:  Dokument Tipo</p>
-    </clause>
+<clause id="_" inline-header="false" obligation="normative">
+<title id="_">clause 1</title>
+<p id="_">Doctype: Document Type Document Display:  Dokument Tipo</p>
+</clause>
 
-    <clause id="_" inline-header="false" obligation="normative">
-    <title id="_">clause 2</title>
-    </clause>
-    </license-statement>
+<clause id="_" inline-header="false" obligation="normative">
+<title id="_">clause 2</title>
+</clause>
+</license-statement>
 
-    <feedback-statement>
+<feedback-statement>
 
-    <p id="_">10 Jack St<br/>Antarctica  <UK>
-    A.<fn id="_" reference="__1"><p id="_">I am a colliding footnote</p>
-    </fn></UK>
+<p id="_">10 Jack St<br/>Antarctica &amp; &lt;UK&gt;
+A.<fn id="_" reference="__1"><p id="_">I am a colliding footnote</p>
+</fn></p>
 
-    <p id="_"><link target="mailto:x@example.com"/></p>
+<p id="_"><link target="mailto:x@example.com"/></p>
 
-    <p id="_"><link target="http://www.example.com">10 Jack Stbr/Antarctica  UK, http://www.example.com</link></p>
-    </p>
+<p id="_"><link target="http://www.example.com">10 Jack St&lt;br/&gt;Antarctica &amp; &lt;UK&gt;, http://www.example.com</link></p>
+</feedback-statement>
 
-    <clause id="_" inline-header="false" obligation="normative">
-    <title id="_">Random Title</title>
-    <clause id="_" inline-header="false" obligation="normative">
-    <title id="_">feedback-statement</title>
-    </clause>
-    </clause>
-    </feedback-statement>
-    </boilerplate><sections><clause id="_" inline-header="false" obligation="normative">
-    <title id="_">Clause 1</title>
-    <p id="_">A.<fn id="_" reference="1"><p id="_">do not collide with me, boilerplate footnote!</p>
-    </fn></p>
-    </clause>
-    </sections>
-    </metanorma>
+<clause id="_" inline-header="false" obligation="normative">
+<title id="_">Random Title</title>
+<clause id="_" inline-header="false" obligation="normative">
+<title id="_">feedback-statement</title>
+</clause>
+</clause>
+</boilerplate><sections><clause id="_" inline-header="false" obligation="normative">
+<title id="_">Clause 1</title>
+<p id="_">A.<fn id="_" reference="1"><p id="_">do not collide with me, boilerplate footnote!</p>
+</fn></p>
+</clause>
+</sections>
+</metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.at("//xmlns:metanorma-extension")&.remove
