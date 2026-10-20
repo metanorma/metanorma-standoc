@@ -161,12 +161,23 @@ module Metanorma
       # overwrite xmldoc, so must assign result to xmldoc
       def passthrough_metanorma_cleanup(doc)
         ret = to_xml(doc)
-          .gsub(%r{<passthrough formats="metanorma">([^<]*)</passthrough>}) { @c.decode($1) }
+          .gsub(%r{<passthrough formats="metanorma">([^<]*)</passthrough>}) do
+            content = @c.decode($1)
+            passthrough_injectable?(content) ? content : $1
+          end
         doc.root = if doc.is_a?(Moxml::Document)
                      @conv.moxml_context.parse(ret).root
                    else
                      Nokogiri::XML(ret, &:huge).root
                    end
+      end
+
+      # Passthrough content is markup to splice into the document. Text
+      # that is not well-formed XML (an escaped literal such as
+      # "&lt;Date Approved&gt;") must stay escaped: decoding it would
+      # corrupt the reparse into a bogus element.
+      def passthrough_injectable?(content)
+        Nokogiri::XML::DocumentFragment.parse(content).errors.empty?
       end
 
       def link_cleanup(xmldoc)
