@@ -5,6 +5,9 @@ source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}" }
 
 gemspec
+
+# UnitsML operator spacer expectations require plurimath/plurimath#478.
+gem "plurimath", ">= 0.11.12", "< 0.12"
 gem "metanorma-mirror", "~> 1.0", github: "metanorma/metanorma-mirror", branch: "main"
 
 # Stopgap: lutaml 0.11.x removed lib/lutaml/xmi.rb, which metanorma-plugin-lutaml
