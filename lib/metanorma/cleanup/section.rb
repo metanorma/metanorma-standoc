@@ -79,7 +79,12 @@ module Metanorma
 
       def make_bibliography(xml, sect)
         if xml.at("//sections/references | //xref[@hidden]")
-          biblio = sect.add_next_sibling("<bibliography/>").first
+          # Create in the document's own pool: a fragment-parsed node
+          # belongs to a separate document, and the FFI-only Leptris
+          # lane drops subsequent cross-pool appends (Ruby 4.0 has no
+          # native read layer).
+          biblio = xml.create_element("bibliography")
+          sect.add_next_sibling(biblio)
           xml.xpath("//sections/references").each do |r|
             biblio.add_child r.remove
           end
