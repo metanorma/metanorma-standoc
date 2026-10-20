@@ -110,12 +110,16 @@ module Metanorma
       UNITSML_NS = "https://schema.unitsml.org/unitsml/1.0".freeze
 
       def add_misc_container(xmldoc)
-        unless ins = xmldoc.at("//metanorma-extension")
-          a = xmldoc.xpath("//termdocsource")&.last || xmldoc.at("//bibdata") ||
-            xmldoc.root.children.first
-          a.next = "<metanorma-extension/>"
-          ins = xmldoc.at("//metanorma-extension")
-        end
+        ins = xmldoc.at("//metanorma-extension")
+        return ins if ins
+
+        a = xmldoc.xpath("//termdocsource")&.last || xmldoc.at("//bibdata") ||
+          xmldoc.root.children.first
+        # Create in the document's pool and return the node: a
+        # fragment-parsed node belongs to another Moxml document, and
+        # re-querying it back can miss on the native Leptris lane.
+        ins = xmldoc.create_element("metanorma-extension")
+        a.next = ins
         ins
       end
 
