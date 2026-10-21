@@ -173,13 +173,28 @@ module Metanorma
 
       # A relation described in document attributes is free text, not a
       # normative citation: an unrecognized identifier logs and falls back to
-      # the plain bibitem instead of aborting metadata processing
-      # (relaton#243 strict routing raises for unowned references).
+      # the plain bibitem instead of aborting metadata processing.
+      #
+      # The errors an unresolvable relation reference raises depend on the
+      # relaton/pubid generation in the bundle: newer relaton raises
+      # Relaton::UnknownReferenceError on strict routing (relaton#243),
+      # older ones surface the same condition as Pubid::Errors::ParseError
+      # when the free text is not a parseable identifier. Resolving the
+      # error set dynamically also keeps the rescue clause itself from
+      # raising NameError on bundles where a class is absent — which
+      # masked the real error and aborted the conversion.
       def relation_fetch_ref(relation, doc)
         fetch_ref(relation, doc, nil, **{})
-      rescue Relaton::UnknownReferenceError => e
+      rescue *unresolved_reference_errors
         @log.add("STANDOC_40", nil, params: [doc])
         nil
+      end
+
+      def unresolved_reference_errors
+        [
+          (Relaton::UnknownReferenceError if defined?(Relaton::UnknownReferenceError)),
+          (Pubid::Errors::ParseError if defined?(Pubid::Errors::ParseError)),
+        ].compact
       end
 
       def metadata_keywords(node, xml)
