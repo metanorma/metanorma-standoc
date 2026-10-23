@@ -31,10 +31,6 @@ gem "isodoc", github: "metanorma/isodoc", branch: "main"
 gem "relaton", "~> 3.0.0.pre.alpha" # the 3.0.0.pre line: alpha.17 carries singular_tolerance + the worker-pool fix
 gem "pubid", "~> 2.0.0.pre.alpha"
 
-# TEMPORARY pin: Vectory::SvgIdDisambiguator is on vectory main (cbe9628) but
-# not in a release (0.13.1) - flip to the released floor once vectory ships it.
-gem "vectory", github: "claricle/vectory", branch: "main"
-
 gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", branch: "main"
 
 eval_gemfile("Gemfile.devel") rescue nil
