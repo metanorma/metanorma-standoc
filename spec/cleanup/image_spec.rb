@@ -26,7 +26,7 @@ RSpec.describe Metanorma::Standoc::Image do
         <p id="g">host text</p>
         <svg #{xmlns} id="s1">#{svg_body}</svg>
         <svg #{xmlns} id="mid"><defs><rect id="solo"/></defs><use href="#solo"/></svg>
-        <svg #{xmlns} id="s3">#{svg_body.gsub("uniq1", "uniq3")}</svg>
+        <svg #{xmlns} id="s3">#{svg_body.gsub('uniq1', 'uniq3')}</svg>
         <p id="tail">tail text</p>
       </root>
     XML
@@ -89,6 +89,23 @@ RSpec.describe Metanorma::Standoc::Image do
         expect(doc.xpath("//p").map { |p| p["id"] }).to eq %w(g tail)
       end
 
+      it "delegates each SVG to Vectory with its suffix and the shared map" do
+        allow(Vectory::SvgIdDisambiguator).to receive(:rewrite)
+          .and_call_original
+        harness.svg_cleanup(doc)
+        expect(Vectory::SvgIdDisambiguator).to have_received(:rewrite)
+          .with(a_string_including('id="s1"'), "_inject_0",
+                a_hash_including("g" => 2, "cp" => 2))
+        expect(Vectory::SvgIdDisambiguator).to have_received(:rewrite)
+          .with(a_string_including('id="mid"'), "_inject_1",
+                a_hash_including("g" => 2, "g_inject_0" => true,
+                                 "uniq1" => true))
+        expect(Vectory::SvgIdDisambiguator).to have_received(:rewrite)
+          .with(a_string_including('id="s3"'), "_inject_2",
+                a_hash_including("g" => 2, "cp_inject_0" => true,
+                                 "solo" => true))
+      end
+
       it "leaves documents without SVGs, or SVGs without ids, untouched" do
         xml = "<root><p id='a'>x</p><svg xmlns='http://www.w3.org/2000/svg'>" \
               "<circle/></svg></root>"
@@ -113,8 +130,9 @@ RSpec.describe Metanorma::Standoc::Image do
     it "keeps the first root id and suffixes later ones by position" do
       doc = Nokogiri::XML(xml)
       harness.svg_cleanup(doc)
-      expect(doc.xpath("//m:svg/@id", "m" => "http://www.w3.org/2000/svg")
-        .map(&:text)).to eq %w(Layer_1 Layer_1_inject_1 Layer_1_inject_1)
+      ids = doc.xpath("//m:svg/@id", "m" => "http://www.w3.org/2000/svg")
+        .map(&:text)
+      expect(ids).to eq %w(Layer_1 Layer_1_inject_1 Layer_1_inject_1_inject_2)
     end
   end
 end
