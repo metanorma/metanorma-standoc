@@ -192,8 +192,11 @@ module Metanorma
         ids = xmldoc.xpath("//m:svg//*/@id | //svg/@id", "m" => SVG_NS)
           .map(&:text).group_by(&:itself).transform_values(&:count)
           .delete_if { |_, v| v < 2 }
-        xmldoc.xpath("//m:svg", "m" => SVG_NS).to_a.each_with_index do |s, i|
-          ids = svg_uniqueids1(s, i, ids)
+        # re-resolve by position each time: replacing an outer SVG detaches
+        # the nodes of any SVG nested inside it
+        xmldoc.xpath("//m:svg", "m" => SVG_NS).size.times do |i|
+          svg = xmldoc.xpath("//m:svg", "m" => SVG_NS)[i]
+          ids = svg_uniqueids1(svg, i, ids)
         end
       end
 

@@ -106,6 +106,23 @@ RSpec.describe Metanorma::Standoc::Image do
                                  "solo" => true))
       end
 
+      it "disambiguates an SVG nested in a colliding SVG" do
+        nested = <<~XML
+          <root>
+            <svg #{xmlns} id="outer"><g id="dupe"/><svg id="inner"><g id="dupe"/><use href="#dupe"/></svg></svg>
+            <svg #{xmlns} id="sibling"><g id="dupe"/></svg>
+          </root>
+        XML
+        d = parser.call(nested)
+        harness.svg_cleanup(d)
+        ids = d.xpath("//m:g/@id", "m" => "http://www.w3.org/2000/svg")
+          .map(&:text)
+        expect(ids).to eq %w(dupe_inject_0 dupe_inject_0_inject_1
+                             dupe_inject_2)
+        expect(d.xpath("//m:use/@href", "m" => "http://www.w3.org/2000/svg")
+          .map(&:text)).to eq ["#dupe_inject_0_inject_1"]
+      end
+
       it "leaves documents without SVGs, or SVGs without ids, untouched" do
         xml = "<root><p id='a'>x</p><svg xmlns='http://www.w3.org/2000/svg'>" \
               "<circle/></svg></root>"
