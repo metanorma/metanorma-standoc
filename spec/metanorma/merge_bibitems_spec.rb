@@ -139,4 +139,81 @@ RSpec.describe Metanorma::Standoc::Cleanup::MergeBibitems do
       end
     end
   end
+
+  describe "one-edition law (metanorma-standoc#1304, relaton/relaton-db#149)" do
+    let(:old_with_edition) do
+      <<~XML
+        <bibitem id="X">
+          <title type="main" language="en">T</title>
+          <docidentifier type="TEST">X</docidentifier>
+          <edition>4</edition>
+        </bibitem>
+      XML
+    end
+
+    let(:new_with_edition) do
+      <<~XML
+        <bibitem id="X">
+          <title type="main" language="en">T</title>
+          <docidentifier type="TEST">X</docidentifier>
+          <edition>12</edition>
+        </bibitem>
+      XML
+    end
+
+    let(:old_with_two_editions) do
+      <<~XML
+        <bibitem id="X">
+          <title type="main" language="en">T</title>
+          <docidentifier type="TEST">X</docidentifier>
+          <edition>4</edition>
+          <edition>9</edition>
+        </bibitem>
+      XML
+    end
+
+    let(:old_without_edition) do
+      <<~XML
+        <bibitem id="X">
+          <title type="main" language="en">T</title>
+          <docidentifier type="TEST">X</docidentifier>
+        </bibitem>
+      XML
+    end
+
+    def edition_values(merge_result)
+      merge_result.to_noko.to_xml.scan(/<edition>([^<]*)<\/edition>/).flatten
+    end
+
+    it "overwrites the document edition with the collection edition" do
+      expect(edition_values(described_class.new(old_with_edition,
+                                                    new_with_edition).merge))
+        .to eq(["12"])
+    end
+
+    it "keeps the document edition when the collection side has none" do
+      expect(edition_values(described_class.new(old_with_edition,
+                                                    old_without_edition).merge))
+        .to eq(["4"])
+    end
+
+    it "never appends the collection edition alongside the document's" do
+      values = edition_values(described_class.new(old_with_edition,
+                                                  new_with_edition).merge)
+      expect(values).not_to eq(%w[4 12])
+    end
+
+    it "collapses a malformed two-edition input to the collection edition" do
+      expect(edition_values(described_class.new(old_with_two_editions,
+                                                    new_with_edition).merge))
+        .to eq(["12"])
+    end
+
+    it "collapses a malformed two-edition input to the leading edition " \
+       "when the collection side has none" do
+      expect(edition_values(described_class.new(old_with_two_editions,
+                                                    old_without_edition).merge))
+        .to eq(["4"])
+    end
+  end
 end
