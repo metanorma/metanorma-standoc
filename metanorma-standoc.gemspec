@@ -34,7 +34,7 @@ Gem::Specification.new do |spec|
   # spec.add_dependency "iev", "~> 0.4"
   spec.add_dependency "isodoc", "~> 3.7.2"
   spec.add_dependency "metanorma-core", "~> 0.2.3"
-  spec.add_dependency "metanorma-document"
+  spec.add_dependency "metanorma-document", ">= 0.5.2.pre.alpha.1"
   spec.add_dependency "metanorma-mirror"
   spec.add_dependency "metanorma-plugin-asciichem", "~> 0.1.0"
   spec.add_dependency "metanorma-plugin-glossarist", "~> 0.5"
