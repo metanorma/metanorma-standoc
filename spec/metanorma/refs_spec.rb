@@ -256,12 +256,12 @@ RSpec.describe Metanorma::Standoc do
                    </copyright>
                    <relation type="obsoletes">
                       <bibitem type="standard">
-                         <formattedref format="text/plain">ISO 123:1985</formattedref>
+                         <formattedref>ISO 123:1985</formattedref>
                       </bibitem>
                    </relation>
                    <relation type="updates">
                       <bibitem type="standard">
-                         <formattedref format="text/plain">ISO 123:2001</formattedref>
+                         <formattedref>ISO 123:2001</formattedref>
                       </bibitem>
                    </relation>
                    <docidentifier>ISO 123</docidentifier>
@@ -302,12 +302,12 @@ RSpec.describe Metanorma::Standoc do
                    </copyright>
                    <relation type="obsoletes">
                       <bibitem type="standard">
-                         <formattedref format="text/plain">ISO 123:1985</formattedref>
+                         <formattedref>ISO 123:1985</formattedref>
                       </bibitem>
                    </relation>
                    <relation type="updates">
                       <bibitem type="standard">
-                         <formattedref format="text/plain">ISO 123:2001</formattedref>
+                         <formattedref>ISO 123:2001</formattedref>
                       </bibitem>
                    </relation>
                    <docidentifier>ISO 123</docidentifier>
@@ -349,12 +349,12 @@ RSpec.describe Metanorma::Standoc do
                    </copyright>
                    <relation type="obsoletes">
                       <bibitem type="standard">
-                         <formattedref format="text/plain">ISO 123:1985</formattedref>
+                         <formattedref>ISO 123:1985</formattedref>
                       </bibitem>
                    </relation>
                    <relation type="updates">
                       <bibitem type="standard">
-                         <formattedref format="text/plain">ISO 123:2001</formattedref>
+                         <formattedref>ISO 123:2001</formattedref>
                       </bibitem>
                    </relation>
                    <docidentifier>ISO 123</docidentifier>
@@ -400,12 +400,12 @@ RSpec.describe Metanorma::Standoc do
                    </copyright>
                    <relation type="obsoletes">
                       <bibitem type="standard">
-                         <formattedref format="text/plain">ISO 123:1985</formattedref>
+                         <formattedref>ISO 123:1985</formattedref>
                       </bibitem>
                    </relation>
                    <relation type="updates">
                       <bibitem type="standard">
-                         <formattedref format="text/plain">ISO 123:2001</formattedref>
+                         <formattedref>ISO 123:2001</formattedref>
                       </bibitem>
                    </relation>
                    <docidentifier>ISO 123</docidentifier>
