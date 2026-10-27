@@ -40,7 +40,7 @@
                </copyright>
                <relation type='obsoletes'>
                  <bibitem type='standard'>
-                   <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                   <formattedref>ISO 123:1985</formattedref>
                  </bibitem>
                </relation>
                <relation type='instanceOf'>
@@ -86,7 +86,7 @@
                    </copyright>
                    <relation type='obsoletes'>
                      <bibitem type='standard'>
-                       <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                       <formattedref>ISO 123:1985</formattedref>
                      </bibitem>
                    </relation>
                    <place>Geneva</place>
@@ -94,12 +94,12 @@
                </relation>
                <relation type='instanceOf'>
                  <bibitem type='standard'>
-                   <formattedref format='text/plain'>ISO 123:1985</formattedref>
+                   <formattedref>ISO 123:1985</formattedref>
                  </bibitem>
                </relation>
                <relation type='instanceOf'>
                  <bibitem type='standard'>
-                   <formattedref format='text/plain'>ISO 123:1974</formattedref>
+                   <formattedref>ISO 123:1974</formattedref>
                  </bibitem>
                </relation>
                <place>Geneva</place>
