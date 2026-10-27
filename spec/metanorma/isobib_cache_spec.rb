@@ -162,7 +162,7 @@ ISO_123_UNDATED = <<~XML.freeze
         </copyright>
         <relation type="obsoletes">
           <bibitem type="standard">
-            <formattedref format="text/plain">ISO 123:1985</formattedref>
+            <formattedref>ISO 123:1985</formattedref>
           </bibitem>
         </relation>
         <relation type="instance">
@@ -203,7 +203,7 @@ ISO_123_UNDATED = <<~XML.freeze
             </copyright>
             <relation type="obsoletes">
               <bibitem type="standard">
-                <formattedref format="text/plain">ISO 123:1985</formattedref>
+                <formattedref>ISO 123:1985</formattedref>
               </bibitem>
             </relation>
           </bibitem>

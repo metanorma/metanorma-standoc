@@ -256,12 +256,12 @@ RSpec.describe Metanorma::Standoc do
                    </copyright>
                    <relation type="obsoletes">
                       <bibitem type="standard">
-                         <formattedref format="text/plain">ISO 123:1985</formattedref>
+                         <formattedref>ISO 123:1985</formattedref>
                       </bibitem>
                    </relation>
                    <relation type="updates">
                       <bibitem type="standard">
-                         <formattedref format="text/plain">ISO 123:2001</formattedref>
+                         <formattedref>ISO 123:2001</formattedref>
                       </bibitem>
                    </relation>
                    <docidentifier>ISO 123</docidentifier>
@@ -302,12 +302,12 @@ RSpec.describe Metanorma::Standoc do
                    </copyright>
                    <relation type="obsoletes">
                       <bibitem type="standard">
-                         <formattedref format="text/plain">ISO 123:1985</formattedref>
+                         <formattedref>ISO 123:1985</formattedref>
                       </bibitem>
                    </relation>
                    <relation type="updates">
                       <bibitem type="standard">
-                         <formattedref format="text/plain">ISO 123:2001</formattedref>
+                         <formattedref>ISO 123:2001</formattedref>
                       </bibitem>
                    </relation>
                    <docidentifier>ISO 123</docidentifier>
@@ -349,12 +349,12 @@ RSpec.describe Metanorma::Standoc do
                    </copyright>
                    <relation type="obsoletes">
                       <bibitem type="standard">
-                         <formattedref format="text/plain">ISO 123:1985</formattedref>
+                         <formattedref>ISO 123:1985</formattedref>
                       </bibitem>
                    </relation>
                    <relation type="updates">
                       <bibitem type="standard">
-                         <formattedref format="text/plain">ISO 123:2001</formattedref>
+                         <formattedref>ISO 123:2001</formattedref>
                       </bibitem>
                    </relation>
                    <docidentifier>ISO 123</docidentifier>
@@ -400,12 +400,12 @@ RSpec.describe Metanorma::Standoc do
                    </copyright>
                    <relation type="obsoletes">
                       <bibitem type="standard">
-                         <formattedref format="text/plain">ISO 123:1985</formattedref>
+                         <formattedref>ISO 123:1985</formattedref>
                       </bibitem>
                    </relation>
                    <relation type="updates">
                       <bibitem type="standard">
-                         <formattedref format="text/plain">ISO 123:2001</formattedref>
+                         <formattedref>ISO 123:2001</formattedref>
                       </bibitem>
                    </relation>
                    <docidentifier>ISO 123</docidentifier>
@@ -1153,7 +1153,7 @@ RSpec.describe Metanorma::Standoc do
                   </copyright>
                   <relation type="obsoletes">
                      <bibitem type="standard">
-                        <formattedref format="text/plain">ISO 123:1985</formattedref>
+                        <formattedref>ISO 123:1985</formattedref>
                      </bibitem>
                   </relation>
                   <relation type="instanceOf">
@@ -1199,7 +1199,7 @@ RSpec.describe Metanorma::Standoc do
                         </copyright>
                         <relation type="obsoletes">
                            <bibitem type="standard">
-                              <formattedref format="text/plain">ISO 123:1985</formattedref>
+                              <formattedref>ISO 123:1985</formattedref>
                            </bibitem>
                         </relation>
                         <place>Geneva</place>
@@ -1207,12 +1207,12 @@ RSpec.describe Metanorma::Standoc do
                   </relation>
                   <relation type="instanceOf">
                      <bibitem type="standard">
-                        <formattedref format="text/plain">ISO 123:1985</formattedref>
+                        <formattedref>ISO 123:1985</formattedref>
                      </bibitem>
                   </relation>
                   <relation type="instanceOf">
                      <bibitem type="standard">
-                        <formattedref format="text/plain">ISO 123:1974</formattedref>
+                        <formattedref>ISO 123:1974</formattedref>
                      </bibitem>
                   </relation>
                   <place>Geneva</place>
@@ -1473,7 +1473,7 @@ RSpec.describe Metanorma::Standoc do
                               usrlbl: nil,
                               year: nil }) do
       Relaton::Bib::Bibitem.from_xml(<<~"OUTPUT")
-        <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
+        <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref>ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref>ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
     end.exactly(times).times
   end
@@ -1491,7 +1491,7 @@ RSpec.describe Metanorma::Standoc do
                               usrlbl: "(1)",
                               year: nil }) do
       Relaton::Bib::Bibitem.from_xml(<<~"OUTPUT")
-        <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
+        <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref>ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref>ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
     end.exactly(times).times
   end
@@ -1509,7 +1509,7 @@ RSpec.describe Metanorma::Standoc do
                               usrlbl: "(2)",
                               year: nil }) do
       Relaton::Bib::Bibitem.from_xml(<<~"OUTPUT")
-        <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
+        <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref>ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref>ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
     end.exactly(times).times
   end
@@ -1527,7 +1527,7 @@ RSpec.describe Metanorma::Standoc do
                               usrlbl: "(3)",
                               year: nil }) do
       Relaton::Bib::Bibitem.from_xml(<<~"OUTPUT")
-        <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref format="text/plain">ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
+        <bibitem type="standard" id="_" anchor="ISO123">\n  <uri type="src">https://www.iso.org/standard/23281.html</uri>\n  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:23281:en</uri>\n  <uri type="rss">https://www.iso.org/contents/data/standard/02/32/23281.detail.rss</uri>\n  <date type="published">\n    <on>2001</on>\n  </date>\n  <contributor>\n    <role type="publisher"/>\n    <organization>\n      <name>International Organization for Standardization</name>\n      <abbreviation>ISO</abbreviation>\n      <uri>www.iso.org</uri>\n    </organization>\n  </contributor>\n  <edition>3</edition>\n  <language>en</language>\n  <language>fr</language>\n  <script>Latn</script>\n  <status><stage>Published</stage></status>\n  <copyright>\n    <from>2001</from>\n    <owner>\n      <organization>\n        <name>ISO</name>\n        <abbreviation></abbreviation>\n      </organization>\n    </owner>\n  </copyright>\n  <relation type="obsoletes">\n    <bibitem type="standard">\n      <formattedref>ISO 123:1985</formattedref>\n      </bibitem>\n  </relation>\n  <relation type="updates">\n    <bibitem type="standard">\n      <formattedref>ISO 123:2001</formattedref>\n      </bibitem>\n  </relation>\n<ext></fred></ext></bibitem>
       OUTPUT
     end.exactly(times).times
   end
