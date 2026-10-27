@@ -103,9 +103,77 @@ module Metanorma
       def lookup_refterm(node)
         target = norm_ref_id1(node)
         if @lookup[:term][target].nil? && @lookup[:symbol][target].nil?
-          remove_missing_ref(node, target)
+          if (fallback = unique_term_fallback(target, node))
+            target = fallback
+          else
+            remove_missing_ref(node, target)
+            return
+          end
+        end
+        if (x = node.at("../xrefrender"))
+          modify_ref_node(x, target)
         else
-          x = node.at("../xrefrender") and x.name = "xref"
+          # bare mention resolved by fallback: the macro left no xrefrender
+          ref = Nokogiri::XML::Node.new("xref", @xmldoc)
+          ref["target"] = @lookup[:term][target] || target
+          node.at("..").add_child(ref)
+        end
+      end
+
+      # Mentions are looked up by bare name, but terms in domain-scoped
+      # vocabularies are anchored with a domain prefix, so a bare mention
+      # misses every key. Resolve a mention whose designation is unique
+      # document-wide, or unique within the domain of the term containing
+      # the mention.
+      # Mentions are looked up by bare name, but terms in domain-scoped
+      # vocabularies are anchored with a domain prefix, so a bare mention
+      # misses every key. Resolve a mention whose designation is unique
+      # document-wide, or unique within the domain of the term containing
+      # the mention.
+      def unique_term_fallback(target, node)
+        cands = @lookup[:term].keys.select do |k|
+          k == target || k.end_with?("-#{target}")
+        end
+        return nil if cands.empty?
+        return cands.first if cands.size == 1
+
+        term = mention_enclosing_term(node) or return nil
+        name = first_descendant(term, "name")&.text or return nil
+        anchor = term[:anchor] || term["anchor"] or return nil
+        name_key = norm_ref_id_text(name)
+        prefix_key = anchor.sub(/\Aterm-/, "").sub(/-#{Regexp.escape(name_key)}\z/, "")
+        narrowed = cands.select { |k| k.start_with?("#{prefix_key}-") }
+        narrowed.size == 1 ? narrowed.first : nil
+      end
+
+      def first_descendant(node, name)
+        node.children&.each do |c|
+          next unless c.respond_to?(:name)
+
+          return c if c.name == name
+          found = begin
+            first_descendant(c, name)
+          rescue StandardError
+            nil
+          end
+          return found if found
+        end
+        nil
+      end
+
+      # The moxml/leptris XML engine's XPath does not support the ancestor
+      # axis, and Node#parent is unreliable on XPath-result nodes; hop the
+      # parent axis with ".." instead.
+      def mention_enclosing_term(node)
+        cur = node
+        loop do
+          cur = begin
+            cur&.at("..")
+          rescue StandardError
+            nil
+          end
+          return nil if cur.nil?
+          return cur if cur.name == "term"
         end
       end
 
