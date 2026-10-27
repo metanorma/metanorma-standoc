@@ -49,10 +49,9 @@ Gem::Specification.new do |spec|
   # content back (the 0.13 SvgMapping contract: vectory processes its own
   # tree and returns the result instead of mutating the caller's document).
   spec.add_dependency "vectory", "~> 0.13", ">= 0.13.2"
-  # Floor names the 3.0.0 prerelease: bundler only considers prereleases
-  # when a requirement names one, and the ecosystem target is relaton 3.0+
+  # Stable relaton-cli 3.0.0 is out; the ecosystem target is relaton 3.0+
   # (glossarist 2.14+ requires relaton ~> 3.0.0.pre.alpha).
-  spec.add_dependency "relaton-cli", ">= 3.0.0.pre.alpha", "< 3.1.0"
+  spec.add_dependency "relaton-cli", ">= 3.0.0", "< 3.1.0"
   spec.add_dependency "relaton-iev", "~> 2.0"
   spec.add_dependency "svg_conform", "~> 0.2"
 
