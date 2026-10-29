@@ -28,8 +28,8 @@ gem "isodoc", github: "metanorma/isodoc", branch: "main"
 # release. Prefer the released gem over a git pin: relaton main has since
 # moved to lutaml-store ~> 0.3, which conflicts with glossarist 2.14's
 # lutaml-store ~> 0.2.0 and makes this bundle unresolvable.
-gem "relaton", "~> 3.0.0.pre.alpha" # the 3.0.0.pre line: alpha.17 carries singular_tolerance + the worker-pool fix
-gem "pubid", "~> 2.0.0.pre.alpha"
+gem "relaton", "~> 3.0"
+gem "pubid", "~> 2.0"
 
 gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", branch: "main"
 
