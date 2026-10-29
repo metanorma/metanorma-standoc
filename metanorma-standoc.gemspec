@@ -51,7 +51,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "vectory", "~> 0.13", ">= 0.13.2"
   # Stable relaton-cli 3.0.0 is out; the ecosystem target is relaton 3.0+
   # (glossarist 2.14+ requires relaton ~> 3.0.0.pre.alpha).
-  spec.add_dependency "relaton-cli", ">= 3.0.0", "< 3.1.0"
+  spec.add_dependency "relaton-cli", "~> 3.0"
   spec.add_dependency "relaton-iev", "~> 2.0"
   spec.add_dependency "svg_conform", "~> 0.2"
 
