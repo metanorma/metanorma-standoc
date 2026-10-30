@@ -92,13 +92,23 @@ module Metanorma
           ret = doc.xpath("//term").each_with_object({}) do |t, m|
             prefix = t.at("./domain")&.text
             t.xpath("./preferred//name").each do |n|
-              ret = n.text
+              ret = designation_text(n)
               prefix and ret = "<#{prefix}> #{ret}"
               m[ret] ||= []
               m[ret] << t
             end
           end
           preferred_validate_report(ret)
+        end
+
+        # The designation text excludes nested index entries: <name> carries
+        # an <index><primary> duplicate of its own text, and counting that
+        # text doubled every designation ("Term abstract test methodabstract
+        # test method occurs twice...", metanorma-iso#1681).
+        def designation_text(name)
+          name = name.dup
+          name.xpath("./index").each(&:remove)
+          name.text
         end
 
         def preferred_validate_report(terms)

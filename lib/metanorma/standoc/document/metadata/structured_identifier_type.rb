@@ -8,7 +8,7 @@ module Metanorma
       class StructuredIdentifierType < Lutaml::Model::Serializable
         attribute :type, :string
         attribute :agency, :string, collection: true
-        attribute :class, :string
+        attribute :identifier_class, :string
         attribute :docnumber, :string
         attribute :partnumber, :string
         attribute :edition, :string
@@ -27,7 +27,7 @@ module Metanorma
           element "structuredidentifier"
           map_attribute "type", to: :type
           map_element "agency", to: :agency
-          map_attribute "class", to: :class
+          map_attribute "class", to: :identifier_class
           map_attribute "docnumber", to: :docnumber
           map_attribute "partnumber", to: :partnumber
           map_attribute "edition", to: :edition
