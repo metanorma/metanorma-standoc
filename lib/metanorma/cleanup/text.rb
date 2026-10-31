@@ -2,8 +2,17 @@ module Metanorma
   module Standoc
     module Text
       def ancestor_include?(elem, ancestors)
-        path = elem.path.gsub(/\[\d+\]/, "").split(%r{/})[1..-2]
-        path.intersect?(ancestors)
+        # Walk the parent chain instead of building elem.path: the libxml
+        # path string plus regex/split ran per text node during
+        # linebreak cleanup and smart-quote processing, and dominated CPU
+        # on large documents.
+        parent = elem.parent
+        while parent && parent.element?
+          return true if ancestors.include?(parent.name)
+
+          parent = parent.parent
+        end
+        false
       end
 
       # process example/p, example/sourcecode, not example on its own:
