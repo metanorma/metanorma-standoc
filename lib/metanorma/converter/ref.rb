@@ -145,7 +145,7 @@ module Metanorma
       def refitem_render_attrs(match, code)
         attr_code(anchor: match[:anchor], suppress_identifier: code[:dropid],
                   amend: code[:amend], hidden: code[:hidden],
-                  id: "_#{UUIDTools::UUID.random_create}")
+                  id: "_#{Metanorma::Utils.random_uuid}")
       end
 
       def refitem_render_formattedref(bibitem, title)

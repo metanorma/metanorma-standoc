@@ -8,7 +8,7 @@ module Metanorma
     module Blocks
       def id_attr(node = nil)
         anchor = node&.id
-        { id: "_#{UUIDTools::UUID.random_create}",
+        { id: "_#{Metanorma::Utils.random_uuid}",
           anchor: anchor && !anchor.empty? ? anchor : nil,
           tag: node&.attr("tag"), columns: node&.attr("columns"),
           "multilingual-rendering": node&.attr("multilingual-rendering") }
